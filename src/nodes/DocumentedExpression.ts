@@ -5,13 +5,13 @@ import type Step from '../runtime/Step';
 import type Bind from './Bind';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import type Evaluator from '../runtime/Evaluator';
 import Docs from './Docs';
 import type { Replacement } from './Node';
+import type Translation from '../translations/Translation';
+import AtomicExpression from './AtomicExpression';
 
-export default class DocumentedExpression extends Expression {
+export default class DocumentedExpression extends AtomicExpression {
     readonly docs: Docs;
     readonly expression: Expression;
 
@@ -68,28 +68,19 @@ export default class DocumentedExpression extends Expression {
         return current;
     }
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: `A documented expression.`,
-        };
-    }
-
     getStart() {
         return this.expression;
     }
+
     getFinish() {
         return this.expression;
     }
 
-    getStartExplanations(): Translations {
-        return this.getFinishExplanations();
+    getDescription(translation: Translation) {
+        return translation.expressions.DocumentedExpression.description;
     }
 
-    getFinishExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: "Evaluate to this expression's value.",
-        };
+    getStartExplanations(translation: Translation) {
+        return translation.expressions.DocumentedExpression.start;
     }
 }

@@ -3,7 +3,6 @@ import type Conflict from '../conflicts/Conflict';
 import ExpectedBooleanCondition from '../conflicts/ExpectedBooleanCondition';
 import Expression from './Expression';
 import Token from './Token';
-import type Node from './Node';
 import type Type from './Type';
 import type Step from '../runtime/Step';
 import JumpIf from '../runtime/JumpIf';
@@ -13,14 +12,13 @@ import UnionType from './UnionType';
 import type TypeSet from './TypeSet';
 import type Bind from './Bind';
 import Start from '../runtime/Start';
-import { BOOLEAN_TYPE_SYMBOL } from '../parser/Tokenizer';
+import { BOOLEAN_TYPE_SYMBOL } from '../parser/Symbols';
 import TokenType from './TokenType';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import Finish from '../runtime/Finish';
 import type Evaluator from '../runtime/Evaluator';
 import type Value from '../runtime/Value';
 import type { Replacement } from './Node';
+import type Translation from '../translations/Translation';
 
 export default class Conditional extends Expression {
     readonly condition: Expression;
@@ -58,12 +56,28 @@ export default class Conditional extends Expression {
             {
                 name: 'condition',
                 types: [Expression],
+                label: (translation: Translation) =>
+                    translation.expressions.Conditional.condition,
                 // Must be boolean typed
                 getType: () => BooleanType.make(),
             },
             { name: 'conditional', types: [Token], space: true },
-            { name: 'yes', types: [Expression], space: true, indent: true },
-            { name: 'no', types: [Expression], space: true, indent: true },
+            {
+                name: 'yes',
+                types: [Expression],
+                label: (translation: Translation) =>
+                    translation.expressions.Conditional.yes,
+                space: true,
+                indent: true,
+            },
+            {
+                name: 'no',
+                types: [Expression],
+                label: (translation: Translation) =>
+                    translation.expressions.Conditional.no,
+                space: true,
+                indent: true,
+            },
         ];
     }
 
@@ -154,49 +168,23 @@ export default class Conditional extends Expression {
         return current;
     }
 
-    getChildPlaceholderLabel(child: Node): Translations | undefined {
-        if (child === this.condition)
-            return {
-                '😀': TRANSLATE,
-                eng: 'condition',
-            };
-        else if (child === this.yes)
-            return {
-                '😀': TRANSLATE,
-                eng: 'true',
-            };
-        else if (child === this.no)
-            return {
-                '😀': TRANSLATE,
-                eng: 'false',
-            };
-    }
-
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'Evaluate to one of two values based on a test value',
-        };
-    }
-
     getStart() {
         return this.conditional;
     }
+
     getFinish() {
         return this.conditional;
     }
 
-    getStartExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'First check if the condition is true.',
-        };
+    getDescription(translation: Translation) {
+        return translation.expressions.Conditional.description;
     }
 
-    getFinishExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'All done.',
-        };
+    getStartExplanations(translation: Translation) {
+        return translation.expressions.Conditional.start;
+    }
+
+    getFinishExplanations(translation: Translation) {
+        return translation.expressions.Conditional.finish;
     }
 }

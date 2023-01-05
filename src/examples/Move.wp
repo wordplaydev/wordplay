@@ -1,17 +1,17 @@
 === Move
-↓ ⌨️
+↓ keyboard
 
 •Cat(position•#m direction•#)
 
 speed: 2m
 cat•Cat: Cat(0m 1) …
-    ⌨️.down ? 
-        ⌨️.key = "ArrowLeft" ? Cat(cat.position - speed 1) 
-        ⌨️.key = "ArrowRight" ? Cat(cat.position + speed -1) 
+    keyboard.down ? 
+        keyboard.key = "ArrowLeft" ? Cat(cat.position - speed 1) 
+        keyboard.key = "ArrowRight" ? Cat(cat.position + speed -1) 
         cat
     cat
 
-💬(
+Phrase(
     "🐈" 
     name: "kitty"
     size: 5m

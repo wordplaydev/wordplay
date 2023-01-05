@@ -1,14 +1,12 @@
 import type Evaluate from '../nodes/Evaluate';
 import Conflict from './Conflict';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
 import type Expression from '../nodes/Expression';
 import type Bind from '../nodes/Bind';
 import type Type from '../nodes/Type';
 import type BinaryOperation from '../nodes/BinaryOperation';
 import type StructureDefinition from '../nodes/StructureDefinition';
 import type FunctionDefinition from '../nodes/FunctionDefinition';
-import type Context from '../nodes/Context';
+import type Translation from '../translations/Translation';
 
 export default class IncompatibleInput extends Conflict {
     readonly func: FunctionDefinition | StructureDefinition;
@@ -36,12 +34,14 @@ export default class IncompatibleInput extends Conflict {
         return { primary: this.givenNode, secondary: [this.expectedType] };
     }
 
-    getPrimaryExplanation(context: Context): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: `Expected input of type ${this.expectedType.toWordplay()}, received ${
-                this.givenType.getDescriptions(context).eng
-            }`,
-        };
+    getPrimaryExplanation(translation: Translation) {
+        return translation.conflict.IncompatibleInput.primary([
+            this.expectedType,
+            this.givenType,
+        ]);
+    }
+
+    getSecondaryExplanation(translation: Translation) {
+        return translation.conflict.IncompatibleInput.secondary();
     }
 }

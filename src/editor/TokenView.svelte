@@ -3,10 +3,10 @@
 <script lang="ts">
     import type Token from '../nodes/Token';
     import TokenType from '../nodes/TokenType';
-    import { PLACEHOLDER_SYMBOL } from '../parser/Tokenizer';
+    import { PLACEHOLDER_SYMBOL } from '../parser/Symbols';
     import { getProject, getCaret } from './util/Contexts';
     import TokenCategories from './TokenCategories';
-    import { languages } from '../models/languages';
+    import { translations } from '../translations/translations';
 
     export let node: Token;
 
@@ -19,11 +19,13 @@
                 ? source
                       ?.get(node)
                       ?.getParent()
-                      ?.getChildPlaceholderLabel(node, context)
+                      ?.getChildPlaceholderLabel(
+                          node,
+                          $translations[0],
+                          context
+                      )
                 : undefined;
-        if (labels === undefined) return PLACEHOLDER_SYMBOL;
-        for (const lang of $languages) if (lang in labels) return labels[lang];
-        return (labels as Record<string, string>)[''] ?? PLACEHOLDER_SYMBOL;
+        return labels ?? PLACEHOLDER_SYMBOL;
     }
 
     $: kind = TokenCategories.get(

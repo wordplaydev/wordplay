@@ -1,14 +1,14 @@
-import type Translations from '../nodes/Translations';
 import None from './None';
 import Primitive from './Primitive';
 import type Value from './Value';
-import type LanguageCode from '../nodes/LanguageCode';
-import Names from '../nodes/Names';
-import Docs from '../nodes/Docs';
+import type LanguageCode from '../translations/LanguageCode';
+import type Names from '../nodes/Names';
+import type Docs from '../nodes/Docs';
 import type Node from '../nodes/Node';
 import type Evaluator from './Evaluator';
 import type { StepNumber } from './Evaluator';
 import type { NativeTypeName } from '../native/NativeConstants';
+import type Translation from '../translations/Translation';
 
 export const MAX_STREAM_LENGTH = 1024;
 
@@ -18,39 +18,36 @@ export default abstract class Stream<
     /** The evalutor that processes this stream */
     readonly evaluator: Evaluator;
 
-    /** Documentation on this stream */
-    docs: Docs;
-
-    /** The names of this stream */
-    names: Names;
-
     /** The stream of values */
     values: { value: ValueType; stepIndex: StepNumber }[] = [];
 
     /** Listeners watching this stream */
     reactors: ((stream: Stream) => void)[] = [];
 
-    constructor(
-        evaluator: Evaluator,
-        docs: Docs | Translations,
-        names: Names | Translations,
-        initalValue: ValueType
-    ) {
+    readonly names: Names;
+    readonly docs: Docs;
+
+    constructor(evaluator: Evaluator, initalValue: ValueType) {
         super(evaluator.getMain());
 
         this.evaluator = evaluator;
-        this.docs = docs instanceof Docs ? docs : new Docs(docs);
-        this.names = names instanceof Names ? names : Names.make(names);
         this.add(initalValue);
+
+        this.names = this.computeNames();
+        this.docs = this.computeDocs();
     }
 
-    getDescriptions(): Translations {
-        return this.docs.getTranslations();
+    abstract computeDocs(): Docs;
+    abstract computeNames(): Names;
+
+    getDescription(translation: Translation) {
+        return this.docs.getTranslation([translation.language]);
     }
 
     getNames() {
         return this.names.getNames();
     }
+
     getTranslation(languages: LanguageCode[]): string {
         return this.names.getTranslation(languages);
     }

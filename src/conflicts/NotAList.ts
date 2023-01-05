@@ -1,8 +1,6 @@
-import type Context from '../nodes/Context';
 import type ListAccess from '../nodes/ListAccess';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
 import type Type from '../nodes/Type';
+import type Translation from '../translations/Translation';
 import Conflict from './Conflict';
 
 export class NotAList extends Conflict {
@@ -20,12 +18,11 @@ export class NotAList extends Conflict {
         return { primary: this.access.list, secondary: [] };
     }
 
-    getPrimaryExplanation(context: Context): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: `This isn't a list, it's ${
-                this.received.getDescriptions(context).eng
-            }.`,
-        };
+    getPrimaryExplanation(translation: Translation) {
+        return translation.conflict.NotAList.primary(this.received);
+    }
+
+    getSecondaryExplanation() {
+        return undefined;
     }
 }

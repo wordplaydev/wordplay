@@ -1,13 +1,12 @@
 import Node, { type Replacement } from './Node';
 import Token from './Token';
 import TokenType from './TokenType';
-import { TYPE_CLOSE_SYMBOL, TYPE_OPEN_SYMBOL } from '../parser/Tokenizer';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
+import { TYPE_CLOSE_SYMBOL, TYPE_OPEN_SYMBOL } from '../parser/Symbols';
 import Names from './Names';
-import TypeVariable from './TypeVariable';
+import type TypeVariable from './TypeVariable';
 import type Conflict from '../conflicts/Conflict';
 import { typeVarsAreUnique } from './util';
+import type Translation from '../translations/Translation';
 
 export default class TypeVariables extends Node {
     readonly open: Token;
@@ -24,10 +23,10 @@ export default class TypeVariables extends Node {
         this.computeChildren();
     }
 
-    static make(names: Translations[]) {
+    static make(variables: TypeVariable[]) {
         return new TypeVariables(
             new Token(TYPE_OPEN_SYMBOL, TokenType.TYPE_OPEN),
-            names.map((name) => new TypeVariable(Names.make(name))),
+            variables,
             new Token(TYPE_CLOSE_SYMBOL, TokenType.TYPE_CLOSE)
         );
     }
@@ -60,10 +59,11 @@ export default class TypeVariables extends Node {
         return conflicts;
     }
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'variable types',
-        };
+    hasVariableNamed(name: string) {
+        return this.variables.some((variable) => variable.names.hasName(name));
+    }
+
+    getDescription(translation: Translation) {
+        return translation.nodes.TypeVariables.description;
     }
 }

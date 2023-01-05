@@ -16,9 +16,8 @@ import { IncompatibleType } from '../conflicts/IncompatibleType';
 import UnionType from './UnionType';
 import TypeSet from './TypeSet';
 import Start from '../runtime/Start';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import type { Replacement } from './Node';
+import type Translation from '../translations/Translation';
 
 export default class Is extends Expression {
     readonly expression: Expression;
@@ -128,13 +127,6 @@ export default class Is extends Expression {
         return current;
     }
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'Check if a value is a type',
-        };
-    }
-
     getStart() {
         return this.operator;
     }
@@ -142,17 +134,15 @@ export default class Is extends Expression {
         return this.type;
     }
 
-    getStartExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'Start by getting the value of the expression.',
-        };
+    getDescription(translation: Translation) {
+        return translation.expressions.Is.description;
     }
 
-    getFinishExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'Check if this value is of this type.',
-        };
+    getStartExplanations(translation: Translation) {
+        return translation.expressions.Is.start;
+    }
+
+    getFinishExplanations(translation: Translation) {
+        return translation.expressions.Is.finish;
     }
 }

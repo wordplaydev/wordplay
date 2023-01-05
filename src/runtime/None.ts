@@ -1,10 +1,12 @@
 import NoneType from '../nodes/NoneType';
-import { NONE_SYMBOL } from '../parser/Tokenizer';
-import Value from './Value';
+import { NONE_SYMBOL } from '../parser/Symbols';
+import type Value from './Value';
 import type Node from '../nodes/Node';
 import type { NativeTypeName } from '../native/NativeConstants';
+import Primitive from './Primitive';
+import type Translation from '../translations/Translation';
 
-export default class None extends Value {
+export default class None extends Primitive {
     constructor(creator: Node) {
         super(creator);
     }
@@ -27,5 +29,9 @@ export default class None extends Value {
 
     toWordplay() {
         return NONE_SYMBOL;
+    }
+
+    getDescription(translation: Translation) {
+        return translation.data.none;
     }
 }

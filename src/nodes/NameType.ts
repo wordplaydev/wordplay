@@ -9,14 +9,13 @@ import type Definition from './Definition';
 import StructureDefinition from './StructureDefinition';
 import VariableType from './VariableType';
 import NameToken from './NameToken';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import TypeInputs from './TypeInputs';
 import InvalidTypeInput from '../conflicts/InvalidTypeInput';
 import type TypeSet from './TypeSet';
 import type { NativeTypeName } from '../native/NativeConstants';
 import UnknownNameType from './UnknownNameType';
 import type { Replacement } from './Node';
+import type Translation from '../translations/Translation';
 
 export default class NameType extends Type {
     readonly name: Token;
@@ -127,10 +126,11 @@ export default class NameType extends Type {
         return 'name';
     }
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'A structure type',
-        };
+    getDescription(translation: Translation, context: Context) {
+        return translation.types.NameType.description(
+            this,
+            translation,
+            context
+        );
     }
 }

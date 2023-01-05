@@ -1,17 +1,13 @@
-import {
-    LIST_TYPE_VAR_NAMES,
-    type NativeTypeName,
-} from '../native/NativeConstants';
-import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from '../parser/Tokenizer';
+import type { NativeTypeName } from '../native/NativeConstants';
+import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from '../parser/Symbols';
 import type Context from './Context';
 import NativeType from './NativeType';
 import Token from './Token';
 import TokenType from './TokenType';
 import Type from './Type';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import type TypeSet from './TypeSet';
 import type { Replacement } from './Node';
+import type Translation from '../translations/Translation';
 
 export default class ListType extends NativeType {
     readonly open: Token;
@@ -79,16 +75,19 @@ export default class ListType extends NativeType {
         return 'list';
     }
 
-    resolveTypeVariable(name: string): Type | undefined {
-        return Object.values(LIST_TYPE_VAR_NAMES).includes(name)
+    resolveTypeVariable(name: string, context: Context): Type | undefined {
+        const listDef = context.native.getListDefinition();
+        return listDef.types !== undefined &&
+            listDef.types.hasVariableNamed(name)
             ? this.type
             : undefined;
     }
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'A list type',
-        };
+    getDescription(translation: Translation, context: Context) {
+        return translation.types.ListType.description(
+            this,
+            translation,
+            context
+        );
     }
 }

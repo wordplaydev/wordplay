@@ -2,7 +2,7 @@
     import type Concept from '../concepts/Concept';
     import RootView from '../editor/RootView.svelte';
     import { getPalettePath } from '../editor/util/Contexts';
-    import { languages } from '../models/languages';
+    import { translations } from '../translations/translations';
     import type Node from '../nodes/Node';
     import Note from './Note.svelte';
 
@@ -46,7 +46,7 @@
                     ? select(event)
                     : undefined}
         >
-            <Note>{concept.getDescription($languages)}</Note>
+            <Note>{concept.getDescription($translations[0])}</Note>
         </div>
     {/if}
 </div>

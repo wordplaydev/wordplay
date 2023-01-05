@@ -12,9 +12,6 @@ test.each([
         NameType,
         InvalidTypeInput,
     ],
-])(
-    'Expect %s no conflicts, %s to have %s with %s',
-    (good, bad, node, conflict) => {
-        testConflict(good, bad, node, conflict);
-    }
-);
+])('Expect %s no conflicts, %s to have one', (good, bad, node, conflict) => {
+    testConflict(good, bad, node, conflict);
+});

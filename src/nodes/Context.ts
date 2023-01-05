@@ -4,7 +4,8 @@ import type Tree from './Tree';
 import type Project from '../models/Project';
 import type Source from './Source';
 import type Type from './Type';
-import Expression, { CycleType } from './Expression';
+import type Expression from './Expression';
+import { CycleType } from './CycleType';
 import type Reference from './Reference';
 import type PropertyReference from './PropertyReference';
 

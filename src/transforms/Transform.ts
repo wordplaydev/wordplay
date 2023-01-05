@@ -1,9 +1,10 @@
 import type { Edit } from '../editor/util/Commands';
 import type Node from '../nodes/Node';
-import type LanguageCode from '../nodes/LanguageCode';
+import type LanguageCode from '../translations/LanguageCode';
 import type Context from '../nodes/Context';
 import type Source from '../nodes/Source';
 import type Spaces from '../parser/Spaces';
+import type Translation from '../translations/Translation';
 
 export default abstract class Transform {
     readonly context: Context;
@@ -13,7 +14,7 @@ export default abstract class Transform {
     }
 
     abstract getEdit(lang: LanguageCode[]): Edit | undefined;
-    abstract getDescription(lang: LanguageCode[]): string;
+    abstract getDescription(translation: Translation): string;
 
     /** Gets the node to be added, removed, inserted, etc. */
     abstract getNewNode(lang: LanguageCode[]): Node | undefined;

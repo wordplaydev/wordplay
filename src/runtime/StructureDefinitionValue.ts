@@ -4,9 +4,10 @@ import type Evaluation from './Evaluation';
 import Primitive from './Primitive';
 import type Value from './Value';
 import type Node from '../nodes/Node';
-import { TYPE_SYMBOL } from '../parser/Tokenizer';
-import type LanguageCode from '../nodes/LanguageCode';
+import { TYPE_SYMBOL } from '../parser/Symbols';
+import type LanguageCode from '../translations/LanguageCode';
 import type { NativeTypeName } from '../native/NativeConstants';
+import type Translation from '../translations/Translation';
 
 export default class StructureDefinitionValue extends Primitive {
     /** The definition from the AST. */
@@ -46,5 +47,9 @@ export default class StructureDefinitionValue extends Primitive {
             this.definition === value.definition &&
             this.context === value.context
         );
+    }
+
+    getDescription(translation: Translation) {
+        return translation.data.function;
     }
 }

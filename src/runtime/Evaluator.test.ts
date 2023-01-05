@@ -1,7 +1,8 @@
 import { expect, test } from 'vitest';
 import Project from '../models/Project';
 import Source from '../nodes/Source';
-import EvaluationException from './EvaluationException';
+import EvaluationLimitException from './EvaluationLimitException';
+import StepLimitException from './StepLimitException';
 
 test.each([0, 1, 10, 15])('Step back %i', (steps: number) => {
     const fib = `
@@ -35,7 +36,7 @@ test('Too many steps', () => {
     const project = new Project('test', source, []);
     project.evaluate();
     expect(project.evaluator.getLatestSourceValue(source)).toBeInstanceOf(
-        EvaluationException
+        StepLimitException
     );
 });
 
@@ -49,6 +50,6 @@ test('Too many evaluations', () => {
     const project = new Project('test', source, []);
     project.evaluate();
     expect(project.evaluator.getLatestSourceValue(source)).toBeInstanceOf(
-        EvaluationException
+        EvaluationLimitException
     );
 });

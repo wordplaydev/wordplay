@@ -1,7 +1,6 @@
+import type Translation from '../translations/Translation';
 import Node, { type Replacement } from './Node';
 import Token from './Token';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import Type from './Type';
 
 export default class TypeInputs extends Node {
@@ -37,10 +36,7 @@ export default class TypeInputs extends Node {
 
     computeConflicts() {}
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'A list of type inputs',
-        };
+    getDescription(translation: Translation) {
+        return translation.nodes.TypeInputs.description;
     }
 }

@@ -1,21 +1,16 @@
-import {
-    MAP_KEY_TYPE_VAR_NAMES,
-    MAP_VALUE_TYPE_VAR_NAMES,
-    type NativeTypeName,
-} from '../native/NativeConstants';
+import type { NativeTypeName } from '../native/NativeConstants';
 import type Context from './Context';
 import NativeType from './NativeType';
 import Token from './Token';
 import Type from './Type';
 import BindToken from './BindToken';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import SetOpenToken from './SetOpenToken';
 import SetCloseToken from './SetCloseToken';
 import UnclosedDelimiter from '../conflicts/UnclosedDelimiter';
 import type Conflict from '../conflicts/Conflict';
 import type TypeSet from './TypeSet';
 import type { Replacement } from './Node';
+import type Translation from '../translations/Translation';
 
 export default class MapType extends NativeType {
     readonly open: Token;
@@ -102,20 +97,24 @@ export default class MapType extends NativeType {
         return 'map';
     }
 
-    resolveTypeVariable(name: string): Type | undefined {
-        return Object.values(MAP_KEY_TYPE_VAR_NAMES).includes(name) &&
+    resolveTypeVariable(name: string, context: Context): Type | undefined {
+        const mapDef = context.native.getMapDefinition();
+        return mapDef.types !== undefined &&
+            mapDef.types.variables[0].hasName(name) &&
             this.key instanceof Type
             ? this.key
-            : Object.values(MAP_VALUE_TYPE_VAR_NAMES).includes(name) &&
+            : mapDef.types !== undefined &&
+              mapDef.types.variables[1].hasName(name) &&
               this.value instanceof Type
             ? this.value
             : undefined;
     }
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'A map type',
-        };
+    getDescription(translation: Translation, context: Context) {
+        return translation.types.MapType.description(
+            this,
+            translation,
+            context
+        );
     }
 }

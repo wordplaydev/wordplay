@@ -5,8 +5,6 @@ export const languageCodeToLanguage: Record<LanguageCode, string> = {
     '😀': '😀',
 };
 
-export const SupportedLanguages: LanguageCode[] = ['eng'];
-
 /** ISO 639-2 3 and 2 letter language codes and their English descriptor. */
 export const Languages: Record<string, [string, string]> = {
     '😀': ['😀', 'Emoji'],

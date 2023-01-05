@@ -1,10 +1,11 @@
 import type { NativeTypeName } from '../native/NativeConstants';
 import type Context from '../nodes/Context';
 import type FunctionDefinition from '../nodes/FunctionDefinition';
-import type LanguageCode from '../nodes/LanguageCode';
-import { FUNCTION_SYMBOL } from '../parser/Tokenizer';
+import type LanguageCode from '../translations/LanguageCode';
+import { FUNCTION_SYMBOL } from '../parser/Symbols';
 import type Evaluation from './Evaluation';
 import Value from './Value';
+import type Translation from '../translations/Translation';
 
 // We could have just called this Function, but Javascript claims that globally.
 export default class FunctionValue extends Value {
@@ -50,5 +51,9 @@ export default class FunctionValue extends Value {
             this.definition === value.definition &&
             this.context === value.context
         );
+    }
+
+    getDescription(translation: Translation) {
+        return translation.data.function;
     }
 }

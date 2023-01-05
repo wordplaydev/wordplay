@@ -1,8 +1,8 @@
 import type Conflict from '../conflicts/Conflict';
-import Expression, { CycleType } from './Expression';
+import Expression from './Expression';
+import { CycleType } from './CycleType';
 import Token from './Token';
 import type Type from './Type';
-import type Node from './Node';
 import type Evaluator from '../runtime/Evaluator';
 import type Value from '../runtime/Value';
 import type Step from '../runtime/Step';
@@ -14,11 +14,10 @@ import type Context from './Context';
 import UnionType from './UnionType';
 import type TypeSet from './TypeSet';
 import Exception from '../runtime/Exception';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
-import { CHANGE_SYMBOL } from '../parser/Tokenizer';
+import { CHANGE_SYMBOL } from '../parser/Symbols';
 import TokenType from './TokenType';
 import type { Replacement } from './Node';
+import type Translation from '../translations/Translation';
 
 export default class Reaction extends Expression {
     readonly initial: Expression;
@@ -45,9 +44,21 @@ export default class Reaction extends Expression {
 
     getGrammar() {
         return [
-            { name: 'initial', types: [Expression] },
+            {
+                name: 'initial',
+                types: [Expression],
+                label: (translation: Translation) =>
+                    translation.expressions.Reaction.initial,
+            },
             { name: 'delta', types: [Token], space: true, indent: true },
-            { name: 'next', types: [Expression], space: true, indent: true },
+            {
+                name: 'next',
+                types: [Expression],
+                label: (translation: Translation) =>
+                    translation.expressions.Reaction.next,
+                space: true,
+                indent: true,
+            },
         ];
     }
 
@@ -148,44 +159,23 @@ export default class Reaction extends Expression {
         return current;
     }
 
-    getChildPlaceholderLabel(child: Node): Translations | undefined {
-        if (child === this.initial)
-            return {
-                '😀': TRANSLATE,
-                eng: 'inital',
-            };
-        else if (child === this.next)
-            return {
-                '😀': TRANSLATE,
-                eng: 'next',
-            };
-    }
-
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'a reaction to a stream change',
-        };
-    }
-
     getStart() {
         return this.delta;
     }
+
     getFinish() {
         return this.delta;
     }
 
-    getStartExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'We start by getting the latest value of the stream.',
-        };
+    getDescription(translation: Translation) {
+        return translation.expressions.Reaction.description;
     }
 
-    getFinishExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'We end by evaluating to the new value.',
-        };
+    getStartExplanations(translation: Translation) {
+        return translation.expressions.Reaction.start;
+    }
+
+    getFinishExplanations(translation: Translation) {
+        return translation.expressions.Reaction.finish;
     }
 }

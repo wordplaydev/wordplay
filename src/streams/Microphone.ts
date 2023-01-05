@@ -1,8 +1,9 @@
 import MeasurementType from '../nodes/MeasurementType';
-import { TRANSLATE } from '../nodes/Translations';
 import type Evaluator from '../runtime/Evaluator';
 import Measurement from '../runtime/Measurement';
 import Stream from '../runtime/Stream';
+import { getDocTranslations } from '../translations/getDocTranslations';
+import { getNameTranslations } from '../translations/getNameTranslations';
 import { FREQUENCY } from './Time';
 
 const FFT_SIZE = 32;
@@ -17,18 +18,15 @@ export default class Microphone extends Stream {
     frequencies: Uint8Array = new Uint8Array(FFT_SIZE);
 
     constructor(evaluator: Evaluator) {
-        super(
-            evaluator,
-            {
-                eng: 'A stream of microphone amplitudes',
-                '😀': TRANSLATE,
-            },
-            {
-                '😀': '🎤',
-                eng: 'mic',
-            },
-            new Measurement(evaluator.getMain(), 0)
-        );
+        super(evaluator, new Measurement(evaluator.getMain(), 0));
+    }
+
+    computeDocs() {
+        return getDocTranslations((t) => t.input.microphone.doc);
+    }
+
+    computeNames() {
+        return getNameTranslations((t) => t.input.microphone.name);
     }
 
     percent(frequencies: number[]) {

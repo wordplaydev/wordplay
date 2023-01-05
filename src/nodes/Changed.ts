@@ -2,7 +2,6 @@ import type Conflict from '../conflicts/Conflict';
 import Expression from './Expression';
 import Token from './Token';
 import type Type from './Type';
-import type Node from './Node';
 import type Evaluator from '../runtime/Evaluator';
 import type Value from '../runtime/Value';
 import type Step from '../runtime/Step';
@@ -17,17 +16,17 @@ import type TypeSet from './TypeSet';
 import TypeException from '../runtime/TypeException';
 import AnyType from './AnyType';
 import TokenType from './TokenType';
-import { CHANGE_SYMBOL } from '../parser/Tokenizer';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
+import { CHANGE_SYMBOL } from '../parser/Symbols';
 import Start from '../runtime/Start';
 import UnionType from './UnionType';
 import NoneType from './NoneType';
 import Bool from '../runtime/Bool';
-import { NotAStreamType } from './Previous';
+import { NotAStreamType } from './NotAStreamType';
 import type { Replacement } from './Node';
+import type Translation from '../translations/Translation';
+import AtomicExpression from './AtomicExpression';
 
-export default class Changed extends Expression {
+export default class Changed extends AtomicExpression {
     readonly change: Token;
     readonly stream: Expression;
 
@@ -119,21 +118,6 @@ export default class Changed extends Expression {
         return current;
     }
 
-    getChildPlaceholderLabel(child: Node): Translations | undefined {
-        if (child === this.stream)
-            return {
-                '😀': TRANSLATE,
-                eng: 'stream',
-            };
-    }
-
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'true if a stream changed',
-        };
-    }
-
     getStart() {
         return this.stream;
     }
@@ -141,14 +125,11 @@ export default class Changed extends Expression {
         return this.change;
     }
 
-    getStartExplanations(): Translations {
-        return this.getFinishExplanations();
+    getDescription(translation: Translation) {
+        return translation.expressions.Changed.description;
     }
 
-    getFinishExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'Did a change to this stream cause the evaluation?',
-        };
+    getStartExplanations(translation: Translation) {
+        return translation.expressions.Changed.start;
     }
 }

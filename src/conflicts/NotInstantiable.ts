@@ -1,8 +1,7 @@
 import type Evaluate from '../nodes/Evaluate';
 import type FunctionDefinition from '../nodes/FunctionDefinition';
 import type StructureDefinition from '../nodes/StructureDefinition';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
+import type Translation from '../translations/Translation';
 import Conflict from './Conflict';
 
 export default class NotInstantiable extends Conflict {
@@ -29,10 +28,11 @@ export default class NotInstantiable extends Conflict {
         };
     }
 
-    getPrimaryExplanation(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: `Can't make a structure that has undefined functions.`,
-        };
+    getPrimaryExplanation(translation: Translation) {
+        return translation.conflict.NotInstantiable.primary();
+    }
+
+    getSecondaryExplanation(translation: Translation) {
+        return translation.conflict.NotInstantiable.secondary();
     }
 }

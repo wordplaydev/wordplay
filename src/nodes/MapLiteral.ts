@@ -18,13 +18,12 @@ import Halt from '../runtime/Halt';
 import AnyType from './AnyType';
 import type Bind from './Bind';
 import UnparsableException from '../runtime/UnparsableException';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import BindToken from './BindToken';
 import SetOpenToken from './SetOpenToken';
 import SetCloseToken from './SetCloseToken';
 import UnclosedDelimiter from '../conflicts/UnclosedDelimiter';
 import type { Replacement } from './Node';
+import type Translation from '../translations/Translation';
 
 export default class MapLiteral extends Expression {
     readonly open: Token;
@@ -162,16 +161,10 @@ export default class MapLiteral extends Expression {
         return current;
     }
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'A mapping from one set of values to another',
-        };
-    }
-
     getStart() {
         return this.open;
     }
+
     getFinish() {
         return (
             this.close ??
@@ -181,17 +174,15 @@ export default class MapLiteral extends Expression {
         );
     }
 
-    getStartExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: "Let's make a map!",
-        };
+    getDescription(translation: Translation) {
+        return translation.expressions.MapLiteral.description;
     }
 
-    getFinishExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'Now that we have all of the keys and values, create the map.',
-        };
+    getStartExplanations(translation: Translation) {
+        return translation.expressions.MapLiteral.start;
+    }
+
+    getFinishExplanations(translation: Translation) {
+        return translation.expressions.MapLiteral.finish;
     }
 }

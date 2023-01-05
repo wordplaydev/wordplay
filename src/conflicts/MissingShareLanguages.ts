@@ -1,6 +1,5 @@
 import type Bind from '../nodes/Bind';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
+import type Translation from '../translations/Translation';
 import Conflict from './Conflict';
 
 export class MissingShareLanguages extends Conflict {
@@ -15,10 +14,11 @@ export class MissingShareLanguages extends Conflict {
         return { primary: this.share, secondary: [] };
     }
 
-    getPrimaryExplanation(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: `To share something, you must tag it's names with languages.`,
-        };
+    getPrimaryExplanation(translation: Translation) {
+        return translation.conflict.MissingShareLanguages.primary();
+    }
+
+    getSecondaryExplanation() {
+        return undefined;
     }
 }

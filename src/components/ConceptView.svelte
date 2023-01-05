@@ -2,7 +2,7 @@
     import { slide } from 'svelte/transition';
     import type Concept from '../concepts/Concept';
     import CodeView from './CodeView.svelte';
-    import { languages } from '../models/languages';
+    import { translations } from '../translations/translations';
     import parseRichText from '../output/parseRichText';
 
     export let concept: Concept;
@@ -14,7 +14,7 @@
     <h1><CodeView {concept} {node} describe={false} /></h1>
 
     <p>
-        {@html parseRichText(concept.getDescription($languages)).toHTML()}
+        {@html parseRichText(concept.getDescription($translations[0])).toHTML()}
     </p>
 
     <slot />

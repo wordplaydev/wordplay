@@ -1,8 +1,6 @@
-import type Context from '../nodes/Context';
 import type SetOrMapAccess from '../nodes/SetOrMapAccess';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
 import type Type from '../nodes/Type';
+import type Translation from '../translations/Translation';
 import Conflict from './Conflict';
 
 export class IncompatibleKey extends Conflict {
@@ -21,12 +19,14 @@ export class IncompatibleKey extends Conflict {
         return { primary: this.access.key, secondary: [this.expected] };
     }
 
-    getPrimaryExplanation(context: Context): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: `I expect keys of type ${this.expected.toWordplay()}, but this is ${
-                this.received.getDescriptions(context).eng
-            }`,
-        };
+    getPrimaryExplanation(translation: Translation) {
+        return translation.conflict.IncompatibleKey.primary({
+            expected: this.expected,
+            received: this.received,
+        });
+    }
+
+    getSecondaryExplanation(translation: Translation) {
+        return translation.conflict.IncompatibleKey.secondary();
     }
 }

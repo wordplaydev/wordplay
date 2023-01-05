@@ -11,22 +11,21 @@ import type Step from '../runtime/Step';
 import type Context from './Context';
 import type Definition from './Definition';
 import Bind from './Bind';
-import CircularReference from '../conflicts/CircularReference';
+import ReferenceCycle from '../conflicts/ReferenceCycle';
 import Reaction from './Reaction';
 import Conditional from './Conditional';
 import UnionType from './UnionType';
 import type TypeSet from './TypeSet';
 import Is from './Is';
-import NameException from '../runtime/NameException';
 import type StructureDefinition from './StructureDefinition';
 import NameToken from './NameToken';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import Stream from '../runtime/Stream';
 import StartFinish from '../runtime/StartFinish';
 import StreamType from './StreamType';
 import UnknownNameType from './UnknownNameType';
 import type { Replacement } from './Node';
+import type Translation from '../translations/Translation';
+import AtomicExpression from './AtomicExpression';
 
 /**
  * A reference to some Definition. Can optionally take the definition which it refers,
@@ -34,7 +33,7 @@ import type { Replacement } from './Node';
  * but nevertheless have a known definition to which they refer. This is also helpful
  * in localization, allowing us to easily switch definitions.
  */
-export default class Reference extends Expression {
+export default class Reference extends AtomicExpression {
     readonly name: Token;
     readonly definition: Definition | undefined;
 
@@ -83,7 +82,7 @@ export default class Reference extends Expression {
         // Is this name undefined in scope?
         if (bindOrTypeVar === undefined)
             conflicts.push(new UnknownName(this.name));
-        // Type variables aren't alowed in names.
+        // Type variables aren't alowed in type variables.
         else if (bindOrTypeVar instanceof TypeVariable)
             conflicts.push(new UnexpectedTypeVariable(this));
 
@@ -98,7 +97,7 @@ export default class Reference extends Expression {
                 reaction !== undefined &&
                 context.get(reaction)?.getAncestors()?.includes(bindOrTypeVar);
             if (!validCircularReference)
-                conflicts.push(new CircularReference(this));
+                conflicts.push(new ReferenceCycle(this));
         }
 
         return conflicts;
@@ -210,41 +209,26 @@ export default class Reference extends Expression {
         if (prior) return prior;
 
         // Search for the name in the given evaluation context.
-        const value = evaluator.resolve(this.name.getText());
-        // Return it or an exception if we didn't find it.
-        return value === undefined
-            ? new NameException(this.name.getText(), evaluator)
-            : value;
-    }
-
-    getDescriptions(context: Context): Translations {
-        // Default descriptions.
-        const definition = this.resolve(context);
-
-        // Override with definition's descriptions.
-        return definition !== undefined
-            ? definition.getDescriptions()
-            : {
-                  '😀': TRANSLATE,
-                  eng: this.getName(),
-              };
+        return evaluator.resolve(this.name.getText());
     }
 
     getStart() {
         return this.name;
     }
+
     getFinish() {
         return this.name;
     }
 
-    getStartExplanations(): Translations {
-        return this.getFinishExplanations();
+    getDescription(translation: Translation, context: Context) {
+        return translation.expressions.Reference.description(
+            this,
+            translation,
+            context
+        );
     }
 
-    getFinishExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: "Let's find the closest definition of the name.",
-        };
+    getStartExplanations(translation: Translation) {
+        return translation.expressions.Reference.start;
     }
 }

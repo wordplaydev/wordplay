@@ -1,6 +1,5 @@
 import type StructureDefinition from '../nodes/StructureDefinition';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
+import type Translation from '../translations/Translation';
 import Conflict from './Conflict';
 
 export class DisallowedInputs extends Conflict {
@@ -18,10 +17,11 @@ export class DisallowedInputs extends Conflict {
         };
     }
 
-    getPrimaryExplanation(): Translations {
-        return {
-            eng: `Interfaces can't have inputs.`,
-            '😀': `${TRANSLATE}: … → 🚫 ()`,
-        };
+    getPrimaryExplanation(translation: Translation) {
+        return translation.conflict.DisallowedInputs.primary();
+    }
+
+    getSecondaryExplanation(translation: Translation) {
+        return translation.conflict.DisallowedInputs.secondary();
     }
 }

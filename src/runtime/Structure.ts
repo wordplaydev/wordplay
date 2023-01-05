@@ -11,13 +11,14 @@ import Measurement from './Measurement';
 import Text from './Text';
 import Bool from './Bool';
 import type Names from '../nodes/Names';
-import type LanguageCode from '../nodes/LanguageCode';
+import type LanguageCode from '../translations/LanguageCode';
 import {
     BIND_SYMBOL,
     EVAL_CLOSE_SYMBOL,
     EVAL_OPEN_SYMBOL,
-} from '../parser/Tokenizer';
+} from '../parser/Symbols';
 import type { NativeTypeName } from '../native/NativeConstants';
+import type Translation from '../translations/Translation';
 
 export default class Structure extends Value {
     readonly type: StructureDefinition;
@@ -104,6 +105,10 @@ export default class Structure extends Value {
         return `${this.type.names.getTranslation(
             languages
         )}${EVAL_OPEN_SYMBOL}${bindings.join(' ')}${EVAL_CLOSE_SYMBOL}`;
+    }
+
+    getDescription(translation: Translation) {
+        return translation.data.structure;
     }
 }
 

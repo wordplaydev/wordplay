@@ -1,5 +1,5 @@
 import { test, expect } from 'vitest';
-import { FALSE_SYMBOL, TRUE_SYMBOL } from '../parser/Tokenizer';
+import { FALSE_SYMBOL, TRUE_SYMBOL } from '../parser/Symbols';
 import Evaluator from './Evaluator';
 
 test.each([

@@ -2,9 +2,8 @@ import type Evaluate from '../nodes/Evaluate';
 import type FunctionDefinition from '../nodes/FunctionDefinition';
 import type NameType from '../nodes/NameType';
 import type StructureDefinition from '../nodes/StructureDefinition';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
 import type Type from '../nodes/Type';
+import type Translation from '../translations/Translation';
 import Conflict from './Conflict';
 
 export default class InvalidTypeInput extends Conflict {
@@ -27,10 +26,11 @@ export default class InvalidTypeInput extends Conflict {
         return { primary: this.type, secondary: [this.definition.names] };
     }
 
-    getPrimaryExplanation(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: `This definition doesn't accept this type input.`,
-        };
+    getPrimaryExplanation(translation: Translation) {
+        return translation.conflict.InvalidTypeInput.primary();
+    }
+
+    getSecondaryExplanation(translation: Translation) {
+        return translation.conflict.InvalidTypeInput.secondary();
     }
 }

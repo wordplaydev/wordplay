@@ -1,25 +1,17 @@
 import { test } from 'vitest';
 import { testConflict } from '../conflicts/TestUtilities';
-import DuplicateLanguages from '../conflicts/DuplicateLanguages';
 import RequiredAfterOptional from '../conflicts/RequiredAfterOptional';
 import DuplicateTypeVariables from '../conflicts/DuplicateTypeVariables';
 import StructureDefinition from './StructureDefinition';
 import DuplicateNames from '../conflicts/DuplicateNames';
-import { Unimplemented } from '../conflicts/Unimplemented';
+import { UnimplementedInterface } from '../conflicts/UnimplementedInterface';
 import { Implemented } from '../conflicts/Implemented';
 import { DisallowedInputs } from '../conflicts/DisallowedInputs';
 import Names from './Names';
-import Docs from './Docs';
 import TypeVariables from './TypeVariables';
 import NotAnInterface from '../conflicts/NotAnInterface';
 
 test.each([
-    [
-        'a:1\n`hi`/eng`hola`/spa•Hi()',
-        'a:1\n`hi`/eng`hola`/eng•Hi() ',
-        Docs,
-        DuplicateLanguages,
-    ],
     ['•Cat,Dog(a b)', '•Cat,Cat(a b)', Names, DuplicateNames],
     ['•Cat(a b)', '•Cat(a a)', StructureDefinition, DuplicateNames],
     ['•Cat⸨T U⸩ ()', '•Cat⸨T T⸩ ()', TypeVariables, DuplicateTypeVariables],
@@ -33,7 +25,7 @@ test.each([
         '•Animal() ( ƒ sound()•"" _)\n•Cat Animal() ( ƒ sound() "meow" )',
         '•Animal() ( ƒ sound()•"" _)\n•Cat Animal() ( ƒ speak() "meow" )',
         StructureDefinition,
-        Unimplemented,
+        UnimplementedInterface,
         1,
     ],
     [
@@ -83,7 +75,7 @@ test.each([
         )
         `,
         StructureDefinition,
-        Unimplemented,
+        UnimplementedInterface,
         2,
     ],
     // Interfaces must be structure definitions

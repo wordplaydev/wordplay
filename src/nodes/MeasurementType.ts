@@ -1,13 +1,11 @@
 import type { NativeTypeName } from '../native/NativeConstants';
-import { MEASUREMENT_SYMBOL } from '../parser/Tokenizer';
+import { MEASUREMENT_SYMBOL } from '../parser/Symbols';
 import type Context from './Context';
 import Token from './Token';
 import TokenType from './TokenType';
 import Unit from './Unit';
 import BinaryOperation from './BinaryOperation';
 import NativeType from './NativeType';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import UnaryOperation from './UnaryOperation';
 import MeasurementLiteral from './MeasurementLiteral';
 import Measurement from '../runtime/Measurement';
@@ -15,6 +13,7 @@ import Evaluate from './Evaluate';
 import PropertyReference from './PropertyReference';
 import type TypeSet from './TypeSet';
 import type { Replacement } from './Node';
+import type Translation from '../translations/Translation';
 
 type UnitDeriver = (
     left: Unit,
@@ -184,13 +183,11 @@ export default class MeasurementType extends NativeType {
         return 'measurement';
     }
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng:
-                this.unit instanceof Unit
-                    ? this.unit.getDescriptions().eng
-                    : 'a number',
-        };
+    getDescription(translation: Translation, context: Context) {
+        return translation.types.MeasurementType.description(
+            this,
+            translation,
+            context
+        );
     }
 }

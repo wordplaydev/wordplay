@@ -1,22 +1,15 @@
 import type Type from './Type';
 import UnknownType from './UnknownType';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import type Convert from './Convert';
-import Evaluate from './Evaluate';
+import type Evaluate from './Evaluate';
+import type Translation from '../translations/Translation';
 
 export default class NotAFunctionType extends UnknownType<Evaluate | Convert> {
     constructor(evaluate: Evaluate | Convert, why: Type | undefined) {
         super(evaluate, why);
     }
 
-    getReason(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: `${(this.expression instanceof Evaluate
-                ? this.expression.func
-                : this.expression
-            ).toWordplay()} is not a function`,
-        };
+    getReason(translation: Translation) {
+        return translation.types.NotAFunctionType.description;
     }
 }

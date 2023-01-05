@@ -1,7 +1,6 @@
 import Conflict from './Conflict';
 import type Bind from '../nodes/Bind';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
+import type Translation from '../translations/Translation';
 
 export default class RequiredAfterOptional extends Conflict {
     readonly bind: Bind;
@@ -16,10 +15,11 @@ export default class RequiredAfterOptional extends Conflict {
         return { primary: this.bind, secondary: [] };
     }
 
-    getPrimaryExplanation(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: `Required inputs can't come after optional ones.`,
-        };
+    getPrimaryExplanation(translation: Translation) {
+        return translation.conflict.RequiredAfterOptional.primary();
+    }
+
+    getSecondaryExplanation() {
+        return undefined;
     }
 }

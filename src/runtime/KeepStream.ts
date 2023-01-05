@@ -1,8 +1,7 @@
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
 import Step from './Step';
 import type Value from './Value';
 import type Expression from '../nodes/Expression';
+import type Translation from '../translations/Translation';
 
 export default class KeepStream extends Step {
     constructor(node: Expression) {
@@ -13,10 +12,7 @@ export default class KeepStream extends Step {
         return undefined;
     }
 
-    getExplanations(): Translations {
-        return {
-            eng: `Keeping the stream.`,
-            '😀': `${TRANSLATE} ∆`,
-        };
+    getExplanations(translation: Translation) {
+        return translation.step.stream;
     }
 }

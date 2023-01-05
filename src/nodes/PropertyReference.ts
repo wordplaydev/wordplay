@@ -15,14 +15,11 @@ import UnionType from './UnionType';
 import type TypeSet from './TypeSet';
 import Conditional from './Conditional';
 import Is from './Is';
-import { PROPERTY_SYMBOL, PLACEHOLDER_SYMBOL } from '../parser/Tokenizer';
+import { PROPERTY_SYMBOL, PLACEHOLDER_SYMBOL } from '../parser/Symbols';
 import TokenType from './TokenType';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import TypeVariable from './TypeVariable';
 import NameException from '../runtime/NameException';
 import NativeType from './NativeType';
-import { NameLabels } from './Name';
 import type Definition from './Definition';
 import type Value from '../runtime/Value';
 import StreamType from './StreamType';
@@ -30,6 +27,7 @@ import Reference from './Reference';
 import NameType from './NameType';
 import UnknownNameType from './UnknownNameType';
 import type { Replacement } from './Node';
+import type Translation from '../translations/Translation';
 
 export default class PropertyReference extends Expression {
     readonly structure: Expression;
@@ -230,11 +228,11 @@ export default class PropertyReference extends Expression {
         if (prior) return prior;
 
         const subject = evaluator.popValue(undefined);
-        if (this.name === undefined) return new NameException('', evaluator);
+        if (this.name === undefined) return new NameException(this, evaluator);
         const name = this.name.getName();
         return (
             subject.resolve(name, evaluator) ??
-            new NameException(name, evaluator)
+            new NameException(this.name, evaluator)
         );
     }
 
@@ -281,17 +279,6 @@ export default class PropertyReference extends Expression {
         );
     }
 
-    getChildPlaceholderLabel(child: Node): Translations | undefined {
-        if (child === this.name) return NameLabels;
-    }
-
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'Get a named value on a structure',
-        };
-    }
-
     getStart() {
         return this.dot;
     }
@@ -299,17 +286,15 @@ export default class PropertyReference extends Expression {
         return this.name ?? this.dot;
     }
 
-    getStartExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'First evaluate the structure.',
-        };
+    getDescription(translation: Translation) {
+        return translation.expressions.PropertyReference.description;
     }
 
-    getFinishExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'Now find the name in this structure.',
-        };
+    getStartExplanations(translation: Translation) {
+        return translation.expressions.PropertyReference.start;
+    }
+
+    getFinishExplanations(translation: Translation) {
+        return translation.expressions.PropertyReference.finish;
     }
 }

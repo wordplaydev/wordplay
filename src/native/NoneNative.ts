@@ -11,31 +11,31 @@ import TypeException from '../runtime/TypeException';
 import NoneType from '../nodes/NoneType';
 import type Value from '../runtime/Value';
 import { createNativeConversion } from './NativeBindings';
-import { TRANSLATE, WRITE, WRITE_DOCS } from '../nodes/Translations';
-import type Translations from '../nodes/Translations';
 import type Node from '../nodes/Node';
-import { NONE_SYMBOL } from '../parser/Tokenizer';
+import { NONE_SYMBOL } from '../parser/Symbols';
+import type Names from '../nodes/Names';
+import type Docs from '../nodes/Docs';
+import { getFunctionTranslations } from '../translations/getFunctionTranslations';
+import { getDocTranslations } from '../translations/getDocTranslations';
+import { getNameTranslations } from '../translations/getNameTranslations';
 
 export default function bootstrapNone() {
     function createNativeNoneFunction(
-        docs: Translations,
-        names: Translations,
+        translations: {
+            docs: Docs;
+            names: Names;
+            inputs: { docs: Docs; names: Names }[];
+        },
         expression: (requestor: Node, left: None, right: None) => Value
     ) {
         return FunctionDefinition.make(
-            docs,
-            names,
+            translations.docs,
+            translations.names,
             undefined,
             [
                 Bind.make(
-                    {
-                        eng: WRITE,
-                        '😀': WRITE,
-                    },
-                    {
-                        eng: 'val',
-                        '😀': `${TRANSLATE}1`,
-                    },
+                    translations.inputs[0].docs,
+                    translations.inputs[0].names,
                     BooleanType.make()
                 ),
             ],
@@ -43,7 +43,9 @@ export default function bootstrapNone() {
                 BooleanType.make(),
                 (requestor, evaluation) => {
                     const left = evaluation.getClosure();
-                    const right = evaluation.resolve('val');
+                    const right = evaluation.resolve(
+                        translations.inputs[0].names
+                    );
                     // This should be impossible, but the type system doesn't know it.
                     if (!(left instanceof None))
                         return new TypeException(
@@ -58,10 +60,6 @@ export default function bootstrapNone() {
                             right
                         );
                     return expression(requestor, left, right);
-                },
-                {
-                    '😀': TRANSLATE,
-                    eng: 'Native none operation.',
                 }
             ),
             BooleanType.make()
@@ -69,47 +67,31 @@ export default function bootstrapNone() {
     }
 
     return StructureDefinition.make(
-        {
-            eng: WRITE,
-            '😀': WRITE,
-        },
-        {
-            eng: 'none',
-            '😀': TRANSLATE,
-        },
+        getDocTranslations((t) => t.native.none.doc),
+        getNameTranslations((t) => t.native.none.name),
         [],
         undefined,
         [],
         new Block(
             [
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations((t) => t.native.none.conversion.text),
                     NONE_SYMBOL,
                     "''",
                     (requestor, val: None) =>
                         new Text(requestor, val.toString())
                 ),
                 createNativeNoneFunction(
-                    {
-                        eng: WRITE,
-                        '😀': WRITE,
-                    },
-                    {
-                        eng: 'equals',
-                        '😀': '=',
-                    },
+                    getFunctionTranslations(
+                        (t) => t.native.none.function.equals
+                    ),
                     (requestor: Node, left: None, right: None) =>
                         new Bool(requestor, left.isEqualTo(right))
                 ),
                 createNativeNoneFunction(
-                    {
-                        eng: WRITE,
-                        '😀': WRITE,
-                    },
-                    {
-                        eng: 'not-equal',
-                        '😀': '≠',
-                    },
+                    getFunctionTranslations(
+                        (t) => t.native.none.function.notequals
+                    ),
                     (requestor: Node, left: None, right: None) =>
                         new Bool(requestor, !left.isEqualTo(right))
                 ),

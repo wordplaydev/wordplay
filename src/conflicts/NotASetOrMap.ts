@@ -1,8 +1,6 @@
-import type Context from '../nodes/Context';
 import type SetOrMapAccess from '../nodes/SetOrMapAccess';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
 import type Type from '../nodes/Type';
+import type Translation from '../translations/Translation';
 import Conflict from './Conflict';
 
 export class NotASetOrMap extends Conflict {
@@ -20,12 +18,11 @@ export class NotASetOrMap extends Conflict {
         return { primary: this.access.setOrMap, secondary: [] };
     }
 
-    getPrimaryExplanation(context: Context): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: `This isn't a set or map, it's a ${
-                this.received.getDescriptions(context).eng
-            }.`,
-        };
+    getPrimaryExplanation(translation: Translation) {
+        return translation.conflict.NotASetOrMap.primary(this.received);
+    }
+
+    getSecondaryExplanation() {
+        return undefined;
     }
 }

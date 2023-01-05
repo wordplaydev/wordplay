@@ -1,22 +1,22 @@
 import BooleanType from './BooleanType';
-import Expression from './Expression';
+import type Expression from './Expression';
 import Token from './Token';
 import type Type from './Type';
 import type Value from '../runtime/Value';
 import Bool from '../runtime/Bool';
 import type Step from '../runtime/Step';
-import { FALSE_SYMBOL, TRUE_SYMBOL } from '../parser/Tokenizer';
+import { FALSE_SYMBOL, TRUE_SYMBOL } from '../parser/Symbols';
 import type Bind from './Bind';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
 import TokenType from './TokenType';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import type Evaluator from '../runtime/Evaluator';
 import StartFinish from '../runtime/StartFinish';
 import type { Replacement } from './Node';
+import type Translation from '../translations/Translation';
+import AtomicExpression from './AtomicExpression';
 
-export default class BooleanLiteral extends Expression {
+export default class BooleanLiteral extends AtomicExpression {
     readonly value: Token;
 
     constructor(value: Token) {
@@ -81,13 +81,6 @@ export default class BooleanLiteral extends Expression {
         return current;
     }
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: `${this.bool() ? 'True' : 'False'}`,
-        };
-    }
-
     getStart() {
         return this.value;
     }
@@ -95,14 +88,11 @@ export default class BooleanLiteral extends Expression {
         return this.value;
     }
 
-    getStartExplanations(): Translations {
-        return this.getFinishExplanations();
+    getDescription(translation: Translation): string {
+        return translation.expressions.BooleanLiteral.description;
     }
 
-    getFinishExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'Evaluate to a bool',
-        };
+    getStartExplanations(translation: Translation): string {
+        return translation.expressions.BooleanLiteral.start;
     }
 }

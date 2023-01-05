@@ -3,15 +3,14 @@ import Bind from '../nodes/Bind';
 import type Context from './Context';
 import Token from './Token';
 import TokenType from './TokenType';
-import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '../parser/Tokenizer';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
+import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '../parser/Symbols';
 import type TypeSet from './TypeSet';
 import type { NativeTypeName } from '../native/NativeConstants';
 import AnyType from './AnyType';
 import type Conflict from '../conflicts/Conflict';
 import ExpectedColumnType from '../conflicts/ExpectedColumnType';
 import type { Replacement } from './Node';
+import type Translation from '../translations/Translation';
 
 export default class TableType extends Type {
     readonly open: Token;
@@ -87,10 +86,7 @@ export default class TableType extends Type {
         return 'table';
     }
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'A table type',
-        };
+    getDescription(translation: Translation) {
+        return translation.types.TableType.description;
     }
 }

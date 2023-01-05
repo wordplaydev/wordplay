@@ -1,15 +1,13 @@
 import Node, { type Replacement } from './Node';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
-import type LanguageCode from './LanguageCode';
+import type LanguageCode from '../translations/LanguageCode';
 import Name from './Name';
-import DuplicateLanguages from '../conflicts/DuplicateLanguages';
 import DuplicateNames from '../conflicts/DuplicateNames';
 import Token from './Token';
-import { NAME_SEPARATOR_SYMBOL } from '../parser/Tokenizer';
+import { NAME_SEPARATOR_SYMBOL } from '../parser/Symbols';
 import TokenType from './TokenType';
 import NameToken from './NameToken';
 import Language from './Language';
+import type Translation from '../translations/Translation';
 
 export default class Names extends Node {
     readonly names: Name[];
@@ -17,12 +15,17 @@ export default class Names extends Node {
     constructor(names: Name[]) {
         super();
 
-        this.names = names;
+        // Add name separators if lacking
+        this.names = names.map((name, index) =>
+            index > 0 && name.separator === undefined
+                ? name.withSeparator()
+                : name
+        );
 
         this.computeChildren();
     }
 
-    static make(names: string[] | Translations) {
+    static make(names: string[]) {
         const list: Name[] = [];
         if (Array.isArray(names)) {
             let first = true;
@@ -83,21 +86,6 @@ export default class Names extends Node {
         );
         if (duplicates.length > 0) return [new DuplicateNames(duplicates)];
 
-        // Names must have unique language tags.
-        const duplicateLanguages = this.names
-            .filter(
-                (name1) =>
-                    this.names.find(
-                        (name2) =>
-                            name1 !== name2 &&
-                            name1.getLanguage() === name2.getLanguage()
-                    ) !== undefined
-            )
-            .map((name) => name.lang)
-            .filter((lang): lang is Language => lang !== undefined);
-        if (duplicateLanguages.length > 0)
-            return [new DuplicateLanguages(this, duplicateLanguages)];
-
         return [];
     }
 
@@ -107,14 +95,6 @@ export default class Names extends Node {
                 (name) => name.name && names.hasName(name.name.getText())
             ) !== undefined
         );
-    }
-
-    getTranslations() {
-        const translations: Record<string, string | undefined> = {};
-        for (const name of this.names) {
-            translations[name.getLanguage() ?? ''] = name.getName();
-        }
-        return translations as Translations;
     }
 
     getTranslation(language: string | string[]) {
@@ -154,10 +134,7 @@ export default class Names extends Node {
         return this.names.find((a) => a.getName() === name) !== undefined;
     }
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'names',
-        };
+    getDescription(translation: Translation) {
+        return translation.nodes.Names.description;
     }
 }

@@ -1,8 +1,7 @@
 import type Evaluator from './Evaluator';
 import Exception from './Exception';
 import type Node from '../nodes/Node';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
+import type Translation from '../translations/Translation';
 
 export default class UnparsableException extends Exception {
     readonly unparsable: Node;
@@ -13,10 +12,7 @@ export default class UnparsableException extends Exception {
         this.unparsable = unparsable;
     }
 
-    getExplanations(): Translations {
-        return {
-            eng: `${this.unparsable.toWordplay()} has a problem. Check for errors.`,
-            '😀': `${TRANSLATE} 🤷🏻‍♀️`,
-        };
+    getDescription(translation: Translation) {
+        return translation.exceptions.unparsable(this.unparsable);
     }
 }

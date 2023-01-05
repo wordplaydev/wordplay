@@ -1,8 +1,6 @@
-import type Context from '../nodes/Context';
 import type Previous from '../nodes/Previous';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
 import type Type from '../nodes/Type';
+import type Translation from '../translations/Translation';
 import Conflict from './Conflict';
 
 export class NotAStreamIndex extends Conflict {
@@ -20,12 +18,11 @@ export class NotAStreamIndex extends Conflict {
         return { primary: this.previous.index, secondary: [] };
     }
 
-    getPrimaryExplanation(context: Context): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: `This has to be number, but it's a ${
-                this.indexType.getDescriptions(context).eng
-            }`,
-        };
+    getPrimaryExplanation(translation: Translation) {
+        return translation.conflict.NotAStreamIndex.primary(this.indexType);
+    }
+
+    getSecondaryExplanation() {
+        return undefined;
     }
 }

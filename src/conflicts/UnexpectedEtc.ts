@@ -1,7 +1,6 @@
 import type Bind from '../nodes/Bind';
 import type Token from '../nodes/Token';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
+import type Translation from '../translations/Translation';
 import Conflict from './Conflict';
 
 export default class UnexpectedEtc extends Conflict {
@@ -17,10 +16,11 @@ export default class UnexpectedEtc extends Conflict {
         return { primary: this.etc, secondary: [] };
     }
 
-    getPrimaryExplanation(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: `Variable length only applies to evaluations, they can't go here.`,
-        };
+    getPrimaryExplanation(translation: Translation) {
+        return translation.conflict.UnexpectedEtc.primary();
+    }
+
+    getSecondaryExplanation() {
+        return undefined;
     }
 }

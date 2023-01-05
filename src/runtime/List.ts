@@ -7,13 +7,12 @@ import Primitive from './Primitive';
 import type Value from './Value';
 import UnionType from '../nodes/UnionType';
 import type Context from '../nodes/Context';
-import { TRANSLATE } from '../nodes/Translations';
-import type LanguageCode from '../nodes/LanguageCode';
-import type Translations from '../nodes/Translations';
-import Names from '../nodes/Names';
+import type LanguageCode from '../translations/LanguageCode';
 import type Node from '../nodes/Node';
-import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from '../parser/Tokenizer';
+import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from '../parser/Symbols';
 import type { NativeTypeName } from '../native/NativeConstants';
+import type Translation from '../translations/Translation';
+import { getNameTranslations } from '../translations/getNameTranslations';
 
 export default class List extends Primitive {
     readonly values: Value[] = [];
@@ -130,10 +129,10 @@ export default class List extends Primitive {
             .map((value) => value.toWordplay(languages))
             .join(' ')}${LIST_CLOSE_SYMBOL}`;
     }
+
+    getDescription(translation: Translation) {
+        return translation.data.list;
+    }
 }
 
-const OutOfBounds: Translations = {
-    eng: 'outofbounds',
-    '😀': TRANSLATE,
-};
-const OutOfBoundsNames = Names.make(OutOfBounds);
+const OutOfBoundsNames = getNameTranslations((t) => t.native.list.outofbounds);

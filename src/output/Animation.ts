@@ -1,7 +1,6 @@
 import Decimal from 'decimal.js';
 import type Project from '../models/Project';
-import type LanguageCode from '../nodes/LanguageCode';
-import { selectTranslation } from '../nodes/Translations';
+import type LanguageCode from '../translations/LanguageCode';
 import Measurement from '../runtime/Measurement';
 import Color from './Color';
 import type { RenderContext } from './Group';
@@ -756,10 +755,7 @@ export class Animations {
                         this.verse.focus
                     )
                 );
-                view.innerHTML = selectTranslation(
-                    renderedPhrase.getDescriptions(),
-                    this.languages
-                );
+                view.innerHTML = renderedPhrase.getDescription(this.languages);
             }
         }
     }

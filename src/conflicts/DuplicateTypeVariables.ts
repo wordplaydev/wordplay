@@ -1,7 +1,6 @@
 import Conflict from './Conflict';
 import type TypeVariable from '../nodes/TypeVariable';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
+import type Translation from '../translations/Translation';
 
 export default class DuplicateTypeVariables extends Conflict {
     readonly duplicates: TypeVariable[];
@@ -19,12 +18,13 @@ export default class DuplicateTypeVariables extends Conflict {
         };
     }
 
-    getPrimaryExplanation(): Translations {
-        return {
-            eng: `Duplicate type variables ${this.duplicates.map((dupe) =>
-                dupe.toWordplay()
-            )}.`,
-            '😀': TRANSLATE,
-        };
+    getPrimaryExplanation(translation: Translation) {
+        return translation.conflict.DuplicateTypeVariables.primary(
+            this.duplicates
+        );
+    }
+
+    getSecondaryExplanation(translation: Translation) {
+        return translation.conflict.DuplicateTypeVariables.secondary();
     }
 }

@@ -1,6 +1,5 @@
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
 import type Type from '../nodes/Type';
+import type Translation from '../translations/Translation';
 import type Evaluation from './Evaluation';
 import type Evaluator from './Evaluator';
 import Exception from './Exception';
@@ -21,10 +20,7 @@ export default class TypeException extends Exception {
         this.received = received;
     }
 
-    getExplanations(): Translations {
-        return {
-            eng: `${this.step?.node.toWordplay()} expected ${this.expected.toWordplay()}, received ${this.received?.toString()}`,
-            '😀': `${TRANSLATE} ${this.expected.toWordplay()} ≠ ${this.received?.toString()}`,
-        };
+    getDescription(translation: Translation) {
+        return translation.exceptions.type(this.expected);
     }
 }

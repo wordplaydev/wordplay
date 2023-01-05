@@ -1,5 +1,5 @@
 === WhatWord
-↓ ⌨️
+↓ keyboard
 ↓ words
 `The game state is a list of guesses and a secret word.`/eng
 `El estado del juego es una lista de conjeturas y una palabra secreta.`/spa
@@ -19,31 +19,31 @@ start/eng,🟢/😀: Game([] "")
 `Cuando cambia el estado del teclado, cambia el estado del juego.`/spa
 `⌨️ + 🤔 + 🤫 → ⚽️`/😀
 state/eng,⚽️/😀•Game: start …
-    ⌨️.key = "Escape" ? start
-    (state.status ≠ "playing") & (⌨️.key = " ") & ⌨️.down ? Game([] words.random())
-    (state.status = "playing") & ⌨️.down & (⌨️.key.length() = 1) & ~state.guesses.has(⌨️.key) ? 
-      Game(state.guesses.add(⌨️.key) state.secret)
+    keyboard.key = "Escape" ? start
+    (state.status ≠ "playing") & (keyboard.key = " ") & keyboard.down ? Game([] words.random())
+    (state.status = "playing") & keyboard.down & (keyboard.key.length() = 1) & ~state.guesses.has(keyboard.key) ? 
+      Game(state.guesses.add(keyboard.key) state.secret)
       state
 
 `The board is a translation of the secret, accounting for guesses`/eng
 `El tablero es una traducción del secreto, teniendo en cuenta las conjeturas.`/spa
 `🤔 + 🤫 → 🔤`/😀
-board/eng,🔤/😀: 💬(
+board/eng,🔤/😀: Phrase(
   state.secret→[""].translate(ƒ(letter•"") ((state.status = "lost") | state.guesses.has(letter)) ? letter ".").join(' ') 
   2m
 )
 
-screen: state.status = "start" ? ⬇(💬(["What***Word***"/eng "???"/😀] 3m) 💬("Press ***space*** to begin"))
-state.status = "lost" ?  ⬇(board 💬("You lost. Press **space** to play again."))
-state.status = "won" ?   ⬇(board 💬("You won, nice job! Press space to play again."))
-                         ⬇(
+screen: state.status = "start" ? Stack(Phrase(["What***Word***"/eng "???"/😀] 3m) Phrase("Press ***space*** to begin"))
+state.status = "lost" ?  Stack(board Phrase("You lost. Press **space** to play again."))
+state.status = "won" ?   Stack(board Phrase("You won, nice job! Press space to play again."))
+                         Stack(
                             board 
-                            💬(state.guesses.length() = 0 ? "Type a letter to guess" "Guesses: \state.guesses.join(' ')\")
-                            💬("\state.guessesRemaining→''\ remaining")
+                            Phrase(state.guesses.length() = 0 ? "Type a letter to guess" "Guesses: \state.guesses.join(' ')\")
+                            Phrase("\state.guessesRemaining→''\ remaining")
                           )
 
 `Create a world with the screen in it`/eng
-🌎(screen "Poor Story" 🌈(100% 0 0°) 🌈(0% 0 0°))
+Verse(screen "Poor Story" Color(100% 0 0°) Color(0% 0 0°))
 
 === words
 `These are the secret words. Don't tell anyone!`/eng

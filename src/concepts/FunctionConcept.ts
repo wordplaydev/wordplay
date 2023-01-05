@@ -3,7 +3,7 @@ import type Context from '../nodes/Context';
 import Evaluate from '../nodes/Evaluate';
 import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
 import type FunctionDefinition from '../nodes/FunctionDefinition';
-import type LanguageCode from '../nodes/LanguageCode';
+import type LanguageCode from '../translations/LanguageCode';
 import type Node from '../nodes/Node';
 import PropertyReference from '../nodes/PropertyReference';
 import Reference from '../nodes/Reference';

@@ -1,7 +1,6 @@
 import type Convert from '../nodes/Convert';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
 import type Type from '../nodes/Type';
+import type Translation from '../translations/Translation';
 import Conflict from './Conflict';
 
 export class UnknownConversion extends Conflict {
@@ -18,10 +17,14 @@ export class UnknownConversion extends Conflict {
         return { primary: this.convert.type, secondary: [] };
     }
 
-    getPrimaryExplanation(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: `There's no conversion from this to this type.`,
-        };
+    getPrimaryExplanation(translation: Translation) {
+        return translation.conflict.UnknownConversion.primary({
+            in: this.expectedType,
+            out: this.convert.type,
+        });
+    }
+
+    getSecondaryExplanation() {
+        return undefined;
     }
 }

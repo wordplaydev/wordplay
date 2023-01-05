@@ -1,17 +1,14 @@
 <svelte:options immutable={true} />
 
 <script lang="ts">
-    import { languages } from '../models/languages';
+    import { translations } from '../translations/translations';
     import { examples, makeProject, type Stuff } from '../examples/examples';
     import { updateProject } from '../models/stores';
-    import type LanguageCode from '../nodes/LanguageCode';
-    import {
-        languageCodeToLanguage,
-        SupportedLanguages,
-    } from '../nodes/LanguageCode';
+    import SupportedTranslations from '../translations/SupportedTranslations';
+    import type Translation from '../translations/Translation';
 
     let example: Stuff;
-    let language: LanguageCode;
+    let language: Translation;
 
     let collapsed = true;
 
@@ -20,7 +17,7 @@
     }
 
     function changeLanguage() {
-        languages.set([language]);
+        translations.set([language]);
     }
 
     function show() {
@@ -50,8 +47,10 @@
             {/each}
         </select>
         <select bind:value={language} on:change={changeLanguage}>
-            {#each SupportedLanguages as lang}
-                <option value={lang}>{languageCodeToLanguage[lang]}</option>
+            {#each SupportedTranslations as translation}
+                <option value={translation}
+                    >{`${translation.language}#${translation.style}`}</option
+                >
             {/each}
         </select>
     {/if}

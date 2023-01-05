@@ -8,20 +8,18 @@ import Finish from '../runtime/Finish';
 import Start from '../runtime/Start';
 import type Context from './Context';
 import type Bind from './Bind';
-import { NOT_SYMBOL } from '../parser/Tokenizer';
+import { NOT_SYMBOL } from '../parser/Symbols';
 import type TypeSet from './TypeSet';
 import FunctionException from '../runtime/FunctionException';
 import FunctionDefinition from './FunctionDefinition';
 import NotAFunction from '../conflicts/NotAFunction';
 import Evaluation from '../runtime/Evaluation';
-import type Translations from './Translations';
-import { TRANSLATE, WRITE } from './Translations';
-import type LanguageCode from './LanguageCode';
 import getConcreteExpectedType from './Generics';
 import type Value from '../runtime/Value';
 import UnknownNameType from './UnknownNameType';
-import Action from '../runtime/Action';
 import type { Replacement } from './Node';
+import type Translation from '../translations/Translation';
+import StartEvaluation from '../runtime/StartEvaluation';
 
 export default class UnaryOperation extends Expression {
     readonly operator: Token;
@@ -111,14 +109,7 @@ export default class UnaryOperation extends Expression {
         return [
             new Start(this),
             ...this.operand.compile(context),
-            new Action(
-                this,
-                {
-                    eng: 'Start evaluating the operator',
-                    '😀': WRITE,
-                },
-                (evaluator) => this.startEvaluation(evaluator)
-            ),
+            new StartEvaluation(this),
             new Finish(this),
         ];
     }
@@ -181,25 +172,6 @@ export default class UnaryOperation extends Expression {
         return original.difference(possible, context);
     }
 
-    getDescriptions(context: Context): Translations {
-        const descriptions: Translations = {
-            '😀': TRANSLATE,
-            eng: 'Evaluate an unknown unary on a value',
-        };
-
-        // Find the function on the left's type.
-        const fun = this.getFunction(context);
-        if (fun && fun.docs) {
-            for (const doc of fun.docs.docs) {
-                const lang = doc.getLanguage();
-                if (lang !== undefined)
-                    descriptions[lang as LanguageCode] = doc.docs.getText();
-            }
-        }
-
-        return descriptions;
-    }
-
     getStart() {
         return this.operator;
     }
@@ -207,17 +179,19 @@ export default class UnaryOperation extends Expression {
         return this.operator;
     }
 
-    getStartExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'First we evaluate the operand.',
-        };
+    getDescription(translation: Translation, context: Context) {
+        // Find the function on the left's type.
+        const fun = this.getFunction(context);
+        return fun && fun.docs
+            ? fun.docs.getTranslation([translation.language])
+            : translation.expressions.UnaryOperation.description;
     }
 
-    getFinishExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'Now that we have the operand, we operate on it.',
-        };
+    getStartExplanations(translation: Translation) {
+        return translation.expressions.UnaryOperation.start;
+    }
+
+    getFinishExplanations(translation: Translation) {
+        return translation.expressions.UnaryOperation.finish;
     }
 }

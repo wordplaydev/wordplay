@@ -1,12 +1,11 @@
 import type { NativeTypeName } from '../native/NativeConstants';
-import { TEXT_SYMBOL } from '../parser/Tokenizer';
+import { TEXT_SYMBOL } from '../parser/Symbols';
+import type Translation from '../translations/Translation';
 import Language from './Language';
 import NativeType from './NativeType';
 import type { Replacement } from './Node';
 import Token from './Token';
 import TokenType from './TokenType';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import type TypeSet from './TypeSet';
 
 /** Any string or a specific string, depending on whether the given token is an empty text literal. */
@@ -75,10 +74,7 @@ export default class TextType extends NativeType {
         return 'text';
     }
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'a text type',
-        };
+    getDescription(translation: Translation) {
+        return translation.types.TextType.description;
     }
 }

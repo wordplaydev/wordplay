@@ -2,16 +2,12 @@ import Node, { type Replacement } from './Node';
 import Token from './Token';
 import type Conflict from '../conflicts/Conflict';
 import Language from './Language';
-import type LanguageCode from './LanguageCode';
+import type LanguageCode from '../translations/LanguageCode';
 import NameToken from './NameToken';
 import PlaceholderToken from './PlaceholderToken';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
-
-export const NameLabels: Translations = {
-    '😀': TRANSLATE,
-    eng: 'name',
-};
+import type Translation from '../translations/Translation';
+import { NAME_SEPARATOR_SYMBOL } from '../parser/Symbols';
+import TokenType from './TokenType';
 
 export default class Name extends Node {
     readonly separator?: Token;
@@ -28,10 +24,11 @@ export default class Name extends Node {
         this.computeChildren();
     }
 
-    static make(name?: string) {
+    static make(name?: string, lang?: Language) {
         return new Name(
             undefined,
-            name ? new NameToken(name) : new PlaceholderToken()
+            name ? new NameToken(name) : new PlaceholderToken(),
+            lang
         );
     }
 
@@ -53,6 +50,16 @@ export default class Name extends Node {
 
     computeConflicts(): Conflict[] {
         return [];
+    }
+
+    withSeparator(): Name {
+        return this.separator !== undefined
+            ? this
+            : new Name(
+                  new Token(NAME_SEPARATOR_SYMBOL, TokenType.NAME_SEPARATOR),
+                  this.name,
+                  this.lang
+              );
     }
 
     getName(): string | undefined {
@@ -83,14 +90,7 @@ export default class Name extends Node {
         );
     }
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'A name',
-        };
-    }
-
-    getChildPlaceholderLabel(child: Node): Translations | undefined {
-        if (child === this.name) return NameLabels;
+    getDescription(translation: Translation) {
+        return translation.nodes.Name.description;
     }
 }

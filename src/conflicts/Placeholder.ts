@@ -1,7 +1,6 @@
 import type ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
 import type TypePlaceholder from '../nodes/TypePlaceholder';
+import type Translation from '../translations/Translation';
 import Conflict from './Conflict';
 
 export default class Placeholder extends Conflict {
@@ -16,10 +15,11 @@ export default class Placeholder extends Conflict {
         return { primary: this.placeholder, secondary: [] };
     }
 
-    getPrimaryExplanation(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: `Don't forget to replace his with some code!`,
-        };
+    getPrimaryExplanation(translation: Translation) {
+        return translation.conflict.Placeholder.primary();
+    }
+
+    getSecondaryExplanation() {
+        return undefined;
     }
 }

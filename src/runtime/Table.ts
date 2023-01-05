@@ -1,10 +1,11 @@
 import type { NativeTypeName } from '../native/NativeConstants';
-import type LanguageCode from '../nodes/LanguageCode';
+import type LanguageCode from '../translations/LanguageCode';
 import type TableLiteral from '../nodes/TableLiteral';
 import TableType from '../nodes/TableType';
-import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '../parser/Tokenizer';
+import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '../parser/Symbols';
 import type Exception from './Exception';
 import Value from './Value';
+import type Translation from '../translations/Translation';
 
 export default class Table extends Value {
     readonly literal: TableLiteral;
@@ -42,5 +43,9 @@ export default class Table extends Value {
         return `${this.literal.type.columns
             .map((c) => (c ? c.names.getTranslation(languages) : ''))
             .join(TABLE_OPEN_SYMBOL)}${TABLE_CLOSE_SYMBOL}`;
+    }
+
+    getDescription(translation: Translation) {
+        return translation.data.table;
     }
 }

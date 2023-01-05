@@ -1,5 +1,5 @@
 import type Conflict from '../conflicts/Conflict';
-import Expression from './Expression';
+import type Expression from './Expression';
 import Token from './Token';
 import Type from './Type';
 import type Node from './Node';
@@ -13,19 +13,14 @@ import type TypeSet from './TypeSet';
 import UnparsableException from '../runtime/UnparsableException';
 import type Evaluator from '../runtime/Evaluator';
 import UnimplementedException from '../runtime/UnimplementedException';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import PlaceholderToken from './PlaceholderToken';
 import UnimplementedType from './UnimplementedType';
 import TypeToken from './TypeToken';
 import type { Replacement } from './Node';
+import type Translation from '../translations/Translation';
+import AtomicExpression from './AtomicExpression';
 
-const ExpressionLabels: Translations = {
-    '😀': TRANSLATE,
-    eng: 'value',
-};
-
-export default class ExpressionPlaceholder extends Expression {
+export default class ExpressionPlaceholder extends AtomicExpression {
     readonly placeholder: Token;
     readonly dot: Token | undefined;
     readonly type: Type | undefined;
@@ -55,7 +50,29 @@ export default class ExpressionPlaceholder extends Expression {
 
     getGrammar() {
         return [
-            { name: 'placeholder', types: [Token] },
+            {
+                name: 'placeholder',
+                types: [Token],
+                label: (
+                    translation: Translation,
+                    _: Node,
+                    context: Context
+                ) => {
+                    const parent: Node | undefined = context
+                        .get(this)
+                        ?.getParent();
+                    // See if the parent has a label.
+                    return (
+                        parent?.getChildPlaceholderLabel(
+                            this,
+                            translation,
+                            context
+                        ) ??
+                        translation.expressions.ExpressionPlaceholder
+                            .placeholder
+                    );
+                },
+            },
             { name: 'dot', types: [Token, undefined] },
             { name: 'type', types: [Type, undefined] },
         ];
@@ -88,7 +105,7 @@ export default class ExpressionPlaceholder extends Expression {
     compile(): Step[] {
         return [
             new Halt(
-                (evaluator) => new UnimplementedException(evaluator),
+                (evaluator) => new UnimplementedException(evaluator, this),
                 this
             ),
         ];
@@ -111,27 +128,6 @@ export default class ExpressionPlaceholder extends Expression {
         return current;
     }
 
-    getChildPlaceholderLabel(
-        child: Node,
-        context: Context
-    ): Translations | undefined {
-        if (child === this.placeholder) {
-            const parent = context.get(this)?.getParent();
-            // See if the parent has a label.
-            return (
-                parent?.getChildPlaceholderLabel(this, context) ??
-                ExpressionLabels
-            );
-        }
-    }
-
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'An expression placeholder',
-        };
-    }
-
     getStart() {
         return this.placeholder;
     }
@@ -139,17 +135,16 @@ export default class ExpressionPlaceholder extends Expression {
         return this.placeholder;
     }
 
-    getStartExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: "Can't evaluate a placeholder.",
-        };
+    getDescription(translation: Translation, context: Context) {
+        return this.type
+            ? this.type.getDescription(translation, context)
+            : translation.expressions.ExpressionPlaceholder.description(
+                  this,
+                  translation,
+                  context
+              );
     }
-
-    getFinishExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: "Can't evaluate a placeholder.",
-        };
+    getStartExplanations(translation: Translation) {
+        return translation.expressions.ExpressionPlaceholder.start;
     }
 }

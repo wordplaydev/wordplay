@@ -1,7 +1,7 @@
 <script lang="ts">
     import CodeView from './CodeView.svelte';
     import type BindConcept from '../concepts/BindConcept';
-    import { languages } from '../models/languages';
+    import { translations } from '../translations/translations';
     import { getPaletteIndex } from '../editor/util/Contexts';
     import parseRichText from '../output/parseRichText';
 
@@ -22,7 +22,9 @@
     </p>
     {#if bind.docs}
         <p>
-            {@html parseRichText(concept.getDescription($languages)).toHTML()}
+            {@html parseRichText(
+                concept.getDescription($translations[0])
+            ).toHTML()}
         </p>
     {/if}
 </section>

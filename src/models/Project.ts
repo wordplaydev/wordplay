@@ -137,7 +137,7 @@ export default class Project {
 
     getNodeContext(node: Node) {
         const source = this.getSourceOf(node);
-        return source === undefined ? undefined : this.getContext(source);
+        return this.getContext(source ?? this.main);
     }
 
     getSourceOf(node: Node) {

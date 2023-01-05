@@ -1,6 +1,5 @@
 import type Row from '../nodes/Row';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
+import type Translation from '../translations/Translation';
 import Conflict from './Conflict';
 
 export default class InvalidRow extends Conflict {
@@ -15,10 +14,11 @@ export default class InvalidRow extends Conflict {
         return { primary: this.row, secondary: [] };
     }
 
-    getPrimaryExplanation(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: `Inserted rows have to either include every column or every cell has to be named.`,
-        };
+    getPrimaryExplanation(translation: Translation) {
+        return translation.conflict.InvalidRow.primary();
+    }
+
+    getSecondaryExplanation() {
+        return undefined;
     }
 }

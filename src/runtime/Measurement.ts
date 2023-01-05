@@ -9,6 +9,7 @@ import MeasurementType from '../nodes/MeasurementType';
 import type Value from './Value';
 import type Node from '../nodes/Node';
 import type { NativeTypeName } from '../native/NativeConstants';
+import type Translation from '../translations/Translation';
 
 /** A decimal number with a unit.
  * If all of it's parts are empty, it is not a number.
@@ -195,6 +196,10 @@ export default class Measurement extends Primitive {
 
     toWordplay(): string {
         return `${this.num.toString()}${this.unit.toString()}`;
+    }
+
+    getDescription(translation: Translation) {
+        return translation.data.measurement;
     }
 }
 

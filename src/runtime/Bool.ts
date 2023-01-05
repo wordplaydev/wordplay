@@ -1,12 +1,14 @@
 import type { NativeTypeName } from '../native/NativeConstants';
 import BooleanType from '../nodes/BooleanType';
 import type UnaryOperation from '../nodes/UnaryOperation';
-import { FALSE_SYMBOL, NOT_SYMBOL, TRUE_SYMBOL } from '../parser/Tokenizer';
+import { FALSE_SYMBOL, TRUE_SYMBOL } from '../parser/Symbols';
+import { NOT_SYMBOL } from '../parser/Symbols';
 import type Evaluator from './Evaluator';
 import FunctionException from './FunctionException';
 import Primitive from './Primitive';
 import type Value from './Value';
 import type Node from '../nodes/Node';
+import type Translation from '../translations/Translation';
 
 export default class Bool extends Primitive {
     readonly bool: boolean;
@@ -60,5 +62,9 @@ export default class Bool extends Primitive {
 
     isEqualTo(val: Value) {
         return val instanceof Bool && this.bool === val.bool;
+    }
+
+    getDescription(translation: Translation) {
+        return translation.data.boolean;
     }
 }

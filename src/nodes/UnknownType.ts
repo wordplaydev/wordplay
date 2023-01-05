@@ -1,7 +1,8 @@
 import type { NativeTypeName } from '../native/NativeConstants';
+import type Translation from '../translations/Translation';
+import type { Description } from '../translations/Translation';
+import type Context from './Context';
 import type Node from './Node';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import Type from './Type';
 
 export default abstract class UnknownType<
@@ -20,10 +21,13 @@ export default abstract class UnknownType<
     getGrammar() {
         return [];
     }
+
     computeConflicts() {}
+
     acceptsAll() {
         return false;
     }
+
     getNativeTypeName(): NativeTypeName {
         return 'unknown';
     }
@@ -44,14 +48,13 @@ export default abstract class UnknownType<
         ];
     }
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: `unknown, because ${this.getReasons()
-                .map((unknown) => unknown.getReason().eng)
-                .join(', because ')}`,
-        };
+    getDescription(translation: Translation, context: Context): Description {
+        return translation.types.UnknownType.description(
+            this,
+            translation,
+            context
+        );
     }
 
-    abstract getReason(): Translations;
+    abstract getReason(translation: Translation, context: Context): Description;
 }

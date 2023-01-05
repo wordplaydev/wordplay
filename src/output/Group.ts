@@ -1,16 +1,17 @@
 import type Decimal from 'decimal.js';
 import toStructure from '../native/toStructure';
-import type LanguageCode from '../nodes/LanguageCode';
-import type Translations from '../nodes/Translations';
+import type LanguageCode from '../translations/LanguageCode';
 import type Value from '../runtime/Value';
 import type Color from './Color';
 import Output from './Output';
 import type Phrase from './Phrase';
 import type Place from './Place';
 import type Animation from './Animation';
+import { getBind } from '../translations/getBind';
+import { TYPE_SYMBOL } from '../parser/Symbols';
 
 export const GroupType = toStructure(`
-    •Group/eng,▣/😀()
+    ${getBind((t) => t.output.group.definition, TYPE_SYMBOL)}()
 `);
 
 export default abstract class Group extends Output {
@@ -30,7 +31,7 @@ export default abstract class Group extends Output {
     abstract getPlaces(context: RenderContext): [Group, Place][];
 
     abstract getBackground(): Color | undefined;
-    abstract getDescriptions(): Translations;
+    abstract getDescription(languages: LanguageCode[]): string;
 }
 
 export type RenderContext = {

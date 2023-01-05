@@ -1,4 +1,3 @@
-import type Translations from '../nodes/Translations';
 import ExceptionType from '../nodes/ExceptionType';
 import Primitive from './Primitive';
 import type Step from './Step';
@@ -17,8 +16,6 @@ export default abstract class Exception extends Primitive {
     isEqualTo(): boolean {
         return false;
     }
-
-    abstract getExplanations(): Translations;
 
     getType() {
         return new ExceptionType(this);

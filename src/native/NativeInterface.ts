@@ -17,4 +17,7 @@ export default interface NativeInterface {
     getStructureDefinition(kind: string): StructureDefinition | undefined;
     getAllStructureDefinitions(): StructureDefinition[];
     getStructureDefinitionTrees(): Tree[];
+    getSetDefinition(): StructureDefinition;
+    getListDefinition(): StructureDefinition;
+    getMapDefinition(): StructureDefinition;
 }

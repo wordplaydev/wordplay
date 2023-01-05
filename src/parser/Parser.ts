@@ -1,4 +1,5 @@
-import { EXPONENT_SYMBOL, PRODUCT_SYMBOL, tokenize } from './Tokenizer';
+import { tokenize } from './Tokenizer';
+import { EXPONENT_SYMBOL, PRODUCT_SYMBOL } from './Symbols';
 import type Node from '../nodes/Node';
 import Token from '../nodes/Token';
 import TokenType from '../nodes/TokenType';

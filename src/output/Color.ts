@@ -4,12 +4,14 @@ import type Value from '../runtime/Value';
 import Output from './Output';
 import { toDecimal } from './Verse';
 import ColorJS from 'colorjs.io';
+import { TYPE_SYMBOL } from '../parser/Symbols';
+import { getBind } from '../translations/getBind';
 
 export const ColorType = toStructure(`
-    •Color/eng,🌈/😀(
-        lightness/eng,l/😀•%
-        chroma/eng,c/😀•#
-        hue/eng,h/😀•#°
+    ${getBind((t) => t.output.color.definition, TYPE_SYMBOL)}(
+        ${getBind((t) => t.output.color.lightness)}•%
+        ${getBind((t) => t.output.color.chroma)}•#
+        ${getBind((t) => t.output.color.hue)}•#°
     )
 `);
 

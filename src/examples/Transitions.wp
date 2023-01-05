@@ -1,10 +1,10 @@
 === Mumble
-↓ 🖱
+↓ mousebutton
 
-clicks•#: 0 … clicks + (🖱 ? 1 0)
+clicks•#: 0 … clicks + (mousebutton ? 1 0)
 
 clicks < 5 ?
-    💬(
+    Phrase(
         "Mumble" 
         size: (clicks + 1) ·1m
         name: "mum"
@@ -19,4 +19,4 @@ clicks < 5 ?
             Pose(0.5s size: 200m)
         )
     )
-    💬("done")
+    Phrase("done")

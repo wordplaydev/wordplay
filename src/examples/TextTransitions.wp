@@ -1,11 +1,11 @@
 === Text Transitions
-↓ ⌨️
-↓ ⚁
+↓ keyboard
+↓ random
 
 text: [ "boomy" "boom boom" "boooooomy" "boomymcboomface" "moooey" ]
-choice: text[1] … ⌨️.down ? text.random() choice
+choice: text[1] … keyboard.down ? text.random() choice
 
-💬(
+Phrase(
     choice
     name: "word"
     size: 4m

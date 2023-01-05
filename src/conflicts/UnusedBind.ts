@@ -1,7 +1,6 @@
 import type Bind from '../nodes/Bind';
 import Conflict from './Conflict';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
+import type Translation from '../translations/Translation';
 
 export default class UnusedBind extends Conflict {
     readonly bind: Bind;
@@ -16,12 +15,11 @@ export default class UnusedBind extends Conflict {
         return { primary: this.bind.names, secondary: [] };
     }
 
-    getPrimaryExplanation(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: `No one use using ${
-                this.bind.getNames().length === 1 ? 'me' : 'us'
-            } :(`,
-        };
+    getPrimaryExplanation(translation: Translation) {
+        return translation.conflict.UnusedBind.primary();
+    }
+
+    getSecondaryExplanation() {
+        return undefined;
     }
 }

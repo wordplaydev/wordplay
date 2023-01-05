@@ -7,7 +7,6 @@ import Evaluation, {
 import ReactionStream from './ReactionStream';
 import type Stream from './Stream';
 import Value from './Value';
-import EvaluationException, { StackSize } from './EvaluationException';
 import Exception from './Exception';
 import ValueException from './ValueException';
 import type Type from '../nodes/Type';
@@ -30,6 +29,8 @@ import NameException from './NameException';
 import { MAX_STREAM_LENGTH } from './Stream';
 import Start from './Start';
 import Finish from './Finish';
+import EvaluationLimitException from './EvaluationLimitException';
+import StepLimitException from './StepLimitException';
 
 /** Anything that wants to listen to changes in the state of this evaluator */
 export type EvaluationObserver = () => void;
@@ -522,10 +523,10 @@ export default class Evaluator {
         const value =
             // If it seems like we're stuck in an infinite (recursive) loop, halt.
             this.evaluations.length > MAX_CALL_STACK_DEPTH
-                ? new EvaluationException(StackSize.FULL, this)
+                ? new EvaluationLimitException(this, evaluation.getCreator())
                 : // If it seems like we're evaluating something very time consuming, halt.
                 this.#latestStepCount > MAX_STEP_COUNT
-                ? new EvaluationException(StackSize.LONG, this)
+                ? new StepLimitException(this, evaluation.getCreator())
                 : // Otherwise, step the current evaluation and get it's value
                   evaluation.step(this);
 
@@ -769,14 +770,14 @@ export default class Evaluator {
     peekValue(): Value {
         return this.evaluations.length > 0
             ? this.evaluations[0].peekValue()
-            : new ValueException(this);
+            : new ValueException(this, this.project.main);
     }
 
     /** Get the value on the top of the stack. */
     popValue(expected: Type | undefined): Value {
         return this.evaluations.length > 0
             ? this.evaluations[0].popValue(expected)
-            : new ValueException(this);
+            : new ValueException(this, this.project.main);
     }
 
     /** Tell the current evaluation to jump to a new instruction. */
@@ -849,7 +850,11 @@ export default class Evaluator {
     /** Resolve the given name in the current execution context. */
     resolve(name: string | Names): Value {
         return (
-            this.evaluations[0].resolve(name) ?? new NameException(name, this)
+            this.evaluations[0].resolve(name) ??
+            new NameException(
+                this.getCurrentStep()?.node ?? this.project.main,
+                this
+            )
         );
     }
 

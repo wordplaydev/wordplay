@@ -1,47 +1,45 @@
 import Token from '../nodes/Token';
 import TokenType from '../nodes/TokenType';
+import {
+    BASE_SYMBOL,
+    BIND_SYMBOL,
+    BOOLEAN_TYPE_SYMBOL,
+    BORROW_SYMBOL,
+    CHANGE_SYMBOL,
+    CONVERT_SYMBOL,
+    DOCS_SYMBOL,
+    ETC_SYMBOL,
+    EVAL_CLOSE_SYMBOL,
+    EVAL_OPEN_SYMBOL,
+    FALSE_SYMBOL,
+    FUNCTION_SYMBOL,
+    LANGUAGE_SYMBOL,
+    LIST_CLOSE_SYMBOL,
+    LIST_OPEN_SYMBOL,
+    MEASUREMENT_SYMBOL,
+    NAME_SEPARATOR_SYMBOL,
+    NEGATE_SYMBOL,
+    NONE_SYMBOL,
+    NOT_SYMBOL,
+    OR_SYMBOL,
+    PLACEHOLDER_SYMBOL,
+    PREVIOUS_SYMBOL,
+    PRODUCT_SYMBOL,
+    PROPERTY_SYMBOL,
+    SET_CLOSE_SYMBOL,
+    SET_OPEN_SYMBOL,
+    SHARE_SYMBOL,
+    STREAM_SYMBOL,
+    TABLE_CLOSE_SYMBOL,
+    TABLE_OPEN_SYMBOL,
+    TEMPLATE_SYMBOL,
+    THIS_SYMBOL,
+    TRUE_SYMBOL,
+    TYPE_CLOSE_SYMBOL,
+    TYPE_OPEN_SYMBOL,
+    TYPE_SYMBOL,
+} from './Symbols';
 import TokenList from './TokenList';
-
-export const TYPE_SYMBOL = '•';
-export const BOOLEAN_TYPE_SYMBOL = '?';
-export const TABLE_OPEN_SYMBOL = '⎡';
-export const TABLE_CLOSE_SYMBOL = '⎦';
-export const CONVERT_SYMBOL = '→';
-export const FUNCTION_SYMBOL = 'ƒ';
-export const EVAL_OPEN_SYMBOL = '(';
-export const EVAL_CLOSE_SYMBOL = ')';
-export const LANGUAGE_SYMBOL = '/';
-export const LIST_OPEN_SYMBOL = '[';
-export const LIST_CLOSE_SYMBOL = ']';
-export const SET_OPEN_SYMBOL = '{';
-export const SET_CLOSE_SYMBOL = '}';
-export const TYPE_OPEN_SYMBOL = '⸨';
-export const TYPE_CLOSE_SYMBOL = '⸩';
-export const BIND_SYMBOL = ':';
-export const NAME_SEPARATOR_SYMBOL = ',';
-export const MEASUREMENT_SYMBOL = '#';
-export const NONE_SYMBOL = 'ø';
-export const STREAM_SYMBOL = '…';
-export const CHANGE_SYMBOL = '∆';
-export const PREVIOUS_SYMBOL = '←';
-export const TEXT_SYMBOL = "''";
-export const AND_SYMBOL = '&';
-export const OR_SYMBOL = '|';
-export const NOT_SYMBOL = '~';
-export const TRUE_SYMBOL = '⊤';
-export const FALSE_SYMBOL = '⊥';
-export const PROPERTY_SYMBOL = '.';
-export const BORROW_SYMBOL = '↓';
-export const SHARE_SYMBOL = '↑';
-export const DOCS_SYMBOL = '`';
-export const PLACEHOLDER_SYMBOL = '_';
-export const ETC_SYMBOL = '…';
-export const TEMPLATE_SYMBOL = '\\';
-export const THIS_SYMBOL = '*';
-export const BASE_SYMBOL = ';';
-export const PRODUCT_SYMBOL = '·';
-export const EXPONENT_SYMBOL = '^';
-export const NEGATE_SYMBOL = '-';
 
 const RESERVED_SYMBOLS = [
     TEMPLATE_SYMBOL,

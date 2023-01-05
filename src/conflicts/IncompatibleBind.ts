@@ -1,8 +1,6 @@
-import type Context from '../nodes/Context';
 import type Expression from '../nodes/Expression';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
 import type Type from '../nodes/Type';
+import type Translation from '../translations/Translation';
 import Conflict from './Conflict';
 
 export default class IncompatibleBind extends Conflict {
@@ -22,12 +20,14 @@ export default class IncompatibleBind extends Conflict {
         return { primary: this.value, secondary: [this.expectedType] };
     }
 
-    getPrimaryExplanation(context: Context): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: `Expected ${this.expectedType.toWordplay()}, got ${
-                this.valueType.getDescriptions(context).eng
-            }`,
-        };
+    getPrimaryExplanation(translation: Translation) {
+        return translation.conflict.IncompatibleBind.primary([
+            this.expectedType,
+            this.valueType,
+        ]);
+    }
+
+    getSecondaryExplanation(translation: Translation) {
+        return translation.conflict.IncompatibleBind.secondary();
     }
 }

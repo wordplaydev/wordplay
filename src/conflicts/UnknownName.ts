@@ -1,6 +1,5 @@
 import type Token from '../nodes/Token';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
+import type Translation from '../translations/Translation';
 import Conflict from './Conflict';
 
 export class UnknownName extends Conflict {
@@ -15,10 +14,11 @@ export class UnknownName extends Conflict {
         return { primary: this.name, secondary: [] };
     }
 
-    getPrimaryExplanation(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: `I don't know who I am!`,
-        };
+    getPrimaryExplanation(translation: Translation) {
+        return translation.conflict.UnknownName.primary(this.name.getText());
+    }
+
+    getSecondaryExplanation() {
+        return undefined;
     }
 }

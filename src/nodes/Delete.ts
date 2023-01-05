@@ -17,9 +17,8 @@ import type Definition from './Definition';
 import type TypeSet from './TypeSet';
 import UnimplementedException from '../runtime/UnimplementedException';
 import type Evaluator from '../runtime/Evaluator';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import type { Replacement } from './Node';
+import type Translation from '../translations/Translation';
 
 export default class Delete extends Expression {
     readonly table: Expression;
@@ -38,11 +37,16 @@ export default class Delete extends Expression {
 
     getGrammar() {
         return [
-            { name: 'table', types: [Expression] },
+            {
+                name: 'table',
+                types: [Expression],
+                label: (translation: Translation) => translation.data.table,
+            },
             { name: 'del', types: [Token] },
             {
                 name: 'query',
                 types: [Expression],
+                label: (translation: Translation) => translation.data.query,
                 // Must be a boolean
                 getType: () => BooleanType.make(),
             },
@@ -109,7 +113,7 @@ export default class Delete extends Expression {
     }
 
     evaluate(evaluator: Evaluator): Value {
-        return new UnimplementedException(evaluator);
+        return new UnimplementedException(evaluator, this);
     }
 
     evaluateTypeSet(
@@ -125,13 +129,6 @@ export default class Delete extends Expression {
         return current;
     }
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'Delete a row from a table',
-        };
-    }
-
     getStart() {
         return this.del;
     }
@@ -139,17 +136,15 @@ export default class Delete extends Expression {
         return this.del;
     }
 
-    getStartExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'First evaluate the table.',
-        };
+    getDescription(translation: Translation) {
+        return translation.expressions.Delete.description;
     }
 
-    getFinishExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'Now make a table without the matching rows.',
-        };
+    getStartExplanations(translation: Translation) {
+        return translation.expressions.Delete.start;
+    }
+
+    getFinishExplanations(translation: Translation) {
+        return translation.expressions.Delete.finish;
     }
 }

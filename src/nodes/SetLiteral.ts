@@ -13,11 +13,10 @@ import type TypeSet from './TypeSet';
 import SetType from './SetType';
 import AnyType from './AnyType';
 import type Bind from './Bind';
-import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '../parser/Tokenizer';
+import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '../parser/Symbols';
 import TokenType from './TokenType';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import type { Replacement } from './Node';
+import type Translation from '../translations/Translation';
 
 export default class SetLiteral extends Expression {
     readonly open: Token;
@@ -119,31 +118,23 @@ export default class SetLiteral extends Expression {
         return current;
     }
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'A set of unique values',
-        };
-    }
-
     getStart() {
         return this.open;
     }
+
     getFinish() {
         return this.close ?? this.values[this.values.length - 1] ?? this.open;
     }
 
-    getStartExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'Start evaluating all the set items.',
-        };
+    getDescription(translation: Translation) {
+        return translation.expressions.SetLiteral.description;
     }
 
-    getFinishExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'Now that we have all the set items, make the set.',
-        };
+    getStartExplanations(translation: Translation) {
+        return translation.expressions.SetLiteral.start;
+    }
+
+    getFinishExplanations(translation: Translation) {
+        return translation.expressions.SetLiteral.finish;
     }
 }

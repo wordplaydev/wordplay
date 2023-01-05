@@ -1,8 +1,7 @@
 import type Node from '../nodes/Node';
-import type LanguageCode from '../nodes/LanguageCode';
-import type Translations from '../nodes/Translations';
 import type Context from '../nodes/Context';
-import { WRITE_DOCS } from '../nodes/Translations';
+import type Translation from '../translations/Translation';
+import type { Description } from '../translations/Translation';
 
 export default abstract class Conflict {
     readonly #minor: boolean;
@@ -17,17 +16,21 @@ export default abstract class Conflict {
      * but also how to position the various parties involved in the visual portrayal of the conflict.
      */
     abstract getConflictingNodes(): { primary: Node; secondary: Node[] };
-    abstract getPrimaryExplanation(context: Context): Translations;
-    getSecondaryExplanation(_: Context): Translations {
-        return WRITE_DOCS;
-    }
+
+    abstract getPrimaryExplanation(
+        translation: Translation,
+        context: Context
+    ): Description;
+
+    abstract getSecondaryExplanation(
+        translation: Translation,
+        context: Context
+    ): Description | undefined;
 
     isMinor() {
         return this.#minor;
     }
-    getExplanation(context: Context, lang: LanguageCode): string {
-        return this.getPrimaryExplanation(context)[lang];
-    }
+
     toString() {
         return this.constructor.name;
     }

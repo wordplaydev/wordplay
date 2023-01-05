@@ -2,8 +2,10 @@ import type Context from '../nodes/Context';
 import type Type from '../nodes/Type';
 import type Evaluator from './Evaluator';
 import type Node from '../nodes/Node';
-import type LanguageCode from '../nodes/LanguageCode';
+import type LanguageCode from '../translations/LanguageCode';
 import type { NativeTypeName } from '../native/NativeConstants';
+import type Translation from '../translations/Translation';
+import type { Description } from '../translations/Translation';
 
 /** Used to uniquely distinguish values. */
 let VALUE_ID = 0;
@@ -32,4 +34,6 @@ export default abstract class Value {
     abstract resolve(name: string, evaluator?: Evaluator): Value | undefined;
 
     abstract isEqualTo(value: Value): boolean;
+
+    abstract getDescription(translation: Translation): Description;
 }

@@ -1,10 +1,9 @@
 import type Evaluate from '../nodes/Evaluate';
 import Conflict from './Conflict';
 import type Bind from '../nodes/Bind';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
 import type StructureDefinition from '../nodes/StructureDefinition';
 import type FunctionDefinition from '../nodes/FunctionDefinition';
+import type Translation from '../translations/Translation';
 
 export default class UnknownInput extends Conflict {
     readonly func: FunctionDefinition | StructureDefinition;
@@ -27,10 +26,11 @@ export default class UnknownInput extends Conflict {
         return { primary: this.given.names, secondary: [] };
     }
 
-    getPrimaryExplanation(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: `This given input doesn't correspond to any of this function's inputs.`,
-        };
+    getPrimaryExplanation(translation: Translation) {
+        return translation.conflict.UnknownInput.primary();
+    }
+
+    getSecondaryExplanation() {
+        return undefined;
     }
 }

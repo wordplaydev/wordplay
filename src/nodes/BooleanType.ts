@@ -1,12 +1,12 @@
 import Token from './Token';
 import TokenType from './TokenType';
-import { BOOLEAN_TYPE_SYMBOL } from '../parser/Tokenizer';
+import { BOOLEAN_TYPE_SYMBOL } from '../parser/Symbols';
 import NativeType from './NativeType';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import type TypeSet from './TypeSet';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type { Replacement } from './Node';
+import type Translation from '../translations/Translation';
+import type { Description } from '../translations/Translation';
 
 export default class BooleanType extends NativeType {
     readonly type: Token;
@@ -45,10 +45,7 @@ export default class BooleanType extends NativeType {
         return 'boolean';
     }
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'a boolean',
-        };
+    getDescription(translation: Translation): Description {
+        return translation.types.BooleanType.description;
     }
 }

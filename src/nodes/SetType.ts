@@ -1,19 +1,15 @@
-import {
-    SET_TYPE_VAR_NAMES,
-    type NativeTypeName,
-} from '../native/NativeConstants';
+import type { NativeTypeName } from '../native/NativeConstants';
 import type Context from './Context';
 import NativeType from './NativeType';
 import Token from './Token';
 import Type from './Type';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import SetOpenToken from './SetOpenToken';
 import SetCloseToken from './SetCloseToken';
 import UnclosedDelimiter from '../conflicts/UnclosedDelimiter';
 import type Conflict from '../conflicts/Conflict';
 import type TypeSet from './TypeSet';
 import type { Replacement } from './Node';
+import type Translation from '../translations/Translation';
 
 export default class SetType extends NativeType {
     readonly open: Token;
@@ -75,17 +71,20 @@ export default class SetType extends NativeType {
         return 'set';
     }
 
-    resolveTypeVariable(name: string): Type | undefined {
-        return Object.values(SET_TYPE_VAR_NAMES).includes(name) &&
+    resolveTypeVariable(name: string, context: Context): Type | undefined {
+        const setDef = context.native.getSetDefinition();
+        return setDef.types !== undefined &&
+            setDef.types.hasVariableNamed(name) &&
             this.key instanceof Type
             ? this.key
             : undefined;
     }
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'A set type',
-        };
+    getDescription(translation: Translation, context: Context) {
+        return translation.types.SetType.description(
+            this,
+            translation,
+            context
+        );
     }
 }

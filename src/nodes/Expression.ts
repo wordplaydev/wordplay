@@ -4,12 +4,10 @@ import type Evaluator from '../runtime/Evaluator';
 import type Value from 'src/runtime/Value';
 import type Type from './Type';
 import type Step from 'src/runtime/Step';
-import UnknownType from './UnknownType';
 import type Bind from './Bind';
 import type TypeSet from './TypeSet';
-import type Translations from './Translations';
 import type Stream from '../runtime/Stream';
-import { TRANSLATE } from './Translations';
+import type Translation from '../translations/Translation';
 
 export default abstract class Expression extends Node {
     constructor() {
@@ -54,22 +52,12 @@ export default abstract class Expression extends Node {
     abstract getStart(): Node;
     abstract getFinish(): Node;
 
-    abstract getStartExplanations(evaluator: Evaluator): Translations;
-    abstract getFinishExplanations(evaluator: Evaluator): Translations;
-}
-
-export class CycleType extends UnknownType<Expression> {
-    readonly cycle: Node[];
-
-    constructor(expression: Expression, cycle: Node[]) {
-        super(expression, undefined);
-        this.cycle = cycle;
-    }
-
-    getReason(): Translations {
-        return {
-            eng: `${this.expression.toWordplay()} depends on itself`,
-            '😀': `${TRANSLATE} •🤔`,
-        };
-    }
+    abstract getStartExplanations(
+        translation: Translation,
+        context: Context
+    ): string;
+    abstract getFinishExplanations(
+        translation: Translation,
+        context: Context
+    ): string;
 }

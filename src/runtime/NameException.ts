@@ -1,22 +1,18 @@
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
 import Exception from './Exception';
 import type Evaluator from './Evaluator';
-import type Names from '../nodes/Names';
+import type Translation from '../translations/Translation';
+import type Node from '../nodes/Node';
 
 export default class NameException extends Exception {
-    readonly name: string | Names;
+    readonly name: Node;
 
-    constructor(name: string | Names, evaluator: Evaluator) {
+    constructor(name: Node, evaluator: Evaluator) {
         super(evaluator);
 
         this.name = name;
     }
 
-    getExplanations(): Translations {
-        return {
-            eng: `Couldn't find ${this.name}.`,
-            '😀': `${TRANSLATE} ${this.name}🤷🏻‍♀️`,
-        };
+    getDescription(translation: Translation) {
+        return translation.exceptions.name(this.name);
     }
 }

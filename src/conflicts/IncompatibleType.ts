@@ -1,9 +1,7 @@
 import Conflict from './Conflict';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
 import type Type from '../nodes/Type';
 import type Is from '../nodes/Is';
-import type Context from '../nodes/Context';
+import type Translation from '../translations/Translation';
 
 export class IncompatibleType extends Conflict {
     readonly is: Is;
@@ -19,12 +17,11 @@ export class IncompatibleType extends Conflict {
         return { primary: this.is.expression, secondary: [this.is.type] };
     }
 
-    getPrimaryExplanation(context: Context): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: `This can never be a ${this.is.type.toWordplay()}, it's a ${
-                this.givenType.getDescriptions(context).eng
-            }`,
-        };
+    getPrimaryExplanation(translation: Translation) {
+        return translation.conflict.IncompatibleType.primary(this.is.type);
+    }
+
+    getSecondaryExplanation(translation: Translation) {
+        return translation.conflict.IncompatibleType.secondary();
     }
 }

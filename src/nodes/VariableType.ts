@@ -1,6 +1,5 @@
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
+import type Translation from '../translations/Translation';
 import Type from './Type';
 import type TypeSet from './TypeSet';
 import type TypeVariable from './TypeVariable';
@@ -51,10 +50,7 @@ export default class VariableType extends Type {
         return new VariableType(this.definition) as this;
     }
 
-    getDescriptions(): Translations {
-        return {
-            eng: 'A variable type type',
-            '😀': `${TRANSLATE} •x?`,
-        };
+    getDescription(translation: Translation) {
+        return translation.types.VariableType.description;
     }
 }

@@ -1,4 +1,3 @@
-import { TRANSLATE, WRITE_DOCS } from '../nodes/Translations';
 import Structure from '../runtime/Structure';
 import type Value from '../runtime/Value';
 import Group, { type RenderContext } from './Group';
@@ -6,24 +5,28 @@ import { toFont } from './Phrase';
 import Fonts, { SupportedFontsType } from '../native/Fonts';
 import Color from './Color';
 import Place, { toPlace } from './Place';
-import type Translations from '../nodes/Translations';
 import toStructure from '../native/toStructure';
 import Measurement from '../runtime/Measurement';
 import Decimal from 'decimal.js';
 import { toGroup, toGroups } from './toGroups';
 import { toColor } from './Color';
 import List from '../runtime/List';
+import type LanguageCode from '../translations/LanguageCode';
+import { getPreferredTranslation } from '../translations/getPreferredTranslation';
+import { getBind } from '../translations/getBind';
 
 const BACKSET = -12;
 
 export const VerseType = toStructure(`
-    •Verse/eng,🌎/😀 Group(
-        groups/eng,${TRANSLATE}groups/😀•Group|[Group]
-        font/eng,${TRANSLATE}font/😀•${SupportedFontsType}: "Noto Sans"
-        foreground/eng,${TRANSLATE}fore/😀•Color: Color(0 0 0°)
-        background/eng,${TRANSLATE}back/😀•Color: Color(100 0 0°)
-        focus/eng,${TRANSLATE}focus/😀•Place: Place(0m 0m ${BACKSET}m)
-        tilt/eng,${TRANSLATE}tilt/😀•#°: 0°
+    ${getBind((t) => t.output.verse.definition, '•')} Group(
+        ${getBind((t) => t.output.verse.groups)}•Group|[Group]
+        ${getBind(
+            (t) => t.output.verse.font
+        )}•${SupportedFontsType}: "Noto Sans"
+        ${getBind((t) => t.output.verse.foreground)}•Color: Color(0 0 0°)
+        ${getBind((t) => t.output.verse.background)}•Color: Color(100 0 0°)
+        ${getBind((t) => t.output.verse.focus)}•Place: Place(0m 0m ${BACKSET}m)
+        ${getBind((t) => t.output.verse.tilt)}•#°: 0°
     )
 `);
 
@@ -88,8 +91,8 @@ export default class Verse extends Group {
         return undefined;
     }
 
-    getDescriptions(): Translations {
-        return WRITE_DOCS;
+    getDescription(languages: LanguageCode[]): string {
+        return getPreferredTranslation(languages).output.verse.description;
     }
 }
 

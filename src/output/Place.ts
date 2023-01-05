@@ -1,15 +1,15 @@
 import type Decimal from 'decimal.js';
 import toStructure from '../native/toStructure';
-import { TRANSLATE } from '../nodes/Translations';
 import type Value from '../runtime/Value';
+import { getBind } from '../translations/getBind';
 import Output from './Output';
 import { toDecimal } from './Verse';
 
 export const PlaceType = toStructure(`
-    •Place/eng,📍/😀(
-        x/eng,${TRANSLATE}x/😀•#m: 0m
-        y/eng,${TRANSLATE}y/😀•#m: 0m
-        z/eng,${TRANSLATE}z/😀•#m: 0m
+    ${getBind((t) => t.output.place.definition, '•')}(
+        ${getBind((t) => t.output.place.x)}•#m: 0m
+        ${getBind((t) => t.output.place.y)}•#m: 0m
+        ${getBind((t) => t.output.place.z)}•#m: 0m
     )
 `);
 

@@ -1,15 +1,17 @@
 import toStructure from '../native/toStructure';
+import { TYPE_SYMBOL } from '../parser/Symbols';
 import List from '../runtime/List';
 import Structure from '../runtime/Structure';
 import type Value from '../runtime/Value';
+import { getBind } from '../translations/getBind';
 import Output from './Output';
 import Pose, { toPose } from './Pose';
 import { toDecimal } from './Verse';
 
 export const SequenceType = toStructure(`
-    •Sequence/eng(
-        count/eng•#x
-        poses/eng…•Pose|Sequence
+    ${getBind((t) => t.output.sequence.definition, TYPE_SYMBOL)}(
+        ${getBind((t) => t.output.sequence.count)}•#x
+        ${getBind((t) => t.output.sequence.poses)}…•Pose|Sequence
     )
 `);
 

@@ -2,8 +2,7 @@ import Expression from './Expression';
 import Node, { type Replacement } from './Node';
 import Token from './Token';
 import BindToken from './BindToken';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
+import type Translation from '../translations/Translation';
 
 export default class KeyValue extends Node {
     readonly key: Expression;
@@ -22,9 +21,17 @@ export default class KeyValue extends Node {
 
     getGrammar() {
         return [
-            { name: 'key', types: [Expression] },
+            {
+                name: 'key',
+                types: [Expression],
+                label: (translation: Translation) => translation.data.key,
+            },
             { name: 'bind', types: [Token] },
-            { name: 'value', types: [Expression] },
+            {
+                name: 'value',
+                types: [Expression],
+                label: (translation: Translation) => translation.data.value,
+            },
         ];
     }
 
@@ -38,10 +45,7 @@ export default class KeyValue extends Node {
 
     computeConflicts() {}
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'A map key/value pair.',
-        };
+    getDescription(translation: Translation) {
+        return translation.nodes.KeyValue.description;
     }
 }

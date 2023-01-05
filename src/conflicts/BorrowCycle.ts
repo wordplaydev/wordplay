@@ -1,9 +1,8 @@
 import type Source from '../nodes/Source';
 import type Borrow from '../nodes/Borrow';
 import type Program from '../nodes/Program';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
 import Conflict from './Conflict';
+import type Translation from '../translations/Translation';
 
 export class BorrowCycle extends Conflict {
     readonly program: Program;
@@ -21,15 +20,11 @@ export class BorrowCycle extends Conflict {
         return { primary: this.borrow, secondary: [this.borrow] };
     }
 
-    getPrimaryExplanation(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: `This borrow depends on ${this.cycle[0].getTranslation([
-                'eng',
-            ])}${this.cycle
-                .slice(1)
-                .map((source) => `, which depends on ${source.getNames()}`)
-                .join('')}, which depends on ${this.cycle[0].getNames()}.`,
-        };
+    getPrimaryExplanation(translation: Translation) {
+        return translation.conflict.BorrowCycle.primary(this.cycle);
+    }
+
+    getSecondaryExplanation() {
+        return undefined;
     }
 }

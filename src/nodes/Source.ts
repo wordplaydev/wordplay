@@ -11,15 +11,13 @@ import TokenType from './TokenType';
 import Tree from './Tree';
 import Names from './Names';
 import type Borrow from './Borrow';
-import type Translations from './Translations';
-import type LanguageCode from './LanguageCode';
+import type LanguageCode from '../translations/LanguageCode';
 import Expression from './Expression';
 import Bind from './Bind';
 import type Type from './Type';
 import type TypeSet from './TypeSet';
 import type Step from '../runtime/Step';
 import type Stream from '../runtime/Stream';
-import { WRITE_DOCS } from './Translations';
 import type { SharedDefinition } from './Borrow';
 import FunctionDefinition from './FunctionDefinition';
 import StructureDefinition from './StructureDefinition';
@@ -521,13 +519,6 @@ export default class Source extends Expression {
         return empty;
     }
 
-    getDescriptions(): Translations {
-        return {
-            eng: this.names.getTranslation('eng'),
-            '😀': this.names.getTranslation('😀'),
-        };
-    }
-
     toWordplay(spaces?: Spaces) {
         return super.toWordplay(spaces ?? this.spaces);
     }
@@ -545,25 +536,34 @@ export default class Source extends Expression {
     evaluateTypeSet(_: Bind, __: TypeSet, current: TypeSet): TypeSet {
         return current;
     }
+
+    computeConflicts(): void | Conflict[] {
+        return [];
+    }
+
     compile(): Step[] {
         return [];
     }
+
     evaluate(): Value {
         return new None(this);
     }
+
     getStart() {
         return this;
     }
     getFinish() {
         return this;
     }
-    getStartExplanations(): Translations {
-        return WRITE_DOCS;
+
+    getDescription() {
+        return '';
     }
-    getFinishExplanations(): Translations {
-        return WRITE_DOCS;
+
+    getStartExplanations() {
+        return '';
     }
-    computeConflicts(): void | Conflict[] {
-        return [];
+    getFinishExplanations() {
+        return '';
     }
 }

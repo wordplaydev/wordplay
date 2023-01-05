@@ -1,9 +1,8 @@
 import Language from './Language';
 import Node, { type Replacement } from './Node';
 import Token from './Token';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import DocToken from './DocToken';
+import type Translation from '../translations/Translation';
 
 export default class Doc extends Node {
     readonly docs: Token;
@@ -37,16 +36,16 @@ export default class Doc extends Node {
         ) as this;
     }
 
+    getText() {
+        return this.docs.getText();
+    }
     getLanguage() {
         return this.lang === undefined ? undefined : this.lang.getLanguage();
     }
 
     computeConflicts() {}
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'Documentation',
-        };
+    getDescription(translation: Translation) {
+        return translation.nodes.Doc.description;
     }
 }

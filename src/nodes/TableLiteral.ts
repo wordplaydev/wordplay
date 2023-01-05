@@ -14,9 +14,8 @@ import type Context from './Context';
 import type TypeSet from './TypeSet';
 import { analyzeRow } from './util';
 import Exception from '../runtime/Exception';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import type { Replacement } from './Node';
+import type Translation from '../translations/Translation';
 
 export default class TableLiteral extends Expression {
     readonly type: TableType;
@@ -33,7 +32,11 @@ export default class TableLiteral extends Expression {
 
     getGrammar() {
         return [
-            { name: 'type', types: [TableType] },
+            {
+                name: 'type',
+                types: [TableType],
+                label: (translation: Translation) => translation.data.table,
+            },
             { name: 'rows', types: [[Row]] },
         ];
     }
@@ -132,28 +135,20 @@ export default class TableLiteral extends Expression {
     getStart() {
         return this.type;
     }
+
     getFinish() {
         return this.rows[this.rows.length - 1] ?? this.type;
     }
 
-    getStartExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'First we evaluate all of the rows and cells.',
-        };
+    getDescription(translation: Translation) {
+        return translation.expressions.TableLiteral.description;
     }
 
-    getFinishExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: "Now that we have all of the values, let's make the table.",
-        };
+    getStartExplanations(translation: Translation) {
+        return translation.expressions.TableLiteral.start;
     }
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'A table',
-        };
+    getFinishExplanations(translation: Translation) {
+        return translation.expressions.TableLiteral.finish;
     }
 }

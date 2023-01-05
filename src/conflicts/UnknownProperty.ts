@@ -1,6 +1,5 @@
 import type PropertyReference from '../nodes/PropertyReference';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
+import type Translation from '../translations/Translation';
 import Conflict from './Conflict';
 
 export class UnknownProperty extends Conflict {
@@ -18,10 +17,11 @@ export class UnknownProperty extends Conflict {
         };
     }
 
-    getPrimaryExplanation(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: `I don't know who I am!`,
-        };
+    getPrimaryExplanation(translation: Translation) {
+        return translation.conflict.UnknownProperty.primary();
+    }
+
+    getSecondaryExplanation() {
+        return undefined;
     }
 }

@@ -6,7 +6,7 @@
     import { project } from '../models/stores';
     import { getCaret } from './util/Contexts';
     import NameToken from '../nodes/NameToken';
-    import { languages } from '../models/languages';
+    import { translations } from '../translations/translations';
 
     export let node: NameType;
 
@@ -20,7 +20,11 @@
     $: name =
         definition === undefined || $caret?.isIn(node)
             ? node.name
-            : new NameToken(definition.names.getTranslation($languages));
+            : new NameToken(
+                  definition.names.getTranslation(
+                      $translations.map((t) => t.language)
+                  )
+              );
 </script>
 
 <NodeView node={name} /><NodeView node={node.types} />

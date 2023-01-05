@@ -1,8 +1,6 @@
-import type Context from '../nodes/Context';
 import type ListAccess from '../nodes/ListAccess';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
 import type Type from '../nodes/Type';
+import type Translation from '../translations/Translation';
 import Conflict from './Conflict';
 
 export class NotAListIndex extends Conflict {
@@ -20,12 +18,11 @@ export class NotAListIndex extends Conflict {
         return { primary: this.access.index, secondary: [] };
     }
 
-    getPrimaryExplanation(context: Context): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: `Lists can only be accessed with #'s, this is ${
-                this.indexType.getDescriptions(context).eng
-            }`,
-        };
+    getPrimaryExplanation(translation: Translation) {
+        return translation.conflict.NotAListIndex.primary(this.indexType);
+    }
+
+    getSecondaryExplanation() {
+        return undefined;
     }
 }

@@ -1,16 +1,17 @@
 import toStructure from '../native/toStructure';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE, WRITE_DOCS } from '../nodes/Translations';
 import type Value from '../runtime/Value';
 import type Color from './Color';
 import Group, { type RenderContext } from './Group';
 import { toGroups } from './toGroups';
 import Place from './Place';
 import Decimal from 'decimal.js';
+import type LanguageCode from '../translations/LanguageCode';
+import { getPreferredTranslation } from '../translations/getPreferredTranslation';
+import { getBind } from '../translations/getBind';
 
 export const StackType = toStructure(`
-    •Stack/eng,⬇/😀 Group(
-        phrases/eng,${TRANSLATE}phrases/😀…•Group
+    ${getBind((t) => t.output.stack.definition, '•')} Group(
+        ${getBind((t) => t.output.stack.phrases)}…•Group
     )
 `);
 
@@ -75,8 +76,8 @@ export class Stack extends Group {
         return undefined;
     }
 
-    getDescriptions(): Translations {
-        return WRITE_DOCS;
+    getDescription(languages: LanguageCode[]): string {
+        return getPreferredTranslation(languages).output.stack.description;
     }
 }
 

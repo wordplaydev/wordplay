@@ -1,10 +1,11 @@
 import Node, { type Replacement } from './Node';
 import Token from './Token';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
-import { EXPONENT_SYMBOL, PRODUCT_SYMBOL } from '../parser/Tokenizer';
+import { EXPONENT_SYMBOL } from '../parser/Symbols';
+import { PRODUCT_SYMBOL } from '../parser/Symbols';
 import TokenType from './TokenType';
 import NameToken from './NameToken';
+import type Translation from '../translations/Translation';
+import type Context from './Context';
 
 export default class Dimension extends Node {
     readonly product: Token | undefined;
@@ -70,68 +71,11 @@ export default class Dimension extends Node {
 
     computeConflicts() {}
 
-    getDescriptions(): Translations {
-        const dim = this.getName();
-        return {
-            '😀': TRANSLATE,
-            eng:
-                dim === 'pm'
-                    ? 'picometers'
-                    : dim === 'nm'
-                    ? 'nanometers'
-                    : dim === 'µm'
-                    ? 'micrometers'
-                    : dim === 'mm'
-                    ? 'millimeters'
-                    : dim === 'm'
-                    ? 'meters'
-                    : dim === 'cm'
-                    ? 'centimeters'
-                    : dim === 'dm'
-                    ? 'decimeters'
-                    : dim === 'm'
-                    ? 'meters'
-                    : dim === 'km'
-                    ? 'kilometers'
-                    : dim === 'Mm'
-                    ? 'megameters'
-                    : dim === 'Gm'
-                    ? 'gigameters'
-                    : dim === 'Tm'
-                    ? 'terameters'
-                    : dim === 'mi'
-                    ? 'miles'
-                    : dim === 'in'
-                    ? 'inches'
-                    : dim === 'ft'
-                    ? 'feet'
-                    : dim === 'ms'
-                    ? 'milliseconds'
-                    : dim === 's'
-                    ? 'seconds'
-                    : dim === 'min'
-                    ? 'minutes'
-                    : dim === 'hr'
-                    ? 'hours'
-                    : dim === 'day'
-                    ? 'days'
-                    : dim === 'wk'
-                    ? 'weeks'
-                    : dim === 'yr'
-                    ? 'years'
-                    : dim === 'g'
-                    ? 'grams'
-                    : dim === 'mg'
-                    ? 'milligrams'
-                    : dim === 'kg'
-                    ? 'kilograms'
-                    : dim === 'oz'
-                    ? 'ounces'
-                    : dim === 'lb'
-                    ? 'pounds'
-                    : dim === 'pt'
-                    ? 'font size'
-                    : 'A dimension',
-        };
+    getDescription(translation: Translation, context: Context) {
+        return translation.nodes.Dimension.description(
+            this,
+            translation,
+            context
+        );
     }
 }

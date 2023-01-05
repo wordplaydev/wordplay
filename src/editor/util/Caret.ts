@@ -3,11 +3,8 @@ import Block from '../../nodes/Block';
 import Node from '../../nodes/Node';
 import Token from '../../nodes/Token';
 import TokenType from '../../nodes/TokenType';
-import {
-    DELIMITERS,
-    PROPERTY_SYMBOL,
-    REVERSE_DELIMITERS,
-} from '../../parser/Tokenizer';
+import { DELIMITERS, REVERSE_DELIMITERS } from '../../parser/Tokenizer';
+import { PROPERTY_SYMBOL } from '../../parser/Symbols';
 import type Source from '../../nodes/Source';
 
 export type InsertionContext = { before: Node[]; after: Node[] };

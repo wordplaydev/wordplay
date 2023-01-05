@@ -1,6 +1,5 @@
 import type Expression from '../nodes/Expression';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
+import type Translation from '../translations/Translation';
 import Conflict from './Conflict';
 
 export default class ExpectedSelectName extends Conflict {
@@ -16,10 +15,11 @@ export default class ExpectedSelectName extends Conflict {
         return { primary: this.cell, secondary: [] };
     }
 
-    getPrimaryExplanation(): Translations {
-        return {
-            eng: `This has to be a column name`,
-            '😀': TRANSLATE,
-        };
+    getPrimaryExplanation(translation: Translation) {
+        return translation.conflict.ExpectedSelectName.primary(this.cell);
+    }
+
+    getSecondaryExplanation() {
+        return undefined;
     }
 }

@@ -1,17 +1,16 @@
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
 import Exception from './Exception';
 import type Evaluator from './Evaluator';
+import type Translation from '../translations/Translation';
+import type Node from '../nodes/Node';
 
 export default class ValueException extends Exception {
-    constructor(evaluator: Evaluator) {
+    readonly node: Node;
+    constructor(evaluator: Evaluator, node: Node) {
         super(evaluator);
+        this.node = node;
     }
 
-    getExplanations(): Translations {
-        return {
-            eng: `Expected a value after evaluating ${this.step?.node.toWordplay()}, but there wasn't one.`,
-            '😀': `${TRANSLATE} 🫙`,
-        };
+    getDescription(translation: Translation) {
+        return translation.exceptions.value(this.node);
     }
 }

@@ -6,27 +6,26 @@ import type Bind from './Bind';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
 import type Evaluator from '../runtime/Evaluator';
+import type Expression from './Expression';
 
-import Expression from './Expression';
 import Token from './Token';
-import UnknownType from './UnknownType';
 import StructureDefinition from './StructureDefinition';
 import { MisplacedThis } from '../conflicts/MisplacedThis';
 import StructureDefinitionType from './StructureDefinitionType';
 import NameException from '../runtime/NameException';
-import { THIS_SYMBOL } from '../parser/Tokenizer';
 import ConversionDefinition from './ConversionDefinition';
 import MeasurementType from './MeasurementType';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import StartFinish from '../runtime/StartFinish';
 import Reaction from './Reaction';
 import ValueException from '../runtime/ValueException';
 import type { Replacement } from './Node';
+import AtomicExpression from './AtomicExpression';
+import type Translation from '../translations/Translation';
+import { UnenclosedType } from './UnenclosedType';
 
 type ThisStructure = StructureDefinition | ConversionDefinition | Reaction;
 
-export default class This extends Expression {
+export default class This extends AtomicExpression {
     readonly dis: Token;
 
     constructor(dis: Token) {
@@ -104,13 +103,11 @@ export default class This extends Expression {
             .find((n) => n instanceof Reaction) as Reaction | undefined;
         if (reaction) {
             const latestValue = evaluator.getReactionStreamLatest(reaction);
-            return latestValue ?? new ValueException(evaluator);
+            return latestValue ?? new ValueException(evaluator, reaction);
         }
 
         // Otherwise, this means something else.
-        return (
-            evaluator.getThis(this) ?? new NameException(THIS_SYMBOL, evaluator)
-        );
+        return evaluator.getThis(this) ?? new NameException(this, evaluator);
     }
 
     evaluateTypeSet(
@@ -128,41 +125,16 @@ export default class This extends Expression {
     getStart() {
         return this.dis;
     }
+
     getFinish() {
         return this.dis;
     }
 
-    getStartExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'Get the structure evaluating this.',
-        };
+    getDescription(translation: Translation) {
+        return translation.expressions.This.description;
     }
 
-    getFinishExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'Get the structure evaluating this.',
-        };
-    }
-
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'The value of this',
-        };
-    }
-}
-
-export class UnenclosedType extends UnknownType<This> {
-    constructor(dis: This) {
-        super(dis, undefined);
-    }
-
-    getReason(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: `${this.expression.toWordplay()} is not in a structure, conversion, or reaction`,
-        };
+    getStartExplanations(translation: Translation) {
+        return translation.expressions.This.start;
     }
 }

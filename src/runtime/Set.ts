@@ -6,9 +6,10 @@ import Measurement from './Measurement';
 import Primitive from './Primitive';
 import type Value from './Value';
 import type Node from '../nodes/Node';
-import type LanguageCode from '../nodes/LanguageCode';
-import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '../parser/Tokenizer';
+import type LanguageCode from '../translations/LanguageCode';
+import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '../parser/Symbols';
 import type { NativeTypeName } from '../native/NativeConstants';
+import type Translation from '../translations/Translation';
 
 export default class Set extends Primitive {
     readonly values: Value[];
@@ -101,5 +102,9 @@ export default class Set extends Primitive {
         return `${SET_OPEN_SYMBOL}${Array.from(this.values)
             .map((value) => value.toWordplay(languages))
             .join(' ')}${SET_CLOSE_SYMBOL}`;
+    }
+
+    getDescription(translation: Translation) {
+        return translation.data.set;
     }
 }

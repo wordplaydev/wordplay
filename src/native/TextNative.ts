@@ -13,14 +13,27 @@ import StructureDefinition from '../nodes/StructureDefinition';
 import Measurement from '../runtime/Measurement';
 import List from '../runtime/List';
 import Block from '../nodes/Block';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE, WRITE, WRITE_DOCS } from '../nodes/Translations';
 import type Node from '../nodes/Node';
+import type Docs from '../nodes/Docs';
+import type Names from '../nodes/Names';
+import { getFunctionTranslations } from '../translations/getFunctionTranslations';
+import { getDocTranslations } from '../translations/getDocTranslations';
+import { getNameTranslations } from '../translations/getNameTranslations';
 
 export default function bootstrapText() {
+    const equalsNames = getNameTranslations(
+        (t) => t.native.text.function.equals.inputs[0].name
+    );
+    const notEqualsNames = getNameTranslations(
+        (t) => t.native.text.function.notequals.inputs[0].name
+    );
+
     function createTextFunction(
-        docs: Translations,
-        names: Translations,
+        translations: {
+            docs: Docs;
+            names: Names;
+            inputs: { docs: Docs; names: Names }[];
+        },
         inputs: Bind[],
         output: Type,
         expression: (
@@ -30,8 +43,8 @@ export default function bootstrapText() {
         ) => Value
     ) {
         return createNativeFunction(
-            docs,
-            names,
+            translations.docs,
+            translations.names,
             undefined,
             inputs,
             output,
@@ -50,54 +63,38 @@ export default function bootstrapText() {
     }
 
     return StructureDefinition.make(
-        undefined,
-        {
-            eng: 'text',
-            '😀': "''",
-        },
+        getDocTranslations((t) => t.native.text.doc),
+        getNameTranslations((t) => t.native.text.name),
         [],
         undefined,
         [],
         new Block(
             [
                 createTextFunction(
-                    {
-                        eng: WRITE,
-                        '😀': WRITE,
-                    },
-                    {
-                        eng: 'length',
-                        '😀': TRANSLATE,
-                    },
+                    getFunctionTranslations(
+                        (t) => t.native.text.function.length
+                    ),
                     [],
                     MeasurementType.make(),
                     (requestor, text) => text.length(requestor)
                 ),
                 createTextFunction(
-                    {
-                        eng: WRITE,
-                        '😀': WRITE,
-                    },
-                    {
-                        eng: WRITE,
-                        '😀': '=',
-                    },
+                    getFunctionTranslations(
+                        (t) => t.native.text.function.equals
+                    ),
                     [
                         Bind.make(
-                            {
-                                eng: WRITE,
-                                '😀': WRITE,
-                            },
-                            {
-                                eng: 'val',
-                                '😀': `${TRANSLATE}1`,
-                            },
+                            getDocTranslations(
+                                (t) =>
+                                    t.native.text.function.equals.inputs[0].doc
+                            ),
+                            equalsNames,
                             TextType.make()
                         ),
                     ],
                     BooleanType.make(),
                     (requestor, text, evaluation) => {
-                        const val = evaluation.resolve('val');
+                        const val = evaluation.resolve(equalsNames);
                         if (val instanceof Text)
                             return new Bool(requestor, text.isEqualTo(val));
                         else
@@ -109,30 +106,23 @@ export default function bootstrapText() {
                     }
                 ),
                 createTextFunction(
-                    {
-                        eng: WRITE,
-                        '😀': WRITE,
-                    },
-                    {
-                        eng: 'not-equal',
-                        '😀': '≠',
-                    },
+                    getFunctionTranslations(
+                        (t) => t.native.text.function.notequals
+                    ),
                     [
                         Bind.make(
-                            {
-                                eng: WRITE,
-                                '😀': WRITE,
-                            },
-                            {
-                                eng: 'val',
-                                '😀': `${TRANSLATE}1`,
-                            },
+                            getDocTranslations(
+                                (t) =>
+                                    t.native.text.function.notequals.inputs[0]
+                                        .doc
+                            ),
+                            notEqualsNames,
                             TextType.make()
                         ),
                     ],
                     BooleanType.make(),
                     (requestor, text, evaluation) => {
-                        const val = evaluation.resolve('val');
+                        const val = evaluation.resolve(notEqualsNames);
                         if (val instanceof Text)
                             return new Bool(requestor, !text.isEqualTo(val));
                         else
@@ -144,7 +134,7 @@ export default function bootstrapText() {
                     }
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations((t) => t.native.text.conversion.text),
                     '""',
                     '[""]',
                     (requestor: Node, val: Text) =>
@@ -156,7 +146,7 @@ export default function bootstrapText() {
                         )
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations((t) => t.native.text.conversion.number),
                     '""',
                     '#',
                     (requestor: Node, val: Text) =>

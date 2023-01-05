@@ -19,11 +19,10 @@ import type TypeSet from './TypeSet';
 import { analyzeRow } from './util';
 import Halt from '../runtime/Halt';
 import Exception from '../runtime/Exception';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import TypeException from '../runtime/TypeException';
 import UnparsableException from '../runtime/UnparsableException';
 import type { Replacement } from './Node';
+import type Translation from '../translations/Translation';
 
 export default class Insert extends Expression {
     readonly table: Expression;
@@ -42,9 +41,17 @@ export default class Insert extends Expression {
 
     getGrammar() {
         return [
-            { name: 'table', types: [Expression] },
+            {
+                name: 'table',
+                types: [Expression],
+                label: (translation: Translation) => translation.data.table,
+            },
             { name: 'insert', types: [Token] },
-            { name: 'row', types: [Row] },
+            {
+                name: 'row',
+                types: [Row],
+                label: (translation: Translation) => translation.data.row,
+            },
         ];
     }
 
@@ -184,13 +191,6 @@ export default class Insert extends Expression {
         return current;
     }
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'Insert a row in a table',
-        };
-    }
-
     getStart() {
         return this.insert;
     }
@@ -198,17 +198,15 @@ export default class Insert extends Expression {
         return this.insert;
     }
 
-    getStartExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'First we evaluate the table, then all the rows to insert.',
-        };
+    getDescription(translation: Translation) {
+        return translation.expressions.Insert.description;
     }
 
-    getFinishExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'Make a new table with the inserted rows.',
-        };
+    getStartExplanations(translation: Translation) {
+        return translation.expressions.Insert.start;
+    }
+
+    getFinishExplanations(translation: Translation) {
+        return translation.expressions.Insert.finish;
     }
 }

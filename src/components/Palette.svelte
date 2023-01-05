@@ -11,7 +11,6 @@
     import StructureDefinition from '../nodes/StructureDefinition';
     import Expression from '../nodes/Expression';
     import Tree from '../nodes/Tree';
-    import { WRITE } from '../nodes/Translations';
     import Button from './Button.svelte';
     import Source from '../nodes/Source';
     import { fly } from 'svelte/transition';
@@ -42,7 +41,7 @@
     import type ConstructConcept from '../concepts/ConstructConcept';
     import ConceptIndex from '../concepts/ConceptIndex';
     import type Node from '../nodes/Node';
-    import { languages } from '../models/languages';
+    import { getLanguages, translations } from '../translations/translations';
 
     export let hidden: boolean;
 
@@ -68,7 +67,7 @@
 
     $: {
         // When the project changes, languages change, and the keyboard is idle, recompute the concepts.
-        if ($languages && $KeyboardIdle && latestProject !== $project) {
+        if ($translations && $KeyboardIdle && latestProject !== $project) {
             latestProject = $project;
 
             projectStructures = [$project.main, ...$project.supplements]
@@ -83,7 +82,7 @@
                                 def,
                                 undefined,
                                 [],
-                                $languages,
+                                getLanguages(),
                                 $project.getContext(source)
                             )
                     )
@@ -102,7 +101,7 @@
                                 new FunctionConcept(
                                     def,
                                     undefined,
-                                    $languages,
+                                    getLanguages(),
                                     $project.getContext(source)
                                 )
                         )
@@ -117,7 +116,7 @@
                             (def) =>
                                 new BindConcept(
                                     def,
-                                    $languages,
+                                    getLanguages(),
                                     $project.getContext(source)
                                 )
                         )
@@ -130,7 +129,7 @@
                     (s) =>
                         new StreamConcept(
                             s,
-                            $languages,
+                            getLanguages(),
                             $project.getContext($project.main)
                         )
                 );
@@ -139,11 +138,11 @@
                 $project.getContext($project.main)
             );
             native = getNativeConcepts(
-                $languages,
+                getLanguages(),
                 $project.getContext($project.main)
             );
             output = getOutputConcepts(
-                $languages,
+                getLanguages(),
                 $project.getContext($project.main)
             );
 
@@ -265,8 +264,8 @@
             <section class="type">
                 <div class="back">
                     <Button
-                        label={{ eng: '◁', '😀': WRITE }}
-                        tip={{ eng: 'Return to the types menu.', '😀': WRITE }}
+                        label="◁"
+                        tip={$translations[0].ui.tooltip.home}
                         action={back}
                     />
                     {#each $path as concept}

@@ -14,17 +14,17 @@ import FunctionException from '../runtime/FunctionException';
 import Exception from '../runtime/Exception';
 import ConversionDefinition from './ConversionDefinition';
 import Halt from '../runtime/Halt';
-import Action from '../runtime/Action';
 import Block from './Block';
-import { CONVERT_SYMBOL, THIS_SYMBOL } from '../parser/Tokenizer';
+import { CONVERT_SYMBOL } from '../parser/Symbols';
+import { THIS_SYMBOL } from '../parser/Symbols';
 import TokenType from './TokenType';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import Names from './Names';
 import type Evaluator from '../runtime/Evaluator';
 import type Value from '../runtime/Value';
 import NotAFunctionType from './NotAFunctionType';
 import type { Replacement } from './Node';
+import type Translation from '../translations/Translation';
+import StartConversion from '../runtime/StartConversion';
 
 export default class Convert extends Expression {
     readonly expression: Expression;
@@ -158,38 +158,29 @@ export default class Convert extends Expression {
                       ),
                   ]
                 : conversions.map(
-                      (conversion) =>
-                          new Action(
-                              this,
-                              {
-                                  '😀': TRANSLATE,
-                                  eng: `Translate to ${conversion.output.toWordplay()}`,
-                              },
-                              (evaluator) => {
-                                  // Get the value to convert
-                                  const value = evaluator.popValue(undefined);
-                                  if (value instanceof Exception) return value;
-
-                                  // Execute the conversion.
-                                  evaluator.startEvaluation(
-                                      new Evaluation(
-                                          evaluator,
-                                          this,
-                                          conversion,
-                                          value,
-                                          new Map().set(
-                                              Names.make([THIS_SYMBOL]),
-                                              value
-                                          )
-                                      )
-                                  );
-
-                                  return undefined;
-                              }
-                          )
+                      (conversion) => new StartConversion(this, conversion)
                   )),
             new Finish(this),
         ];
+    }
+
+    startEvaluation(evaluator: Evaluator, conversion: ConversionDefinition) {
+        // Get the value to convert
+        const value = evaluator.popValue(undefined);
+        if (value instanceof Exception) return value;
+
+        // Execute the conversion.
+        evaluator.startEvaluation(
+            new Evaluation(
+                evaluator,
+                this,
+                conversion,
+                value,
+                new Map().set(Names.make([THIS_SYMBOL]), value)
+            )
+        );
+
+        return undefined;
     }
 
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
@@ -210,13 +201,6 @@ export default class Convert extends Expression {
         return current;
     }
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'Convert a value',
-        };
-    }
-
     getStart() {
         return this.convert;
     }
@@ -224,18 +208,16 @@ export default class Convert extends Expression {
         return this.convert;
     }
 
-    getStartExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'We start by evaluating the value to convert, then do zero or more conversions to get to the desired type.',
-        };
+    getDescription(translation: Translation) {
+        return translation.expressions.Convert.description;
     }
 
-    getFinishExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'Yay, we have our converted value!',
-        };
+    getStartExplanations(translation: Translation) {
+        return translation.expressions.Convert.start;
+    }
+
+    getFinishExplanations(translation: Translation) {
+        return translation.expressions.Convert.finish;
     }
 }
 

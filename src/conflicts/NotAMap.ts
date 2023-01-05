@@ -1,7 +1,6 @@
 import Expression from '../nodes/Expression';
 import type MapLiteral from '../nodes/MapLiteral';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
+import type Translation from '../translations/Translation';
 import Conflict from './Conflict';
 
 export class NotAMap extends Conflict {
@@ -19,10 +18,11 @@ export class NotAMap extends Conflict {
         };
     }
 
-    getPrimaryExplanation(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: `These values aren't key:value pairs, but others are, so this is an invalid map literal.`,
-        };
+    getPrimaryExplanation(translation: Translation) {
+        return translation.conflict.NotAMap.primary();
+    }
+
+    getSecondaryExplanation(translation: Translation) {
+        return translation.conflict.NotAMap.secondary();
     }
 }

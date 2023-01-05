@@ -1,13 +1,12 @@
 import type { NativeTypeName } from '../native/NativeConstants';
-import { CONVERT_SYMBOL } from '../parser/Tokenizer';
+import { CONVERT_SYMBOL } from '../parser/Symbols';
 import type Context from './Context';
 import Token from './Token';
 import TokenType from './TokenType';
 import Type from './Type';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import type TypeSet from './TypeSet';
 import type { Replacement } from './Node';
+import type Translation from '../translations/Translation';
 
 export default class ConversionType extends Type {
     readonly input: Type;
@@ -58,10 +57,7 @@ export default class ConversionType extends Type {
         ) as this;
     }
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'A conversion function type',
-        };
+    getDescription(translation: Translation) {
+        return translation.types.ConversionType.description;
     }
 }

@@ -1,26 +1,24 @@
 import BooleanType from '../nodes/BooleanType';
 import StreamType from '../nodes/StreamType';
-import { TRANSLATE } from '../nodes/Translations';
 import Bool from '../runtime/Bool';
 import type Evaluator from '../runtime/Evaluator';
 import Stream from '../runtime/Stream';
+import { getDocTranslations } from '../translations/getDocTranslations';
+import { getNameTranslations } from '../translations/getNameTranslations';
 
 export default class MouseButton extends Stream<Bool> {
     on: boolean = false;
 
     constructor(evaluator: Evaluator) {
-        super(
-            evaluator,
-            {
-                eng: 'A stream of mouse button up and down events.',
-                '😀': TRANSLATE,
-            },
-            {
-                '😀': '🖱',
-                eng: 'mousebutton',
-            },
-            new Bool(evaluator.getMain(), true)
-        );
+        super(evaluator, new Bool(evaluator.getMain(), true));
+    }
+
+    computeDocs() {
+        return getDocTranslations((t) => t.input.mousebutton.doc);
+    }
+
+    computeNames() {
+        return getNameTranslations((t) => t.input.mousebutton.name);
     }
 
     record(state: boolean) {

@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import { OR_SYMBOL } from '../parser/Tokenizer';
+import { OR_SYMBOL } from '../parser/Symbols';
 
 export type FontWeight = 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
 export type FontWeightRange = { min: FontWeight; max: FontWeight };

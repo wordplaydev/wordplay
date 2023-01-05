@@ -14,9 +14,8 @@ import type TypeSet from './TypeSet';
 import Start from '../runtime/Start';
 import TokenType from './TokenType';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import type { Replacement } from './Node';
+import type Translation from '../translations/Translation';
 
 export type TemplatePart = Expression | Token;
 
@@ -48,7 +47,11 @@ export default class Template extends Expression {
     getGrammar() {
         return [
             { name: 'open', types: [Token] },
-            { name: 'expressions', types: [[Expression, Token]] },
+            {
+                name: 'expressions',
+                types: [[Expression, Token]],
+                label: (translation: Translation) => translation.data.text,
+            },
             { name: 'format', types: [Language, undefined] },
         ];
     }
@@ -132,31 +135,23 @@ export default class Template extends Expression {
         return current;
     }
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'Text made of values',
-        };
-    }
-
     getStart() {
         return this.open;
     }
+
     getFinish() {
         return this.expressions[this.expressions.length - 1] ?? this.open;
     }
 
-    getStartExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'Start by evaluating all of the parts in this template.',
-        };
+    getDescription(translation: Translation) {
+        return translation.expressions.Template.description;
     }
 
-    getFinishExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'Now make some text out of the parts!',
-        };
+    getStartExplanations(translation: Translation) {
+        return translation.expressions.Template.start;
+    }
+
+    getFinishExplanations(translation: Translation) {
+        return translation.expressions.Template.finish;
     }
 }

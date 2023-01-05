@@ -21,9 +21,8 @@ import type Definition from './Definition';
 import type TypeSet from './TypeSet';
 import UnimplementedException from '../runtime/UnimplementedException';
 import type Evaluator from '../runtime/Evaluator';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import type { Replacement } from './Node';
+import type Translation from '../translations/Translation';
 
 export default class Update extends Expression {
     readonly table: Expression;
@@ -44,10 +43,22 @@ export default class Update extends Expression {
 
     getGrammar() {
         return [
-            { name: 'table', types: [Expression] },
+            {
+                name: 'table',
+                types: [Expression],
+                label: (translation: Translation) => translation.data.table,
+            },
             { name: 'update', types: [Token] },
-            { name: 'row', types: [Row] },
-            { name: 'query', types: [Expression] },
+            {
+                name: 'row',
+                types: [Row],
+                label: (translation: Translation) => translation.data.row,
+            },
+            {
+                name: 'query',
+                types: [Expression],
+                label: (translation: Translation) => translation.data.query,
+            },
         ];
     }
 
@@ -157,7 +168,7 @@ export default class Update extends Expression {
 
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
         if (prior) return prior;
-        return new UnimplementedException(evaluator);
+        return new UnimplementedException(evaluator, this);
     }
 
     evaluateTypeSet(
@@ -177,13 +188,6 @@ export default class Update extends Expression {
         return current;
     }
 
-    getDescriptions(): Translations {
-        return {
-            eng: 'Update rows in a table',
-            '😀': TRANSLATE,
-        };
-    }
-
     getStart() {
         return this.update;
     }
@@ -191,17 +195,15 @@ export default class Update extends Expression {
         return this.update;
     }
 
-    getStartExplanations(): Translations {
-        return {
-            eng: 'First we get the table, then we select values from it.',
-            '😀': TRANSLATE,
-        };
+    getDescription(translation: Translation) {
+        return translation.expressions.Update.description;
     }
 
-    getFinishExplanations(): Translations {
-        return {
-            eng: "Now that we have the table, let's create a new table with the updated values.",
-            '😀': TRANSLATE,
-        };
+    getStartExplanations(translation: Translation) {
+        return translation.expressions.Update.start;
+    }
+
+    getFinishExplanations(translation: Translation) {
+        return translation.expressions.Update.finish;
     }
 }

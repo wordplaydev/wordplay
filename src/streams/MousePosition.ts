@@ -1,7 +1,6 @@
 import type Names from '../nodes/Names';
 import StreamType from '../nodes/StreamType';
 import StructureDefinitionType from '../nodes/StructureDefinitionType';
-import { TRANSLATE } from '../nodes/Translations';
 import Unit from '../nodes/Unit';
 import Measurement from '../runtime/Measurement';
 import Stream from '../runtime/Stream';
@@ -9,6 +8,8 @@ import Structure, { createStructure } from '../runtime/Structure';
 import type Value from '../runtime/Value';
 import { PlaceType } from '../output/Place';
 import type Evaluator from '../runtime/Evaluator';
+import { getDocTranslations } from '../translations/getDocTranslations';
+import { getNameTranslations } from '../translations/getNameTranslations';
 
 function position(evaluator: Evaluator, x: number, y: number) {
     const bindings = new Map<Names, Value>();
@@ -28,20 +29,17 @@ export default class MousePosition extends Stream<Structure> {
     on: boolean = false;
 
     constructor(evaluator: Evaluator) {
-        super(
-            evaluator,
-            {
-                eng: 'A stream of mouse move events',
-                '😀': TRANSLATE,
-            },
-            {
-                '😀': '⌖',
-                eng: 'mouse',
-            },
-            position(evaluator, 0, 0)
-        );
+        super(evaluator, position(evaluator, 0, 0));
 
         this.evaluator = evaluator;
+    }
+
+    computeDocs() {
+        return getDocTranslations((t) => t.input.mouseposition.doc);
+    }
+
+    computeNames() {
+        return getNameTranslations((t) => t.input.mouseposition.name);
     }
 
     record(x: number, y: number) {

@@ -10,14 +10,12 @@ import MeasurementType from './MeasurementType';
 import NameType from './NameType';
 import PropertyReference from './PropertyReference';
 import StructureDefinition from './StructureDefinition';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import type Type from './Type';
 import TypeVariable from './TypeVariable';
 import type UnaryOperation from './UnaryOperation';
-import UnknownType from './UnknownType';
+import { UnknownVariableType } from './UnknownVariableType';
 
-type EvaluationType = Evaluate | BinaryOperation | UnaryOperation;
+export type EvaluationType = Evaluate | BinaryOperation | UnaryOperation;
 
 /**
  * Find all abstract types in the given bind's type and construct a type that replaces all of them with concrete types,
@@ -159,7 +157,10 @@ function getConcreteTypeVariable(
         evaluation.func instanceof PropertyReference
     ) {
         const structureType = evaluation.func.structure.getType(context);
-        const typeInput = structureType.resolveTypeVariable(type.getName());
+        const typeInput = structureType.resolveTypeVariable(
+            type.getName(),
+            context
+        );
         if (typeInput !== undefined) return typeInput;
     }
 
@@ -237,17 +238,4 @@ function getConcreteTypeVariable(
 
     // We failed to find the type! Who knows what this type variable refers to.
     return new UnknownVariableType(evaluation);
-}
-
-export class UnknownVariableType extends UnknownType<EvaluationType> {
-    constructor(evaluate: EvaluationType) {
-        super(evaluate, undefined);
-    }
-
-    getReason(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: "this type variable couldn't be inferred",
-        };
-    }
 }

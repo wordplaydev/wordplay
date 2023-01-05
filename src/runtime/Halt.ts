@@ -1,10 +1,9 @@
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
 import type Evaluator from './Evaluator';
 import type Exception from './Exception';
 import Step from './Step';
 import type Value from './Value';
 import type Expression from '../nodes/Expression';
+import type Translation from '../translations/Translation';
 
 export default class Halt extends Step {
     readonly exception: (evaluator: Evaluator) => Exception;
@@ -22,10 +21,7 @@ export default class Halt extends Step {
         return this.exception(evaluator);
     }
 
-    getExplanations(): Translations {
-        return {
-            eng: `There was an exception, so the program had to stop.`,
-            '😀': `${TRANSLATE} ✋🏻`,
-        };
+    getExplanations(translation: Translation) {
+        return translation.step.halt;
     }
 }

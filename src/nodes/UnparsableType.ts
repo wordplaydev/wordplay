@@ -1,9 +1,8 @@
 import type Conflict from '../conflicts/Conflict';
 import { UnparsableConflict } from '../conflicts/UnparsableConflict';
 import type { NativeTypeName } from '../native/NativeConstants';
+import type Translation from '../translations/Translation';
 import Node, { type Replacement } from './Node';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import Type from './Type';
 
 export default class UnparsableType extends Type {
@@ -37,10 +36,7 @@ export default class UnparsableType extends Type {
         ) as this;
     }
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'unparsable code',
-        };
+    getDescription(translation: Translation) {
+        return translation.types.UnparsableType.description;
     }
 }

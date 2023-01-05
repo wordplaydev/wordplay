@@ -1,6 +1,6 @@
 import type Bind from '../nodes/Bind';
 import type Context from '../nodes/Context';
-import type LanguageCode from '../nodes/LanguageCode';
+import type LanguageCode from '../translations/LanguageCode';
 import type Node from '../nodes/Node';
 import Reference from '../nodes/Reference';
 import Concept from './Concept';

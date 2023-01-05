@@ -1,13 +1,13 @@
 === Layout Madness
 Row(
-  ⬇(
-    💬("Kitty") 
-    💬("Cat") 
-    Row(💬("Dog") 💬("Canine"))
-    💬("Feline")
+  Stack(
+    Phrase("Kitty") 
+    Phrase("Cat") 
+    Row(Phrase("Dog") Phrase("Canine"))
+    Phrase("Feline")
   )
-  ⬇(
-    💬("Hi")
-    💬("Hello")
+  Stack(
+    Phrase("Hi")
+    Phrase("Hello")
   )
 )

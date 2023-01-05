@@ -1,5 +1,4 @@
 import Expression from './Expression';
-import type Node from './Node';
 import type Context from './Context';
 import Token from './Token';
 import Type from './Type';
@@ -18,8 +17,6 @@ import Finish from '../runtime/Finish';
 import Block from './Block';
 import ListType from './ListType';
 import ValueException from '../runtime/ValueException';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import Exception from '../runtime/Exception';
 import type Definition from './Definition';
 import AnyType from './AnyType';
@@ -27,9 +24,9 @@ import {
     ETC_SYMBOL,
     PLACEHOLDER_SYMBOL,
     SHARE_SYMBOL,
-} from '../parser/Tokenizer';
+} from '../parser/Symbols';
 import FunctionDefinition from './FunctionDefinition';
-import type LanguageCode from './LanguageCode';
+import type LanguageCode from '../translations/LanguageCode';
 import BindToken from './BindToken';
 import TypeToken from './TypeToken';
 import Docs from './Docs';
@@ -43,6 +40,7 @@ import TokenType from './TokenType';
 import type Name from './Name';
 import DuplicateNames from '../conflicts/DuplicateNames';
 import type { Replacement } from './Node';
+import type Translation from '../translations/Translation';
 
 export default class Bind extends Expression {
     readonly docs?: Docs;
@@ -83,13 +81,13 @@ export default class Bind extends Expression {
     }
 
     static make(
-        docs: Translations | undefined,
-        names: Names | Translations,
+        docs: Docs | undefined,
+        names: Names,
         type?: Type,
         value?: Expression
     ) {
         return new Bind(
-            docs ? new Docs(docs) : undefined,
+            docs,
             undefined,
             names instanceof Names ? names : Names.make(names),
             undefined,
@@ -102,7 +100,10 @@ export default class Bind extends Expression {
 
     getGrammar() {
         return [
-            { name: 'docs', types: [Docs, undefined] },
+            {
+                name: 'docs',
+                types: [Docs, undefined],
+            },
             {
                 name: 'share',
                 types: [Token, undefined],
@@ -344,7 +345,12 @@ export default class Bind extends Expression {
     compile(context: Context): Step[] {
         // A bind evaluates its value expression, then pushes it on the stack.
         return this.value === undefined
-            ? [new Halt((evaluator) => new ValueException(evaluator), this)]
+            ? [
+                  new Halt(
+                      (evaluator) => new ValueException(evaluator, this),
+                      this
+                  ),
+              ]
             : [
                   new Start(this),
                   ...this.value.compile(context),
@@ -357,20 +363,6 @@ export default class Bind extends Expression {
     }
     getFinish() {
         return this.names;
-    }
-
-    getStartExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'Evaluate the value first',
-        };
-    }
-
-    getFinishExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'Bind the value to this name.',
-        };
     }
 
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
@@ -387,10 +379,15 @@ export default class Bind extends Expression {
         return value;
     }
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'a named value',
-        };
+    getDescription(translation: Translation): string {
+        return translation.expressions.Bind.description;
+    }
+
+    getStartExplanations(translation: Translation): string {
+        return translation.expressions.Bind.start;
+    }
+
+    getFinishExplanations(translation: Translation): string {
+        return translation.expressions.Bind.finish;
     }
 }

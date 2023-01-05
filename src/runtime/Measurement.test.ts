@@ -1,7 +1,6 @@
 import { test, expect } from 'vitest';
-import MeasurementLiteral from '../nodes/MeasurementLiteral';
 import { parseMeasurement, toTokens } from '../parser/Parser';
-import { FALSE_SYMBOL, TRUE_SYMBOL } from '../parser/Tokenizer';
+import { FALSE_SYMBOL, TRUE_SYMBOL } from '../parser/Symbols';
 import Evaluator from './Evaluator';
 import Measurement from './Measurement';
 

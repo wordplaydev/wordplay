@@ -12,17 +12,17 @@ import type Step from '../runtime/Step';
 import Conversion from '../runtime/Conversion';
 import type Context from './Context';
 import { parseType, toTokens } from '../parser/Parser';
-import { CONVERT_SYMBOL } from '../parser/Tokenizer';
+import { CONVERT_SYMBOL } from '../parser/Symbols';
 import type Bind from './Bind';
 import type TypeSet from './TypeSet';
-import EvaluationException, { StackSize } from '../runtime/EvaluationException';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import Docs from './Docs';
 import StartFinish from '../runtime/StartFinish';
 import type { Replacement } from './Node';
+import type Translation from '../translations/Translation';
+import AtomicExpression from './AtomicExpression';
+import NoEvaluationException from '../runtime/NoEvaluationException';
 
-export default class ConversionDefinition extends Expression {
+export default class ConversionDefinition extends AtomicExpression {
     readonly docs: Docs | undefined;
     readonly arrow: Token;
     readonly input: Type;
@@ -48,13 +48,13 @@ export default class ConversionDefinition extends Expression {
     }
 
     static make(
-        docs: Translations | undefined,
+        docs: Docs | undefined,
         input: Type | string,
         output: Type | string,
         expression: Expression
     ) {
         return new ConversionDefinition(
-            new Docs(docs),
+            docs,
             new Token(CONVERT_SYMBOL, TokenType.CONVERT),
             input instanceof Type ? input : parseType(toTokens(input)),
             output instanceof Type ? output : parseType(toTokens(output)),
@@ -136,7 +136,7 @@ export default class ConversionDefinition extends Expression {
     evaluate(evaluator: Evaluator) {
         const context = evaluator.getCurrentEvaluation();
         if (context === undefined)
-            return new EvaluationException(StackSize.EMPTY, evaluator);
+            return new NoEvaluationException(evaluator, this);
 
         const value = new Conversion(this, context);
 
@@ -156,13 +156,6 @@ export default class ConversionDefinition extends Expression {
         return current;
     }
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'A value conversion function',
-        };
-    }
-
     getStart() {
         return this.arrow;
     }
@@ -170,14 +163,11 @@ export default class ConversionDefinition extends Expression {
         return this.arrow;
     }
 
-    getStartExplanations(): Translations {
-        return this.getFinishExplanations();
+    getDescription(translation: Translation) {
+        return translation.expressions.ConversionDefinition.description;
     }
 
-    getFinishExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: "Let's define this conversion!",
-        };
+    getStartExplanations(translation: Translation) {
+        return translation.expressions.ConversionDefinition.start;
     }
 }

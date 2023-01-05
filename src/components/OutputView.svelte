@@ -1,9 +1,8 @@
 <script lang="ts">
-    import { selectTranslation } from '../nodes/Translations';
     import { toVerse } from '../output/Verse';
     import Exception from '../runtime/Exception';
     import type Value from '../runtime/Value';
-    import { languages } from '../models/languages';
+    import { translations } from '../translations/translations';
     import { playing } from '../models/stores';
     import KeyboardIdle from '../editor/util/KeyboardIdle';
     import type Project from '../models/Project';
@@ -54,10 +53,7 @@
         {#if latest instanceof Exception}
             <div class="fill exception"
                 ><div class="message"
-                    >{selectTranslation(
-                        latest.getExplanations(),
-                        $languages
-                    )}</div
+                    >{latest.getDescription($translations[0])}</div
                 ></div
             >
             <!-- If there's no verse -->
@@ -74,11 +70,15 @@
             <div class="fill value">
                 <div class="message">
                     <h2
-                        >{selectTranslation(
-                            latest
-                                .getType(project.getContext(source))
-                                .getDescriptions(project.getContext(source)),
-                            $languages
+                        >{$translations.map((translation) =>
+                            latest === undefined
+                                ? undefined
+                                : latest
+                                      .getType(project.getContext(source))
+                                      .getDescription(
+                                          translation,
+                                          project.getContext(source)
+                                      )
                         )}</h2
                     >
                     <p><ValueView value={latest} /></p>

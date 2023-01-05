@@ -1,11 +1,10 @@
 import Measurement from '../runtime/Measurement';
 import type Value from '../runtime/Value';
 import type Conflict from '../conflicts/Conflict';
-import Expression from './Expression';
+import type Expression from './Expression';
 import MeasurementType from './MeasurementType';
 import Token from './Token';
 import type Type from './Type';
-import type Node from './Node';
 import Unit from './Unit';
 import type Step from '../runtime/Step';
 import { NotANumber } from '../conflicts/NotANumber';
@@ -13,14 +12,14 @@ import type Bind from './Bind';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
 import PlaceholderToken from './PlaceholderToken';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import TokenType from './TokenType';
 import type Evaluator from '../runtime/Evaluator';
 import StartFinish from '../runtime/StartFinish';
 import type { Replacement } from './Node';
+import type Translation from '../translations/Translation';
+import AtomicExpression from './AtomicExpression';
 
-export default class MeasurementLiteral extends Expression {
+export default class MeasurementLiteral extends AtomicExpression {
     readonly number: Token;
     readonly unit: Unit;
 
@@ -102,27 +101,6 @@ export default class MeasurementLiteral extends Expression {
         return current;
     }
 
-    getChildPlaceholderLabel(child: Node): Translations | undefined {
-        if (child === this.number)
-            return {
-                '😀': TRANSLATE,
-                eng: '#',
-            };
-    }
-
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: this.number.is(TokenType.PI)
-                ? 'pi'
-                : this.number.is(TokenType.INFINITY)
-                ? 'infinity'
-                : this.unit.isUnitless()
-                ? 'a number'
-                : 'a number with a unit',
-        };
-    }
-
     getStart() {
         return this.number;
     }
@@ -130,17 +108,15 @@ export default class MeasurementLiteral extends Expression {
         return this.number;
     }
 
-    getStartExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: "Let's make a number!",
-        };
+    getDescription(translation: Translation, context: Context): string {
+        return translation.expressions.MeasurementLiteral.description(
+            this,
+            translation,
+            context
+        );
     }
 
-    getFinishExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'We made a number!',
-        };
+    getStartExplanations(translation: Translation): string {
+        return translation.expressions.MeasurementLiteral.start;
     }
 }

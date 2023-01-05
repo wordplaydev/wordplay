@@ -124,6 +124,9 @@ export default class Evaluation {
     getCreator() {
         return this.#evaluatorNode;
     }
+    getCurrentNode() {
+        return this.currentStep()?.node ?? this.getCreator();
+    }
     getEvaluator() {
         return this.#evaluator;
     }
@@ -245,13 +248,14 @@ export default class Evaluation {
     peekValue(): Value {
         const value = this.#values[0];
         return value === undefined
-            ? new ValueException(this.#evaluator)
+            ? new ValueException(this.#evaluator, this.getCurrentNode())
             : value;
     }
 
     popValue(expected: Type | undefined): Value {
         const value = this.#values.shift();
-        if (value === undefined) return new ValueException(this.#evaluator);
+        if (value === undefined)
+            return new ValueException(this.#evaluator, this.getCurrentNode());
         else if (
             expected !== undefined &&
             value.getType(this.#context).constructor !== expected.constructor

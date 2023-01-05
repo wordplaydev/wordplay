@@ -6,12 +6,9 @@ import MeasurementType from '../nodes/MeasurementType';
 import NoneLiteral from '../nodes/NoneLiteral';
 import NoneType from '../nodes/NoneType';
 import StructureDefinition from '../nodes/StructureDefinition';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE, WRITE, WRITE_DOCS } from '../nodes/Translations';
 import type Type from '../nodes/Type';
 import UnionType from '../nodes/UnionType';
 import Unit from '../nodes/Unit';
-import { PRODUCT_SYMBOL } from '../parser/Tokenizer';
 import Bool from '../runtime/Bool';
 import Measurement from '../runtime/Measurement';
 import Text from '../runtime/Text';
@@ -22,12 +19,23 @@ import NativeExpression from './NativeExpression';
 import type Node from '../nodes/Node';
 import type Evaluation from '../runtime/Evaluation';
 import List from '../runtime/List';
+import type Docs from '../nodes/Docs';
+import type Names from '../nodes/Names';
+import { getFunctionTranslations } from '../translations/getFunctionTranslations';
+import { getDocTranslations } from '../translations/getDocTranslations';
+import { getNameTranslations } from '../translations/getNameTranslations';
 
 export default function bootstrapMeasurement() {
+    const subtractNames = getNameTranslations(
+        (t) => t.native.measurement.function.subtract.inputs[0].name
+    );
+
     function createBinaryOp(
-        docs: Translations,
-        names: Translations,
-        inputDocs: Translations,
+        translations: {
+            docs: Docs;
+            names: Names;
+            inputs: { docs: Docs; names: Names }[];
+        },
         inputType: Type,
         outputType: Type,
         expression: (
@@ -38,25 +46,20 @@ export default function bootstrapMeasurement() {
         requireEqualUnits: boolean = true
     ) {
         return FunctionDefinition.make(
-            docs,
-            names,
+            translations.docs,
+            translations.names,
             undefined,
-            [
-                Bind.make(
-                    inputDocs,
-                    {
-                        eng: 'number',
-                        '😀': `${TRANSLATE}number`,
-                    },
-                    inputType
-                ),
-            ],
+            translations.inputs.map((i) =>
+                Bind.make(i.docs, i.names, inputType)
+            ),
             new NativeExpression(
                 MeasurementType.make(),
                 (requestor, evaluation) => {
                     const left: Value | Evaluation | undefined =
                         evaluation.getClosure();
-                    const right = evaluation.resolve('number');
+                    const right = evaluation.resolve(
+                        translations.inputs[0].names
+                    );
                     // It should be impossible for the left to be a Measurement, but the type system doesn't know it.
                     if (!(left instanceof Measurement))
                         return new TypeException(
@@ -84,10 +87,6 @@ export default function bootstrapMeasurement() {
                             right
                         )
                     );
-                },
-                {
-                    '😀': WRITE,
-                    eng: 'Native measurement operation.',
                 }
             ),
             outputType
@@ -95,14 +94,17 @@ export default function bootstrapMeasurement() {
     }
 
     function createUnaryOp(
-        docs: Translations,
-        names: Translations,
+        translations: {
+            docs: Docs;
+            names: Names;
+            inputs: { docs: Docs; names: Names }[];
+        },
         outputType: Type,
         expression: (requestor: Node, left: Measurement) => Value | undefined
     ) {
         return FunctionDefinition.make(
-            docs,
-            names,
+            translations.docs,
+            translations.names,
             undefined,
             [],
             new NativeExpression(
@@ -125,10 +127,6 @@ export default function bootstrapMeasurement() {
                             undefined
                         )
                     );
-                },
-                {
-                    '😀': WRITE,
-                    eng: 'Native measurement operation.',
                 }
             ),
             outputType
@@ -136,47 +134,39 @@ export default function bootstrapMeasurement() {
     }
 
     return StructureDefinition.make(
-        WRITE_DOCS,
-        {
-            eng: 'Measurement',
-            '😀': '#',
-        },
+        getDocTranslations((t) => t.native.measurement.doc),
+        getNameTranslations((t) => t.native.measurement.name),
         [],
         undefined,
         [],
         new Block(
             [
                 createBinaryOp(
-                    {
-                        eng: 'add two numbers',
-                        '😀': WRITE,
-                    },
-                    {
-                        eng: 'add',
-                        '😀': '+',
-                    },
-                    WRITE_DOCS,
-                    // The operand's unit should match the left's unit.
+                    getFunctionTranslations(
+                        (t) => t.native.measurement.function.add
+                    ),
                     MeasurementType.make((left) => left),
                     // The output's type should be the left's type
                     MeasurementType.make((left) => left),
                     (requestor, left, right) => left.add(requestor, right)
                 ),
                 FunctionDefinition.make(
-                    WRITE_DOCS,
-                    {
-                        eng: 'subtract',
-                        '😀': '-',
-                    },
+                    getDocTranslations(
+                        (t) => t.native.measurement.function.subtract.doc
+                    ),
+                    getNameTranslations(
+                        (t) => t.native.measurement.function.subtract.name
+                    ),
                     undefined,
                     [
                         // Optional operand, since negation and subtraction are overloaded.
                         Bind.make(
-                            WRITE_DOCS,
-                            {
-                                eng: 'number',
-                                '😀': `${TRANSLATE}1`,
-                            },
+                            getDocTranslations(
+                                (t) =>
+                                    t.native.measurement.function.subtract
+                                        .inputs[0].doc
+                            ),
+                            subtractNames,
                             UnionType.make(
                                 NoneType.None,
                                 MeasurementType.make((left) => left)
@@ -188,7 +178,7 @@ export default function bootstrapMeasurement() {
                         MeasurementType.make(),
                         (requestor, evaluation) => {
                             const left = evaluation.getClosure();
-                            const right = evaluation.resolve('number');
+                            const right = evaluation.resolve(subtractNames);
                             // It should be impossible for the left to be a Measurement, but the type system doesn't know it.
                             if (!(left instanceof Measurement))
                                 return new TypeException(
@@ -208,21 +198,14 @@ export default function bootstrapMeasurement() {
                             return right === undefined
                                 ? left.negate(requestor)
                                 : left.subtract(requestor, right);
-                        },
-                        {
-                            '😀': WRITE,
-                            eng: 'Native measurement operation.',
                         }
                     ),
                     MeasurementType.make((left) => left)
                 ),
                 createBinaryOp(
-                    WRITE_DOCS,
-                    {
-                        eng: 'multiply',
-                        '😀': PRODUCT_SYMBOL,
-                    },
-                    WRITE_DOCS,
+                    getFunctionTranslations(
+                        (t) => t.native.measurement.function.multiply
+                    ),
                     // The operand's type can be any unitless measurement
                     MeasurementType.wildcard(),
                     // The output's type is is the unit's product
@@ -233,12 +216,9 @@ export default function bootstrapMeasurement() {
                     false
                 ),
                 createBinaryOp(
-                    WRITE_DOCS,
-                    {
-                        eng: 'divide',
-                        '😀': '÷',
-                    },
-                    WRITE_DOCS,
+                    getFunctionTranslations(
+                        (t) => t.native.measurement.function.divide
+                    ),
                     MeasurementType.wildcard(),
                     MeasurementType.make((left, right) =>
                         right ? left.quotient(right) : left
@@ -247,12 +227,9 @@ export default function bootstrapMeasurement() {
                     false
                 ),
                 createBinaryOp(
-                    WRITE_DOCS,
-                    {
-                        eng: 'remainder',
-                        '😀': '%',
-                    },
-                    WRITE_DOCS,
+                    getFunctionTranslations(
+                        (t) => t.native.measurement.function.remainder
+                    ),
                     MeasurementType.wildcard(),
                     MeasurementType.make((left) => left),
                     (requestor, left, right) =>
@@ -260,12 +237,9 @@ export default function bootstrapMeasurement() {
                     false
                 ),
                 createBinaryOp(
-                    WRITE_DOCS,
-                    {
-                        eng: 'power',
-                        '😀': '^',
-                    },
-                    WRITE_DOCS,
+                    getFunctionTranslations(
+                        (t) => t.native.measurement.function.power
+                    ),
                     MeasurementType.wildcard(),
                     MeasurementType.make((left, right, constant) => {
                         right;
@@ -277,12 +251,9 @@ export default function bootstrapMeasurement() {
                     false
                 ),
                 createBinaryOp(
-                    WRITE_DOCS,
-                    {
-                        eng: 'root',
-                        '😀': '√',
-                    },
-                    WRITE_DOCS,
+                    getFunctionTranslations(
+                        (t) => t.native.measurement.function.root
+                    ),
                     MeasurementType.wildcard(),
                     MeasurementType.make((left, right, constant) => {
                         right;
@@ -294,35 +265,26 @@ export default function bootstrapMeasurement() {
                     false
                 ),
                 createBinaryOp(
-                    WRITE_DOCS,
-                    {
-                        eng: 'less-than',
-                        '😀': '<',
-                    },
-                    WRITE_DOCS,
+                    getFunctionTranslations(
+                        (t) => t.native.measurement.function.lessThan
+                    ),
                     MeasurementType.make((unit) => unit),
                     BooleanType.make(),
                     (requestor, left, right) => left.lessThan(requestor, right)
                 ),
                 createBinaryOp(
-                    WRITE_DOCS,
-                    {
-                        eng: 'greater-than',
-                        '😀': '>',
-                    },
-                    WRITE_DOCS,
+                    getFunctionTranslations(
+                        (t) => t.native.measurement.function.greaterThan
+                    ),
                     MeasurementType.make((unit) => unit),
                     BooleanType.make(),
                     (requestor, left, right) =>
                         left.greaterThan(requestor, right)
                 ),
                 createBinaryOp(
-                    WRITE_DOCS,
-                    {
-                        eng: 'less-than-or-equal',
-                        '😀': '≤',
-                    },
-                    WRITE_DOCS,
+                    getFunctionTranslations(
+                        (t) => t.native.measurement.function.lessOrEqual
+                    ),
                     MeasurementType.make((unit) => unit),
                     BooleanType.make(),
                     (requestor, left, right) =>
@@ -333,12 +295,9 @@ export default function bootstrapMeasurement() {
                         )
                 ),
                 createBinaryOp(
-                    WRITE_DOCS,
-                    {
-                        eng: 'greater-than-or-equal',
-                        '😀': '≥',
-                    },
-                    WRITE_DOCS,
+                    getFunctionTranslations(
+                        (t) => t.native.measurement.function.greaterOrEqual
+                    ),
                     MeasurementType.make((unit) => unit),
                     BooleanType.make(),
                     (requestor, left, right) =>
@@ -349,24 +308,18 @@ export default function bootstrapMeasurement() {
                         )
                 ),
                 createBinaryOp(
-                    WRITE_DOCS,
-                    {
-                        eng: 'equals',
-                        '😀': '=',
-                    },
-                    WRITE_DOCS,
+                    getFunctionTranslations(
+                        (t) => t.native.measurement.function.equal
+                    ),
                     MeasurementType.make((unit) => unit),
                     BooleanType.make(),
                     (requestor, left, right) =>
                         new Bool(requestor, left.isEqualTo(right))
                 ),
                 createBinaryOp(
-                    WRITE_DOCS,
-                    {
-                        eng: 'not-equal',
-                        '😀': '≠',
-                    },
-                    WRITE_DOCS,
+                    getFunctionTranslations(
+                        (t) => t.native.measurement.function.notequal
+                    ),
                     MeasurementType.make((unit) => unit),
                     BooleanType.make(),
                     (requestor, left, right) =>
@@ -375,33 +328,33 @@ export default function bootstrapMeasurement() {
 
                 // Trigonometry
                 createUnaryOp(
-                    WRITE_DOCS,
-                    {
-                        eng: 'cos',
-                        '😀': `${WRITE}cos`,
-                    },
+                    getFunctionTranslations(
+                        (t) => t.native.measurement.function.cos
+                    ),
                     MeasurementType.make((unit) => unit),
                     (requestor, left) => left.cos(requestor)
                 ),
                 createUnaryOp(
-                    WRITE_DOCS,
-                    {
-                        eng: 'sin',
-                        '😀': `${WRITE}sin`,
-                    },
+                    getFunctionTranslations(
+                        (t) => t.native.measurement.function.sin
+                    ),
                     MeasurementType.make((unit) => unit),
                     (requestor, left) => left.sin(requestor)
                 ),
 
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations(
+                        (t) => t.native.measurement.conversion.text
+                    ),
                     '#?',
                     "''",
                     (requestor: Node, val: Measurement) =>
                         new Text(requestor, val.toString())
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations(
+                        (t) => t.native.measurement.conversion.text
+                    ),
                     '#',
                     '[]',
                     (requestor: Node, val: Measurement) => {
@@ -416,7 +369,9 @@ export default function bootstrapMeasurement() {
 
                 // Time
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations(
+                        (t) => t.native.measurement.conversion.s2m
+                    ),
                     '#s',
                     '#min',
                     (requestor: Node, val: Measurement) =>
@@ -430,7 +385,9 @@ export default function bootstrapMeasurement() {
                         )
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations(
+                        (t) => t.native.measurement.conversion.s2h
+                    ),
                     '#s',
                     '#h',
                     (requestor: Node, val: Measurement) =>
@@ -444,7 +401,9 @@ export default function bootstrapMeasurement() {
                         )
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations(
+                        (t) => t.native.measurement.conversion.s2day
+                    ),
                     '#s',
                     '#day',
                     (requestor: Node, val: Measurement) =>
@@ -458,7 +417,9 @@ export default function bootstrapMeasurement() {
                         )
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations(
+                        (t) => t.native.measurement.conversion.s2wk
+                    ),
                     '#s',
                     '#wk',
                     (requestor: Node, val: Measurement) =>
@@ -472,7 +433,9 @@ export default function bootstrapMeasurement() {
                         )
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations(
+                        (t) => t.native.measurement.conversion.s2year
+                    ),
                     '#s',
                     '#yr',
                     (requestor: Node, val: Measurement) =>
@@ -486,7 +449,9 @@ export default function bootstrapMeasurement() {
                         )
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations(
+                        (t) => t.native.measurement.conversion.s2ms
+                    ),
                     '#s',
                     '#ms',
                     (requestor: Node, val: Measurement) =>
@@ -500,7 +465,9 @@ export default function bootstrapMeasurement() {
                         )
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations(
+                        (t) => t.native.measurement.conversion.ms2s
+                    ),
                     '#ms',
                     '#s',
                     (requestor: Node, val: Measurement) =>
@@ -514,7 +481,9 @@ export default function bootstrapMeasurement() {
                         )
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations(
+                        (t) => t.native.measurement.conversion.min2s
+                    ),
                     '#min',
                     '#s',
                     (requestor: Node, val: Measurement) =>
@@ -528,7 +497,9 @@ export default function bootstrapMeasurement() {
                         )
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations(
+                        (t) => t.native.measurement.conversion.h2s
+                    ),
                     '#h',
                     '#s',
                     (requestor: Node, val: Measurement) =>
@@ -542,7 +513,9 @@ export default function bootstrapMeasurement() {
                         )
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations(
+                        (t) => t.native.measurement.conversion.day2s
+                    ),
                     '#day',
                     '#s',
                     (requestor: Node, val: Measurement) =>
@@ -556,7 +529,9 @@ export default function bootstrapMeasurement() {
                         )
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations(
+                        (t) => t.native.measurement.conversion.wk2s
+                    ),
                     '#wk',
                     '#s',
                     (requestor: Node, val: Measurement) =>
@@ -570,7 +545,9 @@ export default function bootstrapMeasurement() {
                         )
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations(
+                        (t) => t.native.measurement.conversion.yr2s
+                    ),
                     '#yr',
                     '#s',
                     (requestor: Node, val: Measurement) =>
@@ -586,7 +563,9 @@ export default function bootstrapMeasurement() {
 
                 // Distance
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations(
+                        (t) => t.native.measurement.conversion.m2pm
+                    ),
                     '#m',
                     '#pm',
                     (requestor: Node, val: Measurement) =>
@@ -600,7 +579,9 @@ export default function bootstrapMeasurement() {
                         )
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations(
+                        (t) => t.native.measurement.conversion.m2nm
+                    ),
                     '#m',
                     '#nm',
                     (requestor: Node, val: Measurement) =>
@@ -614,7 +595,9 @@ export default function bootstrapMeasurement() {
                         )
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations(
+                        (t) => t.native.measurement.conversion.m2micro
+                    ),
                     '#m',
                     '#µm',
                     (requestor: Node, val: Measurement) =>
@@ -628,7 +611,9 @@ export default function bootstrapMeasurement() {
                         )
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations(
+                        (t) => t.native.measurement.conversion.m2mm
+                    ),
                     '#m',
                     '#mm',
                     (requestor: Node, val: Measurement) =>
@@ -642,7 +627,10 @@ export default function bootstrapMeasurement() {
                         )
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations(
+                        (t) => t.native.measurement.conversion.m2cm
+                    ),
+
                     '#m',
                     '#cm',
                     (requestor: Node, val: Measurement) =>
@@ -656,7 +644,9 @@ export default function bootstrapMeasurement() {
                         )
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations(
+                        (t) => t.native.measurement.conversion.m2dm
+                    ),
                     '#m',
                     '#dm',
                     (requestor: Node, val: Measurement) =>
@@ -670,7 +660,9 @@ export default function bootstrapMeasurement() {
                         )
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations(
+                        (t) => t.native.measurement.conversion.m2km
+                    ),
                     '#m',
                     '#km',
                     (requestor: Node, val: Measurement) =>
@@ -684,7 +676,9 @@ export default function bootstrapMeasurement() {
                         )
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations(
+                        (t) => t.native.measurement.conversion.m2Mm
+                    ),
                     '#m',
                     '#Mm',
                     (requestor: Node, val: Measurement) =>
@@ -698,7 +692,9 @@ export default function bootstrapMeasurement() {
                         )
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations(
+                        (t) => t.native.measurement.conversion.m2Gm
+                    ),
                     '#m',
                     '#Gm',
                     (requestor: Node, val: Measurement) =>
@@ -712,7 +708,9 @@ export default function bootstrapMeasurement() {
                         )
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations(
+                        (t) => t.native.measurement.conversion.m2Tm
+                    ),
                     '#m',
                     '#Tm',
                     (requestor: Node, val: Measurement) =>
@@ -726,7 +724,9 @@ export default function bootstrapMeasurement() {
                         )
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations(
+                        (t) => t.native.measurement.conversion.pm2m
+                    ),
                     '#pm',
                     '#m',
                     (requestor: Node, val: Measurement) =>
@@ -740,7 +740,9 @@ export default function bootstrapMeasurement() {
                         )
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations(
+                        (t) => t.native.measurement.conversion.nm2m
+                    ),
                     '#nm',
                     '#m',
                     (requestor: Node, val: Measurement) =>
@@ -754,7 +756,9 @@ export default function bootstrapMeasurement() {
                         )
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations(
+                        (t) => t.native.measurement.conversion.micro2m
+                    ),
                     '#µm',
                     '#m',
                     (requestor: Node, val: Measurement) =>
@@ -768,7 +772,9 @@ export default function bootstrapMeasurement() {
                         )
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations(
+                        (t) => t.native.measurement.conversion.mm2m
+                    ),
                     '#mm',
                     '#m',
                     (requestor: Node, val: Measurement) =>
@@ -782,7 +788,9 @@ export default function bootstrapMeasurement() {
                         )
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations(
+                        (t) => t.native.measurement.conversion.cm2m
+                    ),
                     '#cm',
                     '#m',
                     (requestor: Node, val: Measurement) =>
@@ -796,7 +804,9 @@ export default function bootstrapMeasurement() {
                         )
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations(
+                        (t) => t.native.measurement.conversion.dm2m
+                    ),
                     '#dm',
                     '#m',
                     (requestor: Node, val: Measurement) =>
@@ -810,7 +820,9 @@ export default function bootstrapMeasurement() {
                         )
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations(
+                        (t) => t.native.measurement.conversion.km2m
+                    ),
                     '#km',
                     '#m',
                     (requestor: Node, val: Measurement) =>
@@ -824,7 +836,9 @@ export default function bootstrapMeasurement() {
                         )
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations(
+                        (t) => t.native.measurement.conversion.Mm2m
+                    ),
                     '#Mm',
                     '#m',
                     (requestor: Node, val: Measurement) =>
@@ -838,7 +852,9 @@ export default function bootstrapMeasurement() {
                         )
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations(
+                        (t) => t.native.measurement.conversion.Gm2m
+                    ),
                     '#Gm',
                     '#m',
                     (requestor: Node, val: Measurement) =>
@@ -852,9 +868,11 @@ export default function bootstrapMeasurement() {
                         )
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations(
+                        (t) => t.native.measurement.conversion.Tm2m
+                    ),
                     '#Tm',
-                    '#mT',
+                    '#m',
                     (requestor: Node, val: Measurement) =>
                         val.divide(
                             requestor,
@@ -868,7 +886,9 @@ export default function bootstrapMeasurement() {
 
                 // Imperial conversions
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations(
+                        (t) => t.native.measurement.conversion.km2mi
+                    ),
                     '#km',
                     '#mi',
                     (requestor: Node, val: Measurement) =>
@@ -882,7 +902,9 @@ export default function bootstrapMeasurement() {
                         )
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations(
+                        (t) => t.native.measurement.conversion.mi2km
+                    ),
                     '#mi',
                     '#km',
                     (requestor: Node, val: Measurement) =>
@@ -896,7 +918,9 @@ export default function bootstrapMeasurement() {
                         )
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations(
+                        (t) => t.native.measurement.conversion.cm2in
+                    ),
                     '#cm',
                     '#in',
                     (requestor: Node, val: Measurement) =>
@@ -910,7 +934,9 @@ export default function bootstrapMeasurement() {
                         )
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations(
+                        (t) => t.native.measurement.conversion.in2cm
+                    ),
                     '#in',
                     '#cm',
                     (requestor: Node, val: Measurement) =>
@@ -924,7 +950,9 @@ export default function bootstrapMeasurement() {
                         )
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations(
+                        (t) => t.native.measurement.conversion.m2ft
+                    ),
                     '#m',
                     '#ft',
                     (requestor: Node, val: Measurement) =>
@@ -938,7 +966,9 @@ export default function bootstrapMeasurement() {
                         )
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations(
+                        (t) => t.native.measurement.conversion.ft2m
+                    ),
                     '#ft',
                     '#m',
                     (requestor: Node, val: Measurement) =>
@@ -954,7 +984,9 @@ export default function bootstrapMeasurement() {
 
                 // Weight
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations(
+                        (t) => t.native.measurement.conversion.g2mg
+                    ),
                     '#g',
                     '#mg',
                     (requestor: Node, val: Measurement) =>
@@ -968,7 +1000,9 @@ export default function bootstrapMeasurement() {
                         )
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations(
+                        (t) => t.native.measurement.conversion.mg2g
+                    ),
                     '#mg',
                     '#g',
                     (requestor: Node, val: Measurement) =>
@@ -982,7 +1016,9 @@ export default function bootstrapMeasurement() {
                         )
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations(
+                        (t) => t.native.measurement.conversion.g2kg
+                    ),
                     '#g',
                     '#kg',
                     (requestor: Node, val: Measurement) =>
@@ -996,7 +1032,9 @@ export default function bootstrapMeasurement() {
                         )
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations(
+                        (t) => t.native.measurement.conversion.kg2g
+                    ),
                     '#kg',
                     '#g',
                     (requestor: Node, val: Measurement) =>
@@ -1010,7 +1048,9 @@ export default function bootstrapMeasurement() {
                         )
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations(
+                        (t) => t.native.measurement.conversion.g2oz
+                    ),
                     '#g',
                     '#oz',
                     (requestor: Node, val: Measurement) =>
@@ -1024,7 +1064,9 @@ export default function bootstrapMeasurement() {
                         )
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations(
+                        (t) => t.native.measurement.conversion.oz2g
+                    ),
                     '#oz',
                     '#g',
                     (requestor: Node, val: Measurement) =>
@@ -1038,7 +1080,9 @@ export default function bootstrapMeasurement() {
                         )
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations(
+                        (t) => t.native.measurement.conversion.oz2lb
+                    ),
                     '#oz',
                     '#lb',
                     (requestor: Node, val: Measurement) =>
@@ -1052,7 +1096,9 @@ export default function bootstrapMeasurement() {
                         )
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations(
+                        (t) => t.native.measurement.conversion.lb2oz
+                    ),
                     '#lb',
                     '#oz',
                     (requestor: Node, val: Measurement) =>

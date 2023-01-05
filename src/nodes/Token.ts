@@ -1,9 +1,10 @@
 import UnicodeString from '../models/UnicodeString';
 import type Spaces from '../parser/Spaces';
+import type { Description } from '../translations/Translation';
+import type Translation from '../translations/Translation';
+import type Context from './Context';
 import Node, { type Replacement } from './Node';
 import TokenType from './TokenType';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 
 export default class Token extends Node {
     /** The one or more types of token this might represent. This is narrowed during parsing to one.*/
@@ -36,25 +37,8 @@ export default class Token extends Node {
     }
     computeConflicts() {}
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: this.is(TokenType.NAME)
-                ? 'a name'
-                : this.is(TokenType.BINARY_OP) || this.is(TokenType.UNARY_OP)
-                ? 'an operator'
-                : this.is(TokenType.DOCS)
-                ? 'documentation'
-                : this.is(TokenType.JAPANESE) ||
-                  this.is(TokenType.ROMAN) ||
-                  this.is(TokenType.NUMBER) ||
-                  this.is(TokenType.PI) ||
-                  this.is(TokenType.INFINITY)
-                ? 'a number'
-                : this.is(TokenType.SHARE)
-                ? 'share'
-                : 'a token',
-        };
+    getDescription(translation: Translation, context: Context): Description {
+        return translation.nodes.Token.description(this, translation, context);
     }
 
     // TOKEN TYPES
@@ -81,7 +65,7 @@ export default class Token extends Node {
     getTextLength() {
         return this.text.getLength();
     }
-    toWordplay(spaces?: Spaces) {
+    toWordplay(spaces?: Spaces): string {
         return `${spaces?.getSpace(this) ?? ''}${this.text.toString()}`;
     }
 

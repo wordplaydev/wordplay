@@ -3,8 +3,6 @@ import { IncompatibleKey } from '../conflicts/IncompatibleKey';
 import Expression from './Expression';
 import Token from './Token';
 import Type from './Type';
-import type Node from './Node';
-import UnknownType from './UnknownType';
 import type Evaluator from '../runtime/Evaluator';
 import type Value from '../runtime/Value';
 import Set from '../runtime/Set';
@@ -22,11 +20,11 @@ import TypeException from '../runtime/TypeException';
 import UnionType from './UnionType';
 import SetOpenToken from './SetOpenToken';
 import SetCloseToken from './SetCloseToken';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import { NotASetOrMap } from '../conflicts/NotASetOrMap';
 import UnclosedDelimiter from '../conflicts/UnclosedDelimiter';
 import type { Replacement } from './Node';
+import type Translation from '../translations/Translation';
+import { NotASetOrMapType } from './NotASetOrMapType';
 
 export default class SetOrMapAccess extends Expression {
     readonly setOrMap: Expression;
@@ -64,11 +62,16 @@ export default class SetOrMapAccess extends Expression {
             {
                 name: 'setOrMap',
                 types: [Expression],
+                label: (translation: Translation) => translation.data.set,
                 // Must be a number
                 getType: () => UnionType.make(SetType.make(), MapType.make()),
             },
             { name: 'open', types: [Token] },
-            { name: 'key', types: [Expression] },
+            {
+                name: 'key',
+                types: [Expression],
+                label: (translation: Translation) => translation.data.key,
+            },
             { name: 'close', types: [Token] },
         ];
     }
@@ -167,50 +170,15 @@ export default class SetOrMapAccess extends Expression {
         return this.close ?? this.key;
     }
 
-    getStartExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'First evaluate the set/map, then the key.',
-        };
+    getDescription(translation: Translation) {
+        return translation.expressions.SetOrMapAccess.description;
     }
 
-    getFinishExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'Then find the matching key in the set/map.',
-        };
+    getStartExplanations(translation: Translation) {
+        return translation.expressions.SetOrMapAccess.start;
     }
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'Get a value in a set or a map',
-        };
-    }
-
-    getChildPlaceholderLabel(child: Node): Translations | undefined {
-        if (child === this.setOrMap)
-            return {
-                '😀': TRANSLATE,
-                eng: 'set/map',
-            };
-        else if (child === this.key)
-            return {
-                '😀': TRANSLATE,
-                eng: 'key',
-            };
-    }
-}
-
-export class NotASetOrMapType extends UnknownType<SetOrMapAccess> {
-    constructor(dis: SetOrMapAccess, why: Type) {
-        super(dis, why);
-    }
-
-    getReason(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: `${this.expression.setOrMap.toWordplay()} is not a set or map`,
-        };
+    getFinishExplanations(translation: Translation) {
+        return translation.expressions.SetOrMapAccess.finish;
     }
 }

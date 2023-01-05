@@ -11,7 +11,7 @@ import StructureDefinitionType from '../nodes/StructureDefinitionType';
 import Evaluate from '../nodes/Evaluate';
 import Reference from '../nodes/Reference';
 import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
-import type LanguageCode from '../nodes/LanguageCode';
+import type LanguageCode from '../translations/LanguageCode';
 
 export default class StructureConcept extends Concept {
     /** The type this concept represents. */

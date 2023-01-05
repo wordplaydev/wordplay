@@ -2,18 +2,17 @@ import Token from './Token';
 import TokenType from './TokenType';
 import Type from './Type';
 import type Context from './Context';
-import { FUNCTION_SYMBOL } from '../parser/Tokenizer';
+import { FUNCTION_SYMBOL } from '../parser/Symbols';
 import Bind from './Bind';
 import { getEvaluationInputConflicts } from './util';
 import EvalCloseToken from './EvalCloseToken';
 import EvalOpenToken from './EvalOpenToken';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import FunctionDefinitionType from './FunctionDefinitionType';
 import TypeVariables from './TypeVariables';
 import type TypeSet from './TypeSet';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type { Replacement } from './Node';
+import type Translation from '../translations/Translation';
 
 export default class FunctionType extends Type {
     readonly fun: Token;
@@ -128,10 +127,7 @@ export default class FunctionType extends Type {
         return getEvaluationInputConflicts(this.inputs);
     }
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'A function type.',
-        };
+    getDescription(translation: Translation) {
+        return translation.types.FunctionType.description;
     }
 }

@@ -1,24 +1,21 @@
 <svelte:options immutable={true} />
 
 <script lang="ts">
-    import { languages } from '../models/languages';
-    import type Translations from '../nodes/Translations';
-
-    export let label: Translations;
-    export let tip: Translations;
+    export let label: string;
+    export let tip: string;
     export let action: () => void;
     export let enabled: boolean = true;
 </script>
 
 <button
-    title={tip[$languages[0]]}
+    title={tip}
     tabIndex={0}
     on:click={action}
     disabled={!enabled}
     on:keydown={(event) =>
         event.key === 'Enter' || event.key === 'Space' ? action() : undefined}
 >
-    {label[$languages[0]]}
+    {label}
 </button>
 
 <style>

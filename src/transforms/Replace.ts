@@ -2,10 +2,10 @@ import type { Edit } from '../editor/util/Commands';
 import Transform from './Transform';
 import Node from '../nodes/Node';
 import Caret from '../editor/util/Caret';
-import type LanguageCode from '../nodes/LanguageCode';
+import type LanguageCode from '../translations/LanguageCode';
 import Refer from './Refer';
-import { TRANSLATE } from '../nodes/Translations';
 import type Context from '../nodes/Context';
+import type Translation from '../translations/Translation';
 
 export default class Replace<NodeType extends Node> extends Transform {
     readonly parent: Node;
@@ -64,25 +64,14 @@ export default class Replace<NodeType extends Node> extends Transform {
         return this.replacement?.getNode(languages);
     }
 
-    getDescription(languages: LanguageCode[]): string {
-        let translations = undefined;
-        if (Array.isArray(this.replacement))
-            translations = this.replacement[1].getDescriptions();
-
-        if (translations === undefined) {
-            const replacement = this.getNewNode(languages);
-            translations = replacement?.getDescriptions(this.context);
-        }
-
-        const descriptions = {
-            eng: `Replace with ${translations?.eng ?? 'nothing'}`,
-            '😀': `${TRANSLATE} → ${
-                translations === undefined ? '_' : translations['😀']
-            }`,
-        };
-        return descriptions[
-            languages.find((lang) => lang in descriptions) ?? 'eng'
-        ];
+    getDescription(translation: Translation): string {
+        let node =
+            this.replacement instanceof Refer
+                ? this.replacement.getNode([translation.language])
+                : this.getNewNode([translation.language]);
+        return translation.transform.replace(
+            node?.getDescription(translation, this.context)
+        );
     }
 
     equals(transform: Transform) {

@@ -1,8 +1,7 @@
 import Conflict from './Conflict';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
-import UnparsableType from '../nodes/UnparsableType';
-import type UnparsableExpression from '../nodes/UnparsableExpression';
+import type UnparsableType from '../nodes/UnparsableType';
+import UnparsableExpression from '../nodes/UnparsableExpression';
+import type Translation from '../translations/Translation';
 
 export class UnparsableConflict extends Conflict {
     readonly unparsable: UnparsableType | UnparsableExpression;
@@ -16,13 +15,13 @@ export class UnparsableConflict extends Conflict {
         return { primary: this.unparsable, secondary: [] };
     }
 
-    getPrimaryExplanation(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng:
-                this.unparsable instanceof UnparsableType
-                    ? `We expected this to be a type, but we couldn't figure out what kind you meant.`
-                    : `We expected this to be an expression, but we couldn't find out what kind you meant.`,
-        };
+    getPrimaryExplanation(translation: Translation) {
+        return translation.conflict.UnparsableConflict.primary(
+            this.unparsable instanceof UnparsableExpression
+        );
+    }
+
+    getSecondaryExplanation() {
+        return undefined;
     }
 }

@@ -1,6 +1,5 @@
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
+import type Translation from '../translations/Translation';
 import Type from './Type';
 
 export default class AnyType extends Type {
@@ -15,10 +14,16 @@ export default class AnyType extends Type {
     acceptsAll() {
         return true;
     }
+
     getNativeTypeName(): NativeTypeName {
         return 'any';
     }
+
     computeConflicts() {}
+
+    getDescription(translation: Translation): string {
+        return translation.types.AnyType.description;
+    }
 
     toWordplay() {
         return '*';
@@ -26,12 +31,5 @@ export default class AnyType extends Type {
 
     clone() {
         return this;
-    }
-
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'any type',
-        };
     }
 }

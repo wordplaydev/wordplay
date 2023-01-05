@@ -5,13 +5,10 @@ import ImplicitShares from '../runtime/ImplicitShares';
 import Native from './NativeBindings';
 import type Node from '../nodes/Node';
 import UnusedBind from '../conflicts/UnusedBind';
-import StructureDefinition from '../nodes/StructureDefinition';
-import FunctionDefinition from '../nodes/FunctionDefinition';
-import { SupportedLanguages } from '../nodes/LanguageCode';
-import Bind from '../nodes/Bind';
 import UnparsableType from '../nodes/UnparsableType';
 import UnparsableExpression from '../nodes/UnparsableExpression';
 import Project from '../models/Project';
+import eng_serious from '../translations/eng_serious';
 
 const source = new Source('native', '');
 const project = new Project('test', source, []);
@@ -52,46 +49,14 @@ function checkNativeNodes(nodes: Node[]) {
                 console.log(
                     `Conflict on:\n${node.toWordplay()}\nPrimary node: ${conflict
                         .getConflictingNodes()
-                        .primary.toWordplay()}\n\t${conflict.getExplanation(
-                        context,
-                        'eng'
+                        .primary.toWordplay()}\n\t${conflict.getPrimaryExplanation(
+                        eng_serious,
+                        context
                     )}`
                 );
 
         expect(conflicts).toHaveLength(0);
     }
-
-    // Check for missing supported languages
-    const definitionsWithMissingTranslations: string[] = [];
-    for (const node of nodes) {
-        if (
-            node instanceof StructureDefinition ||
-            node instanceof FunctionDefinition
-        ) {
-            for (const lang of SupportedLanguages) {
-                if (!node.names.hasTranslation(lang))
-                    definitionsWithMissingTranslations.push(
-                        `${node.names.toWordplay()} missing ${lang}`
-                    );
-            }
-            for (const lang of SupportedLanguages) {
-                for (const input of node.inputs) {
-                    if (
-                        input instanceof Bind &&
-                        !input.names.hasTranslation(lang)
-                    )
-                        definitionsWithMissingTranslations.push(
-                            `${input.toWordplay()} on ${node.names.toWordplay()} missing ${lang}`
-                        );
-                }
-            }
-        }
-    }
-
-    if (definitionsWithMissingTranslations.length > 0)
-        console.log(definitionsWithMissingTranslations.join('\n'));
-
-    expect(definitionsWithMissingTranslations).toHaveLength(0);
 }
 
 test("Verify that native structures don't have parsing errors or conflicts.", () => {

@@ -2,12 +2,10 @@ import type Conflict from '../conflicts/Conflict';
 import Placeholder from '../conflicts/Placeholder';
 import Token from './Token';
 import Type from './Type';
-import type Node from './Node';
 import PlaceholderToken from './PlaceholderToken';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type { Replacement } from './Node';
+import type Translation from '../translations/Translation';
 
 export default class TypePlaceholder extends Type {
     readonly placeholder: Token;
@@ -21,7 +19,14 @@ export default class TypePlaceholder extends Type {
     }
 
     getGrammar() {
-        return [{ name: 'placeholder', types: [Token] }];
+        return [
+            {
+                name: 'placeholder',
+                types: [Token],
+                label: (translation: Translation) =>
+                    translation.placeholders.type,
+            },
+        ];
     }
 
     computeConflicts(): Conflict[] {
@@ -46,18 +51,7 @@ export default class TypePlaceholder extends Type {
         return true;
     }
 
-    getChildPlaceholderLabel(child: Node): Translations | undefined {
-        if (child === this.placeholder)
-            return {
-                '😀': TRANSLATE,
-                eng: 'type',
-            };
-    }
-
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'A type placeholder',
-        };
+    getDescription(translation: Translation) {
+        return translation.types.TypePlaceholder.description;
     }
 }

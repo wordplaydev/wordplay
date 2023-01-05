@@ -1,6 +1,5 @@
 import type MeasurementLiteral from '../nodes/MeasurementLiteral';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
+import type Translation from '../translations/Translation';
 import Conflict from './Conflict';
 
 export class NotANumber extends Conflict {
@@ -15,10 +14,11 @@ export class NotANumber extends Conflict {
         return { primary: this.measurement, secondary: [] };
     }
 
-    getPrimaryExplanation(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: `This number isn't formatted correctly`,
-        };
+    getPrimaryExplanation(translation: Translation) {
+        return translation.conflict.NotANumber.primary();
+    }
+
+    getSecondaryExplanation() {
+        return undefined;
     }
 }

@@ -1,6 +1,6 @@
 import DuplicateTypeVariables from '../conflicts/DuplicateTypeVariables';
 import RequiredAfterOptional from '../conflicts/RequiredAfterOptional';
-import VariableLengthArgumentMustBeLast from '../conflicts/VariableLengthArgumentMustBeLast';
+import InputListMustBeLast from '../conflicts/InputListMustBeLast';
 import Bind from './Bind';
 import type Context from './Context';
 import type TypeVariable from './TypeVariable';
@@ -55,7 +55,7 @@ export function restIsNotLast(inputs: Bind[]) {
         (i) => i instanceof Bind && i.isVariableLength()
     ) as Bind | undefined;
     return rest !== undefined && inputs.indexOf(rest) !== inputs.length - 1
-        ? new VariableLengthArgumentMustBeLast(rest)
+        ? new InputListMustBeLast(rest)
         : undefined;
 }
 

@@ -1,12 +1,11 @@
 import type Evaluate from '../nodes/Evaluate';
 import Conflict from './Conflict';
 import type Bind from '../nodes/Bind';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
 import type FunctionDefinition from '../nodes/FunctionDefinition';
 import type StructureDefinition from '../nodes/StructureDefinition';
+import type Translation from '../translations/Translation';
 
-export default class UnexpectedInput extends Conflict {
+export default class MisplacedInput extends Conflict {
     readonly func: FunctionDefinition | StructureDefinition;
     readonly evaluate: Evaluate;
     readonly expected: Bind;
@@ -30,10 +29,11 @@ export default class UnexpectedInput extends Conflict {
         return { primary: this.given.names, secondary: [] };
     }
 
-    getPrimaryExplanation(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: `We expected ${this.expected.getNames().join(',')} here.`,
-        };
+    getPrimaryExplanation(translation: Translation) {
+        return translation.conflict.MisplacedInput.primary();
+    }
+
+    getSecondaryExplanation() {
+        return undefined;
     }
 }

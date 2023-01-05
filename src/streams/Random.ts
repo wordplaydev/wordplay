@@ -1,26 +1,24 @@
 import MeasurementType from '../nodes/MeasurementType';
 import StreamType from '../nodes/StreamType';
-import { TRANSLATE } from '../nodes/Translations';
 import type Evaluator from '../runtime/Evaluator';
 import Measurement from '../runtime/Measurement';
 import Stream from '../runtime/Stream';
+import { getDocTranslations } from '../translations/getDocTranslations';
+import { getNameTranslations } from '../translations/getNameTranslations';
 
 export const FREQUENCY = 33;
 
 export default class Random extends Stream<Measurement> {
     constructor(evaluator: Evaluator) {
-        super(
-            evaluator,
-            {
-                eng: 'An infinite sequence of random numbers between 0 and 1',
-                '😀': TRANSLATE,
-            },
-            {
-                '😀': '⚁',
-                eng: 'random',
-            },
-            Random.next(evaluator)
-        );
+        super(evaluator, Random.next(evaluator));
+    }
+
+    computeDocs() {
+        return getDocTranslations((t) => t.input.random.doc);
+    }
+
+    computeNames() {
+        return getNameTranslations((t) => t.input.random.name);
     }
 
     static next(evaluator: Evaluator) {

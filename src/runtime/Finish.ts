@@ -1,9 +1,9 @@
-import type Translations from '../nodes/Translations';
 import type Evaluator from './Evaluator';
 import Step from './Step';
 import type Value from './Value';
 import type Expression from '../nodes/Expression';
 import HOF from '../native/HOF';
+import type Translation from '../translations/Translation';
 
 export default class Finish extends Step {
     constructor(node: Expression) {
@@ -14,8 +14,11 @@ export default class Finish extends Step {
         return finish(evaluator, this.node);
     }
 
-    getExplanations(evaluator: Evaluator): Translations {
-        return this.node.getFinishExplanations(evaluator);
+    getExplanations(translation: Translation, evaluator: Evaluator) {
+        return this.node.getFinishExplanations(
+            translation,
+            evaluator.project.getNodeContext(this.node)
+        );
     }
 }
 

@@ -11,6 +11,6 @@ test.each([
         "{'cat':1 'dog':2 'mouse':3}.translate(ƒ(k v) -v)",
         '{"cat":-1 "dog":-2 "mouse":-3}',
     ],
-])('Test map functions', (code, value) => {
+])('Expect %s to be %s map functions', (code, value) => {
     expect(Evaluator.evaluateCode(code)?.toString()).toBe(value);
 });

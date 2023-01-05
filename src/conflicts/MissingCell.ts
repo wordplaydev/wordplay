@@ -1,8 +1,7 @@
 import type Bind from '../nodes/Bind';
 import type Row from '../nodes/Row';
 import type TableType from '../nodes/TableType';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
+import type Translation from '../translations/Translation';
 import Conflict from './Conflict';
 
 export default class MissingCell extends Conflict {
@@ -22,10 +21,11 @@ export default class MissingCell extends Conflict {
         return { primary: this.row, secondary: [this.column] };
     }
 
-    getPrimaryExplanation(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: `This row is missing column ${this.column.toWordplay()}.`,
-        };
+    getPrimaryExplanation(translation: Translation) {
+        return translation.conflict.MissingCell.primary(this.column);
+    }
+
+    getSecondaryExplanation(translation: Translation) {
+        return translation.conflict.MissingCell.secondary();
     }
 }

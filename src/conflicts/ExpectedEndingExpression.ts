@@ -1,6 +1,5 @@
 import type Block from '../nodes/Block';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
+import type Translation from '../translations/Translation';
 import Conflict from './Conflict';
 
 export class ExpectedEndingExpression extends Conflict {
@@ -15,10 +14,13 @@ export class ExpectedEndingExpression extends Conflict {
         return { primary: this.block, secondary: [] };
     }
 
-    getPrimaryExplanation(): Translations {
-        return {
-            eng: `Every block must end with an expression.`,
-            '😀': `${TRANSLATE} …?`,
-        };
+    getPrimaryExplanation(translation: Translation) {
+        return translation.conflict.ExpectedEndingExpression.primary(
+            this.block
+        );
+    }
+
+    getSecondaryExplanation() {
+        return undefined;
     }
 }

@@ -1,18 +1,14 @@
 import type Type from './Type';
 import UnknownType from './UnknownType';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import type Select from './Select';
+import type Translation from '../translations/Translation';
 
 export default class NotATableType extends UnknownType<Select> {
     constructor(query: Select, why: Type) {
         super(query, why);
     }
 
-    getReason(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: `${this.expression.table.toWordplay()} is not a table`,
-        };
+    getReason(translation: Translation) {
+        return translation.types.NotATableType.description;
     }
 }

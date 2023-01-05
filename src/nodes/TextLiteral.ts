@@ -1,4 +1,4 @@
-import Expression from './Expression';
+import type Expression from './Expression';
 import TextType from './TextType';
 import Token from './Token';
 import type Type from './Type';
@@ -10,13 +10,13 @@ import type Bind from './Bind';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
 import TokenType from './TokenType';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import type Evaluator from '../runtime/Evaluator';
 import StartFinish from '../runtime/StartFinish';
 import type { Replacement } from './Node';
+import type Translation from '../translations/Translation';
+import AtomicExpression from './AtomicExpression';
 
-export default class TextLiteral extends Expression {
+export default class TextLiteral extends AtomicExpression {
     readonly text: Token;
     readonly format?: Language;
 
@@ -101,28 +101,19 @@ export default class TextLiteral extends Expression {
         return current;
     }
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'Text',
-        };
-    }
-
     getStart() {
         return this.text;
     }
+
     getFinish() {
         return this.text;
     }
 
-    getStartExplanations(): Translations {
-        return this.getFinishExplanations();
+    getDescription(translation: Translation) {
+        return translation.expressions.TextLiteral.description;
     }
 
-    getFinishExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'Evaluate to this text!',
-        };
+    getStartExplanations(translation: Translation) {
+        return translation.expressions.TextLiteral.start;
     }
 }

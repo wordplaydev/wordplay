@@ -19,8 +19,6 @@ import type TypeSet from './TypeSet';
 import ValueException from '../runtime/ValueException';
 import None from '../runtime/None';
 import ConversionDefinition from './ConversionDefinition';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import Docs from './Docs';
 import type Value from '../runtime/Value';
 import EvalCloseToken from './EvalCloseToken';
@@ -28,6 +26,7 @@ import EvalOpenToken from './EvalOpenToken';
 import UnclosedDelimiter from '../conflicts/UnclosedDelimiter';
 import NoExpressionType from './NoExpressionType';
 import type { Replacement } from './Node';
+import type Translation from '../translations/Translation';
 
 export default class Block extends Expression {
     readonly docs?: Docs;
@@ -80,6 +79,8 @@ export default class Block extends Expression {
             {
                 name: 'statements',
                 types: [[Expression, Bind]],
+                label: (translation: Translation) =>
+                    translation.expressions.Block.statement,
                 space: true,
                 indent: true,
             },
@@ -207,7 +208,12 @@ export default class Block extends Expression {
     compile(context: Context): Step[] {
         // If there are no statements, halt on exception.
         return !this.creator && this.statements.length === 0
-            ? [new Halt((evaluator) => new ValueException(evaluator), this)]
+            ? [
+                  new Halt(
+                      (evaluator) => new ValueException(evaluator, this),
+                      this
+                  ),
+              ]
             : [
                   new Start(this),
                   ...this.statements.reduce(
@@ -247,18 +253,16 @@ export default class Block extends Expression {
             : current;
     }
 
-    getChildPlaceholderLabel(child: Node): Translations | undefined {
-        if (this.statements.includes(child as Expression))
-            return {
-                '😀': TRANSLATE,
-                eng: 'statement',
-            };
+    getDescription(translation: Translation): string {
+        return translation.expressions.Block.description;
     }
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'Evaluate one or more expressions',
-        };
+
+    getStartExplanations(translation: Translation): string {
+        return translation.expressions.Block.start;
+    }
+
+    getFinishExplanations(translation: Translation): string {
+        return translation.expressions.Block.finish;
     }
 
     getStart() {
@@ -266,19 +270,5 @@ export default class Block extends Expression {
     }
     getFinish(): Node {
         return this.close ?? this.getLast() ?? this;
-    }
-
-    getStartExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: "We'll evaluate all of the expressions first.",
-        };
-    }
-
-    getFinishExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: "Now that we're done, we'll evaluate to the last expression's value.",
-        };
     }
 }

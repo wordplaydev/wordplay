@@ -5,13 +5,12 @@ import Token from './Token';
 import type Node from './Node';
 import TokenType from './TokenType';
 import Type from './Type';
-import { OR_SYMBOL } from '../parser/Tokenizer';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
+import { OR_SYMBOL } from '../parser/Symbols';
 import type TypeSet from './TypeSet';
 import NeverType from './NeverType';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type { Replacement } from './Node';
+import type Translation from '../translations/Translation';
 
 export default class UnionType extends Type {
     readonly left: Type;
@@ -134,13 +133,12 @@ export default class UnionType extends Type {
         return leftScope === rightScope ? leftScope : undefined;
     }
 
-    getDescriptions(context: Context): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: `${this.left.getDescriptions(context).eng}${OR_SYMBOL}${
-                this.right.getDescriptions(context).eng
-            }`,
-        };
+    getDescription(translation: Translation, context: Context) {
+        return translation.types.UnionType.description(
+            this,
+            translation,
+            context
+        );
     }
 
     /**

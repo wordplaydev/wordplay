@@ -1,6 +1,5 @@
 import type ConversionDefinition from '../nodes/ConversionDefinition';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
+import type Translation from '../translations/Translation';
 import Conflict from './Conflict';
 
 export class MisplacedConversion extends Conflict {
@@ -16,10 +15,11 @@ export class MisplacedConversion extends Conflict {
         return { primary: this.conversion, secondary: [] };
     }
 
-    getPrimaryExplanation(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: `Can't put a conversion here.`,
-        };
+    getPrimaryExplanation(translation: Translation) {
+        return translation.conflict.MisplacedConversion.primary();
+    }
+
+    getSecondaryExplanation() {
+        return undefined;
     }
 }

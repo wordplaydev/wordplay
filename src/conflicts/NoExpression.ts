@@ -1,7 +1,6 @@
-import type Translations from '../nodes/Translations';
 import Conflict from './Conflict';
-import { WRITE } from '../nodes/Translations';
 import type FunctionDefinition from '../nodes/FunctionDefinition';
+import type Translation from '../translations/Translation';
 
 export default class NoExpression extends Conflict {
     readonly def: FunctionDefinition;
@@ -16,10 +15,11 @@ export default class NoExpression extends Conflict {
         return { primary: this.def.names, secondary: [] };
     }
 
-    getPrimaryExplanation(): Translations {
-        return {
-            eng: `Did you mean to give this function an expression?`,
-            '😀': WRITE,
-        };
+    getPrimaryExplanation(translation: Translation) {
+        return translation.conflict.NoExpression.primary();
+    }
+
+    getSecondaryExplanation() {
+        return undefined;
     }
 }

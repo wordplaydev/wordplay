@@ -4,131 +4,141 @@ import BooleanType from '../nodes/BooleanType';
 import FunctionDefinition from '../nodes/FunctionDefinition';
 import FunctionType from '../nodes/FunctionType';
 import MapType from '../nodes/MapType';
-import NameType from '../nodes/NameType';
 import StructureDefinition from '../nodes/StructureDefinition';
 import List from '../runtime/List';
 import Text from '../runtime/Text';
 import Map from '../runtime/Map';
 import Set from '../runtime/Set';
 import TypeException from '../runtime/TypeException';
-import {
-    MAP_KEY_TYPE_VAR_NAMES,
-    MAP_VALUE_TYPE_VAR_NAMES,
-} from './NativeConstants';
 import NativeHOFMapFilter from './NativeHOFMapFilter';
 import NativeHOFMapTranslate from './NativeHOFMapTranslate';
 import { createNativeConversion, createNativeFunction } from './NativeBindings';
 import Bool from '../runtime/Bool';
-import { TRANSLATE, WRITE, WRITE_DOCS } from '../nodes/Translations';
 import type Node from '../nodes/Node';
 import TypeVariables from '../nodes/TypeVariables';
+import { getDocTranslations } from '../translations/getDocTranslations';
+import { getNameTranslations } from '../translations/getNameTranslations';
+import TypeVariable from '../nodes/TypeVariable';
+import type Evaluation from '../runtime/Evaluation';
+import type Value from '../runtime/Value';
 
 export default function bootstrapMap() {
-    const MAP_HOF_OUTPUT_NAMES = {
-        eng: 'Out',
-        '😀': `${TRANSLATE}Out`,
-    };
+    const KeyTypeVariableNames = getNameTranslations((t) => t.native.map.key);
+    const KeyTypeVariable = new TypeVariable(KeyTypeVariableNames);
+    const ValueTypeVariableNames = getNameTranslations(
+        (t) => t.native.map.value
+    );
+    const ValueTypeVariable = new TypeVariable(ValueTypeVariableNames);
 
     const mapFilterHOFType = FunctionType.make(
         undefined,
         [
             Bind.make(
-                {
-                    eng: WRITE,
-                    '😀': WRITE,
-                },
-                {
-                    eng: 'key',
-                    '😀': `${TRANSLATE}key`,
-                },
-                new NameType(MAP_KEY_TYPE_VAR_NAMES.eng)
+                getDocTranslations((t) => t.native.map.function.filter.key.doc),
+                getNameTranslations(
+                    (t) => t.native.map.function.filter.key.name
+                ),
+                KeyTypeVariable.getReference()
             ),
             Bind.make(
-                {
-                    eng: WRITE,
-                    '😀': WRITE,
-                },
-                {
-                    eng: 'val',
-                    '😀': `${TRANSLATE}val`,
-                },
-                new NameType(MAP_VALUE_TYPE_VAR_NAMES.eng)
+                getDocTranslations(
+                    (t) => t.native.map.function.filter.value.doc
+                ),
+                getNameTranslations(
+                    (t) => t.native.map.function.filter.value.name
+                ),
+                ValueTypeVariable.getReference()
             ),
         ],
         BooleanType.make()
+    );
+
+    const translateTypeVariable = new TypeVariable(
+        getNameTranslations((t) => t.native.map.result)
     );
 
     const mapTranslateHOFType = FunctionType.make(
         undefined,
         [
             Bind.make(
-                {
-                    eng: WRITE,
-                    '😀': WRITE,
-                },
-                {
-                    eng: 'key',
-                    '😀': `${TRANSLATE}key`,
-                },
-                new NameType(MAP_KEY_TYPE_VAR_NAMES.eng)
+                getDocTranslations(
+                    (t) => t.native.map.function.translate.key.doc
+                ),
+                getNameTranslations(
+                    (t) => t.native.map.function.translate.key.name
+                ),
+                KeyTypeVariable.getReference()
             ),
             Bind.make(
-                {
-                    eng: WRITE,
-                    '😀': WRITE,
-                },
-                {
-                    eng: 'val',
-                    '😀': `${TRANSLATE}val`,
-                },
-                new NameType(MAP_VALUE_TYPE_VAR_NAMES.eng)
+                getDocTranslations(
+                    (t) => t.native.map.function.translate.value.doc
+                ),
+                getNameTranslations(
+                    (t) => t.native.map.function.translate.value.name
+                ),
+                ValueTypeVariable.getReference()
             ),
         ],
-        new NameType(MAP_HOF_OUTPUT_NAMES.eng)
+        translateTypeVariable.getReference()
+    );
+
+    const equalsFunctionValueNames = getNameTranslations(
+        (t) => t.native.map.function.equals.inputs[0].name
+    );
+    const notEqualsFunctionValueNames = getNameTranslations(
+        (t) => t.native.map.function.notequals.inputs[0].name
+    );
+
+    const setFunctionKeyNames = getNameTranslations(
+        (t) => t.native.map.function.set.inputs[0].name
+    );
+
+    const setFunctionValueNames = getNameTranslations(
+        (t) => t.native.map.function.set.inputs[1].name
+    );
+
+    const unsetFunctionKeyNames = getNameTranslations(
+        (t) => t.native.map.function.unset.inputs[0].name
+    );
+
+    const removeFunctionValueNames = getNameTranslations(
+        (t) => t.native.map.function.remove.inputs[0].name
     );
 
     return StructureDefinition.make(
-        {
-            eng: WRITE,
-            '😀': WRITE,
-        },
-        {
-            eng: 'map',
-            '😀': `${TRANSLATE}structure`,
-        },
+        getDocTranslations((t) => t.native.map.doc),
+        getNameTranslations((t) => t.native.map.name),
         // No interfaces
         [],
         // One type variable
-        TypeVariables.make([MAP_KEY_TYPE_VAR_NAMES, MAP_VALUE_TYPE_VAR_NAMES]),
+        TypeVariables.make([KeyTypeVariable, ValueTypeVariable]),
         // No inputs
         [],
         // Include all of the functions defined above.
         new Block(
             [
                 createNativeFunction(
-                    {
-                        eng: WRITE,
-                        '😀': WRITE,
-                    },
-                    {
-                        eng: 'equals',
-                        '😀': '=',
-                    },
+                    getDocTranslations((t) => t.native.map.function.equals.doc),
+                    getNameTranslations(
+                        (t) => t.native.map.function.equals.name
+                    ),
                     undefined,
                     [
                         Bind.make(
-                            WRITE_DOCS,
-                            {
-                                eng: 'value',
-                                '😀': `${TRANSLATE}1`,
-                            },
+                            getDocTranslations(
+                                (t) =>
+                                    t.native.map.function.equals.inputs[0].doc
+                            ),
+                            equalsFunctionValueNames,
                             MapType.make()
                         ),
                     ],
                     BooleanType.make(),
                     (requestor, evaluation) => {
                         const map = evaluation?.getClosure();
-                        const other = evaluation.resolve('value');
+                        const other = evaluation.resolve(
+                            equalsFunctionValueNames
+                        );
                         return !(map instanceof Map && other instanceof Map)
                             ? new TypeException(
                                   evaluation.getEvaluator(),
@@ -139,32 +149,30 @@ export default function bootstrapMap() {
                     }
                 ),
                 createNativeFunction(
-                    {
-                        eng: WRITE,
-                        '😀': WRITE,
-                    },
-                    {
-                        eng: 'not-equal',
-                        '😀': '≠',
-                    },
+                    getDocTranslations(
+                        (t) => t.native.map.function.notequals.doc
+                    ),
+                    getNameTranslations(
+                        (t) => t.native.map.function.notequals.name
+                    ),
                     undefined,
                     [
                         Bind.make(
-                            {
-                                eng: WRITE,
-                                '😀': WRITE,
-                            },
-                            {
-                                eng: 'value',
-                                '😀': `${TRANSLATE}1`,
-                            },
+                            getDocTranslations(
+                                (t) =>
+                                    t.native.map.function.notequals.inputs[0]
+                                        .doc
+                            ),
+                            notEqualsFunctionValueNames,
                             MapType.make()
                         ),
                     ],
                     BooleanType.make(),
                     (requestor, evaluation) => {
                         const map = evaluation?.getClosure();
-                        const other = evaluation.resolve('value');
+                        const other = evaluation.resolve(
+                            notEqualsFunctionValueNames
+                        );
                         return !(map instanceof Map && other instanceof Map)
                             ? new TypeException(
                                   evaluation.getEvaluator(),
@@ -175,44 +183,31 @@ export default function bootstrapMap() {
                     }
                 ),
                 createNativeFunction(
-                    {
-                        eng: WRITE,
-                        '😀': WRITE,
-                    },
-                    {
-                        eng: 'set',
-                        '😀': `${TRANSLATE}set`,
-                    },
+                    getDocTranslations((t) => t.native.map.function.set.doc),
+                    getNameTranslations((t) => t.native.map.function.set.name),
                     undefined,
                     [
                         Bind.make(
-                            {
-                                eng: WRITE,
-                                '😀': WRITE,
-                            },
-                            {
-                                eng: 'key',
-                                '😀': `${TRANSLATE}key`,
-                            },
-                            new NameType(MAP_KEY_TYPE_VAR_NAMES.eng)
+                            getDocTranslations(
+                                (t) => t.native.map.function.set.inputs[0].doc
+                            ),
+                            setFunctionKeyNames,
+                            KeyTypeVariable.getReference()
                         ),
                         Bind.make(
-                            {
-                                eng: WRITE,
-                                '😀': WRITE,
-                            },
-                            {
-                                eng: 'val',
-                                '😀': `${TRANSLATE}val`,
-                            },
-                            new NameType(MAP_VALUE_TYPE_VAR_NAMES.eng)
+                            getDocTranslations(
+                                (t) => t.native.map.function.set.inputs[1].doc
+                            ),
+                            setFunctionValueNames,
+                            ValueTypeVariable.getReference()
                         ),
                     ],
                     MapType.make(),
                     (requestor, evaluation) => {
-                        const map = evaluation.getClosure();
-                        const key = evaluation.resolve('key');
-                        const value = evaluation.resolve('val');
+                        const map: Evaluation | Value | undefined =
+                            evaluation.getClosure();
+                        const key = evaluation.resolve(setFunctionKeyNames);
+                        const value = evaluation.resolve(setFunctionValueNames);
                         if (
                             map instanceof Map &&
                             key !== undefined &&
@@ -228,32 +223,24 @@ export default function bootstrapMap() {
                     }
                 ),
                 createNativeFunction(
-                    {
-                        eng: WRITE,
-                        '😀': WRITE,
-                    },
-                    {
-                        eng: 'unset',
-                        '😀': `${TRANSLATE}unset`,
-                    },
+                    getDocTranslations((t) => t.native.map.function.unset.doc),
+                    getNameTranslations(
+                        (t) => t.native.map.function.unset.name
+                    ),
                     undefined,
                     [
                         Bind.make(
-                            {
-                                eng: WRITE,
-                                '😀': WRITE,
-                            },
-                            {
-                                eng: 'key',
-                                '😀': `${TRANSLATE}1`,
-                            },
-                            new NameType(MAP_KEY_TYPE_VAR_NAMES.eng)
+                            getDocTranslations(
+                                (t) => t.native.map.function.unset.inputs[0].doc
+                            ),
+                            unsetFunctionKeyNames,
+                            KeyTypeVariable.getReference()
                         ),
                     ],
                     MapType.make(),
                     (requestor, evaluation) => {
                         const map = evaluation.getClosure();
-                        const key = evaluation.resolve('key');
+                        const key = evaluation.resolve(unsetFunctionKeyNames);
                         if (map instanceof Map && key !== undefined)
                             return map.unset(requestor, key);
                         else
@@ -265,32 +252,27 @@ export default function bootstrapMap() {
                     }
                 ),
                 createNativeFunction(
-                    {
-                        eng: WRITE,
-                        '😀': WRITE,
-                    },
-                    {
-                        eng: 'remove',
-                        '😀': `${TRANSLATE}remove`,
-                    },
+                    getDocTranslations((t) => t.native.map.function.remove.doc),
+                    getNameTranslations(
+                        (t) => t.native.map.function.remove.name
+                    ),
                     undefined,
                     [
                         Bind.make(
-                            {
-                                eng: WRITE,
-                                '😀': WRITE,
-                            },
-                            {
-                                eng: 'val',
-                                '😀': `${TRANSLATE}val`,
-                            },
-                            new NameType(MAP_VALUE_TYPE_VAR_NAMES.eng)
+                            getDocTranslations(
+                                (t) =>
+                                    t.native.map.function.remove.inputs[0].doc
+                            ),
+                            removeFunctionValueNames,
+                            ValueTypeVariable.getReference()
                         ),
                     ],
                     MapType.make(),
                     (requestor, evaluation) => {
                         const map = evaluation.getClosure();
-                        const value = evaluation.resolve('val');
+                        const value = evaluation.resolve(
+                            removeFunctionValueNames
+                        );
                         if (map instanceof Map && value !== undefined)
                             return map.remove(requestor, value);
                         else
@@ -302,79 +284,75 @@ export default function bootstrapMap() {
                     }
                 ),
                 FunctionDefinition.make(
-                    {
-                        eng: WRITE,
-                        '😀': WRITE,
-                    },
-                    {
-                        eng: 'filter',
-                        '😀': WRITE,
-                    },
+                    getDocTranslations((t) => t.native.map.function.filter.doc),
+                    getNameTranslations(
+                        (t) => t.native.map.function.filter.name
+                    ),
                     undefined,
                     [
                         Bind.make(
-                            {
-                                eng: WRITE,
-                                '😀': WRITE,
-                            },
-                            {
-                                eng: 'checker',
-                                '😀': `${TRANSLATE}1`,
-                            },
+                            getDocTranslations(
+                                (t) =>
+                                    t.native.map.function.filter.inputs[0].doc
+                            ),
+                            getNameTranslations(
+                                (t) =>
+                                    t.native.map.function.filter.inputs[0].name
+                            ),
                             mapFilterHOFType
                         ),
                     ],
                     new NativeHOFMapFilter(mapFilterHOFType),
                     MapType.make(
-                        new NameType(MAP_KEY_TYPE_VAR_NAMES.eng),
-                        new NameType(MAP_VALUE_TYPE_VAR_NAMES.eng)
+                        KeyTypeVariable.getReference(),
+                        ValueTypeVariable.getReference()
                     )
                 ),
                 FunctionDefinition.make(
-                    {
-                        eng: WRITE,
-                        '😀': WRITE,
-                    },
-                    {
-                        eng: 'translate',
-                        '😀': WRITE,
-                    },
-                    TypeVariables.make([MAP_HOF_OUTPUT_NAMES]),
+                    getDocTranslations(
+                        (t) => t.native.map.function.translate.doc
+                    ),
+                    getNameTranslations(
+                        (t) => t.native.map.function.translate.name
+                    ),
+                    TypeVariables.make([translateTypeVariable]),
                     [
                         Bind.make(
-                            {
-                                eng: WRITE,
-                                '😀': WRITE,
-                            },
-                            {
-                                eng: 'translator',
-                                '😀': `${TRANSLATE}1`,
-                            },
+                            getDocTranslations(
+                                (t) =>
+                                    t.native.map.function.translate.inputs[0]
+                                        .doc
+                            ),
+                            getNameTranslations(
+                                (t) =>
+                                    t.native.map.function.translate.inputs[0]
+                                        .name
+                            ),
                             mapTranslateHOFType
                         ),
                     ],
                     new NativeHOFMapTranslate(mapTranslateHOFType),
                     MapType.make(
-                        new NameType(MAP_KEY_TYPE_VAR_NAMES.eng),
-                        new NameType(MAP_HOF_OUTPUT_NAMES.eng)
+                        KeyTypeVariable.getReference(),
+                        translateTypeVariable.getReference()
                     )
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations((t) => t.native.map.conversion.text),
                     '{:}',
                     "''",
                     (requestor: Node, val: Map) =>
                         new Text(requestor, val.toString())
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations((t) => t.native.map.conversion.set),
                     '{:}',
                     '{}',
                     (requestor: Node, val: Map) =>
                         new Set(requestor, val.getKeys())
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations((t) => t.native.map.conversion.list),
                     '{:}',
                     '[]',
                     (requestor: Node, val: Map) =>

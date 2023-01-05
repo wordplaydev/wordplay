@@ -1,9 +1,8 @@
 import type BinaryOperation from '../nodes/BinaryOperation';
-import Convert from '../nodes/Convert';
-import Evaluate from '../nodes/Evaluate';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
+import type Convert from '../nodes/Convert';
+import type Evaluate from '../nodes/Evaluate';
 import type UnaryOperation from '../nodes/UnaryOperation';
+import type Translation from '../translations/Translation';
 import type Evaluator from './Evaluator';
 import Exception from './Exception';
 import type Value from './Value';
@@ -26,18 +25,7 @@ export default class FunctionException extends Exception {
         this.verb = verb;
     }
 
-    getExplanations(): Translations {
-        return {
-            eng: `Couldn't find ${
-                this.node instanceof Evaluate
-                    ? 'function'
-                    : this.node instanceof Convert
-                    ? 'conversion'
-                    : 'operation'
-            } ${this.verb.toString()} on ${
-                this.subject === undefined ? 'this' : this.subject.toString()
-            }.`,
-            '😀': `${TRANSLATE} 🤷🏻‍♀️`,
-        };
+    getDescription(translation: Translation) {
+        return translation.exceptions.function(this.node);
     }
 }

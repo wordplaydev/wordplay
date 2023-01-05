@@ -19,11 +19,11 @@ import bootstrapSet from './SetNative';
 import bootstrapMap from './MapNative';
 import Block from '../nodes/Block';
 import type { NativeTypeName } from './NativeConstants';
-import { TRANSLATE } from '../nodes/Translations';
-import type Translations from '../nodes/Translations';
 import type Node from '../nodes/Node';
 import Tree from '../nodes/Tree';
 import type TypeVariables from '../nodes/TypeVariables';
+import type Docs from '../nodes/Docs';
+import type Names from '../nodes/Names';
 
 export class NativeBindings implements NativeInterface {
     readonly functionsByType: Record<
@@ -112,11 +112,23 @@ export class NativeBindings implements NativeInterface {
     getStructureDefinitionTrees() {
         return this.structureDefinitionTrees;
     }
+
+    getSetDefinition() {
+        return SetDefinition;
+    }
+
+    getListDefinition() {
+        return ListDefinition;
+    }
+
+    getMapDefinition() {
+        return MapDefinition;
+    }
 }
 
 export function createNativeFunction(
-    docs: Translations,
-    aliases: Translations,
+    docs: Docs,
+    names: Names,
     typeVars: TypeVariables | undefined,
     inputs: Bind[],
     output: Type,
@@ -124,19 +136,16 @@ export function createNativeFunction(
 ) {
     return FunctionDefinition.make(
         docs,
-        aliases,
+        names,
         typeVars,
         inputs,
-        new NativeExpression(output, evaluator, {
-            '😀': TRANSLATE,
-            eng: TRANSLATE,
-        }),
+        new NativeExpression(output, evaluator),
         output
     );
 }
 
 export function createNativeConversion<ValueType extends Value>(
-    docs: Translations,
+    docs: Docs,
     inputTypeString: string,
     outputTypeString: string,
     convert: (requestor: Node, value: ValueType) => Value
@@ -148,27 +157,23 @@ export function createNativeConversion<ValueType extends Value>(
         docs,
         inputType,
         outputTypeString,
-        new NativeExpression(
-            outputTypeString,
-            (requestor, evaluation) => {
-                const val = evaluation.getClosure();
-                if (
-                    val instanceof Value &&
-                    inputType.accepts(
-                        val.getType(evaluation.getContext()),
-                        evaluation.getContext()
-                    )
+        new NativeExpression(outputTypeString, (requestor, evaluation) => {
+            const val = evaluation.getClosure();
+            if (
+                val instanceof Value &&
+                inputType.accepts(
+                    val.getType(evaluation.getContext()),
+                    evaluation.getContext()
                 )
-                    return convert(requestor, val as ValueType);
-                else
-                    return new TypeException(
-                        evaluation.getEvaluator(),
-                        inputType,
-                        val
-                    );
-            },
-            docs
-        )
+            )
+                return convert(requestor, val as ValueType);
+            else
+                return new TypeException(
+                    evaluation.getEvaluator(),
+                    inputType,
+                    val
+                );
+        })
     );
 }
 

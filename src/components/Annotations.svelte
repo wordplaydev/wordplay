@@ -2,10 +2,9 @@
     import type Conflict from '../conflicts/Conflict';
     import type Project from '../models/Project';
     import { currentStep } from '../models/stores';
-    import { languages } from '../models/languages';
+    import { translations } from '../translations/translations';
     import Expression from '../nodes/Expression';
     import type Node from '../nodes/Node';
-    import { selectTranslation } from '../nodes/Translations';
     import Annotation from './Annotation.svelte';
     import type Position from './Position';
     import { tick } from 'svelte';
@@ -48,9 +47,10 @@
                         node: node,
                         element: view,
                         text: $currentStep
-                            ? $currentStep.getExplanations(project.evaluator)[
-                                  $languages[0]
-                              ]
+                            ? $currentStep.getExplanations(
+                                  $translations[0],
+                                  project.evaluator
+                              )
                             : project.evaluator.steppedToNode() &&
                               project.evaluator.isDone()
                             ? "The selected node didn't evaluate."
@@ -73,32 +73,33 @@
                         {
                             node: conflictNodes.primary,
                             element: getNodeView(conflictNodes.primary),
-                            text: selectTranslation(
-                                conflict.getPrimaryExplanation(
-                                    project.getNodeContext(
-                                        conflictNodes.primary
-                                    ) ?? project.getContext(project.main)
-                                ),
-                                $languages
+                            text: conflict.getPrimaryExplanation(
+                                $translations[0],
+                                project.getNodeContext(conflictNodes.primary) ??
+                                    project.getContext(project.main)
                             ),
                             kind: conflict.isMinor()
                                 ? ('minor' as const)
                                 : ('primary' as const),
                         },
-                        ...conflictNodes.secondary.map((secondary: Node) => {
-                            return {
-                                node: secondary,
-                                element: getNodeView(secondary),
-                                text: selectTranslation(
+                        ...conflictNodes.secondary
+                            .map((secondary: Node) => {
+                                const explanation =
                                     conflict.getSecondaryExplanation(
+                                        $translations[0],
                                         project.getNodeContext(secondary) ??
                                             project.getContext(project.main)
-                                    ),
-                                    $languages
-                                ),
-                                kind: 'secondary' as const,
-                            };
-                        }),
+                                    );
+                                return explanation === undefined
+                                    ? undefined
+                                    : {
+                                          node: secondary,
+                                          element: getNodeView(secondary),
+                                          text: explanation,
+                                          kind: 'secondary',
+                                      };
+                            })
+                            .filter((c): c is Annotation => c !== undefined),
                     ];
                 })
                 .flat();

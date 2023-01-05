@@ -7,7 +7,7 @@
         BIND_SYMBOL,
         SET_CLOSE_SYMBOL,
         SET_OPEN_SYMBOL,
-    } from '../parser/Tokenizer';
+    } from '../parser/Symbols';
     import TokenType from '../nodes/TokenType';
     import ValueView from './ValueView.svelte';
 

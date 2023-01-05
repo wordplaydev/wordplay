@@ -5,10 +5,8 @@ import Fonts, { SupportedFontsType } from '../native/Fonts';
 import Text from '../runtime/Text';
 import Group, { type RenderContext } from './Group';
 import type Place from './Place';
-import { selectTranslation, TRANSLATE } from '../nodes/Translations';
 import List from '../runtime/List';
 import TextLang from './TextLang';
-import type Translations from '../nodes/Translations';
 import toStructure from '../native/toStructure';
 import { toColor } from './Color';
 import { toPlace } from './Place';
@@ -21,24 +19,26 @@ import type Sequence from './Sequence';
 import { PX_PER_METER, sizeToPx } from './phraseToCSS';
 import { toSequence, type SequenceKind } from './Sequence';
 import type Animation from './Animation';
+import type LanguageCode from '../translations/LanguageCode';
+import { getBind } from '../translations/getBind';
 
 export const PhraseType = toStructure(`
-    •Phrase/eng,💬/😀 Group(
-        text/eng,✍︎/😀•""|[""]
-        size/eng,${TRANSLATE}size/😀•#m: 1m
-        font/eng,🔡/😀•${SupportedFontsType}|ø: ø
-        color/eng,${TRANSLATE}color/😀•Color|ø: ø
-        opacity/eng,${TRANSLATE}opacity/😀•%|ø: ø
-        place/eng,${TRANSLATE}place/😀•Place|ø: ø
-        offset/eng,${TRANSLATE}offset/😀•Place|ø: ø
-        rotation/eng,${TRANSLATE}rotation/😀•#°|ø: ø
-        scalex/eng,${TRANSLATE}scalex/😀•#|ø: ø
-        scaley/eng,${TRANSLATE}scaley/😀•#|ø: ø
-        name/eng•""|ø: ø
-        entry/eng,${TRANSLATE}entry/😀•ø|Pose|Sequence: ø
-        during/eng,${TRANSLATE}during/😀•ø|Pose|Sequence: ø
-        between/eng,${TRANSLATE}between/😀•ø|Pose|Sequence: ø
-        exit/eng,${TRANSLATE}exit/😀•ø|Pose|Sequence: ø
+    ${getBind((t) => t.output.phrase.definition, '•')} Group(
+        ${getBind((t) => t.output.phrase.text)}•""|[""]
+        ${getBind((t) => t.output.phrase.size)}•#m: 1m
+        ${getBind((t) => t.output.phrase.font)}•${SupportedFontsType}|ø: ø
+        ${getBind((t) => t.output.phrase.color)}•Color|ø: ø
+        ${getBind((t) => t.output.phrase.opacity)}•%|ø: ø
+        ${getBind((t) => t.output.phrase.place)}•Place|ø: ø
+        ${getBind((t) => t.output.phrase.offset)}•Place|ø: ø
+        ${getBind((t) => t.output.phrase.rotation)}•#°|ø: ø
+        ${getBind((t) => t.output.phrase.scalex)}•#|ø: ø
+        ${getBind((t) => t.output.phrase.scaley)}•#|ø: ø
+        ${getBind((t) => t.output.phrase.name)}•""|ø: ø
+        ${getBind((t) => t.output.phrase.entry)}•ø|Pose|Sequence: ø
+        ${getBind((t) => t.output.phrase.during)}•ø|Pose|Sequence: ø
+        ${getBind((t) => t.output.phrase.between)}•ø|Pose|Sequence: ø
+        ${getBind((t) => t.output.phrase.exit)}•ø|Pose|Sequence: ø
     )
 `);
 
@@ -130,7 +130,7 @@ export default class Phrase extends Group {
         // Get the preferred text
         const text = animation?.moves.text
             ? (animation.moves.text.value as string)
-            : selectTranslation(this.getDescriptions(), context.languages);
+            : this.getDescription(context.languages);
 
         // Parse the text as rich text nodes.
         const rich = parseRichText(text);
@@ -195,10 +195,18 @@ export default class Phrase extends Group {
         return undefined;
     }
 
-    getDescriptions(): Translations {
-        const translations: Record<string, string> = {};
-        for (const text of this.text) translations[text.lang ?? ''] = text.text;
-        return translations as Translations;
+    getDescription(languages: LanguageCode[]): string {
+        return (
+            // Convert the preferred languages into matching text, filtering unmatched languages, and choosing the
+            // first match. If no match, default to the first text.
+            (
+                languages
+                    .map((lang) => this.text.find((text) => lang === text.lang))
+                    .filter(
+                        (text): text is TextLang => text !== undefined
+                    )[0] ?? this.text[0]
+            ).text
+        );
     }
 
     /** Get the kind of sequence requested from the phrase and wrap it in a sequence if it's just a lonely pose. */

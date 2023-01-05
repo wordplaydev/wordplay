@@ -2,13 +2,12 @@ import MissingLanguage from '../conflicts/MissingLanguage';
 import Node, { type Replacement } from './Node';
 import Token from './Token';
 import NameToken from './NameToken';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import LanguageToken from './LanguageToken';
-import type LanguageCode from './LanguageCode';
+import type LanguageCode from '../translations/LanguageCode';
 import type Conflict from '../conflicts/Conflict';
-import { Languages } from './LanguageCode';
+import { Languages } from '../translations/LanguageCode';
 import InvalidLanguage from '../conflicts/InvalidLanguage';
+import type Translation from '../translations/Translation';
 
 export default class Language extends Node {
     readonly slash: Token;
@@ -72,10 +71,7 @@ export default class Language extends Node {
         return this.getLanguage() === lang.getLanguage();
     }
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'a language',
-        };
+    getDescription(translation: Translation) {
+        return translation.nodes.Language.description;
     }
 }

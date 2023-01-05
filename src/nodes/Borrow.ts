@@ -7,9 +7,7 @@ import type Step from '../runtime/Step';
 import Measurement from '../runtime/Measurement';
 import Unit from './Unit';
 import TokenType from './TokenType';
-import { BORROW_SYMBOL } from '../parser/Tokenizer';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
+import { BORROW_SYMBOL } from '../parser/Symbols';
 import Expression from './Expression';
 import Bind from './Bind';
 import type Type from './Type';
@@ -29,6 +27,8 @@ import Finish from '../runtime/Finish';
 import UnknownNameType from './UnknownNameType';
 import ValueException from '../runtime/ValueException';
 import type { Replacement } from './Node';
+import type Translation from '../translations/Translation';
+import AtomicExpression from './AtomicExpression';
 
 export type SharedDefinition =
     | Source
@@ -37,7 +37,7 @@ export type SharedDefinition =
     | StructureDefinition
     | Stream;
 
-export default class Borrow extends Expression {
+export default class Borrow extends AtomicExpression {
     readonly borrow: Token;
     readonly source?: Token;
     readonly dot?: Token;
@@ -65,10 +65,26 @@ export default class Borrow extends Expression {
     getGrammar() {
         return [
             { name: 'borrow', types: [Token] },
-            { name: 'source', types: [Token, undefined], space: true },
+            {
+                name: 'source',
+                types: [Token, undefined],
+                space: true,
+                label: (translation: Translation) =>
+                    translation.expressions.Borrow.source,
+            },
             { name: 'dot', types: [Token, undefined] },
-            { name: 'name', types: [Token, undefined] },
-            { name: 'version', types: [Token, undefined] },
+            {
+                name: 'name',
+                types: [Token, undefined],
+                label: (translation: Translation) =>
+                    translation.expressions.Borrow.name,
+            },
+            {
+                name: 'version',
+                types: [Token, undefined],
+                label: (translation: Translation) =>
+                    translation.expressions.Borrow.version,
+            },
         ];
     }
 
@@ -133,7 +149,7 @@ export default class Borrow extends Expression {
             // If there's no source and there's no definition, return an exception.
             if (definition === undefined)
                 return new NameException(
-                    this.source?.getText() ?? this.name?.getText() ?? '',
+                    this.source ?? this.name ?? this,
                     evaluator
                 );
 
@@ -178,7 +194,7 @@ export default class Borrow extends Expression {
             if (this.name === undefined) {
                 if (source === undefined)
                     return new NameException(
-                        this.source.getText() ?? '',
+                        this.source ?? this.name ?? this,
                         evaluator
                     );
                 evaluator.bind(source.names, value);
@@ -188,11 +204,11 @@ export default class Borrow extends Expression {
                 const name = this.name.getText();
                 const value = evaluator.getLastEvaluation()?.resolve(name);
                 if (definition === undefined || value === undefined)
-                    return new NameException(name ?? '', evaluator);
+                    return new NameException(this.name ?? this, evaluator);
                 evaluator.bind(definition.names, value);
             }
             return value;
-        } else return new ValueException(evaluator);
+        } else return new ValueException(evaluator, this);
     }
 
     computeType(context: Context): Type {
@@ -216,13 +232,6 @@ export default class Borrow extends Expression {
             : new Measurement(this, this.version, Unit.Empty).toNumber();
     }
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: `Borrow a value`,
-        };
-    }
-
     getStart() {
         return this.borrow;
     }
@@ -230,14 +239,11 @@ export default class Borrow extends Expression {
         return this.source ?? this.borrow;
     }
 
-    getStartExplanations(): Translations {
-        return this.getFinishExplanations();
+    getDescription(translation: Translation) {
+        return translation.expressions.Borrow.description;
     }
 
-    getFinishExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'Find the shared name in other programs to borrow.',
-        };
+    getStartExplanations(translation: Translation) {
+        return translation.expressions.Borrow.start;
     }
 }

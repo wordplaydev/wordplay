@@ -1,9 +1,9 @@
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import UnknownType from './UnknownType';
 import type Token from './Token';
 import type Node from './Node';
 import type Type from './Type';
+import type Translation from '../translations/Translation';
+import type Context from './Context';
 
 export default class UnknownNameType extends UnknownType<Node> {
     readonly name: Token | undefined;
@@ -18,13 +18,11 @@ export default class UnknownNameType extends UnknownType<Node> {
         this.name = name;
     }
 
-    getReason(): Translations {
-        return {
-            eng:
-                this.name === undefined
-                    ? "a name wasn't given"
-                    : `${this.name.getText()} isn't defined`,
-            '😀': `${TRANSLATE} •🤔`,
-        };
+    getReason(translation: Translation, context: Context) {
+        return translation.types.UnknownNameType.description(
+            this,
+            translation,
+            context
+        );
     }
 }

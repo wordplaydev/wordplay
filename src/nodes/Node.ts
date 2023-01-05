@@ -1,10 +1,11 @@
 import type Conflict from '../conflicts/Conflict';
 import type Definition from './Definition';
 import type Context from './Context';
-import type Translations from './Translations';
 import type Spaces from '../parser/Spaces';
 import type Type from './Type';
 import type Token from './Token';
+import type Translation from '../translations/Translation';
+import type { Description } from '../translations/Translation';
 
 /* A global ID for nodes, for helping index them */
 let NODE_ID_COUNTER = 0;
@@ -16,6 +17,12 @@ export type Field = {
     name: string;
     /** A list of possible Node class types that the field may be. Redundant with the class, but no reflection in JavaScript. */
     types: FieldType[];
+    /** A description of the field for the UI */
+    label?: (
+        translation: Translation,
+        child: Node,
+        context: Context
+    ) => Description;
     /** True if a preceding space is preferred the node */
     space?: boolean;
     /** True if the field should be indented if on a new line */
@@ -593,16 +600,19 @@ export default abstract class Node {
 
     // DESCRIPTIONS
 
-    abstract getDescriptions(context: Context): Translations;
+    /**
+     * Given a translation and a context, generate a description of the node.
+     * */
+    abstract getDescription(translation: Translation, context: Context): string;
 
     /** Provide localized labels for any child that can be a placeholder. */
     getChildPlaceholderLabel(
         child: Node,
+        translation: Translation,
         context: Context
-    ): Translations | undefined {
-        child;
-        context;
-        return undefined;
+    ): Description | undefined {
+        const label = this.getFieldOfChild(child)?.label;
+        return label ? label(translation, child, context) : undefined;
     }
 
     /** Translates the node back into Wordplay text, using spaces if provided and . */

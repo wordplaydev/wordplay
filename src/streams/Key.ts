@@ -2,31 +2,23 @@ import Bind from '../nodes/Bind';
 import BooleanType from '../nodes/BooleanType';
 import StructureDefinition from '../nodes/StructureDefinition';
 import TextType from '../nodes/TextType';
-import { TRANSLATE, WRITE_DOCS } from '../nodes/Translations';
+import { getDocTranslations } from '../translations/getDocTranslations';
+import { getNameTranslations } from '../translations/getNameTranslations';
 
 const Key = StructureDefinition.make(
-    WRITE_DOCS,
-    {
-        eng: 'Key',
-        '😀': TRANSLATE,
-    },
+    getDocTranslations((t) => t.input.key.doc),
+    getNameTranslations((t) => t.input.key.name),
     [],
     undefined,
     [
         Bind.make(
-            WRITE_DOCS,
-            {
-                eng: 'key',
-                '😀': `${TRANSLATE}1`,
-            },
+            getDocTranslations((t) => t.input.key.key.doc),
+            getNameTranslations((t) => t.input.key.key.name),
             TextType.make()
         ),
         Bind.make(
-            WRITE_DOCS,
-            {
-                eng: 'down',
-                '😀': `${TRANSLATE}2`,
-            },
+            getDocTranslations((t) => t.input.key.down.doc),
+            getNameTranslations((t) => t.input.key.down.name),
             BooleanType.make()
         ),
     ]

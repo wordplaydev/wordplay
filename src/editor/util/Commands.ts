@@ -1,22 +1,22 @@
 import type Caret from './Caret';
 import Node from '../../nodes/Node';
 import {
-    AND_SYMBOL,
     BORROW_SYMBOL,
     CONVERT_SYMBOL,
     FALSE_SYMBOL,
     FUNCTION_SYMBOL,
-    NOT_SYMBOL,
-    OR_SYMBOL,
     SHARE_SYMBOL,
-    STREAM_SYMBOL as CHANGE,
+    STREAM_SYMBOL,
     TRUE_SYMBOL,
     TYPE_SYMBOL,
     PREVIOUS_SYMBOL,
     TYPE_OPEN_SYMBOL,
     TYPE_CLOSE_SYMBOL,
     ETC_SYMBOL,
-} from '../../parser/Tokenizer';
+} from '../../parser/Symbols';
+
+import { AND_SYMBOL, OR_SYMBOL, NOT_SYMBOL } from '../../parser/Symbols';
+
 import type Source from '../../nodes/Source';
 import Evaluator, { Mode } from '../../runtime/Evaluator';
 
@@ -132,11 +132,11 @@ const commands: Command[] = [
         execute: (caret: Caret) => caret.withPosition(caret.getProgram()),
     },
     {
-        description: `Insert reaction symbol (${CHANGE})`,
+        description: `Insert reaction symbol (${STREAM_SYMBOL})`,
         alt: true,
         key: 'KeyD',
         mode: Mode.PLAY,
-        execute: (caret: Caret) => caret.insert(CHANGE),
+        execute: (caret: Caret) => caret.insert(STREAM_SYMBOL),
     },
     {
         description: `Insert borrow symbol (${BORROW_SYMBOL})`,

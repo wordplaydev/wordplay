@@ -1,12 +1,11 @@
 <svelte:options immutable={true} />
 
 <script lang="ts">
-    import { languages } from '../models/languages';
-    import { selectTranslation } from '../nodes/Translations';
     import type Phrase from '../output/Phrase';
     import type Place from '../output/Place';
     import parseRichText from '../output/parseRichText';
     import phraseToCSS from '../output/phraseToCSS';
+    import { getLanguages } from '../translations/translations';
 
     export let phrase: Phrase;
     export let place: Place;
@@ -18,9 +17,7 @@
     id={`phrase-${phrase.getName()}`}
     style={phraseToCSS(phrase, phrase.place ?? place, focus)}
 >
-    {@html parseRichText(
-        selectTranslation(phrase.getDescriptions(), $languages)
-    ).toHTML()}
+    {@html parseRichText(phrase.getDescription(getLanguages())).toHTML()}
 </div>
 
 <style>

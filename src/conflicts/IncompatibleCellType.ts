@@ -1,9 +1,7 @@
-import type Context from '../nodes/Context';
 import type Expression from '../nodes/Expression';
 import type TableType from '../nodes/TableType';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
 import type Type from '../nodes/Type';
+import type Translation from '../translations/Translation';
 import Conflict from './Conflict';
 
 export default class IncompatibleCellType extends Conflict {
@@ -30,12 +28,14 @@ export default class IncompatibleCellType extends Conflict {
         return { primary: this.cell, secondary: [this.type] };
     }
 
-    getPrimaryExplanation(context: Context): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: `Expected ${this.expected.toWordplay()}, received ${
-                this.received.getDescriptions(context).eng
-            }`,
-        };
+    getPrimaryExplanation(translation: Translation) {
+        return translation.conflict.IncompatibleCellType.primary([
+            this.expected,
+            this.received,
+        ]);
+    }
+
+    getSecondaryExplanation(translation: Translation) {
+        return translation.conflict.IncompatibleCellType.secondary();
     }
 }

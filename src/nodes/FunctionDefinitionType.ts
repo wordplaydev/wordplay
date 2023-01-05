@@ -1,7 +1,5 @@
 import Type from './Type';
 import type Context from './Context';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import type FunctionDefinition from './FunctionDefinition';
 import FunctionType from './FunctionType';
 import type { NativeTypeName } from '../native/NativeConstants';
@@ -10,7 +8,8 @@ import {
     EVAL_CLOSE_SYMBOL,
     EVAL_OPEN_SYMBOL,
     FUNCTION_SYMBOL,
-} from '../parser/Tokenizer';
+} from '../parser/Symbols';
+import type Translation from '../translations/Translation';
 
 export default class FunctionDefinitionType extends Type {
     readonly fun: FunctionDefinition;
@@ -64,10 +63,7 @@ export default class FunctionDefinitionType extends Type {
             .join(' ')}${EVAL_CLOSE_SYMBOL}`;
     }
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: `a function of type ${this.toWordplay()}`,
-        };
+    getDescription(translation: Translation) {
+        return translation.types.FunctionDefinitionType.description;
     }
 }

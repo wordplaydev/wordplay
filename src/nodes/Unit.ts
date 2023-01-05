@@ -2,19 +2,19 @@ import {
     BOOLEAN_TYPE_SYMBOL,
     EXPONENT_SYMBOL,
     LANGUAGE_SYMBOL,
-    PRODUCT_SYMBOL,
-} from '../parser/Tokenizer';
+} from '../parser/Symbols';
+import { PRODUCT_SYMBOL } from '../parser/Symbols';
 import Dimension from './Dimension';
 import Token from './Token';
 import Type from './Type';
 import Measurement from '../runtime/Measurement';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import type TypeSet from './TypeSet';
 import type { NativeTypeName } from '../native/NativeConstants';
 import LanguageToken from './LanguageToken';
 import TokenType from './TokenType';
 import type { Replacement } from './Node';
+import type Translation from '../translations/Translation';
+import type Context from './Context';
 
 export default class Unit extends Type {
     /** In case this was parsed, we keep the original tokens around. */
@@ -303,18 +303,7 @@ export default class Unit extends Type {
         return Unit.get(newExponents);
     }
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng:
-                this.exponents.size === 0
-                    ? 'a number'
-                    : this.numerator.length === 1 &&
-                      this.denominator.length === 0
-                    ? this.numerator[0].getDescriptions().eng
-                    : this.toWordplay() === 'm/s'
-                    ? 'velocity'
-                    : 'a number with unit',
-        };
+    getDescription(translation: Translation, context: Context) {
+        return translation.types.Unit.description(this, translation, context);
     }
 }

@@ -1,6 +1,5 @@
 import type Borrow from '../nodes/Borrow';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
+import type Translation from '../translations/Translation';
 import Conflict from './Conflict';
 
 export class UnknownBorrow extends Conflict {
@@ -22,10 +21,11 @@ export class UnknownBorrow extends Conflict {
         };
     }
 
-    getPrimaryExplanation(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: `I don't know who this is, can't borrow!`,
-        };
+    getPrimaryExplanation(translation: Translation) {
+        return translation.conflict.UnknownBorrow.primary();
+    }
+
+    getSecondaryExplanation() {
+        return undefined;
     }
 }

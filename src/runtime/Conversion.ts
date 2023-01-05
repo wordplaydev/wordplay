@@ -3,8 +3,9 @@ import type Context from '../nodes/Context';
 import type Evaluation from './Evaluation';
 import Primitive from './Primitive';
 import Value from './Value';
-import { CONVERT_SYMBOL } from '../parser/Tokenizer';
+import { CONVERT_SYMBOL } from '../parser/Symbols';
 import type { NativeTypeName } from '../native/NativeConstants';
+import type Translation from '../translations/Translation';
 
 export default class Conversion extends Primitive {
     /** The definition from the AST. */
@@ -40,5 +41,9 @@ export default class Conversion extends Primitive {
             this.definition === value.definition &&
             this.context === value.context
         );
+    }
+
+    getDescription(translation: Translation) {
+        return translation.data.function;
     }
 }

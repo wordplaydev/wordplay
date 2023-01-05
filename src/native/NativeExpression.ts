@@ -2,28 +2,26 @@ import type Evaluator from '../runtime/Evaluator';
 import type Value from 'src/runtime/Value';
 import type Type from '../nodes/Type';
 import type Step from 'src/runtime/Step';
-import Expression from '../nodes/Expression';
+import type Expression from '../nodes/Expression';
 import Node from '../nodes/Node';
 import { parseType, toTokens } from '../parser/Parser';
 import type Evaluation from '../runtime/Evaluation';
 import type Bind from '../nodes/Bind';
 import type Context from '../nodes/Context';
 import type TypeSet from '../nodes/TypeSet';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
 import ValueException from '../runtime/ValueException';
 import StartFinish from '../runtime/StartFinish';
-import EvaluationException, { StackSize } from '../runtime/EvaluationException';
+import AtomicExpression from '../nodes/AtomicExpression';
+import type Translation from '../translations/Translation';
+import NoEvaluationException from '../runtime/NoEvaluationException';
 
-export default class NativeExpression extends Expression {
+export default class NativeExpression extends AtomicExpression {
     readonly type: Type;
     readonly evaluator: (requestor: Node, evaluator: Evaluation) => Value;
-    readonly explanations: Translations;
 
     constructor(
         type: Type | string,
-        evaluator: (requestor: Node, evaluator: Evaluation) => Value,
-        explanations: Translations
+        evaluator: (requestor: Node, evaluator: Evaluation) => Value
     ) {
         super();
 
@@ -33,16 +31,18 @@ export default class NativeExpression extends Expression {
         } else this.type = type;
 
         this.evaluator = evaluator;
-        this.explanations = explanations;
     }
 
     computeConflicts() {}
+
     getGrammar() {
         return [];
     }
+
     computeType(): Type {
         return this.type;
     }
+
     getDependencies(): Expression[] {
         return [];
     }
@@ -50,12 +50,14 @@ export default class NativeExpression extends Expression {
     compile(): Step[] {
         return [new StartFinish(this)];
     }
+
     evaluate(evaluator: Evaluator): Value {
         const requestor = evaluator.getCurrentEvaluation()?.currentStep()?.node;
-        if (!(requestor instanceof Node)) return new ValueException(evaluator);
+        if (!(requestor instanceof Node))
+            return new ValueException(evaluator, this);
         const evaluation = evaluator.getCurrentEvaluation();
         return evaluation === undefined
-            ? new EvaluationException(StackSize.EMPTY, evaluator)
+            ? new NoEvaluationException(evaluator, this)
             : this.evaluator(requestor, evaluation);
     }
 
@@ -76,25 +78,19 @@ export default class NativeExpression extends Expression {
         return current;
     }
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'A native expression',
-        };
-    }
-
     getStart() {
         return this;
     }
+
     getFinish() {
         return this;
     }
 
-    getStartExplanations(): Translations {
-        return this.getFinishExplanations();
+    getDescription(translation: Translation) {
+        return translation.expressions.NativeExpression.description;
     }
 
-    getFinishExplanations(): Translations {
-        return this.explanations;
+    getStartExplanations(translation: Translation) {
+        return translation.expressions.NativeExpression.start;
     }
 }

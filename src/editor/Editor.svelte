@@ -24,7 +24,7 @@
         getDragged,
         HiddenSymbol,
     } from './util/Contexts';
-    import { languages } from '../models/languages';
+    import { getLanguages, translations } from '../translations/translations';
     import {
         type HighlightType,
         type Highlights,
@@ -50,7 +50,6 @@
     import type Rect from '../components/Rect';
     import Doc from '../nodes/Doc';
     import Name from '../nodes/Name';
-    import type LanguageCode from '../nodes/LanguageCode';
     import {
         dropNodeOnSource,
         getInsertionPoint,
@@ -272,9 +271,7 @@
         ) as (Doc | Name)[]) {
             if (
                 tag.getLanguage() !== undefined &&
-                !$languages.includes(
-                    (tag.getLanguage() ?? '') as LanguageCode
-                ) &&
+                !$translations.some((t) => t.language === tag.getLanguage()) &&
                 !$caret.isIn(tag)
             )
                 newHidden.add(tag);
@@ -1013,7 +1010,9 @@
                 menuSelection >= 0 &&
                 menu.transforms.length > 0
             ) {
-                handleEdit(menu.transforms[menuSelection].getEdit($languages));
+                handleEdit(
+                    menu.transforms[menuSelection].getEdit(getLanguages())
+                );
                 hideMenu();
                 return;
             }
@@ -1243,7 +1242,9 @@
                 transforms={menu.transforms}
                 selection={menuSelection}
                 select={(transform) =>
-                    handleEdit(transform.getEdit($languages))}
+                    handleEdit(
+                        transform.getEdit($translations.map((t) => t.language))
+                    )}
             />
         </div>
     {/if}

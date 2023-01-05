@@ -1,11 +1,9 @@
-import type Context from '../nodes/Context';
 import type Delete from '../nodes/Delete';
 import type Insert from '../nodes/Insert';
 import type Select from '../nodes/Select';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
 import type Type from '../nodes/Type';
 import type Update from '../nodes/Update';
+import type Translation from '../translations/Translation';
 import Conflict from './Conflict';
 
 export default class NotATable extends Conflict {
@@ -23,12 +21,11 @@ export default class NotATable extends Conflict {
         return { primary: this.op.table, secondary: [] };
     }
 
-    getPrimaryExplanation(context: Context): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: `Expected a table, but this is ${
-                this.received.getDescriptions(context).eng
-            }`,
-        };
+    getPrimaryExplanation(translation: Translation) {
+        return translation.conflict.NotATable.primary(this.received);
+    }
+
+    getSecondaryExplanation() {
+        return undefined;
     }
 }

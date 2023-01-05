@@ -11,20 +11,14 @@ import FunctionValue from '../runtime/FunctionValue';
 import type Step from '../runtime/Step';
 import type Context from './Context';
 import type Definition from './Definition';
-import {
-    BinaryOpRegEx,
-    FUNCTION_SYMBOL,
-    UnaryOpRegEx,
-} from '../parser/Tokenizer';
+import { BinaryOpRegEx, UnaryOpRegEx } from '../parser/Tokenizer';
+import { FUNCTION_SYMBOL } from '../parser/Symbols';
 import type TypeSet from './TypeSet';
-import EvaluationException, { StackSize } from '../runtime/EvaluationException';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import EvalCloseToken from './EvalCloseToken';
 import EvalOpenToken from './EvalOpenToken';
 import Docs from './Docs';
 import Names from './Names';
-import type LanguageCode from './LanguageCode';
+import type LanguageCode from '../translations/LanguageCode';
 import FunctionDefinitionType from './FunctionDefinitionType';
 import type Value from '../runtime/Value';
 import StartFinish from '../runtime/StartFinish';
@@ -34,6 +28,8 @@ import UnimplementedType from './UnimplementedType';
 import AnyType from './AnyType';
 import TypeToken from './TypeToken';
 import type { Replacement } from './Node';
+import type Translation from '../translations/Translation';
+import NoEvaluationException from '../runtime/NoEvaluationException';
 
 export default class FunctionDefinition extends Expression {
     readonly docs?: Docs;
@@ -77,15 +73,15 @@ export default class FunctionDefinition extends Expression {
     }
 
     static make(
-        docs: Translations | undefined,
-        names: Translations | Names,
+        docs: Docs | undefined,
+        names: Names,
         types: TypeVariables | undefined,
         inputs: Bind[],
         expression: Expression | Token,
         output?: Type
     ) {
         return new FunctionDefinition(
-            docs ? new Docs(docs) : undefined,
+            docs,
             new Token(FUNCTION_SYMBOL, TokenType.FUNCTION),
             names instanceof Names ? names : Names.make(names),
             types,
@@ -258,17 +254,6 @@ export default class FunctionDefinition extends Expression {
         return this.names;
     }
 
-    getStartExplanations(): Translations {
-        return this.getFinishExplanations();
-    }
-
-    getFinishExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: "Let's define this function and bind it to this name.",
-        };
-    }
-
     evaluate(evaluator: Evaluator): Value {
         // We ignore any prior values; must capture closures every time.
 
@@ -276,7 +261,7 @@ export default class FunctionDefinition extends Expression {
         const context = evaluator.getCurrentEvaluation();
         const value =
             context === undefined
-                ? new EvaluationException(StackSize.EMPTY, evaluator)
+                ? new NoEvaluationException(evaluator, this)
                 : new FunctionValue(this, context);
 
         // Bind the value
@@ -304,10 +289,15 @@ export default class FunctionDefinition extends Expression {
         return current;
     }
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'a function',
-        };
+    getDescription(translation: Translation) {
+        return translation.expressions.FunctionDefinition.description;
+    }
+
+    getStartExplanations(translation: Translation) {
+        return translation.expressions.FunctionDefinition.start;
+    }
+
+    getFinishExplanations(translation: Translation) {
+        return translation.expressions.FunctionDefinition.start;
     }
 }

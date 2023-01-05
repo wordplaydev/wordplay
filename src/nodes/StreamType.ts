@@ -1,11 +1,10 @@
 import type { NativeTypeName } from '../native/NativeConstants';
-import { STREAM_SYMBOL } from '../parser/Tokenizer';
+import { STREAM_SYMBOL } from '../parser/Symbols';
+import type Translation from '../translations/Translation';
 import type Context from './Context';
 import type { Replacement } from './Node';
 import Token from './Token';
 import TokenType from './TokenType';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import Type from './Type';
 import type TypeSet from './TypeSet';
 
@@ -61,10 +60,11 @@ export default class StreamType extends Type {
         ) as this;
     }
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'A stream type',
-        };
+    getDescription(translation: Translation, context: Context) {
+        return translation.types.StreamType.description(
+            this,
+            translation,
+            context
+        );
     }
 }

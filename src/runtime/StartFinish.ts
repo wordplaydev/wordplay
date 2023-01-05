@@ -1,10 +1,10 @@
 import Step from './Step';
 import type Evaluator from './Evaluator';
 import type Value from './Value';
-import type Translations from '../nodes/Translations';
 import type Expression from '../nodes/Expression';
 import { finish } from './Finish';
 import { start } from './Start';
+import type Translation from '../translations/Translation';
 
 export default class StartFinish extends Step {
     constructor(node: Expression) {
@@ -16,7 +16,10 @@ export default class StartFinish extends Step {
         return finish(evaluator, this.node);
     }
 
-    getExplanations(evaluator: Evaluator): Translations {
-        return this.node.getFinishExplanations(evaluator);
+    getExplanations(translation: Translation, evaluator: Evaluator) {
+        return this.node.getStartExplanations(
+            translation,
+            evaluator.project.getNodeContext(this.node)
+        );
     }
 }

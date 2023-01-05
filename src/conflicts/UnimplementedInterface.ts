@@ -1,10 +1,9 @@
 import type FunctionDefinition from '../nodes/FunctionDefinition';
 import type StructureDefinition from '../nodes/StructureDefinition';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
+import type Translation from '../translations/Translation';
 import Conflict from './Conflict';
 
-export class Unimplemented extends Conflict {
+export class UnimplementedInterface extends Conflict {
     readonly structure: StructureDefinition;
     readonly interfaceStructure: StructureDefinition;
     readonly fun: FunctionDefinition;
@@ -24,10 +23,14 @@ export class Unimplemented extends Conflict {
         return { primary: this.structure.names, secondary: [this.fun] };
     }
 
-    getPrimaryExplanation(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: `Because this structure implements interface ${this.interfaceStructure.getNames()}, it has to implement function ${this.fun.getNames()}.`,
-        };
+    getPrimaryExplanation(translation: Translation) {
+        return translation.conflict.UnimplementedInterface.primary({
+            interface: this.interfaceStructure,
+            fun: this.fun,
+        });
+    }
+
+    getSecondaryExplanation(translation: Translation) {
+        return translation.conflict.UnimplementedInterface.secondary();
     }
 }

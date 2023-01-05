@@ -15,16 +15,13 @@ import type Definition from './Definition';
 import StructureDefinitionType from './StructureDefinitionType';
 import Token from './Token';
 import type TypeSet from './TypeSet';
-import { Unimplemented } from '../conflicts/Unimplemented';
+import { UnimplementedInterface } from '../conflicts/UnimplementedInterface';
 import { Implemented } from '../conflicts/Implemented';
 import { DisallowedInputs } from '../conflicts/DisallowedInputs';
-import EvaluationException, { StackSize } from '../runtime/EvaluationException';
-import type LanguageCode from './LanguageCode';
+import type LanguageCode from '../translations/LanguageCode';
 import TypeToken from './TypeToken';
 import EvalOpenToken from './EvalOpenToken';
 import EvalCloseToken from './EvalCloseToken';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import Docs from './Docs';
 import Names from './Names';
 import type Value from '../runtime/Value';
@@ -33,8 +30,12 @@ import TypeVariables from './TypeVariables';
 import Reference from './Reference';
 import NotAnInterface from '../conflicts/NotAnInterface';
 import type { Replacement } from './Node';
+import type Translation from '../translations/Translation';
+import AtomicExpression from './AtomicExpression';
+import NoEvaluationException from '../runtime/NoEvaluationException';
+import type NameType from './NameType';
 
-export default class StructureDefinition extends Expression {
+export default class StructureDefinition extends AtomicExpression {
     readonly docs: Docs | undefined;
     readonly type: Token;
     readonly names: Names;
@@ -72,15 +73,15 @@ export default class StructureDefinition extends Expression {
     }
 
     static make(
-        docs: Translations | undefined,
-        names: Translations | Names,
+        docs: Docs | undefined,
+        names: Names,
         interfaces: Reference[],
         types: TypeVariables | undefined,
         inputs: Bind[],
         block?: Block
     ) {
         return new StructureDefinition(
-            new Docs(docs),
+            docs,
             new TypeToken(),
             names instanceof Names ? names : Names.make(names),
             interfaces,
@@ -150,6 +151,11 @@ export default class StructureDefinition extends Expression {
 
     getInputs() {
         return this.inputs.filter((i) => i instanceof Bind) as Bind[];
+    }
+
+    getTypeVariableReference(index: number): NameType | undefined {
+        const typeVar = this.types?.variables[index];
+        return typeVar === undefined ? undefined : typeVar.getReference();
     }
 
     isInterface(): boolean {
@@ -255,7 +261,9 @@ export default class StructureDefinition extends Expression {
                                 fun.accepts(statement, context)
                         )
                     )
-                        conflicts.push(new Unimplemented(this, def, fun));
+                        conflicts.push(
+                            new UnimplementedInterface(this, def, fun)
+                        );
                 }
             }
         }
@@ -349,7 +357,7 @@ export default class StructureDefinition extends Expression {
             const def = new StructureDefinitionValue(this, this, context);
             evaluator.bind(this.names, def);
             return def;
-        } else return new EvaluationException(StackSize.EMPTY, evaluator);
+        } else return new NoEvaluationException(evaluator, this);
     }
 
     evaluateTypeSet(
@@ -366,25 +374,16 @@ export default class StructureDefinition extends Expression {
     getStart() {
         return this.type;
     }
+
     getFinish() {
         return this.names;
     }
 
-    getStartExplanations(): Translations {
-        return this.getFinishExplanations();
+    getDescription(translation: Translation) {
+        return translation.expressions.StructureDefinition.description;
     }
 
-    getFinishExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'Evaluate to this structure definition!',
-        };
-    }
-
-    getDescriptions(): Translations {
-        return {
-            eng: 'a structure',
-            '😀': TRANSLATE,
-        };
+    getStartExplanations(translation: Translation) {
+        return translation.expressions.StructureDefinition.start;
     }
 }

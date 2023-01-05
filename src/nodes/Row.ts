@@ -1,9 +1,8 @@
 import Node, { type Replacement } from './Node';
 import Token from './Token';
 import Bind from './Bind';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import Expression from './Expression';
+import type Translation from '../translations/Translation';
 
 export default class Row extends Node {
     readonly open: Token;
@@ -49,10 +48,7 @@ export default class Row extends Node {
         ) as this;
     }
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'A table row',
-        };
+    getDescription(translation: Translation) {
+        return translation.nodes.Row.description;
     }
 }

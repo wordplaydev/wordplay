@@ -1,5 +1,5 @@
 import Token from './Token';
-import Expression from './Expression';
+import type Expression from './Expression';
 import NoneType from './NoneType';
 import type Type from './Type';
 import None from '../runtime/None';
@@ -8,15 +8,15 @@ import type Step from '../runtime/Step';
 import type Bind from './Bind';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
-import { NONE_SYMBOL } from '../parser/Tokenizer';
+import { NONE_SYMBOL } from '../parser/Symbols';
 import TokenType from './TokenType';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import type Evaluator from '../runtime/Evaluator';
 import StartFinish from '../runtime/StartFinish';
 import type { Replacement } from './Node';
+import type Translation from '../translations/Translation';
+import AtomicExpression from './AtomicExpression';
 
-export default class NoneLiteral extends Expression {
+export default class NoneLiteral extends AtomicExpression {
     readonly none: Token;
 
     constructor(none: Token) {
@@ -67,20 +67,6 @@ export default class NoneLiteral extends Expression {
         return this.none;
     }
 
-    getStartExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: "Let's make a none!",
-        };
-    }
-
-    getFinishExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'We made a none!',
-        };
-    }
-
     evaluateTypeSet(
         bind: Bind,
         original: TypeSet,
@@ -93,10 +79,11 @@ export default class NoneLiteral extends Expression {
         return current;
     }
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'A none value',
-        };
+    getDescription(translation: Translation) {
+        return translation.expressions.NoneLiteral.description;
+    }
+
+    getStartExplanations(translation: Translation) {
+        return translation.expressions.NoneLiteral.start;
     }
 }

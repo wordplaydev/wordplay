@@ -6,13 +6,14 @@ import None from './None';
 import Primitive from './Primitive';
 import type Value from './Value';
 import type Node from '../nodes/Node';
-import type LanguageCode from '../nodes/LanguageCode';
+import type LanguageCode from '../translations/LanguageCode';
 import {
     BIND_SYMBOL,
     SET_CLOSE_SYMBOL,
     SET_OPEN_SYMBOL,
-} from '../parser/Tokenizer';
+} from '../parser/Symbols';
 import type { NativeTypeName } from '../native/NativeConstants';
+import type Translation from '../translations/Translation';
 
 export default class Map extends Primitive {
     readonly values: [Value, Value][];
@@ -119,5 +120,9 @@ export default class Map extends Primitive {
                     )}${BIND_SYMBOL}${value.toWordplay(languages)}`
             )
             .join(' ')}${SET_CLOSE_SYMBOL}`;
+    }
+
+    getDescription(translation: Translation) {
+        return translation.data.map;
     }
 }

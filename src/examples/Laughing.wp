@@ -1,5 +1,5 @@
 === Laughing
-↓⏱
+↓time
 🥹: {⊤: «😀» ⊥: «😂»}
-even: (⏱ % 2) = 0ms
-💬(🥹{even} 5m)
+even: (time % 2) = 0ms
+Phrase(🥹{even} 5m)

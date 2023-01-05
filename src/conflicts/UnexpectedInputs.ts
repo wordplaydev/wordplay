@@ -3,10 +3,9 @@ import Conflict from './Conflict';
 import type Expression from '../nodes/Expression';
 import type Bind from '../nodes/Bind';
 import type BinaryOperation from '../nodes/BinaryOperation';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
 import type StructureDefinition from '../nodes/StructureDefinition';
 import type FunctionDefinition from '../nodes/FunctionDefinition';
+import type Translation from '../translations/Translation';
 
 export default class UnexpectedInputs extends Conflict {
     readonly func: FunctionDefinition | StructureDefinition;
@@ -34,14 +33,11 @@ export default class UnexpectedInputs extends Conflict {
         };
     }
 
-    getPrimaryExplanation(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: `This evaluation of ${
-                this.evaluate instanceof Evaluate
-                    ? this.evaluate.func.toWordplay()
-                    : this.evaluate.operator.toWordplay()
-            } has too many inputs.`,
-        };
+    getPrimaryExplanation(translation: Translation) {
+        return translation.conflict.UnexpectedInputs.primary();
+    }
+
+    getSecondaryExplanation(translation: Translation) {
+        return translation.conflict.UnexpectedInputs.secondary();
     }
 }

@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { WRITE } from '../nodes/Translations';
     import {
         playing,
         updateProject,
@@ -11,6 +10,7 @@
     import Button from './Button.svelte';
     import Switch from './Switch.svelte';
     import type Project from '../models/Project';
+    import { translations } from '../translations/translations';
 
     export let project: Project;
 
@@ -34,50 +34,44 @@
 
 <section class="controls">
     <Button
-        label={{ eng: '↻', '😀': WRITE }}
-        tip={{
-            eng: 'Restart the evaluation of the project from the beginning.',
-            '😀': WRITE,
-        }}
+        label="↻"
+        tip={$translations[0].ui.tooltip.reset}
         action={reset}
         enabled={$streams.length > 1}
     />
     <Switch
         on={$playing}
         toggle={playPause}
-        offTip={{ eng: 'Evaluate the program one step at a time', '😀': WRITE }}
-        onTip={{ eng: 'Evaluate the program fully', '😀': WRITE }}
-        offLabel={{ eng: '||', '😀': WRITE }}
-        onLabel={{ eng: '▷', '😀': WRITE }}
+        offTip={$translations[0].ui.tooltip.pause}
+        onTip={$translations[0].ui.tooltip.play}
+        offLabel="||"
+        onLabel="▷"
     />
     {#if !$playing}
         <Button
-            label={{ eng: '←', '😀': WRITE }}
-            tip={{ eng: 'Step back one step.', '😀': WRITE }}
+            label="←"
+            tip="{$translations[0].ui.tooltip.back},"
             action={() => project.evaluator.stepBackWithinProgram()}
             enabled={!$playing && !project.evaluator.isAtBeginning()}
         />
         <Button
-            label={{ eng: '↑', '😀': WRITE }}
-            tip={{ eng: 'Step out of this function.', '😀': WRITE }}
+            label="↑"
+            tip={$translations[0].ui.tooltip.out}
             action={handleStepOut}
             enabled={!$playing &&
                 $currentStep &&
                 project.evaluator.getCurrentEvaluation() !== undefined}
         />
         <Button
-            label={{ eng: '→', '😀': WRITE }}
-            tip={{
-                eng: "Advance one step in the program's evaluation.",
-                '😀': WRITE,
-            }}
+            label="→"
+            tip={$translations[0].ui.tooltip.forward}
             action={handleStep}
             enabled={!$playing &&
                 $currentStepIndex < project.evaluator.getStepCount()}
         />
         <Button
-            label={{ eng: '⇥', '😀': WRITE }}
-            tip={{ eng: 'Advance to the present.', '😀': WRITE }}
+            label="⇥"
+            tip={$translations[0].ui.tooltip.present}
             action={() => project.evaluator.play()}
             enabled={$streams.length > 1}
         />

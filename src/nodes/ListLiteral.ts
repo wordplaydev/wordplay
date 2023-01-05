@@ -12,13 +12,12 @@ import type Context from './Context';
 import UnionType from './UnionType';
 import type TypeSet from './TypeSet';
 import type Bind from './Bind';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import UnclosedDelimiter from '../conflicts/UnclosedDelimiter';
 import type Conflict from '../conflicts/Conflict';
 import ListOpenToken from './ListOpenToken';
 import ListCloseToken from './ListCloseToken';
 import type { Replacement } from './Node';
+import type Translation from '../translations/Translation';
 
 export default class ListLiteral extends Expression {
     readonly open: Token;
@@ -49,6 +48,8 @@ export default class ListLiteral extends Expression {
             {
                 name: 'values',
                 types: [[Expression]],
+                label: (translation: Translation) =>
+                    translation.expressions.ListLiteral.item,
                 space: true,
                 indent: true,
             },
@@ -127,13 +128,6 @@ export default class ListLiteral extends Expression {
         return current;
     }
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'A list of values',
-        };
-    }
-
     getStart() {
         return this.open;
     }
@@ -141,17 +135,15 @@ export default class ListLiteral extends Expression {
         return this.close ?? this.values[this.values.length - 1] ?? this.open;
     }
 
-    getStartExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'First evaluate all of the values for this list.',
-        };
+    getDescription(translation: Translation) {
+        return translation.expressions.ListLiteral.description;
     }
 
-    getFinishExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'Now make the list!',
-        };
+    getStartExplanations(translation: Translation) {
+        return translation.expressions.ListLiteral.start;
+    }
+
+    getFinishExplanations(translation: Translation) {
+        return translation.expressions.ListLiteral.finish;
     }
 }

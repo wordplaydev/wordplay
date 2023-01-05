@@ -11,8 +11,6 @@ import type Node from './Node';
 import Language from './Language';
 import Unit from './Unit';
 import Dimension from './Dimension';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import Docs from './Docs';
 import TokenType from './TokenType';
 import { BorrowCycle } from '../conflicts/BorrowCycle';
@@ -21,8 +19,8 @@ import type Bind from './Bind';
 import type Type from './Type';
 import type TypeSet from './TypeSet';
 import type Value from '../runtime/Value';
-import type LanguageCode from './LanguageCode';
 import type { Replacement } from './Node';
+import type Translation from '../translations/Translation';
 
 export default class Program extends Expression {
     readonly docs?: Docs;
@@ -148,35 +146,23 @@ export default class Program extends Expression {
         return value;
     }
 
-    getTranslation(languages: LanguageCode[]) {
-        return this.getDescriptions()[languages[0]];
-    }
-
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'A program',
-        };
-    }
-
     getStart() {
         return this.getFirstLeaf() ?? this.end;
     }
+
     getFinish() {
         return this.end;
     }
 
-    getStartExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'Yay, we get to evaluate a program!',
-        };
+    getDescription(translation: Translation) {
+        return translation.expressions.Program.description;
     }
 
-    getFinishExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: "We finished evaluating the program, here's what we got!",
-        };
+    getStartExplanations(translation: Translation) {
+        return translation.expressions.Program.start;
+    }
+
+    getFinishExplanations(translation: Translation) {
+        return translation.expressions.Program.finish;
     }
 }

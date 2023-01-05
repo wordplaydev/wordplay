@@ -6,7 +6,7 @@ import NotAFunction from '../conflicts/NotAFunction';
 import Evaluator from '../runtime/Evaluator';
 import Evaluate from './Evaluate';
 import MissingInput from '../conflicts/MissingInput';
-import UnexpectedInput from '../conflicts/UnexpectedInput';
+import MisplacedInput from '../conflicts/MisplacedInput';
 import MeasurementType from './MeasurementType';
 import SetType from './SetType';
 import MapType from './MapType';
@@ -43,7 +43,7 @@ test.each([
         'x: ƒ(a•# b•#) a - b\nx(1 2)',
         'ƒ x(a•# b•#) a - b\nx(a:1 c:2)',
         Evaluate,
-        UnexpectedInput,
+        MisplacedInput,
     ],
     [
         'x: ƒ(a•# b•#) a - b\nx(1 2)',
@@ -55,7 +55,7 @@ test.each([
         'x: ƒ(a•# b•#) a - b\nx(1 2)',
         'ƒ x(a•# b•#) a - b\nx(a:1 a:2)',
         Evaluate,
-        UnexpectedInput,
+        MisplacedInput,
     ],
     [
         'x: ƒ(num…•#) a - b\nx(1 2 3)',
@@ -75,11 +75,11 @@ test.each([
     [
         `
         a: [ 1 1 ].random()
-        a.add(1)
+        a.cos()
         `,
         `
         a: [ 1 "2" ].random()
-        a.length()
+        a.cos()
         `,
         Evaluate,
         NotAFunction,

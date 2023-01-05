@@ -1,11 +1,11 @@
 import type { Edit } from '../editor/util/Commands';
 import Transform from './Transform';
 import Node from '../nodes/Node';
-import type LanguageCode from '../nodes/LanguageCode';
+import type LanguageCode from '../translations/LanguageCode';
 import Refer from './Refer';
 import Caret from '../editor/util/Caret';
-import { TRANSLATE } from '../nodes/Translations';
 import type Context from '../nodes/Context';
+import type Translation from '../translations/Translation';
 
 export default class Add<NodeType extends Node> extends Transform {
     readonly parent: Node;
@@ -69,24 +69,14 @@ export default class Add<NodeType extends Node> extends Transform {
             : [newSource, new Caret(newSource, newCaretPosition)];
     }
 
-    getDescription(languages: LanguageCode[]): string {
-        let translations = undefined;
-        if (Array.isArray(this.child))
-            translations = this.child[1].getDescriptions();
-
-        if (translations === undefined) {
-            const replacement = this.getNewNode(languages);
-            translations = replacement.getDescriptions(this.context);
-        }
-
-        const descriptions = {
-            eng: `Add ${translations.eng}`,
-            '😀': TRANSLATE,
-        };
-
-        return descriptions[
-            languages.find((lang) => lang in descriptions) ?? 'eng'
-        ];
+    getDescription(translation: Translation): string {
+        let node =
+            this.child instanceof Refer
+                ? this.child.getNode([translation.language])
+                : this.getNewNode([translation.language]);
+        return translation.transform.add(
+            node.getDescription(translation, this.context)
+        );
     }
 
     equals(transform: Transform) {

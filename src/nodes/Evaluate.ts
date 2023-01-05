@@ -1,6 +1,6 @@
 import Bind from '../nodes/Bind';
 import type Conflict from '../conflicts/Conflict';
-import UnexpectedInput from '../conflicts/UnexpectedInput';
+import MisplacedInput from '../conflicts/MisplacedInput';
 import MissingInput from '../conflicts/MissingInput';
 import UnexpectedInputs from '../conflicts/UnexpectedInputs';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
@@ -9,7 +9,6 @@ import NotAFunction from '../conflicts/NotAFunction';
 import StructureDefinitionType from './StructureDefinitionType';
 import Expression from './Expression';
 import Token from './Token';
-import type Node from './Node';
 import Type from './Type';
 import type Evaluator from '../runtime/Evaluator';
 import type Value from '../runtime/Value';
@@ -32,8 +31,6 @@ import UnparsableException from '../runtime/UnparsableException';
 import FunctionException from '../runtime/FunctionException';
 import ValueException from '../runtime/ValueException';
 import Exception from '../runtime/Exception';
-import type Translations from './Translations';
-import { TRANSLATE, WRITE } from './Translations';
 import UnknownInput from '../conflicts/UnknownInput';
 import getConcreteExpectedType from './Generics';
 import FunctionDefinitionType from './FunctionDefinitionType';
@@ -44,9 +41,11 @@ import UnclosedDelimiter from '../conflicts/UnclosedDelimiter';
 import InvalidTypeInput from '../conflicts/InvalidTypeInput';
 import NotAFunctionType from './NotAFunctionType';
 import PropertyReference from './PropertyReference';
-import Action from '../runtime/Action';
 import NeverType from './NeverType';
 import type { Replacement } from './Node';
+import type Translation from '../translations/Translation';
+import type Node from './Node';
+import StartEvaluation from '../runtime/StartEvaluation';
 
 type Mapping = {
     expected: Bind;
@@ -95,12 +94,43 @@ export default class Evaluate extends Expression {
 
     getGrammar() {
         return [
-            { name: 'func', types: [Expression] },
+            {
+                name: 'func',
+                types: [Expression],
+                label: (translation: Translation) =>
+                    translation.expressions.Evaluate.function,
+            },
             { name: 'types', types: [TypeInputs, undefined] },
             { name: 'open', types: [Token] },
             {
                 name: 'inputs',
                 types: [[Expression]],
+                label: (
+                    translation: Translation,
+                    child: Node,
+                    context: Context
+                ) => {
+                    // Get the function called
+                    const fun = this.getFunction(context);
+                    // Didn't find it? Default label.
+                    if (fun === undefined || !(child instanceof Expression))
+                        return translation.expressions.Evaluate.input;
+                    // Get the mapping from inputs to binds
+                    const mapping = this.getInputMapping(fun);
+                    // Find the bind to which this child was mapped and get its translation of this language.
+                    const bind = mapping.inputs.find(
+                        (m) =>
+                            m.given !== undefined &&
+                            (m.given === child ||
+                                (Array.isArray(m.given) &&
+                                    m.given.includes(child)))
+                    );
+                    return bind === undefined
+                        ? translation.expressions.Evaluate.input
+                        : bind.expected.names.getTranslation(
+                              translation.language
+                          );
+                },
                 space: true,
                 indent: true,
                 // The type of an input depends on the function it's calling and the position in the list.
@@ -245,7 +275,7 @@ export default class Evaluate extends Expression {
                     this.func,
                     this.func instanceof PropertyReference
                         ? this.func.structure.getType(context)
-                        : undefined
+                        : this.func.getType(context)
                 ),
             ];
 
@@ -286,7 +316,7 @@ export default class Evaluate extends Expression {
 
             // Given a bind with an incompatible name? Conflict.
             if (given instanceof Bind && !expected.sharesName(given))
-                return [new UnexpectedInput(fun, this, expected, given)];
+                return [new MisplacedInput(fun, this, expected, given)];
 
             // Figure out what type this expected input is. Resolve any type variables to concrete values.
             if (given instanceof Expression) {
@@ -467,7 +497,8 @@ export default class Evaluate extends Expression {
                     : // Otherwise, halt on an expected value.
                       [
                           new Halt(
-                              (evaluator) => new ValueException(evaluator),
+                              (evaluator) =>
+                                  new ValueException(evaluator, this),
                               this
                           ),
                       ];
@@ -488,7 +519,8 @@ export default class Evaluate extends Expression {
                     else
                         return [
                             new Halt(
-                                (evaluator) => new ValueException(evaluator),
+                                (evaluator) =>
+                                    new ValueException(evaluator, this),
                                 this
                             ),
                         ];
@@ -503,14 +535,7 @@ export default class Evaluate extends Expression {
             new Start(this),
             ...inputSteps.reduce((steps: Step[], s) => [...steps, ...s], []),
             ...this.func.compile(context),
-            new Action(
-                this,
-                {
-                    eng: 'Start evaluating the function with the inputs',
-                    '😀': WRITE,
-                },
-                (evaluator) => this.startEvaluation(evaluator)
-            ),
+            new StartEvaluation(this),
             new Finish(this),
         ];
     }
@@ -613,7 +638,7 @@ export default class Evaluate extends Expression {
         const bindings = new Map<Names, Value>();
         for (let i = 0; i < inputs.length; i++) {
             const bind = inputs[i];
-            if (i >= values.length) return new ValueException(evaluator);
+            if (i >= values.length) return new ValueException(evaluator, this);
 
             // If it's variable length, take the rest of the values and stop.
             if (bind.isVariableLength()) {
@@ -647,48 +672,6 @@ export default class Evaluate extends Expression {
         return current;
     }
 
-    getChildPlaceholderLabel(
-        child: Node,
-        context: Context
-    ): Translations | undefined {
-        // Find the corresponding input's definition, getting names from the Binds.
-        if (child === this.func)
-            return {
-                '😀': TRANSLATE,
-                eng: 'function',
-            };
-        if (this.inputs.includes(child as Expression)) {
-            const index = this.inputs.indexOf(child as Expression);
-            if (index >= 0) {
-                const funType = this.func.getType(context);
-                if (
-                    funType instanceof FunctionDefinitionType &&
-                    index < funType.fun.inputs.length
-                ) {
-                    const bind = funType.fun.inputs[index];
-                    if (bind instanceof Bind) {
-                        return bind.names.getTranslations();
-                    }
-                } else if (
-                    funType instanceof StructureDefinitionType &&
-                    index < funType.structure.inputs.length
-                ) {
-                    const bind = funType.structure.inputs[index];
-                    if (bind instanceof Bind) {
-                        return bind.names.getTranslations();
-                    }
-                }
-            }
-        }
-    }
-
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'evaluate a function',
-        };
-    }
-
     getStart() {
         return this.open;
     }
@@ -696,17 +679,15 @@ export default class Evaluate extends Expression {
         return this.close ?? this.func;
     }
 
-    getStartExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'We first have to evaluate all of the inputs, then the function to evaluate.',
-        };
+    getDescription(translation: Translation) {
+        return translation.expressions.Evaluate.description;
     }
 
-    getFinishExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'Now that we have the inputs and the function, we can start evaluating the function.',
-        };
+    getStartExplanations(translation: Translation) {
+        return translation.expressions.Evaluate.start;
+    }
+
+    getFinishExplanations(translation: Translation) {
+        return translation.expressions.Evaluate.finish;
     }
 }

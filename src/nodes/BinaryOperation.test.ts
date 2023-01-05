@@ -2,7 +2,8 @@ import { test, expect } from 'vitest';
 import { testConflict } from '../conflicts/TestUtilities';
 import Evaluator from '../runtime/Evaluator';
 import BinaryOperation from './BinaryOperation';
-import { FALSE_SYMBOL, OR_SYMBOL } from '../parser/Tokenizer';
+import { FALSE_SYMBOL } from '../parser/Symbols';
+import { OR_SYMBOL } from '../parser/Symbols';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 
 test.each([

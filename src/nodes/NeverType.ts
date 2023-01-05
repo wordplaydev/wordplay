@@ -1,6 +1,5 @@
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
+import type Translation from '../translations/Translation';
 import Type from './Type';
 
 export default class NeverType extends Type {
@@ -28,10 +27,7 @@ export default class NeverType extends Type {
         return new NeverType() as this;
     }
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'An impossible type',
-        };
+    getDescription(translation: Translation) {
+        return translation.types.NeverType.description;
     }
 }

@@ -18,7 +18,7 @@ import ConversionDefinition from '../nodes/ConversionDefinition';
 import Convert from '../nodes/Convert';
 import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
 import FunctionDefinition from '../nodes/FunctionDefinition';
-import type LanguageCode from '../nodes/LanguageCode';
+import type LanguageCode from '../translations/LanguageCode';
 import ListLiteral from '../nodes/ListLiteral';
 import ListType from '../nodes/ListType';
 import MapLiteral from '../nodes/MapLiteral';

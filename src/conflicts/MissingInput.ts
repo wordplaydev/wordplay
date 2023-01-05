@@ -3,10 +3,9 @@ import Conflict from './Conflict';
 import type Node from '../nodes/Node';
 import type Bind from '../nodes/Bind';
 import type BinaryOperation from '../nodes/BinaryOperation';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
 import type FunctionDefinition from '../nodes/FunctionDefinition';
 import type StructureDefinition from '../nodes/StructureDefinition';
+import type Translation from '../translations/Translation';
 
 export default class MissingInput extends Conflict {
     readonly func: FunctionDefinition | StructureDefinition;
@@ -31,12 +30,11 @@ export default class MissingInput extends Conflict {
         return { primary: this.last, secondary: [this.input.names] };
     }
 
-    getPrimaryExplanation(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: `Expected an input ${this.input.names.getTranslation(
-                'eng'
-            )}, but it wasn't provided.`,
-        };
+    getPrimaryExplanation(translation: Translation) {
+        return translation.conflict.MissingInput.primary(this.input);
+    }
+
+    getSecondaryExplanation(translation: Translation) {
+        return translation.conflict.MissingInput.secondary();
     }
 }

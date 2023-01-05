@@ -1,6 +1,5 @@
 import type BinaryOperation from '../nodes/BinaryOperation';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
+import type Translation from '../translations/Translation';
 import Conflict from './Conflict';
 
 export default class OrderOfOperations extends Conflict {
@@ -21,10 +20,11 @@ export default class OrderOfOperations extends Conflict {
         };
     }
 
-    getPrimaryExplanation(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: `All operators evalute left to right, unlike math. Use parentheses to specify which order to evaluate these.`,
-        };
+    getPrimaryExplanation(translation: Translation) {
+        return translation.conflict.OrderOfOperations.primary();
+    }
+
+    getSecondaryExplanation(translation: Translation) {
+        return translation.conflict.OrderOfOperations.secondary();
     }
 }

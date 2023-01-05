@@ -1,7 +1,6 @@
 import type Language from '../nodes/Language';
 import type Token from '../nodes/Token';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
+import type Translation from '../translations/Translation';
 import Conflict from './Conflict';
 
 export default class MissingLanguage extends Conflict {
@@ -18,10 +17,11 @@ export default class MissingLanguage extends Conflict {
         return { primary: this.slash, secondary: [] };
     }
 
-    getPrimaryExplanation(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: `Languages require a language code.`,
-        };
+    getPrimaryExplanation(translation: Translation) {
+        return translation.conflict.MissingLanguage.primary();
+    }
+
+    getSecondaryExplanation() {
+        return undefined;
     }
 }

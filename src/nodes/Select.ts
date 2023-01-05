@@ -21,11 +21,10 @@ import type Definition from './Definition';
 import type TypeSet from './TypeSet';
 import UnimplementedException from '../runtime/UnimplementedException';
 import type Evaluator from '../runtime/Evaluator';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import NotATableType from './NotATableType';
 import UnknownNameType from './UnknownNameType';
 import type { Replacement } from './Node';
+import type Translation from '../translations/Translation';
 
 export default class Select extends Expression {
     readonly table: Expression;
@@ -46,10 +45,22 @@ export default class Select extends Expression {
 
     getGrammar() {
         return [
-            { name: 'table', types: [Expression] },
+            {
+                name: 'table',
+                types: [Expression],
+                label: (translation: Translation) => translation.data.table,
+            },
             { name: 'select', types: [Token] },
-            { name: 'row', types: [Row] },
-            { name: 'query', types: [Expression] },
+            {
+                name: 'row',
+                types: [Row],
+                label: (translation: Translation) => translation.data.row,
+            },
+            {
+                name: 'query',
+                types: [Expression],
+                label: (translation: Translation) => translation.data.query,
+            },
         ];
     }
 
@@ -155,7 +166,7 @@ export default class Select extends Expression {
     }
 
     evaluate(evaluator: Evaluator): Value {
-        return new UnimplementedException(evaluator);
+        return new UnimplementedException(evaluator, this);
     }
 
     evaluateTypeSet(
@@ -175,13 +186,6 @@ export default class Select extends Expression {
         return current;
     }
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'Select rows from a table',
-        };
-    }
-
     getStart() {
         return this.select;
     }
@@ -189,17 +193,15 @@ export default class Select extends Expression {
         return this.select;
     }
 
-    getStartExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'First we get the table, then we select values from it.',
-        };
+    getDescription(translation: Translation) {
+        return translation.expressions.Insert.description;
     }
 
-    getFinishExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: "Now that we have the table, let's get the matching values.",
-        };
+    getStartExplanations(translation: Translation) {
+        return translation.expressions.Insert.start;
+    }
+
+    getFinishExplanations(translation: Translation) {
+        return translation.expressions.Insert.finish;
     }
 }

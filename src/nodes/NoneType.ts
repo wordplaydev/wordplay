@@ -1,11 +1,10 @@
 import type { NativeTypeName } from '../native/NativeConstants';
-import { NONE_SYMBOL } from '../parser/Tokenizer';
+import { NONE_SYMBOL } from '../parser/Symbols';
+import type Translation from '../translations/Translation';
 import NativeType from './NativeType';
 import type { Replacement } from './Node';
 import Token from './Token';
 import TokenType from './TokenType';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import type TypeSet from './TypeSet';
 
 export default class NoneType extends NativeType {
@@ -45,10 +44,7 @@ export default class NoneType extends NativeType {
         ) as this;
     }
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'A none type.',
-        };
+    getDescription(translation: Translation) {
+        return translation.types.NoneType.description;
     }
 }

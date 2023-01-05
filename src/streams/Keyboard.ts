@@ -6,30 +6,28 @@ import Structure, { createStructure } from '../runtime/Structure';
 import None from '../runtime/None';
 import StructureDefinitionType from '../nodes/StructureDefinitionType';
 import StreamType from '../nodes/StreamType';
-import { TRANSLATE } from '../nodes/Translations';
 import type Value from '../runtime/Value';
 import type Names from '../nodes/Names';
 import type Evaluator from '../runtime/Evaluator';
+import { getDocTranslations } from '../translations/getDocTranslations';
+import { getNameTranslations } from '../translations/getNameTranslations';
 
 export default class Keyboard extends Stream<Structure | None> {
     readonly evaluator: Evaluator;
     on: boolean = false;
 
     constructor(evaluator: Evaluator) {
-        super(
-            evaluator,
-            {
-                eng: 'A stream of key up and down events.',
-                '😀': `${TRANSLATE}`,
-            },
-            {
-                eng: 'keyboard',
-                '😀': '⌨️',
-            },
-            new None(evaluator.getMain())
-        );
+        super(evaluator, new None(evaluator.getMain()));
 
         this.evaluator = evaluator;
+    }
+
+    computeDocs() {
+        return getDocTranslations((t) => t.input.keyboard.doc);
+    }
+
+    computeNames() {
+        return getNameTranslations((t) => t.input.keyboard.name);
     }
 
     record(key: string, down: boolean) {

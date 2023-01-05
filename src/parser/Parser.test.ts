@@ -55,7 +55,7 @@ import SetLiteral from '../nodes/SetLiteral';
 import MapLiteral from '../nodes/MapLiteral';
 import SetType from '../nodes/SetType';
 import MapType from '../nodes/MapType';
-import { NONE_SYMBOL, PLACEHOLDER_SYMBOL } from './Tokenizer';
+import { NONE_SYMBOL, PLACEHOLDER_SYMBOL } from './Symbols';
 import UnparsableType from '../nodes/UnparsableType';
 import DocumentedExpression from '../nodes/DocumentedExpression';
 import TypeInputs from '../nodes/TypeInputs';

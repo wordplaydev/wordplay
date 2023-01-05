@@ -6,14 +6,14 @@ import UnparsableException from '../runtime/UnparsableException';
 import type Step from '../runtime/Step';
 import type Value from '../runtime/Value';
 import type Bind from './Bind';
-import Expression from './Expression';
+import type Expression from './Expression';
 import Node, { type Replacement } from './Node';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import type TypeSet from './TypeSet';
 import UnparsableType from './UnparsableType';
+import type Translation from '../translations/Translation';
+import AtomicExpression from './AtomicExpression';
 
-export default class UnparsableExpression extends Expression {
+export default class UnparsableExpression extends AtomicExpression {
     readonly unparsables: Node[];
 
     constructor(nodes: Node[]) {
@@ -65,25 +65,16 @@ export default class UnparsableExpression extends Expression {
     getStart() {
         return this.getFirstLeaf() ?? this;
     }
+
     getFinish() {
         return this;
     }
 
-    getStartExplanations(): Translations {
-        return this.getFinishExplanations();
+    getDescription(translation: Translation) {
+        return translation.expressions.UnparsableExpression.description;
     }
 
-    getFinishExplanations(): Translations {
-        return {
-            eng: "We couldn't make sense of this, so we're stopping the program.",
-            '😀': `${TRANSLATE}`,
-        };
-    }
-
-    getDescriptions(): Translations {
-        return {
-            eng: 'Unparsable expression',
-            '😀': TRANSLATE,
-        };
+    getStartExplanations(translation: Translation) {
+        return translation.expressions.UnparsableExpression.start;
     }
 }

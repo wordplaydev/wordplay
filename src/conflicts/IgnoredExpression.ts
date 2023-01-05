@@ -1,7 +1,6 @@
 import type Expression from '../nodes/Expression';
 import Conflict from './Conflict';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
+import type Translation from '../translations/Translation';
 
 export class IgnoredExpression extends Conflict {
     readonly expr: Expression;
@@ -15,10 +14,11 @@ export class IgnoredExpression extends Conflict {
         return { primary: this.expr, secondary: [] };
     }
 
-    getPrimaryExplanation(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: `I feel useless. I am useless! Someone use me!`,
-        };
+    getPrimaryExplanation(translation: Translation) {
+        return translation.conflict.IgnoredExpression.primary();
+    }
+
+    getSecondaryExplanation() {
+        return undefined;
     }
 }

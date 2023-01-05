@@ -1,8 +1,8 @@
 import Node, { type Replacement } from './Node';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import Names from './Names';
-import type LanguageCode from './LanguageCode';
+import type LanguageCode from '../translations/LanguageCode';
+import type Translation from '../translations/Translation';
+import NameType from './NameType';
 
 export default class TypeVariable extends Node {
     readonly names: Names;
@@ -15,10 +15,6 @@ export default class TypeVariable extends Node {
         this.computeChildren();
     }
 
-    static make(names: Translations) {
-        return new TypeVariable(Names.make(names));
-    }
-
     getGrammar() {
         return [{ name: 'names', types: [Names] }];
     }
@@ -29,22 +25,25 @@ export default class TypeVariable extends Node {
         ) as this;
     }
 
+    getReference(): NameType {
+        return NameType.make(this.names.getNames()[0], this);
+    }
+
     getNames() {
         return this.names.getNames();
     }
+
     hasName(name: string) {
         return this.names.hasName(name);
     }
+
     getTranslation(languages: LanguageCode[]) {
         return this.names.getTranslation(languages);
     }
 
     computeConflicts() {}
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'A variable type',
-        };
+    getDescription(translation: Translation) {
+        return translation.nodes.TypeVariable.description;
     }
 }

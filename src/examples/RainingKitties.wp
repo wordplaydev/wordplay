@@ -1,15 +1,15 @@
 === Raining Kitties
-↓ ⚁
+↓ random
 ↓ time
 
 `Make a list of 20 kitties, each placed somewhere in a 20m box`
-kitties: 20→[].translate(ƒ(_) 💬(
+kitties: 20→[].translate(ƒ(_) Phrase(
         "🐈" 
         size: 3m 
-        place:📍(
-            (⚁ - 0.5)·20m 
-            (⚁ - 0.5)·20m
-            ⚁·20m
+        place: Place(
+            (random - 0.5)·20m 
+            (random - 0.5)·20m
+            random·20m
         )
     )
 )

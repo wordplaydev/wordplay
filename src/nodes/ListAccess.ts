@@ -5,7 +5,6 @@ import ListType from './ListType';
 import MeasurementType from './MeasurementType';
 import Token from './Token';
 import Type from './Type';
-import UnknownType from './UnknownType';
 import type Evaluator from '../runtime/Evaluator';
 import type Value from '../runtime/Value';
 import List from '../runtime/List';
@@ -14,20 +13,19 @@ import type Step from '../runtime/Step';
 import Finish from '../runtime/Finish';
 import Start from '../runtime/Start';
 import type Context from './Context';
-import type Node from './Node';
 import NoneType from './NoneType';
 import UnionType from './UnionType';
 import type TypeSet from './TypeSet';
 import Unit from './Unit';
 import type Bind from './Bind';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import { NotAList } from '../conflicts/NotAList';
 import UnclosedDelimiter from '../conflicts/UnclosedDelimiter';
 import ListOpenToken from './ListOpenToken';
 import ListCloseToken from './ListCloseToken';
 import MeasurementLiteral from './MeasurementLiteral';
 import type { Replacement } from './Node';
+import type Translation from '../translations/Translation';
+import { NotAListType } from './NotAListType';
 
 export default class ListAccess extends Expression {
     readonly list: Expression;
@@ -65,6 +63,7 @@ export default class ListAccess extends Expression {
             {
                 name: 'list',
                 types: [Expression],
+                label: (translation: Translation) => translation.data.list,
                 // Must be a list
                 getType: () => ListType.make(),
             },
@@ -72,6 +71,7 @@ export default class ListAccess extends Expression {
             {
                 name: 'index',
                 types: [Expression],
+                label: (translation: Translation) => translation.data.index,
                 // Must be a number
                 getType: () => MeasurementType.make(),
             },
@@ -150,20 +150,6 @@ export default class ListAccess extends Expression {
         return this.close ?? this.index;
     }
 
-    getStartExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: "Let's get a value from the list!",
-        };
-    }
-
-    getFinishExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'Now that we have list and the index, get the value in the list at this index.',
-        };
-    }
-
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
         if (prior) return prior;
 
@@ -190,36 +176,15 @@ export default class ListAccess extends Expression {
         return current;
     }
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'Get a value from a list by index',
-        };
+    getDescription(translation: Translation) {
+        return translation.expressions.ListAccess.description;
     }
 
-    getChildPlaceholderLabel(child: Node): Translations | undefined {
-        if (child === this.list)
-            return {
-                '😀': TRANSLATE,
-                eng: 'list',
-            };
-        else if (child === this.index)
-            return {
-                '😀': TRANSLATE,
-                eng: 'index',
-            };
-    }
-}
-
-export class NotAListType extends UnknownType<ListAccess> {
-    constructor(access: ListAccess, why: Type) {
-        super(access, why);
+    getStartExplanations(translation: Translation) {
+        return translation.expressions.ListAccess.start;
     }
 
-    getReason(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: `${this.expression.list.toWordplay()} is not a list`,
-        };
+    getFinishExplanations(translation: Translation) {
+        return translation.expressions.ListAccess.finish;
     }
 }

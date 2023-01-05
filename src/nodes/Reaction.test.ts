@@ -1,7 +1,7 @@
 import { test, expect } from 'vitest';
 import Project from '../models/Project';
 import Source from './Source';
-import { FALSE_SYMBOL, TRUE_SYMBOL } from '../parser/Tokenizer';
+import { FALSE_SYMBOL, TRUE_SYMBOL } from '../parser/Symbols';
 import type Stream from '../runtime/Stream';
 import type Value from '../runtime/Value';
 import Time from '../streams/Time';
@@ -18,7 +18,7 @@ test.each([
     ],
     // Check stream references.
     [
-        `↓ time\ntime.add(500ms)`,
+        `↓ time\ntime + 500ms`,
         'time',
         Time.make(NoneType.None, 1),
         '500ms',
@@ -44,7 +44,7 @@ test.each([
     [
         `
         ↓ time
-        ƒ mult(a•# b•#) a.multiply(b)
+        ƒ mult(a•# b•#) a · b
         b: mult(2 0ms … time)
         b
         `,

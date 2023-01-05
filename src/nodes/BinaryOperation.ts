@@ -8,7 +8,7 @@ import Finish from '../runtime/Finish';
 import Start from '../runtime/Start';
 import type Context from './Context';
 import type Node from './Node';
-import { AND_SYMBOL, OR_SYMBOL } from '../parser/Tokenizer';
+import { AND_SYMBOL, OR_SYMBOL } from '../parser/Symbols';
 import OrderOfOperations from '../conflicts/OrderOfOperations';
 import Bind from './Bind';
 import type TypeSet from './TypeSet';
@@ -21,18 +21,17 @@ import IncompatibleInput from '../conflicts/IncompatibleInput';
 import Evaluation from '../runtime/Evaluation';
 import UnparsableException from '../runtime/UnparsableException';
 import NotAFunction from '../conflicts/NotAFunction';
-import type Translations from './Translations';
-import { TRANSLATE, WRITE } from './Translations';
-import type LanguageCode from './LanguageCode';
 import getConcreteExpectedType from './Generics';
 import type Value from '../runtime/Value';
 import UnknownNameType from './UnknownNameType';
-import Action from '../runtime/Action';
 import NeverType from './NeverType';
 import type Definition from './Definition';
 import TokenType from './TokenType';
 import MeasurementType from './MeasurementType';
 import type { Replacement } from './Node';
+import type Translation from '../translations/Translation';
+import type { Description } from '../translations/Translation';
+import StartEvaluation from '../runtime/StartEvaluation';
 
 export default class BinaryOperation extends Expression {
     readonly left: Expression;
@@ -51,7 +50,19 @@ export default class BinaryOperation extends Expression {
 
     getGrammar() {
         return [
-            { name: 'left', types: [Expression] },
+            {
+                name: 'left',
+                types: [Expression],
+                // The label comes from the type of left, or the default label from the translation.
+                label: (
+                    translation: Translation,
+                    _: Node,
+                    context: Context
+                ): Description =>
+                    this.left
+                        .getType(context)
+                        .getDescription(translation, context),
+            },
             {
                 name: 'operator',
                 types: [Token],
@@ -71,6 +82,15 @@ export default class BinaryOperation extends Expression {
             {
                 name: 'right',
                 types: [Expression],
+                // The name of the input from the function, or the translation default
+                label: (
+                    translation: Translation,
+                    _: Node,
+                    context: Context
+                ): Description =>
+                    this.getFunction(context)?.names.getTranslation(
+                        translation.language
+                    ) ?? translation.expressions.BinaryOperation.right,
                 space: true,
                 indent: true,
                 // The type of the right should be the type of the single input to the function corresponding to the operator.
@@ -216,14 +236,7 @@ export default class BinaryOperation extends Expression {
                 // Jump past the right's instructions if false and just push a false on the stack.
                 new JumpIf(right.length + 1, true, false, this),
                 ...right,
-                new Action(
-                    this,
-                    {
-                        eng: 'Start the operation!',
-                        '😀': WRITE,
-                    },
-                    (evaluator) => this.startEvaluate(evaluator)
-                ),
+                new StartEvaluation(this),
                 new Finish(this),
             ];
         }
@@ -235,14 +248,7 @@ export default class BinaryOperation extends Expression {
                 // Jump past the right's instructions if true and just push a true on the stack.
                 new JumpIf(right.length + 1, true, true, this),
                 ...right,
-                new Action(
-                    this,
-                    {
-                        eng: 'Start the operation!',
-                        '😀': WRITE,
-                    },
-                    (evaluator) => this.startEvaluate(evaluator)
-                ),
+                new StartEvaluation(this),
                 new Finish(this),
             ];
         } else {
@@ -250,20 +256,13 @@ export default class BinaryOperation extends Expression {
                 new Start(this),
                 ...left,
                 ...right,
-                new Action(
-                    this,
-                    {
-                        eng: 'Start the operation!',
-                        '😀': WRITE,
-                    },
-                    (evaluator) => this.startEvaluate(evaluator)
-                ),
+                new StartEvaluation(this),
                 new Finish(this),
             ];
         }
     }
 
-    startEvaluate(evaluator: Evaluator) {
+    startEvaluation(evaluator: Evaluator) {
         const context = evaluator.getCurrentContext();
 
         const right = evaluator.popValue(undefined);
@@ -357,43 +356,13 @@ export default class BinaryOperation extends Expression {
         }
     }
 
-    getChildPlaceholderLabel(
-        child: Node,
-        context: Context
-    ): Translations | undefined {
-        if (child === this.operator)
-            return {
-                '😀': TRANSLATE,
-                eng: 'operator',
-            };
-        // If it's the right, find the name of the input.
-        else if (child === this.right) {
-            const fun = this.getFunction(context);
-            if (fun) {
-                const firstInput = fun.inputs[0];
-                if (firstInput instanceof Bind)
-                    return firstInput.names.getTranslations();
-            }
-        }
-    }
-
-    getDescriptions(context: Context): Translations {
-        const descriptions: Translations = {
-            '😀': TRANSLATE,
-            eng: 'Evaluate an unknown function with two inputs.',
-        };
-
-        // Find the function on the left's type.
-        const fun = this.getFunction(context);
-        if (fun !== undefined && fun.docs) {
-            for (const doc of fun.docs.docs) {
-                const lang = doc.getLanguage();
-                if (lang !== undefined)
-                    descriptions[lang as LanguageCode] = doc.docs.getText();
-            }
-        }
-
-        return descriptions;
+    /** Override default description with function name. */
+    getDescription(translation: Translation, context: Context) {
+        return (
+            this.getFunction(context)?.docs?.getTranslation([
+                translation.language,
+            ]) ?? translation.expressions.BinaryOperation.description
+        );
     }
 
     getStart() {
@@ -403,17 +372,10 @@ export default class BinaryOperation extends Expression {
         return this.operator;
     }
 
-    getStartExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'We first evaluate the left and right.',
-        };
+    getStartExplanations(translation: Translation): string {
+        return translation.expressions.BinaryOperation.start;
     }
-
-    getFinishExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'We end by performing the operation on the left and right.',
-        };
+    getFinishExplanations(translation: Translation): string {
+        return translation.expressions.BinaryOperation.finish;
     }
 }

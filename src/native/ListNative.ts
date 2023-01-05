@@ -14,7 +14,6 @@ import List from '../runtime/List';
 import Text from '../runtime/Text';
 import TypeException from '../runtime/TypeException';
 import { createNativeConversion, createNativeFunction } from './NativeBindings';
-import { LIST_TYPE_VAR_NAMES } from './NativeConstants';
 import NativeExpression from './NativeExpression';
 import NativeHOFListAll from './NativeHOFListAll';
 import NativeHOFListCombine from './NativeHOFListCombine';
@@ -25,44 +24,63 @@ import NativeHOFListUntil from './NativeHOFListUntil';
 import Set from '../runtime/Set';
 import StructureDefinition from '../nodes/StructureDefinition';
 import Block from '../nodes/Block';
-import { TRANSLATE, WRITE, WRITE_DOCS } from '../nodes/Translations';
-import type Translations from '../nodes/Translations';
 import type Node from '../nodes/Node';
 import Measurement from '../runtime/Measurement';
 import type Evaluation from '../runtime/Evaluation';
 import TypeVariables from '../nodes/TypeVariables';
+import { getDocTranslations } from '../translations/getDocTranslations';
+import { getNameTranslations } from '../translations/getNameTranslations';
+import TypeVariable from '../nodes/TypeVariable';
 
 export default function bootstrapList() {
-    const LIST_HOF_OUTPUT_TYPE_VARIABLE_NAME: Translations = {
-        eng: 'Out',
-        '😀': `${TRANSLATE}Out`,
-    };
+    const ListTypeVarNames = getNameTranslations((t) => t.native.list.kind);
+    const ListTypeVariable = new TypeVariable(ListTypeVarNames);
+    const DefaultListTypeVarName =
+        ListTypeVarNames.names[0].getName() as string;
+
+    function getListTypeVariableReference() {
+        return new NameType(
+            DefaultListTypeVarName,
+            undefined,
+            ListTypeVariable
+        );
+    }
+
+    const translateTypeVariable = new TypeVariable(
+        getNameTranslations((t) => t.native.list.out)
+    );
 
     const listTranslateHOFType = FunctionType.make(
         undefined,
         [
             Bind.make(
-                WRITE_DOCS,
-                {
-                    eng: 'value',
-                    '😀': `${TRANSLATE}value`,
-                },
-                new NameType(LIST_TYPE_VAR_NAMES.eng)
+                getDocTranslations(
+                    (t) => t.native.list.function.translate.value.doc
+                ),
+                getNameTranslations(
+                    (t) => t.native.list.function.translate.value.name
+                ),
+                new NameType(
+                    DefaultListTypeVarName,
+                    undefined,
+                    ListTypeVariable
+                )
             ),
         ],
-        new NameType(LIST_HOF_OUTPUT_TYPE_VARIABLE_NAME.eng)
+        translateTypeVariable.getReference()
     );
 
     const listFilterHOFType = FunctionType.make(
         undefined,
         [
             Bind.make(
-                WRITE_DOCS,
-                {
-                    eng: 'value',
-                    '😀': `${TRANSLATE}value`,
-                },
-                new NameType(LIST_TYPE_VAR_NAMES.eng)
+                getDocTranslations(
+                    (t) => t.native.list.function.filter.value.doc
+                ),
+                getNameTranslations(
+                    (t) => t.native.list.function.filter.value.name
+                ),
+                getListTypeVariableReference()
             ),
         ],
         BooleanType.make()
@@ -72,12 +90,11 @@ export default function bootstrapList() {
         undefined,
         [
             Bind.make(
-                WRITE_DOCS,
-                {
-                    eng: 'value',
-                    '😀': `${TRANSLATE}value`,
-                },
-                new NameType(LIST_TYPE_VAR_NAMES.eng)
+                getDocTranslations((t) => t.native.list.function.all.value.doc),
+                getNameTranslations(
+                    (t) => t.native.list.function.all.value.name
+                ),
+                getListTypeVariableReference()
             ),
         ],
         BooleanType.make()
@@ -87,88 +104,117 @@ export default function bootstrapList() {
         undefined,
         [
             Bind.make(
-                WRITE_DOCS,
-                {
-                    eng: 'value',
-                    '😀': `${TRANSLATE}value`,
-                },
+                getDocTranslations(
+                    (t) => t.native.list.function.until.value.doc
+                ),
+                getNameTranslations(
+                    (t) => t.native.list.function.until.value.name
+                ),
                 BooleanType.make()
             ),
         ],
-        new NameType(LIST_TYPE_VAR_NAMES.eng)
+        getListTypeVariableReference()
     );
 
     const listFindHOFType = FunctionType.make(
         undefined,
         [
             Bind.make(
-                WRITE_DOCS,
-                {
-                    eng: 'value',
-                    '😀': `${TRANSLATE}value`,
-                },
+                getDocTranslations(
+                    (t) => t.native.list.function.find.value.doc
+                ),
+                getNameTranslations(
+                    (t) => t.native.list.function.find.value.name
+                ),
                 BooleanType.make()
             ),
         ],
-        new NameType(LIST_TYPE_VAR_NAMES.eng)
+        getListTypeVariableReference()
+    );
+
+    const combineTypeVariable = new TypeVariable(
+        getNameTranslations((t) => t.native.list.out)
     );
 
     const listCombineHOFType = FunctionType.make(
         undefined,
         [
             Bind.make(
-                WRITE_DOCS,
-                {
-                    eng: 'combination',
-                    '😀': `${TRANSLATE}combination`,
-                },
-                new NameType(LIST_HOF_OUTPUT_TYPE_VARIABLE_NAME.eng)
+                getDocTranslations(
+                    (t) => t.native.list.function.combine.combination.doc
+                ),
+                getNameTranslations(
+                    (t) => t.native.list.function.combine.combination.name
+                ),
+                combineTypeVariable.getReference()
             ),
             Bind.make(
-                WRITE_DOCS,
-                {
-                    eng: 'next',
-                    '😀': `${TRANSLATE}next`,
-                },
-                new NameType(LIST_TYPE_VAR_NAMES.eng)
+                getDocTranslations(
+                    (t) => t.native.list.function.combine.next.doc
+                ),
+                getNameTranslations(
+                    (t) => t.native.list.function.combine.next.name
+                ),
+                getListTypeVariableReference()
             ),
         ],
-        new NameType(LIST_HOF_OUTPUT_TYPE_VARIABLE_NAME.eng)
+        combineTypeVariable.getReference()
+    );
+
+    const addInputNames = getNameTranslations(
+        (t) => t.native.list.function.add.inputs[0].name
+    );
+
+    const hasInputNames = getNameTranslations(
+        (t) => t.native.list.function.has.inputs[0].name
+    );
+
+    const joinInputNames = getNameTranslations(
+        (t) => t.native.list.function.join.inputs[0].name
+    );
+
+    const sansInputNames = getNameTranslations(
+        (t) => t.native.list.function.sans.inputs[0].name
+    );
+
+    const sansAllInputNames = getNameTranslations(
+        (t) => t.native.list.function.sansAll.inputs[0].name
+    );
+
+    const equalsInputNames = getNameTranslations(
+        (t) => t.native.list.function.equals.inputs[0].name
+    );
+
+    const notequalsInputNames = getNameTranslations(
+        (t) => t.native.list.function.notequals.inputs[0].name
     );
 
     return StructureDefinition.make(
-        WRITE_DOCS,
-        {
-            eng: 'list',
-            '😀': `${TRANSLATE}list`,
-        },
+        getDocTranslations((t) => t.native.list.doc),
+        getNameTranslations((t) => t.native.list.name),
         [],
-        TypeVariables.make([LIST_TYPE_VAR_NAMES]),
+        TypeVariables.make([ListTypeVariable]),
         [],
         // Include all of the functions defined above.
         new Block(
             [
                 createNativeFunction(
-                    WRITE_DOCS,
-                    {
-                        eng: 'add',
-                        '😀': '+',
-                    },
+                    getDocTranslations((t) => t.native.list.function.add.doc),
+                    getNameTranslations((t) => t.native.list.function.add.name),
                     undefined,
                     [
                         Bind.make(
-                            WRITE_DOCS,
-                            {
-                                eng: 'value',
-                                '😀': `${TRANSLATE}1`,
-                            },
-                            new NameType(LIST_TYPE_VAR_NAMES.eng)
+                            getDocTranslations(
+                                (t) => t.native.list.function.add.inputs[0].doc
+                            ),
+                            addInputNames,
+                            getListTypeVariableReference()
                         ),
                     ],
-                    ListType.make(new NameType(LIST_TYPE_VAR_NAMES.eng)),
+                    ListType.make(getListTypeVariableReference()),
                     (requestor, evaluation) => {
                         const list = evaluation.getClosure();
-                        const value = evaluation.resolve('value');
+                        const value = evaluation.resolve(addInputNames);
                         if (list instanceof List && value !== undefined)
                             return list.add(requestor, value);
                         else
@@ -180,11 +226,12 @@ export default function bootstrapList() {
                     }
                 ),
                 createNativeFunction(
-                    WRITE_DOCS,
-                    {
-                        eng: 'length',
-                        '😀': `${TRANSLATE}length`,
-                    },
+                    getDocTranslations(
+                        (t) => t.native.list.function.length.doc
+                    ),
+                    getNameTranslations(
+                        (t) => t.native.list.function.length.name
+                    ),
                     undefined,
                     [],
                     MeasurementType.make(),
@@ -201,14 +248,15 @@ export default function bootstrapList() {
                     }
                 ),
                 createNativeFunction(
-                    WRITE_DOCS,
-                    {
-                        eng: 'random',
-                        '😀': `${TRANSLATE}random`,
-                    },
+                    getDocTranslations(
+                        (t) => t.native.list.function.random.doc
+                    ),
+                    getNameTranslations(
+                        (t) => t.native.list.function.random.name
+                    ),
                     undefined,
                     [],
-                    new NameType(LIST_TYPE_VAR_NAMES.eng),
+                    getListTypeVariableReference(),
                     (_, evaluation) => {
                         const list = evaluation.getClosure();
                         if (list instanceof List) {
@@ -232,15 +280,14 @@ export default function bootstrapList() {
                     }
                 ),
                 createNativeFunction(
-                    WRITE_DOCS,
-                    {
-                        eng: 'first',
-                        '😀': `${TRANSLATE}first`,
-                    },
+                    getDocTranslations((t) => t.native.list.function.first.doc),
+                    getNameTranslations(
+                        (t) => t.native.list.function.first.name
+                    ),
                     undefined,
                     [],
                     UnionType.make(
-                        new NameType(LIST_TYPE_VAR_NAMES.eng),
+                        getListTypeVariableReference(),
                         NoneType.None
                     ),
                     (requestor, evaluation) => {
@@ -256,27 +303,23 @@ export default function bootstrapList() {
                     }
                 ),
                 createNativeFunction(
-                    WRITE_DOCS,
-                    {
-                        eng: 'has',
-                        '😀': `${TRANSLATE}has`,
-                    },
+                    getDocTranslations((t) => t.native.list.function.has.doc),
+                    getNameTranslations((t) => t.native.list.function.has.name),
                     undefined,
                     [
                         Bind.make(
-                            WRITE_DOCS,
-                            {
-                                eng: 'value',
-                                '😀': `${TRANSLATE}1`,
-                            },
-                            new NameType(LIST_TYPE_VAR_NAMES.eng)
+                            getDocTranslations(
+                                (t) => t.native.list.function.has.inputs[0].doc
+                            ),
+                            hasInputNames,
+                            getListTypeVariableReference()
                         ),
                     ],
                     BooleanType.make(),
                     (requestor, evaluation) => {
                         const list: Value | Evaluation | undefined =
                             evaluation.getClosure();
-                        const value = evaluation.resolve('value');
+                        const value = evaluation.resolve(hasInputNames);
                         if (list instanceof List && value !== undefined)
                             return list.has(requestor, value);
                         else
@@ -288,26 +331,24 @@ export default function bootstrapList() {
                     }
                 ),
                 createNativeFunction(
-                    WRITE_DOCS,
-                    {
-                        eng: 'join',
-                        '😀': `${TRANSLATE}join`,
-                    },
+                    getDocTranslations((t) => t.native.list.function.join.doc),
+                    getNameTranslations(
+                        (t) => t.native.list.function.join.name
+                    ),
                     undefined,
                     [
                         Bind.make(
-                            WRITE_DOCS,
-                            {
-                                eng: 'separator',
-                                '😀': `${TRANSLATE}1`,
-                            },
+                            getDocTranslations(
+                                (t) => t.native.list.function.join.inputs[0].doc
+                            ),
+                            joinInputNames,
                             TextType.make()
                         ),
                     ],
                     TextType.make(),
                     (requestor, evaluation) => {
                         const list = evaluation.getClosure();
-                        const separator = evaluation.resolve('separator');
+                        const separator = evaluation.resolve(joinInputNames);
                         if (list instanceof List && separator instanceof Text)
                             return list.join(requestor, separator);
                         else
@@ -319,14 +360,13 @@ export default function bootstrapList() {
                     }
                 ),
                 createNativeFunction(
-                    WRITE_DOCS,
-                    {
-                        eng: 'last',
-                        '😀': `${TRANSLATE}last`,
-                    },
+                    getDocTranslations((t) => t.native.list.function.last.doc),
+                    getNameTranslations(
+                        (t) => t.native.list.function.last.name
+                    ),
                     undefined,
                     [],
-                    new NameType(LIST_TYPE_VAR_NAMES.eng),
+                    getListTypeVariableReference(),
                     (requestor, evaluation) => {
                         requestor;
                         const list = evaluation.getClosure();
@@ -340,14 +380,15 @@ export default function bootstrapList() {
                     }
                 ),
                 createNativeFunction(
-                    WRITE_DOCS,
-                    {
-                        eng: 'sansFirst',
-                        '😀': `${TRANSLATE}sansFirst`,
-                    },
+                    getDocTranslations(
+                        (t) => t.native.list.function.sansFirst.doc
+                    ),
+                    getNameTranslations(
+                        (t) => t.native.list.function.sansFirst.name
+                    ),
                     undefined,
                     [],
-                    ListType.make(new NameType(LIST_TYPE_VAR_NAMES.eng)),
+                    ListType.make(getListTypeVariableReference()),
                     (requestor, evaluation) => {
                         const list: Value | Evaluation | undefined =
                             evaluation.getClosure();
@@ -362,14 +403,15 @@ export default function bootstrapList() {
                     }
                 ),
                 createNativeFunction(
-                    WRITE_DOCS,
-                    {
-                        eng: 'sansLast',
-                        '😀': `${TRANSLATE}sansLast`,
-                    },
+                    getDocTranslations(
+                        (t) => t.native.list.function.sansLast.doc
+                    ),
+                    getNameTranslations(
+                        (t) => t.native.list.function.sansLast.name
+                    ),
                     undefined,
                     [],
-                    ListType.make(new NameType(LIST_TYPE_VAR_NAMES.eng)),
+                    ListType.make(getListTypeVariableReference()),
                     (requestor, evaluation) => {
                         const list = evaluation.getClosure();
                         if (list instanceof List)
@@ -383,26 +425,24 @@ export default function bootstrapList() {
                     }
                 ),
                 createNativeFunction(
-                    WRITE_DOCS,
-                    {
-                        eng: 'sans',
-                        '😀': `${TRANSLATE}sans`,
-                    },
+                    getDocTranslations((t) => t.native.list.function.sans.doc),
+                    getNameTranslations(
+                        (t) => t.native.list.function.sans.name
+                    ),
                     undefined,
                     [
                         Bind.make(
-                            WRITE_DOCS,
-                            {
-                                eng: 'value',
-                                '😀': `${TRANSLATE}1`,
-                            },
-                            new NameType(LIST_TYPE_VAR_NAMES.eng)
+                            getDocTranslations(
+                                (t) => t.native.list.function.sans.inputs[0].doc
+                            ),
+                            sansInputNames,
+                            getListTypeVariableReference()
                         ),
                     ],
-                    ListType.make(new NameType(LIST_TYPE_VAR_NAMES.eng)),
+                    ListType.make(getListTypeVariableReference()),
                     (requestor, evaluation) => {
                         const list = evaluation.getClosure();
-                        const value = evaluation.resolve('value');
+                        const value = evaluation.resolve(sansInputNames);
                         if (list instanceof List && value !== undefined)
                             return list.sans(requestor, value);
                         else
@@ -414,26 +454,27 @@ export default function bootstrapList() {
                     }
                 ),
                 createNativeFunction(
-                    WRITE_DOCS,
-                    {
-                        eng: 'sansAll',
-                        '😀': `${TRANSLATE}sansAll`,
-                    },
+                    getDocTranslations(
+                        (t) => t.native.list.function.sansAll.doc
+                    ),
+                    getNameTranslations(
+                        (t) => t.native.list.function.sansAll.name
+                    ),
                     undefined,
                     [
                         Bind.make(
-                            WRITE_DOCS,
-                            {
-                                eng: 'value',
-                                '😀': `${TRANSLATE}1`,
-                            },
-                            new NameType(LIST_TYPE_VAR_NAMES.eng)
+                            getDocTranslations(
+                                (t) =>
+                                    t.native.list.function.sansAll.inputs[0].doc
+                            ),
+                            sansAllInputNames,
+                            getListTypeVariableReference()
                         ),
                     ],
-                    ListType.make(new NameType(LIST_TYPE_VAR_NAMES.eng)),
+                    ListType.make(getListTypeVariableReference()),
                     (requestor, evaluation) => {
                         const list = evaluation.getClosure();
-                        const value = evaluation.resolve('value');
+                        const value = evaluation.resolve(sansAllInputNames);
                         if (list instanceof List && value !== undefined)
                             return list.sansAll(requestor, value);
                         else
@@ -445,14 +486,15 @@ export default function bootstrapList() {
                     }
                 ),
                 createNativeFunction(
-                    WRITE_DOCS,
-                    {
-                        eng: 'reverse',
-                        '😀': `${TRANSLATE}reverse`,
-                    },
+                    getDocTranslations(
+                        (t) => t.native.list.function.reverse.doc
+                    ),
+                    getNameTranslations(
+                        (t) => t.native.list.function.reverse.name
+                    ),
                     undefined,
                     [],
-                    ListType.make(new NameType(LIST_TYPE_VAR_NAMES.eng)),
+                    ListType.make(getListTypeVariableReference()),
                     (requestor, evaluation) => {
                         const list = evaluation.getClosure();
                         if (list instanceof List)
@@ -466,19 +508,20 @@ export default function bootstrapList() {
                     }
                 ),
                 FunctionDefinition.make(
-                    WRITE_DOCS,
-                    {
-                        eng: 'equals',
-                        '😀': '=',
-                    },
+                    getDocTranslations(
+                        (t) => t.native.list.function.equals.doc
+                    ),
+                    getNameTranslations(
+                        (t) => t.native.list.function.equals.name
+                    ),
                     undefined,
                     [
                         Bind.make(
-                            WRITE_DOCS,
-                            {
-                                eng: 'value',
-                                '😀': `${TRANSLATE}1`,
-                            },
+                            getDocTranslations(
+                                (t) =>
+                                    t.native.list.function.equals.inputs[0].doc
+                            ),
+                            equalsInputNames,
                             ListType.make()
                         ),
                     ],
@@ -486,7 +529,7 @@ export default function bootstrapList() {
                         BooleanType.make(),
                         (requestor, evaluation) => {
                             const list = evaluation.getClosure();
-                            const value = evaluation.resolve('value');
+                            const value = evaluation.resolve(equalsInputNames);
                             if (!(list instanceof List))
                                 return new TypeException(
                                     evaluation.getEvaluator(),
@@ -500,28 +543,26 @@ export default function bootstrapList() {
                                     value
                                 );
                             return new Bool(requestor, list.isEqualTo(value));
-                        },
-                        {
-                            '😀': WRITE,
-                            eng: 'Comparing list values.',
                         }
                     ),
                     BooleanType.make()
                 ),
                 FunctionDefinition.make(
-                    WRITE_DOCS,
-                    {
-                        eng: 'not-equal',
-                        '😀': '≠',
-                    },
+                    getDocTranslations(
+                        (t) => t.native.list.function.notequals.doc
+                    ),
+                    getNameTranslations(
+                        (t) => t.native.list.function.notequals.name
+                    ),
                     undefined,
                     [
                         Bind.make(
-                            WRITE_DOCS,
-                            {
-                                eng: 'value',
-                                '😀': `${TRANSLATE}1`,
-                            },
+                            getDocTranslations(
+                                (t) =>
+                                    t.native.list.function.notequals.inputs[0]
+                                        .doc
+                            ),
+                            notequalsInputNames,
                             ListType.make()
                         ),
                     ],
@@ -529,7 +570,8 @@ export default function bootstrapList() {
                         BooleanType.make(),
                         (requestor, evaluation) => {
                             const list = evaluation.getClosure();
-                            const value = evaluation.resolve('value');
+                            const value =
+                                evaluation.resolve(notequalsInputNames);
                             if (!(list instanceof List))
                                 return new TypeException(
                                     evaluation.getEvaluator(),
@@ -543,70 +585,72 @@ export default function bootstrapList() {
                                     value
                                 );
                             return new Bool(requestor, !list.isEqualTo(value));
-                        },
-                        {
-                            '😀': WRITE,
-                            eng: 'Comparing list values.',
                         }
                     ),
                     BooleanType.make()
                 ),
                 FunctionDefinition.make(
-                    WRITE_DOCS,
-                    {
-                        eng: 'translate',
-                        '😀': `${TRANSLATE}translate`,
-                    },
-                    TypeVariables.make([LIST_HOF_OUTPUT_TYPE_VARIABLE_NAME]),
+                    getDocTranslations(
+                        (t) => t.native.list.function.translate.doc
+                    ),
+                    getNameTranslations(
+                        (t) => t.native.list.function.translate.name
+                    ),
+                    TypeVariables.make([translateTypeVariable]),
                     [
                         Bind.make(
-                            WRITE_DOCS,
-                            {
-                                eng: 'translator',
-                                '😀': `${TRANSLATE}1`,
-                            },
+                            getDocTranslations(
+                                (t) =>
+                                    t.native.list.function.translate.inputs[0]
+                                        .doc
+                            ),
+                            getNameTranslations(
+                                (t) =>
+                                    t.native.list.function.translate.inputs[0]
+                                        .name
+                            ),
                             listTranslateHOFType
                         ),
                     ],
                     new NativeHOFListTranslate(listTranslateHOFType),
-                    ListType.make(
-                        new NameType(LIST_HOF_OUTPUT_TYPE_VARIABLE_NAME.eng)
-                    )
+                    ListType.make(translateTypeVariable.getReference())
                 ),
                 FunctionDefinition.make(
-                    WRITE_DOCS,
-                    {
-                        eng: 'filter',
-                        '😀': `${TRANSLATE}filter`,
-                    },
+                    getDocTranslations(
+                        (t) => t.native.list.function.filter.doc
+                    ),
+                    getNameTranslations(
+                        (t) => t.native.list.function.filter.name
+                    ),
                     undefined,
                     [
                         Bind.make(
-                            WRITE_DOCS,
-                            {
-                                eng: 'include',
-                                '😀': `${TRANSLATE}1`,
-                            },
+                            getDocTranslations(
+                                (t) =>
+                                    t.native.list.function.filter.inputs[0].doc
+                            ),
+                            getNameTranslations(
+                                (t) =>
+                                    t.native.list.function.filter.inputs[0].name
+                            ),
                             listFilterHOFType
                         ),
                     ],
                     new NativeHOFListFilter(listFilterHOFType),
-                    ListType.make(new NameType(LIST_TYPE_VAR_NAMES.eng))
+                    ListType.make(getListTypeVariableReference())
                 ),
                 FunctionDefinition.make(
-                    WRITE_DOCS,
-                    {
-                        eng: 'all',
-                        '😀': `${TRANSLATE}all`,
-                    },
+                    getDocTranslations((t) => t.native.list.function.all.doc),
+                    getNameTranslations((t) => t.native.list.function.all.name),
                     undefined,
                     [
                         Bind.make(
-                            WRITE_DOCS,
-                            {
-                                eng: 'matcher',
-                                '😀': `${TRANSLATE}1`,
-                            },
+                            getDocTranslations(
+                                (t) => t.native.list.function.all.inputs[0].doc
+                            ),
+                            getNameTranslations(
+                                (t) => t.native.list.function.all.inputs[0].name
+                            ),
                             listAllHOFType
                         ),
                     ],
@@ -614,81 +658,96 @@ export default function bootstrapList() {
                     BooleanType.make()
                 ),
                 FunctionDefinition.make(
-                    WRITE_DOCS,
-                    {
-                        eng: 'until',
-                        '😀': `${TRANSLATE}until`,
-                    },
+                    getDocTranslations((t) => t.native.list.function.until.doc),
+                    getNameTranslations(
+                        (t) => t.native.list.function.until.name
+                    ),
                     undefined,
                     [
                         Bind.make(
-                            WRITE_DOCS,
-                            {
-                                eng: 'checker',
-                                '😀': `${TRANSLATE}1`,
-                            },
+                            getDocTranslations(
+                                (t) =>
+                                    t.native.list.function.until.inputs[0].doc
+                            ),
+                            getNameTranslations(
+                                (t) =>
+                                    t.native.list.function.until.inputs[0].name
+                            ),
                             listUntilHOFType
                         ),
                     ],
                     new NativeHOFListUntil(listUntilHOFType),
-                    ListType.make(new NameType(LIST_TYPE_VAR_NAMES.eng))
+                    ListType.make(getListTypeVariableReference())
                 ),
                 FunctionDefinition.make(
-                    WRITE_DOCS,
-                    {
-                        eng: 'find',
-                        '😀': `${TRANSLATE}find`,
-                    },
+                    getDocTranslations((t) => t.native.list.function.find.doc),
+                    getNameTranslations(
+                        (t) => t.native.list.function.find.name
+                    ),
                     undefined,
                     [
                         Bind.make(
-                            WRITE_DOCS,
-                            {
-                                eng: 'checker',
-                                '😀': `${TRANSLATE}1`,
-                            },
+                            getDocTranslations(
+                                (t) => t.native.list.function.find.inputs[0].doc
+                            ),
+                            getNameTranslations(
+                                (t) =>
+                                    t.native.list.function.find.inputs[0].name
+                            ),
                             listFindHOFType
                         ),
                     ],
                     new NativeHOFListFind(listFindHOFType),
                     UnionType.make(
-                        new NameType(LIST_TYPE_VAR_NAMES.eng),
+                        getListTypeVariableReference(),
                         NoneType.None
                     )
                 ),
                 FunctionDefinition.make(
-                    WRITE_DOCS,
-                    {
-                        eng: 'combine',
-                        '😀': `${TRANSLATE}combine`,
-                    },
-                    TypeVariables.make([LIST_HOF_OUTPUT_TYPE_VARIABLE_NAME]),
+                    getDocTranslations(
+                        (t) => t.native.list.function.combine.doc
+                    ),
+                    getNameTranslations(
+                        (t) => t.native.list.function.combine.name
+                    ),
+                    TypeVariables.make([combineTypeVariable]),
                     [
-                        Bind.make(WRITE_DOCS, {
-                            eng: 'initial',
-                            '😀': `${TRANSLATE}1`,
-                        }),
                         Bind.make(
-                            WRITE_DOCS,
-                            {
-                                eng: 'combiner',
-                                '😀': `${TRANSLATE}2`,
-                            },
+                            getDocTranslations(
+                                (t) =>
+                                    t.native.list.function.combine.inputs[0].doc
+                            ),
+                            getNameTranslations(
+                                (t) =>
+                                    t.native.list.function.combine.inputs[0]
+                                        .name
+                            )
+                        ),
+                        Bind.make(
+                            getDocTranslations(
+                                (t) =>
+                                    t.native.list.function.combine.inputs[1].doc
+                            ),
+                            getNameTranslations(
+                                (t) =>
+                                    t.native.list.function.combine.inputs[1]
+                                        .name
+                            ),
                             listCombineHOFType
                         ),
                     ],
                     new NativeHOFListCombine(listCombineHOFType),
-                    new NameType(LIST_HOF_OUTPUT_TYPE_VARIABLE_NAME.eng)
+                    combineTypeVariable.getReference()
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations((t) => t.native.list.conversion.text),
                     '[]',
                     "''",
                     (requestor: Node, val: List) =>
                         new Text(requestor, val.toString())
                 ),
                 createNativeConversion(
-                    WRITE_DOCS,
+                    getDocTranslations((t) => t.native.list.conversion.set),
                     '[]',
                     '{}',
                     (requestor: Node, val: List) =>

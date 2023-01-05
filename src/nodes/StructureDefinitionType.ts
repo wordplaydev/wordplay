@@ -3,12 +3,11 @@ import type ConversionDefinition from './ConversionDefinition';
 import type Context from './Context';
 import type StructureDefinition from './StructureDefinition';
 import NameType from './NameType';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
 import type TypeSet from './TypeSet';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type Definition from './Definition';
 import type Node from './Node';
+import type Translation from '../translations/Translation';
 
 export const STRUCTURE_NATIVE_TYPE_NAME = 'structure';
 
@@ -108,10 +107,7 @@ export default class StructureDefinitionType extends Type {
         return this.structure.getNames()[0];
     }
 
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: this.structure.docs?.getTranslations().eng ?? 'a type',
-        };
+    getDescription(translation: Translation) {
+        return translation.types.StructureDefinitionType.description;
     }
 }

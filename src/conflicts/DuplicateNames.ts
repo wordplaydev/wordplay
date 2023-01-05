@@ -1,7 +1,6 @@
 import Conflict from './Conflict';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
 import type Name from '../nodes/Name';
+import type Translation from '../translations/Translation';
 
 export default class DuplicateNames extends Conflict {
     readonly duplicates: Name[];
@@ -19,13 +18,11 @@ export default class DuplicateNames extends Conflict {
         };
     }
 
-    getPrimaryExplanation(): Translations {
-        const dupes = this.duplicates
-            .map((dupe) => dupe.toWordplay())
-            .join(', ');
-        return {
-            eng: `Duplicate names ${dupes}.`,
-            '😀': `${TRANSLATE} ${dupes}`,
-        };
+    getPrimaryExplanation(translation: Translation) {
+        return translation.conflict.DuplicateNames.primary(this.duplicates);
+    }
+
+    getSecondaryExplanation(translation: Translation) {
+        return translation.conflict.DuplicateNames.secondary();
     }
 }

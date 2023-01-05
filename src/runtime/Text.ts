@@ -5,6 +5,7 @@ import Primitive from './Primitive';
 import type Value from './Value';
 import type Node from '../nodes/Node';
 import type { NativeTypeName } from '../native/NativeConstants';
+import type Translation from '../translations/Translation';
 
 export default class Text extends Primitive {
     readonly text: string;
@@ -44,5 +45,9 @@ export default class Text extends Primitive {
             this.text === text.text &&
             this.format === text.format
         );
+    }
+
+    getDescription(translation: Translation) {
+        return translation.data.text;
     }
 }

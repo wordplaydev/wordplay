@@ -12,24 +12,24 @@ import type TextLang from './TextLang';
 import { toDecimal } from './Verse';
 import Text from '../runtime/Text';
 import { toColor } from './Color';
-import { TRANSLATE } from '../nodes/Translations';
 import { SupportedFontsType } from '../native/Fonts';
 import Sequence from './Sequence';
+import { getBind } from '../translations/getBind';
 
 export const PoseType = toStructure(`
-    •Pose/eng(
-        duration/eng•#s: 0.5s
-        style/eng•ƒ(complete•%) %: fast
-        text/eng,✍︎/😀•""|[""]|ø: ø
-        size/eng,${TRANSLATE}size/😀•#m|ø: ø
-        font/eng,🔡/😀•${SupportedFontsType}|ø: ø
-        color/eng,${TRANSLATE}color/😀•Color|ø: ø
-        opacity/eng,${TRANSLATE}opacity/😀•%|ø: ø
-        place/eng,${TRANSLATE}place/😀•Place|ø: ø
-        offset/eng,${TRANSLATE}offset/😀•Place|ø: ø
-        rotation/eng,${TRANSLATE}rotation/😀•#°|ø: ø
-        scalex/eng,${TRANSLATE}scalex/😀•#|ø: ø
-        scaley/eng,${TRANSLATE}scaley/😀•#|ø: ø
+    ${getBind((t) => t.output.pose.definition, '•')}(
+        ${getBind((t) => t.output.pose.duration)}•#s: 0.5s
+        ${getBind((t) => t.output.pose.style)}•ƒ(complete•%) %: fast
+        ${getBind((t) => t.output.pose.text)}•""|[""]|ø: ø
+        ${getBind((t) => t.output.pose.size)}•#m|ø: ø
+        ${getBind((t) => t.output.pose.font)}•${SupportedFontsType}|ø: ø
+        ${getBind((t) => t.output.pose.color)}•Color|ø: ø
+        ${getBind((t) => t.output.pose.opacity)}•%|ø: ø
+        ${getBind((t) => t.output.pose.place)}•Place|ø: ø
+        ${getBind((t) => t.output.pose.offset)}•Place|ø: ø
+        ${getBind((t) => t.output.pose.rotation)}•#°|ø: ø
+        ${getBind((t) => t.output.pose.scalex)}•#|ø: ø
+        ${getBind((t) => t.output.pose.scaley)}•#|ø: ø
     )
 `);
 

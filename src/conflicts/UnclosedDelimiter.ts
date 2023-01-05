@@ -1,8 +1,7 @@
-import type Translations from '../nodes/Translations';
 import Conflict from './Conflict';
 import type Node from '../nodes/Node';
 import type Token from '../nodes/Token';
-import { WRITE } from '../nodes/Translations';
+import type Translation from '../translations/Translation';
 
 export default class UnclosedDelimiter extends Conflict {
     readonly open: Token;
@@ -18,13 +17,14 @@ export default class UnclosedDelimiter extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.open, secondary: [this.node] };
+        return { primary: this.open, secondary: [] };
     }
 
-    getPrimaryExplanation(): Translations {
-        return {
-            eng: `Did you mean to close this with a ${this.expected.getText()}?`,
-            '😀': WRITE,
-        };
+    getPrimaryExplanation(translation: Translation) {
+        return translation.conflict.UnclosedDelimiter.primary(this.expected);
+    }
+
+    getSecondaryExplanation() {
+        return undefined;
     }
 }

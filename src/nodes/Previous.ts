@@ -3,8 +3,6 @@ import Expression from './Expression';
 import MeasurementType from './MeasurementType';
 import Token from './Token';
 import type Type from './Type';
-import type Node from './Node';
-import UnknownType from './UnknownType';
 import type Evaluator from '../runtime/Evaluator';
 import type Value from '../runtime/Value';
 import Measurement from '../runtime/Measurement';
@@ -21,14 +19,13 @@ import type TypeSet from './TypeSet';
 import TypeException from '../runtime/TypeException';
 import AnyType from './AnyType';
 import TokenType from './TokenType';
-import { PREVIOUS_SYMBOL } from '../parser/Tokenizer';
-import type Translations from './Translations';
-import { TRANSLATE } from './Translations';
+import { PREVIOUS_SYMBOL } from '../parser/Symbols';
 import Start from '../runtime/Start';
 import UnionType from './UnionType';
 import NoneType from './NoneType';
-import type Changed from './Changed';
 import type { Replacement } from './Node';
+import type Translation from '../translations/Translation';
+import { NotAStreamType } from './NotAStreamType';
 
 export default class Previous extends Expression {
     readonly stream: Expression;
@@ -58,6 +55,7 @@ export default class Previous extends Expression {
             {
                 name: 'stream',
                 types: [Expression],
+                label: (translation: Translation) => translation.data.stream,
                 // Must be a stream
                 getType: () => StreamType.make(new AnyType()),
             },
@@ -65,6 +63,7 @@ export default class Previous extends Expression {
             {
                 name: 'index',
                 types: [Expression],
+                label: (translation: Translation) => translation.data.index,
                 // Must be a number
                 getType: () => MeasurementType.make(),
             },
@@ -148,26 +147,6 @@ export default class Previous extends Expression {
         return current;
     }
 
-    getChildPlaceholderLabel(child: Node): Translations | undefined {
-        if (child === this.stream)
-            return {
-                '😀': TRANSLATE,
-                eng: 'stream',
-            };
-        else if (child === this.index)
-            return {
-                '😀': TRANSLATE,
-                eng: 'index',
-            };
-    }
-
-    getDescriptions(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: 'A previous stream value',
-        };
-    }
-
     getStart() {
         return this.previous;
     }
@@ -175,27 +154,15 @@ export default class Previous extends Expression {
         return this.previous;
     }
 
-    getStartExplanations(): Translations {
-        return this.getFinishExplanations();
+    getDescription(translation: Translation) {
+        return translation.expressions.Previous.description;
     }
 
-    getFinishExplanations(): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: "Let's get the stream value at this index.",
-        };
-    }
-}
-
-export class NotAStreamType extends UnknownType<Previous | Changed> {
-    constructor(previous: Previous | Changed, why: Type) {
-        super(previous, why);
+    getStartExplanations(translation: Translation) {
+        return translation.expressions.Previous.start;
     }
 
-    getReason(): Translations {
-        return {
-            eng: `${this.expression.stream.toWordplay()} is not a stream`,
-            '😀': `${TRANSLATE} •🤔`,
-        };
+    getFinishExplanations(translation: Translation) {
+        return translation.expressions.Previous.finish;
     }
 }

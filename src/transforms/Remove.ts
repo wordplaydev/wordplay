@@ -2,9 +2,8 @@ import type { Edit } from '../editor/util/Commands';
 import Transform from './Transform';
 import Node from '../nodes/Node';
 import Caret from '../editor/util/Caret';
-import type LanguageCode from '../nodes/LanguageCode';
-import { TRANSLATE } from '../nodes/Translations';
 import type Context from '../nodes/Context';
+import type Translation from '../translations/Translation';
 
 /**
  * Remove a node from sequence of nodes in a parent.
@@ -87,16 +86,10 @@ export default class Remove extends Transform {
         return parent;
     }
 
-    getDescription(languages: LanguageCode[]): string {
-        const translations = this.getNewNode().getDescriptions(this.context);
-        const descriptions = {
-            eng: `Remove ${translations.eng}`,
-            '😀': TRANSLATE,
-        };
-
-        return descriptions[
-            languages.find((lang) => lang in descriptions) ?? 'eng'
-        ];
+    getDescription(translation: Translation): string {
+        return translation.transform.remove(
+            this.getNewNode().getDescription(translation, this.context)
+        );
     }
 
     equals(transform: Transform) {

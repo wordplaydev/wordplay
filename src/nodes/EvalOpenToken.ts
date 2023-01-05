@@ -1,4 +1,4 @@
-import { EVAL_OPEN_SYMBOL } from '../parser/Tokenizer';
+import { EVAL_OPEN_SYMBOL } from '../parser/Symbols';
 import Token from './Token';
 import TokenType from './TokenType';
 

@@ -1,15 +1,10 @@
 import { testConflict } from '../conflicts/TestUtilities';
-import DuplicateLanguages from '../conflicts/DuplicateLanguages';
 import { test } from 'vitest';
-import Docs from './Docs';
+import ConversionDefinition from './ConversionDefinition';
+import { MisplacedConversion } from '../conflicts/MisplacedConversion';
 
 test.each([
-    [
-        '`hi`/eng`hola`/spa Cat → "" "meow"',
-        '`hi`/eng`hola`/eng Cat → "" "meow"',
-        Docs,
-        DuplicateLanguages,
-    ],
+    ['( → # #m 5)', '1 + → # #m 5', ConversionDefinition, MisplacedConversion],
 ])(
     'Expect %s no conflicts, %s to have %s with %s',
     (good, bad, node, conflict) => {

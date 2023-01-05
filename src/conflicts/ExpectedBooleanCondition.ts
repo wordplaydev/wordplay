@@ -1,8 +1,6 @@
 import type Conditional from '../nodes/Conditional';
-import type Context from '../nodes/Context';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
 import type Type from '../nodes/Type';
+import type Translation from '../translations/Translation';
 import Conflict from './Conflict';
 
 export default class ExpectedBooleanCondition extends Conflict {
@@ -20,12 +18,11 @@ export default class ExpectedBooleanCondition extends Conflict {
         return { primary: this.conditional.condition, secondary: [] };
     }
 
-    getPrimaryExplanation(context: Context): Translations {
-        return {
-            eng: `Expected boolean; this is type ${
-                this.type.getDescriptions(context).eng
-            }`,
-            '😀': TRANSLATE,
-        };
+    getPrimaryExplanation(translation: Translation) {
+        return translation.conflict.ExpectedBooleanCondition.primary(this.type);
+    }
+
+    getSecondaryExplanation() {
+        return undefined;
     }
 }

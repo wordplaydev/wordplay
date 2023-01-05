@@ -1,6 +1,5 @@
 import type Expression from '../nodes/Expression';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
+import type Translation from '../translations/Translation';
 import type Evaluator from './Evaluator';
 import Step from './Step';
 import type Value from './Value';
@@ -23,10 +22,7 @@ export default class Jump extends Step {
         return super.toString() + ' ' + this.count;
     }
 
-    getExplanations(): Translations {
-        return {
-            eng: `Jumping ahead.`,
-            '😀': `${TRANSLATE} ⏭`,
-        };
+    getExplanations(translation: Translation) {
+        return translation.step.jump;
     }
 }

@@ -1,9 +1,7 @@
 import Changed from '../nodes/Changed';
-import type Context from '../nodes/Context';
 import type Previous from '../nodes/Previous';
-import type Translations from '../nodes/Translations';
-import { TRANSLATE } from '../nodes/Translations';
 import type Type from '../nodes/Type';
+import type Translation from '../translations/Translation';
 import Conflict from './Conflict';
 
 export class NotAStream extends Conflict {
@@ -28,12 +26,11 @@ export class NotAStream extends Conflict {
         };
     }
 
-    getPrimaryExplanation(context: Context): Translations {
-        return {
-            '😀': TRANSLATE,
-            eng: `This has to be a stream, but it's a ${
-                this.received.getDescriptions(context).eng
-            }`,
-        };
+    getPrimaryExplanation(translation: Translation) {
+        return translation.conflict.NotAStream.primary(this.received);
+    }
+
+    getSecondaryExplanation() {
+        return undefined;
     }
 }

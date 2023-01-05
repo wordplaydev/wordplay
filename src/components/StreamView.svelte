@@ -4,13 +4,12 @@
     import TokenType from '../nodes/TokenType';
     import type Stream from '../runtime/Stream';
     import SymbolView from './SymbolView.svelte';
+    import { getLanguages } from '../translations/translations';
 
     export let value: Stream;
-
-    import { languages } from '../models/languages';
 </script>
 
 <SymbolView
-    symbol={value.names.getTranslation($languages)}
+    symbol={value.names.getTranslation(getLanguages())}
     type={TokenType.NAME}
 />
