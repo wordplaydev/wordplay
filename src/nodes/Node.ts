@@ -24,7 +24,7 @@ export type Field = {
         context: Context
     ) => Description;
     /** True if a preceding space is preferred the node */
-    space?: boolean;
+    space?: boolean | ((node: Node) => boolean);
     /** True if the field should be indented if on a new line */
     indent?: boolean;
     /** Generates a Token of the expected type, if a token is permitted on the field */
@@ -560,8 +560,8 @@ export default abstract class Node {
 
     // WHITESPACE
 
-    isBlockFor(_: Node) {
-        return this.getFieldOfChild(_)?.indent;
+    isBlockFor(child: Node) {
+        return this.getFieldOfChild(child)?.indent;
     }
 
     getPreferredPrecedingSpace(
@@ -578,7 +578,10 @@ export default abstract class Node {
             if (newline) return `\n${'\t'.repeat(depth)}`;
         }
 
-        if (field.space === true) {
+        if (
+            field.space === true ||
+            (typeof field.space === 'function' && field.space(this))
+        ) {
             const value = this.getField(field.name);
             return !Array.isArray(value) || value[0] !== child ? ' ' : '';
         }
@@ -616,9 +619,21 @@ export default abstract class Node {
     }
 
     /** Translates the node back into Wordplay text, using spaces if provided and . */
-    toWordplay(spaces?: Spaces): string {
+    toWordplay(spaces?: Spaces, depth?: number): string {
         return this.getChildren()
-            .map((t) => t.toWordplay(spaces))
+            .map((child) => {
+                // If spaces were provided, just use those.
+                if (spaces) return child.toWordplay(spaces);
+                // Otherwise, get the preferred space.
+                const childInBlock = this.isBlockFor(child);
+                const childDepth = (depth ?? 0) + (childInBlock ? 1 : 0);
+                const preferred = this.getPreferredPrecedingSpace(
+                    child,
+                    '',
+                    childDepth
+                );
+                return preferred + child.toWordplay(undefined, childDepth);
+            })
             .join('');
     }
 

@@ -13,7 +13,7 @@ test.each([
     ['a: 1 a +**', undefined, Replace, 'a'],
     ['a•?:**', undefined, Replace, '⊤'],
     [`ƒ sum(a•? b•?) a & b\nsum(**)`, undefined, Append, '⊤'],
-    [`ƒ sum(a•? b•?) a & b\nsum()**`, undefined, Replace, '(sum())=_'],
+    [`ƒ sum(a•? b•?) a & b\nsum()**`, undefined, Replace, '(sum()) = _'],
     [`"hi".**`, undefined, Add, 'length'],
     [`•Cat(hat•"")\nboomy: Cat("none")\nboomy.**`, undefined, Add, 'hat'],
     // Selecting 2 should offer to replace with c

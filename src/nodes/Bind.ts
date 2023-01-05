@@ -109,7 +109,10 @@ export default class Bind extends Expression {
                 types: [Token, undefined],
                 getToken: () => new Token(SHARE_SYMBOL, TokenType.SHARE),
             },
-            { name: 'names', types: [Names] },
+            {
+                name: 'names',
+                types: [Names],
+            },
             {
                 name: 'etc',
                 types: [Token, undefined],
