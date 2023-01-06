@@ -20,9 +20,9 @@ import { analyzeRow } from './util';
 import Halt from '../runtime/Halt';
 import Exception from '../runtime/Exception';
 import TypeException from '../runtime/TypeException';
-import UnparsableException from '../runtime/UnparsableException';
 import type { Replacement } from './Node';
 import type Translation from '../translations/Translation';
+import UnimplementedException from '../runtime/UnimplementedException';
 
 export default class Insert extends Expression {
     readonly table: Expression;
@@ -107,23 +107,22 @@ export default class Insert extends Expression {
     compile(context: Context): Step[] {
         const tableType = this.table.getType(context);
 
-        if (!(tableType instanceof TableType))
-            return [
-                new Halt(
-                    (evaluator) =>
-                        new TypeException(
-                            evaluator,
-                            TableType.make([]),
-                            undefined
-                        ),
-                    this
-                ),
-            ];
-
         return [
             new Start(this),
             ...this.table.compile(context),
-            ...(this.row.allExpressions()
+            ...(!(tableType instanceof TableType)
+                ? [
+                      new Halt(
+                          (evaluator) =>
+                              new TypeException(
+                                  evaluator,
+                                  TableType.make([]),
+                                  evaluator.popValue(this)
+                              ),
+                          this
+                      ),
+                  ]
+                : this.row.allExpressions()
                 ? // It's all expresssions, compile all of them in order.
                   this.row.cells.reduce(
                       (steps: Step[], cell) => [
@@ -150,7 +149,10 @@ export default class Insert extends Expression {
                               ...steps,
                               new Halt(
                                   (evaluator) =>
-                                      new UnparsableException(evaluator, this),
+                                      new UnimplementedException(
+                                          evaluator,
+                                          this
+                                      ),
                                   this
                               ),
                           ];
@@ -166,12 +168,12 @@ export default class Insert extends Expression {
         // We've got a table and some cells, insert the row!
         const values: Value[] = [];
         for (let i = 0; i < this.row.cells.length; i++) {
-            const value = evaluator.popValue(undefined);
+            const value = evaluator.popValue(this);
             if (value instanceof Exception) return value;
             else values.unshift(value);
         }
 
-        const table = evaluator.popValue(TableType.make([]));
+        const table = evaluator.popValue(this, TableType.make([]));
         if (!(table instanceof Table)) return table;
 
         // Return a new table with the values.

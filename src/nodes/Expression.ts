@@ -8,6 +8,7 @@ import type Bind from './Bind';
 import type TypeSet from './TypeSet';
 import type Stream from '../runtime/Stream';
 import type Translation from '../translations/Translation';
+import type { Description } from '../translations/Translation';
 
 export default abstract class Expression extends Node {
     constructor() {
@@ -55,9 +56,9 @@ export default abstract class Expression extends Node {
     abstract getStartExplanations(
         translation: Translation,
         context: Context
-    ): string;
+    ): Description;
     abstract getFinishExplanations(
         translation: Translation,
         context: Context
-    ): string;
+    ): Description;
 }

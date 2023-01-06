@@ -26,8 +26,11 @@ import type Block from '../nodes/Block';
 import type Expression from '../nodes/Expression';
 import type StructureDefinition from '../nodes/StructureDefinition';
 import type FunctionDefinition from '../nodes/FunctionDefinition';
+import type NodeLink from './NodeLink';
+import type LinkedDescription from './LinkedDescription';
+import type ValueLink from './ValueLink';
 
-export type Description = string;
+export type Description = string | LinkedDescription;
 
 export interface NodeTranslation {
     description: Description;
@@ -48,8 +51,6 @@ export interface AtomicExpressionTranslation {
 export interface ExpressionTranslation extends AtomicExpressionTranslation {
     finish: Description;
 }
-
-export type ExceptionTranslation = (node: Node) => Description;
 
 export type ConflictTranslation<Primary = void, Secondary = void> = {
     primary: (info: Primary) => Description;
@@ -84,28 +85,28 @@ type Translation = {
     language: LanguageCode;
     style: string;
     placeholders: {
-        code: 'code';
-        expression: 'value';
-        type: 'type';
+        code: string;
+        expression: string;
+        type: string;
     };
     data: {
-        value: Description;
-        boolean: Description;
-        table: Description;
-        list: Description;
-        map: Description;
-        text: Description;
-        measurement: Description;
-        function: Description;
-        none: Description;
-        exception: Description;
-        row: Description;
-        set: Description;
-        structure: Description;
-        stream: Description;
-        index: Description;
-        query: Description;
-        key: Description;
+        value: string;
+        boolean: string;
+        table: string;
+        list: string;
+        map: string;
+        text: string;
+        measurement: string;
+        function: string;
+        none: string;
+        exception: string;
+        row: string;
+        set: string;
+        structure: string;
+        stream: string;
+        index: string;
+        query: string;
+        key: string;
     };
     nodes: {
         Dimension: DynamicNodeTranslation<Dimension>;
@@ -120,6 +121,10 @@ type Translation = {
         TypeInputs: NodeTranslation;
         TypeVariable: NodeTranslation;
         TypeVariables: NodeTranslation;
+    };
+    evaluation: {
+        done: Description;
+        unevaluated: Description;
     };
     expressions: {
         BinaryOperation: NodeTranslation &
@@ -449,16 +454,15 @@ type Translation = {
         };
     };
     exceptions: {
-        cycle: ExceptionTranslation;
-        limit: ExceptionTranslation;
-        none: ExceptionTranslation;
-        infinite: ExceptionTranslation;
-        function: ExceptionTranslation;
-        name: ExceptionTranslation;
-        type: (expected: Type) => Description;
-        placeholder: ExceptionTranslation;
-        unparsable: ExceptionTranslation;
-        value: ExceptionTranslation;
+        function: (name: NodeLink, type: NodeLink | undefined) => Description;
+        cycle: (borrow: NodeLink) => Description;
+        functionlimit: (fun: NodeLink) => Description;
+        steplimit: Description;
+        name: (name: NodeLink, scope: ValueLink | undefined) => Description;
+        type: (expected: NodeLink, received: ValueLink) => Description;
+        placeholder: (expression: NodeLink) => Description;
+        unparsable: (expr: NodeLink) => Description;
+        value: (node: NodeLink) => Description;
     };
     conflict: {
         BorrowCycle: ConflictTranslation<Source[]>;
@@ -547,14 +551,14 @@ type Translation = {
     };
     ui: {
         tooltip: {
-            play: Description;
-            pause: Description;
-            back: Description;
-            out: Description;
-            forward: Description;
-            present: Description;
-            reset: Description;
-            home: Description;
+            play: string;
+            pause: string;
+            back: string;
+            out: string;
+            forward: string;
+            present: string;
+            reset: string;
+            home: string;
         };
     };
     input: {

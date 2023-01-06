@@ -12,9 +12,9 @@ import type Evaluator from '../runtime/Evaluator';
 import Finish from '../runtime/Finish';
 import FunctionValue from '../runtime/FunctionValue';
 import Initialize from '../runtime/Initialize';
+import InternalException from '../runtime/InternalException';
 import List from '../runtime/List';
 import Measurement from '../runtime/Measurement';
-import NameException from '../runtime/NameException';
 import Next from '../runtime/Next';
 import Start from '../runtime/Start';
 import type Step from '../runtime/Step';
@@ -50,8 +50,8 @@ export default class NativeHOFListCombine extends HOF {
                 // Get the index.
                 const index = evaluator.resolve(INDEX);
                 if (!(index instanceof Measurement))
-                    return new TypeException(
-                        evaluator,
+                    return evaluator.getValueOrTypeException(
+                        this,
                         MeasurementType.make(),
                         index
                     );
@@ -59,14 +59,18 @@ export default class NativeHOFListCombine extends HOF {
                 // Get the list we're processing.
                 const list = evaluator.getCurrentEvaluation()?.getClosure();
                 if (!(list instanceof List))
-                    return new TypeException(evaluator, ListType.make(), list);
+                    return evaluator.getValueOrTypeException(
+                        this,
+                        ListType.make(),
+                        list
+                    );
 
                 // Get the list we're processing.
                 const combination = this.getInput(0, evaluator);
                 if (combination === undefined)
-                    return new NameException(
-                        (this.getInputBinds(evaluator) as Bind[])[0].names,
-                        evaluator
+                    return new InternalException(
+                        evaluator,
+                        "list.combine() is missing it's list for some reason"
                     );
 
                 // If we're past the end of the list, jump past the loop.
@@ -116,13 +120,13 @@ export default class NativeHOFListCombine extends HOF {
                 )[0].names;
 
                 // Update the combo.
-                evaluator.bind(initialNames, evaluator.popValue(undefined));
+                evaluator.bind(initialNames, evaluator.popValue(this));
 
                 // Get the current index.
                 const index = evaluator.resolve(INDEX);
                 if (!(index instanceof Measurement))
-                    return new TypeException(
-                        evaluator,
+                    return evaluator.getValueOrTypeException(
+                        this,
                         MeasurementType.make(),
                         index
                     );

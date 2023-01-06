@@ -3,25 +3,23 @@ import type Value from 'src/runtime/Value';
 import type Type from '../nodes/Type';
 import type Step from 'src/runtime/Step';
 import type Expression from '../nodes/Expression';
-import Node from '../nodes/Node';
 import { parseType, toTokens } from '../parser/Parser';
 import type Evaluation from '../runtime/Evaluation';
 import type Bind from '../nodes/Bind';
 import type Context from '../nodes/Context';
 import type TypeSet from '../nodes/TypeSet';
-import ValueException from '../runtime/ValueException';
 import StartFinish from '../runtime/StartFinish';
 import AtomicExpression from '../nodes/AtomicExpression';
 import type Translation from '../translations/Translation';
-import NoEvaluationException from '../runtime/NoEvaluationException';
+import InternalException from '../runtime/InternalException';
 
 export default class NativeExpression extends AtomicExpression {
     readonly type: Type;
-    readonly evaluator: (requestor: Node, evaluator: Evaluation) => Value;
+    readonly evaluator: (requestor: Expression, evaluator: Evaluation) => Value;
 
     constructor(
         type: Type | string,
-        evaluator: (requestor: Node, evaluator: Evaluation) => Value
+        evaluator: (requestor: Expression, evaluator: Evaluation) => Value
     ) {
         super();
 
@@ -52,13 +50,13 @@ export default class NativeExpression extends AtomicExpression {
     }
 
     evaluate(evaluator: Evaluator): Value {
-        const requestor = evaluator.getCurrentEvaluation()?.currentStep()?.node;
-        if (!(requestor instanceof Node))
-            return new ValueException(evaluator, this);
         const evaluation = evaluator.getCurrentEvaluation();
         return evaluation === undefined
-            ? new NoEvaluationException(evaluator, this)
-            : this.evaluator(requestor, evaluation);
+            ? new InternalException(
+                  evaluator,
+                  'there is no evaluation, which should be impossible'
+              )
+            : this.evaluator(this, evaluation);
     }
 
     /** Can't clone native expressions, there's only one of them! We just erase their parent and let whatever wants them claim them. */

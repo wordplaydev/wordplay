@@ -10,7 +10,6 @@ import Halt from '../runtime/Halt';
 import type Bind from './Bind';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
-import UnparsableException from '../runtime/UnparsableException';
 import type Evaluator from '../runtime/Evaluator';
 import UnimplementedException from '../runtime/UnimplementedException';
 import PlaceholderToken from './PlaceholderToken';
@@ -19,6 +18,7 @@ import TypeToken from './TypeToken';
 import type { Replacement } from './Node';
 import type Translation from '../translations/Translation';
 import AtomicExpression from './AtomicExpression';
+import type { Description } from '../translations/Translation';
 
 export default class ExpressionPlaceholder extends AtomicExpression {
     readonly placeholder: Token;
@@ -57,7 +57,7 @@ export default class ExpressionPlaceholder extends AtomicExpression {
                     translation: Translation,
                     _: Node,
                     context: Context
-                ) => {
+                ): Description => {
                     const parent: Node | undefined = context
                         .get(this)
                         ?.getParent();
@@ -113,7 +113,7 @@ export default class ExpressionPlaceholder extends AtomicExpression {
 
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
         if (prior) return prior;
-        return new UnparsableException(evaluator, this);
+        return new UnimplementedException(evaluator, this);
     }
 
     evaluateTypeSet(

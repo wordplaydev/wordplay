@@ -370,7 +370,7 @@ export default class Bind extends Expression {
 
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
         // Get the value we computed, or previously computed.
-        const value = prior ?? evaluator.popValue(undefined);
+        const value = prior ?? evaluator.popValue(this);
 
         // If it's an exception, return it instead of binding.
         if (value instanceof Exception) return value;
@@ -382,15 +382,15 @@ export default class Bind extends Expression {
         return value;
     }
 
-    getDescription(translation: Translation): string {
+    getDescription(translation: Translation) {
         return translation.expressions.Bind.description;
     }
 
-    getStartExplanations(translation: Translation): string {
+    getStartExplanations(translation: Translation) {
         return translation.expressions.Bind.start;
     }
 
-    getFinishExplanations(translation: Translation): string {
+    getFinishExplanations(translation: Translation) {
         return translation.expressions.Bind.finish;
     }
 }

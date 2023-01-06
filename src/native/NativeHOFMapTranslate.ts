@@ -14,7 +14,6 @@ import MapValue from '../runtime/Map';
 import Measurement from '../runtime/Measurement';
 import Start from '../runtime/Start';
 import type Step from '../runtime/Step';
-import TypeException from '../runtime/TypeException';
 import type Value from '../runtime/Value';
 import HOF from './HOF';
 import Names from '../nodes/Names';
@@ -23,6 +22,7 @@ import Next from '../runtime/Next';
 import Check from '../runtime/Check';
 import type Context from '../nodes/Context';
 import type TypeVariable from '../nodes/TypeVariable';
+import ValueException from '../runtime/ValueException';
 
 const INDEX = Names.make(['index']);
 const MAP = Names.make(['map']);
@@ -56,13 +56,17 @@ export default class NativeHOFMapTranslate extends HOF {
                 const map = evaluator.getCurrentEvaluation()?.getClosure();
                 // If the index is past the last index of the list, jump to the end.
                 if (!(index instanceof Measurement))
-                    return new TypeException(
-                        evaluator,
+                    return evaluator.getValueOrTypeException(
+                        this,
                         MeasurementType.make(),
                         index
                     );
                 else if (!(map instanceof MapValue))
-                    return new TypeException(evaluator, MapType.make(), map);
+                    return evaluator.getValueOrTypeException(
+                        this,
+                        MapType.make(),
+                        map
+                    );
                 else {
                     if (index.greaterThan(this, map.size(this)).bool)
                         evaluator.jump(1);
@@ -100,8 +104,8 @@ export default class NativeHOFMapTranslate extends HOF {
                                 )
                             );
                         } else
-                            return new TypeException(
-                                evaluator,
+                            return evaluator.getValueOrTypeException(
+                                this,
                                 this.hofType,
                                 translator
                             );
@@ -111,20 +115,24 @@ export default class NativeHOFMapTranslate extends HOF {
             // Save the translated value and then jump to the conditional.
             new Check(this, (evaluator) => {
                 // Get the translated value.
-                const translatedValue = evaluator.popValue(undefined);
+                const translatedValue = evaluator.popValue(this);
 
                 // Get the index
                 const index = evaluator.resolve(INDEX);
                 if (!(index instanceof Measurement))
-                    return new TypeException(
-                        evaluator,
+                    return evaluator.getValueOrTypeException(
+                        this,
                         MeasurementType.make(),
                         index
                     );
 
                 const map = evaluator.getCurrentEvaluation()?.getClosure();
                 if (!(map instanceof MapValue))
-                    return new TypeException(evaluator, MapType.make(), map);
+                    return evaluator.getValueOrTypeException(
+                        this,
+                        MapType.make(),
+                        map
+                    );
 
                 // Append the translated value to the list.
                 const translatedMap = evaluator.resolve(MAP);
@@ -138,8 +146,8 @@ export default class NativeHOFMapTranslate extends HOF {
                         )
                     );
                 else
-                    return new TypeException(
-                        evaluator,
+                    return evaluator.getValueOrTypeException(
+                        this,
                         MapType.make(),
                         translatedMap
                     );
@@ -163,6 +171,6 @@ export default class NativeHOFMapTranslate extends HOF {
         if (prior) return prior;
 
         // Evaluate to the new list.
-        return evaluator.resolve(MAP);
+        return evaluator.resolve(MAP) ?? new ValueException(evaluator, this);
     }
 }

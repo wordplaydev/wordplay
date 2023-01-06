@@ -80,7 +80,7 @@ export default class Is extends Expression {
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
         if (prior) return prior;
 
-        const value = evaluator.popValue(undefined);
+        const value = evaluator.popValue(this);
 
         return new Bool(
             this,

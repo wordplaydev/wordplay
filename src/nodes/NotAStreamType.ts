@@ -9,7 +9,7 @@ export class NotAStreamType extends UnknownType<Previous | Changed> {
         super(previous, why);
     }
 
-    getReason(translation: Translation): string {
+    getReason(translation: Translation) {
         return translation.types.NotAStreamType.description;
     }
 }

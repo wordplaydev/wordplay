@@ -96,7 +96,7 @@ export default class Changed extends AtomicExpression {
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
         if (prior) return prior;
 
-        const stream = evaluator.popValue(StreamType.make(new AnyType()));
+        const stream = evaluator.popValue(this, StreamType.make(new AnyType()));
         if (!(stream instanceof Stream))
             return new TypeException(
                 evaluator,

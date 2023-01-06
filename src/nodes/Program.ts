@@ -140,7 +140,7 @@ export default class Program extends Expression {
         if (prior) return prior;
 
         // Get whatever the block computed.
-        const value = evaluator.popValue(undefined);
+        const value = evaluator.popValue(this);
 
         // Return the value.
         return value;

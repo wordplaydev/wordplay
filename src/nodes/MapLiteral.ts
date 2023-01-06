@@ -141,8 +141,8 @@ export default class MapLiteral extends Expression {
         // Pop all of the values. Order doesn't matter.
         const values: [Value, Value][] = [];
         for (let i = 0; i < this.values.length; i++) {
-            const value = evaluator.popValue(undefined);
-            const key = evaluator.popValue(undefined);
+            const value = evaluator.popValue(this);
+            const key = evaluator.popValue(this);
             values.unshift([key, value]);
         }
         return new Map(this, values);

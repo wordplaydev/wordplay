@@ -8,7 +8,6 @@ import StructureDefinition from '../nodes/StructureDefinition';
 import List from '../runtime/List';
 import Text from '../runtime/Text';
 import Set from '../runtime/Set';
-import TypeException from '../runtime/TypeException';
 import { createNativeConversion, createNativeFunction } from './NativeBindings';
 import NativeHOFSetFilter from './NativeHOFSetFilter';
 import Bool from '../runtime/Bool';
@@ -101,8 +100,8 @@ export default function bootstrapSet() {
                         const set = evaluation?.getClosure();
                         const other = evaluation.resolve(equalsFunctionNames);
                         return !(set instanceof Set && other instanceof Set)
-                            ? new TypeException(
-                                  evaluation.getEvaluator(),
+                            ? evaluation.getValueOrTypeException(
+                                  requestor,
                                   SetType.make(),
                                   other
                               )
@@ -133,8 +132,8 @@ export default function bootstrapSet() {
                         const set = evaluation?.getClosure();
                         const other = evaluation.resolve(notEqualFunctionNames);
                         return !(set instanceof Set && other instanceof Set)
-                            ? new TypeException(
-                                  evaluation.getEvaluator(),
+                            ? evaluation.getValueOrTypeException(
+                                  requestor,
                                   SetType.make(),
                                   other
                               )
@@ -161,8 +160,8 @@ export default function bootstrapSet() {
                         if (set instanceof Set && element !== undefined)
                             return set.add(requestor, element);
                         else
-                            return new TypeException(
-                                evaluation.getEvaluator(),
+                            return evaluation.getValueOrTypeException(
+                                requestor,
                                 SetType.make(),
                                 set
                             );
@@ -192,8 +191,8 @@ export default function bootstrapSet() {
                         if (set instanceof Set && element !== undefined)
                             return set.remove(requestor, element);
                         else
-                            return new TypeException(
-                                evaluation.getEvaluator(),
+                            return evaluation.getValueOrTypeException(
+                                requestor,
                                 SetType.make(),
                                 set
                             );
@@ -222,8 +221,8 @@ export default function bootstrapSet() {
                         if (set instanceof Set && newSet instanceof Set)
                             return set.union(requestor, newSet);
                         else
-                            return new TypeException(
-                                evaluation.getEvaluator(),
+                            return evaluation.getValueOrTypeException(
+                                requestor,
                                 SetType.make(),
                                 set
                             );
@@ -256,8 +255,8 @@ export default function bootstrapSet() {
                         if (set instanceof Set && newSet instanceof Set)
                             return set.intersection(requestor, newSet);
                         else
-                            return new TypeException(
-                                evaluation.getEvaluator(),
+                            return evaluation.getValueOrTypeException(
+                                requestor,
                                 SetType.make(),
                                 set
                             );
@@ -290,8 +289,8 @@ export default function bootstrapSet() {
                         if (set instanceof Set && newSet instanceof Set)
                             return set.difference(requestor, newSet);
                         else
-                            return new TypeException(
-                                evaluation.getEvaluator(),
+                            return evaluation.getValueOrTypeException(
+                                requestor,
                                 SetType.make(),
                                 set
                             );

@@ -11,6 +11,6 @@ export default class StepLimitException extends Exception {
     }
 
     getDescription(translation: Translation) {
-        return translation.exceptions.infinite(this.node);
+        return translation.exceptions.steplimit;
     }
 }

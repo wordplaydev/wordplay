@@ -46,7 +46,7 @@ export default class DocumentedExpression extends AtomicExpression {
     }
 
     evaluate(evaluator: Evaluator): Value {
-        return evaluator.popValue(undefined);
+        return evaluator.popValue(this);
     }
 
     clone(replace?: Replacement) {

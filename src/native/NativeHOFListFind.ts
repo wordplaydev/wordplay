@@ -15,7 +15,6 @@ import Measurement from '../runtime/Measurement';
 import None from '../runtime/None';
 import Start from '../runtime/Start';
 import type Step from '../runtime/Step';
-import TypeException from '../runtime/TypeException';
 import type Value from '../runtime/Value';
 import HOF from './HOF';
 import Names from '../nodes/Names';
@@ -52,13 +51,17 @@ export default class NativeHOFListFind extends HOF {
                 const list = evaluator.getCurrentEvaluation()?.getClosure();
                 // If the index is past the last index of the list, jump to the end.
                 if (!(index instanceof Measurement))
-                    return new TypeException(
-                        evaluator,
+                    return evaluator.getValueOrTypeException(
+                        this,
                         MeasurementType.make(),
                         index
                     );
                 else if (!(list instanceof List))
-                    return new TypeException(evaluator, ListType.make(), list);
+                    return evaluator.getValueOrTypeException(
+                        this,
+                        ListType.make(),
+                        list
+                    );
                 else {
                     if (index.greaterThan(this, list.length(this)).bool)
                         evaluator.jump(1);
@@ -89,8 +92,8 @@ export default class NativeHOFListFind extends HOF {
                                 )
                             );
                         } else
-                            return new TypeException(
-                                evaluator,
+                            return evaluator.getValueOrTypeException(
+                                this,
                                 this.hofType,
                                 include
                             );
@@ -100,7 +103,7 @@ export default class NativeHOFListFind extends HOF {
             // Save the translated value and then jump to the conditional.
             new Check(this, (evaluator) => {
                 // Get the boolean from the function evaluation.
-                const matched = evaluator.popValue(BooleanType.make());
+                const matched = evaluator.popValue(this, BooleanType.make());
                 if (!(matched instanceof Bool)) return matched;
 
                 // If this matches, skip the loop.
@@ -109,8 +112,8 @@ export default class NativeHOFListFind extends HOF {
                 // Get the current index.
                 const index = evaluator.resolve(INDEX);
                 if (!(index instanceof Measurement))
-                    return new TypeException(
-                        evaluator,
+                    return evaluator.getValueOrTypeException(
+                        this,
                         MeasurementType.make(),
                         index
                     );
@@ -134,12 +137,20 @@ export default class NativeHOFListFind extends HOF {
         // Get the current index.
         const index = evaluator.resolve(INDEX);
         if (!(index instanceof Measurement))
-            return new TypeException(evaluator, MeasurementType.make(), index);
+            return evaluator.getValueOrTypeException(
+                this,
+                MeasurementType.make(),
+                index
+            );
 
         // Get the list.
         const list = evaluator.getCurrentEvaluation()?.getClosure();
         if (!(list instanceof List))
-            return new TypeException(evaluator, ListType.make(), list);
+            return evaluator.getValueOrTypeException(
+                this,
+                ListType.make(),
+                list
+            );
 
         // If we're past the end of the list, return nothing. Otherwise return the value at the index.
         return index.greaterThan(this, list.length(this)).bool

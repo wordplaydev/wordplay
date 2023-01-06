@@ -19,8 +19,8 @@ import Measurement from '../runtime/Measurement';
 import Next from '../runtime/Next';
 import Start from '../runtime/Start';
 import type Step from '../runtime/Step';
-import TypeException from '../runtime/TypeException';
 import type Value from '../runtime/Value';
+import ValueException from '../runtime/ValueException';
 import HOF from './HOF';
 
 const INDEX = Names.make(['index']);
@@ -53,13 +53,17 @@ export default class NativeHOFListMap extends HOF {
                 const list = evaluator.getCurrentEvaluation()?.getClosure();
                 // If the index is past the last index of the list, jump to the end.
                 if (!(index instanceof Measurement))
-                    return new TypeException(
-                        evaluator,
+                    return evaluator.getValueOrTypeException(
+                        this,
                         MeasurementType.make(),
                         index
                     );
                 else if (!(list instanceof List))
-                    return new TypeException(evaluator, ListType.make(), list);
+                    return evaluator.getValueOrTypeException(
+                        this,
+                        ListType.make(),
+                        list
+                    );
                 else {
                     if (index.greaterThan(this, list.length(this)).bool)
                         evaluator.jump(1);
@@ -90,8 +94,8 @@ export default class NativeHOFListMap extends HOF {
                                 )
                             );
                         } else
-                            return new TypeException(
-                                evaluator,
+                            return evaluator.getValueOrTypeException(
+                                this,
                                 this.hofType,
                                 include
                             );
@@ -101,14 +105,14 @@ export default class NativeHOFListMap extends HOF {
             // Save the translated value and then jump to the conditional.
             new Check(this, (evaluator) => {
                 // Get the boolean from the function evaluation.
-                const include = evaluator.popValue(BooleanType.make());
+                const include = evaluator.popValue(this, BooleanType.make());
                 if (!(include instanceof Bool)) return include;
 
                 // Get the current index.
                 const index = evaluator.resolve(INDEX);
                 if (!(index instanceof Measurement))
-                    return new TypeException(
-                        evaluator,
+                    return evaluator.getValueOrTypeException(
+                        this,
                         MeasurementType.make(),
                         index
                     );
@@ -116,18 +120,22 @@ export default class NativeHOFListMap extends HOF {
                 // Get the list.
                 const list = evaluator.getCurrentEvaluation()?.getClosure();
                 if (!(list instanceof List))
-                    return new TypeException(evaluator, ListType.make(), list);
+                    return evaluator.getValueOrTypeException(
+                        this,
+                        ListType.make(),
+                        index
+                    );
 
                 const newList = evaluator.resolve(LIST);
                 if (!(include instanceof Bool))
-                    return new TypeException(
-                        evaluator,
+                    return evaluator.getValueOrTypeException(
+                        this,
                         BooleanType.make(),
                         include
                     );
                 else if (!(newList instanceof List))
-                    return new TypeException(
-                        evaluator,
+                    return evaluator.getValueOrTypeException(
+                        this,
                         ListType.make(),
                         newList
                     );
@@ -162,6 +170,6 @@ export default class NativeHOFListMap extends HOF {
         if (prior) return prior;
 
         // Evaluate to the filtered list.
-        return evaluator.resolve(LIST);
+        return evaluator.resolve(LIST) ?? new ValueException(evaluator, this);
     }
 }

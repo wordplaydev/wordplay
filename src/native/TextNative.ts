@@ -5,7 +5,6 @@ import TextType from '../nodes/TextType';
 import type Type from '../nodes/Type';
 import Bool from '../runtime/Bool';
 import type Evaluation from '../runtime/Evaluation';
-import TypeException from '../runtime/TypeException';
 import type Value from '../runtime/Value';
 import { createNativeConversion, createNativeFunction } from './NativeBindings';
 import Text from '../runtime/Text';
@@ -19,6 +18,7 @@ import type Names from '../nodes/Names';
 import { getFunctionTranslations } from '../translations/getFunctionTranslations';
 import { getDocTranslations } from '../translations/getDocTranslations';
 import { getNameTranslations } from '../translations/getNameTranslations';
+import type Expression from '../nodes/Expression';
 
 export default function bootstrapText() {
     const equalsNames = getNameTranslations(
@@ -37,7 +37,7 @@ export default function bootstrapText() {
         inputs: Bind[],
         output: Type,
         expression: (
-            requestor: Node,
+            requestor: Expression,
             text: Text,
             evaluation: Evaluation
         ) => Value
@@ -53,8 +53,8 @@ export default function bootstrapText() {
                 if (text instanceof Text)
                     return expression(requestor, text, evaluation);
                 else
-                    return new TypeException(
-                        evaluation.getEvaluator(),
+                    return evaluation.getValueOrTypeException(
+                        requestor,
                         TextType.make(),
                         text
                     );
@@ -98,8 +98,8 @@ export default function bootstrapText() {
                         if (val instanceof Text)
                             return new Bool(requestor, text.isEqualTo(val));
                         else
-                            return new TypeException(
-                                evaluation.getEvaluator(),
+                            return evaluation.getValueOrTypeException(
+                                requestor,
                                 TextType.make(),
                                 val
                             );
@@ -126,8 +126,8 @@ export default function bootstrapText() {
                         if (val instanceof Text)
                             return new Bool(requestor, !text.isEqualTo(val));
                         else
-                            return new TypeException(
-                                evaluation.getEvaluator(),
+                            return evaluation.getValueOrTypeException(
+                                requestor,
                                 TextType.make(),
                                 val
                             );

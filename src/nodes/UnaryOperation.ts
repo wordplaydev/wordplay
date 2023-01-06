@@ -116,7 +116,7 @@ export default class UnaryOperation extends Expression {
 
     startEvaluation(evaluator: Evaluator) {
         // Get the value of the operand.
-        const value = evaluator.popValue(undefined);
+        const value = evaluator.popValue(this);
 
         const fun = value
             .getType(evaluator.getCurrentContext())
@@ -145,7 +145,7 @@ export default class UnaryOperation extends Expression {
         if (prior) return prior;
 
         // Return the value computed
-        return evaluator.popValue(undefined);
+        return evaluator.popValue(this);
     }
 
     /**

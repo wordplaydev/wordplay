@@ -233,7 +233,7 @@ export default class Block extends Expression {
         // Root blocks are allowed to have no value, but all others must have one.
         return (this.creator || this.root) && !evaluator.hasValue()
             ? new None(this)
-            : evaluator.popValue(undefined);
+            : evaluator.popValue(this);
     }
 
     /**
@@ -253,15 +253,15 @@ export default class Block extends Expression {
             : current;
     }
 
-    getDescription(translation: Translation): string {
+    getDescription(translation: Translation) {
         return translation.expressions.Block.description;
     }
 
-    getStartExplanations(translation: Translation): string {
+    getStartExplanations(translation: Translation) {
         return translation.expressions.Block.start;
     }
 
-    getFinishExplanations(translation: Translation): string {
+    getFinishExplanations(translation: Translation) {
         return translation.expressions.Block.finish;
     }
 

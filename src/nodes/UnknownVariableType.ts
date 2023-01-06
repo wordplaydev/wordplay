@@ -7,7 +7,7 @@ export class UnknownVariableType extends UnknownType<EvaluationType> {
         super(evaluate, undefined);
     }
 
-    getReason(translation: Translation): string {
+    getReason(translation: Translation) {
         return translation.types.UnknownVariableType.description;
     }
 }

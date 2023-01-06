@@ -1,8 +1,10 @@
 <script lang="ts">
     import { fade } from 'svelte/transition';
+    import type { Description } from '../translations/Translation';
+    import DescriptionView from './DescriptionView.svelte';
 
     export let id: number;
-    export let text: string;
+    export let text: Description[];
     export let position: { left: number; top: number };
     export let kind: 'step' | 'primary' | 'secondary' | 'minor';
 </script>
@@ -14,7 +16,9 @@
     style:left={`${position.left}px`}
     style:top={`${position.top}px`}
 >
-    {text}
+    {#each text as description}
+        <DescriptionView {description} />
+    {/each}
 </div>
 
 <style>

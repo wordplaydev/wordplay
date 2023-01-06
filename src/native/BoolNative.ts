@@ -5,7 +5,6 @@ import FunctionDefinition from '../nodes/FunctionDefinition';
 import StructureDefinition from '../nodes/StructureDefinition';
 import Bool from '../runtime/Bool';
 import Text from '../runtime/Text';
-import TypeException from '../runtime/TypeException';
 import { createNativeConversion } from './NativeBindings';
 import NativeExpression from './NativeExpression';
 import type Node from '../nodes/Node';
@@ -15,6 +14,7 @@ import type Names from '../nodes/Names';
 import { getInputTranslations } from '../translations/getInputTranslations';
 import { getDocTranslations } from '../translations/getDocTranslations';
 import { getNameTranslations } from '../translations/getNameTranslations';
+import Evaluation from '../runtime/Evaluation';
 
 export default function bootstrapBool() {
     function createBooleanFunction(
@@ -39,14 +39,14 @@ export default function bootstrapBool() {
                     );
                     // This should be impossible, but the type system doesn't know it.
                     if (!(left instanceof Bool))
-                        return new TypeException(
-                            evaluation.getEvaluator(),
+                        return evaluation.getValueOrTypeException(
+                            requestor,
                             BooleanType.make(),
-                            left
+                            left instanceof Evaluation ? undefined : left
                         );
                     if (!(right instanceof Bool))
-                        return new TypeException(
-                            evaluation.getEvaluator(),
+                        return evaluation.getValueOrTypeException(
+                            requestor,
                             BooleanType.make(),
                             right
                         );
@@ -92,8 +92,8 @@ export default function bootstrapBool() {
                             const left = evaluation.getClosure();
                             // This should be impossible, but the type system doesn't know it.
                             if (!(left instanceof Bool))
-                                return new TypeException(
-                                    evaluation.getEvaluator(),
+                                return evaluation.getValueOrTypeException(
+                                    requestor,
                                     BooleanType.make(),
                                     left
                                 );

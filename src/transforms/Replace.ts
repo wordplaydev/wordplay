@@ -64,7 +64,7 @@ export default class Replace<NodeType extends Node> extends Transform {
         return this.replacement?.getNode(languages);
     }
 
-    getDescription(translation: Translation): string {
+    getDescription(translation: Translation) {
         let node =
             this.replacement instanceof Refer
                 ? this.replacement.getNode([translation.language])

@@ -119,11 +119,11 @@ export default class Previous extends Expression {
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
         if (prior) return prior;
 
-        const index = evaluator.popValue(MeasurementType.make());
+        const index = evaluator.popValue(this, MeasurementType.make());
         if (!(index instanceof Measurement) || !index.num.isInteger())
             return index;
 
-        const stream = evaluator.popValue(StreamType.make(new AnyType()));
+        const stream = evaluator.popValue(this, StreamType.make(new AnyType()));
         if (!(stream instanceof Stream))
             return new TypeException(
                 evaluator,

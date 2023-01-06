@@ -26,6 +26,7 @@ import UnknownNameType from './UnknownNameType';
 import type { Replacement } from './Node';
 import type Translation from '../translations/Translation';
 import AtomicExpression from './AtomicExpression';
+import NameException from '../runtime/NameException';
 
 /**
  * A reference to some Definition. Can optionally take the definition which it refers,
@@ -209,7 +210,10 @@ export default class Reference extends AtomicExpression {
         if (prior) return prior;
 
         // Search for the name in the given evaluation context.
-        return evaluator.resolve(this.name.getText());
+        return (
+            evaluator.resolve(this.name.getText()) ??
+            new NameException(this.name, undefined, evaluator)
+        );
     }
 
     getStart() {

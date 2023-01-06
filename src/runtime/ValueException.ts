@@ -1,16 +1,23 @@
 import Exception from './Exception';
 import type Evaluator from './Evaluator';
 import type Translation from '../translations/Translation';
-import type Node from '../nodes/Node';
+import type Expression from '../nodes/Node';
+import NodeLink from '../translations/NodeLink';
 
 export default class ValueException extends Exception {
-    readonly node: Node;
-    constructor(evaluator: Evaluator, node: Node) {
+    readonly expression: Expression;
+    constructor(evaluator: Evaluator, expression: Expression) {
         super(evaluator);
-        this.node = node;
+        this.expression = expression;
     }
 
     getDescription(translation: Translation) {
-        return translation.exceptions.value(this.node);
+        return translation.exceptions.value(
+            new NodeLink(
+                this.expression,
+                translation,
+                this.getNodeContext(this.expression)
+            )
+        );
     }
 }

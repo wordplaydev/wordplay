@@ -27,7 +27,6 @@ import TypeInputs from './TypeInputs';
 import { getEvaluationInputConflicts } from './util';
 import ListType from './ListType';
 import type TypeSet from './TypeSet';
-import UnparsableException from '../runtime/UnparsableException';
 import FunctionException from '../runtime/FunctionException';
 import ValueException from '../runtime/ValueException';
 import Exception from '../runtime/Exception';
@@ -46,6 +45,7 @@ import type { Replacement } from './Node';
 import type Translation from '../translations/Translation';
 import type Node from './Node';
 import StartEvaluation from '../runtime/StartEvaluation';
+import UnimplementedException from '../runtime/UnimplementedException';
 
 type Mapping = {
     expected: Bind;
@@ -542,7 +542,7 @@ export default class Evaluate extends Expression {
 
     startEvaluation(evaluator: Evaluator) {
         // Get the function off the stack and bail if it's not a function.
-        const functionOrStructure = evaluator.popValue(undefined);
+        const functionOrStructure = evaluator.popValue(this);
         if (
             !(
                 functionOrStructure instanceof FunctionValue ||
@@ -570,7 +570,7 @@ export default class Evaluate extends Expression {
         // Get all the values off the stack, getting as many as is defined.
         const values = [];
         for (let i = 0; i < count; i++) {
-            const value = evaluator.popValue(undefined);
+            const value = evaluator.popValue(this);
             if (value instanceof Exception) return value;
             else values.unshift(value);
         }
@@ -581,7 +581,10 @@ export default class Evaluate extends Expression {
 
             // Bail if the function's body isn't an expression.
             if (!(body instanceof Expression))
-                return new UnparsableException(evaluator, body ?? definition);
+                return new UnimplementedException(
+                    evaluator,
+                    body ?? functionOrStructure.definition
+                );
 
             // Build the bindings.
             const bindings = this.buildBindings(
@@ -626,7 +629,7 @@ export default class Evaluate extends Expression {
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
         if (prior) return prior;
 
-        return evaluator.popValue(undefined);
+        return evaluator.popValue(this);
     }
 
     buildBindings(

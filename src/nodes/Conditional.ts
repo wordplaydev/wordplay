@@ -131,7 +131,7 @@ export default class Conditional extends Expression {
         if (prior) return prior;
 
         // Pop the value we computed and then return it (so that it's saved for later).
-        return evaluator.popValue(undefined);
+        return evaluator.popValue(this);
     }
 
     /**

@@ -1,19 +1,16 @@
 import type Type from '../nodes/Type';
+import NodeLink from '../translations/NodeLink';
 import type Translation from '../translations/Translation';
-import type Evaluation from './Evaluation';
+import ValueLink from '../translations/ValueLink';
 import type Evaluator from './Evaluator';
 import Exception from './Exception';
 import type Value from './Value';
 
 export default class TypeException extends Exception {
     readonly expected: Type;
-    readonly received: Evaluation | Value | undefined;
+    readonly received: Value;
 
-    constructor(
-        evaluator: Evaluator,
-        expected: Type,
-        received: Evaluation | Value | undefined
-    ) {
+    constructor(evaluator: Evaluator, expected: Type, received: Value) {
         super(evaluator);
 
         this.expected = expected;
@@ -21,6 +18,17 @@ export default class TypeException extends Exception {
     }
 
     getDescription(translation: Translation) {
-        return translation.exceptions.type(this.expected);
+        return translation.exceptions.type(
+            new NodeLink(
+                this.expected,
+                translation,
+                this.getNodeContext(this.expected)
+            ),
+            new ValueLink(
+                this.received,
+                translation,
+                this.getNodeContext(this.received.creator)
+            )
+        );
     }
 }

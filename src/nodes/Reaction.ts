@@ -131,7 +131,7 @@ export default class Reaction extends Expression {
 
     evaluate(evaluator: Evaluator, value: Value | undefined): Value {
         // Get the value.
-        const streamValue = value ?? evaluator.popValue(undefined);
+        const streamValue = value ?? evaluator.popValue(this);
 
         // At this point in the compiled steps above, we should have a value on the stack
         // that is either the initial value for this reaction's stream or a new value.

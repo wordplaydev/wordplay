@@ -3,7 +3,7 @@
     import type Concept from '../concepts/Concept';
     import CodeView from './CodeView.svelte';
     import { translations } from '../translations/translations';
-    import parseRichText from '../output/parseRichText';
+    import DescriptionView from './DescriptionView.svelte';
 
     export let concept: Concept;
 
@@ -13,9 +13,13 @@
 <div transition:slide={{ duration: 250 }}>
     <h1><CodeView {concept} {node} describe={false} /></h1>
 
-    <p>
-        {@html parseRichText(concept.getDescription($translations[0])).toHTML()}
-    </p>
+    {#each $translations as translation}
+        <p>
+            <DescriptionView
+                description={concept.getDescription(translation)}
+            />
+        </p>
+    {/each}
 
     <slot />
 </div>

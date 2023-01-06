@@ -9,7 +9,6 @@ import List from '../runtime/List';
 import Text from '../runtime/Text';
 import Map from '../runtime/Map';
 import Set from '../runtime/Set';
-import TypeException from '../runtime/TypeException';
 import NativeHOFMapFilter from './NativeHOFMapFilter';
 import NativeHOFMapTranslate from './NativeHOFMapTranslate';
 import { createNativeConversion, createNativeFunction } from './NativeBindings';
@@ -140,8 +139,8 @@ export default function bootstrapMap() {
                             equalsFunctionValueNames
                         );
                         return !(map instanceof Map && other instanceof Map)
-                            ? new TypeException(
-                                  evaluation.getEvaluator(),
+                            ? evaluation.getValueOrTypeException(
+                                  requestor,
                                   MapType.make(),
                                   other
                               )
@@ -174,8 +173,8 @@ export default function bootstrapMap() {
                             notEqualsFunctionValueNames
                         );
                         return !(map instanceof Map && other instanceof Map)
-                            ? new TypeException(
-                                  evaluation.getEvaluator(),
+                            ? evaluation.getValueOrTypeException(
+                                  requestor,
                                   MapType.make(),
                                   other
                               )
@@ -215,8 +214,8 @@ export default function bootstrapMap() {
                         )
                             return map.set(requestor, key, value);
                         else
-                            return new TypeException(
-                                evaluation.getEvaluator(),
+                            return evaluation.getValueOrTypeException(
+                                requestor,
                                 MapType.make(),
                                 map
                             );
@@ -244,8 +243,8 @@ export default function bootstrapMap() {
                         if (map instanceof Map && key !== undefined)
                             return map.unset(requestor, key);
                         else
-                            return new TypeException(
-                                evaluation.getEvaluator(),
+                            return evaluation.getValueOrTypeException(
+                                requestor,
                                 MapType.make(),
                                 map
                             );
@@ -276,8 +275,8 @@ export default function bootstrapMap() {
                         if (map instanceof Map && value !== undefined)
                             return map.remove(requestor, value);
                         else
-                            return new TypeException(
-                                evaluation.getEvaluator(),
+                            return evaluation.getValueOrTypeException(
+                                requestor,
                                 MapType.make(),
                                 map
                             );

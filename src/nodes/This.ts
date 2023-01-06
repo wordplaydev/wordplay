@@ -107,7 +107,10 @@ export default class This extends AtomicExpression {
         }
 
         // Otherwise, this means something else.
-        return evaluator.getThis(this) ?? new NameException(this, evaluator);
+        return (
+            evaluator.getThis(this) ??
+            new NameException(this.dis, undefined, evaluator)
+        );
     }
 
     evaluateTypeSet(

@@ -88,7 +88,7 @@ export default class Append<NodeType extends Node> extends Transform {
         return [newChild, newParent];
     }
 
-    getDescription(translation: Translation): string {
+    getDescription(translation: Translation) {
         let node =
             this.insertion instanceof Refer
                 ? this.insertion.getNode([translation.language])

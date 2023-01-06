@@ -9,6 +9,7 @@ import type Place from './Place';
 import type Animation from './Animation';
 import { getBind } from '../translations/getBind';
 import { TYPE_SYMBOL } from '../parser/Symbols';
+import type { Description } from '../translations/Translation';
 
 export const GroupType = toStructure(`
     ${getBind((t) => t.output.group.definition, TYPE_SYMBOL)}()
@@ -31,7 +32,7 @@ export default abstract class Group extends Output {
     abstract getPlaces(context: RenderContext): [Group, Place][];
 
     abstract getBackground(): Color | undefined;
-    abstract getDescription(languages: LanguageCode[]): string;
+    abstract getDescription(languages: LanguageCode[]): Description;
 }
 
 export type RenderContext = {

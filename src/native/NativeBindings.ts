@@ -8,7 +8,6 @@ import type Bind from '../nodes/Bind';
 import Value from '../runtime/Value';
 import type Evaluation from '../runtime/Evaluation';
 import type StructureDefinition from '../nodes/StructureDefinition';
-import TypeException from '../runtime/TypeException';
 import { parseType, toTokens } from '../parser/Parser';
 import bootstrapNone from './NoneNative';
 import bootstrapBool from './BoolNative';
@@ -24,6 +23,7 @@ import Tree from '../nodes/Tree';
 import type TypeVariables from '../nodes/TypeVariables';
 import type Docs from '../nodes/Docs';
 import type Names from '../nodes/Names';
+import type Expression from '../nodes/Expression';
 
 export class NativeBindings implements NativeInterface {
     readonly functionsByType: Record<
@@ -132,7 +132,7 @@ export function createNativeFunction(
     typeVars: TypeVariables | undefined,
     inputs: Bind[],
     output: Type,
-    evaluator: (requestor: Node, evaluator: Evaluation) => Value
+    evaluator: (requestor: Expression, evaluator: Evaluation) => Value
 ) {
     return FunctionDefinition.make(
         docs,
@@ -168,8 +168,8 @@ export function createNativeConversion<ValueType extends Value>(
             )
                 return convert(requestor, val as ValueType);
             else
-                return new TypeException(
-                    evaluation.getEvaluator(),
+                return evaluation.getValueOrTypeException(
+                    requestor,
                     inputType,
                     val
                 );

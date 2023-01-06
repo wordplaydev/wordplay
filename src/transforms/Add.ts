@@ -69,7 +69,7 @@ export default class Add<NodeType extends Node> extends Transform {
             : [newSource, new Caret(newSource, newCaretPosition)];
     }
 
-    getDescription(translation: Translation): string {
+    getDescription(translation: Translation) {
         let node =
             this.child instanceof Refer
                 ? this.child.getNode([translation.language])

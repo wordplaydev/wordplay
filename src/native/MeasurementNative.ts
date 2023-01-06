@@ -62,15 +62,16 @@ export default function bootstrapMeasurement() {
                     );
                     // It should be impossible for the left to be a Measurement, but the type system doesn't know it.
                     if (!(left instanceof Measurement))
-                        return new TypeException(
-                            evaluation.getEvaluator(),
+                        return evaluation.getValueOrTypeException(
+                            requestor,
                             MeasurementType.make(),
                             left
                         );
+
                     if (!(right instanceof Measurement))
-                        return new TypeException(
-                            evaluation.getEvaluator(),
-                            left.getType(),
+                        return evaluation.getValueOrTypeException(
+                            requestor,
+                            MeasurementType.make(),
                             right
                         );
                     if (requireEqualUnits && !left.unit.isEqualTo(right.unit))
@@ -114,16 +115,16 @@ export default function bootstrapMeasurement() {
                         evaluation.getClosure();
                     // It should be impossible for the left to be a Measurement, but the type system doesn't know it.
                     if (!(left instanceof Measurement))
-                        return new TypeException(
-                            evaluation.getEvaluator(),
+                        return evaluation.getValueOrTypeException(
+                            requestor,
                             MeasurementType.make(),
                             left
                         );
                     return (
                         expression(requestor, left) ??
-                        new TypeException(
-                            evaluation.getEvaluator(),
-                            left.getType(),
+                        evaluation.getValueOrTypeException(
+                            requestor,
+                            MeasurementType.make(),
                             undefined
                         )
                     );
@@ -181,8 +182,8 @@ export default function bootstrapMeasurement() {
                             const right = evaluation.resolve(subtractNames);
                             // It should be impossible for the left to be a Measurement, but the type system doesn't know it.
                             if (!(left instanceof Measurement))
-                                return new TypeException(
-                                    evaluation.getEvaluator(),
+                                return evaluation.getValueOrTypeException(
+                                    requestor,
                                     MeasurementType.make(),
                                     left
                                 );

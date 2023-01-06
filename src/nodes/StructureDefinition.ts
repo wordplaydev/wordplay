@@ -32,8 +32,8 @@ import NotAnInterface from '../conflicts/NotAnInterface';
 import type { Replacement } from './Node';
 import type Translation from '../translations/Translation';
 import AtomicExpression from './AtomicExpression';
-import NoEvaluationException from '../runtime/NoEvaluationException';
 import type NameType from './NameType';
+import InternalException from '../runtime/InternalException';
 
 export default class StructureDefinition extends AtomicExpression {
     readonly docs: Docs | undefined;
@@ -357,7 +357,11 @@ export default class StructureDefinition extends AtomicExpression {
             const def = new StructureDefinitionValue(this, this, context);
             evaluator.bind(this.names, def);
             return def;
-        } else return new NoEvaluationException(evaluator, this);
+        } else
+            return new InternalException(
+                evaluator,
+                'there is no evaluation, which should be impossible'
+            );
     }
 
     evaluateTypeSet(

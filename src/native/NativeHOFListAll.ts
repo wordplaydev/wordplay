@@ -47,13 +47,17 @@ export default class NativeHOFListAll extends HOF {
                 const list = evaluation?.getClosure();
                 // If the index is past the last index of the list, jump to the end.
                 if (!(index instanceof Measurement))
-                    return new TypeException(
-                        evaluator,
+                    return evaluator.getValueOrTypeException(
+                        this,
                         MeasurementType.make(),
                         index
                     );
                 else if (!(list instanceof List))
-                    return new TypeException(evaluator, ListType.make(), list);
+                    return evaluator.getValueOrTypeException(
+                        this,
+                        ListType.make(),
+                        list
+                    );
                 else {
                     if (index.greaterThan(this, list.length(this)).bool)
                         evaluator.jump(1);
@@ -84,8 +88,8 @@ export default class NativeHOFListAll extends HOF {
                                 )
                             );
                         } else
-                            return new TypeException(
-                                evaluator,
+                            return evaluator.getValueOrTypeException(
+                                this,
                                 this.hofType,
                                 checker
                             );
@@ -96,7 +100,7 @@ export default class NativeHOFListAll extends HOF {
             // Save the translated value and then jump to the conditional.
             new Check(this, (evaluator) => {
                 // Get the bool from the matcher
-                const matched = evaluator.popValue(BooleanType.make());
+                const matched = evaluator.popValue(this, BooleanType.make());
                 if (!(matched instanceof Bool)) return matched;
 
                 // Get the current index
@@ -130,10 +134,18 @@ export default class NativeHOFListAll extends HOF {
         // Get the index and list.
         const index = evaluator.resolve(INDEX);
         if (!(index instanceof Measurement))
-            return new TypeException(evaluator, MeasurementType.make(), index);
+            return evaluator.getValueOrTypeException(
+                this,
+                MeasurementType.make(),
+                index
+            );
         const list = evaluator.getCurrentEvaluation()?.getClosure();
         if (!(list instanceof List))
-            return new TypeException(evaluator, ListType.make(), list);
+            return evaluator.getValueOrTypeException(
+                this,
+                ListType.make(),
+                index
+            );
 
         // Evaluate to true if we made it past the length of the list, false otherwise.
         return index.greaterThan(this, list.length(this));

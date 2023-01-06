@@ -29,7 +29,7 @@ import AnyType from './AnyType';
 import TypeToken from './TypeToken';
 import type { Replacement } from './Node';
 import type Translation from '../translations/Translation';
-import NoEvaluationException from '../runtime/NoEvaluationException';
+import InternalException from '../runtime/InternalException';
 
 export default class FunctionDefinition extends Expression {
     readonly docs?: Docs;
@@ -261,7 +261,10 @@ export default class FunctionDefinition extends Expression {
         const context = evaluator.getCurrentEvaluation();
         const value =
             context === undefined
-                ? new NoEvaluationException(evaluator, this)
+                ? new InternalException(
+                      evaluator,
+                      'there is no evaluation, which should be impossible'
+                  )
                 : new FunctionValue(this, context);
 
         // Bind the value

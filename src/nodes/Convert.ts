@@ -166,7 +166,7 @@ export default class Convert extends Expression {
 
     startEvaluation(evaluator: Evaluator, conversion: ConversionDefinition) {
         // Get the value to convert
-        const value = evaluator.popValue(undefined);
+        const value = evaluator.popValue(this);
         if (value instanceof Exception) return value;
 
         // Execute the conversion.
@@ -187,7 +187,7 @@ export default class Convert extends Expression {
         if (prior) return prior;
 
         // Pop the value we computed and then return it (so that it's saved for later).
-        return evaluator.popValue(undefined);
+        return evaluator.popValue(this);
     }
 
     evaluateTypeSet(

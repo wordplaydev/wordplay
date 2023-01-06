@@ -111,7 +111,7 @@ export default class Template extends Expression {
                               .toString()
                               .substring(1, p.text.toString().length - 1)
                       )
-                    : evaluator.popValue(TextType.make());
+                    : evaluator.popValue(this, TextType.make());
             if (!(part instanceof Text)) return part;
             text = part.text + text;
         }

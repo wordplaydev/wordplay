@@ -606,7 +606,10 @@ export default abstract class Node {
     /**
      * Given a translation and a context, generate a description of the node.
      * */
-    abstract getDescription(translation: Translation, context: Context): string;
+    abstract getDescription(
+        translation: Translation,
+        context: Context
+    ): Description;
 
     /** Provide localized labels for any child that can be a placeholder. */
     getChildPlaceholderLabel(

@@ -21,8 +21,8 @@ import Next from '../runtime/Next';
 import Set from '../runtime/Set';
 import Start from '../runtime/Start';
 import type Step from '../runtime/Step';
-import TypeException from '../runtime/TypeException';
 import type Value from '../runtime/Value';
+import ValueException from '../runtime/ValueException';
 import HOF from './HOF';
 
 const INDEX = Names.make(['index']);
@@ -59,13 +59,17 @@ export default class NativeHOFSetFilter extends HOF {
                 const set = evaluator.getCurrentEvaluation()?.getClosure();
                 // If the index is past the last index of the list, jump to the end.
                 if (!(index instanceof Measurement))
-                    return new TypeException(
-                        evaluator,
+                    return evaluator.getValueOrTypeException(
+                        this,
                         MeasurementType.make(),
                         index
                     );
                 else if (!(set instanceof Set))
-                    return new TypeException(evaluator, SetType.make(), set);
+                    return evaluator.getValueOrTypeException(
+                        this,
+                        SetType.make(),
+                        set
+                    );
                 else {
                     if (index.greaterThan(this, set.size(this)).bool)
                         evaluator.jump(1);
@@ -96,8 +100,8 @@ export default class NativeHOFSetFilter extends HOF {
                                 )
                             );
                         } else
-                            return new TypeException(
-                                evaluator,
+                            return evaluator.getValueOrTypeException(
+                                this,
                                 this.hofType,
                                 checker
                             );
@@ -107,21 +111,25 @@ export default class NativeHOFSetFilter extends HOF {
             // Save the translated value and then jump to the conditional.
             new Check(this, (evaluator) => {
                 // Get the boolean from the function evaluation.
-                const include = evaluator.popValue(BooleanType.make());
+                const include = evaluator.popValue(this, BooleanType.make());
                 if (!(include instanceof Bool)) return include;
 
                 // Get the current index.
                 const index = evaluator.resolve(INDEX);
                 if (!(index instanceof Measurement))
-                    return new TypeException(
-                        evaluator,
+                    return evaluator.getValueOrTypeException(
+                        this,
                         MeasurementType.make(),
                         index
                     );
 
                 const set = evaluator.getCurrentEvaluation()?.getClosure();
                 if (!(set instanceof Set))
-                    return new TypeException(evaluator, SetType.make(), set);
+                    return evaluator.getValueOrTypeException(
+                        this,
+                        SetType.make(),
+                        set
+                    );
 
                 // If the include decided yes, append the value.
                 const newSet = evaluator.resolve(SET);
@@ -131,7 +139,11 @@ export default class NativeHOFSetFilter extends HOF {
                         evaluator.bind(SET, newSet.add(this, setValue));
                     }
                 } else
-                    return new TypeException(evaluator, SetType.make(), newSet);
+                    return evaluator.getValueOrTypeException(
+                        this,
+                        SetType.make(),
+                        newSet
+                    );
 
                 // Increment the counter
                 evaluator.bind(
@@ -152,6 +164,6 @@ export default class NativeHOFSetFilter extends HOF {
         if (prior) return prior;
 
         // Evaluate to the filtered list.
-        return evaluator.resolve(SET);
+        return evaluator.resolve(SET) ?? new ValueException(evaluator, this);
     }
 }

@@ -108,7 +108,7 @@ export default class MeasurementLiteral extends AtomicExpression {
         return this.number;
     }
 
-    getDescription(translation: Translation, context: Context): string {
+    getDescription(translation: Translation, context: Context) {
         return translation.expressions.MeasurementLiteral.description(
             this,
             translation,
@@ -116,7 +116,7 @@ export default class MeasurementLiteral extends AtomicExpression {
         );
     }
 
-    getStartExplanations(translation: Translation): string {
+    getStartExplanations(translation: Translation) {
         return translation.expressions.MeasurementLiteral.start;
     }
 }

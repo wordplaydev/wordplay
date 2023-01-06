@@ -3,7 +3,7 @@
     import type BindConcept from '../concepts/BindConcept';
     import { translations } from '../translations/translations';
     import { getPaletteIndex } from '../editor/util/Contexts';
-    import parseRichText from '../output/parseRichText';
+    import DescriptionView from './DescriptionView.svelte';
 
     export let concept: BindConcept;
 
@@ -21,11 +21,13 @@
         />
     </p>
     {#if bind.docs}
-        <p>
-            {@html parseRichText(
-                concept.getDescription($translations[0])
-            ).toHTML()}
-        </p>
+        {#each $translations as translation}
+            <p>
+                <DescriptionView
+                    description={concept.getDescription(translation)}
+                />
+            </p>
+        {/each}
     {/if}
 </section>
 

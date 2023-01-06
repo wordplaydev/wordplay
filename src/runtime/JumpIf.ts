@@ -30,7 +30,7 @@ export default class JumpIf extends Step {
     evaluate(evaluator: Evaluator): Value | undefined {
         const value = this.peek
             ? evaluator.peekValue()
-            : evaluator.popValue(BooleanType.make());
+            : evaluator.popValue(this.conditional, BooleanType.make());
         if (!(value instanceof Bool)) return value;
         if (value.bool === this.yes) evaluator.jump(this.count);
         return undefined;

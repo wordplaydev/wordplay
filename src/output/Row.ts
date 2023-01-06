@@ -76,7 +76,7 @@ export class Row extends Group {
         return undefined;
     }
 
-    getDescription(languages: LanguageCode[]): string {
+    getDescription(languages: LanguageCode[]) {
         return getPreferredTranslation(languages).output.row.description;
     }
 }

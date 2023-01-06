@@ -7,7 +7,6 @@ import Block from '../nodes/Block';
 import Bind from '../nodes/Bind';
 import NativeExpression from './NativeExpression';
 import BooleanType from '../nodes/BooleanType';
-import TypeException from '../runtime/TypeException';
 import NoneType from '../nodes/NoneType';
 import type Value from '../runtime/Value';
 import { createNativeConversion } from './NativeBindings';
@@ -48,14 +47,15 @@ export default function bootstrapNone() {
                     );
                     // This should be impossible, but the type system doesn't know it.
                     if (!(left instanceof None))
-                        return new TypeException(
-                            evaluation.getEvaluator(),
+                        return evaluation.getValueOrTypeException(
+                            requestor,
                             NoneType.None,
                             left
                         );
+
                     if (!(right instanceof None))
-                        return new TypeException(
-                            evaluation.getEvaluator(),
+                        return evaluation.getValueOrTypeException(
+                            requestor,
                             NoneType.None,
                             right
                         );

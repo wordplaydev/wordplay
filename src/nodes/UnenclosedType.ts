@@ -7,7 +7,7 @@ export class UnenclosedType extends UnknownType<This> {
         super(dis, undefined);
     }
 
-    getReason(translation: Translation): string {
+    getReason(translation: Translation) {
         return translation.types.NotEnclosedType.description;
     }
 }

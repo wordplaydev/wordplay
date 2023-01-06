@@ -101,7 +101,7 @@ export default class SetLiteral extends Expression {
         // Pop all of the values. Order doesn't matter.
         const values = [];
         for (let i = 0; i < this.values.length; i++)
-            values.unshift(evaluator.popValue(undefined));
+            values.unshift(evaluator.popValue(this));
         return new Set(this, values);
     }
 

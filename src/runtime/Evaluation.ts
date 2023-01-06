@@ -8,7 +8,6 @@ import Exception from './Exception';
 import type Step from './Step';
 import Stream from './Stream';
 import Value from './Value';
-import type Program from '../nodes/Program';
 import KeepStream from './KeepStream';
 import ValueException from './ValueException';
 import TypeException from './TypeException';
@@ -62,12 +61,7 @@ export default class Evaluation {
     readonly #stepNumber: StepNumber;
 
     /** The node that defined this expression being evaluated. */
-    readonly #evaluationNode:
-        | Program
-        | FunctionDefinition
-        | StructureDefinition
-        | ConversionDefinition
-        | Source;
+    readonly #evaluationNode: EvaluationNode;
 
     /** A cache of the node's steps */
     readonly #steps: Step[];
@@ -141,6 +135,16 @@ export default class Evaluation {
     }
     getStepNumber() {
         return this.#stepNumber;
+    }
+    /** Utility function for generating a missing value exception */
+    getValueOrTypeException(
+        expression: Expression,
+        expected: Type,
+        value: Value | Evaluation | undefined
+    ) {
+        return value === undefined || value instanceof Evaluation
+            ? new ValueException(this.getEvaluator(), expression)
+            : new TypeException(this.getEvaluator(), expected, value);
     }
 
     /**
@@ -245,20 +249,17 @@ export default class Evaluation {
         this.#values.unshift(value);
     }
 
-    peekValue(): Value {
-        const value = this.#values[0];
-        return value === undefined
-            ? new ValueException(this.#evaluator, this.getCurrentNode())
-            : value;
+    peekValue(): Value | undefined {
+        return this.#values[0];
     }
 
-    popValue(expected: Type | undefined): Value {
+    popValue(requestor: Expression, expected: Type | undefined): Value {
         const value = this.#values.shift();
         if (value === undefined)
-            return new ValueException(this.#evaluator, this.getCurrentNode());
+            return new ValueException(this.#evaluator, requestor);
         else if (
             expected !== undefined &&
-            value.getType(this.#context).constructor !== expected.constructor
+            !expected.accepts(value.getType(this.#context), this.#context)
         )
             return new TypeException(this.#evaluator, expected, value);
         else return value;

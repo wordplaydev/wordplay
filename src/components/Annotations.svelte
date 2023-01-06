@@ -10,6 +10,8 @@
     import { tick } from 'svelte';
     import { afterUpdate } from 'svelte';
     import type Rect from './Rect';
+    import type { Description } from '../translations/Translation';
+    import type Step from '../runtime/Step';
 
     export let project: Project;
     export let stepping: boolean;
@@ -20,7 +22,7 @@
     type Annotation = {
         node: Node;
         element: Element | null;
-        text: string;
+        text: Description[];
         kind: 'step' | 'primary' | 'secondary' | 'minor';
         position?: Position | undefined;
     };
@@ -47,14 +49,16 @@
                         node: node,
                         element: view,
                         text: $currentStep
-                            ? $currentStep.getExplanations(
-                                  $translations[0],
-                                  project.evaluator
+                            ? $translations.map((trans) =>
+                                  ($currentStep as Step).getExplanations(
+                                      trans,
+                                      project.evaluator
+                                  )
                               )
                             : project.evaluator.steppedToNode() &&
                               project.evaluator.isDone()
-                            ? "The selected node didn't evaluate."
-                            : 'Done evaluating',
+                            ? $translations.map((t) => t.evaluation.unevaluated)
+                            : $translations.map((t) => t.evaluation.done),
                         kind: 'step',
                         position: getPosition(view),
                     },
@@ -73,10 +77,13 @@
                         {
                             node: conflictNodes.primary,
                             element: getNodeView(conflictNodes.primary),
-                            text: conflict.getPrimaryExplanation(
-                                $translations[0],
-                                project.getNodeContext(conflictNodes.primary) ??
-                                    project.getContext(project.main)
+                            text: $translations.map((trans) =>
+                                conflict.getPrimaryExplanation(
+                                    trans,
+                                    project.getNodeContext(
+                                        conflictNodes.primary
+                                    ) ?? project.getContext(project.main)
+                                )
                             ),
                             kind: conflict.isMinor()
                                 ? ('minor' as const)
@@ -84,18 +91,24 @@
                         },
                         ...conflictNodes.secondary
                             .map((secondary: Node) => {
-                                const explanation =
-                                    conflict.getSecondaryExplanation(
-                                        $translations[0],
-                                        project.getNodeContext(secondary) ??
-                                            project.getContext(project.main)
+                                const explanations = $translations
+                                    .map((trans) =>
+                                        conflict.getSecondaryExplanation(
+                                            trans,
+                                            project.getNodeContext(secondary) ??
+                                                project.getContext(project.main)
+                                        )
+                                    )
+                                    .filter(
+                                        (ex): ex is Description =>
+                                            ex !== undefined
                                     );
-                                return explanation === undefined
+                                return explanations.length === undefined
                                     ? undefined
                                     : {
                                           node: secondary,
                                           element: getNodeView(secondary),
-                                          text: explanation,
+                                          text: explanations,
                                           kind: 'secondary',
                                       };
                             })

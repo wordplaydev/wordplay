@@ -76,7 +76,7 @@ export class Stack extends Group {
         return undefined;
     }
 
-    getDescription(languages: LanguageCode[]): string {
+    getDescription(languages: LanguageCode[]) {
         return getPreferredTranslation(languages).output.stack.description;
     }
 }

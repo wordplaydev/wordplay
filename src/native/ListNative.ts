@@ -12,7 +12,6 @@ import Value from '../runtime/Value';
 import Bool from '../runtime/Bool';
 import List from '../runtime/List';
 import Text from '../runtime/Text';
-import TypeException from '../runtime/TypeException';
 import { createNativeConversion, createNativeFunction } from './NativeBindings';
 import NativeExpression from './NativeExpression';
 import NativeHOFListAll from './NativeHOFListAll';
@@ -218,8 +217,8 @@ export default function bootstrapList() {
                         if (list instanceof List && value !== undefined)
                             return list.add(requestor, value);
                         else
-                            return new TypeException(
-                                evaluation.getEvaluator(),
+                            return evaluation.getValueOrTypeException(
+                                requestor,
                                 ListType.make(),
                                 list
                             );
@@ -240,8 +239,8 @@ export default function bootstrapList() {
                             evaluation.getClosure();
                         if (list instanceof List) return list.length(requestor);
                         else
-                            return new TypeException(
-                                evaluation.getEvaluator(),
+                            return evaluation.getValueOrTypeException(
+                                requestor,
                                 ListType.make(),
                                 list
                             );
@@ -257,7 +256,7 @@ export default function bootstrapList() {
                     undefined,
                     [],
                     getListTypeVariableReference(),
-                    (_, evaluation) => {
+                    (requestor, evaluation) => {
                         const list = evaluation.getClosure();
                         if (list instanceof List) {
                             const random = evaluation
@@ -272,8 +271,8 @@ export default function bootstrapList() {
                                 )
                             );
                         } else
-                            return new TypeException(
-                                evaluation.getEvaluator(),
+                            return evaluation.getValueOrTypeException(
+                                requestor,
                                 ListType.make(),
                                 list
                             );
@@ -295,8 +294,8 @@ export default function bootstrapList() {
                         const list = evaluation.getClosure();
                         if (list instanceof List) return list.first();
                         else
-                            return new TypeException(
-                                evaluation.getEvaluator(),
+                            return evaluation.getValueOrTypeException(
+                                requestor,
                                 ListType.make(),
                                 list
                             );
@@ -323,8 +322,8 @@ export default function bootstrapList() {
                         if (list instanceof List && value !== undefined)
                             return list.has(requestor, value);
                         else
-                            return new TypeException(
-                                evaluation.getEvaluator(),
+                            return evaluation.getValueOrTypeException(
+                                requestor,
                                 ListType.make(),
                                 list
                             );
@@ -352,8 +351,8 @@ export default function bootstrapList() {
                         if (list instanceof List && separator instanceof Text)
                             return list.join(requestor, separator);
                         else
-                            return new TypeException(
-                                evaluation.getEvaluator(),
+                            return evaluation.getValueOrTypeException(
+                                requestor,
                                 ListType.make(),
                                 list
                             );
@@ -372,8 +371,8 @@ export default function bootstrapList() {
                         const list = evaluation.getClosure();
                         if (list instanceof List) return list.last();
                         else
-                            return new TypeException(
-                                evaluation.getEvaluator(),
+                            return evaluation.getValueOrTypeException(
+                                requestor,
                                 ListType.make(),
                                 list
                             );
@@ -395,8 +394,8 @@ export default function bootstrapList() {
                         if (list instanceof List)
                             return list.sansFirst(requestor);
                         else
-                            return new TypeException(
-                                evaluation.getEvaluator(),
+                            return evaluation.getValueOrTypeException(
+                                requestor,
                                 ListType.make(),
                                 list
                             );
@@ -417,8 +416,8 @@ export default function bootstrapList() {
                         if (list instanceof List)
                             return list.sansLast(requestor);
                         else
-                            return new TypeException(
-                                evaluation.getEvaluator(),
+                            return evaluation.getValueOrTypeException(
+                                requestor,
                                 ListType.make(),
                                 list
                             );
@@ -446,8 +445,8 @@ export default function bootstrapList() {
                         if (list instanceof List && value !== undefined)
                             return list.sans(requestor, value);
                         else
-                            return new TypeException(
-                                evaluation.getEvaluator(),
+                            return evaluation.getValueOrTypeException(
+                                requestor,
                                 ListType.make(),
                                 list
                             );
@@ -478,8 +477,8 @@ export default function bootstrapList() {
                         if (list instanceof List && value !== undefined)
                             return list.sansAll(requestor, value);
                         else
-                            return new TypeException(
-                                evaluation.getEvaluator(),
+                            return evaluation.getValueOrTypeException(
+                                requestor,
                                 ListType.make(),
                                 list
                             );
@@ -500,8 +499,8 @@ export default function bootstrapList() {
                         if (list instanceof List)
                             return list.reverse(requestor);
                         else
-                            return new TypeException(
-                                evaluation.getEvaluator(),
+                            return evaluation.getValueOrTypeException(
+                                requestor,
                                 ListType.make(),
                                 list
                             );
@@ -531,14 +530,14 @@ export default function bootstrapList() {
                             const list = evaluation.getClosure();
                             const value = evaluation.resolve(equalsInputNames);
                             if (!(list instanceof List))
-                                return new TypeException(
-                                    evaluation.getEvaluator(),
+                                return evaluation.getValueOrTypeException(
+                                    requestor,
                                     ListType.make(),
                                     list
                                 );
                             if (!(value instanceof Value))
-                                return new TypeException(
-                                    evaluation.getEvaluator(),
+                                return evaluation.getValueOrTypeException(
+                                    requestor,
                                     ListType.make(),
                                     value
                                 );
@@ -573,14 +572,14 @@ export default function bootstrapList() {
                             const value =
                                 evaluation.resolve(notequalsInputNames);
                             if (!(list instanceof List))
-                                return new TypeException(
-                                    evaluation.getEvaluator(),
+                                return evaluation.getValueOrTypeException(
+                                    requestor,
                                     ListType.make(),
                                     list
                                 );
                             if (!(value instanceof Value))
-                                return new TypeException(
-                                    evaluation.getEvaluator(),
+                                return evaluation.getValueOrTypeException(
+                                    requestor,
                                     ListType.make(),
                                     value
                                 );

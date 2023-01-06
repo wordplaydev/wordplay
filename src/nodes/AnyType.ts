@@ -21,7 +21,7 @@ export default class AnyType extends Type {
 
     computeConflicts() {}
 
-    getDescription(translation: Translation): string {
+    getDescription(translation: Translation) {
         return translation.types.AnyType.description;
     }
 

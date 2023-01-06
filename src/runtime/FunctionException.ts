@@ -1,7 +1,11 @@
-import type BinaryOperation from '../nodes/BinaryOperation';
+import BinaryOperation from '../nodes/BinaryOperation';
 import type Convert from '../nodes/Convert';
-import type Evaluate from '../nodes/Evaluate';
-import type UnaryOperation from '../nodes/UnaryOperation';
+import Evaluate from '../nodes/Evaluate';
+import PropertyReference from '../nodes/PropertyReference';
+import Reference from '../nodes/Reference';
+import Token from '../nodes/Token';
+import UnaryOperation from '../nodes/UnaryOperation';
+import NodeLink from '../translations/NodeLink';
 import type Translation from '../translations/Translation';
 import type Evaluator from './Evaluator';
 import Exception from './Exception';
@@ -26,6 +30,44 @@ export default class FunctionException extends Exception {
     }
 
     getDescription(translation: Translation) {
-        return translation.exceptions.function(this.node);
+        // What's the node that has the name?
+        const name =
+            this.node instanceof Evaluate
+                ? this.node.func instanceof PropertyReference
+                    ? this.node.func.name ?? this.node.func
+                    : this.node.func
+                : this.node instanceof BinaryOperation
+                ? this.node.operator
+                : this.node instanceof UnaryOperation
+                ? this.node.operator
+                : this.node.type;
+
+        return translation.exceptions.function(
+            // Wrap the node containing the name in a link
+            new NodeLink(
+                name,
+                translation,
+                this.evaluator.project.getNodeContext(this.node),
+                name instanceof Reference
+                    ? name.getName()
+                    : name instanceof Token
+                    ? name.getText()
+                    : undefined
+            ),
+            // Wrap the type, if there is one
+            this.subject === undefined
+                ? undefined
+                : new NodeLink(
+                      this.subject.getType(
+                          this.evaluator.project.getNodeContext(
+                              this.subject.creator
+                          )
+                      ),
+                      translation,
+                      this.evaluator.project.getNodeContext(
+                          this.subject.creator
+                      )
+                  )
+        );
     }
 }

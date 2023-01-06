@@ -138,8 +138,8 @@ export default class SetOrMapAccess extends Expression {
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
         if (prior) return prior;
 
-        const key = evaluator.popValue(undefined);
-        const setOrMap = evaluator.popValue(undefined);
+        const key = evaluator.popValue(this);
+        const setOrMap = evaluator.popValue(this);
 
         if (!(setOrMap instanceof Set || setOrMap instanceof Map))
             return new TypeException(

@@ -19,7 +19,6 @@ import UnexpectedInputs from '../conflicts/UnexpectedInputs';
 import MissingInput from '../conflicts/MissingInput';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import Evaluation from '../runtime/Evaluation';
-import UnparsableException from '../runtime/UnparsableException';
 import NotAFunction from '../conflicts/NotAFunction';
 import getConcreteExpectedType from './Generics';
 import type Value from '../runtime/Value';
@@ -265,8 +264,8 @@ export default class BinaryOperation extends Expression {
     startEvaluation(evaluator: Evaluator) {
         const context = evaluator.getCurrentContext();
 
-        const right = evaluator.popValue(undefined);
-        const left = evaluator.popValue(undefined);
+        const right = evaluator.popValue(this);
+        const left = evaluator.popValue(this);
 
         const fun = left
             .getType(context)
@@ -283,8 +282,6 @@ export default class BinaryOperation extends Expression {
             );
 
         const operand = fun.inputs[0];
-        if (!(operand instanceof Bind))
-            return new UnparsableException(evaluator, operand);
 
         // Start the function's expression. Pass the source of the function.
         evaluator.startEvaluation(
@@ -302,7 +299,7 @@ export default class BinaryOperation extends Expression {
         if (prior) return prior;
 
         // Return whatever was computed.
-        return evaluator.popValue(undefined);
+        return evaluator.popValue(this);
     }
 
     /**
@@ -372,10 +369,10 @@ export default class BinaryOperation extends Expression {
         return this.operator;
     }
 
-    getStartExplanations(translation: Translation): string {
+    getStartExplanations(translation: Translation) {
         return translation.expressions.BinaryOperation.start;
     }
-    getFinishExplanations(translation: Translation): string {
+    getFinishExplanations(translation: Translation) {
         return translation.expressions.BinaryOperation.finish;
     }
 }

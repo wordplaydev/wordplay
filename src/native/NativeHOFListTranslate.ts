@@ -17,8 +17,8 @@ import Measurement from '../runtime/Measurement';
 import Next from '../runtime/Next';
 import Start from '../runtime/Start';
 import type Step from '../runtime/Step';
-import TypeException from '../runtime/TypeException';
 import type Value from '../runtime/Value';
+import ValueException from '../runtime/ValueException';
 import HOF from './HOF';
 
 const INDEX = Names.make(['index']);
@@ -51,13 +51,17 @@ export default class NativeHOFListTranslate extends HOF {
                 const list = evaluator.getCurrentEvaluation()?.getClosure();
                 // If the index is past the last index of the list, jump to the end.
                 if (!(index instanceof Measurement))
-                    return new TypeException(
-                        evaluator,
+                    return evaluator.getValueOrTypeException(
+                        this,
                         MeasurementType.make(),
                         index
                     );
                 else if (!(list instanceof List))
-                    return new TypeException(evaluator, ListType.make(), index);
+                    return evaluator.getValueOrTypeException(
+                        this,
+                        ListType.make(),
+                        list
+                    );
                 else {
                     if (index.greaterThan(this, list.length(this)).bool)
                         evaluator.jump(1);
@@ -88,8 +92,8 @@ export default class NativeHOFListTranslate extends HOF {
                                 )
                             );
                         } else
-                            return new TypeException(
-                                evaluator,
+                            return evaluator.getValueOrTypeException(
+                                this,
                                 this.hofType,
                                 translator
                             );
@@ -100,13 +104,18 @@ export default class NativeHOFListTranslate extends HOF {
             // Save the translated value and then jump to the conditional.
             new Check(this, (evaluator) => {
                 // Get the translated value.
-                const translatedValue = evaluator.popValue(undefined);
+                const translatedValue = evaluator.popValue(this);
 
                 // Append the translated value to the list.
                 const list = evaluator.resolve(LIST);
                 if (list instanceof List)
                     evaluator.bind(LIST, list.append(this, translatedValue));
-                else return new TypeException(evaluator, ListType.make(), list);
+                else
+                    evaluator.getValueOrTypeException(
+                        this,
+                        ListType.make(),
+                        list
+                    );
 
                 // Increment the counter
                 const index = evaluator.resolve(INDEX);
@@ -116,8 +125,8 @@ export default class NativeHOFListTranslate extends HOF {
                         index.add(this, new Measurement(this, 1))
                     );
                 else
-                    return new TypeException(
-                        evaluator,
+                    return evaluator.getValueOrTypeException(
+                        this,
                         MeasurementType.make(),
                         index
                     );
@@ -135,6 +144,6 @@ export default class NativeHOFListTranslate extends HOF {
         if (prior) return prior;
 
         // Evaluate to the new list.
-        return evaluator.resolve(LIST);
+        return evaluator.resolve(LIST) ?? new ValueException(evaluator, this);
     }
 }

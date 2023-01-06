@@ -11,6 +11,7 @@
     import VerseView from './VerseView.svelte';
     import { createEventDispatcher } from 'svelte';
     import { slide } from 'svelte/transition';
+    import DescriptionView from './DescriptionView.svelte';
 
     export let project: Project;
     export let source: Source;
@@ -53,8 +54,12 @@
         {#if latest instanceof Exception}
             <div class="fill exception"
                 ><div class="message"
-                    >{latest.getDescription($translations[0])}</div
-                ></div
+                    >{#each $translations as translation}
+                        <DescriptionView
+                            description={latest.getDescription(translation)}
+                        />
+                    {/each}
+                </div></div
             >
             <!-- If there's no verse -->
         {:else if latest === undefined}

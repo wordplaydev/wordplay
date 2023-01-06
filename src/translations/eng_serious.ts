@@ -24,6 +24,7 @@ import type { Description } from './Translation';
 import type { CycleType } from '../nodes/CycleType';
 import type UnknownNameType from '../nodes/UnknownNameType';
 import type Type from '../nodes/Type';
+import LinkedDescription from './LinkedDescription';
 
 const WRITE_DOC = 'TBD';
 
@@ -53,6 +54,10 @@ const eng_serious: Translation = {
         row: 'row',
         set: 'set',
         key: 'key',
+    },
+    evaluation: {
+        unevaluated: 'the selected node did not evaluate',
+        done: 'done evaluating',
     },
     nodes: {
         Dimension: {
@@ -152,7 +157,7 @@ const eng_serious: Translation = {
             finish: 'name (1) (name)',
         },
         Block: {
-            description: 'a sequence of binds and expressions',
+            description: 'block',
             statement: 'statement',
             start: 'start evaluating the statements',
             finish: 'evaluate to the final value, (1)',
@@ -214,7 +219,7 @@ const eng_serious: Translation = {
             ) =>
                 node.type
                     ? node.type.getDescription(translation, context)
-                    : 'an expression',
+                    : 'expression placeholder',
             start: "halting, can't evaluate a placeholder",
             placeholder: 'expression',
         },
@@ -348,8 +353,8 @@ const eng_serious: Translation = {
             finish: 'evaluated to (1)',
         },
         UnparsableExpression: {
-            description: 'unparsable',
-            start: "can't evluate unparsable code, stopping",
+            description: 'sequence of words',
+            start: "can't evaluate unparsable code, stopping",
         },
         Update: {
             description: 'update rows in a table',
@@ -980,17 +985,43 @@ const eng_serious: Translation = {
         },
     },
     exceptions: {
-        cycle: (node) => `(${node.id}) depends on itself.`,
-        limit: () => 'evaluated too many functions',
-        none: () => 'not evaluating any functions',
-        infinite: () => 'possible infinite loop',
-        function: (node) => `Couldn't find function (${node.id})`,
-        name: (node) => `Couldn't find (${node.id})`,
-        type: (expected) => `expected ${expected.toWordplay()}`,
-        placeholder: (node) => `(${node.id}) isn't implemented`,
-        unparsable: (node) => `(${node.id}) isn't parsable.`,
+        function: (node, type) =>
+            LinkedDescription.with(
+                'no function named ',
+                node,
+                ' in ',
+                type === undefined ? ' scope' : type
+            ),
+        name: (node, scope) =>
+            LinkedDescription.with(
+                'nothing named ',
+                node,
+                ' in ',
+                scope === undefined ? ' scope' : scope
+            ),
+        cycle: (node) => LinkedDescription.with(node, ' depends on itself'),
+        functionlimit: (fun) =>
+            LinkedDescription.with(
+                'evaluated too many functions, especially ',
+                fun
+            ),
+        steplimit: 'evaluated too many steps in this function',
+        type: (expected, given) =>
+            LinkedDescription.with(
+                'expected ',
+                expected,
+                ' but received ',
+                given
+            ),
+        placeholder: (node) =>
+            LinkedDescription.with('this ', node, ' is not implemented'),
+        unparsable: (node) =>
+            LinkedDescription.with('this ', node, ' is not parsable'),
         value: (node) =>
-            `Expected a value after evaluating (${node.id}), but there wasn't one.`,
+            LinkedDescription.with(
+                node,
+                ' expected a value, but did not receive one'
+            ),
     },
     conflict: {
         BorrowCycle: {
@@ -1249,14 +1280,14 @@ const eng_serious: Translation = {
     },
     ui: {
         tooltip: {
-            play: 'Evaluate the program fully',
-            pause: 'Evaluate the program one step at a time',
-            back: 'Step back one step',
-            out: 'Step out of this function',
-            forward: "Advance one step in the program's evaluation",
-            present: 'Advance to the present',
-            reset: 'Restart the evaluation of the project from the beginning.',
-            home: 'Return to the types menu',
+            play: 'evaluate the program fully',
+            pause: 'evaluate the program one step at a time',
+            back: 'step back one step',
+            out: 'step out of this function',
+            forward: "advance one step in the program's evaluation",
+            present: 'advance to the present',
+            reset: 'restart the evaluation of the project from the beginning.',
+            home: 'return to the types menu',
         },
     },
     input: {

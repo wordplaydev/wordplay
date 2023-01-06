@@ -20,7 +20,7 @@ import StartFinish from '../runtime/StartFinish';
 import type { Replacement } from './Node';
 import type Translation from '../translations/Translation';
 import AtomicExpression from './AtomicExpression';
-import NoEvaluationException from '../runtime/NoEvaluationException';
+import InternalException from '../runtime/InternalException';
 
 export default class ConversionDefinition extends AtomicExpression {
     readonly docs: Docs | undefined;
@@ -136,7 +136,10 @@ export default class ConversionDefinition extends AtomicExpression {
     evaluate(evaluator: Evaluator) {
         const context = evaluator.getCurrentEvaluation();
         if (context === undefined)
-            return new NoEvaluationException(evaluator, this);
+            return new InternalException(
+                evaluator,
+                'there is no evaluation, which should be impossible'
+            );
 
         const value = new Conversion(this, context);
 

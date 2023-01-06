@@ -25,12 +25,12 @@ import Context from '../nodes/Context';
 // Import this last, after everything else, to avoid cycles.
 import Native from '../native/NativeBindings';
 import { Animations } from '../output/Animation';
-import NameException from './NameException';
 import { MAX_STREAM_LENGTH } from './Stream';
 import Start from './Start';
 import Finish from './Finish';
 import EvaluationLimitException from './EvaluationLimitException';
 import StepLimitException from './StepLimitException';
+import TypeException from './TypeException';
 
 /** Anything that wants to listen to changes in the state of this evaluator */
 export type EvaluationObserver = () => void;
@@ -523,7 +523,11 @@ export default class Evaluator {
         const value =
             // If it seems like we're stuck in an infinite (recursive) loop, halt.
             this.evaluations.length > MAX_CALL_STACK_DEPTH
-                ? new EvaluationLimitException(this, evaluation.getCreator())
+                ? new EvaluationLimitException(
+                      this,
+                      evaluation.getCreator(),
+                      this.evaluations.map((e) => e.getDefinition())
+                  )
                 : // If it seems like we're evaluating something very time consuming, halt.
                 this.#latestStepCount > MAX_STEP_COUNT
                 ? new StepLimitException(this, evaluation.getCreator())
@@ -767,17 +771,15 @@ export default class Evaluator {
     }
 
     /** See the value on top. */
-    peekValue(): Value {
-        return this.evaluations.length > 0
-            ? this.evaluations[0].peekValue()
-            : new ValueException(this, this.project.main);
+    peekValue(): Value | undefined {
+        return this.evaluations[0]?.peekValue();
     }
 
     /** Get the value on the top of the stack. */
-    popValue(expected: Type | undefined): Value {
+    popValue(requestor: Expression, expected?: Type): Value {
         return this.evaluations.length > 0
-            ? this.evaluations[0].popValue(expected)
-            : new ValueException(this, this.project.main);
+            ? this.evaluations[0].popValue(requestor, expected)
+            : new ValueException(this, requestor);
     }
 
     /** Tell the current evaluation to jump to a new instruction. */
@@ -848,14 +850,8 @@ export default class Evaluator {
     }
 
     /** Resolve the given name in the current execution context. */
-    resolve(name: string | Names): Value {
-        return (
-            this.evaluations[0].resolve(name) ??
-            new NameException(
-                this.getCurrentStep()?.node ?? this.project.main,
-                this
-            )
-        );
+    resolve(name: string | Names): Value | undefined {
+        return this.evaluations[0].resolve(name);
     }
 
     /** A convenience function for evaluating a given function and inputs. */
@@ -890,5 +886,16 @@ export default class Evaluator {
 
         // Return the latest value of the function's expression, and if it was a stream, it's latest value.
         return frame.peekValue();
+    }
+
+    /** Utility function for generating a missing value exception */
+    getValueOrTypeException(
+        expression: Expression,
+        expected: Type,
+        value: Value | Evaluation | undefined
+    ) {
+        return value === undefined || value instanceof Evaluation
+            ? new ValueException(this, expression)
+            : new TypeException(this, expected, value);
     }
 }
