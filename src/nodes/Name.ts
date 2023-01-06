@@ -90,7 +90,7 @@ export default class Name extends Node {
         );
     }
 
-    getDescription(translation: Translation) {
-        return translation.nodes.Name.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.nodes.Name;
     }
 }

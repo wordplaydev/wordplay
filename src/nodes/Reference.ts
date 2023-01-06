@@ -224,12 +224,8 @@ export default class Reference extends AtomicExpression {
         return this.name;
     }
 
-    getDescription(translation: Translation, context: Context) {
-        return translation.expressions.Reference.description(
-            this,
-            translation,
-            context
-        );
+    getNodeTranslation(translation: Translation) {
+        return translation.expressions.Reference;
     }
 
     getStartExplanations(translation: Translation) {

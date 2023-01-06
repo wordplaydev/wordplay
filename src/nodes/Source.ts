@@ -24,6 +24,7 @@ import StructureDefinition from './StructureDefinition';
 import type Spaces from '../parser/Spaces';
 import None from '../runtime/None';
 import type SetOpenToken from './SetOpenToken';
+import type Translation from '../translations/Translation';
 
 /** A document representing executable Wordplay code and it's various metadata, such as conflicts, tokens, and evaulator. */
 export default class Source extends Expression {
@@ -558,6 +559,10 @@ export default class Source extends Expression {
 
     getDescription() {
         return '';
+    }
+
+    getNodeTranslation(translation: Translation) {
+        return translation.expressions.Source;
     }
 
     getStartExplanations() {

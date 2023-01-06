@@ -134,7 +134,7 @@ export default class Names extends Node {
         return this.names.find((a) => a.getName() === name) !== undefined;
     }
 
-    getDescription(translation: Translation) {
-        return translation.nodes.Names.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.nodes.Names;
     }
 }

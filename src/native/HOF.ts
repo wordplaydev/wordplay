@@ -59,8 +59,8 @@ export default abstract class HOF extends Expression {
         return this;
     }
 
-    getDescription(translation: Translation) {
-        return translation.expressions.HOF.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.expressions.HOF;
     }
 
     getStartExplanations(translation: Translation) {

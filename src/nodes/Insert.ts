@@ -200,8 +200,8 @@ export default class Insert extends Expression {
         return this.insert;
     }
 
-    getDescription(translation: Translation) {
-        return translation.expressions.Insert.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.expressions.Insert;
     }
 
     getStartExplanations(translation: Translation) {

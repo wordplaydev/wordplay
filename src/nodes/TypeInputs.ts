@@ -36,7 +36,7 @@ export default class TypeInputs extends Node {
 
     computeConflicts() {}
 
-    getDescription(translation: Translation) {
-        return translation.nodes.TypeInputs.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.nodes.TypeInputs;
     }
 }

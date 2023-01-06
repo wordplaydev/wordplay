@@ -144,6 +144,11 @@ export default class ExpressionPlaceholder extends AtomicExpression {
                   context
               );
     }
+
+    getNodeTranslation(translation: Translation) {
+        return translation.expressions.ExpressionPlaceholder;
+    }
+
     getStartExplanations(translation: Translation) {
         return translation.expressions.ExpressionPlaceholder.start;
     }

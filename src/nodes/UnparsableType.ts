@@ -36,7 +36,7 @@ export default class UnparsableType extends Type {
         ) as this;
     }
 
-    getDescription(translation: Translation) {
-        return translation.types.UnparsableType.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.types.UnparsableType;
     }
 }

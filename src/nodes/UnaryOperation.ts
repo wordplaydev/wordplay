@@ -187,6 +187,10 @@ export default class UnaryOperation extends Expression {
             : translation.expressions.UnaryOperation.description;
     }
 
+    getNodeTranslation(translation: Translation) {
+        return translation.expressions.UnaryOperation;
+    }
+
     getStartExplanations(translation: Translation) {
         return translation.expressions.UnaryOperation.start;
     }

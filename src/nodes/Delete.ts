@@ -136,8 +136,8 @@ export default class Delete extends Expression {
         return this.del;
     }
 
-    getDescription(translation: Translation) {
-        return translation.expressions.Delete.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.expressions.Delete;
     }
 
     getStartExplanations(translation: Translation) {

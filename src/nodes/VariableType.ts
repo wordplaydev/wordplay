@@ -50,7 +50,7 @@ export default class VariableType extends Type {
         return new VariableType(this.definition) as this;
     }
 
-    getDescription(translation: Translation) {
-        return translation.types.VariableType.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.types.VariableType;
     }
 }

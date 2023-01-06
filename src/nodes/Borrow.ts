@@ -233,8 +233,8 @@ export default class Borrow extends AtomicExpression {
         return this.source ?? this.borrow;
     }
 
-    getDescription(translation: Translation) {
-        return translation.expressions.Borrow.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.expressions.Borrow;
     }
 
     getStartExplanations(translation: Translation) {

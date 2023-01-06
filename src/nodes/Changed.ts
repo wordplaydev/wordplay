@@ -125,8 +125,8 @@ export default class Changed extends AtomicExpression {
         return this.change;
     }
 
-    getDescription(translation: Translation) {
-        return translation.expressions.Changed.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.expressions.Changed;
     }
 
     getStartExplanations(translation: Translation) {

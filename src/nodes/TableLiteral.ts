@@ -140,8 +140,8 @@ export default class TableLiteral extends Expression {
         return this.rows[this.rows.length - 1] ?? this.type;
     }
 
-    getDescription(translation: Translation) {
-        return translation.expressions.TableLiteral.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.expressions.TableLiteral;
     }
 
     getStartExplanations(translation: Translation) {

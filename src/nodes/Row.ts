@@ -48,7 +48,7 @@ export default class Row extends Node {
         ) as this;
     }
 
-    getDescription(translation: Translation) {
-        return translation.nodes.Row.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.nodes.Row;
     }
 }

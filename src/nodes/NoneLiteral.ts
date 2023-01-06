@@ -79,8 +79,8 @@ export default class NoneLiteral extends AtomicExpression {
         return current;
     }
 
-    getDescription(translation: Translation) {
-        return translation.expressions.NoneLiteral.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.expressions.NoneLiteral;
     }
 
     getStartExplanations(translation: Translation) {

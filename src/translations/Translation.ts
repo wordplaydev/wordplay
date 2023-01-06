@@ -34,6 +34,7 @@ export type Description = string | LinkedDescription;
 
 export interface NodeTranslation {
     description: Description;
+    purpose: Description;
 }
 
 export interface DynamicNodeTranslation<NodeType extends Node> {
@@ -42,6 +43,7 @@ export interface DynamicNodeTranslation<NodeType extends Node> {
         translation: Translation,
         context: Context
     ) => Description;
+    purpose: Description;
 }
 
 export interface AtomicExpressionTranslation {
@@ -196,6 +198,7 @@ type Translation = {
         Select: NodeTranslation & ExpressionTranslation;
         SetLiteral: NodeTranslation & ExpressionTranslation;
         SetOrMapAccess: NodeTranslation & ExpressionTranslation;
+        Source: NodeTranslation;
         StructureDefinition: NodeTranslation & AtomicExpressionTranslation;
         TableLiteral: NodeTranslation & ExpressionTranslation;
         Template: NodeTranslation & ExpressionTranslation;

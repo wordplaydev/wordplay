@@ -154,8 +154,8 @@ export default class Previous extends Expression {
         return this.previous;
     }
 
-    getDescription(translation: Translation) {
-        return translation.expressions.Previous.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.expressions.Previous;
     }
 
     getStartExplanations(translation: Translation) {

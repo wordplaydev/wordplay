@@ -21,8 +21,8 @@ export default class AnyType extends Type {
 
     computeConflicts() {}
 
-    getDescription(translation: Translation) {
-        return translation.types.AnyType.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.types.AnyType;
     }
 
     toWordplay() {

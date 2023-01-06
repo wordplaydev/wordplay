@@ -154,8 +154,8 @@ export default class Program extends Expression {
         return this.end;
     }
 
-    getDescription(translation: Translation) {
-        return translation.expressions.Program.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.expressions.Program;
     }
 
     getStartExplanations(translation: Translation) {

@@ -135,8 +135,8 @@ export default class ListLiteral extends Expression {
         return this.close ?? this.values[this.values.length - 1] ?? this.open;
     }
 
-    getDescription(translation: Translation) {
-        return translation.expressions.ListLiteral.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.expressions.ListLiteral;
     }
 
     getStartExplanations(translation: Translation) {

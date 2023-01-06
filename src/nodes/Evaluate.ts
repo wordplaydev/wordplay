@@ -682,8 +682,8 @@ export default class Evaluate extends Expression {
         return this.close ?? this.func;
     }
 
-    getDescription(translation: Translation) {
-        return translation.expressions.Evaluate.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.expressions.Evaluate;
     }
 
     getStartExplanations(translation: Translation) {

@@ -166,8 +166,8 @@ export default class ConversionDefinition extends AtomicExpression {
         return this.arrow;
     }
 
-    getDescription(translation: Translation) {
-        return translation.expressions.ConversionDefinition.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.expressions.ConversionDefinition;
     }
 
     getStartExplanations(translation: Translation) {

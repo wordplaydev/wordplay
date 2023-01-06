@@ -292,8 +292,8 @@ export default class FunctionDefinition extends Expression {
         return current;
     }
 
-    getDescription(translation: Translation) {
-        return translation.expressions.FunctionDefinition.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.expressions.FunctionDefinition;
     }
 
     getStartExplanations(translation: Translation) {

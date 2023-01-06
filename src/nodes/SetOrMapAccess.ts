@@ -170,8 +170,8 @@ export default class SetOrMapAccess extends Expression {
         return this.close ?? this.key;
     }
 
-    getDescription(translation: Translation) {
-        return translation.expressions.SetOrMapAccess.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.expressions.SetOrMapAccess;
     }
 
     getStartExplanations(translation: Translation) {

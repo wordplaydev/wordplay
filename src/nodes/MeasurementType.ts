@@ -183,11 +183,7 @@ export default class MeasurementType extends NativeType {
         return 'measurement';
     }
 
-    getDescription(translation: Translation, context: Context) {
-        return translation.types.MeasurementType.description(
-            this,
-            translation,
-            context
-        );
+    getNodeTranslation(translation: Translation) {
+        return translation.types.MeasurementType;
     }
 }

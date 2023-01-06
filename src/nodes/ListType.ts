@@ -83,11 +83,7 @@ export default class ListType extends NativeType {
             : undefined;
     }
 
-    getDescription(translation: Translation, context: Context) {
-        return translation.types.ListType.description(
-            this,
-            translation,
-            context
-        );
+    getNodeTranslation(translation: Translation) {
+        return translation.types.ListType;
     }
 }

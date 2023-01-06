@@ -48,12 +48,8 @@ export default abstract class UnknownType<
         ];
     }
 
-    getDescription(translation: Translation, context: Context): Description {
-        return translation.types.UnknownType.description(
-            this,
-            translation,
-            context
-        );
+    getNodeTranslation(translation: Translation) {
+        return translation.types.UnknownType;
     }
 
     abstract getReason(translation: Translation, context: Context): Description;

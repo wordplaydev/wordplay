@@ -44,7 +44,7 @@ export default class NoneType extends NativeType {
         ) as this;
     }
 
-    getDescription(translation: Translation) {
-        return translation.types.NoneType.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.types.NoneType;
     }
 }

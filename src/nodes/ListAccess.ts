@@ -176,8 +176,8 @@ export default class ListAccess extends Expression {
         return current;
     }
 
-    getDescription(translation: Translation) {
-        return translation.expressions.ListAccess.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.expressions.ListAccess;
     }
 
     getStartExplanations(translation: Translation) {

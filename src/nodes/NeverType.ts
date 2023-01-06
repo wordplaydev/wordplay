@@ -27,7 +27,7 @@ export default class NeverType extends Type {
         return new NeverType() as this;
     }
 
-    getDescription(translation: Translation) {
-        return translation.types.NeverType.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.types.NeverType;
     }
 }

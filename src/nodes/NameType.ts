@@ -126,11 +126,7 @@ export default class NameType extends Type {
         return 'name';
     }
 
-    getDescription(translation: Translation, context: Context) {
-        return translation.types.NameType.description(
-            this,
-            translation,
-            context
-        );
+    getNodeTranslation(translation: Translation) {
+        return translation.types.NameType;
     }
 }

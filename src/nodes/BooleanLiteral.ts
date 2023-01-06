@@ -88,8 +88,8 @@ export default class BooleanLiteral extends AtomicExpression {
         return this.value;
     }
 
-    getDescription(translation: Translation) {
-        return translation.expressions.BooleanLiteral.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.expressions.BooleanLiteral;
     }
 
     getStartExplanations(translation: Translation) {

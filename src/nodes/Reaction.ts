@@ -167,8 +167,8 @@ export default class Reaction extends Expression {
         return this.delta;
     }
 
-    getDescription(translation: Translation) {
-        return translation.expressions.Reaction.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.expressions.Reaction;
     }
 
     getStartExplanations(translation: Translation) {

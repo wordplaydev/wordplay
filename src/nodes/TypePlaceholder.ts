@@ -51,7 +51,7 @@ export default class TypePlaceholder extends Type {
         return true;
     }
 
-    getDescription(translation: Translation) {
-        return translation.types.TypePlaceholder.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.types.TypePlaceholder;
     }
 }

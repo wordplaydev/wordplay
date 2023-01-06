@@ -208,8 +208,8 @@ export default class Convert extends Expression {
         return this.convert;
     }
 
-    getDescription(translation: Translation) {
-        return translation.expressions.Convert.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.expressions.Convert;
     }
 
     getStartExplanations(translation: Translation) {

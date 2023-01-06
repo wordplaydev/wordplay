@@ -195,8 +195,8 @@ export default class Update extends Expression {
         return this.update;
     }
 
-    getDescription(translation: Translation) {
-        return translation.expressions.Update.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.expressions.Update;
     }
 
     getStartExplanations(translation: Translation) {

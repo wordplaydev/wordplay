@@ -174,8 +174,8 @@ export default class MapLiteral extends Expression {
         );
     }
 
-    getDescription(translation: Translation) {
-        return translation.expressions.MapLiteral.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.expressions.MapLiteral;
     }
 
     getStartExplanations(translation: Translation) {

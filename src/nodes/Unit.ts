@@ -14,7 +14,6 @@ import LanguageToken from './LanguageToken';
 import TokenType from './TokenType';
 import type { Replacement } from './Node';
 import type Translation from '../translations/Translation';
-import type Context from './Context';
 
 export default class Unit extends Type {
     /** In case this was parsed, we keep the original tokens around. */
@@ -303,7 +302,7 @@ export default class Unit extends Type {
         return Unit.get(newExponents);
     }
 
-    getDescription(translation: Translation, context: Context) {
-        return translation.types.Unit.description(this, translation, context);
+    getNodeTranslation(translation: Translation) {
+        return translation.types.Unit;
     }
 }

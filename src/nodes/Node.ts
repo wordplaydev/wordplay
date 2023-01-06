@@ -5,7 +5,11 @@ import type Spaces from '../parser/Spaces';
 import type Type from './Type';
 import type Token from './Token';
 import type Translation from '../translations/Translation';
-import type { Description } from '../translations/Translation';
+import type {
+    Description,
+    DynamicNodeTranslation,
+    NodeTranslation,
+} from '../translations/Translation';
 
 /* A global ID for nodes, for helping index them */
 let NODE_ID_COUNTER = 0;
@@ -606,10 +610,20 @@ export default abstract class Node {
     /**
      * Given a translation and a context, generate a description of the node.
      * */
-    abstract getDescription(
-        translation: Translation,
-        context: Context
-    ): Description;
+    getDescription(translation: Translation, context: Context): Description {
+        const trans = this.getNodeTranslation(translation);
+        return trans.description instanceof Function
+            ? trans.description(this, translation, context)
+            : trans.description;
+    }
+
+    getPurpose(translation: Translation): Description {
+        return this.getNodeTranslation(translation).purpose;
+    }
+
+    abstract getNodeTranslation(
+        translation: Translation
+    ): NodeTranslation | DynamicNodeTranslation<any>;
 
     /** Provide localized labels for any child that can be a placeholder. */
     getChildPlaceholderLabel(

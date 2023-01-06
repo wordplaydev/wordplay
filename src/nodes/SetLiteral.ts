@@ -126,8 +126,8 @@ export default class SetLiteral extends Expression {
         return this.close ?? this.values[this.values.length - 1] ?? this.open;
     }
 
-    getDescription(translation: Translation) {
-        return translation.expressions.SetLiteral.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.expressions.SetLiteral;
     }
 
     getStartExplanations(translation: Translation) {

@@ -127,7 +127,7 @@ export default class FunctionType extends Type {
         return getEvaluationInputConflicts(this.inputs);
     }
 
-    getDescription(translation: Translation) {
-        return translation.types.FunctionType.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.types.FunctionType;
     }
 }

@@ -76,8 +76,8 @@ export default class DocumentedExpression extends AtomicExpression {
         return this.expression;
     }
 
-    getDescription(translation: Translation) {
-        return translation.expressions.DocumentedExpression.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.expressions.DocumentedExpression;
     }
 
     getStartExplanations(translation: Translation) {

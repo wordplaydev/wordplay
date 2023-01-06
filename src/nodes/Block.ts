@@ -253,8 +253,8 @@ export default class Block extends Expression {
             : current;
     }
 
-    getDescription(translation: Translation) {
-        return translation.expressions.Block.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.expressions.Block;
     }
 
     getStartExplanations(translation: Translation) {

@@ -110,11 +110,7 @@ export default class MapType extends NativeType {
             : undefined;
     }
 
-    getDescription(translation: Translation, context: Context) {
-        return translation.types.MapType.description(
-            this,
-            translation,
-            context
-        );
+    getNodeTranslation(translation: Translation) {
+        return translation.types.MapType;
     }
 }

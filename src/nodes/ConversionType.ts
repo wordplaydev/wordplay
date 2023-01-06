@@ -57,7 +57,7 @@ export default class ConversionType extends Type {
         ) as this;
     }
 
-    getDescription(translation: Translation) {
-        return translation.types.ConversionType.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.types.ConversionType;
     }
 }

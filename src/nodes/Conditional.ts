@@ -176,8 +176,8 @@ export default class Conditional extends Expression {
         return this.conditional;
     }
 
-    getDescription(translation: Translation) {
-        return translation.expressions.Conditional.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.expressions.Conditional;
     }
 
     getStartExplanations(translation: Translation) {

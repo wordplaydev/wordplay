@@ -6,7 +6,6 @@ import type TypeSet from './TypeSet';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type { Replacement } from './Node';
 import type Translation from '../translations/Translation';
-import type { Description } from '../translations/Translation';
 
 export default class BooleanType extends NativeType {
     readonly type: Token;
@@ -45,7 +44,7 @@ export default class BooleanType extends NativeType {
         return 'boolean';
     }
 
-    getDescription(translation: Translation): Description {
-        return translation.types.BooleanType.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.types.BooleanType;
     }
 }

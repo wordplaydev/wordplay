@@ -95,25 +95,35 @@ const eng_serious: Translation = {
                     }[dim] ?? dim
                 );
             },
+            purpose: WRITE_DOC,
         },
         Doc: {
             description: 'documentation',
+            purpose: WRITE_DOC,
         },
         Docs: {
             description: 'a set of documentation',
+            purpose: WRITE_DOC,
         },
         KeyValue: {
             description: 'a key/value pair',
+            purpose: WRITE_DOC,
         },
-        Language: { description: 'a language tag' },
+        Language: {
+            description: 'a language tag',
+            purpose: WRITE_DOC,
+        },
         Name: {
             description: 'a name',
+            purpose: WRITE_DOC,
         },
         Names: {
             description: 'a list of names',
+            purpose: WRITE_DOC,
         },
         Row: {
             description: 'a row of values',
+            purpose: WRITE_DOC,
         },
         Token: {
             description: (token: Token) =>
@@ -133,41 +143,50 @@ const eng_serious: Translation = {
                     : token.is(TokenType.SHARE)
                     ? 'share'
                     : 'a token',
+            purpose: WRITE_DOC,
         },
         TypeInputs: {
             description: 'a list of type inputs',
+            purpose: WRITE_DOC,
         },
         TypeVariable: {
             description: 'a type variable',
+            purpose: WRITE_DOC,
         },
         TypeVariables: {
             description: 'a list of type variables',
+            purpose: WRITE_DOC,
         },
     },
     expressions: {
         BinaryOperation: {
             description: 'evaluate unknown function two inputs',
+            purpose: WRITE_DOC,
             right: 'input',
             start: '(left) first',
             finish: 'evaluate (operator) on (1) with (2)',
         },
         Bind: {
             description: 'name a value',
+            purpose: WRITE_DOC,
             start: 'evaluate (value) first',
             finish: 'name (1) (name)',
         },
         Block: {
             description: 'block',
+            purpose: WRITE_DOC,
             statement: 'statement',
             start: 'start evaluating the statements',
             finish: 'evaluate to the final value, (1)',
         },
         BooleanLiteral: {
             description: '(value)',
+            purpose: WRITE_DOC,
             start: 'evaluate to (value)',
         },
         Borrow: {
             description: 'borrow a named value',
+            purpose: WRITE_DOC,
             start: 'borrow (name) from (source)',
             source: 'source',
             name: 'name',
@@ -175,11 +194,13 @@ const eng_serious: Translation = {
         },
         Changed: {
             description: 'check if stream caused evaluation',
+            purpose: WRITE_DOC,
             start: 'check if (1) caused evaluation',
             stream: 'stream',
         },
         Conditional: {
             description: 'if (condition) is true, (yes), otherwise (no)',
+            purpose: WRITE_DOC,
             start: 'check (condition) first',
             finish: 'evaluated to (1)',
             condition: 'condition',
@@ -188,24 +209,29 @@ const eng_serious: Translation = {
         },
         ConversionDefinition: {
             description: 'define a conversion from one type to another',
+            purpose: WRITE_DOC,
             start: 'conversion from (input) to (output) defined',
         },
         Convert: {
             description: 'convert a value to a different type',
+            purpose: WRITE_DOC,
             start: 'find a series of conversions from (expression) to (type)',
             finish: 'converted to (1)',
         },
         Delete: {
             description: 'delete a row from a table',
+            purpose: WRITE_DOC,
             start: 'evaluate the table first',
             finish: 'evaluated to new table, (1)',
         },
         DocumentedExpression: {
             description: 'a documented expression',
+            purpose: WRITE_DOC,
             start: 'evaluate the documented expression',
         },
         Evaluate: {
             description: 'evaluate a function',
+            purpose: WRITE_DOC,
             start: 'evaluate the inputs first',
             finish: 'evaluated to (1)',
             function: 'function',
@@ -220,41 +246,49 @@ const eng_serious: Translation = {
                 node.type
                     ? node.type.getDescription(translation, context)
                     : 'expression placeholder',
+            purpose: WRITE_DOC,
             start: "halting, can't evaluate a placeholder",
             placeholder: 'expression',
         },
         FunctionDefinition: {
             description: 'a function',
+            purpose: WRITE_DOC,
             start: 'define this function',
         },
         HOF: {
             description: 'a higher order function',
+            purpose: WRITE_DOC,
             start: 'start evaluating',
             finish: 'finish evaluating',
         },
         Insert: {
             description: 'insert a row from a table',
+            purpose: WRITE_DOC,
             start: 'evaluate the table first',
             finish: 'evaluated to new table, (1)',
         },
         Is: {
             description: 'check if value is type',
+            purpose: WRITE_DOC,
             start: 'get the value',
             finish: 'check if (1) is (type)',
         },
         ListAccess: {
             description: 'get a value in a list',
+            purpose: WRITE_DOC,
             start: 'evaluate (list)',
             finish: 'evaluated to (1)',
         },
         ListLiteral: {
             description: 'a list of values',
+            purpose: WRITE_DOC,
             start: 'evaluate each item',
             finish: 'evaluated to (1)',
             item: 'item',
         },
         MapLiteral: {
             description: 'a list of mappings from keys to values',
+            purpose: WRITE_DOC,
             start: 'evaluate each key and value',
             finish: 'evaluated to (1)',
         },
@@ -267,34 +301,41 @@ const eng_serious: Translation = {
                     : node.unit.isUnitless()
                     ? 'a number'
                     : 'a number with a unit',
+            purpose: WRITE_DOC,
             start: 'evaluate to (value)',
         },
         NativeExpression: {
             description: 'a native expression',
+            purpose: WRITE_DOC,
             start: 'evaluate the expression',
         },
         NoneLiteral: {
             description: 'nothing',
+            purpose: WRITE_DOC,
             start: 'evalute to nothing',
         },
         Previous: {
             description: 'a previous stream value',
+            purpose: WRITE_DOC,
             start: 'first get (stream)',
             finish: 'evaluated to (1)',
         },
         Program: {
             description: 'a program',
+            purpose: WRITE_DOC,
             start: 'first evaluate borrows',
             finish: 'evaluated to (1)',
         },
         PropertyReference: {
             description: 'a property on a structure',
+            purpose: WRITE_DOC,
             start: 'first get (structure)',
             finish: 'evaluated to (1)',
             property: 'property',
         },
         Reaction: {
             description: 'a reaction to a stream change',
+            purpose: WRITE_DOC,
             start: 'first check if the stream has changed',
             finish: 'the next stream value is (1)',
             initial: 'initial',
@@ -306,58 +347,74 @@ const eng_serious: Translation = {
                 translation: Translation,
                 context: Context
             ) =>
-                node.resolve(context)?.getDescription(translation) ??
+                node.resolve(context)?.getDescription(translation, context) ??
                 node.getName(),
+            purpose: WRITE_DOC,
             start: 'resolve (name)',
         },
         Select: {
             description: 'select rows from a table',
+            purpose: WRITE_DOC,
             start: 'first get (table)',
             finish: 'evaluated to rows (1)',
         },
         SetLiteral: {
             description: 'a set of unique values',
+            purpose: WRITE_DOC,
             start: 'evaluate each value',
             finish: 'evaluated to (1)',
         },
         SetOrMapAccess: {
             description: 'get a value from a set or map',
+            purpose: WRITE_DOC,
             start: 'get the set or map first',
             finish: 'evaluated to (1)',
         },
+        Source: {
+            description: 'a named program',
+            purpose: WRITE_DOC,
+        },
         StructureDefinition: {
             description: 'a structure definition',
+            purpose: WRITE_DOC,
             start: 'define the structure',
         },
         TableLiteral: {
             description: 'a table',
+            purpose: WRITE_DOC,
             start: 'first evaluate the rows',
             finish: 'evaluated to (1)',
         },
         Template: {
             description: 'a text template',
+            purpose: WRITE_DOC,
             start: 'evaluate each expression',
             finish: 'evaluated to (1)',
         },
         TextLiteral: {
             description: 'some text',
+            purpose: WRITE_DOC,
             start: 'evaluate to the text',
         },
         This: {
             description: 'get the structure evaluting this',
+            purpose: WRITE_DOC,
             start: 'evaluated to (1)',
         },
         UnaryOperation: {
             description: 'evaluate function ',
+            purpose: WRITE_DOC,
             start: 'evaluate the value first',
             finish: 'evaluated to (1)',
         },
         UnparsableExpression: {
+            purpose: WRITE_DOC,
             description: 'sequence of words',
             start: "can't evaluate unparsable code, stopping",
         },
         Update: {
             description: 'update rows in a table',
+            purpose: WRITE_DOC,
             start: 'first get (table)',
             finish: 'evaluated to new table (1)',
         },
@@ -365,21 +422,27 @@ const eng_serious: Translation = {
     types: {
         AnyType: {
             description: 'any type',
+            purpose: WRITE_DOC,
         },
         BooleanType: {
             description: 'boolean',
+            purpose: WRITE_DOC,
         },
         ConversionType: {
             description: 'a conversion function type',
+            purpose: WRITE_DOC,
         },
         ExceptionType: {
             description: 'an exception',
+            purpose: WRITE_DOC,
         },
         FunctionDefinitionType: {
             description: 'a type of function',
+            purpose: WRITE_DOC,
         },
         FunctionType: {
             description: 'a type of function',
+            purpose: WRITE_DOC,
         },
         ListType: {
             description: (
@@ -393,6 +456,7 @@ const eng_serious: Translation = {
                           translation,
                           context
                       )}`,
+            purpose: WRITE_DOC,
         },
         MapType: {
             description: (
@@ -406,18 +470,23 @@ const eng_serious: Translation = {
                           translation,
                           context
                       )} to ${node.value.getDescription(translation, context)}`,
+            purpose: WRITE_DOC,
         },
         MeasurementType: {
             description: () => 'a number',
+            purpose: WRITE_DOC,
         },
         NameType: {
             description: (node: NameType) => `a ${node.name.getText()}`,
+            purpose: WRITE_DOC,
         },
         NeverType: {
             description: 'an impossible type',
+            purpose: WRITE_DOC,
         },
         NoneType: {
             description: 'a nothing type',
+            purpose: WRITE_DOC,
         },
         SetType: {
             description: (
@@ -431,6 +500,7 @@ const eng_serious: Translation = {
                           translation,
                           context
                       )}`,
+            purpose: WRITE_DOC,
         },
         StreamType: {
             description: (
@@ -442,9 +512,11 @@ const eng_serious: Translation = {
                     translation,
                     context
                 )}`,
+            purpose: WRITE_DOC,
         },
         StructureDefinitionType: {
             description: 'a type of structure',
+            purpose: WRITE_DOC,
         },
         UnknownType: {
             description: (
@@ -457,15 +529,19 @@ const eng_serious: Translation = {
                     .map((unknown) => unknown.getReason(translation, context))
                     .join(', because ')}`;
             },
+            purpose: WRITE_DOC,
         },
         TableType: {
             description: 'a type of table',
+            purpose: WRITE_DOC,
         },
         TextType: {
             description: 'text type',
+            purpose: WRITE_DOC,
         },
         TypePlaceholder: {
             description: 'a placeholder type',
+            purpose: WRITE_DOC,
         },
         UnionType: {
             description: (
@@ -480,6 +556,7 @@ const eng_serious: Translation = {
                     translation,
                     context
                 )}`,
+            purpose: WRITE_DOC,
         },
         Unit: {
             description: (node, translation, context) =>
@@ -491,49 +568,63 @@ const eng_serious: Translation = {
                     : node.toWordplay() === 'm/s'
                     ? 'velocity'
                     : 'a number with unit',
+            purpose: WRITE_DOC,
         },
         UnparsableType: {
             description: 'an unparsable type',
+            purpose: WRITE_DOC,
         },
         VariableType: {
             description: 'a variable type',
+            purpose: WRITE_DOC,
         },
         CycleType: {
             description: (node: CycleType) =>
                 `${node.expression.toWordplay()} depends on itself`,
+            purpose: WRITE_DOC,
         },
         UnknownVariableType: {
             description: "this type variable couldn't be inferred",
+            purpose: WRITE_DOC,
         },
         NotAListType: {
             description: 'not a list',
+            purpose: WRITE_DOC,
         },
         NoExpressionType: {
             description: 'there was no expression given',
+            purpose: WRITE_DOC,
         },
         NotAFunctionType: {
             description: 'not a function',
+            purpose: WRITE_DOC,
         },
         NotATableType: {
             description: 'not a table',
+            purpose: WRITE_DOC,
         },
         NotAStreamType: {
             description: 'not a stream',
+            purpose: WRITE_DOC,
         },
         NotASetOrMapType: {
             description: 'not a set or map',
+            purpose: WRITE_DOC,
         },
         NotEnclosedType: {
             description: 'not in a structure, conversion, or reaction',
+            purpose: WRITE_DOC,
         },
         NotImplementedType: {
             description: 'not implemented',
+            purpose: WRITE_DOC,
         },
         UnknownNameType: {
             description: (node: UnknownNameType) =>
                 node.name === undefined
                     ? "a name wasn't given"
                     : `${node.name.getText()} isn't defined`,
+            purpose: WRITE_DOC,
         },
     },
     native: {

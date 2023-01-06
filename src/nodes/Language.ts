@@ -71,7 +71,7 @@ export default class Language extends Node {
         return this.getLanguage() === lang.getLanguage();
     }
 
-    getDescription(translation: Translation) {
-        return translation.nodes.Language.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.nodes.Language;
     }
 }

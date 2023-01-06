@@ -143,8 +143,8 @@ export default class Template extends Expression {
         return this.expressions[this.expressions.length - 1] ?? this.open;
     }
 
-    getDescription(translation: Translation) {
-        return translation.expressions.Template.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.expressions.Template;
     }
 
     getStartExplanations(translation: Translation) {

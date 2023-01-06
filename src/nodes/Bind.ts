@@ -382,8 +382,8 @@ export default class Bind extends Expression {
         return value;
     }
 
-    getDescription(translation: Translation) {
-        return translation.expressions.Bind.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.expressions.Bind;
     }
 
     getStartExplanations(translation: Translation) {

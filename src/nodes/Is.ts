@@ -134,8 +134,8 @@ export default class Is extends Expression {
         return this.type;
     }
 
-    getDescription(translation: Translation) {
-        return translation.expressions.Is.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.expressions.Is;
     }
 
     getStartExplanations(translation: Translation) {

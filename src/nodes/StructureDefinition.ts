@@ -383,8 +383,8 @@ export default class StructureDefinition extends AtomicExpression {
         return this.names;
     }
 
-    getDescription(translation: Translation) {
-        return translation.expressions.StructureDefinition.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.expressions.StructureDefinition;
     }
 
     getStartExplanations(translation: Translation) {

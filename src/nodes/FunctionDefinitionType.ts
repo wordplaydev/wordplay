@@ -63,7 +63,7 @@ export default class FunctionDefinitionType extends Type {
             .join(' ')}${EVAL_CLOSE_SYMBOL}`;
     }
 
-    getDescription(translation: Translation) {
-        return translation.types.FunctionDefinitionType.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.types.FunctionDefinitionType;
     }
 }

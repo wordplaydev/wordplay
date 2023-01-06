@@ -1,8 +1,6 @@
 import UnicodeString from '../models/UnicodeString';
 import type Spaces from '../parser/Spaces';
-import type { Description } from '../translations/Translation';
 import type Translation from '../translations/Translation';
-import type Context from './Context';
 import Node, { type Replacement } from './Node';
 import TokenType from './TokenType';
 
@@ -37,8 +35,8 @@ export default class Token extends Node {
     }
     computeConflicts() {}
 
-    getDescription(translation: Translation, context: Context): Description {
-        return translation.nodes.Token.description(this, translation, context);
+    getNodeTranslation(translation: Translation) {
+        return translation.nodes.Token;
     }
 
     // TOKEN TYPES

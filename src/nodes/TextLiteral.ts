@@ -109,8 +109,8 @@ export default class TextLiteral extends AtomicExpression {
         return this.text;
     }
 
-    getDescription(translation: Translation) {
-        return translation.expressions.TextLiteral.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.expressions.TextLiteral;
     }
 
     getStartExplanations(translation: Translation) {

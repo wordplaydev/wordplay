@@ -70,8 +70,8 @@ export default class UnparsableExpression extends AtomicExpression {
         return this;
     }
 
-    getDescription(translation: Translation) {
-        return translation.expressions.UnparsableExpression.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.expressions.UnparsableExpression;
     }
 
     getStartExplanations(translation: Translation) {

@@ -43,7 +43,7 @@ export default class TypeVariable extends Node {
 
     computeConflicts() {}
 
-    getDescription(translation: Translation) {
-        return translation.nodes.TypeVariable.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.nodes.TypeVariable;
     }
 }

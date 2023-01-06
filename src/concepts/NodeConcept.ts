@@ -2,7 +2,7 @@ import Concept from './Concept';
 import type Node from '../nodes/Node';
 import type Context from '../nodes/Context';
 
-export default class ConstructConcept extends Concept {
+export default class NodeConcept extends Concept {
     readonly template: Node;
 
     constructor(template: Node, context: Context) {
@@ -33,7 +33,7 @@ export default class ConstructConcept extends Concept {
 
     equals(concept: Concept) {
         return (
-            concept instanceof ConstructConcept &&
+            concept instanceof NodeConcept &&
             concept.template.equals(this.template)
         );
     }

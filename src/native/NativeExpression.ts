@@ -84,8 +84,8 @@ export default class NativeExpression extends AtomicExpression {
         return this;
     }
 
-    getDescription(translation: Translation) {
-        return translation.expressions.NativeExpression.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.expressions.NativeExpression;
     }
 
     getStartExplanations(translation: Translation) {

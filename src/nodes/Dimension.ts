@@ -5,7 +5,6 @@ import { PRODUCT_SYMBOL } from '../parser/Symbols';
 import TokenType from './TokenType';
 import NameToken from './NameToken';
 import type Translation from '../translations/Translation';
-import type Context from './Context';
 
 export default class Dimension extends Node {
     readonly product: Token | undefined;
@@ -71,11 +70,7 @@ export default class Dimension extends Node {
 
     computeConflicts() {}
 
-    getDescription(translation: Translation, context: Context) {
-        return translation.nodes.Dimension.description(
-            this,
-            translation,
-            context
-        );
+    getNodeTranslation(translation: Translation) {
+        return translation.nodes.Dimension;
     }
 }

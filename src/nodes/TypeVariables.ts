@@ -63,7 +63,7 @@ export default class TypeVariables extends Node {
         return this.variables.some((variable) => variable.names.hasName(name));
     }
 
-    getDescription(translation: Translation) {
-        return translation.nodes.TypeVariables.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.nodes.TypeVariables;
     }
 }

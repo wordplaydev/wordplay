@@ -44,7 +44,7 @@ export default class ExceptionType extends Type {
         return new ExceptionType(this.exception) as this;
     }
 
-    getDescription(translation: Translation) {
-        return translation.types.ExceptionType.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.types.ExceptionType;
     }
 }

@@ -362,6 +362,10 @@ export default class BinaryOperation extends Expression {
         );
     }
 
+    getNodeTranslation(translation: Translation) {
+        return translation.expressions.BinaryOperation;
+    }
+
     getStart() {
         return this.operator;
     }

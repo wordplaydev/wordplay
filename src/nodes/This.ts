@@ -133,8 +133,8 @@ export default class This extends AtomicExpression {
         return this.dis;
     }
 
-    getDescription(translation: Translation) {
-        return translation.expressions.This.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.expressions.This;
     }
 
     getStartExplanations(translation: Translation) {

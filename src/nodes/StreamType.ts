@@ -60,11 +60,7 @@ export default class StreamType extends Type {
         ) as this;
     }
 
-    getDescription(translation: Translation, context: Context) {
-        return translation.types.StreamType.description(
-            this,
-            translation,
-            context
-        );
+    getNodeTranslation(translation: Translation) {
+        return translation.types.StreamType;
     }
 }

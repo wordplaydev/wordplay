@@ -50,7 +50,7 @@ export default class Docs extends Node {
         );
     }
 
-    getDescription(translation: Translation) {
-        return translation.nodes.Docs.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.nodes.Docs;
     }
 }

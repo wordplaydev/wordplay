@@ -38,10 +38,11 @@
     } from '../concepts/DefaultConcepts';
     import KeyboardIdle from '../editor/util/KeyboardIdle';
     import type Project from '../models/Project';
-    import type ConstructConcept from '../concepts/ConstructConcept';
+    import NodeConcept from '../concepts/NodeConcept';
     import ConceptIndex from '../concepts/ConceptIndex';
     import type Node from '../nodes/Node';
     import { getLanguages, translations } from '../translations/translations';
+    import NodeConceptView from './NodeConceptView.svelte';
 
     export let hidden: boolean;
 
@@ -59,7 +60,7 @@
     let projectFunctions: FunctionConcept[] = [];
     let projectBinds: BindConcept[] = [];
     let streams: StreamConcept[] = [];
-    let constructs: ConstructConcept[] = [];
+    let constructs: NodeConcept[] = [];
     let native: StructureConcept[] = [];
     let output: Concept[] = [];
     let index: PaletteIndexContext = writable(new ConceptIndex([]));
@@ -288,17 +289,15 @@
                     <ConversionConceptView {concept} />
                 {:else if concept instanceof StreamConcept}
                     <StreamConceptView {concept} />
+                {:else if concept instanceof NodeConcept}
+                    <NodeConceptView {concept} />
                 {:else}
                     <CodeView node={concept.getRepresentation()} {concept} />
                 {/if}
             </section>
         {/if}
     {:else}
-        <ConceptsView
-            category="code"
-            concepts={constructs}
-            selectable={false}
-        />
+        <ConceptsView category="code" concepts={constructs} selectable={true} />
         <ConceptsView
             category="project"
             concepts={[

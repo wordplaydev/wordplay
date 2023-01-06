@@ -133,12 +133,8 @@ export default class UnionType extends Type {
         return leftScope === rightScope ? leftScope : undefined;
     }
 
-    getDescription(translation: Translation, context: Context) {
-        return translation.types.UnionType.description(
-            this,
-            translation,
-            context
-        );
+    getNodeTranslation(translation: Translation) {
+        return translation.types.UnionType;
     }
 
     /**

@@ -39,13 +39,13 @@ import TextType from '../nodes/TextType';
 import TypePlaceholder from '../nodes/TypePlaceholder';
 import ImplicitShares from '../runtime/ImplicitShares';
 import type Concept from './Concept';
-import ConstructConcept from './ConstructConcept';
+import NodeConcept from './NodeConcept';
 import FunctionConcept from './FunctionConcept';
 import StructureConcept from './StructureConcept';
 
-export function getConstructConcepts(context: Context): ConstructConcept[] {
+export function getConstructConcepts(context: Context): NodeConcept[] {
     return [
-        new ConstructConcept(
+        new NodeConcept(
             Bind.make(
                 undefined,
                 Names.make(['_']),
@@ -54,11 +54,8 @@ export function getConstructConcepts(context: Context): ConstructConcept[] {
             ),
             context
         ),
-        new ConstructConcept(
-            Block.make([ExpressionPlaceholder.make()]),
-            context
-        ),
-        new ConstructConcept(
+        new NodeConcept(Block.make([ExpressionPlaceholder.make()]), context),
+        new NodeConcept(
             StructureDefinition.make(
                 undefined,
                 Names.make(['_']),
@@ -69,7 +66,7 @@ export function getConstructConcepts(context: Context): ConstructConcept[] {
             ),
             context
         ),
-        new ConstructConcept(
+        new NodeConcept(
             Conditional.make(
                 ExpressionPlaceholder.make(BooleanType.make()),
                 ExpressionPlaceholder.make(),
@@ -77,7 +74,7 @@ export function getConstructConcepts(context: Context): ConstructConcept[] {
             ),
             context
         ),
-        new ConstructConcept(
+        new NodeConcept(
             FunctionDefinition.make(
                 undefined,
                 Names.make(['_']),
@@ -87,7 +84,7 @@ export function getConstructConcepts(context: Context): ConstructConcept[] {
             ),
             context
         ),
-        new ConstructConcept(
+        new NodeConcept(
             Changed.make(
                 ExpressionPlaceholder.make(
                     StreamType.make(new TypePlaceholder())
@@ -95,7 +92,7 @@ export function getConstructConcepts(context: Context): ConstructConcept[] {
             ),
             context
         ),
-        new ConstructConcept(
+        new NodeConcept(
             Reaction.make(
                 ExpressionPlaceholder.make(),
                 ExpressionPlaceholder.make(
@@ -104,7 +101,7 @@ export function getConstructConcepts(context: Context): ConstructConcept[] {
             ),
             context
         ),
-        new ConstructConcept(
+        new NodeConcept(
             ConversionDefinition.make(
                 undefined,
                 new TypePlaceholder(),
@@ -113,7 +110,7 @@ export function getConstructConcepts(context: Context): ConstructConcept[] {
             ),
             context
         ),
-        new ConstructConcept(
+        new NodeConcept(
             Convert.make(ExpressionPlaceholder.make(), new TypePlaceholder()),
             context
         ),

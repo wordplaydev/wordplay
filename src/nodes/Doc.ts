@@ -45,7 +45,7 @@ export default class Doc extends Node {
 
     computeConflicts() {}
 
-    getDescription(translation: Translation) {
-        return translation.nodes.Doc.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.nodes.Doc;
     }
 }

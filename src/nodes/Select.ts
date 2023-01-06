@@ -193,15 +193,15 @@ export default class Select extends Expression {
         return this.select;
     }
 
-    getDescription(translation: Translation) {
-        return translation.expressions.Insert.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.expressions.Select;
     }
 
     getStartExplanations(translation: Translation) {
-        return translation.expressions.Insert.start;
+        return translation.expressions.Select.start;
     }
 
     getFinishExplanations(translation: Translation) {
-        return translation.expressions.Insert.finish;
+        return translation.expressions.Select.finish;
     }
 }

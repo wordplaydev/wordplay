@@ -287,8 +287,8 @@ export default class PropertyReference extends Expression {
         return this.name ?? this.dot;
     }
 
-    getDescription(translation: Translation) {
-        return translation.expressions.PropertyReference.description;
+    getNodeTranslation(translation: Translation) {
+        return translation.expressions.PropertyReference;
     }
 
     getStartExplanations(translation: Translation) {
