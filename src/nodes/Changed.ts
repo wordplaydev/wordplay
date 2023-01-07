@@ -25,6 +25,7 @@ import { NotAStreamType } from './NotAStreamType';
 import type { Replacement } from './Node';
 import type Translation from '../translations/Translation';
 import AtomicExpression from './AtomicExpression';
+import NodeLink from '../translations/NodeLink';
 
 export default class Changed extends AtomicExpression {
     readonly change: Token;
@@ -129,7 +130,9 @@ export default class Changed extends AtomicExpression {
         return translation.expressions.Changed;
     }
 
-    getStartExplanations(translation: Translation) {
-        return translation.expressions.Changed.start;
+    getStartExplanations(translation: Translation, context: Context) {
+        return translation.expressions.Changed.start(
+            new NodeLink(this.stream, translation, context)
+        );
     }
 }

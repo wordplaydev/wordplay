@@ -23,6 +23,7 @@ import UnimplementedException from '../runtime/UnimplementedException';
 import type Evaluator from '../runtime/Evaluator';
 import type { Replacement } from './Node';
 import type Translation from '../translations/Translation';
+import NodeLink from '../translations/NodeLink';
 
 export default class Update extends Expression {
     readonly table: Expression;
@@ -199,11 +200,19 @@ export default class Update extends Expression {
         return translation.expressions.Update;
     }
 
-    getStartExplanations(translation: Translation) {
-        return translation.expressions.Update.start;
+    getStartExplanations(translation: Translation, context: Context) {
+        return translation.expressions.Update.start(
+            new NodeLink(this.table, translation, context)
+        );
     }
 
-    getFinishExplanations(translation: Translation) {
-        return translation.expressions.Update.finish;
+    getFinishExplanations(
+        translation: Translation,
+        context: Context,
+        evaluator: Evaluator
+    ) {
+        return translation.expressions.Update.finish(
+            this.getValueIfDefined(translation, context, evaluator)
+        );
     }
 }

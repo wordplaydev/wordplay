@@ -25,6 +25,7 @@ import NotAFunctionType from './NotAFunctionType';
 import type { Replacement } from './Node';
 import type Translation from '../translations/Translation';
 import StartConversion from '../runtime/StartConversion';
+import NodeLink from '../translations/NodeLink';
 
 export default class Convert extends Expression {
     readonly expression: Expression;
@@ -212,12 +213,20 @@ export default class Convert extends Expression {
         return translation.expressions.Convert;
     }
 
-    getStartExplanations(translation: Translation) {
-        return translation.expressions.Convert.start;
+    getStartExplanations(translation: Translation, context: Context) {
+        return translation.expressions.Convert.start(
+            new NodeLink(this.expression, translation, context)
+        );
     }
 
-    getFinishExplanations(translation: Translation) {
-        return translation.expressions.Convert.finish;
+    getFinishExplanations(
+        translation: Translation,
+        context: Context,
+        evaluator: Evaluator
+    ) {
+        return translation.expressions.Convert.finish(
+            this.getValueIfDefined(translation, context, evaluator)
+        );
     }
 }
 

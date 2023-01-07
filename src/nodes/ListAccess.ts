@@ -26,6 +26,7 @@ import MeasurementLiteral from './MeasurementLiteral';
 import type { Replacement } from './Node';
 import type Translation from '../translations/Translation';
 import { NotAListType } from './NotAListType';
+import NodeLink from '../translations/NodeLink';
 
 export default class ListAccess extends Expression {
     readonly list: Expression;
@@ -180,11 +181,19 @@ export default class ListAccess extends Expression {
         return translation.expressions.ListAccess;
     }
 
-    getStartExplanations(translation: Translation) {
-        return translation.expressions.ListAccess.start;
+    getStartExplanations(translation: Translation, context: Context) {
+        return translation.expressions.ListAccess.start(
+            new NodeLink(this.list, translation, context)
+        );
     }
 
-    getFinishExplanations(translation: Translation) {
-        return translation.expressions.ListAccess.finish;
+    getFinishExplanations(
+        translation: Translation,
+        context: Context,
+        evaluator: Evaluator
+    ) {
+        return translation.expressions.ListAccess.finish(
+            this.getValueIfDefined(translation, context, evaluator)
+        );
     }
 }

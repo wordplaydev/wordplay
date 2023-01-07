@@ -29,6 +29,7 @@ import type { Replacement } from './Node';
 import type Translation from '../translations/Translation';
 import AtomicExpression from './AtomicExpression';
 import UnimplementedException from '../runtime/UnimplementedException';
+import NodeLink from '../translations/NodeLink';
 
 export type SharedDefinition =
     | Source
@@ -237,7 +238,24 @@ export default class Borrow extends AtomicExpression {
         return translation.expressions.Borrow;
     }
 
-    getStartExplanations(translation: Translation) {
-        return translation.expressions.Borrow.start;
+    getStartExplanations(translation: Translation, context: Context) {
+        return translation.expressions.Borrow.start(
+            this.source
+                ? new NodeLink(
+                      this.source,
+                      translation,
+                      context,
+                      this.source.getText()
+                  )
+                : undefined,
+            this.name
+                ? new NodeLink(
+                      this.name,
+                      translation,
+                      context,
+                      this.name.getText()
+                  )
+                : undefined
+        );
     }
 }

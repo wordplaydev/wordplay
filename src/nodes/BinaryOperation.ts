@@ -31,6 +31,7 @@ import type { Replacement } from './Node';
 import type Translation from '../translations/Translation';
 import type { Description } from '../translations/Translation';
 import StartEvaluation from '../runtime/StartEvaluation';
+import NodeLink from '../translations/NodeLink';
 
 export default class BinaryOperation extends Expression {
     readonly left: Expression;
@@ -373,10 +374,19 @@ export default class BinaryOperation extends Expression {
         return this.operator;
     }
 
-    getStartExplanations(translation: Translation) {
-        return translation.expressions.BinaryOperation.start;
+    getStartExplanations(translation: Translation, context: Context) {
+        return translation.expressions.BinaryOperation.start(
+            new NodeLink(this.left, translation, context)
+        );
     }
-    getFinishExplanations(translation: Translation) {
-        return translation.expressions.BinaryOperation.finish;
+
+    getFinishExplanations(
+        translation: Translation,
+        context: Context,
+        evaluator: Evaluator
+    ) {
+        return translation.expressions.BinaryOperation.finish(
+            this.getValueIfDefined(translation, context, evaluator)
+        );
     }
 }

@@ -26,6 +26,7 @@ import NoneType from './NoneType';
 import type { Replacement } from './Node';
 import type Translation from '../translations/Translation';
 import { NotAStreamType } from './NotAStreamType';
+import NodeLink from '../translations/NodeLink';
 
 export default class Previous extends Expression {
     readonly stream: Expression;
@@ -158,11 +159,19 @@ export default class Previous extends Expression {
         return translation.expressions.Previous;
     }
 
-    getStartExplanations(translation: Translation) {
-        return translation.expressions.Previous.start;
+    getStartExplanations(translation: Translation, context: Context) {
+        return translation.expressions.Previous.start(
+            new NodeLink(this.stream, translation, context)
+        );
     }
 
-    getFinishExplanations(translation: Translation) {
-        return translation.expressions.Previous.finish;
+    getFinishExplanations(
+        translation: Translation,
+        context: Context,
+        evaluator: Evaluator
+    ) {
+        return translation.expressions.Previous.finish(
+            this.getValueIfDefined(translation, context, evaluator)
+        );
     }
 }

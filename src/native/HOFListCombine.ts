@@ -25,7 +25,7 @@ import HOF from './HOF';
 
 const INDEX = Names.make(['index']);
 
-export default class NativeHOFListCombine extends HOF {
+export default class HOFListCombine extends HOF {
     readonly hofType: FunctionType;
     constructor(hofType: FunctionType) {
         super();

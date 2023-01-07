@@ -163,31 +163,45 @@ const eng_serious: Translation = {
             description: 'evaluate unknown function two inputs',
             purpose: WRITE_DOC,
             right: 'input',
-            start: '(left) first',
-            finish: 'evaluate (operator) on (1) with (2)',
+            start: (left) => Explanation.as('evaluating ', left, ' first'),
+            finish: (result) =>
+                Explanation.as('evaluated to ', result ?? ' nothing'),
         },
         Bind: {
             description: 'name a value',
             purpose: WRITE_DOC,
-            start: 'evaluate (value) first',
-            finish: 'name (1) (name)',
+            start: (value) =>
+                value
+                    ? Explanation.as('evaluate ', value, ' first')
+                    : 'no value',
+            finish: (value, names) =>
+                value
+                    ? Explanation.as('giving ', value, ' the name ', names)
+                    : 'no value',
         },
         Block: {
             description: 'block',
             purpose: WRITE_DOC,
             statement: 'statement',
             start: 'start evaluating the statements',
-            finish: 'evaluate to the final value, (1)',
+            finish: (value) =>
+                Explanation.as('block evaluated to ', value ?? 'nothing'),
         },
         BooleanLiteral: {
             description: '(value)',
             purpose: WRITE_DOC,
-            start: 'evaluate to (value)',
+            start: (value) => Explanation.as('create a ', value),
         },
         Borrow: {
             description: 'borrow a named value',
             purpose: WRITE_DOC,
-            start: 'borrow (name) from (source)',
+            start: (source, name) =>
+                Explanation.as(
+                    'borrow ',
+                    name ?? ' unspecified name ',
+                    ' from ',
+                    source ?? ' unspecified source'
+                ),
             source: 'source',
             name: 'name',
             version: 'version',
@@ -195,14 +209,24 @@ const eng_serious: Translation = {
         Changed: {
             description: 'check if stream caused evaluation',
             purpose: WRITE_DOC,
-            start: 'check if (1) caused evaluation',
+            start: (stream: NodeLink) =>
+                Explanation.as(
+                    'check if ',
+                    stream,
+                    ' caused this program to reevaluate'
+                ),
             stream: 'stream',
         },
         Conditional: {
-            description: 'if (condition) is true, (yes), otherwise (no)',
+            description:
+                'evaluate to one of two expressions based on a boolean',
             purpose: WRITE_DOC,
-            start: 'check (condition) first',
-            finish: 'evaluated to (1)',
+            start: (condition) => Explanation.as('check ', condition, ' first'),
+            finish: (value) =>
+                Explanation.as(
+                    'conditional evaluated to ',
+                    value ?? ' nothing'
+                ),
             condition: 'condition',
             yes: 'yes',
             no: 'no',
@@ -210,19 +234,24 @@ const eng_serious: Translation = {
         ConversionDefinition: {
             description: 'define a conversion from one type to another',
             purpose: WRITE_DOC,
-            start: 'conversion from (input) to (output) defined',
+            start: 'define this conversion',
         },
         Convert: {
             description: 'convert a value to a different type',
             purpose: WRITE_DOC,
-            start: 'find a series of conversions from (expression) to (type)',
-            finish: 'converted to (1)',
+            start: (expr) => Explanation.as('first evaluate ', expr),
+            finish: (value) =>
+                Explanation.as('converted to ', value ?? 'nothing'),
         },
         Delete: {
-            description: 'delete a row from a table',
+            description: 'delete rows from a table',
             purpose: WRITE_DOC,
-            start: 'evaluate the table first',
-            finish: 'evaluated to new table, (1)',
+            start: (table) => Explanation.as('evaluate ', table, ' first'),
+            finish: (value) =>
+                Explanation.as(
+                    'evaluated to table without rows, ',
+                    value ?? 'nothing'
+                ),
         },
         DocumentedExpression: {
             description: 'a documented expression',
@@ -232,8 +261,12 @@ const eng_serious: Translation = {
         Evaluate: {
             description: 'evaluate a function',
             purpose: WRITE_DOC,
-            start: 'evaluate the inputs first',
-            finish: 'evaluated to (1)',
+            start: (inputs) =>
+                inputs
+                    ? 'evaluate the inputs first'
+                    : 'get the function to evaluate',
+            finish: (result) =>
+                Explanation.as('function evaluated to ', result ?? 'nothing'),
             function: 'function',
             input: 'input',
         },
@@ -247,7 +280,7 @@ const eng_serious: Translation = {
                     ? node.type.getDescription(translation, context)
                     : 'expression placeholder',
             purpose: WRITE_DOC,
-            start: "halting, can't evaluate a placeholder",
+            start: 'cannot evaluate a placeholder',
             placeholder: 'expression',
         },
         FunctionDefinition: {
@@ -258,39 +291,54 @@ const eng_serious: Translation = {
         HOF: {
             description: 'a higher order function',
             purpose: WRITE_DOC,
-            start: 'start evaluating',
-            finish: 'finish evaluating',
+            start: 'evaluating the function given',
+            finish: (value) =>
+                Explanation.as('evaluated to ', value ?? 'nothing'),
         },
         Insert: {
             description: 'insert a row from a table',
             purpose: WRITE_DOC,
-            start: 'evaluate the table first',
-            finish: 'evaluated to new table, (1)',
+            start: (table) => Explanation.as('evaluate ', table, ' first'),
+            finish: (value) =>
+                Explanation.as(
+                    'evaluated to table new rows, ',
+                    value ?? 'nothing'
+                ),
         },
         Is: {
-            description: 'check if value is type',
+            description: 'true if a value is a specific type',
             purpose: WRITE_DOC,
-            start: 'get the value',
-            finish: 'check if (1) is (type)',
+            start: (value) => Explanation.as('evaluate ', value, ' first'),
+            finish: (is, type) =>
+                is
+                    ? Explanation.as('value is ', type, ', evaluating to true')
+                    : Explanation.as(
+                          'value is not ',
+                          type,
+                          ' evaluating to false'
+                      ),
         },
         ListAccess: {
             description: 'get a value in a list',
             purpose: WRITE_DOC,
-            start: 'evaluate (list)',
-            finish: 'evaluated to (1)',
+            start: (list) => Explanation.as('evaluate ', list, ' first'),
+            finish: (value) =>
+                Explanation.as('item at index is ', value ?? 'nothing'),
         },
         ListLiteral: {
             description: 'a list of values',
             purpose: WRITE_DOC,
-            start: 'evaluate each item',
-            finish: 'evaluated to (1)',
+            start: 'evaluate items first',
+            finish: (value) =>
+                Explanation.as('evaluated to list ', value ?? 'nothing'),
             item: 'item',
         },
         MapLiteral: {
             description: 'a list of mappings from keys to values',
             purpose: WRITE_DOC,
-            start: 'evaluate each key and value',
-            finish: 'evaluated to (1)',
+            start: 'evaluate each key and value first',
+            finish: (value) =>
+                Explanation.as('evaluated to map ', value ?? 'nothing'),
         },
         MeasurementLiteral: {
             description: (node: MeasurementLiteral) =>
@@ -302,42 +350,62 @@ const eng_serious: Translation = {
                     ? 'number'
                     : 'number with a unit',
             purpose: WRITE_DOC,
-            start: 'evaluate to (value)',
+            start: (value) => Explanation.as('evaluate to ', value),
         },
         NativeExpression: {
-            description: 'a native expression',
+            description: 'a built-in expression',
             purpose: WRITE_DOC,
-            start: 'evaluate the expression',
+            start: 'evaluate the built-in expression',
         },
         NoneLiteral: {
             description: 'nothing',
             purpose: WRITE_DOC,
-            start: 'evalute to nothing',
+            start: 'create a nothing value',
         },
         Previous: {
             description: 'a previous stream value',
             purpose: WRITE_DOC,
-            start: 'first get (stream)',
-            finish: 'evaluated to (1)',
+            start: (stream) => Explanation.as('first get ', stream),
+            finish: (value) =>
+                Explanation.as(
+                    'evaluated to stream value ',
+                    value ?? 'nothing'
+                ),
         },
         Program: {
             description: 'a program',
             purpose: WRITE_DOC,
-            start: 'first evaluate borrows',
-            finish: 'evaluated to (1)',
+            start: (borrows) =>
+                borrows
+                    ? 'first evaluate borrows'
+                    : "evaluate the program's first expression",
+            finish: (value) =>
+                Explanation.as('program evaluated to ', value ?? 'nothing'),
         },
         PropertyReference: {
             description: 'a property on a structure',
             purpose: WRITE_DOC,
-            start: 'first get (structure)',
-            finish: 'evaluated to (1)',
+            start: 'first get the value',
+            finish: (property, value) =>
+                property
+                    ? Explanation.as(
+                          'property ',
+                          property,
+                          'is ',
+                          value ?? 'nothing'
+                      )
+                    : 'no property name given, no value',
             property: 'property',
         },
         Reaction: {
             description: 'a reaction to a stream change',
             purpose: WRITE_DOC,
             start: 'first check if the stream has changed',
-            finish: 'the next stream value is (1)',
+            finish: (value) =>
+                Explanation.as(
+                    'the stream value is currently ',
+                    value ?? 'nothing'
+                ),
             initial: 'initial',
             next: 'next',
         },
@@ -350,25 +418,31 @@ const eng_serious: Translation = {
                 node.resolve(context)?.getDescription(translation, context) ??
                 node.getName(),
             purpose: WRITE_DOC,
-            start: 'resolve (name)',
+            start: (name) => Explanation.as('get the value of ', name),
         },
         Select: {
             description: 'select rows from a table',
             purpose: WRITE_DOC,
-            start: 'first get (table)',
-            finish: 'evaluated to rows (1)',
+            start: (table) => Explanation.as('evaluate ', table, ' first'),
+            finish: (value) =>
+                Explanation.as(
+                    'evaluated to a new table with the selected rows, ',
+                    value ?? 'nothing'
+                ),
         },
         SetLiteral: {
             description: 'a set of unique values',
             purpose: WRITE_DOC,
-            start: 'evaluate each value',
-            finish: 'evaluated to (1)',
+            start: 'evaluate each value first',
+            finish: (value) =>
+                Explanation.as('evaluated to set ', value ?? 'nothing'),
         },
         SetOrMapAccess: {
             description: 'get a value from a set or map',
             purpose: WRITE_DOC,
-            start: 'get the set or map first',
-            finish: 'evaluated to (1)',
+            start: (set) => Explanation.as('evaluate ', set, ' first'),
+            finish: (value) =>
+                Explanation.as('item in  with key is ', value ?? 'nothing'),
         },
         Source: {
             description: 'a named program',
@@ -377,46 +451,54 @@ const eng_serious: Translation = {
         StructureDefinition: {
             description: 'a structure definition',
             purpose: WRITE_DOC,
-            start: 'define the structure',
+            start: 'define this structure type',
         },
         TableLiteral: {
             description: 'a table',
             purpose: WRITE_DOC,
+            item: 'row',
             start: 'first evaluate the rows',
-            finish: 'evaluated to (1)',
+            finish: (table) =>
+                Explanation.as('evaluated to new table ', table ?? 'nothing'),
         },
         Template: {
             description: 'a text template',
             purpose: WRITE_DOC,
-            start: 'evaluate each expression',
-            finish: 'evaluated to (1)',
+            start: 'evaluate each expression in the template',
+            finish: 'constructing text from the values',
         },
         TextLiteral: {
             description: 'some text',
             purpose: WRITE_DOC,
-            start: 'evaluate to the text',
+            start: 'create a text value',
         },
         This: {
             description: 'get the structure evaluting this',
             purpose: WRITE_DOC,
-            start: 'evaluated to (1)',
+            start: (value) =>
+                Explanation.as('evaluated to ', value ?? 'nothing'),
         },
         UnaryOperation: {
             description: 'evaluate function ',
             purpose: WRITE_DOC,
-            start: 'evaluate the value first',
-            finish: 'evaluated to (1)',
+            start: (value) => Explanation.as('evaluate the ', value),
+            finish: (value) =>
+                Explanation.as('evaluated to ', value ?? 'nothing'),
         },
         UnparsableExpression: {
             purpose: WRITE_DOC,
             description: 'sequence of words',
-            start: "can't evaluate unparsable code, stopping",
+            start: 'cannot evaluate unparsable code',
         },
         Update: {
             description: 'update rows in a table',
             purpose: WRITE_DOC,
-            start: 'first get (table)',
-            finish: 'evaluated to new table (1)',
+            start: (table) => Explanation.as('evaluate ', table, ' first'),
+            finish: (value) =>
+                Explanation.as(
+                    'evaluated to a new table with revised rows, ',
+                    value ?? 'nothing'
+                ),
         },
     },
     types: {

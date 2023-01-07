@@ -17,7 +17,8 @@ export default class Finish extends Step {
     getExplanations(translation: Translation, evaluator: Evaluator) {
         return this.node.getFinishExplanations(
             translation,
-            evaluator.project.getNodeContext(this.node)
+            evaluator.project.getNodeContext(this.node),
+            evaluator
         );
     }
 }

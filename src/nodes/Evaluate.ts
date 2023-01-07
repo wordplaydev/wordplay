@@ -693,10 +693,16 @@ export default class Evaluate extends Expression {
     }
 
     getStartExplanations(translation: Translation) {
-        return translation.expressions.Evaluate.start;
+        return translation.expressions.Evaluate.start(this.inputs.length > 0);
     }
 
-    getFinishExplanations(translation: Translation) {
-        return translation.expressions.Evaluate.finish;
+    getFinishExplanations(
+        translation: Translation,
+        context: Context,
+        evaluator: Evaluator
+    ) {
+        return translation.expressions.Evaluate.finish(
+            this.getValueIfDefined(translation, context, evaluator)
+        );
     }
 }

@@ -15,6 +15,7 @@ import StartFinish from '../runtime/StartFinish';
 import type { Replacement } from './Node';
 import type Translation from '../translations/Translation';
 import AtomicExpression from './AtomicExpression';
+import NodeLink from '../translations/NodeLink';
 
 export default class BooleanLiteral extends AtomicExpression {
     readonly value: Token;
@@ -92,7 +93,9 @@ export default class BooleanLiteral extends AtomicExpression {
         return translation.expressions.BooleanLiteral;
     }
 
-    getStartExplanations(translation: Translation) {
-        return translation.expressions.BooleanLiteral.start;
+    getStartExplanations(translation: Translation, context: Context) {
+        return translation.expressions.BooleanLiteral.start(
+            new NodeLink(this.value, translation, context, this.value.getText())
+        );
     }
 }

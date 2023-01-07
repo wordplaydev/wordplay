@@ -14,12 +14,12 @@ import List from '../runtime/List';
 import Text from '../runtime/Text';
 import { createNativeConversion, createNativeFunction } from './NativeBindings';
 import NativeExpression from './NativeExpression';
-import NativeHOFListAll from './NativeHOFListAll';
-import NativeHOFListCombine from './NativeHOFListCombine';
-import NativeHOFListFilter from './NativeHOFListFilter';
-import NativeHOFListFind from './NativeHOFListFind';
-import NativeHOFListTranslate from './NativeHOFListTranslate';
-import NativeHOFListUntil from './NativeHOFListUntil';
+import HOFListAll from './HOFListAll';
+import HOFListCombine from './HOFListCombine';
+import NativeHOFListFilter from './HOFListFilter';
+import HOFListFind from './HOFListFind';
+import HOFListTranslate from './HOFListTranslate';
+import NativeHOFListUntil from './HOFListUntil';
 import Set from '../runtime/Set';
 import StructureDefinition from '../nodes/StructureDefinition';
 import Block from '../nodes/Block';
@@ -611,7 +611,7 @@ export default function bootstrapList() {
                             listTranslateHOFType
                         ),
                     ],
-                    new NativeHOFListTranslate(listTranslateHOFType),
+                    new HOFListTranslate(listTranslateHOFType),
                     ListType.make(translateTypeVariable.getReference())
                 ),
                 FunctionDefinition.make(
@@ -653,7 +653,7 @@ export default function bootstrapList() {
                             listAllHOFType
                         ),
                     ],
-                    new NativeHOFListAll(listAllHOFType),
+                    new HOFListAll(listAllHOFType),
                     BooleanType.make()
                 ),
                 FunctionDefinition.make(
@@ -696,7 +696,7 @@ export default function bootstrapList() {
                             listFindHOFType
                         ),
                     ],
-                    new NativeHOFListFind(listFindHOFType),
+                    new HOFListFind(listFindHOFType),
                     UnionType.make(
                         getListTypeVariableReference(),
                         NoneType.None
@@ -735,7 +735,7 @@ export default function bootstrapList() {
                             listCombineHOFType
                         ),
                     ],
-                    new NativeHOFListCombine(listCombineHOFType),
+                    new HOFListCombine(listCombineHOFType),
                     combineTypeVariable.getReference()
                 ),
                 createNativeConversion(

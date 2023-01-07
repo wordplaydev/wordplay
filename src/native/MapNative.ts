@@ -9,8 +9,8 @@ import List from '../runtime/List';
 import Text from '../runtime/Text';
 import Map from '../runtime/Map';
 import Set from '../runtime/Set';
-import NativeHOFMapFilter from './NativeHOFMapFilter';
-import NativeHOFMapTranslate from './NativeHOFMapTranslate';
+import HOFMapFilter from './HOFMapFilter';
+import HOFMapTranslate from './HOFMapTranslate';
 import { createNativeConversion, createNativeFunction } from './NativeBindings';
 import Bool from '../runtime/Bool';
 import type Node from '../nodes/Node';
@@ -301,7 +301,7 @@ export default function bootstrapMap() {
                             mapFilterHOFType
                         ),
                     ],
-                    new NativeHOFMapFilter(mapFilterHOFType),
+                    new HOFMapFilter(mapFilterHOFType),
                     MapType.make(
                         KeyTypeVariable.getReference(),
                         ValueTypeVariable.getReference()
@@ -330,7 +330,7 @@ export default function bootstrapMap() {
                             mapTranslateHOFType
                         ),
                     ],
-                    new NativeHOFMapTranslate(mapTranslateHOFType),
+                    new HOFMapTranslate(mapTranslateHOFType),
                     MapType.make(
                         KeyTypeVariable.getReference(),
                         translateTypeVariable.getReference()

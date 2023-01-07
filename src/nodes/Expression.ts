@@ -9,6 +9,7 @@ import type TypeSet from './TypeSet';
 import type Stream from '../runtime/Stream';
 import type Translation from '../translations/Translation';
 import type { Description } from '../translations/Translation';
+import ValueLink from '../translations/ValueLink';
 
 export default abstract class Expression extends Node {
     constructor() {
@@ -55,10 +56,22 @@ export default abstract class Expression extends Node {
 
     abstract getStartExplanations(
         translation: Translation,
-        context: Context
+        context: Context,
+        evaluator: Evaluator
     ): Description;
     abstract getFinishExplanations(
         translation: Translation,
-        context: Context
+        context: Context,
+        evaluator: Evaluator
     ): Description;
+
+    /** Utility function for getting an optional result   */
+    getValueIfDefined(
+        translation: Translation,
+        context: Context,
+        evaluator: Evaluator
+    ) {
+        const value = evaluator.peekValue();
+        return value ? new ValueLink(value, translation, context) : undefined;
+    }
 }

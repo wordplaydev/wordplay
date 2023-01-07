@@ -9,7 +9,7 @@ import List from '../runtime/List';
 import Text from '../runtime/Text';
 import Set from '../runtime/Set';
 import { createNativeConversion, createNativeFunction } from './NativeBindings';
-import NativeHOFSetFilter from './NativeHOFSetFilter';
+import HOFSetFilter from './HOFSetFilter';
 import Bool from '../runtime/Bool';
 import type Node from '../nodes/Node';
 import type Value from '../runtime/Value';
@@ -315,7 +315,7 @@ export default function bootstrapSet() {
                             setFilterHOFType
                         ),
                     ],
-                    new NativeHOFSetFilter(setFilterHOFType),
+                    new HOFSetFilter(setFilterHOFType),
                     SetType.make(SetTypeVariable.getReference())
                 ),
 

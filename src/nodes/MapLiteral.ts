@@ -186,7 +186,13 @@ export default class MapLiteral extends Expression {
         return translation.expressions.MapLiteral.start;
     }
 
-    getFinishExplanations(translation: Translation) {
-        return translation.expressions.MapLiteral.finish;
+    getFinishExplanations(
+        translation: Translation,
+        context: Context,
+        evaluator: Evaluator
+    ) {
+        return translation.expressions.MapLiteral.finish(
+            this.getValueIfDefined(translation, context, evaluator)
+        );
     }
 }

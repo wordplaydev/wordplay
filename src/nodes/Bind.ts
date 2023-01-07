@@ -41,6 +41,7 @@ import type Name from './Name';
 import DuplicateName from '../conflicts/DuplicateName';
 import type { Replacement } from './Node';
 import type Translation from '../translations/Translation';
+import NodeLink from '../translations/NodeLink';
 
 export default class Bind extends Expression {
     readonly docs?: Docs;
@@ -386,11 +387,27 @@ export default class Bind extends Expression {
         return translation.expressions.Bind;
     }
 
-    getStartExplanations(translation: Translation) {
-        return translation.expressions.Bind.start;
+    getStartExplanations(translation: Translation, context: Context) {
+        return translation.expressions.Bind.start(
+            this.value === undefined
+                ? undefined
+                : new NodeLink(this.value, translation, context)
+        );
     }
 
-    getFinishExplanations(translation: Translation) {
-        return translation.expressions.Bind.finish;
+    getFinishExplanations(
+        translation: Translation,
+        context: Context,
+        evaluator: Evaluator
+    ) {
+        return translation.expressions.Bind.finish(
+            this.getValueIfDefined(translation, context, evaluator),
+            new NodeLink(
+                this.names,
+                translation,
+                context,
+                this.names.getTranslation(translation.language)
+            )
+        );
     }
 }

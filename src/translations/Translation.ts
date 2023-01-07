@@ -37,12 +37,17 @@ export interface DynamicNodeTranslation<NodeType extends Node> {
     purpose: Description;
 }
 
-export interface AtomicExpressionTranslation {
-    start: Description;
+export interface AtomicExpressionTranslation<
+    Start extends DescriptionOrGenerator = Description
+> {
+    start: Start;
 }
 
-export interface ExpressionTranslation extends AtomicExpressionTranslation {
-    finish: Description;
+export interface ExpressionTranslation<
+    Start extends DescriptionOrGenerator = Description,
+    Finish extends DescriptionOrGenerator = Description
+> extends AtomicExpressionTranslation<Start> {
+    finish: Finish;
 }
 
 export type DescriptionOrGenerator =
@@ -76,6 +81,10 @@ export type NameAndDocTranslation = {
 export type NameTranslation = string | string[];
 
 export type DocTranslation = string;
+
+type ValueOrUndefinedTranslation = (
+    value: ValueLink | undefined
+) => Description;
 
 /**
  * Represents a complete translation for Wordplay,
@@ -129,37 +138,64 @@ type Translation = {
     };
     expressions: {
         BinaryOperation: NodeTranslation &
-            ExpressionTranslation & {
+            ExpressionTranslation<
+                (left: NodeLink) => Description,
+                (result: ValueLink | undefined) => Description
+            > & {
                 right: Description;
             };
-        Bind: NodeTranslation & ExpressionTranslation;
+        Bind: NodeTranslation &
+            ExpressionTranslation<
+                (value: NodeLink | undefined) => Description,
+                (value: ValueLink | undefined, names: NodeLink) => Description
+            >;
         Block: NodeTranslation &
-            ExpressionTranslation & {
+            ExpressionTranslation<Description, ValueOrUndefinedTranslation> & {
                 statement: Description;
             };
-        BooleanLiteral: NodeTranslation & AtomicExpressionTranslation;
+        BooleanLiteral: NodeTranslation &
+            AtomicExpressionTranslation<(value: NodeLink) => Description>;
         Borrow: NodeTranslation &
-            AtomicExpressionTranslation & {
+            AtomicExpressionTranslation<
+                (
+                    source: NodeLink | undefined,
+                    name: NodeLink | undefined
+                ) => Description
+            > & {
                 source: Description;
                 name: Description;
                 version: Description;
             };
         Changed: NodeTranslation &
-            AtomicExpressionTranslation & {
+            AtomicExpressionTranslation<(stream: NodeLink) => Description> & {
                 stream: Description;
             };
         Conditional: NodeTranslation &
-            ExpressionTranslation & {
+            ExpressionTranslation<
+                (condition: NodeLink) => Description,
+                ValueOrUndefinedTranslation
+            > & {
                 condition: Description;
                 yes: Description;
                 no: Description;
             };
         ConversionDefinition: NodeTranslation & AtomicExpressionTranslation;
-        Convert: NodeTranslation & ExpressionTranslation;
-        Delete: NodeTranslation & ExpressionTranslation;
+        Convert: NodeTranslation &
+            ExpressionTranslation<
+                (input: NodeLink) => Description,
+                ValueOrUndefinedTranslation
+            >;
+        Delete: NodeTranslation &
+            ExpressionTranslation<
+                (table: NodeLink) => Description,
+                ValueOrUndefinedTranslation
+            >;
         DocumentedExpression: NodeTranslation & AtomicExpressionTranslation;
         Evaluate: NodeTranslation &
-            ExpressionTranslation & {
+            ExpressionTranslation<
+                (inputs: boolean) => Description,
+                ValueOrUndefinedTranslation
+            > & {
                 function: Description;
                 input: Description;
             };
@@ -168,44 +204,93 @@ type Translation = {
                 placeholder: Description;
             };
         FunctionDefinition: NodeTranslation & AtomicExpressionTranslation;
-        HOF: NodeTranslation & ExpressionTranslation;
-        Insert: NodeTranslation & ExpressionTranslation;
-        Is: NodeTranslation & ExpressionTranslation;
-        ListAccess: NodeTranslation & ExpressionTranslation;
+        HOF: NodeTranslation &
+            ExpressionTranslation<Description, ValueOrUndefinedTranslation>;
+        Insert: NodeTranslation &
+            ExpressionTranslation<
+                (table: NodeLink) => Description,
+                ValueOrUndefinedTranslation
+            >;
+        Is: NodeTranslation &
+            ExpressionTranslation<
+                (expr: NodeLink) => Description,
+                (is: boolean, type: NodeLink) => Description
+            >;
+        ListAccess: NodeTranslation &
+            ExpressionTranslation<
+                (list: NodeLink) => Description,
+                ValueOrUndefinedTranslation
+            >;
         ListLiteral: NodeTranslation &
-            ExpressionTranslation & {
+            ExpressionTranslation<Description, ValueOrUndefinedTranslation> & {
                 item: Description;
             };
-        MapLiteral: NodeTranslation & ExpressionTranslation;
+        MapLiteral: NodeTranslation &
+            ExpressionTranslation<Description, ValueOrUndefinedTranslation>;
         MeasurementLiteral: DynamicNodeTranslation<MeasurementLiteral> &
-            AtomicExpressionTranslation;
+            AtomicExpressionTranslation<(value: NodeLink) => Description>;
         NativeExpression: NodeTranslation & AtomicExpressionTranslation;
         NoneLiteral: NodeTranslation & AtomicExpressionTranslation;
-        Previous: NodeTranslation & ExpressionTranslation;
-        Program: NodeTranslation & ExpressionTranslation;
+        Previous: NodeTranslation &
+            ExpressionTranslation<
+                (stream: NodeLink) => Description,
+                ValueOrUndefinedTranslation
+            >;
+        Program: NodeTranslation &
+            ExpressionTranslation<
+                (borrows: boolean) => Description,
+                ValueOrUndefinedTranslation
+            >;
         PropertyReference: NodeTranslation &
-            ExpressionTranslation & {
+            ExpressionTranslation<
+                Description,
+                (
+                    property: NodeLink | undefined,
+                    value: ValueLink | undefined
+                ) => Description
+            > & {
                 property: Description;
             };
         Reaction: NodeTranslation &
-            ExpressionTranslation & {
+            ExpressionTranslation<Description, ValueOrUndefinedTranslation> & {
                 initial: Description;
                 next: Description;
             };
         Reference: DynamicNodeTranslation<Reference> &
-            AtomicExpressionTranslation;
-        Select: NodeTranslation & ExpressionTranslation;
-        SetLiteral: NodeTranslation & ExpressionTranslation;
-        SetOrMapAccess: NodeTranslation & ExpressionTranslation;
+            AtomicExpressionTranslation<(name: NodeLink) => Description>;
+        Select: NodeTranslation &
+            ExpressionTranslation<
+                (table: NodeLink) => Description,
+                ValueOrUndefinedTranslation
+            >;
+        SetLiteral: NodeTranslation &
+            ExpressionTranslation<Description, ValueOrUndefinedTranslation>;
+        SetOrMapAccess: NodeTranslation &
+            ExpressionTranslation<
+                (set: NodeLink) => Description,
+                ValueOrUndefinedTranslation
+            >;
         Source: NodeTranslation;
         StructureDefinition: NodeTranslation & AtomicExpressionTranslation;
-        TableLiteral: NodeTranslation & ExpressionTranslation;
+        TableLiteral: NodeTranslation &
+            ExpressionTranslation<Description, ValueOrUndefinedTranslation> & {
+                item: Description;
+            };
         Template: NodeTranslation & ExpressionTranslation;
         TextLiteral: NodeTranslation & AtomicExpressionTranslation;
-        This: NodeTranslation & AtomicExpressionTranslation;
-        UnaryOperation: NodeTranslation & ExpressionTranslation;
+        This: NodeTranslation &
+            AtomicExpressionTranslation<ValueOrUndefinedTranslation>;
+        UnaryOperation: NodeTranslation &
+            ExpressionTranslation<
+                (value: NodeLink) => Description,
+                ValueOrUndefinedTranslation
+            >;
         UnparsableExpression: NodeTranslation & AtomicExpressionTranslation;
-        Update: NodeTranslation & ExpressionTranslation;
+        Update: NodeTranslation &
+            ExpressionTranslation<
+                (table: NodeLink) => Description,
+                ValueOrUndefinedTranslation
+            >;
     };
     types: {
         AnyType: NodeTranslation;

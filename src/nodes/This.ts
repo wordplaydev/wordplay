@@ -137,7 +137,13 @@ export default class This extends AtomicExpression {
         return translation.expressions.This;
     }
 
-    getStartExplanations(translation: Translation) {
-        return translation.expressions.This.start;
+    getStartExplanations(
+        translation: Translation,
+        context: Context,
+        evaluator: Evaluator
+    ) {
+        return translation.expressions.This.start(
+            this.getValueIfDefined(translation, context, evaluator)
+        );
     }
 }

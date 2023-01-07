@@ -18,6 +18,7 @@ import TypeSet from './TypeSet';
 import Start from '../runtime/Start';
 import type { Replacement } from './Node';
 import type Translation from '../translations/Translation';
+import NodeLink from '../translations/NodeLink';
 
 export default class Is extends Expression {
     readonly expression: Expression;
@@ -138,11 +139,21 @@ export default class Is extends Expression {
         return translation.expressions.Is;
     }
 
-    getStartExplanations(translation: Translation) {
-        return translation.expressions.Is.start;
+    getStartExplanations(translation: Translation, context: Context) {
+        return translation.expressions.Is.start(
+            new NodeLink(this.expression, translation, context)
+        );
     }
 
-    getFinishExplanations(translation: Translation) {
-        return translation.expressions.Is.finish;
+    getFinishExplanations(
+        translation: Translation,
+        context: Context,
+        evaluator: Evaluator
+    ) {
+        const result = evaluator.peekValue();
+        return translation.expressions.Is.finish(
+            result instanceof Bool && result.bool,
+            new NodeLink(this.type, translation, context)
+        );
     }
 }

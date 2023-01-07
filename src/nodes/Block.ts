@@ -261,8 +261,14 @@ export default class Block extends Expression {
         return translation.expressions.Block.start;
     }
 
-    getFinishExplanations(translation: Translation) {
-        return translation.expressions.Block.finish;
+    getFinishExplanations(
+        translation: Translation,
+        context: Context,
+        evaluator: Evaluator
+    ) {
+        return translation.expressions.Block.finish(
+            this.getValueIfDefined(translation, context, evaluator)
+        );
     }
 
     getStart() {

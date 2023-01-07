@@ -148,7 +148,13 @@ export default class TableLiteral extends Expression {
         return translation.expressions.TableLiteral.start;
     }
 
-    getFinishExplanations(translation: Translation) {
-        return translation.expressions.TableLiteral.finish;
+    getFinishExplanations(
+        translation: Translation,
+        context: Context,
+        evaluator: Evaluator
+    ) {
+        return translation.expressions.TableLiteral.finish(
+            this.getValueIfDefined(translation, context, evaluator)
+        );
     }
 }

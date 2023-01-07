@@ -134,7 +134,13 @@ export default class SetLiteral extends Expression {
         return translation.expressions.SetLiteral.start;
     }
 
-    getFinishExplanations(translation: Translation) {
-        return translation.expressions.SetLiteral.finish;
+    getFinishExplanations(
+        translation: Translation,
+        context: Context,
+        evaluator: Evaluator
+    ) {
+        return translation.expressions.SetLiteral.finish(
+            this.getValueIfDefined(translation, context, evaluator)
+        );
     }
 }

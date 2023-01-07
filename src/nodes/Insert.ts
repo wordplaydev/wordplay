@@ -23,6 +23,7 @@ import TypeException from '../runtime/TypeException';
 import type { Replacement } from './Node';
 import type Translation from '../translations/Translation';
 import UnimplementedException from '../runtime/UnimplementedException';
+import NodeLink from '../translations/NodeLink';
 
 export default class Insert extends Expression {
     readonly table: Expression;
@@ -204,11 +205,19 @@ export default class Insert extends Expression {
         return translation.expressions.Insert;
     }
 
-    getStartExplanations(translation: Translation) {
-        return translation.expressions.Insert.start;
+    getStartExplanations(translation: Translation, context: Context) {
+        return translation.expressions.Insert.start(
+            new NodeLink(this.table, translation, context)
+        );
     }
 
-    getFinishExplanations(translation: Translation) {
-        return translation.expressions.Insert.finish;
+    getFinishExplanations(
+        translation: Translation,
+        context: Context,
+        evaluator: Evaluator
+    ) {
+        return translation.expressions.Insert.finish(
+            this.getValueIfDefined(translation, context, evaluator)
+        );
     }
 }

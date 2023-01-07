@@ -25,6 +25,7 @@ import UnclosedDelimiter from '../conflicts/UnclosedDelimiter';
 import type { Replacement } from './Node';
 import type Translation from '../translations/Translation';
 import { NotASetOrMapType } from './NotASetOrMapType';
+import NodeLink from '../translations/NodeLink';
 
 export default class SetOrMapAccess extends Expression {
     readonly setOrMap: Expression;
@@ -174,11 +175,19 @@ export default class SetOrMapAccess extends Expression {
         return translation.expressions.SetOrMapAccess;
     }
 
-    getStartExplanations(translation: Translation) {
-        return translation.expressions.SetOrMapAccess.start;
+    getStartExplanations(translation: Translation, context: Context) {
+        return translation.expressions.SetOrMapAccess.start(
+            new NodeLink(this.setOrMap, translation, context)
+        );
     }
 
-    getFinishExplanations(translation: Translation) {
-        return translation.expressions.SetOrMapAccess.finish;
+    getFinishExplanations(
+        translation: Translation,
+        context: Context,
+        evaluator: Evaluator
+    ) {
+        return translation.expressions.SetOrMapAccess.finish(
+            this.getValueIfDefined(translation, context, evaluator)
+        );
     }
 }

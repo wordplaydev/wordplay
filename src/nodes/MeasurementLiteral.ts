@@ -18,6 +18,7 @@ import StartFinish from '../runtime/StartFinish';
 import type { Replacement } from './Node';
 import type Translation from '../translations/Translation';
 import AtomicExpression from './AtomicExpression';
+import NodeLink from '../translations/NodeLink';
 
 export default class MeasurementLiteral extends AtomicExpression {
     readonly number: Token;
@@ -112,7 +113,9 @@ export default class MeasurementLiteral extends AtomicExpression {
         return translation.expressions.MeasurementLiteral;
     }
 
-    getStartExplanations(translation: Translation) {
-        return translation.expressions.MeasurementLiteral.start;
+    getStartExplanations(translation: Translation, context: Context) {
+        return translation.expressions.MeasurementLiteral.start(
+            new NodeLink(this.number, translation, context)
+        );
     }
 }

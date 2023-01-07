@@ -67,7 +67,13 @@ export default abstract class HOF extends Expression {
         return translation.expressions.HOF.start;
     }
 
-    getFinishExplanations(translation: Translation) {
-        return translation.expressions.HOF.finish;
+    getFinishExplanations(
+        translation: Translation,
+        context: Context,
+        evaluator: Evaluator
+    ) {
+        return translation.expressions.HOF.finish(
+            this.getValueIfDefined(translation, context, evaluator)
+        );
     }
 }

@@ -159,10 +159,16 @@ export default class Program extends Expression {
     }
 
     getStartExplanations(translation: Translation) {
-        return translation.expressions.Program.start;
+        return translation.expressions.Program.start(this.borrows.length > 0);
     }
 
-    getFinishExplanations(translation: Translation) {
-        return translation.expressions.Program.finish;
+    getFinishExplanations(
+        translation: Translation,
+        context: Context,
+        evaluator: Evaluator
+    ) {
+        return translation.expressions.Program.finish(
+            this.getValueIfDefined(translation, context, evaluator)
+        );
     }
 }

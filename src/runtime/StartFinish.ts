@@ -19,7 +19,8 @@ export default class StartFinish extends Step {
     getExplanations(translation: Translation, evaluator: Evaluator) {
         return this.node.getStartExplanations(
             translation,
-            evaluator.project.getNodeContext(this.node)
+            evaluator.project.getNodeContext(this.node),
+            evaluator
         );
     }
 }

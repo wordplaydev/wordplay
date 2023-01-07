@@ -20,6 +20,7 @@ import UnknownNameType from './UnknownNameType';
 import type { Replacement } from './Node';
 import type Translation from '../translations/Translation';
 import StartEvaluation from '../runtime/StartEvaluation';
+import NodeLink from '../translations/NodeLink';
 
 export default class UnaryOperation extends Expression {
     readonly operator: Token;
@@ -191,11 +192,19 @@ export default class UnaryOperation extends Expression {
         return translation.expressions.UnaryOperation;
     }
 
-    getStartExplanations(translation: Translation) {
-        return translation.expressions.UnaryOperation.start;
+    getStartExplanations(translation: Translation, context: Context) {
+        return translation.expressions.UnaryOperation.start(
+            new NodeLink(this.operand, translation, context)
+        );
     }
 
-    getFinishExplanations(translation: Translation) {
-        return translation.expressions.UnaryOperation.finish;
+    getFinishExplanations(
+        translation: Translation,
+        context: Context,
+        evaluator: Evaluator
+    ) {
+        return translation.expressions.UnaryOperation.finish(
+            this.getValueIfDefined(translation, context, evaluator)
+        );
     }
 }

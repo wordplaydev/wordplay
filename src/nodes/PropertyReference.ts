@@ -27,6 +27,7 @@ import NameType from './NameType';
 import UnknownNameType from './UnknownNameType';
 import type { Replacement } from './Node';
 import type Translation from '../translations/Translation';
+import NodeLink from '../translations/NodeLink';
 
 export default class PropertyReference extends Expression {
     readonly structure: Expression;
@@ -289,7 +290,21 @@ export default class PropertyReference extends Expression {
         return translation.expressions.PropertyReference.start;
     }
 
-    getFinishExplanations(translation: Translation) {
-        return translation.expressions.PropertyReference.finish;
+    getFinishExplanations(
+        translation: Translation,
+        context: Context,
+        evaluator: Evaluator
+    ) {
+        return translation.expressions.PropertyReference.finish(
+            this.name
+                ? new NodeLink(
+                      this.name,
+                      translation,
+                      context,
+                      this.name?.getName()
+                  )
+                : undefined,
+            this.getValueIfDefined(translation, context, evaluator)
+        );
     }
 }

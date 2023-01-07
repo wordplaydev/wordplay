@@ -26,7 +26,7 @@ import HOF from './HOF';
 const INDEX = Names.make(['index']);
 const MAP = Names.make(['map']);
 
-export default class NativeHOFMapFilter extends HOF {
+export default class HOFMapFilter extends HOF {
     readonly hofType: FunctionType;
     constructor(hofType: FunctionType) {
         super();

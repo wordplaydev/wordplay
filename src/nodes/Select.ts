@@ -25,6 +25,7 @@ import NotATableType from './NotATableType';
 import UnknownNameType from './UnknownNameType';
 import type { Replacement } from './Node';
 import type Translation from '../translations/Translation';
+import NodeLink from '../translations/NodeLink';
 
 export default class Select extends Expression {
     readonly table: Expression;
@@ -197,11 +198,19 @@ export default class Select extends Expression {
         return translation.expressions.Select;
     }
 
-    getStartExplanations(translation: Translation) {
-        return translation.expressions.Select.start;
+    getStartExplanations(translation: Translation, context: Context) {
+        return translation.expressions.Select.start(
+            new NodeLink(this.table, translation, context)
+        );
     }
 
-    getFinishExplanations(translation: Translation) {
-        return translation.expressions.Select.finish;
+    getFinishExplanations(
+        translation: Translation,
+        context: Context,
+        evaluator: Evaluator
+    ) {
+        return translation.expressions.Select.finish(
+            this.getValueIfDefined(translation, context, evaluator)
+        );
     }
 }

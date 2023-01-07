@@ -19,6 +19,7 @@ import UnimplementedException from '../runtime/UnimplementedException';
 import type Evaluator from '../runtime/Evaluator';
 import type { Replacement } from './Node';
 import type Translation from '../translations/Translation';
+import NodeLink from '../translations/NodeLink';
 
 export default class Delete extends Expression {
     readonly table: Expression;
@@ -140,11 +141,19 @@ export default class Delete extends Expression {
         return translation.expressions.Delete;
     }
 
-    getStartExplanations(translation: Translation) {
-        return translation.expressions.Delete.start;
+    getStartExplanations(translation: Translation, context: Context) {
+        return translation.expressions.Delete.start(
+            new NodeLink(this.table, translation, context)
+        );
     }
 
-    getFinishExplanations(translation: Translation) {
-        return translation.expressions.Delete.finish;
+    getFinishExplanations(
+        translation: Translation,
+        context: Context,
+        evaluator: Evaluator
+    ) {
+        return translation.expressions.Delete.finish(
+            this.getValueIfDefined(translation, context, evaluator)
+        );
     }
 }

@@ -27,6 +27,7 @@ import type { Replacement } from './Node';
 import type Translation from '../translations/Translation';
 import AtomicExpression from './AtomicExpression';
 import NameException from '../runtime/NameException';
+import NodeLink from '../translations/NodeLink';
 
 /**
  * A reference to some Definition. Can optionally take the definition which it refers,
@@ -235,7 +236,9 @@ export default class Reference extends AtomicExpression {
         return translation.expressions.Reference;
     }
 
-    getStartExplanations(translation: Translation) {
-        return translation.expressions.Reference.start;
+    getStartExplanations(translation: Translation, context: Context) {
+        return translation.expressions.Reference.start(
+            new NodeLink(this.name, translation, context, this.name.getText())
+        );
     }
 }

@@ -175,7 +175,13 @@ export default class Reaction extends Expression {
         return translation.expressions.Reaction.start;
     }
 
-    getFinishExplanations(translation: Translation) {
-        return translation.expressions.Reaction.finish;
+    getFinishExplanations(
+        translation: Translation,
+        context: Context,
+        evaluator: Evaluator
+    ) {
+        return translation.expressions.Reaction.finish(
+            this.getValueIfDefined(translation, context, evaluator)
+        );
     }
 }

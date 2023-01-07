@@ -19,6 +19,7 @@ import type Evaluator from '../runtime/Evaluator';
 import type Value from '../runtime/Value';
 import type { Replacement } from './Node';
 import type Translation from '../translations/Translation';
+import NodeLink from '../translations/NodeLink';
 
 export default class Conditional extends Expression {
     readonly condition: Expression;
@@ -180,11 +181,19 @@ export default class Conditional extends Expression {
         return translation.expressions.Conditional;
     }
 
-    getStartExplanations(translation: Translation) {
-        return translation.expressions.Conditional.start;
+    getStartExplanations(translation: Translation, context: Context) {
+        return translation.expressions.Conditional.start(
+            new NodeLink(this.condition, translation, context)
+        );
     }
 
-    getFinishExplanations(translation: Translation) {
-        return translation.expressions.Conditional.finish;
+    getFinishExplanations(
+        translation: Translation,
+        context: Context,
+        evaluator: Evaluator
+    ) {
+        return translation.expressions.Conditional.finish(
+            this.getValueIfDefined(translation, context, evaluator)
+        );
     }
 }
