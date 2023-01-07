@@ -37,8 +37,10 @@ export default class TypeVariable extends Node {
         return this.names.hasName(name);
     }
 
-    getTranslation(languages: LanguageCode[]) {
-        return this.names.getTranslation(languages);
+    getTranslation(languages: LanguageCode | LanguageCode[]) {
+        return this.names.getTranslation(
+            Array.isArray(languages) ? languages : [languages]
+        );
     }
 
     computeConflicts() {}

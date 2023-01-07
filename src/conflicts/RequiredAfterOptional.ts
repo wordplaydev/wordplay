@@ -16,7 +16,7 @@ export default class RequiredAfterOptional extends Conflict {
     }
 
     getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.RequiredAfterOptional.primary();
+        return translation.conflict.RequiredAfterOptional.primary;
     }
 
     getSecondaryExplanation() {

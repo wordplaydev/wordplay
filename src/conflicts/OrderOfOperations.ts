@@ -21,10 +21,10 @@ export default class OrderOfOperations extends Conflict {
     }
 
     getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.OrderOfOperations.primary();
+        return translation.conflict.OrderOfOperations.primary;
     }
 
-    getSecondaryExplanation(translation: Translation) {
-        return translation.conflict.OrderOfOperations.secondary();
+    getSecondaryExplanation() {
+        return undefined;
     }
 }

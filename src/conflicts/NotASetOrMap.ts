@@ -1,5 +1,7 @@
+import type Context from '../nodes/Context';
 import type SetOrMapAccess from '../nodes/SetOrMapAccess';
 import type Type from '../nodes/Type';
+import NodeLink from '../translations/NodeLink';
 import type Translation from '../translations/Translation';
 import Conflict from './Conflict';
 
@@ -18,8 +20,10 @@ export class NotASetOrMap extends Conflict {
         return { primary: this.access.setOrMap, secondary: [] };
     }
 
-    getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.NotASetOrMap.primary(this.received);
+    getPrimaryExplanation(translation: Translation, context: Context) {
+        return translation.conflict.NotASetOrMap.primary(
+            new NodeLink(this.received, translation, context)
+        );
     }
 
     getSecondaryExplanation() {

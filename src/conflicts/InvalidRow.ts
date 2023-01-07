@@ -15,7 +15,7 @@ export default class InvalidRow extends Conflict {
     }
 
     getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.InvalidRow.primary();
+        return translation.conflict.InvalidRow.primary;
     }
 
     getSecondaryExplanation() {

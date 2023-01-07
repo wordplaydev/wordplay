@@ -1,5 +1,7 @@
+import type Context from '../nodes/Context';
 import type ListAccess from '../nodes/ListAccess';
 import type Type from '../nodes/Type';
+import NodeLink from '../translations/NodeLink';
 import type Translation from '../translations/Translation';
 import Conflict from './Conflict';
 
@@ -18,8 +20,10 @@ export class NotAList extends Conflict {
         return { primary: this.access.list, secondary: [] };
     }
 
-    getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.NotAList.primary(this.received);
+    getPrimaryExplanation(translation: Translation, context: Context) {
+        return translation.conflict.NotAList.primary(
+            new NodeLink(this.received, translation, context)
+        );
     }
 
     getSecondaryExplanation() {

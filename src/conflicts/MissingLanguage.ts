@@ -18,7 +18,7 @@ export default class MissingLanguage extends Conflict {
     }
 
     getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.MissingLanguage.primary();
+        return translation.conflict.MissingLanguage.primary;
     }
 
     getSecondaryExplanation() {

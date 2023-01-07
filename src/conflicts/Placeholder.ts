@@ -16,7 +16,7 @@ export default class Placeholder extends Conflict {
     }
 
     getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.Placeholder.primary();
+        return translation.conflict.Placeholder.primary;
     }
 
     getSecondaryExplanation() {

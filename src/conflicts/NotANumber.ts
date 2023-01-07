@@ -15,7 +15,7 @@ export class NotANumber extends Conflict {
     }
 
     getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.NotANumber.primary();
+        return translation.conflict.NotANumber.primary;
     }
 
     getSecondaryExplanation() {

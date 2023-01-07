@@ -1,5 +1,7 @@
+import type Context from '../nodes/Context';
 import type SetOrMapAccess from '../nodes/SetOrMapAccess';
 import type Type from '../nodes/Type';
+import NodeLink from '../translations/NodeLink';
 import type Translation from '../translations/Translation';
 import Conflict from './Conflict';
 
@@ -19,14 +21,15 @@ export class IncompatibleKey extends Conflict {
         return { primary: this.access.key, secondary: [this.expected] };
     }
 
-    getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.IncompatibleKey.primary({
-            expected: this.expected,
-            received: this.received,
-        });
+    getPrimaryExplanation(translation: Translation, context: Context) {
+        return translation.conflict.IncompatibleKey.primary(
+            new NodeLink(this.expected, translation, context)
+        );
     }
 
-    getSecondaryExplanation(translation: Translation) {
-        return translation.conflict.IncompatibleKey.secondary();
+    getSecondaryExplanation(translation: Translation, context: Context) {
+        return translation.conflict.IncompatibleKey.secondary(
+            new NodeLink(this.received, translation, context)
+        );
     }
 }

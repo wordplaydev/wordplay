@@ -16,7 +16,7 @@ export default class NoExpression extends Conflict {
     }
 
     getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.NoExpression.primary();
+        return translation.conflict.NoExpression.primary;
     }
 
     getSecondaryExplanation() {

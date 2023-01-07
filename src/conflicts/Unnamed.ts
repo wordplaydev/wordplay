@@ -2,7 +2,7 @@ import type Name from '../nodes/Name';
 import type Translation from '../translations/Translation';
 import Conflict from './Conflict';
 
-export default class UnnamedAlias extends Conflict {
+export default class Unnamed extends Conflict {
     readonly alias: Name;
     constructor(alias: Name) {
         super(true);
@@ -14,7 +14,7 @@ export default class UnnamedAlias extends Conflict {
     }
 
     getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.UnnamedAlias.primary();
+        return translation.conflict.Unnamed.primary;
     }
 
     getSecondaryExplanation() {

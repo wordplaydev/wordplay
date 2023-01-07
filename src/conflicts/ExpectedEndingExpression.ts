@@ -15,9 +15,7 @@ export class ExpectedEndingExpression extends Conflict {
     }
 
     getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.ExpectedEndingExpression.primary(
-            this.block
-        );
+        return translation.conflict.ExpectedEndingExpression.primary;
     }
 
     getSecondaryExplanation() {

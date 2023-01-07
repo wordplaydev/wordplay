@@ -3,7 +3,7 @@ import type Type from '../nodes/Type';
 import type Is from '../nodes/Is';
 import type Translation from '../translations/Translation';
 
-export class IncompatibleType extends Conflict {
+export class ImpossibleType extends Conflict {
     readonly is: Is;
     readonly givenType: Type;
 
@@ -18,10 +18,10 @@ export class IncompatibleType extends Conflict {
     }
 
     getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.IncompatibleType.primary(this.is.type);
+        return translation.conflict.ImpossibleType.primary;
     }
 
-    getSecondaryExplanation(translation: Translation) {
-        return translation.conflict.IncompatibleType.secondary();
+    getSecondaryExplanation() {
+        return undefined;
     }
 }

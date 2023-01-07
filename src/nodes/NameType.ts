@@ -16,6 +16,7 @@ import type { NativeTypeName } from '../native/NativeConstants';
 import UnknownNameType from './UnknownNameType';
 import type { Replacement } from './Node';
 import type Translation from '../translations/Translation';
+import { UnknownName } from '../conflicts/UnknownName';
 
 export default class NameType extends Type {
     readonly name: Token;
@@ -63,10 +64,12 @@ export default class NameType extends Type {
 
         const def = this.resolve(context);
         // The name should be a structure type or a type variable on a structure that contains this name type.
-        if (
+        if (def === undefined)
+            conflicts.push(new UnknownName(this.name, undefined));
+        else if (
             !(def instanceof StructureDefinition || def instanceof TypeVariable)
         )
-            conflicts.push(new UnknownTypeName(this));
+            conflicts.push(new UnknownTypeName(this, def));
         else if (def instanceof StructureDefinition) {
             // If there are type inputs provided, verify that they exist on the function.
             if (this.types && this.types.types.length > 0) {

@@ -2,7 +2,7 @@ import Bind from '../nodes/Bind';
 import type Conflict from '../conflicts/Conflict';
 import MisplacedInput from '../conflicts/MisplacedInput';
 import MissingInput from '../conflicts/MissingInput';
-import UnexpectedInputs from '../conflicts/UnexpectedInputs';
+import UnexpectedInput from '../conflicts/UnexpectedInput';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import NotInstantiable from '../conflicts/NotInstantiable';
 import NotAFunction from '../conflicts/NotAFunction';
@@ -46,6 +46,7 @@ import type Translation from '../translations/Translation';
 import type Node from './Node';
 import StartEvaluation from '../runtime/StartEvaluation';
 import UnimplementedException from '../runtime/UnimplementedException';
+import Reference from './Reference';
 
 type Mapping = {
     expected: Bind;
@@ -272,10 +273,14 @@ export default class Evaluate extends Expression {
             return [
                 new NotAFunction(
                     this,
-                    this.func,
+                    this.func instanceof PropertyReference
+                        ? this.func.name
+                        : this.func instanceof Reference
+                        ? this.func
+                        : undefined,
                     this.func instanceof PropertyReference
                         ? this.func.structure.getType(context)
-                        : this.func.getType(context)
+                        : undefined
                 ),
             ];
 
@@ -387,7 +392,8 @@ export default class Evaluate extends Expression {
 
         // If there are remaining given inputs that didn't match anything, something's wrong.
         if (mapping.extra.length > 0)
-            conflicts.push(new UnexpectedInputs(fun, this, mapping.extra));
+            for (const extra of mapping.extra)
+                conflicts.push(new UnexpectedInput(fun, this, extra));
 
         // Check type
         const expected = fun.types;

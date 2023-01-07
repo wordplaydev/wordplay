@@ -1,5 +1,7 @@
+import type Context from '../nodes/Context';
 import type FunctionDefinition from '../nodes/FunctionDefinition';
 import type StructureDefinition from '../nodes/StructureDefinition';
+import NodeLink from '../translations/NodeLink';
 import type Translation from '../translations/Translation';
 import Conflict from './Conflict';
 
@@ -23,14 +25,26 @@ export class UnimplementedInterface extends Conflict {
         return { primary: this.structure.names, secondary: [this.fun] };
     }
 
-    getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.UnimplementedInterface.primary({
-            interface: this.interfaceStructure,
-            fun: this.fun,
-        });
+    getPrimaryExplanation(translation: Translation, context: Context) {
+        return translation.conflict.UnimplementedInterface.primary(
+            new NodeLink(
+                this.interfaceStructure,
+                translation,
+                context,
+                this.interfaceStructure.names.getTranslation(
+                    translation.language
+                )
+            ),
+            new NodeLink(
+                this.fun,
+                translation,
+                context,
+                this.fun.names.getTranslation(translation.language)
+            )
+        );
     }
 
-    getSecondaryExplanation(translation: Translation) {
-        return translation.conflict.UnimplementedInterface.secondary();
+    getSecondaryExplanation() {
+        return undefined;
     }
 }

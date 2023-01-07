@@ -18,10 +18,10 @@ export default class NotAnInterface extends Conflict {
     }
 
     getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.NotAnInterface.primary();
+        return translation.conflict.NotAnInterface.primary;
     }
 
-    getSecondaryExplanation(translation: Translation) {
-        return translation.conflict.NotAnInterface.secondary();
+    getSecondaryExplanation() {
+        return undefined;
     }
 }

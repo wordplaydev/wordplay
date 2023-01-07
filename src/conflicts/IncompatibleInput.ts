@@ -7,6 +7,8 @@ import type BinaryOperation from '../nodes/BinaryOperation';
 import type StructureDefinition from '../nodes/StructureDefinition';
 import type FunctionDefinition from '../nodes/FunctionDefinition';
 import type Translation from '../translations/Translation';
+import NodeLink from '../translations/NodeLink';
+import type Context from '../nodes/Context';
 
 export default class IncompatibleInput extends Conflict {
     readonly func: FunctionDefinition | StructureDefinition;
@@ -34,14 +36,15 @@ export default class IncompatibleInput extends Conflict {
         return { primary: this.givenNode, secondary: [this.expectedType] };
     }
 
-    getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.IncompatibleInput.primary([
-            this.expectedType,
-            this.givenType,
-        ]);
+    getPrimaryExplanation(translation: Translation, context: Context) {
+        return translation.conflict.IncompatibleInput.primary(
+            new NodeLink(this.expectedType, translation, context)
+        );
     }
 
-    getSecondaryExplanation(translation: Translation) {
-        return translation.conflict.IncompatibleInput.secondary();
+    getSecondaryExplanation(translation: Translation, context: Context) {
+        return translation.conflict.IncompatibleInput.secondary(
+            new NodeLink(this.givenType, translation, context)
+        );
     }
 }

@@ -1,4 +1,6 @@
 import type Bind from '../nodes/Bind';
+import type Context from '../nodes/Context';
+import NodeLink from '../translations/NodeLink';
 import type Translation from '../translations/Translation';
 import Conflict from './Conflict';
 
@@ -14,8 +16,10 @@ export default class ExpectedColumnType extends Conflict {
         return { primary: this.column, secondary: [] };
     }
 
-    getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.ExpectedColumnType.primary(this.column);
+    getPrimaryExplanation(translation: Translation, context: Context) {
+        return translation.conflict.ExpectedColumnType.primary(
+            new NodeLink(this.column, translation, context)
+        );
     }
 
     getSecondaryExplanation() {

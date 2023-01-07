@@ -15,7 +15,7 @@ export class MissingShareLanguages extends Conflict {
     }
 
     getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.MissingShareLanguages.primary();
+        return translation.conflict.MissingShareLanguages.primary;
     }
 
     getSecondaryExplanation() {

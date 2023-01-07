@@ -12,7 +12,7 @@ import type Bind from './Bind';
 import Reference from './Reference';
 import PropertyReference from './PropertyReference';
 import StructureDefinitionType from './StructureDefinitionType';
-import { IncompatibleType } from '../conflicts/IncompatibleType';
+import { ImpossibleType } from '../conflicts/ImpossibleType';
 import UnionType from './UnionType';
 import TypeSet from './TypeSet';
 import Start from '../runtime/Start';
@@ -62,7 +62,7 @@ export default class Is extends Expression {
                 !type.getTypeSet(context).acceptedBy(this.type, context)) ||
             (!(type instanceof UnionType) && !this.type.accepts(type, context))
         )
-            return [new IncompatibleType(this, type)];
+            return [new ImpossibleType(this, type)];
     }
 
     getDependencies(): Expression[] {

@@ -16,7 +16,7 @@ export default class InputListMustBeLast extends Conflict {
     }
 
     getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.InputListMustBeLast.primary();
+        return translation.conflict.InputListMustBeLast.primary;
     }
 
     getSecondaryExplanation() {

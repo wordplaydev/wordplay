@@ -3,7 +3,7 @@ import { UnexpectedTypeVariable } from '../conflicts/UnexpectedTypeVariable';
 import { UnknownName } from '../conflicts/UnknownName';
 import Expression from './Expression';
 import Token from './Token';
-import type Type from './Type';
+import Type from './Type';
 import TypeVariable from './TypeVariable';
 import type Evaluator from '../runtime/Evaluator';
 import Value from '../runtime/Value';
@@ -81,8 +81,15 @@ export default class Reference extends AtomicExpression {
         const conflicts = [];
 
         // Is this name undefined in scope?
-        if (bindOrTypeVar === undefined)
-            conflicts.push(new UnknownName(this.name));
+        if (bindOrTypeVar === undefined) {
+            const scope = this.getScope(context);
+            conflicts.push(
+                new UnknownName(
+                    this.name,
+                    scope instanceof Type ? scope : undefined
+                )
+            );
+        }
         // Type variables aren't alowed in type variables.
         else if (bindOrTypeVar instanceof TypeVariable)
             conflicts.push(new UnexpectedTypeVariable(this));

@@ -27,7 +27,7 @@ export default class UnknownInput extends Conflict {
     }
 
     getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.UnknownInput.primary();
+        return translation.conflict.UnknownInput.primary;
     }
 
     getSecondaryExplanation() {

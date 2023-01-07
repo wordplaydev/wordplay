@@ -22,7 +22,7 @@ export class UnknownBorrow extends Conflict {
     }
 
     getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.UnknownBorrow.primary();
+        return translation.conflict.UnknownBorrow.primary;
     }
 
     getSecondaryExplanation() {

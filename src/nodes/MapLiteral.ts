@@ -12,12 +12,10 @@ import Start from '../runtime/Start';
 import type Context from './Context';
 import UnionType from './UnionType';
 import type TypeSet from './TypeSet';
-import { NotAMap } from '../conflicts/NotAMap';
+import { NotAKeyValue } from '../conflicts/NotAKeyValue';
 import MapType from './MapType';
-import Halt from '../runtime/Halt';
 import AnyType from './AnyType';
 import type Bind from './Bind';
-import UnparsableException from '../runtime/UnparsableException';
 import BindToken from './BindToken';
 import SetOpenToken from './SetOpenToken';
 import SetCloseToken from './SetCloseToken';
@@ -27,11 +25,16 @@ import type Translation from '../translations/Translation';
 
 export default class MapLiteral extends Expression {
     readonly open: Token;
-    readonly values: KeyValue[];
+    readonly values: (Expression | KeyValue)[];
     readonly close?: Token;
     readonly bind?: Token;
 
-    constructor(open: Token, values: KeyValue[], bind?: Token, close?: Token) {
+    constructor(
+        open: Token,
+        values: (KeyValue | Expression)[],
+        bind?: Token,
+        close?: Token
+    ) {
         super();
 
         this.open = open;
@@ -63,20 +66,24 @@ export default class MapLiteral extends Expression {
     clone(replace?: Replacement) {
         return new MapLiteral(
             this.replaceChild('open', this.open, replace),
-            this.replaceChild<KeyValue[]>('values', this.values, replace),
+            this.replaceChild('values', this.values, replace),
             this.replaceChild('bind', this.bind, replace),
             this.replaceChild('close', this.close, replace)
         ) as this;
     }
 
-    notAMap() {
-        return this.values.find((v) => v instanceof Expression) !== undefined;
+    getKeyValuePairs() {
+        return this.values.filter((v): v is KeyValue => v instanceof KeyValue);
     }
 
     computeConflicts(): Conflict[] {
         const conflicts: Conflict[] = [];
 
-        if (this.notAMap()) conflicts.push(new NotAMap(this));
+        // Check for non-key/value pairs
+        for (const expression of this.values.filter(
+            (v): v is Expression => v instanceof Expression
+        ))
+            conflicts.push(new NotAKeyValue(this, expression));
 
         if (this.close === undefined)
             return [
@@ -92,47 +99,44 @@ export default class MapLiteral extends Expression {
                 ? new AnyType()
                 : UnionType.getPossibleUnion(
                       context,
-                      this.values.map((v) => v.key.getType(context))
+                      this.getKeyValuePairs().map((v) => v.key.getType(context))
                   );
         let valueType =
             this.values.length === 0
                 ? new AnyType()
                 : UnionType.getPossibleUnion(
                       context,
-                      this.values.map((v) => v.value.getType(context))
+                      this.getKeyValuePairs().map((v) =>
+                          v.value.getType(context)
+                      )
                   );
 
         return MapType.make(keyType, valueType);
     }
 
     getDependencies(): Expression[] {
-        return this.values.map((kv) => [kv.key, kv.value]).flat();
+        return this.getKeyValuePairs()
+            .map((kv) => [kv.key, kv.value])
+            .flat();
     }
 
     compile(context: Context): Step[] {
-        return this.notAMap()
-            ? [
-                  new Halt(
-                      (evaluator) => new UnparsableException(evaluator, this),
-                      this
-                  ),
-              ]
-            : [
-                  new Start(this),
-                  // Evaluate all of the item or key/value expressions
-                  ...this.values.reduce(
-                      (steps: Step[], item) => [
-                          ...steps,
-                          ...[
-                              ...(item as KeyValue).key.compile(context),
-                              ...(item as KeyValue).value.compile(context),
-                          ],
-                      ],
-                      []
-                  ),
-                  // Then build the set or map.
-                  new Finish(this),
-              ];
+        return [
+            new Start(this),
+            // Evaluate all of the item or key/value expressions
+            ...this.getKeyValuePairs().reduce(
+                (steps: Step[], item) => [
+                    ...steps,
+                    ...[
+                        ...item.key.compile(context),
+                        ...item.value.compile(context),
+                    ],
+                ],
+                []
+            ),
+            // Then build the set or map.
+            new Finish(this),
+        ];
     }
 
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {

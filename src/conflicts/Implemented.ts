@@ -21,10 +21,10 @@ export class Implemented extends Conflict {
     }
 
     getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.Implemented.primary();
+        return translation.conflict.Implemented.primary;
     }
 
     getSecondaryExplanation(translation: Translation) {
-        return translation.conflict.Implemented.secondary();
+        return translation.conflict.Implemented.secondary;
     }
 }

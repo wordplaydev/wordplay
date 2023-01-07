@@ -15,7 +15,7 @@ export class UnexpectedTypeVariable extends Conflict {
     }
 
     getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.UnexpectedTypeVariable.primary();
+        return translation.conflict.UnexpectedTypeVariable.primary;
     }
 
     getSecondaryExplanation() {

@@ -15,17 +15,8 @@ import type SetType from '../nodes/SetType';
 import type StreamType from '../nodes/StreamType';
 import type UnionType from '../nodes/UnionType';
 import type Unit from '../nodes/Unit';
-import type Type from '../nodes/Type';
 import type { CycleType } from '../nodes/CycleType';
 import type UnknownNameType from '../nodes/UnknownNameType';
-import type Source from '../nodes/Source';
-import type Name from '../nodes/Name';
-import type Bind from '../nodes/Bind';
-import type TypeVariable from '../nodes/TypeVariable';
-import type Block from '../nodes/Block';
-import type Expression from '../nodes/Expression';
-import type StructureDefinition from '../nodes/StructureDefinition';
-import type FunctionDefinition from '../nodes/FunctionDefinition';
 import type NodeLink from './NodeLink';
 import type LinkedDescription from './LinkedDescription';
 import type ValueLink from './ValueLink';
@@ -54,13 +45,21 @@ export interface ExpressionTranslation extends AtomicExpressionTranslation {
     finish: Description;
 }
 
-export type ConflictTranslation<Primary = void, Secondary = void> = {
-    primary: (info: Primary) => Description;
-    secondary: (info: Secondary) => Description;
+export type DescriptionOrGenerator =
+    | Description
+    | ((...args: any[]) => Description);
+
+export type InternalConflictTranslation<
+    Primary extends DescriptionOrGenerator
+> = {
+    primary: Primary;
 };
 
-export type InternalConflictTranslation<Primary = void> = {
-    primary: (info: Primary) => Description;
+export type ConflictTranslation<
+    Primary extends DescriptionOrGenerator,
+    Secondary extends DescriptionOrGenerator
+> = InternalConflictTranslation<Primary> & {
+    secondary: Secondary;
 };
 
 export type FunctionTranslation<Inputs> = {
@@ -468,73 +467,141 @@ type Translation = {
         value: (node: NodeLink) => Description;
     };
     conflict: {
-        BorrowCycle: ConflictTranslation<Source[]>;
-        ReferenceCycle: InternalConflictTranslation<Reference>;
-        DisallowedInputs: ConflictTranslation;
-        DuplicateNames: ConflictTranslation<Name[]>;
-        DuplicateShare: ConflictTranslation<[Bind, Bind]>;
-        DuplicateTypeVariables: ConflictTranslation<TypeVariable[]>;
-        ExpectedBooleanCondition: InternalConflictTranslation<Type>;
-        ExpectedColumnType: InternalConflictTranslation<Bind>;
-        ExpectedEndingExpression: InternalConflictTranslation<Block>;
-        ExpectedSelectName: InternalConflictTranslation<Expression>;
-        ExpectedUpdateBind: InternalConflictTranslation<Expression>;
-        IgnoredExpression: InternalConflictTranslation;
-        Implemented: ConflictTranslation;
-        IncompatibleBind: ConflictTranslation<[Type, Type]>;
-        IncompatibleCellType: ConflictTranslation<[Type, Type]>;
-        IncompatibleInput: ConflictTranslation<[Type, Type]>;
-        IncompatibleKey: ConflictTranslation<{
-            expected: Type;
-            received: Type;
-        }>;
-        IncompatibleType: ConflictTranslation<Type>;
-        InvalidLanguage: ConflictTranslation;
-        InvalidRow: ConflictTranslation;
-        InvalidTypeInput: ConflictTranslation;
-        MisplacedConversion: InternalConflictTranslation;
-        MisplacedInput: InternalConflictTranslation;
-        MisplacedShare: ConflictTranslation;
-        MisplacedThis: InternalConflictTranslation;
-        MissingCell: ConflictTranslation<Bind>;
-        MissingInput: ConflictTranslation<Bind>;
-        MissingLanguage: InternalConflictTranslation;
-        MissingShareLanguages: InternalConflictTranslation;
-        NoExpression: InternalConflictTranslation;
-        NonBooleanQuery: InternalConflictTranslation;
-        NotAFunction: InternalConflictTranslation<{ name: string; type: Type }>;
-        NotAList: InternalConflictTranslation<Type>;
-        NotAListIndex: InternalConflictTranslation<Type>;
-        NotAMap: ConflictTranslation;
-        NotANumber: InternalConflictTranslation;
-        NotAnInterface: ConflictTranslation;
-        NotASetOrMap: InternalConflictTranslation<Type>;
-        NotAStream: InternalConflictTranslation<Type>;
-        NotAStreamIndex: InternalConflictTranslation<Type>;
-        NotATable: InternalConflictTranslation<Type>;
-        NotInstantiable: ConflictTranslation;
-        OrderOfOperations: ConflictTranslation;
-        Placeholder: InternalConflictTranslation;
-        RequiredAfterOptional: InternalConflictTranslation;
-        UnclosedDelimiter: InternalConflictTranslation<Token>;
-        UnexpectedEtc: InternalConflictTranslation;
-        UnexpectedInputs: ConflictTranslation;
-        UnexpectedTypeVariable: InternalConflictTranslation;
-        UnimplementedInterface: ConflictTranslation<{
-            interface: StructureDefinition;
-            fun: FunctionDefinition;
-        }>;
-        UnknownBorrow: InternalConflictTranslation;
-        UnknownColumn: InternalConflictTranslation;
-        UnknownConversion: InternalConflictTranslation<{ in: Type; out: Type }>;
-        UnknownInput: InternalConflictTranslation;
-        UnknownName: InternalConflictTranslation<string>;
-        UnknownProperty: InternalConflictTranslation;
-        UnknownTypeName: InternalConflictTranslation;
-        UnnamedAlias: InternalConflictTranslation;
-        UnparsableConflict: InternalConflictTranslation<boolean>;
-        UnusedBind: InternalConflictTranslation;
-        InputListMustBeLast: InternalConflictTranslation;
+        BorrowCycle: InternalConflictTranslation<
+            (borrow: NodeLink) => Description
+        >;
+        ReferenceCycle: InternalConflictTranslation<
+            (ref: NodeLink) => Description
+        >;
+        DisallowedInputs: ConflictTranslation<Description, Description>;
+        DuplicateNames: ConflictTranslation<
+            (name: NodeLink) => Description,
+            (name: NodeLink) => Description
+        >;
+        DuplicateShare: ConflictTranslation<
+            (bind: NodeLink) => Description,
+            (bind: NodeLink) => Description
+        >;
+        DuplicateTypeVariables: ConflictTranslation<
+            (name: NodeLink[]) => Description,
+            (name: NodeLink) => Description
+        >;
+        ExpectedBooleanCondition: InternalConflictTranslation<
+            (type: NodeLink) => Description
+        >;
+        ExpectedColumnType: InternalConflictTranslation<
+            (type: NodeLink) => Description
+        >;
+        ExpectedEndingExpression: InternalConflictTranslation<Description>;
+        ExpectedSelectName: InternalConflictTranslation<
+            (cell: NodeLink) => Description
+        >;
+        ExpectedUpdateBind: InternalConflictTranslation<
+            (cell: NodeLink) => Description
+        >;
+        IgnoredExpression: InternalConflictTranslation<Description>;
+        Implemented: ConflictTranslation<Description, Description>;
+        IncompatibleBind: ConflictTranslation<
+            (expected: NodeLink) => Description,
+            (given: NodeLink) => Description
+        >;
+        IncompatibleCellType: ConflictTranslation<
+            (expected: NodeLink) => Description,
+            (given: NodeLink) => Description
+        >;
+        IncompatibleInput: ConflictTranslation<
+            (expected: NodeLink) => Description,
+            (given: NodeLink) => Description
+        >;
+        IncompatibleKey: ConflictTranslation<
+            (expected: NodeLink) => Description,
+            (given: NodeLink) => Description
+        >;
+        ImpossibleType: InternalConflictTranslation<Description>;
+        InvalidLanguage: InternalConflictTranslation<Description>;
+        InvalidRow: InternalConflictTranslation<Description>;
+        InvalidTypeInput: ConflictTranslation<
+            (definition: NodeLink) => Description,
+            (type: NodeLink) => Description
+        >;
+        MisplacedConversion: InternalConflictTranslation<Description>;
+        MisplacedInput: InternalConflictTranslation<Description>;
+        MisplacedShare: InternalConflictTranslation<Description>;
+        MisplacedThis: InternalConflictTranslation<Description>;
+        MissingCell: ConflictTranslation<
+            (column: NodeLink) => Description,
+            (row: NodeLink) => Description
+        >;
+        MissingInput: ConflictTranslation<
+            (input: NodeLink) => Description,
+            (evaluate: NodeLink) => Description
+        >;
+        MissingLanguage: InternalConflictTranslation<Description>;
+        MissingShareLanguages: InternalConflictTranslation<Description>;
+        NoExpression: InternalConflictTranslation<Description>;
+        NonBooleanQuery: InternalConflictTranslation<
+            (type: NodeLink) => Description
+        >;
+        NotAFunction: InternalConflictTranslation<
+            (
+                name: NodeLink | undefined,
+                given: NodeLink | undefined
+            ) => Description
+        >;
+        NotAList: InternalConflictTranslation<(type: NodeLink) => Description>;
+        NotAListIndex: InternalConflictTranslation<
+            (type: NodeLink) => Description
+        >;
+        NotAMap: ConflictTranslation<
+            Description,
+            (expr: NodeLink) => Description
+        >;
+        NotANumber: InternalConflictTranslation<Description>;
+        NotAnInterface: InternalConflictTranslation<Description>;
+        NotASetOrMap: InternalConflictTranslation<
+            (type: NodeLink) => Description
+        >;
+        NotAStream: InternalConflictTranslation<
+            (type: NodeLink) => Description
+        >;
+        NotAStreamIndex: InternalConflictTranslation<
+            (type: NodeLink) => Description
+        >;
+        NotATable: InternalConflictTranslation<(type: NodeLink) => Description>;
+        NotInstantiable: InternalConflictTranslation<Description>;
+        OrderOfOperations: InternalConflictTranslation<Description>;
+        Placeholder: InternalConflictTranslation<Description>;
+        RequiredAfterOptional: InternalConflictTranslation<Description>;
+        UnclosedDelimiter: InternalConflictTranslation<
+            (token: NodeLink, expected: NodeLink) => Description
+        >;
+        UnexpectedEtc: InternalConflictTranslation<Description>;
+        UnexpectedInput: ConflictTranslation<
+            (evaluation: NodeLink) => Description,
+            (input: NodeLink) => Description
+        >;
+        UnexpectedTypeVariable: InternalConflictTranslation<Description>;
+        UnimplementedInterface: InternalConflictTranslation<
+            (inter: NodeLink, fun: NodeLink) => Description
+        >;
+        UnknownBorrow: InternalConflictTranslation<Description>;
+        UnknownColumn: InternalConflictTranslation<Description>;
+        UnknownConversion: InternalConflictTranslation<
+            (from: NodeLink, to: NodeLink) => Description
+        >;
+        UnknownInput: InternalConflictTranslation<Description>;
+        UnknownName: InternalConflictTranslation<
+            (name: NodeLink, type: NodeLink | undefined) => Description
+        >;
+        UnknownTypeName: InternalConflictTranslation<
+            (type: ValueLink | NodeLink) => Description
+        >;
+        Unnamed: InternalConflictTranslation<Description>;
+        UnparsableConflict: InternalConflictTranslation<
+            (expression: boolean) => Description
+        >;
+        UnusedBind: InternalConflictTranslation<Description>;
+        InputListMustBeLast: InternalConflictTranslation<Description>;
     };
     step: {
         stream: Description;

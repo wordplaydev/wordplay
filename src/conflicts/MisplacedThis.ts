@@ -14,7 +14,7 @@ export class MisplacedThis extends Conflict {
     }
 
     getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.MisplacedThis.primary();
+        return translation.conflict.MisplacedThis.primary;
     }
 
     getSecondaryExplanation() {

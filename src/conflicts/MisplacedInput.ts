@@ -30,7 +30,7 @@ export default class MisplacedInput extends Conflict {
     }
 
     getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.MisplacedInput.primary();
+        return translation.conflict.MisplacedInput.primary;
     }
 
     getSecondaryExplanation() {

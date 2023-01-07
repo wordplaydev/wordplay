@@ -18,7 +18,7 @@ export default class UnknownColumn extends Conflict {
     }
 
     getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.UnknownColumn.primary();
+        return translation.conflict.UnknownColumn.primary;
     }
 
     getSecondaryExplanation() {

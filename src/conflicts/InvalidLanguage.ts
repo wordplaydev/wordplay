@@ -18,10 +18,10 @@ export default class InvalidLanguage extends Conflict {
     }
 
     getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.InvalidLanguage.primary();
+        return translation.conflict.InvalidLanguage.primary;
     }
 
-    getSecondaryExplanation(translation: Translation) {
-        return translation.conflict.InvalidLanguage.secondary();
+    getSecondaryExplanation() {
+        return undefined;
     }
 }

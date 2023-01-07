@@ -1,25 +1,29 @@
+import type Context from '../nodes/Context';
 import type Previous from '../nodes/Previous';
 import type Type from '../nodes/Type';
+import NodeLink from '../translations/NodeLink';
 import type Translation from '../translations/Translation';
 import Conflict from './Conflict';
 
 export class NotAStreamIndex extends Conflict {
     readonly previous: Previous;
-    readonly indexType: Type;
+    readonly received: Type;
 
-    constructor(access: Previous, indexType: Type) {
+    constructor(access: Previous, received: Type) {
         super(false);
 
         this.previous = access;
-        this.indexType = indexType;
+        this.received = received;
     }
 
     getConflictingNodes() {
         return { primary: this.previous.index, secondary: [] };
     }
 
-    getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.NotAStreamIndex.primary(this.indexType);
+    getPrimaryExplanation(translation: Translation, context: Context) {
+        return translation.conflict.NotAStreamIndex.primary(
+            new NodeLink(this.received, translation, context)
+        );
     }
 
     getSecondaryExplanation() {

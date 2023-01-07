@@ -1,6 +1,8 @@
+import type Context from '../nodes/Context';
 import type Expression from '../nodes/Expression';
 import type TableType from '../nodes/TableType';
 import type Type from '../nodes/Type';
+import NodeLink from '../translations/NodeLink';
 import type Translation from '../translations/Translation';
 import Conflict from './Conflict';
 
@@ -28,14 +30,15 @@ export default class IncompatibleCellType extends Conflict {
         return { primary: this.cell, secondary: [this.type] };
     }
 
-    getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.IncompatibleCellType.primary([
-            this.expected,
-            this.received,
-        ]);
+    getPrimaryExplanation(translation: Translation, context: Context) {
+        return translation.conflict.IncompatibleCellType.primary(
+            new NodeLink(this.expected, translation, context)
+        );
     }
 
-    getSecondaryExplanation(translation: Translation) {
-        return translation.conflict.IncompatibleCellType.secondary();
+    getSecondaryExplanation(translation: Translation, context: Context) {
+        return translation.conflict.IncompatibleCellType.secondary(
+            new NodeLink(this.received, translation, context)
+        );
     }
 }

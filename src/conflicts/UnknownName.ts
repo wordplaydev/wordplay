@@ -1,21 +1,31 @@
+import type Context from '../nodes/Context';
 import type Token from '../nodes/Token';
+import type Type from '../nodes/Type';
+import NodeLink from '../translations/NodeLink';
 import type Translation from '../translations/Translation';
 import Conflict from './Conflict';
 
 export class UnknownName extends Conflict {
     readonly name: Token;
+    readonly type: Type | undefined;
 
-    constructor(name: Token) {
+    constructor(name: Token, type: Type | undefined) {
         super(false);
         this.name = name;
+        this.type = type;
     }
 
     getConflictingNodes() {
         return { primary: this.name, secondary: [] };
     }
 
-    getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.UnknownName.primary(this.name.getText());
+    getPrimaryExplanation(translation: Translation, context: Context) {
+        return translation.conflict.UnknownName.primary(
+            new NodeLink(this.name, translation, context, this.name.getText()),
+            this.type
+                ? new NodeLink(this.type, translation, context)
+                : undefined
+        );
     }
 
     getSecondaryExplanation() {

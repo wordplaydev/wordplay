@@ -16,7 +16,7 @@ export default class UnusedBind extends Conflict {
     }
 
     getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.UnusedBind.primary();
+        return translation.conflict.UnusedBind.primary;
     }
 
     getSecondaryExplanation() {

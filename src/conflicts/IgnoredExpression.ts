@@ -15,7 +15,7 @@ export class IgnoredExpression extends Conflict {
     }
 
     getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.IgnoredExpression.primary();
+        return translation.conflict.IgnoredExpression.primary;
     }
 
     getSecondaryExplanation() {

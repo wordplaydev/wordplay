@@ -15,7 +15,7 @@ import type TypeSet from './TypeSet';
 import FunctionException from '../runtime/FunctionException';
 import JumpIf from '../runtime/JumpIf';
 import FunctionDefinition from './FunctionDefinition';
-import UnexpectedInputs from '../conflicts/UnexpectedInputs';
+import UnexpectedInputs from '../conflicts/UnexpectedInput';
 import MissingInput from '../conflicts/MissingInput';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import Evaluation from '../runtime/Evaluation';
@@ -162,7 +162,7 @@ export default class BinaryOperation extends Expression {
         if (fun instanceof FunctionDefinition) {
             // Are there too many inputs?
             if (fun.inputs.length === 0)
-                conflicts.push(new UnexpectedInputs(fun, this, [this.right]));
+                conflicts.push(new UnexpectedInputs(fun, this, this.right));
             // Are there too few inputs?
             else if (fun.inputs.length > 1) {
                 const secondInput = fun.inputs[1];

@@ -18,10 +18,10 @@ export class DisallowedInputs extends Conflict {
     }
 
     getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.DisallowedInputs.primary();
+        return translation.conflict.DisallowedInputs.primary;
     }
 
     getSecondaryExplanation(translation: Translation) {
-        return translation.conflict.DisallowedInputs.secondary();
+        return translation.conflict.DisallowedInputs.secondary;
     }
 }

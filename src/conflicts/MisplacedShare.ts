@@ -18,7 +18,7 @@ export class MisplacedShare extends Conflict {
     }
 
     getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.MisplacedShare.primary();
+        return translation.conflict.MisplacedShare.primary;
     }
 
     getSecondaryExplanation() {

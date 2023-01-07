@@ -1,6 +1,8 @@
 import Changed from '../nodes/Changed';
+import type Context from '../nodes/Context';
 import type Previous from '../nodes/Previous';
 import type Type from '../nodes/Type';
+import NodeLink from '../translations/NodeLink';
 import type Translation from '../translations/Translation';
 import Conflict from './Conflict';
 
@@ -26,8 +28,10 @@ export class NotAStream extends Conflict {
         };
     }
 
-    getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.NotAStream.primary(this.received);
+    getPrimaryExplanation(translation: Translation, context: Context) {
+        return translation.conflict.NotAStream.primary(
+            new NodeLink(this.received, translation, context)
+        );
     }
 
     getSecondaryExplanation() {

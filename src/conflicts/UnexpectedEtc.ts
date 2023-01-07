@@ -17,7 +17,7 @@ export default class UnexpectedEtc extends Conflict {
     }
 
     getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.UnexpectedEtc.primary();
+        return translation.conflict.UnexpectedEtc.primary;
     }
 
     getSecondaryExplanation() {

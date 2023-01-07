@@ -23,8 +23,8 @@ import {
 import type { Description } from './Translation';
 import type { CycleType } from '../nodes/CycleType';
 import type UnknownNameType from '../nodes/UnknownNameType';
-import type Type from '../nodes/Type';
 import LinkedDescription from './LinkedDescription';
+import type NodeLink from './NodeLink';
 
 const WRITE_DOC = 'TBD';
 
@@ -102,36 +102,36 @@ const eng_serious: Translation = {
             purpose: WRITE_DOC,
         },
         Docs: {
-            description: 'a set of documentation',
+            description: 'set of documentation',
             purpose: WRITE_DOC,
         },
         KeyValue: {
-            description: 'a key/value pair',
+            description: 'key/value pair',
             purpose: WRITE_DOC,
         },
         Language: {
-            description: 'a language tag',
+            description: 'language tag',
             purpose: WRITE_DOC,
         },
         Name: {
-            description: 'a name',
+            description: 'name',
             purpose: WRITE_DOC,
         },
         Names: {
-            description: 'a list of names',
+            description: 'list of names',
             purpose: WRITE_DOC,
         },
         Row: {
-            description: 'a row of values',
+            description: 'row of values',
             purpose: WRITE_DOC,
         },
         Token: {
             description: (token: Token) =>
                 token.is(TokenType.NAME)
-                    ? 'a name'
+                    ? 'name'
                     : token.is(TokenType.BINARY_OP) ||
                       token.is(TokenType.UNARY_OP)
-                    ? 'an operator'
+                    ? 'operator'
                     : token.is(TokenType.DOCS)
                     ? 'documentation'
                     : token.is(TokenType.JAPANESE) ||
@@ -139,10 +139,10 @@ const eng_serious: Translation = {
                       token.is(TokenType.NUMBER) ||
                       token.is(TokenType.PI) ||
                       token.is(TokenType.INFINITY)
-                    ? 'a number'
+                    ? 'number'
                     : token.is(TokenType.SHARE)
                     ? 'share'
-                    : 'a token',
+                    : 'token',
             purpose: WRITE_DOC,
         },
         TypeInputs: {
@@ -299,8 +299,8 @@ const eng_serious: Translation = {
                     : node.number.is(TokenType.INFINITY)
                     ? 'infinity'
                     : node.unit.isUnitless()
-                    ? 'a number'
-                    : 'a number with a unit',
+                    ? 'number'
+                    : 'number with a unit',
             purpose: WRITE_DOC,
             start: 'evaluate to (value)',
         },
@@ -421,7 +421,7 @@ const eng_serious: Translation = {
     },
     types: {
         AnyType: {
-            description: 'any type',
+            description: 'anything',
             purpose: WRITE_DOC,
         },
         BooleanType: {
@@ -429,19 +429,19 @@ const eng_serious: Translation = {
             purpose: WRITE_DOC,
         },
         ConversionType: {
-            description: 'a conversion function type',
+            description: 'conversion function',
             purpose: WRITE_DOC,
         },
         ExceptionType: {
-            description: 'an exception',
+            description: 'exception',
             purpose: WRITE_DOC,
         },
         FunctionDefinitionType: {
-            description: 'a type of function',
+            description: 'function',
             purpose: WRITE_DOC,
         },
         FunctionType: {
-            description: 'a type of function',
+            description: 'function',
             purpose: WRITE_DOC,
         },
         ListType: {
@@ -451,8 +451,8 @@ const eng_serious: Translation = {
                 context: Context
             ) =>
                 node.type === undefined
-                    ? 'a list type'
-                    : `a list of type ${node.type.getDescription(
+                    ? 'list'
+                    : `list of ${node.type.getDescription(
                           translation,
                           context
                       )}`,
@@ -465,15 +465,15 @@ const eng_serious: Translation = {
                 context: Context
             ) =>
                 node.key === undefined || node.value === undefined
-                    ? 'a map type'
-                    : `a map of type ${node.key.getDescription(
+                    ? 'map'
+                    : `map of ${node.key.getDescription(
                           translation,
                           context
                       )} to ${node.value.getDescription(translation, context)}`,
             purpose: WRITE_DOC,
         },
         MeasurementType: {
-            description: () => 'a number',
+            description: () => 'number',
             purpose: WRITE_DOC,
         },
         NameType: {
@@ -481,11 +481,11 @@ const eng_serious: Translation = {
             purpose: WRITE_DOC,
         },
         NeverType: {
-            description: 'an impossible type',
+            description: 'impossible type',
             purpose: WRITE_DOC,
         },
         NoneType: {
-            description: 'a nothing type',
+            description: 'nothing',
             purpose: WRITE_DOC,
         },
         SetType: {
@@ -495,8 +495,8 @@ const eng_serious: Translation = {
                 context: Context
             ) =>
                 node.key === undefined
-                    ? 'a set type'
-                    : `a set of type ${node.key.getDescription(
+                    ? 'set type'
+                    : `set of type ${node.key.getDescription(
                           translation,
                           context
                       )}`,
@@ -507,15 +507,11 @@ const eng_serious: Translation = {
                 node: StreamType,
                 translation: Translation,
                 context: Context
-            ) =>
-                `a stream of type ${node.type.getDescription(
-                    translation,
-                    context
-                )}`,
+            ) => `stream of ${node.type.getDescription(translation, context)}`,
             purpose: WRITE_DOC,
         },
         StructureDefinitionType: {
-            description: 'a type of structure',
+            description: 'structure',
             purpose: WRITE_DOC,
         },
         UnknownType: {
@@ -532,15 +528,15 @@ const eng_serious: Translation = {
             purpose: WRITE_DOC,
         },
         TableType: {
-            description: 'a type of table',
+            description: 'table',
             purpose: WRITE_DOC,
         },
         TextType: {
-            description: 'text type',
+            description: 'text',
             purpose: WRITE_DOC,
         },
         TypePlaceholder: {
-            description: 'a placeholder type',
+            description: 'placeholder type',
             purpose: WRITE_DOC,
         },
         UnionType: {
@@ -561,21 +557,21 @@ const eng_serious: Translation = {
         Unit: {
             description: (node, translation, context) =>
                 node.exponents.size === 0
-                    ? 'a number'
+                    ? 'number'
                     : node.numerator.length === 1 &&
                       node.denominator.length === 0
                     ? node.numerator[0].getDescription(translation, context)
                     : node.toWordplay() === 'm/s'
                     ? 'velocity'
-                    : 'a number with unit',
+                    : 'number with unit',
             purpose: WRITE_DOC,
         },
         UnparsableType: {
-            description: 'an unparsable type',
+            description: 'unparsable type',
             purpose: WRITE_DOC,
         },
         VariableType: {
-            description: 'a variable type',
+            description: 'variable type',
             purpose: WRITE_DOC,
         },
         CycleType: {
@@ -1116,240 +1112,345 @@ const eng_serious: Translation = {
     },
     conflict: {
         BorrowCycle: {
-            primary: (cycle) =>
-                `This borrow depends on ${cycle[0].getTranslation([
-                    'eng',
-                ])}${cycle
-                    .slice(1)
-                    .map((source) => `, which depends on ${source.getNames()}`)
-                    .join('')}, which depends on ${cycle[0].getNames()}.`,
-            secondary: () => '',
+            primary: (borrow) =>
+                LinkedDescription.with(
+                    'this depends on ',
+                    borrow,
+                    " which depends on this source, so the program can't be evaluated"
+                ),
         },
         ReferenceCycle: {
-            primary: () => `this depends on itself`,
+            primary: (ref) =>
+                LinkedDescription.with(
+                    ref,
+                    ' depends on itself, so it cannot be evaluated'
+                ),
         },
         DisallowedInputs: {
-            primary: () => 'inputs on interfaces not allowed',
-            secondary: () => "this isn't allowed",
+            primary:
+                'inputs on interfaces not allowed, since they only specify a contract, not an implementation',
+            secondary: "this input isn't allowed",
         },
         DuplicateNames: {
-            primary: () => `duplicate name`,
-            secondary: () => 'duplicate',
+            primary: (name) =>
+                LinkedDescription.with(
+                    name,
+                    ' is already defined, which might intend to refer to the other bind with the same name'
+                ),
+            secondary: (name) =>
+                LinkedDescription.with('this is overwritten by ', name),
         },
         DuplicateShare: {
-            primary: () => `duplicate share`,
-            secondary: () => `duplicate share`,
+            primary: (bind) =>
+                LinkedDescription.with(
+                    'has the same name as ',
+                    bind,
+                    ', which makes what is shared ambiguous'
+                ),
+            secondary: (bind) =>
+                LinkedDescription.with(
+                    'has the same name as ',
+                    bind,
+                    ', which makes what is shared ambiguous'
+                ),
         },
         DuplicateTypeVariables: {
-            primary: () => `duplicate type variable`,
-            secondary: () => `duplicate type variable`,
+            primary: (vars) =>
+                LinkedDescription.with.apply(null, [
+                    'this has the same name as ',
+                    ...vars.reduce(
+                        (list: (string | NodeLink)[], variable, index) =>
+                            list.concat(
+                                index === 0 ? [variable] : [', ', variable]
+                            ),
+                        []
+                    ),
+                ]),
+            secondary: (variable) =>
+                LinkedDescription.with('this has the same name as ', variable),
         },
         ExpectedBooleanCondition: {
-            primary: (type: Type) =>
-                `expected boolean condition, received ${type.toWordplay()}`,
+            primary: (type: NodeLink) =>
+                LinkedDescription.with(
+                    'expected boolean condition but received ',
+                    type
+                ),
         },
         ExpectedColumnType: {
-            primary: () => `columns require types`,
+            primary: (bind) =>
+                LinkedDescription.with(
+                    'this table column ',
+                    bind,
+                    ' has no type, but all columns require one'
+                ),
         },
         ExpectedEndingExpression: {
-            primary: () => `blocks require an expression`,
+            primary:
+                'blocks require at least one expression so that they evaluate to something',
         },
         ExpectedSelectName: {
-            primary: () => `value required`,
+            primary: (cell) =>
+                LinkedDescription.with(
+                    cell,
+                    ' has no name; selects require column names to know what columns to return'
+                ),
         },
         ExpectedUpdateBind: {
-            primary: () => `value required`,
+            primary: (cell) =>
+                LinkedDescription.with(
+                    cell,
+                    ' has value; updates require a value for each column specified to know what value to set'
+                ),
         },
         IgnoredExpression: {
-            primary: () => `unused expression`,
+            primary:
+                'this expression is not used; it will not affect the value of anything',
         },
         Implemented: {
-            primary: () => `interfaces must implement all functions are none`,
-            secondary: () =>
-                `implementation not allowed unless all are implemented`,
+            primary: `interfaces must implement all functions are none`,
+            secondary: `this can't have an implementation unless all functions are implemented, otherwise its not clear if this is an interface or an implementation`,
         },
         IncompatibleBind: {
-            primary: (types) =>
-                `expected ${types[0].toWordplay()}, got ${types[1].toWordplay()}`,
-            secondary: () => `didn't receive this type`,
+            primary: (expected) =>
+                LinkedDescription.with('expected ', expected),
+            secondary: (given) => LinkedDescription.with('given ', given),
         },
         IncompatibleCellType: {
-            primary: (types) =>
-                `expected ${types[0].toWordplay()}, received ${types[1].toWordplay()}`,
-            secondary: () => `didn't receive this type`,
+            primary: (expected) =>
+                LinkedDescription.with('expected column type ', expected),
+            secondary: (given) => LinkedDescription.with('given ', given),
         },
         IncompatibleInput: {
-            primary: (types) =>
-                `expected input of type ${types[0].toWordplay()}, received ${types[1].toWordplay()}`,
-            secondary: () => `didn't receive this type`,
+            primary: (expected) =>
+                LinkedDescription.with('expected ', expected, ' input'),
+            secondary: (given) => LinkedDescription.with('given ', given),
         },
         IncompatibleKey: {
-            primary: (types) =>
-                `expected keys of type ${types.expected.toWordplay()}, received ${types.received.toWordplay()}`,
-            secondary: () => ``,
+            primary: (expected) =>
+                LinkedDescription.with('expected ', expected, ' key '),
+            secondary: (given) => LinkedDescription.with('given ', given),
         },
-        IncompatibleType: {
-            primary: (type) => `this can never be a ${type.toWordplay()}`,
-            secondary: () => `this can never be`,
+        ImpossibleType: {
+            primary: 'this can never be this type',
         },
         InvalidLanguage: {
-            primary: () => `not a valid language code`,
-            secondary: () => `expects a valid language code`,
+            primary: `this is not a valid language code`,
         },
         InvalidRow: {
-            primary: () => `all columns must be specified`,
-            secondary: () => `all of these columns are required`,
+            primary: `row is missing one or more required columns`,
         },
         InvalidTypeInput: {
-            primary: () => `this type input isn't accepted by this`,
-            secondary: () => `this doesn't accept this type input`,
+            primary: (def) =>
+                LinkedDescription.with(def, ` does not expect this type input`),
+            secondary: (type) =>
+                LinkedDescription.with(
+                    'this definition does expect type ',
+                    type
+                ),
         },
         MisplacedConversion: {
-            primary: () => `conversions only allowed in structure definitions`,
+            primary: `conversions only allowed in structure definitions`,
         },
         MisplacedInput: {
-            primary: () => `this input is out of the expected order`,
+            primary: `this input is out of the expected order`,
         },
         MisplacedShare: {
-            primary: () => `shares only allowed at top level of program`,
-            secondary: () => ``,
+            primary: `shares only allowed at top level of program`,
         },
         MisplacedThis: {
-            primary: () =>
-                `${THIS_SYMBOL} only allowed in structure definition or reaction`,
+            primary: `${THIS_SYMBOL} only allowed in structure definition or reaction`,
         },
         MissingCell: {
             primary: (column) =>
-                `this row is missing column ${column.toWordplay()}.`,
-            secondary: () => `this column is required`,
+                LinkedDescription.with(`this row is missing column`, column),
+            secondary: (row) =>
+                LinkedDescription.with(
+                    `this column is required, but `,
+                    row,
+                    ' did not provide it'
+                ),
         },
         MissingInput: {
             primary: (input) =>
-                `expected input ${input.names.getTranslation('eng')}`,
-            secondary: () => `this input is required`,
+                LinkedDescription.with(
+                    'expected input ',
+                    input,
+                    ' but did not receive it'
+                ),
+            secondary: (evaluate) =>
+                LinkedDescription.with(
+                    `this input is required, but `,
+                    evaluate,
+                    ' did not provide it'
+                ),
         },
         MissingLanguage: {
-            primary: () => `language code required`,
+            primary:
+                'no language was provided, but there was a slash suggesting one would be',
         },
         MissingShareLanguages: {
-            primary: () => `shared code must specify language`,
+            primary:
+                'shared bindings must specify language so others know what languages are supported',
         },
         NoExpression: {
-            primary: () => `functions require expressions`,
+            primary: `functions require an expression, but none was provided for this one`,
         },
         NonBooleanQuery: {
-            primary: () => `queries must be boolean`,
+            primary: (type) =>
+                LinkedDescription.with(
+                    'queries must be boolean, but this is a ',
+                    type
+                ),
         },
         NotAFunction: {
-            primary: ({ name, type }) =>
-                `no function by name ${name} on type ${type.toWordplay()}`,
+            primary: (name, type) =>
+                LinkedDescription.with(
+                    name ? name : 'this',
+                    ' is not a function ',
+                    type ? ' in ' : ' scope',
+                    type ? type : ''
+                ),
         },
         NotAList: {
-            primary: (type) => `this is a ${type.toWordplay()}, not a list`,
+            primary: (type) =>
+                LinkedDescription.with('expected a list, this is a ', type),
         },
         NotAListIndex: {
-            primary: (type) => `expected number, received ${type.toWordplay()}`,
+            primary: (type) =>
+                LinkedDescription.with('expected number, this is a ', type),
         },
         NotAMap: {
-            primary: () =>
-                `expected only expressions or key/value pairs, not a mixture`,
-            secondary: () => `expected this to be a key/value pair`,
+            primary:
+                'this expression is not allowed in a map, only key/value pairs are allowed',
+            secondary: (expr) =>
+                LinkedDescription.with('this map has a ', expr),
         },
         NotANumber: {
-            primary: () => `this number isn't formatted correctly`,
+            primary: "this number isn't formatted correctly",
         },
         NotAnInterface: {
-            primary: () => `structures can only implement interfaces`,
-            secondary: () => `not an interface`,
+            primary:
+                'this is not an interface; structures can only implement interfaces, not other structures',
         },
         NotASetOrMap: {
             primary: (type) =>
-                `expected set or map, this is a ${type.toWordplay()}`,
+                LinkedDescription.with(
+                    'expected set or map, but this is a ',
+                    type
+                ),
         },
         NotAStream: {
             primary: (type) =>
-                `expected a stream, this is a ${type.toWordplay()}`,
+                LinkedDescription.with('expected stream, but this is a ', type),
         },
         NotAStreamIndex: {
-            primary: (type) => `expected number, received ${type.toWordplay()}`,
+            primary: (type) =>
+                LinkedDescription.with(
+                    'expected a number, but this is a ',
+                    type
+                ),
         },
         NotATable: {
             primary: (type) =>
-                `expected a table, this is a ${type.toWordplay()}`,
+                LinkedDescription.with(
+                    'expected a table, but this is a ',
+                    type
+                ),
         },
         NotInstantiable: {
-            primary: () =>
-                `can't make an interface with unimplemented functions`,
-            secondary: () => `this isn't implemented`,
+            primary:
+                'cannot make this structure because it refers to an interface',
         },
         OrderOfOperations: {
-            primary: () =>
-                `operators evalute left to right, unlike math; use parentheses to specify order of evaluation`,
-            secondary: () =>
-                `this will be evaluated after, regardless of what type of operator it is`,
+            primary:
+                'operators evalute left to right, unlike math; use parentheses to specify order of evaluation',
         },
         Placeholder: {
-            primary: () =>
-                `this is unimplemented; the program will stop if evaluated`,
+            primary:
+                'this is unimplemented, so the program will stop if evaluated',
         },
         RequiredAfterOptional: {
-            primary: () => `required inputs cannot come after optional ones`,
+            primary: 'required inputs cannot come after optional ones',
         },
         UnclosedDelimiter: {
-            primary: (token) => `expected ${token.getText()}`,
+            primary: (token, expected) =>
+                LinkedDescription.with(
+                    'expected ',
+                    expected,
+                    ' to match ',
+                    token
+                ),
         },
         UnexpectedEtc: {
-            primary: () =>
-                `variable length inputs can only appear on function evaluations`,
+            primary:
+                'variable length inputs can only appear on function evaluations',
         },
-        UnexpectedInputs: {
-            primary: () => `this has too many inputs`,
-            secondary: () => `this input isn't expected`,
+        UnexpectedInput: {
+            primary: (evaluation) =>
+                LinkedDescription.with(
+                    'this input is not specified on ',
+                    evaluation
+                ),
+            secondary: (input) =>
+                LinkedDescription.with(
+                    'this function does not expect this ',
+                    input
+                ),
         },
         UnexpectedTypeVariable: {
-            primary: () => `type inputs not allowed on type variables`,
+            primary: 'type inputs not allowed on type variables',
         },
         UnimplementedInterface: {
-            primary: (info) =>
-                `this structure implements interface ${info.interface}, but doesn't implement function ${info.fun}`,
-            secondary: () => ``,
+            primary: (inter, fun) =>
+                LinkedDescription.with(
+                    'this structure implements ',
+                    inter,
+                    ' but does not implement ',
+                    fun
+                ),
         },
         UnknownBorrow: {
-            primary: () => `unknown source and name`,
+            primary: 'unknown source and name',
         },
         UnknownColumn: {
-            primary: () => `unknown column in table`,
+            primary: 'unknown column in table',
         },
         UnknownConversion: {
-            primary: (types) =>
-                `no conversion from ${types.in.toWordplay()} to ${types.out.toWordplay()}`,
+            primary: (from, to) =>
+                LinkedDescription.with('no conversion from ', from, ' to ', to),
         },
         UnknownInput: {
-            primary: () => `no input by this name`,
+            primary: 'no input by this name',
         },
         UnknownName: {
-            primary: (name) => `unknown name ${name}`,
-        },
-        UnknownProperty: {
-            primary: () => `unknown property`,
+            primary: (name, type) =>
+                LinkedDescription.with(
+                    name,
+                    ' is not defined in ',
+                    type ? type : ' this scope'
+                ),
         },
         UnknownTypeName: {
-            primary: () => `unknown type`,
+            primary: (type) =>
+                LinkedDescription.with(
+                    'type names can only refer to structures or type variables, but this refers to a ',
+                    type
+                ),
         },
-        UnnamedAlias: {
-            primary: () => `missing name`,
+        Unnamed: {
+            primary: 'missing name',
         },
         UnparsableConflict: {
             primary: (expression) =>
                 expression
-                    ? `expected expression, but couldn't parse one`
-                    : `expected type, but couldn't parse one`,
+                    ? 'expectedexpression, but could not parse one'
+                    : 'expected type, but could not parse one',
         },
         UnusedBind: {
-            primary: () => `unused name`,
+            primary: 'this name is unused',
         },
         InputListMustBeLast: {
-            primary: () => `input list must be last`,
+            primary: 'list of inputs must be last',
         },
     },
     step: {

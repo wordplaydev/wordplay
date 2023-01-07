@@ -29,10 +29,10 @@ export default class NotInstantiable extends Conflict {
     }
 
     getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.NotInstantiable.primary();
+        return translation.conflict.NotInstantiable.primary;
     }
 
-    getSecondaryExplanation(translation: Translation) {
-        return translation.conflict.NotInstantiable.secondary();
+    getSecondaryExplanation() {
+        return undefined;
     }
 }

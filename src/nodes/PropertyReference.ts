@@ -1,5 +1,4 @@
 import type Conflict from '../conflicts/Conflict';
-import { UnknownProperty } from '../conflicts/UnknownProperty';
 import Expression from './Expression';
 import Token from './Token';
 import type Type from './Type';
@@ -87,13 +86,8 @@ export default class PropertyReference extends Expression {
         ) as this;
     }
 
-    computeConflicts(context: Context): Conflict[] {
-        const conflicts = [];
-
-        const def = this.resolve(context);
-        if (def === undefined) conflicts.push(new UnknownProperty(this));
-
-        return conflicts;
+    computeConflicts(): Conflict[] {
+        return [];
     }
 
     getScopeOfChild(child: Node, context: Context): Node | undefined {

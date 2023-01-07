@@ -1,4 +1,6 @@
+import type Context from '../nodes/Context';
 import type Expression from '../nodes/Expression';
+import NodeLink from '../translations/NodeLink';
 import type Translation from '../translations/Translation';
 import Conflict from './Conflict';
 
@@ -15,8 +17,10 @@ export default class ExpectedSelectName extends Conflict {
         return { primary: this.cell, secondary: [] };
     }
 
-    getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.ExpectedSelectName.primary(this.cell);
+    getPrimaryExplanation(translation: Translation, context: Context) {
+        return translation.conflict.ExpectedSelectName.primary(
+            new NodeLink(this.cell, translation, context)
+        );
     }
 
     getSecondaryExplanation() {

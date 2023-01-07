@@ -1,4 +1,6 @@
 import type Bind from '../nodes/Bind';
+import type Context from '../nodes/Context';
+import NodeLink from '../translations/NodeLink';
 import type Translation from '../translations/Translation';
 import Conflict from './Conflict';
 
@@ -15,14 +17,15 @@ export class DuplicateShare extends Conflict {
         return { primary: this.share.names, secondary: [this.other.names] };
     }
 
-    getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.DuplicateShare.primary([
-            this.share,
-            this.other,
-        ]);
+    getPrimaryExplanation(translation: Translation, context: Context) {
+        return translation.conflict.DuplicateShare.primary(
+            new NodeLink(this.other, translation, context)
+        );
     }
 
-    getSecondaryExplanation(translation: Translation) {
-        return translation.conflict.DuplicateShare.secondary();
+    getSecondaryExplanation(translation: Translation, context: Context) {
+        return translation.conflict.DuplicateShare.secondary(
+            new NodeLink(this.other, translation, context)
+        );
     }
 }

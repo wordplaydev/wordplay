@@ -2,6 +2,8 @@ import Conflict from './Conflict';
 import type Node from '../nodes/Node';
 import type Token from '../nodes/Token';
 import type Translation from '../translations/Translation';
+import NodeLink from '../translations/NodeLink';
+import type Context from '../nodes/Context';
 
 export default class UnclosedDelimiter extends Conflict {
     readonly open: Token;
@@ -20,8 +22,16 @@ export default class UnclosedDelimiter extends Conflict {
         return { primary: this.open, secondary: [] };
     }
 
-    getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.UnclosedDelimiter.primary(this.expected);
+    getPrimaryExplanation(translation: Translation, context: Context) {
+        return translation.conflict.UnclosedDelimiter.primary(
+            new NodeLink(this.open, translation, context, this.open.getText()),
+            new NodeLink(
+                this.expected,
+                translation,
+                context,
+                this.expected.getText()
+            )
+        );
     }
 
     getSecondaryExplanation() {

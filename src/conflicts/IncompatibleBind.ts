@@ -1,33 +1,36 @@
+import type Context from '../nodes/Context';
 import type Expression from '../nodes/Expression';
 import type Type from '../nodes/Type';
+import NodeLink from '../translations/NodeLink';
 import type Translation from '../translations/Translation';
 import Conflict from './Conflict';
 
 export default class IncompatibleBind extends Conflict {
     readonly expectedType: Type;
     readonly value: Expression;
-    readonly valueType: Type;
+    readonly givenType: Type;
 
-    constructor(type: Type, value: Expression, valueType: Type) {
+    constructor(expectedType: Type, value: Expression, givenType: Type) {
         super(false);
 
-        this.expectedType = type;
+        this.expectedType = expectedType;
         this.value = value;
-        this.valueType = valueType;
+        this.givenType = givenType;
     }
 
     getConflictingNodes() {
         return { primary: this.value, secondary: [this.expectedType] };
     }
 
-    getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.IncompatibleBind.primary([
-            this.expectedType,
-            this.valueType,
-        ]);
+    getPrimaryExplanation(translation: Translation, context: Context) {
+        return translation.conflict.IncompatibleBind.primary(
+            new NodeLink(this.expectedType, translation, context)
+        );
     }
 
-    getSecondaryExplanation(translation: Translation) {
-        return translation.conflict.IncompatibleBind.secondary();
+    getSecondaryExplanation(translation: Translation, context: Context) {
+        return translation.conflict.IncompatibleBind.secondary(
+            new NodeLink(this.givenType, translation, context)
+        );
     }
 }

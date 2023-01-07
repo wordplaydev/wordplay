@@ -809,8 +809,8 @@ function parseSetOrMap(tokens: Tokens): MapLiteral | SetLiteral {
         : undefined;
 
     // Make a map
-    return values.find((v) => v instanceof KeyValue) !== undefined
-        ? new MapLiteral(open, values as KeyValue[], undefined, close)
+    return values.some((v): v is KeyValue => v instanceof KeyValue)
+        ? new MapLiteral(open, values, undefined, close)
         : new SetLiteral(open, values as Expression[], close);
 }
 
