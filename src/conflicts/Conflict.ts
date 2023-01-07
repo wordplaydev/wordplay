@@ -15,7 +15,7 @@ export default abstract class Conflict {
      * and "secondary" ones, which are involved. We use this distiction in the editor to decide what to highlight,
      * but also how to position the various parties involved in the visual portrayal of the conflict.
      */
-    abstract getConflictingNodes(): { primary: Node; secondary: Node[] };
+    abstract getConflictingNodes(): { primary: Node; secondary?: Node };
 
     abstract getPrimaryExplanation(
         translation: Translation,

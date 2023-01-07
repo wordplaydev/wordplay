@@ -1,20 +1,20 @@
 import { test } from 'vitest';
 import { testConflict } from '../conflicts/TestUtilities';
 import RequiredAfterOptional from '../conflicts/RequiredAfterOptional';
-import DuplicateTypeVariables from '../conflicts/DuplicateTypeVariables';
+import DuplicateTypeVariable from '../conflicts/DuplicateTypeVariable';
 import StructureDefinition from './StructureDefinition';
-import DuplicateNames from '../conflicts/DuplicateNames';
+import DuplicateName from '../conflicts/DuplicateName';
 import { UnimplementedInterface } from '../conflicts/UnimplementedInterface';
-import { Implemented } from '../conflicts/Implemented';
+import { IncompleteImplementation } from '../conflicts/IncompleteImplementation';
 import { DisallowedInputs } from '../conflicts/DisallowedInputs';
 import Names from './Names';
 import TypeVariables from './TypeVariables';
 import NotAnInterface from '../conflicts/NotAnInterface';
 
 test.each([
-    ['•Cat,Dog(a b)', '•Cat,Cat(a b)', Names, DuplicateNames],
-    ['•Cat(a b)', '•Cat(a a)', StructureDefinition, DuplicateNames],
-    ['•Cat⸨T U⸩ ()', '•Cat⸨T T⸩ ()', TypeVariables, DuplicateTypeVariables],
+    ['•Cat,Dog(a b)', '•Cat,Cat(a b)', Names, DuplicateName],
+    ['•Cat(a b)', '•Cat(a a)', StructureDefinition, DuplicateName],
+    ['•Cat⸨T U⸩ ()', '•Cat⸨T T⸩ ()', TypeVariables, DuplicateTypeVariable],
     [
         '•Cat(a•# b•#:1)',
         '•Cat(a•#:1 b•#)',
@@ -32,7 +32,7 @@ test.each([
         '•Animal() ( ƒ sound()•"" _ ƒ smell() _)',
         '•Animal() ( ƒ sound()•"" _ ƒ smell() 1)',
         StructureDefinition,
-        Implemented,
+        IncompleteImplementation,
         0,
     ],
     [

@@ -32,7 +32,6 @@ export default class NotAFunction extends Conflict {
                 this.evaluate instanceof Evaluate
                     ? this.evaluate.func
                     : this.evaluate.operator,
-            secondary: [],
         };
     }
 

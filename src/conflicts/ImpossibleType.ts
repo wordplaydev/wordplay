@@ -14,7 +14,7 @@ export class ImpossibleType extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.is.expression, secondary: [this.is.type] };
+        return { primary: this.is.expression };
     }
 
     getPrimaryExplanation(translation: Translation) {

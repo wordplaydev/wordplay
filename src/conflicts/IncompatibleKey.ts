@@ -18,7 +18,7 @@ export class IncompatibleKey extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.access.key, secondary: [this.expected] };
+        return { primary: this.access.key, secondary: this.expected };
     }
 
     getPrimaryExplanation(translation: Translation, context: Context) {

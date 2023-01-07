@@ -10,7 +10,7 @@ export default class Unnamed extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.alias, secondary: [] };
+        return { primary: this.alias };
     }
 
     getPrimaryExplanation(translation: Translation) {

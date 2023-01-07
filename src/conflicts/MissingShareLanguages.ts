@@ -11,7 +11,7 @@ export class MissingShareLanguages extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.share, secondary: [] };
+        return { primary: this.share };
     }
 
     getPrimaryExplanation(translation: Translation) {

@@ -13,7 +13,7 @@ export default class UnexpectedEtc extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.etc, secondary: [] };
+        return { primary: this.etc };
     }
 
     getPrimaryExplanation(translation: Translation) {

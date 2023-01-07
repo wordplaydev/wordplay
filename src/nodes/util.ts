@@ -1,9 +1,7 @@
-import DuplicateTypeVariables from '../conflicts/DuplicateTypeVariables';
 import RequiredAfterOptional from '../conflicts/RequiredAfterOptional';
 import InputListMustBeLast from '../conflicts/InputListMustBeLast';
 import Bind from './Bind';
 import type Context from './Context';
-import type TypeVariable from './TypeVariable';
 import type Node from './Node';
 import type TableType from './TableType';
 import type Row from './Row';
@@ -15,19 +13,7 @@ import InvalidRow from '../conflicts/InvalidRow';
 import Token from './Token';
 import TokenType from './TokenType';
 import type Name from './Name';
-import DuplicateNames from '../conflicts/DuplicateNames';
-
-export function typeVarsAreUnique(
-    vars: TypeVariable[]
-): DuplicateTypeVariables | undefined {
-    const duplicateTypeVars = vars.filter((tv1) =>
-        vars.find((tv2) => tv2 !== tv1 && tv1.names.sharesName(tv2.names))
-    );
-
-    return duplicateTypeVars.length > 0
-        ? new DuplicateTypeVariables(duplicateTypeVars)
-        : undefined;
-}
+import DuplicateName from '../conflicts/DuplicateName';
 
 export function requiredBindAfterOptional(
     inputs: Bind[]
@@ -67,12 +53,12 @@ export function getEvaluationInputConflicts(inputs: Bind[]) {
         (names: Name[], bind: Bind) => names.concat(bind.names.names),
         []
     );
-    const duplicates = names.filter((bind1) =>
-        names.some(
-            (bind2) => bind1 !== bind2 && bind1.getName() === bind2.getName()
-        )
-    );
-    if (duplicates.length > 0) conflicts.push(new DuplicateNames(duplicates));
+    for (const name of names) {
+        const dupe = names.find(
+            (n) => n !== name && n.getName() === name.getName()
+        );
+        if (dupe) conflicts.push(new DuplicateName(name, dupe));
+    }
 
     // Required inputs can never follow an optional one.
     const requiredAfterOptional = requiredBindAfterOptional(inputs);

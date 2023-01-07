@@ -196,13 +196,15 @@ export default class Project {
                         []),
                     conflict,
                 ]);
-                complicitNodes.secondary?.forEach((node) => {
-                    let nodeConflicts = this.secondaryConflicts.get(node) ?? [];
-                    this.secondaryConflicts.set(node, [
+                if (complicitNodes.secondary) {
+                    let nodeConflicts =
+                        this.secondaryConflicts.get(complicitNodes.secondary) ??
+                        [];
+                    this.secondaryConflicts.set(complicitNodes.secondary, [
                         ...nodeConflicts,
                         conflict,
                     ]);
-                });
+                }
             });
 
             // Build a mapping from functions and structures to their evaluations.

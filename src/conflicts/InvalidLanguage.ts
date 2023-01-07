@@ -14,7 +14,7 @@ export default class InvalidLanguage extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.code, secondary: [this.language] };
+        return { primary: this.code, secondary: this.language };
     }
 
     getPrimaryExplanation(translation: Translation) {

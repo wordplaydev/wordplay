@@ -30,7 +30,7 @@ export default class MissingInput extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.last, secondary: [this.input.names] };
+        return { primary: this.last, secondary: this.input.names };
     }
 
     getPrimaryExplanation(translation: Translation, context: Context) {

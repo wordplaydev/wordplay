@@ -11,7 +11,7 @@ export class NotANumber extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.measurement, secondary: [] };
+        return { primary: this.measurement };
     }
 
     getPrimaryExplanation(translation: Translation) {

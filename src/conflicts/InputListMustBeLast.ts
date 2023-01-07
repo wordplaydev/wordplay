@@ -12,7 +12,7 @@ export default class InputListMustBeLast extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.bind, secondary: [] };
+        return { primary: this.bind };
     }
 
     getPrimaryExplanation(translation: Translation) {

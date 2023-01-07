@@ -33,10 +33,11 @@
             if (source.contains(nodes.primary)) {
                 if (!conflict.isMinor()) primaryCount++;
                 else secondaryCount++;
-            } else
-                secondaryCount += nodes.secondary.filter((node) =>
-                    source.contains(node)
-                ).length;
+            } else if (
+                nodes.secondary !== undefined &&
+                source.contains(nodes.secondary)
+            )
+                secondaryCount++;
         }
     }
 </script>

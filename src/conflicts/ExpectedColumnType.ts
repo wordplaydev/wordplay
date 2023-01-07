@@ -13,7 +13,7 @@ export default class ExpectedColumnType extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.column, secondary: [] };
+        return { primary: this.column };
     }
 
     getPrimaryExplanation(translation: Translation, context: Context) {

@@ -12,7 +12,7 @@ export default class NoExpression extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.def.names, secondary: [] };
+        return { primary: this.def.names };
     }
 
     getPrimaryExplanation(translation: Translation) {

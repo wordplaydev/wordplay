@@ -33,7 +33,7 @@ export default class IncompatibleInput extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.givenNode, secondary: [this.expectedType] };
+        return { primary: this.givenNode, secondary: this.expectedType };
     }
 
     getPrimaryExplanation(translation: Translation, context: Context) {

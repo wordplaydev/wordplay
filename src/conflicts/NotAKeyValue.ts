@@ -18,7 +18,7 @@ export class NotAKeyValue extends Conflict {
     getConflictingNodes() {
         return {
             primary: this.expression,
-            secondary: [this.map.open],
+            secondary: this.map.open,
         };
     }
 

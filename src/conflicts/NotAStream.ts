@@ -20,11 +20,10 @@ export class NotAStream extends Conflict {
     getConflictingNodes() {
         return {
             primary: this.stream.stream,
-            secondary: [
+            secondary:
                 this.stream instanceof Changed
                     ? this.stream.change
                     : this.stream.previous,
-            ],
         };
     }
 

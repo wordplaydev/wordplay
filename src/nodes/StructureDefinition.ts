@@ -16,7 +16,7 @@ import StructureDefinitionType from './StructureDefinitionType';
 import Token from './Token';
 import type TypeSet from './TypeSet';
 import { UnimplementedInterface } from '../conflicts/UnimplementedInterface';
-import { Implemented } from '../conflicts/Implemented';
+import { IncompleteImplementation } from '../conflicts/IncompleteImplementation';
 import { DisallowedInputs } from '../conflicts/DisallowedInputs';
 import type LanguageCode from '../translations/LanguageCode';
 import TypeToken from './TypeToken';
@@ -236,7 +236,7 @@ export default class StructureDefinition extends AtomicExpression {
         if (this.getAbstractFunctions().length > 0) {
             const implemented = this.getImplementedFunctions();
             if (implemented.length > 0)
-                conflicts.push(new Implemented(this, implemented));
+                conflicts.push(new IncompleteImplementation(this));
             if (this.inputs.length > 0)
                 conflicts.push(new DisallowedInputs(this));
         }

@@ -10,7 +10,7 @@ export class MisplacedThis extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.dis, secondary: [] };
+        return { primary: this.dis };
     }
 
     getPrimaryExplanation(translation: Translation) {

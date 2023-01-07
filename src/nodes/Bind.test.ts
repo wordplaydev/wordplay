@@ -2,7 +2,7 @@ import { test, expect } from 'vitest';
 import { testConflict } from '../conflicts/TestUtilities';
 import UnusedBind from '../conflicts/UnusedBind';
 import IncompatibleBind from '../conflicts/IncompatibleBind';
-import DuplicateNames from '../conflicts/DuplicateNames';
+import DuplicateName from '../conflicts/DuplicateName';
 import Evaluator from '../runtime/Evaluator';
 import Bind from './Bind';
 import Names from './Names';
@@ -10,7 +10,7 @@ import { MisplacedShare } from '../conflicts/MisplacedShare';
 import { MissingShareLanguages } from '../conflicts/MissingShareLanguages';
 
 test.each([
-    ['a, b: 1\na', 'a, a: 1\na', Names, DuplicateNames],
+    ['a, b: 1\na', 'a, a: 1\na', Names, DuplicateName],
     ['a•#: 1\na', 'a•"": 1\na', Bind, IncompatibleBind],
     ['a•#: 1\na', 'a•"cat"|"dot": "mouse"\na', Bind, IncompatibleBind],
     ['a•#: 1\na', 'a•1|2: 3\na', Bind, IncompatibleBind],

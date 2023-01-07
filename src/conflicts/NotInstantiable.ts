@@ -24,7 +24,7 @@ export default class NotInstantiable extends Conflict {
     getConflictingNodes() {
         return {
             primary: this.evaluate.func,
-            secondary: this.abstractFunctions.map((f) => f.names),
+            secondary: this.definition.names,
         };
     }
 

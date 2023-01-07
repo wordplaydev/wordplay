@@ -20,7 +20,7 @@ export default class MissingCell extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.row, secondary: [this.column] };
+        return { primary: this.row, secondary: this.column };
     }
 
     getPrimaryExplanation(translation: Translation, context: Context) {

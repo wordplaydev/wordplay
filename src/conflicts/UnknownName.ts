@@ -16,7 +16,7 @@ export class UnknownName extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.name, secondary: [] };
+        return { primary: this.name };
     }
 
     getPrimaryExplanation(translation: Translation, context: Context) {

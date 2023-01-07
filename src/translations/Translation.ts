@@ -473,8 +473,8 @@ type Translation = {
         ReferenceCycle: InternalConflictTranslation<
             (ref: NodeLink) => Description
         >;
-        DisallowedInputs: ConflictTranslation<Description, Description>;
-        DuplicateNames: ConflictTranslation<
+        DisallowedInputs: InternalConflictTranslation<Description>;
+        DuplicateName: ConflictTranslation<
             (name: NodeLink) => Description,
             (name: NodeLink) => Description
         >;
@@ -482,9 +482,9 @@ type Translation = {
             (bind: NodeLink) => Description,
             (bind: NodeLink) => Description
         >;
-        DuplicateTypeVariables: ConflictTranslation<
-            (name: NodeLink[]) => Description,
-            (name: NodeLink) => Description
+        DuplicateTypeVariable: ConflictTranslation<
+            (duplicate: NodeLink) => Description,
+            (duplicate: NodeLink) => Description
         >;
         ExpectedBooleanCondition: InternalConflictTranslation<
             (type: NodeLink) => Description
@@ -500,7 +500,7 @@ type Translation = {
             (cell: NodeLink) => Description
         >;
         IgnoredExpression: InternalConflictTranslation<Description>;
-        Implemented: ConflictTranslation<Description, Description>;
+        IncompleteImplementation: InternalConflictTranslation<Description>;
         IncompatibleBind: ConflictTranslation<
             (expected: NodeLink) => Description,
             (given: NodeLink) => Description
@@ -593,7 +593,7 @@ type Translation = {
         UnknownName: InternalConflictTranslation<
             (name: NodeLink, type: NodeLink | undefined) => Description
         >;
-        UnknownTypeName: InternalConflictTranslation<
+        InvalidTypeName: InternalConflictTranslation<
             (type: ValueLink | NodeLink) => Description
         >;
         Unnamed: InternalConflictTranslation<Description>;

@@ -19,7 +19,7 @@ export class BorrowCycle extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.borrow, secondary: [this.borrow] };
+        return { primary: this.borrow, secondary: this.borrow };
     }
 
     getPrimaryExplanation(translation: Translation, context: Context) {

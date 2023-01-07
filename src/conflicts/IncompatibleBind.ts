@@ -19,7 +19,7 @@ export default class IncompatibleBind extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.value, secondary: [this.expectedType] };
+        return { primary: this.value, secondary: this.expectedType };
     }
 
     getPrimaryExplanation(translation: Translation, context: Context) {

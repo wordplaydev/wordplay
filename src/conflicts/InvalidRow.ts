@@ -11,7 +11,7 @@ export default class InvalidRow extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.row, secondary: [] };
+        return { primary: this.row };
     }
 
     getPrimaryExplanation(translation: Translation) {

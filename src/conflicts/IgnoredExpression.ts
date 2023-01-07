@@ -11,7 +11,7 @@ export class IgnoredExpression extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.expr, secondary: [] };
+        return { primary: this.expr };
     }
 
     getPrimaryExplanation(translation: Translation) {

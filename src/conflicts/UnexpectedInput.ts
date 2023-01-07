@@ -28,11 +28,10 @@ export default class UnexpectedInputs extends Conflict {
     getConflictingNodes() {
         return {
             primary: this.input,
-            secondary: [
+            secondary:
                 this.evaluate instanceof Evaluate
                     ? this.evaluate.func
                     : this.evaluate.operator,
-            ],
         };
     }
 

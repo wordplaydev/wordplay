@@ -5,8 +5,8 @@ import { TYPE_CLOSE_SYMBOL, TYPE_OPEN_SYMBOL } from '../parser/Symbols';
 import Names from './Names';
 import type TypeVariable from './TypeVariable';
 import type Conflict from '../conflicts/Conflict';
-import { typeVarsAreUnique } from './util';
 import type Translation from '../translations/Translation';
+import DuplicateTypeVariable from '../conflicts/DuplicateTypeVariable';
 
 export default class TypeVariables extends Node {
     readonly open: Token;
@@ -51,10 +51,12 @@ export default class TypeVariables extends Node {
         const conflicts: Conflict[] = [];
 
         // Type variables must have unique names.
-        const duplicateTypeVars = this.variables
-            ? typeVarsAreUnique(this.variables)
-            : undefined;
-        if (duplicateTypeVars) conflicts.push(duplicateTypeVars);
+        for (const typeVar of this.variables) {
+            const dupe = this.variables.find(
+                (v) => v !== typeVar && v.names.sharesName(typeVar.names)
+            );
+            if (dupe) conflicts.push(new DuplicateTypeVariable(typeVar, dupe));
+        }
 
         return conflicts;
     }

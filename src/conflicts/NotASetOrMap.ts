@@ -17,7 +17,7 @@ export class NotASetOrMap extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.access.setOrMap, secondary: [] };
+        return { primary: this.access.setOrMap };
     }
 
     getPrimaryExplanation(translation: Translation, context: Context) {

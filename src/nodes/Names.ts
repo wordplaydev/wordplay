@@ -1,13 +1,14 @@
 import Node, { type Replacement } from './Node';
 import type LanguageCode from '../translations/LanguageCode';
 import Name from './Name';
-import DuplicateNames from '../conflicts/DuplicateNames';
+import DuplicateName from '../conflicts/DuplicateName';
 import Token from './Token';
 import { NAME_SEPARATOR_SYMBOL } from '../parser/Symbols';
 import TokenType from './TokenType';
 import NameToken from './NameToken';
 import Language from './Language';
 import type Translation from '../translations/Translation';
+import type Conflict from '../conflicts/Conflict';
 
 export default class Names extends Node {
     readonly names: Name[];
@@ -77,16 +78,16 @@ export default class Names extends Node {
     }
 
     computeConflicts() {
+        const conflicts: Conflict[] = [];
         // Names must be unique.
-        const duplicates = this.names.filter((name1) =>
-            this.names.some(
-                (name2) =>
-                    name1 !== name2 && name1.getName() === name2.getName()
-            )
-        );
-        if (duplicates.length > 0) return [new DuplicateNames(duplicates)];
+        for (const name of this.names) {
+            const dupe = this.names.find(
+                (n) => n !== name && n.getName() === name.getName()
+            );
+            if (dupe) conflicts.push(new DuplicateName(name, dupe));
+        }
 
-        return [];
+        return conflicts;
     }
 
     sharesName(names: Names) {

@@ -14,7 +14,7 @@ export class DuplicateShare extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.share.names, secondary: [this.other.names] };
+        return { primary: this.share.names, secondary: this.other.names };
     }
 
     getPrimaryExplanation(translation: Translation, context: Context) {

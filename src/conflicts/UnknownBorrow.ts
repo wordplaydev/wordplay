@@ -17,7 +17,6 @@ export class UnknownBorrow extends Conflict {
                 this.borrow.source === undefined
                     ? this.borrow.borrow
                     : this.borrow.source,
-            secondary: [],
         };
     }
 

@@ -38,7 +38,7 @@ import type TypeSet from './TypeSet';
 import type Value from '../runtime/Value';
 import TokenType from './TokenType';
 import type Name from './Name';
-import DuplicateNames from '../conflicts/DuplicateNames';
+import DuplicateName from '../conflicts/DuplicateName';
 import type { Replacement } from './Node';
 import type Translation from '../translations/Translation';
 
@@ -234,7 +234,7 @@ export default class Bind extends Expression {
 
                     if (defsWithName.length > 0)
                         conflicts.push(
-                            new DuplicateNames([name, ...defsWithName])
+                            new DuplicateName(name, defsWithName[0])
                         );
                 }
             }

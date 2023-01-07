@@ -19,7 +19,7 @@ export default class NonBooleanQuery extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.op.query, secondary: [] };
+        return { primary: this.op.query };
     }
 
     getPrimaryExplanation(translation: Translation, context: Context) {

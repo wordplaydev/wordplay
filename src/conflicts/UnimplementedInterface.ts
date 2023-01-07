@@ -22,7 +22,7 @@ export class UnimplementedInterface extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.structure.names, secondary: [this.fun] };
+        return { primary: this.structure.names, secondary: this.fun };
     }
 
     getPrimaryExplanation(translation: Translation, context: Context) {

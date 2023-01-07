@@ -16,7 +16,7 @@ export class UnknownConversion extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.convert.type, secondary: [] };
+        return { primary: this.convert.type };
     }
 
     getPrimaryExplanation(translation: Translation, context: Context) {

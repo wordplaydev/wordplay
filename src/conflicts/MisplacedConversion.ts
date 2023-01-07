@@ -12,7 +12,7 @@ export class MisplacedConversion extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.conversion, secondary: [] };
+        return { primary: this.conversion };
     }
 
     getPrimaryExplanation(translation: Translation) {

@@ -1,5 +1,5 @@
 import type Conflict from '../conflicts/Conflict';
-import { UnknownTypeName } from '../conflicts/UnknownTypeName';
+import { UnknownTypeName } from '../conflicts/InvalidTypeName';
 import Token from './Token';
 import Type from './Type';
 import TypeVariable from './TypeVariable';

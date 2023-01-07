@@ -2,7 +2,7 @@ import type StructureDefinition from '../nodes/StructureDefinition';
 import type Translation from '../translations/Translation';
 import Conflict from './Conflict';
 
-export class DisallowedInputs extends Conflict {
+export class IncompleteImplementation extends Conflict {
     readonly structure: StructureDefinition;
 
     constructor(structure: StructureDefinition) {
@@ -11,13 +11,11 @@ export class DisallowedInputs extends Conflict {
     }
 
     getConflictingNodes() {
-        return {
-            primary: this.structure.names,
-        };
+        return { primary: this.structure.names };
     }
 
     getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.DisallowedInputs.primary;
+        return translation.conflict.IncompleteImplementation.primary;
     }
 
     getSecondaryExplanation() {

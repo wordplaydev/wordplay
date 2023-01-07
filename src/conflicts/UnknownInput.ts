@@ -23,7 +23,7 @@ export default class UnknownInput extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.given.names, secondary: [] };
+        return { primary: this.given.names };
     }
 
     getPrimaryExplanation(translation: Translation) {

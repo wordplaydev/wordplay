@@ -89,30 +89,33 @@
                                 ? ('minor' as const)
                                 : ('primary' as const),
                         },
-                        ...conflictNodes.secondary
-                            .map((secondary: Node) => {
-                                const explanations = $translations
-                                    .map((trans) =>
-                                        conflict.getSecondaryExplanation(
-                                            trans,
-                                            project.getNodeContext(secondary) ??
-                                                project.getContext(project.main)
-                                        )
-                                    )
-                                    .filter(
-                                        (ex): ex is Description =>
-                                            ex !== undefined
-                                    );
-                                return explanations.length === undefined
-                                    ? undefined
-                                    : {
-                                          node: secondary,
-                                          element: getNodeView(secondary),
-                                          text: explanations,
-                                          kind: 'secondary',
-                                      };
-                            })
-                            .filter((c): c is Annotation => c !== undefined),
+                        ...(conflictNodes.secondary === undefined
+                            ? []
+                            : [
+                                  {
+                                      node: conflictNodes.secondary,
+                                      element: getNodeView(
+                                          conflictNodes.secondary
+                                      ),
+                                      text: $translations
+                                          .map((trans) =>
+                                              conflict.getSecondaryExplanation(
+                                                  trans,
+                                                  project.getNodeContext(
+                                                      conflictNodes.secondary as Node
+                                                  ) ??
+                                                      project.getContext(
+                                                          project.main
+                                                      )
+                                              )
+                                          )
+                                          .filter(
+                                              (ex): ex is Description =>
+                                                  ex !== undefined
+                                          ),
+                                      kind: 'secondary' as const,
+                                  },
+                              ]),
                     ];
                 })
                 .flat();

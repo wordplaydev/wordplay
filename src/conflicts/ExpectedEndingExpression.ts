@@ -11,7 +11,7 @@ export class ExpectedEndingExpression extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.block, secondary: [] };
+        return { primary: this.block };
     }
 
     getPrimaryExplanation(translation: Translation) {

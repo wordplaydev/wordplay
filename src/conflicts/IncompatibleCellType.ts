@@ -27,7 +27,7 @@ export default class IncompatibleCellType extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.cell, secondary: [this.type] };
+        return { primary: this.cell, secondary: this.type };
     }
 
     getPrimaryExplanation(translation: Translation, context: Context) {

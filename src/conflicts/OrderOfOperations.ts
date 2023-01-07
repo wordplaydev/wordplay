@@ -16,7 +16,7 @@ export default class OrderOfOperations extends Conflict {
     getConflictingNodes() {
         return {
             primary: this.operation.operator,
-            secondary: [this.after.operator],
+            secondary: this.after.operator,
         };
     }
 

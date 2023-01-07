@@ -14,7 +14,7 @@ export default class NotAnInterface extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.ref, secondary: [this.def.names] };
+        return { primary: this.ref, secondary: this.def.names };
     }
 
     getPrimaryExplanation(translation: Translation) {

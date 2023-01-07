@@ -12,7 +12,7 @@ export class UnparsableConflict extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.unparsable, secondary: [] };
+        return { primary: this.unparsable };
     }
 
     getPrimaryExplanation(translation: Translation) {

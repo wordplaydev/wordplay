@@ -17,7 +17,7 @@ export class NotAList extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.access.list, secondary: [] };
+        return { primary: this.access.list };
     }
 
     getPrimaryExplanation(translation: Translation, context: Context) {

@@ -1,11 +1,16 @@
 import { test } from 'vitest';
 import InvalidTypeInput from '../conflicts/InvalidTypeInput';
 import { testConflict } from '../conflicts/TestUtilities';
-import { UnknownTypeName } from '../conflicts/UnknownTypeName';
+import { UnknownTypeName } from '../conflicts/InvalidTypeName';
 import NameType from './NameType';
 
 test.each([
-    ['•Cat() ()\na•Cat: Cat()', 'a•Cat: 1', NameType, UnknownTypeName],
+    [
+        '•Cat() ()\na•Cat: Cat()',
+        'ƒ Cat() 1\na•Cat: 1',
+        NameType,
+        UnknownTypeName,
+    ],
     [
         '•Cat⸨T⸩() ()\na•Cat⸨#⸩: Cat(1)',
         '•Cat()\na•Cat⸨#⸩: Cat()',

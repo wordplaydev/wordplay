@@ -19,7 +19,7 @@ export default class UnclosedDelimiter extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.open, secondary: [] };
+        return { primary: this.open };
     }
 
     getPrimaryExplanation(translation: Translation, context: Context) {

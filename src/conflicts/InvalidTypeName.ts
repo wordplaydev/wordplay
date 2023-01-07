@@ -18,11 +18,11 @@ export class UnknownTypeName extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.name, secondary: [] };
+        return { primary: this.name };
     }
 
     getPrimaryExplanation(translation: Translation, context: Context) {
-        return translation.conflict.UnknownTypeName.primary(
+        return translation.conflict.InvalidTypeName.primary(
             this.definition instanceof Stream
                 ? new ValueLink(this.definition, translation, context)
                 : new NodeLink(this.definition, translation, context)

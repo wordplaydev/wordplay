@@ -25,7 +25,7 @@ export default class InvalidTypeInput extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.type, secondary: [this.definition.names] };
+        return { primary: this.type, secondary: this.definition.names };
     }
 
     getPrimaryExplanation(translation: Translation, context: Context) {

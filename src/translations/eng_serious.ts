@@ -1128,10 +1128,9 @@ const eng_serious: Translation = {
         },
         DisallowedInputs: {
             primary:
-                'inputs on interfaces not allowed, since they only specify a contract, not an implementation',
-            secondary: "this input isn't allowed",
+                'inputs on interfaces not allowed because one or more of its functions are unimplemented',
         },
-        DuplicateNames: {
+        DuplicateName: {
             primary: (name) =>
                 LinkedDescription.with(
                     name,
@@ -1154,20 +1153,11 @@ const eng_serious: Translation = {
                     ', which makes what is shared ambiguous'
                 ),
         },
-        DuplicateTypeVariables: {
-            primary: (vars) =>
-                LinkedDescription.with.apply(null, [
-                    'this has the same name as ',
-                    ...vars.reduce(
-                        (list: (string | NodeLink)[], variable, index) =>
-                            list.concat(
-                                index === 0 ? [variable] : [', ', variable]
-                            ),
-                        []
-                    ),
-                ]),
-            secondary: (variable) =>
-                LinkedDescription.with('this has the same name as ', variable),
+        DuplicateTypeVariable: {
+            primary: (dupe) =>
+                LinkedDescription.with('this has the same name as ', dupe),
+            secondary: (dupe) =>
+                LinkedDescription.with('this has the same name as ', dupe),
         },
         ExpectedBooleanCondition: {
             primary: (type: NodeLink) =>
@@ -1206,9 +1196,8 @@ const eng_serious: Translation = {
             primary:
                 'this expression is not used; it will not affect the value of anything',
         },
-        Implemented: {
-            primary: `interfaces must implement all functions are none`,
-            secondary: `this can't have an implementation unless all functions are implemented, otherwise its not clear if this is an interface or an implementation`,
+        IncompleteImplementation: {
+            primary: `structures must either be fully implemented or not implemented; this has a mixture`,
         },
         IncompatibleBind: {
             primary: (expected) =>
@@ -1430,7 +1419,7 @@ const eng_serious: Translation = {
                     type ? type : ' this scope'
                 ),
         },
-        UnknownTypeName: {
+        InvalidTypeName: {
             primary: (type) =>
                 LinkedDescription.with(
                     'type names can only refer to structures or type variables, but this refers to a ',

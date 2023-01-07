@@ -14,7 +14,7 @@ export default class MissingLanguage extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.slash, secondary: [] };
+        return { primary: this.slash };
     }
 
     getPrimaryExplanation(translation: Translation) {
