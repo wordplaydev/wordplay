@@ -25,23 +25,28 @@ export default class InvalidTypeInput extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.type, secondary: this.definition.names };
-    }
-
-    getPrimaryExplanation(translation: Translation, context: Context) {
-        return translation.conflict.InvalidTypeInput.primary(
-            new NodeLink(
-                this.definition.names,
-                translation,
-                context,
-                this.definition.names.getTranslation(translation.language)
-            )
-        );
-    }
-
-    getSecondaryExplanation(translation: Translation, context: Context) {
-        return translation.conflict.InvalidTypeInput.secondary(
-            new NodeLink(this.type, translation, context)
-        );
+        return {
+            primary: {
+                node: this.type,
+                explanation: (translation: Translation, context: Context) =>
+                    translation.conflict.InvalidTypeInput.primary(
+                        new NodeLink(
+                            this.definition.names,
+                            translation,
+                            context,
+                            this.definition.names.getTranslation(
+                                translation.language
+                            )
+                        )
+                    ),
+            },
+            secondary: {
+                node: this.definition.names,
+                explanation: (translation: Translation, context: Context) =>
+                    translation.conflict.InvalidTypeInput.secondary(
+                        new NodeLink(this.type, translation, context)
+                    ),
+            },
+        };
     }
 }

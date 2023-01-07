@@ -12,14 +12,12 @@ export class MisplacedConversion extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.conversion };
-    }
-
-    getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.MisplacedConversion.primary;
-    }
-
-    getSecondaryExplanation() {
-        return undefined;
+        return {
+            primary: {
+                node: this.conversion,
+                explanation: (translation: Translation) =>
+                    translation.conflict.MisplacedConversion.primary,
+            },
+        };
     }
 }

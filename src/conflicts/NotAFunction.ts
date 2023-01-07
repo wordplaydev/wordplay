@@ -28,32 +28,28 @@ export default class NotAFunction extends Conflict {
 
     getConflictingNodes() {
         return {
-            primary:
-                this.evaluate instanceof Evaluate
-                    ? this.evaluate.func
-                    : this.evaluate.operator,
+            primary: {
+                node:
+                    this.evaluate instanceof Evaluate
+                        ? this.evaluate.func
+                        : this.evaluate.operator,
+                explanation: (translation: Translation, context: Context) =>
+                    translation.conflict.NotAFunction.primary(
+                        this.name
+                            ? new NodeLink(
+                                  this.name,
+                                  translation,
+                                  context,
+                                  this.name instanceof Reference
+                                      ? this.name.getName()
+                                      : this.name.getText()
+                              )
+                            : undefined,
+                        this.type
+                            ? new NodeLink(this.type, translation, context)
+                            : undefined
+                    ),
+            },
         };
-    }
-
-    getPrimaryExplanation(translation: Translation, context: Context) {
-        return translation.conflict.NotAFunction.primary(
-            this.name
-                ? new NodeLink(
-                      this.name,
-                      translation,
-                      context,
-                      this.name instanceof Reference
-                          ? this.name.getName()
-                          : this.name.getText()
-                  )
-                : undefined,
-            this.type
-                ? new NodeLink(this.type, translation, context)
-                : undefined
-        );
-    }
-
-    getSecondaryExplanation() {
-        return undefined;
     }
 }

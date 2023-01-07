@@ -14,14 +14,12 @@ export class MisplacedShare extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.share };
-    }
-
-    getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.MisplacedShare.primary;
-    }
-
-    getSecondaryExplanation() {
-        return undefined;
+        return {
+            primary: {
+                node: this.share,
+                explanation: (translation: Translation) =>
+                    translation.conflict.MisplacedShare.primary,
+            },
+        };
     }
 }

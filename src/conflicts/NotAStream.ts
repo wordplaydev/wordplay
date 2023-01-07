@@ -1,4 +1,4 @@
-import Changed from '../nodes/Changed';
+import type Changed from '../nodes/Changed';
 import type Context from '../nodes/Context';
 import type Previous from '../nodes/Previous';
 import type Type from '../nodes/Type';
@@ -19,21 +19,13 @@ export class NotAStream extends Conflict {
 
     getConflictingNodes() {
         return {
-            primary: this.stream.stream,
-            secondary:
-                this.stream instanceof Changed
-                    ? this.stream.change
-                    : this.stream.previous,
+            primary: {
+                node: this.stream.stream,
+                explanation: (translation: Translation, context: Context) =>
+                    translation.conflict.NotAStream.primary(
+                        new NodeLink(this.received, translation, context)
+                    ),
+            },
         };
-    }
-
-    getPrimaryExplanation(translation: Translation, context: Context) {
-        return translation.conflict.NotAStream.primary(
-            new NodeLink(this.received, translation, context)
-        );
-    }
-
-    getSecondaryExplanation() {
-        return undefined;
     }
 }

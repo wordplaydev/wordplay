@@ -17,16 +17,14 @@ export default class ExpectedBooleanCondition extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.conditional.condition };
-    }
-
-    getPrimaryExplanation(translation: Translation, context: Context) {
-        return translation.conflict.ExpectedBooleanCondition.primary(
-            new NodeLink(this.type, translation, context)
-        );
-    }
-
-    getSecondaryExplanation() {
-        return undefined;
+        return {
+            primary: {
+                node: this.conditional.condition,
+                explanation: (translation: Translation, context: Context) =>
+                    translation.conflict.ExpectedBooleanCondition.primary(
+                        new NodeLink(this.type, translation, context)
+                    ),
+            },
+        };
     }
 }

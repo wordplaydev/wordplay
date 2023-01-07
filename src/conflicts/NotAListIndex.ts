@@ -17,16 +17,14 @@ export class NotAListIndex extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.access.index };
-    }
-
-    getPrimaryExplanation(translation: Translation, context: Context) {
-        return translation.conflict.NotAListIndex.primary(
-            new NodeLink(this.indexType, translation, context)
-        );
-    }
-
-    getSecondaryExplanation() {
-        return undefined;
+        return {
+            primary: {
+                node: this.access.index,
+                explanation: (translation: Translation, context: Context) =>
+                    translation.conflict.NotAListIndex.primary(
+                        new NodeLink(this.indexType, translation, context)
+                    ),
+            },
+        };
     }
 }

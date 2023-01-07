@@ -12,15 +12,11 @@ export class DisallowedInputs extends Conflict {
 
     getConflictingNodes() {
         return {
-            primary: this.structure.names,
+            primary: {
+                node: this.structure.names,
+                explanation: (translation: Translation) =>
+                    translation.conflict.DisallowedInputs.primary,
+            },
         };
-    }
-
-    getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.DisallowedInputs.primary;
-    }
-
-    getSecondaryExplanation() {
-        return undefined;
     }
 }

@@ -23,16 +23,11 @@ export default class NotInstantiable extends Conflict {
 
     getConflictingNodes() {
         return {
-            primary: this.evaluate.func,
-            secondary: this.definition.names,
+            primary: {
+                node: this.evaluate.func,
+                explanation: (translation: Translation) =>
+                    translation.conflict.NotInstantiable.primary,
+            },
         };
-    }
-
-    getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.NotInstantiable.primary;
-    }
-
-    getSecondaryExplanation() {
-        return undefined;
     }
 }

@@ -45,15 +45,15 @@ function checkNativeNodes(nodes: Node[]) {
             .filter((n) => !(n instanceof UnusedBind));
 
         if (conflicts.length > 0)
-            for (const conflict of conflicts)
+            for (const conflict of conflicts) {
+                const conflictingNodes = conflict.getConflictingNodes();
                 console.log(
-                    `Conflict on:\n${node.toWordplay()}\nPrimary node: ${conflict
-                        .getConflictingNodes()
-                        .primary.toWordplay()}\n\t${conflict.getPrimaryExplanation(
+                    `Conflict on:\n${node.toWordplay()}\nPrimary node: ${conflictingNodes.primary.node.toWordplay()}\n\t${conflictingNodes.primary.explanation(
                         eng_serious,
                         context
                     )}`
                 );
+            }
 
         expect(conflicts).toHaveLength(0);
     }

@@ -67,7 +67,9 @@
             // Conflict all of the active conflicts to a list of annotations.
             annotations = conflicts
                 .map((conflict: Conflict) => {
-                    const conflictNodes = conflict.getConflictingNodes();
+                    const nodes = conflict.getConflictingNodes();
+                    const primary = nodes.primary;
+                    const secondary = nodes.secondary;
                     // Based on the primary and secondary nodes given, decide what to show.
                     // We expect
                     // 1) a single primary node
@@ -75,34 +77,31 @@
                     // From these, we generate one or two speech bubbles to illustrate the conflict.
                     return [
                         {
-                            node: conflictNodes.primary,
-                            element: getNodeView(conflictNodes.primary),
+                            node: primary.node,
+                            element: getNodeView(primary.node),
                             text: $translations.map((trans) =>
-                                conflict.getPrimaryExplanation(
+                                primary.explanation(
                                     trans,
-                                    project.getNodeContext(
-                                        conflictNodes.primary
-                                    ) ?? project.getContext(project.main)
+                                    project.getNodeContext(primary.node) ??
+                                        project.getContext(project.main)
                                 )
                             ),
                             kind: conflict.isMinor()
                                 ? ('minor' as const)
                                 : ('primary' as const),
                         },
-                        ...(conflictNodes.secondary === undefined
+                        ...(secondary === undefined
                             ? []
                             : [
                                   {
-                                      node: conflictNodes.secondary,
-                                      element: getNodeView(
-                                          conflictNodes.secondary
-                                      ),
+                                      node: secondary.node,
+                                      element: getNodeView(secondary.node),
                                       text: $translations
                                           .map((trans) =>
-                                              conflict.getSecondaryExplanation(
+                                              secondary.explanation(
                                                   trans,
                                                   project.getNodeContext(
-                                                      conflictNodes.secondary as Node
+                                                      secondary.node
                                                   ) ??
                                                       project.getContext(
                                                           project.main

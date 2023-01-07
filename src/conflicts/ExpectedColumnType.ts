@@ -13,16 +13,14 @@ export default class ExpectedColumnType extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.column };
-    }
-
-    getPrimaryExplanation(translation: Translation, context: Context) {
-        return translation.conflict.ExpectedColumnType.primary(
-            new NodeLink(this.column, translation, context)
-        );
-    }
-
-    getSecondaryExplanation() {
-        return undefined;
+        return {
+            primary: {
+                node: this.column,
+                explanation: (translation: Translation, context: Context) =>
+                    translation.conflict.ExpectedColumnType.primary(
+                        new NodeLink(this.column, translation, context)
+                    ),
+            },
+        };
     }
 }

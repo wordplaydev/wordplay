@@ -17,16 +17,14 @@ export class NotAList extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.access.list };
-    }
-
-    getPrimaryExplanation(translation: Translation, context: Context) {
-        return translation.conflict.NotAList.primary(
-            new NodeLink(this.received, translation, context)
-        );
-    }
-
-    getSecondaryExplanation() {
-        return undefined;
+        return {
+            primary: {
+                node: this.access.list,
+                explanation: (translation: Translation, context: Context) =>
+                    translation.conflict.NotAList.primary(
+                        new NodeLink(this.received, translation, context)
+                    ),
+            },
+        };
     }
 }

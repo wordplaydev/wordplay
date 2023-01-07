@@ -13,18 +13,14 @@ export class UnknownBorrow extends Conflict {
 
     getConflictingNodes() {
         return {
-            primary:
-                this.borrow.source === undefined
-                    ? this.borrow.borrow
-                    : this.borrow.source,
+            primary: {
+                node:
+                    this.borrow.source === undefined
+                        ? this.borrow.borrow
+                        : this.borrow.source,
+                explanation: (translation: Translation) =>
+                    translation.conflict.UnknownBorrow.primary,
+            },
         };
-    }
-
-    getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.UnknownBorrow.primary;
-    }
-
-    getSecondaryExplanation() {
-        return undefined;
     }
 }

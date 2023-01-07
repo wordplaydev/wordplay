@@ -17,16 +17,14 @@ export class NotASetOrMap extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.access.setOrMap };
-    }
-
-    getPrimaryExplanation(translation: Translation, context: Context) {
-        return translation.conflict.NotASetOrMap.primary(
-            new NodeLink(this.received, translation, context)
-        );
-    }
-
-    getSecondaryExplanation() {
-        return undefined;
+        return {
+            primary: {
+                node: this.access.setOrMap,
+                explanation: (translation: Translation, context: Context) =>
+                    translation.conflict.NotASetOrMap.primary(
+                        new NodeLink(this.received, translation, context)
+                    ),
+            },
+        };
     }
 }

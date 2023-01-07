@@ -3,6 +3,11 @@ import type Context from '../nodes/Context';
 import type Translation from '../translations/Translation';
 import type { Description } from '../translations/Translation';
 
+type ConflictingNode = {
+    node: Node;
+    explanation: (translation: Translation, context: Context) => Description;
+};
+
 export default abstract class Conflict {
     readonly #minor: boolean;
 
@@ -15,17 +20,10 @@ export default abstract class Conflict {
      * and "secondary" ones, which are involved. We use this distiction in the editor to decide what to highlight,
      * but also how to position the various parties involved in the visual portrayal of the conflict.
      */
-    abstract getConflictingNodes(): { primary: Node; secondary?: Node };
-
-    abstract getPrimaryExplanation(
-        translation: Translation,
-        context: Context
-    ): Description;
-
-    abstract getSecondaryExplanation(
-        translation: Translation,
-        context: Context
-    ): Description | undefined;
+    abstract getConflictingNodes(): {
+        primary: ConflictingNode;
+        secondary?: ConflictingNode;
+    };
 
     isMinor() {
         return this.#minor;

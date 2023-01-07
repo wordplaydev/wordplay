@@ -14,14 +14,12 @@ export default class UnknownColumn extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.cell };
-    }
-
-    getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.UnknownColumn.primary;
-    }
-
-    getSecondaryExplanation() {
-        return undefined;
+        return {
+            primary: {
+                node: this.cell,
+                explanation: (translation: Translation) =>
+                    translation.conflict.UnknownColumn.primary,
+            },
+        };
     }
 }

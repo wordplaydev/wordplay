@@ -30,12 +30,12 @@
         secondaryCount = 0;
         for (const conflict of $nodeConflicts) {
             const nodes = conflict.getConflictingNodes();
-            if (source.contains(nodes.primary)) {
+            if (source.contains(nodes.primary.node)) {
                 if (!conflict.isMinor()) primaryCount++;
                 else secondaryCount++;
             } else if (
                 nodes.secondary !== undefined &&
-                source.contains(nodes.secondary)
+                source.contains(nodes.secondary.node)
             )
                 secondaryCount++;
         }

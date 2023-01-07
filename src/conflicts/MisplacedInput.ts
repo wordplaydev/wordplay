@@ -26,14 +26,12 @@ export default class MisplacedInput extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.given.names };
-    }
-
-    getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.MisplacedInput.primary;
-    }
-
-    getSecondaryExplanation() {
-        return undefined;
+        return {
+            primary: {
+                node: this.given.names,
+                explanation: (translation: Translation) =>
+                    translation.conflict.MisplacedInput.primary,
+            },
+        };
     }
 }

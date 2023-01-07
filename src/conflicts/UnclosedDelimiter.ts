@@ -19,22 +19,25 @@ export default class UnclosedDelimiter extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.open };
-    }
-
-    getPrimaryExplanation(translation: Translation, context: Context) {
-        return translation.conflict.UnclosedDelimiter.primary(
-            new NodeLink(this.open, translation, context, this.open.getText()),
-            new NodeLink(
-                this.expected,
-                translation,
-                context,
-                this.expected.getText()
-            )
-        );
-    }
-
-    getSecondaryExplanation() {
-        return undefined;
+        return {
+            primary: {
+                node: this.open,
+                explanation: (translation: Translation, context: Context) =>
+                    translation.conflict.UnclosedDelimiter.primary(
+                        new NodeLink(
+                            this.open,
+                            translation,
+                            context,
+                            this.open.getText()
+                        ),
+                        new NodeLink(
+                            this.expected,
+                            translation,
+                            context,
+                            this.expected.getText()
+                        )
+                    ),
+            },
+        };
     }
 }

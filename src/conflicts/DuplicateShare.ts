@@ -14,18 +14,21 @@ export class DuplicateShare extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.share.names, secondary: this.other.names };
-    }
-
-    getPrimaryExplanation(translation: Translation, context: Context) {
-        return translation.conflict.DuplicateShare.primary(
-            new NodeLink(this.other, translation, context)
-        );
-    }
-
-    getSecondaryExplanation(translation: Translation, context: Context) {
-        return translation.conflict.DuplicateShare.secondary(
-            new NodeLink(this.other, translation, context)
-        );
+        return {
+            primary: {
+                node: this.share.names,
+                explanation: (translation: Translation, context: Context) =>
+                    translation.conflict.DuplicateShare.primary(
+                        new NodeLink(this.other, translation, context)
+                    ),
+            },
+            secondary: {
+                node: this.other.names,
+                explanation: (translation: Translation, context: Context) =>
+                    translation.conflict.DuplicateShare.secondary(
+                        new NodeLink(this.other, translation, context)
+                    ),
+            },
+        };
     }
 }

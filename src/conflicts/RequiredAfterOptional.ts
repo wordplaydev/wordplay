@@ -12,14 +12,12 @@ export default class RequiredAfterOptional extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.bind };
-    }
-
-    getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.RequiredAfterOptional.primary;
-    }
-
-    getSecondaryExplanation() {
-        return undefined;
+        return {
+            primary: {
+                node: this.bind,
+                explanation: (translation: Translation) =>
+                    translation.conflict.RequiredAfterOptional.primary,
+            },
+        };
     }
 }

@@ -19,21 +19,21 @@ export class BorrowCycle extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.borrow, secondary: this.borrow };
-    }
-
-    getPrimaryExplanation(translation: Translation, context: Context) {
-        return translation.conflict.BorrowCycle.primary(
-            new NodeLink(
-                this.borrow,
-                translation,
-                context,
-                this.cycle[0].names.getTranslation(translation.language)
-            )
-        );
-    }
-
-    getSecondaryExplanation() {
-        return undefined;
+        return {
+            primary: {
+                node: this.borrow,
+                explanation: (translation: Translation, context: Context) =>
+                    translation.conflict.BorrowCycle.primary(
+                        new NodeLink(
+                            this.borrow,
+                            translation,
+                            context,
+                            this.cycle[0].names.getTranslation(
+                                translation.language
+                            )
+                        )
+                    ),
+            },
+        };
     }
 }

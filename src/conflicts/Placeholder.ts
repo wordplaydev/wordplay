@@ -12,14 +12,12 @@ export default class Placeholder extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.placeholder };
-    }
-
-    getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.Placeholder.primary;
-    }
-
-    getSecondaryExplanation() {
-        return undefined;
+        return {
+            primary: {
+                node: this.placeholder,
+                explanation: (translation: Translation) =>
+                    translation.conflict.Placeholder.primary,
+            },
+        };
     }
 }

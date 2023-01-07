@@ -20,16 +20,14 @@ export default class NotATable extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.op.table };
-    }
-
-    getPrimaryExplanation(translation: Translation, context: Context) {
-        return translation.conflict.NotATable.primary(
-            new NodeLink(this.received, translation, context)
-        );
-    }
-
-    getSecondaryExplanation() {
-        return undefined;
+        return {
+            primary: {
+                node: this.op.table,
+                explanation: (translation: Translation, context: Context) =>
+                    translation.conflict.NotATable.primary(
+                        new NodeLink(this.received, translation, context)
+                    ),
+            },
+        };
     }
 }

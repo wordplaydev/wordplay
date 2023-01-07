@@ -12,16 +12,14 @@ export class UnparsableConflict extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.unparsable };
-    }
-
-    getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.UnparsableConflict.primary(
-            this.unparsable instanceof UnparsableExpression
-        );
-    }
-
-    getSecondaryExplanation() {
-        return undefined;
+        return {
+            primary: {
+                node: this.unparsable,
+                explanation: (translation: Translation) =>
+                    translation.conflict.UnparsableConflict.primary(
+                        this.unparsable instanceof UnparsableExpression
+                    ),
+            },
+        };
     }
 }

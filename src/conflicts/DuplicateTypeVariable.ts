@@ -17,30 +17,30 @@ export default class DuplicateTypeVariable extends Conflict {
 
     getConflictingNodes() {
         return {
-            primary: this.typeVar,
-            secondary: this.duplicate,
+            primary: {
+                node: this.typeVar,
+                explanation: (translation: Translation, context: Context) =>
+                    translation.conflict.DuplicateTypeVariable.primary(
+                        new NodeLink(
+                            this.duplicate,
+                            translation,
+                            context,
+                            this.duplicate.getTranslation(translation.language)
+                        )
+                    ),
+            },
+            secondary: {
+                node: this.duplicate,
+                explanation: (translation: Translation, context: Context) =>
+                    translation.conflict.DuplicateTypeVariable.secondary(
+                        new NodeLink(
+                            this.typeVar,
+                            translation,
+                            context,
+                            this.typeVar.getTranslation(translation.language)
+                        )
+                    ),
+            },
         };
-    }
-
-    getPrimaryExplanation(translation: Translation, context: Context) {
-        return translation.conflict.DuplicateTypeVariable.primary(
-            new NodeLink(
-                this.duplicate,
-                translation,
-                context,
-                this.duplicate.getTranslation(translation.language)
-            )
-        );
-    }
-
-    getSecondaryExplanation(translation: Translation, context: Context) {
-        return translation.conflict.DuplicateTypeVariable.secondary(
-            new NodeLink(
-                this.typeVar,
-                translation,
-                context,
-                this.typeVar.getTranslation(translation.language)
-            )
-        );
     }
 }

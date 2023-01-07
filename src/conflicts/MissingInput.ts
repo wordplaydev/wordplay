@@ -30,18 +30,21 @@ export default class MissingInput extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.last, secondary: this.input.names };
-    }
-
-    getPrimaryExplanation(translation: Translation, context: Context) {
-        return translation.conflict.MissingInput.primary(
-            new NodeLink(this.input, translation, context)
-        );
-    }
-
-    getSecondaryExplanation(translation: Translation, context: Context) {
-        return translation.conflict.MissingInput.secondary(
-            new NodeLink(this.evaluate, translation, context)
-        );
+        return {
+            primary: {
+                node: this.last,
+                explanation: (translation: Translation, context: Context) =>
+                    translation.conflict.MissingInput.primary(
+                        new NodeLink(this.input, translation, context)
+                    ),
+            },
+            secondary: {
+                node: this.input.names,
+                explanation: (translation: Translation, context: Context) =>
+                    translation.conflict.MissingInput.secondary(
+                        new NodeLink(this.evaluate, translation, context)
+                    ),
+            },
+        };
     }
 }

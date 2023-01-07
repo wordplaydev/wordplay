@@ -12,14 +12,12 @@ export default class UnusedBind extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.bind.names };
-    }
-
-    getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.UnusedBind.primary;
-    }
-
-    getSecondaryExplanation() {
-        return undefined;
+        return {
+            primary: {
+                node: this.bind.names,
+                explanation: (translation: Translation) =>
+                    translation.conflict.UnusedBind.primary,
+            },
+        };
     }
 }

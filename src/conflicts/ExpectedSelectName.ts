@@ -14,16 +14,14 @@ export default class ExpectedSelectName extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.cell };
-    }
-
-    getPrimaryExplanation(translation: Translation, context: Context) {
-        return translation.conflict.ExpectedSelectName.primary(
-            new NodeLink(this.cell, translation, context)
-        );
-    }
-
-    getSecondaryExplanation() {
-        return undefined;
+        return {
+            primary: {
+                node: this.cell,
+                explanation: (translation: Translation, context: Context) =>
+                    translation.conflict.ExpectedSelectName.primary(
+                        new NodeLink(this.cell, translation, context)
+                    ),
+            },
+        };
     }
 }

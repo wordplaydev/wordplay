@@ -11,14 +11,12 @@ export class IncompleteImplementation extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.structure.names };
-    }
-
-    getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.IncompleteImplementation.primary;
-    }
-
-    getSecondaryExplanation() {
-        return undefined;
+        return {
+            primary: {
+                node: this.structure.names,
+                explanation: (translation: Translation) =>
+                    translation.conflict.IncompleteImplementation.primary,
+            },
+        };
     }
 }

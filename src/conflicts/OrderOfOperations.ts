@@ -15,16 +15,11 @@ export default class OrderOfOperations extends Conflict {
 
     getConflictingNodes() {
         return {
-            primary: this.operation.operator,
-            secondary: this.after.operator,
+            primary: {
+                node: this.operation.operator,
+                explanation: (translation: Translation) =>
+                    translation.conflict.OrderOfOperations.primary,
+            },
         };
-    }
-
-    getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.OrderOfOperations.primary;
-    }
-
-    getSecondaryExplanation() {
-        return undefined;
     }
 }

@@ -11,14 +11,12 @@ export class NotANumber extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.measurement };
-    }
-
-    getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.NotANumber.primary;
-    }
-
-    getSecondaryExplanation() {
-        return undefined;
+        return {
+            primary: {
+                node: this.measurement,
+                explanation: (translation: Translation) =>
+                    translation.conflict.NotANumber.primary,
+            },
+        };
     }
 }

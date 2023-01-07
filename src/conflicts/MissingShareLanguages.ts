@@ -11,14 +11,12 @@ export class MissingShareLanguages extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.share };
-    }
-
-    getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.MissingShareLanguages.primary;
-    }
-
-    getSecondaryExplanation() {
-        return undefined;
+        return {
+            primary: {
+                node: this.share,
+                explanation: (translation: Translation) =>
+                    translation.conflict.MissingShareLanguages.primary,
+            },
+        };
     }
 }

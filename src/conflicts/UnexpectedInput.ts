@@ -27,29 +27,29 @@ export default class UnexpectedInputs extends Conflict {
 
     getConflictingNodes() {
         return {
-            primary: this.input,
-            secondary:
-                this.evaluate instanceof Evaluate
-                    ? this.evaluate.func
-                    : this.evaluate.operator,
+            primary: {
+                node: this.input,
+                explanation: (translation: Translation, context: Context) =>
+                    translation.conflict.UnexpectedInput.primary(
+                        new NodeLink(
+                            this.evaluate instanceof Evaluate
+                                ? this.evaluate.func
+                                : this.evaluate.operator,
+                            translation,
+                            context
+                        )
+                    ),
+            },
+            secondary: {
+                node:
+                    this.evaluate instanceof Evaluate
+                        ? this.evaluate.func
+                        : this.evaluate.operator,
+                explanation: (translation: Translation, context: Context) =>
+                    translation.conflict.UnexpectedInput.secondary(
+                        new NodeLink(this.input, translation, context)
+                    ),
+            },
         };
-    }
-
-    getPrimaryExplanation(translation: Translation, context: Context) {
-        return translation.conflict.UnexpectedInput.primary(
-            new NodeLink(
-                this.evaluate instanceof Evaluate
-                    ? this.evaluate.func
-                    : this.evaluate.operator,
-                translation,
-                context
-            )
-        );
-    }
-
-    getSecondaryExplanation(translation: Translation, context: Context) {
-        return translation.conflict.UnexpectedInput.secondary(
-            new NodeLink(this.input, translation, context)
-        );
     }
 }

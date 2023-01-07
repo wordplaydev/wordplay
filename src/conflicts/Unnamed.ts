@@ -10,14 +10,12 @@ export default class Unnamed extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.alias };
-    }
-
-    getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.Unnamed.primary;
-    }
-
-    getSecondaryExplanation() {
-        return undefined;
+        return {
+            primary: {
+                node: this.alias,
+                explanation: (translation: Translation) =>
+                    translation.conflict.Unnamed.primary,
+            },
+        };
     }
 }

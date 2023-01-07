@@ -17,16 +17,14 @@ export class NotAStreamIndex extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.previous.index };
-    }
-
-    getPrimaryExplanation(translation: Translation, context: Context) {
-        return translation.conflict.NotAStreamIndex.primary(
-            new NodeLink(this.received, translation, context)
-        );
-    }
-
-    getSecondaryExplanation() {
-        return undefined;
+        return {
+            primary: {
+                node: this.previous.index,
+                explanation: (translation: Translation, context: Context) =>
+                    translation.conflict.NotAStreamIndex.primary(
+                        new NodeLink(this.received, translation, context)
+                    ),
+            },
+        };
     }
 }

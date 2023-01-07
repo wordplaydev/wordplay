@@ -13,16 +13,14 @@ export default class ExpectedUpdateBind extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.cell };
-    }
-
-    getPrimaryExplanation(translation: Translation, context: Context) {
-        return translation.conflict.ExpectedUpdateBind.primary(
-            new NodeLink(this.cell, translation, context)
-        );
-    }
-
-    getSecondaryExplanation() {
-        return undefined;
+        return {
+            primary: {
+                node: this.cell,
+                explanation: (translation: Translation, context: Context) =>
+                    translation.conflict.ExpectedUpdateBind.primary(
+                        new NodeLink(this.cell, translation, context)
+                    ),
+            },
+        };
     }
 }

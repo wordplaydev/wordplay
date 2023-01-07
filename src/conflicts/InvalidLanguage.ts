@@ -14,14 +14,12 @@ export default class InvalidLanguage extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.code, secondary: this.language };
-    }
-
-    getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.InvalidLanguage.primary;
-    }
-
-    getSecondaryExplanation() {
-        return undefined;
+        return {
+            primary: {
+                node: this.code,
+                explanation: (translation: Translation) =>
+                    translation.conflict.InvalidLanguage.primary,
+            },
+        };
     }
 }

@@ -27,18 +27,21 @@ export default class IncompatibleCellType extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.cell, secondary: this.type };
-    }
-
-    getPrimaryExplanation(translation: Translation, context: Context) {
-        return translation.conflict.IncompatibleCellType.primary(
-            new NodeLink(this.expected, translation, context)
-        );
-    }
-
-    getSecondaryExplanation(translation: Translation, context: Context) {
-        return translation.conflict.IncompatibleCellType.secondary(
-            new NodeLink(this.received, translation, context)
-        );
+        return {
+            primary: {
+                node: this.cell,
+                explanation: (translation: Translation, context: Context) =>
+                    translation.conflict.IncompatibleCellType.primary(
+                        new NodeLink(this.expected, translation, context)
+                    ),
+            },
+            secondary: {
+                node: this.type,
+                explanation: (translation: Translation, context: Context) =>
+                    translation.conflict.IncompatibleCellType.secondary(
+                        new NodeLink(this.received, translation, context)
+                    ),
+            },
+        };
     }
 }

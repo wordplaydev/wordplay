@@ -11,14 +11,12 @@ export class ExpectedEndingExpression extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.block };
-    }
-
-    getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.ExpectedEndingExpression.primary;
-    }
-
-    getSecondaryExplanation() {
-        return undefined;
+        return {
+            primary: {
+                node: this.block,
+                explanation: (translation: Translation) =>
+                    translation.conflict.ExpectedEndingExpression.primary,
+            },
+        };
     }
 }

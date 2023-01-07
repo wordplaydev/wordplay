@@ -16,17 +16,15 @@ export class UnknownConversion extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.convert.type };
-    }
-
-    getPrimaryExplanation(translation: Translation, context: Context) {
-        return translation.conflict.UnknownConversion.primary(
-            new NodeLink(this.expectedType, translation, context),
-            new NodeLink(this.convert.type, translation, context)
-        );
-    }
-
-    getSecondaryExplanation() {
-        return undefined;
+        return {
+            primary: {
+                node: this.convert.type,
+                explanation: (translation: Translation, context: Context) =>
+                    translation.conflict.UnknownConversion.primary(
+                        new NodeLink(this.expectedType, translation, context),
+                        new NodeLink(this.convert.type, translation, context)
+                    ),
+            },
+        };
     }
 }

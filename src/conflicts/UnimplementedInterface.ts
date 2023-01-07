@@ -22,29 +22,27 @@ export class UnimplementedInterface extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.structure.names, secondary: this.fun };
-    }
-
-    getPrimaryExplanation(translation: Translation, context: Context) {
-        return translation.conflict.UnimplementedInterface.primary(
-            new NodeLink(
-                this.interfaceStructure,
-                translation,
-                context,
-                this.interfaceStructure.names.getTranslation(
-                    translation.language
-                )
-            ),
-            new NodeLink(
-                this.fun,
-                translation,
-                context,
-                this.fun.names.getTranslation(translation.language)
-            )
-        );
-    }
-
-    getSecondaryExplanation() {
-        return undefined;
+        return {
+            primary: {
+                node: this.structure.names,
+                explanation: (translation: Translation, context: Context) =>
+                    translation.conflict.UnimplementedInterface.primary(
+                        new NodeLink(
+                            this.interfaceStructure,
+                            translation,
+                            context,
+                            this.interfaceStructure.names.getTranslation(
+                                translation.language
+                            )
+                        ),
+                        new NodeLink(
+                            this.fun,
+                            translation,
+                            context,
+                            this.fun.names.getTranslation(translation.language)
+                        )
+                    ),
+            },
+        };
     }
 }

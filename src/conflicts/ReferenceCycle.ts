@@ -14,16 +14,19 @@ export default class ReferenceCycle extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.name };
-    }
-
-    getPrimaryExplanation(translation: Translation, context: Context) {
-        return translation.conflict.ReferenceCycle.primary(
-            new NodeLink(this.name, translation, context, this.name.getName())
-        );
-    }
-
-    getSecondaryExplanation() {
-        return undefined;
+        return {
+            primary: {
+                node: this.name,
+                explanation: (translation: Translation, context: Context) =>
+                    translation.conflict.ReferenceCycle.primary(
+                        new NodeLink(
+                            this.name,
+                            translation,
+                            context,
+                            this.name.getName()
+                        )
+                    ),
+            },
+        };
     }
 }

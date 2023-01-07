@@ -12,14 +12,12 @@ export default class InputListMustBeLast extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.bind };
-    }
-
-    getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.InputListMustBeLast.primary;
-    }
-
-    getSecondaryExplanation() {
-        return undefined;
+        return {
+            primary: {
+                node: this.bind,
+                explanation: (translation: Translation) =>
+                    translation.conflict.InputListMustBeLast.primary,
+            },
+        };
     }
 }

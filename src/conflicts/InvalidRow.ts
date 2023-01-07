@@ -11,14 +11,12 @@ export default class InvalidRow extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.row };
-    }
-
-    getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.InvalidRow.primary;
-    }
-
-    getSecondaryExplanation() {
-        return undefined;
+        return {
+            primary: {
+                node: this.row,
+                explanation: (translation: Translation) =>
+                    translation.conflict.InvalidRow.primary,
+            },
+        };
     }
 }

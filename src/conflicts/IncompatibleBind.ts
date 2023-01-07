@@ -19,18 +19,21 @@ export default class IncompatibleBind extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.value, secondary: this.expectedType };
-    }
-
-    getPrimaryExplanation(translation: Translation, context: Context) {
-        return translation.conflict.IncompatibleBind.primary(
-            new NodeLink(this.expectedType, translation, context)
-        );
-    }
-
-    getSecondaryExplanation(translation: Translation, context: Context) {
-        return translation.conflict.IncompatibleBind.secondary(
-            new NodeLink(this.givenType, translation, context)
-        );
+        return {
+            primary: {
+                node: this.value,
+                explanation: (translation: Translation, context: Context) =>
+                    translation.conflict.IncompatibleBind.primary(
+                        new NodeLink(this.expectedType, translation, context)
+                    ),
+            },
+            secondary: {
+                node: this.expectedType,
+                explanation: (translation: Translation, context: Context) =>
+                    translation.conflict.IncompatibleBind.secondary(
+                        new NodeLink(this.givenType, translation, context)
+                    ),
+            },
+        };
     }
 }

@@ -20,23 +20,28 @@ export default class MissingCell extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.row, secondary: this.column };
-    }
-
-    getPrimaryExplanation(translation: Translation, context: Context) {
-        return translation.conflict.MissingCell.primary(
-            new NodeLink(
-                this.column,
-                translation,
-                context,
-                this.column.names.getTranslation(translation.language)
-            )
-        );
-    }
-
-    getSecondaryExplanation(translation: Translation, context: Context) {
-        return translation.conflict.MissingCell.secondary(
-            new NodeLink(this.row, translation, context)
-        );
+        return {
+            primary: {
+                node: this.row,
+                explanation: (translation: Translation, context: Context) =>
+                    translation.conflict.MissingCell.primary(
+                        new NodeLink(
+                            this.column,
+                            translation,
+                            context,
+                            this.column.names.getTranslation(
+                                translation.language
+                            )
+                        )
+                    ),
+            },
+            secondary: {
+                node: this.column,
+                explanation: (translation: Translation, context: Context) =>
+                    translation.conflict.MissingCell.secondary(
+                        new NodeLink(this.row, translation, context)
+                    ),
+            },
+        };
     }
 }

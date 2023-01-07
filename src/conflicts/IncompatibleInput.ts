@@ -33,18 +33,21 @@ export default class IncompatibleInput extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.givenNode, secondary: this.expectedType };
-    }
-
-    getPrimaryExplanation(translation: Translation, context: Context) {
-        return translation.conflict.IncompatibleInput.primary(
-            new NodeLink(this.expectedType, translation, context)
-        );
-    }
-
-    getSecondaryExplanation(translation: Translation, context: Context) {
-        return translation.conflict.IncompatibleInput.secondary(
-            new NodeLink(this.givenType, translation, context)
-        );
+        return {
+            primary: {
+                node: this.givenNode,
+                explanation: (translation: Translation, context: Context) =>
+                    translation.conflict.IncompatibleInput.primary(
+                        new NodeLink(this.expectedType, translation, context)
+                    ),
+            },
+            secondary: {
+                node: this.expectedType,
+                explanation: (translation: Translation, context: Context) =>
+                    translation.conflict.IncompatibleInput.secondary(
+                        new NodeLink(this.givenType, translation, context)
+                    ),
+            },
+        };
     }
 }

@@ -18,18 +18,24 @@ export class UnknownTypeName extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.name };
-    }
-
-    getPrimaryExplanation(translation: Translation, context: Context) {
-        return translation.conflict.InvalidTypeName.primary(
-            this.definition instanceof Stream
-                ? new ValueLink(this.definition, translation, context)
-                : new NodeLink(this.definition, translation, context)
-        );
-    }
-
-    getSecondaryExplanation() {
-        return undefined;
+        return {
+            primary: {
+                node: this.name,
+                explanation: (translation: Translation, context: Context) =>
+                    translation.conflict.InvalidTypeName.primary(
+                        this.definition instanceof Stream
+                            ? new ValueLink(
+                                  this.definition,
+                                  translation,
+                                  context
+                              )
+                            : new NodeLink(
+                                  this.definition,
+                                  translation,
+                                  context
+                              )
+                    ),
+            },
+        };
     }
 }

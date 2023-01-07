@@ -11,14 +11,12 @@ export class UnexpectedTypeVariable extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.name };
-    }
-
-    getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.UnexpectedTypeVariable.primary;
-    }
-
-    getSecondaryExplanation() {
-        return undefined;
+        return {
+            primary: {
+                node: this.name,
+                explanation: (translation: Translation) =>
+                    translation.conflict.UnexpectedTypeVariable.primary,
+            },
+        };
     }
 }

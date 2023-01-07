@@ -11,14 +11,12 @@ export class IgnoredExpression extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.expr };
-    }
-
-    getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.IgnoredExpression.primary;
-    }
-
-    getSecondaryExplanation() {
-        return undefined;
+        return {
+            primary: {
+                node: this.expr,
+                explanation: (translation: Translation) =>
+                    translation.conflict.IgnoredExpression.primary,
+            },
+        };
     }
 }

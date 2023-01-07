@@ -17,25 +17,30 @@ export default class DuplicateName extends Conflict {
 
     getConflictingNodes() {
         return {
-            primary: this.duplicate,
-            secondary: this.name,
+            primary: {
+                node: this.duplicate,
+                explanation: (translation: Translation, context: Context) =>
+                    translation.conflict.DuplicateName.primary(
+                        new NodeLink(
+                            this.duplicate,
+                            translation,
+                            context,
+                            this.duplicate.getName()
+                        )
+                    ),
+            },
+            secondary: {
+                node: this.name,
+                explanation: (translation: Translation, context: Context) =>
+                    translation.conflict.DuplicateName.primary(
+                        new NodeLink(
+                            this.name,
+                            translation,
+                            context,
+                            this.name.getName()
+                        )
+                    ),
+            },
         };
-    }
-
-    getPrimaryExplanation(translation: Translation, context: Context) {
-        return translation.conflict.DuplicateName.primary(
-            new NodeLink(
-                this.duplicate,
-                translation,
-                context,
-                this.duplicate.getName()
-            )
-        );
-    }
-
-    getSecondaryExplanation(translation: Translation, context: Context) {
-        return translation.conflict.DuplicateName.primary(
-            new NodeLink(this.name, translation, context, this.name.getName())
-        );
     }
 }

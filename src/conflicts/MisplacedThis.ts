@@ -10,14 +10,12 @@ export class MisplacedThis extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.dis };
-    }
-
-    getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.MisplacedThis.primary;
-    }
-
-    getSecondaryExplanation() {
-        return undefined;
+        return {
+            primary: {
+                node: this.dis,
+                explanation: (translation: Translation) =>
+                    translation.conflict.MisplacedThis.primary,
+            },
+        };
     }
 }

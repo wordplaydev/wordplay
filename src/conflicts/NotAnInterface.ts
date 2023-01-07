@@ -14,14 +14,12 @@ export default class NotAnInterface extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.ref, secondary: this.def.names };
-    }
-
-    getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.NotAnInterface.primary;
-    }
-
-    getSecondaryExplanation() {
-        return undefined;
+        return {
+            primary: {
+                node: this.ref,
+                explanation: (translation: Translation) =>
+                    translation.conflict.NotAnInterface.primary,
+            },
+        };
     }
 }

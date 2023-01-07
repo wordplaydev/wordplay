@@ -14,14 +14,12 @@ export class ImpossibleType extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.is.expression };
-    }
-
-    getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.ImpossibleType.primary;
-    }
-
-    getSecondaryExplanation() {
-        return undefined;
+        return {
+            primary: {
+                node: this.is.expression,
+                explanation: (translation: Translation) =>
+                    translation.conflict.ImpossibleType.primary,
+            },
+        };
     }
 }

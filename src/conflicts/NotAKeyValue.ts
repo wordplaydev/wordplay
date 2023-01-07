@@ -17,18 +17,18 @@ export class NotAKeyValue extends Conflict {
 
     getConflictingNodes() {
         return {
-            primary: this.expression,
-            secondary: this.map.open,
+            primary: {
+                node: this.expression,
+                explanation: (translation: Translation) =>
+                    translation.conflict.NotAMap.primary,
+            },
+            secondary: {
+                node: this.map.open,
+                explanation: (translation: Translation, context: Context) =>
+                    translation.conflict.NotAMap.secondary(
+                        new NodeLink(this.expression, translation, context)
+                    ),
+            },
         };
-    }
-
-    getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.NotAMap.primary;
-    }
-
-    getSecondaryExplanation(translation: Translation, context: Context) {
-        return translation.conflict.NotAMap.secondary(
-            new NodeLink(this.expression, translation, context)
-        );
     }
 }

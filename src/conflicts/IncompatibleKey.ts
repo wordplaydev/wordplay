@@ -18,18 +18,21 @@ export class IncompatibleKey extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.access.key, secondary: this.expected };
-    }
-
-    getPrimaryExplanation(translation: Translation, context: Context) {
-        return translation.conflict.IncompatibleKey.primary(
-            new NodeLink(this.expected, translation, context)
-        );
-    }
-
-    getSecondaryExplanation(translation: Translation, context: Context) {
-        return translation.conflict.IncompatibleKey.secondary(
-            new NodeLink(this.received, translation, context)
-        );
+        return {
+            primary: {
+                node: this.access.key,
+                explanation: (translation: Translation, context: Context) =>
+                    translation.conflict.IncompatibleKey.primary(
+                        new NodeLink(this.expected, translation, context)
+                    ),
+            },
+            secondary: {
+                node: this.expected,
+                explanation: (translation: Translation, context: Context) =>
+                    translation.conflict.IncompatibleKey.secondary(
+                        new NodeLink(this.received, translation, context)
+                    ),
+            },
+        };
     }
 }

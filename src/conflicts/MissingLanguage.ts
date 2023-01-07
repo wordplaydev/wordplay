@@ -14,14 +14,12 @@ export default class MissingLanguage extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.slash };
-    }
-
-    getPrimaryExplanation(translation: Translation) {
-        return translation.conflict.MissingLanguage.primary;
-    }
-
-    getSecondaryExplanation() {
-        return undefined;
+        return {
+            primary: {
+                node: this.slash,
+                explanation: (translation: Translation) =>
+                    translation.conflict.MissingLanguage.primary,
+            },
+        };
     }
 }

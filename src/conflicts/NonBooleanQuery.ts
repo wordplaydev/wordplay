@@ -19,16 +19,14 @@ export default class NonBooleanQuery extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.op.query };
-    }
-
-    getPrimaryExplanation(translation: Translation, context: Context) {
-        return translation.conflict.NonBooleanQuery.primary(
-            new NodeLink(this.type, translation, context)
-        );
-    }
-
-    getSecondaryExplanation() {
-        return undefined;
+        return {
+            primary: {
+                node: this.op.query,
+                explanation: (translation: Translation, context: Context) =>
+                    translation.conflict.NonBooleanQuery.primary(
+                        new NodeLink(this.type, translation, context)
+                    ),
+            },
+        };
     }
 }

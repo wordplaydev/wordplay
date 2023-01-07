@@ -16,19 +16,22 @@ export class UnknownName extends Conflict {
     }
 
     getConflictingNodes() {
-        return { primary: this.name };
-    }
-
-    getPrimaryExplanation(translation: Translation, context: Context) {
-        return translation.conflict.UnknownName.primary(
-            new NodeLink(this.name, translation, context, this.name.getText()),
-            this.type
-                ? new NodeLink(this.type, translation, context)
-                : undefined
-        );
-    }
-
-    getSecondaryExplanation() {
-        return undefined;
+        return {
+            primary: {
+                node: this.name,
+                explanation: (translation: Translation, context: Context) =>
+                    translation.conflict.UnknownName.primary(
+                        new NodeLink(
+                            this.name,
+                            translation,
+                            context,
+                            this.name.getText()
+                        ),
+                        this.type
+                            ? new NodeLink(this.type, translation, context)
+                            : undefined
+                    ),
+            },
+        };
     }
 }
