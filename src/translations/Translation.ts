@@ -18,10 +18,10 @@ import type Unit from '../nodes/Unit';
 import type { CycleType } from '../nodes/CycleType';
 import type UnknownNameType from '../nodes/UnknownNameType';
 import type NodeLink from './NodeLink';
-import type LinkedDescription from './LinkedDescription';
+import type Explanation from './Explanation';
 import type ValueLink from './ValueLink';
 
-export type Description = string | LinkedDescription;
+export type Description = string | Explanation;
 
 export interface NodeTranslation {
     description: Description;

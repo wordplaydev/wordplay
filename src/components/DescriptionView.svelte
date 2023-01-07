@@ -2,7 +2,7 @@
 
 <script lang="ts">
     import parseRichText from '../output/parseRichText';
-    import LinkedDescription from '../translations/LinkedDescription';
+    import LinkedDescription from '../translations/Explanation';
     import NodeLink from '../translations/NodeLink';
     import type { Description } from '../translations/Translation';
     import ValueLink from '../translations/ValueLink';

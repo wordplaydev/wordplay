@@ -3,14 +3,14 @@ import type ValueLink from './ValueLink';
 
 type Part = string | NodeLink | ValueLink;
 
-export default class LinkedDescription {
+export default class Explanation {
     readonly parts: Part[];
 
     constructor(parts: Part[]) {
         this.parts = parts;
     }
 
-    static with(...parts: Part[]) {
-        return new LinkedDescription(parts);
+    static as(...parts: Part[]) {
+        return new Explanation(parts);
     }
 }

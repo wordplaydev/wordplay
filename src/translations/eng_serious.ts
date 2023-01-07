@@ -23,7 +23,7 @@ import {
 import type { Description } from './Translation';
 import type { CycleType } from '../nodes/CycleType';
 import type UnknownNameType from '../nodes/UnknownNameType';
-import LinkedDescription from './LinkedDescription';
+import Explanation from './Explanation';
 import type NodeLink from './NodeLink';
 
 const WRITE_DOC = 'TBD';
@@ -1073,47 +1073,35 @@ const eng_serious: Translation = {
     },
     exceptions: {
         function: (node, type) =>
-            LinkedDescription.with(
+            Explanation.as(
                 'no function named ',
                 node,
                 ' in ',
                 type === undefined ? ' scope' : type
             ),
         name: (node, scope) =>
-            LinkedDescription.with(
+            Explanation.as(
                 'nothing named ',
                 node,
                 ' in ',
                 scope === undefined ? ' scope' : scope
             ),
-        cycle: (node) => LinkedDescription.with(node, ' depends on itself'),
+        cycle: (node) => Explanation.as(node, ' depends on itself'),
         functionlimit: (fun) =>
-            LinkedDescription.with(
-                'evaluated too many functions, especially ',
-                fun
-            ),
+            Explanation.as('evaluated too many functions, especially ', fun),
         steplimit: 'evaluated too many steps in this function',
         type: (expected, given) =>
-            LinkedDescription.with(
-                'expected ',
-                expected,
-                ' but received ',
-                given
-            ),
+            Explanation.as('expected ', expected, ' but received ', given),
         placeholder: (node) =>
-            LinkedDescription.with('this ', node, ' is not implemented'),
-        unparsable: (node) =>
-            LinkedDescription.with('this ', node, ' is not parsable'),
+            Explanation.as('this ', node, ' is not implemented'),
+        unparsable: (node) => Explanation.as('this ', node, ' is not parsable'),
         value: (node) =>
-            LinkedDescription.with(
-                node,
-                ' expected a value, but did not receive one'
-            ),
+            Explanation.as(node, ' expected a value, but did not receive one'),
     },
     conflict: {
         BorrowCycle: {
             primary: (borrow) =>
-                LinkedDescription.with(
+                Explanation.as(
                     'this depends on ',
                     borrow,
                     " which depends on this source, so the program can't be evaluated"
@@ -1121,7 +1109,7 @@ const eng_serious: Translation = {
         },
         ReferenceCycle: {
             primary: (ref) =>
-                LinkedDescription.with(
+                Explanation.as(
                     ref,
                     ' depends on itself, so it cannot be evaluated'
                 ),
@@ -1132,22 +1120,22 @@ const eng_serious: Translation = {
         },
         DuplicateName: {
             primary: (name) =>
-                LinkedDescription.with(
+                Explanation.as(
                     name,
                     ' is already defined, which might intend to refer to the other bind with the same name'
                 ),
             secondary: (name) =>
-                LinkedDescription.with('this is overwritten by ', name),
+                Explanation.as('this is overwritten by ', name),
         },
         DuplicateShare: {
             primary: (bind) =>
-                LinkedDescription.with(
+                Explanation.as(
                     'has the same name as ',
                     bind,
                     ', which makes what is shared ambiguous'
                 ),
             secondary: (bind) =>
-                LinkedDescription.with(
+                Explanation.as(
                     'has the same name as ',
                     bind,
                     ', which makes what is shared ambiguous'
@@ -1155,20 +1143,20 @@ const eng_serious: Translation = {
         },
         DuplicateTypeVariable: {
             primary: (dupe) =>
-                LinkedDescription.with('this has the same name as ', dupe),
+                Explanation.as('this has the same name as ', dupe),
             secondary: (dupe) =>
-                LinkedDescription.with('this has the same name as ', dupe),
+                Explanation.as('this has the same name as ', dupe),
         },
         ExpectedBooleanCondition: {
             primary: (type: NodeLink) =>
-                LinkedDescription.with(
+                Explanation.as(
                     'expected boolean condition but received ',
                     type
                 ),
         },
         ExpectedColumnType: {
             primary: (bind) =>
-                LinkedDescription.with(
+                Explanation.as(
                     'this table column ',
                     bind,
                     ' has no type, but all columns require one'
@@ -1180,14 +1168,14 @@ const eng_serious: Translation = {
         },
         ExpectedSelectName: {
             primary: (cell) =>
-                LinkedDescription.with(
+                Explanation.as(
                     cell,
                     ' has no name; selects require column names to know what columns to return'
                 ),
         },
         ExpectedUpdateBind: {
             primary: (cell) =>
-                LinkedDescription.with(
+                Explanation.as(
                     cell,
                     ' has value; updates require a value for each column specified to know what value to set'
                 ),
@@ -1200,24 +1188,23 @@ const eng_serious: Translation = {
             primary: `structures must either be fully implemented or not implemented; this has a mixture`,
         },
         IncompatibleBind: {
-            primary: (expected) =>
-                LinkedDescription.with('expected ', expected),
-            secondary: (given) => LinkedDescription.with('given ', given),
+            primary: (expected) => Explanation.as('expected ', expected),
+            secondary: (given) => Explanation.as('given ', given),
         },
         IncompatibleCellType: {
             primary: (expected) =>
-                LinkedDescription.with('expected column type ', expected),
-            secondary: (given) => LinkedDescription.with('given ', given),
+                Explanation.as('expected column type ', expected),
+            secondary: (given) => Explanation.as('given ', given),
         },
         IncompatibleInput: {
             primary: (expected) =>
-                LinkedDescription.with('expected ', expected, ' input'),
-            secondary: (given) => LinkedDescription.with('given ', given),
+                Explanation.as('expected ', expected, ' input'),
+            secondary: (given) => Explanation.as('given ', given),
         },
         IncompatibleKey: {
             primary: (expected) =>
-                LinkedDescription.with('expected ', expected, ' key '),
-            secondary: (given) => LinkedDescription.with('given ', given),
+                Explanation.as('expected ', expected, ' key '),
+            secondary: (given) => Explanation.as('given ', given),
         },
         ImpossibleType: {
             primary: 'this can never be this type',
@@ -1230,12 +1217,9 @@ const eng_serious: Translation = {
         },
         InvalidTypeInput: {
             primary: (def) =>
-                LinkedDescription.with(def, ` does not expect this type input`),
+                Explanation.as(def, ` does not expect this type input`),
             secondary: (type) =>
-                LinkedDescription.with(
-                    'this definition does expect type ',
-                    type
-                ),
+                Explanation.as('this definition does expect type ', type),
         },
         MisplacedConversion: {
             primary: `conversions only allowed in structure definitions`,
@@ -1251,9 +1235,9 @@ const eng_serious: Translation = {
         },
         MissingCell: {
             primary: (column) =>
-                LinkedDescription.with(`this row is missing column`, column),
+                Explanation.as(`this row is missing column`, column),
             secondary: (row) =>
-                LinkedDescription.with(
+                Explanation.as(
                     `this column is required, but `,
                     row,
                     ' did not provide it'
@@ -1261,13 +1245,13 @@ const eng_serious: Translation = {
         },
         MissingInput: {
             primary: (input) =>
-                LinkedDescription.with(
+                Explanation.as(
                     'expected input ',
                     input,
                     ' but did not receive it'
                 ),
             secondary: (evaluate) =>
-                LinkedDescription.with(
+                Explanation.as(
                     `this input is required, but `,
                     evaluate,
                     ' did not provide it'
@@ -1286,14 +1270,11 @@ const eng_serious: Translation = {
         },
         NonBooleanQuery: {
             primary: (type) =>
-                LinkedDescription.with(
-                    'queries must be boolean, but this is a ',
-                    type
-                ),
+                Explanation.as('queries must be boolean, but this is a ', type),
         },
         NotAFunction: {
             primary: (name, type) =>
-                LinkedDescription.with(
+                Explanation.as(
                     name ? name : 'this',
                     ' is not a function ',
                     type ? ' in ' : ' scope',
@@ -1302,17 +1283,16 @@ const eng_serious: Translation = {
         },
         NotAList: {
             primary: (type) =>
-                LinkedDescription.with('expected a list, this is a ', type),
+                Explanation.as('expected a list, this is a ', type),
         },
         NotAListIndex: {
             primary: (type) =>
-                LinkedDescription.with('expected number, this is a ', type),
+                Explanation.as('expected number, this is a ', type),
         },
         NotAMap: {
             primary:
                 'this expression is not allowed in a map, only key/value pairs are allowed',
-            secondary: (expr) =>
-                LinkedDescription.with('this map has a ', expr),
+            secondary: (expr) => Explanation.as('this map has a ', expr),
         },
         NotANumber: {
             primary: "this number isn't formatted correctly",
@@ -1323,28 +1303,19 @@ const eng_serious: Translation = {
         },
         NotASetOrMap: {
             primary: (type) =>
-                LinkedDescription.with(
-                    'expected set or map, but this is a ',
-                    type
-                ),
+                Explanation.as('expected set or map, but this is a ', type),
         },
         NotAStream: {
             primary: (type) =>
-                LinkedDescription.with('expected stream, but this is a ', type),
+                Explanation.as('expected stream, but this is a ', type),
         },
         NotAStreamIndex: {
             primary: (type) =>
-                LinkedDescription.with(
-                    'expected a number, but this is a ',
-                    type
-                ),
+                Explanation.as('expected a number, but this is a ', type),
         },
         NotATable: {
             primary: (type) =>
-                LinkedDescription.with(
-                    'expected a table, but this is a ',
-                    type
-                ),
+                Explanation.as('expected a table, but this is a ', type),
         },
         NotInstantiable: {
             primary:
@@ -1363,12 +1334,7 @@ const eng_serious: Translation = {
         },
         UnclosedDelimiter: {
             primary: (token, expected) =>
-                LinkedDescription.with(
-                    'expected ',
-                    expected,
-                    ' to match ',
-                    token
-                ),
+                Explanation.as('expected ', expected, ' to match ', token),
         },
         UnexpectedEtc: {
             primary:
@@ -1376,22 +1342,16 @@ const eng_serious: Translation = {
         },
         UnexpectedInput: {
             primary: (evaluation) =>
-                LinkedDescription.with(
-                    'this input is not specified on ',
-                    evaluation
-                ),
+                Explanation.as('this input is not specified on ', evaluation),
             secondary: (input) =>
-                LinkedDescription.with(
-                    'this function does not expect this ',
-                    input
-                ),
+                Explanation.as('this function does not expect this ', input),
         },
         UnexpectedTypeVariable: {
             primary: 'type inputs not allowed on type variables',
         },
         UnimplementedInterface: {
             primary: (inter, fun) =>
-                LinkedDescription.with(
+                Explanation.as(
                     'this structure implements ',
                     inter,
                     ' but does not implement ',
@@ -1406,14 +1366,14 @@ const eng_serious: Translation = {
         },
         UnknownConversion: {
             primary: (from, to) =>
-                LinkedDescription.with('no conversion from ', from, ' to ', to),
+                Explanation.as('no conversion from ', from, ' to ', to),
         },
         UnknownInput: {
             primary: 'no input by this name',
         },
         UnknownName: {
             primary: (name, type) =>
-                LinkedDescription.with(
+                Explanation.as(
                     name,
                     ' is not defined in ',
                     type ? type : ' this scope'
@@ -1421,7 +1381,7 @@ const eng_serious: Translation = {
         },
         InvalidTypeName: {
             primary: (type) =>
-                LinkedDescription.with(
+                Explanation.as(
                     'type names can only refer to structures or type variables, but this refers to a ',
                     type
                 ),
