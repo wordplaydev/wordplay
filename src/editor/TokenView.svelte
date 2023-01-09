@@ -6,7 +6,7 @@
     import { PLACEHOLDER_SYMBOL } from '../parser/Symbols';
     import { getProject, getCaret } from './util/Contexts';
     import TokenCategories from './TokenCategories';
-    import { translations } from '../translations/translations';
+    import { preferredTranslations } from '../translations/translations';
 
     export let node: Token;
 
@@ -21,7 +21,7 @@
                       ?.getParent()
                       ?.getChildPlaceholderLabel(
                           node,
-                          $translations[0],
+                          $preferredTranslations[0],
                           context
                       )
                 : undefined;

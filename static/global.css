@@ -141,6 +141,6 @@ p {
     margin: 0;
 }
 
-p + p {
-    margin-top: var(--wordplay-spacing);
+p:not(:last-of-type) {
+    margin-bottom: calc(2 * var(--wordplay-spacing));
 }

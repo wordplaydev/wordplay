@@ -6,6 +6,7 @@ import StreamType from '../nodes/StreamType';
 import type Stream from '../runtime/Stream';
 import Concept from './Concept';
 import type ConceptIndex from './ConceptIndex';
+import type Translation from '../translations/Translation';
 
 export default class StreamConcept extends Concept {
     /** The type this concept represents. */
@@ -24,8 +25,12 @@ export default class StreamConcept extends Concept {
         );
     }
 
-    getDocs() {
-        return this.stream.docs;
+    getDocs(translation: Translation) {
+        return this.stream.docs?.getTranslation(translation.language);
+    }
+
+    getDescription(translation: Translation) {
+        return this.stream.names.getTranslation(translation.language);
     }
 
     getTypeConcept(index: ConceptIndex): Concept | undefined {

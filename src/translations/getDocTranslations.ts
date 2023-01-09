@@ -1,4 +1,4 @@
-import SupportedTranslations from './SupportedTranslations';
+import SupportedTranslations from './translations';
 import Doc from '../nodes/Doc';
 import Docs from '../nodes/Docs';
 import type { DocTranslation } from './Translation';

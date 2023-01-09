@@ -1,5 +1,5 @@
 import { test, expect } from 'vitest';
-import eng_serious from '../translations/eng_serious';
+import eng_cs from '../translations/eng-cs';
 import { examples, makeProject, type Stuff } from './examples';
 
 test.each(examples)(`Ensure $name has no conflicts`, (example: Stuff) => {
@@ -10,9 +10,7 @@ test.each(examples)(`Ensure $name has no conflicts`, (example: Stuff) => {
         project.primaryConflicts.values()
     ).flat()) {
         const conflictingNodes = conflict.getConflictingNodes();
-        console.error(
-            conflictingNodes.primary.explanation(eng_serious, context)
-        );
+        console.error(conflictingNodes.primary.explanation(eng_cs, context));
     }
     expect(project.primaryConflicts).toHaveLength(0);
 });

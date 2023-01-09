@@ -228,8 +228,8 @@ export default class Bind extends Expression {
                     );
                     const defsWithName = names.filter(
                         (alias) =>
-                            name !== alias &&
                             name.getName() === alias.getName() &&
+                            name !== alias &&
                             context.get(alias)?.getParent() !== this.names
                     );
 

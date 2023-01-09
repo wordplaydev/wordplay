@@ -1,5 +1,4 @@
 import type Context from '../nodes/Context';
-import type Docs from '../nodes/Docs';
 import type Node from '../nodes/Node';
 import type { Description } from '../translations/Translation';
 import type Translation from '../translations/Translation';
@@ -64,14 +63,8 @@ export default abstract class Concept {
         return concepts;
     }
 
-    getDescription(translation: Translation): Description {
-        return (
-            this.getDocs()?.getTranslation(translation.language) ??
-            this.getRepresentation().getDescription(translation, this.context)
-        );
-    }
-
-    abstract getDocs(): Docs | undefined;
+    abstract getDescription(translation: Translation): Description;
+    abstract getDocs(translation: Translation): Description | undefined;
 
     abstract equals(concept: Concept): boolean;
 }

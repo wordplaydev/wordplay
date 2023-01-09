@@ -1,7 +1,7 @@
 <script lang="ts">
     import CodeView from './CodeView.svelte';
     import type BindConcept from '../concepts/BindConcept';
-    import { translations } from '../translations/translations';
+    import { preferredTranslations } from '../translations/translations';
     import { getPaletteIndex } from '../editor/util/Contexts';
     import DescriptionView from './DescriptionView.svelte';
 
@@ -21,7 +21,7 @@
         />
     </p>
     {#if bind.docs}
-        {#each $translations as translation}
+        {#each $preferredTranslations as translation}
             <p>
                 <DescriptionView
                     description={concept.getDescription(translation)}

@@ -20,6 +20,7 @@ import type UnknownNameType from '../nodes/UnknownNameType';
 import type NodeLink from './NodeLink';
 import type Explanation from './Explanation';
 import type ValueLink from './ValueLink';
+import type { LanguageStyle } from './translations';
 
 export type Description = string | Explanation;
 
@@ -93,7 +94,7 @@ type ValueOrUndefinedTranslation = (
  **/
 type Translation = {
     language: LanguageCode;
-    style: string;
+    style: LanguageStyle;
     placeholders: {
         code: string;
         expression: string;

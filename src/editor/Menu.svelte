@@ -1,6 +1,9 @@
 <script lang="ts">
     import type Transform from '../transforms/Transform';
-    import { getLanguages, translations } from '../translations/translations';
+    import {
+        preferredLanguages,
+        preferredTranslations,
+    } from '../translations/translations';
     import RootView from './RootView.svelte';
     import Block from '../nodes/Block';
 
@@ -30,7 +33,8 @@
         <td colspan="2">Edit…</td>
     </tr>
     {#each transforms as transform, index}
-        {@const [newNode, newParent] = transform.getEditedNode(getLanguages())}
+        {@const [newNode, newParent] =
+            transform.getEditedNode($preferredLanguages)}
         {#if index >= minItem && index <= maxItem}
             <!-- Prevent default is to ensure focus isn't lost on editor -->
             <tr
@@ -51,7 +55,11 @@
                         <em>Remove</em>
                     {/if}
                 </td><td class="col"
-                    ><em>{transform.getDescription($translations[0])}</em></td
+                    ><em
+                        >{transform.getDescription(
+                            $preferredTranslations[0]
+                        )}</em
+                    ></td
                 >
             </tr>
         {:else if (index === minItem - 1 && minItem > 0) || (index === maxItem + 1 && maxItem < transforms.length - 1)}

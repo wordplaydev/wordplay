@@ -5,7 +5,7 @@
     import type Project from '../models/Project';
     import type Verse from '../output/Verse';
     import { playing } from '../models/stores';
-    import { translations } from '../translations/translations';
+    import { preferredLanguages } from '../translations/translations';
     import PhraseView from './PhraseView.svelte';
     import { loadedFonts } from '../native/Fonts';
     import { toCSS } from '../output/phraseToCSS';
@@ -73,7 +73,7 @@
     setContext('animations', project.evaluator.animations);
     $: ({ places, visible, exiting } = project.evaluator.animations.update(
         verse,
-        $translations.map((t) => t.language),
+        $preferredLanguages,
         $loadedFonts
     ));
 </script>

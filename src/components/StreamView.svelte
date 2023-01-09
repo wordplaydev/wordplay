@@ -3,13 +3,13 @@
 <script lang="ts">
     import TokenType from '../nodes/TokenType';
     import type Stream from '../runtime/Stream';
+    import { preferredLanguages } from '../translations/translations';
     import SymbolView from './SymbolView.svelte';
-    import { getLanguages } from '../translations/translations';
 
     export let value: Stream;
 </script>
 
 <SymbolView
-    symbol={value.names.getTranslation(getLanguages())}
+    symbol={value.names.getTranslation($preferredLanguages)}
     type={TokenType.NAME}
 />

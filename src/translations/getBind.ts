@@ -1,5 +1,5 @@
 import type Name from '../nodes/Name';
-import SupportedTranslations from './SupportedTranslations';
+import SupportedTranslations from './translations';
 import Doc from '../nodes/Doc';
 import Names from '../nodes/Names';
 import Docs from '../nodes/Docs';

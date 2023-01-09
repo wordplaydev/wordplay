@@ -8,7 +8,6 @@ import UnusedBind from '../conflicts/UnusedBind';
 import UnparsableType from '../nodes/UnparsableType';
 import UnparsableExpression from '../nodes/UnparsableExpression';
 import Project from '../models/Project';
-import eng_serious from '../translations/eng_serious';
 
 const source = new Source('native', '');
 const project = new Project('test', source, []);
@@ -48,10 +47,9 @@ function checkNativeNodes(nodes: Node[]) {
             for (const conflict of conflicts) {
                 const conflictingNodes = conflict.getConflictingNodes();
                 console.log(
-                    `Conflict on:\n${node.toWordplay()}\nPrimary node: ${conflictingNodes.primary.node.toWordplay()}\n\t${conflictingNodes.primary.explanation(
-                        eng_serious,
-                        context
-                    )}`
+                    `Conflict on:\n${node.toWordplay()}\nPrimary node: ${conflictingNodes.primary.node.toWordplay()}\n\t${
+                        conflict.constructor.name
+                    }`
                 );
             }
 

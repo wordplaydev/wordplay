@@ -21,6 +21,7 @@ import type TypeSet from './TypeSet';
 import type Value from '../runtime/Value';
 import type { Replacement } from './Node';
 import type Translation from '../translations/Translation';
+import type LanguageCode from '../translations/LanguageCode';
 
 export default class Program extends Expression {
     readonly docs?: Docs;
@@ -98,7 +99,7 @@ export default class Program extends Expression {
         return definitions;
     }
 
-    getLanguagesUsed(): string[] {
+    getLanguagesUsed(): LanguageCode[] {
         return Array.from(
             new Set(
                 (
@@ -107,7 +108,7 @@ export default class Program extends Expression {
                             n instanceof Language &&
                             n.getLanguage() !== undefined
                     ) as Language[]
-                ).map((n) => n.getLanguage() as string)
+                ).map((n) => n.getLanguageCode())
             )
         );
     }

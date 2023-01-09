@@ -4,6 +4,7 @@ import type LanguageCode from '../translations/LanguageCode';
 import type Node from '../nodes/Node';
 import Reference from '../nodes/Reference';
 import Concept from './Concept';
+import type Translation from '../translations/Translation';
 
 export default class BindConcept extends Concept {
     /** The type this concept represents. */
@@ -22,8 +23,12 @@ export default class BindConcept extends Concept {
         );
     }
 
-    getDocs() {
-        return this.bind.docs;
+    getDocs(translation: Translation) {
+        return this.bind.docs?.getTranslation(translation.language);
+    }
+
+    getDescription(translation: Translation) {
+        return this.bind.names.getTranslation(translation.language);
     }
 
     getRepresentation() {

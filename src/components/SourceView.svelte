@@ -5,7 +5,7 @@
     import type Source from '../nodes/Source';
     import type Project from '../models/Project';
     import { currentStep } from '../models/stores';
-    import { translations } from '../translations/translations';
+    import { preferredLanguages } from '../translations/translations';
     import type Conflict from '../conflicts/Conflict';
     import type Value from '../runtime/Value';
     import OutputView from './OutputView.svelte';
@@ -24,7 +24,7 @@
     let latest: Value | undefined;
     $: {
         $currentStep;
-        $translations;
+        $preferredLanguages;
         latest = project.evaluator.getLatestSourceValue(source);
     }
 </script>

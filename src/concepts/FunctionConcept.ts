@@ -13,6 +13,7 @@ import UnaryOperation from '../nodes/UnaryOperation';
 import BindConcept from './BindConcept';
 import Concept from './Concept';
 import type StructureConcept from './StructureConcept';
+import type Translation from '../translations/Translation';
 
 export default class FunctionConcept extends Concept {
     /** The function this concept represents. */
@@ -82,8 +83,12 @@ export default class FunctionConcept extends Concept {
         );
     }
 
-    getDocs() {
-        return this.definition.docs;
+    getDocs(translation: Translation) {
+        return this.definition.docs?.getTranslation(translation.language);
+    }
+
+    getDescription(translation: Translation) {
+        return this.definition.names.getTranslation(translation.language);
     }
 
     getRepresentation() {

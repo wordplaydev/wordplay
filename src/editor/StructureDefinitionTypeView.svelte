@@ -3,16 +3,14 @@
 <script lang="ts">
     import NodeView from './NodeView.svelte';
     import NameToken from '../nodes/NameToken';
-    import { translations } from '../translations/translations';
+    import { preferredLanguages } from '../translations/translations';
     import type StructureDefinitionType from '../nodes/StructureDefinitionType';
 
     export let node: StructureDefinitionType;
 
     // Choose what name to render based on the preferred languages.
     $: name = new NameToken(
-        node.structure.names.getTranslation(
-            $translations.map((t) => t.language)
-        )
+        node.structure.names.getTranslation($preferredLanguages)
     );
 </script>
 

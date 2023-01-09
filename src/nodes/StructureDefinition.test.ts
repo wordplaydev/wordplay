@@ -7,12 +7,10 @@ import DuplicateName from '../conflicts/DuplicateName';
 import { UnimplementedInterface } from '../conflicts/UnimplementedInterface';
 import { IncompleteImplementation } from '../conflicts/IncompleteImplementation';
 import { DisallowedInputs } from '../conflicts/DisallowedInputs';
-import Names from './Names';
 import TypeVariables from './TypeVariables';
 import NotAnInterface from '../conflicts/NotAnInterface';
 
 test.each([
-    ['•Cat,Dog(a b)', '•Cat,Cat(a b)', Names, DuplicateName],
     ['•Cat(a b)', '•Cat(a a)', StructureDefinition, DuplicateName],
     ['•Cat⸨T U⸩ ()', '•Cat⸨T T⸩ ()', TypeVariables, DuplicateTypeVariable],
     [

@@ -12,6 +12,7 @@ import Evaluate from '../nodes/Evaluate';
 import Reference from '../nodes/Reference';
 import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
 import type LanguageCode from '../translations/LanguageCode';
+import type Translation from '../translations/Translation';
 
 export default class StructureConcept extends Concept {
     /** The type this concept represents. */
@@ -102,8 +103,12 @@ export default class StructureConcept extends Concept {
             );
     }
 
-    getDocs() {
-        return this.definition.docs;
+    getDocs(translation: Translation) {
+        return this.definition.docs?.getTranslation(translation.language);
+    }
+
+    getDescription(translation: Translation) {
+        return this.definition.names.getTranslation(translation.language);
     }
 
     getRepresentation() {

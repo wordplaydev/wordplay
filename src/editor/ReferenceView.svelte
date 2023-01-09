@@ -5,9 +5,9 @@
     import NodeView from './NodeView.svelte';
     import { project, currentStep, playing } from '../models/stores';
     import Stream from '../runtime/Stream';
-    import { getLanguages } from '../translations/translations';
     import { getCaret } from './util/Contexts';
     import NameToken from '../nodes/NameToken';
+    import { preferredLanguages } from '../translations/translations';
 
     export let node: Reference;
 
@@ -44,7 +44,9 @@
     $: name =
         definition === undefined || $caret?.isIn(node)
             ? node.name
-            : new NameToken(definition.names.getTranslation(getLanguages()));
+            : new NameToken(
+                  definition.names.getTranslation($preferredLanguages)
+              );
 </script>
 
 {#if animating}

@@ -1,5 +1,5 @@
 import type LanguageCode from './LanguageCode';
-import SupportedTranslations from './SupportedTranslations';
+import SupportedTranslations from './translations';
 import type Translation from './Translation';
 
 /** Given an ordered list of preferred languages, choose the translation that best matches, or the default translation */

@@ -19,6 +19,9 @@ import {
     NOT_SYMBOL,
     PRODUCT_SYMBOL,
     THIS_SYMBOL,
+    EXPONENT_SYMBOL,
+    LANGUAGE_SYMBOL,
+    NAME_SEPARATOR_SYMBOL,
 } from '../parser/Symbols';
 import type { Description } from './Translation';
 import type { CycleType } from '../nodes/CycleType';
@@ -26,11 +29,11 @@ import type UnknownNameType from '../nodes/UnknownNameType';
 import Explanation from './Explanation';
 import type NodeLink from './NodeLink';
 
-const WRITE_DOC = 'TBD';
+const WRITE_DOC = 'pendiante';
 
-const eng_serious: Translation = {
-    language: 'eng',
-    style: 'cs',
+const eng_wordplay: Translation = {
+    language: 'spa',
+    style: 'wp',
     placeholders: {
         code: 'code',
         expression: 'value',
@@ -95,31 +98,32 @@ const eng_serious: Translation = {
                     }[dim] ?? dim
                 );
             },
-            purpose: WRITE_DOC,
+            purpose: `Dimensions specify one part of a scientific unit of measurement on a number. They can be combined using the product ${PRODUCT_SYMBOL}, power ${EXPONENT_SYMBOL}, and slash ${LANGUAGE_SYMBOL} symbols to construct compound units.`,
         },
         Doc: {
             description: 'documentation',
-            purpose: WRITE_DOC,
+            purpose:
+                'An explanation of some chunk of code, including its purpose and how to use it, ideally with examples. Documentation can precede any expression, but are most useful before structure and function definitions and before blocks, to explain how to use them. Documentation can be tagged with a language, just like names, offering multiple translations of the same documentation.',
         },
         Docs: {
             description: 'set of documentation',
-            purpose: WRITE_DOC,
+            purpose: `A list of documentation.`,
         },
         KeyValue: {
             description: 'key/value pair',
-            purpose: WRITE_DOC,
+            purpose: `Represents a single mapping in a map between a key and a value.`,
         },
         Language: {
             description: 'language tag',
-            purpose: WRITE_DOC,
+            purpose: `Applied to a name or documentation to indicate the language it is written in.`,
         },
         Name: {
             description: 'name',
-            purpose: WRITE_DOC,
+            purpose: `Names are used to represent some value in a program, such as a function, structure type, or a binding in a block. They're a helpful way of giving a shorthand label to some value or way of computing or storing values. Names can be optionally tagged with a language; this is helpful when sharing code, since the language might use to name a function might not be known to people who want to use it. Translating names makes shared code more globally useful.`,
         },
         Names: {
             description: 'list of names',
-            purpose: WRITE_DOC,
+            purpose: `All named values can have multiple names, segmented by ${NAME_SEPARATOR_SYMBOL} symbols.`,
         },
         Row: {
             description: 'row of values',
@@ -161,7 +165,8 @@ const eng_serious: Translation = {
     expressions: {
         BinaryOperation: {
             description: 'evaluate unknown function two inputs',
-            purpose: WRITE_DOC,
+            purpose:
+                "Binary operations compute a left and right value and then compute the function indicated by the operator in the middle. The operator name must exist on the left value's type. This syntax is really just a special form of an Evaluate",
             right: 'input',
             start: (left) => Explanation.as('evaluating ', left, ' first'),
             finish: (result) =>
@@ -169,7 +174,8 @@ const eng_serious: Translation = {
         },
         Bind: {
             description: 'name a value',
-            purpose: WRITE_DOC,
+            purpose:
+                "A binding is a way of naming a value that has been computed. In many programs, these are called 'variables', but unlike in other languages, a binding's value cannot change: once something is named, it keeps the value it was assigned until the part of the program that defined it is complete, and then the name is discarded. ",
             start: (value) =>
                 value
                     ? Explanation.as('evaluate ', value, ' first')
@@ -181,7 +187,8 @@ const eng_serious: Translation = {
         },
         Block: {
             description: 'block',
-            purpose: WRITE_DOC,
+            purpose:
+                "A block is a series of expressions, usually bindings, function and structure definitions, culminating in an expression that produces a block's final value. They are best thought of as a way of computing and naming several values and then using those named values to compute a final value.",
             statement: 'statement',
             start: 'start evaluating the statements',
             finish: (value) =>
@@ -1632,4 +1639,4 @@ const eng_serious: Translation = {
     },
 };
 
-export default eng_serious;
+export default eng_wordplay;

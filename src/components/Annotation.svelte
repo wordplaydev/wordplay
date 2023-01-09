@@ -17,7 +17,9 @@
     style:top={`${position.top}px`}
 >
     {#each text as description}
-        <DescriptionView {description} />
+        <p>
+            <DescriptionView {description} />
+        </p>
     {/each}
 </div>
 

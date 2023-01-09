@@ -1,13 +1,6 @@
-type LanguageCode = 'eng' | '😀';
-
-export const languageCodeToLanguage: Record<LanguageCode, string> = {
-    eng: 'English',
-    '😀': '😀',
-};
-
 /** ISO 639-2 3 and 2 letter language codes and their English descriptor. */
-export const Languages: Record<string, [string, string]> = {
-    '😀': ['😀', 'Emoji'],
+export const Languages = {
+    '😀': ['😀', '😀'],
     aar: ['aa', 'Afar'],
     abk: ['ab', 'Abkhazian'],
     ace: ['', 'Achinese'],
@@ -411,7 +404,7 @@ export const Languages: Record<string, [string, string]> = {
     som: ['so', 'Somali'],
     son: ['', 'Songhai languages'],
     sot: ['st', 'Sotho, Southern'],
-    spa: ['es', 'Spanish; Castilian'],
+    spa: ['es', 'Española'],
     srd: ['sc', 'Sardinian'],
     srn: ['', 'Sranan Tongo'],
     srp: ['sr', 'Serbian'],
@@ -499,4 +492,9 @@ export const Languages: Record<string, [string, string]> = {
     zza: ['', 'Zaza; Dimili; Dimli; Kirdki; Kirmanjki; Zazaki'],
 };
 
+type LanguageCode = keyof typeof Languages;
 export default LanguageCode;
+
+export function getLanguageName(code: LanguageCode): string {
+    return Languages[code][1];
+}

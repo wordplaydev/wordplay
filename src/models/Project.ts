@@ -25,6 +25,7 @@ import PropertyReference from '../nodes/PropertyReference';
 import type Bind from '../nodes/Bind';
 import Reference from '../nodes/Reference';
 import Random from '../streams/Random';
+import type LanguageCode from '../translations/LanguageCode';
 
 export type Streams = {
     time: Time;
@@ -437,5 +438,18 @@ export default class Project {
                 : supplement.clone();
         });
         return new Project(this.name, newMain, newSupplements);
+    }
+
+    /** Get all the languages used in the project */
+    getLanguages() {
+        return Array.from(
+            new Set(
+                this.getSources().reduce(
+                    (list: LanguageCode[], source: Source) =>
+                        list.concat(source.expression.getLanguagesUsed()),
+                    []
+                )
+            )
+        );
     }
 }

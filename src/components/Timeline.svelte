@@ -9,7 +9,7 @@
     import Text from '../runtime/Text';
     import { slide } from 'svelte/transition';
     import Controls from './Controls.svelte';
-    import { translations } from '../translations/translations';
+    import { preferredLanguages } from '../translations/translations';
 
     export let evaluator: Evaluator;
 
@@ -130,10 +130,8 @@
             {#if historyTrimmed && currentChange === $streams[0]}
                 Can't remember before this…
             {:else if currentChange && currentChange.stream}
-                {#each $translations as translation}
-                    {currentChange.stream.docs.getTranslation(
-                        translation.language
-                    )}
+                {#each $preferredLanguages as lang}
+                    {currentChange.stream.docs.getTranslation(lang)}
                 {/each}
             {/if}
         </div>

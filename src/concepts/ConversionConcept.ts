@@ -3,6 +3,7 @@ import type ConversionDefinition from '../nodes/ConversionDefinition';
 import Convert from '../nodes/Convert';
 import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
 import type Node from '../nodes/Node';
+import type Translation from '../translations/Translation';
 import Concept from './Concept';
 import type StructureConcept from './StructureConcept';
 
@@ -32,8 +33,12 @@ export default class ConversionConcept extends Concept {
         );
     }
 
-    getDocs() {
-        return this.definition.docs;
+    getDocs(translation: Translation) {
+        return this.definition.docs?.getTranslation(translation.language);
+    }
+
+    getDescription(translation: Translation) {
+        return this.definition.getDescription(translation, this.context);
     }
 
     getRepresentation() {

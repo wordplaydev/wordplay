@@ -1,6 +1,7 @@
 import Concept from './Concept';
 import type Node from '../nodes/Node';
 import type Context from '../nodes/Context';
+import type Translation from '../translations/Translation';
 
 export default class NodeConcept extends Concept {
     readonly template: Node;
@@ -11,8 +12,12 @@ export default class NodeConcept extends Concept {
         this.template = template;
     }
 
-    getDocs() {
-        return undefined;
+    getDocs(translation: Translation) {
+        return this.template.getPurpose(translation);
+    }
+
+    getDescription(translation: Translation) {
+        return this.template.getDescription(translation, this.context);
     }
 
     getRepresentation() {

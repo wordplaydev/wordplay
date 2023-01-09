@@ -12,7 +12,6 @@ import MissingCell from '../conflicts/MissingCell';
 import InvalidRow from '../conflicts/InvalidRow';
 import Token from './Token';
 import TokenType from './TokenType';
-import type Name from './Name';
 import DuplicateName from '../conflicts/DuplicateName';
 
 export function requiredBindAfterOptional(
@@ -48,16 +47,20 @@ export function restIsNotLast(inputs: Bind[]) {
 export function getEvaluationInputConflicts(inputs: Bind[]) {
     const conflicts = [];
 
-    // Structure input names must be unique
-    const names = inputs.reduce(
-        (names: Name[], bind: Bind) => names.concat(bind.names.names),
-        []
-    );
-    for (const name of names) {
-        const dupe = names.find(
-            (n) => n !== name && n.getName() === name.getName()
-        );
-        if (dupe) conflicts.push(new DuplicateName(name, dupe));
+    // Distinct structure input names must be unique (but individual names are allowed to have
+    // redundant names).
+    for (const input of inputs) {
+        const dupe = inputs.find((i) => i !== input && i.sharesName(input));
+        if (dupe) {
+            const sharedName = dupe.names.getSharedName(input.names);
+            if (sharedName) {
+                const thisName = input.names.names.find(
+                    (name) => name.getName() === sharedName?.getName()
+                );
+                if (thisName)
+                    conflicts.push(new DuplicateName(thisName, sharedName));
+            }
+        }
     }
 
     // Required inputs can never follow an optional one.

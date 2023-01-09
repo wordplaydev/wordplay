@@ -1,14 +1,19 @@
 <svelte:options immutable={true} />
 
 <script lang="ts">
-    import { translations } from '../translations/translations';
+    import {
+        preferredLanguages,
+        preferredStyle,
+        styleDescriptions,
+        type LanguageStyle,
+    } from '../translations/translations';
     import { examples, makeProject, type Stuff } from '../examples/examples';
     import { updateProject } from '../models/stores';
-    import SupportedTranslations from '../translations/SupportedTranslations';
-    import type Translation from '../translations/Translation';
+    import { getLanguageName } from '../translations/LanguageCode';
+    import LanguageChooser from './LanguageChooser.svelte';
 
     let example: Stuff;
-    let language: Translation;
+    let style: LanguageStyle;
 
     let collapsed = true;
 
@@ -16,44 +21,46 @@
         updateProject(makeProject(example));
     }
 
-    function changeLanguage() {
-        translations.set([language]);
+    function changeStyle() {
+        preferredStyle.set(style);
     }
 
-    function show() {
-        collapsed = false;
-    }
-    function hide() {
-        collapsed = true;
+    function toggle() {
+        collapsed = !collapsed;
     }
 </script>
 
-<div
-    class="settings"
-    class:collapsed
-    tabIndex="0"
-    on:mouseover={show}
-    on:mouseleave={hide}
-    on:focus={show}
-    on:focusin={show}
-    on:focusout={hide}
->
-    {#if collapsed}
-        ⚙
+<div class="settings" class:collapsed>
+    {#if !collapsed}
+        <div class="controls">
+            <select bind:value={example} on:change={changeProject}>
+                {#each examples as example}
+                    <option value={example}>{example.name}</option>
+                {/each}
+            </select>
+            <label for="style">style</label>
+            <select id="style" bind:value={style} on:change={changeStyle}>
+                {#each Object.entries(styleDescriptions) as [style, description]}
+                    <option value={style}>{description}</option>
+                {/each}
+            </select>
+            <LanguageChooser />
+        </div>
     {:else}
-        <select bind:value={example} on:change={changeProject}>
-            {#each examples as example}
-                <option value={example}>{example.name}</option>
-            {/each}
-        </select>
-        <select bind:value={language} on:change={changeLanguage}>
-            {#each SupportedTranslations as translation}
-                <option value={translation}
-                    >{`${translation.language}#${translation.style}`}</option
-                >
-            {/each}
-        </select>
+        {#each $preferredLanguages as lang}{getLanguageName(lang)}{/each}
+        {#if $preferredStyle === 'cs'}<small
+                ><em>{styleDescriptions['cs']}</em></small
+            >{/if}
     {/if}
+    <span
+        class="gear"
+        tabIndex="0"
+        on:click={toggle}
+        on:keydown={(event) =>
+            event.key === ' ' || event.key === 'Enter' ? toggle() : undefined}
+    >
+        ⚙
+    </span>
 </div>
 
 <style>
@@ -65,20 +72,29 @@
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         padding: var(--wordplay-spacing);
         background: var(--wordplay-chrome);
-        border-radius: var(--wordplay-border-radius);
         text-align: center;
 
         display: flex;
         justify-content: center;
-        align-items: center;
+        align-items: end;
+        gap: var(--wordplay-spacing);
 
         z-index: var(--wordplay-layer-controls);
+        border-radius: var(--wordplay-border-radius);
     }
 
-    .settings.collapsed {
-        border-radius: 50%;
-        min-width: 3em;
-        min-height: 3em;
+    .gear {
+        cursor: pointer;
+        min-width: 1em;
+        min-height: 1em;
+    }
+
+    .gear:hover {
+        font-weight: bold;
+    }
+
+    .gear:focus {
+        outline: none;
     }
 
     .settings:focus-within {

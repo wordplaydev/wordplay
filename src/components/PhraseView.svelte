@@ -5,7 +5,7 @@
     import type Place from '../output/Place';
     import parseRichText from '../output/parseRichText';
     import phraseToCSS from '../output/phraseToCSS';
-    import { getLanguages } from '../translations/translations';
+    import { preferredLanguages } from '../translations/translations';
 
     export let phrase: Phrase;
     export let place: Place;
@@ -17,7 +17,7 @@
     id={`phrase-${phrase.getName()}`}
     style={phraseToCSS(phrase, phrase.place ?? place, focus)}
 >
-    {@html parseRichText(phrase.getDescription(getLanguages())).toHTML()}
+    {@html parseRichText(phrase.getDescription($preferredLanguages)).toHTML()}
 </div>
 
 <style>

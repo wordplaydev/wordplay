@@ -1,7 +1,7 @@
 <svelte:options immutable={true} />
 
 <script lang="ts">
-    import { translations } from '../translations/translations';
+    import { preferredLanguages } from '../translations/translations';
     import TokenType from '../nodes/TokenType';
     import {
         BIND_SYMBOL,
@@ -17,17 +17,13 @@
 </script>
 
 <SymbolView
-    symbol={value.type.names.getTranslation(
-        $translations.map((t) => t.language)
-    )}
+    symbol={value.type.names.getTranslation($preferredLanguages)}
     type={TokenType.NAME}
 /><SymbolView
     symbol={EVAL_OPEN_SYMBOL}
     type={TokenType.EVAL_OPEN}
 />{#each value.type.inputs as input, index}<SymbolView
-        symbol={input.names.getTranslation(
-            $translations.map((t) => t.language)
-        )}
+        symbol={input.names.getTranslation($preferredLanguages)}
         type={TokenType.NAME}
     /><SymbolView symbol={BIND_SYMBOL} type={TokenType.BIND} /><ValueView
         value={value.resolve(input.getNames()[0]) ?? new None(value.type)}

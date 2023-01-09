@@ -24,7 +24,7 @@
         getDragged,
         HiddenSymbol,
     } from './util/Contexts';
-    import { getLanguages, translations } from '../translations/translations';
+    import { preferredLanguages } from '../translations/translations';
     import {
         type HighlightType,
         type Highlights,
@@ -48,14 +48,14 @@
     import Highlight from './Highlight.svelte';
     import { afterUpdate } from 'svelte';
     import type Rect from '../components/Rect';
-    import Doc from '../nodes/Doc';
-    import Name from '../nodes/Name';
     import {
         dropNodeOnSource,
         getInsertionPoint,
         InsertionPoint,
     } from './Drag';
     import type Tree from '../nodes/Tree';
+    import Docs from '../nodes/Docs';
+    import Names from '../nodes/Names';
 
     export let project: Project;
     export let source: Source;
@@ -267,14 +267,31 @@
 
         // Hide any language tagged nodes that 1) the caret isn't in, and 2) either have no language tag or aren't one of the selected tags.
         for (const tag of source.nodes(
-            (n) => n instanceof Doc || n instanceof Name
-        ) as (Doc | Name)[]) {
+            (n) => n instanceof Docs || n instanceof Names
+        ) as (Docs | Names)[]) {
+            // Get all the names or docs
+            const nameOrDocs = tag instanceof Docs ? tag.docs : tag.names;
+            // If at least one is visible, hide all those not in a preferred language.
             if (
-                tag.getLanguage() !== undefined &&
-                !$translations.some((t) => t.language === tag.getLanguage()) &&
-                !$caret.isIn(tag)
-            )
-                newHidden.add(tag);
+                $preferredLanguages.some((lang) =>
+                    nameOrDocs.some((l) => l.getLanguage() === lang)
+                )
+            ) {
+                for (const nameOrDoc of nameOrDocs) {
+                    if (
+                        !$preferredLanguages.some(
+                            (t) => t === nameOrDoc.getLanguage()
+                        ) &&
+                        !$caret.isIn(nameOrDoc)
+                    )
+                        newHidden.add(nameOrDoc);
+                }
+            }
+            // Otherwise, hide all but the first.
+            else {
+                for (const nameOrDoc of nameOrDocs.slice(1))
+                    newHidden.add(nameOrDoc);
+            }
         }
 
         // Update hidden nodes.
@@ -1011,7 +1028,7 @@
                 menu.transforms.length > 0
             ) {
                 handleEdit(
-                    menu.transforms[menuSelection].getEdit(getLanguages())
+                    menu.transforms[menuSelection].getEdit($preferredLanguages)
                 );
                 hideMenu();
                 return;
@@ -1242,9 +1259,7 @@
                 transforms={menu.transforms}
                 selection={menuSelection}
                 select={(transform) =>
-                    handleEdit(
-                        transform.getEdit($translations.map((t) => t.language))
-                    )}
+                    handleEdit(transform.getEdit($preferredLanguages))}
             />
         </div>
     {/if}

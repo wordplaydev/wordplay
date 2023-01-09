@@ -2,7 +2,7 @@
     import type Concept from '../concepts/Concept';
     import RootView from '../editor/RootView.svelte';
     import { getPalettePath } from '../editor/util/Contexts';
-    import { translations } from '../translations/translations';
+    import { preferredTranslations } from '../translations/translations';
     import type Node from '../nodes/Node';
     import Note from './Note.svelte';
 
@@ -31,12 +31,12 @@
     $: selection = getPalettePath();
 </script>
 
-<div class="code" class:draggable class:border>
-    <div class="root">
+<div class="code" class:draggable>
+    <div class="root" class:border>
         <RootView {node} />
     </div>
     {#if describe}
-        <div
+        <p
             class="description"
             class:selectable
             tabIndex={selectable ? 0 : null}
@@ -46,8 +46,8 @@
                     ? select(event)
                     : undefined}
         >
-            <Note>{concept.getDescription($translations[0])}</Note>
-        </div>
+            <Note>{concept.getDescription($preferredTranslations[0])}</Note>
+        </p>
     {/if}
 </div>
 
@@ -57,7 +57,7 @@
         vertical-align: middle;
     }
 
-    .code.border {
+    .root.border {
         padding: var(--wordplay-spacing);
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
         border-radius: var(--wordplay-border-radius)
@@ -69,10 +69,15 @@
     .root {
         display: inline-block;
         cursor: pointer;
+        user-select: none;
     }
 
     .draggable .root:hover {
         animation: wobble 0.25s ease-out infinite;
+    }
+
+    .description {
+        margin: var(--wordplay-spacing);
     }
 
     .description:focus {
@@ -84,12 +89,11 @@
     }
 
     .description.selectable {
-        border-bottom: var(--wordplay-border-color) solid
-            var(--wordplay-border-width);
+        color: var(--wordplay-highlight);
     }
 
     .description.selectable:hover {
-        border-bottom-color: var(--wordplay-highlight);
+        text-decoration: underline;
     }
 
     @keyframes wobble {

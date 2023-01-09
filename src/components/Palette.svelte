@@ -41,7 +41,10 @@
     import NodeConcept from '../concepts/NodeConcept';
     import ConceptIndex from '../concepts/ConceptIndex';
     import type Node from '../nodes/Node';
-    import { getLanguages, translations } from '../translations/translations';
+    import {
+        preferredLanguages,
+        preferredTranslations,
+    } from '../translations/translations';
     import NodeConceptView from './NodeConceptView.svelte';
 
     export let hidden: boolean;
@@ -68,7 +71,11 @@
 
     $: {
         // When the project changes, languages change, and the keyboard is idle, recompute the concepts.
-        if ($translations && $KeyboardIdle && latestProject !== $project) {
+        if (
+            $preferredLanguages &&
+            $KeyboardIdle &&
+            latestProject !== $project
+        ) {
             latestProject = $project;
 
             projectStructures = [$project.main, ...$project.supplements]
@@ -83,7 +90,7 @@
                                 def,
                                 undefined,
                                 [],
-                                getLanguages(),
+                                $preferredLanguages,
                                 $project.getContext(source)
                             )
                     )
@@ -102,7 +109,7 @@
                                 new FunctionConcept(
                                     def,
                                     undefined,
-                                    getLanguages(),
+                                    $preferredLanguages,
                                     $project.getContext(source)
                                 )
                         )
@@ -117,7 +124,7 @@
                             (def) =>
                                 new BindConcept(
                                     def,
-                                    getLanguages(),
+                                    $preferredLanguages,
                                     $project.getContext(source)
                                 )
                         )
@@ -130,7 +137,7 @@
                     (s) =>
                         new StreamConcept(
                             s,
-                            getLanguages(),
+                            $preferredLanguages,
                             $project.getContext($project.main)
                         )
                 );
@@ -139,11 +146,11 @@
                 $project.getContext($project.main)
             );
             native = getNativeConcepts(
-                getLanguages(),
+                $preferredLanguages,
                 $project.getContext($project.main)
             );
             output = getOutputConcepts(
-                getLanguages(),
+                $preferredLanguages,
                 $project.getContext($project.main)
             );
 
@@ -266,7 +273,7 @@
                 <div class="back">
                     <Button
                         label="◁"
-                        tip={$translations[0].ui.tooltip.home}
+                        tip={$preferredTranslations[0].ui.tooltip.home}
                         action={back}
                     />
                     {#each $path as concept}
@@ -322,7 +329,6 @@
         background-color: var(--wordplay-background);
 
         padding: calc(2 * var(--wordplay-spacing));
-        user-select: none;
 
         transition: width 0.25s ease-out, visibility 0.25s ease-out,
             opacity 0.25s ease-out;

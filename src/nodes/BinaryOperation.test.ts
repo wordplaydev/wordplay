@@ -19,7 +19,7 @@ test.each([
         IncompatibleInput,
     ],
 ])(
-    'Expect %s no conflicts, %s to have %s with %s',
+    'Expect %s no conflicts, %s to have conflicts',
     (good, bad, node, conflict, number?) => {
         testConflict(good, bad, node, conflict, number);
     }

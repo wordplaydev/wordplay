@@ -10,7 +10,7 @@
     import Button from './Button.svelte';
     import Switch from './Switch.svelte';
     import type Project from '../models/Project';
-    import { translations } from '../translations/translations';
+    import { preferredTranslations } from '../translations/translations';
 
     export let project: Project;
 
@@ -35,28 +35,28 @@
 <section class="controls">
     <Button
         label="↻"
-        tip={$translations[0].ui.tooltip.reset}
+        tip={$preferredTranslations[0].ui.tooltip.reset}
         action={reset}
         enabled={$streams.length > 1}
     />
     <Switch
         on={$playing}
         toggle={playPause}
-        offTip={$translations[0].ui.tooltip.pause}
-        onTip={$translations[0].ui.tooltip.play}
+        offTip={$preferredTranslations[0].ui.tooltip.pause}
+        onTip={$preferredTranslations[0].ui.tooltip.play}
         offLabel="||"
         onLabel="▷"
     />
     {#if !$playing}
         <Button
             label="←"
-            tip="{$translations[0].ui.tooltip.back},"
+            tip="{$preferredTranslations[0].ui.tooltip.back},"
             action={() => project.evaluator.stepBackWithinProgram()}
             enabled={!$playing && !project.evaluator.isAtBeginning()}
         />
         <Button
             label="↑"
-            tip={$translations[0].ui.tooltip.out}
+            tip={$preferredTranslations[0].ui.tooltip.out}
             action={handleStepOut}
             enabled={!$playing &&
                 $currentStep &&
@@ -64,14 +64,14 @@
         />
         <Button
             label="→"
-            tip={$translations[0].ui.tooltip.forward}
+            tip={$preferredTranslations[0].ui.tooltip.forward}
             action={handleStep}
             enabled={!$playing &&
                 $currentStepIndex < project.evaluator.getStepCount()}
         />
         <Button
             label="⇥"
-            tip={$translations[0].ui.tooltip.present}
+            tip={$preferredTranslations[0].ui.tooltip.present}
             action={() => project.evaluator.play()}
             enabled={$streams.length > 1}
         />

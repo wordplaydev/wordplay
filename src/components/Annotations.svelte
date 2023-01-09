@@ -2,7 +2,7 @@
     import type Conflict from '../conflicts/Conflict';
     import type Project from '../models/Project';
     import { currentStep } from '../models/stores';
-    import { translations } from '../translations/translations';
+    import { preferredTranslations } from '../translations/translations';
     import Expression from '../nodes/Expression';
     import type Node from '../nodes/Node';
     import Annotation from './Annotation.svelte';
@@ -49,7 +49,7 @@
                         node: node,
                         element: view,
                         text: $currentStep
-                            ? $translations.map((trans) =>
+                            ? $preferredTranslations.map((trans) =>
                                   ($currentStep as Step).getExplanations(
                                       trans,
                                       project.evaluator
@@ -57,8 +57,12 @@
                               )
                             : project.evaluator.steppedToNode() &&
                               project.evaluator.isDone()
-                            ? $translations.map((t) => t.evaluation.unevaluated)
-                            : $translations.map((t) => t.evaluation.done),
+                            ? $preferredTranslations.map(
+                                  (t) => t.evaluation.unevaluated
+                              )
+                            : $preferredTranslations.map(
+                                  (t) => t.evaluation.done
+                              ),
                         kind: 'step',
                         position: getPosition(view),
                     },
@@ -79,7 +83,7 @@
                         {
                             node: primary.node,
                             element: getNodeView(primary.node),
-                            text: $translations.map((trans) =>
+                            text: $preferredTranslations.map((trans) =>
                                 primary.explanation(
                                     trans,
                                     project.getNodeContext(primary.node) ??
@@ -96,7 +100,7 @@
                                   {
                                       node: secondary.node,
                                       element: getNodeView(secondary.node),
-                                      text: $translations
+                                      text: $preferredTranslations
                                           .map((trans) =>
                                               secondary.explanation(
                                                   trans,

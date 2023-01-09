@@ -2,7 +2,6 @@
     import { toVerse } from '../output/Verse';
     import Exception from '../runtime/Exception';
     import type Value from '../runtime/Value';
-    import { translations } from '../translations/translations';
     import { playing } from '../models/stores';
     import KeyboardIdle from '../editor/util/KeyboardIdle';
     import type Project from '../models/Project';
@@ -12,6 +11,7 @@
     import { createEventDispatcher } from 'svelte';
     import { slide } from 'svelte/transition';
     import DescriptionView from './DescriptionView.svelte';
+    import { preferredTranslations } from '../translations/translations';
 
     export let project: Project;
     export let source: Source;
@@ -54,7 +54,7 @@
         {#if latest instanceof Exception}
             <div class="fill exception"
                 ><div class="message"
-                    >{#each $translations as translation}
+                    >{#each $preferredTranslations as translation}
                         <DescriptionView
                             description={latest.getDescription(translation)}
                         />
@@ -75,7 +75,7 @@
             <div class="fill value">
                 <div class="message">
                     <h2
-                        >{$translations.map((translation) =>
+                        >{$preferredTranslations.map((translation) =>
                             latest === undefined
                                 ? undefined
                                 : latest
