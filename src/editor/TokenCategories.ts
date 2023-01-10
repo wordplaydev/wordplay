@@ -30,7 +30,7 @@ TokenCategories.set(TokenType.FUNCTION, TokenCategoryEvaluation);
 TokenCategories.set(TokenType.BORROW, TokenCategoryShare);
 TokenCategories.set(TokenType.SHARE, TokenCategoryShare);
 TokenCategories.set(TokenType.CONVERT, TokenCategoryEvaluation);
-TokenCategories.set(TokenType.DOCS, TokenCategoryDocs);
+TokenCategories.set(TokenType.DOC, TokenCategoryDocs);
 TokenCategories.set(TokenType.NONE, TokenCategoryLiteral);
 TokenCategories.set(TokenType.TYPE, TokenCategoryRelation);
 TokenCategories.set(TokenType.NAME_SEPARATOR, TokenCategoryDelimiter);

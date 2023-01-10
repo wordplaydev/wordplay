@@ -549,7 +549,7 @@ function parseAtomicExpression(tokens: Tokens): Expression {
             nextAreOptionalDocsThen(tokens, TokenType.CONVERT)
             ? parseConversion(tokens)
             : // A documented expression
-            tokens.nextIs(TokenType.DOCS)
+            tokens.nextIs(TokenType.DOC)
             ? parseDocumentedExpression(tokens)
             : // Unary expressions!
             tokens.nextIs(TokenType.UNARY_OP)
@@ -1300,11 +1300,11 @@ export function parseStructure(tokens: Tokens): StructureDefinition {
 function parseDocumentation(tokens: Tokens): Docs | undefined {
     const docs = [];
     while (
-        tokens.nextIs(TokenType.DOCS) &&
+        tokens.nextIs(TokenType.DOC) &&
         (docs.length === 0 ||
             (tokens.peekSpace()?.split('\n').length ?? 0) - 1 <= 1)
     ) {
-        const doc = tokens.read(TokenType.DOCS);
+        const doc = tokens.read(TokenType.DOC);
         const lang = tokens.nextIs(TokenType.LANGUAGE)
             ? parseLanguage(tokens)
             : undefined;

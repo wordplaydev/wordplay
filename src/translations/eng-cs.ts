@@ -18,10 +18,10 @@ import {
     OR_SYMBOL,
     NOT_SYMBOL,
     PRODUCT_SYMBOL,
-    THIS_SYMBOL,
     EXPONENT_SYMBOL,
     LANGUAGE_SYMBOL,
     NAME_SEPARATOR_SYMBOL,
+    PROPERTY_SYMBOL,
 } from '../parser/Symbols';
 import type { Description } from './Translation';
 import type { CycleType } from '../nodes/CycleType';
@@ -136,7 +136,7 @@ const eng_cs: Translation = {
                     : token.is(TokenType.BINARY_OP) ||
                       token.is(TokenType.UNARY_OP)
                     ? 'operator'
-                    : token.is(TokenType.DOCS)
+                    : token.is(TokenType.DOC)
                     ? 'documentation'
                     : token.is(TokenType.JAPANESE) ||
                       token.is(TokenType.ROMAN) ||
@@ -1320,7 +1320,7 @@ const eng_cs: Translation = {
             primary: `shares only allowed at top level of program`,
         },
         MisplacedThis: {
-            primary: `${THIS_SYMBOL} only allowed in structure definition or reaction`,
+            primary: `${PROPERTY_SYMBOL} only allowed in structure definition, conversion definition, or reaction`,
         },
         MissingCell: {
             primary: (column) =>

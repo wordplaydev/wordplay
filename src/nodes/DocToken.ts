@@ -4,6 +4,6 @@ import TokenType from './TokenType';
 
 export default class DocToken extends Token {
     constructor(docs: string = '') {
-        super(`${DOCS_SYMBOL}${docs}${DOCS_SYMBOL}`, TokenType.DOCS);
+        super(`${DOCS_SYMBOL}${docs}${DOCS_SYMBOL}`, TokenType.DOC);
     }
 }

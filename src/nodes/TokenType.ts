@@ -11,7 +11,7 @@ enum TokenType {
     BORROW,
     SHARE,
     CONVERT,
-    DOCS,
+    DOC,
     NONE,
     TYPE,
     TYPE_OP,

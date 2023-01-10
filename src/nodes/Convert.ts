@@ -15,8 +15,7 @@ import Exception from '../runtime/Exception';
 import ConversionDefinition from './ConversionDefinition';
 import Halt from '../runtime/Halt';
 import Block from './Block';
-import { CONVERT_SYMBOL } from '../parser/Symbols';
-import { THIS_SYMBOL } from '../parser/Symbols';
+import { CONVERT_SYMBOL, PROPERTY_SYMBOL } from '../parser/Symbols';
 import TokenType from './TokenType';
 import Names from './Names';
 import type Evaluator from '../runtime/Evaluator';
@@ -177,7 +176,7 @@ export default class Convert extends Expression {
                 this,
                 conversion,
                 value,
-                new Map().set(Names.make([THIS_SYMBOL]), value)
+                new Map().set(Names.make([PROPERTY_SYMBOL]), value)
             )
         );
 

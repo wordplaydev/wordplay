@@ -33,7 +33,6 @@ import {
     TABLE_CLOSE_SYMBOL,
     TABLE_OPEN_SYMBOL,
     TEMPLATE_SYMBOL,
-    THIS_SYMBOL,
     TRUE_SYMBOL,
     TYPE_CLOSE_SYMBOL,
     TYPE_OPEN_SYMBOL,
@@ -71,7 +70,6 @@ const RESERVED_SYMBOLS = [
     FALSE_SYMBOL,
     NOT_SYMBOL,
     LANGUAGE_SYMBOL,
-    THIS_SYMBOL,
     NAME_SEPARATOR_SYMBOL,
 ];
 
@@ -104,11 +102,10 @@ const patterns = [
     { pattern: BORROW_SYMBOL, types: [TokenType.BORROW] },
     { pattern: SHARE_SYMBOL, types: [TokenType.SHARE] },
     { pattern: CONVERT_SYMBOL, types: [TokenType.CONVERT] },
-    { pattern: THIS_SYMBOL, types: [TokenType.THIS] },
     // End comments after multiple newlines
     {
         pattern: new RegExp(`^${DOCS_SYMBOL}.*?(${DOCS_SYMBOL}|(?=\n\n))`),
-        types: [TokenType.DOCS],
+        types: [TokenType.DOC],
     },
     { pattern: NONE_SYMBOL, types: [TokenType.NONE, TokenType.NONE_TYPE] },
     { pattern: TYPE_SYMBOL, types: [TokenType.TYPE, TokenType.TYPE_OP] },
@@ -147,7 +144,7 @@ const patterns = [
     { pattern: 'π', types: [TokenType.NUMBER, TokenType.PI] },
     { pattern: '∞', types: [TokenType.NUMBER, TokenType.INFINITY] },
     // Must be after numbers, which can have a leading period.
-    { pattern: PROPERTY_SYMBOL, types: [TokenType.ACCESS] },
+    { pattern: PROPERTY_SYMBOL, types: [TokenType.ACCESS, TokenType.THIS] },
     { pattern: TRUE_SYMBOL, types: [TokenType.BOOLEAN] },
     { pattern: FALSE_SYMBOL, types: [TokenType.BOOLEAN] },
     // Lazily match non-template strings that lack open parentheses and aren't closed with a preceding escape.
