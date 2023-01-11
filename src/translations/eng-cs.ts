@@ -39,6 +39,13 @@ const eng_cs: Translation = {
         expression: 'value',
         type: 'type',
     },
+    terminology: {
+        data: 'data',
+        code: 'code',
+        project: 'project',
+        input: 'input',
+        output: 'output',
+    },
     data: {
         value: 'value',
         text: 'text',

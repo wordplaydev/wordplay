@@ -305,18 +305,31 @@
             </section>
         {/if}
     {:else}
-        <ConceptsView category="code" concepts={constructs} selectable={true} />
         <ConceptsView
-            category="project"
+            category={$preferredTranslations[0].terminology.code}
+            concepts={constructs}
+            selectable={true}
+        />
+        <ConceptsView
+            category={$preferredTranslations[0].terminology.project}
             concepts={[
                 ...projectStructures,
                 ...projectBinds,
                 ...projectFunctions,
             ]}
         />
-        <ConceptsView category="data" concepts={native} />
-        <ConceptsView category="input" concepts={streams} />
-        <ConceptsView category="output" concepts={output} />
+        <ConceptsView
+            category={$preferredTranslations[0].terminology.data}
+            concepts={native}
+        />
+        <ConceptsView
+            category={$preferredTranslations[0].terminology.input}
+            concepts={streams}
+        />
+        <ConceptsView
+            category={$preferredTranslations[0].terminology.output}
+            concepts={output}
+        />
     {/if}
 </section>
 

@@ -98,6 +98,13 @@ type Translation = {
         expression: string;
         type: string;
     };
+    terminology: {
+        data: string;
+        code: string;
+        project: string;
+        input: string;
+        output: string;
+    };
     data: {
         value: string;
         boolean: string;
