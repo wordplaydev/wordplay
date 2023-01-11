@@ -30,6 +30,7 @@
     <div
         class="expander"
         class:expanded
+        tabIndex="0"
         on:click={toggle}
         on:keydown={(event) =>
             event.key === ' ' || event.key === 'Enter' ? toggle() : undefined}
@@ -51,6 +52,12 @@
         cursor: pointer;
         transition: transform 0.25s ease-out;
         color: var(--wordplay-disabled-color);
+    }
+
+    .expander:focus {
+        transform: scale(1.1);
+        color: var(--wordplay-highlight);
+        outline: none;
     }
 
     .expander:hover {
