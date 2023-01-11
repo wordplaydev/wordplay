@@ -4,6 +4,7 @@
     import type StreamConcept from '../concepts/StreamConcept';
     import { getPaletteIndex } from '../editor/util/Contexts';
     import StreamType from '../nodes/StreamType';
+    import { preferredTranslations } from '../translation/translations';
 
     export let concept: StreamConcept;
 
@@ -14,7 +15,7 @@
 </script>
 
 <ConceptView {concept}>
-    <h2>value</h2>
+    <h2>{$preferredTranslations[0].data.value}</h2>
     {#if typeConcept}
         <CodeView concept={typeConcept} node={streamType} selectable />
     {/if}

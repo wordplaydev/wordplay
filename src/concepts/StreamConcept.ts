@@ -8,6 +8,9 @@ import Concept from './Concept';
 import type ConceptIndex from './ConceptIndex';
 import type Translation from '../translation/Translation';
 import Purpose from './Purpose';
+import type StructureDefinition from '../nodes/StructureDefinition';
+import StructureConcept from './StructureConcept';
+import NameType from '../nodes/NameType';
 
 export default class StreamConcept extends Concept {
     /** The type this concept represents. */
@@ -16,7 +19,15 @@ export default class StreamConcept extends Concept {
     /** A derived reference to the stream */
     readonly reference: Reference;
 
-    constructor(stream: Stream, languages: LanguageCode[], context: Context) {
+    /** A list of structure definitions that the stream uses in its stream of values, if any */
+    readonly structure: StructureConcept | undefined;
+
+    constructor(
+        stream: Stream,
+        structure: StructureDefinition | undefined,
+        languages: LanguageCode[],
+        context: Context
+    ) {
         super(Purpose.INPUT, undefined, context);
 
         this.stream = stream;
@@ -24,6 +35,21 @@ export default class StreamConcept extends Concept {
             stream.names.getTranslation(languages),
             this.stream
         );
+
+        this.structure = structure
+            ? new StructureConcept(
+                  Purpose.INPUT,
+                  structure,
+                  structure,
+                  NameType.make(
+                      structure.names.getTranslation(languages),
+                      structure
+                  ),
+                  [],
+                  languages,
+                  context
+              )
+            : undefined;
     }
 
     hasName(name: string) {
@@ -58,7 +84,7 @@ export default class StreamConcept extends Concept {
     }
 
     getSubConcepts(): Set<Concept> {
-        return new Set();
+        return new Set(this.structure ? [this.structure] : []);
     }
 
     equals(concept: Concept) {

@@ -16,6 +16,9 @@ import {
     getNodeConcepts,
     getOutputConcepts,
 } from './DefaultConcepts';
+import type Stream from '../runtime/Stream';
+import { PlaceType } from '../output/Place';
+import Key from '../streams/Key';
 
 export default class ConceptIndex {
     readonly concepts: Concept[];
@@ -104,16 +107,26 @@ export default class ConceptIndex {
             )
             .flat();
 
-        const streams = project
-            .getAllStreams()
-            .map(
-                (s) =>
-                    new StreamConcept(
-                        s,
-                        languages,
-                        project.getContext(project.main)
-                    )
+        function makeStreamConcept(
+            stream: Stream,
+            structures?: StructureDefinition
+        ) {
+            return new StreamConcept(
+                stream,
+                structures,
+                languages,
+                project.getContext(project.main)
             );
+        }
+
+        const streams = [
+            makeStreamConcept(project.streams.time),
+            makeStreamConcept(project.streams.mouseButton),
+            makeStreamConcept(project.streams.mousePosition, PlaceType),
+            makeStreamConcept(project.streams.keyboard, Key),
+            makeStreamConcept(project.streams.microphone),
+            makeStreamConcept(project.streams.random),
+        ];
 
         const constructs = getNodeConcepts(project.getContext(project.main));
 
