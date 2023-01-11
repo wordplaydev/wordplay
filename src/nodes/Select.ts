@@ -24,8 +24,8 @@ import type Evaluator from '../runtime/Evaluator';
 import NotATableType from './NotATableType';
 import UnknownNameType from './UnknownNameType';
 import type { Replacement } from './Node';
-import type Translation from '../translations/Translation';
-import NodeLink from '../translations/NodeLink';
+import type Translation from '../translation/Translation';
+import NodeLink from '../translation/NodeLink';
 
 export default class Select extends Expression {
     readonly table: Expression;

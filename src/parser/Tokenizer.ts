@@ -290,9 +290,9 @@ export function tokenize(source: string): TokenList {
             docEvalDepth !== undefined &&
             docEvalDepth === openEval.length;
 
-        // If we're in a doc, then read newlines only.
+        // If we're in a doc, then read whitespace starting with newlines only.
         if (tokenizeDocs && !source.startsWith(')')) {
-            const spaceMatch = source.match(/^\n+/);
+            const spaceMatch = source.match(/^\n[ \t\n]*/);
             space = spaceMatch === null ? '' : spaceMatch[0];
         }
         // If we're not in a doc, then slurp preceding space before the next token.
@@ -366,8 +366,8 @@ function getNextToken(
 
         const wordsMatch = source.match(WordsRegEx);
         if (wordsMatch !== null) {
-            // Take everything up to a double newline.
-            const match = wordsMatch[0].split('\n\n')[0];
+            // Take everything up until two newlines separated only by space.
+            const match = wordsMatch[0].split(/\n[ \t]*\n/)[0];
             // Add the preceding space back on, since it's part of the words.
             return new Token(match, TokenType.WORDS);
         }

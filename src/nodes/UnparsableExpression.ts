@@ -10,7 +10,7 @@ import type Expression from './Expression';
 import Node, { type Replacement } from './Node';
 import type TypeSet from './TypeSet';
 import UnparsableType from './UnparsableType';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 import AtomicExpression from './AtomicExpression';
 
 export default class UnparsableExpression extends AtomicExpression {

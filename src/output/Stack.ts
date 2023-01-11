@@ -5,9 +5,9 @@ import Group, { type RenderContext } from './Group';
 import { toGroups } from './toGroups';
 import Place from './Place';
 import Decimal from 'decimal.js';
-import type LanguageCode from '../translations/LanguageCode';
-import { getPreferredTranslation } from '../translations/getPreferredTranslation';
-import { getBind } from '../translations/getBind';
+import type LanguageCode from '../translation/LanguageCode';
+import { getPreferredTranslation } from '../translation/getPreferredTranslation';
+import { getBind } from '../translation/getBind';
 
 export const StackType = toStructure(`
     ${getBind((t) => t.output.stack.definition, '•')} Group(

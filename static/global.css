@@ -21,6 +21,7 @@
     --wordplay-error: var(--color-orange);
     --wordplay-warning: var(--color-yellow);
     --wordplay-disabled-color: rgb(180, 180, 180);
+    --wordplay-doc-color: var(--color-purple);
     --wordplay-spacing: 0.5em;
     --wordplay-font-face: "Noto Sans", "Noto Emoji", sans-serif;
     --wordplay-code-font: "Noto Mono", "Noto Emoji", monospace;

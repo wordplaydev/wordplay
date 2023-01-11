@@ -1,7 +1,7 @@
 import Node, { type Replacement } from './Node';
 import Names from './Names';
-import type LanguageCode from '../translations/LanguageCode';
-import type Translation from '../translations/Translation';
+import type LanguageCode from '../translation/LanguageCode';
+import type Translation from '../translation/Translation';
 import NameType from './NameType';
 
 export default class TypeVariable extends Node {

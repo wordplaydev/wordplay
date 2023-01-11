@@ -13,7 +13,7 @@ import type { NativeTypeName } from '../native/NativeConstants';
 import LanguageToken from './LanguageToken';
 import TokenType from './TokenType';
 import type { Replacement } from './Node';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 
 export default class Unit extends Type {
     /** In case this was parsed, we keep the original tokens around. */

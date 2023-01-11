@@ -1,5 +1,5 @@
 import type ConversionDefinition from '../nodes/ConversionDefinition';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 import Conflict from './Conflict';
 
 export class MisplacedConversion extends Conflict {

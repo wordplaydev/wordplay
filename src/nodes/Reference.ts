@@ -24,10 +24,10 @@ import StartFinish from '../runtime/StartFinish';
 import StreamType from './StreamType';
 import UnknownNameType from './UnknownNameType';
 import type { Replacement } from './Node';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 import AtomicExpression from './AtomicExpression';
 import NameException from '../runtime/NameException';
-import NodeLink from '../translations/NodeLink';
+import NodeLink from '../translation/NodeLink';
 
 /**
  * A reference to some Definition. Can optionally take the definition which it refers,

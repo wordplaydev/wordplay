@@ -15,7 +15,7 @@ import type TypeSet from './TypeSet';
 import type { NativeTypeName } from '../native/NativeConstants';
 import UnknownNameType from './UnknownNameType';
 import type { Replacement } from './Node';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 import { UnknownName } from '../conflicts/UnknownName';
 
 export default class NameType extends Type {

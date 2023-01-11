@@ -1,6 +1,6 @@
 import type Language from '../nodes/Language';
 import type Token from '../nodes/Token';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 import Conflict from './Conflict';
 
 export default class MissingLanguage extends Conflict {

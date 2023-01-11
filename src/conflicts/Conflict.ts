@@ -1,7 +1,7 @@
 import type Node from '../nodes/Node';
 import type Context from '../nodes/Context';
-import type Translation from '../translations/Translation';
-import type { Description } from '../translations/Translation';
+import type Translation from '../translation/Translation';
+import type { Description } from '../translation/Translation';
 
 type ConflictingNode = {
     node: Node;

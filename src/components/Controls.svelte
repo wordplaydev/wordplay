@@ -10,7 +10,7 @@
     import Button from './Button.svelte';
     import Switch from './Switch.svelte';
     import type Project from '../models/Project';
-    import { preferredTranslations } from '../translations/translations';
+    import { preferredTranslations } from '../translation/translations';
 
     export let project: Project;
 

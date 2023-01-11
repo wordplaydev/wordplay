@@ -3,7 +3,7 @@ import Transform from './Transform';
 import Node from '../nodes/Node';
 import Caret from '../editor/util/Caret';
 import type Context from '../nodes/Context';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 
 /**
  * Remove a node from sequence of nodes in a parent.

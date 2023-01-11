@@ -24,9 +24,9 @@ import Start from '../runtime/Start';
 import UnionType from './UnionType';
 import NoneType from './NoneType';
 import type { Replacement } from './Node';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 import { NotAStreamType } from './NotAStreamType';
-import NodeLink from '../translations/NodeLink';
+import NodeLink from '../translation/NodeLink';
 
 export default class Previous extends Expression {
     readonly stream: Expression;

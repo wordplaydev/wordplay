@@ -1,6 +1,6 @@
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Translation from '../translations/Translation';
-import type { Description } from '../translations/Translation';
+import type Translation from '../translation/Translation';
+import type { Description } from '../translation/Translation';
 import type Context from './Context';
 import type Node from './Node';
 import Type from './Type';

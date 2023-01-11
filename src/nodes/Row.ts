@@ -2,7 +2,7 @@ import Node, { type Replacement } from './Node';
 import Token from './Token';
 import Bind from './Bind';
 import Expression from './Expression';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 
 export default class Row extends Node {
     readonly open: Token;

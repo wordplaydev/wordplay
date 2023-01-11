@@ -1,6 +1,6 @@
 <script lang="ts">
     import { fade } from 'svelte/transition';
-    import type { Description } from '../translations/Translation';
+    import type { Description } from '../translation/Translation';
     import DescriptionView from './DescriptionView.svelte';
 
     export let id: number;

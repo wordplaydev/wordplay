@@ -15,9 +15,9 @@ import Block from '../nodes/Block';
 import type Node from '../nodes/Node';
 import type Docs from '../nodes/Docs';
 import type Names from '../nodes/Names';
-import { getFunctionTranslations } from '../translations/getFunctionTranslations';
-import { getDocTranslations } from '../translations/getDocTranslations';
-import { getNameTranslations } from '../translations/getNameTranslations';
+import { getFunctionTranslations } from '../translation/getFunctionTranslations';
+import { getDocTranslations } from '../translation/getDocTranslations';
+import { getNameTranslations } from '../translation/getNameTranslations';
 import type Expression from '../nodes/Expression';
 
 export default function bootstrapText() {

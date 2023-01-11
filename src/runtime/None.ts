@@ -4,7 +4,7 @@ import type Value from './Value';
 import type Node from '../nodes/Node';
 import type { NativeTypeName } from '../native/NativeConstants';
 import Primitive from './Primitive';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 
 export default class None extends Primitive {
     constructor(creator: Node) {

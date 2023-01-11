@@ -1,15 +1,15 @@
 import type Decimal from 'decimal.js';
 import toStructure from '../native/toStructure';
-import type LanguageCode from '../translations/LanguageCode';
+import type LanguageCode from '../translation/LanguageCode';
 import type Value from '../runtime/Value';
 import type Color from './Color';
 import Output from './Output';
 import type Phrase from './Phrase';
 import type Place from './Place';
 import type Animation from './Animation';
-import { getBind } from '../translations/getBind';
+import { getBind } from '../translation/getBind';
 import { TYPE_SYMBOL } from '../parser/Symbols';
-import type { Description } from '../translations/Translation';
+import type { Description } from '../translation/Translation';
 
 export const GroupType = toStructure(`
     ${getBind((t) => t.output.group.definition, TYPE_SYMBOL)}()

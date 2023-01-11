@@ -104,6 +104,7 @@ type Translation = {
         project: string;
         input: string;
         output: string;
+        type: string;
     };
     data: {
         value: string;
@@ -725,6 +726,9 @@ type Translation = {
             present: string;
             reset: string;
             home: string;
+        };
+        labels: {
+            learn: string;
         };
     };
     input: {

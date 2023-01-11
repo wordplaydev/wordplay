@@ -3,11 +3,11 @@ import Node, { type Replacement } from './Node';
 import Token from './Token';
 import NameToken from './NameToken';
 import LanguageToken from './LanguageToken';
-import type LanguageCode from '../translations/LanguageCode';
+import type LanguageCode from '../translation/LanguageCode';
 import type Conflict from '../conflicts/Conflict';
-import { Languages } from '../translations/LanguageCode';
+import { Languages } from '../translation/LanguageCode';
 import InvalidLanguage from '../conflicts/InvalidLanguage';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 
 export default class Language extends Node {
     readonly slash: Token;

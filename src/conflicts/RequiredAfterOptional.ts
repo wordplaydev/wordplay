@@ -1,6 +1,6 @@
 import Conflict from './Conflict';
 import type Bind from '../nodes/Bind';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 
 export default class RequiredAfterOptional extends Conflict {
     readonly bind: Bind;

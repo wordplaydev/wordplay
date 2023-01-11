@@ -7,7 +7,7 @@ import type TypeSet from './TypeSet';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type Definition from './Definition';
 import type Node from './Node';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 
 export const STRUCTURE_NATIVE_TYPE_NAME = 'structure';
 

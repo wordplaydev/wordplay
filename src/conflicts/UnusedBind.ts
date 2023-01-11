@@ -1,6 +1,6 @@
 import type Bind from '../nodes/Bind';
 import Conflict from './Conflict';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 
 export default class UnusedBind extends Conflict {
     readonly bind: Bind;

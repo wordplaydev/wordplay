@@ -24,7 +24,7 @@
         getDragged,
         HiddenSymbol,
     } from './util/Contexts';
-    import { preferredLanguages } from '../translations/translations';
+    import { preferredLanguages } from '../translation/translations';
     import {
         type HighlightType,
         type Highlights,

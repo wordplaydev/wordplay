@@ -2,7 +2,7 @@
 
 <script lang="ts">
     import type StructureDefinitionValue from '../runtime/StructureDefinitionValue';
-    import { preferredLanguages } from '../translations/translations';
+    import { preferredLanguages } from '../translation/translations';
     import SymbolView from './SymbolView.svelte';
     import { TYPE_SYMBOL } from '../parser/Symbols';
     import TokenType from '../nodes/TokenType';

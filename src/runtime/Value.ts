@@ -2,10 +2,10 @@ import type Context from '../nodes/Context';
 import type Type from '../nodes/Type';
 import type Evaluator from './Evaluator';
 import type Node from '../nodes/Node';
-import type LanguageCode from '../translations/LanguageCode';
+import type LanguageCode from '../translation/LanguageCode';
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Translation from '../translations/Translation';
-import type { Description } from '../translations/Translation';
+import type Translation from '../translation/Translation';
+import type { Description } from '../translation/Translation';
 
 /** Used to uniquely distinguish values. */
 let VALUE_ID = 0;

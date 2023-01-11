@@ -44,7 +44,7 @@
     import {
         preferredLanguages,
         preferredTranslations,
-    } from '../translations/translations';
+    } from '../translation/translations';
     import NodeConceptView from './NodeConceptView.svelte';
 
     export let hidden: boolean;

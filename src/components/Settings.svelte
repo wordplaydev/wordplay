@@ -6,10 +6,10 @@
         preferredStyle,
         styleDescriptions,
         type LanguageStyle,
-    } from '../translations/translations';
+    } from '../translation/translations';
     import { examples, makeProject, type Stuff } from '../examples/examples';
     import { updateProject } from '../models/stores';
-    import { getLanguageName } from '../translations/LanguageCode';
+    import { getLanguageName } from '../translation/LanguageCode';
     import LanguageChooser from './LanguageChooser.svelte';
 
     let example: Stuff;
@@ -38,8 +38,14 @@
                     <option value={example}>{example.name}</option>
                 {/each}
             </select>
-            <label for="style">style</label>
-            <select id="style" bind:value={style} on:change={changeStyle}>
+            <!-- <label for="style">style</label> -->
+            <!-- Disabled while we decide whether to keep this feature. -->
+            <select
+                style="display:none"
+                id="style"
+                bind:value={style}
+                on:change={changeStyle}
+            >
                 {#each Object.entries(styleDescriptions) as [style, description]}
                     <option value={style}>{description}</option>
                 {/each}
@@ -48,9 +54,9 @@
         </div>
     {:else}
         {#each $preferredLanguages as lang}{getLanguageName(lang)}{/each}
-        {#if $preferredStyle === 'cs'}<small
+        <!-- {#if $preferredStyle === 'cs'}<small
                 ><em>{styleDescriptions['cs']}</em></small
-            >{/if}
+            >{/if} -->
     {/if}
     <span
         class="gear"

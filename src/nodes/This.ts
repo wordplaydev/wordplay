@@ -20,7 +20,7 @@ import Reaction from './Reaction';
 import ValueException from '../runtime/ValueException';
 import type { Replacement } from './Node';
 import AtomicExpression from './AtomicExpression';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 import { UnenclosedType } from './UnenclosedType';
 
 type ThisStructure = StructureDefinition | ConversionDefinition | Reaction;

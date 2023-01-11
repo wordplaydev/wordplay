@@ -26,7 +26,7 @@ import {
     SHARE_SYMBOL,
 } from '../parser/Symbols';
 import FunctionDefinition from './FunctionDefinition';
-import type LanguageCode from '../translations/LanguageCode';
+import type LanguageCode from '../translation/LanguageCode';
 import BindToken from './BindToken';
 import TypeToken from './TypeToken';
 import Docs from './Docs';
@@ -40,8 +40,8 @@ import TokenType from './TokenType';
 import type Name from './Name';
 import DuplicateName from '../conflicts/DuplicateName';
 import type { Replacement } from './Node';
-import type Translation from '../translations/Translation';
-import NodeLink from '../translations/NodeLink';
+import type Translation from '../translation/Translation';
+import NodeLink from '../translation/NodeLink';
 
 export default class Bind extends Expression {
     readonly docs?: Docs;

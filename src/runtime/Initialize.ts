@@ -2,7 +2,7 @@ import Step from './Step';
 import type Evaluator from './Evaluator';
 import type Value from './Value';
 import type Expression from '../nodes/Expression';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 
 export default class Initialize extends Step {
     action?: (evaluator: Evaluator) => Value | undefined;

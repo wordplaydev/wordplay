@@ -8,7 +8,7 @@ import type TypeSet from './TypeSet';
 import type Evaluator from '../runtime/Evaluator';
 import Docs from './Docs';
 import type { Replacement } from './Node';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 import AtomicExpression from './AtomicExpression';
 
 export default class DocumentedExpression extends AtomicExpression {

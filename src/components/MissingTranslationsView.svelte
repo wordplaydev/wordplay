@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { getLanguageName } from '../translations/LanguageCode';
-    import { missingTranslations } from '../translations/translations';
+    import { getLanguageName } from '../translation/LanguageCode';
+    import { missingTranslations } from '../translation/translations';
 </script>
 
 {#each $missingTranslations as missing}

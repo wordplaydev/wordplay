@@ -6,14 +6,14 @@ import None from './None';
 import Primitive from './Primitive';
 import type Value from './Value';
 import type Node from '../nodes/Node';
-import type LanguageCode from '../translations/LanguageCode';
+import type LanguageCode from '../translation/LanguageCode';
 import {
     BIND_SYMBOL,
     SET_CLOSE_SYMBOL,
     SET_OPEN_SYMBOL,
 } from '../parser/Symbols';
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 
 export default class Map extends Primitive {
     readonly values: [Value, Value][];

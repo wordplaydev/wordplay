@@ -13,7 +13,7 @@ import Evaluate from './Evaluate';
 import PropertyReference from './PropertyReference';
 import type TypeSet from './TypeSet';
 import type { Replacement } from './Node';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 
 type UnitDeriver = (
     left: Unit,

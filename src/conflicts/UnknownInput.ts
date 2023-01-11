@@ -3,7 +3,7 @@ import Conflict from './Conflict';
 import type Bind from '../nodes/Bind';
 import type StructureDefinition from '../nodes/StructureDefinition';
 import type FunctionDefinition from '../nodes/FunctionDefinition';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 
 export default class UnknownInput extends Conflict {
     readonly func: FunctionDefinition | StructureDefinition;

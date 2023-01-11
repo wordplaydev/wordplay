@@ -6,7 +6,7 @@
     import { PLACEHOLDER_SYMBOL } from '../parser/Symbols';
     import { getProject, getCaret } from './util/Contexts';
     import TokenCategories from './TokenCategories';
-    import { preferredTranslations } from '../translations/translations';
+    import { preferredTranslations } from '../translation/translations';
 
     export let node: Token;
 
@@ -80,7 +80,7 @@
         color: var(--color-blue);
     }
     .token-category-docs {
-        color: var(--color-purple);
+        color: var(--wordplay-doc-color);
     }
     .token-category-literal {
         color: var(--color-blue);

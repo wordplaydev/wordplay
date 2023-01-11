@@ -1,8 +1,8 @@
 import type Conditional from '../nodes/Conditional';
 import type Context from '../nodes/Context';
 import type Type from '../nodes/Type';
-import NodeLink from '../translations/NodeLink';
-import type Translation from '../translations/Translation';
+import NodeLink from '../translation/NodeLink';
+import type Translation from '../translation/Translation';
 import Conflict from './Conflict';
 
 export default class ExpectedBooleanCondition extends Conflict {

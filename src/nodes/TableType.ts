@@ -10,7 +10,7 @@ import AnyType from './AnyType';
 import type Conflict from '../conflicts/Conflict';
 import ExpectedColumnType from '../conflicts/ExpectedColumnType';
 import type { Replacement } from './Node';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 
 export default class TableType extends Type {
     readonly open: Token;

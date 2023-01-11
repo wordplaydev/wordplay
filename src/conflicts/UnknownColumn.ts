@@ -1,6 +1,6 @@
 import type Expression from '../nodes/Expression';
 import type TableType from '../nodes/TableType';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 import Conflict from './Conflict';
 
 export default class UnknownColumn extends Conflict {

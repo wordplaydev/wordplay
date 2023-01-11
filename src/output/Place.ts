@@ -1,7 +1,7 @@
 import type Decimal from 'decimal.js';
 import toStructure from '../native/toStructure';
 import type Value from '../runtime/Value';
-import { getBind } from '../translations/getBind';
+import { getBind } from '../translation/getBind';
 import Output from './Output';
 import { toDecimal } from './Verse';
 

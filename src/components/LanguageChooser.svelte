@@ -1,10 +1,10 @@
 <script lang="ts">
     import { project } from '../models/stores';
-    import type LanguageCode from '../translations/LanguageCode';
-    import { getLanguageName } from '../translations/LanguageCode';
+    import type LanguageCode from '../translation/LanguageCode';
+    import { getLanguageName } from '../translation/LanguageCode';
     import SupportedTranslations, {
         preferredLanguages,
-    } from '../translations/translations';
+    } from '../translation/translations';
 
     $: languageChoices = Array.from(
         new Set([

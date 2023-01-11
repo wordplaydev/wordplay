@@ -1,10 +1,8 @@
 import Concept from './Concept';
 import type Node from '../nodes/Node';
 import type Context from '../nodes/Context';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 import { parseDoc, toTokens } from '../parser/Parser';
-import type Spaces from '../parser/Spaces';
-import type Doc from '../nodes/Doc';
 
 export default class NodeConcept extends Concept {
     readonly template: Node;
@@ -23,13 +21,14 @@ export default class NodeConcept extends Concept {
         return match ? match[0] === name : false;
     }
 
-    getDocs(translation: Translation): [Doc, Spaces] | undefined {
-        const tokens = toTokens(this.template.getPurpose(translation));
-        const doc = parseDoc(tokens);
-        return [doc, tokens.getSpaces()];
+    getDocs(translation: Translation) {
+        const tokens = toTokens(
+            '`' + this.template.getPurpose(translation) + '`'
+        );
+        return parseDoc(tokens);
     }
 
-    getDescription(translation: Translation) {
+    getName(translation: Translation) {
         return this.template.getDescription(translation, this.context);
     }
 

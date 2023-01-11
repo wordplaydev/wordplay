@@ -26,8 +26,8 @@ import Reference from './Reference';
 import NameType from './NameType';
 import UnknownNameType from './UnknownNameType';
 import type { Replacement } from './Node';
-import type Translation from '../translations/Translation';
-import NodeLink from '../translations/NodeLink';
+import type Translation from '../translation/Translation';
+import NodeLink from '../translation/NodeLink';
 
 export default class PropertyReference extends Expression {
     readonly structure: Expression;

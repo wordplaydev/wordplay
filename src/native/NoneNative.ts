@@ -14,9 +14,9 @@ import type Node from '../nodes/Node';
 import { NONE_SYMBOL } from '../parser/Symbols';
 import type Names from '../nodes/Names';
 import type Docs from '../nodes/Docs';
-import { getFunctionTranslations } from '../translations/getFunctionTranslations';
-import { getDocTranslations } from '../translations/getDocTranslations';
-import { getNameTranslations } from '../translations/getNameTranslations';
+import { getFunctionTranslations } from '../translation/getFunctionTranslations';
+import { getDocTranslations } from '../translation/getDocTranslations';
+import { getNameTranslations } from '../translation/getNameTranslations';
 
 export default function bootstrapNone() {
     function createNativeNoneFunction(

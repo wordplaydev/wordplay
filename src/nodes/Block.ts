@@ -26,7 +26,7 @@ import EvalOpenToken from './EvalOpenToken';
 import UnclosedDelimiter from '../conflicts/UnclosedDelimiter';
 import NoExpressionType from './NoExpressionType';
 import type { Replacement } from './Node';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 
 export default class Block extends Expression {
     readonly docs?: Docs;

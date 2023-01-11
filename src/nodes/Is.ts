@@ -17,8 +17,8 @@ import UnionType from './UnionType';
 import TypeSet from './TypeSet';
 import Start from '../runtime/Start';
 import type { Replacement } from './Node';
-import type Translation from '../translations/Translation';
-import NodeLink from '../translations/NodeLink';
+import type Translation from '../translation/Translation';
+import NodeLink from '../translation/NodeLink';
 
 export default class Is extends Expression {
     readonly expression: Expression;

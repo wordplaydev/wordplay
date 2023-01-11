@@ -18,8 +18,8 @@ import Finish from '../runtime/Finish';
 import type Evaluator from '../runtime/Evaluator';
 import type Value from '../runtime/Value';
 import type { Replacement } from './Node';
-import type Translation from '../translations/Translation';
-import NodeLink from '../translations/NodeLink';
+import type Translation from '../translation/Translation';
+import NodeLink from '../translation/NodeLink';
 
 export default class Conditional extends Expression {
     readonly condition: Expression;

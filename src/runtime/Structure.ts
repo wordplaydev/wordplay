@@ -11,14 +11,14 @@ import Measurement from './Measurement';
 import Text from './Text';
 import Bool from './Bool';
 import type Names from '../nodes/Names';
-import type LanguageCode from '../translations/LanguageCode';
+import type LanguageCode from '../translation/LanguageCode';
 import {
     BIND_SYMBOL,
     EVAL_CLOSE_SYMBOL,
     EVAL_OPEN_SYMBOL,
 } from '../parser/Symbols';
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 
 export default class Structure extends Value {
     readonly type: StructureDefinition;

@@ -3,7 +3,7 @@
 <script lang="ts">
     import NodeView from './NodeView.svelte';
     import NameToken from '../nodes/NameToken';
-    import { preferredLanguages } from '../translations/translations';
+    import { preferredLanguages } from '../translation/translations';
     import type StructureDefinitionType from '../nodes/StructureDefinitionType';
 
     export let node: StructureDefinitionType;

@@ -2,7 +2,7 @@ import type Concept from './Concept';
 import type Node from '../nodes/Node';
 import type Type from '../nodes/Type';
 import StructureConcept from './StructureConcept';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 
 export default class ConceptIndex {
     readonly concepts: Concept[];

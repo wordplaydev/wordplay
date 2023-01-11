@@ -16,6 +16,6 @@
 
 <style>
     .doc {
-        color: var(--color-purple);
+        color: var(--wordplay-doc-color);
     }
 </style>

@@ -3,7 +3,7 @@ import Step from './Step';
 import type Value from './Value';
 import type Expression from '../nodes/Expression';
 import HOF from '../native/HOF';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 
 export default class Finish extends Step {
     constructor(node: Expression) {

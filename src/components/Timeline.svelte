@@ -9,7 +9,7 @@
     import Text from '../runtime/Text';
     import { slide } from 'svelte/transition';
     import Controls from './Controls.svelte';
-    import { preferredLanguages } from '../translations/translations';
+    import { preferredLanguages } from '../translation/translations';
 
     export let evaluator: Evaluator;
 

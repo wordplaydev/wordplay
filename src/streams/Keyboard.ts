@@ -9,8 +9,8 @@ import StreamType from '../nodes/StreamType';
 import type Value from '../runtime/Value';
 import type Names from '../nodes/Names';
 import type Evaluator from '../runtime/Evaluator';
-import { getDocTranslations } from '../translations/getDocTranslations';
-import { getNameTranslations } from '../translations/getNameTranslations';
+import { getDocTranslations } from '../translation/getDocTranslations';
+import { getNameTranslations } from '../translation/getNameTranslations';
 
 export default class Keyboard extends Stream<Structure | None> {
     readonly evaluator: Evaluator;

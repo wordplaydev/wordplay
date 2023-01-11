@@ -2,8 +2,8 @@ import Bind from '../nodes/Bind';
 import BooleanType from '../nodes/BooleanType';
 import StructureDefinition from '../nodes/StructureDefinition';
 import TextType from '../nodes/TextType';
-import { getDocTranslations } from '../translations/getDocTranslations';
-import { getNameTranslations } from '../translations/getNameTranslations';
+import { getDocTranslations } from '../translation/getDocTranslations';
+import { getNameTranslations } from '../translation/getNameTranslations';
 
 const Key = StructureDefinition.make(
     getDocTranslations((t) => t.input.key.doc),

@@ -6,7 +6,7 @@ import TokenType from './TokenType';
 import Type from './Type';
 import type TypeSet from './TypeSet';
 import type { Replacement } from './Node';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 
 export default class ConversionType extends Type {
     readonly input: Type;

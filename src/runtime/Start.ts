@@ -3,7 +3,7 @@ import type Evaluator from './Evaluator';
 import type Value from './Value';
 import type Expression from '../nodes/Expression';
 import HOF from '../native/HOF';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 
 type Action = (evalutor: Evaluator) => Value | undefined;
 

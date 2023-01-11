@@ -1,6 +1,6 @@
 import type Bind from '../nodes/Bind';
 import type Token from '../nodes/Token';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 import Conflict from './Conflict';
 
 export class MisplacedShare extends Conflict {

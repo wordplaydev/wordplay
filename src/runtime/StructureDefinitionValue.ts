@@ -5,9 +5,9 @@ import Primitive from './Primitive';
 import type Value from './Value';
 import type Node from '../nodes/Node';
 import { TYPE_SYMBOL } from '../parser/Symbols';
-import type LanguageCode from '../translations/LanguageCode';
+import type LanguageCode from '../translation/LanguageCode';
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 
 export default class StructureDefinitionValue extends Primitive {
     /** The definition from the AST. */

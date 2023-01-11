@@ -2,7 +2,7 @@ import Expression from './Expression';
 import Node, { type Replacement } from './Node';
 import Token from './Token';
 import BindToken from './BindToken';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 
 export default class KeyValue extends Node {
     readonly key: Expression;

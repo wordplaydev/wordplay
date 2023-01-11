@@ -1,7 +1,7 @@
 import Conflict from './Conflict';
 import type UnparsableType from '../nodes/UnparsableType';
 import UnparsableExpression from '../nodes/UnparsableExpression';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 
 export class UnparsableConflict extends Conflict {
     readonly unparsable: UnparsableType | UnparsableExpression;

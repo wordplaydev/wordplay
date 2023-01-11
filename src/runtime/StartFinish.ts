@@ -4,7 +4,7 @@ import type Value from './Value';
 import type Expression from '../nodes/Expression';
 import { finish } from './Finish';
 import { start } from './Start';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 
 export default class StartFinish extends Step {
     constructor(node: Expression) {

@@ -5,7 +5,7 @@
     import { TABLE_OPEN_SYMBOL } from '../parser/Symbols';
     import SymbolView from './SymbolView.svelte';
     import TokenType from '../nodes/TokenType';
-    import { preferredLanguages } from '../translations/translations';
+    import { preferredLanguages } from '../translation/translations';
 
     export let value: Table;
 </script>

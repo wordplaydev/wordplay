@@ -21,9 +21,9 @@ import type Evaluation from '../runtime/Evaluation';
 import List from '../runtime/List';
 import type Docs from '../nodes/Docs';
 import type Names from '../nodes/Names';
-import { getFunctionTranslations } from '../translations/getFunctionTranslations';
-import { getDocTranslations } from '../translations/getDocTranslations';
-import { getNameTranslations } from '../translations/getNameTranslations';
+import { getFunctionTranslations } from '../translation/getFunctionTranslations';
+import { getDocTranslations } from '../translation/getDocTranslations';
+import { getNameTranslations } from '../translation/getNameTranslations';
 
 export default function bootstrapMeasurement() {
     const subtractNames = getNameTranslations(

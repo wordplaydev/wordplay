@@ -5,7 +5,7 @@ import Primitive from './Primitive';
 import type Value from './Value';
 import type Node from '../nodes/Node';
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 
 export default class Text extends Primitive {
     readonly text: string;

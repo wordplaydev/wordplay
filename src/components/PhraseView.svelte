@@ -5,7 +5,7 @@
     import type Place from '../output/Place';
     import parseRichText from '../output/parseRichText';
     import phraseToCSS from '../output/phraseToCSS';
-    import { preferredLanguages } from '../translations/translations';
+    import { preferredLanguages } from '../translation/translations';
 
     export let phrase: Phrase;
     export let place: Place;

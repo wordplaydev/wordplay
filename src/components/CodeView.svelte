@@ -2,7 +2,7 @@
     import type Concept from '../concepts/Concept';
     import RootView from '../editor/RootView.svelte';
     import { getPalettePath } from '../editor/util/Contexts';
-    import { preferredTranslations } from '../translations/translations';
+    import { preferredTranslations } from '../translation/translations';
     import type Node from '../nodes/Node';
     import Note from './Note.svelte';
 
@@ -29,6 +29,7 @@
     }
 
     $: selection = getPalettePath();
+    $: doc = concept.getDocs($preferredTranslations[0])?.getFirstParagraph();
 </script>
 
 <div class="code" class:draggable>
@@ -46,7 +47,18 @@
                     ? select(event)
                     : undefined}
         >
-            <Note>{concept.getDescription($preferredTranslations[0])}</Note>
+            <Note
+                >{#if doc}
+                    {doc
+                        .toLocaleLowerCase($preferredTranslations[0].language)
+                        .substring(
+                            0,
+                            doc.endsWith('.') ? doc.length - 1 : doc.length
+                        )}
+                {:else}
+                    learn more…
+                {/if}</Note
+            >
         </p>
     {/if}
 </div>

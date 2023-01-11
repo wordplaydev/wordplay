@@ -6,10 +6,10 @@ import Measurement from './Measurement';
 import Primitive from './Primitive';
 import type Value from './Value';
 import type Node from '../nodes/Node';
-import type LanguageCode from '../translations/LanguageCode';
+import type LanguageCode from '../translation/LanguageCode';
 import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '../parser/Symbols';
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 
 export default class Set extends Primitive {
     readonly values: Value[];

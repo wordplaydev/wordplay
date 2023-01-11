@@ -7,7 +7,7 @@
     import Stream from '../runtime/Stream';
     import { getCaret } from './util/Contexts';
     import NameToken from '../nodes/NameToken';
-    import { preferredLanguages } from '../translations/translations';
+    import { preferredLanguages } from '../translation/translations';
 
     export let node: Reference;
 

@@ -25,7 +25,7 @@ import PropertyReference from '../nodes/PropertyReference';
 import type Bind from '../nodes/Bind';
 import Reference from '../nodes/Reference';
 import Random from '../streams/Random';
-import type LanguageCode from '../translations/LanguageCode';
+import type LanguageCode from '../translation/LanguageCode';
 
 export type Streams = {
     time: Time;

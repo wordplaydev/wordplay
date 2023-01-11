@@ -1,14 +1,12 @@
 import type Context from '../nodes/Context';
-import type LanguageCode from '../translations/LanguageCode';
+import type LanguageCode from '../translation/LanguageCode';
 import type Node from '../nodes/Node';
 import Reference from '../nodes/Reference';
 import StreamType from '../nodes/StreamType';
 import type Stream from '../runtime/Stream';
 import Concept from './Concept';
 import type ConceptIndex from './ConceptIndex';
-import type Translation from '../translations/Translation';
-import type Doc from '../nodes/Doc';
-import type Spaces from '../parser/Spaces';
+import type Translation from '../translation/Translation';
 
 export default class StreamConcept extends Concept {
     /** The type this concept represents. */
@@ -31,13 +29,12 @@ export default class StreamConcept extends Concept {
         return this.stream.names.hasName(name);
     }
 
-    getDocs(translation: Translation): [Doc, Spaces] | undefined {
-        const doc = this.stream.docs?.getTranslation(translation.language);
-        return doc ? [doc, this.context.source.getSpaces()] : undefined;
+    getDocs(translation: Translation) {
+        return this.stream.docs?.getTranslation(translation.language);
     }
 
-    getDescription(translation: Translation) {
-        return this.stream.getDescription(translation);
+    getName(translation: Translation) {
+        return this.stream.names.getTranslation(translation.language);
     }
 
     getTypeConcept(index: ConceptIndex): Concept | undefined {

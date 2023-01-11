@@ -14,7 +14,7 @@ import Text from '../runtime/Text';
 import { toColor } from './Color';
 import { SupportedFontsType } from '../native/Fonts';
 import Sequence from './Sequence';
-import { getBind } from '../translations/getBind';
+import { getBind } from '../translation/getBind';
 
 export const PoseType = toStructure(`
     ${getBind((t) => t.output.pose.definition, '•')}(

@@ -3,7 +3,7 @@ import Conflict from './Conflict';
 import type Bind from '../nodes/Bind';
 import type FunctionDefinition from '../nodes/FunctionDefinition';
 import type StructureDefinition from '../nodes/StructureDefinition';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 
 export default class MisplacedInput extends Conflict {
     readonly func: FunctionDefinition | StructureDefinition;

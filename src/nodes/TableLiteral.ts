@@ -15,7 +15,7 @@ import type TypeSet from './TypeSet';
 import { analyzeRow } from './util';
 import Exception from '../runtime/Exception';
 import type { Replacement } from './Node';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 
 export default class TableLiteral extends Expression {
     readonly type: TableType;

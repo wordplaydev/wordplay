@@ -28,10 +28,10 @@ import type Definition from './Definition';
 import TokenType from './TokenType';
 import MeasurementType from './MeasurementType';
 import type { Replacement } from './Node';
-import type Translation from '../translations/Translation';
-import type { Description } from '../translations/Translation';
+import type Translation from '../translation/Translation';
+import type { Description } from '../translation/Translation';
 import StartEvaluation from '../runtime/StartEvaluation';
-import NodeLink from '../translations/NodeLink';
+import NodeLink from '../translation/NodeLink';
 
 export default class BinaryOperation extends Expression {
     readonly left: Expression;

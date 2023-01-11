@@ -1,9 +1,9 @@
 import Exception from './Exception';
 import type Evaluator from './Evaluator';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 import type Node from '../nodes/Node';
 import type { EvaluationNode } from './Evaluation';
-import NodeLink from '../translations/NodeLink';
+import NodeLink from '../translation/NodeLink';
 import FunctionDefinition from '../nodes/FunctionDefinition';
 import StructureDefinition from '../nodes/StructureDefinition';
 

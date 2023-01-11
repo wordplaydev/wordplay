@@ -2,10 +2,10 @@
 
 <script lang="ts">
     import parseRichText from '../output/parseRichText';
-    import LinkedDescription from '../translations/Explanation';
-    import NodeLink from '../translations/NodeLink';
-    import type { Description } from '../translations/Translation';
-    import ValueLink from '../translations/ValueLink';
+    import LinkedDescription from '../translation/Explanation';
+    import NodeLink from '../translation/NodeLink';
+    import type { Description } from '../translation/Translation';
+    import ValueLink from '../translation/ValueLink';
 
     export let description: Description;
 </script>

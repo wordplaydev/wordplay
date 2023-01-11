@@ -1,14 +1,14 @@
 import None from './None';
 import Primitive from './Primitive';
 import type Value from './Value';
-import type LanguageCode from '../translations/LanguageCode';
+import type LanguageCode from '../translation/LanguageCode';
 import type Names from '../nodes/Names';
 import type Docs from '../nodes/Docs';
 import type Node from '../nodes/Node';
 import type Evaluator from './Evaluator';
 import type { StepNumber } from './Evaluator';
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 
 export const MAX_STREAM_LENGTH = 1024;
 

@@ -1,5 +1,5 @@
 import type Borrow from '../nodes/Borrow';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 import Conflict from './Conflict';
 
 export class UnknownBorrow extends Conflict {

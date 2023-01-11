@@ -1,6 +1,6 @@
 import type ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
 import type TypePlaceholder from '../nodes/TypePlaceholder';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 import Conflict from './Conflict';
 
 export default class Placeholder extends Conflict {

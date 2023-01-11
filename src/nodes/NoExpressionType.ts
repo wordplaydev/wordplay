@@ -1,4 +1,4 @@
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 import type Expression from './Expression';
 import UnknownType from './UnknownType';
 

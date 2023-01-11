@@ -17,7 +17,7 @@ import type Conflict from '../conflicts/Conflict';
 import ListOpenToken from './ListOpenToken';
 import ListCloseToken from './ListCloseToken';
 import type { Replacement } from './Node';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 
 export default class ListLiteral extends Expression {
     readonly open: Token;

@@ -23,9 +23,9 @@ import NoneType from './NoneType';
 import Bool from '../runtime/Bool';
 import { NotAStreamType } from './NotAStreamType';
 import type { Replacement } from './Node';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 import AtomicExpression from './AtomicExpression';
-import NodeLink from '../translations/NodeLink';
+import NodeLink from '../translation/NodeLink';
 
 export default class Changed extends AtomicExpression {
     readonly change: Token;

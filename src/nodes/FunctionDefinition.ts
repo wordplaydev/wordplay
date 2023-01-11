@@ -18,7 +18,7 @@ import EvalCloseToken from './EvalCloseToken';
 import EvalOpenToken from './EvalOpenToken';
 import Docs from './Docs';
 import Names from './Names';
-import type LanguageCode from '../translations/LanguageCode';
+import type LanguageCode from '../translation/LanguageCode';
 import FunctionDefinitionType from './FunctionDefinitionType';
 import type Value from '../runtime/Value';
 import StartFinish from '../runtime/StartFinish';
@@ -28,7 +28,7 @@ import UnimplementedType from './UnimplementedType';
 import AnyType from './AnyType';
 import TypeToken from './TypeToken';
 import type { Replacement } from './Node';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 import InternalException from '../runtime/InternalException';
 
 export default class FunctionDefinition extends Expression {

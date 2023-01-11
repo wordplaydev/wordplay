@@ -3,7 +3,7 @@
     import {
         preferredLanguages,
         preferredTranslations,
-    } from '../translations/translations';
+    } from '../translation/translations';
     import RootView from './RootView.svelte';
     import Block from '../nodes/Block';
 

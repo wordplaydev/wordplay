@@ -11,10 +11,8 @@ import StructureDefinitionType from '../nodes/StructureDefinitionType';
 import Evaluate from '../nodes/Evaluate';
 import Reference from '../nodes/Reference';
 import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
-import type LanguageCode from '../translations/LanguageCode';
-import type Translation from '../translations/Translation';
-import type Spaces from '../parser/Spaces';
-import type Doc from '../nodes/Doc';
+import type LanguageCode from '../translation/LanguageCode';
+import type Translation from '../translation/Translation';
 
 export default class StructureConcept extends Concept {
     /** The type this concept represents. */
@@ -109,13 +107,12 @@ export default class StructureConcept extends Concept {
         return this.definition.names.hasName(name);
     }
 
-    getDocs(translation: Translation): [Doc, Spaces] | undefined {
-        const doc = this.definition.docs?.getTranslation(translation.language);
-        return doc ? [doc, this.context.source.getSpaces()] : undefined;
+    getDocs(translation: Translation) {
+        return this.definition.docs?.getTranslation(translation.language);
     }
 
-    getDescription(translation: Translation) {
-        return this.definition.getDescription(translation);
+    getName(translation: Translation) {
+        return this.definition.names.getTranslation(translation.language);
     }
 
     getRepresentation() {

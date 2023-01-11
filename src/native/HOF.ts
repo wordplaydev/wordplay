@@ -4,7 +4,7 @@ import Expression from '../nodes/Expression';
 import FunctionDefinition from '../nodes/FunctionDefinition';
 import type TypeSet from '../nodes/TypeSet';
 import type Evaluator from '../runtime/Evaluator';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 
 export default abstract class HOF extends Expression {
     getGrammar() {

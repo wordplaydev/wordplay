@@ -11,9 +11,9 @@ import type Node from '../nodes/Node';
 import type Value from '../runtime/Value';
 import type Docs from '../nodes/Docs';
 import type Names from '../nodes/Names';
-import { getInputTranslations } from '../translations/getInputTranslations';
-import { getDocTranslations } from '../translations/getDocTranslations';
-import { getNameTranslations } from '../translations/getNameTranslations';
+import { getInputTranslations } from '../translation/getInputTranslations';
+import { getDocTranslations } from '../translation/getDocTranslations';
+import { getNameTranslations } from '../translation/getNameTranslations';
 import Evaluation from '../runtime/Evaluation';
 
 export default function bootstrapBool() {

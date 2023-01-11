@@ -21,9 +21,9 @@ import Halt from '../runtime/Halt';
 import Exception from '../runtime/Exception';
 import TypeException from '../runtime/TypeException';
 import type { Replacement } from './Node';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 import UnimplementedException from '../runtime/UnimplementedException';
-import NodeLink from '../translations/NodeLink';
+import NodeLink from '../translation/NodeLink';
 
 export default class Insert extends Expression {
     readonly table: Expression;

@@ -2,9 +2,9 @@ import type Source from '../nodes/Source';
 import type Borrow from '../nodes/Borrow';
 import type Program from '../nodes/Program';
 import Conflict from './Conflict';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 import type Context from '../nodes/Context';
-import NodeLink from '../translations/NodeLink';
+import NodeLink from '../translation/NodeLink';
 
 export class BorrowCycle extends Conflict {
     readonly program: Program;

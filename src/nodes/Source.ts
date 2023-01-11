@@ -10,7 +10,7 @@ import type Context from './Context';
 import Tree from './Tree';
 import Names from './Names';
 import type Borrow from './Borrow';
-import type LanguageCode from '../translations/LanguageCode';
+import type LanguageCode from '../translation/LanguageCode';
 import Expression from './Expression';
 import Bind from './Bind';
 import type Type from './Type';
@@ -23,7 +23,7 @@ import StructureDefinition from './StructureDefinition';
 import type Spaces from '../parser/Spaces';
 import None from '../runtime/None';
 import type SetOpenToken from './SetOpenToken';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 
 /** A document representing executable Wordplay code and it's various metadata, such as conflicts, tokens, and evaulator. */
 export default class Source extends Expression {

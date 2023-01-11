@@ -42,7 +42,7 @@ import NotAFunctionType from './NotAFunctionType';
 import PropertyReference from './PropertyReference';
 import NeverType from './NeverType';
 import type { Replacement } from './Node';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 import type Node from './Node';
 import StartEvaluation from '../runtime/StartEvaluation';
 import UnimplementedException from '../runtime/UnimplementedException';

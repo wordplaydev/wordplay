@@ -21,7 +21,7 @@ import SetOpenToken from './SetOpenToken';
 import SetCloseToken from './SetCloseToken';
 import UnclosedDelimiter from '../conflicts/UnclosedDelimiter';
 import type { Replacement } from './Node';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 
 export default class MapLiteral extends Expression {
     readonly open: Token;

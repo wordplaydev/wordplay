@@ -5,7 +5,7 @@ import Primitive from './Primitive';
 import Value from './Value';
 import { CONVERT_SYMBOL } from '../parser/Symbols';
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 
 export default class Conversion extends Primitive {
     /** The definition from the AST. */

@@ -1,5 +1,5 @@
 import type Conflict from '../conflicts/Conflict';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 import ConceptLink from './ConceptLink';
 import type Example from './Example';
 import WebLink from './WebLink';

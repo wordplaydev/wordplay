@@ -4,11 +4,11 @@ import type Bind from '../nodes/Bind';
 import type BinaryOperation from '../nodes/BinaryOperation';
 import type FunctionDefinition from '../nodes/FunctionDefinition';
 import type StructureDefinition from '../nodes/StructureDefinition';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 import type Expression from '../nodes/Expression';
 import type Token from '../nodes/Token';
 import type Context from '../nodes/Context';
-import NodeLink from '../translations/NodeLink';
+import NodeLink from '../translation/NodeLink';
 
 export default class MissingInput extends Conflict {
     readonly func: FunctionDefinition | StructureDefinition;

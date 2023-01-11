@@ -24,9 +24,9 @@ import ListOpenToken from './ListOpenToken';
 import ListCloseToken from './ListCloseToken';
 import MeasurementLiteral from './MeasurementLiteral';
 import type { Replacement } from './Node';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 import { NotAListType } from './NotAListType';
-import NodeLink from '../translations/NodeLink';
+import NodeLink from '../translation/NodeLink';
 
 export default class ListAccess extends Expression {
     readonly list: Expression;

@@ -4,9 +4,9 @@ import Conflict from './Conflict';
 import type UnaryOperation from '../nodes/UnaryOperation';
 import type Token from '../nodes/Token';
 import type Type from '../nodes/Type';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 import type Context from '../nodes/Context';
-import NodeLink from '../translations/NodeLink';
+import NodeLink from '../translation/NodeLink';
 import Reference from '../nodes/Reference';
 
 export default class NotAFunction extends Conflict {

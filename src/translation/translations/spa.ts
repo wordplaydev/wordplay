@@ -1,18 +1,18 @@
-import type Context from '../nodes/Context';
-import type Dimension from '../nodes/Dimension';
-import type ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
-import type Token from '../nodes/Token';
-import TokenType from '../nodes/TokenType';
-import type UnknownType from '../nodes/UnknownType';
-import type Translation from './Translation';
-import type ListType from '../nodes/ListType';
-import type MapType from '../nodes/MapType';
-import type MeasurementLiteral from '../nodes/MeasurementLiteral';
-import type NameType from '../nodes/NameType';
-import type Reference from '../nodes/Reference';
-import type SetType from '../nodes/SetType';
-import type StreamType from '../nodes/StreamType';
-import type UnionType from '../nodes/UnionType';
+import type Context from '../../nodes/Context';
+import type Dimension from '../../nodes/Dimension';
+import type ExpressionPlaceholder from '../../nodes/ExpressionPlaceholder';
+import type Token from '../../nodes/Token';
+import TokenType from '../../nodes/TokenType';
+import type UnknownType from '../../nodes/UnknownType';
+import type Translation from '../Translation';
+import type ListType from '../../nodes/ListType';
+import type MapType from '../../nodes/MapType';
+import type MeasurementLiteral from '../../nodes/MeasurementLiteral';
+import type NameType from '../../nodes/NameType';
+import type Reference from '../../nodes/Reference';
+import type SetType from '../../nodes/SetType';
+import type StreamType from '../../nodes/StreamType';
+import type UnionType from '../../nodes/UnionType';
 import {
     AND_SYMBOL,
     OR_SYMBOL,
@@ -22,12 +22,12 @@ import {
     LANGUAGE_SYMBOL,
     NAME_SEPARATOR_SYMBOL,
     PROPERTY_SYMBOL,
-} from '../parser/Symbols';
-import type { Description } from './Translation';
-import type { CycleType } from '../nodes/CycleType';
-import type UnknownNameType from '../nodes/UnknownNameType';
-import Explanation from './Explanation';
-import type NodeLink from './NodeLink';
+} from '../../parser/Symbols';
+import type { Description } from '../Translation';
+import type { CycleType } from '../../nodes/CycleType';
+import type UnknownNameType from '../../nodes/UnknownNameType';
+import Explanation from '../Explanation';
+import type NodeLink from '../NodeLink';
 
 const WRITE_DOC = 'pendiante';
 
@@ -45,6 +45,7 @@ const eng_wordplay: Translation = {
         project: 'project',
         input: 'input',
         output: 'output',
+        type: 'type',
     },
     data: {
         value: 'value',
@@ -1537,6 +1538,9 @@ const eng_wordplay: Translation = {
             present: 'advance to the present',
             reset: 'restart the evaluation of the project from the beginning.',
             home: 'return to the types menu',
+        },
+        labels: {
+            learn: 'learn more …',
         },
     },
     input: {

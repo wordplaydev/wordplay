@@ -2,7 +2,7 @@
     import type Conflict from '../conflicts/Conflict';
     import type Project from '../models/Project';
     import { currentStep } from '../models/stores';
-    import { preferredTranslations } from '../translations/translations';
+    import { preferredTranslations } from '../translation/translations';
     import Expression from '../nodes/Expression';
     import type Node from '../nodes/Node';
     import Annotation from './Annotation.svelte';
@@ -10,7 +10,7 @@
     import { tick } from 'svelte';
     import { afterUpdate } from 'svelte';
     import type Rect from './Rect';
-    import type { Description } from '../translations/Translation';
+    import type { Description } from '../translation/Translation';
     import type Step from '../runtime/Step';
 
     export let project: Project;

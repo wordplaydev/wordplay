@@ -3,8 +3,8 @@ import StreamType from '../nodes/StreamType';
 import type Evaluator from '../runtime/Evaluator';
 import Measurement from '../runtime/Measurement';
 import Stream from '../runtime/Stream';
-import { getDocTranslations } from '../translations/getDocTranslations';
-import { getNameTranslations } from '../translations/getNameTranslations';
+import { getDocTranslations } from '../translation/getDocTranslations';
+import { getNameTranslations } from '../translation/getNameTranslations';
 
 export const FREQUENCY = 33;
 

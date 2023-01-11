@@ -16,9 +16,9 @@ import PlaceholderToken from './PlaceholderToken';
 import UnimplementedType from './UnimplementedType';
 import TypeToken from './TypeToken';
 import type { Replacement } from './Node';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 import AtomicExpression from './AtomicExpression';
-import type { Description } from '../translations/Translation';
+import type { Description } from '../translation/Translation';
 
 export default class ExpressionPlaceholder extends AtomicExpression {
     readonly placeholder: Token;

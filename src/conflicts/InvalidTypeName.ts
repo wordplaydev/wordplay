@@ -2,9 +2,9 @@ import type Context from '../nodes/Context';
 import type Definition from '../nodes/Definition';
 import type NameType from '../nodes/NameType';
 import Stream from '../runtime/Stream';
-import NodeLink from '../translations/NodeLink';
-import type Translation from '../translations/Translation';
-import ValueLink from '../translations/ValueLink';
+import NodeLink from '../translation/NodeLink';
+import type Translation from '../translation/Translation';
+import ValueLink from '../translation/ValueLink';
 import Conflict from './Conflict';
 
 export class UnknownTypeName extends Conflict {

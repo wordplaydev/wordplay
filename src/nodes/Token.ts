@@ -1,6 +1,6 @@
 import UnicodeString from '../models/UnicodeString';
 import type Spaces from '../parser/Spaces';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 import Node, { type Replacement } from './Node';
 import TokenType from './TokenType';
 

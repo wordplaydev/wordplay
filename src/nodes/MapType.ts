@@ -10,7 +10,7 @@ import UnclosedDelimiter from '../conflicts/UnclosedDelimiter';
 import type Conflict from '../conflicts/Conflict';
 import type TypeSet from './TypeSet';
 import type { Replacement } from './Node';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 
 export default class MapType extends NativeType {
     readonly open: Token;

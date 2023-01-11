@@ -1,5 +1,5 @@
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 import Type from './Type';
 
 export default class AnyType extends Type {

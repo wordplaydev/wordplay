@@ -10,7 +10,7 @@ import type Context from '../nodes/Context';
 import type TypeSet from '../nodes/TypeSet';
 import StartFinish from '../runtime/StartFinish';
 import AtomicExpression from '../nodes/AtomicExpression';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 import InternalException from '../runtime/InternalException';
 
 export default class NativeExpression extends AtomicExpression {

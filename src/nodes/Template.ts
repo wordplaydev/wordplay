@@ -15,7 +15,7 @@ import Start from '../runtime/Start';
 import TokenType from './TokenType';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import type { Replacement } from './Node';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 
 export type TemplatePart = Expression | Token;
 

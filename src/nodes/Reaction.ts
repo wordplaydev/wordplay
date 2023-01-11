@@ -17,7 +17,7 @@ import Exception from '../runtime/Exception';
 import { CHANGE_SYMBOL } from '../parser/Symbols';
 import TokenType from './TokenType';
 import type { Replacement } from './Node';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 
 export default class Reaction extends Expression {
     readonly initial: Expression;

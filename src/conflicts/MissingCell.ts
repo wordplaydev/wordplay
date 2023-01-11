@@ -2,8 +2,8 @@ import type Bind from '../nodes/Bind';
 import type Context from '../nodes/Context';
 import type Row from '../nodes/Row';
 import type TableType from '../nodes/TableType';
-import NodeLink from '../translations/NodeLink';
-import type Translation from '../translations/Translation';
+import NodeLink from '../translation/NodeLink';
+import type Translation from '../translation/Translation';
 import Conflict from './Conflict';
 
 export default class MissingCell extends Conflict {

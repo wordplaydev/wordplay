@@ -1,7 +1,7 @@
 import Step from './Step';
 import type Evaluator from './Evaluator';
 import type Value from './Value';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 import type Evaluable from '../nodes/Evaluable';
 
 export default class StartEvaluation extends Step {

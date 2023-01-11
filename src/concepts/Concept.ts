@@ -1,9 +1,8 @@
 import type Doc from '../nodes/Doc';
 import type Context from '../nodes/Context';
 import type Node from '../nodes/Node';
-import type { Description } from '../translations/Translation';
-import type Translation from '../translations/Translation';
-import type Spaces from '../parser/Spaces';
+import type { Description } from '../translation/Translation';
+import type Translation from '../translation/Translation';
 
 /**
  * Represents some part of the Wordplay language, API, or example ecosystem.
@@ -23,15 +22,25 @@ export default abstract class Concept {
     abstract hasName(name: string, translation: Translation): boolean;
 
     /**
-     * Return a node to represent the concept.
+     * Return a node to represent the concept. Usually an example or template.
      */
     abstract getRepresentation(): Node;
+
+    /**
+     * Returns a localized creator-facing name or description to represent the concept.
+     */
+    abstract getName(translation: Translation): Description;
+
+    /**
+     * Returns, if available, documentation for the concept.
+     */
+    abstract getDocs(translation: Translation): Doc | undefined;
 
     /**
      * Provides a set of Nodes that could be rendered in the UI.
      * This enables other components to index them, enabling a mapping
      * from representations of the nodes back to the nodes.
-     * */
+     */
     abstract getNodes(): Set<Node>;
 
     /**
@@ -69,9 +78,6 @@ export default abstract class Concept {
             concepts = concepts.concat(concept.getAllConcepts());
         return concepts;
     }
-
-    abstract getDescription(translation: Translation): Description;
-    abstract getDocs(translation: Translation): [Doc, Spaces] | undefined;
 
     abstract equals(concept: Concept): boolean;
 }

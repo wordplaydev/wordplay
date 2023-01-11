@@ -26,10 +26,10 @@ import Start from '../runtime/Start';
 import Finish from '../runtime/Finish';
 import UnknownNameType from './UnknownNameType';
 import type { Replacement } from './Node';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 import AtomicExpression from './AtomicExpression';
 import UnimplementedException from '../runtime/UnimplementedException';
-import NodeLink from '../translations/NodeLink';
+import NodeLink from '../translation/NodeLink';
 
 export type SharedDefinition =
     | Source

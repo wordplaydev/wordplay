@@ -3,8 +3,8 @@ import StreamType from '../nodes/StreamType';
 import Bool from '../runtime/Bool';
 import type Evaluator from '../runtime/Evaluator';
 import Stream from '../runtime/Stream';
-import { getDocTranslations } from '../translations/getDocTranslations';
-import { getNameTranslations } from '../translations/getNameTranslations';
+import { getDocTranslations } from '../translation/getDocTranslations';
+import { getNameTranslations } from '../translation/getNameTranslations';
 
 export default class MouseButton extends Stream<Bool> {
     on: boolean = false;

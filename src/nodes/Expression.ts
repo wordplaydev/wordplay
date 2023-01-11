@@ -7,9 +7,9 @@ import type Step from 'src/runtime/Step';
 import type Bind from './Bind';
 import type TypeSet from './TypeSet';
 import type Stream from '../runtime/Stream';
-import type Translation from '../translations/Translation';
-import type { Description } from '../translations/Translation';
-import ValueLink from '../translations/ValueLink';
+import type Translation from '../translation/Translation';
+import type { Description } from '../translation/Translation';
+import ValueLink from '../translation/ValueLink';
 
 export default abstract class Expression extends Node {
     constructor() {

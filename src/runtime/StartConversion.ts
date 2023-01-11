@@ -1,7 +1,7 @@
 import Step from './Step';
 import type Evaluator from './Evaluator';
 import type Value from './Value';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 import type ConversionDefinition from '../nodes/ConversionDefinition';
 import type Convert from '../nodes/Convert';
 

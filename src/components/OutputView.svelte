@@ -11,7 +11,7 @@
     import { createEventDispatcher } from 'svelte';
     import { slide } from 'svelte/transition';
     import DescriptionView from './DescriptionView.svelte';
-    import { preferredTranslations } from '../translations/translations';
+    import { preferredTranslations } from '../translation/translations';
 
     export let project: Project;
     export let source: Source;

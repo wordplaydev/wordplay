@@ -19,8 +19,8 @@ import type Type from './Type';
 import type TypeSet from './TypeSet';
 import type Value from '../runtime/Value';
 import type { Replacement } from './Node';
-import type Translation from '../translations/Translation';
-import type LanguageCode from '../translations/LanguageCode';
+import type Translation from '../translation/Translation';
+import type LanguageCode from '../translation/LanguageCode';
 
 export default class Program extends Expression {
     readonly docs?: Docs;

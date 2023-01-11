@@ -22,9 +22,9 @@ import type Evaluator from '../runtime/Evaluator';
 import type Value from '../runtime/Value';
 import NotAFunctionType from './NotAFunctionType';
 import type { Replacement } from './Node';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 import StartConversion from '../runtime/StartConversion';
-import NodeLink from '../translations/NodeLink';
+import NodeLink from '../translation/NodeLink';
 
 export default class Convert extends Expression {
     readonly expression: Expression;

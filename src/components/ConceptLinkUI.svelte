@@ -1,7 +1,7 @@
 <script lang="ts">
     import { getPaletteIndex, getPalettePath } from '../editor/util/Contexts';
     import type ConceptLink from '../nodes/ConceptLink';
-    import { preferredTranslations } from '../translations/translations';
+    import { preferredTranslations } from '../translation/translations';
 
     export let link: ConceptLink;
 
@@ -23,7 +23,7 @@
         on:click={navigate}
         on:keydown={(event) =>
             event.key == ' ' || event.key === 'Enter' ? navigate() : undefined}
-        >{concept.getDescription($preferredTranslations[0])}</span
+        >{concept.getName($preferredTranslations[0])}</span
     >
 {:else}
     <span>&mdash;</span>

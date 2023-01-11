@@ -5,7 +5,7 @@ import Output from './Output';
 import { toDecimal } from './Verse';
 import ColorJS from 'colorjs.io';
 import { TYPE_SYMBOL } from '../parser/Symbols';
-import { getBind } from '../translations/getBind';
+import { getBind } from '../translation/getBind';
 
 export const ColorType = toStructure(`
     ${getBind((t) => t.output.color.definition, TYPE_SYMBOL)}(

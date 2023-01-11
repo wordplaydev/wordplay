@@ -3,7 +3,7 @@ import type Context from '../nodes/Context';
 import Evaluate from '../nodes/Evaluate';
 import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
 import type FunctionDefinition from '../nodes/FunctionDefinition';
-import type LanguageCode from '../translations/LanguageCode';
+import type LanguageCode from '../translation/LanguageCode';
 import type Node from '../nodes/Node';
 import PropertyReference from '../nodes/PropertyReference';
 import Reference from '../nodes/Reference';
@@ -13,9 +13,7 @@ import UnaryOperation from '../nodes/UnaryOperation';
 import BindConcept from './BindConcept';
 import Concept from './Concept';
 import type StructureConcept from './StructureConcept';
-import type Translation from '../translations/Translation';
-import type Doc from '../nodes/Doc';
-import type Spaces from '../parser/Spaces';
+import type Translation from '../translation/Translation';
 
 export default class FunctionConcept extends Concept {
     /** The function this concept represents. */
@@ -89,13 +87,12 @@ export default class FunctionConcept extends Concept {
         return this.definition.names.hasName(name);
     }
 
-    getDocs(translation: Translation): [Doc, Spaces] | undefined {
-        const doc = this.definition.docs?.getTranslation(translation.language);
-        return doc ? [doc, this.context.source.getSpaces()] : undefined;
+    getDocs(translation: Translation) {
+        return this.definition.docs?.getTranslation(translation.language);
     }
 
-    getDescription(translation: Translation) {
-        return this.definition.getDescription(translation, this.context);
+    getName(translation: Translation) {
+        return this.definition.names.getTranslation(translation.language);
     }
 
     getRepresentation() {

@@ -15,8 +15,8 @@ import type Node from '../nodes/Node';
 import type Value from '../runtime/Value';
 import type Evaluation from '../runtime/Evaluation';
 import TypeVariables from '../nodes/TypeVariables';
-import { getDocTranslations } from '../translations/getDocTranslations';
-import { getNameTranslations } from '../translations/getNameTranslations';
+import { getDocTranslations } from '../translation/getDocTranslations';
+import { getNameTranslations } from '../translation/getNameTranslations';
 import TypeVariable from '../nodes/TypeVariable';
 
 export default function bootstrapSet() {

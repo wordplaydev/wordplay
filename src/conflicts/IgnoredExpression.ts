@@ -1,6 +1,6 @@
 import type Expression from '../nodes/Expression';
 import Conflict from './Conflict';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 
 export class IgnoredExpression extends Conflict {
     readonly expr: Expression;

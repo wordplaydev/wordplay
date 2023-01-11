@@ -1,5 +1,5 @@
 import type BinaryOperation from '../nodes/BinaryOperation';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 import Conflict from './Conflict';
 
 export default class OrderOfOperations extends Conflict {

@@ -8,8 +8,8 @@ import Structure, { createStructure } from '../runtime/Structure';
 import type Value from '../runtime/Value';
 import { PlaceType } from '../output/Place';
 import type Evaluator from '../runtime/Evaluator';
-import { getDocTranslations } from '../translations/getDocTranslations';
-import { getNameTranslations } from '../translations/getNameTranslations';
+import { getDocTranslations } from '../translation/getDocTranslations';
+import { getNameTranslations } from '../translation/getNameTranslations';
 
 function position(evaluator: Evaluator, x: number, y: number) {
     const bindings = new Map<Names, Value>();

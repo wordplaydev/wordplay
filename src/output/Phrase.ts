@@ -19,8 +19,8 @@ import type Sequence from './Sequence';
 import { PX_PER_METER, sizeToPx } from './phraseToCSS';
 import { toSequence, type SequenceKind } from './Sequence';
 import type Animation from './Animation';
-import type LanguageCode from '../translations/LanguageCode';
-import { getBind } from '../translations/getBind';
+import type LanguageCode from '../translation/LanguageCode';
+import { getBind } from '../translation/getBind';
 
 export const PhraseType = toStructure(`
     ${getBind((t) => t.output.phrase.definition, '•')} Group(

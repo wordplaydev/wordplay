@@ -1,6 +1,6 @@
 import type Borrow from '../nodes/Borrow';
-import NodeLink from '../translations/NodeLink';
-import type Translation from '../translations/Translation';
+import NodeLink from '../translation/NodeLink';
+import type Translation from '../translation/Translation';
 import type Evaluator from './Evaluator';
 import Exception from './Exception';
 

@@ -13,7 +13,7 @@ import TokenType from './TokenType';
 import type Evaluator from '../runtime/Evaluator';
 import StartFinish from '../runtime/StartFinish';
 import type { Replacement } from './Node';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 import AtomicExpression from './AtomicExpression';
 
 export default class TextLiteral extends AtomicExpression {

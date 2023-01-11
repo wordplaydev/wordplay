@@ -18,9 +18,9 @@ import getConcreteExpectedType from './Generics';
 import type Value from '../runtime/Value';
 import UnknownNameType from './UnknownNameType';
 import type { Replacement } from './Node';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 import StartEvaluation from '../runtime/StartEvaluation';
-import NodeLink from '../translations/NodeLink';
+import NodeLink from '../translation/NodeLink';
 
 export default class UnaryOperation extends Expression {
     readonly operator: Token;

@@ -18,7 +18,7 @@ import type TypeSet from './TypeSet';
 import Docs from './Docs';
 import StartFinish from '../runtime/StartFinish';
 import type { Replacement } from './Node';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 import AtomicExpression from './AtomicExpression';
 import InternalException from '../runtime/InternalException';
 

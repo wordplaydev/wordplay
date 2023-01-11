@@ -6,8 +6,8 @@ import type Type from '../nodes/Type';
 import type BinaryOperation from '../nodes/BinaryOperation';
 import type StructureDefinition from '../nodes/StructureDefinition';
 import type FunctionDefinition from '../nodes/FunctionDefinition';
-import type Translation from '../translations/Translation';
-import NodeLink from '../translations/NodeLink';
+import type Translation from '../translation/Translation';
+import NodeLink from '../translation/NodeLink';
 import type Context from '../nodes/Context';
 
 export default class IncompatibleInput extends Conflict {

@@ -23,9 +23,9 @@ import SetCloseToken from './SetCloseToken';
 import { NotASetOrMap } from '../conflicts/NotASetOrMap';
 import UnclosedDelimiter from '../conflicts/UnclosedDelimiter';
 import type { Replacement } from './Node';
-import type Translation from '../translations/Translation';
+import type Translation from '../translation/Translation';
 import { NotASetOrMapType } from './NotASetOrMapType';
-import NodeLink from '../translations/NodeLink';
+import NodeLink from '../translation/NodeLink';
 
 export default class SetOrMapAccess extends Expression {
     readonly setOrMap: Expression;

@@ -5,9 +5,8 @@ import {
     type Readable,
     type Writable,
 } from 'svelte/store';
-import eng_cs from './eng-cs';
-import eng_wordplay from './eng-wp';
-import spa_wp from './spa-wp';
+import eng from './translations/eng';
+import spa from './translations/spa';
 import type LanguageCode from './LanguageCode';
 import type Translation from './Translation';
 
@@ -29,7 +28,7 @@ export function getStyleDescription(style: LanguageStyle) {
 export const preferredStyle: Writable<LanguageStyle> = writable('wp');
 
 /** A list of translations officially supported by Wordplay. */
-const SupportedTranslations: Translation[] = [eng_wordplay, eng_cs, spa_wp];
+const SupportedTranslations: Translation[] = [eng, spa];
 
 export type MissingTranslation = LanguageCode;
 
@@ -63,7 +62,7 @@ export const preferredTranslations: Readable<Translation[]> = derived(
             })
             .filter((trans): trans is Translation => trans !== undefined);
 
-        return translations.length === 0 ? [eng_wordplay] : translations;
+        return translations.length === 0 ? [eng] : translations;
     }
 );
 
