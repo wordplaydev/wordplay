@@ -98,7 +98,7 @@ export default class Token extends Node {
     toString(depth: number = 0) {
         return `${'\t'.repeat(depth)}${
             Array.isArray(this.types)
-                ? this.types.map((t) => TokenType[t]).join('/')
+                ? this.types.join()
                 : TokenType[this.types]
         }: ${this.text
             .toString()

@@ -228,9 +228,9 @@ export class Tokens {
                         .join('')} *** ${this.#unread
                         .slice(0, 10)
                         .map((t) => t.toWordplay())
-                        .join('')}; expected ${
-                        TokenType[expectedType]
-                    }, received ${next.toString()}`
+                        .join(
+                            ''
+                        )}; expected ${expectedType}, received ${next.toString()}`
                 );
             }
             this.#read.push(next);
