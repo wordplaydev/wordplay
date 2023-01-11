@@ -182,18 +182,20 @@ export default class UnaryOperation extends Expression {
 
     getDescription(translation: Translation, context: Context) {
         // Find the function on the left's type.
-        const fun = this.getFunction(context);
-        return fun && fun.docs
-            ? fun.docs.getTranslation([translation.language])
-            : translation.expressions.UnaryOperation.description;
+        return (
+            this.getFunction(context)
+                ?.docs?.getTranslation([translation.language])
+                ?.getFirstParagraph() ??
+            translation.nodes.UnaryOperation.description
+        );
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.expressions.UnaryOperation;
+        return translation.nodes.UnaryOperation;
     }
 
     getStartExplanations(translation: Translation, context: Context) {
-        return translation.expressions.UnaryOperation.start(
+        return translation.nodes.UnaryOperation.start(
             new NodeLink(this.operand, translation, context)
         );
     }
@@ -203,7 +205,7 @@ export default class UnaryOperation extends Expression {
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.expressions.UnaryOperation.finish(
+        return translation.nodes.UnaryOperation.finish(
             this.getValueIfDefined(translation, context, evaluator)
         );
     }

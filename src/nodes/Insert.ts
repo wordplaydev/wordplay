@@ -202,11 +202,11 @@ export default class Insert extends Expression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.expressions.Insert;
+        return translation.nodes.Insert;
     }
 
     getStartExplanations(translation: Translation, context: Context) {
-        return translation.expressions.Insert.start(
+        return translation.nodes.Insert.start(
             new NodeLink(this.table, translation, context)
         );
     }
@@ -216,7 +216,7 @@ export default class Insert extends Expression {
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.expressions.Insert.finish(
+        return translation.nodes.Insert.finish(
             this.getValueIfDefined(translation, context, evaluator)
         );
     }

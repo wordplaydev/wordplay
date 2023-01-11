@@ -77,10 +77,10 @@ export default class DocumentedExpression extends AtomicExpression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.expressions.DocumentedExpression;
+        return translation.nodes.DocumentedExpression;
     }
 
     getStartExplanations(translation: Translation) {
-        return translation.expressions.DocumentedExpression.start;
+        return translation.nodes.DocumentedExpression.start;
     }
 }

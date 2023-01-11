@@ -37,6 +37,6 @@ export default class UnparsableType extends Type {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.types.UnparsableType;
+        return translation.nodes.UnparsableType;
     }
 }

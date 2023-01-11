@@ -25,12 +25,16 @@ export default class StreamConcept extends Concept {
         );
     }
 
+    hasName(name: string) {
+        return this.stream.names.hasName(name);
+    }
+
     getDocs(translation: Translation) {
         return this.stream.docs?.getTranslation(translation.language);
     }
 
     getDescription(translation: Translation) {
-        return this.stream.names.getTranslation(translation.language);
+        return this.stream.getDescription(translation);
     }
 
     getTypeConcept(index: ConceptIndex): Concept | undefined {

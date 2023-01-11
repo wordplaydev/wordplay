@@ -8,6 +8,6 @@ export class UnknownVariableType extends UnknownType<EvaluationType> {
     }
 
     getReason(translation: Translation) {
-        return translation.types.UnknownVariableType.description;
+        return translation.nodes.UnknownVariableType.description;
     }
 }

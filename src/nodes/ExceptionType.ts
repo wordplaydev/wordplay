@@ -45,6 +45,6 @@ export default class ExceptionType extends Type {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.types.ExceptionType;
+        return translation.nodes.ExceptionType;
     }
 }

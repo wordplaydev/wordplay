@@ -23,12 +23,16 @@ export default class BindConcept extends Concept {
         );
     }
 
+    hasName(name: string) {
+        return this.bind.hasName(name);
+    }
+
     getDocs(translation: Translation) {
         return this.bind.docs?.getTranslation(translation.language);
     }
 
     getDescription(translation: Translation) {
-        return this.bind.names.getTranslation(translation.language);
+        return this.bind.getDescription(translation);
     }
 
     getRepresentation() {

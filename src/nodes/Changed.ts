@@ -127,11 +127,11 @@ export default class Changed extends AtomicExpression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.expressions.Changed;
+        return translation.nodes.Changed;
     }
 
     getStartExplanations(translation: Translation, context: Context) {
-        return translation.expressions.Changed.start(
+        return translation.nodes.Changed.start(
             new NodeLink(this.stream, translation, context)
         );
     }

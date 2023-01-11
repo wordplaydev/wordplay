@@ -9,6 +9,6 @@ export class NotAListType extends UnknownType<ListAccess> {
     }
 
     getReason(translation: Translation) {
-        return translation.types.NotAListType.description;
+        return translation.nodes.NotAListType.description;
     }
 }

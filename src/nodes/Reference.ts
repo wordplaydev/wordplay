@@ -233,11 +233,11 @@ export default class Reference extends AtomicExpression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.expressions.Reference;
+        return translation.nodes.Reference;
     }
 
     getStartExplanations(translation: Translation, context: Context) {
-        return translation.expressions.Reference.start(
+        return translation.nodes.Reference.start(
             new NodeLink(this.name, translation, context, this.name.getText())
         );
     }

@@ -64,6 +64,6 @@ export default class FunctionDefinitionType extends Type {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.types.FunctionDefinitionType;
+        return translation.nodes.FunctionDefinitionType;
     }
 }

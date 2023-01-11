@@ -85,10 +85,10 @@ export default class NativeExpression extends AtomicExpression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.expressions.NativeExpression;
+        return translation.nodes.NativeExpression;
     }
 
     getStartExplanations(translation: Translation) {
-        return translation.expressions.NativeExpression.start;
+        return translation.nodes.NativeExpression.start;
     }
 }

@@ -128,6 +128,6 @@ export default class FunctionType extends Type {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.types.FunctionType;
+        return translation.nodes.FunctionType;
     }
 }

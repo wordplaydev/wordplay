@@ -156,11 +156,11 @@ export default class Program extends Expression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.expressions.Program;
+        return translation.nodes.Program;
     }
 
     getStartExplanations(translation: Translation) {
-        return translation.expressions.Program.start(this.borrows.length > 0);
+        return translation.nodes.Program.start(this.borrows.length > 0);
     }
 
     getFinishExplanations(
@@ -168,7 +168,7 @@ export default class Program extends Expression {
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.expressions.Program.finish(
+        return translation.nodes.Program.finish(
             this.getValueIfDefined(translation, context, evaluator)
         );
     }

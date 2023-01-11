@@ -184,6 +184,6 @@ export default class MeasurementType extends NativeType {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.types.MeasurementType;
+        return translation.nodes.MeasurementType;
     }
 }

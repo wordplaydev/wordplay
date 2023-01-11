@@ -64,6 +64,11 @@ import AnyTypeView from '../AnyTypeView.svelte';
 import DocumentedExpressionView from '../DocumentedExpressionView.svelte';
 import TypeInputsView from '../TypeInputsView.svelte';
 import ChangedView from '../ChangedView.svelte';
+import StructureDefinitionTypeView from '../StructureDefinitionTypeView.svelte';
+import ParagraphView from '../ParagraphView.svelte';
+import LinkView from '../WebLinkView.svelte';
+import ConceptLinkView from '../ConceptLinkView.svelte';
+import WordsView from '../WordsView.svelte';
 
 import type Node from '../../nodes/Node';
 import Program from '../../nodes/Program';
@@ -132,13 +137,20 @@ import DocumentedExpression from '../../nodes/DocumentedExpression';
 import TypeVariable from '../../nodes/TypeVariable';
 import AnyType from '../../nodes/AnyType';
 import StructureDefinitionType from '../../nodes/StructureDefinitionType';
-import StructureDefinitionTypeView from '../StructureDefinitionTypeView.svelte';
+import Paragraph from '../../nodes/Paragraph';
+import WebLink from '../../nodes/WebLink';
+import ConceptLink from '../../nodes/ConceptLink';
+import Words from '../../nodes/Words';
 
 const nodeToView = new Map<Function, ConstructorOfATypedSvelteComponent>();
 nodeToView.set(Program, ProgramView);
 nodeToView.set(Token, TokenView);
 nodeToView.set(Doc, DocView);
 nodeToView.set(Docs, DocsView);
+nodeToView.set(Paragraph, ParagraphView);
+nodeToView.set(WebLink, LinkView);
+nodeToView.set(ConceptLink, ConceptLinkView);
+nodeToView.set(Words, WordsView);
 nodeToView.set(DocumentedExpression, DocumentedExpressionView);
 
 nodeToView.set(Borrow, BorrowView);

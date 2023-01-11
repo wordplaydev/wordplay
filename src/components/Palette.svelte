@@ -32,7 +32,7 @@
     import ConversionConceptView from './ConversionConceptView.svelte';
     import StreamConceptView from './StreamConceptView.svelte';
     import {
-        getConstructConcepts,
+        getNodeConcepts,
         getNativeConcepts,
         getOutputConcepts,
     } from '../concepts/DefaultConcepts';
@@ -66,7 +66,9 @@
     let constructs: NodeConcept[] = [];
     let native: StructureConcept[] = [];
     let output: Concept[] = [];
-    let index: PaletteIndexContext = writable(new ConceptIndex([]));
+    let index: PaletteIndexContext = writable(
+        new ConceptIndex([], $preferredTranslations)
+    );
     setContext(PaletteIndexSymbol, index);
 
     $: {
@@ -142,9 +144,7 @@
                         )
                 );
 
-            constructs = getConstructConcepts(
-                $project.getContext($project.main)
-            );
+            constructs = getNodeConcepts($project.getContext($project.main));
             native = getNativeConcepts(
                 $preferredLanguages,
                 $project.getContext($project.main)
@@ -166,7 +166,8 @@
                         ...streams,
                     ]
                         .map((c) => c.getAllConcepts())
-                        .flat()
+                        .flat(),
+                    $preferredTranslations
                 )
             );
 

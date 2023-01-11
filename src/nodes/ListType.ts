@@ -84,6 +84,6 @@ export default class ListType extends NativeType {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.types.ListType;
+        return translation.nodes.ListType;
     }
 }

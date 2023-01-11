@@ -1,7 +1,7 @@
 === WhatWord
 ↓ keyboard
 ↓ words
-`The game state is a list of guesses and a secret word.`/eng
+`a list of guesses and a secret word`/eng
 `El estado del juego es una lista de conjeturas y una palabra secreta.`/spa
 `🧩 = 🤔 + 🤫`/😀
 •Game/eng, 🧩/😀(guesses/eng,🤔/😀•[""] secret/eng, 🤫/😀•"") (

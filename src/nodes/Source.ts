@@ -114,6 +114,10 @@ export default class Source extends Expression {
         ];
     }
 
+    getSpaces() {
+        return this.spaces;
+    }
+
     isEvaluationInvolved() {
         return true;
     }
@@ -244,9 +248,7 @@ export default class Source extends Expression {
         for (let i = 0; i < newTokens.length; i++) {
             const newToken = newTokens[i];
             // Search the existing tokens for a match, and if we find one, discard everything prior
-            const index = oldTokens.findIndex(
-                (old) => old.getText() === newToken.getText()
-            );
+            const index = oldTokens.findIndex((old) => old.equals(newToken));
             if (index >= 0) {
                 const oldToken = oldTokens[index];
                 // Replace the new token with the old token
@@ -562,7 +564,7 @@ export default class Source extends Expression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.expressions.Source;
+        return translation.nodes.Source;
     }
 
     getStartExplanations() {

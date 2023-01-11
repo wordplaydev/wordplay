@@ -634,7 +634,7 @@ function getPossibleNodes(
                 (dim) => new NameToken(dim)
             );
         case Docs:
-            return [new Docs([new Doc('')])];
+            return [new Docs([Doc.make([])])];
         case Reference:
             // We can get possible references depend on the binding scope for the insertion point
             return definitions.map(

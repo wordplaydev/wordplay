@@ -8,6 +8,6 @@ export class UnenclosedType extends UnknownType<This> {
     }
 
     getReason(translation: Translation) {
-        return translation.types.NotEnclosedType.description;
+        return translation.nodes.NotEnclosedType.description;
     }
 }

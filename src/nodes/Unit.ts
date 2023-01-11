@@ -303,6 +303,6 @@ export default class Unit extends Type {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.types.Unit;
+        return translation.nodes.Unit;
     }
 }

@@ -51,6 +51,6 @@ export default class VariableType extends Type {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.types.VariableType;
+        return translation.nodes.VariableType;
     }
 }

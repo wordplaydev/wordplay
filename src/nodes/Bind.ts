@@ -384,11 +384,20 @@ export default class Bind extends Expression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.expressions.Bind;
+        return translation.nodes.Bind;
+    }
+
+    getDescription(translation: Translation) {
+        return (
+            this.docs
+                ?.getTranslation(translation.language)
+                ?.getFirstParagraph() ??
+            this.getNodeTranslation(translation).description
+        );
     }
 
     getStartExplanations(translation: Translation, context: Context) {
-        return translation.expressions.Bind.start(
+        return translation.nodes.Bind.start(
             this.value === undefined
                 ? undefined
                 : new NodeLink(this.value, translation, context)
@@ -400,7 +409,7 @@ export default class Bind extends Expression {
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.expressions.Bind.finish(
+        return translation.nodes.Bind.finish(
             this.getValueIfDefined(translation, context, evaluator),
             new NodeLink(
                 this.names,

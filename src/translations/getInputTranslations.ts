@@ -1,11 +1,12 @@
 import Name from '../nodes/Name';
 import SupportedTranslations from './translations';
-import Doc from '../nodes/Doc';
+import type Doc from '../nodes/Doc';
 import Names from '../nodes/Names';
 import Docs from '../nodes/Docs';
 import { translationToLanguage } from './translationToLanguage';
 import type { NameAndDocTranslation } from './Translation';
 import type Translation from './Translation';
+import { parseTranslationDoc } from '../parser/Parser';
 
 export function getInputTranslations(
     select: (translation: Translation) => NameAndDocTranslation[]
@@ -21,7 +22,9 @@ export function getInputTranslations(
             if (binds[index] === undefined)
                 binds[index] = { docs: [], names: [] };
             binds[index].docs.push(
-                new Doc(input.doc, translationToLanguage(translation))
+                parseTranslationDoc(input.doc).withLanguage(
+                    translationToLanguage(translation)
+                )
             );
             for (const name of Array.isArray(input.name)
                 ? input.name

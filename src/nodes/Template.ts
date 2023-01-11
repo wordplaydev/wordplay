@@ -144,14 +144,14 @@ export default class Template extends Expression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.expressions.Template;
+        return translation.nodes.Template;
     }
 
     getStartExplanations(translation: Translation) {
-        return translation.expressions.Template.start;
+        return translation.nodes.Template.start;
     }
 
     getFinishExplanations(translation: Translation) {
-        return translation.expressions.Template.finish;
+        return translation.nodes.Template.finish;
     }
 }

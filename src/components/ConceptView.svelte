@@ -5,6 +5,7 @@
     import { preferredTranslations } from '../translations/translations';
     import DescriptionView from './DescriptionView.svelte';
     import MissingTranslationsView from './MissingTranslationsView.svelte';
+    import DocHTMLView from './DocHTMLView.svelte';
 
     export let concept: Concept;
 
@@ -26,11 +27,9 @@
     <h2>purpose</h2>
     <MissingTranslationsView />
     {#each $preferredTranslations.map((trans) => concept.getDocs(trans)) as doc}
-        <p>
-            {#if doc}
-                <DescriptionView description={doc} />
-            {/if}
-        </p>
+        {#if doc}
+            <DocHTMLView {doc} />
+        {/if}
     {/each}
 
     <slot />

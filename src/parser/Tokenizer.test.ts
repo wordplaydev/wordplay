@@ -84,10 +84,10 @@ test('Tokenize numbers', () => {
 
 test('Tokenize punctuation', () => {
     expect(
-        tokens('()[]{}:.,ƒf↑↓``!•∆…')
+        tokens('()[]{}<>:.,ƒf↑↓``!•∆…')
             .map((t) => t.toWordplay())
             .join(' ')
-    ).toBe('( ) [ ] { } : . , ƒ f ↑ ↓ `` ! • ∆ … ');
+    ).toBe('( ) [ ] { } < > : . , ƒ f ↑ ↓ ` ` ! • ∆ … ');
     expect(
         tokens('⊥⊤?¿+-×*·÷/^√%boomy=≠<>≤≥⎡?⎡+⎡-⎡:⎦⎡&|~')
             .map((t) => t.toWordplay())
@@ -95,6 +95,34 @@ test('Tokenize punctuation', () => {
     ).toBe(
         '⊥ ⊤ ? ¿ + - × * · ÷ / ^ √ % boomy = ≠ < > ≤ ≥ ⎡? ⎡+ ⎡- ⎡: ⎦ ⎡ & | ~ '
     );
+});
+
+test('Tokenize docs', () => {
+    expect(
+        tokens('`hello`')
+            .map((t) => t.toWordplay())
+            .join(' ')
+    ).toBe('` hello ` ');
+    expect(
+        tokens('`hello (1 + 1)`')
+            .map((t) => t.toWordplay())
+            .join(' ')
+    ).toBe('` hello  ( 1 + 1 ) ` ');
+    expect(
+        tokens('`hello @bind`')
+            .map((t) => t.toWordplay())
+            .join(' ')
+    ).toBe('` hello  @ bind ` ');
+    expect(
+        tokens('`hello *hello* **hello** ***hello***`')
+            .map((t) => t.toWordplay())
+            .join(' ')
+    ).toBe('` hello  * hello * ** hello ** *** hello *** ` ');
+    expect(
+        tokens('`hello <link@https://amyjko.com>`')
+            .map((t) => t.toWordplay())
+            .join(' ')
+    ).toBe('` hello  < link @ https://amyjko.com > ` ');
 });
 
 test('Tokenize text', () => {

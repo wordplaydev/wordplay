@@ -58,6 +58,6 @@ export default class ConversionType extends Type {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.types.ConversionType;
+        return translation.nodes.ConversionType;
     }
 }

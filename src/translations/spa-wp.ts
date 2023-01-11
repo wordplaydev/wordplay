@@ -161,8 +161,26 @@ const eng_wordplay: Translation = {
             description: 'a list of type variables',
             purpose: WRITE_DOC,
         },
-    },
-    expressions: {
+        Paragraph: {
+            description: 'paragraph',
+            purpose: WRITE_DOC,
+        },
+        WebLink: {
+            description: 'link',
+            purpose: WRITE_DOC,
+        },
+        ConceptLink: {
+            description: 'concept',
+            purpose: WRITE_DOC,
+        },
+        Words: {
+            description: 'words',
+            purpose: WRITE_DOC,
+        },
+        Example: {
+            description: 'example',
+            purpose: WRITE_DOC,
+        },
         BinaryOperation: {
             description: 'evaluate unknown function two inputs',
             purpose:
@@ -210,7 +228,7 @@ const eng_wordplay: Translation = {
                     source ?? ' unspecified source'
                 ),
             source: 'source',
-            name: 'name',
+            bind: 'name',
             version: 'version',
         },
         Changed: {
@@ -507,8 +525,6 @@ const eng_wordplay: Translation = {
                     value ?? 'nothing'
                 ),
         },
-    },
-    types: {
         AnyType: {
             description: 'anything',
             purpose: WRITE_DOC,

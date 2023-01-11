@@ -1,12 +1,12 @@
 import type Name from '../nodes/Name';
 import SupportedTranslations from './translations';
-import Doc from '../nodes/Doc';
 import Names from '../nodes/Names';
 import Docs from '../nodes/Docs';
 import { translationToLanguage } from './translationToLanguage';
 import type { NameAndDocTranslation } from './Translation';
 import type Translation from './Translation';
 import { getInputNames } from './getInputTranslations';
+import { parseTranslationDoc } from '../parser/Parser';
 
 export function getBind(
     select: (translation: Translation) => NameAndDocTranslation,
@@ -17,9 +17,10 @@ export function getBind(
     );
     return (
         new Docs(
-            inputs.map(
-                ([translation, input]) =>
-                    new Doc(input.doc, translationToLanguage(translation))
+            inputs.map(([translation, input]) =>
+                parseTranslationDoc(input.doc).withLanguage(
+                    translationToLanguage(translation)
+                )
             )
         ).toWordplay() +
         separator +

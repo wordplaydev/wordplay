@@ -112,6 +112,6 @@ export default class StructureDefinitionType extends Type {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.types.StructureDefinitionType;
+        return translation.nodes.StructureDefinitionType;
     }
 }

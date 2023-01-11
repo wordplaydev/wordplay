@@ -28,6 +28,6 @@ export default class NeverType extends Type {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.types.NeverType;
+        return translation.nodes.NeverType;
     }
 }

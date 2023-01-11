@@ -195,11 +195,11 @@ export default class Select extends Expression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.expressions.Select;
+        return translation.nodes.Select;
     }
 
     getStartExplanations(translation: Translation, context: Context) {
-        return translation.expressions.Select.start(
+        return translation.nodes.Select.start(
             new NodeLink(this.table, translation, context)
         );
     }
@@ -209,7 +209,7 @@ export default class Select extends Expression {
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.expressions.Select.finish(
+        return translation.nodes.Select.finish(
             this.getValueIfDefined(translation, context, evaluator)
         );
     }

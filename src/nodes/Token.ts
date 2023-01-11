@@ -6,7 +6,7 @@ import TokenType from './TokenType';
 
 export default class Token extends Node {
     /** The one or more types of token this might represent. This is narrowed during parsing to one.*/
-    readonly types: TokenType | TokenType[];
+    readonly types: TokenType[];
 
     /** The text of the token */
     readonly text: UnicodeString;
@@ -14,7 +14,7 @@ export default class Token extends Node {
     constructor(text: string | UnicodeString, types: TokenType | TokenType[]) {
         super();
 
-        this.types = types;
+        this.types = Array.isArray(types) ? types : [types];
 
         // Ensure tokens are canonically structred. from a unicode perspective.
         this.text =
@@ -51,7 +51,7 @@ export default class Token extends Node {
         return this.is(TokenType.NAME);
     }
     getTypes() {
-        return Array.isArray(this.types) ? this.types : [this.types];
+        return this.types;
     }
 
     // TEXT UTILITIES
@@ -67,14 +67,15 @@ export default class Token extends Node {
         return `${spaces?.getSpace(this) ?? ''}${this.text.toString()}`;
     }
 
+    withText(text: string) {
+        return new Token(text, this.types);
+    }
+
     // TRANSFORMATIONS
 
     clone(replace?: Replacement): this {
         if (replace === undefined)
-            return new Token(
-                this.text,
-                Array.isArray(this.types) ? [...this.types] : this.types
-            ) as this;
+            return new Token(this.text, this.types) as this;
 
         const { original, replacement } = replace;
         // Is this what we're replacing? Replace it.
@@ -85,7 +86,11 @@ export default class Token extends Node {
     }
 
     equals(node: Node) {
-        return node instanceof Token && this.getText() === node.getText();
+        return (
+            node instanceof Token &&
+            this.getText() === node.getText() &&
+            JSON.stringify(this.types) === JSON.stringify(node.types)
+        );
     }
 
     // DEBUGGING

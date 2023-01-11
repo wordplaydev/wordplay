@@ -1,23 +1,21 @@
 <svelte:options immutable={true} />
 
 <script lang="ts">
-    // import { getContext } from "svelte";
-    // import type { Writable } from "svelte/store";
     import type Doc from '../nodes/Doc';
-    // import type LanguageCode from "../nodes/LanguageCode";
+    import NodeSequenceView from './NodeSequenceView.svelte';
     import NodeView from './NodeView.svelte';
 
     export let node: Doc;
-
-    // let languages = getLanguages();
-
-    // $: caretIn = false;
-    // $: lang = node.getLanguage();
-    // $: languageSelected = lang === undefined || $languages.includes(lang as LanguageCode)
 </script>
 
-<!-- {#if languageSelected}
-    <NodeView node={node.docs}/>
-{:else if caretIn } -->
-<NodeView node={node.docs} /><NodeView node={node.lang} />
-<!-- {/if} -->
+<span class="doc">
+    <NodeView node={node.open} /><NodeSequenceView
+        nodes={node.paragraphs}
+    /><NodeView node={node.close} /><NodeView node={node.lang} />
+</span>
+
+<style>
+    .doc {
+        color: var(--color-purple);
+    }
+</style>

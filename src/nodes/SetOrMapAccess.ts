@@ -172,11 +172,11 @@ export default class SetOrMapAccess extends Expression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.expressions.SetOrMapAccess;
+        return translation.nodes.SetOrMapAccess;
     }
 
     getStartExplanations(translation: Translation, context: Context) {
-        return translation.expressions.SetOrMapAccess.start(
+        return translation.nodes.SetOrMapAccess.start(
             new NodeLink(this.setOrMap, translation, context)
         );
     }
@@ -186,7 +186,7 @@ export default class SetOrMapAccess extends Expression {
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.expressions.SetOrMapAccess.finish(
+        return translation.nodes.SetOrMapAccess.finish(
             this.getValueIfDefined(translation, context, evaluator)
         );
     }

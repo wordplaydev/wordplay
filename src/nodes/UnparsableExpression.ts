@@ -71,10 +71,10 @@ export default class UnparsableExpression extends AtomicExpression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.expressions.UnparsableExpression;
+        return translation.nodes.UnparsableExpression;
     }
 
     getStartExplanations(translation: Translation) {
-        return translation.expressions.UnparsableExpression.start;
+        return translation.nodes.UnparsableExpression.start;
     }
 }

@@ -75,6 +75,6 @@ export default class TextType extends NativeType {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.types.TextType;
+        return translation.nodes.TextType;
     }
 }

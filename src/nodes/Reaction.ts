@@ -48,14 +48,14 @@ export default class Reaction extends Expression {
                 name: 'initial',
                 types: [Expression],
                 label: (translation: Translation) =>
-                    translation.expressions.Reaction.initial,
+                    translation.nodes.Reaction.initial,
             },
             { name: 'delta', types: [Token], space: true, indent: true },
             {
                 name: 'next',
                 types: [Expression],
                 label: (translation: Translation) =>
-                    translation.expressions.Reaction.next,
+                    translation.nodes.Reaction.next,
                 space: true,
                 indent: true,
             },
@@ -168,11 +168,11 @@ export default class Reaction extends Expression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.expressions.Reaction;
+        return translation.nodes.Reaction;
     }
 
     getStartExplanations(translation: Translation) {
-        return translation.expressions.Reaction.start;
+        return translation.nodes.Reaction.start;
     }
 
     getFinishExplanations(
@@ -180,7 +180,7 @@ export default class Reaction extends Expression {
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.expressions.Reaction.finish(
+        return translation.nodes.Reaction.finish(
             this.getValueIfDefined(translation, context, evaluator)
         );
     }

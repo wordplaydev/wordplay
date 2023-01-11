@@ -7,7 +7,7 @@ import type Token from './Token';
 import type Translation from '../translations/Translation';
 import type {
     Description,
-    DynamicNodeTranslation,
+    DocString,
     NodeTranslation,
 } from '../translations/Translation';
 
@@ -617,13 +617,11 @@ export default abstract class Node {
             : trans.description;
     }
 
-    getPurpose(translation: Translation): Description {
+    getPurpose(translation: Translation): DocString {
         return this.getNodeTranslation(translation).purpose;
     }
 
-    abstract getNodeTranslation(
-        translation: Translation
-    ): NodeTranslation | DynamicNodeTranslation<any>;
+    abstract getNodeTranslation(translation: Translation): NodeTranslation<any>;
 
     /** Provide localized labels for any child that can be a placeholder. */
     getChildPlaceholderLabel(

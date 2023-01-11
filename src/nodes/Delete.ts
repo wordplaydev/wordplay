@@ -138,11 +138,11 @@ export default class Delete extends Expression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.expressions.Delete;
+        return translation.nodes.Delete;
     }
 
     getStartExplanations(translation: Translation, context: Context) {
-        return translation.expressions.Delete.start(
+        return translation.nodes.Delete.start(
             new NodeLink(this.table, translation, context)
         );
     }
@@ -152,7 +152,7 @@ export default class Delete extends Expression {
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.expressions.Delete.finish(
+        return translation.nodes.Delete.finish(
             this.getValueIfDefined(translation, context, evaluator)
         );
     }

@@ -127,11 +127,11 @@ export default class SetLiteral extends Expression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.expressions.SetLiteral;
+        return translation.nodes.SetLiteral;
     }
 
     getStartExplanations(translation: Translation) {
-        return translation.expressions.SetLiteral.start;
+        return translation.nodes.SetLiteral.start;
     }
 
     getFinishExplanations(
@@ -139,7 +139,7 @@ export default class SetLiteral extends Expression {
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.expressions.SetLiteral.finish(
+        return translation.nodes.SetLiteral.finish(
             this.getValueIfDefined(translation, context, evaluator)
         );
     }

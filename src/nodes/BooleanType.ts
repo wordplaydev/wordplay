@@ -45,6 +45,6 @@ export default class BooleanType extends NativeType {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.types.BooleanType;
+        return translation.nodes.BooleanType;
     }
 }

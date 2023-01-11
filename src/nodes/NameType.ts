@@ -130,6 +130,6 @@ export default class NameType extends Type {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.types.NameType;
+        return translation.nodes.NameType;
     }
 }

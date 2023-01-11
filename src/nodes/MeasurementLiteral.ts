@@ -110,11 +110,11 @@ export default class MeasurementLiteral extends AtomicExpression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.expressions.MeasurementLiteral;
+        return translation.nodes.MeasurementLiteral;
     }
 
     getStartExplanations(translation: Translation, context: Context) {
-        return translation.expressions.MeasurementLiteral.start(
+        return translation.nodes.MeasurementLiteral.start(
             new NodeLink(this.number, translation, context)
         );
     }

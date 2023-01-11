@@ -81,6 +81,6 @@ export default class SetType extends NativeType {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.types.SetType;
+        return translation.nodes.SetType;
     }
 }

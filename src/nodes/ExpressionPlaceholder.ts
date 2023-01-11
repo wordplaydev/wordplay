@@ -67,9 +67,7 @@ export default class ExpressionPlaceholder extends AtomicExpression {
                             this,
                             translation,
                             context
-                        ) ??
-                        translation.expressions.ExpressionPlaceholder
-                            .placeholder
+                        ) ?? translation.nodes.ExpressionPlaceholder.placeholder
                     );
                 },
             },
@@ -138,7 +136,7 @@ export default class ExpressionPlaceholder extends AtomicExpression {
     getDescription(translation: Translation, context: Context) {
         return this.type
             ? this.type.getDescription(translation, context)
-            : translation.expressions.ExpressionPlaceholder.description(
+            : translation.nodes.ExpressionPlaceholder.description(
                   this,
                   translation,
                   context
@@ -146,10 +144,10 @@ export default class ExpressionPlaceholder extends AtomicExpression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.expressions.ExpressionPlaceholder;
+        return translation.nodes.ExpressionPlaceholder;
     }
 
     getStartExplanations(translation: Translation) {
-        return translation.expressions.ExpressionPlaceholder.start;
+        return translation.nodes.ExpressionPlaceholder.start;
     }
 }

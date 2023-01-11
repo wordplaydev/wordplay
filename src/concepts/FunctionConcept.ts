@@ -83,12 +83,16 @@ export default class FunctionConcept extends Concept {
         );
     }
 
+    hasName(name: string) {
+        return this.definition.names.hasName(name);
+    }
+
     getDocs(translation: Translation) {
         return this.definition.docs?.getTranslation(translation.language);
     }
 
     getDescription(translation: Translation) {
-        return this.definition.names.getTranslation(translation.language);
+        return this.definition.getDescription(translation, this.context);
     }
 
     getRepresentation() {

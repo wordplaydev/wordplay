@@ -61,6 +61,6 @@ export default class StreamType extends Type {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.types.StreamType;
+        return translation.nodes.StreamType;
     }
 }

@@ -50,7 +50,7 @@
 </script>
 
 <span
-    class="token-view token-{kind} {`token-category-${kind}`} {node.is(
+    class="token-view {`token-category-${kind}`} {node.is(
         TokenType.NAME_SEPARATOR
     )
         ? 'comma'

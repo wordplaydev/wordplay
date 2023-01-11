@@ -3,7 +3,8 @@
     import type BindConcept from '../concepts/BindConcept';
     import { preferredTranslations } from '../translations/translations';
     import { getPaletteIndex } from '../editor/util/Contexts';
-    import DescriptionView from './DescriptionView.svelte';
+    import DocHTMLView from './DocHTMLView.svelte';
+    import MissingTranslationsView from './MissingTranslationsView.svelte';
 
     export let concept: BindConcept;
 
@@ -21,12 +22,11 @@
         />
     </p>
     {#if bind.docs}
-        {#each $preferredTranslations as translation}
-            <p>
-                <DescriptionView
-                    description={concept.getDescription(translation)}
-                />
-            </p>
+        <MissingTranslationsView />
+        {#each $preferredTranslations.map( (trans) => concept.getDocs(trans) ) as doc}
+            {#if doc}
+                <DocHTMLView {doc} />
+            {/if}
         {/each}
     {/if}
 </section>

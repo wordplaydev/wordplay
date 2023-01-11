@@ -9,6 +9,6 @@ export class NotASetOrMapType extends UnknownType<SetOrMapAccess> {
     }
 
     getReason(translation: Translation) {
-        return translation.types.NotASetOrMapType.description;
+        return translation.nodes.NotASetOrMapType.description;
     }
 }

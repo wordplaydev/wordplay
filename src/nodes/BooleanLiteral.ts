@@ -90,11 +90,11 @@ export default class BooleanLiteral extends AtomicExpression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.expressions.BooleanLiteral;
+        return translation.nodes.BooleanLiteral;
     }
 
     getStartExplanations(translation: Translation, context: Context) {
-        return translation.expressions.BooleanLiteral.start(
+        return translation.nodes.BooleanLiteral.start(
             new NodeLink(this.value, translation, context, this.value.getText())
         );
     }

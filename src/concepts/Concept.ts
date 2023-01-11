@@ -1,3 +1,4 @@
+import type Doc from '../nodes/Doc';
 import type Context from '../nodes/Context';
 import type Node from '../nodes/Node';
 import type { Description } from '../translations/Translation';
@@ -14,6 +15,11 @@ export default abstract class Concept {
     constructor(context: Context) {
         this.context = context;
     }
+
+    /**
+     * Returns true if the concept has the given name or id.
+     */
+    abstract hasName(name: string, translation: Translation): boolean;
 
     /**
      * Return a node to represent the concept.
@@ -64,7 +70,7 @@ export default abstract class Concept {
     }
 
     abstract getDescription(translation: Translation): Description;
-    abstract getDocs(translation: Translation): Description | undefined;
+    abstract getDocs(translation: Translation): Doc | undefined;
 
     abstract equals(concept: Concept): boolean;
 }

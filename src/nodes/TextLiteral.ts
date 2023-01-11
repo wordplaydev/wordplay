@@ -110,10 +110,10 @@ export default class TextLiteral extends AtomicExpression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.expressions.TextLiteral;
+        return translation.nodes.TextLiteral;
     }
 
     getStartExplanations(translation: Translation) {
-        return translation.expressions.TextLiteral.start;
+        return translation.nodes.TextLiteral.start;
     }
 }

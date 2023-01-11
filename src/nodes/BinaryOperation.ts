@@ -90,7 +90,7 @@ export default class BinaryOperation extends Expression {
                 ): Description =>
                     this.getFunction(context)?.names.getTranslation(
                         translation.language
-                    ) ?? translation.expressions.BinaryOperation.right,
+                    ) ?? translation.nodes.BinaryOperation.right,
                 space: true,
                 indent: true,
                 // The type of the right should be the type of the single input to the function corresponding to the operator.
@@ -357,14 +357,15 @@ export default class BinaryOperation extends Expression {
     /** Override default description with function name. */
     getDescription(translation: Translation, context: Context) {
         return (
-            this.getFunction(context)?.docs?.getTranslation([
-                translation.language,
-            ]) ?? translation.expressions.BinaryOperation.description
+            this.getFunction(context)
+                ?.docs?.getTranslation([translation.language])
+                ?.getFirstParagraph() ??
+            translation.nodes.BinaryOperation.description
         );
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.expressions.BinaryOperation;
+        return translation.nodes.BinaryOperation;
     }
 
     getStart() {
@@ -375,7 +376,7 @@ export default class BinaryOperation extends Expression {
     }
 
     getStartExplanations(translation: Translation, context: Context) {
-        return translation.expressions.BinaryOperation.start(
+        return translation.nodes.BinaryOperation.start(
             new NodeLink(this.left, translation, context)
         );
     }
@@ -385,7 +386,7 @@ export default class BinaryOperation extends Expression {
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.expressions.BinaryOperation.finish(
+        return translation.nodes.BinaryOperation.finish(
             this.getValueIfDefined(translation, context, evaluator)
         );
     }

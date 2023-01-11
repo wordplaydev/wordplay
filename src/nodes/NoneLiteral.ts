@@ -80,10 +80,10 @@ export default class NoneLiteral extends AtomicExpression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.expressions.NoneLiteral;
+        return translation.nodes.NoneLiteral;
     }
 
     getStartExplanations(translation: Translation) {
-        return translation.expressions.NoneLiteral.start;
+        return translation.nodes.NoneLiteral.start;
     }
 }

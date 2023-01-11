@@ -18,6 +18,7 @@ import {
     parseExpression,
     parseType,
     toTokens,
+    parseDoc,
 } from './Parser';
 import Program from '../nodes/Program';
 import StreamType from '../nodes/StreamType';
@@ -59,6 +60,9 @@ import { NONE_SYMBOL, PLACEHOLDER_SYMBOL } from './Symbols';
 import UnparsableType from '../nodes/UnparsableType';
 import DocumentedExpression from '../nodes/DocumentedExpression';
 import TypeInputs from '../nodes/TypeInputs';
+import Paragraph from '../nodes/Paragraph';
+import Words from '../nodes/Words';
+import WebLink from '../nodes/WebLink';
 
 test('Parse programs', () => {
     expect(toProgram('')).toBeInstanceOf(Program);
@@ -516,10 +520,10 @@ test('Types', () => {
     expect(parseType(toTokens('ƒ(# #) #'))).toBeInstanceOf(FunctionType);
     expect(parseType(toTokens('ƒ(a•# b•#) #'))).toBeInstanceOf(FunctionType);
     expect(parseType(toTokens('ƒ(…a•#) #'))).toBeInstanceOf(FunctionType);
-    expect(parseType(toTokens('ƒ<Species>(…a•#) #'))).toBeInstanceOf(
+    expect(parseType(toTokens('ƒ⸨Species⸩(…a•#) #'))).toBeInstanceOf(
         FunctionType
     );
-    expect(parseType(toTokens('ƒ<Species Category>(…a•#) #'))).toBeInstanceOf(
+    expect(parseType(toTokens('ƒ⸨Species Category⸩(…a•#) #'))).toBeInstanceOf(
         FunctionType
     );
 
@@ -533,4 +537,34 @@ test('Types', () => {
 
     const hmm = parseType(toTokens('/'));
     expect(hmm).toBeInstanceOf(UnparsableType);
+});
+
+test('plain docs', () => {
+    const doc = parseDoc(toTokens('`this is what I am.`'));
+    expect(doc).toBeInstanceOf(Doc);
+    expect(doc.paragraphs[0]).toBeInstanceOf(Paragraph);
+    expect(doc.paragraphs[0].content[0]).toBeInstanceOf(Words);
+    expect(doc.paragraphs[0].content.length).toBe(1);
+});
+
+test('multi-paragraph docs', () => {
+    const doc = parseDoc(
+        toTokens('`this is what I am.\n\nthis is another point.`')
+    );
+    expect(doc).toBeInstanceOf(Doc);
+    expect(doc.paragraphs[0]).toBeInstanceOf(Paragraph);
+    expect(doc.paragraphs[1]).toBeInstanceOf(Paragraph);
+    expect(doc.paragraphs.length).toBe(2);
+});
+
+test('linked docs', () => {
+    const doc = parseDoc(
+        toTokens('`go see more at <wikipedia@https://wikipedia.org>.`')
+    );
+    expect(doc).toBeInstanceOf(Doc);
+    expect(doc.paragraphs[0]).toBeInstanceOf(Paragraph);
+    expect(doc.paragraphs[0].content[1]).toBeInstanceOf(WebLink);
+    expect((doc.paragraphs[0].content[1] as WebLink).url?.getText()).toBe(
+        'https://wikipedia.org'
+    );
 });

@@ -22,7 +22,7 @@ export default class AnyType extends Type {
     computeConflicts() {}
 
     getNodeTranslation(translation: Translation) {
-        return translation.types.AnyType;
+        return translation.nodes.AnyType;
     }
 
     toWordplay() {

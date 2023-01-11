@@ -43,7 +43,7 @@ import NodeConcept from './NodeConcept';
 import FunctionConcept from './FunctionConcept';
 import StructureConcept from './StructureConcept';
 
-export function getConstructConcepts(context: Context): NodeConcept[] {
+export function getNodeConcepts(context: Context): NodeConcept[] {
     return [
         new NodeConcept(
             Bind.make(

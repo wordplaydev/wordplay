@@ -283,11 +283,11 @@ export default class PropertyReference extends Expression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.expressions.PropertyReference;
+        return translation.nodes.PropertyReference;
     }
 
     getStartExplanations(translation: Translation) {
-        return translation.expressions.PropertyReference.start;
+        return translation.nodes.PropertyReference.start;
     }
 
     getFinishExplanations(
@@ -295,7 +295,7 @@ export default class PropertyReference extends Expression {
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.expressions.PropertyReference.finish(
+        return translation.nodes.PropertyReference.finish(
             this.name
                 ? new NodeLink(
                       this.name,

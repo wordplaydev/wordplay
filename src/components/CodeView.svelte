@@ -94,6 +94,7 @@
 
     .description.selectable:hover {
         text-decoration: underline;
+        text-decoration-thickness: var(--wordplay-border-width);
     }
 
     @keyframes wobble {

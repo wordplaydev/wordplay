@@ -1,5 +1,5 @@
 import { tokenize } from './Tokenizer';
-import { EXPONENT_SYMBOL, PRODUCT_SYMBOL } from './Symbols';
+import { DOCS_SYMBOL, EXPONENT_SYMBOL, PRODUCT_SYMBOL } from './Symbols';
 import type Node from '../nodes/Node';
 import Token from '../nodes/Token';
 import TokenType from '../nodes/TokenType';
@@ -70,6 +70,12 @@ import DocumentedExpression from '../nodes/DocumentedExpression';
 import TypeVariables from '../nodes/TypeVariables';
 import TypeVariable from '../nodes/TypeVariable';
 import Changed from '../nodes/Changed';
+import Paragraph from '../nodes/Paragraph';
+import type { Content } from '../nodes/Paragraph';
+import WebLink from '../nodes/WebLink';
+import ConceptLink from '../nodes/ConceptLink';
+import Words from '../nodes/Words';
+import Example from '../nodes/Example';
 
 export enum SyntacticConflict {
     EXPECTED_BORRW_NAME,
@@ -127,6 +133,10 @@ export class Tokens {
         return this.hasNext()
             ? this.#spaces.getSpace(this.#unread[0])
             : undefined;
+    }
+
+    peekUnread() {
+        return this.#unread;
     }
 
     /** Returns true if the token list isn't empty. */
@@ -224,6 +234,10 @@ export class Tokens {
         } else return new Token('', TokenType.END);
     }
 
+    readIf(type: TokenType) {
+        return this.nextIs(type) ? this.read() : undefined;
+    }
+
     readLine() {
         const nodes: Node[] = [];
         if (!this.hasNext()) return nodes;
@@ -255,7 +269,7 @@ export function toTokens(code: string): Tokens {
 // PROGRAM :: BORROW* BLOCK
 export function parseProgram(tokens: Tokens): Program {
     // If a borrow is next or there's no whitespace, parse a docs.
-    const docs = parseDocumentation(tokens);
+    const docs = parseDocs(tokens);
 
     const borrows = [];
     while (tokens.hasNext() && tokens.nextIs(TokenType.BORROW))
@@ -273,12 +287,8 @@ export function parseProgram(tokens: Tokens): Program {
 // BORROW :: ↓ name number?
 export function parseBorrow(tokens: Tokens): Borrow {
     const borrow = tokens.read(TokenType.BORROW);
-    const source = tokens.nextIs(TokenType.NAME)
-        ? tokens.read(TokenType.NAME)
-        : undefined;
-    const dot = tokens.nextIs(TokenType.ACCESS)
-        ? tokens.read(TokenType.ACCESS)
-        : undefined;
+    const source = tokens.readIf(TokenType.NAME);
+    const dot = tokens.readIf(TokenType.ACCESS);
     const name =
         dot && tokens.nextIs(TokenType.NAME)
             ? tokens.read(TokenType.NAME)
@@ -298,7 +308,7 @@ export function parseBlock(
     creator: boolean = false
 ): Block {
     // Grab any documentation if this isn't a root.
-    let docs = root ? undefined : parseDocumentation(tokens);
+    let docs = root ? undefined : parseDocs(tokens);
 
     const open = root
         ? undefined
@@ -328,7 +338,7 @@ function nextAreOptionalDocsThen(tokens: Tokens, type: TokenType): boolean {
     if (rollbackToken === undefined) return false;
 
     // We don't actually care what the docs are or if there are any.
-    parseDocumentation(tokens);
+    parseDocs(tokens);
 
     // Is the next the type?
     const nextIsType = tokens.nextIs(type);
@@ -370,14 +380,10 @@ function nextIsBind(tokens: Tokens, expectValue: boolean): boolean {
 
 /** BIND :: NAMES TYPE? (: EXPRESSION)? */
 export function parseBind(tokens: Tokens): Bind {
-    let docs = parseDocumentation(tokens);
-    const share = tokens.nextIs(TokenType.SHARE)
-        ? tokens.read(TokenType.SHARE)
-        : undefined;
+    let docs = parseDocs(tokens);
+    const share = tokens.readIf(TokenType.SHARE);
     const names = parseNames(tokens);
-    const etc = tokens.nextIs(TokenType.ETC)
-        ? tokens.read(TokenType.ETC)
-        : undefined;
+    const etc = tokens.readIf(TokenType.ETC);
     let colon;
     let value;
     let dot;
@@ -620,7 +626,7 @@ function parseChanged(tokens: Tokens): Changed {
 }
 
 function parseDocumentedExpression(tokens: Tokens): Expression {
-    const docs = parseDocumentation(tokens);
+    const docs = parseDocs(tokens);
     const expression = parseExpression(tokens);
     return docs ? new DocumentedExpression(docs, expression) : expression;
 }
@@ -753,9 +759,7 @@ function parseList(tokens: Tokens): ListLiteral {
     )
         values.push(parseExpression(tokens));
 
-    close = tokens.nextIs(TokenType.LIST_CLOSE)
-        ? tokens.read(TokenType.LIST_CLOSE)
-        : undefined;
+    close = tokens.readIf(TokenType.LIST_CLOSE);
 
     return new ListLiteral(open, values, close);
 }
@@ -765,9 +769,7 @@ function parseListAccess(left: Expression, tokens: Tokens): Expression {
     do {
         const open = tokens.read(TokenType.LIST_OPEN);
         const index = parseExpression(tokens);
-        const close = tokens.nextIs(TokenType.LIST_CLOSE)
-            ? tokens.read(TokenType.LIST_CLOSE)
-            : undefined;
+        const close = tokens.readIf(TokenType.LIST_CLOSE);
 
         left = new ListAccess(left, open, index, close);
 
@@ -804,9 +806,7 @@ function parseSetOrMap(tokens: Tokens): MapLiteral | SetLiteral {
         } else values.push(key);
     }
 
-    const close = tokens.nextIs(TokenType.SET_CLOSE)
-        ? tokens.read(TokenType.SET_CLOSE)
-        : undefined;
+    const close = tokens.readIf(TokenType.SET_CLOSE);
 
     // Make a map
     return values.some((v): v is KeyValue => v instanceof KeyValue)
@@ -875,9 +875,7 @@ function parseRow(tokens: Tokens): Row {
         );
 
     // Read the closing row marker.
-    const close = tokens.nextIs(TokenType.TABLE_CLOSE)
-        ? tokens.read(TokenType.TABLE_CLOSE)
-        : undefined;
+    const close = tokens.readIf(TokenType.TABLE_CLOSE);
 
     return new Row(open, cells, close);
 }
@@ -925,7 +923,7 @@ function parseReaction(initial: Expression, tokens: Tokens): Reaction {
 
 /** FUNCTION :: DOCS? (ƒ | ALIASES) TYPE_VARIABLES? ( BIND* ) (•TYPE)? EXPRESSION */
 export function parseFunction(tokens: Tokens): FunctionDefinition {
-    const docs = parseDocumentation(tokens);
+    const docs = parseDocs(tokens);
 
     const fun = tokens.read(TokenType.FUNCTION);
 
@@ -994,16 +992,14 @@ function parseEvaluate(left: Expression, tokens: Tokens): Evaluate {
                 : parseExpression(tokens)
         );
 
-    let close = tokens.nextIs(TokenType.EVAL_CLOSE)
-        ? tokens.read(TokenType.EVAL_CLOSE)
-        : undefined;
+    let close = tokens.readIf(TokenType.EVAL_CLOSE);
 
     return new Evaluate(left, types, open, inputs, close);
 }
 
 /** CONVERSION :: DOCS? TYPE → TYPE EXPRESSION */
 function parseConversion(tokens: Tokens): ConversionDefinition {
-    const docs = parseDocumentation(tokens);
+    const docs = parseDocs(tokens);
     const convert = tokens.read(TokenType.CONVERT);
     const input = parseType(tokens, true);
     const output = parseType(tokens, true);
@@ -1041,9 +1037,7 @@ function parseTypeInputs(tokens: Tokens): TypeInputs {
         !tokens.nextHasPrecedingLineBreak()
     )
         inputs.push(parseType(tokens));
-    const close = tokens.nextIs(TokenType.TYPE_CLOSE)
-        ? tokens.read(TokenType.TYPE_CLOSE)
-        : undefined;
+    const close = tokens.readIf(TokenType.TYPE_CLOSE);
     return new TypeInputs(open, inputs, close);
 }
 
@@ -1194,17 +1188,13 @@ function parseSetOrMapType(tokens: Tokens): SetType | MapType {
     let value = undefined;
     if (tokens.nextIsnt(TokenType.SET_CLOSE)) {
         if (!tokens.nextIs(TokenType.BIND)) key = parseType(tokens);
-        bind = tokens.nextIs(TokenType.BIND)
-            ? tokens.read(TokenType.BIND)
-            : undefined;
+        bind = tokens.readIf(TokenType.BIND);
         value =
             bind !== undefined && !tokens.nextIs(TokenType.SET_CLOSE)
                 ? parseType(tokens)
                 : undefined;
     }
-    const close = tokens.nextIs(TokenType.SET_CLOSE)
-        ? tokens.read(TokenType.SET_CLOSE)
-        : undefined;
+    const close = tokens.readIf(TokenType.SET_CLOSE);
     return bind === undefined
         ? new SetType(open, key, close)
         : new MapType(open, key, bind, value, close);
@@ -1220,9 +1210,7 @@ function parseTableType(tokens: Tokens): TableType {
         if (bind === undefined) break;
         else columns.push(bind);
     }
-    const close = tokens.nextIs(TokenType.TABLE_CLOSE)
-        ? tokens.read(TokenType.TABLE_CLOSE)
-        : undefined;
+    const close = tokens.readIf(TokenType.TABLE_CLOSE);
     return new TableType(open, columns, close);
 }
 
@@ -1234,16 +1222,12 @@ function parseFunctionType(tokens: Tokens): FunctionType {
         ? parseTypeVariables(tokens)
         : undefined;
 
-    const open = tokens.nextIs(TokenType.EVAL_OPEN)
-        ? tokens.read(TokenType.EVAL_OPEN)
-        : undefined;
+    const open = tokens.readIf(TokenType.EVAL_OPEN);
 
     const inputs: Bind[] = [];
     while (nextIsBind(tokens, false)) inputs.push(parseBind(tokens));
 
-    const close = tokens.nextIs(TokenType.EVAL_CLOSE)
-        ? tokens.read(TokenType.EVAL_CLOSE)
-        : undefined;
+    const close = tokens.readIf(TokenType.EVAL_CLOSE);
 
     const output = parseType(tokens);
 
@@ -1260,7 +1244,7 @@ function parseConversionType(left: Type, tokens: Tokens): ConversionType {
 
 /** CUSTOM_TYPE :: DOCS? •NAMES (•NAME)* TYPE_VARS ( BIND* ) BLOCK? */
 export function parseStructure(tokens: Tokens): StructureDefinition {
-    const docs = parseDocumentation(tokens);
+    const docs = parseDocs(tokens);
     const type = tokens.read(TokenType.TYPE);
     const names = parseNames(tokens);
 
@@ -1297,18 +1281,108 @@ export function parseStructure(tokens: Tokens): StructureDefinition {
     );
 }
 
-function parseDocumentation(tokens: Tokens): Docs | undefined {
-    const docs = [];
+function parseDocs(tokens: Tokens): Docs | undefined {
+    const docs: Doc[] = [];
     while (
         tokens.nextIs(TokenType.DOC) &&
         (docs.length === 0 ||
             (tokens.peekSpace()?.split('\n').length ?? 0) - 1 <= 1)
     ) {
-        const doc = tokens.read(TokenType.DOC);
-        const lang = tokens.nextIs(TokenType.LANGUAGE)
-            ? parseLanguage(tokens)
-            : undefined;
-        docs.push(new Doc(doc, lang));
+        docs.push(parseDoc(tokens));
     }
     return docs.length === 0 ? undefined : new Docs(docs);
+}
+
+export function parseDoc(tokens: Tokens): Doc {
+    const open = tokens.read(TokenType.DOC);
+    const content: Paragraph[] = [];
+
+    while (tokens.nextIsnt(TokenType.DOC)) content.push(parseParagraph(tokens));
+
+    const close = tokens.readIf(TokenType.DOC);
+    const lang = tokens.nextIs(TokenType.LANGUAGE)
+        ? parseLanguage(tokens)
+        : undefined;
+    return new Doc(open, content, close, lang);
+}
+
+export function parseTranslationDoc(doc: string) {
+    return parseDoc(toTokens(DOCS_SYMBOL + doc + DOCS_SYMBOL));
+}
+
+function parseParagraph(tokens: Tokens): Paragraph {
+    const content: Content[] = [];
+
+    // Read until hitting two newlines or a closing doc symbol.
+    while (tokens.hasNext() && tokens.nextIsnt(TokenType.DOC)) {
+        content.push(
+            tokens.nextIs(TokenType.TAG_OPEN)
+                ? parseLink(tokens)
+                : tokens.nextIs(TokenType.CONCEPT)
+                ? parseConceptLink(tokens)
+                : tokens.nextIs(TokenType.EVAL_OPEN)
+                ? parseExample(tokens)
+                : tokens.nextIsOneOf(
+                      TokenType.WORDS,
+                      TokenType.ITALIC,
+                      TokenType.BOLD,
+                      TokenType.EXTRA
+                  )
+                ? parseWords(tokens)
+                : // Just read the token as a word, even though we don't know what it is.
+                  new Words(undefined, tokens.read(), undefined)
+        );
+
+        // Stop if the content we just parsed has a Words with two or more line breaks.
+        if (tokens.nextHasMoreThanOneLineBreak()) break;
+    }
+
+    return new Paragraph(content);
+}
+
+function parseLink(tokens: Tokens): WebLink {
+    const open = tokens.read(TokenType.TAG_OPEN);
+    const description = tokens.readIf(TokenType.WORDS);
+    const at = tokens.readIf(TokenType.LINK);
+    const url = tokens.readIf(TokenType.URL);
+    const close = tokens.readIf(TokenType.TAG_CLOSE);
+
+    return new WebLink(open, description, at, url, close);
+}
+
+function parseConceptLink(tokens: Tokens): ConceptLink {
+    const concept = tokens.read(TokenType.CONCEPT);
+    return new ConceptLink(concept);
+}
+
+function parseWords(tokens: Tokens): Words {
+    // Read an optional format
+    const open = tokens.nextIsOneOf(
+        TokenType.ITALIC,
+        TokenType.BOLD,
+        TokenType.EXTRA
+    )
+        ? tokens.read()
+        : undefined;
+
+    // Read words
+    const words = tokens.nextIs(TokenType.WORDS)
+        ? tokens.read(TokenType.WORDS)
+        : undefined;
+
+    // Read closing format if it matches.
+    const close =
+        open && tokens.nextIs(open.getTypes()[0])
+            ? tokens.read(open.getTypes()[0])
+            : undefined;
+
+    return new Words(open, words, close);
+}
+
+function parseExample(tokens: Tokens): Example {
+    const open = tokens.read(TokenType.EVAL_OPEN);
+    const program = parseProgram(tokens);
+    const close = tokens.readIf(TokenType.EVAL_CLOSE);
+
+    return new Example(open, program, close);
 }

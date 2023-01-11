@@ -293,14 +293,14 @@ export default class FunctionDefinition extends Expression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.expressions.FunctionDefinition;
+        return translation.nodes.FunctionDefinition;
     }
 
     getStartExplanations(translation: Translation) {
-        return translation.expressions.FunctionDefinition.start;
+        return translation.nodes.FunctionDefinition.start;
     }
 
     getFinishExplanations(translation: Translation) {
-        return translation.expressions.FunctionDefinition.start;
+        return translation.nodes.FunctionDefinition.start;
     }
 }

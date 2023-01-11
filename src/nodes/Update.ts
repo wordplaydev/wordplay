@@ -197,11 +197,11 @@ export default class Update extends Expression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.expressions.Update;
+        return translation.nodes.Update;
     }
 
     getStartExplanations(translation: Translation, context: Context) {
-        return translation.expressions.Update.start(
+        return translation.nodes.Update.start(
             new NodeLink(this.table, translation, context)
         );
     }
@@ -211,7 +211,7 @@ export default class Update extends Expression {
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.expressions.Update.finish(
+        return translation.nodes.Update.finish(
             this.getValueIfDefined(translation, context, evaluator)
         );
     }

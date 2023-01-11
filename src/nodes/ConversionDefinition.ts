@@ -167,10 +167,10 @@ export default class ConversionDefinition extends AtomicExpression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.expressions.ConversionDefinition;
+        return translation.nodes.ConversionDefinition;
     }
 
     getStartExplanations(translation: Translation) {
-        return translation.expressions.ConversionDefinition.start;
+        return translation.nodes.ConversionDefinition.start;
     }
 }

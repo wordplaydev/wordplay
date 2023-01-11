@@ -103,23 +103,23 @@ const eng_cs: Translation = {
         Doc: {
             description: 'documentation',
             purpose:
-                'An explanation of some chunk of code, including its purpose and how to use it, ideally with examples. Documentation can precede any expression, but are most useful before structure and function definitions and before blocks, to explain how to use them. Documentation can be tagged with a language, just like names, offering multiple translations of the same documentation.',
+                'an explanation of some chunk of code, including its purpose and how to use it, ideally with examples. Documentation can precede any expression, but are most useful before structure and function definitions and before blocks, to explain how to use them. Documentation can be tagged with a language, just like names, offering multiple translations of the same documentation.',
         },
         Docs: {
             description: 'set of documentation',
-            purpose: `A list of documentation.`,
+            purpose: `a list of documentation`,
         },
         KeyValue: {
             description: 'key/value pair',
-            purpose: `Represents a single mapping in a map between a key and a value.`,
+            purpose: `represents a single mapping in a map between a key and a value.`,
         },
         Language: {
             description: 'language tag',
-            purpose: `Applied to a name or documentation to indicate the language it is written in.`,
+            purpose: `applied to a name or documentation to indicate the language it is written in.`,
         },
         Name: {
             description: 'name',
-            purpose: `Names are used to represent some value in a program, such as a function, structure type, or a binding in a block. They're a helpful way of giving a shorthand label to some value or way of computing or storing values. Names can be optionally tagged with a language; this is helpful when sharing code, since the language might use to name a function might not be known to people who want to use it. Translating names makes shared code more globally useful.`,
+            purpose: `names are used to represent some value in a program, such as a function, structure type, or a binding in a block. They're a helpful way of giving a shorthand label to some value or way of computing or storing values. Names can be optionally tagged with a language; this is helpful when sharing code, since the language might use to name a function might not be known to people who want to use it. Translating names makes shared code more globally useful.`,
         },
         Names: {
             description: 'list of names',
@@ -161,10 +161,28 @@ const eng_cs: Translation = {
             description: 'a list of type variables',
             purpose: WRITE_DOC,
         },
-    },
-    expressions: {
+        Paragraph: {
+            description: 'paragraph',
+            purpose: WRITE_DOC,
+        },
+        WebLink: {
+            description: 'link',
+            purpose: WRITE_DOC,
+        },
+        ConceptLink: {
+            description: 'concept',
+            purpose: WRITE_DOC,
+        },
+        Words: {
+            description: 'words',
+            purpose: WRITE_DOC,
+        },
+        Example: {
+            description: 'example',
+            purpose: WRITE_DOC,
+        },
         BinaryOperation: {
-            description: 'evaluate unknown function two inputs',
+            description: 'binaryoperation',
             purpose:
                 "Binary operations compute a left and right value and then compute the function indicated by the operator in the middle. The operator name must exist on the left value's type. This syntax is really just a special form of an Evaluate",
             right: 'input',
@@ -173,9 +191,15 @@ const eng_cs: Translation = {
                 Explanation.as('evaluated to ', result ?? ' nothing'),
         },
         Bind: {
-            description: 'binding',
-            purpose:
-                "A binding is a way of naming a value that has been computed. In many programs, these are called 'variables', but unlike in other languages, a binding's value cannot change: once something is named, it keeps the value it was assigned until the part of the program that defined it is complete, and then the name is discarded. ",
+            description: 'bind',
+            purpose: `A bind is a way of naming a value that has been computed. 
+                
+                In many programs, these are called 'variables', but unlike in other languages, a binding's value cannot change: once something is named, 
+                it keeps the value it was assigned until the part of the program that defined it is complete, 
+                and then the name is discarded.
+                
+                Binds are used in @Block to name values and in @FunctionDefinition and @StructureDefinition to define inputs.
+                `,
             start: (value) =>
                 value
                     ? Explanation.as('evaluate ', value, ' first')
@@ -195,12 +219,12 @@ const eng_cs: Translation = {
                 Explanation.as('block evaluated to ', value ?? 'nothing'),
         },
         BooleanLiteral: {
-            description: '(value)',
+            description: 'boolean',
             purpose: WRITE_DOC,
             start: (value) => Explanation.as('create a ', value),
         },
         Borrow: {
-            description: 'borrow a named value',
+            description: 'borrow',
             purpose: WRITE_DOC,
             start: (source, name) =>
                 Explanation.as(
@@ -210,11 +234,11 @@ const eng_cs: Translation = {
                     source ?? ' unspecified source'
                 ),
             source: 'source',
-            name: 'name',
+            bind: 'name',
             version: 'version',
         },
         Changed: {
-            description: 'check if stream caused evaluation',
+            description: 'changed',
             purpose: WRITE_DOC,
             start: (stream: NodeLink) =>
                 Explanation.as(
@@ -225,8 +249,7 @@ const eng_cs: Translation = {
             stream: 'stream',
         },
         Conditional: {
-            description:
-                'evaluate to one of two expressions based on a boolean',
+            description: 'conditional',
             purpose: WRITE_DOC,
             start: (condition) => Explanation.as('check ', condition, ' first'),
             finish: (value) =>
@@ -239,12 +262,12 @@ const eng_cs: Translation = {
             no: 'no',
         },
         ConversionDefinition: {
-            description: 'define a conversion from one type to another',
+            description: 'conversion',
             purpose: WRITE_DOC,
             start: 'define this conversion',
         },
         Convert: {
-            description: 'convert a value to a different type',
+            description: 'convert',
             purpose: WRITE_DOC,
             start: (expr) => Explanation.as('first evaluate ', expr),
             finish: (value) =>
@@ -507,8 +530,6 @@ const eng_cs: Translation = {
                     value ?? 'nothing'
                 ),
         },
-    },
-    types: {
         AnyType: {
             description: 'anything',
             purpose: WRITE_DOC,

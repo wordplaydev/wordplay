@@ -49,7 +49,7 @@ export default class ListLiteral extends Expression {
                 name: 'values',
                 types: [[Expression]],
                 label: (translation: Translation) =>
-                    translation.expressions.ListLiteral.item,
+                    translation.nodes.ListLiteral.item,
                 space: true,
                 indent: true,
             },
@@ -136,11 +136,11 @@ export default class ListLiteral extends Expression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.expressions.ListLiteral;
+        return translation.nodes.ListLiteral;
     }
 
     getStartExplanations(translation: Translation) {
-        return translation.expressions.ListLiteral.start;
+        return translation.nodes.ListLiteral.start;
     }
 
     getFinishExplanations(
@@ -148,7 +148,7 @@ export default class ListLiteral extends Expression {
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.expressions.ListLiteral.finish(
+        return translation.nodes.ListLiteral.finish(
             this.getValueIfDefined(translation, context, evaluator)
         );
     }

@@ -33,6 +33,10 @@ export default class ConversionConcept extends Concept {
         );
     }
 
+    hasName() {
+        return false;
+    }
+
     getDocs(translation: Translation) {
         return this.definition.docs?.getTranslation(translation.language);
     }

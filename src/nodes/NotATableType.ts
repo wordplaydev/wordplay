@@ -9,6 +9,6 @@ export default class NotATableType extends UnknownType<Select> {
     }
 
     getReason(translation: Translation) {
-        return translation.types.NotATableType.description;
+        return translation.nodes.NotATableType.description;
     }
 }

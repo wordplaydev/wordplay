@@ -111,6 +111,6 @@ export default class MapType extends NativeType {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.types.MapType;
+        return translation.nodes.MapType;
     }
 }

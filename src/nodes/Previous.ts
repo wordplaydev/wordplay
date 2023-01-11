@@ -156,11 +156,11 @@ export default class Previous extends Expression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.expressions.Previous;
+        return translation.nodes.Previous;
     }
 
     getStartExplanations(translation: Translation, context: Context) {
-        return translation.expressions.Previous.start(
+        return translation.nodes.Previous.start(
             new NodeLink(this.stream, translation, context)
         );
     }
@@ -170,7 +170,7 @@ export default class Previous extends Expression {
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.expressions.Previous.finish(
+        return translation.nodes.Previous.finish(
             this.getValueIfDefined(translation, context, evaluator)
         );
     }

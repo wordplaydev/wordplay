@@ -58,7 +58,7 @@ export default class Conditional extends Expression {
                 name: 'condition',
                 types: [Expression],
                 label: (translation: Translation) =>
-                    translation.expressions.Conditional.condition,
+                    translation.nodes.Conditional.condition,
                 // Must be boolean typed
                 getType: () => BooleanType.make(),
             },
@@ -67,7 +67,7 @@ export default class Conditional extends Expression {
                 name: 'yes',
                 types: [Expression],
                 label: (translation: Translation) =>
-                    translation.expressions.Conditional.yes,
+                    translation.nodes.Conditional.yes,
                 space: true,
                 indent: true,
             },
@@ -75,7 +75,7 @@ export default class Conditional extends Expression {
                 name: 'no',
                 types: [Expression],
                 label: (translation: Translation) =>
-                    translation.expressions.Conditional.no,
+                    translation.nodes.Conditional.no,
                 space: true,
                 indent: true,
             },
@@ -178,11 +178,11 @@ export default class Conditional extends Expression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.expressions.Conditional;
+        return translation.nodes.Conditional;
     }
 
     getStartExplanations(translation: Translation, context: Context) {
-        return translation.expressions.Conditional.start(
+        return translation.nodes.Conditional.start(
             new NodeLink(this.condition, translation, context)
         );
     }
@@ -192,7 +192,7 @@ export default class Conditional extends Expression {
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.expressions.Conditional.finish(
+        return translation.nodes.Conditional.finish(
             this.getValueIfDefined(translation, context, evaluator)
         );
     }

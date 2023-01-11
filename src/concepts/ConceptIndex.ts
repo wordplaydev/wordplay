@@ -2,12 +2,15 @@ import type Concept from './Concept';
 import type Node from '../nodes/Node';
 import type Type from '../nodes/Type';
 import StructureConcept from './StructureConcept';
+import type Translation from '../translations/Translation';
 
 export default class ConceptIndex {
     readonly concepts: Concept[];
+    readonly translations: Translation[];
 
-    constructor(concepts: Concept[]) {
+    constructor(concepts: Concept[], translations: Translation[]) {
         this.concepts = concepts;
+        this.translations = translations;
     }
 
     /** Search through the concepts to find a corresponding node */
@@ -28,5 +31,9 @@ export default class ConceptIndex {
         return this.concepts.find(
             (c) => c instanceof StructureConcept && c.representsType(type)
         );
+    }
+
+    getConceptByName(name: string): Concept | undefined {
+        return this.concepts.find((c) => c.hasName(name, this.translations[0]));
     }
 }

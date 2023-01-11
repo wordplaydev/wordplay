@@ -9,14 +9,7 @@ export default class Docs extends Node {
     constructor(docs?: Doc[]) {
         super();
 
-        this.docs =
-            docs === undefined
-                ? []
-                : Array.isArray(docs)
-                ? docs
-                : Object.keys(docs).map(
-                      (lang) => new Doc(docs[lang as LanguageCode], lang)
-                  );
+        this.docs = docs === undefined ? [] : docs;
 
         this.computeChildren();
     }
@@ -35,18 +28,16 @@ export default class Docs extends Node {
         return [];
     }
 
-    getTranslation(lang: LanguageCode | LanguageCode[]): string {
+    getTranslation(lang: LanguageCode | LanguageCode[]): Doc | undefined {
         lang = Array.isArray(lang) ? lang : [lang];
         // Find the doc with the most preferred language, and if there are none, an emdash.
         return (
-            (
-                lang
-                    .map((lang) =>
-                        this.docs.find((doc) => doc.getLanguage() === lang)
-                    )
-                    .filter((doc): doc is Doc => doc !== undefined)[0] ??
-                this.docs[0]
-            )?.getText() ?? '—'
+            lang
+                .map((lang) =>
+                    this.docs.find((doc) => doc.getLanguage() === lang)
+                )
+                .filter((doc): doc is Doc => doc !== undefined)[0] ??
+            this.docs[0]
         );
     }
 

@@ -134,7 +134,7 @@ export default class UnionType extends Type {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.types.UnionType;
+        return translation.nodes.UnionType;
     }
 
     /**

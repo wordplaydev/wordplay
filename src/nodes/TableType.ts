@@ -87,6 +87,6 @@ export default class TableType extends Type {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.types.TableType;
+        return translation.nodes.TableType;
     }
 }

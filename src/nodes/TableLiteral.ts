@@ -141,11 +141,11 @@ export default class TableLiteral extends Expression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.expressions.TableLiteral;
+        return translation.nodes.TableLiteral;
     }
 
     getStartExplanations(translation: Translation) {
-        return translation.expressions.TableLiteral.start;
+        return translation.nodes.TableLiteral.start;
     }
 
     getFinishExplanations(
@@ -153,7 +153,7 @@ export default class TableLiteral extends Expression {
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.expressions.TableLiteral.finish(
+        return translation.nodes.TableLiteral.finish(
             this.getValueIfDefined(translation, context, evaluator)
         );
     }

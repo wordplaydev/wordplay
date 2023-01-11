@@ -41,7 +41,11 @@ export default abstract class Stream<
     abstract computeNames(): Names;
 
     getDescription(translation: Translation) {
-        return this.docs.getTranslation([translation.language]);
+        return (
+            this.docs
+                .getTranslation(translation.language)
+                ?.getFirstParagraph() ?? translation.data.stream
+        );
     }
 
     getNames() {

@@ -144,3 +144,9 @@ p {
 p:not(:last-of-type) {
     margin-bottom: calc(2 * var(--wordplay-spacing));
 }
+
+a {
+    color: var(--wordplay-highlight);
+    text-decoration: underline;
+    text-decoration-thickness: var(--wordplay-border-width);
+}

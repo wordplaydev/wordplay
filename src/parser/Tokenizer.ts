@@ -12,8 +12,10 @@ import {
     EVAL_CLOSE_SYMBOL,
     EVAL_OPEN_SYMBOL,
     FALSE_SYMBOL,
+    FORMAT_SYMBOL,
     FUNCTION_SYMBOL,
     LANGUAGE_SYMBOL,
+    LINK_SYMBOL,
     LIST_CLOSE_SYMBOL,
     LIST_OPEN_SYMBOL,
     MEASUREMENT_SYMBOL,
@@ -32,6 +34,8 @@ import {
     STREAM_SYMBOL,
     TABLE_CLOSE_SYMBOL,
     TABLE_OPEN_SYMBOL,
+    TAG_CLOSE_SYMBOL,
+    TAG_OPEN_SYMBOL,
     TEMPLATE_SYMBOL,
     TRUE_SYMBOL,
     TYPE_CLOSE_SYMBOL,
@@ -52,6 +56,10 @@ const RESERVED_SYMBOLS = [
     TYPE_CLOSE_SYMBOL,
     TABLE_OPEN_SYMBOL,
     TABLE_CLOSE_SYMBOL,
+    TAG_OPEN_SYMBOL,
+    TAG_CLOSE_SYMBOL,
+    LINK_SYMBOL,
+    FORMAT_SYMBOL,
     BIND_SYMBOL,
     PROPERTY_SYMBOL,
     BASE_SYMBOL,
@@ -79,6 +87,14 @@ const BINARY_OPERATORS = `+\\-×${PRODUCT_SYMBOL}÷%^<≤=≠≥>&|~\?\\u2200-\\
 
 export const UnaryOpRegEx = new RegExp(`^[${UNARY_OPERATORS}](?! )`, 'u');
 export const BinaryOpRegEx = new RegExp(`^[${BINARY_OPERATORS}]`, 'u');
+export const URLRegEx = new RegExp(
+    /^https?:\/\/(www.)?[-a-zA-Z0-9@:%._+~#=]{1,256}.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_+.~#?&//=]*)/,
+    'u'
+);
+export const WordsRegEx = new RegExp(
+    `^[^\n${EVAL_OPEN_SYMBOL}${EVAL_CLOSE_SYMBOL}${LINK_SYMBOL}${TAG_OPEN_SYMBOL}${TAG_CLOSE_SYMBOL}${FORMAT_SYMBOL}${DOCS_SYMBOL}]+`,
+    'u'
+);
 
 function escapeRegexCharacter(c: string) {
     return /[\\\/\(\)\[\]\{\}]/.test(c) ? '\\' + c : c;
@@ -102,16 +118,19 @@ const patterns = [
     { pattern: BORROW_SYMBOL, types: [TokenType.BORROW] },
     { pattern: SHARE_SYMBOL, types: [TokenType.SHARE] },
     { pattern: CONVERT_SYMBOL, types: [TokenType.CONVERT] },
-    // End comments after multiple newlines
-    {
-        pattern: new RegExp(`^${DOCS_SYMBOL}.*?(${DOCS_SYMBOL}|(?=\n\n))`),
-        types: [TokenType.DOC],
-    },
     { pattern: NONE_SYMBOL, types: [TokenType.NONE, TokenType.NONE_TYPE] },
     { pattern: TYPE_SYMBOL, types: [TokenType.TYPE, TokenType.TYPE_OP] },
     { pattern: OR_SYMBOL, types: [TokenType.BINARY_OP, TokenType.UNION] },
     { pattern: TYPE_OPEN_SYMBOL, types: [TokenType.TYPE_OPEN] },
     { pattern: TYPE_CLOSE_SYMBOL, types: [TokenType.TYPE_CLOSE] },
+    {
+        pattern: TAG_OPEN_SYMBOL,
+        types: [TokenType.BINARY_OP, TokenType.TAG_OPEN],
+    },
+    {
+        pattern: TAG_CLOSE_SYMBOL,
+        types: [TokenType.BINARY_OP, TokenType.TAG_CLOSE],
+    },
     {
         pattern: STREAM_SYMBOL,
         types: [TokenType.REACTION, TokenType.STREAM_TYPE, TokenType.ETC],
@@ -190,6 +209,18 @@ const patterns = [
     // - Basic latin operators: +-×·÷%^<≤=≠≥>&|
     { pattern: UnaryOpRegEx, types: [TokenType.UNARY_OP] },
     { pattern: BinaryOpRegEx, types: [TokenType.BINARY_OP] },
+
+    // End comments after multiple newlines
+    { pattern: DOCS_SYMBOL, types: [TokenType.DOC] },
+    {
+        pattern: new RegExp(`^${LINK_SYMBOL}[a-zA-Z]*`),
+        types: [TokenType.CONCEPT],
+    },
+    { pattern: LINK_SYMBOL, types: [TokenType.LINK] },
+    { pattern: FORMAT_SYMBOL.repeat(3), types: [TokenType.EXTRA] },
+    { pattern: FORMAT_SYMBOL.repeat(2), types: [TokenType.BOLD] },
+    { pattern: FORMAT_SYMBOL, types: [TokenType.ITALIC] },
+
     // All other tokens are names, which are sequences of Unicode glyphs that are not one of the reserved symbols above or whitespace.
     {
         pattern: new RegExp(
@@ -212,6 +243,7 @@ const TEXT_DELIMITERS: Record<string, string> = {
     '«': '»',
     '「': '」',
     '『': '』',
+    '`': '`',
 };
 
 export const DELIMITERS: Record<string, string> = {};
@@ -246,24 +278,45 @@ export function tokenize(source: string): TokenList {
 
     // A stack, top at 0, of TEXT_OPEN tokens, helping us decide when to tokenize TEXT_CLOSE.
     const openTemplates: Token[] = [];
+    let inDoc = false;
     while (source.length > 0) {
-        let [nextToken, space] = getNextToken(source, openTemplates);
+        // First read whitespace
+        let space = '';
+
+        // If we're in a doc, then read newlines only.
+        if (inDoc) {
+            const spaceMatch = source.match(/^\n+/);
+            space = spaceMatch === null ? '' : spaceMatch[0];
+        }
+        // If we're not in a doc, then slurp preceding space before the next token.
+        else {
+            const spaceMatch = source.match(/^[ \t\n]+/);
+            space = spaceMatch === null ? '' : spaceMatch[0];
+        }
+
+        // Trim the space we found.
+        source = source.substring(space.length);
+
+        // Tokenize the next token.
+        let nextToken = getNextToken(source, openTemplates, inDoc);
 
         // Add the token to the list
         tokens.push(nextToken);
 
         // Save the space for the token.
-        if (space.length > 0) spaces.set(nextToken, space);
+        if (space !== undefined && space.length > 0)
+            spaces.set(nextToken, space);
 
         // Trim the token off the source.
-        source = source.substring(
-            nextToken.text.toString().length + space.length
-        );
+        source = source.substring(nextToken.text.toString().length);
 
         // If the token was a text open, push it on the stack.
         if (nextToken.is(TokenType.TEXT_OPEN)) openTemplates.unshift(nextToken);
         // If the token was a close, pop
         else if (nextToken.is(TokenType.TEXT_CLOSE)) openTemplates.shift();
+
+        // If we encountered a doc, toggle the flag.
+        if (nextToken.is(TokenType.DOC)) inDoc = !inDoc;
     }
 
     // If there's nothing left -- or nothing but space -- and the last token isn't a already end token, add one, and remember the space before it.
@@ -276,27 +329,40 @@ export function tokenize(source: string): TokenList {
     return new TokenList(tokens, spaces);
 }
 
-function getNextToken(source: string, openTemplates: Token[]): [Token, string] {
-    // Is there a series of space or tabs?
-    const spaceMatch = source.match(/^[ \t\n]+/);
-    const space = spaceMatch === null ? '' : spaceMatch[0];
-    const trimmedSource = source.substring(space.length);
-
+function getNextToken(
+    source: string,
+    openTemplates: Token[],
+    inDoc: boolean
+): Token {
     // If there's nothing left after trimming source, return an end of file token.
-    if (trimmedSource.length === 0)
-        return [new Token('', TokenType.END), space];
+    if (source.length === 0) return new Token('', TokenType.END);
 
-    // See if one of the more complex regular expression patterns matches.
+    // If we're in a doc, special case a few token types that only appear in docs (URL, WORDS)
+    if (inDoc) {
+        // Check URLs first, since the word regex will match URLs.
+        const urlMatch = source.match(URLRegEx);
+        if (urlMatch !== null) return new Token(urlMatch[0], TokenType.URL);
+
+        const wordsMatch = source.match(WordsRegEx);
+        if (wordsMatch !== null) {
+            // Take everything up to a double newline.
+            const match = wordsMatch[0].split('\n\n')[0];
+            // Add the preceding space back on, since it's part of the words.
+            return new Token(match, TokenType.WORDS);
+        }
+    }
+
+    // See if one of the global token patterns matches.
     for (let i = 0; i < patterns.length; i++) {
         const pattern = patterns[i];
         // If it's a string pattern, just see if the source starts with it.
         if (
             typeof pattern.pattern === 'string' &&
-            trimmedSource.startsWith(pattern.pattern)
+            source.startsWith(pattern.pattern)
         )
-            return [new Token(pattern.pattern, pattern.types), space];
+            return new Token(pattern.pattern, pattern.types);
         else if (pattern.pattern instanceof RegExp) {
-            const match = trimmedSource.match(pattern.pattern);
+            const match = source.match(pattern.pattern);
             // If we found a match, return it if
             // 1) It's _not_ a text close, or
             // 2) It is, but there are either no open templates (syntax error!), or
@@ -309,20 +375,18 @@ function getNextToken(source: string, openTemplates: Token[]): [Token, string] {
                         TEXT_DELIMITERS[openTemplates[0].getText().charAt(0)]
                     ))
             )
-                return [new Token(match[0], pattern.types), space];
+                return new Token(match[0], pattern.types);
         }
     }
 
     // Otherwise, we fail and return an error token that contains all of the text until the next space.
     let nextSpace = 0;
-    for (; nextSpace < trimmedSource.length; nextSpace++) {
-        const char = trimmedSource.charAt(nextSpace);
+    for (; nextSpace < source.length; nextSpace++) {
+        const char = source.charAt(nextSpace);
         if (char === ' ' || char === '\t' || char === '\n') break;
     }
 
+    console.log(`"${source}"`);
     // Uh oh, unknown token. This should never be possible, but it probably is, since I haven't proven otherwise.
-    return [
-        new Token(trimmedSource.substring(0, nextSpace), TokenType.UNKNOWN),
-        space,
-    ];
+    return new Token(source.substring(0, nextSpace), TokenType.UNKNOWN);
 }
