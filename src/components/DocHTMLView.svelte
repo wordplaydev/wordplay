@@ -7,6 +7,8 @@
     import { project } from '../models/stores';
     import ConceptLink from '../nodes/ConceptLink';
     import ConceptLinkUI from './ConceptLinkUI.svelte';
+    import Example from '../nodes/Example';
+    import ExampleUI from './ExampleUI.svelte';
 
     export let doc: Doc;
 
@@ -16,7 +18,7 @@
 
 {#each doc.paragraphs as paragraph}
     <p>
-        {#each paragraph.content as content}
+        {#each paragraph.content as content, index}
             {#if content instanceof WebLink}
                 {#if content.url && content.description}
                     {#if spaces && spaces.getSpace(content.open).length > 0}&nbsp;{/if}<a
@@ -27,10 +29,12 @@
                 {:else if content.description}
                     {content.description}
                 {/if}
+            {:else if content instanceof Example}
+                <ExampleUI example={content} />
             {:else if content instanceof ConceptLink}
                 <ConceptLinkUI link={content} />
             {:else if content instanceof Words && content.words}
-                {#if spaces && spaces.getSpace(content.words).length > 0}&nbsp;{/if}<span
+                {#if index > 0 && spaces && spaces.getSpace(content.words).length > 0}&nbsp;{/if}<span
                     class:italic={content.isItalic()}
                     class:bold={content.isBold()}
                     class:extra={content.isExtra()}>{content.getText()}</span

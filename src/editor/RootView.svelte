@@ -58,7 +58,7 @@
     }
 </script>
 
-<div class="root"><NodeView {node} /></div>
+<span class="root"><NodeView {node} /></span>
 
 <style>
     .root {

@@ -7,7 +7,6 @@ import { DELIMITERS, REVERSE_DELIMITERS, tokenize } from '../parser/Tokenizer';
 import UnicodeString from '../models/UnicodeString';
 import type Value from '../runtime/Value';
 import type Context from './Context';
-import TokenType from './TokenType';
 import Tree from './Tree';
 import Names from './Names';
 import type Borrow from './Borrow';
