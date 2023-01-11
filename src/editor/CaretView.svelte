@@ -7,7 +7,6 @@
 
 <script lang="ts">
     import { afterUpdate } from 'svelte';
-    import TokenType from '../nodes/TokenType';
     import { getCaret } from './util/Contexts';
     import Spaces, { SPACE_HTML, TAB_HTML } from '../parser/Spaces';
     import type Source from '../nodes/Source';
@@ -56,7 +55,7 @@
                 typeof $caret.position === 'number' &&
                 // The position can be anywhere after after the first glyph of the token, up to and including after the token's last character,
                 // or the end token of the program.
-                ((token.is(TokenType.END) && $caret.isEnd()) ||
+                ($caret.isEnd() ||
                     // It must be after the start OR at the start and not whitespace
                     (($caret.position >= spaceIndex ||
                         ($caret.position === spaceIndex &&

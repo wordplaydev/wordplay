@@ -267,7 +267,7 @@ export function toTokens(code: string): Tokens {
 }
 
 // PROGRAM :: BORROW* BLOCK
-export function parseProgram(tokens: Tokens): Program {
+export function parseProgram(tokens: Tokens, doc: boolean = false): Program {
     // If a borrow is next or there's no whitespace, parse a docs.
     const docs = parseDocs(tokens);
 
@@ -275,11 +275,13 @@ export function parseProgram(tokens: Tokens): Program {
     while (tokens.hasNext() && tokens.nextIs(TokenType.BORROW))
         borrows.push(parseBorrow(tokens));
 
-    const block = parseBlock(tokens, true, false);
+    const block = parseBlock(tokens, true, false, doc);
 
     // If the next token is the end, we're done! Otherwise, read all of the remaining
     // tokens and bundle them into an unparsable.
-    const end = tokens.nextIsEnd() ? tokens.read(TokenType.END) : undefined;
+    const end = tokens.nextIsEnd()
+        ? tokens.read(TokenType.END)
+        : new Token('', TokenType.END);
 
     return new Program(docs, borrows, block, end);
 }
@@ -305,7 +307,8 @@ export function parseBorrow(tokens: Tokens): Borrow {
 export function parseBlock(
     tokens: Tokens,
     root: boolean = false,
-    creator: boolean = false
+    creator: boolean = false,
+    doc: boolean = false
 ): Block {
     // Grab any documentation if this isn't a root.
     let docs = root ? undefined : parseDocs(tokens);
@@ -317,7 +320,10 @@ export function parseBlock(
         : undefined;
 
     const statements = [];
-    while (tokens.hasNext() && (root || tokens.nextIsnt(TokenType.EVAL_CLOSE)))
+    while (
+        tokens.hasNext() &&
+        ((root && !doc) || tokens.nextIsnt(TokenType.EVAL_CLOSE))
+    )
         statements.push(
             nextIsBind(tokens, true)
                 ? parseBind(tokens)
@@ -1381,7 +1387,7 @@ function parseWords(tokens: Tokens): Words {
 
 function parseExample(tokens: Tokens): Example {
     const open = tokens.read(TokenType.EVAL_OPEN);
-    const program = parseProgram(tokens);
+    const program = parseProgram(tokens, true);
     const close = tokens.readIf(TokenType.EVAL_CLOSE);
 
     return new Example(open, program, close);

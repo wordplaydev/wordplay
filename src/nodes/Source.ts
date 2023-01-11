@@ -401,7 +401,7 @@ export default class Source extends Expression {
                             ? this.spaces.getSpace(token).length
                             : 0) &&
                 (position < index + token.getTextLength() ||
-                    token.is(TokenType.END))
+                    token === this.tokens[this.tokens.length - 1])
             )
                 return token;
         }

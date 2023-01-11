@@ -69,6 +69,7 @@ import ParagraphView from '../ParagraphView.svelte';
 import LinkView from '../WebLinkView.svelte';
 import ConceptLinkView from '../ConceptLinkView.svelte';
 import WordsView from '../WordsView.svelte';
+import ExampleView from '../ExampleView.svelte';
 
 import type Node from '../../nodes/Node';
 import Program from '../../nodes/Program';
@@ -141,6 +142,7 @@ import Paragraph from '../../nodes/Paragraph';
 import WebLink from '../../nodes/WebLink';
 import ConceptLink from '../../nodes/ConceptLink';
 import Words from '../../nodes/Words';
+import Example from '../../nodes/Example';
 
 const nodeToView = new Map<Function, ConstructorOfATypedSvelteComponent>();
 nodeToView.set(Program, ProgramView);
@@ -152,6 +154,7 @@ nodeToView.set(WebLink, LinkView);
 nodeToView.set(ConceptLink, ConceptLinkView);
 nodeToView.set(Words, WordsView);
 nodeToView.set(DocumentedExpression, DocumentedExpressionView);
+nodeToView.set(Example, ExampleView);
 
 nodeToView.set(Borrow, BorrowView);
 

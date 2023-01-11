@@ -61,9 +61,12 @@ export default class Doc extends Node {
     }
 
     getFirstParagraph(): string {
-        return (this.paragraphs[0].nodes((n) => n instanceof Words) as Words[])
-            .map((w) => w.getText())
-            .join();
+        const first: Paragraph | undefined = this.paragraphs[0];
+        return first === undefined
+            ? ''
+            : (first.nodes((n) => n instanceof Words) as Words[])
+                  .map((w) => w.getText())
+                  .join();
     }
 
     getLanguage() {

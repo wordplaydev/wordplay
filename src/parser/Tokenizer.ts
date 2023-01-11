@@ -278,13 +278,20 @@ export function tokenize(source: string): TokenList {
 
     // A stack, top at 0, of TEXT_OPEN tokens, helping us decide when to tokenize TEXT_CLOSE.
     const openTemplates: Token[] = [];
+    const openEval: Token[] = [];
     let inDoc = false;
+    let docEvalDepth: number | undefined = undefined;
     while (source.length > 0) {
         // First read whitespace
         let space = '';
 
+        const tokenizeDocs =
+            inDoc &&
+            docEvalDepth !== undefined &&
+            docEvalDepth === openEval.length;
+
         // If we're in a doc, then read newlines only.
-        if (inDoc) {
+        if (tokenizeDocs && !source.startsWith(')')) {
             const spaceMatch = source.match(/^\n+/);
             space = spaceMatch === null ? '' : spaceMatch[0];
         }
@@ -297,8 +304,9 @@ export function tokenize(source: string): TokenList {
         // Trim the space we found.
         source = source.substring(space.length);
 
-        // Tokenize the next token.
-        let nextToken = getNextToken(source, openTemplates, inDoc);
+        // Tokenize the next token. We tokenize in documentation mode if we're inside a doc and the eval depth
+        // has not changed since we've entered.
+        let nextToken = getNextToken(source, openTemplates, tokenizeDocs);
 
         // Add the token to the list
         tokens.push(nextToken);
@@ -315,8 +323,21 @@ export function tokenize(source: string): TokenList {
         // If the token was a close, pop
         else if (nextToken.is(TokenType.TEXT_CLOSE)) openTemplates.shift();
 
+        // If the token was an eval open, push it on the stack.
+        if (nextToken.is(TokenType.EVAL_OPEN)) openEval.unshift(nextToken);
+        // If the token was a close, pop
+        else if (nextToken.is(TokenType.EVAL_CLOSE)) openEval.shift();
+
         // If we encountered a doc, toggle the flag.
-        if (nextToken.is(TokenType.DOC)) inDoc = !inDoc;
+        if (nextToken.is(TokenType.DOC)) {
+            if (inDoc) {
+                inDoc = false;
+                docEvalDepth = undefined;
+            } else {
+                inDoc = true;
+                docEvalDepth = openEval.length;
+            }
+        }
     }
 
     // If there's nothing left -- or nothing but space -- and the last token isn't a already end token, add one, and remember the space before it.

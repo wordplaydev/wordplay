@@ -12,7 +12,6 @@ import Language from './Language';
 import Unit from './Unit';
 import Dimension from './Dimension';
 import Docs from './Docs';
-import TokenType from './TokenType';
 import { BorrowCycle } from '../conflicts/BorrowCycle';
 import Expression from './Expression';
 import type Bind from './Bind';
@@ -33,14 +32,14 @@ export default class Program extends Expression {
         docs: Docs | undefined,
         borrows: Borrow[],
         expression: Block,
-        end?: Token
+        end: Token
     ) {
         super();
 
         this.docs = docs;
         this.borrows = borrows.slice();
         this.expression = expression;
-        this.end = end ?? new Token('', TokenType.END);
+        this.end = end;
 
         this.computeChildren();
     }

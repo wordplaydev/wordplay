@@ -45,7 +45,7 @@
     $: textToShow = placeholder
         ? choosePlaceholder()
         : node.text.getLength() === 0
-        ? '\u00A0'
+        ? '\u200B'
         : node.text.toString().replaceAll(' ', '&nbsp;');
 </script>
 
