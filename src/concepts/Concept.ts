@@ -3,6 +3,7 @@ import type Context from '../nodes/Context';
 import type Node from '../nodes/Node';
 import type { Description } from '../translations/Translation';
 import type Translation from '../translations/Translation';
+import type Spaces from '../parser/Spaces';
 
 /**
  * Represents some part of the Wordplay language, API, or example ecosystem.
@@ -70,7 +71,7 @@ export default abstract class Concept {
     }
 
     abstract getDescription(translation: Translation): Description;
-    abstract getDocs(translation: Translation): Doc | undefined;
+    abstract getDocs(translation: Translation): [Doc, Spaces] | undefined;
 
     abstract equals(concept: Concept): boolean;
 }

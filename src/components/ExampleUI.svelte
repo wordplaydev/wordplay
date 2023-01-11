@@ -3,10 +3,41 @@
     import Project from '../models/Project';
     import type Example from '../nodes/Example';
     import Source from '../nodes/Source';
+    import type Spaces from '../parser/Spaces';
+    import ValueView from './ValueView.svelte';
 
     export let example: Example;
+    export let spaces: Spaces;
 
-    // $: project = new Project("example", new Source("example", [ example.program, $project ]
+    $: project = new Project(
+        'example',
+        new Source('example', [example.program, spaces]),
+        []
+    );
+    $: project.evaluate();
+    $: value = project.evaluator.getLatestSourceValue(project.main);
+
+    let see = false;
+
+    function toggle() {
+        see = !see;
+    }
 </script>
 
-<RootView node={example.program} />
+<span
+    tabIndex="0"
+    on:click={toggle}
+    on:keydown={(event) =>
+        event.key === ' ' || event.key === 'Enter' ? toggle() : undefined}
+>
+    <RootView node={example.program} />
+    {#if see && value}
+        &nbsp;…&nbsp;<ValueView {value} />
+    {/if}
+</span>
+
+<style>
+    span {
+        cursor: pointer;
+    }
+</style>

@@ -7,6 +7,8 @@ import type Stream from '../runtime/Stream';
 import Concept from './Concept';
 import type ConceptIndex from './ConceptIndex';
 import type Translation from '../translations/Translation';
+import type Doc from '../nodes/Doc';
+import type Spaces from '../parser/Spaces';
 
 export default class StreamConcept extends Concept {
     /** The type this concept represents. */
@@ -29,8 +31,9 @@ export default class StreamConcept extends Concept {
         return this.stream.names.hasName(name);
     }
 
-    getDocs(translation: Translation) {
-        return this.stream.docs?.getTranslation(translation.language);
+    getDocs(translation: Translation): [Doc, Spaces] | undefined {
+        const doc = this.stream.docs?.getTranslation(translation.language);
+        return doc ? [doc, this.context.source.getSpaces()] : undefined;
     }
 
     getDescription(translation: Translation) {

@@ -26,9 +26,9 @@
 
     <h2>purpose</h2>
     <MissingTranslationsView />
-    {#each $preferredTranslations.map((trans) => concept.getDocs(trans)) as doc}
-        {#if doc}
-            <DocHTMLView {doc} />
+    {#each $preferredTranslations.map( (trans) => concept.getDocs(trans) ) as stuff}
+        {#if stuff}
+            <DocHTMLView doc={stuff[0]} spaces={stuff[1]} />
         {/if}
     {/each}
 

@@ -1,8 +1,10 @@
 import type Context from '../nodes/Context';
 import type ConversionDefinition from '../nodes/ConversionDefinition';
 import Convert from '../nodes/Convert';
+import type Doc from '../nodes/Doc';
 import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
 import type Node from '../nodes/Node';
+import type Spaces from '../parser/Spaces';
 import type Translation from '../translations/Translation';
 import Concept from './Concept';
 import type StructureConcept from './StructureConcept';
@@ -37,8 +39,9 @@ export default class ConversionConcept extends Concept {
         return false;
     }
 
-    getDocs(translation: Translation) {
-        return this.definition.docs?.getTranslation(translation.language);
+    getDocs(translation: Translation): [Doc, Spaces] | undefined {
+        const doc = this.definition.docs?.getTranslation(translation.language);
+        return doc ? [doc, this.context.source.getSpaces()] : undefined;
     }
 
     getDescription(translation: Translation) {

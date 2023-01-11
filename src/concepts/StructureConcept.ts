@@ -13,6 +13,8 @@ import Reference from '../nodes/Reference';
 import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
 import type LanguageCode from '../translations/LanguageCode';
 import type Translation from '../translations/Translation';
+import type Spaces from '../parser/Spaces';
+import type Doc from '../nodes/Doc';
 
 export default class StructureConcept extends Concept {
     /** The type this concept represents. */
@@ -107,8 +109,9 @@ export default class StructureConcept extends Concept {
         return this.definition.names.hasName(name);
     }
 
-    getDocs(translation: Translation) {
-        return this.definition.docs?.getTranslation(translation.language);
+    getDocs(translation: Translation): [Doc, Spaces] | undefined {
+        const doc = this.definition.docs?.getTranslation(translation.language);
+        return doc ? [doc, this.context.source.getSpaces()] : undefined;
     }
 
     getDescription(translation: Translation) {

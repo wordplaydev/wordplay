@@ -135,6 +135,10 @@ export class Tokens {
             : undefined;
     }
 
+    getSpaces() {
+        return this.#spaces;
+    }
+
     peekUnread() {
         return this.#unread;
     }

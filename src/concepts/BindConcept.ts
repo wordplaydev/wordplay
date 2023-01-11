@@ -5,6 +5,8 @@ import type Node from '../nodes/Node';
 import Reference from '../nodes/Reference';
 import Concept from './Concept';
 import type Translation from '../translations/Translation';
+import type Spaces from '../parser/Spaces';
+import type Doc from '../nodes/Doc';
 
 export default class BindConcept extends Concept {
     /** The type this concept represents. */
@@ -27,8 +29,9 @@ export default class BindConcept extends Concept {
         return this.bind.hasName(name);
     }
 
-    getDocs(translation: Translation) {
-        return this.bind.docs?.getTranslation(translation.language);
+    getDocs(translation: Translation): [Doc, Spaces] | undefined {
+        const doc = this.bind.docs?.getTranslation(translation.language);
+        return doc ? [doc, this.context.source.getSpaces()] : undefined;
     }
 
     getDescription(translation: Translation) {

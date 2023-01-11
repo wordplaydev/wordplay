@@ -4,16 +4,14 @@
     import type Doc from '../nodes/Doc';
     import WebLink from '../nodes/WebLink';
     import Words from '../nodes/Words';
-    import { project } from '../models/stores';
     import ConceptLink from '../nodes/ConceptLink';
     import ConceptLinkUI from './ConceptLinkUI.svelte';
     import Example from '../nodes/Example';
     import ExampleUI from './ExampleUI.svelte';
+    import type Spaces from '../parser/Spaces';
 
     export let doc: Doc;
-
-    // See if there are spaces defined for this.
-    $: spaces = $project.getSourceOf(doc)?.getSpaces();
+    export let spaces: Spaces;
 </script>
 
 {#each doc.paragraphs as paragraph}
@@ -21,7 +19,7 @@
         {#each paragraph.content as content, index}
             {#if content instanceof WebLink}
                 {#if content.url && content.description}
-                    {#if spaces && spaces.getSpace(content.open).length > 0}&nbsp;{/if}<a
+                    {#if spaces.getSpace(content.open).length > 0}&nbsp;{/if}<a
                         href={content.url.getText()}
                         target="_blank"
                         rel="noreferrer">{content.description.getText()}</a
@@ -30,7 +28,7 @@
                     {content.description}
                 {/if}
             {:else if content instanceof Example}
-                <ExampleUI example={content} />
+                <ExampleUI example={content} {spaces} />
             {:else if content instanceof ConceptLink}
                 <ConceptLinkUI link={content} />
             {:else if content instanceof Words && content.words}

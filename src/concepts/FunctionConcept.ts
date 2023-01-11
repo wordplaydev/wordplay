@@ -14,6 +14,8 @@ import BindConcept from './BindConcept';
 import Concept from './Concept';
 import type StructureConcept from './StructureConcept';
 import type Translation from '../translations/Translation';
+import type Doc from '../nodes/Doc';
+import type Spaces from '../parser/Spaces';
 
 export default class FunctionConcept extends Concept {
     /** The function this concept represents. */
@@ -87,8 +89,9 @@ export default class FunctionConcept extends Concept {
         return this.definition.names.hasName(name);
     }
 
-    getDocs(translation: Translation) {
-        return this.definition.docs?.getTranslation(translation.language);
+    getDocs(translation: Translation): [Doc, Spaces] | undefined {
+        const doc = this.definition.docs?.getTranslation(translation.language);
+        return doc ? [doc, this.context.source.getSpaces()] : undefined;
     }
 
     getDescription(translation: Translation) {
