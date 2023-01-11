@@ -618,7 +618,7 @@ export default abstract class Node {
     }
 
     getPurpose(translation: Translation): DocString {
-        return this.getNodeTranslation(translation).purpose;
+        return this.getNodeTranslation(translation).doc;
     }
 
     abstract getNodeTranslation(translation: Translation): NodeTranslation<any>;

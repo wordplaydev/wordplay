@@ -27,7 +27,7 @@ export type DocString = string;
 
 export interface NodeTranslation<Kind> {
     description: Kind;
-    purpose: DocString;
+    doc: DocString;
 }
 
 export type StaticNodeTranslation = NodeTranslation<Description>;

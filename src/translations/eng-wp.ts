@@ -105,36 +105,35 @@ const eng_wordplay: Translation = {
                     }[dim] ?? dim
                 );
             },
-            purpose: `Dimensions specify one part of a scientific unit of measurement on a number. They can be combined using the product ${PRODUCT_SYMBOL}, power ${EXPONENT_SYMBOL}, and slash ${LANGUAGE_SYMBOL} symbols to construct compound units.`,
+            doc: `Dimensions specify one part of a scientific unit of measurement on a number. They can be combined using the product ${PRODUCT_SYMBOL}, power ${EXPONENT_SYMBOL}, and slash ${LANGUAGE_SYMBOL} symbols to construct compound units.`,
         },
         Doc: {
             description: 'documentation',
-            purpose:
-                'An explanation of some chunk of code, including its purpose and how to use it, ideally with examples. Documentation can precede any expression, but are most useful before structure and function definitions and before blocks, to explain how to use them. Documentation can be tagged with a language, just like names, offering multiple translations of the same documentation.',
+            doc: 'An explanation of some chunk of code, including its purpose and how to use it, ideally with examples. Documentation can precede any expression, but are most useful before structure and function definitions and before blocks, to explain how to use them. Documentation can be tagged with a language, just like names, offering multiple translations of the same documentation.',
         },
         Docs: {
             description: 'set of documentation',
-            purpose: `A list of documentation.`,
+            doc: `A list of documentation.`,
         },
         KeyValue: {
             description: 'key/value pair',
-            purpose: `Represents a single mapping in a map between a key and a value.`,
+            doc: `Represents a single mapping in a map between a key and a value.`,
         },
         Language: {
             description: 'language tag',
-            purpose: `Applied to a name or documentation to indicate the language it is written in.`,
+            doc: `Applied to a name or documentation to indicate the language it is written in.`,
         },
         Name: {
             description: 'name',
-            purpose: `Names are used to represent some value in a program, such as a function, structure type, or a binding in a block. They're a helpful way of giving a shorthand label to some value or way of computing or storing values. Names can be optionally tagged with a language; this is helpful when sharing code, since the language might use to name a function might not be known to people who want to use it. Translating names makes shared code more globally useful.`,
+            doc: `Names are used to represent some value in a program, such as a function, structure type, or a binding in a block. They're a helpful way of giving a shorthand label to some value or way of computing or storing values. Names can be optionally tagged with a language; this is helpful when sharing code, since the language might use to name a function might not be known to people who want to use it. Translating names makes shared code more globally useful.`,
         },
         Names: {
             description: 'list of names',
-            purpose: `All named values can have multiple names, segmented by ${NAME_SEPARATOR_SYMBOL} symbols.`,
+            doc: `All named values can have multiple names, segmented by ${NAME_SEPARATOR_SYMBOL} symbols.`,
         },
         Row: {
             description: 'row of values',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
         },
         Token: {
             description: (token: Token) =>
@@ -154,44 +153,43 @@ const eng_wordplay: Translation = {
                     : token.is(TokenType.SHARE)
                     ? 'share'
                     : 'token',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
         },
         TypeInputs: {
             description: 'a list of type inputs',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
         },
         TypeVariable: {
             description: 'a type variable',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
         },
         TypeVariables: {
             description: 'a list of type variables',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
         },
         Paragraph: {
             description: 'paragraph',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
         },
         WebLink: {
             description: 'link',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
         },
         ConceptLink: {
             description: 'concept',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
         },
         Words: {
             description: 'words',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
         },
         Example: {
             description: 'example',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
         },
         BinaryOperation: {
             description: 'evaluate unknown function two inputs',
-            purpose:
-                "Binary operations compute a left and right value and then compute the function indicated by the operator in the middle. The operator name must exist on the left value's type. This syntax is really just a special form of an Evaluate",
+            doc: "Binary operations compute a left and right value and then compute the function indicated by the operator in the middle. The operator name must exist on the left value's type. This syntax is really just a special form of an Evaluate",
             right: 'input',
             start: (left) => Explanation.as('evaluating ', left, ' first'),
             finish: (result) =>
@@ -199,8 +197,7 @@ const eng_wordplay: Translation = {
         },
         Bind: {
             description: 'name a value',
-            purpose:
-                "A binding is a way of naming a value that has been computed. In many programs, these are called 'variables', but unlike in other languages, a binding's value cannot change: once something is named, it keeps the value it was assigned until the part of the program that defined it is complete, and then the name is discarded. ",
+            doc: "A binding is a way of naming a value that has been computed. In many programs, these are called 'variables', but unlike in other languages, a binding's value cannot change: once something is named, it keeps the value it was assigned until the part of the program that defined it is complete, and then the name is discarded. ",
             start: (value) =>
                 value
                     ? Explanation.as('evaluate ', value, ' first')
@@ -212,8 +209,7 @@ const eng_wordplay: Translation = {
         },
         Block: {
             description: 'block',
-            purpose:
-                "A block is a series of expressions, usually bindings, function and structure definitions, culminating in an expression that produces a block's final value. They are best thought of as a way of computing and naming several values and then using those named values to compute a final value.",
+            doc: "A block is a series of expressions, usually bindings, function and structure definitions, culminating in an expression that produces a block's final value. They are best thought of as a way of computing and naming several values and then using those named values to compute a final value.",
             statement: 'statement',
             start: 'start evaluating the statements',
             finish: (value) =>
@@ -221,12 +217,12 @@ const eng_wordplay: Translation = {
         },
         BooleanLiteral: {
             description: '(value)',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
             start: (value) => Explanation.as('create a ', value),
         },
         Borrow: {
             description: 'borrow a named value',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
             start: (source, name) =>
                 Explanation.as(
                     'borrow ',
@@ -240,7 +236,7 @@ const eng_wordplay: Translation = {
         },
         Changed: {
             description: 'check if stream caused evaluation',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
             start: (stream: NodeLink) =>
                 Explanation.as(
                     'check if ',
@@ -251,7 +247,7 @@ const eng_wordplay: Translation = {
         },
         Conditional: {
             description: 'conditional',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
             start: (condition) => Explanation.as('check ', condition, ' first'),
             finish: (value) =>
                 Explanation.as(
@@ -264,19 +260,19 @@ const eng_wordplay: Translation = {
         },
         ConversionDefinition: {
             description: 'define a conversion from one type to another',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
             start: 'define this conversion',
         },
         Convert: {
             description: 'convert a value to a different type',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
             start: (expr) => Explanation.as('first evaluate ', expr),
             finish: (value) =>
                 Explanation.as('converted to ', value ?? 'nothing'),
         },
         Delete: {
             description: 'delete rows from a table',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
             start: (table) => Explanation.as('evaluate ', table, ' first'),
             finish: (value) =>
                 Explanation.as(
@@ -286,12 +282,12 @@ const eng_wordplay: Translation = {
         },
         DocumentedExpression: {
             description: 'a documented expression',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
             start: 'evaluate the documented expression',
         },
         Evaluate: {
             description: 'evaluate a function',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
             start: (inputs) =>
                 inputs
                     ? 'evaluate the inputs first'
@@ -310,25 +306,25 @@ const eng_wordplay: Translation = {
                 node.type
                     ? node.type.getDescription(translation, context)
                     : 'expression placeholder',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
             start: 'cannot evaluate a placeholder',
             placeholder: 'expression',
         },
         FunctionDefinition: {
             description: 'a function',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
             start: 'define this function',
         },
         HOF: {
             description: 'a higher order function',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
             start: 'evaluating the function given',
             finish: (value) =>
                 Explanation.as('evaluated to ', value ?? 'nothing'),
         },
         Insert: {
             description: 'insert a row from a table',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
             start: (table) => Explanation.as('evaluate ', table, ' first'),
             finish: (value) =>
                 Explanation.as(
@@ -338,7 +334,7 @@ const eng_wordplay: Translation = {
         },
         Is: {
             description: 'true if a value is a specific type',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
             start: (value) => Explanation.as('evaluate ', value, ' first'),
             finish: (is, type) =>
                 is
@@ -351,14 +347,14 @@ const eng_wordplay: Translation = {
         },
         ListAccess: {
             description: 'get a value in a list',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
             start: (list) => Explanation.as('evaluate ', list, ' first'),
             finish: (value) =>
                 Explanation.as('item at index is ', value ?? 'nothing'),
         },
         ListLiteral: {
             description: 'a list of values',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
             start: 'evaluate items first',
             finish: (value) =>
                 Explanation.as('evaluated to list ', value ?? 'nothing'),
@@ -366,7 +362,7 @@ const eng_wordplay: Translation = {
         },
         MapLiteral: {
             description: 'a list of mappings from keys to values',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
             start: 'evaluate each key and value first',
             finish: (value) =>
                 Explanation.as('evaluated to map ', value ?? 'nothing'),
@@ -380,22 +376,22 @@ const eng_wordplay: Translation = {
                     : node.unit.isUnitless()
                     ? 'number'
                     : 'number with a unit',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
             start: (value) => Explanation.as('evaluate to ', value),
         },
         NativeExpression: {
             description: 'a built-in expression',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
             start: 'evaluate the built-in expression',
         },
         NoneLiteral: {
             description: 'nothing',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
             start: 'create a nothing value',
         },
         Previous: {
             description: 'a previous stream value',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
             start: (stream) => Explanation.as('first get ', stream),
             finish: (value) =>
                 Explanation.as(
@@ -405,7 +401,7 @@ const eng_wordplay: Translation = {
         },
         Program: {
             description: 'a program',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
             start: (borrows) =>
                 borrows
                     ? 'first evaluate borrows'
@@ -415,7 +411,7 @@ const eng_wordplay: Translation = {
         },
         PropertyReference: {
             description: 'a property on a structure',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
             start: 'first get the value',
             finish: (property, value) =>
                 property
@@ -430,7 +426,7 @@ const eng_wordplay: Translation = {
         },
         Reaction: {
             description: 'a reaction to a stream change',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
             start: 'first check if the stream has changed',
             finish: (value) =>
                 Explanation.as(
@@ -448,12 +444,12 @@ const eng_wordplay: Translation = {
             ) =>
                 node.resolve(context)?.getDescription(translation, context) ??
                 node.getName(),
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
             start: (name) => Explanation.as('get the value of ', name),
         },
         Select: {
             description: 'select rows from a table',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
             start: (table) => Explanation.as('evaluate ', table, ' first'),
             finish: (value) =>
                 Explanation.as(
@@ -463,30 +459,30 @@ const eng_wordplay: Translation = {
         },
         SetLiteral: {
             description: 'a set of unique values',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
             start: 'evaluate each value first',
             finish: (value) =>
                 Explanation.as('evaluated to set ', value ?? 'nothing'),
         },
         SetOrMapAccess: {
             description: 'get a value from a set or map',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
             start: (set) => Explanation.as('evaluate ', set, ' first'),
             finish: (value) =>
                 Explanation.as('item in  with key is ', value ?? 'nothing'),
         },
         Source: {
             description: 'a named program',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
         },
         StructureDefinition: {
             description: 'a structure definition',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
             start: 'define this structure type',
         },
         TableLiteral: {
             description: 'a table',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
             item: 'row',
             start: 'first evaluate the rows',
             finish: (table) =>
@@ -494,36 +490,36 @@ const eng_wordplay: Translation = {
         },
         Template: {
             description: 'a text template',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
             start: 'evaluate each expression in the template',
             finish: 'constructing text from the values',
         },
         TextLiteral: {
             description: 'some text',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
             start: 'create a text value',
         },
         This: {
             description: 'get the structure evaluting this',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
             start: (value) =>
                 Explanation.as('evaluated to ', value ?? 'nothing'),
         },
         UnaryOperation: {
             description: 'evaluate function ',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
             start: (value) => Explanation.as('evaluate the ', value),
             finish: (value) =>
                 Explanation.as('evaluated to ', value ?? 'nothing'),
         },
         UnparsableExpression: {
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
             description: 'sequence of words',
             start: 'cannot evaluate unparsable code',
         },
         Update: {
             description: 'update rows in a table',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
             start: (table) => Explanation.as('evaluate ', table, ' first'),
             finish: (value) =>
                 Explanation.as(
@@ -533,27 +529,27 @@ const eng_wordplay: Translation = {
         },
         AnyType: {
             description: 'anything',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
         },
         BooleanType: {
             description: 'boolean',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
         },
         ConversionType: {
             description: 'conversion function',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
         },
         ExceptionType: {
             description: 'exception',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
         },
         FunctionDefinitionType: {
             description: 'function',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
         },
         FunctionType: {
             description: 'function',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
         },
         ListType: {
             description: (
@@ -567,7 +563,7 @@ const eng_wordplay: Translation = {
                           translation,
                           context
                       )}`,
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
         },
         MapType: {
             description: (
@@ -581,23 +577,23 @@ const eng_wordplay: Translation = {
                           translation,
                           context
                       )} to ${node.value.getDescription(translation, context)}`,
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
         },
         MeasurementType: {
             description: () => 'number',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
         },
         NameType: {
             description: (node: NameType) => `a ${node.name.getText()}`,
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
         },
         NeverType: {
             description: 'impossible type',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
         },
         NoneType: {
             description: 'nothing',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
         },
         SetType: {
             description: (
@@ -611,7 +607,7 @@ const eng_wordplay: Translation = {
                           translation,
                           context
                       )}`,
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
         },
         StreamType: {
             description: (
@@ -619,11 +615,11 @@ const eng_wordplay: Translation = {
                 translation: Translation,
                 context: Context
             ) => `stream of ${node.type.getDescription(translation, context)}`,
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
         },
         StructureDefinitionType: {
             description: 'structure',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
         },
         UnknownType: {
             description: (
@@ -636,19 +632,19 @@ const eng_wordplay: Translation = {
                     .map((unknown) => unknown.getReason(translation, context))
                     .join(', because ')}`;
             },
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
         },
         TableType: {
             description: 'table',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
         },
         TextType: {
             description: 'text',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
         },
         TypePlaceholder: {
             description: 'placeholder type',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
         },
         UnionType: {
             description: (
@@ -663,7 +659,7 @@ const eng_wordplay: Translation = {
                     translation,
                     context
                 )}`,
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
         },
         Unit: {
             description: (node, translation, context) =>
@@ -675,63 +671,63 @@ const eng_wordplay: Translation = {
                     : node.toWordplay() === 'm/s'
                     ? 'velocity'
                     : 'number with unit',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
         },
         UnparsableType: {
             description: 'unparsable type',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
         },
         VariableType: {
             description: 'variable type',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
         },
         CycleType: {
             description: (node: CycleType) =>
                 `${node.expression.toWordplay()} depends on itself`,
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
         },
         UnknownVariableType: {
             description: "this type variable couldn't be inferred",
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
         },
         NotAListType: {
             description: 'not a list',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
         },
         NoExpressionType: {
             description: 'there was no expression given',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
         },
         NotAFunctionType: {
             description: 'not a function',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
         },
         NotATableType: {
             description: 'not a table',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
         },
         NotAStreamType: {
             description: 'not a stream',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
         },
         NotASetOrMapType: {
             description: 'not a set or map',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
         },
         NotEnclosedType: {
             description: 'not in a structure, conversion, or reaction',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
         },
         NotImplementedType: {
             description: 'not implemented',
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
         },
         UnknownNameType: {
             description: (node: UnknownNameType) =>
                 node.name === undefined
                     ? "a name wasn't given"
                     : `${node.name.getText()} isn't defined`,
-            purpose: WRITE_DOC,
+            doc: WRITE_DOC,
         },
     },
     native: {
