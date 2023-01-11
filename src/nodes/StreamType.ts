@@ -1,6 +1,7 @@
 import type { NativeTypeName } from '../native/NativeConstants';
 import { STREAM_SYMBOL } from '../parser/Symbols';
 import type Translation from '../translation/Translation';
+import AnyType from './AnyType';
 import type Context from './Context';
 import type { Replacement } from './Node';
 import Token from './Token';
@@ -23,10 +24,10 @@ export default class StreamType extends Type {
         this.computeChildren();
     }
 
-    static make(type: Type) {
+    static make(type?: Type) {
         return new StreamType(
             new Token(STREAM_SYMBOL, TokenType.STREAM_TYPE),
-            type
+            type ?? new AnyType()
         );
     }
 

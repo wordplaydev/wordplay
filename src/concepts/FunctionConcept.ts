@@ -14,6 +14,8 @@ import BindConcept from './BindConcept';
 import Concept from './Concept';
 import type StructureConcept from './StructureConcept';
 import type Translation from '../translation/Translation';
+import type Purpose from './Purpose';
+import type StructureDefinition from '../nodes/StructureDefinition';
 
 export default class FunctionConcept extends Concept {
     /** The function this concept represents. */
@@ -29,12 +31,14 @@ export default class FunctionConcept extends Concept {
     readonly inputs: BindConcept[];
 
     constructor(
+        purpose: Purpose,
+        affiliation: StructureDefinition | undefined,
         definition: FunctionDefinition,
         structure: StructureConcept | undefined,
         languages: LanguageCode[],
         context: Context
     ) {
-        super(context);
+        super(purpose, affiliation, context);
 
         this.definition = definition;
         this.structure = structure;
@@ -79,7 +83,7 @@ export default class FunctionConcept extends Concept {
                   );
 
         this.inputs = this.definition.inputs.map(
-            (bind) => new BindConcept(bind, languages, context)
+            (bind) => new BindConcept(purpose, bind, languages, context)
         );
     }
 
@@ -107,7 +111,7 @@ export default class FunctionConcept extends Concept {
         return new Set();
     }
 
-    getConcepts(): Set<Concept> {
+    getSubConcepts(): Set<Concept> {
         return new Set(this.inputs);
     }
 

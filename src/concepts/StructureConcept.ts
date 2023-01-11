@@ -13,6 +13,7 @@ import Reference from '../nodes/Reference';
 import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
 import type LanguageCode from '../translation/LanguageCode';
 import type Translation from '../translation/Translation';
+import type Purpose from './Purpose';
 
 export default class StructureConcept extends Concept {
     /** The type this concept represents. */
@@ -40,13 +41,15 @@ export default class StructureConcept extends Concept {
     readonly conversions: ConversionConcept[];
 
     constructor(
+        purpose: Purpose,
+        affiliation: StructureDefinition | undefined,
         definition: StructureDefinition,
         type: Type | undefined,
         examples: Node[] | undefined,
         languages: LanguageCode[],
         context: Context
     ) {
-        super(context);
+        super(purpose, affiliation, context);
 
         this.definition = definition;
         this.type =
@@ -74,23 +77,38 @@ export default class StructureConcept extends Concept {
 
         this.functions = this.definition
             .getFunctions()
-            .map((def) => new FunctionConcept(def, this, languages, context));
+            .map(
+                (def) =>
+                    new FunctionConcept(
+                        purpose,
+                        definition,
+                        def,
+                        this,
+                        languages,
+                        context
+                    )
+            );
         this.conversions = this.definition
             .getAllConversions()
             .map((def) => new ConversionConcept(def, context, this));
 
         this.inputs = this.definition.inputs.map(
-            (bind) => new BindConcept(bind, languages, context)
+            (bind) => new BindConcept(this.purpose, bind, languages, context)
         );
         this.properties = this.definition
             .getProperties()
-            .map((bind) => new BindConcept(bind, languages, context));
+            .map(
+                (bind) =>
+                    new BindConcept(this.purpose, bind, languages, context)
+            );
 
         this.inter = this.definition
             .getInterfaces(context)
             .map(
                 (inter) =>
                     new StructureConcept(
+                        purpose,
+                        this.definition,
                         inter,
                         NameType.make(
                             inter.names.getTranslation(languages),
@@ -127,7 +145,7 @@ export default class StructureConcept extends Concept {
         return new Set();
     }
 
-    getConcepts(): Set<Concept> {
+    getSubConcepts(): Set<Concept> {
         return new Set([
             ...this.inputs,
             ...this.properties,
@@ -154,8 +172,8 @@ export default class StructureConcept extends Concept {
                 type.definition &&
                 this.definition == type.definition) ||
             (type !== undefined &&
-                this.type !== undefined &&
-                type.constructor === this.type.constructor)
+                this.affiliation !== undefined &&
+                type.constructor === this.affiliation.constructor)
         );
     }
 }

@@ -1,25 +1,35 @@
 <script lang="ts">
     import type Concept from '../concepts/Concept';
-    import CodeView from './CodeView.svelte';
+    import { preferredTranslations } from '../translation/translations';
+    import type StructureDefinition from '../nodes/StructureDefinition';
+    import ConceptGroupView from './ConceptGroupView.svelte';
 
     export let category: string;
     export let concepts: Concept[];
     export let selectable: boolean = true;
+
+    // Split the concepts by type.
+    $: typeless = concepts.filter((c) => c.getAffiliation() === undefined);
+
+    // Get all the typed concepts and find the set of distinct types.
+    $: types = new Set(
+        concepts
+            .map((c) => c.getAffiliation())
+            .filter((c): c is StructureDefinition => c !== undefined)
+    );
 </script>
 
-<h2>{category}</h2>
-<div class="group {category}">
-    {#each concepts as concept}
-        <CodeView {concept} node={concept.getRepresentation()} {selectable} />
-    {/each}
-</div>
+<h1>{category}</h1>
+<ConceptGroupView concepts={typeless} {selectable} />
 
-<style>
-    .group {
-        margin: var(--wordplay-spacing);
-        margin-left: 0;
-        display: flex;
-        flex-wrap: wrap;
-        gap: var(--wordplay-spacing);
-    }
-</style>
+{#each Array.from(types) as typeCategory}
+    <h2
+        >{typeCategory.names.getTranslation(
+            $preferredTranslations[0].language
+        )}</h2
+    >
+    <ConceptGroupView
+        concepts={concepts.filter((c) => c.getAffiliation() === typeCategory)}
+        {selectable}
+    />
+{/each}

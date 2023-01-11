@@ -99,8 +99,9 @@ type Translation = {
         type: string;
     };
     terminology: {
-        data: string;
+        store: string;
         code: string;
+        decide: string;
         project: string;
         input: string;
         output: string;

@@ -25,17 +25,9 @@ import {
 import type FunctionDefinition from '../nodes/FunctionDefinition';
 import Key from '../streams/Key';
 
-const ImplicitShares: (StructureDefinition | FunctionDefinition)[] = [
-    VerseType,
-    PhraseType,
-    GroupType,
-    StackType,
-    RowType,
-    ColorType,
-    PlaceType,
+export const PoseTypes = [
     PoseType,
     SequenceType,
-    Key,
     straight,
     pokey,
     fast,
@@ -48,5 +40,16 @@ const ImplicitShares: (StructureDefinition | FunctionDefinition)[] = [
     elastic,
     erratic,
     bouncy,
+];
+
+export const GroupTypes = [VerseType, GroupType, StackType, RowType];
+
+export const PhraseTypes = [PhraseType, ColorType, PlaceType];
+
+const ImplicitShares: (StructureDefinition | FunctionDefinition)[] = [
+    ...PhraseTypes,
+    ...GroupTypes,
+    ...PoseTypes,
+    Key,
 ];
 export default ImplicitShares;

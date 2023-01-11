@@ -37,15 +37,21 @@ import Template from '../nodes/Template';
 import TextLiteral from '../nodes/TextLiteral';
 import TextType from '../nodes/TextType';
 import TypePlaceholder from '../nodes/TypePlaceholder';
-import ImplicitShares from '../runtime/ImplicitShares';
+import { GroupTypes, PhraseTypes, PoseTypes } from '../runtime/ImplicitShares';
 import type Concept from './Concept';
 import NodeConcept from './NodeConcept';
 import FunctionConcept from './FunctionConcept';
 import StructureConcept from './StructureConcept';
+import Purpose from './Purpose';
+import { PhraseType } from '../output/Phrase';
+import { GroupType } from '../output/Group';
+import { PoseType } from '../output/Pose';
 
 export function getNodeConcepts(context: Context): NodeConcept[] {
     return [
         new NodeConcept(
+            Purpose.STORE,
+            undefined,
             Bind.make(
                 undefined,
                 Names.make(['_']),
@@ -54,8 +60,15 @@ export function getNodeConcepts(context: Context): NodeConcept[] {
             ),
             context
         ),
-        new NodeConcept(Block.make([ExpressionPlaceholder.make()]), context),
         new NodeConcept(
+            Purpose.COMPUTE,
+            undefined,
+            Block.make([ExpressionPlaceholder.make()]),
+            context
+        ),
+        new NodeConcept(
+            Purpose.STORE,
+            undefined,
             StructureDefinition.make(
                 undefined,
                 Names.make(['_']),
@@ -67,6 +80,8 @@ export function getNodeConcepts(context: Context): NodeConcept[] {
             context
         ),
         new NodeConcept(
+            Purpose.DECIDE,
+            BoolDefinition,
             Conditional.make(
                 ExpressionPlaceholder.make(BooleanType.make()),
                 ExpressionPlaceholder.make(),
@@ -75,6 +90,8 @@ export function getNodeConcepts(context: Context): NodeConcept[] {
             context
         ),
         new NodeConcept(
+            Purpose.COMPUTE,
+            undefined,
             FunctionDefinition.make(
                 undefined,
                 Names.make(['_']),
@@ -85,6 +102,8 @@ export function getNodeConcepts(context: Context): NodeConcept[] {
             context
         ),
         new NodeConcept(
+            Purpose.DECIDE,
+            undefined,
             Changed.make(
                 ExpressionPlaceholder.make(
                     StreamType.make(new TypePlaceholder())
@@ -93,6 +112,8 @@ export function getNodeConcepts(context: Context): NodeConcept[] {
             context
         ),
         new NodeConcept(
+            Purpose.DECIDE,
+            undefined,
             Reaction.make(
                 ExpressionPlaceholder.make(),
                 ExpressionPlaceholder.make(
@@ -102,6 +123,8 @@ export function getNodeConcepts(context: Context): NodeConcept[] {
             context
         ),
         new NodeConcept(
+            Purpose.CONVERT,
+            undefined,
             ConversionDefinition.make(
                 undefined,
                 new TypePlaceholder(),
@@ -111,6 +134,8 @@ export function getNodeConcepts(context: Context): NodeConcept[] {
             context
         ),
         new NodeConcept(
+            Purpose.CONVERT,
+            undefined,
             Convert.make(ExpressionPlaceholder.make(), new TypePlaceholder()),
             context
         ),
@@ -123,6 +148,8 @@ export function getNativeConcepts(
 ): StructureConcept[] {
     return [
         new StructureConcept(
+            Purpose.STORE,
+            BoolDefinition,
             BoolDefinition,
             BooleanType.make(),
             [BooleanLiteral.make(true), BooleanLiteral.make(false)],
@@ -130,6 +157,8 @@ export function getNativeConcepts(
             context
         ),
         new StructureConcept(
+            Purpose.STORE,
+            TextDefinition,
             TextDefinition,
             TextType.make(),
             [TextLiteral.make(''), Template.make()],
@@ -137,6 +166,8 @@ export function getNativeConcepts(
             context
         ),
         new StructureConcept(
+            Purpose.STORE,
+            MeasurementDefinition,
             MeasurementDefinition,
             MeasurementType.make(),
             [
@@ -148,6 +179,8 @@ export function getNativeConcepts(
             context
         ),
         new StructureConcept(
+            Purpose.STORE,
+            ListDefinition,
             ListDefinition,
             ListType.make(),
             [ListLiteral.make([])],
@@ -155,6 +188,8 @@ export function getNativeConcepts(
             context
         ),
         new StructureConcept(
+            Purpose.STORE,
+            SetDefinition,
             SetDefinition,
             SetType.make(),
             [SetLiteral.make([])],
@@ -162,6 +197,8 @@ export function getNativeConcepts(
             context
         ),
         new StructureConcept(
+            Purpose.STORE,
+            MapDefinition,
             MapDefinition,
             MapType.make(),
             [MapLiteral.make([])],
@@ -169,6 +206,8 @@ export function getNativeConcepts(
             context
         ),
         new StructureConcept(
+            Purpose.STORE,
+            NoneDefinition,
             NoneDefinition,
             NoneType.make(),
             [NoneLiteral.make()],
@@ -178,19 +217,64 @@ export function getNativeConcepts(
     ];
 }
 
+export function getStructureOrFunctionConcept(
+    def: StructureDefinition | FunctionDefinition,
+    purpose: Purpose,
+    affiliation: StructureDefinition | undefined,
+    languages: LanguageCode[],
+    context: Context
+) {
+    return def instanceof StructureDefinition
+        ? new StructureConcept(
+              purpose,
+              affiliation,
+              def,
+              undefined,
+              undefined,
+              languages,
+              context
+          )
+        : new FunctionConcept(
+              purpose,
+              affiliation,
+              def,
+              undefined,
+              languages,
+              context
+          );
+}
+
 export function getOutputConcepts(
     languages: LanguageCode[],
     context: Context
 ): Concept[] {
-    return ImplicitShares.map((def) =>
-        def instanceof StructureDefinition
-            ? new StructureConcept(
-                  def,
-                  undefined,
-                  undefined,
-                  languages,
-                  context
-              )
-            : new FunctionConcept(def, undefined, languages, context)
-    );
+    return [
+        ...PhraseTypes.map((def) =>
+            getStructureOrFunctionConcept(
+                def,
+                Purpose.OUTPUT,
+                PhraseType,
+                languages,
+                context
+            )
+        ),
+        ...GroupTypes.map((def) =>
+            getStructureOrFunctionConcept(
+                def,
+                Purpose.OUTPUT,
+                GroupType,
+                languages,
+                context
+            )
+        ),
+        ...PoseTypes.map((def) =>
+            getStructureOrFunctionConcept(
+                def,
+                Purpose.OUTPUT,
+                PoseType,
+                languages,
+                context
+            )
+        ),
+    ];
 }

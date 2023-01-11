@@ -7,6 +7,7 @@ import type Stream from '../runtime/Stream';
 import Concept from './Concept';
 import type ConceptIndex from './ConceptIndex';
 import type Translation from '../translation/Translation';
+import Purpose from './Purpose';
 
 export default class StreamConcept extends Concept {
     /** The type this concept represents. */
@@ -16,7 +17,7 @@ export default class StreamConcept extends Concept {
     readonly reference: Reference;
 
     constructor(stream: Stream, languages: LanguageCode[], context: Context) {
-        super(context);
+        super(Purpose.INPUT, undefined, context);
 
         this.stream = stream;
         this.reference = Reference.make(
@@ -56,7 +57,7 @@ export default class StreamConcept extends Concept {
         return new Set();
     }
 
-    getConcepts(): Set<Concept> {
+    getSubConcepts(): Set<Concept> {
         return new Set();
     }
 

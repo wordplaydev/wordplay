@@ -8,7 +8,6 @@
     } from '../editor/util/Contexts';
     import { project, updateProject } from '../models/stores';
     import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
-    import StructureDefinition from '../nodes/StructureDefinition';
     import Expression from '../nodes/Expression';
     import Tree from '../nodes/Tree';
     import Button from './Button.svelte';
@@ -18,9 +17,7 @@
     import StructureConceptView from './StructureConceptView.svelte';
     import { setContext } from 'svelte';
     import StructureConcept from '../concepts/StructureConcept';
-    import FunctionDefinition from '../nodes/FunctionDefinition';
     import FunctionConcept from '../concepts/FunctionConcept';
-    import Bind from '../nodes/Bind';
     import BindConcept from '../concepts/BindConcept';
     import type Concept from '../concepts/Concept';
     import { writable } from 'svelte/store';
@@ -31,21 +28,15 @@
     import ConversionConcept from '../concepts/ConversionConcept';
     import ConversionConceptView from './ConversionConceptView.svelte';
     import StreamConceptView from './StreamConceptView.svelte';
-    import {
-        getNodeConcepts,
-        getNativeConcepts,
-        getOutputConcepts,
-    } from '../concepts/DefaultConcepts';
     import KeyboardIdle from '../editor/util/KeyboardIdle';
     import type Project from '../models/Project';
     import NodeConcept from '../concepts/NodeConcept';
     import ConceptIndex from '../concepts/ConceptIndex';
     import type Node from '../nodes/Node';
-    import {
-        preferredLanguages,
-        preferredTranslations,
-    } from '../translation/translations';
+    import { preferredTranslations } from '../translation/translations';
     import NodeConceptView from './NodeConceptView.svelte';
+    import Purpose from '../concepts/Purpose';
+    import DescriptionView from './DescriptionView.svelte';
 
     export let hidden: boolean;
 
@@ -59,117 +50,18 @@
 
     let latestProject: Project | undefined;
 
-    let projectStructures: StructureConcept[] = [];
-    let projectFunctions: FunctionConcept[] = [];
-    let projectBinds: BindConcept[] = [];
-    let streams: StreamConcept[] = [];
-    let constructs: NodeConcept[] = [];
-    let native: StructureConcept[] = [];
-    let output: Concept[] = [];
     let index: PaletteIndexContext = writable(
         new ConceptIndex([], $preferredTranslations)
     );
     setContext(PaletteIndexSymbol, index);
 
     $: {
-        // When the project changes, languages change, and the keyboard is idle, recompute the concepts.
-        if (
-            $preferredLanguages &&
-            $KeyboardIdle &&
-            latestProject !== $project
-        ) {
+        // When the project changes, languages change, and the keyboard is idle, recompute the concept index.
+        if ($KeyboardIdle && latestProject !== $project) {
             latestProject = $project;
 
-            projectStructures = [$project.main, ...$project.supplements]
-                .map((source) =>
-                    (
-                        source.expression.nodes(
-                            (n) => n instanceof StructureDefinition
-                        ) as StructureDefinition[]
-                    ).map(
-                        (def) =>
-                            new StructureConcept(
-                                def,
-                                undefined,
-                                [],
-                                $preferredLanguages,
-                                $project.getContext(source)
-                            )
-                    )
-                )
-                .flat();
-
-            projectFunctions = [$project.main, ...$project.supplements]
-                .map((source) =>
-                    source.expression.expression.statements
-                        .filter(
-                            (n): n is FunctionDefinition =>
-                                n instanceof FunctionDefinition
-                        )
-                        .map(
-                            (def) =>
-                                new FunctionConcept(
-                                    def,
-                                    undefined,
-                                    $preferredLanguages,
-                                    $project.getContext(source)
-                                )
-                        )
-                )
-                .flat();
-
-            projectBinds = [$project.main, ...$project.supplements]
-                .map((source) =>
-                    source.expression.expression.statements
-                        .filter((n): n is Bind => n instanceof Bind)
-                        .map(
-                            (def) =>
-                                new BindConcept(
-                                    def,
-                                    $preferredLanguages,
-                                    $project.getContext(source)
-                                )
-                        )
-                )
-                .flat();
-
-            streams = $project
-                .getAllStreams()
-                .map(
-                    (s) =>
-                        new StreamConcept(
-                            s,
-                            $preferredLanguages,
-                            $project.getContext($project.main)
-                        )
-                );
-
-            constructs = getNodeConcepts($project.getContext($project.main));
-            native = getNativeConcepts(
-                $preferredLanguages,
-                $project.getContext($project.main)
-            );
-            output = getOutputConcepts(
-                $preferredLanguages,
-                $project.getContext($project.main)
-            );
-
-            index.set(
-                new ConceptIndex(
-                    [
-                        ...projectStructures,
-                        ...projectFunctions,
-                        ...projectBinds,
-                        ...constructs,
-                        ...native,
-                        ...output,
-                        ...streams,
-                    ]
-                        .map((c) => c.getAllConcepts())
-                        .flat(),
-                    $preferredTranslations
-                )
-            );
+            // Make a new concept index with the new project and translations.
+            index.set(ConceptIndex.make($project, $preferredTranslations));
 
             // Map the old path to the new one using concept equality.
             path.set(
@@ -277,13 +169,11 @@
                         tip={$preferredTranslations[0].ui.tooltip.home}
                         action={back}
                     />
-                    {#each $path as concept}
-                        … <CodeView
-                            node={concept.getRepresentation()}
-                            {concept}
-                            selectable
-                            describe={false}
-                            border={false}
+                    {#each $path as concept, index}
+                        {#if index > 0}&nbsp;&mdash;&nbsp;{/if}<DescriptionView
+                            description={concept.getName(
+                                $preferredTranslations[0]
+                            )}
                         />
                     {/each}
                 </div>
@@ -306,29 +196,30 @@
         {/if}
     {:else}
         <ConceptsView
+            category={$preferredTranslations[0].terminology.project}
+            concepts={$index.getPrimaryConceptsWithPurpose(Purpose.PROJECT)}
+        />
+        <ConceptsView
             category={$preferredTranslations[0].terminology.code}
-            concepts={constructs}
+            concepts={$index.getPrimaryConceptsWithPurpose(Purpose.COMPUTE)}
             selectable={true}
         />
         <ConceptsView
-            category={$preferredTranslations[0].terminology.project}
-            concepts={[
-                ...projectStructures,
-                ...projectBinds,
-                ...projectFunctions,
-            ]}
+            category={$preferredTranslations[0].terminology.store}
+            concepts={$index.getPrimaryConceptsWithPurpose(Purpose.STORE)}
         />
         <ConceptsView
-            category={$preferredTranslations[0].terminology.data}
-            concepts={native}
+            category={$preferredTranslations[0].terminology.decide}
+            concepts={$index.getPrimaryConceptsWithPurpose(Purpose.DECIDE)}
+            selectable={true}
         />
         <ConceptsView
             category={$preferredTranslations[0].terminology.input}
-            concepts={streams}
+            concepts={$index.getPrimaryConceptsWithPurpose(Purpose.INPUT)}
         />
         <ConceptsView
             category={$preferredTranslations[0].terminology.output}
-            concepts={output}
+            concepts={$index.getPrimaryConceptsWithPurpose(Purpose.OUTPUT)}
         />
     {/if}
 </section>

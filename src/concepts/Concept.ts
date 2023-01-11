@@ -3,6 +3,8 @@ import type Context from '../nodes/Context';
 import type Node from '../nodes/Node';
 import type { Description } from '../translation/Translation';
 import type Translation from '../translation/Translation';
+import type Purpose from './Purpose';
+import type StructureDefinition from '../nodes/StructureDefinition';
 
 /**
  * Represents some part of the Wordplay language, API, or example ecosystem.
@@ -10,10 +12,27 @@ import type Translation from '../translation/Translation';
  * which requires some mapping from specific rendered example code in the UI to Nodes.
  */
 export default abstract class Concept {
+    readonly purpose: Purpose;
+    readonly affiliation: StructureDefinition | undefined;
     readonly context: Context;
 
-    constructor(context: Context) {
+    constructor(
+        purpose: Purpose,
+        affiliation: StructureDefinition | undefined,
+        context: Context
+    ) {
         this.context = context;
+
+        this.purpose = purpose;
+        this.affiliation = affiliation;
+    }
+
+    getPurpose() {
+        return this.purpose;
+    }
+
+    getAffiliation() {
+        return this.affiliation;
     }
 
     /**
@@ -54,7 +73,7 @@ export default abstract class Concept {
      * Enables an index can recurse through a concept graph for related concepts,
      * while also mirroring the tree structure.
      */
-    abstract getConcepts(): Set<Concept>;
+    abstract getSubConcepts(): Set<Concept>;
 
     /**
      * Given a node ID, finds the node in the concept graph that corresponds.
@@ -64,7 +83,7 @@ export default abstract class Concept {
             (node) => node.id === id
         );
         if (match) return match;
-        for (const concept of this.getConcepts()) {
+        for (const concept of this.getSubConcepts()) {
             const subMatch = concept.getNode(id);
             if (subMatch) return subMatch;
         }
@@ -72,10 +91,10 @@ export default abstract class Concept {
     }
 
     /** Recurse and find all concepts in the tree */
-    getAllConcepts(): Concept[] {
-        let concepts: Concept[] = [this];
-        for (const concept of this.getConcepts())
-            concepts = concepts.concat(concept.getAllConcepts());
+    getAllSubConcepts(): Concept[] {
+        let concepts: Concept[] = [];
+        for (const concept of this.getSubConcepts())
+            concepts = concepts.concat(concept.getAllSubConcepts());
         return concepts;
     }
 

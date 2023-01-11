@@ -40,7 +40,8 @@ const eng_wordplay: Translation = {
         type: 'type',
     },
     terminology: {
-        data: 'data',
+        store: 'data',
+        decide: 'decide',
         code: 'code',
         project: 'project',
         input: 'input',

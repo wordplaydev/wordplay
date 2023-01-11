@@ -40,8 +40,9 @@ const eng_cs: Translation = {
         type: 'type',
     },
     terminology: {
-        data: 'data',
-        code: 'code',
+        store: 'store',
+        code: 'compute',
+        decide: 'decide',
         project: 'project',
         input: 'input',
         output: 'output',
@@ -599,7 +600,7 @@ const eng_cs: Translation = {
             doc: WRITE_DOC,
         },
         NameType: {
-            description: (node: NameType) => `a ${node.name.getText()}`,
+            description: (node: NameType) => `${node.name.getText()}`,
             doc: WRITE_DOC,
         },
         NeverType: {

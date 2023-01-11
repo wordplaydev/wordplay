@@ -5,6 +5,7 @@ import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
 import type Node from '../nodes/Node';
 import type Translation from '../translation/Translation';
 import Concept from './Concept';
+import Purpose from './Purpose';
 import type StructureConcept from './StructureConcept';
 
 export default class ConversionConcept extends Concept {
@@ -22,7 +23,7 @@ export default class ConversionConcept extends Concept {
         context: Context,
         structure?: StructureConcept
     ) {
-        super(context);
+        super(Purpose.CONVERT, structure?.definition, context);
 
         this.definition = definition;
         this.structure = structure;
@@ -57,7 +58,7 @@ export default class ConversionConcept extends Concept {
         return new Set();
     }
 
-    getConcepts(): Set<Concept> {
+    getSubConcepts(): Set<Concept> {
         return new Set();
     }
 

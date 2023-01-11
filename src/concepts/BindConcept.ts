@@ -5,6 +5,7 @@ import type Node from '../nodes/Node';
 import Reference from '../nodes/Reference';
 import Concept from './Concept';
 import type Translation from '../translation/Translation';
+import type Purpose from './Purpose';
 
 export default class BindConcept extends Concept {
     /** The type this concept represents. */
@@ -13,8 +14,13 @@ export default class BindConcept extends Concept {
     /** A derived reference to the bind */
     readonly reference: Reference;
 
-    constructor(bind: Bind, languages: LanguageCode[], context: Context) {
-        super(context);
+    constructor(
+        purpose: Purpose,
+        bind: Bind,
+        languages: LanguageCode[],
+        context: Context
+    ) {
+        super(purpose, undefined, context);
 
         this.bind = bind;
         this.reference = Reference.make(
@@ -47,7 +53,7 @@ export default class BindConcept extends Concept {
         return new Set();
     }
 
-    getConcepts(): Set<Concept> {
+    getSubConcepts(): Set<Concept> {
         return new Set();
     }
 
