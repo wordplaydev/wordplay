@@ -1673,6 +1673,21 @@ const eng_cs: Translation = {
             focus: { doc: WRITE_DOC, name: 'focus' },
             tilt: { doc: WRITE_DOC, name: 'tilt' },
         },
+        easing: {
+            input: { doc: WRITE_DOC, name: 'x' },
+            straight: { doc: WRITE_DOC, name: 'straight' },
+            pokey: { doc: WRITE_DOC, name: 'pokey' },
+            fast: { doc: WRITE_DOC, name: 'fast' },
+            quick: { doc: WRITE_DOC, name: 'quick' },
+            zippy: { doc: WRITE_DOC, name: 'zippy' },
+            careful: { doc: WRITE_DOC, name: 'careful' },
+            cautious: { doc: WRITE_DOC, name: 'cautious' },
+            rushed: { doc: WRITE_DOC, name: 'rushed' },
+            wreckless: { doc: WRITE_DOC, name: 'wreckless' },
+            elastic: { doc: WRITE_DOC, name: 'elastic' },
+            erratic: { doc: WRITE_DOC, name: 'erratic' },
+            bouncy: { doc: WRITE_DOC, name: 'bouncy' },
+        },
     },
 };
 

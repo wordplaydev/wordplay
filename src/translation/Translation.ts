@@ -821,6 +821,21 @@ type Translation = {
             focus: NameAndDocTranslation;
             tilt: NameAndDocTranslation;
         };
+        easing: {
+            input: NameAndDocTranslation;
+            straight: NameAndDocTranslation;
+            pokey: NameAndDocTranslation;
+            fast: NameAndDocTranslation;
+            quick: NameAndDocTranslation;
+            zippy: NameAndDocTranslation;
+            careful: NameAndDocTranslation;
+            cautious: NameAndDocTranslation;
+            rushed: NameAndDocTranslation;
+            wreckless: NameAndDocTranslation;
+            elastic: NameAndDocTranslation;
+            erratic: NameAndDocTranslation;
+            bouncy: NameAndDocTranslation;
+        };
     };
 };
 export default Translation;
