@@ -4,7 +4,7 @@ import Evaluator from '../runtime/Evaluator';
 test('Test custom type conflicts', () => {
     expect(Evaluator.evaluateCode(`"hello"`)?.toWordplay([])).toBe('"hello"');
     expect(Evaluator.evaluateCode(`"hello"/`)?.toWordplay([])).toBe('"hello"');
-    expect(Evaluator.evaluateCode(`"hello"/eng`)?.toWordplay([])).toBe(
-        '"hello"/eng'
+    expect(Evaluator.evaluateCode(`"hello"/en`)?.toWordplay([])).toBe(
+        '"hello"/en'
     );
 });

@@ -20,7 +20,7 @@ export default abstract class Value {
 
     /** Returns a Wordplay sytnax representation of the value. */
     toString(): string {
-        return this.toWordplay(['eng']);
+        return this.toWordplay(['en']);
     }
 
     abstract toWordplay(languages: LanguageCode[]): string;

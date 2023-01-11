@@ -1,5 +1,5 @@
 import { test, expect } from 'vitest';
-import eng_cs from '../translation/translations/eng';
+import eng_cs from '../translation/translations/en';
 import { examples, makeProject, type Stuff } from './examples';
 
 test.each(examples)(`Ensure $name has no conflicts`, (example: Stuff) => {

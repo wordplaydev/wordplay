@@ -5,8 +5,8 @@ import { testConflict } from '../conflicts/TestUtilities';
 import Language from './Language';
 
 test.each([
-    ['a/eng: 5', 'a/aaa: 5', Language, InvalidLanguage],
-    ['a/eng: 5', 'a/: 5', Language, MissingLanguage],
+    ['a/en: 5', 'a/aaa: 5', Language, InvalidLanguage],
+    ['a/en: 5', 'a/: 5', Language, MissingLanguage],
 ])(
     'Expect %s no conflicts, %s to have %s with %s',
     (good, bad, node, conflict) => {

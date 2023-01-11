@@ -13,7 +13,7 @@ test.each([
     ['a•#: 1\na', 'a•1|2: 3\na', Bind, IncompatibleBind],
     ['a: 1\na+a', 'a: 1\n1+1', Bind, UnusedBind],
     ['↑ a: 1', 'ƒ() (↑ a: 1)', Bind, MisplacedShare],
-    ['↑ a/eng: 1', '↑ a: 1', Bind, MissingShareLanguages],
+    ['↑ a/en: 1', '↑ a: 1', Bind, MissingShareLanguages],
 ])(
     'Expect %s no conflicts, %s to have conflicts',
     (good, bad, node, conflict, number?) => {

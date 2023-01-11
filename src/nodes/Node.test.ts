@@ -25,8 +25,8 @@ test.each([
     ['1 + 2', MeasurementLiteral, 1, '3', '1 + 3'],
     ['1 + 2 + 3', MeasurementLiteral, 2, '4', '1 + 2 + 4'],
     // Replace Node with undefined
-    ['"Hi"/eng', Language, 0, undefined, '"Hi"'],
-    ['`Hi`/eng(1)', Docs, 0, undefined, '(1)'],
+    ['"Hi"/en', Language, 0, undefined, '"Hi"'],
+    ['`Hi`/en(1)', Docs, 0, undefined, '(1)'],
     // Remove Node in list
     ['[ 1 2 3 ]', MeasurementLiteral, 0, undefined, '[ 2 3 ]'],
     // Replace Node in list
@@ -34,7 +34,7 @@ test.each([
     // Set field to node
     ['1 + 2', 'left', 0, '3', '3 + 2'],
     // Set field to undefined
-    ['"Hi"/eng', 'format', 0, undefined, '"Hi"'],
+    ['"Hi"/en', 'format', 0, undefined, '"Hi"'],
     // Replace Node with invalid Node
     ['a.b', Reference, 1, '1', 'a.b'],
     // Replace Node with invalid Node in list

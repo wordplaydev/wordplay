@@ -5,13 +5,13 @@ import {
     type Readable,
     type Writable,
 } from 'svelte/store';
-import eng from './translations/eng';
-import spa from './translations/spa';
+import eng from './translations/en';
+import spa from './translations/es';
 import type LanguageCode from './LanguageCode';
 import type Translation from './Translation';
 
 /** An app-wide list of preferred languages. */
-export const preferredLanguages: Writable<LanguageCode[]> = writable(['eng']);
+export const preferredLanguages: Writable<LanguageCode[]> = writable(['en']);
 
 export type LanguageStyle = 'cs' | 'wp';
 

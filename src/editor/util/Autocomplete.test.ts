@@ -52,7 +52,7 @@ test.each([
             const match = transforms.some(
                 (transform) =>
                     transform instanceof kind &&
-                    transform.getNewNode(['eng'])?.toWordplay() === edit
+                    transform.getNewNode(['en'])?.toWordplay() === edit
             );
             expect(match).toBeTruthy();
         }

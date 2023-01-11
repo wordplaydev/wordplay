@@ -1,54 +1,54 @@
 import toFunction from '../native/toFunction';
 
 export const straight = toFunction(`
-    ƒ straight/eng(x/eng•#) x
+    ƒ straight/en(x/en•#) x
 `);
 
 export const pokey = toFunction(`
-    ƒ pokey/eng(x/eng•#) 1 - ((x · π) ÷ 2).cos()
+    ƒ pokey/en(x/en•#) 1 - ((x · π) ÷ 2).cos()
 `);
 
 export const fast = toFunction(`
-    ƒ fast/eng(x/eng•#) x ^ 3
+    ƒ fast/en(x/en•#) x ^ 3
 `);
 
 export const quick = toFunction(`
-    ƒ quick/eng(x/eng•#) x ^ 5
+    ƒ quick/en(x/en•#) x ^ 5
 `);
 
 export const zippy = toFunction(`
-    ƒ zippy/eng(x/eng•#) (1 - (1 - (x ^ 2))) √ 2
+    ƒ zippy/en(x/en•#) (1 - (1 - (x ^ 2))) √ 2
 `);
 
 export const careful = toFunction(`
-    ƒ careful/eng(x/eng•#) ((x · π) ÷ 2).sin()
+    ƒ careful/en(x/en•#) ((x · π) ÷ 2).sin()
 `);
 
 export const cautious = toFunction(`
-    ƒ cautious/eng(x/eng•#) 1 - ((1 - x) ^ 3))
+    ƒ cautious/en(x/en•#) 1 - ((1 - x) ^ 3))
 `);
 
 export const rushed = toFunction(`
-    ƒ rushed/eng(x/eng•#) 1 - ((1 - x) ^ 5)
+    ƒ rushed/en(x/en•#) 1 - ((1 - x) ^ 5)
 `);
 
 export const wreckless = toFunction(`
-    ƒ wreckless/eng(x/eng•#) 1 - (((x - 1) ^ 2) √ 2)
+    ƒ wreckless/en(x/en•#) 1 - (((x - 1) ^ 2) √ 2)
 `);
 
 export const elastic = toFunction(`
-    ƒ elastic/eng(x/eng•#) 
+    ƒ elastic/en(x/en•#) 
         x = 0 ? 0 
         x = 1 ? 1 
             ((2 ^ (-10 · x)) · (((x · 10) - 0.75) · ((2 · π) ÷ 3)).sin()) + 1
 `);
 
 export const erratic = toFunction(`
-    ƒ erratic/eng(x/eng•#) random
+    ƒ erratic/en(x/en•#) random
 `);
 
 export const bouncy = toFunction(`
-    ƒ bouncy/eng(x/eng•#) (
+    ƒ bouncy/en(x/en•#) (
         n1: 7.5625
         d1: 2.75
         x < (1 ÷ d1) ? n1 · (x ^ 2)
@@ -59,10 +59,10 @@ export const bouncy = toFunction(`
 `);
 
 /*
-ƒ cautiousPokey/eng(x) -((π • x).cos() - 1) ÷ 2
-ƒ cautiousFast/eng(x) x < 0.5 ? 4 • (x ^3) : 
-ƒ cautiousRushed/eng(x) 1 - ((-2 • x + 2) ^ 3) / 2
-ƒ cautiousWreckless/eng(x) 
+ƒ cautiousPokey/en(x) -((π • x).cos() - 1) ÷ 2
+ƒ cautiousFast/en(x) x < 0.5 ? 4 • (x ^3) : 
+ƒ cautiousRushed/en(x) 1 - ((-2 • x + 2) ^ 3) / 2
+ƒ cautiousWreckless/en(x) 
 	x < 0.5 ?
 		(1 - (1 - (2 • x ^ 2)).root()) ÷ 2
 		(1 - ((-2 * x + 2) ^ 2) + 1).root() ÷ 2

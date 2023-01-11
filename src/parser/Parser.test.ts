@@ -120,7 +120,7 @@ test('Parse binds', () => {
     expect((typedValuedName as Bind).type).toBeInstanceOf(MeasurementType);
     expect((typedValuedName as Bind).value).toBeInstanceOf(MeasurementLiteral);
 
-    const aliasedTypedValuedName = parseBind(toTokens('a/eng, b/spa•#: 1'));
+    const aliasedTypedValuedName = parseBind(toTokens('a/en, b/spa•#: 1'));
     expect(aliasedTypedValuedName).toBeInstanceOf(Bind);
     expect((aliasedTypedValuedName as Bind).names.names).toHaveLength(2);
     expect((aliasedTypedValuedName as Bind).names.names[0]).toBeInstanceOf(
@@ -137,7 +137,7 @@ test('Parse binds', () => {
     );
 
     const documentedName = parseBind(
-        toTokens('`Some letters`/eng a/eng, b/spa: 1')
+        toTokens('`Some letters`/en a/en, b/spa: 1')
     );
     expect(documentedName).toBeInstanceOf(Bind);
     expect((documentedName as Bind).docs?.docs).toHaveLength(1);
@@ -310,12 +310,12 @@ test('Parse expressions', () => {
         BinaryOperation
     );
 
-    const withDocs = parseExpression(toTokens('`Add things`/eng ƒ(a b) a = b'));
+    const withDocs = parseExpression(toTokens('`Add things`/en ƒ(a b) a = b'));
     expect(withDocs).toBeInstanceOf(FunctionDefinition);
     expect((withDocs as FunctionDefinition).docs?.docs).toHaveLength(1);
 
     const withMultipleDocs = parseExpression(
-        toTokens('`Number one`/eng `Numero uno`/spa ƒ(a b) a = b')
+        toTokens('`Number one`/en `Numero uno`/es ƒ(a b) a = b')
     );
     expect(withMultipleDocs).toBeInstanceOf(FunctionDefinition);
     expect((withMultipleDocs as FunctionDefinition).docs?.docs).toHaveLength(2);
@@ -362,7 +362,7 @@ test('Parse expressions', () => {
     expect(convert).toBeInstanceOf(Convert);
 
     const conversionWithDocs = parseExpression(
-        toTokens("`numtotext`/eng → # '' meow()")
+        toTokens("`numtotext`/en → # '' meow()")
     );
     expect(conversionWithDocs).toBeInstanceOf(ConversionDefinition);
     expect(
@@ -439,7 +439,7 @@ test('Parse expressions', () => {
     ).toBeInstanceOf(Reference);
 
     const documentedExpression = parseExpression(
-        toTokens("`let's see it`/eng a")
+        toTokens("`let's see it`/en a")
     );
     expect(documentedExpression).toBeInstanceOf(DocumentedExpression);
 });
