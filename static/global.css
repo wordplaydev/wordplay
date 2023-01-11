@@ -142,6 +142,10 @@ p {
     margin: 0;
 }
 
+p:first-of-type {
+    margin-top: calc(2 * var(--wordplay-spacing));
+}
+
 p:not(:last-of-type) {
     margin-bottom: calc(2 * var(--wordplay-spacing));
 }

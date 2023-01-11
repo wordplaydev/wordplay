@@ -367,7 +367,5 @@
         padding-bottom: var(--wordplay-spacing);
         z-index: var(--wordplay-layer-controls);
         background-color: var(--wordplay-background);
-        border-bottom: var(--wordplay-border-color) solid
-            var(--wordplay-border-width);
     }
 </style>

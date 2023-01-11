@@ -22,7 +22,6 @@
 
     <CodeView {concept} {node} describe={false} />
 
-    <h2>purpose</h2>
     <MissingTranslationsView />
     {#each $preferredTranslations.map((trans) => concept.getDocs(trans)) as doc}
         {#if doc}

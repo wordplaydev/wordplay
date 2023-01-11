@@ -106,7 +106,9 @@ const eng_cs: Translation = {
                     }[dim] ?? 'dimension'
                 );
             },
-            doc: `Dimensions are scientific unit of measurement on a number. They can be combined using the product ${PRODUCT_SYMBOL}, power ${EXPONENT_SYMBOL}, and slash ${LANGUAGE_SYMBOL} symbols to construct compound units.`,
+            doc: `A unit of measurement.
+            
+                They can be combined using the product ${PRODUCT_SYMBOL}, power ${EXPONENT_SYMBOL}, and slash ${LANGUAGE_SYMBOL} symbols to construct compound units.`,
         },
         Doc: {
             description: 'documentation',
@@ -249,7 +251,7 @@ const eng_cs: Translation = {
         },
         Changed: {
             description: 'changed',
-            doc: WRITE_DOC,
+            doc: `true if a stream caused a program to re-evaluate`,
             start: (stream: NodeLink) =>
                 Explanation.as(
                     'check if ',
@@ -438,8 +440,8 @@ const eng_cs: Translation = {
             property: 'property',
         },
         Reaction: {
-            description: 'a reaction to a stream change',
-            doc: WRITE_DOC,
+            description: 'reaction',
+            doc: `A reaction to a stream change.`,
             start: 'first check if the stream has changed',
             finish: (value) =>
                 Explanation.as(
