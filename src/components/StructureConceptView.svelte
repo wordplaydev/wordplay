@@ -31,21 +31,21 @@
     {#each concept.inputs as bind}
         <BindConceptView concept={bind} />
     {:else}
-        <Note>None</Note>
+        <Note>&mdash;</Note>
     {/each}
 
     <h2>properties</h2>
     {#each concept.properties as bind}
         <BindConceptView concept={bind} />
     {:else}
-        <Note>None</Note>
+        <Note>&mdash;</Note>
     {/each}
 
     <h2>functions</h2>
     {#each concept.functions as fun}
         <CodeView node={fun.getRepresentation()} concept={fun} selectable />
     {:else}
-        <Note>None</Note>
+        <Note>&mdash;</Note>
     {/each}
 
     <h2>conversions</h2>
@@ -56,6 +56,6 @@
             selectable
         />
     {:else}
-        <Note>None</Note>
+        <Note>&mdash;</Note>
     {/each}
 </ConceptView>

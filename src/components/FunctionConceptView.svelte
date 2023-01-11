@@ -19,7 +19,7 @@
     {#each concept.inputs as input}
         <BindConceptView concept={input} />
     {:else}
-        <Note>None</Note>
+        <Note>&mdash;</Note>
     {/each}
 
     <h2>output</h2>
