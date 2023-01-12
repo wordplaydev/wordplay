@@ -28,6 +28,7 @@
 
     .type {
         cursor: pointer;
+        white-space: nowrap;
     }
 
     .type:hover {
