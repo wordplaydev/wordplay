@@ -244,7 +244,7 @@ const eng_cs: Translation = {
                 Explanation.as('block evaluated to ', value ?? 'nothing'),
         },
         BooleanLiteral: {
-            description: 'boolean',
+            description: (literal) => (literal.bool() ? 'true' : 'false'),
             doc: `A single true or false value.`,
             start: (value) => Explanation.as('create a ', value),
         },
@@ -381,7 +381,8 @@ const eng_cs: Translation = {
                 Explanation.as('item at index is ', value ?? 'nothing'),
         },
         ListLiteral: {
-            description: 'a list of values',
+            description: (literal) =>
+                literal.values.length === 0 ? 'empty list' : 'list of values',
             doc: WRITE_DOC,
             start: 'evaluate items first',
             finish: (value) =>
@@ -397,9 +398,9 @@ const eng_cs: Translation = {
         },
         MeasurementLiteral: {
             description: (node: MeasurementLiteral) =>
-                node.number.is(TokenType.PI)
+                node.number.getText() === 'π'
                     ? 'pi'
-                    : node.number.is(TokenType.INFINITY)
+                    : node.number.getText() === '∞'
                     ? 'infinity'
                     : node.unit.isUnitless()
                     ? 'number'

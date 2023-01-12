@@ -218,7 +218,7 @@ const eng_wordplay: Translation = {
                 Explanation.as('block evaluated to ', value ?? 'nothing'),
         },
         BooleanLiteral: {
-            description: '(value)',
+            description: (literal) => (literal.bool() ? 'true' : 'false'),
             doc: WRITE_DOC,
             start: (value) => Explanation.as('create a ', value),
         },
@@ -356,7 +356,8 @@ const eng_wordplay: Translation = {
                 Explanation.as('item at index is ', value ?? 'nothing'),
         },
         ListLiteral: {
-            description: 'a list of values',
+            description: (literal) =>
+                literal.values.length === 0 ? 'empty list' : 'list of values',
             doc: WRITE_DOC,
             start: 'evaluate items first',
             finish: (value) =>

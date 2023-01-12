@@ -21,6 +21,8 @@ import type NodeLink from './NodeLink';
 import type Explanation from './Explanation';
 import type ValueLink from './ValueLink';
 import type { LanguageStyle } from './translations';
+import type BooleanLiteral from '../nodes/BooleanLiteral';
+import type ListLiteral from '../nodes/ListLiteral';
 
 export type Description = string | Explanation;
 export type DocString = string;
@@ -164,7 +166,7 @@ type Translation = {
             ExpressionTranslation<Description, ValueOrUndefinedTranslation> & {
                 statement: Description;
             };
-        BooleanLiteral: StaticNodeTranslation &
+        BooleanLiteral: DynamicNodeTranslation<BooleanLiteral> &
             AtomicExpressionTranslation<(value: NodeLink) => Description>;
         Borrow: StaticNodeTranslation &
             AtomicExpressionTranslation<
@@ -234,7 +236,7 @@ type Translation = {
                 (list: NodeLink) => Description,
                 ValueOrUndefinedTranslation
             >;
-        ListLiteral: StaticNodeTranslation &
+        ListLiteral: DynamicNodeTranslation<ListLiteral> &
             ExpressionTranslation<Description, ValueOrUndefinedTranslation> & {
                 item: Description;
             };

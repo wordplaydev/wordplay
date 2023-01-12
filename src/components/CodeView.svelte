@@ -7,6 +7,7 @@
     import Note from './Note.svelte';
     import type StructureConcept from '../concepts/StructureConcept';
     import TypeView from './TypeView.svelte';
+    import DescriptionView from './DescriptionView.svelte';
 
     export let node: Node;
     export let concept: Concept;
@@ -14,6 +15,7 @@
     export let describe: boolean = true;
     export let border: boolean = true;
     export let selectable: boolean = false;
+    export let docs: boolean = true;
 
     $: draggable = concept.getNodes().has(node);
 
@@ -32,7 +34,12 @@
     }
 
     $: selection = getPalettePath();
-    $: doc = concept.getDocs($preferredTranslations[0])?.getFirstParagraph();
+    $: doc = docs
+        ? concept.getDocs($preferredTranslations[0])?.getFirstParagraph()
+        : undefined;
+    $: description = docs
+        ? undefined
+        : node.getDescription($preferredTranslations[0], concept.context);
 </script>
 
 <div class="code" class:draggable>
@@ -52,16 +59,22 @@
                     ? select(event)
                     : undefined}
         >
-            <Note
-                >{#if doc}
-                    {doc
-                        .toLocaleLowerCase($preferredTranslations[0].language)
-                        .substring(
-                            0,
-                            doc.endsWith('.') ? doc.length - 1 : doc.length
-                        )}
-                {:else}
-                    learn more…
+            <Note>
+                {#if docs}
+                    {#if doc}
+                        {doc
+                            .toLocaleLowerCase(
+                                $preferredTranslations[0].language
+                            )
+                            .substring(
+                                0,
+                                doc.endsWith('.') ? doc.length - 1 : doc.length
+                            )}
+                    {:else}
+                        learn more…
+                    {/if}
+                {:else if description}
+                    <DescriptionView {description} />
                 {/if}</Note
             >
         </p>

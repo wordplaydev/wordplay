@@ -18,7 +18,7 @@
     {#if concept.examples.length > 0}
         <h2>examples</h2>
         {#each concept.examples as creator}
-            <CodeView {concept} node={creator} />
+            <CodeView {concept} node={creator} docs={false} />
         {/each}
     {/if}
 
