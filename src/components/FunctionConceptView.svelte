@@ -10,7 +10,6 @@
     let index = getPaletteIndex();
     $: type = concept.definition.getOutputType(concept.context);
     $: output = $index.getConceptOfType(type);
-    $: console.log(output);
 </script>
 
 <ConceptView {concept} type={output}>
