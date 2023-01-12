@@ -9,6 +9,12 @@
 </script>
 
 <ConceptView {concept}>
+    <!-- {#if concept.definition.types}
+        <h2>{$preferredTranslations[0].nodes.TypeVariable.description}</h2>
+        {#each concept.definition.types.variables as type}
+        {/each}
+    {/if} -->
+
     {#if concept.examples.length > 0}
         <h2>examples</h2>
         {#each concept.examples as creator}

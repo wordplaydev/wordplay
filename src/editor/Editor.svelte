@@ -22,7 +22,6 @@
         HighlightSymbol,
         InsertionPointsSymbol,
         getDragged,
-        HiddenSymbol,
     } from './util/Contexts';
     import { preferredLanguages } from '../translation/translations';
     import {
@@ -54,8 +53,6 @@
         InsertionPoint,
     } from './Drag';
     import type Tree from '../nodes/Tree';
-    import Docs from '../nodes/Docs';
-    import Names from '../nodes/Names';
 
     export let project: Project;
     export let source: Source;
