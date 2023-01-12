@@ -114,9 +114,10 @@ const eng_cs: Translation = {
         Doc: {
             description: 'documentation',
             doc: `
-                An explanation of the purpose and use of some code, ideally with examples. 
-                Documentation can precede any expression, but is most useful before structure and function definitions and before blocks, to explain how to use them. 
-                Documentation can be tagged with a language, just like names, offering multiple translations of the same documentation.`,
+                Describes the purpose of some code.
+                
+                It can precede any expression, but is most useful before definitions to explain how to use them. 
+                Documentation can be tagged with a language`,
         },
         Docs: {
             description: 'set of documentation',
@@ -132,15 +133,26 @@ const eng_cs: Translation = {
         },
         Name: {
             description: 'name',
-            doc: `names are used to represent some value in a program, such as a function, structure type, or a binding in a block. They're a helpful way of giving a shorthand label to some value or way of computing or storing values. Names can be optionally tagged with a language; this is helpful when sharing code, since the language might use to name a function might not be known to people who want to use it. Translating names makes shared code more globally useful.`,
+            doc: `
+                Identifies code.
+                
+                names are used to represent some value in a program, such as a function, structure type, or a binding in a block. 
+                They're a helpful way of giving a shorthand label to some value or way of computing or storing values. 
+                Names can be optionally tagged with a language; this is helpful when sharing code, since the language might use to name a function might not be known to people who want to use it. 
+                Translating names makes shared code more globally useful.`,
         },
         Names: {
-            description: 'list of names',
-            doc: `All named values can have multiple names, segmented by ${NAME_SEPARATOR_SYMBOL} symbols.`,
+            description: 'names list',
+            doc: `
+                Defines a list of names some code is known by.
+                
+                Names are separated by ${NAME_SEPARATOR_SYMBOL} symbols. 
+                Having multiple names is most helpful when you want to use multiple languages.
+                `,
         },
         Row: {
-            description: 'row of values',
-            doc: WRITE_DOC,
+            description: 'row',
+            doc: `a row of values, matching a table definition`,
         },
         Token: {
             description: (token: Token) =>
@@ -160,39 +172,39 @@ const eng_cs: Translation = {
                     : token.is(TokenType.SHARE)
                     ? 'share'
                     : 'token',
-            doc: WRITE_DOC,
+            doc: 'the smallest group of symbols in a performance',
         },
         TypeInputs: {
             description: 'type inputs',
-            doc: WRITE_DOC,
+            doc: `a list of types given to a @FunctionDefinition or @StructureDefinition`,
         },
         TypeVariable: {
             description: 'type variable',
-            doc: WRITE_DOC,
+            doc: `a placeholder for a type used in a @FunctionDefinition or @StructureDefinition`,
         },
         TypeVariables: {
             description: 'type variables',
-            doc: WRITE_DOC,
+            doc: `a list of @TypeVariable`,
         },
         Paragraph: {
             description: 'paragraph',
-            doc: WRITE_DOC,
+            doc: `a formatted list of words, links, and example code`,
         },
         WebLink: {
             description: 'link',
-            doc: WRITE_DOC,
+            doc: `a link to something on the web`,
         },
         ConceptLink: {
             description: 'concept',
-            doc: WRITE_DOC,
+            doc: `a link to a concept in Wordplay`,
         },
         Words: {
             description: 'words',
-            doc: WRITE_DOC,
+            doc: `words that are part of @Doc`,
         },
         Example: {
             description: 'example',
-            doc: WRITE_DOC,
+            doc: `a program that illustrates how to use some code`,
         },
         BinaryOperation: {
             description: 'binary operation',
@@ -529,12 +541,12 @@ const eng_cs: Translation = {
                 Explanation.as('evaluated to ', value ?? 'nothing'),
         },
         UnparsableExpression: {
-            doc: WRITE_DOC,
-            description: 'sequence of words',
+            description: 'unparsable',
+            doc: `a list of unparsable @Token`,
             start: 'cannot evaluate unparsable code',
         },
         Update: {
-            description: 'update rows in a table',
+            description: 'update',
             doc: WRITE_DOC,
             start: (table) => Explanation.as('evaluate ', table, ' first'),
             finish: (value) =>
@@ -545,15 +557,15 @@ const eng_cs: Translation = {
         },
         AnyType: {
             description: 'anything',
-            doc: WRITE_DOC,
+            doc: `represents any possible type`,
         },
         BooleanType: {
             description: 'boolean',
-            doc: WRITE_DOC,
+            doc: `a true or false value`,
         },
         ConversionType: {
-            description: 'conversion function',
-            doc: WRITE_DOC,
+            description: 'conversion',
+            doc: `a type of function that converts values of one type to another `,
         },
         ExceptionType: {
             description: 'exception',
@@ -748,7 +760,9 @@ const eng_cs: Translation = {
     },
     native: {
         bool: {
-            doc: WRITE_DOC,
+            doc: `We are single true or false value.
+            
+            We are the simplest value type, since we can only be one of two values, (⊤) and (⊥).`,
             name: 'bool',
             function: {
                 and: {
@@ -782,7 +796,10 @@ const eng_cs: Translation = {
             },
         },
         none: {
-            doc: WRITE_DOC,
+            doc: `I am nothing
+            
+            I am special because I am only equal to me.
+            I can only ever be me and only ever want to be me!`,
             name: 'none',
             function: {
                 equals: {
@@ -801,7 +818,9 @@ const eng_cs: Translation = {
             },
         },
         text: {
-            doc: WRITE_DOC,
+            doc: `We are any words imaginable.
+            
+            We can represent ideas, stories, words, and more, and even represent other types of values, but as text.`,
             name: 'text',
             function: {
                 length: {
@@ -826,7 +845,9 @@ const eng_cs: Translation = {
             },
         },
         measurement: {
-            doc: WRITE_DOC,
+            doc: `We are any number imaginable, even with units.
+            
+            We can be integers, real numbers, negative, positive, fractional, decimal. We can be Arabic numers (123), Roman numerals (ⅩⅩⅩⅠⅩ), Japanese numerals (二十), and more.`,
             name: 'number',
             function: {
                 add: {
@@ -957,7 +978,9 @@ const eng_cs: Translation = {
             },
         },
         list: {
-            doc: WRITE_DOC,
+            doc: `We group values in sequence.
+            
+            Keeping this in order is our mission; but we can only do that if we stay together ([]).`,
             name: 'list',
             kind: 'Kind',
             out: 'Result',
@@ -1080,7 +1103,9 @@ const eng_cs: Translation = {
             },
         },
         set: {
-            doc: WRITE_DOC,
+            doc: `We group unique values in no particular order.
+            
+            We don't like it when there's more than one value of a particular kind! Everything must be unique.`,
             name: 'set',
             kind: 'Kind',
             function: {
@@ -1138,7 +1163,9 @@ const eng_cs: Translation = {
             },
         },
         map: {
-            doc: WRITE_DOC,
+            doc: `We map one set of values to another set of values.
+            
+            Everything inside us must be connected, but to only one thing.`,
             name: 'map',
             key: 'Key',
             value: 'Value',
