@@ -120,14 +120,14 @@ test('Parse binds', () => {
     expect((typedValuedName as Bind).type).toBeInstanceOf(MeasurementType);
     expect((typedValuedName as Bind).value).toBeInstanceOf(MeasurementLiteral);
 
-    const aliasedTypedValuedName = parseBind(toTokens('a/en, b/spa•#: 1'));
+    const aliasedTypedValuedName = parseBind(toTokens('a/en, b/es•#: 1'));
     expect(aliasedTypedValuedName).toBeInstanceOf(Bind);
     expect((aliasedTypedValuedName as Bind).names.names).toHaveLength(2);
     expect((aliasedTypedValuedName as Bind).names.names[0]).toBeInstanceOf(
         Name
     );
     expect((aliasedTypedValuedName as Bind).names.names[0].getLanguage()).toBe(
-        'eng'
+        'en'
     );
     expect((aliasedTypedValuedName as Bind).type).toBeInstanceOf(
         MeasurementType
@@ -137,12 +137,12 @@ test('Parse binds', () => {
     );
 
     const documentedName = parseBind(
-        toTokens('`Some letters`/en a/en, b/spa: 1')
+        toTokens('`Some letters`/en a/en, b/es: 1')
     );
     expect(documentedName).toBeInstanceOf(Bind);
     expect((documentedName as Bind).docs?.docs).toHaveLength(1);
     expect((documentedName as Bind).docs?.docs[0]).toBeInstanceOf(Doc);
-    expect((documentedName as Bind).docs?.docs[0].getLanguage()).toBe('eng');
+    expect((documentedName as Bind).docs?.docs[0].getLanguage()).toBe('en');
 });
 
 test('Parse expressions', () => {

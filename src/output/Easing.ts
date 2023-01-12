@@ -53,14 +53,14 @@ x = 1 ? 1
 export const erratic = toEasing((t) => t.output.easing.erratic, 'random');
 export const bouncy = toEasing(
     (t) => t.output.easing.bouncy,
-    `
+    `(
 n1: 7.5625
 d1: 2.75
 x < (1 ÷ d1) ? n1 · (x ^ 2)
 x < (2 ÷ d1) ? (n1 · ((x - (1.5 ÷ d1)) ^ 2)) + 0.75
 x < (2.5 ÷ d1) ? (n1 · ((x - (2.25 ÷ d1)) ^ 2)) + 0.9375
     (n1 · ((x - (2.625 ÷ d1)) ^ 2)) + 0.984375
-`
+)`
 );
 
 /*
