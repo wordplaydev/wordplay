@@ -37,6 +37,7 @@
     import NodeConceptView from './NodeConceptView.svelte';
     import Purpose from '../concepts/Purpose';
     import DescriptionView from './DescriptionView.svelte';
+    import { tick } from 'svelte';
 
     export let hidden: boolean;
 
@@ -84,7 +85,20 @@
     setContext(PalettePathSymbol, path);
 
     // Set a context that stores a project context for nodes in the palette to use.
+    // Keep it up to date as the project changes.
     $: setContext('context', $project.getContext($project.main));
+
+    async function scrollToTop() {
+        if (palette) {
+            await tick();
+            palette.scrollTop = 0;
+        }
+    }
+
+    // When the path changes, wait for rendering, then scroll to the top.
+    $: {
+        if ($path) scrollToTop();
+    }
 
     function handleMouseDown(event: MouseEvent) {
         palette?.focus();
