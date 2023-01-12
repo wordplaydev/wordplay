@@ -112,12 +112,12 @@ test('Tokenize docs', () => {
         tokens('`hello @bind`')
             .map((t) => t.toWordplay())
             .join(' ')
-    ).toBe('` hello  @ bind ` ');
+    ).toBe('` hello  @bind ` ');
     expect(
         tokens('`hello *hello* **hello** ***hello***`')
             .map((t) => t.toWordplay())
             .join(' ')
-    ).toBe('` hello  * hello * ** hello ** *** hello *** ` ');
+    ).toBe('` hello  * hello *   ** hello **   *** hello *** ` ');
     expect(
         tokens('`hello <link@https://amyjko.com>`')
             .map((t) => t.toWordplay())

@@ -209,11 +209,9 @@ const patterns = [
     // - Basic latin operators: +-×·÷%^<≤=≠≥>&|
     { pattern: UnaryOpRegEx, types: [TokenType.UNARY_OP] },
     { pattern: BinaryOpRegEx, types: [TokenType.BINARY_OP] },
-
-    // End comments after multiple newlines
     { pattern: DOCS_SYMBOL, types: [TokenType.DOC] },
     {
-        pattern: new RegExp(`^${LINK_SYMBOL}[a-zA-Z]*`),
+        pattern: new RegExp(`^${LINK_SYMBOL}(?!http)[a-zA-Z]*`),
         types: [TokenType.CONCEPT],
     },
     { pattern: LINK_SYMBOL, types: [TokenType.LINK] },
@@ -407,7 +405,6 @@ function getNextToken(
         if (char === ' ' || char === '\t' || char === '\n') break;
     }
 
-    console.log(`"${source}"`);
     // Uh oh, unknown token. This should never be possible, but it probably is, since I haven't proven otherwise.
     return new Token(source.substring(0, nextSpace), TokenType.UNKNOWN);
 }
