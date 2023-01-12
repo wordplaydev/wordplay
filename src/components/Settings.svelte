@@ -53,7 +53,11 @@
             <LanguageChooser />
         </div>
     {:else}
-        {#each $preferredLanguages as lang}{getLanguageName(lang)}{/each}
+        <div class="preferred">
+            {#each $preferredLanguages as lang}<span class="choice"
+                    >{getLanguageName(lang)}</span
+                >{/each}
+        </div>
         <!-- {#if $preferredStyle === 'cs'}<small
                 ><em>{styleDescriptions['cs']}</em></small
             >{/if} -->
@@ -72,11 +76,12 @@
 <style>
     .settings {
         position: fixed;
-        bottom: var(--wordplay-spacing);
-        right: var(--wordplay-spacing);
+        bottom: 0;
+        right: 0;
 
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         padding: var(--wordplay-spacing);
+        margin: var(--wordplay-spacing);
         background: var(--wordplay-chrome);
         text-align: center;
 
@@ -87,6 +92,11 @@
 
         z-index: var(--wordplay-layer-controls);
         border-radius: var(--wordplay-border-radius);
+    }
+
+    .preferred {
+        display: flex;
+        gap: var(--wordplay-spacing);
     }
 
     .gear {

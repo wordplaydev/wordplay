@@ -1,22 +1,25 @@
 <script lang="ts">
     import { project } from '../models/stores';
     import type LanguageCode from '../translation/LanguageCode';
-    import { getLanguageName } from '../translation/LanguageCode';
+    import { getLanguageName, Languages } from '../translation/LanguageCode';
     import SupportedTranslations, {
         preferredLanguages,
     } from '../translation/translations';
 
     $: languageChoices = Array.from(
         new Set([
-            ...SupportedTranslations.map((t) => t.language),
+            ...(Object.keys(Languages) as LanguageCode[]),
             ...$project.getLanguages(),
         ])
     );
+
+    const supportedLanguages = SupportedTranslations.map((t) => t.language);
 
     function toggle(language: LanguageCode) {
         preferredLanguages.set(
             $preferredLanguages.includes(language)
                 ? [
+                      // Remove
                       ...$preferredLanguages.slice(
                           0,
                           $preferredLanguages.indexOf(language)
@@ -25,7 +28,8 @@
                           $preferredLanguages.indexOf(language) + 1
                       ),
                   ]
-                : [...$preferredLanguages, language]
+                : // Add
+                  [...$preferredLanguages, language]
         );
     }
 </script>
@@ -34,7 +38,9 @@
     {#each languageChoices as lang}
         <span
             class="language"
+            class:supported={supportedLanguages.includes(lang)}
             class:selected={$preferredLanguages.includes(lang)}
+            tabIndex="0"
             on:click={() => toggle(lang)}
             on:keydown={(event) =>
                 event.key === ' ' || event.key === 'Enter'
@@ -49,6 +55,7 @@
         display: flex;
         flex-direction: row;
         align-items: center;
+        flex-wrap: wrap;
     }
 
     .language {
@@ -56,6 +63,15 @@
         display: inline-block;
         margin: var(--wordplay-spacing);
         opacity: 0.5;
+    }
+
+    .language:focus {
+        outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
+    }
+
+    .supported {
+        text-decoration: underline;
+        text-decoration-thickness: var(--wordplay-border-width);
     }
 
     .language.selected {
