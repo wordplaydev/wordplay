@@ -71,7 +71,7 @@
         color: var(--color-grey);
     }
     .token-category-relation {
-        color: var(--color-orange);
+        color: var(--wordplay-relation-color);
     }
     .token-category-share {
         color: var(--color-orange);
@@ -89,10 +89,10 @@
         color: var(--color-black);
     }
     .token-category-type {
-        color: var(--color-orange);
+        color: var(--wordplay-type-color);
     }
     .token-category-operator {
-        color: var(--color-orange);
+        color: var(--wordplay-operator-color);
     }
     .token-category-unknown {
         color: var(--color-pink);

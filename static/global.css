@@ -22,6 +22,9 @@
     --wordplay-warning: var(--color-yellow);
     --wordplay-disabled-color: rgb(180, 180, 180);
     --wordplay-doc-color: var(--color-purple);
+    --wordplay-relation-color: var(--color-orange);
+    --wordplay-operator-color: var(--color-orange);
+    --wordplay-type-color: var(--color-orange);
     --wordplay-spacing: 0.5em;
     --wordplay-font-face: "Noto Sans", "Noto Emoji", sans-serif;
     --wordplay-code-font: "Noto Mono", "Noto Emoji", monospace;
@@ -153,5 +156,5 @@ p:not(:last-of-type) {
 a {
     color: var(--wordplay-highlight);
     text-decoration: underline;
-    text-decoration-thickness: var(--wordplay-border-width);
+    text-decoration-thickness: var(--wordplay-focus-width);
 }

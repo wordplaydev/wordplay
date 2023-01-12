@@ -1542,6 +1542,7 @@ const eng_wordplay: Translation = {
         },
         labels: {
             learn: 'learn more …',
+            nodoc: 'No documentation.',
         },
     },
     input: {

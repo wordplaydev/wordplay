@@ -173,9 +173,10 @@ export default class ConceptIndex {
         return this.primaryConcepts.filter((c) => c.purpose === purpose);
     }
 
-    getConceptOfType(type: Type): Concept | undefined {
+    getConceptOfType(type: Type): StructureConcept | undefined {
         return this.concepts.find(
-            (c) => c instanceof StructureConcept && c.representsType(type)
+            (c): c is StructureConcept =>
+                c instanceof StructureConcept && c.representsType(type)
         );
     }
 

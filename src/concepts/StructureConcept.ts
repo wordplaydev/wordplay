@@ -172,8 +172,8 @@ export default class StructureConcept extends Concept {
                 type.definition &&
                 this.definition == type.definition) ||
             (type !== undefined &&
-                this.affiliation !== undefined &&
-                type.constructor === this.affiliation.constructor)
+                this.type !== undefined &&
+                type.constructor === this.type.constructor)
         );
     }
 }

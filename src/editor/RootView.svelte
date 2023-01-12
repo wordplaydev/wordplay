@@ -18,6 +18,7 @@
     export let node: Node;
     /** Optional space; if not provided, all nodes are rendered with preferred space. */
     export let spaces: Spaces | undefined = undefined;
+    export let inert: boolean = false;
 
     // Make a store for the root and set it as context.
     let root = writable<Tree>(new Tree(node));
@@ -58,7 +59,7 @@
     }
 </script>
 
-<span class="root"><NodeView {node} /></span>
+<span class="root" class:inert><NodeView {node} /></span>
 
 <style>
     .root {

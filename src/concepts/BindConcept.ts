@@ -29,6 +29,10 @@ export default class BindConcept extends Concept {
         );
     }
 
+    getType() {
+        return this.bind.getType(this.context);
+    }
+
     hasName(name: string) {
         return this.bind.hasName(name);
     }

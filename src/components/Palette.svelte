@@ -88,7 +88,7 @@
         // Map the element to the coresponding node in the palette.
         const root = document
             .elementFromPoint(event.clientX, event.clientY)
-            ?.closest('.root')
+            ?.closest('.root:not(.inert)')
             ?.querySelector('.node-view');
         if (root instanceof HTMLElement) {
             let node: Node | undefined = $index.getNode(

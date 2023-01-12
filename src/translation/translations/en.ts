@@ -1555,6 +1555,7 @@ const eng_cs: Translation = {
         },
         labels: {
             learn: 'learn more …',
+            nodoc: 'No documentation.',
         },
     },
     input: {

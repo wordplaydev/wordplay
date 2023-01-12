@@ -730,6 +730,7 @@ type Translation = {
         };
         labels: {
             learn: string;
+            nodoc: string;
         };
     };
     input: {

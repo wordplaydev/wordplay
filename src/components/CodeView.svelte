@@ -5,9 +5,12 @@
     import { preferredTranslations } from '../translation/translations';
     import type Node from '../nodes/Node';
     import Note from './Note.svelte';
+    import type StructureConcept from '../concepts/StructureConcept';
+    import TypeView from './TypeView.svelte';
 
     export let node: Node;
     export let concept: Concept;
+    export let type: StructureConcept | undefined = undefined;
     export let describe: boolean = true;
     export let border: boolean = true;
     export let selectable: boolean = false;
@@ -33,8 +36,10 @@
 </script>
 
 <div class="code" class:draggable>
-    <div class="root" class:border>
-        <RootView {node} />
+    <div class="codeandtype">
+        <div class="root" class:border><RootView {node} /></div
+        >{#if type}&nbsp;<TypeView {type} />
+        {/if}
     </div>
     {#if describe}
         <p
@@ -67,6 +72,7 @@
     .code {
         display: inline-block;
         vertical-align: middle;
+        margin-right: var(--wordplay-spacing);
     }
 
     .root.border {
@@ -78,13 +84,22 @@
             var(--wordplay-border-radius);
     }
 
+    .codeandtype {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-items: baseline;
+    }
+
     .root {
         display: inline-block;
         cursor: pointer;
         user-select: none;
+        display: inline-block;
+        vertical-align: middle;
     }
 
-    .draggable .root:hover {
+    .border.root:hover {
         animation: wobble 0.25s ease-out infinite;
     }
 
@@ -106,7 +121,7 @@
 
     .description.selectable:hover {
         text-decoration: underline;
-        text-decoration-thickness: var(--wordplay-border-width);
+        text-decoration-thickness: var(--wordplay-focus-width);
     }
 
     @keyframes wobble {

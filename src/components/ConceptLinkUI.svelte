@@ -36,7 +36,7 @@
 
     span.interactive:hover {
         text-decoration: underline;
-        text-decoration-thickness: var(--wordplay-border-width);
+        text-decoration-thickness: var(--wordplay-focus-width);
         cursor: pointer;
     }
 </style>
