@@ -26,6 +26,9 @@ export default class ConceptIndex {
     readonly subConcepts: Map<Concept, Set<Concept>> = new Map();
     readonly translations: Translation[];
 
+    /** A mapping of node ids to nodes, registered by examples that are generated. */
+    readonly examples: Map<number, Node> = new Map();
+
     constructor(concepts: Concept[], translations: Translation[]) {
         // Store the primary concepts
         this.primaryConcepts = [...concepts];
@@ -161,7 +164,9 @@ export default class ConceptIndex {
             const match = concept.getNode(id);
             if (match) return match;
         }
-        return undefined;
+
+        // Search examples for matching node.
+        return this.examples.get(id);
     }
 
     getEquivalent(concept: Concept): Concept | undefined {
@@ -182,5 +187,18 @@ export default class ConceptIndex {
 
     getConceptByName(name: string): Concept | undefined {
         return this.concepts.find((c) => c.hasName(name, this.translations[0]));
+    }
+
+    addExample(node: Node) {
+        this.examples.set(node.id, node);
+    }
+
+    removeExample(node: Node) {
+        this.examples.delete(node.id);
+    }
+
+    withExamples(examples: Map<number, Node>) {
+        for (const ex of examples.values()) this.examples.set(ex.id, ex);
+        return this;
     }
 }

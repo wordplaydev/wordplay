@@ -60,8 +60,14 @@
         if ($KeyboardIdle && latestProject !== $project) {
             latestProject = $project;
 
-            // Make a new concept index with the new project and translations.
-            index.set(ConceptIndex.make($project, $preferredTranslations));
+            // Make a new concept index with the new project and translations, but the old examples.
+            const newIndex = ConceptIndex.make(
+                $project,
+                $preferredTranslations
+            ).withExamples($index.examples);
+
+            // Set the index
+            index.set(newIndex);
 
             // Map the old path to the new one using concept equality.
             path.set(
@@ -86,17 +92,22 @@
         if (event.buttons !== 1) return;
 
         // Map the element to the coresponding node in the palette.
-        const root = document
+        const nodes = document
             .elementFromPoint(event.clientX, event.clientY)
             ?.closest('.root:not(.inert)')
-            ?.querySelector('.node-view');
-        if (root instanceof HTMLElement) {
-            let node: Node | undefined = $index.getNode(
-                parseInt(root.dataset.id ?? '')
-            );
-            if (node !== undefined) {
-                // Set the dragged node to a deep clone of the (it may contain nodes from declarations that we don't want leaking into the program);
-                dragged.set(new Tree(node.clone()));
+            ?.querySelectorAll('.node-view');
+        if (nodes) {
+            for (const root of nodes) {
+                if (root instanceof HTMLElement) {
+                    let node: Node | undefined = $index.getNode(
+                        parseInt(root.dataset.id ?? '')
+                    );
+                    if (node !== undefined) {
+                        // Set the dragged node to a deep clone of the (it may contain nodes from declarations that we don't want leaking into the program);
+                        dragged.set(new Tree(node.clone()));
+                        break;
+                    }
+                }
             }
         }
     }

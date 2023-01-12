@@ -1,5 +1,7 @@
 <script lang="ts">
+    import { onDestroy } from 'svelte';
     import RootView from '../editor/RootView.svelte';
+    import { getPaletteIndex } from '../editor/util/Contexts';
     import Project from '../models/Project';
     import type Example from '../nodes/Example';
     import Source from '../nodes/Source';
@@ -16,6 +18,14 @@
     );
     $: project.evaluate();
     $: value = project.evaluator.getLatestSourceValue(project.main);
+
+    let index = getPaletteIndex();
+
+    $index.addExample(example.program.expression);
+
+    onDestroy(() => {
+        $index.removeExample(example.program.expression);
+    });
 
     let see = false;
 
@@ -39,5 +49,6 @@
 <style>
     span {
         cursor: pointer;
+        user-select: none;
     }
 </style>
