@@ -162,21 +162,19 @@
     {#if $path.length > 0}
         {@const concept = $path.at(-1)}
         {#if concept}
-            <section class="type">
-                <div class="back">
-                    <Button
-                        label="◁"
-                        tip={$preferredTranslations[0].ui.tooltip.home}
-                        action={back}
+            <div class="back">
+                <Button
+                    label="◁"
+                    tip={$preferredTranslations[0].ui.tooltip.home}
+                    action={back}
+                />
+                {#each $path as concept, index}
+                    {#if index > 0}&nbsp;&mdash;&nbsp;{/if}<DescriptionView
+                        description={concept.getName($preferredTranslations[0])}
                     />
-                    {#each $path as concept, index}
-                        {#if index > 0}&nbsp;&mdash;&nbsp;{/if}<DescriptionView
-                            description={concept.getName(
-                                $preferredTranslations[0]
-                            )}
-                        />
-                    {/each}
-                </div>
+                {/each}
+            </div>
+            <section class="type">
                 {#if concept instanceof StructureConcept}
                     <StructureConceptView {concept} />
                 {:else if concept instanceof FunctionConcept}
@@ -195,32 +193,34 @@
             </section>
         {/if}
     {:else}
-        <ConceptsView
-            category={$preferredTranslations[0].terminology.project}
-            concepts={$index.getPrimaryConceptsWithPurpose(Purpose.PROJECT)}
-        />
-        <ConceptsView
-            category={$preferredTranslations[0].terminology.code}
-            concepts={$index.getPrimaryConceptsWithPurpose(Purpose.COMPUTE)}
-            selectable={true}
-        />
-        <ConceptsView
-            category={$preferredTranslations[0].terminology.store}
-            concepts={$index.getPrimaryConceptsWithPurpose(Purpose.STORE)}
-        />
-        <ConceptsView
-            category={$preferredTranslations[0].terminology.decide}
-            concepts={$index.getPrimaryConceptsWithPurpose(Purpose.DECIDE)}
-            selectable={true}
-        />
-        <ConceptsView
-            category={$preferredTranslations[0].terminology.input}
-            concepts={$index.getPrimaryConceptsWithPurpose(Purpose.INPUT)}
-        />
-        <ConceptsView
-            category={$preferredTranslations[0].terminology.output}
-            concepts={$index.getPrimaryConceptsWithPurpose(Purpose.OUTPUT)}
-        />
+        <section class="groups">
+            <ConceptsView
+                category={$preferredTranslations[0].terminology.project}
+                concepts={$index.getPrimaryConceptsWithPurpose(Purpose.PROJECT)}
+            />
+            <ConceptsView
+                category={$preferredTranslations[0].terminology.code}
+                concepts={$index.getPrimaryConceptsWithPurpose(Purpose.COMPUTE)}
+                selectable={true}
+            />
+            <ConceptsView
+                category={$preferredTranslations[0].terminology.store}
+                concepts={$index.getPrimaryConceptsWithPurpose(Purpose.STORE)}
+            />
+            <ConceptsView
+                category={$preferredTranslations[0].terminology.decide}
+                concepts={$index.getPrimaryConceptsWithPurpose(Purpose.DECIDE)}
+                selectable={true}
+            />
+            <ConceptsView
+                category={$preferredTranslations[0].terminology.input}
+                concepts={$index.getPrimaryConceptsWithPurpose(Purpose.INPUT)}
+            />
+            <ConceptsView
+                category={$preferredTranslations[0].terminology.output}
+                concepts={$index.getPrimaryConceptsWithPurpose(Purpose.OUTPUT)}
+            />
+        </section>
     {/if}
 </section>
 
@@ -232,8 +232,6 @@
         overflow: scroll;
 
         background-color: var(--wordplay-background);
-
-        padding: calc(2 * var(--wordplay-spacing));
 
         transition: width 0.25s ease-out, visibility 0.25s ease-out,
             opacity 0.25s ease-out;
@@ -247,6 +245,11 @@
         visibility: hidden;
     }
 
+    .type,
+    .groups {
+        padding: calc(2 * var(--wordplay-spacing));
+    }
+
     .palette:focus {
         outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
         outline-offset: calc(-1 * var(--wordplay-focus-width));
@@ -255,8 +258,10 @@
     .back {
         position: sticky;
         top: 0;
-        padding-bottom: var(--wordplay-spacing);
+        padding: var(--wordplay-spacing);
         z-index: var(--wordplay-layer-controls);
         background-color: var(--wordplay-background);
+        border-bottom: var(--wordplay-border-width) solid
+            var(--wordplay-border-color);
     }
 </style>
