@@ -2,24 +2,30 @@
     import type StructureConcept from '../concepts/StructureConcept';
     import RootView from '../editor/RootView.svelte';
     import { getPalettePath } from '../editor/util/Contexts';
+    import { OR_SYMBOL, TYPE_SYMBOL } from '../parser/Symbols';
 
-    export let type: StructureConcept;
+    export let types: StructureConcept[];
 
     let path = getPalettePath();
 
-    function navigate() {
+    function navigate(type: StructureConcept) {
         path.set([...$path, type]);
     }
 </script>
 
-<span class="dot">•</span>&nbsp;<div
-    class="type"
-    tabIndex="0"
-    on:click={navigate}
-    on:keydown={(event) =>
-        event.key === 'Enter' || event.key === ' ' ? navigate() : undefined}
-    ><RootView node={type.type} inert /></div
->
+<span class="dot">{TYPE_SYMBOL}</span>&nbsp;<span>
+    {#each types as type, index}
+        {#if index > 0}<span class="dot">&nbsp;{OR_SYMBOL}&nbsp;</span>{/if}
+        <span
+            class="type"
+            tabIndex="0"
+            on:click={() => navigate(type)}
+            on:keydown={(event) =>
+                event.key === 'Enter' || event.key === ' '
+                    ? navigate(type)
+                    : undefined}><RootView node={type.type} inert /></span
+        >{/each}
+</span>
 
 <style>
     .dot {

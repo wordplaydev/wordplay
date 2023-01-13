@@ -9,7 +9,7 @@
     import type StructureConcept from '../concepts/StructureConcept';
 
     export let concept: Concept;
-    export let type: StructureConcept | undefined = undefined;
+    export let types: StructureConcept[] | undefined = undefined;
     export let header: boolean = true;
 
     $: node = concept.getRepresentation();
@@ -25,7 +25,7 @@
         </h1>
     {/if}
 
-    <CodeView {concept} {type} {node} describe={false} />
+    <CodeView {concept} {types} {node} describe={false} />
 
     <MissingTranslationsView />
     {#each $preferredTranslations.map((trans) => concept.getDocs(trans)) as doc}

@@ -19,6 +19,7 @@ import {
 import type Stream from '../runtime/Stream';
 import { PlaceType } from '../output/Place';
 import Key from '../streams/Key';
+import type TypeSet from '../nodes/TypeSet';
 
 export default class ConceptIndex {
     readonly concepts: Concept[];
@@ -183,6 +184,13 @@ export default class ConceptIndex {
             (c): c is StructureConcept =>
                 c instanceof StructureConcept && c.representsType(type)
         );
+    }
+
+    getConceptsOfTypes(types: TypeSet): StructureConcept[] {
+        return types
+            .list()
+            .map((type) => this.getConceptOfType(type))
+            .filter((t): t is StructureConcept => t !== undefined);
     }
 
     getConceptByName(name: string): Concept | undefined {

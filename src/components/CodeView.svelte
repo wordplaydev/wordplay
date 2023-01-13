@@ -11,7 +11,7 @@
 
     export let node: Node;
     export let concept: Concept;
-    export let type: StructureConcept | undefined = undefined;
+    export let types: StructureConcept[] | undefined = undefined;
     export let describe: boolean = true;
     export let border: boolean = true;
     export let selectable: boolean = false;
@@ -45,7 +45,7 @@
 <div class="code" class:draggable>
     <div class="codeandtype">
         <div class="root" class:border><RootView {node} /></div
-        >{#if type}&nbsp;<TypeView {type} />
+        >{#if types}&nbsp;<TypeView {types} />
         {/if}
     </div>
     {#if describe}

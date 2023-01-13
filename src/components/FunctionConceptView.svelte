@@ -9,10 +9,10 @@
 
     let index = getPaletteIndex();
     $: type = concept.definition.getOutputType(concept.context);
-    $: output = $index.getConceptOfType(type);
+    $: outputs = $index.getConceptsOfTypes(type.getTypeSet(concept.context));
 </script>
 
-<ConceptView {concept} type={output}>
+<ConceptView {concept} types={outputs}>
     <h2>inputs</h2>
     {#each concept.inputs as input}
         <BindConceptView concept={input} header={false} />
