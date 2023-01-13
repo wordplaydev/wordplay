@@ -121,8 +121,12 @@
 }
 
 h1, h2, h3 {
-    margin-top: calc(2 * var(--wordplay-spacing));
     margin-bottom: var(--wordplay-spacing);
+    margin-top: 0;
+}
+
+h1:not(:first-child), h2:not(:first-child), h3:not(:first-child) {
+    margin-top: calc(2 * var(--wordplay-spacing));
 }
 
 h1 {
