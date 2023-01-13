@@ -19,6 +19,7 @@ import { AND_SYMBOL, OR_SYMBOL, NOT_SYMBOL } from '../../parser/Symbols';
 
 import type Source from '../../nodes/Source';
 import Evaluator, { Mode } from '../../runtime/Evaluator';
+import { toClipboard } from './Clipboard';
 
 export type Edit = Caret | [Source, Caret];
 
@@ -336,25 +337,7 @@ const commands: Command[] = [
         mode: Mode.PLAY,
         execute: (caret: Caret) => {
             if (!(caret.position instanceof Node)) return undefined;
-
-            // Set the OS clipboard.
-            if (navigator.clipboard) {
-                return navigator.clipboard
-                    .write([
-                        new ClipboardItem({
-                            'text/plain': new Blob(
-                                [
-                                    caret.position.toWordplay(
-                                        caret.source.spaces
-                                    ),
-                                ],
-                                { type: 'text/plain' }
-                            ),
-                        }),
-                    ])
-                    .then(() => undefined);
-            }
-            return undefined;
+            return toClipboard(caret.position, caret.source.spaces);
         },
     },
     {

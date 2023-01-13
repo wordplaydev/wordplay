@@ -8,12 +8,12 @@
     import type StructureConcept from '../concepts/StructureConcept';
     import TypeView from './TypeView.svelte';
     import DescriptionView from './DescriptionView.svelte';
+    import { toClipboard } from '../editor/util/Clipboard';
 
     export let node: Node;
     export let concept: Concept;
     export let types: StructureConcept[] | undefined = undefined;
     export let describe: boolean = true;
-    export let border: boolean = true;
     export let selectable: boolean = false;
     export let docs: boolean = true;
 
@@ -33,6 +33,10 @@
         }
     }
 
+    function copy() {
+        toClipboard(node);
+    }
+
     $: selection = getPalettePath();
     $: doc = docs
         ? concept.getDocs($preferredTranslations[0])?.getFirstParagraph()
@@ -42,9 +46,15 @@
         : node.getDescription($preferredTranslations[0], concept.context);
 </script>
 
-<div class="code" class:draggable>
-    <div class="codeandtype">
-        <div class="root" class:border><RootView {node} /></div
+<div class="view" class:draggable>
+    <div class="code">
+        <div
+            class="node"
+            tabIndex="0"
+            on:keydown={(event) =>
+                event.key === 'c' && (event.ctrlKey || event.metaKey)
+                    ? copy()
+                    : undefined}><RootView {node} /></div
         >{#if types}&nbsp;<TypeView {types} />
         {/if}
     </div>
@@ -82,29 +92,19 @@
 </div>
 
 <style>
-    .code {
+    .view {
         display: inline-block;
         vertical-align: middle;
         margin-right: var(--wordplay-spacing);
     }
 
-    .root.border {
+    .node {
         padding: var(--wordplay-spacing);
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
         border-radius: var(--wordplay-border-radius)
             calc(3 * var(--wordplay-border-radius))
             calc(3 * var(--wordplay-border-radius))
             var(--wordplay-border-radius);
-    }
-
-    .codeandtype {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        align-items: baseline;
-    }
-
-    .root {
         display: inline-block;
         cursor: pointer;
         user-select: none;
@@ -112,7 +112,18 @@
         vertical-align: middle;
     }
 
-    .border.root:hover {
+    .code {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-items: baseline;
+    }
+
+    .node:focus {
+        outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
+    }
+
+    .node:hover {
         animation: wobble 0.25s ease-out infinite;
     }
 
