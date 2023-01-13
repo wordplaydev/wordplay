@@ -55,8 +55,4 @@
         cursor: pointer;
         user-select: none;
     }
-
-    .layout:focus {
-        outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
-    }
 </style>

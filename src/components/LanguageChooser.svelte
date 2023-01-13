@@ -73,10 +73,6 @@
         border-radius: var(--wordplay-border-radius);
     }
 
-    .language:focus {
-        outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
-    }
-
     .supported {
         font-weight: bold;
     }

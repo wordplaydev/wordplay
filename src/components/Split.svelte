@@ -93,7 +93,6 @@
     }
 
     .divider:focus {
-        outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
         background-color: var(--wordplay-highlight);
     }
 

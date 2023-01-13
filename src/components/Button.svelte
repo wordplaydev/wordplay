@@ -33,10 +33,6 @@
         transform-origin: center;
     }
 
-    button:focus {
-        outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
-    }
-
     button:hover:not(:disabled) {
         cursor: pointer;
         background-color: var(--wordplay-border-color);

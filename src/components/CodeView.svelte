@@ -119,10 +119,6 @@
         align-items: baseline;
     }
 
-    .node:focus {
-        outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
-    }
-
     .node:focus,
     .node:hover {
         animation: wobble 0.25s ease-out infinite;
@@ -133,7 +129,9 @@
     }
 
     .description:focus {
-        outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
+        outline: none;
+        border-bottom: var(--wordplay-highlight) solid
+            var(--wordplay-focus-width);
     }
 
     .description.selectable {

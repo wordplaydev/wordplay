@@ -106,8 +106,4 @@
         align-items: center;
         padding: var(--wordplay-spacing);
     }
-
-    .mini:focus {
-        outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
-    }
 </style>

@@ -111,14 +111,6 @@
         font-weight: bold;
     }
 
-    .gear:focus {
-        outline: none;
-    }
-
-    .settings:focus-within {
-        outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
-    }
-
     .controls {
         display: flex;
         flex-direction: column;

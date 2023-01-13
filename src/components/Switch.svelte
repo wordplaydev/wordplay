@@ -58,7 +58,6 @@
     }
 
     .button:focus {
-        outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
         transform: scale(1.15, 1.15);
     }
 

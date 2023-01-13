@@ -156,10 +156,6 @@
         cursor: pointer;
     }
 
-    .inputs:focus {
-        outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
-    }
-
     .stream-value {
         display: inline-block;
         transition: font-size 0.25s;
