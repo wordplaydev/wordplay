@@ -107,7 +107,9 @@ export default class Program extends Expression {
                             n instanceof Language &&
                             n.getLanguage() !== undefined
                     ) as Language[]
-                ).map((n) => n.getLanguageCode())
+                )
+                    .map((n) => n.getLanguageCode())
+                    .filter((l): l is LanguageCode => l !== undefined)
             )
         );
     }

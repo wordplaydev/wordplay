@@ -68,7 +68,9 @@ export default class Name extends Node {
             : this.name;
     }
     getLowerCaseName(): string | undefined {
-        return this.name.getText().toLocaleLowerCase(this.lang?.getBCP47());
+        return this.name
+            .getText()
+            .toLocaleLowerCase(this.lang?.getLanguageCode());
     }
     getLanguage() {
         return this.lang === undefined ? undefined : this.lang.getLanguage();

@@ -131,6 +131,7 @@ export const Languages = {
 type LanguageCode = keyof typeof Languages;
 export default LanguageCode;
 
-export function getLanguageName(code: LanguageCode): string {
-    return Languages[code][0];
+export function getLanguageName(code: LanguageCode): string | undefined {
+    const lang = Languages[code];
+    return lang ? lang[0] : undefined;
 }

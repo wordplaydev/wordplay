@@ -33,7 +33,7 @@ board/en,🔤/😀: Phrase(
   2m
 )
 
-screen: state.status = "start" ? Stack(Phrase(["What***Word***"/en "???"/😀] 3m) Phrase("Press ***space*** to begin"))
+screen: state.status = "start" ? Stack(Phrase(["What***Word***"/en "Que***Palabra***"/es "?_"/😀] 3m) Phrase("Press ***space*** to begin"))
 state.status = "lost" ?  Stack(board Phrase("You lost. Press **space** to play again."))
 state.status = "won" ?   Stack(board Phrase("You won, nice job! Press space to play again."))
                          Stack(

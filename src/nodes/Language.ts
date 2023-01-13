@@ -3,7 +3,6 @@ import Node, { type Replacement } from './Node';
 import Token from './Token';
 import NameToken from './NameToken';
 import LanguageToken from './LanguageToken';
-import type LanguageCode from '../translation/LanguageCode';
 import type Conflict from '../conflicts/Conflict';
 import { Languages } from '../translation/LanguageCode';
 import InvalidLanguage from '../conflicts/InvalidLanguage';
@@ -55,16 +54,11 @@ export default class Language extends Node {
     }
 
     getLanguage() {
-        return this.lang instanceof Token ? this.lang.text.toString() : '';
+        return this.lang ? this.lang.getText() : undefined;
     }
     getLanguageCode() {
-        return this.getLanguage() as LanguageCode;
-    }
-    getBCP47() {
         const lang = this.getLanguage();
-        return lang.length !== 3 || !(lang in Languages)
-            ? undefined
-            : lang.substring(0, 2);
+        return lang && lang in Languages ? lang : undefined;
     }
 
     equals(lang: Language) {
