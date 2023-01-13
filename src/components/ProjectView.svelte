@@ -114,7 +114,7 @@
     on:keydown={(event) =>
         event.key === 'Escape' ? (fullscreen = false) : undefined}
 >
-    <Split split={20} min={20} max={40} hide={stepping}>
+    <Split split={200} min={200} hide={stepping}>
         <Palette slot="first" hidden={stepping} />
         <div slot="last" class="source">
             <SourceView

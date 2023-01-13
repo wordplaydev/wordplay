@@ -30,7 +30,7 @@
 </script>
 
 <div class="source">
-    <Split split={35} responsive flip>
+    <Split split={400} responsive flip>
         <div class="output" slot="first">
             <OutputView
                 {project}

@@ -1,9 +1,8 @@
 <script lang="ts">
-    export let split: number = 50;
+    export let split: number = 200;
     export let responsive: boolean = false;
     export let flip: boolean = false;
     export let min: number = 0;
-    export let max: number = 100;
     export let hide: boolean = false;
 
     let container: HTMLElement | undefined;
@@ -20,9 +19,9 @@
         }
     }
 
-    function adjust(percent: number) {
+    function adjust(position: number) {
         if (divider === undefined) return;
-        split = Math.min(max, Math.max(min, Math.round(percent)));
+        split = Math.max(min, position);
     }
 
     function grab() {
@@ -42,12 +41,13 @@
             event.currentTarget !== container
         )
             return;
-        const [position, length] = horizontal()
-            ? [event.clientX - rect.left, rect.width]
-            : [event.clientY - rect.top, rect.height];
-        adjust(
-            Math.min(max, Math.max(min, Math.round((100 * position) / length)))
-        );
+        let position = horizontal()
+            ? event.clientX - rect.left
+            : event.clientY - rect.top;
+
+        if (responsive && flip && horizontal())
+            position = rect.width - position;
+        adjust(Math.max(min, position));
         event.preventDefault();
     }
 
@@ -63,8 +63,8 @@
     class:hide
     class:dragging
     style="--divider-split: {responsive && flip && horizontal()
-        ? 100 - split
-        : split}"
+        ? `${split}px`
+        : `${split}px`}"
     on:mousemove={drag}
     on:mouseup={release}
     bind:this={container}
@@ -121,7 +121,7 @@
         }
         .first {
             height: 100vh;
-            flex-basis: calc(var(--divider-split) * 1vw);
+            flex-basis: var(--divider-split);
         }
 
         .last {
@@ -158,7 +158,7 @@
         }
 
         .split.responsive .first {
-            flex-basis: calc(var(--divider-split) * 1vh);
+            flex-basis: var(--divider-split);
         }
 
         .split.responsive .divider {
