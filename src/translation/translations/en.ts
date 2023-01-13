@@ -826,7 +826,7 @@ const eng_cs: Translation = {
             function: {
                 length: {
                     doc: WRITE_DOC,
-                    name: 'length',
+                    name: ['📏', 'length'],
                     inputs: [],
                 },
                 equals: {
@@ -994,7 +994,7 @@ const eng_cs: Translation = {
                 },
                 length: {
                     doc: WRITE_DOC,
-                    name: 'length',
+                    name: ['📏', 'length'],
                     inputs: [],
                 },
                 random: {
@@ -1589,27 +1589,27 @@ const eng_cs: Translation = {
     input: {
         random: {
             doc: WRITE_DOC,
-            name: ['random', '🎲'],
+            name: ['🎲', 'random'],
         },
         mousebutton: {
             doc: WRITE_DOC,
-            name: ['mousebutton', '🖱️'],
+            name: ['🖱️', 'mousebutton'],
         },
         mouseposition: {
             doc: WRITE_DOC,
-            name: ['mouseposition', '👆🏻'],
+            name: ['👆🏻', 'mouseposition'],
         },
         keyboard: {
             doc: WRITE_DOC,
-            name: ['keyboard', '⌨️'],
+            name: ['⌨️', 'keyboard'],
         },
         time: {
             doc: WRITE_DOC,
-            name: ['time', '🕕'],
+            name: ['🕕', 'time'],
         },
         microphone: {
             doc: WRITE_DOC,
-            name: ['microphone', '🎤'],
+            name: ['🎤', 'microphone'],
         },
         reaction: {
             doc: WRITE_DOC,
@@ -1624,7 +1624,7 @@ const eng_cs: Translation = {
             },
             down: {
                 doc: WRITE_DOC,
-                name: 'down',
+                name: ['⬇', 'down'],
             },
         },
     },
@@ -1633,7 +1633,7 @@ const eng_cs: Translation = {
             definition: { doc: WRITE_DOC, name: 'Group' },
         },
         phrase: {
-            definition: { doc: WRITE_DOC, name: ['Phrase', '💬'] },
+            definition: { doc: WRITE_DOC, name: ['💬', 'Phrase'] },
             text: { doc: WRITE_DOC, name: 'text' },
             size: { doc: WRITE_DOC, name: 'size' },
             font: { doc: WRITE_DOC, name: 'font' },
@@ -1666,7 +1666,7 @@ const eng_cs: Translation = {
             scaley: { doc: WRITE_DOC, name: 'scaley' },
         },
         color: {
-            definition: { doc: WRITE_DOC, name: ['Color', '🌈'] },
+            definition: { doc: WRITE_DOC, name: ['🌈', 'Color'] },
             lightness: { doc: WRITE_DOC, name: ['lightness', 'l'] },
             chroma: { doc: WRITE_DOC, name: ['chroma', 'c'] },
             hue: { doc: WRITE_DOC, name: ['hue', 'h'] },
@@ -1677,7 +1677,7 @@ const eng_cs: Translation = {
             poses: { doc: WRITE_DOC, name: 'poses' },
         },
         place: {
-            definition: { doc: WRITE_DOC, name: ['Place', '📌'] },
+            definition: { doc: WRITE_DOC, name: ['📌', 'Place'] },
             x: { doc: WRITE_DOC, name: 'x' },
             y: { doc: WRITE_DOC, name: 'y' },
             z: { doc: WRITE_DOC, name: 'z' },
@@ -1688,12 +1688,12 @@ const eng_cs: Translation = {
             phrases: { doc: WRITE_DOC, name: 'phrases' },
         },
         stack: {
-            definition: { doc: WRITE_DOC, name: 'Stack' },
+            definition: { doc: WRITE_DOC, name: ['⬇', 'Stack'] },
             description: WRITE_DOC,
             phrases: { doc: WRITE_DOC, name: 'phrases' },
         },
         verse: {
-            definition: { doc: WRITE_DOC, name: ['Verse', '🌎', '🌍', '🌏'] },
+            definition: { doc: WRITE_DOC, name: ['🌎', '🌍', '🌏', 'Verse'] },
             description: WRITE_DOC,
             groups: { doc: WRITE_DOC, name: 'groups' },
             font: { doc: WRITE_DOC, name: 'font' },

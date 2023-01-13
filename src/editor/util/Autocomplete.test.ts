@@ -14,7 +14,7 @@ test.each([
     ['a•?:**', undefined, Replace, '⊤'],
     [`ƒ sum(a•? b•?) a & b\nsum(**)`, undefined, Append, '⊤'],
     [`ƒ sum(a•? b•?) a & b\nsum()**`, undefined, Replace, '(sum()) = _'],
-    [`"hi".**`, undefined, Add, 'length'],
+    [`"hi".**`, undefined, Add, '📏'],
     [`•Cat(hat•"")\nboomy: Cat("none")\nboomy.**`, undefined, Add, 'hat'],
     // Selecting 2 should offer to replace with c
     [
