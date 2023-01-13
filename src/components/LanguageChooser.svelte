@@ -4,7 +4,6 @@
     import { getLanguageName, Languages } from '../translation/LanguageCode';
     import SupportedTranslations, {
         preferredLanguages,
-        writingDirection,
         writingLayout,
     } from '../translation/translations';
 
@@ -71,7 +70,7 @@
         cursor: pointer;
         display: inline-block;
         margin: var(--wordplay-spacing);
-        opacity: 0.5;
+        border-radius: var(--wordplay-border-radius);
     }
 
     .language:focus {
@@ -79,11 +78,12 @@
     }
 
     .supported {
-        text-decoration: underline;
-        text-decoration-thickness: var(--wordplay-focus-width);
+        font-weight: bold;
     }
 
     .language.selected {
-        opacity: 1;
+        text-decoration: underline;
+        text-decoration-color: var(--wordplay-highlight);
+        text-decoration-thickness: var(--wordplay-focus-width);
     }
 </style>

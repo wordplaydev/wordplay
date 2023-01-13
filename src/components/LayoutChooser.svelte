@@ -27,7 +27,7 @@
         on:keydown={(event) =>
             event.key === 'Enter' || event.key == ' '
                 ? toggleLayout()
-                : undefined}><div>1 2 3 4</div><div>5 6 7 8</div></div
+                : undefined}><div>1 2 3</div><div>4 5 6</div></div
     >
     <div
         class="direction"
