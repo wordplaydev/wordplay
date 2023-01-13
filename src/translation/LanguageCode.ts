@@ -1,4 +1,4 @@
-/** ISO 639-2 3 and 2 letter language codes and their English descriptor. */
+/** BCP 47 language tags and other metadata. */
 export const Languages = {
     '😀': ['😀', '😀'],
     af: ['Afrikaans', 'Afrikaans'],
