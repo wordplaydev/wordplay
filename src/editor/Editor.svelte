@@ -23,7 +23,11 @@
         InsertionPointsSymbol,
         getDragged,
     } from './util/Contexts';
-    import { preferredLanguages } from '../translation/translations';
+    import {
+        preferredLanguages,
+        writingDirection,
+        writingLayout,
+    } from '../translation/translations';
     import {
         type HighlightType,
         type Highlights,
@@ -1183,6 +1187,8 @@
 <div
     class="editor"
     class:stepping
+    style:direction={$writingDirection}
+    style:writing-mode={$writingLayout}
     bind:this={editor}
     on:mousedown={(event) => handleMouseDown(event)}
     on:dblclick={(event) => {

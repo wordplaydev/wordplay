@@ -11,7 +11,11 @@
     import { createEventDispatcher } from 'svelte';
     import { slide } from 'svelte/transition';
     import DescriptionView from './DescriptionView.svelte';
-    import { preferredTranslations } from '../translation/translations';
+    import {
+        preferredTranslations,
+        writingDirection,
+        writingLayout,
+    } from '../translation/translations';
 
     export let project: Project;
     export let source: Source;
@@ -40,6 +44,8 @@
     class={`output ${mode}`}
     class:active
     class:mode
+    style:direction={$writingDirection}
+    style:writing-mode={$writingLayout}
     on:focusin={activate}
     on:focusout={deactivate}
     transition:slide

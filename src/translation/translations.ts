@@ -9,9 +9,16 @@ import eng from './translations/en';
 import spa from './translations/es';
 import type LanguageCode from './LanguageCode';
 import type Translation from './Translation';
+import type { WritingDirection, WritingLayout } from './LanguageCode';
 
-/** An app-wide list of preferred languages. */
+/** Global list of preferred languages. */
 export const preferredLanguages: Writable<LanguageCode[]> = writable(['en']);
+
+/** A global setting for writing layout */
+
+/** A global setting for writing direction */
+export const writingLayout: Writable<WritingLayout> = writable('horizontal-tb');
+export const writingDirection: Writable<WritingDirection> = writable('ltr');
 
 export type LanguageStyle = 'cs' | 'wp';
 

@@ -4,6 +4,8 @@
     import { getLanguageName, Languages } from '../translation/LanguageCode';
     import SupportedTranslations, {
         preferredLanguages,
+        writingDirection,
+        writingLayout,
     } from '../translation/translations';
 
     $: languageChoices = Array.from(
@@ -31,6 +33,13 @@
                 : // Add
                   [...$preferredLanguages, language]
         );
+
+        // Set the layout and direction based on the preferred language.
+        if ($preferredLanguages.length > 0) {
+            writingLayout.set(
+                Languages[$preferredLanguages[0]].layout ?? 'horizontal-tb'
+            );
+        }
     }
 </script>
 

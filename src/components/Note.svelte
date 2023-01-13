@@ -1,7 +1,8 @@
 <script lang="ts">
+    import { writingDirection } from '../translation/translations';
 </script>
 
-<div><slot /></div>
+<div style:direction={$writingDirection}><slot /></div>
 
 <style>
     div {

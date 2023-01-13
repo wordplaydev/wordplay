@@ -11,6 +11,7 @@
     import { updateProject } from '../models/stores';
     import { getLanguageName } from '../translation/LanguageCode';
     import LanguageChooser from './LanguageChooser.svelte';
+    import LayoutChooser from './LayoutChooser.svelte';
 
     let example: Stuff;
     let style: LanguageStyle;
@@ -51,6 +52,7 @@
                 {/each}
             </select>
             <LanguageChooser />
+            <LayoutChooser />
         </div>
     {:else}
         <div class="preferred">
@@ -115,5 +117,11 @@
 
     .settings:focus-within {
         outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
+    }
+
+    .controls {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 </style>

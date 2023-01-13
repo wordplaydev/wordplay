@@ -7,14 +7,21 @@ type LanguageMetadata = {
     quote?: string;
     /** Optionally deviate from the default of double quotes for secondary internal quotes */
     secondary?: string;
+    /** Specify writing mode for a language, one of three defined in CSS. Defaults to horizontal-tb. */
+    layout?: WritingLayout | undefined;
+    /** Specify direction of text in blocks. If unspecified, it's ltr. */
+    direction?: WritingDirection | undefined;
 };
+
+export type WritingLayout = 'horizontal-tb' | 'vertical-rl' | 'vertical-lr';
+export type WritingDirection = 'ltr' | 'rtl';
 
 /** BCP 47 language tags and other metadata. */
 export const Languages: Record<string, LanguageMetadata> = {
     '😀': { name: '😀', en: '😀' },
     af: { name: 'Afrikaans', en: 'Afrikaans' },
     am: { name: 'አማርኛ', en: 'Amharic' },
-    ar: { name: 'العربية', en: 'Arabic' },
+    ar: { name: 'العربية', en: 'Arabic', direction: 'rtl' },
     arn: { name: 'Mapudungun', en: 'Mapudungun' },
     as: { name: 'অসমীয়া', en: 'Assamese' },
     az: { name: 'Azərbaycan­lı', en: 'Azerbaijani' },
@@ -38,7 +45,7 @@ export const Languages: Record<string, LanguageMetadata> = {
     es: { name: 'español', en: 'Spanish', quote: '«', secondary: '"' },
     et: { name: 'eesti', en: 'Estonian', quote: '«', secondary: '"' },
     eu: { name: 'euskara', en: 'Basque' },
-    fa: { name: 'فارسى', en: 'Persian' },
+    fa: { name: 'فارسى', en: 'Persian', direction: 'rtl' },
     fi: { name: 'suomi', en: 'Finnish' },
     fil: { name: 'Filipino', en: 'Filipino' },
     fo: { name: 'føroyskt', en: 'Faroese' },
@@ -50,7 +57,7 @@ export const Languages: Record<string, LanguageMetadata> = {
     gsw: { name: 'Elsässisch', en: 'Alsatian' },
     gu: { name: 'ગુજરાતી', en: 'Gujarati' },
     ha: { name: 'Hausa', en: 'Hausa' },
-    he: { name: 'עברית', en: 'Hebrew' },
+    he: { name: 'עברית', en: 'Hebrew', direction: 'rtl' },
     hi: { name: 'हिंदी', en: 'Hindi' },
     hr: { name: 'hrvatski', en: 'Croatian', quote: '„', secondary: '»' },
     hsb: { name: 'hornjoserbšćina', en: 'Upper Sorbian' },
@@ -62,13 +69,25 @@ export const Languages: Record<string, LanguageMetadata> = {
     is: { name: 'íslenska', en: 'Icelandic' },
     it: { name: 'italiano', en: 'Italian' },
     iu: { name: 'Inuktitut /ᐃᓄᒃᑎᑐᑦ (ᑲᓇᑕ)', en: 'Inuktitut' },
-    ja: { name: '日本語', en: 'Japanese', quote: '「', secondary: '『' },
+    ja: {
+        name: '日本語',
+        en: 'Japanese',
+        quote: '「',
+        secondary: '『',
+        direction: 'rtl',
+        layout: 'vertical-rl',
+    },
     ka: { name: 'ქართული', en: 'Georgian' },
     kk: { name: 'Қазақша', en: 'Kazakh' },
     kl: { name: 'kalaallisut', en: 'Greenlandic' },
     km: { name: 'ខ្មែរ', en: 'Khmer' },
     kn: { name: 'ಕನ್ನಡ', en: 'Kannada' },
-    ko: { name: '한국어/韓國語', en: 'Korean' },
+    ko: {
+        name: '한국어/韓國語',
+        en: 'Korean',
+        direction: 'rtl',
+        layout: 'vertical-rl',
+    },
     kok: { name: 'कोंकणी', en: 'Konkani' },
     ky: { name: 'Кыргыз', en: 'Kyrgyz' },
     lb: { name: 'Lëtzebuergesch', en: 'Luxembourgish' },
@@ -78,7 +97,11 @@ export const Languages: Record<string, LanguageMetadata> = {
     mi: { name: 'Reo Māori', en: 'Maori' },
     mk: { name: 'македонски јазик', en: 'Macedonian' },
     ml: { name: 'മലയാളം', en: 'Malayalam' },
-    mn: { name: 'Монгол хэл/ᠮᠤᠨᠭᠭᠤᠯ ᠬᠡᠯᠡ', en: 'Mongolian' },
+    mn: {
+        name: 'Монгол хэл/ᠮᠤᠨᠭᠭᠤᠯ ᠬᠡᠯᠡ',
+        en: 'Mongolian',
+        layout: 'vertical-lr',
+    },
     moh: { name: "Kanien'kéha", en: 'Mohawk' },
     mr: { name: 'मराठी', en: 'Marathi' },
     ms: { name: 'Bahasa Malaysia', en: 'Malay' },
@@ -117,7 +140,7 @@ export const Languages: Record<string, LanguageMetadata> = {
     sr: { name: 'srpski/српски', en: 'Serbian' },
     sv: { name: 'svenska', en: 'Swedish', quote: '”' },
     sw: { name: 'Kiswahili', en: 'Kiswahili' },
-    syc: { name: 'ܣܘܪܝܝܐ', en: 'Syriac' },
+    syc: { name: 'ܣܘܪܝܝܐ', en: 'Syriac', direction: 'rtl' },
     ta: { name: 'தமிழ்', en: 'Tamil' },
     te: { name: 'తెలుగు', en: 'Telugu' },
     tg: { name: 'Тоҷикӣ', en: 'Tajik' },
@@ -135,7 +158,14 @@ export const Languages: Record<string, LanguageMetadata> = {
     wo: { name: 'Wolof', en: 'Wolof' },
     xh: { name: 'isiXhosa', en: 'Xhosa' },
     yo: { name: 'Yoruba', en: 'Yoruba' },
-    zh: { name: '中文', en: 'Chinese', quote: '「', secondary: '『' },
+    zh: {
+        name: '中文',
+        en: 'Chinese',
+        quote: '「',
+        secondary: '『',
+        direction: 'rtl',
+        layout: 'vertical-rl',
+    },
     zu: { name: 'isiZulu', en: 'Zulu' },
 };
 
