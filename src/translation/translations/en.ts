@@ -1624,7 +1624,7 @@ const eng_cs: Translation = {
             },
             down: {
                 doc: WRITE_DOC,
-                name: ['⬇', 'down'],
+                name: ['👇', 'down'],
             },
         },
     },

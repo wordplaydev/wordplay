@@ -20,8 +20,8 @@ start/en,🟢/😀: Game([] "")
 `⌨️ + 🤔 + 🤫 → ⚽️`/😀
 state/en,⚽️/😀•Game: start …
     ⌨️.key = "Escape" ? start
-    (state.status ≠ "playing") & (⌨️.key = " ") & ⌨️.⬇ ? Game([] words.random())
-    (state.status = "playing") & ⌨️.⬇ & (⌨️.key.length() = 1) & ~state.guesses.has(⌨️.key) ? 
+    (state.status ≠ "playing") & (⌨️.key = " ") & ⌨️.down ? Game([] words.random())
+    (state.status = "playing") & ⌨️.down & (⌨️.key.length() = 1) & ~state.guesses.has(⌨️.key) ? 
       Game(state.guesses.add(⌨️.key) state.secret)
       state
 
