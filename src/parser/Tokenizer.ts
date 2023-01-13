@@ -231,7 +231,7 @@ const patterns = [
     },
 ];
 
-const TEXT_DELIMITERS: Record<string, string> = {
+export const TEXT_DELIMITERS: Record<string, string> = {
     '"': '"',
     '“': '”',
     '„': '“',

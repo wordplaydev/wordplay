@@ -6,7 +6,12 @@
     import { PLACEHOLDER_SYMBOL } from '../parser/Symbols';
     import { getProject, getCaret } from './util/Contexts';
     import TokenCategories from './TokenCategories';
-    import { preferredTranslations } from '../translation/translations';
+    import {
+        preferredLanguages,
+        preferredTranslations,
+    } from '../translation/translations';
+    import { Languages } from '../translation/LanguageCode';
+    import { TEXT_DELIMITERS } from '../parser/Tokenizer';
 
     export let node: Token;
 
@@ -42,11 +47,38 @@
             $caret.token &&
             $caret.tokenAtHasPrecedingSpace());
 
+    // Get the text from the token and if it's text, localize it's delimiters.
+    $: text = node.text.toString();
+    $: {
+        const isText = node.is(TokenType.TEXT);
+        const isTextOpen = node.is(TokenType.TEXT_OPEN);
+        const isTextClose = node.is(TokenType.TEXT_CLOSE);
+        if (
+            $preferredLanguages.length > 0 &&
+            (isText || isTextOpen || isTextClose)
+        ) {
+            const preferredQuote =
+                Languages[$preferredLanguages[0]].quote ?? '"';
+            if (preferredQuote) {
+                const preferredClosing = TEXT_DELIMITERS[preferredQuote];
+                text = isText
+                    ? preferredQuote +
+                      text.substring(1, text.length - 1) +
+                      preferredClosing
+                    : isTextOpen
+                    ? preferredQuote + text.substring(1)
+                    : text.substring(0, text.length - 1) + preferredClosing;
+            }
+        }
+    }
+
     $: textToShow = placeholder
         ? choosePlaceholder()
         : node.text.getLength() === 0
         ? '\u200B'
-        : node.text.toString().replaceAll(' ', '&nbsp;');
+        : text
+              // If there happen to be spaces in the text, render them with a non-breaking space.
+              .replaceAll(' ', '&nbsp;');
 </script>
 
 <span
