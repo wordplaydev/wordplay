@@ -9,12 +9,14 @@
     let divider: HTMLElement | undefined;
     let dragging = false;
 
+    const increment = 50;
+
     function handleDividerMove(event: KeyboardEvent) {
         if (event.key === 'ArrowRight' || event.key === 'ArrowUp') {
-            adjust(split + (!responsive || flip ? 1 : -1) * 5);
+            adjust(split + (!responsive || flip ? 1 : -1) * increment);
             event.preventDefault();
         } else if (event.key === 'ArrowLeft' || event.key === 'ArrowDown') {
-            adjust(split + (!responsive || flip ? -1 : 1) * 5);
+            adjust(split + (!responsive || flip ? -1 : 1) * increment);
             event.preventDefault();
         }
     }
