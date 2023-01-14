@@ -42,7 +42,7 @@ function updateEvaluatorStores() {
     }
 }
 
-export function updateProject(newProject: Project) {
+export function updateProject(newProject: Project | undefined) {
     const oldProject = get(project);
     if (oldProject) {
         oldProject.cleanup();
@@ -50,20 +50,21 @@ export function updateProject(newProject: Project) {
     }
 
     project.set(newProject);
-    newProject.evaluator.observe(updateEvaluatorStores);
 
-    if (typeof window !== 'undefined')
-        window.localStorage.setItem('project', newProject.name);
+    if (newProject) newProject.evaluator.observe(updateEvaluatorStores);
+
+    if (typeof window !== 'undefined') {
+        if (newProject) window.localStorage.setItem('project', newProject.name);
+        else window.localStorage.removeItem('project');
+    }
 }
 
-let defaultProject = examples[0].name;
+let defaultProject: string | undefined = undefined;
 if (typeof window !== 'undefined') {
     const priorProject = window.localStorage.getItem('project');
     if (priorProject !== null) defaultProject = priorProject;
 }
 
-updateProject(
-    makeProject(
-        examples.find((ex) => ex.name === defaultProject) ?? examples[0]
-    )
-);
+const matchingProject = examples.find((ex) => ex.name === defaultProject);
+
+updateProject(matchingProject ? makeProject(matchingProject) : undefined);

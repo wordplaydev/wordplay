@@ -229,8 +229,8 @@
     }
 
     .verse:focus-within {
-        outline: var(--wordplay-highlight) solid var(--wordplay-border-width);
-        outline-offset: calc(-1 * var(--wordplay-border-width));
+        outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
+        outline-offset: calc(-1 * var(--wordplay-focus-width));
         z-index: 2;
     }
 
@@ -248,9 +248,5 @@
         fill: var(--wordplay-background);
         cursor: pointer;
         transform: scale(1.2);
-    }
-
-    .maximize:focus {
-        outline: var(--wordplay-highlight) solid var(--wordplay-border-width);
     }
 </style>

@@ -5,6 +5,7 @@
     import { onMount } from 'svelte';
     import ProjectView from './ProjectView.svelte';
     import Loading from './Loading.svelte';
+    import ProjectChooser from './ProjectChooser.svelte';
 
     // Don't display the manager until the fonts are loaded.
     let fontsLoaded = false;
@@ -16,10 +17,10 @@
 {#if fontsLoaded}
     {#if $project}
         <ProjectView project={$project} />
-        <Settings />
     {:else}
-        choose project
+        <ProjectChooser />
     {/if}
+    <Settings />
 {:else}
     <Loading />
 {/if}

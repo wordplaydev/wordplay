@@ -49,7 +49,7 @@
             class:supported={supportedLanguages.includes(lang)}
             class:selected={$preferredLanguages.includes(lang)}
             tabIndex="0"
-            on:click={() => toggle(lang)}
+            on:click|stopPropagation={() => toggle(lang)}
             on:keydown={(event) =>
                 event.key === ' ' || event.key === 'Enter'
                     ? toggle(lang)

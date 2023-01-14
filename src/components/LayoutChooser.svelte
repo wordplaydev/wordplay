@@ -23,7 +23,7 @@
         class="layout"
         style:writing-mode={$writingLayout}
         tabIndex="0"
-        on:click={toggleLayout}
+        on:click|stopPropagation={toggleLayout}
         on:keydown={(event) =>
             event.key === 'Enter' || event.key == ' '
                 ? toggleLayout()
@@ -33,7 +33,7 @@
         class="direction"
         style:direction={$writingDirection}
         tabIndex="0"
-        on:click={toggleDirection}
+        on:click|stopPropagation={toggleDirection}
         on:keydown={(event) =>
             event.key === 'Enter' || event.key == ' '
                 ? toggleDirection()

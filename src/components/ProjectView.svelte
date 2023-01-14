@@ -23,6 +23,7 @@
     import { afterUpdate } from 'svelte';
     import getOutlineOf, { getUnderlineOf } from '../editor/util/outline';
     import type { HighlightSpec } from '../editor/util/Highlights';
+    import { fade } from 'svelte/transition';
 
     export let project: Project;
 
@@ -113,6 +114,7 @@
     }}
     on:keydown={(event) =>
         event.key === 'Escape' ? (fullscreen = false) : undefined}
+    transition:fade={{ duration: 200 }}
 >
     <Split split={200} min={200} hide={stepping}>
         <Palette slot="first" hidden={stepping} />

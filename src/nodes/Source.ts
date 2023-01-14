@@ -102,6 +102,10 @@ export default class Source extends Expression {
         }
     }
 
+    static make(mainName: string) {
+        return new Source(Names.make([mainName]), '');
+    }
+
     getGrammar() {
         return [
             {
