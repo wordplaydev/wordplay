@@ -1,12 +1,13 @@
 <script lang="ts">
     import {
         getDragged,
+        getProject,
         PaletteIndexSymbol,
         PalettePathSymbol,
         type PaletteIndexContext,
         type PalettePathContext,
     } from '../editor/util/Contexts';
-    import { project, updateProject } from '../models/stores';
+    import { updateProject } from '../models/stores';
     import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
     import Expression from '../nodes/Expression';
     import Tree from '../nodes/Tree';
@@ -43,6 +44,8 @@
     export let hidden: boolean;
 
     let palette: HTMLElement | undefined;
+
+    let project = getProject();
 
     /**
      * The palette is hybrid documentation/drag and drop palette, organized by types.

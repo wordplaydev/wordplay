@@ -14,8 +14,12 @@
 </script>
 
 {#if fontsLoaded}
-    <ProjectView project={$project} />
-    <Settings />
+    {#if $project}
+        <ProjectView project={$project} />
+        <Settings />
+    {:else}
+        choose project
+    {/if}
 {:else}
     <Loading />
 {/if}

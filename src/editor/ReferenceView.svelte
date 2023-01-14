@@ -3,13 +3,15 @@
 <script lang="ts">
     import type Reference from '../nodes/Reference';
     import NodeView from './NodeView.svelte';
-    import { project, currentStep, playing } from '../models/stores';
+    import { currentStep, playing } from '../models/stores';
     import Stream from '../runtime/Stream';
-    import { getCaret } from './util/Contexts';
+    import { getCaret, getProject } from './util/Contexts';
     import NameToken from '../nodes/NameToken';
     import { preferredLanguages } from '../translation/translations';
 
     export let node: Reference;
+
+    let project = getProject();
 
     $: context = $project.getNodeContext(node);
     $: definition = node.resolve(context);

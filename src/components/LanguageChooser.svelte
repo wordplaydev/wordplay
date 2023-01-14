@@ -10,7 +10,7 @@
     $: languageChoices = Array.from(
         new Set([
             ...(Object.keys(Languages) as LanguageCode[]),
-            ...$project.getLanguages(),
+            ...($project === undefined ? [] : $project.getLanguages()),
         ])
     );
 

@@ -2,9 +2,14 @@
 
 <script lang="ts">
     import type Node from '../nodes/Node';
-    import { getHidden, getInsertionPoint, getSpace } from './util/Contexts';
+    import {
+        getHidden,
+        getInsertionPoint,
+        getProject,
+        getSpace,
+    } from './util/Contexts';
     import getNodeView from './util/nodeToView';
-    import { project, currentStep, playing } from '../models/stores';
+    import { currentStep, playing } from '../models/stores';
     import Expression from '../nodes/Expression';
     import ValueView from '../components/ValueView.svelte';
     import type Value from '../runtime/Value';
@@ -12,6 +17,7 @@
 
     export let node: Node | undefined;
 
+    let project = getProject();
     let value: Value | undefined;
     $: {
         $currentStep;

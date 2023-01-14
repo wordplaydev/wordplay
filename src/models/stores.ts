@@ -7,7 +7,9 @@ import type Animation from '../output/Animation';
 import type Conflict from '../conflicts/Conflict';
 
 // A global store that contains the project currently being viewed.
-export const project: Writable<Project> = writable<Project>();
+export const project: Writable<Project | undefined> = writable<
+    Project | undefined
+>();
 
 // A global store that contains the current step of the evaluator.
 export const currentStep: Writable<Step | undefined> = writable<

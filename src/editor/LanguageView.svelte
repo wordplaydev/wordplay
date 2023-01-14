@@ -2,13 +2,13 @@
 
 <script lang="ts">
     import type Language from '../nodes/Language';
-    import { getCaret, getRoot } from './util/Contexts';
+    import { getCaret, getProject, getRoot } from './util/Contexts';
     import NodeView from './NodeView.svelte';
-    import { project } from '../models/stores';
     import Program from '../nodes/Program';
 
     export let node: Language;
 
+    let project = getProject();
     let root = getRoot();
     let caret = getCaret();
     $: parent = $caret?.source.get(node)?.getParent();

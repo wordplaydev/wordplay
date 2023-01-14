@@ -3,13 +3,13 @@
 <script lang="ts">
     import type NameType from '../nodes/NameType';
     import NodeView from './NodeView.svelte';
-    import { project } from '../models/stores';
-    import { getCaret } from './util/Contexts';
+    import { getCaret, getProject } from './util/Contexts';
     import NameToken from '../nodes/NameToken';
     import { preferredLanguages } from '../translation/translations';
 
     export let node: NameType;
 
+    let project = getProject();
     $: context = $project.getNodeContext(node);
     $: definition = node.resolve(context);
 
