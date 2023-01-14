@@ -58,4 +58,8 @@ export default class Words extends Node {
     getText() {
         return this.words?.getText() ?? '';
     }
+
+    containsText(text: string) {
+        return this.words && this.words.containsText(text);
+    }
 }

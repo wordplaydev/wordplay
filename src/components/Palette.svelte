@@ -38,6 +38,7 @@
     import Purpose from '../concepts/Purpose';
     import DescriptionView from './DescriptionView.svelte';
     import { tick } from 'svelte';
+    import TextField from './TextField.svelte';
 
     export let hidden: boolean;
 
@@ -84,6 +85,11 @@
     let path: PalettePathContext = writable([]);
     setContext(PalettePathSymbol, path);
 
+    let query: string = '';
+    let results: [Concept, [string, number][]][] | undefined = undefined;
+
+    $: currentConcept = $path[$path.length - 1];
+
     // Set a context that stores a project context for nodes in the palette to use.
     // Keep it up to date as the project changes.
     $: setContext('context', $project.getContext($project.main));
@@ -97,7 +103,11 @@
 
     // When the path changes, wait for rendering, then scroll to the top.
     $: {
-        if ($path) scrollToTop();
+        if ($path.length > 0) {
+            scrollToTop();
+            query = '';
+            results = undefined;
+        }
     }
 
     function handleMouseDown(event: MouseEvent) {
@@ -166,6 +176,13 @@
         $path.pop();
         path.set([...$path]);
     }
+
+    $: {
+        if (query === '') results = undefined;
+        else {
+            results = $index.getQuery($preferredTranslations, query);
+        }
+    }
 </script>
 
 <!-- Drop what's being dragged if the window loses focus. -->
@@ -176,18 +193,13 @@
     class:hidden
     on:mousedown={handleMouseDown}
     on:mouseup={handleDrop}
-    tabIndex="0"
-    on:keydown={(event) =>
-        event.key === 'Escape' || event.key === 'Backspace'
-            ? back()
-            : undefined}
     transition:fly={{ x: -200 }}
     bind:this={palette}
 >
-    {#if $path.length > 0}
-        {@const concept = $path.at(-1)}
-        {#if concept}
-            <div class="back">
+    <div class="header">
+        <TextField placeholder={'🔍'} bind:text={query} />
+        {#if currentConcept}
+            <span class="path">
                 <Button
                     label="◁"
                     tip={$preferredTranslations[0].ui.tooltip.home}
@@ -198,27 +210,58 @@
                         description={concept.getName($preferredTranslations[0])}
                     />
                 {/each}
-            </div>
-            <section class="type">
-                {#if concept instanceof StructureConcept}
-                    <StructureConceptView {concept} />
-                {:else if concept instanceof FunctionConcept}
-                    <FunctionConceptView {concept} />
-                {:else if concept instanceof BindConcept}
-                    <BindConceptView {concept} />
-                {:else if concept instanceof ConversionConcept}
-                    <ConversionConceptView {concept} />
-                {:else if concept instanceof StreamConcept}
-                    <StreamConceptView {concept} />
-                {:else if concept instanceof NodeConcept}
-                    <NodeConceptView {concept} />
-                {:else}
-                    <CodeView node={concept.getRepresentation()} {concept} />
-                {/if}
-            </section>
+            </span>
         {/if}
-    {:else}
-        <section class="groups">
+    </div>
+    <section
+        class="content"
+        tabIndex="0"
+        on:keydown={(event) =>
+            event.key === 'Escape' || event.key === 'Backspace'
+                ? back()
+                : undefined}
+    >
+        <!-- Search results are prioritized over a selected concept -->
+        {#if results}
+            {#each results as [concept, text]}
+                <CodeView
+                    {concept}
+                    node={concept.getRepresentation()}
+                    selectable
+                />
+                <!-- Show the matching text -->
+                {#each text as [match, index]}
+                    <p class="result"
+                        >{match.substring(0, index)}<span class="match"
+                            >{query}</span
+                        >{match.substring(index + query.length)}</p
+                    >
+                {/each}
+            {:else}
+                <div class="empty">😞</div>
+            {/each}
+            <!-- A selected concept is prioritized over the home page -->
+        {:else if currentConcept}
+            {#if currentConcept instanceof StructureConcept}
+                <StructureConceptView concept={currentConcept} />
+            {:else if currentConcept instanceof FunctionConcept}
+                <FunctionConceptView concept={currentConcept} />
+            {:else if currentConcept instanceof BindConcept}
+                <BindConceptView concept={currentConcept} />
+            {:else if currentConcept instanceof ConversionConcept}
+                <ConversionConceptView concept={currentConcept} />
+            {:else if currentConcept instanceof StreamConcept}
+                <StreamConceptView concept={currentConcept} />
+            {:else if currentConcept instanceof NodeConcept}
+                <NodeConceptView concept={currentConcept} />
+            {:else}
+                <CodeView
+                    node={currentConcept.getRepresentation()}
+                    concept={currentConcept}
+                />
+            {/if}
+            <!-- Home page is default. -->
+        {:else}
             <ConceptsView
                 category={$preferredTranslations[0].terminology.project}
                 concepts={$index.getPrimaryConceptsWithPurpose(Purpose.PROJECT)}
@@ -245,21 +288,22 @@
                 category={$preferredTranslations[0].terminology.output}
                 concepts={$index.getPrimaryConceptsWithPurpose(Purpose.OUTPUT)}
             />
-        </section>
-    {/if}
+        {/if}
+    </section>
 </section>
 
 <style>
     .palette {
         flex: 1;
-
         z-index: var(--wordplay-layer-palette);
-        overflow: scroll;
-
         background-color: var(--wordplay-background);
 
         transition: width 0.25s ease-out, visibility 0.25s ease-out,
             opacity 0.25s ease-out;
+
+        display: flex;
+        flex-direction: column;
+        height: 100%;
     }
 
     .palette.hidden {
@@ -270,22 +314,47 @@
         visibility: hidden;
     }
 
-    .type,
-    .groups {
+    .content {
+        flex: 1;
         padding: calc(2 * var(--wordplay-spacing));
+        overflow: scroll;
     }
 
-    .palette:focus {
+    .content:focus {
         outline-offset: calc(-1 * var(--wordplay-focus-width));
     }
 
-    .back {
-        position: sticky;
+    .header {
         top: 0;
-        padding: var(--wordplay-spacing);
         z-index: var(--wordplay-layer-controls);
         background-color: var(--wordplay-background);
         border-bottom: var(--wordplay-border-width) solid
             var(--wordplay-border-color);
+        padding: var(--wordplay-spacing);
+        display: flex;
+        flex-direction: column;
+        gap: var(--wordplay-spacing);
+    }
+
+    .path {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: var(--wordplay-spacing);
+        align-items: center;
+    }
+
+    .result {
+        font-style: italic;
+        margin-left: var(--wordplay-spacing);
+    }
+
+    .match {
+        color: var(--wordplay-highlight);
+    }
+
+    .empty {
+        font-size: calc(2 * var(--wordplay-font-size));
+        text-align: center;
     }
 </style>

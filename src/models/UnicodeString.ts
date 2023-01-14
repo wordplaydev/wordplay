@@ -23,6 +23,14 @@ export default class UnicodeString {
         return this.text;
     }
 
+    startsWith(prefix: string) {
+        return this.text.startsWith(prefix);
+    }
+
+    contains(text: string) {
+        return this.text.indexOf(text) >= 0;
+    }
+
     withPreviousGraphemeReplaced(char: string, position: number) {
         return position < 0 || position > this.getSegments().length
             ? undefined

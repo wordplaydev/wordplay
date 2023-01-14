@@ -209,4 +209,40 @@ export default class ConceptIndex {
         for (const ex of examples.values()) this.examples.set(ex.id, ex);
         return this;
     }
+
+    getQuery(
+        translations: Translation[],
+        query: string
+    ): [Concept, [string, number][]][] {
+        // Find matching concepts for each translation and the string that matched.
+        const matches = translations.reduce(
+            (matches: [Concept, [string, number]][], translation) => {
+                const lowerQuery = query.toLocaleLowerCase(
+                    translation.language
+                );
+                return [
+                    ...matches,
+                    ...this.concepts
+                        .map((c) => {
+                            const match = c.getTextMatching(
+                                translation,
+                                lowerQuery
+                            );
+                            return match !== undefined ? [c, match] : undefined;
+                        })
+                        .filter((match): match is [Concept, [string, number]] =>
+                            Array.isArray(match)
+                        ),
+                ];
+            },
+            []
+        );
+        // Collapse matching text of equivalent concepts
+        const map = new Map<Concept, [string, number][]>();
+        for (const [concept, match] of matches) {
+            const list = map.get(concept);
+            map.set(concept, list === undefined ? [match] : [...list, match]);
+        }
+        return Array.from(map.entries());
+    }
 }

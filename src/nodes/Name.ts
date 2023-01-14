@@ -67,6 +67,11 @@ export default class Name extends Node {
             ? this.name.text.toString()
             : this.name;
     }
+
+    startsWith(prefix: string) {
+        return this.name.startsWith(prefix);
+    }
+
     getLowerCaseName(): string | undefined {
         return this.name
             .getText()

@@ -44,4 +44,12 @@ export default class Docs extends Node {
     getNodeTranslation(translation: Translation) {
         return translation.nodes.Docs;
     }
+
+    getWordsWithText(text: string) {
+        return this.docs
+            .map((doc) => doc.getMatchingText(text))
+            .filter(
+                (match): match is [string, number] => match !== undefined
+            )[0];
+    }
 }

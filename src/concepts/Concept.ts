@@ -76,6 +76,30 @@ export default abstract class Concept {
     abstract getSubConcepts(): Set<Concept>;
 
     /**
+     * Should return true if anything about the concept matches the query text.
+     */
+    getTextMatching(
+        translation: Translation,
+        query: string
+    ): [string, number] | undefined {
+        const description = this.getName(translation);
+        if (typeof description === 'string') {
+            const lowerDescription = description.toLocaleLowerCase(
+                translation.language
+            );
+            const index = lowerDescription.indexOf(query);
+            if (index >= 0) return [description, index];
+        } else {
+            const match = description.getTextContaining(
+                translation.language,
+                query
+            );
+            if (match !== undefined) return match;
+        }
+        return this.getDocs(translation)?.getMatchingText(query);
+    }
+
+    /**
      * Given a node ID, finds the node in the concept graph that corresponds.
      */
     getNode(id: number): Node | undefined {

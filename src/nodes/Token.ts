@@ -60,9 +60,19 @@ export default class Token extends Node {
     getText() {
         return this.text.toString();
     }
+
     getTextLength() {
         return this.text.getLength();
     }
+
+    startsWith(prefix: string) {
+        return this.text.startsWith(prefix);
+    }
+
+    containsText(text: string) {
+        return this.text.contains(text);
+    }
+
     toWordplay(spaces?: Spaces): string {
         return `${spaces?.getSpace(this) ?? ''}${this.text.toString()}`;
     }

@@ -114,6 +114,7 @@ export default class Names extends Node {
             .map((a) => a.getName())
             .filter((n): n is string => n !== undefined);
     }
+
     getLowerCaseNames() {
         return this.names
             .map((a) =>
@@ -124,6 +125,10 @@ export default class Names extends Node {
 
     hasName(name: string) {
         return this.names.find((a) => a.getName() === name) !== undefined;
+    }
+
+    getNameStartingWith(prefix: string) {
+        return this.names.find((name) => name.startsWith(prefix));
     }
 
     getNodeTranslation(translation: Translation) {

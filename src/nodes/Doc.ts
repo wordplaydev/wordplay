@@ -73,6 +73,35 @@ export default class Doc extends Node {
         return this.lang === undefined ? undefined : this.lang.getLanguage();
     }
 
+    getMatchingText(text: string): [string, number] | undefined {
+        const wordsWithText = this.paragraphs
+            .reduce(
+                (nodes: Node[], paragraph: Paragraph) => [
+                    ...nodes,
+                    ...paragraph.nodes(),
+                ],
+                []
+            )
+            .filter((n): n is Words => n instanceof Words)
+            .filter(
+                (w) =>
+                    w.words &&
+                    w.words
+                        .getText()
+                        .toLocaleLowerCase(this.lang?.getLanguageCode())
+                        .indexOf(text) >= 0
+            );
+        return wordsWithText.length === 0
+            ? undefined
+            : [
+                  wordsWithText[0].getText(),
+                  wordsWithText[0]
+                      .getText()
+                      .toLocaleLowerCase(this.lang?.getLanguageCode())
+                      .indexOf(text),
+              ];
+    }
+
     computeConflicts() {}
 
     getNodeTranslation(translation: Translation) {
