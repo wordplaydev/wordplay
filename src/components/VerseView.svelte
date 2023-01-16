@@ -13,10 +13,12 @@
     import type Group from '../output/Group';
     import type Place from '../output/Place';
     import { getSelectedOutput } from '../editor/util/Contexts';
+    import { writable } from 'svelte/store';
 
     export let project: Project;
     export let verse: Verse;
     export let interactive: boolean;
+    export let editable: boolean;
 
     let ignored = false;
     let view: HTMLElement | null = null;
@@ -24,6 +26,10 @@
     let selectedOutput = getSelectedOutput();
 
     $: selected = $selectedOutput?.includes(verse.value.creator);
+
+    let editableStore = writable<boolean>(editable);
+    setContext("editable", editableStore);
+    $: editableStore.set(editable);
 
     function ignore() {
         ignored = true;
@@ -36,7 +42,7 @@
             project.streams.mouseButton.record(true);
         else ignore();
 
-        if(selectedOutput && $selectedOutput) {
+        if(editable && selectedOutput && $selectedOutput) {
             const nodes = $selectedOutput;
             const index = nodes.indexOf(verse.value.creator);
 
@@ -91,7 +97,7 @@
         if(selectedOutput === undefined) return;
 
         // meta-a: select all phrases
-        if(event.key === "a" && (event.metaKey || event.ctrlKey))
+        if(editable && event.key === "a" && (event.metaKey || event.ctrlKey))
             selectedOutput.set(Array.from(new Set(visible.map(phrase => phrase.value.creator))));
 
     }

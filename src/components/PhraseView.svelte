@@ -7,15 +7,18 @@
     import phraseToCSS from '../output/phraseToCSS';
     import { preferredLanguages } from '../translation/translations';
     import { getSelectedOutput } from '../editor/util/Contexts';
+    import { getContext } from 'svelte';
+    import type { Writable } from 'svelte/store';
 
     export let phrase: Phrase;
     export let place: Place;
     export let focus: Place;
 
     let selectedOutput = getSelectedOutput();
+    $: editable = getContext<Writable<boolean>>("editable");
 
     function select(event: MouseEvent | KeyboardEvent) {
-        if(selectedOutput) {
+        if($editable && selectedOutput) {
             const node = phrase.value.creator;
             const nodes = $selectedOutput;
             const index = nodes.indexOf(node);
@@ -31,7 +34,7 @@
 
 <div
     class="phrase"
-    class:selected
+    class:selected={$editable && selected}
     tabIndex="0"
     id={`phrase-${phrase.getName()}`}
     style={phraseToCSS(phrase, phrase.place ?? place, focus)}

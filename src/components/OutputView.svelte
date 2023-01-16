@@ -103,6 +103,7 @@
                 {project}
                 {verse}
                 interactive={mode !== 'mini' && source === project.main}
+                editable={mode === 'peripheral' && $playing}
             />
         {/if}
     </div>

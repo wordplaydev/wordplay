@@ -116,11 +116,8 @@
             const node = $selectedOutput[0];
             if(node) {
                 const view = getNodeView(node);
-                if (view) {
-                    console.log("Scrolling to ");
-                    console.log(view);
+                if (view)
                     ensureElementIsVisible(view, true);
-                }
             }
         }
     }
