@@ -81,7 +81,6 @@
 
     async function scrollToCaret() {
         await tick();
-        console.log("Scrolling to caret");
         element.scrollIntoView({ block: 'nearest' });
     }
 

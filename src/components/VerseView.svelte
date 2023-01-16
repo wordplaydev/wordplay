@@ -13,7 +13,6 @@
     import type Group from '../output/Group';
     import type Place from '../output/Place';
     import { getSelectedOutput } from '../editor/util/Contexts';
-    import type Node from '../nodes/Node';
 
     export let project: Project;
     export let verse: Verse;
@@ -24,7 +23,7 @@
 
     let selectedOutput = getSelectedOutput();
 
-    $: selected = $selectedOutput.includes(verse.value.creator);
+    $: selected = $selectedOutput?.includes(verse.value.creator);
 
     function ignore() {
         ignored = true;
