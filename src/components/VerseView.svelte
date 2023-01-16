@@ -12,6 +12,8 @@
     import type Phrase from '../output/Phrase';
     import type Group from '../output/Group';
     import type Place from '../output/Place';
+    import { getSelectedOutput } from '../editor/util/Contexts';
+    import type Node from '../nodes/Node';
 
     export let project: Project;
     export let verse: Verse;
@@ -20,16 +22,35 @@
     let ignored = false;
     let view: HTMLElement | null = null;
 
+    let selectedOutput = getSelectedOutput();
+
+    $: selected = $selectedOutput.includes(verse.value.creator);
+
     function ignore() {
         ignored = true;
         setTimeout(() => (ignored = false), 250);
     }
 
-    function handleMouseDown() {
+    function handleMouseDown(event: MouseEvent) {
         view?.focus();
         if (project.evaluator.isPlaying())
             project.streams.mouseButton.record(true);
         else ignore();
+
+        if(selectedOutput && $selectedOutput) {
+            const nodes = $selectedOutput;
+            const index = nodes.indexOf(verse.value.creator);
+
+            // If we clicked directly on this, set the selection to only this
+            if(event.target instanceof Element && event.target.closest(".phrase") === null) {
+                selectedOutput.set(index >= 0 ? [] : [ verse.value.creator ]);
+            }
+            // Otherwise, remove this from the selection
+            else if($selectedOutput) {
+                if(index >= 0)
+                    selectedOutput.set([ ... nodes.slice(0, index), ... nodes.slice(index + 1)]);
+            }
+        }
     }
 
     function handleMouseUp() {
@@ -53,6 +74,7 @@
             event.preventDefault();
         } else ignore();
     }
+
     function handleKeyDown(event: KeyboardEvent) {
         // Never handle tab; that's for keyboard navigation.
         if (event.key === 'Tab') return;
@@ -61,6 +83,18 @@
             project.streams.keyboard.record(event.key, true);
             event.preventDefault();
         } else ignore();
+
+        handleOutputSelection(event);
+
+    }
+
+    function handleOutputSelection(event: KeyboardEvent) {
+        if(selectedOutput === undefined) return;
+
+        // meta-a: select all phrases
+        if(event.key === "a" && (event.metaKey || event.ctrlKey))
+            selectedOutput.set(Array.from(new Set(visible.map(phrase => phrase.value.creator))));
+
     }
 
     let mounted = false;
@@ -83,6 +117,7 @@
         class="verse {interactive && $playing ? '' : 'inert'} {ignored
             ? 'ignored'
             : ''}"
+        class:selected
         tabIndex={interactive ? 0 : null}
         bind:this={view}
         style={toCSS({
@@ -94,7 +129,7 @@
                     ? `rotate(${verse.tilt.toNumber()}deg)`
                     : undefined,
         })}
-        on:mousedown={interactive ? handleMouseDown : null}
+        on:mousedown={(event) => interactive ? handleMouseDown(event) : null}
         on:mouseup={interactive ? handleMouseUp : null}
         on:mousemove={interactive ? handleMouseMove : null}
         on:keydown={interactive ? handleKeyDown : null}
@@ -144,4 +179,9 @@
     :global(.group.debug, .phrase.debug) {
         border: 1px dotted red;
     }
+
+    .selected {
+        filter: blur(var(--wordplay-focus-width))
+    }
+
 </style>

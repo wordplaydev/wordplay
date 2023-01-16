@@ -22,6 +22,8 @@
     export let viewport: Rect | undefined;
 
     let latest: Value | undefined;
+
+    // When the current step or preferred languages change, get the latest value of the source.
     $: {
         $currentStep;
         $preferredLanguages;

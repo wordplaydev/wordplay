@@ -16,6 +16,7 @@
         writingDirection,
         writingLayout,
     } from '../translation/translations';
+    import { getSelectedOutput } from '../editor/util/Contexts';
 
     export let project: Project;
     export let source: Source;
@@ -38,6 +39,7 @@
     function maximize() {
         dispatch('fullscreen', { on: !(mode === 'fullscreen') });
     }
+
 </script>
 
 <section

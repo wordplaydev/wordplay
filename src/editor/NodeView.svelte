@@ -6,6 +6,7 @@
         getHidden,
         getInsertionPoint,
         getProject,
+        getSelectedOutput,
         getSpace,
     } from './util/Contexts';
     import getNodeView from './util/nodeToView';
@@ -52,6 +53,7 @@
 
     // Get the insertion point
     let insertion = getInsertionPoint();
+
 </script>
 
 <!-- Don't render anything if we weren't given a node. -->

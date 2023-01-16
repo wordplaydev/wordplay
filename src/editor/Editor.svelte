@@ -22,6 +22,7 @@
         HighlightSymbol,
         InsertionPointsSymbol,
         getDragged,
+        getSelectedOutput,
     } from './util/Contexts';
     import {
         preferredLanguages,
@@ -104,6 +105,24 @@
     $: {
         $currentStep ?? $playing;
         evalUpdate();
+    }
+
+    // Get the selected output in the project
+    let selectedOutput = getSelectedOutput();
+
+    // Whenever the selected output changes, ensure the first selected node is scrolled to.
+    $: {
+        if($selectedOutput) {
+            const node = $selectedOutput[0];
+            if(node) {
+                const view = getNodeView(node);
+                if (view) {
+                    console.log("Scrolling to ");
+                    console.log(view);
+                    ensureElementIsVisible(view, true);
+                }
+            }
+        }
     }
 
     function evalUpdate() {
@@ -337,11 +356,21 @@
                     );
             }
 
+        // Is any output selected?
+        if($selectedOutput) {
+            for(const node of $selectedOutput)
+                addHighlight(
+                    newHighlights,
+                    node,
+                    'hovered'
+                )
+        }
+
         // Update the store, broadcasting the highlights to all node views for rendering.
         highlights.set(newHighlights);
     }
 
-    // Update the highlights when any of these values change
+    // Update the highlights when any of these stores values change
     $: {
         if (
             $dragged ||
@@ -351,7 +380,8 @@
             $animations ||
             viewport ||
             $nodeConflicts ||
-            source
+            source ||
+            $selectedOutput
         )
             updateHighlights();
     }
@@ -413,14 +443,12 @@
         return undefined;
     }
 
-    function ensureElementIsVisible(
+    async function ensureElementIsVisible(
         element: Element,
         nearest: boolean = false
     ) {
-        const viewport = editor?.parentElement;
-        if (viewport === null) return;
-
-        // Note that we don't set "smooth" here because it break's Chrome's abiilty to horizontally scroll.
+        await tick();
+        // Note that we don't set "smooth" here because it break's Chrome's ability to horizontally scroll.
         element.scrollIntoView({
             block: nearest ? 'nearest' : 'center',
             inline: nearest ? 'nearest' : 'center',

@@ -6,7 +6,7 @@
 </script>
 
 <script lang="ts">
-    import { afterUpdate } from 'svelte';
+    import { afterUpdate, tick } from 'svelte';
     import { getCaret } from './util/Contexts';
     import Spaces, { SPACE_HTML, TAB_HTML } from '../parser/Spaces';
     import type Source from '../nodes/Source';
@@ -72,14 +72,21 @@
 
             // Update the caret's location.
             location = computeLocation();
+
+            // Now that we've rendered the caret, if it's out of the viewport and we're not evaluating, scroll to it.
+            if (element && $playing) scrollToCaret();
+
         }
+    }
+
+    async function scrollToCaret() {
+        await tick();
+        console.log("Scrolling to caret");
+        element.scrollIntoView({ block: 'nearest' });
     }
 
     // After we render, update the caret position.
     afterUpdate(() => {
-        // Now that we've rendered the caret, if it's out of the viewport and we're not evaluating, scroll to it.
-        if (element && $playing) element.scrollIntoView({ block: 'nearest' });
-
         // Update the caret's location, in case other things changed.
         location = computeLocation();
     });

@@ -2,6 +2,7 @@
     import {
         getDragged,
         getProject,
+        getSelectedOutput,
         PaletteIndexSymbol,
         PalettePathSymbol,
         type PaletteIndexContext,
@@ -46,6 +47,7 @@
     let palette: HTMLElement | undefined;
 
     let project = getProject();
+    let selectedOutput = getSelectedOutput();
 
     /**
      * The palette is hybrid documentation/drag and drop palette, organized by types.
@@ -243,7 +245,12 @@
             {:else}
                 <div class="empty">😞</div>
             {/each}
-            <!-- A selected concept is prioritized over the home page -->
+        <!-- A selected output is prioritized over the home page -->
+        {:else if selectedOutput && $selectedOutput.length > 0}
+            {#each $selectedOutput as node}
+                {node.toWordplay()}
+            {/each}
+        <!-- A selected concept is prioritized over the home page -->
         {:else if currentConcept}
             {#if currentConcept instanceof StructureConcept}
                 <StructureConceptView concept={currentConcept} />
