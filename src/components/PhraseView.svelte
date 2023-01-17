@@ -15,16 +15,21 @@
     export let focus: Place;
 
     let selectedOutput = getSelectedOutput();
-    $: editable = getContext<Writable<boolean>>("editable");
+    $: editable = getContext<Writable<boolean>>('editable');
 
     function select(event: MouseEvent | KeyboardEvent) {
-        if($editable && selectedOutput) {
+        if ($editable && selectedOutput) {
             const node = phrase.value.creator;
             const nodes = $selectedOutput;
             const index = nodes.indexOf(node);
-            selectedOutput?.set(event.shiftKey ?
-                (index >= 0 ? [ ...nodes.slice(0, index), ...nodes.slice(index + 1)] : [...nodes, node ]) :
-                (index >= 0 ? [] : [ node ] )
+            selectedOutput?.set(
+                event.shiftKey
+                    ? index >= 0
+                        ? [...nodes.slice(0, index), ...nodes.slice(index + 1)]
+                        : [...nodes, node]
+                    : index >= 0
+                    ? []
+                    : [node]
             );
         }
     }
@@ -38,8 +43,9 @@
     tabIndex="0"
     id={`phrase-${phrase.getName()}`}
     style={phraseToCSS(phrase, phrase.place ?? place, focus)}
-    on:mousedown={event => $selectedOutput ? select(event) : null}
-    on:keydown={event => event.key === "Enter" || event.key === " " ? select(event) : undefined}
+    on:mousedown={(event) => ($selectedOutput ? select(event) : null)}
+    on:keydown={(event) =>
+        event.key === 'Enter' || event.key === ' ' ? select(event) : undefined}
 >
     {@html parseRichText(phrase.getDescription($preferredLanguages)).toHTML()}
 </div>
@@ -62,5 +68,11 @@
     .phrase.selected {
         color: transparent;
         text-shadow: 0 0 0 var(--wordplay-highlight);
+    }
+
+    .phrase:focus {
+        outline: none;
+        border-bottom: var(--wordplay-highlight) solid
+            var(--wordplay-focus-width);
     }
 </style>

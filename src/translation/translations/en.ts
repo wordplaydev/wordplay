@@ -1580,6 +1580,7 @@ const eng_cs: Translation = {
             present: 'advance to the present',
             reset: 'restart the evaluation of the project from the beginning.',
             home: 'return to the types menu',
+            revert: 'revert to default',
         },
         labels: {
             learn: 'learn more …',

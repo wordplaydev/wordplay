@@ -51,9 +51,6 @@
 
     let project = getProject();
     let selectedOutput = getSelectedOutput();
-    $: phrases = $selectedOutput.filter(
-        (node): node is Evaluate => node instanceof Evaluate
-    );
 
     /**
      * The palette is hybrid documentation/drag and drop palette, organized by types.
@@ -251,11 +248,6 @@
             {:else}
                 <div class="empty">😞</div>
             {/each}
-            <!-- A selected output is prioritized over the home page -->
-        {:else if selectedOutput && $selectedOutput.length > 0}
-            {#if phrases.every((phrase) => phrase.getFunction($project.getNodeContext(phrase)) === PhraseType)}
-                <PhraseEditor nodes={phrases} />
-            {/if}
             <!-- A selected concept is prioritized over the home page -->
         {:else if currentConcept}
             {#if currentConcept instanceof StructureConcept}

@@ -17,6 +17,9 @@
         writingLayout,
     } from '../translation/translations';
     import { getSelectedOutput } from '../editor/util/Contexts';
+    import PhraseEditor from './PhraseEditor.svelte';
+    import { PhraseType } from '../output/Phrase';
+    import Evaluate from '../nodes/Evaluate';
 
     export let project: Project;
     export let source: Source;
@@ -29,6 +32,14 @@
 
     $: verse = latest === undefined ? undefined : toVerse(latest);
 
+    let selectedOutput = getSelectedOutput();
+    $: phrases =
+        $selectedOutput?.filter(
+            (node): node is Evaluate =>
+                node instanceof Evaluate &&
+                node.is(PhraseType, project.getNodeContext(node))
+        ) ?? [];
+
     function activate() {
         if (mode === 'peripheral') active = true;
     }
@@ -39,7 +50,6 @@
     function maximize() {
         dispatch('fullscreen', { on: !(mode === 'fullscreen') });
     }
-
 </script>
 
 <section
@@ -52,6 +62,11 @@
     on:focusout={deactivate}
     transition:slide
 >
+    <!-- A selected output is prioritized over the home page -->
+    {#if mode === 'peripheral' && phrases.length > 0}
+        <PhraseEditor nodes={phrases} />
+    {/if}
+    <!-- Render the verse, or whatever value we get -->
     <div
         class="verse"
         style={verse !== undefined
@@ -143,6 +158,7 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        position: relative;
     }
 
     .fullscreen {

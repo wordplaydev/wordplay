@@ -729,6 +729,7 @@ type Translation = {
             present: string;
             reset: string;
             home: string;
+            revert: string;
         };
         labels: {
             learn: string;

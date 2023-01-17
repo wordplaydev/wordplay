@@ -488,6 +488,10 @@ export default class Evaluate extends Expression {
             : undefined;
     }
 
+    is(def: StructureDefinition, context: Context) {
+        return this.getFunction(context) === def;
+    }
+
     computeType(context: Context): Type {
         const fun = this.getFunction(context);
 

@@ -47,7 +47,7 @@
     input[type='range'] {
         height: 1em;
         margin: 0 0;
-        width: auto;
+        width: 5em;
         background: none;
     }
 

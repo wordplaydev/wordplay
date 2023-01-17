@@ -1,6 +1,9 @@
 <script lang="ts">
     import type Evaluate from '../nodes/Evaluate';
-    import { preferredLanguages } from '../translation/translations';
+    import {
+        preferredLanguages,
+        preferredTranslations,
+    } from '../translation/translations';
     import RootView from '../editor/RootView.svelte';
     import { PhraseType } from '../output/Phrase';
     import Literal from '../nodes/Literal';
@@ -10,9 +13,10 @@
     import BindSlider from './BindSlider.svelte';
     import Bind from '../nodes/Bind';
     import { project, updateProject } from '../models/stores';
-    import Node from '../nodes/Node';
     import Button from './Button.svelte';
     import { getSelectedOutput } from '../editor/util/Contexts';
+    import Note from './Note.svelte';
+    import { fade, slide } from 'svelte/transition';
 
     export let nodes: Evaluate[];
 
@@ -136,8 +140,8 @@
     }
 </script>
 
-<section>
-    {#if $project}
+<section class="editor" transition:fade={{ duration: 200 }}>
+    <!-- {#if $project}
         {#each nodes as node}
             {@const text = node.getExpressionFor(
                 'text',
@@ -147,17 +151,19 @@
                 <RootView node={text} />
             {/if}
         {/each}
-    {/if}
+    {/if} -->
 
-    <table class="properties">
+    <table>
         {#each properties as property}
             <tr class="property">
                 <td class="name"
-                    >{PhraseType.inputs
-                        .find((input) => input.names.hasName(property.name))
-                        ?.names?.getTranslation($preferredLanguages)}</td
+                    ><Note
+                        >{PhraseType.inputs
+                            .find((input) => input.names.hasName(property.name))
+                            ?.names?.getTranslation($preferredLanguages)}</Note
+                    ></td
                 >
-                <td>
+                <td class="control">
                     {#if valuesByProperty[property.name].some((val) => val?.value instanceof Expression)}
                         computed
                     {:else if property.type.type === 'slider'}
@@ -177,11 +183,11 @@
                             )}
                         />{/if}
                 </td>
-                <td>
+                <td class="revert">
                     {#if valuesByProperty[property.name].every((val) => val?.given)}
                         <Button
                             label="x"
-                            tip="revert to default"
+                            tip={$preferredTranslations[0].ui.tooltip.revert}
                             action={() => unsetProperty(property.name)}
                         />
                     {/if}
@@ -192,17 +198,32 @@
 </section>
 
 <style>
+    .editor {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: var(--wordplay-layer-controls);
+        background-color: var(--wordplay-background);
+        padding: var(--wordplay-spacing);
+        margin: var(--wordplay-spacing);
+        border-radius: var(--wordplay-border-radius);
+    }
+
     table {
-        border-collapse: collapse;
         width: 100%;
+        border-collapse: collapse;
     }
 
     td {
-        padding: var(--wordplay-spacing);
+        vertical-align: baseline;
     }
 
     td:first-child {
         text-align: right;
+    }
+
+    td:not(:first-child) {
+        padding-left: var(--wordplay-spacing);
     }
 
     .name {

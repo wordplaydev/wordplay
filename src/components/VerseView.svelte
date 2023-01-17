@@ -14,6 +14,8 @@
     import type Place from '../output/Place';
     import { getSelectedOutput } from '../editor/util/Contexts';
     import { writable } from 'svelte/store';
+    import Evaluate from '../nodes/Evaluate';
+    import { VerseType } from '../output/Verse';
 
     export let project: Project;
     export let verse: Verse;
@@ -25,10 +27,16 @@
 
     let selectedOutput = getSelectedOutput();
 
-    $: selected = $selectedOutput?.includes(verse.value.creator);
+    $: selected =
+        verse.value.creator instanceof Evaluate &&
+        verse.value.creator.is(
+            VerseType,
+            project.getNodeContext(verse.value.creator)
+        ) &&
+        $selectedOutput?.includes(verse.value.creator);
 
     let editableStore = writable<boolean>(editable);
-    setContext("editable", editableStore);
+    setContext('editable', editableStore);
     $: editableStore.set(editable);
 
     function ignore() {
@@ -42,18 +50,33 @@
             project.streams.mouseButton.record(true);
         else ignore();
 
-        if(editable && selectedOutput && $selectedOutput) {
+        if (editable && selectedOutput && $selectedOutput) {
             const nodes = $selectedOutput;
             const index = nodes.indexOf(verse.value.creator);
 
-            // If we clicked directly on this, set the selection to only this
-            if(event.target instanceof Element && event.target.closest(".phrase") === null) {
-                selectedOutput.set(index >= 0 ? [] : [ verse.value.creator ]);
-            }
-            // Otherwise, remove this from the selection
-            else if($selectedOutput) {
-                if(index >= 0)
-                    selectedOutput.set([ ... nodes.slice(0, index), ... nodes.slice(index + 1)]);
+            // If the creator of this verse is a verse, toggle it's selection
+            if (
+                verse.value.creator instanceof Evaluate &&
+                verse.value.creator.is(
+                    VerseType,
+                    project.getNodeContext(verse.value.creator)
+                )
+            ) {
+                // If we clicked directly on this, set the selection to only this
+                if (
+                    event.target instanceof Element &&
+                    event.target.closest('.phrase') === null
+                ) {
+                    selectedOutput.set(index >= 0 ? [] : [verse.value.creator]);
+                }
+                // Otherwise, remove this from the selection
+                else if ($selectedOutput) {
+                    if (index >= 0)
+                        selectedOutput.set([
+                            ...nodes.slice(0, index),
+                            ...nodes.slice(index + 1),
+                        ]);
+                }
             }
         }
     }
@@ -90,16 +113,18 @@
         } else ignore();
 
         handleOutputSelection(event);
-
     }
 
     function handleOutputSelection(event: KeyboardEvent) {
-        if(selectedOutput === undefined) return;
+        if (selectedOutput === undefined) return;
 
         // meta-a: select all phrases
-        if(editable && event.key === "a" && (event.metaKey || event.ctrlKey))
-            selectedOutput.set(Array.from(new Set(visible.map(phrase => phrase.value.creator))));
-
+        if (editable && event.key === 'a' && (event.metaKey || event.ctrlKey))
+            selectedOutput.set(
+                Array.from(
+                    new Set(visible.map((phrase) => phrase.value.creator))
+                )
+            );
     }
 
     let mounted = false;
@@ -134,7 +159,7 @@
                     ? `rotate(${verse.tilt.toNumber()}deg)`
                     : undefined,
         })}
-        on:mousedown={(event) => interactive ? handleMouseDown(event) : null}
+        on:mousedown={(event) => (interactive ? handleMouseDown(event) : null)}
         on:mouseup={interactive ? handleMouseUp : null}
         on:mousemove={interactive ? handleMouseMove : null}
         on:keydown={interactive ? handleKeyDown : null}
@@ -186,7 +211,6 @@
     }
 
     .selected {
-        filter: blur(var(--wordplay-focus-width))
+        filter: blur(var(--wordplay-focus-width));
     }
-
 </style>
