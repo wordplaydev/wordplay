@@ -308,6 +308,9 @@ export default abstract class Node {
      * 2) All borrowed definitions in the Program
      * */
     getDefinitionsInScope(context: Context): Definition[] {
+        const cache = context.getDefinitions(this);
+        if (cache) return cache;
+
         let definitions: Definition[] = [];
         // Start with this node and see if it exposes any definitions to itself.
         let scope: Node | undefined = this.getScope(context);
@@ -324,6 +327,9 @@ export default abstract class Node {
         definitions = definitions
             .concat(context.project.getDefaultShares())
             .concat(context.project.getImplicitlySharedStreams());
+
+        // Cache the definitions for later.
+        context.definitions.set(this, definitions);
 
         // Return the definitions we found, in order.
         return definitions;
