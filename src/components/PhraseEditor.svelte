@@ -148,20 +148,41 @@
             !(event.target instanceof HTMLInputElement) &&
             event.currentTarget instanceof HTMLElement
         ) {
+            const outputRect = getOutputRect();
+            if (outputRect === undefined) return;
+
             dragging = true;
             position = {
-                x: event.currentTarget.offsetLeft,
-                y: event.currentTarget.offsetTop,
+                x: event.clientX - outputRect.left,
+                y: event.clientY - outputRect.top,
             };
+
+            const rect = view.getBoundingClientRect();
+
             startPosition = {
-                x: event.offsetX,
-                y: event.offsetY,
+                x: event.clientX - rect.left,
+                y: event.clientY - rect.top,
             };
         }
     }
+
+    function getOutputRect() {
+        return view.closest('.output')?.getBoundingClientRect();
+    }
+
     function handleKey(event: KeyboardEvent) {
         if (event.target !== view) return;
+
+        startPosition = { x: 0, y: 0 };
+        const outputRect = getOutputRect();
+        const viewRect = view.getBoundingClientRect();
+        if (outputRect === undefined) return;
+
+        const rightEdge = outputRect.width - viewRect.width;
+        const bottomEdge = outputRect.height - viewRect.height;
+
         const increment = 20;
+
         if (event.key === 'ArrowLeft')
             position = {
                 x: Math.max(0, position.x - increment),
@@ -173,9 +194,15 @@
                 y: Math.max(0, position.y - increment),
             };
         else if (event.key === 'ArrowRight')
-            position = { x: position.x + increment, y: position.y };
+            position = {
+                x: Math.min(rightEdge, position.x + increment),
+                y: position.y,
+            };
         else if (event.key === 'ArrowDown')
-            position = { x: position.x, y: position.y + increment };
+            position = {
+                x: position.x,
+                y: Math.min(bottomEdge, position.y + increment),
+            };
     }
 </script>
 
@@ -183,7 +210,9 @@
     class="editor"
     tabIndex="0"
     transition:fade={{ duration: 200 }}
-    style={`left: ${position.x}px; top: ${position.y}px;`}
+    style={`left: ${position.x - startPosition.x}px; top: ${
+        position.y - startPosition.y
+    }px;`}
     on:keydown={handleKey}
     on:mousedown={startDrag}
     bind:this={view}
@@ -250,7 +279,6 @@
         z-index: var(--wordplay-layer-controls);
         background-color: var(--wordplay-background);
         padding: var(--wordplay-spacing);
-        margin: var(--wordplay-spacing);
         border-radius: var(--wordplay-border-radius);
         cursor: move;
         user-select: none;
