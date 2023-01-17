@@ -18,6 +18,7 @@
         bind:value
         on:input={() => (value !== undefined ? change(value) : undefined)}
         on:mousedown|stopPropagation
+        on:keydown|stopPropagation
     />
     <div class="text" class:isDefault>
         {#if value === undefined}
