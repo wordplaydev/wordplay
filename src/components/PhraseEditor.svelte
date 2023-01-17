@@ -139,6 +139,8 @@
         }
     }
 
+    let view: HTMLElement;
+
     export let dragging: boolean = false;
     let startPosition: { x: number; y: number } = { x: 0, y: 0 };
     function startDrag(event: MouseEvent) {
@@ -175,6 +177,7 @@
     }px;`}
     on:keydown={handleKey}
     on:mousedown={startDrag}
+    bind:this={view}
 >
     <!-- {#if $project}
         {#each nodes as node}
