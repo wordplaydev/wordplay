@@ -44,7 +44,10 @@ export default function phraseToCSS(
                   }`
                 : undefined,
         color: phrase.color?.toCSS(),
-        opacity: phrase.opacity ? phrase.opacity.toString() : undefined,
+        opacity:
+            phrase.opacity !== undefined
+                ? phrase.opacity.toString()
+                : undefined,
         'font-family': phrase.font,
         // The font size is whatever it's normal size is, but adjusted for perspective, then translated into pixels.
         'font-size': sizeToFontSize(

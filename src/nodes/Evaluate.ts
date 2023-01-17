@@ -33,7 +33,7 @@ import Exception from '../runtime/Exception';
 import UnknownInput from '../conflicts/UnknownInput';
 import getConcreteExpectedType from './Generics';
 import FunctionDefinitionType from './FunctionDefinitionType';
-import type Names from './Names';
+import Names from './Names';
 import EvalOpenToken from './EvalOpenToken';
 import EvalCloseToken from './EvalCloseToken';
 import UnclosedDelimiter from '../conflicts/UnclosedDelimiter';
@@ -249,6 +249,64 @@ export default class Evaluate extends Expression {
 
         // Return the final mappings. Now we have a complete spec of which expressions were provided for each function input.
         return mappings;
+    }
+
+    /**
+     *  Given a name and an expression, create a new evaluate that binds this name to this value instead of its current binding,
+     * and if there is no current binding, create one.
+     */
+    withBindAs(
+        name: string,
+        expression: Expression | undefined,
+        context: Context
+    ): Evaluate | undefined {
+        const mapping = this.getMappingFor(name, context);
+        if (mapping === undefined) return undefined;
+
+        // If we'replacing with nothing
+
+        // If it's already bound, replace the binding.
+        if (mapping.given instanceof Bind) {
+            if (expression === undefined)
+                return this.replace(mapping.given, expression);
+            else if (mapping.given.value)
+                return this.replace(mapping.given.value, expression);
+        } else if (mapping.given instanceof Expression) {
+            return this.replace(mapping.given, expression);
+        }
+        // If it's not, then add a binding.
+        else if (mapping.given === undefined) {
+            return this.replace(this.inputs, [
+                ...this.inputs,
+                Bind.make(undefined, Names.make([name]), undefined, expression),
+            ]);
+        }
+
+        // We don't support modifications to the variable length list (yet).
+        return undefined;
+    }
+
+    getExpressionFor(name: string, context: Context) {
+        const mapping = this.getMappingFor(name, context);
+        return mapping === undefined
+            ? undefined
+            : mapping.given instanceof Bind
+            ? mapping.given.value
+            : mapping.given;
+    }
+
+    getMappingFor(name: string, context: Context) {
+        // Find the function being called.
+        const fun = this.getFunction(context);
+        if (fun === undefined) return undefined;
+
+        // Figure out what the current mapping is.
+        const mappings = this.getInputMapping(fun);
+
+        // Find the bind.
+        return mappings.inputs.find((input) =>
+            input.expected.names.hasName(name)
+        );
     }
 
     computeConflicts(context: Context): Conflict[] {

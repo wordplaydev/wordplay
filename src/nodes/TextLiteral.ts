@@ -1,22 +1,17 @@
-import type Expression from './Expression';
 import TextType from './TextType';
 import Token from './Token';
 import type Type from './Type';
-import type Value from '../runtime/Value';
 import Text from '../runtime/Text';
-import type Step from '../runtime/Step';
 import Language from './Language';
 import type Bind from './Bind';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
 import TokenType from './TokenType';
-import type Evaluator from '../runtime/Evaluator';
-import StartFinish from '../runtime/StartFinish';
 import type { Replacement } from './Node';
 import type Translation from '../translation/Translation';
-import AtomicExpression from './AtomicExpression';
+import Literal from './Literal';
 
-export default class TextLiteral extends AtomicExpression {
+export default class TextLiteral extends Literal {
     readonly text: Token;
     readonly format?: Language;
 
@@ -55,17 +50,7 @@ export default class TextLiteral extends AtomicExpression {
         return new TextType(this.text, this.format);
     }
 
-    getDependencies(): Expression[] {
-        return [];
-    }
-
-    compile(): Step[] {
-        return [new StartFinish(this)];
-    }
-
-    evaluate(_: Evaluator, prior: Value | undefined): Value {
-        if (prior) return prior;
-
+    getValue() {
         // Remove the opening and optional closing quote symbols.
         const lastChar =
             this.text.text.toString().length === 0

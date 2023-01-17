@@ -9,6 +9,7 @@
     input {
         width: 100%;
         height: 100%;
+        background: none;
         font-size: var(--wordplay-font-size);
         font-family: var(--wordplay-font-face);
         border: none;

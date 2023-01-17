@@ -28,7 +28,6 @@
         font-weight: var(--wordplay-font-weight);
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         border-radius: var(--wordplay-border-radius);
-        padding: var(--wordplay-spacing);
         transition: transform 0.25s;
         transform-origin: center;
     }

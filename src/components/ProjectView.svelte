@@ -125,7 +125,7 @@
         event.key === 'Escape' ? (fullscreen = false) : undefined}
     transition:fade={{ duration: 200 }}
 >
-    <Split split={200} min={200} hide={stepping}>
+    <Split split={300} min={200} hide={stepping}>
         <Palette slot="first" hidden={stepping} />
         <div slot="last" class="source">
             <SourceView

@@ -14,10 +14,10 @@ import type Evaluator from '../runtime/Evaluator';
 import StartFinish from '../runtime/StartFinish';
 import type { Replacement } from './Node';
 import type Translation from '../translation/Translation';
-import AtomicExpression from './AtomicExpression';
 import NodeLink from '../translation/NodeLink';
+import Literal from './Literal';
 
-export default class BooleanLiteral extends AtomicExpression {
+export default class BooleanLiteral extends Literal {
     readonly value: Token;
 
     constructor(value: Token) {
@@ -47,16 +47,7 @@ export default class BooleanLiteral extends AtomicExpression {
         return BooleanType.make();
     }
 
-    getDependencies(): Expression[] {
-        return [];
-    }
-
-    compile(): Step[] {
-        return [new StartFinish(this)];
-    }
-
-    evaluate(_: Evaluator, prior: Value | undefined): Value {
-        if (prior) return prior;
+    getValue() {
         return new Bool(this, this.bool());
     }
 

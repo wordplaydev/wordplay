@@ -1,22 +1,17 @@
 import Token from './Token';
-import type Expression from './Expression';
 import NoneType from './NoneType';
 import type Type from './Type';
 import None from '../runtime/None';
-import type Value from '../runtime/Value';
-import type Step from '../runtime/Step';
 import type Bind from './Bind';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
 import { NONE_SYMBOL } from '../parser/Symbols';
 import TokenType from './TokenType';
-import type Evaluator from '../runtime/Evaluator';
-import StartFinish from '../runtime/StartFinish';
 import type { Replacement } from './Node';
 import type Translation from '../translation/Translation';
-import AtomicExpression from './AtomicExpression';
+import Literal from './Literal';
 
-export default class NoneLiteral extends AtomicExpression {
+export default class NoneLiteral extends Literal {
     readonly none: Token;
 
     constructor(none: Token) {
@@ -47,16 +42,7 @@ export default class NoneLiteral extends AtomicExpression {
         return NoneType.None;
     }
 
-    getDependencies(): Expression[] {
-        return [];
-    }
-
-    compile(): Step[] {
-        return [new StartFinish(this)];
-    }
-
-    evaluate(_: Evaluator, prior: Value | undefined): Value {
-        if (prior) return prior;
+    getValue() {
         return new None(this);
     }
 

@@ -1,4 +1,4 @@
-import Node from './Node';
+import Node, { type Replacement } from './Node';
 import Token from './Token';
 import Program from './Program';
 import type Conflict from '../conflicts/Conflict';
@@ -349,8 +349,11 @@ export default class Source extends Expression {
         return new Source(this.names, [program, spaces]);
     }
 
-    clone() {
-        return new Source(this.names, [this.expression, this.spaces]) as this;
+    clone(replace?: Replacement) {
+        return new Source(this.names, [
+            this.replaceChild('expression', this.expression, replace),
+            this.spaces,
+        ]) as this;
     }
 
     getTokenTextPosition(token: Token) {

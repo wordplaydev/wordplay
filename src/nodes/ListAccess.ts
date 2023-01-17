@@ -119,8 +119,8 @@ export default class ListAccess extends Expression {
             if (
                 listType.length !== undefined &&
                 this.index instanceof MeasurementLiteral &&
-                this.index.toValue().num.greaterThanOrEqualTo(1) &&
-                this.index.toValue().num.lessThanOrEqualTo(listType.length)
+                this.index.getValue().num.greaterThanOrEqualTo(1) &&
+                this.index.getValue().num.lessThanOrEqualTo(listType.length)
             )
                 return listType.type;
             else

@@ -440,6 +440,28 @@ export default class Project {
         return new Project(this.name, newMain, newSupplements);
     }
 
+    wWithRevisedNodes(nodes: [Node, Node | undefined][]) {
+        const replacementSources: [Source, Source][] = [];
+
+        for (const [original, replacement] of nodes) {
+            const context = this.getNodeContext(original);
+            const source = context.source;
+            if (replacement !== undefined) {
+                const sources = replacementSources.find(
+                    ([original]) => original === source
+                );
+                if (sources === undefined)
+                    replacementSources.push([
+                        source,
+                        source.replace(original, replacement),
+                    ]);
+                else sources[1] = sources[1].replace(original, replacement);
+            }
+        }
+
+        return this.withSources(replacementSources);
+    }
+
     /** Get all the languages used in the project */
     getLanguages() {
         return Array.from(

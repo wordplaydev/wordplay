@@ -1,26 +1,21 @@
 import Measurement from '../runtime/Measurement';
-import type Value from '../runtime/Value';
 import type Conflict from '../conflicts/Conflict';
-import type Expression from './Expression';
 import MeasurementType from './MeasurementType';
 import Token from './Token';
 import type Type from './Type';
 import Unit from './Unit';
-import type Step from '../runtime/Step';
 import { NotANumber } from '../conflicts/NotANumber';
 import type Bind from './Bind';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
 import PlaceholderToken from './PlaceholderToken';
 import TokenType from './TokenType';
-import type Evaluator from '../runtime/Evaluator';
-import StartFinish from '../runtime/StartFinish';
 import type { Replacement } from './Node';
 import type Translation from '../translation/Translation';
-import AtomicExpression from './AtomicExpression';
 import NodeLink from '../translation/NodeLink';
+import Literal from './Literal';
 
-export default class MeasurementLiteral extends AtomicExpression {
+export default class MeasurementLiteral extends Literal {
     readonly number: Token;
     readonly unit: Unit;
 
@@ -64,7 +59,7 @@ export default class MeasurementLiteral extends AtomicExpression {
     }
 
     computeConflicts(): Conflict[] {
-        if (this.toValue().num.isNaN()) return [new NotANumber(this)];
+        if (this.getValue().num.isNaN()) return [new NotANumber(this)];
         else return [];
     }
 
@@ -72,21 +67,7 @@ export default class MeasurementLiteral extends AtomicExpression {
         return new MeasurementType(this.number, this.unit);
     }
 
-    getDependencies(): Expression[] {
-        return [];
-    }
-
-    compile(): Step[] {
-        return [new StartFinish(this)];
-    }
-
-    evaluate(_: Evaluator, prior: Value | undefined): Value {
-        if (prior) return prior;
-
-        return this.toValue();
-    }
-
-    toValue() {
+    getValue() {
         return new Measurement(this, this.number, this.unit);
     }
 
