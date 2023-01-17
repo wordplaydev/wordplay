@@ -4,7 +4,6 @@
         preferredLanguages,
         preferredTranslations,
     } from '../translation/translations';
-    import RootView from '../editor/RootView.svelte';
     import { PhraseType } from '../output/Phrase';
     import Literal from '../nodes/Literal';
     import Measurement from '../runtime/Measurement';
@@ -16,9 +15,10 @@
     import Button from './Button.svelte';
     import { getSelectedOutput } from '../editor/util/Contexts';
     import Note from './Note.svelte';
-    import { fade, slide } from 'svelte/transition';
+    import { fade } from 'svelte/transition';
 
     export let nodes: Evaluate[];
+    export let position: { x: number; y: number };
 
     type Control = {
         type: 'slider';
@@ -138,9 +138,44 @@
             updateProject($project.wWithRevisedNodes(replacements));
         }
     }
+
+    export let dragging: boolean = false;
+    let startPosition: { x: number; y: number } = { x: 0, y: 0 };
+    function startDrag(event: MouseEvent) {
+        if (event.currentTarget instanceof HTMLElement) {
+            dragging = true;
+            position = {
+                x: event.currentTarget.offsetLeft,
+                y: event.currentTarget.offsetTop,
+            };
+            startPosition = {
+                x: event.offsetX,
+                y: event.offsetY,
+            };
+        }
+    }
+    function handleKey(event: KeyboardEvent) {
+        if (event.key === 'ArrowLeft')
+            position = { x: position.x - 5, y: position.y };
+        else if (event.key === 'ArrowTop')
+            position = { x: position.x, y: position.y - 5 };
+        else if (event.key === 'ArrowRight')
+            position = { x: position.x + 5, y: position.y };
+        else if (event.key === 'ArrowDown')
+            position = { x: position.x, y: position.y + 5 };
+    }
 </script>
 
-<section class="editor" transition:fade={{ duration: 200 }}>
+<section
+    class="editor"
+    tabIndex="0"
+    transition:fade={{ duration: 200 }}
+    style={`left: ${position.x - startPosition.x}px; top: ${
+        position.y - startPosition.y
+    }px;`}
+    on:keydown={handleKey}
+    on:mousedown={startDrag}
+>
     <!-- {#if $project}
         {#each nodes as node}
             {@const text = node.getExpressionFor(
@@ -200,13 +235,13 @@
 <style>
     .editor {
         position: absolute;
-        top: 0;
-        left: 0;
         z-index: var(--wordplay-layer-controls);
         background-color: var(--wordplay-background);
         padding: var(--wordplay-spacing);
         margin: var(--wordplay-spacing);
         border-radius: var(--wordplay-border-radius);
+        cursor: move;
+        user-select: none;
     }
 
     table {

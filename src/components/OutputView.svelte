@@ -50,6 +50,20 @@
     function maximize() {
         dispatch('fullscreen', { on: !(mode === 'fullscreen') });
     }
+
+    let dragging = false;
+    let position: { x: number; y: number } = { x: 0, y: 0 };
+    function drag(event: MouseEvent) {
+        if (dragging && event.currentTarget instanceof HTMLElement) {
+            position = {
+                x: event.pageX - event.currentTarget.offsetLeft,
+                y: event.pageY - event.currentTarget.offsetTop,
+            };
+        }
+    }
+    function drop() {
+        dragging = false;
+    }
 </script>
 
 <section
@@ -61,10 +75,13 @@
     on:focusin={activate}
     on:focusout={deactivate}
     transition:slide
+    on:mousemove={drag}
+    on:mouseup={drop}
+    on:mouseleave={drop}
 >
     <!-- A selected output is prioritized over the home page -->
     {#if mode === 'peripheral' && phrases.length > 0}
-        <PhraseEditor nodes={phrases} />
+        <PhraseEditor bind:dragging nodes={phrases} {position} />
     {/if}
     <!-- Render the verse, or whatever value we get -->
     <div
