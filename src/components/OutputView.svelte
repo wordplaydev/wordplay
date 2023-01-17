@@ -8,7 +8,7 @@
     import ValueView from './ValueView.svelte';
     import type Source from '../nodes/Source';
     import VerseView from './VerseView.svelte';
-    import { createEventDispatcher } from 'svelte';
+    import { afterUpdate, createEventDispatcher } from 'svelte';
     import { slide } from 'svelte/transition';
     import DescriptionView from './DescriptionView.svelte';
     import {
@@ -66,6 +66,8 @@
     }
 </script>
 
+<svelte:window on:blur={() => (dragging = false)} />
+
 <section
     class={`output ${mode}`}
     class:active
@@ -77,7 +79,6 @@
     transition:slide
     on:mousemove={drag}
     on:mouseup={drop}
-    on:mouseleave={drop}
 >
     <!-- A selected output is prioritized over the home page -->
     {#if mode === 'peripheral' && phrases.length > 0}
