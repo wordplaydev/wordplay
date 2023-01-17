@@ -17,14 +17,14 @@
         step={increment}
         bind:value
         on:input={() => (value !== undefined ? change(value) : undefined)}
-        on:mousedown|stopPropagation
-        on:keydown|stopPropagation
+        on:mousedown
+        on:keydown
     />
     <div class="text" class:isDefault>
         {#if value === undefined}
-            &mdash;
+            ø
         {:else}
-            {value + unit}
+            {value.toFixed(0) + unit}
         {/if}
     </div>
 </div>
@@ -36,10 +36,18 @@
         flex-direction: row;
         gap: var(--wordplay-spacing);
         align-items: center;
+        height: 2em;
     }
 
     .slider {
         flex: 1;
+    }
+
+    .text {
+        width: 3em;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
     }
 
     .isDefault {
@@ -47,9 +55,9 @@
     }
 
     input[type='range'] {
-        height: 1em;
+        height: auto;
         margin: 0 0;
-        width: 5em;
+        /* width: 5em; */
         background: none;
     }
 

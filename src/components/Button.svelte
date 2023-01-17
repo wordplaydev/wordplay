@@ -11,6 +11,7 @@
     title={tip}
     tabIndex={0}
     on:click={action}
+    on:mousedown|stopPropagation
     disabled={!enabled}
     on:keydown={(event) =>
         event.key === 'Enter' || event.key === 'Space' ? action() : undefined}

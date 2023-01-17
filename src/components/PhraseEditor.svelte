@@ -144,7 +144,10 @@
     export let dragging: boolean = false;
     let startPosition: { x: number; y: number } = { x: 0, y: 0 };
     function startDrag(event: MouseEvent) {
-        if (event.currentTarget instanceof HTMLElement) {
+        if (
+            !(event.target instanceof HTMLInputElement) &&
+            event.currentTarget instanceof HTMLElement
+        ) {
             dragging = true;
             position = {
                 x: event.currentTarget.offsetLeft,
@@ -157,14 +160,22 @@
         }
     }
     function handleKey(event: KeyboardEvent) {
+        if (event.target !== view) return;
+        const increment = 20;
         if (event.key === 'ArrowLeft')
-            position = { x: position.x - 5, y: position.y };
-        else if (event.key === 'ArrowTop')
-            position = { x: position.x, y: position.y - 5 };
+            position = {
+                x: Math.max(0, position.x - increment),
+                y: position.y,
+            };
+        else if (event.key === 'ArrowUp')
+            position = {
+                x: position.x,
+                y: Math.max(0, position.y - increment),
+            };
         else if (event.key === 'ArrowRight')
-            position = { x: position.x + 5, y: position.y };
+            position = { x: position.x + increment, y: position.y };
         else if (event.key === 'ArrowDown')
-            position = { x: position.x, y: position.y + 5 };
+            position = { x: position.x, y: position.y + increment };
     }
 </script>
 
@@ -172,9 +183,7 @@
     class="editor"
     tabIndex="0"
     transition:fade={{ duration: 200 }}
-    style={`left: ${position.x - startPosition.x}px; top: ${
-        position.y - startPosition.y
-    }px;`}
+    style={`left: ${position.x}px; top: ${position.y}px;`}
     on:keydown={handleKey}
     on:mousedown={startDrag}
     bind:this={view}
@@ -250,10 +259,6 @@
     table {
         width: 100%;
         border-collapse: collapse;
-    }
-
-    td {
-        vertical-align: baseline;
     }
 
     td:first-child {
