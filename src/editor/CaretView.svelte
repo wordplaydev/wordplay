@@ -75,13 +75,12 @@
 
             // Now that we've rendered the caret, if it's out of the viewport and we're not evaluating, scroll to it.
             if (element && $playing) scrollToCaret();
-
         }
     }
 
     async function scrollToCaret() {
         await tick();
-        element.scrollIntoView({ block: 'nearest' });
+        if (element) element.scrollIntoView({ block: 'nearest' });
     }
 
     // After we render, update the caret position.
