@@ -56,11 +56,13 @@
 
     $: {
         // If the keyboard is idle and the evaluator hasn't started yet, analyze the program and evaluate it.
-        if ($KeyboardIdle && !project.evaluator.isStarted()) {
+        if ($KeyboardIdle) {
             project.analyze();
             nodeConflicts.set(project.getConflicts());
-            project.evaluate();
         }
+    }
+    $: {
+        if (!project.evaluator.isStarted()) project.evaluate();
     }
 
     // Create a global context for a node being dragged
