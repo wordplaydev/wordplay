@@ -286,6 +286,16 @@ export default class Evaluate extends Expression {
         return this;
     }
 
+    withInputAppended(expression: Expression) {
+        return new Evaluate(
+            this.func,
+            this.types,
+            this.open,
+            [...this.inputs, expression],
+            this.close
+        );
+    }
+
     getExpressionFor(name: string, context: Context) {
         const mapping = this.getMappingFor(name, context);
         return mapping === undefined

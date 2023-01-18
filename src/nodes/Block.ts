@@ -103,6 +103,17 @@ export default class Block extends Expression {
         ) as this;
     }
 
+    withStatement(statement: Expression) {
+        return new Block(
+            [...this.statements, statement],
+            this.root,
+            this.creator,
+            this.open,
+            this.close,
+            this.docs
+        );
+    }
+
     getLast() {
         return this.statements.length === 0
             ? undefined

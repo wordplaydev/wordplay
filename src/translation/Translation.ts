@@ -95,6 +95,7 @@ type ValueOrUndefinedTranslation = (
 type Translation = {
     language: LanguageCode;
     style: LanguageStyle;
+    welcome: string;
     placeholders: {
         code: string;
         expression: string;

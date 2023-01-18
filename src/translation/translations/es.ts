@@ -34,6 +34,7 @@ const WRITE_DOC = 'pendiante';
 const eng_wordplay: Translation = {
     language: 'es',
     style: 'wp',
+    welcome: 'hola',
     placeholders: {
         code: 'code',
         expression: 'value',

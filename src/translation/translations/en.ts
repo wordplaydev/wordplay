@@ -34,6 +34,7 @@ const WRITE_DOC = 'TBD';
 const eng_cs: Translation = {
     language: 'en',
     style: 'cs',
+    welcome: 'hello',
     placeholders: {
         code: 'code',
         expression: 'value',

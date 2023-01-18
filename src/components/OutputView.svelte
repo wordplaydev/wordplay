@@ -2,23 +2,30 @@
     import { toVerse, VerseType } from '../output/Verse';
     import Exception from '../runtime/Exception';
     import type Value from '../runtime/Value';
-    import { playing, selectedOutput } from '../models/stores';
+    import { playing, reviseProject, selectedOutput } from '../models/stores';
     import KeyboardIdle from '../editor/util/KeyboardIdle';
     import type Project from '../models/Project';
     import ValueView from './ValueView.svelte';
     import type Source from '../nodes/Source';
     import VerseView from './VerseView.svelte';
-    import { afterUpdate, createEventDispatcher } from 'svelte';
+    import { createEventDispatcher } from 'svelte';
     import { slide } from 'svelte/transition';
     import DescriptionView from './DescriptionView.svelte';
     import {
+        preferredLanguages,
         preferredTranslations,
         writingDirection,
         writingLayout,
     } from '../translation/translations';
     import OutputEditor from './OutputEditor.svelte';
-    import { PhraseType } from '../output/Phrase';
     import Evaluate from '../nodes/Evaluate';
+    import TextLiteral from '../nodes/TextLiteral';
+    import Reference from '../nodes/Reference';
+    import { PhraseType } from '../output/Phrase';
+    import StructureDefinition from '../nodes/StructureDefinition';
+    import { GroupType } from '../output/Group';
+    import ListLiteral from '../nodes/ListLiteral';
+    import { StackType } from '../output/Stack';
 
     export let project: Project;
     export let source: Source;
@@ -62,6 +69,111 @@
     }
     function drop() {
         dragging = false;
+    }
+
+    function addOutput() {
+        if (project === undefined) return;
+
+        // Make an empty phrase.
+        const newPhrase = Evaluate.make(
+            Reference.make(
+                PhraseType.names.getTranslation($preferredLanguages),
+                PhraseType
+            ),
+            [TextLiteral.make($preferredTranslations[0].welcome)]
+        );
+
+        // Get the output of the source's program block.
+        const lastExpression = source.expression.expression.statements.at(-1);
+
+        // There's a last expression
+        if (lastExpression) {
+            const context = project.getNodeContext(lastExpression);
+            const type =
+                lastExpression instanceof Evaluate
+                    ? lastExpression.getFunction(context)
+                    : undefined;
+
+            // If it's a verse, add the new phrase to the verse's group
+            if (type === VerseType) {
+                const firstVerseInput =
+                    lastExpression instanceof Evaluate
+                        ? lastExpression.inputs[0]
+                        : undefined;
+                const firstVerseEvaluate =
+                    firstVerseInput instanceof Evaluate
+                        ? firstVerseInput
+                        : undefined;
+                const firstVerseType =
+                    firstVerseInput instanceof Evaluate
+                        ? firstVerseInput.getFunction(context)
+                        : undefined;
+                // If the verse group input is a group, append the phrase to the group.
+                if (
+                    firstVerseEvaluate &&
+                    firstVerseType instanceof StructureDefinition &&
+                    type.implements(GroupType, context)
+                ) {
+                    reviseProject([
+                        [
+                            firstVerseEvaluate,
+                            firstVerseEvaluate.withInputAppended(newPhrase),
+                        ],
+                    ]);
+                }
+            }
+            // If it's a phrase, create a verse to hold the existing phrase and the new phrase
+            else if (type === PhraseType) {
+                reviseProject([
+                    [
+                        lastExpression,
+                        Evaluate.make(
+                            Reference.make(
+                                VerseType.names.getTranslation(
+                                    $preferredLanguages
+                                ),
+                                VerseType
+                            ),
+                            [
+                                Evaluate.make(
+                                    Reference.make(
+                                        StackType.names.getTranslation(
+                                            $preferredLanguages
+                                        ),
+                                        StackType
+                                    ),
+                                    [lastExpression, newPhrase]
+                                ),
+                            ]
+                        ),
+                    ],
+                ]);
+            }
+            // If it's a group...
+            else if (
+                type instanceof StructureDefinition &&
+                type.implements(GroupType, context)
+            ) {
+            }
+            // Otherwise, append the phrase.
+            else {
+                reviseProject([
+                    [
+                        source.expression.expression,
+                        source.expression.expression.withStatement(newPhrase),
+                    ],
+                ]);
+            }
+        }
+        // Nothing yet, just add the phrase to the program.
+        else {
+            reviseProject([
+                [
+                    source.expression.expression,
+                    source.expression.expression.withStatement(newPhrase),
+                ],
+            ]);
+        }
     }
 </script>
 
@@ -140,6 +252,17 @@
         {/if}
     </div>
     {#if mode !== 'mini'}
+        <div class="toolbar">
+            <div
+                class="add"
+                tabIndex="0"
+                on:click={addOutput}
+                on:keydown={(event) =>
+                    event.key === 'Enter' || event.key === ' '
+                        ? addOutput()
+                        : undefined}>+</div
+            >
+        </div>
         <!-- A few buttons for minimize and maximize -->
         <div
             class="maximize"
@@ -278,6 +401,18 @@
         height: 2em;
         z-index: var(--wordplay-layer-fullscreen);
         fill: var(--wordplay-disabled-color);
+    }
+
+    .toolbar {
+        position: absolute;
+        top: var(--wordplay-spacing);
+        left: var(--wordplay-spacing);
+        width: 1em;
+        height: 1em;
+        text-align: center;
+        z-index: var(--wordplay-layer-fullscreen);
+        color: var(--wordplay-disabled-color);
+        cursor: pointer;
     }
 
     .maximize:hover {
