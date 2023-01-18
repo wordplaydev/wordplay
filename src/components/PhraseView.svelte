@@ -8,7 +8,7 @@
     import { preferredLanguages } from '../translation/translations';
     import { getContext } from 'svelte';
     import type { Writable } from 'svelte/store';
-    import { selectedOutput } from '../models/stores';
+    import { reviseProject, selectedOutput } from '../models/stores';
 
     export let phrase: Phrase;
     export let place: Place;
@@ -17,7 +17,7 @@
     $: editable = getContext<Writable<boolean>>('editable');
 
     function select(event: MouseEvent | KeyboardEvent) {
-        if ($editable && selectedOutput) {
+        if ($editable) {
             const node = phrase.value.creator;
             const nodes = $selectedOutput;
             const index = nodes.indexOf(node);
@@ -33,6 +33,14 @@
         }
     }
 
+    function handleKey(event: KeyboardEvent) {
+        if (!$editable) return;
+        if (event.key === 'Enter' || event.key === ' ') select(event);
+        // Remove the node that created this phrase.
+        else if (event.key === 'Backspace' && phrase.value.creator)
+            reviseProject([[phrase.value.creator, undefined]]);
+    }
+
     $: selected = $selectedOutput.includes(phrase.value.creator);
 </script>
 
@@ -43,8 +51,7 @@
     id={`phrase-${phrase.getName()}`}
     style={phraseToCSS(phrase, phrase.place ?? place, focus)}
     on:mousedown={(event) => ($selectedOutput ? select(event) : null)}
-    on:keydown={(event) =>
-        event.key === 'Enter' || event.key === ' ' ? select(event) : undefined}
+    on:keydown={handleKey}
 >
     {@html parseRichText(phrase.getDescription($preferredLanguages)).toHTML()}
 </div>
