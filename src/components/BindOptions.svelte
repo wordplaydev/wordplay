@@ -7,7 +7,7 @@
     export let evaluates: Evaluate[];
     export let name: string;
     export let value: string | undefined;
-    export let options: string[];
+    export let options: (undefined | string)[];
 
     // Whenever the slider value changes, revise the Evaluates to match the new value.
     function handleChange(newValue: string | undefined) {

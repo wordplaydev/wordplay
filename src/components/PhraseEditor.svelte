@@ -31,7 +31,7 @@
     };
     type Options = {
         type: 'options';
-        options: string[];
+        options: (string | undefined)[];
     };
     type PhraseProperty = {
         name: string;
@@ -52,7 +52,10 @@
             name: 'font',
             type: {
                 type: 'options',
-                options: SupportedFonts.map((font) => font.name),
+                options: [
+                    undefined,
+                    ...SupportedFonts.map((font) => font.name),
+                ],
             },
             editable: true,
         },
@@ -296,7 +299,7 @@
                     {/if}
                 </td>
                 <td class="revert">
-                    {#if valuesByProperty[property.name].every((val) => val?.given)}
+                    {#if allSet}
                         <Button
                             label="x"
                             tip={$preferredTranslations[0].ui.tooltip.revert}
