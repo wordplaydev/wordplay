@@ -44,7 +44,7 @@
     const properties: PhraseProperty[] = [
         {
             name: 'size',
-            type: { type: 'slider', min: 1, max: 64, step: 1, unit: 'm' },
+            type: { type: 'slider', min: 0.25, max: 32, step: 0.25, unit: 'm' },
             editable: true,
         },
         {
