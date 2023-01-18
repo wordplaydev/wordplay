@@ -38,8 +38,6 @@
             ]
         );
 
-        console.log('Replacing with ' + replacement.toWordplay());
-
         reviseProject(
             $project.getBindReplacements(evaluates, name, replacement)
         );
@@ -56,11 +54,8 @@
                 ? mapping.given.getValue().toNumber() *
                   (name === 'lightness' ? 100 : 1)
                 : undefined;
-        console.log(name + ' = ' + number);
         return number;
     }
-
-    $: console.log('Received ' + value?.toWordplay());
 
     $: lightness = value ? getColorValue('lightness') ?? 0 : 0;
     $: chroma = value ? getColorValue('chroma') ?? 0 : 0;
