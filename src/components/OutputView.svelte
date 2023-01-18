@@ -24,7 +24,7 @@
     import { PhraseType } from '../output/Phrase';
     import StructureDefinition from '../nodes/StructureDefinition';
     import { GroupType } from '../output/Group';
-    import ListLiteral from '../nodes/ListLiteral';
+    import type Node from '../nodes/Node';
     import { StackType } from '../output/Stack';
 
     export let project: Project;
@@ -86,6 +86,8 @@
         // Get the output of the source's program block.
         const lastExpression = source.expression.expression.statements.at(-1);
 
+        let revision: [Node, Node] | undefined = undefined;
+
         // There's a last expression
         if (lastExpression) {
             const context = project.getNodeContext(lastExpression);
@@ -114,40 +116,34 @@
                     firstVerseType instanceof StructureDefinition &&
                     type.implements(GroupType, context)
                 ) {
-                    reviseProject([
-                        [
-                            firstVerseEvaluate,
-                            firstVerseEvaluate.withInputAppended(newPhrase),
-                        ],
-                    ]);
+                    revision = [
+                        firstVerseEvaluate,
+                        firstVerseEvaluate.withInputAppended(newPhrase),
+                    ];
                 }
             }
             // If it's a phrase, create a verse to hold the existing phrase and the new phrase
             else if (type === PhraseType) {
-                reviseProject([
-                    [
-                        lastExpression,
-                        Evaluate.make(
-                            Reference.make(
-                                VerseType.names.getTranslation(
-                                    $preferredLanguages
-                                ),
-                                VerseType
-                            ),
-                            [
-                                Evaluate.make(
-                                    Reference.make(
-                                        StackType.names.getTranslation(
-                                            $preferredLanguages
-                                        ),
-                                        StackType
-                                    ),
-                                    [lastExpression, newPhrase]
-                                ),
-                            ]
+                revision = [
+                    lastExpression,
+                    Evaluate.make(
+                        Reference.make(
+                            VerseType.names.getTranslation($preferredLanguages),
+                            VerseType
                         ),
-                    ],
-                ]);
+                        [
+                            Evaluate.make(
+                                Reference.make(
+                                    StackType.names.getTranslation(
+                                        $preferredLanguages
+                                    ),
+                                    StackType
+                                ),
+                                [lastExpression, newPhrase]
+                            ),
+                        ]
+                    ),
+                ];
             }
             // If it's a group...
             else if (
@@ -157,22 +153,23 @@
             }
             // Otherwise, append the phrase.
             else {
-                reviseProject([
-                    [
-                        source.expression.expression,
-                        source.expression.expression.withStatement(newPhrase),
-                    ],
-                ]);
+                revision = [
+                    source.expression.expression,
+                    source.expression.expression.withStatement(newPhrase),
+                ];
             }
         }
         // Nothing yet, just add the phrase to the program.
         else {
-            reviseProject([
-                [
-                    source.expression.expression,
-                    source.expression.expression.withStatement(newPhrase),
-                ],
-            ]);
+            revision = [
+                source.expression.expression,
+                source.expression.expression.withStatement(newPhrase),
+            ];
+        }
+
+        if (revision) {
+            reviseProject([revision]);
+            selectedOutput.set([newPhrase]);
         }
     }
 </script>
