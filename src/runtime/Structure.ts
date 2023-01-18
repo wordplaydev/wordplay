@@ -54,6 +54,10 @@ export default class Structure extends Value {
         });
     }
 
+    is(type: StructureDefinition) {
+        return this.type === type;
+    }
+
     getType() {
         return new StructureDefinitionType(this.type, []);
     }

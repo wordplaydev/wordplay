@@ -259,9 +259,9 @@ export default class Evaluate extends Expression {
         name: string,
         expression: Expression | undefined,
         context: Context
-    ): Evaluate | undefined {
+    ): Evaluate {
         const mapping = this.getMappingFor(name, context);
-        if (mapping === undefined) return undefined;
+        if (mapping === undefined) return this;
 
         // If we'replacing with nothing
 
@@ -283,7 +283,7 @@ export default class Evaluate extends Expression {
         }
 
         // We don't support modifications to the variable length list (yet).
-        return undefined;
+        return this;
     }
 
     getExpressionFor(name: string, context: Context) {

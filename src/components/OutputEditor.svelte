@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type Evaluate from '../nodes/Evaluate';
+    import Evaluate from '../nodes/Evaluate';
     import {
         preferredLanguages,
         preferredTranslations,
@@ -8,7 +8,7 @@
     import Literal from '../nodes/Literal';
     import Measurement from '../runtime/Measurement';
     import type Value from '../runtime/Value';
-    import Expression from '../nodes/Expression';
+    import type Expression from '../nodes/Expression';
     import BindSlider from './BindSlider.svelte';
     import Bind from '../nodes/Bind';
     import { project, selectedOutput, updateProject } from '../models/stores';
@@ -18,10 +18,11 @@
     import { SupportedFonts } from '../native/Fonts';
     import BindOptions from './BindOptions.svelte';
     import Text from '../runtime/Text';
-    import { parseFunction, toTokens } from '../parser/Parser';
-    import RootView from '../editor/RootView.svelte';
     import { VerseType } from '../output/Verse';
     import type Project from '../models/Project';
+    import BindColor from './BindColor.svelte';
+    import Structure from '../runtime/Structure';
+    import { ColorType } from '../output/Color';
 
     export let nodes: Evaluate[];
     export let position: { x: number; y: number };
@@ -39,10 +40,14 @@
         options: (string | undefined)[];
     };
 
+    type Color = {
+        type: 'color';
+    };
+
     type OutputProperty = {
         name: string;
         editable: boolean | ((phrase: Evaluate) => boolean);
-        type: Slider | Options;
+        type: Slider | Options | Color;
     };
 
     type PropertyValues = (
@@ -64,6 +69,7 @@
 
     const phraseProperties: OutputProperty[] = [
         fontProperty,
+        { name: 'color', type: { type: 'color' }, editable: true },
         {
             name: 'size',
             type: { type: 'slider', min: 0.25, max: 32, step: 0.25, unit: 'm' },
@@ -81,7 +87,11 @@
         },
     ];
 
-    const verseProperties: OutputProperty[] = [fontProperty];
+    const verseProperties: OutputProperty[] = [
+        fontProperty,
+        { name: 'foreground', type: { type: 'color' }, editable: true },
+        { name: 'background', type: { type: 'color' }, editable: true },
+    ];
 
     $: isVerse = nodes.some((node) =>
         node.is(VerseType, ($project as Project).getNodeContext(node))
@@ -153,6 +163,25 @@
             } else return undefined;
         }
         return text;
+    }
+
+    function getColorProperty(values: PropertyValues): Evaluate | undefined {
+        if ($project === undefined) return;
+        // If they're all equal color values, return the value.
+        let color: Evaluate | undefined = undefined;
+        for (const value of values) {
+            if (
+                value &&
+                value.value instanceof Evaluate &&
+                value.value.getFunction(
+                    $project.getNodeContext(value.value)
+                ) === ColorType
+            ) {
+                if (color === undefined) color = value.value;
+                else if (!color.equals(value.value)) return undefined;
+            } else return undefined;
+        }
+        return color;
     }
 
     function unsetProperty(name: string) {
@@ -261,18 +290,6 @@
     on:mousedown={startDrag}
     bind:this={view}
 >
-    <!-- {#if $project}
-        {#each nodes as node}
-            {@const text = node.getExpressionFor(
-                'text',
-                $project.getNodeContext(node)
-            )}
-            {#if text instanceof Node}
-                <RootView node={text} />
-            {/if}
-        {/each}
-    {/if} -->
-
     <table>
         {#each currentProperties as property}
             {@const allSet = valuesByProperty[property.name].every(
@@ -287,9 +304,9 @@
                     ></td
                 >
                 <td class="control">
-                    {#if valuesByProperty[property.name].some((val) => val?.value instanceof Expression)}
-                        <RootView node={parseFunction(toTokens('ƒ()'))} />
-                    {:else if property.type.type === 'slider'}
+                    <!-- {#if valuesByProperty[property.name].some((val) => val?.value instanceof Expression)}
+                        <RootView node={parseFunction(toTokens('ƒ()'))} /> -->
+                    {#if property.type.type === 'slider'}
                         <BindSlider
                             evaluates={nodes}
                             name={property.name}
@@ -311,6 +328,14 @@
                                 valuesByProperty[property.name]
                             )}
                             options={property.type.options}
+                        />
+                    {:else if property.type.type === 'color'}
+                        <BindColor
+                            evaluates={nodes}
+                            name={property.name}
+                            value={getColorProperty(
+                                valuesByProperty[property.name]
+                            )}
                         />
                     {/if}
                 </td>
