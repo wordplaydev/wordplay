@@ -87,13 +87,14 @@
         node.is(VerseType, ($project as Project).getNodeContext(node))
     );
 
-    $: properties = isVerse ? verseProperties : phraseProperties;
+    $: currentType = isVerse ? VerseType : PhraseType;
+    $: currentProperties = isVerse ? verseProperties : phraseProperties;
 
     let valuesByProperty: Record<string, PropertyValues> = {};
     $: {
         valuesByProperty = {};
         if ($project) {
-            for (const property of properties)
+            for (const property of currentProperties)
                 valuesByProperty[property.name] = nodes.map((evaluate) =>
                     getPropertyValue(evaluate, property.name)
                 );
@@ -103,7 +104,7 @@
     function getPropertyValue(evaluate: Evaluate, name: string) {
         // First, find the expressino the binding is mapped to, if any.
         const binding = evaluate
-            .getInputMapping(PhraseType)
+            .getInputMapping(currentType)
             .inputs.find((mapping) => mapping.expected.names.hasName(name));
 
         // Didn't find the binding? Undefined.
@@ -273,14 +274,14 @@
     {/if} -->
 
     <table>
-        {#each properties as property}
+        {#each currentProperties as property}
             {@const allSet = valuesByProperty[property.name].every(
                 (val) => val?.given
             )}
             <tr class="property">
                 <td class="name"
                     ><Note
-                        >{PhraseType.inputs
+                        >{currentType.inputs
                             .find((input) => input.names.hasName(property.name))
                             ?.names?.getTranslation($preferredLanguages)}</Note
                     ></td
