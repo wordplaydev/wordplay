@@ -18,6 +18,8 @@
     import { SupportedFonts } from '../native/Fonts';
     import BindOptions from './BindOptions.svelte';
     import Text from '../runtime/Text';
+    import { parseFunction, toTokens } from '../parser/Parser';
+    import RootView from '../editor/RootView.svelte';
 
     export let nodes: Evaluate[];
     export let position: { x: number; y: number };
@@ -272,7 +274,7 @@
                 >
                 <td class="control">
                     {#if valuesByProperty[property.name].some((val) => val?.value instanceof Expression)}
-                        computed
+                        <RootView node={parseFunction(toTokens('ƒ()'))} />
                     {:else if property.type.type === 'slider'}
                         <BindSlider
                             evaluates={nodes}
