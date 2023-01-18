@@ -4,7 +4,7 @@
     import { onMount, setContext } from 'svelte';
     import type Project from '../models/Project';
     import type Verse from '../output/Verse';
-    import { playing } from '../models/stores';
+    import { playing, selectedOutput } from '../models/stores';
     import { preferredLanguages } from '../translation/translations';
     import PhraseView from './PhraseView.svelte';
     import { loadedFonts } from '../native/Fonts';
@@ -12,7 +12,6 @@
     import type Phrase from '../output/Phrase';
     import type Group from '../output/Group';
     import type Place from '../output/Place';
-    import { getSelectedOutput } from '../editor/util/Contexts';
     import { writable } from 'svelte/store';
     import Evaluate from '../nodes/Evaluate';
     import { VerseType } from '../output/Verse';
@@ -25,15 +24,13 @@
     let ignored = false;
     let view: HTMLElement | null = null;
 
-    let selectedOutput = getSelectedOutput();
-
     $: selected =
         verse.value.creator instanceof Evaluate &&
         verse.value.creator.is(
             VerseType,
             project.getNodeContext(verse.value.creator)
         ) &&
-        $selectedOutput?.includes(verse.value.creator);
+        $selectedOutput.includes(verse.value.creator);
 
     let editableStore = writable<boolean>(editable);
     setContext('editable', editableStore);

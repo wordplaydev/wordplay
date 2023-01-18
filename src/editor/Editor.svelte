@@ -1,7 +1,11 @@
 <svelte:options immutable={true} />
 
 <script lang="ts">
-    import { nodeConflicts, updateProject } from '../models/stores';
+    import {
+        nodeConflicts,
+        selectedOutput,
+        updateProject,
+    } from '../models/stores';
     import type Transform from '../transforms/Transform';
     import Node from '../nodes/Node';
     import Caret from './util/Caret';
@@ -22,7 +26,6 @@
         HighlightSymbol,
         InsertionPointsSymbol,
         getDragged,
-        getSelectedOutput,
     } from './util/Contexts';
     import {
         preferredLanguages,
@@ -107,18 +110,12 @@
         evalUpdate();
     }
 
-    // Get the selected output in the project
-    let selectedOutput = getSelectedOutput();
-
     // Whenever the selected output changes, ensure the first selected node is scrolled to.
     $: {
-        if($selectedOutput) {
-            const node = $selectedOutput[0];
-            if(node) {
-                const view = getNodeView(node);
-                if (view)
-                    ensureElementIsVisible(view, true);
-            }
+        const node = $selectedOutput[0];
+        if (node) {
+            const view = getNodeView(node);
+            if (view) ensureElementIsVisible(view, true);
         }
     }
 
@@ -354,13 +351,9 @@
             }
 
         // Is any output selected?
-        if($selectedOutput) {
-            for(const node of $selectedOutput)
-                addHighlight(
-                    newHighlights,
-                    node,
-                    'hovered'
-                )
+        if ($selectedOutput) {
+            for (const node of $selectedOutput)
+                addHighlight(newHighlights, node, 'hovered');
         }
 
         // Update the store, broadcasting the highlights to all node views for rendering.

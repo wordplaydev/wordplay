@@ -440,7 +440,7 @@ export default class Project {
         return new Project(this.name, newMain, newSupplements);
     }
 
-    wWithRevisedNodes(nodes: [Node, Node | undefined][]) {
+    withRevisedNodes(nodes: [Node, Node | undefined][]) {
         const replacementSources: [Source, Source][] = [];
 
         for (const [original, replacement] of nodes) {
@@ -462,7 +462,7 @@ export default class Project {
         return this.withSources(replacementSources);
     }
 
-    getBindReplacments(
+    getBindReplacements(
         evaluates: Evaluate[],
         name: string,
         value: Expression | undefined

@@ -11,9 +11,8 @@
     import Expression from '../nodes/Expression';
     import BindSlider from './BindSlider.svelte';
     import Bind from '../nodes/Bind';
-    import { project, updateProject } from '../models/stores';
+    import { project, selectedOutput, updateProject } from '../models/stores';
     import Button from './Button.svelte';
-    import { getSelectedOutput } from '../editor/util/Contexts';
     import Note from './Note.svelte';
     import { fade } from 'svelte/transition';
     import { SupportedFonts } from '../native/Fonts';
@@ -82,8 +81,6 @@
                 getPropertyValue(evaluate, property.name)
             );
     }
-
-    let selectedOutput = getSelectedOutput();
 
     function getPropertyValue(evaluate: Evaluate, name: string) {
         // First, find the expressino the binding is mapped to, if any.
@@ -163,7 +160,7 @@
                 })
             );
             // Update the project with the new sources.
-            updateProject($project.wWithRevisedNodes(replacements));
+            updateProject($project.withRevisedNodes(replacements));
         }
     }
 

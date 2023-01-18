@@ -6,9 +6,6 @@
         DraggedSymbol,
         type ProjectContext,
         ProjectSymbol,
-        type SelectedOutputContext,
-        SelectedOutputSymbol,
-        type SelectedOutputType,
     } from '../editor/util/Contexts';
     import KeyboardIdle from '../editor/util/KeyboardIdle';
     import type Project from '../models/Project';
@@ -72,12 +69,6 @@
     // Create a global context for the project
     let projectStore = writable<Project>(project);
     setContext<ProjectContext>(ProjectSymbol, projectStore);
-
-    // Create a project global context that stores the current selected value (and if not in an editing mode, nothing).
-    // This enables output views like phrases and groups know what mode the output view is in and whether they are selected.
-    // so they can render selected feedback.
-    let selectedValue = writable<SelectedOutputType>([]);
-    setContext<SelectedOutputContext>(SelectedOutputSymbol, selectedValue);
 
     function handleActivate(event: CustomEvent<{ source: Source }>) {
         activeSourceName = event.detail.source.getNames()[0];

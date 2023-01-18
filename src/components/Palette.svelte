@@ -2,7 +2,6 @@
     import {
         getDragged,
         getProject,
-        getSelectedOutput,
         PaletteIndexSymbol,
         PalettePathSymbol,
         type PaletteIndexContext,
@@ -41,16 +40,12 @@
     import DescriptionView from './DescriptionView.svelte';
     import { tick } from 'svelte';
     import TextField from './TextField.svelte';
-    import PhraseEditor from './PhraseEditor.svelte';
-    import Evaluate from '../nodes/Evaluate';
-    import { PhraseType } from '../output/Phrase';
 
     export let hidden: boolean;
 
     let palette: HTMLElement | undefined;
 
     let project = getProject();
-    let selectedOutput = getSelectedOutput();
 
     /**
      * The palette is hybrid documentation/drag and drop palette, organized by types.

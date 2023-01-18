@@ -6,15 +6,14 @@
     import parseRichText from '../output/parseRichText';
     import phraseToCSS from '../output/phraseToCSS';
     import { preferredLanguages } from '../translation/translations';
-    import { getSelectedOutput } from '../editor/util/Contexts';
     import { getContext } from 'svelte';
     import type { Writable } from 'svelte/store';
+    import { selectedOutput } from '../models/stores';
 
     export let phrase: Phrase;
     export let place: Place;
     export let focus: Place;
 
-    let selectedOutput = getSelectedOutput();
     $: editable = getContext<Writable<boolean>>('editable');
 
     function select(event: MouseEvent | KeyboardEvent) {
@@ -34,7 +33,7 @@
         }
     }
 
-    $: selected = $selectedOutput?.includes(phrase.value.creator);
+    $: selected = $selectedOutput.includes(phrase.value.creator);
 </script>
 
 <div

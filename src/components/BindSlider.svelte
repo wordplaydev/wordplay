@@ -1,9 +1,5 @@
 <script lang="ts">
-    import {
-        getSelectedOutput,
-        translateSelectedOutputs,
-    } from '../editor/util/Contexts';
-    import { project, updateProject } from '../models/stores';
+    import { project, reviseProject } from '../models/stores';
     import type Evaluate from '../nodes/Evaluate';
     import { parseMeasurement, toTokens } from '../parser/Parser';
     import Slider from './Slider.svelte';
@@ -17,25 +13,17 @@
     export let increment: number;
     export let set: boolean;
 
-    let selectedOutput = getSelectedOutput();
-
     // Whenever the slider value changes, revise the Evaluates to match the new value.
     function handleChange(newValue: number) {
         if ($project === undefined) return;
 
-        const replacements = $project.getBindReplacments(
-            evaluates,
-            name,
-            parseMeasurement(toTokens(newValue + unit))
+        reviseProject(
+            $project.getBindReplacements(
+                evaluates,
+                name,
+                parseMeasurement(toTokens(newValue + unit))
+            )
         );
-
-        // Replace the old selected output with the new one
-        selectedOutput.set(
-            translateSelectedOutputs($selectedOutput, replacements)
-        );
-
-        // Update the project with the new sources.
-        updateProject($project.wWithRevisedNodes(replacements));
     }
 </script>
 

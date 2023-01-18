@@ -2,7 +2,7 @@
     import { toVerse } from '../output/Verse';
     import Exception from '../runtime/Exception';
     import type Value from '../runtime/Value';
-    import { playing } from '../models/stores';
+    import { playing, selectedOutput } from '../models/stores';
     import KeyboardIdle from '../editor/util/KeyboardIdle';
     import type Project from '../models/Project';
     import ValueView from './ValueView.svelte';
@@ -16,7 +16,6 @@
         writingDirection,
         writingLayout,
     } from '../translation/translations';
-    import { getSelectedOutput } from '../editor/util/Contexts';
     import PhraseEditor from './PhraseEditor.svelte';
     import { PhraseType } from '../output/Phrase';
     import Evaluate from '../nodes/Evaluate';
@@ -32,9 +31,8 @@
 
     $: verse = latest === undefined ? undefined : toVerse(latest);
 
-    let selectedOutput = getSelectedOutput();
     $: phrases =
-        $selectedOutput?.filter(
+        $selectedOutput.filter(
             (node): node is Evaluate =>
                 node instanceof Evaluate &&
                 node.is(PhraseType, project.getNodeContext(node))

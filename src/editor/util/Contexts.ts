@@ -9,7 +9,6 @@ import type Node from '../../nodes/Node';
 import type Token from '../../nodes/Token';
 import type Tree from '../../nodes/Tree';
 import type { Highlights } from './Highlights';
-import type Value from '../../runtime/Value';
 
 export type CaretContext = Writable<Caret> | undefined;
 export const CaretSymbol = Symbol('caret');
@@ -79,22 +78,4 @@ export const PaletteIndexSymbol = Symbol('palette-index');
 export type PaletteIndexContext = Writable<ConceptIndex>;
 export function getPaletteIndex() {
     return getContext<PaletteIndexContext>(PaletteIndexSymbol);
-}
-
-export const SelectedOutputSymbol = Symbol('selected-output');
-export type SelectedOutputType = Node[];
-export type SelectedOutputContext = Writable<SelectedOutputType>;
-export function getSelectedOutput() {
-    return getContext<SelectedOutputContext>(SelectedOutputSymbol);
-}
-
-export function translateSelectedOutputs(
-    selected: Node[],
-    replacements: [Node, Node | undefined][]
-) {
-    // Replace the old selected output with the new one
-    return selected.map((n) => {
-        const rep = replacements.find((rep) => rep[0] === n);
-        return rep === undefined || rep[1] === undefined ? n : rep[1];
-    });
 }
