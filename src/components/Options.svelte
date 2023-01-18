@@ -6,12 +6,16 @@
     function handleKey(event: KeyboardEvent) {
         const index = options.indexOf(value as string);
         if (index >= 0) {
-            if (event.key === 'ArrowDown') {
-                value = options[index === options.length - 1 ? 0 : index + 1];
-                change(value);
-            } else if (event.key === 'ArrowUp') {
-                value = options[index === 0 ? options.length - 1 : index - 1];
-                change(value);
+            let newValue = undefined;
+            if (event.key === 'ArrowDown')
+                newValue =
+                    options[index === options.length - 1 ? 0 : index + 1];
+            else if (event.key === 'ArrowUp')
+                newValue =
+                    options[index === 0 ? options.length - 1 : index - 1];
+            if (newValue !== undefined) {
+                event.preventDefault();
+                change(newValue);
             }
         }
     }
@@ -20,7 +24,7 @@
 <select
     bind:value
     on:change={() => change(value)}
-    on:keydown|preventDefault={handleKey}
+    on:keydown|stopPropagation={handleKey}
 >
     {#each options as option}
         <option value={option}>{option}</option>
