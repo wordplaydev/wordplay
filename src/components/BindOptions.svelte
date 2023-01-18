@@ -5,28 +5,25 @@
     } from '../editor/util/Contexts';
     import { project, updateProject } from '../models/stores';
     import type Evaluate from '../nodes/Evaluate';
+    import TextLiteral from '../nodes/TextLiteral';
     import { parseMeasurement, toTokens } from '../parser/Parser';
-    import Slider from './Slider.svelte';
+    import Options from './Options.svelte';
 
     export let evaluates: Evaluate[];
     export let name: string;
-    export let value: number | undefined;
-    export let min: number;
-    export let max: number;
-    export let unit: string;
-    export let increment: number;
-    export let set: boolean;
+    export let value: string | undefined;
+    export let options: string[];
 
     let selectedOutput = getSelectedOutput();
 
     // Whenever the slider value changes, revise the Evaluates to match the new value.
-    function handleChange(newValue: number) {
+    function handleChange(newValue: string | undefined) {
         if ($project === undefined) return;
 
         const replacements = $project.getBindReplacments(
             evaluates,
             name,
-            parseMeasurement(toTokens(newValue + unit))
+            newValue ? TextLiteral.make(newValue) : undefined
         );
 
         // Replace the old selected output with the new one
@@ -39,12 +36,4 @@
     }
 </script>
 
-<Slider
-    {value}
-    {min}
-    {max}
-    {unit}
-    {increment}
-    change={handleChange}
-    isDefault={!set}
-/>
+<Options {value} {options} change={handleChange} />

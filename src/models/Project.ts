@@ -462,6 +462,21 @@ export default class Project {
         return this.withSources(replacementSources);
     }
 
+    getBindReplacments(
+        evaluates: Evaluate[],
+        name: string,
+        value: Expression | undefined
+    ): [Evaluate, Evaluate | undefined][] {
+        return evaluates.map((evaluate) => [
+            evaluate,
+            evaluate.withBindAs(
+                name,
+                value?.clone(),
+                this.getNodeContext(evaluate)
+            ),
+        ]);
+    }
+
     /** Get all the languages used in the project */
     getLanguages() {
         return Array.from(

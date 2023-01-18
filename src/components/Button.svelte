@@ -24,7 +24,7 @@
         display: inline-block;
         background-color: var(--wordplay-chrome);
         color: var(--wordplay-foreground);
-        font-family: var(--wordplay-font-face);
+        font-family: var(--wordplay-app-font);
         font-size: var(--wordplay-font-size);
         font-weight: var(--wordplay-font-weight);
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);

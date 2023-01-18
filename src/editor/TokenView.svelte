@@ -147,7 +147,7 @@
     }
 
     .placeholder .text {
-        font-family: var(--wordplay-font-face);
+        font-family: var(--wordplay-app-font);
         font-style: italic;
     }
 </style>

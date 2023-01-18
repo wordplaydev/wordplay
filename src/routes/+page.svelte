@@ -17,7 +17,7 @@
         background-color: var(--wordplay-background);
         padding: 0;
         margin: 0;
-        font-family: var(--wordplay-font-face);
+        font-family: var(--wordplay-app-font);
         font-weight: var(--wordplay-font-weight);
         color: var(--wordplay-foreground);
     }

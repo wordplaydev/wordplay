@@ -11,7 +11,7 @@
         height: 100%;
         background: none;
         font-size: var(--wordplay-font-size);
-        font-family: var(--wordplay-font-face);
+        font-family: var(--wordplay-app-font);
         border: none;
         padding: var(--wordplay-spacing);
         border-bottom: var(--wordplay-disabled-color) solid

@@ -37,7 +37,7 @@
     .switch {
         display: inline-block;
         user-select: none;
-        font-family: var(--wordplay-font-face);
+        font-family: var(--wordplay-app-font);
         font-size: var(--wordplay-font-size);
         font-weight: var(--wordplay-font-weight);
         color: var(--wordplay-foreground);

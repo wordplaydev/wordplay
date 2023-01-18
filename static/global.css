@@ -26,7 +26,7 @@
     --wordplay-operator-color: var(--color-orange);
     --wordplay-type-color: var(--color-orange);
     --wordplay-spacing: 0.5em;
-    --wordplay-font-face: "Noto Sans", "Noto Emoji", sans-serif;
+    --wordplay-app-font: "Noto Sans", "Noto Emoji", sans-serif;
     --wordplay-code-font: "Noto Mono", "Noto Emoji", monospace;
     --wordplay-font-weight: 500;
     --wordplay-font-size: 12pt;

@@ -16,21 +16,28 @@
     import { getSelectedOutput } from '../editor/util/Contexts';
     import Note from './Note.svelte';
     import { fade } from 'svelte/transition';
+    import { SupportedFonts } from '../native/Fonts';
+    import BindOptions from './BindOptions.svelte';
+    import Text from '../runtime/Text';
 
     export let nodes: Evaluate[];
     export let position: { x: number; y: number };
 
-    type Control = {
+    type Slider = {
         type: 'slider';
         min: number;
         max: number;
         step: number;
         unit: string;
     };
+    type Options = {
+        type: 'options';
+        options: string[];
+    };
     type PhraseProperty = {
         name: string;
         editable: boolean | ((phrase: Evaluate) => boolean);
-        type: Control;
+        type: Slider | Options;
     };
 
     type PropertyValues = (
@@ -42,6 +49,14 @@
     )[];
 
     const properties: PhraseProperty[] = [
+        {
+            name: 'font',
+            type: {
+                type: 'options',
+                options: SupportedFonts.map((font) => font.name),
+            },
+            editable: true,
+        },
         {
             name: 'size',
             type: { type: 'slider', min: 0.25, max: 32, step: 0.25, unit: 'm' },
@@ -109,6 +124,19 @@
             } else return undefined;
         }
         return unit === '%' && number !== undefined ? number * 100 : number;
+    }
+
+    function getTextProperty(values: PropertyValues): string | undefined {
+        // If they're all equal text values, return the value.
+        let text: string | undefined = undefined;
+        for (const value of values) {
+            if (value?.value instanceof Text) {
+                const thisText = value.value.text;
+                if (text === undefined) text = thisText;
+                else if (thisText !== text) return undefined;
+            } else return undefined;
+        }
+        return text;
     }
 
     function unsetProperty(name: string) {
@@ -231,6 +259,9 @@
 
     <table>
         {#each properties as property}
+            {@const allSet = valuesByProperty[property.name].every(
+                (val) => val?.given
+            )}
             <tr class="property">
                 <td class="name"
                     ><Note
@@ -254,10 +285,18 @@
                             max={property.type.max}
                             unit={property.type.unit}
                             increment={property.type.step}
-                            set={valuesByProperty[property.name].every(
-                                (val) => val?.given
+                            set={allSet}
+                        />
+                    {:else if property.type.type === 'options'}
+                        <BindOptions
+                            name={property.name}
+                            evaluates={nodes}
+                            value={getTextProperty(
+                                valuesByProperty[property.name]
                             )}
-                        />{/if}
+                            options={property.type.options}
+                        />
+                    {/if}
                 </td>
                 <td class="revert">
                     {#if valuesByProperty[property.name].every((val) => val?.given)}

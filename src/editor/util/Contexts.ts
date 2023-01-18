@@ -87,3 +87,14 @@ export type SelectedOutputContext = Writable<SelectedOutputType>;
 export function getSelectedOutput() {
     return getContext<SelectedOutputContext>(SelectedOutputSymbol);
 }
+
+export function translateSelectedOutputs(
+    selected: Node[],
+    replacements: [Node, Node | undefined][]
+) {
+    // Replace the old selected output with the new one
+    return selected.map((n) => {
+        const rep = replacements.find((rep) => rep[0] === n);
+        return rep === undefined || rep[1] === undefined ? n : rep[1];
+    });
+}
