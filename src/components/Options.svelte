@@ -6,14 +6,14 @@
     function handleKey(event: KeyboardEvent) {
         const index = options.indexOf(value as string);
         if (index >= 0) {
-            let newValue = undefined;
+            let newValue = null;
             if (event.key === 'ArrowDown')
                 newValue =
                     options[index === options.length - 1 ? 0 : index + 1];
             else if (event.key === 'ArrowUp')
                 newValue =
                     options[index === 0 ? options.length - 1 : index - 1];
-            if (newValue !== undefined) {
+            if (newValue !== null) {
                 event.preventDefault();
                 change(newValue);
             }
