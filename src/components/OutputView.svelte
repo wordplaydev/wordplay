@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { toVerse } from '../output/Verse';
+    import { toVerse, VerseType } from '../output/Verse';
     import Exception from '../runtime/Exception';
     import type Value from '../runtime/Value';
     import { playing, selectedOutput } from '../models/stores';
@@ -16,7 +16,7 @@
         writingDirection,
         writingLayout,
     } from '../translation/translations';
-    import PhraseEditor from './PhraseEditor.svelte';
+    import OutputEditor from './OutputEditor.svelte';
     import { PhraseType } from '../output/Phrase';
     import Evaluate from '../nodes/Evaluate';
 
@@ -31,11 +31,12 @@
 
     $: verse = latest === undefined ? undefined : toVerse(latest);
 
-    $: phrases =
+    $: output =
         $selectedOutput.filter(
             (node): node is Evaluate =>
                 node instanceof Evaluate &&
-                node.is(PhraseType, project.getNodeContext(node))
+                (node.is(PhraseType, project.getNodeContext(node)) ||
+                    node.is(VerseType, project.getNodeContext(node)))
         ) ?? [];
 
     function activate() {
@@ -78,9 +79,9 @@
     on:mousemove={drag}
     on:mouseup={drop}
 >
-    <!-- A selected output is prioritized over the home page -->
-    {#if mode === 'peripheral' && phrases.length > 0}
-        <PhraseEditor bind:dragging nodes={phrases} {position} />
+    <!-- Render the phrase editor if there are selected phrases. -->
+    {#if mode === 'peripheral' && output.length > 0}
+        <OutputEditor bind:dragging nodes={output} {position} />
     {/if}
     <!-- Render the verse, or whatever value we get -->
     <div

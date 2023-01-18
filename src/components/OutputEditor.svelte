@@ -20,6 +20,8 @@
     import Text from '../runtime/Text';
     import { parseFunction, toTokens } from '../parser/Parser';
     import RootView from '../editor/RootView.svelte';
+    import { VerseType } from '../output/Verse';
+    import type Project from '../models/Project';
 
     export let nodes: Evaluate[];
     export let position: { x: number; y: number };
@@ -31,11 +33,13 @@
         step: number;
         unit: string;
     };
+
     type Options = {
         type: 'options';
         options: (string | undefined)[];
     };
-    type PhraseProperty = {
+
+    type OutputProperty = {
         name: string;
         editable: boolean | ((phrase: Evaluate) => boolean);
         type: Slider | Options;
@@ -49,18 +53,17 @@
         | undefined
     )[];
 
-    const properties: PhraseProperty[] = [
-        {
-            name: 'font',
-            type: {
-                type: 'options',
-                options: [
-                    undefined,
-                    ...SupportedFonts.map((font) => font.name),
-                ],
-            },
-            editable: true,
+    const fontProperty: OutputProperty = {
+        name: 'font',
+        type: {
+            type: 'options',
+            options: [undefined, ...SupportedFonts.map((font) => font.name)],
         },
+        editable: true,
+    };
+
+    const phraseProperties: OutputProperty[] = [
+        fontProperty,
         {
             name: 'size',
             type: { type: 'slider', min: 0.25, max: 32, step: 0.25, unit: 'm' },
@@ -78,13 +81,23 @@
         },
     ];
 
+    const verseProperties: OutputProperty[] = [fontProperty];
+
+    $: isVerse = nodes.some((node) =>
+        node.is(VerseType, ($project as Project).getNodeContext(node))
+    );
+
+    $: properties = isVerse ? verseProperties : phraseProperties;
+
     let valuesByProperty: Record<string, PropertyValues> = {};
     $: {
         valuesByProperty = {};
-        for (const property of properties)
-            valuesByProperty[property.name] = nodes.map((evaluate) =>
-                getPropertyValue(evaluate, property.name)
-            );
+        if ($project) {
+            for (const property of properties)
+                valuesByProperty[property.name] = nodes.map((evaluate) =>
+                    getPropertyValue(evaluate, property.name)
+                );
+        }
     }
 
     function getPropertyValue(evaluate: Evaluate, name: string) {

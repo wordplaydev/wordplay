@@ -208,6 +208,7 @@
     }
 
     .selected {
-        filter: blur(var(--wordplay-focus-width));
+        border: var(--wordplay-highlight) solid
+            calc(2 * var(--wordplay-focus-width));
     }
 </style>
