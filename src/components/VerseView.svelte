@@ -96,7 +96,6 @@
 
         if (project.evaluator.isPlaying()) {
             project.streams.keyboard.record(event.key, false);
-            event.preventDefault();
         } else ignore();
     }
 
@@ -106,7 +105,6 @@
 
         if (project.evaluator.isPlaying()) {
             project.streams.keyboard.record(event.key, true);
-            event.preventDefault();
         } else ignore();
 
         handleOutputSelection(event);
@@ -166,16 +164,25 @@
             <!-- Render all visible phrases at their places, as well as any exiting phrases -->
             {#each visible as phrase}
                 {@const place = places.get(phrase)}
+                {@const context =
+                    project.evaluator.animations.getRenderContext()}
                 <!-- There should always be a place. If there's not, there's something wrong with our layout algorithm. -->
                 {#if place}
-                    <PhraseView {phrase} {place} focus={verse.focus} />
+                    <PhraseView
+                        {phrase}
+                        {place}
+                        focus={verse.focus}
+                        {context}
+                    />
                 {:else}
                     <span>No place for Phrase, oops</span>
                 {/if}
             {/each}
             {#each [...exiting] as [phrase, place]}
+                {@const context =
+                    project.evaluator.animations.getRenderContext()}
                 <!-- There should always be a place. If there's not, there's something wrong with our layout algorithm. -->
-                <PhraseView {phrase} {place} focus={verse.focus} />
+                <PhraseView {phrase} {place} focus={verse.focus} {context} />
             {/each}
         </div>
     </div>

@@ -6,13 +6,16 @@
     import parseRichText from '../output/parseRichText';
     import phraseToCSS from '../output/phraseToCSS';
     import { preferredLanguages } from '../translation/translations';
-    import { getContext } from 'svelte';
+    import { getContext, tick } from 'svelte';
     import type { Writable } from 'svelte/store';
     import { reviseProject, selectedOutput } from '../models/stores';
+    import type { RenderContext } from '../output/Group';
+    import TextLiteral from '../nodes/TextLiteral';
 
     export let phrase: Phrase;
     export let place: Place;
     export let focus: Place;
+    export let context: RenderContext;
 
     $: editable = getContext<Writable<boolean>>('editable');
 
@@ -26,10 +29,9 @@
                     ? index >= 0
                         ? [...nodes.slice(0, index), ...nodes.slice(index + 1)]
                         : [...nodes, node]
-                    : index >= 0
-                    ? []
                     : [node]
             );
+            event.stopPropagation();
         }
     }
 
@@ -37,8 +39,34 @@
         if (!$editable) return;
         if (event.key === 'Enter' || event.key === ' ') select(event);
         // Remove the node that created this phrase.
-        else if (event.key === 'Backspace' && phrase.value.creator)
+        else if (event.key === 'Backspace' && (event.metaKey || event.ctrlKey))
             reviseProject([[phrase.value.creator, undefined]]);
+    }
+
+    let text: string = phrase.getDescription($preferredLanguages);
+    let input: HTMLInputElement;
+    async function handleInput(event: any) {
+        const newText = event.currentTarget.value;
+        const originalTextValue = phrase.value.resolve('text');
+        if (originalTextValue === undefined) return;
+
+        const start = event.currentTarget.selectionStart;
+        const end = event.currentTarget.selectionEnd;
+
+        reviseProject([
+            [
+                phrase.value.creator,
+                phrase.value.creator.replace(
+                    originalTextValue.creator,
+                    TextLiteral.make(newText)
+                ),
+            ],
+        ]);
+
+        // After the update, focus on the new input and restore the caret position.
+        await tick();
+        input.focus();
+        input.setSelectionRange(start, end);
     }
 
     $: selected = $selectedOutput.includes(phrase.value.creator);
@@ -53,7 +81,21 @@
     on:mousedown={(event) => ($selectedOutput ? select(event) : null)}
     on:keydown={handleKey}
 >
-    {@html parseRichText(phrase.getDescription($preferredLanguages)).toHTML()}
+    {#if selected}
+        <!-- svelte-ignore a11y-autofocus -->
+        <input
+            type="text"
+            bind:value={text}
+            bind:this={input}
+            on:input={handleInput}
+            style:width="{phrase.getMetrics(context).width}px"
+            autofocus
+        />
+    {:else}
+        {@html parseRichText(
+            phrase.getDescription($preferredLanguages)
+        ).toHTML()}
+    {/if}
 </div>
 
 <style>
@@ -80,5 +122,20 @@
         outline: none;
         border-bottom: var(--wordplay-highlight) solid
             var(--wordplay-focus-width);
+    }
+
+    input {
+        font-family: inherit;
+        font-weight: inherit;
+        font-style: inherit;
+        font-size: inherit;
+        /* color: inherit; */
+        border: inherit;
+        background: none;
+        padding: 0;
+        border-bottom: var(--wordplay-highlight) solid
+            var(--wordplay-focus-width);
+        outline: none;
+        min-width: 1em;
     }
 </style>
