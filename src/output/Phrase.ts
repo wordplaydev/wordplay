@@ -13,7 +13,7 @@ import { toPlace } from './Place';
 import Decimal from 'decimal.js';
 import { toDecimal } from './Verse';
 import getTextMetrics from './getTextMetrics';
-import parseRichText from './parseRichText';
+import parseRichText, { RichNode, TextNode } from './parseRichText';
 import { toPose as toPose } from './Pose';
 import type Sequence from './Sequence';
 import { PX_PER_METER, sizeToPx } from './phraseToCSS';
@@ -107,12 +107,13 @@ export default class Phrase extends Group {
         if (this.font) Fonts.loadFamily(this.font);
     }
 
-    getMetrics(context: RenderContext) {
+    getMetrics(context: RenderContext, parsed: boolean = true) {
         // See if any moves are animating this.
         const animation = context.animations.get(this);
 
         // Return the cache, if there is one.
-        if (this._metrics && animation === undefined) return this._metrics;
+        if (parsed && this._metrics && animation === undefined)
+            return this._metrics;
 
         // The font is:
         // 1) the animated font, if there is one
@@ -133,7 +134,9 @@ export default class Phrase extends Group {
             : this.getDescription(context.languages);
 
         // Parse the text as rich text nodes.
-        const rich = parseRichText(text);
+        const rich = parsed
+            ? parseRichText(text)
+            : new RichNode([new TextNode(text)]);
 
         // Get the formats of the rich text
         const formats = rich.getTextFormats();

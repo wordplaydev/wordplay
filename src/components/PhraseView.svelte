@@ -45,6 +45,7 @@
 
     let text: string = phrase.getDescription($preferredLanguages);
     let input: HTMLInputElement;
+    let inputWidth: number;
     async function handleInput(event: any) {
         const newText = event.currentTarget.value;
         const originalTextValue = phrase.value.resolve('text');
@@ -88,7 +89,7 @@
             bind:value={text}
             bind:this={input}
             on:input={handleInput}
-            style:width="{phrase.getMetrics(context).width}px"
+            style:width="{phrase.getMetrics(context, false).width}px"
             autofocus
         />
     {:else}
@@ -114,7 +115,6 @@
     }
 
     .phrase.selected {
-        color: transparent;
         text-shadow: 0 0 0 var(--wordplay-highlight);
     }
 
@@ -129,9 +129,9 @@
         font-weight: inherit;
         font-style: inherit;
         font-size: inherit;
-        /* color: inherit; */
+        color: inherit;
         border: inherit;
-        background: none;
+        background: inherit;
         padding: 0;
         border-bottom: var(--wordplay-highlight) solid
             var(--wordplay-focus-width);

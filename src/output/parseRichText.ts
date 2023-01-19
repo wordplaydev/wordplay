@@ -44,7 +44,7 @@ abstract class Node {
     }
 }
 
-class RichNode extends Node {
+export class RichNode extends Node {
     constructor(children: Node[]) {
         super(children);
     }
@@ -59,7 +59,7 @@ class RichNode extends Node {
     }
 }
 
-class TextNode extends Node {
+export class TextNode extends Node {
     readonly text: string;
     constructor(text: string) {
         super([]);
