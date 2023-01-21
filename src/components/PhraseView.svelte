@@ -65,7 +65,7 @@
         // After the update, focus on the new input and restore the caret position.
         await tick();
         if (input) {
-            input.focus();
+            input.focus({ preventScroll: true });
             input.setSelectionRange(start, end);
         }
     }
@@ -89,6 +89,7 @@
             bind:value={text}
             bind:this={input}
             on:input={handleInput}
+            on:keydown|stopPropagation
             style:width="{phrase.getMetrics(context, false).width}px"
             autofocus
         />

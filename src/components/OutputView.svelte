@@ -93,8 +93,6 @@
         transition: ease-in, width 0.25s ease-in, height 0.25s ease-in;
         transform-origin: top right;
 
-        overflow: hidden;
-
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -111,7 +109,6 @@
     }
 
     .value {
-        overflow: hidden;
         display: flex;
         justify-content: center;
         align-items: center;
