@@ -141,11 +141,11 @@
 <style>
     .timeline {
         padding: var(--wordplay-spacing);
-        width: 100%;
-
         display: flex;
         flex-direction: row;
         gap: var(--wordplay-spacing);
+        flex: 1;
+        max-width: 40em;
     }
 
     .inputs {

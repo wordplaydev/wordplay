@@ -43,6 +43,7 @@
     import type Bounds from './Bounds';
     import type Source from '../nodes/Source';
     import MiniSourceView from './SourceTileToggle.svelte';
+    import Timeline from './Timeline.svelte';
 
     export let project: Project;
 
@@ -463,6 +464,7 @@
             />
         {/each}
         <div class="settings">
+            <Timeline evaluator={project.evaluator} />
             <Button
                 tip={layout.arrangement === Arrangement.free
                     ? $preferredTranslations[0].ui.tooltip.vertical
@@ -527,6 +529,7 @@
         display: flex;
         flex-direction: row;
         align-items: center;
+        flex-wrap: wrap;
         padding: var(--wordplay-spacing);
         gap: var(--wordplay-spacing);
         border-top: 1px solid var(--wordplay-border-color);
@@ -536,8 +539,9 @@
         margin-left: auto;
         display: flex;
         flex-direction: row;
-        flex-wrap: nowrap;
+        align-items: center;
         gap: var(--wordplay-spacing);
+        min-width: 5em;
     }
 
     .drag-outline {

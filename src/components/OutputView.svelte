@@ -14,7 +14,6 @@
         writingDirection,
         writingLayout,
     } from '../translation/translations';
-    import Timeline from './Timeline.svelte';
 
     export let project: Project;
     export let source: Source;
@@ -83,9 +82,6 @@
             />
         {/if}
     </div>
-    {#if mode !== 'mini'}
-        <Timeline evaluator={project.evaluator} />
-    {/if}
 </section>
 
 <style>
@@ -101,6 +97,7 @@
 
         width: 100%;
         height: 100%;
+        overflow: hidden;
     }
 
     .fullscreen .value {
