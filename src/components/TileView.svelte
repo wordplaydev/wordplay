@@ -36,7 +36,11 @@
 
     function handleKeyDown(event: KeyboardEvent) {
         // Collapse on escape
-        if (event.key === 'Escape' && tile.mode === Mode.Expanded)
+        if (
+            (event.ctrlKey || event.metaKey) &&
+            event.key === 'Escape' &&
+            tile.mode === Mode.Expanded
+        )
             dispatch('mode', { mode: Mode.Collapsed });
         // Move or resize on command-arrow
         else if (
