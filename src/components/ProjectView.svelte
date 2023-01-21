@@ -106,7 +106,6 @@
                 : undefined;
             if (tile && tile.mode === Mode.Collapsed) {
                 setMode(tile, Mode.Expanded);
-                console.log('expanding ' + tile.id);
             }
         }
     }
@@ -368,12 +367,14 @@
         bind:clientHeight={canvasHeight}
         bind:this={canvas}
     >
-        <div
-            class="boundary"
-            style:left="{maxRight}px"
-            style:top="{maxBottom}px"
-            style:position="absolute">&nbsp;</div
-        >
+        {#if layout.arrangement === Arrangement.free}
+            <div
+                class="boundary"
+                style:left="{maxRight}px"
+                style:top="{maxBottom}px"
+                style:position="absolute">&nbsp;</div
+            >
+        {/if}
 
         {#each layout.tiles as tile (tile.id)}
             <TileView
@@ -423,10 +424,7 @@
                 {/if}</TileView
             >
         {/each}
-        <!-- Render annotations on top of the tiles -->
-        <Annotations {project} conflicts={visibleConflicts} {stepping} />
     </div>
-
     <!-- Render the footer on top of the windows -->
     <div class="footer">
         {#each layout.getSources() as source}
@@ -477,6 +475,8 @@
             >
         </div>
     </div>
+    <!-- Render annotations on top of the tiles and the footer -->
+    <Annotations {project} conflicts={visibleConflicts} {stepping} />
 
     <!-- Render the dragged node over the whole project -->
     {#if $dragged !== undefined}
@@ -502,6 +502,7 @@
         background-color: var(--wordplay-background);
         display: flex;
         flex-direction: column;
+        overflow: hidden;
     }
 
     .canvas {

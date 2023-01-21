@@ -9,7 +9,6 @@
     import type Position from './Position';
     import { tick } from 'svelte';
     import { afterUpdate } from 'svelte';
-    import type Rect from './Rect';
     import type { Description } from '../translation/Translation';
     import type Step from '../runtime/Step';
 
