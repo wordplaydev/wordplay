@@ -16,6 +16,7 @@
         currentStep,
         nodeConflicts,
         updateProject,
+        selectedOutput,
     } from '../models/stores';
     import Annotations from './Annotations.svelte';
     import type Conflict from '../conflicts/Conflict';
@@ -107,6 +108,15 @@
             if (tile && tile.mode === Mode.Collapsed) {
                 setMode(tile, Mode.Expanded);
             }
+        }
+    }
+
+    // When output selection changes, make the palette visible.
+    $: {
+        if ($selectedOutput.length > 0) {
+            const palette = layout.getPalette();
+            if (palette && palette.mode === Mode.Collapsed)
+                setMode(palette, Mode.Expanded);
         }
     }
 

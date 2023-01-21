@@ -6,6 +6,10 @@
     export let increment: number;
     export let change: (value: number) => void;
     export let isDefault: boolean;
+
+    function handleChange(event: Event) {
+        if (value !== undefined) change(value);
+    }
 </script>
 
 <div class="control">
@@ -16,9 +20,8 @@
         {max}
         step={increment}
         bind:value
-        on:input={() => (value !== undefined ? change(value) : undefined)}
-        on:mousedown
-        on:keydown
+        on:mousedown|stopPropagation
+        on:input={handleChange}
     />
     <div class="text" class:isDefault>
         {#if value === undefined}
