@@ -31,6 +31,14 @@ export default class Layout {
         return this.tiles.find((tile) => tile.id === id);
     }
 
+    static getSourceID(index: number) {
+        return `source${index}`;
+    }
+
+    getSource(index: number) {
+        return this.getTileWithID(Layout.getSourceID(index));
+    }
+
     getPalette() {
         return this.getTileWithID(PaletteID);
     }

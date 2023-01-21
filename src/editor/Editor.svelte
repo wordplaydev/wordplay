@@ -1278,12 +1278,6 @@
         min-width: 100%;
     }
 
-    .editor.stepping {
-        outline: var(--wordplay-evaluation-color) solid
-            var(--wordplay-focus-width);
-        outline-offset: calc(-1 * var(--wordplay-focus-width));
-    }
-
     .keyboard-input {
         position: absolute;
         border: none;

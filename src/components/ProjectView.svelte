@@ -57,9 +57,8 @@
         // Get the list of sources that are expanded
         .filter(
             (source) =>
-                layout.getTileWithID(
-                    `source${project.getIndexOfSource(source)}`
-                )?.mode === Mode.Expanded
+                layout.getSource(project.getIndexOfSource(source))?.mode ===
+                Mode.Expanded
         )
         // Convert them into lists of conflicts
         .map((source) => conflictsOfInterest.get(source) ?? [])
@@ -101,10 +100,14 @@
     $: stepping = !$playing;
     $: {
         if (!$playing && $currentStep) {
-            // if (!activeSource?.contains($currentStep.node)) {
-            //     activeSource =
-            //         project.getSourceOf($currentStep.node) ?? project.main;
-            // }
+            const source = project.getSourceOf($currentStep.node);
+            const tile = source
+                ? layout.getSource(project.getIndexOfSource(source))
+                : undefined;
+            if (tile && tile.mode === Mode.Collapsed) {
+                setMode(tile, Mode.Expanded);
+                console.log('expanding ' + tile.id);
+            }
         }
     }
 
@@ -141,9 +144,9 @@
                 .getSources()
                 .map(
                     (source, index) =>
-                        layout?.getTileWithID(`source${index}`) ??
+                        layout?.getSource(index) ??
                         new Tile(
-                            `source${index}`,
+                            Layout.getSourceID(index),
                             source.names.getTranslation($preferredLanguages),
                             Content.Source,
                             index === 0 ? Mode.Expanded : Mode.Collapsed,
@@ -175,12 +178,15 @@
     );
 
     $: {
-        if (canvasWidth && canvasHeight)
+        if (canvasWidth && canvasHeight) {
             layout = layout.resized(canvasWidth, canvasHeight);
+        }
     }
 
     function setMode(tile: Tile, mode: Mode) {
-        layout = layout.withTileInMode(tile, mode);
+        layout = layout
+            .withTileInMode(tile, mode)
+            .resized(canvasWidth, canvasHeight);
     }
 
     function setFullscreen(tile: Tile, fullscreen: boolean) {
@@ -525,6 +531,7 @@
         position: absolute;
         cursor: none;
         pointer-events: none;
+        z-index: 2;
     }
 
     /* A fancy dragon cursor for dragon drop! Get it? */

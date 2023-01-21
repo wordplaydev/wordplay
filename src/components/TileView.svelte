@@ -19,6 +19,7 @@
     import type { Arrangement } from './Layout';
     import type Tile from './Tile';
     import { Mode } from './Tile';
+    import { playing } from '../models/stores';
 
     export let tile: Tile;
     export let arrangement: Arrangement;
@@ -160,6 +161,7 @@
             : ''} {arrangement} {tile.id}"
         class:fullscreen
         class:dragging
+        class:stepping={!$playing}
         data-id={tile.id}
         style:background
         style:left={fullscreen ? null : `${tile.bounds?.left ?? 0}px`}
@@ -308,6 +310,10 @@
         top: 0;
         left: 0;
         pointer-events: none;
+    }
+
+    .tile.stepping:focus-within:after {
+        outline-color: var(--wordplay-evaluation-color);
     }
 
     .fullscreen {
