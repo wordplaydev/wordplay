@@ -61,13 +61,8 @@
         transform: scale(1.15, 1.15);
     }
 
-    .button:focus,
-    .button.inactive {
-        z-index: 2;
-    }
-
     .button:focus.active {
-        z-index: 3;
+        z-index: 1;
     }
 
     .button.inactive:hover {

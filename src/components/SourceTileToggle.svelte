@@ -8,13 +8,8 @@
 
     export let project: Project;
     export let source: Source;
-    export let selected: boolean;
 
-    const dispatch = createEventDispatcher<{ activate: { source: Source } }>();
-
-    function activate() {
-        dispatch('activate', { source });
-    }
+    const dispatch = createEventDispatcher();
 
     let latest: Value | undefined;
     $: {
@@ -44,26 +39,17 @@
 
 <div
     class="mini"
-    class:selected
     tabIndex="0"
-    on:click={activate}
+    on:click={() => dispatch('toggle')}
     on:keydown={(event) => {
-        if (event.key === 'Enter' || event.key === ' ') {
-            activate();
-            event.preventDefault();
-        }
+        if (event.key === 'Enter' || event.key === ' ') dispatch('toggle');
     }}
 >
-    <div class="name"
-        >{source.getNames()}{#if primaryCount > 0}<span class="count primary"
-                >{primaryCount}</span
-            >{/if}{#if secondaryCount > 0}<span class="count secondary"
-                >{secondaryCount}</span
-            >{/if}</div
-    >
-    {#if !selected}
-        <OutputView {project} {source} {latest} mode="mini" />
-    {/if}
+    <span class="name">{source.getNames()} </span>
+    {#if primaryCount > 0}<span class="count primary">{primaryCount}</span>{/if}
+    {#if secondaryCount > 0}<span class="count secondary">{secondaryCount}</span
+        >{/if}
+    <OutputView {project} {source} {latest} mode="mini" />
 </div>
 
 <style>
@@ -72,10 +58,15 @@
         user-select: none;
         display: flex;
         flex-direction: row;
+        align-items: center;
         overflow: hidden;
         cursor: pointer;
-        border-right: var(--wordplay-border-width) solid
-            var(--wordplay-border-color);
+        gap: var(--wordplay-spacing);
+    }
+
+    .mini:focus {
+        outline: none;
+        color: var(--wordplay-highlight);
     }
 
     .count {
@@ -85,7 +76,6 @@
         color: var(--wordplay-background);
         min-width: 2.25em;
         text-align: center;
-        margin-left: var(--wordplay-spacing);
     }
 
     .primary {
@@ -94,16 +84,5 @@
 
     .secondary {
         background-color: var(--wordplay-warning);
-    }
-
-    .selected {
-        font-weight: bold;
-    }
-
-    .name {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: var(--wordplay-spacing);
     }
 </style>

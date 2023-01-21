@@ -51,14 +51,6 @@
         pointer-events: none;
     }
 
-    .outline {
-        z-index: var(--wordplay-layer-highlight);
-    }
-
-    .underline {
-        z-index: var(--wordplay-layer-annotation);
-    }
-
     .highlight path {
         fill: none;
         stroke-width: var(--wordplay-border-radius);
@@ -86,10 +78,6 @@
     .outline.dragging path {
         fill: var(--wordplay-highlight);
         stroke: var(--wordplay-highlight);
-    }
-
-    .outline.dragging {
-        z-index: var(--wordplay-layer-drag);
     }
 
     .outline.evaluating path {

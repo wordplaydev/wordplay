@@ -731,10 +731,24 @@ type Translation = {
             reset: string;
             home: string;
             revert: string;
+            fullscreen: string;
+            collapse: string;
+            expand: string;
+            close: string;
+            language: string;
+            horizontal: string;
+            vertical: string;
+            freeform: string;
+            addPhrase: string;
         };
         labels: {
             learn: string;
             nodoc: string;
+        };
+        tiles: {
+            output: string;
+            docs: string;
+            palette: string;
         };
     };
     input: {

@@ -27,7 +27,6 @@
     .annotation {
         position: absolute;
         padding: var(--wordplay-spacing);
-        z-index: var(--wordplay-layer-annotation);
         background-color: var(--wordplay-error);
         color: var(--wordplay-background);
         box-shadow: -2px calc(2 * var(--wordplay-border-width))
@@ -35,6 +34,7 @@
         max-width: 20em;
         border-radius: var(--wordplay-border-radius);
         transition: left, right, 0.25s ease-out;
+        z-index: 1;
     }
 
     .annotation.step {

@@ -31,7 +31,6 @@
                         : [...nodes, node]
                     : [node]
             );
-            event.stopPropagation();
         }
     }
 
@@ -45,7 +44,6 @@
 
     let text: string = phrase.getDescription($preferredLanguages);
     let input: HTMLInputElement;
-    let inputWidth: number;
     async function handleInput(event: any) {
         const newText = event.currentTarget.value;
         const originalTextValue = phrase.value.resolve('text');
@@ -66,8 +64,10 @@
 
         // After the update, focus on the new input and restore the caret position.
         await tick();
-        input.focus();
-        input.setSelectionRange(start, end);
+        if (input) {
+            input.focus();
+            input.setSelectionRange(start, end);
+        }
     }
 
     $: selected = $selectedOutput.includes(phrase.value.creator);

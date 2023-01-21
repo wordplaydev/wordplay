@@ -1,6 +1,5 @@
 <!-- A window manager that displays a set of windows -->
 <script lang="ts">
-    import Settings from './Settings.svelte';
     import { project } from '../models/stores';
     import { onMount } from 'svelte';
     import ProjectView from './ProjectView.svelte';
@@ -20,7 +19,6 @@
     {:else}
         <ProjectChooser />
     {/if}
-    <Settings />
 {:else}
     <Loading />
 {/if}

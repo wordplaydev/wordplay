@@ -34,11 +34,10 @@
 
 <section class="controls">
     <Button
-        label="↻"
         tip={$preferredTranslations[0].ui.tooltip.reset}
         action={reset}
-        enabled={$streams.length > 1}
-    />
+        enabled={$streams.length > 1}>↻</Button
+    >
     <Switch
         on={$playing}
         toggle={playPause}
@@ -49,32 +48,29 @@
     />
     {#if !$playing}
         <Button
-            label="←"
             tip="{$preferredTranslations[0].ui.tooltip.back},"
             action={() => project.evaluator.stepBackWithinProgram()}
-            enabled={!$playing && !project.evaluator.isAtBeginning()}
-        />
+            enabled={!$playing && !project.evaluator.isAtBeginning()}>←</Button
+        >
         <Button
-            label="↑"
             tip={$preferredTranslations[0].ui.tooltip.out}
             action={handleStepOut}
             enabled={!$playing &&
                 $currentStep &&
                 project.evaluator.getCurrentEvaluation() !== undefined}
-        />
+            >↑</Button
+        >
         <Button
-            label="→"
             tip={$preferredTranslations[0].ui.tooltip.forward}
             action={handleStep}
             enabled={!$playing &&
-                $currentStepIndex < project.evaluator.getStepCount()}
-        />
+                $currentStepIndex < project.evaluator.getStepCount()}>→</Button
+        >
         <Button
-            label="⇥"
             tip={$preferredTranslations[0].ui.tooltip.present}
             action={() => project.evaluator.play()}
-            enabled={$streams.length > 1}
-        />
+            enabled={$streams.length > 1}>⇥</Button
+        >
     {/if}
 </section>
 

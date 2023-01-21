@@ -9,7 +9,7 @@
     import type Transform from '../transforms/Transform';
     import Node from '../nodes/Node';
     import Caret from './util/Caret';
-    import { setContext } from 'svelte';
+    import { createEventDispatcher, setContext } from 'svelte';
     import UnicodeString from '../models/UnicodeString';
     import commands, { type Edit } from './util/Commands';
     import type Source from '../nodes/Source';
@@ -70,7 +70,10 @@
         width: 0,
         height: 0,
     };
-    export let input: HTMLInputElement | null = null;
+
+    const dispatch = createEventDispatcher();
+
+    let input: HTMLInputElement | null = null;
 
     let editor: HTMLElement | null;
     $: viewport = {
@@ -188,11 +191,11 @@
     }
 
     // Determine the conflicts of interest based on caret and mouse position.
-    export let conflicts: Conflict[] = [];
+    export let conflictsOfInterest: Conflict[] = [];
     $: {
         // The project and source can update at different times, so we only do this if the current souce is in the project.
         if (project.contains(source)) {
-            conflicts = [];
+            conflictsOfInterest = [];
 
             // If dragging, don't show conlicts.
             if ($dragged !== undefined) break $;
@@ -244,7 +247,7 @@
                 // If we found a selection, get its conflicts.
                 if (conflictSelection)
                     // Get all conflicts involving the selection
-                    conflicts = [
+                    conflictsOfInterest = [
                         ...(project.getPrimaryConflictsInvolvingNode(
                             conflictSelection
                         ) ?? []),
@@ -261,6 +264,7 @@
                                 )
                         );
             }
+            dispatch('conflicts', { source, conflicts: conflictsOfInterest });
         }
     }
 
@@ -1229,7 +1233,7 @@
             bind:location={caretLocation}
         />
     {/if}
-    <!-- Are we on a placeholder? Show a menu! -->
+    <!-- Are we on a placeholder? Show a menu! on top of the code and caret. -->
     {#if menu !== undefined && menu.location !== undefined}
         <div
             class="menu"
@@ -1270,14 +1274,8 @@
         user-select: none;
         padding: calc(2 * var(--wordplay-spacing));
         scroll-behavior: smooth;
-        overflow: scroll;
-        flex: 1;
-        z-index: var(--wordplay-layer-code);
-    }
-
-    .editor:focus-within {
-        outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
-        outline-offset: calc(-1 * var(--wordplay-focus-width));
+        min-height: 100%;
+        min-width: 100%;
     }
 
     .editor.stepping {
@@ -1302,6 +1300,5 @@
 
     .menu {
         position: absolute;
-        z-index: var(--wordplay-layer-modification);
     }
 </style>

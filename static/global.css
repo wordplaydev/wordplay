@@ -34,18 +34,6 @@
     --wordplay-focus-width: 4px;
     --wordplay-border-radius: 5px;
     --wordplay-code-line-height: 1.6;
-
-    /* Define some z-index variables for semantic naming of layers */
-    --wordplay-layer-highlight: 1;
-    --wordplay-layer-code: 2;
-    --wordplay-layer-palette: 3;
-    --wordplay-layer-output: 4;
-    --wordplay-layer-annotation: 5;
-    --wordplay-layer-modification: 6;
-    --wordplay-layer-controls: 7;
-    --wordplay-layer-drag: 8;
-    --wordplay-layer-fullscreen: 9;
-
     --wordplay-palette-min-width: 5em;
     --wordplay-palette-max-width: 15em;
 
@@ -147,10 +135,6 @@ h3 {
 
 p {
     margin: 0;
-}
-
-p:first-of-type {
-    margin-top: calc(2 * var(--wordplay-spacing));
 }
 
 p:not(:last-of-type) {

@@ -128,6 +128,10 @@ export default class Project {
         return [this.main, ...this.supplements];
     }
 
+    getIndexOfSource(source: Source) {
+        return this.getSources().indexOf(source);
+    }
+
     getDefaultShares() {
         return ImplicitShares;
     }

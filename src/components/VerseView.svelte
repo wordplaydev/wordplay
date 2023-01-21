@@ -24,14 +24,6 @@
     let ignored = false;
     let view: HTMLElement | null = null;
 
-    $: selected =
-        verse.value.creator instanceof Evaluate &&
-        verse.value.creator.is(
-            VerseType,
-            project.getNodeContext(verse.value.creator)
-        ) &&
-        $selectedOutput.includes(verse.value.creator);
-
     let editableStore = writable<boolean>(editable);
     setContext('editable', editableStore);
     $: editableStore.set(editable);
@@ -142,12 +134,10 @@
         class="verse {interactive && $playing ? '' : 'inert'} {ignored
             ? 'ignored'
             : ''}"
-        class:selected
         tabIndex={interactive ? 0 : null}
-        bind:this={view}
         style={toCSS({
             'font-family': verse.font,
-            // Background is set in source view
+            background: verse.background.toCSS(),
             color: verse.foreground.toCSS(),
             transform:
                 verse.tilt.toNumber() !== 0
@@ -159,6 +149,7 @@
         on:mousemove={interactive ? handleMouseMove : null}
         on:keydown={interactive ? handleKeyDown : null}
         on:keyup={interactive ? handleKeyUp : null}
+        bind:this={view}
     >
         <div class="viewport">
             <!-- Render all visible phrases at their places, as well as any exiting phrases -->
@@ -190,10 +181,9 @@
 
 <style>
     .verse {
+        user-select: none;
         width: 100%;
         height: 100%;
-        position: relative;
-        user-select: none;
     }
 
     .verse:focus {
@@ -212,10 +202,5 @@
 
     :global(.group.debug, .phrase.debug) {
         border: 1px dotted red;
-    }
-
-    .selected {
-        border: var(--wordplay-highlight) solid
-            calc(2 * var(--wordplay-focus-width));
     }
 </style>

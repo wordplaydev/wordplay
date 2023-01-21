@@ -16,9 +16,9 @@
     export let project: Project;
     export let stepping: boolean;
     export let conflicts: Conflict[];
-    export let viewport: Rect | undefined;
 
     $: evaluator = project.evaluator;
+
     type Annotation = {
         node: Node;
         element: Element | null;
@@ -127,7 +127,7 @@
 
     // When the annotations or editor scroll position change, update the positions to their default positions.
     $: {
-        if (annotations && viewport)
+        if (annotations)
             annotations = annotations.map((annotation) => {
                 annotation.position = getPosition(annotation.element);
                 return annotation;
@@ -274,32 +274,37 @@
         );
     }
 
-    function getPosition(view: Element | null): Position | undefined {
-        // If there's no view, it's likely native code, so pick some generic place, like centered at the top of the screen
-        if (view && viewport) {
-            // Find the position of the node.
-            const rect = view.getBoundingClientRect();
+    function getPosition(nodeView: Element | null): Position | undefined {
+        // Find the canvas
+        const canvas = nodeView?.closest('.canvas');
+        // Find the tile that contains the node
+        const tile = nodeView?.closest('.content');
+
+        if (nodeView && canvas && tile) {
+            // Find the position of the node in the window.
+            const nodeRect = nodeView.getBoundingClientRect();
+
+            // Find the position of the tile it's in.
+            const tileRect = tile.getBoundingClientRect();
 
             // If the bubble would be outside the bounds of the window, adjust it's position.
             return {
                 left:
-                    rect.right < 0
-                        ? 0
-                        : rect.right > viewport.width
-                        ? viewport.width
-                        : rect.right + 1,
+                    (nodeRect.right < tileRect.left
+                        ? tileRect.left
+                        : nodeRect.left > tileRect.right
+                        ? tileRect.right
+                        : nodeRect.right + 1) + canvas.scrollLeft,
                 top:
-                    rect.bottom < 0
-                        ? 0
-                        : rect.bottom > viewport.height
-                        ? viewport.height
-                        : rect.bottom + 1,
+                    (nodeRect.bottom < tileRect.top
+                        ? tileRect.top
+                        : nodeRect.bottom > tileRect.bottom
+                        ? tileRect.bottom
+                        : nodeRect.bottom + 1) + canvas.scrollTop,
             };
         }
         // If we couldn't find a view, put it in the corner of the editor.
-        else {
-            return { left: 0, top: 0 };
-        }
+        else return undefined;
     }
 </script>
 
