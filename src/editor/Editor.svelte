@@ -35,7 +35,7 @@
     import {
         type HighlightType,
         type Highlights,
-        highlightTypes,
+        HighlightTypes,
         type HighlightSpec,
     } from './util/Highlights';
     import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
@@ -407,7 +407,7 @@
         if (editor) {
             // Remove any existing highlights
             for (const highlighted of editor.querySelectorAll('.highlighted'))
-                for (const highlightType of Object.keys(highlightTypes))
+                for (const highlightType of Object.keys(HighlightTypes))
                     highlighted.classList.remove(highlightType);
 
             // Add any new highlights of highlighted nodes.
@@ -1222,8 +1222,17 @@
     on:mouseleave={handleMouseLeave}
     on:scroll={updateScrollPosition}
 >
+    <!-- Render highlights below the code -->
+    {#each outlines as outline}
+        <Highlight {...outline} above={false} />
+    {/each}
     <!-- Render the program -->
     <RootView node={program} spaces={source.spaces} />
+    <!-- Render highlights above the code -->
+    {#each outlines as outline}
+        <Highlight {...outline} above={true} />
+    {/each}
+
     <!-- Render the caret on top of the program -->
     {#if !stepping}
         <CaretView
@@ -1260,10 +1269,6 @@
         on:focus={handleTextInputFocusGain}
         on:blur={handleTextInputFocusLoss}
     />
-    <!-- Render highlights -->
-    {#each outlines as outline}
-        <Highlight {...outline} />
-    {/each}
 </div>
 
 <style>

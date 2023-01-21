@@ -480,7 +480,10 @@
 
     <!-- Render the dragged node over the whole project -->
     {#if $dragged !== undefined}
-        {#if outline}<Highlight {...outline} />{/if}
+        <!-- Render the highlight underneath the code -->
+        <div class="drag-outline">
+            {#if outline}<Highlight {...outline} above={false} />{/if}
+        </div>
         <div
             class="drag-container dragging"
             style="left: {mouseX}px; top:{mouseY}px;"
@@ -528,6 +531,9 @@
         gap: var(--wordplay-spacing);
     }
 
+    .drag-outline {
+        z-index: 2;
+    }
     .drag-container {
         position: absolute;
         cursor: none;

@@ -1,7 +1,7 @@
 <svelte:options immutable={true} />
 
 <script lang="ts">
-    import type { HighlightType } from './util/Highlights';
+    import { HighlightTypes, type HighlightType } from './util/Highlights';
     import type { Outline } from './util/outline';
 
     const HIGHLIGHT_PADDING = 20;
@@ -9,10 +9,15 @@
     export let outline: Outline;
     export let underline: Outline;
     export let types: HighlightType[];
+    export let above: boolean;
+
+    $: filteredClasses = types
+        .filter((type) => HighlightTypes[type] === above)
+        .join(' ');
 </script>
 
 <svg
-    class={`highlight outline ${types.join(' ')}`}
+    class={`highlight outline ${filteredClasses}`}
     style={`top: ${outline.miny - HIGHLIGHT_PADDING}px; left: ${
         outline.minx - HIGHLIGHT_PADDING
     }px; `}
@@ -26,7 +31,7 @@
 >
     <path d={outline.path} />
 </svg><svg
-    class={`highlight underline ${types.join(' ')}`}
+    class={`highlight underline ${filteredClasses}`}
     style={`top: ${outline.miny - HIGHLIGHT_PADDING}px; left: ${
         outline.minx - HIGHLIGHT_PADDING
     }px; `}
