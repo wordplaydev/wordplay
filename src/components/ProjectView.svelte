@@ -527,9 +527,8 @@
         display: flex;
         flex-direction: row;
         align-items: center;
-        padding-left: calc(2 * var(--wordplay-spacing));
-        padding-right: calc(2 * var(--wordplay-spacing));
-        gap: calc(2 * var(--wordplay-spacing));
+        padding: var(--wordplay-spacing);
+        gap: var(--wordplay-spacing);
         border-top: 1px solid var(--wordplay-border-color);
     }
 

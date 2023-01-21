@@ -105,13 +105,13 @@
     function handleOutputSelection(event: KeyboardEvent) {
         if (selectedOutput === undefined) return;
 
-        // meta-a: select all phrases
-        if (editable && event.key === 'a' && (event.metaKey || event.ctrlKey))
-            selectedOutput.set(
-                Array.from(
-                    new Set(visible.map((phrase) => phrase.value.creator))
-                )
-            );
+        // // meta-a: select all phrases
+        // if (editable && event.key === 'a' && (event.metaKey || event.ctrlKey))
+        //     selectedOutput.set(
+        //         Array.from(
+        //             new Set(visible.map((phrase) => phrase.value.creator))
+        //         )
+        //     );
     }
 
     let mounted = false;
