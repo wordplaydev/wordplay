@@ -35,6 +35,7 @@
 
     function handleMouseDown(event: MouseEvent) {
         view?.focus();
+
         if (project.evaluator.isPlaying())
             project.streams.mouseButton.record(true);
         else ignore();
@@ -182,8 +183,8 @@
 <style>
     .verse {
         user-select: none;
-        /* width: 100%;
-        height: 100%; */
+        width: 100%;
+        height: 100%;
 
         display: flex;
         flex-direction: column;

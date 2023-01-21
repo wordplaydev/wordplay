@@ -463,8 +463,8 @@
                     )}
             />
         {/each}
+        <Timeline evaluator={project.evaluator} />
         <div class="settings">
-            <Timeline evaluator={project.evaluator} />
             <Button
                 tip={layout.arrangement === Arrangement.free
                     ? $preferredTranslations[0].ui.tooltip.vertical
