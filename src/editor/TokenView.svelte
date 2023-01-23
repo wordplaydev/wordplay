@@ -12,6 +12,7 @@
     } from '../translation/translations';
     import { Languages } from '../translation/LanguageCode';
     import { TEXT_DELIMITERS } from '../parser/Tokenizer';
+    import Reference from '../nodes/Reference';
 
     export let node: Token;
 
@@ -47,15 +48,18 @@
             $caret.token &&
             $caret.tokenAtHasPrecedingSpace());
 
-    // Get the text from the token and if it's text, localize it's delimiters.
-    $: text = node.text.toString();
+    let text: string;
     $: {
+        // The text is text.
+        text = node.text.toString();
+
+        // Unless it's text, in which case we localize it's delimiters.
         const isText = node.is(TokenType.TEXT);
         const isTextOpen = node.is(TokenType.TEXT_OPEN);
         const isTextClose = node.is(TokenType.TEXT_CLOSE);
         if (
-            $preferredLanguages.length > 0 &&
-            (isText || isTextOpen || isTextClose)
+            (isText || isTextOpen || isTextClose) &&
+            $preferredLanguages.length > 0
         ) {
             const preferredQuote =
                 Languages[$preferredLanguages[0]].quote ?? '"';
@@ -68,6 +72,19 @@
                     : isTextOpen
                     ? preferredQuote + text.substring(1)
                     : text.substring(0, text.length - 1) + preferredClosing;
+            }
+        }
+
+        // If's a name, localize the name.
+        // If the caret is in the node, we choose the name that it is in the source, so that it's editable.
+        // Otherwise we choose the best name from of the preferred languages.
+        if (node.is(TokenType.NAME) && $caret) {
+            const context = $project.getContext($caret.source);
+            const reference = node.getParent(context);
+            if (reference instanceof Reference && !$caret.isIn(reference)) {
+                const definition = reference.resolve(context);
+                if (definition)
+                    text = definition.names.getTranslation($preferredLanguages);
             }
         }
     }

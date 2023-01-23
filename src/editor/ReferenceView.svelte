@@ -38,25 +38,14 @@
             setTimeout(() => (animating = false), 250);
         }
     }
-
-    // Choose what name to render, constructing a token if necessary.
-    // If the caret is in the node, we choose the name that it is, so that it's editable.
-    // Otherwise we choose the best name from of the preferred languages.
-    let caret = getCaret();
-    $: name =
-        definition === undefined || $caret?.isIn(node)
-            ? node.name
-            : new NameToken(
-                  definition.names.getTranslation($preferredLanguages)
-              );
 </script>
 
 {#if animating}
     <span class="changed">
-        <NodeView node={name} />
+        <NodeView node={node.name} />
     </span>
 {:else}
-    <NodeView node={name} />
+    <NodeView node={node.name} />
 {/if}
 
 <style>
