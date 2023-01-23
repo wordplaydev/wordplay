@@ -430,16 +430,14 @@ export default class Project {
         const mainReplacement = replacements.find(
             (replacement) => replacement[0] === this.main
         );
-        const newMain = mainReplacement
-            ? mainReplacement[1]
-            : this.main.clone();
+        const newMain = mainReplacement ? mainReplacement[1] : this.main;
         const newSupplements = this.supplements.map((supplement) => {
             const supplementReplacement = replacements.find(
                 (replacement) => replacement[0] === supplement
             );
             return supplementReplacement
                 ? supplementReplacement[1]
-                : supplement.clone();
+                : supplement;
         });
         return new Project(this.name, newMain, newSupplements);
     }
