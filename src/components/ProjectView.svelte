@@ -138,23 +138,20 @@
     let canvasWidth: number = 1024;
     let canvasHeight: number = 768;
 
-    let layout: Layout;
-    $: layout = new Layout(
+    let layout: Layout = new Layout(
         [
-            layout?.getOutput() ??
-                new Tile(
-                    OutputID,
-                    $preferredTranslations[0].ui.tiles.output,
-                    Content.Output,
-                    Mode.Expanded,
-                    undefined,
-                    Tile.randomPosition(1024, 768)
-                ),
+            new Tile(
+                OutputID,
+                $preferredTranslations[0].ui.tiles.output,
+                Content.Output,
+                Mode.Expanded,
+                undefined,
+                Tile.randomPosition(1024, 768)
+            ),
             ...project
                 .getSources()
                 .map(
                     (source, index) =>
-                        layout?.getSource(index) ??
                         new Tile(
                             Layout.getSourceID(index),
                             source.names.getTranslation($preferredLanguages),
@@ -164,28 +161,29 @@
                             Tile.randomPosition(1024, 768)
                         )
                 ),
-            layout?.getPalette() ??
-                new Tile(
-                    PaletteID,
-                    $preferredTranslations[0].ui.tiles.palette,
-                    Content.Palette,
-                    Mode.Collapsed,
-                    undefined,
-                    Tile.randomPosition(1024, 768)
-                ),
-            layout?.getDocs() ??
-                new Tile(
-                    DocsID,
-                    $preferredTranslations[0].ui.tiles.docs,
-                    Content.Documentation,
-                    Mode.Collapsed,
-                    undefined,
-                    Tile.randomPosition(1024, 768)
-                ),
+            new Tile(
+                PaletteID,
+                $preferredTranslations[0].ui.tiles.palette,
+                Content.Palette,
+                Mode.Collapsed,
+                undefined,
+                Tile.randomPosition(1024, 768)
+            ),
+            new Tile(
+                DocsID,
+                $preferredTranslations[0].ui.tiles.docs,
+                Content.Documentation,
+                Mode.Collapsed,
+                undefined,
+                Tile.randomPosition(1024, 768)
+            ),
         ],
-        layout ? layout.arrangement : Arrangement.vertical,
-        layout ? layout.fullscreenID : undefined
+        Arrangement.vertical,
+        undefined
     );
+
+    // Make a list of ids to key off of to workaround keyed each defect
+    $: tileIDSequence = layout.tiles.map((tile) => tile.id).join(',');
 
     $: {
         if (canvasWidth && canvasHeight) {
@@ -259,6 +257,9 @@
                 top: event.clientY - rect.top,
                 direction: null,
             };
+
+            const tile = layout.getTileWithID(id);
+            if (tile) layout = layout.withTileLast(tile);
         }
     }
 
@@ -398,54 +399,59 @@
             >
         {/if}
 
-        {#each layout.tiles as tile (tile.id)}
-            <TileView
-                {tile}
-                arrangement={layout.arrangement}
-                background={tile.kind === Content.Output
-                    ? outputBackground
-                    : null}
-                dragging={draggedTile?.id === tile.id}
-                fullscreenID={layout.fullscreenID}
-                on:mode={(event) => setMode(tile, event.detail.mode)}
-                on:position={(event) =>
-                    positionTile(tile, event.detail.position)}
-                on:resize={(event) =>
-                    resizeTile(
-                        event.detail.id,
-                        event.detail.direction,
-                        event.detail.left,
-                        event.detail.top
-                    )}
-                on:scroll={repositionAnnotations}
-                on:fullscreen={(event) =>
-                    setFullscreen(tile, event.detail.fullscreen)}
-            >
-                {#if tile.kind === Content.Documentation}
-                    <Documentation hidden={stepping} />
-                {:else if tile.kind === Content.Palette}
-                    <OutputEditor {project} />
-                {:else if tile.kind === Content.Output}
-                    <OutputView
-                        {project}
-                        source={project.main}
-                        {latest}
-                        mode={fullscreen ? 'fullscreen' : 'peripheral'}
-                        bind:background={outputBackground}
-                    />
-                {:else}
-                    <Editor
-                        {project}
-                        source={getSourceByID(tile.id)}
-                        on:conflicts={(event) =>
-                            (conflictsOfInterest = conflictsOfInterest.set(
-                                event.detail.source,
-                                event.detail.conflicts
-                            ))}
-                    />
-                {/if}</TileView
-            >
-        {/each}
+        {#key tileIDSequence}
+            {#each layout.tiles as tile (tile.id)}
+                {#if tile.mode === Mode.Expanded && (layout.fullscreenID === undefined || layout.fullscreenID === tile.id)}
+                    <TileView
+                        {tile}
+                        arrangement={layout.arrangement}
+                        background={tile.kind === Content.Output
+                            ? outputBackground
+                            : null}
+                        dragging={draggedTile?.id === tile.id}
+                        fullscreenID={layout.fullscreenID}
+                        on:mode={(event) => setMode(tile, event.detail.mode)}
+                        on:position={(event) =>
+                            positionTile(tile, event.detail.position)}
+                        on:resize={(event) =>
+                            resizeTile(
+                                event.detail.id,
+                                event.detail.direction,
+                                event.detail.left,
+                                event.detail.top
+                            )}
+                        on:scroll={repositionAnnotations}
+                        on:fullscreen={(event) =>
+                            setFullscreen(tile, event.detail.fullscreen)}
+                    >
+                        {#if tile.kind === Content.Documentation}
+                            <Documentation hidden={stepping} />
+                        {:else if tile.kind === Content.Palette}
+                            <OutputEditor {project} />
+                        {:else if tile.kind === Content.Output}
+                            <OutputView
+                                {project}
+                                source={project.main}
+                                {latest}
+                                mode={fullscreen ? 'fullscreen' : 'peripheral'}
+                                bind:background={outputBackground}
+                            />
+                        {:else}
+                            <Editor
+                                {project}
+                                source={getSourceByID(tile.id)}
+                                on:conflicts={(event) =>
+                                    (conflictsOfInterest =
+                                        conflictsOfInterest.set(
+                                            event.detail.source,
+                                            event.detail.conflicts
+                                        ))}
+                            />
+                        {/if}</TileView
+                    >
+                {/if}
+            {/each}
+        {/key}
     </div>
     <!-- Render the footer on top of the windows -->
     <div class="footer">

@@ -13,7 +13,6 @@
 <!-- A component that renders an arbitrary component and whose size is set by the project. -->
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
-    import { fade } from 'svelte/transition';
     import { preferredTranslations } from '../translation/translations';
     import Button from './Button.svelte';
     import type { Arrangement } from './Layout';
@@ -158,65 +157,62 @@
     }
 </script>
 
-{#if tile.mode === Mode.Expanded && (fullscreenID === undefined || fullscreenID === tile.id)}
-    <section
-        class="tile {resizeDirection
-            ? `resize-${resizeDirection}`
-            : ''} {arrangement} {tile.id}"
-        class:fullscreen
-        class:dragging
-        class:stepping={!$playing}
-        data-id={tile.id}
-        style:background
-        style:left={fullscreen ? null : `${tile.bounds?.left ?? 0}px`}
-        style:top={fullscreen ? null : `${tile.bounds?.top ?? 0}px`}
-        style:width={fullscreen ? null : `${tile.bounds?.width ?? 0}px`}
-        style:height={fullscreen ? null : `${tile.bounds?.height ?? 0}px`}
-        transition:fade={{ duration: 200 }}
-        on:mousemove={handleMouseMove}
-        on:mouseleave={() => (resizeDirection = null)}
-        on:mousedown={handleMouseDown}
-        on:keydown={handleKeyDown}
-        bind:this={view}
-    >
-        <!-- Render the toolbar -->
-        <div class="controls">
-            <span class="name">{tile.name}</span>
-            <Button
-                tip={$preferredTranslations[0].ui.tooltip.collapse}
-                action={() => dispatch('mode', { mode: Mode.Collapsed })}
-                chromeless>&ndash;</Button
-            >
-            <Button
-                tip={$preferredTranslations[0].ui.tooltip.fullscreen}
-                action={() =>
-                    dispatch('fullscreen', {
-                        fullscreen: !fullscreen,
-                    })}
-                chromeless
-            >
-                <svg height="13px" viewBox="0 0 14 14" width="14px"
-                    ><title /><desc /><defs /><g
-                        fill-rule="evenodd"
-                        stroke-width="1"
-                        ><g transform="translate(-215.000000, -257.000000)"
-                            ><g transform="translate(215.000000, 257.000000)"
-                                ><path
-                                    d="M2,9 L0,9 L0,14 L5,14 L5,12 L2,12 L2,9 L2,9 Z M0,5 L2,5 L2,2 L5,2 L5,0 L0,0 L0,5 L0,5 Z M12,12 L9,12 L9,14 L14,14 L14,9 L12,9 L12,12 L12,12 Z M9,0 L9,2 L12,2 L12,5 L14,5 L14,0 L9,0 L9,0 Z"
-                                    id="Shape"
-                                /></g
-                            ></g
+<section
+    class="tile {resizeDirection
+        ? `resize-${resizeDirection}`
+        : ''} {arrangement} {tile.id}"
+    class:fullscreen
+    class:dragging
+    class:stepping={!$playing}
+    data-id={tile.id}
+    style:background
+    style:left={fullscreen ? null : `${tile.bounds?.left ?? 0}px`}
+    style:top={fullscreen ? null : `${tile.bounds?.top ?? 0}px`}
+    style:width={fullscreen ? null : `${tile.bounds?.width ?? 0}px`}
+    style:height={fullscreen ? null : `${tile.bounds?.height ?? 0}px`}
+    on:mousemove={handleMouseMove}
+    on:mouseleave={() => (resizeDirection = null)}
+    on:mousedown={handleMouseDown}
+    on:keydown={handleKeyDown}
+    bind:this={view}
+>
+    <!-- Render the toolbar -->
+    <div class="controls">
+        <span class="name">{tile.name}</span>
+        <Button
+            tip={$preferredTranslations[0].ui.tooltip.collapse}
+            action={() => dispatch('mode', { mode: Mode.Collapsed })}
+            chromeless>&ndash;</Button
+        >
+        <Button
+            tip={$preferredTranslations[0].ui.tooltip.fullscreen}
+            action={() =>
+                dispatch('fullscreen', {
+                    fullscreen: !fullscreen,
+                })}
+            chromeless
+        >
+            <svg height="13px" viewBox="0 0 14 14" width="14px"
+                ><title /><desc /><defs /><g
+                    fill-rule="evenodd"
+                    stroke-width="1"
+                    ><g transform="translate(-215.000000, -257.000000)"
+                        ><g transform="translate(215.000000, 257.000000)"
+                            ><path
+                                d="M2,9 L0,9 L0,14 L5,14 L5,12 L2,12 L2,9 L2,9 Z M0,5 L2,5 L2,2 L5,2 L5,0 L0,0 L0,5 L0,5 Z M12,12 L9,12 L9,14 L14,14 L14,9 L12,9 L12,12 L12,12 Z M9,0 L9,2 L12,2 L12,5 L14,5 L14,0 L9,0 L9,0 Z"
+                                id="Shape"
+                            /></g
                         ></g
-                    ></svg
-                >
-            </Button>
-        </div>
-        <!-- Render the content -->
-        <div class="content" on:scroll={() => dispatch('scroll')}>
-            <slot />
-        </div>
-    </section>
-{/if}
+                    ></g
+                ></svg
+            >
+        </Button>
+    </div>
+    <!-- Render the content -->
+    <div class="content" on:scroll={() => dispatch('scroll')}>
+        <slot />
+    </div>
+</section>
 
 <style>
     .tile {
@@ -299,10 +295,6 @@
         position: relative;
         width: 100%;
         height: 100%;
-    }
-
-    .tile:focus-within {
-        z-index: 1;
     }
 
     .tile:focus-within:after {
