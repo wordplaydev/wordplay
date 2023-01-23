@@ -1544,7 +1544,7 @@ const eng_cs: Translation = {
         UnparsableConflict: {
             primary: (expression) =>
                 expression
-                    ? 'expectedexpression, but could not parse one'
+                    ? 'expected expression, but could not parse one'
                     : 'expected type, but could not parse one',
         },
         UnusedBind: {
