@@ -18,10 +18,15 @@
     $: beforeSpaces =
         insertionIndex === undefined
             ? undefined
-            : space.substring(0, insertionIndex);
+            : render(space.substring(0, insertionIndex), true);
     // If there's no insertion, just render the space, otherwise render the right side of the insertion.
-    $: afterSpaces =
-        insertionIndex === undefined ? space : space.substring(insertionIndex);
+    $: afterSpaces = render(
+        insertionIndex === undefined ? space : space.substring(insertionIndex),
+        true
+    );
+
+    $: additionalSpaces =
+        additional.length === 0 ? [] : render(additional, false);
 
     function render(text: string, explicit: boolean): string[] {
         return (
@@ -32,17 +37,22 @@
     }
 </script>
 
-<!-- This monstrosity avoids rendering large chunks of @html, which are notoriously unreliable in hydration. -->
-<span class="space" data-id={token.id}
-    >{#if beforeSpaces !== undefined}{#each render(beforeSpaces, true) as s, index}{#if index > 0}<br
+<!-- 
+    This monstrosity renders space, accounting for insertion points. We key on space
+    to work around a Svelte defect that doesn't correctly update changes in text nodes.
+-->
+{#key space}
+    <span class="space" data-id={token.id}
+        >{#if beforeSpaces !== undefined}{#each beforeSpaces as s, index}{#if index > 0}<br
+                        class="break"
+                    />{/if}{#if s === ''}&ZeroWidthSpace;{:else}{s}{/if}{/each}<InsertionPointView
+            />{/if}{#each afterSpaces as s, index}{#if index > 0}<br
                     class="break"
-                />{/if}{s}{/each}<InsertionPointView
-        />{/if}{#each render(afterSpaces, true) as s, index}{#if index > 0}<br
-                class="break"
-            />{/if}{s}{/each}{#each render(additional, false) as s, index}{#if index > 0}<br
-                class="break"
-            />{/if}{s}{/each}</span
->
+                />{/if}{s}{/each}{#each additionalSpaces as s, index}{#if index > 0}<br
+                    class="break"
+                />{/if}{#if s === ''}&ZeroWidthSpace;{:else}{s}{/if}{/each}</span
+    >
+{/key}
 
 <style>
     /* Make space visible, but just so. */

@@ -71,14 +71,6 @@
             }
         }
     }
-
-    $: textToShow = placeholder
-        ? choosePlaceholder()
-        : node.text.getLength() === 0
-        ? '\u200B'
-        : text
-              // If there happen to be spaces in the text, render them with a non-breaking space.
-              .replaceAll(' ', '&nbsp;');
 </script>
 
 <span
