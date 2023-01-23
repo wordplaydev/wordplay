@@ -21,6 +21,7 @@ import type Value from '../runtime/Value';
 import type { Replacement } from './Node';
 import type Translation from '../translation/Translation';
 import type LanguageCode from '../translation/LanguageCode';
+import TokenType from './TokenType';
 
 export default class Program extends Expression {
     readonly docs?: Docs;
@@ -42,6 +43,15 @@ export default class Program extends Expression {
         this.end = end;
 
         this.computeChildren();
+    }
+
+    static make() {
+        return new Program(
+            undefined,
+            [],
+            new Block([], true, false),
+            new Token('', TokenType.END)
+        );
     }
 
     getGrammar() {

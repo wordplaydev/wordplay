@@ -8,6 +8,7 @@ import { PROPERTY_SYMBOL } from '../../parser/Symbols';
 import type Source from '../../nodes/Source';
 import Expression from '../../nodes/Expression';
 import ExpressionPlaceholder from '../../nodes/ExpressionPlaceholder';
+import Program from '../../nodes/Program';
 
 export type InsertionContext = { before: Node[]; after: Node[] };
 
@@ -481,7 +482,7 @@ export default class Caret {
             const parent = this.source.tree.get(node)?.getParent();
             const field = parent?.getFieldOfChild(node);
             const index = this.source.getNodeFirstPosition(node);
-            if (field && index) {
+            if (field && index !== undefined) {
                 // If in a list or undefined is allowed, just remove it
                 if (
                     Array.isArray(field.types[0]) ||
@@ -494,6 +495,11 @@ export default class Caret {
                 } else if (field.types.includes(Expression)) {
                     return [
                         this.source.replace(node, ExpressionPlaceholder.make()),
+                        this.withPosition(index),
+                    ];
+                } else if (field.types.includes(Program)) {
+                    return [
+                        this.source.replace(node, Program.make()),
                         this.withPosition(index),
                     ];
                 }
