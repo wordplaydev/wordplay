@@ -350,10 +350,25 @@ export default class Source extends Expression {
     }
 
     clone(replace?: Replacement) {
-        return new Source(this.names, [
-            this.replaceChild('expression', this.expression, replace),
-            this.spaces,
-        ]) as this;
+        // If replacing, we need to clone the spaces as well.
+        if (
+            replace &&
+            replace.original instanceof Node &&
+            (replace.replacement instanceof Node ||
+                replace.replacement === undefined)
+        ) {
+            return new Source(this.names, [
+                this.replaceChild('expression', this.expression, replace),
+                this.spaces.withReplacement(
+                    replace.original,
+                    replace.replacement
+                ),
+            ]) as this;
+        } else
+            return new Source(this.names, [
+                this.expression,
+                this.spaces,
+            ]) as this;
     }
 
     getTokenTextPosition(token: Token) {

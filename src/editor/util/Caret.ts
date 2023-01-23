@@ -6,6 +6,8 @@ import TokenType from '../../nodes/TokenType';
 import { DELIMITERS, REVERSE_DELIMITERS } from '../../parser/Tokenizer';
 import { PROPERTY_SYMBOL } from '../../parser/Symbols';
 import type Source from '../../nodes/Source';
+import Expression from '../../nodes/Expression';
+import ExpressionPlaceholder from '../../nodes/ExpressionPlaceholder';
 
 export type InsertionContext = { before: Node[]; after: Node[] };
 
@@ -474,12 +476,29 @@ export default class Caret {
         }
         // If it's a node, see if there's a removal transform.
         else {
-            // const removal = this.source.get(this.position)?.getParent()?.getChildRemoval(this.position, this.source.getContext());
-            // if(removal) return removal.getEdit(["eng"]);
-            // else {
-            // Delete the text between the first and last token.
-            return this.deleteNode(this.position);
-            // }
+            // Get the parent of the node.
+            const node = this.position;
+            const parent = this.source.tree.get(node)?.getParent();
+            const field = parent?.getFieldOfChild(node);
+            const index = this.source.getNodeFirstPosition(node);
+            if (field && index) {
+                // If in a list or undefined is allowed, just remove it
+                if (
+                    Array.isArray(field.types[0]) ||
+                    field.types.includes(undefined)
+                ) {
+                    return [
+                        this.source.replace(node, undefined),
+                        this.withPosition(index),
+                    ];
+                } else if (field.types.includes(Expression)) {
+                    return [
+                        this.source.replace(node, ExpressionPlaceholder.make()),
+                        this.withPosition(index),
+                    ];
+                }
+            }
+            // Otherwise, do nothing.
         }
     }
 

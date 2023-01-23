@@ -152,15 +152,21 @@ export default class Spaces {
         // Find the first leaf of the replaced token
         const replacedToken = replaced.getFirstLeaf() as Token | undefined;
 
+        // Get the next token after the replaced node.
+        const lastTokenOfReplaced = replaced.leaves().at(-1) as
+            | Token
+            | undefined;
+        const nextToken = lastTokenOfReplaced
+            ? this.root.getNextToken(lastTokenOfReplaced, 1)
+            : undefined;
+
         // Find the first leaf of the replacement, or if it's being removed (i.e., replacement is undefined), the token after the replaced node.
         const replacementToken =
             replacedToken === undefined
                 ? undefined
-                : ((replacement
-                      ? replacement.getFirstLeaf()
-                      : this.root.getNextToken(replacedToken, 1)) as
-                      | Token
-                      | undefined);
+                : replacement
+                ? (replacement.getFirstLeaf() as Token | undefined)
+                : nextToken;
 
         // Get the space prior to the replaced token.
         const space =
@@ -168,10 +174,16 @@ export default class Spaces {
                 ? this.#spaces.get(replacedToken)
                 : undefined;
 
+        // If replacing with nothing, get the space after the replacement so we can preserve it.
+        const after =
+            replacement !== undefined || nextToken === undefined
+                ? undefined
+                : this.#spaces.get(nextToken);
+
         // If we found all of the above, then construct new spaces with the replacement.
         if (replacedToken && replacementToken && space !== undefined) {
             const newSpaces = new Map(this.#spaces);
-            newSpaces.set(replacementToken, space);
+            newSpaces.set(replacementToken, space + (after ?? ''));
             newSpaces.delete(replacedToken);
             return new Spaces(this.root, newSpaces);
         }
