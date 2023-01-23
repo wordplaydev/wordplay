@@ -1,3 +1,13 @@
+<script context="module" lang="ts">
+    export type AnnotationInfo = {
+        node: Node;
+        element: Element | null;
+        text: Description[];
+        kind: 'step' | 'primary' | 'secondary' | 'minor';
+        position?: Position | undefined;
+    };
+</script>
+
 <script lang="ts">
     import type Conflict from '../conflicts/Conflict';
     import type Project from '../models/Project';
@@ -8,7 +18,6 @@
     import Annotation from './Annotation.svelte';
     import type Position from './Position';
     import { tick } from 'svelte';
-    import { afterUpdate } from 'svelte';
     import type { Description } from '../translation/Translation';
     import type Step from '../runtime/Step';
 
@@ -18,15 +27,8 @@
 
     $: evaluator = project.evaluator;
 
-    type Annotation = {
-        node: Node;
-        element: Element | null;
-        text: Description[];
-        kind: 'step' | 'primary' | 'secondary' | 'minor';
-        position?: Position | undefined;
-    };
-
-    let annotations: Annotation[] = [];
+    let annotations: AnnotationInfo[] = [];
+    let annotationsByNode: Map<Node, AnnotationInfo[]> = new Map();
 
     // When current step or conflicts change, update the annotations.
     $: {
@@ -122,15 +124,24 @@
                 })
                 .flat();
         }
+
+        // Now organize by node.
+        annotationsByNode = new Map();
+        for (const annotation of annotations)
+            annotationsByNode.set(annotation.node, [
+                annotation,
+                ...(annotationsByNode.get(annotation.node) ?? []),
+            ]);
     }
 
-    // When the annotations or editor scroll position change, update the positions to their default positions.
+    // When the annotations positions change, update the positions to their default positions.
     $: {
-        if (annotations)
+        if (annotations) {
             annotations = annotations.map((annotation) => {
                 annotation.position = getPosition(annotation.element);
                 return annotation;
             });
+        }
     }
 
     type Box = {
@@ -141,75 +152,83 @@
         width: number;
         height: number;
     };
-    // After the annotations are rendered, resolve layout conflicts now that we know they're size.
-    afterUpdate(() => {
-        // Find all of the annotation views
-        const views = document.querySelectorAll('.annotation');
 
-        // Compute all of their bounding boxes.
-        const annotationViews = new Map<Annotation, HTMLElement>();
-        const annotationRects = new Map<Annotation, Box>();
-        for (const view of views) {
-            const id = (view as HTMLElement).dataset.annotationid;
-            const annotation =
-                id === undefined ? undefined : annotations[parseInt(id)];
-            if (annotation && annotation.position) {
-                const rect = domRectToRect(view.getBoundingClientRect());
-                // Reset the position to the starting position, just reusing the dimensions,
-                // so every time we rerender, we're starting from the same starting position.
-                annotationRects.set(annotation, {
-                    left: annotation.position.left,
-                    top: annotation.position.top,
-                    right: annotation.position.left + rect.width,
-                    bottom: annotation.position.top + rect.height,
-                    width: rect.width,
-                    height: rect.height,
-                });
-                annotationViews.set(annotation, view as HTMLElement);
-            }
-        }
+    // After the annotations are rendered, resolve layout conflicts now that we know their size.
+    // afterUpdate(adjustLayout);
 
-        // Find all of the node views in the editor
-        const nodeRects = new Map<number, Box>();
-        for (const annotation of annotations) {
-            const nodeView = getNodeView(annotation.node);
-            if (nodeView) {
-                nodeRects.set(
-                    annotation.node.id,
-                    domRectToRect(nodeView.getBoundingClientRect())
-                );
-            }
-        }
+    // function adjustLayout() {
+    //     // Find all of the annotation views
+    //     const views = document.querySelectorAll('.annotation');
 
-        // For each annotation, see it overlaps with a node and move it out of the way.
-        for (const annotation of annotations) {
-            const annotationRect = annotationRects.get(annotation);
-            if (annotationRect === undefined) continue;
-            for (const nodeRect of nodeRects.values())
-                adjustPosition(annotationRect, nodeRect);
-        }
+    //     // Compute all of their bounding boxes.
+    //     const annotationViews = new Map<AnnotationInfo, HTMLElement>();
+    //     const annotationRects = new Map<AnnotationInfo, Box>();
+    //     for (const view of views) {
+    //         const id = (view as HTMLElement).dataset.annotationid;
+    //         const annotation =
+    //             id === undefined ? undefined : annotations[parseInt(id)];
+    //         if (annotation && annotation.position) {
+    //             // Get the rendered position and size of the annotation.
+    //             const rect = domRectToRect(view.getBoundingClientRect());
+    //             annotationRects.set(annotation, {
+    //                 left: annotation.position.left,
+    //                 top: annotation.position.top,
+    //                 right: annotation.position.left + rect.width,
+    //                 bottom: annotation.position.top + rect.height,
+    //                 width: rect.width,
+    //                 height: rect.height,
+    //             });
+    //             annotationViews.set(annotation, view as HTMLElement);
+    //         }
+    //     }
 
-        // Then, for each anontation, see it overlaps with other annotations or annotated code, and move it if it does.
-        for (const annotation of annotations) {
-            const annotationRect = annotationRects.get(annotation);
-            if (annotationRect === undefined) continue;
-            for (const [
-                otherAnnotation,
-                otherAnnotationRect,
-            ] of annotationRects.entries())
-                if (otherAnnotation !== annotation)
-                    adjustPosition(annotationRect, otherAnnotationRect);
-        }
+    //     // Find all of the node views in the editor
+    //     const nodeRects = new Map<number, Box>();
+    //     for (const annotation of annotations) {
+    //         const nodeView = getNodeView(annotation.node);
+    //         if (nodeView) {
+    //             nodeRects.set(
+    //                 annotation.node.id,
+    //                 domRectToRect(nodeView.getBoundingClientRect())
+    //             );
+    //         }
+    //     }
 
-        // Update the annotations based on the new rect positions.
-        for (const [annotation, view] of annotationViews) {
-            const rect = annotationRects.get(annotation);
-            if (rect) {
-                view.style.left = `${rect.left}px`;
-                view.style.top = `${rect.top}px`;
-            }
-        }
-    });
+    //     // For each annotation, see it overlaps with an annotated node and move it so it doesn't.
+    //     for (const annotation of annotations) {
+    //         const annotationRect = annotationRects.get(annotation);
+    //         if (annotationRect === undefined) continue;
+    //         for (const nodeRect of nodeRects.values())
+    //             adjustPosition(annotationRect, nodeRect);
+    //     }
+
+    //     // Then, for each anontation, see it overlaps with other annotations or annotated code, and move it if it does.
+    //     for (const annotation of annotations) {
+    //         const annotationRect = annotationRects.get(annotation);
+    //         if (annotationRect === undefined) continue;
+    //         for (const [
+    //             otherAnnotation,
+    //             otherAnnotationRect,
+    //         ] of annotationRects.entries())
+    //             if (otherAnnotation !== annotation)
+    //                 adjustPosition(annotationRect, otherAnnotationRect);
+    //     }
+
+    //     // Update the annotations' rendered positions based on the new rect positions,
+    //     // and also update their positions for future renders.
+    //     for (const [annotation, view] of annotationViews) {
+    //         const rect = annotationRects.get(annotation);
+    //         if (rect) {
+    //             view.style.left = `${rect.left}px`;
+    //             view.style.top = `${rect.top}px`;
+    //             if (annotation.position) {
+    //                 annotation.position.left = rect.left;
+    //                 annotation.position.top = rect.top;
+    //             }
+    //         }
+    //     }
+    //     annotations = annotations;
+    // }
 
     function domRectToRect(rect: DOMRect) {
         return {
@@ -307,13 +326,7 @@
     }
 </script>
 
-{#each annotations as annotation, index}
-    {#if annotation.position}
-        <Annotation
-            id={index}
-            text={annotation.text}
-            position={annotation.position}
-            kind={annotation.kind}
-        />
-    {/if}
+<!-- Render annotations by node -->
+{#each Array.from(annotationsByNode.values()) as annotations, index}
+    <Annotation id={index} {annotations} />
 {/each}
