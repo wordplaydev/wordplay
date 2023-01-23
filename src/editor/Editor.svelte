@@ -1224,7 +1224,7 @@
 >
     <!-- Render highlights below the code -->
     {#each outlines as outline}
-        <Highlight {...outline} above={false} ignored={lastKeyDownIgnored}/>
+        <Highlight {...outline} above={false} ignored={lastKeyDownIgnored} />
     {/each}
     <!-- Render the program -->
     <RootView node={program} spaces={source.spaces} />
@@ -1278,7 +1278,6 @@
         position: relative;
         user-select: none;
         padding: calc(2 * var(--wordplay-spacing));
-        scroll-behavior: smooth;
         min-height: 100%;
         min-width: 100%;
     }

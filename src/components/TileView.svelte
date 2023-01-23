@@ -295,6 +295,7 @@
 
     .content {
         overflow: scroll;
+        scroll-behavior: smooth;
         position: relative;
         width: 100%;
         height: 100%;
