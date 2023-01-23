@@ -1224,7 +1224,7 @@
 >
     <!-- Render highlights below the code -->
     {#each outlines as outline}
-        <Highlight {...outline} above={false} />
+        <Highlight {...outline} above={false} ignored={lastKeyDownIgnored}/>
     {/each}
     <!-- Render the program -->
     <RootView node={program} spaces={source.spaces} />

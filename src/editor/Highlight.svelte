@@ -10,14 +10,19 @@
     export let underline: Outline;
     export let types: HighlightType[];
     export let above: boolean;
+    export let ignored: boolean = false;
 
     $: filteredClasses = types
         .filter((type) => HighlightTypes[type] === above)
         .join(' ');
+
+    // Flip back to unignored after the animation so we can give more feedback.
+    $: if (ignored) setTimeout(() => (ignored = false), 250);
 </script>
 
 <svg
     class={`highlight outline ${filteredClasses}`}
+    class:ignored
     style={`top: ${outline.miny - HIGHLIGHT_PADDING}px; left: ${
         outline.minx - HIGHLIGHT_PADDING
     }px; `}
@@ -32,6 +37,7 @@
     <path d={outline.path} />
 </svg><svg
     class={`highlight underline ${filteredClasses}`}
+    class:ignored
     style={`top: ${outline.miny - HIGHLIGHT_PADDING}px; left: ${
         outline.minx - HIGHLIGHT_PADDING
     }px; `}
@@ -136,5 +142,9 @@
         100% {
             stroke-dashoffset: calc(4 * var(--wordplay-border-width));
         }
+    }
+
+    .ignored {
+        animation: shake 0.25s 1;
     }
 </style>
