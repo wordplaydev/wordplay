@@ -246,6 +246,10 @@ export const TEXT_DELIMITERS: Record<string, string> = {
     '`': '`',
 };
 
+export const REVERSE_TEXT_DELIMITERS: Record<string, string> = {};
+for (const [open, close] of Object.entries(TEXT_DELIMITERS))
+    REVERSE_TEXT_DELIMITERS[close] = open;
+
 export const DELIMITERS: Record<string, string> = {};
 
 // Add the data structure delimiters
