@@ -67,7 +67,9 @@
             // Is there a closing delimiter? If not, we don't replace it.
             const lastChar = text.at(-1);
             const last =
-                lastChar !== undefined && lastChar in REVERSE_TEXT_DELIMITERS;
+                text.length > 1 &&
+                lastChar !== undefined &&
+                lastChar in REVERSE_TEXT_DELIMITERS;
             const preferredQuote =
                 Languages[$preferredLanguages[0]].quote ?? '"';
             if (preferredQuote) {
