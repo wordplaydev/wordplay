@@ -9,7 +9,7 @@
     import type Transform from '../transforms/Transform';
     import Node from '../nodes/Node';
     import Caret from './util/Caret';
-    import { createEventDispatcher, setContext } from 'svelte';
+    import { createEventDispatcher, onMount, setContext } from 'svelte';
     import UnicodeString from '../models/UnicodeString';
     import commands, { type Edit } from './util/Commands';
     import type Source from '../nodes/Source';
@@ -121,6 +121,9 @@
             if (view) ensureElementIsVisible(view, true);
         }
     }
+
+    // Focus the hidden text field on mount.
+    onMount(() => input?.focus());
 
     function evalUpdate() {
         if (evaluator === undefined) return;
