@@ -129,6 +129,10 @@ export default class Layout {
         );
     }
 
+    withArrangement(arrangement: Arrangement) {
+        return new Layout(this.tiles, arrangement, this.fullscreenID);
+    }
+
     resized(width: number, height: number) {
         return this.arrangement === Arrangement.vertical
             ? this.vertical(width, height)

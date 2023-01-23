@@ -354,6 +354,18 @@
     function getSourceByID(id: string) {
         return project.getSources()[parseInt(id.replace('source', ''))];
     }
+
+    function handleKey(event: KeyboardEvent) {
+        const command = event.ctrlKey || event.metaKey;
+
+        if (event.key === 'Escape') fullscreen = false;
+        else if (event.key === '1' && command)
+            layout = layout.withArrangement(Arrangement.vertical);
+        else if (event.key === '2' && command)
+            layout = layout.withArrangement(Arrangement.horizontal);
+        else if (event.key === '3' && command)
+            layout = layout.withArrangement(Arrangement.free);
+    }
 </script>
 
 <svelte:window
@@ -364,8 +376,7 @@
 <!-- Render the app header and the current project, if there is one. -->
 <main
     class="project"
-    on:keydown={(event) =>
-        event.key === 'Escape' ? (fullscreen = false) : undefined}
+    on:keydown={handleKey}
     transition:fade={{ duration: 200 }}
 >
     <div
