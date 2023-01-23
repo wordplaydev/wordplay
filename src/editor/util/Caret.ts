@@ -376,8 +376,15 @@ export default class Caret {
                             undefined))
             )
                 return [this.source, new Caret(this.source, this.position + 1)];
-            // Otherwise, if the text to insert is an opening delimiter, automatically insert its closing counterpart.
-            else if (text in DELIMITERS) {
+            // Otherwise, if the text to insert is an opening delimiter and this isn't an unclosed text delimiter, automatically insert its closing counterpart.
+            else if (
+                text in DELIMITERS &&
+                this.tokenPrior &&
+                !(
+                    this.tokenPrior.is(TokenType.TEXT) &&
+                    text === DELIMITERS[this.tokenPrior.getText().charAt(0)]
+                )
+            ) {
                 closed = true;
                 text += DELIMITERS[text];
             }
