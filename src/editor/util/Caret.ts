@@ -3,7 +3,11 @@ import Block from '../../nodes/Block';
 import Node from '../../nodes/Node';
 import Token from '../../nodes/Token';
 import TokenType from '../../nodes/TokenType';
-import { DELIMITERS, REVERSE_DELIMITERS } from '../../parser/Tokenizer';
+import {
+    DELIMITERS,
+    REVERSE_DELIMITERS,
+    REVERSE_TEXT_DELIMITERS,
+} from '../../parser/Tokenizer';
 import { PROPERTY_SYMBOL } from '../../parser/Symbols';
 import type Source from '../../nodes/Source';
 import Expression from '../../nodes/Expression';
@@ -371,9 +375,15 @@ export default class Caret {
             // We handle two cases: discrete matched tokens ([], {}, ()) text tokens that have internal matched delimiters.
             if (
                 this.token &&
+                // Is what's being typed a closing delimiter?
+                text in REVERSE_DELIMITERS &&
+                // Is the text being typed what's already there?
                 text === this.source.code.at(this.position) &&
+                // Is what's being typed a closing delimiter of a text literal?
                 ((this.token.is(TokenType.TEXT) &&
-                    DELIMITERS[this.token.getText().charAt(0)] === text) ||
+                    REVERSE_TEXT_DELIMITERS[this.token.getText().charAt(0)] ===
+                        text) ||
+                    // Is what's being typed a closing delimiter of an open delimiter?
                     (this.token.getText() in REVERSE_DELIMITERS &&
                         this.source.getMatchedDelimiter(this.token) !==
                             undefined))
