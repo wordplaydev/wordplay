@@ -1128,12 +1128,10 @@
     }
 
     function handleTextInputFocusLoss() {
-        hideMenu();
         focused = false;
     }
 
     function handleTextInputFocusGain() {
-        hideMenu();
         focused = true;
     }
 
