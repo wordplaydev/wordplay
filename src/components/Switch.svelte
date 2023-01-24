@@ -53,31 +53,22 @@
         transform-origin: center;
     }
 
-    .button:first-child {
-        border-right: none;
-    }
-
-    .button:focus {
-        transform: scale(1.15, 1.15);
-    }
-
-    .button:focus.active {
-        z-index: 1;
-    }
-
+    .button.inactive:focus,
     .button.inactive:hover {
         cursor: pointer;
         border-color: var(--wordplay-highlight);
         transform: scale(1.15, 1.15);
+        z-index: 1;
     }
 
     .button.inactive {
-        transform: scale(1, 1);
+        transform: scale(1);
     }
 
     .button.active {
         transform: scale(1);
-        background-color: var(--wordplay-disabled-color);
+        color: var(--wordplay-disabled-color);
+        background: var(--wordplay-background);
     }
 
     .off {
