@@ -36,6 +36,17 @@ export type Streams = {
     random: Random;
 };
 
+type Analysis = {
+    conflicts: Conflict[];
+    primary: Map<Node, Conflict[]>;
+    secondary: Map<Node, Conflict[]>;
+    /** Evaluations by function and structures they evaluate (a call graph) */
+    evaluations: Map<FunctionDefinition | StructureDefinition, Set<Evaluate>>;
+    /** Expression dependencies */
+    /** An index of expression dependencies, mapping an Expression to one or more Expressions that are affected if it changes value.  */
+    dependencies: Map<Expression | Value, Set<Expression>>;
+};
+
 /**
  * A project with a name, some source files, and evaluators for each source file.
  **/
@@ -52,25 +63,21 @@ export default class Project {
     /** The evaluator that evaluates the source. */
     readonly evaluator: Evaluator;
 
-    /** Conflicts. */
-    conflicts: Conflict[] = [];
-    readonly primaryConflicts: Map<Node, Conflict[]> = new Map();
-    readonly secondaryConflicts: Map<Node, Conflict[]> = new Map();
-
-    /** Evaluations by function and structures they evaluate (a call graph) */
-    readonly evaluations: Map<
-        FunctionDefinition | StructureDefinition,
-        Set<Evaluate>
-    > = new Map();
-
-    /** Expression dependencies */
-    /** An index of expression dependencies, mapping an Expression to one or more Expressions that are affected if it changes value.  */
-    readonly dependencies: Map<Expression | Value, Set<Expression>> = new Map();
-
+    /** All of the active streams in the project. */
     readonly streams: Streams;
 
     readonly trees: Tree[];
     readonly _index: Map<Node, Tree | undefined> = new Map();
+
+    /** Conflicts. */
+    analyzed: 'unanalyzed' | 'analyzing' | 'analyzed' = 'unanalyzed';
+    analysis: Analysis = {
+        conflicts: [],
+        primary: new Map(),
+        secondary: new Map(),
+        evaluations: new Map(),
+        dependencies: new Map(),
+    };
 
     constructor(name: string, main: Source, supplements: Source[]) {
         // Remember the source.
@@ -176,43 +183,55 @@ export default class Project {
         );
     }
 
+    getAnalysis() {
+        // If there's a cycle, return the analysis thus far.
+        return this.analysis;
+    }
+
     analyze() {
-        this.conflicts = [];
-        this.primaryConflicts.clear();
-        this.secondaryConflicts.clear();
-        this.evaluations.clear();
-        this.dependencies.clear();
+        if (this.analyzed === 'analyzed' || this.analyzed === 'analyzing')
+            return this.analyze;
+
+        this.analyzed = 'analyzing';
+
+        this.analysis = {
+            conflicts: [],
+            primary: new Map(),
+            secondary: new Map(),
+            evaluations: new Map(),
+            dependencies: new Map(),
+        };
 
         // Build a mapping from nodes to conflicts.
         for (const source of this.getSources()) {
             const context = this.getContext(source);
 
             // Compute all of the conflicts in the program.
-            this.conflicts = this.conflicts.concat(
+            this.analysis.conflicts = this.analysis.conflicts.concat(
                 source.expression.getAllConflicts(context)
             );
 
             // Build conflict indices by going through each conflict, asking for the conflicting nodes
             // and adding to the conflict to each node's list of conflicts.
-            this.conflicts.forEach((conflict) => {
+            for (const conflict of this.analysis.conflicts) {
                 const complicitNodes = conflict.getConflictingNodes();
-                this.primaryConflicts.set(complicitNodes.primary.node, [
-                    ...(this.primaryConflicts.get(
+                this.analysis.primary.set(complicitNodes.primary.node, [
+                    ...(this.analysis.primary.get(
                         complicitNodes.primary.node
                     ) ?? []),
                     conflict,
                 ]);
                 if (complicitNodes.secondary) {
                     let nodeConflicts =
-                        this.secondaryConflicts.get(
+                        this.analysis.secondary.get(
                             complicitNodes.secondary.node
                         ) ?? [];
-                    this.secondaryConflicts.set(complicitNodes.secondary.node, [
+                    this.analysis.secondary.set(complicitNodes.secondary.node, [
                         ...nodeConflicts,
                         conflict,
                     ]);
                 }
-            });
+            }
 
             // Build a mapping from functions and structures to their evaluations.
             for (const node of source.nodes()) {
@@ -223,9 +242,9 @@ export default class Project {
                     if (fun) {
                         // Add this evaluate to the function's list of calls.
                         const evaluates =
-                            this.evaluations.get(fun) ?? new Set();
+                            this.analysis.evaluations.get(fun) ?? new Set();
                         evaluates.add(node);
-                        this.evaluations.set(fun, evaluates);
+                        this.analysis.evaluations.set(fun, evaluates);
 
                         // Is it a higher order function? Get the function input
                         // and add the Evaluate as a caller of the function input.
@@ -237,10 +256,11 @@ export default class Project {
                                 const type = input.getType(context);
                                 if (type instanceof FunctionDefinitionType) {
                                     const hofEvaluates =
-                                        this.evaluations.get(type.fun) ??
-                                        new Set();
+                                        this.analysis.evaluations.get(
+                                            type.fun
+                                        ) ?? new Set();
                                     hofEvaluates.add(node);
-                                    this.evaluations.set(
+                                    this.analysis.evaluations.set(
                                         type.fun,
                                         hofEvaluates
                                     );
@@ -253,48 +273,57 @@ export default class Project {
                 // Build the dependency graph by asking each expression node for its dependencies.
                 if (node instanceof Expression) {
                     for (const dependency of node.getDependencies(context)) {
-                        const set = this.dependencies.get(dependency);
+                        const set = this.analysis.dependencies.get(dependency);
                         if (set) set.add(node);
-                        else this.dependencies.set(dependency, new Set([node]));
+                        else
+                            this.analysis.dependencies.set(
+                                dependency,
+                                new Set([node])
+                            );
                     }
                 }
             }
         }
+
+        this.analyzed = 'analyzed';
+
+        return this.analysis;
     }
 
     getConflicts() {
-        return this.conflicts;
+        return this.getAnalysis().conflicts;
     }
     getPrimaryConflicts() {
-        return this.primaryConflicts;
+        return this.getAnalysis().primary;
     }
     getSecondaryConflicts() {
-        return this.secondaryConflicts;
+        return this.getAnalysis().secondary;
     }
 
     nodeInvolvedInConflicts(node: Node) {
         return (
-            this.primaryConflicts.has(node) || this.secondaryConflicts.has(node)
+            this.getPrimaryConflicts().has(node) ||
+            this.getSecondaryConflicts().has(node)
         );
     }
 
     /** Given a node N, and the set of conflicts C in the program, determines the subset of C in which the given N is complicit. */
     getPrimaryConflictsInvolvingNode(node: Node) {
-        return this.primaryConflicts.get(node);
+        return this.getPrimaryConflicts().get(node);
     }
 
     getSecondaryConflictsInvolvingNode(node: Node) {
-        return this.secondaryConflicts.get(node);
+        return this.getSecondaryConflicts().get(node);
     }
 
     getEvaluationsOf(
         fun: FunctionDefinition | StructureDefinition
     ): Evaluate[] {
-        return Array.from(this.evaluations.get(fun) ?? []);
+        return Array.from(this.getAnalysis().evaluations.get(fun) ?? []);
     }
 
     getExpressionsAffectedBy(expression: Value | Expression): Set<Expression> {
-        return this.dependencies.get(expression) ?? new Set();
+        return this.getAnalysis().dependencies.get(expression) ?? new Set();
     }
 
     react(stream: Stream) {

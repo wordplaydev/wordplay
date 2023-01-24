@@ -131,12 +131,9 @@
     $: {
         if ($KeyboardIdle) {
             project.analyze();
-            nodeConflicts.set(project.getConflicts());
+            if (!project.evaluator.isStarted()) project.evaluate();
         }
     }
-
-    /** Evaluate if we haven't started yet */
-    $: if (!project.evaluator.isStarted()) project.evaluate();
 
     /** When stepping and the current step changes, change the active source. */
     $: {
