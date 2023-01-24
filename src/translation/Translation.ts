@@ -725,8 +725,11 @@ type Translation = {
             play: string;
             pause: string;
             back: string;
+            backInput: string;
             out: string;
+            start: string;
             forward: string;
+            forwardInput: string;
             present: string;
             reset: string;
             home: string;

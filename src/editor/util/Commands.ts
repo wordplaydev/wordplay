@@ -306,12 +306,18 @@ const commands: Command[] = [
     {
         description: 'Insert new line',
         key: 'Enter',
+        shift: false,
+        alt: false,
+        control: false,
         mode: Mode.PLAY,
         execute: (caret: Caret) => caret.insert('\n'),
     },
     {
         description: 'Step to node',
         key: 'Enter',
+        shift: false,
+        alt: false,
+        control: false,
         mode: Mode.STEP,
         execute: (caret: Caret, _, evaluator) => {
             if (caret.position instanceof Node) {
@@ -362,43 +368,6 @@ const commands: Command[] = [
                     }
                 }
             }
-            return undefined;
-        },
-    },
-    {
-        description: 'Step forward to input',
-        shift: true,
-        key: 'Space',
-        mode: Mode.STEP,
-        execute: (_, __, evaluator) => evaluator.stepToInput(),
-    },
-    {
-        description: 'Step back to input',
-        shift: true,
-        key: 'Backspace',
-        mode: Mode.STEP,
-        execute: (_, __, evaluator) => evaluator.stepBackToInput(),
-    },
-    {
-        description: 'Step forward',
-        key: 'Space',
-        mode: Mode.STEP,
-        execute: (_, __, evaluator) => evaluator.stepWithinProgram(),
-    },
-    {
-        description: 'Step back',
-        key: 'Backspace',
-        mode: Mode.STEP,
-        execute: (_, __, evaluator) => evaluator.stepBackWithinProgram(),
-    },
-    {
-        description: 'Switch between play/pause.',
-        control: true,
-        key: 'KeyP',
-        mode: undefined,
-        execute: (_, __, evaluator) => {
-            if (evaluator.isPlaying()) evaluator.pause();
-            else evaluator.play();
             return undefined;
         },
     },

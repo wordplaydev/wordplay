@@ -131,6 +131,7 @@
     $: {
         if ($KeyboardIdle) {
             project.analyze();
+            nodeConflicts.set(project.getConflicts());
             if (!project.evaluator.isStarted()) project.evaluate();
         }
     }
@@ -403,15 +404,31 @@
     }
 
     function handleKey(event: KeyboardEvent) {
+        const key = event.key;
         const command = event.ctrlKey || event.metaKey;
 
-        if (event.key === 'Escape') fullscreen = false;
-        else if (event.key === '1' && command)
+        if (key === 'Escape') fullscreen = false;
+        else if (key === '1' && command)
             layout = layout.withArrangement(Arrangement.vertical);
-        else if (event.key === '2' && command)
+        else if (key === '2' && command)
             layout = layout.withArrangement(Arrangement.horizontal);
-        else if (event.key === '3' && command)
+        else if (key === '3' && command)
             layout = layout.withArrangement(Arrangement.free);
+        else if (key === 'Enter' && command) {
+            if (project.evaluator.isPlaying()) project.evaluator.pause();
+            else project.evaluator.play();
+            event.preventDefault();
+        } else if (!$playing) {
+            if (event.shiftKey) {
+                if (key === ' ') project.evaluator.stepToInput();
+                else if (key === 'Backspace')
+                    project.evaluator.stepBackToInput();
+            } else {
+                if (key === ' ') project.evaluator.stepWithinProgram();
+                else if (key === 'Backspace')
+                    project.evaluator.stepBackWithinProgram();
+            }
+        }
     }
 
     function getMenuPosition(caret: Caret) {
@@ -459,6 +476,10 @@
     on:keydown={handleKey}
     transition:fade={{ duration: 200 }}
 >
+    <section class="header">
+        <Timeline evaluator={project.evaluator} />
+    </section>
+
     <div
         class="canvas"
         on:mousedown={handleMouseDown}
@@ -535,8 +556,8 @@
             {/each}
         {/key}
     </div>
-    <!-- Render the footer on top of the windows -->
-    <div class="footer">
+
+    <section class="footer">
         {#each layout.getSources() as source}
             <MiniSourceView
                 {project}
@@ -562,7 +583,6 @@
                     )}
             />
         {/each}
-        <Timeline evaluator={project.evaluator} />
         <div class="settings">
             <Button
                 tip={layout.arrangement === Arrangement.free
@@ -570,7 +590,6 @@
                     : layout.arrangement === Arrangement.vertical
                     ? $preferredTranslations[0].ui.tooltip.horizontal
                     : $preferredTranslations[0].ui.tooltip.freeform}
-                chromeless
                 action={() =>
                     (layout = layout.withNextArrangement(
                         canvasWidth,
@@ -581,11 +600,10 @@
             <Language />
             <Button
                 tip={$preferredTranslations[0].ui.tooltip.close}
-                action={() => updateProject(undefined)}
-                chromeless>❌</Button
+                action={() => updateProject(undefined)}>❌</Button
             >
         </div>
-    </div>
+    </section>
     <!-- Render annotations on top of the tiles and the footer -->
     <Annotations {project} conflicts={visibleConflicts} stepping={!$playing} />
 
@@ -624,14 +642,26 @@
         overflow: hidden;
     }
 
-    .project:focus {
+    .project:focus:after {
+        width: 100%;
+        height: 100%;
+        content: '';
         outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
         outline-offset: calc(-1 * var(--wordplay-focus-width));
+        position: absolute;
+        top: 0;
+        left: 0;
+        pointer-events: none;
     }
 
     .canvas {
         flex: 1;
         overflow: scroll;
+    }
+
+    .header {
+        border-bottom: var(--wordplay-border-color) solid
+            var(--wordplay-border-width);
     }
 
     .footer {
@@ -641,7 +671,8 @@
         flex-wrap: wrap;
         padding: var(--wordplay-spacing);
         gap: var(--wordplay-spacing);
-        border-top: 1px solid var(--wordplay-border-color);
+        border-top: var(--wordplay-border-width) solid
+            var(--wordplay-border-color);
     }
 
     .settings {

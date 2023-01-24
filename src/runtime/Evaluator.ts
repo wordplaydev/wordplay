@@ -587,6 +587,8 @@ export default class Evaluator {
      * from the beginning -- until reaching the stepIndex. This relies on memoization of non-deterministic inputs.
      */
     stepBack(offset: number = -1) {
+        if (this.isPlaying()) this.pause();
+
         // Compute our our target step
         const destinationStep = Math.max(
             this.#stepIndex + offset,
@@ -675,7 +677,12 @@ export default class Evaluator {
     }
 
     stepTo(stepIndex: StepNumber) {
+        if (this.isPlaying()) this.pause();
         this.stepBack(stepIndex - this.getStepIndex());
+    }
+
+    stepToEnd() {
+        this.stepTo(this.#stepCount);
     }
 
     // OBSERVERS

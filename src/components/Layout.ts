@@ -157,19 +157,19 @@ export default class Layout {
 
         // If the output is expanded, give it a portion.
         if (output) {
-            // If the palette is expanded, give it half the width.
+            // If the palette is expanded, give it a third of the width.
             if (palette) {
                 newLayout = newLayout
                     .withTileBounds(output, {
-                        left: width / 2,
+                        left: width / 3,
                         top: top,
-                        width: width / 2,
+                        width: (width * 2) / 3,
                         height: tileHeight,
                     })
                     .withTileBounds(palette, {
                         left: 0,
                         top: top,
-                        width: width / 2,
+                        width: (width * 1) / 3,
                         height: tileHeight,
                     });
             }
@@ -197,15 +197,15 @@ export default class Layout {
             newLayout = newLayout.withTileBounds(docs, {
                 left: 0,
                 top: top,
-                width: width / 2,
+                width: (width * 1) / 3,
                 height: tileHeight * sources.length,
             });
 
         for (const tile of sources) {
             newLayout = newLayout.withTileBounds(tile, {
-                left: docs ? width / 2 : 0,
+                left: docs ? width / 3 : 0,
                 top: top,
-                width: docs ? width / 2 : width,
+                width: docs ? (width * 2) / 3 : width,
                 height: tileHeight,
             });
             top += tileHeight;
@@ -226,17 +226,17 @@ export default class Layout {
         let left = 0;
         let tileWidth =
             width /
-            ((docs ? 1 : 0) + sources.length + (output || palette ? 1 : 0));
+            ((docs ? 0.5 : 0) + sources.length + (output || palette ? 1 : 0));
 
-        // Docs first, if expanded
+        // Docs first, if expanded, gets half a tile width
         if (docs) {
             newLayout = newLayout.withTileBounds(docs, {
                 left: left,
                 top: 0,
-                width: tileWidth,
+                width: tileWidth / 2,
                 height: height,
             });
-            left += tileWidth;
+            left += tileWidth / 2;
         }
 
         // Sources next

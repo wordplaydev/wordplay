@@ -11,6 +11,5 @@
 
 <Button
     tip={`${$preferredTranslations[0].ui.tooltip.expand} ${tile.name}`}
-    chromeless
     action={() => dispatch('toggle')}>{tile.name}</Button
 >

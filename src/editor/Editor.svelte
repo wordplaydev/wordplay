@@ -999,7 +999,7 @@
                 (command.alt === undefined || command.alt === event.altKey) &&
                 (command.key === undefined || command.key === event.code) &&
                 (command.mode === undefined ||
-                    evaluator?.getMode() === command.mode)
+                    evaluator.getMode() === command.mode)
             ) {
                 // If so, execute it.
                 const result = command.execute(
@@ -1056,6 +1056,9 @@
     let lastKeyboardInputValue: undefined | UnicodeString = undefined;
 
     function handleTextInput(event: Event) {
+        // No text input in stepping mode.
+        if (!$playing) return;
+
         lastKeyDownIgnored = false;
 
         let edit: Edit | undefined = undefined;

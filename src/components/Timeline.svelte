@@ -10,6 +10,7 @@
     import { slide } from 'svelte/transition';
     import Controls from './Controls.svelte';
     import { preferredLanguages } from '../translation/translations';
+    import { playing } from '../models/stores';
 
     export let evaluator: Evaluator;
 
@@ -86,7 +87,7 @@
     }
 </script>
 
-<section class="timeline" transition:slide>
+<section class="timeline" transition:slide class:stepping={!$playing}>
     <Controls project={evaluator.project} />
     <div
         class="inputs"
@@ -117,10 +118,7 @@
                 data-index={change.stepIndex}
             >
                 {#if change.stream === undefined}
-                    →
-                {:else if change.stream instanceof Keyboard && change.value}
-                    {@const key = change.value.resolve('key')}
-                    {#if key instanceof Text}{key.text}{/if}
+                    ◆
                 {:else}
                     {change.stream.names.getTranslation('😀')}
                 {/if}
@@ -145,7 +143,11 @@
         flex-direction: row;
         gap: var(--wordplay-spacing);
         flex: 1;
-        max-width: 40em;
+    }
+
+    .timeline.stepping {
+        background-color: var(--wordplay-evaluation-color);
+        color: var(--wordplay-background);
     }
 
     .inputs {
@@ -154,6 +156,9 @@
         white-space: nowrap;
         user-select: none;
         cursor: pointer;
+        border-left: var(--wordplay-border-color) solid
+            var(--wordplay-border-width);
+        padding: var(--wordplay-spacing);
     }
 
     .stream-value {
@@ -168,6 +173,6 @@
 
     .stream-value.down {
         transform-origin: bottom;
-        transform: scaleY(0.5);
+        transform: scaleY(0.8);
     }
 </style>

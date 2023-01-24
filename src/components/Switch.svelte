@@ -38,46 +38,41 @@
         font-family: var(--wordplay-app-font);
         font-size: var(--wordplay-font-size);
         font-weight: var(--wordplay-font-weight);
-        color: var(--wordplay-foreground);
+        color: currentColor;
     }
 
     .button {
-        display: inline;
+        display: inline-block;
         position: relative;
-        background-color: var(--wordplay-chrome);
-        padding: var(--wordplay-spacing);
-        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         transition: transform 0.25s;
         transform-origin: center;
+        margin: var(--wordplay-spacing);
+        cursor: pointer;
+    }
+
+    .off {
+        margin-right: calc(var(--wordplay-spacing) / 2);
+    }
+
+    .on {
+        margin-left: calc(var(--wordplay-spacing) / 2);
     }
 
     .button.inactive:focus,
     .button.inactive:hover {
         cursor: pointer;
         border-color: var(--wordplay-highlight);
-        transform: scale(1.15, 1.15);
+        transform: scale(1.3);
+        transform-origin: center;
         z-index: 1;
     }
 
     .button.inactive {
-        transform: scale(1);
+        transform: scale(1.2);
     }
 
     .button.active {
         transform: scale(1);
         color: var(--wordplay-disabled-color);
-        background: var(--wordplay-background);
-    }
-
-    .off {
-        border-right: var(--wordplay-border-width) solid
-            var(--wordplay-border-color);
-        border-top-left-radius: var(--wordplay-border-radius);
-        border-bottom-left-radius: var(--wordplay-border-radius);
-    }
-
-    .on {
-        border-top-right-radius: var(--wordplay-border-radius);
-        border-bottom-right-radius: var(--wordplay-border-radius);
     }
 </style>

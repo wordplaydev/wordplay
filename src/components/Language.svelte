@@ -53,7 +53,6 @@
     {:else}
         <Button
             tip={$preferredTranslations[0].ui.tooltip.language}
-            chromeless
             action={toggle}
         >
             {#each $preferredLanguages as lang}<span class="choice"

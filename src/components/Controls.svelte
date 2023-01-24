@@ -17,19 +17,6 @@
     function reset() {
         updateProject(project.clone());
     }
-
-    function handleStep() {
-        project.evaluator.stepWithinProgram();
-    }
-
-    function handleStepOut() {
-        project.evaluator.stepOut();
-    }
-
-    function playPause(play: boolean) {
-        if (play) project.evaluator.play();
-        else project.evaluator.pause();
-    }
 </script>
 
 <section class="controls">
@@ -40,38 +27,51 @@
     >
     <Switch
         on={$playing}
-        toggle={playPause}
+        toggle={(play) =>
+            play ? project.evaluator.play() : project.evaluator.pause()}
         offTip={$preferredTranslations[0].ui.tooltip.pause}
         onTip={$preferredTranslations[0].ui.tooltip.play}
-        offLabel="||"
-        onLabel="▷"
+        offLabel="⏸️"
+        onLabel="▶️"
     />
-    {#if !$playing}
-        <Button
-            tip="{$preferredTranslations[0].ui.tooltip.back},"
-            action={() => project.evaluator.stepBackWithinProgram()}
-            enabled={!$playing && !project.evaluator.isAtBeginning()}>←</Button
-        >
-        <Button
-            tip={$preferredTranslations[0].ui.tooltip.out}
-            action={handleStepOut}
-            enabled={!$playing &&
-                $currentStep &&
-                project.evaluator.getCurrentEvaluation() !== undefined}
-            >↑</Button
-        >
-        <Button
-            tip={$preferredTranslations[0].ui.tooltip.forward}
-            action={handleStep}
-            enabled={!$playing &&
-                $currentStepIndex < project.evaluator.getStepCount()}>→</Button
-        >
-        <Button
-            tip={$preferredTranslations[0].ui.tooltip.present}
-            action={() => project.evaluator.play()}
-            enabled={$streams.length > 1}>⇥</Button
-        >
-    {/if}
+    <Button
+        tip={$preferredTranslations[0].ui.tooltip.start}
+        action={() => project.evaluator.stepTo(0)}
+        enabled={!project.evaluator.isAtBeginning()}>⇤</Button
+    >
+    <Button
+        tip={$preferredTranslations[0].ui.tooltip.backInput}
+        action={() => project.evaluator.stepBackToInput()}
+        enabled={!project.evaluator.isAtBeginning()}>⇠</Button
+    >
+    <Button
+        tip={$preferredTranslations[0].ui.tooltip.back}
+        action={() => project.evaluator.stepBackWithinProgram()}
+        enabled={!project.evaluator.isAtBeginning()}>←</Button
+    >
+    <Button
+        tip={$preferredTranslations[0].ui.tooltip.out}
+        action={() => project.evaluator.stepOut()}
+        enabled={!playing &&
+            $currentStep &&
+            project.evaluator.getCurrentEvaluation() !== undefined}>↑</Button
+    >
+    <Button
+        tip={$preferredTranslations[0].ui.tooltip.forward}
+        action={() => project.evaluator.stepWithinProgram()}
+        enabled={project.evaluator.isInPast() &&
+            $currentStepIndex < project.evaluator.getStepCount()}>→</Button
+    >
+    <Button
+        tip={$preferredTranslations[0].ui.tooltip.forwardInput}
+        action={() => project.evaluator.stepToInput()}
+        enabled={project.evaluator.isInPast()}>⇢</Button
+    >
+    <Button
+        tip={$preferredTranslations[0].ui.tooltip.present}
+        action={() => project.evaluator.stepToEnd()}
+        enabled={project.evaluator.isInPast()}>⇥</Button
+    >
 </section>
 
 <style>
