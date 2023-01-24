@@ -239,6 +239,18 @@
      */
     $: tileIDSequence = layout.tiles.map((tile) => tile.id).join(',');
 
+    /** If the source file corresponding to the menu closes, hide the menu. */
+    $: {
+        if (menu) {
+            // Find the tile corresponding to the menu's source file.
+            const index = project.getSources().indexOf(menu.caret.source);
+            const tile = layout.tiles.find(
+                (tile) => tile.id === Layout.getSourceID(index)
+            );
+            if (tile && tile.isCollapsed()) menu = undefined;
+        }
+    }
+
     /** When the menu changes, compute a menu position. */
     $: menuPosition = menu ? getMenuPosition(menu.caret) : undefined;
 

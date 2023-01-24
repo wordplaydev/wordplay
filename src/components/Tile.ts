@@ -42,6 +42,10 @@ export default class Tile {
         this.position = position;
     }
 
+    isCollapsed() {
+        return this.mode == Mode.Collapsed;
+    }
+
     withBounds(bounds: Bounds) {
         return new Tile(
             this.id,
