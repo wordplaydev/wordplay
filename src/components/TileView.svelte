@@ -224,37 +224,37 @@
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        cursor: move;
-    }
-
-    .tile.resize-top-left {
-        cursor: nw-resize;
-    }
-    .tile.resize-top {
-        cursor: n-resize;
-    }
-    .tile.resize-top-right {
-        cursor: ne-resize;
-    }
-    .tile.resize-left {
-        cursor: w-resize;
-    }
-    .tile.resize-right {
-        cursor: e-resize;
-    }
-    .tile.resize-bottom-right {
-        cursor: se-resize;
-    }
-    .tile.resize-bottom-left {
-        cursor: sw-resize;
-    }
-    .tile.resize-bottom {
-        cursor: s-resize;
     }
 
     .tile.free {
+        cursor: move;
         border-radius: var(--wordplay-border-radius);
         border: var(--wordplay-border-color) solid 1px;
+    }
+
+    .tile.free.resize-top-left {
+        cursor: nw-resize;
+    }
+    .tile.free.resize-top {
+        cursor: n-resize;
+    }
+    .tile.free.resize-top-right {
+        cursor: ne-resize;
+    }
+    .tile.free.resize-left {
+        cursor: w-resize;
+    }
+    .tile.free.resize-right {
+        cursor: e-resize;
+    }
+    .tile.free.resize-bottom-right {
+        cursor: se-resize;
+    }
+    .tile.free.resize-bottom-left {
+        cursor: sw-resize;
+    }
+    .tile.free.resize-bottom {
+        cursor: s-resize;
     }
 
     .tile.vertical:not(:last-child) {
