@@ -2,7 +2,7 @@ import type Conflict from '../conflicts/Conflict';
 import Expression from './Expression';
 import Token from './Token';
 import type Type from './Type';
-import type Evaluator from 'src/runtime/Evaluator';
+import type Evaluator from '../runtime/Evaluator';
 import type Step from '../runtime/Step';
 import Finish from '../runtime/Finish';
 import Start from '../runtime/Start';

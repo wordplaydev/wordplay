@@ -1,9 +1,9 @@
 import Node from './Node';
 import type Context from './Context';
 import type Evaluator from '../runtime/Evaluator';
-import type Value from 'src/runtime/Value';
+import type Value from '../runtime/Value';
 import type Type from './Type';
-import type Step from 'src/runtime/Step';
+import type Step from '../runtime/Step';
 import type Bind from './Bind';
 import type TypeSet from './TypeSet';
 import type Stream from '../runtime/Stream';

@@ -1,7 +1,7 @@
 import type Evaluator from '../runtime/Evaluator';
-import type Value from 'src/runtime/Value';
+import type Value from '../runtime/Value';
 import type Type from '../nodes/Type';
-import type Step from 'src/runtime/Step';
+import type Step from '../runtime/Step';
 import type Expression from '../nodes/Expression';
 import { parseType, toTokens } from '../parser/Parser';
 import type Evaluation from '../runtime/Evaluation';
