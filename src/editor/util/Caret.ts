@@ -54,6 +54,13 @@ export default class Caret {
         return this.tokenSpaceIndex === this.position;
     }
 
+    atTokenEnd() {
+        return (
+            this.tokenPrior &&
+            this.source.getTokenLastPosition(this.tokenPrior) === this.position
+        );
+    }
+
     getCode() {
         return this.source.getCode();
     }
@@ -71,6 +78,17 @@ export default class Caret {
             this.token !== undefined &&
             this.source.spaces.getSpace(this.token).length > 0
         );
+    }
+
+    hasSpaceAfter(): boolean {
+        if (this.token === undefined) return false;
+        const next = this.atTokenEnd()
+            ? this.token
+            : this.source.getTokenAfterNode(
+                  this.position instanceof Node ? this.position : this.token
+              );
+        if (next === undefined) return false;
+        return this.source.spaces.getSpace(next).length > 0;
     }
 
     getNodesBetween() {

@@ -115,7 +115,10 @@ const commands: Command[] = [
             // Find the node corresponding to the position.
             // And if it's parent only has the one child, select it.
             else {
-                const token = caret.getToken();
+                const token =
+                    caret.atTokenEnd() && caret.hasSpaceAfter()
+                        ? caret.tokenPrior
+                        : caret.getToken();
                 if (token !== undefined) {
                     const parent = caret.source.get(token)?.getParent();
                     return caret.withPosition(
