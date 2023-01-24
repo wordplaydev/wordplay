@@ -455,6 +455,7 @@
 <!-- Render the app header and the current project, if there is one. -->
 <main
     class="project"
+    tabIndex="0"
     on:keydown={handleKey}
     transition:fade={{ duration: 200 }}
 >
@@ -621,6 +622,11 @@
         display: flex;
         flex-direction: column;
         overflow: hidden;
+    }
+
+    .project:focus {
+        outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
+        outline-offset: calc(-1 * var(--wordplay-focus-width));
     }
 
     .canvas {
