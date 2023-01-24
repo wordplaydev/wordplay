@@ -6,12 +6,14 @@
     export let enabled: boolean = true;
 </script>
 
+<!-- Note that we don't disable the button using disabled because that makes
+    it invisible to screen readers. -->
 <button
     title={tip}
-    tabIndex={0}
-    on:click={action}
+    tabIndex="0"
+    on:click={() => (enabled ? action() : undefined)}
     on:mousedown
-    disabled={!enabled}
+    aria-disabled={!enabled}
 >
     <slot />
 </button>
@@ -40,14 +42,8 @@
         color: var(--wordplay-disabled-color);
     }
 
+    button:focus:not(:disabled),
     button:hover:not(:disabled) {
-        border: none;
-        color: var(--wordplay-highlight);
-        fill: var(--wordplay-highlight);
-    }
-
-    button:focus,
-    button:hover {
         transform: scale(1.3);
         outline: none;
         color: var(--wordplay-highlight);
