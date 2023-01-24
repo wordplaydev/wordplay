@@ -126,6 +126,7 @@
     .token-view {
         display: inline-block;
         position: relative;
+        cursor: text;
     }
 
     .token-category-delimiter {

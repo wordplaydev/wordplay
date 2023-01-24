@@ -224,6 +224,7 @@
         display: flex;
         flex-direction: column;
         align-items: flex-start;
+        cursor: move;
     }
 
     .tile.resize-top-left {
