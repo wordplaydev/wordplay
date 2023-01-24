@@ -31,6 +31,7 @@
     import Reference from '../nodes/Reference';
     import { StackType } from '../output/Stack';
     import TextLiteral from '../nodes/TextLiteral';
+    import Structure from '../runtime/Structure';
 
     export let project: Project;
 
@@ -43,11 +44,16 @@
         ) ?? [];
 
     $: {
-        const filtered = $selectedOutput.filter((node) =>
-            project.contains(node)
-        );
-        if (filtered.length !== $selectedOutput.length)
-            selectedOutput.set(filtered);
+        const latest = project.evaluator.getLatestSourceValue(project.main);
+        if (!(latest && latest instanceof Structure && latest.is(VerseType)))
+            selectedOutput.set([]);
+        else {
+            const filtered = $selectedOutput.filter((node) =>
+                project.contains(node)
+            );
+            if (filtered.length !== $selectedOutput.length)
+                selectedOutput.set(filtered);
+        }
     }
 
     type Slider = {
