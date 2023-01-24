@@ -41,8 +41,6 @@
     import { tick } from 'svelte';
     import TextField from './TextField.svelte';
 
-    export let hidden: boolean;
-
     let palette: HTMLElement | undefined;
 
     let project = getProject();
@@ -193,7 +191,6 @@
 
 <section
     class="palette"
-    class:hidden
     on:mousedown={handleMouseDown}
     on:mouseup={handleDrop}
     bind:this={palette}
@@ -304,14 +301,6 @@
         display: flex;
         flex-direction: column;
         height: 100%;
-    }
-
-    .palette.hidden {
-        width: 0;
-        opacity: 0;
-        padding: 0;
-        border: 0;
-        visibility: hidden;
     }
 
     .content {
