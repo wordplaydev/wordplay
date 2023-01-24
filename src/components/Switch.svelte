@@ -16,10 +16,8 @@
         on:keydown={(event) =>
             event.key === 'Enter' || event.key === ' '
                 ? toggle(false)
-                : undefined}
-    >
-        {offLabel}
-    </span><span
+                : undefined}>{offLabel}</span
+    ><span
         class={`button on ${on ? 'active' : 'inactive'}`}
         tabIndex="0"
         title={onTip}
@@ -44,7 +42,7 @@
     }
 
     .button {
-        display: inline-block;
+        display: inline;
         position: relative;
         background-color: var(--wordplay-chrome);
         padding: var(--wordplay-spacing);
