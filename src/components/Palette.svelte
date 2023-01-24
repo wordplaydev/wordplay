@@ -42,6 +42,14 @@
                     node.is(VerseType, project.getNodeContext(node)))
         ) ?? [];
 
+    $: {
+        const filtered = $selectedOutput.filter((node) =>
+            project.contains(node)
+        );
+        if (filtered.length !== $selectedOutput.length)
+            selectedOutput.set(filtered);
+    }
+
     type Slider = {
         type: 'slider';
         min: number;

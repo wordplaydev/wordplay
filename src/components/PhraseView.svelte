@@ -24,7 +24,7 @@
             const node = phrase.value.creator;
             const nodes = $selectedOutput;
             const index = nodes.indexOf(node);
-            selectedOutput?.set(
+            selectedOutput.set(
                 event.shiftKey
                     ? index >= 0
                         ? [...nodes.slice(0, index), ...nodes.slice(index + 1)]
