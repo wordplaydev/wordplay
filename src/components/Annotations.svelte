@@ -308,17 +308,17 @@
             // If the bubble would be outside the bounds of the window, adjust it's position.
             return {
                 left:
-                    (nodeRect.right < tileRect.left
+                    nodeRect.right < tileRect.left
                         ? tileRect.left
                         : nodeRect.left > tileRect.right
                         ? tileRect.right
-                        : nodeRect.right + 1) + canvas.scrollLeft,
+                        : nodeRect.right + 1,
                 top:
-                    (nodeRect.bottom < tileRect.top
+                    nodeRect.bottom < tileRect.top
                         ? tileRect.top
                         : nodeRect.bottom > tileRect.bottom
                         ? tileRect.bottom
-                        : nodeRect.bottom + 1) + canvas.scrollTop,
+                        : nodeRect.bottom + 1,
             };
         }
         // If we couldn't find a view, put it in the corner of the editor.

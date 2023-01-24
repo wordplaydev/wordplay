@@ -431,6 +431,7 @@
         on:mouseup={handleMouseUp}
         on:mousemove={handleMouseMove}
         on:transitionend={repositionFloaters}
+        on:scroll={repositionFloaters}
         bind:clientWidth={canvasWidth}
         bind:clientHeight={canvasHeight}
         bind:this={canvas}

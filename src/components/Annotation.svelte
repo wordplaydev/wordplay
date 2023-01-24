@@ -61,7 +61,6 @@
 <style>
     .annotations {
         position: absolute;
-        z-index: 1;
         max-width: 320px;
         display: flex;
         flex-direction: column;
