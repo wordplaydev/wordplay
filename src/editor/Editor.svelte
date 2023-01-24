@@ -6,7 +6,6 @@
         selectedOutput,
         updateProject,
     } from '../models/stores';
-    import type Transform from '../transforms/Transform';
     import Node from '../nodes/Node';
     import Caret from './util/Caret';
     import { createEventDispatcher, onMount, setContext } from 'svelte';
@@ -16,7 +15,6 @@
     import { writable } from 'svelte/store';
     import Exception from '../runtime/Exception';
     import type Program from '../nodes/Program';
-    import Menu from './Menu.svelte';
     import Token from '../nodes/Token';
     import KeyboardIdle from './util/KeyboardIdle';
     import CaretView from './CaretView.svelte';
@@ -61,6 +59,7 @@
         InsertionPoint,
     } from './Drag';
     import type Tree from '../nodes/Tree';
+    import Menu from './util/Menu';
 
     export let project: Project;
     export let source: Source;
@@ -70,6 +69,10 @@
         width: 0,
         height: 0,
     };
+
+    // A menu of potential transformations based on the caret position.
+    // Managed here but displayed by the project to allow it to escape the editor view.
+    export let menu: Menu | undefined = undefined;
 
     const dispatch = createEventDispatcher();
 
@@ -166,17 +169,6 @@
     let caretLocation:
         | { top: string; left: string; height: string; bottom: number }
         | undefined = undefined;
-
-    // A menu of potential transformations based on the caret position.
-    let menu:
-        | {
-              node: Node;
-              location: { left: string; top: string } | undefined;
-              transforms: Transform[];
-          }
-        | undefined = undefined;
-
-    let menuSelection: number = -1;
 
     // The store the contains the current node being dragged.
     let dragged = getDragged();
@@ -928,49 +920,7 @@
         await tick();
 
         // Make a menu, but without a location, so other things know there's a menu while we're waiting.
-        menu = { node, transforms, location: undefined };
-
-        // Position the menu if a node is selected.
-        let position: { left: string; top: string } | undefined = undefined;
-
-        // Position it near the selected node or caret
-        if (editor && $caret.isNode()) {
-            const viewport = editor.parentElement;
-            const el = getNodeView(node);
-            if (el && viewport) {
-                const placeholderRect = el.getBoundingClientRect();
-                const viewportRect = viewport.getBoundingClientRect();
-                position = {
-                    left: `${
-                        placeholderRect.left -
-                        viewportRect.left +
-                        viewport.scrollLeft
-                    }px`,
-                    top: `${
-                        placeholderRect.top -
-                        viewportRect.top +
-                        viewport.scrollTop +
-                        ($caret.isIndex()
-                            ? placeholderRect.height
-                            : Math.min(placeholderRect.height, 100)) +
-                        10
-                    }px`,
-                };
-            }
-        } else if (caretLocation && $caret.isIndex()) {
-            position = {
-                left: `${caretLocation.left}px`,
-                top: `${caretLocation.bottom}px`,
-            };
-        }
-
-        // If we got a location and we have transforms, we have everything we need to show a menu!
-        if (position)
-            menu = {
-                node: menu.node,
-                transforms: menu.transforms,
-                location: position,
-            };
+        menu = new Menu($caret, transforms, 0, handleEdit);
     }
 
     // Always show the menu if the caret is after a property reference.
@@ -1001,20 +951,17 @@
 
         if (menu !== undefined) {
             if (event.key === 'ArrowDown') {
-                if (menuSelection < menu.transforms.length - 1)
-                    menuSelection += 1;
+                menu = menu.down();
                 return;
             } else if (event.key === 'ArrowUp') {
-                if (menuSelection >= 0) menuSelection -= 1;
+                menu = menu.up();
                 return;
             } else if (
                 event.key === 'Enter' &&
-                menuSelection >= 0 &&
+                menu.selection !== undefined &&
                 menu.transforms.length > 0
             ) {
-                handleEdit(
-                    menu.transforms[menuSelection].getEdit($preferredLanguages)
-                );
+                menu.doEdit($preferredLanguages);
                 hideMenu();
                 return;
             }
@@ -1192,7 +1139,6 @@
 
     function hideMenu() {
         menu = undefined;
-        menuSelection = -1;
     }
 
     function updateScrollPosition() {
@@ -1214,6 +1160,7 @@
     class:stepping
     style:direction={$writingDirection}
     style:writing-mode={$writingLayout}
+    data-id={source.id}
     bind:this={editor}
     on:mousedown={(event) => handleMouseDown(event)}
     on:dblclick={(event) => {
@@ -1244,20 +1191,6 @@
             ignored={lastKeyDownIgnored}
             bind:location={caretLocation}
         />
-    {/if}
-    <!-- Are we on a placeholder? Show a menu! on top of the code and caret. -->
-    {#if menu !== undefined && menu.location !== undefined}
-        <div
-            class="menu"
-            style={`left: ${menu.location.left}; top: ${menu.location.top};`}
-        >
-            <Menu
-                transforms={menu.transforms}
-                selection={menuSelection}
-                select={(transform) =>
-                    handleEdit(transform.getEdit($preferredLanguages))}
-            />
-        </div>
     {/if}
     <!-- Render the invisible text field that allows us to capture inputs -->
     <input
@@ -1297,9 +1230,5 @@
         /* outline: 1px solid red;
         opacity: 1;
         width: 10px; */
-    }
-
-    .menu {
-        position: absolute;
     }
 </style>

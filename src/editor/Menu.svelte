@@ -6,90 +6,100 @@
     } from '../translation/translations';
     import RootView from './RootView.svelte';
     import Block from '../nodes/Block';
+    import type Menu from './util/Menu';
 
-    export let transforms: Transform[];
-    export let selection: number;
-    export let select: (item: Transform) => void;
+    export let menu: Menu;
+    export let position: { left: number; top: number };
 
     const WINDOW = 2;
 
     function handleItemClick(item: Transform) {
-        select(item);
+        menu.doEdit($preferredLanguages, item);
     }
 
     // Compute the visible window of items based on the selection.
-    let minItem = selection;
-    let maxItem = selection;
+    let minItem = menu.selection;
+    let maxItem = menu.selection;
     $: {
         minItem =
-            (selection < WINDOW ? 0 : selection - WINDOW) -
-            Math.max(0, selection + WINDOW - (transforms.length - 1));
-        maxItem = selection + WINDOW + Math.max(0, WINDOW - selection);
+            (menu.selection < WINDOW ? 0 : menu.selection - WINDOW) -
+            Math.max(0, menu.selection + WINDOW - (menu.transforms.length - 1));
+        maxItem =
+            menu.selection + WINDOW + Math.max(0, WINDOW - menu.selection);
     }
 </script>
 
-<table class="menu">
-    <tr class="item header">
-        <td colspan="2">Edit…</td>
-    </tr>
-    {#each transforms as transform, index}
-        {@const [newNode, newParent] =
-            transform.getEditedNode($preferredLanguages)}
-        {#if index >= minItem && index <= maxItem}
-            <!-- Prevent default is to ensure focus isn't lost on editor -->
-            <tr
-                class={`item option ${index === selection ? 'selected' : ''}`}
-                on:mousedown|preventDefault|stopPropagation={() =>
-                    handleItemClick(transform)}
-            >
-                <td class="col">
-                    {#if newNode !== undefined}
-                        <!-- If the new parent is a block with more than one statement, show the new node only instead -->
-                        <RootView
-                            node={newParent instanceof Block &&
-                            newParent.statements.length > 1
-                                ? newNode
-                                : newParent}
-                        />
-                    {:else}
-                        <em>Remove</em>
-                    {/if}
-                </td><td class="col"
-                    ><em
-                        >{transform.getDescription(
-                            $preferredTranslations[0]
-                        )}</em
-                    ></td
+<div class="menu" style:left="{position.left}px" style:top="{position.top}px">
+    <table>
+        <tr class="item header">
+            <td colspan="2">Edit…</td>
+        </tr>
+        {#each menu.transforms as transform, index}
+            {@const [newNode, newParent] =
+                transform.getEditedNode($preferredLanguages)}
+            {#if index >= minItem && index <= maxItem}
+                <!-- Prevent default is to ensure focus isn't lost on editor -->
+                <tr
+                    class={`item option ${
+                        index === menu.selection ? 'selected' : ''
+                    }`}
+                    on:mousedown|preventDefault|stopPropagation={() =>
+                        handleItemClick(transform)}
                 >
-            </tr>
-        {:else if (index === minItem - 1 && minItem > 0) || (index === maxItem + 1 && maxItem < transforms.length - 1)}
-            <tr class="item"><td colspan="2">…</td></tr>
-        {/if}
-    {:else}
-        <!-- Feedback if there are no items.-->
-        <tr><td colspan="2"><center>&mdash;</center></td></tr>
-    {/each}
-</table>
+                    <td class="col">
+                        {#if newNode !== undefined}
+                            <!-- If the new parent is a block with more than one statement, show the new node only instead -->
+                            <RootView
+                                node={newParent instanceof Block &&
+                                newParent.statements.length > 1
+                                    ? newNode
+                                    : newParent}
+                            />
+                        {:else}
+                            <em>Remove</em>
+                        {/if}
+                    </td><td class="col"
+                        ><em
+                            >{transform.getDescription(
+                                $preferredTranslations[0]
+                            )}</em
+                        ></td
+                    >
+                </tr>
+            {:else if (index === minItem - 1 && minItem > 0) || (index === maxItem + 1 && maxItem < menu.transforms.length - 1)}
+                <tr class="item"><td colspan="2">…</td></tr>
+            {/if}
+        {:else}
+            <!-- Feedback if there are no items.-->
+            <tr><td colspan="2"><center>&mdash;</center></td></tr>
+        {/each}
+    </table>
+</div>
 
 <style>
     .menu {
+        position: absolute;
         background-color: var(--wordplay-background);
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         border-radius: var(--wordplay-border-radius);
         font-size: var(--wordplay-font-size);
         box-shadow: var(--wordplay-border-radius) var(--wordplay-border-radius)
             var(--wordplay-border-radius) 0px var(--wordplay-lightgrey);
-        max-width: 40em;
+        max-width: 30em;
         overflow-x: hidden;
         border-spacing: 0;
     }
 
-    .menu td {
+    table {
+        border-collapse: collapse;
+    }
+
+    td {
         text-align: left;
         width: 50%;
     }
 
-    .menu td {
+    td {
         padding: var(--wordplay-spacing);
         white-space: nowrap;
     }

@@ -44,6 +44,10 @@
     import type Source from '../nodes/Source';
     import MiniSourceView from './SourceTileToggle.svelte';
     import Timeline from './Timeline.svelte';
+    import type MenuInfo from '../editor/util/Menu';
+    import Menu from '../editor/Menu.svelte';
+    import type Caret from '../editor/util/Caret';
+    import Node from '../nodes/Node';
 
     export let project: Project;
 
@@ -69,6 +73,8 @@
 
     /** A global full screen flag */
     let fullscreen = false;
+
+    let menu: MenuInfo | undefined;
 
     let mouseX = 0;
     let mouseY = 0;
@@ -138,52 +144,54 @@
     let canvasWidth: number = 1024;
     let canvasHeight: number = 768;
 
-    let layout: Layout = new Layout(
-        [
-            new Tile(
-                OutputID,
-                $preferredTranslations[0].ui.tiles.output,
-                Content.Output,
-                Mode.Expanded,
-                undefined,
-                Tile.randomPosition(1024, 768)
-            ),
-            ...project
-                .getSources()
-                .map(
-                    (source, index) =>
-                        new Tile(
-                            Layout.getSourceID(index),
-                            source.names.getTranslation($preferredLanguages),
-                            Content.Source,
-                            index === 0 ? Mode.Expanded : Mode.Collapsed,
-                            undefined,
-                            Tile.randomPosition(1024, 768)
-                        )
-                ),
-            new Tile(
-                PaletteID,
-                $preferredTranslations[0].ui.tiles.palette,
-                Content.Palette,
-                Mode.Collapsed,
-                undefined,
-                Tile.randomPosition(1024, 768)
-            ),
-            new Tile(
-                DocsID,
-                $preferredTranslations[0].ui.tiles.docs,
-                Content.Documentation,
-                Mode.Collapsed,
-                undefined,
-                Tile.randomPosition(1024, 768)
-            ),
-        ],
-        Arrangement.vertical,
-        undefined
+    let layout: Layout;
+    $: layout = new Layout(
+        layout
+            ? layout.tiles
+            : [
+                  new Tile(
+                      OutputID,
+                      $preferredTranslations[0].ui.tiles.output,
+                      Content.Output,
+                      Mode.Expanded,
+                      undefined,
+                      Tile.randomPosition(1024, 768)
+                  ),
+                  ...project
+                      .getSources()
+                      .map(
+                          (source, index) =>
+                              new Tile(
+                                  Layout.getSourceID(index),
+                                  source.names.getTranslation(
+                                      $preferredLanguages
+                                  ),
+                                  Content.Source,
+                                  index === 0 ? Mode.Expanded : Mode.Collapsed,
+                                  undefined,
+                                  Tile.randomPosition(1024, 768)
+                              )
+                      ),
+                  new Tile(
+                      PaletteID,
+                      $preferredTranslations[0].ui.tiles.palette,
+                      Content.Palette,
+                      Mode.Collapsed,
+                      undefined,
+                      Tile.randomPosition(1024, 768)
+                  ),
+                  new Tile(
+                      DocsID,
+                      $preferredTranslations[0].ui.tiles.docs,
+                      Content.Documentation,
+                      Mode.Collapsed,
+                      undefined,
+                      Tile.randomPosition(1024, 768)
+                  ),
+              ],
+        layout ? layout.arrangement : Arrangement.vertical,
+        layout ? layout.fullscreenID : undefined
     );
-
-    // Make a list of ids to key off of to workaround keyed each defect
-    $: tileIDSequence = layout.tiles.map((tile) => tile.id).join(',');
 
     $: {
         if (canvasWidth && canvasHeight) {
@@ -348,8 +356,9 @@
         };
     }
 
-    function repositionAnnotations() {
+    function repositionFloaters() {
         conflictsOfInterest = new Map(conflictsOfInterest);
+        menu = menu;
     }
 
     function getSourceByID(id: string) {
@@ -366,6 +375,42 @@
             layout = layout.withArrangement(Arrangement.horizontal);
         else if (event.key === '3' && command)
             layout = layout.withArrangement(Arrangement.free);
+    }
+
+    $: tileIDSequence = layout.tiles.map((tile) => tile.id).join(',');
+
+    $: menuPosition = menu ? getMenuPosition(menu.caret) : undefined;
+
+    function getMenuPosition(caret: Caret) {
+        // Find the editor
+        const editor = document.querySelector(
+            `.editor[data-id="${caret.source.id}"]`
+        );
+        if (editor === null) return undefined;
+
+        // Is it a node? Position near it's top left.
+        if (caret.position instanceof Node) {
+            const view = editor.querySelector(
+                `.node-view[data-id="${caret.position.id}"]`
+            );
+            if (view == null) return undefined;
+            const rect = view.getBoundingClientRect();
+            return {
+                left: rect.left,
+                top: rect.bottom,
+            };
+        }
+        // Is it a position? Position at the bottom right of the caret.
+        else if (caret.isIndex()) {
+            // Find the position of the caret in the editor.
+            const view = editor.querySelector('.caret');
+            if (view === null) return undefined;
+            const rect = view.getBoundingClientRect();
+            return {
+                left: rect.left,
+                top: rect.bottom,
+            };
+        }
     }
 </script>
 
@@ -385,11 +430,12 @@
         on:mousedown={handleMouseDown}
         on:mouseup={handleMouseUp}
         on:mousemove={handleMouseMove}
-        on:transitionend={repositionAnnotations}
+        on:transitionend={repositionFloaters}
         bind:clientWidth={canvasWidth}
         bind:clientHeight={canvasHeight}
         bind:this={canvas}
     >
+        <!-- This little guy enables the scroll bars to appear at the furthest extent a window has moved. -->
         {#if layout.arrangement === Arrangement.free}
             <div
                 class="boundary"
@@ -420,7 +466,7 @@
                                 event.detail.left,
                                 event.detail.top
                             )}
-                        on:scroll={repositionAnnotations}
+                        on:scroll={repositionFloaters}
                         on:fullscreen={(event) =>
                             setFullscreen(tile, event.detail.fullscreen)}
                     >
@@ -440,6 +486,7 @@
                             <Editor
                                 {project}
                                 source={getSourceByID(tile.id)}
+                                bind:menu
                                 on:conflicts={(event) =>
                                     (conflictsOfInterest =
                                         conflictsOfInterest.set(
@@ -506,6 +553,11 @@
     </div>
     <!-- Render annotations on top of the tiles and the footer -->
     <Annotations {project} conflicts={visibleConflicts} {stepping} />
+
+    <!-- Render the menu on top of the annotations -->
+    {#if menu && menuPosition}
+        <Menu {menu} position={menuPosition} />
+    {/if}
 
     <!-- Render the dragged node over the whole project -->
     {#if $dragged !== undefined}
