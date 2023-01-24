@@ -31,9 +31,6 @@
 
 <div class="menu" style:left="{position.left}px" style:top="{position.top}px">
     <table>
-        <tr class="item header">
-            <td colspan="2">Edit…</td>
-        </tr>
         {#each menu.transforms as transform, index}
             {@const [newNode, newParent] =
                 transform.getEditedNode($preferredLanguages)}
@@ -105,13 +102,23 @@
     }
 
     .item.header {
-        background-color: var(--wordplay-disabled-color);
+        background-color: var(--wordplay-chrome);
     }
 
     .item.option:hover,
     .selected {
         cursor: pointer;
         background-color: var(--wordplay-highlight);
+    }
+
+    .item.option:hover :global(.token-view .text),
+    .selected :global(.token-view .text) {
+        color: var(--wordplay-background);
+    }
+
+    .item.option:hover td,
+    .selected td {
+        color: var(--wordplay-background);
     }
 
     .col:first-child {

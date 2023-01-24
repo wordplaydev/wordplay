@@ -952,9 +952,11 @@
         if (menu !== undefined) {
             if (event.key === 'ArrowDown') {
                 menu = menu.down();
+                event.stopPropagation();
                 return;
             } else if (event.key === 'ArrowUp') {
                 menu = menu.up();
+                event.stopPropagation();
                 return;
             } else if (
                 event.key === 'Enter' &&
