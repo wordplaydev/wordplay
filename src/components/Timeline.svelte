@@ -148,38 +148,12 @@
                 timeline.scrollLeft = timeline.scrollLeft + 10;
         }
     }
-
-    /** Step before or after the current change. */
-    function leap(direction: -1 | 1) {
-        if (currentChange === undefined && direction < 0) return;
-
-        const change = $streams.find(
-            (_, index) =>
-                index - direction >= 0 &&
-                index - direction < $streams.length &&
-                $streams[index - direction] === currentChange
-        );
-        evaluator.stepTo(
-            change
-                ? change.stepIndex
-                : direction < 0
-                ? 0
-                : evaluator.getStepCount()
-        );
-    }
 </script>
 
 <div
     transition:slide
     class="timeline"
     class:stepping={!$playing}
-    tabIndex="0"
-    on:keydown={(event) =>
-        event.key === 'ArrowLeft'
-            ? leap(-1)
-            : event.key === 'ArrowRight'
-            ? leap(1)
-            : undefined}
     on:mousedown={(event) => stepToMouse(event)}
     on:mousemove={(event) =>
         (event.buttons & 1) === 1 ? stepToMouse(event) : undefined}
