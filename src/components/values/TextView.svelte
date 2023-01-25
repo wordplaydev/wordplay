@@ -3,9 +3,20 @@
 <script lang="ts">
     import TokenType from '@nodes/TokenType';
     import type Text from '@runtime/Text';
+    import Expandable from './Expandable.svelte';
     import SymbolView from './SymbolView.svelte';
 
     export let value: Text;
+    $: text = value.toWordplay();
 </script>
 
-<SymbolView symbol={value.toWordplay()} type={TokenType.TEXT} />
+<Expandable
+    ><svelte:fragment slot="expanded"
+        ><SymbolView symbol={text} type={TokenType.TEXT} /></svelte:fragment
+    ><svelte:fragment slot="collapsed"
+        ><SymbolView
+            symbol={text.substring(0, 10)}
+            type={TokenType.TEXT}
+        />…</svelte:fragment
+    ></Expandable
+>
