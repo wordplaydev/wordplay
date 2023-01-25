@@ -2,7 +2,7 @@ import ExceptionView from './ExceptionView.svelte';
 import StreamView from './StreamView.svelte';
 import FunctionView from './FunctionView.svelte';
 import NoneView from './NoneView.svelte';
-import StructureView from '../widgets/StructureView.svelte';
+import StructureView from './StructureView.svelte';
 import TableView from './TableView.svelte';
 import BoolView from './BoolView.svelte';
 import ListView from './ListView.svelte';
