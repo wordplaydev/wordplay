@@ -55,12 +55,14 @@
             tip={$preferredTranslations[0].ui.tooltip.language}
             action={toggle}
         >
-            {#each $preferredLanguages as lang}<span class="choice"
-                    >{getLanguageName(lang)}</span
-                >{/each}
-            <!-- {#if $preferredStyle === 'cs'}<small
+            <span class="chosen">
+                {#each $preferredLanguages as lang, index}{#if index > 0}+{/if}<span
+                        class="language">{getLanguageName(lang)}</span
+                    >{/each}
+                <!-- {#if $preferredStyle === 'cs'}<small
                     ><em>{styleDescriptions['cs']}</em></small
                 >{/if} -->
+            </span>
         </Button>
     {/if}
 </div>
@@ -83,5 +85,12 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+    }
+
+    .chosen {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: var(--wordplay-spacing);
     }
 </style>
