@@ -1177,7 +1177,11 @@
 >
     <!-- Render highlights below the code -->
     {#each outlines as outline}
-        <Highlight {...outline} above={false} ignored={lastKeyDownIgnored} />
+        <Highlight
+            {...outline}
+            above={false}
+            ignored={$playing && lastKeyDownIgnored}
+        />
     {/each}
     <!-- Render the program -->
     <RootView node={program} spaces={source.spaces} />
@@ -1191,7 +1195,7 @@
         <CaretView
             {source}
             blink={$KeyboardIdle && focused}
-            ignored={lastKeyDownIgnored}
+            ignored={playing && lastKeyDownIgnored}
             bind:location={caretLocation}
         />
     {/if}

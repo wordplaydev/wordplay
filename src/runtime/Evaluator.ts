@@ -190,13 +190,18 @@ export default class Evaluator {
     }
     /** Get whatever the latest result was of evaluating the program and its streams. */
     getLatestSourceValue(source: Source): Value | undefined {
+        return this.getSourceValueBefore(source, this.getStepIndex());
+    }
+
+    getSourceValueBefore(source: Source, stepIndex: number) {
         const indexedValues = this.sourceValues.get(source);
         if (indexedValues === undefined) return undefined;
         const latestValue = indexedValues.findLast(
-            (val) => val.stepNumber < this.getStepIndex()
+            (val) => val.stepNumber <= stepIndex
         );
         return latestValue === undefined ? undefined : latestValue.value;
     }
+
     getStepCount() {
         return this.#stepCount;
     }
@@ -612,7 +617,9 @@ export default class Evaluator {
             // If done, then something's broken, since it should always be possible to ... GET BACK TO THE FUTURE (lol)
             if (this.isDone())
                 throw Error(
-                    "Couldn't get back to the future; fatal defect in Evaluator."
+                    `Couldn't get back to the future; step ${destinationStep}/${
+                        this.#stepCount
+                    } unreachable. Fatal defect in Evaluator.`
                 );
 
             this.step();

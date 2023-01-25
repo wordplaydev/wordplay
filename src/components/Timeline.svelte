@@ -7,8 +7,9 @@
     import Bool from '../runtime/Bool';
     import MouseButton from '../streams/MouseButton';
     import { slide } from 'svelte/transition';
-    import Controls from './Controls.svelte';
     import { playing } from '../models/stores';
+    import { tick } from 'svelte';
+    import Exception from '../runtime/Exception';
 
     export let evaluator: Evaluator;
 
@@ -20,14 +21,20 @@
         $currentStepIndex && evaluator.getEarliestStepIndexAvailable() > 0;
     let keyboardNavigation = false;
 
-    // After each update, ensure the current change is in view
+    /**
+     * The time position is the current left position within the timeline of the current step index of the evaluator.
+     * We update it after we update/
+     */
+    let timePosition = 0;
+
+    /** After each update, ensure the current change is in view */
     afterUpdate(() => {
         if (currentChange === undefined || !keyboardNavigation) return;
 
         keyboardNavigation = false;
 
         const el = document.querySelector(
-            `.stream-value[data-index="${currentChange.stepIndex}"]`
+            `.stream-input[data-inputindex="${currentChange.stepIndex}"]`
         );
         // Move the timeline's scroll left such that the element is in the center.
         if (el && timeline) {
@@ -39,17 +46,85 @@
         }
     });
 
+    /** When the step index changes, update the time slider position */
+    $: updateTimePosition($currentStepIndex);
+
+    async function updateTimePosition(stepIndex: number) {
+        // Wait for any pending updates
+        await tick();
+
+        // Get all of the input and step views
+        const views = timeline.querySelectorAll('.event');
+
+        // Find the view that contains the step
+        for (const view of views) {
+            if (view instanceof HTMLElement) {
+                if (
+                    view.dataset.exceptionindex &&
+                    parseInt(view.dataset.exceptionindex) === stepIndex
+                ) {
+                    timePosition = view.offsetLeft + view.clientWidth / 2;
+                    break;
+                } else if (
+                    view.dataset.inputindex &&
+                    parseInt(view.dataset.inputindex) === stepIndex
+                ) {
+                    timePosition = view.offsetLeft + view.clientWidth / 2;
+                    break;
+                } else if (
+                    view.dataset.startindex !== undefined &&
+                    view.dataset.endindex !== undefined &&
+                    stepIndex >= parseInt(view.dataset.startindex) &&
+                    stepIndex < parseInt(view.dataset.endindex)
+                ) {
+                    const start = parseInt(view.dataset.startindex);
+                    const end = parseInt(view.dataset.endindex);
+                    timePosition =
+                        view.offsetLeft +
+                        (view.clientWidth * (stepIndex - start)) /
+                            (end - start);
+                    break;
+                }
+            }
+        }
+    }
+
     function stepToMouse(event: MouseEvent) {
         // Map the mouse position onto a change.
-        const el = document
+        const view = document
             .elementFromPoint(event.clientX, event.clientY)
-            ?.closest('.stream-value');
-        if (el instanceof HTMLElement && el.dataset.index !== undefined) {
-            const index = parseInt(el.dataset.index);
-            const change = $streams.find(
-                (change) => change.stepIndex === index
-            );
-            if (change) stepTo(change.stepIndex);
+            ?.closest('.event');
+        if (view instanceof HTMLElement) {
+            // Is this a stream input? Get it's index and step to it.
+            if (view.dataset.inputindex !== undefined) {
+                const index = parseInt(view.dataset.inputindex);
+                const change = $streams.find(
+                    (change) => change.stepIndex === index
+                );
+                if (change) evaluator.stepTo(change.stepIndex);
+            }
+            // Is this an exception step?
+            else if (view.dataset.exceptionindex !== undefined) {
+                const index = parseInt(view.dataset.exceptionindex);
+                evaluator.stepTo(index);
+            }
+            // Is this a series of steps? Choose one proportional to the mouse offset.
+            else if (
+                view.dataset.startindex !== undefined &&
+                view.dataset.endindex !== undefined
+            ) {
+                const start = parseInt(view.dataset.startindex);
+                const end = parseInt(view.dataset.endindex);
+                const percent = event.offsetX / view.offsetWidth;
+                const step = Math.min(
+                    end,
+                    Math.max(0, Math.round(percent * (end - start) + start))
+                );
+                evaluator.stepTo(step);
+            } else
+                console.error(
+                    "Uh oh, don't know what kind of timeline event this is."
+                );
         }
 
         // If we're on the edge, autoscroll.
@@ -73,15 +148,14 @@
                 index - direction < $streams.length &&
                 $streams[index - direction] === currentChange
         );
-        if (change) {
-            keyboardNavigation = true;
-            stepTo(change.stepIndex);
-        }
-    }
-
-    function stepTo(stepIndex: number) {
-        evaluator.pause();
-        evaluator.stepTo(stepIndex);
+        keyboardNavigation = true;
+        evaluator.stepTo(
+            change
+                ? change.stepIndex
+                : direction < 0
+                ? 0
+                : evaluator.getStepCount()
+        );
     }
 </script>
 
@@ -101,27 +175,46 @@
         (event.buttons & 1) === 1 ? stepToMouse(event) : undefined}
     bind:this={timeline}
 >
-    {#if historyTrimmed}<span class="stream-value">…</span>{/if}
-    {#each $streams as change}
+    {#if historyTrimmed}<span class="stream-input">…</span>{/if}
+    {#each $streams as change, index}
         {@const down =
             change.stream instanceof Keyboard
                 ? change.value?.resolve('down')
                 : change.stream instanceof MouseButton
                 ? change.value
                 : undefined}
+        <!-- Compute the number of steps that occurred between this and the next input, or if there isn't one, the latest step. -->
+        {@const stepCount =
+            (index < $streams.length - 1
+                ? $streams[index + 1].stepIndex
+                : evaluator.getStepCount()) - change.stepIndex}
+        <!-- Show an emoji representing the cause of the reevaluation -->
         <span
-            class={`stream-value ${currentChange === change ? 'current' : ''} ${
-                down instanceof Bool && down.bool ? 'down' : ''
-            }`}
-            data-index={change.stepIndex}
+            class={`event stream-input ${
+                currentChange === change ? 'current' : ''
+            } ${down instanceof Bool && down.bool ? 'down' : ''}`}
+            data-inputindex={change.stepIndex}
         >
             {#if change.stream === undefined}
                 ◆
             {:else}
                 {change.stream.names.getTranslation('😀')}
             {/if}
-        </span>
+            <!-- Show dots representing the steps after the reevaluation -->
+        </span><span
+            class="event steps"
+            data-startindex={change.stepIndex}
+            data-endindex={change.stepIndex + stepCount}
+            style:width="{stepCount / 10}px">&ZeroWidthSpace;</span
+        >
+        <!-- If the value was an exception, show that it ended that way -->
+        {#if evaluator.getSourceValueBefore(evaluator.getMain(), change.stepIndex + stepCount) instanceof Exception}<span
+                data-exceptionindex={change.stepIndex + stepCount}
+                class="event exception">!</span
+            >{/if}
     {/each}
+    <!-- Render the time slider -->
+    <div class="time" style:left="{timePosition}px">&ZeroWidthSpace;</div>
 </div>
 
 <style>
@@ -141,18 +234,40 @@
         outline-offset: calc(-1 * var(--wordplay-focus-width));
     }
 
-    .stream-value {
+    .stream-input {
         display: inline-block;
         transition: font-size 0.25s;
-        opacity: 0.6;
+        vertical-align: baseline;
     }
 
-    .stream-value.current {
-        opacity: 1;
-    }
-
-    .stream-value.down {
+    .stream-input.down {
         transform-origin: bottom;
         transform: scaleY(0.8);
+    }
+
+    .steps {
+        display: inline-block;
+        vertical-align: center;
+        height: 100%;
+        margin-left: var(--wordplay-spacing);
+        margin-right: var(--wordplay-spacing);
+    }
+
+    .steps:after {
+        content: '';
+        display: inline-block;
+        width: 100%;
+        position: relative;
+        left: 0;
+        top: 0;
+        border-bottom: 1px dotted currentColor;
+    }
+
+    .time {
+        position: absolute;
+        top: 0;
+        width: var(--wordplay-border-width);
+        height: 100%;
+        background-color: currentColor;
     }
 </style>
