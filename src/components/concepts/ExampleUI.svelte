@@ -21,11 +21,13 @@
 
     let index = getPaletteIndex();
 
-    $index.addExample(example.program.expression);
+    if ($index) {
+        $index.addExample(example.program.expression);
 
-    onDestroy(() => {
-        $index.removeExample(example.program.expression);
-    });
+        onDestroy(() => {
+            $index?.removeExample(example.program.expression);
+        });
+    }
 
     let see = false;
 

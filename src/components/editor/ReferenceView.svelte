@@ -11,7 +11,7 @@
 
     let project = getProject();
 
-    $: context = $project.getNodeContext(node);
+    $: context = $project ? $project.getNodeContext(node) : undefined;
     $: definition = node.resolve(context);
 
     // If this evaluated to the stream that recently changed, style it.
@@ -26,6 +26,8 @@
             $currentStep === undefined &&
             // This node refers to a stream
             definition instanceof Stream &&
+            // There's a project
+            $project !== undefined &&
             // The stream caused the most recent reaction
             $project.evaluator.didStreamCauseReaction(definition) &&
             // This node was evaluated

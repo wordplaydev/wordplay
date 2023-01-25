@@ -7,8 +7,12 @@
     export let concept: ConversionConcept;
 
     let index = getPaletteIndex();
-    $: input = $index.getConceptOfType(concept.definition.input);
-    $: output = $index.getConceptOfType(concept.definition.output);
+    $: input = $index
+        ? $index.getConceptOfType(concept.definition.input)
+        : undefined;
+    $: output = $index
+        ? $index.getConceptOfType(concept.definition.output)
+        : undefined;
 </script>
 
 <ConceptView {concept}>

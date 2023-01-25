@@ -36,7 +36,7 @@ export function getDragged() {
     return getContext<DraggedContext>(DraggedSymbol);
 }
 
-export type ProjectContext = Writable<Project>;
+export type ProjectContext = Writable<Project | undefined>;
 export const ProjectSymbol = Symbol('project');
 export function getProject() {
     return getContext<ProjectContext>(ProjectSymbol);
@@ -75,7 +75,7 @@ export function getPalettePath() {
 }
 
 export const PaletteIndexSymbol = Symbol('palette-index');
-export type PaletteIndexContext = Writable<ConceptIndex>;
+export type PaletteIndexContext = Writable<ConceptIndex | undefined>;
 export function getPaletteIndex() {
     return getContext<PaletteIndexContext>(PaletteIndexSymbol);
 }

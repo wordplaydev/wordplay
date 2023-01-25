@@ -77,12 +77,6 @@
     let input: HTMLInputElement | null = null;
 
     let editor: HTMLElement | null;
-    $: viewport = {
-        left: editor?.scrollLeft ?? 0,
-        top: editor?.scrollTop ?? 0,
-        width: editor?.clientWidth ?? 0,
-        height: editor?.clientHeight ?? 0,
-    };
 
     // A per-editor store that contains the current editor's cursor. We expose it as context to children.
     let caret = writable<Caret>(new Caret(source, 0));

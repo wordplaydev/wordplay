@@ -10,7 +10,7 @@
     export let node: NameType;
 
     let project = getProject();
-    $: context = $project.getNodeContext(node);
+    $: context = $project ? $project.getNodeContext(node) : undefined;
     $: definition = node.resolve(context);
 
     // Choose what name to render, constructing a token if necessary.

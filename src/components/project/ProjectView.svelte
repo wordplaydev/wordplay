@@ -102,10 +102,6 @@
     let dragged = writable<Tree | undefined>(undefined);
     setContext<DraggedContext>(DraggedSymbol, dragged);
 
-    /** A global context for the project */
-    let projectStore = writable<Project>(project);
-    setContext<ProjectContext>(ProjectSymbol, projectStore);
-
     /** The latest value of main in the project */
     let latest: Value | undefined;
 

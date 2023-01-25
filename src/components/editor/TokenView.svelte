@@ -22,7 +22,9 @@
     function choosePlaceholder() {
         const source = $caret?.source;
         const context =
-            source !== undefined ? $project.getContext(source) : undefined;
+            source !== undefined && $project !== undefined
+                ? $project.getContext(source)
+                : undefined;
         const labels =
             context !== undefined
                 ? source
@@ -94,8 +96,10 @@
             // The text is text.
             text = node.text.toString();
 
-            const context = $project.getContext($caret.source);
-            const reference = node.getParent(context);
+            const context = $project
+                ? $project.getContext($caret.source)
+                : undefined;
+            const reference = context ? node.getParent(context) : undefined;
             if (reference instanceof Reference && !$caret.isIn(reference)) {
                 const definition = reference.resolve(context);
                 if (definition)

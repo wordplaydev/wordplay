@@ -7,8 +7,8 @@
     export let header: boolean = true;
 
     let index = getPaletteIndex();
-    $: types = $index.getConceptsOfTypes(
-        concept.getType().getTypeSet(concept.context)
+    $: types = $index?.getConceptsOfTypes(
+        concept.getType().getTypeSet(concept.context) ?? []
     );
 </script>
 

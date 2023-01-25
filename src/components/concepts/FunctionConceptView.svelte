@@ -9,7 +9,9 @@
 
     let index = getPaletteIndex();
     $: type = concept.definition.getOutputType(concept.context);
-    $: outputs = $index.getConceptsOfTypes(type.getTypeSet(concept.context));
+    $: outputs = $index
+        ? $index.getConceptsOfTypes(type.getTypeSet(concept.context))
+        : [];
 </script>
 
 <ConceptView {concept} types={outputs}>

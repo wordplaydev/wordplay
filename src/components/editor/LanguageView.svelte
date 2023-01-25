@@ -17,6 +17,6 @@
         (parent && $caret && $caret.isIn(parent));
 </script>
 
-{#if show && $project.evaluator.isPlaying()}<em
+{#if show && $project?.evaluator.isPlaying()}<em
         ><NodeView node={node.slash} /><NodeView node={node.lang} /></em
     >{/if}

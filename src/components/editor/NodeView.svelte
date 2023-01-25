@@ -9,9 +9,13 @@
         getSpace,
     } from '../project/Contexts';
     import getNodeView from './util/nodeToView';
-    import { currentStep, playing } from '../../models/stores';
+    import {
+        currentStep,
+        currentStepIndex,
+        playing,
+    } from '../../models/stores';
     import Expression from '@nodes/Expression';
-    import ValueView from '../../components/values/ValueView.svelte';
+    import ValueView from '@components/values/ValueView.svelte';
     import type Value from '@runtime/Value';
     import Space from './Space.svelte';
 
@@ -21,12 +25,14 @@
     let value: Value | undefined;
     $: {
         $currentStep;
+        $currentStepIndex;
         // Show a value if 1) it's an expression, 2) the evaluator is stepping, 3) it's not involved in the evaluation stack
         // and 4) the node's evaluation is currently evaluating. Start by assuming there isn't a value.
         value = undefined;
         if (
-            node instanceof Expression &&
+            $project &&
             !$playing &&
+            node instanceof Expression &&
             !node.isEvaluationInvolved()
         ) {
             const root = $project.get(node)?.getEvaluationRoot();

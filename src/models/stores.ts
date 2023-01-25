@@ -52,14 +52,11 @@ export const selectedOutput = writable<Node[]>([]);
 
 export function updateProject(newProject: Project | undefined) {
     const oldProject = get(project);
-    if (oldProject) {
-        oldProject.cleanup();
-        oldProject.evaluator.ignore(updateEvaluatorStores);
-    }
-
-    project.set(newProject);
+    if (oldProject) oldProject.cleanup();
 
     if (newProject) newProject.evaluator.observe(updateEvaluatorStores);
+
+    project.set(newProject);
 
     if (typeof window !== 'undefined') {
         if (newProject) window.localStorage.setItem('project', newProject.name);

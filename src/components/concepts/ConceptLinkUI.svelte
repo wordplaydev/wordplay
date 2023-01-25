@@ -10,7 +10,7 @@
     let path = getPalettePath();
 
     $: id = link.concept.getText().slice(1);
-    $: concept = id === undefined ? undefined : $index.getConceptByName(id);
+    $: concept = id === undefined ? undefined : $index?.getConceptByName(id);
 
     function navigate() {
         if (concept) path.set([...$path, concept]);

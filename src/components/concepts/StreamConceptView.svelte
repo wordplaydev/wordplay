@@ -9,9 +9,9 @@
     let index = getPaletteIndex();
     $: type = concept.stream.getType(concept.context);
     $: streamType = type instanceof StreamType ? type.type : type;
-    $: typeConcepts = $index.getConceptsOfTypes(
-        streamType.getTypeSet(concept.context)
-    );
+    $: typeConcepts = $index
+        ? $index.getConceptsOfTypes(streamType.getTypeSet(concept.context))
+        : [];
 </script>
 
 <ConceptView {concept} types={typeConcepts} />

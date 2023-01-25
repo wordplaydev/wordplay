@@ -63,19 +63,24 @@
             latestProject = $project;
 
             // Make a new concept index with the new project and translations, but the old examples.
-            const newIndex = ConceptIndex.make(
-                $project,
-                $preferredTranslations
-            ).withExamples($index.examples);
+            const newIndex =
+                $project && $index
+                    ? ConceptIndex.make(
+                          $project,
+                          $preferredTranslations
+                      ).withExamples($index.examples)
+                    : undefined;
 
             // Set the index
             index.set(newIndex);
 
             // Map the old path to the new one using concept equality.
             path.set(
-                $path
-                    .map((concept) => $index.getEquivalent(concept))
-                    .filter((c): c is Concept => c !== undefined)
+                $index
+                    ? $path
+                          .map((concept) => $index?.getEquivalent(concept))
+                          .filter((c): c is Concept => c !== undefined)
+                    : []
             );
         }
     }
@@ -92,7 +97,10 @@
 
     // Set a context that stores a project context for nodes in the palette to use.
     // Keep it up to date as the project changes.
-    $: setContext('context', $project.getContext($project.main));
+    $: setContext(
+        'context',
+        $project ? $project.getContext($project.main) : undefined
+    );
 
     async function scrollToTop() {
         if (palette) {
@@ -123,7 +131,7 @@
         if (nodes) {
             for (const root of nodes) {
                 if (root instanceof HTMLElement) {
-                    let node: Node | undefined = $index.getNode(
+                    let node: Node | undefined = $index?.getNode(
                         parseInt(root.dataset.id ?? '')
                     );
                     if (node !== undefined) {
@@ -138,6 +146,8 @@
 
     // When a creator drops on the palette, remove the dragged node from the source it was dragged from.
     function handleDrop() {
+        if ($project === undefined) return;
+
         const node: Tree | undefined = $dragged;
 
         // Release the dragged node.
@@ -180,7 +190,7 @@
     $: {
         if (query === '') results = undefined;
         else {
-            results = $index.getQuery($preferredTranslations, query);
+            results = $index?.getQuery($preferredTranslations, query);
         }
     }
 </script>
@@ -258,7 +268,7 @@
                 />
             {/if}
             <!-- Home page is default. -->
-        {:else}
+        {:else if $index}
             <ConceptsView
                 category={$preferredTranslations[0].terminology.project}
                 concepts={$index.getPrimaryConceptsWithPurpose(Purpose.PROJECT)}
