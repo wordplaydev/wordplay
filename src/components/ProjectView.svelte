@@ -408,27 +408,51 @@
         const key = event.key;
         const command = event.ctrlKey || event.metaKey;
 
-        if (key === 'Escape') fullscreen = false;
-        else if (key === '1' && command)
+        if (key === 'Escape') {
+            fullscreen = false;
+            return;
+        }
+        if (key === '1' && command) {
             layout = layout.withArrangement(Arrangement.vertical);
-        else if (key === '2' && command)
+            return;
+        }
+        if (key === '2' && command) {
             layout = layout.withArrangement(Arrangement.horizontal);
-        else if (key === '3' && command)
+            return;
+        }
+        if (key === '3' && command) {
             layout = layout.withArrangement(Arrangement.free);
-        else if (key === 'Enter' && command) {
+            return;
+        }
+        if (key === 'Enter' && command) {
             if (project.evaluator.isPlaying()) project.evaluator.pause();
             else project.evaluator.play();
             event.preventDefault();
-        } else if (!$playing) {
-            if (event.shiftKey) {
-                if (key === ' ') project.evaluator.stepToInput();
-                else if (key === 'Backspace')
-                    project.evaluator.stepBackToInput();
-            } else {
-                if (key === ' ') project.evaluator.stepWithinProgram();
-                else if (key === 'Backspace')
-                    project.evaluator.stepBackWithinProgram();
+            return;
+        }
+
+        // When in stepping mode, or when command is pressed
+        if (!$playing || command) {
+            if (key === 'Backspace') {
+                // To start
+                if (event.ctrlKey && event.shiftKey)
+                    project.evaluator.stepTo(0);
+                // To previous input
+                else if (event.shiftKey) project.evaluator.stepBackToInput();
+                // To previous step
+                else project.evaluator.stepBackWithinProgram();
+                event.preventDefault();
+            } else if (key === ' ') {
+                // To start
+                if (event.ctrlKey && event.shiftKey)
+                    project.evaluator.stepToEnd();
+                // To previous input
+                else if (event.shiftKey) project.evaluator.stepToInput();
+                // To previous step
+                else project.evaluator.stepWithinProgram();
+                event.preventDefault();
             }
+            return;
         }
     }
 

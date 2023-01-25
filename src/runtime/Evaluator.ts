@@ -604,7 +604,7 @@ export default class Evaluator {
         const change = this.getChangePriorTo(destinationStep);
 
         // Step to the change's step index.
-        this.#stepIndex = change.stepIndex;
+        this.#stepIndex = change ? change.stepIndex : 0;
 
         // Reset the project to the beginning of time (but preserve stream history, since that's stored in project).
         this.resetForEvaluation();
@@ -709,7 +709,7 @@ export default class Evaluator {
 
     // STREAM AND REACTION MANAGMEENT
 
-    getChangePriorTo(stepIndex: StepNumber): StreamChange {
+    getChangePriorTo(stepIndex: StepNumber): StreamChange | undefined {
         return (
             this.reactions.findLast(
                 (change) => change.stepIndex <= stepIndex

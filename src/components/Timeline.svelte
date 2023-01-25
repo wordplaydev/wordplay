@@ -61,6 +61,7 @@
         // Wait for any pending updates
         await tick();
         timePosition = getTimePosition(stepIndex);
+        console.log(timePosition);
     }
 
     function getTimePosition(stepIndex: number) {
@@ -84,7 +85,9 @@
                     view.dataset.startindex !== undefined &&
                     view.dataset.endindex !== undefined &&
                     stepIndex >= parseInt(view.dataset.startindex) &&
-                    stepIndex <= parseInt(view.dataset.endindex)
+                    (stepIndex < parseInt(view.dataset.endindex) ||
+                        (stepIndex === evaluator.getStepCount() &&
+                            stepIndex === parseInt(view.dataset.endindex)))
                 ) {
                     const start = parseInt(view.dataset.startindex);
                     const end = parseInt(view.dataset.endindex);
@@ -95,7 +98,7 @@
                 }
             }
         }
-        console.error('Uh oh, no time position?');
+        console.error(`Uh oh, no time position for ${stepIndex}...`);
         return 0;
     }
 
@@ -247,7 +250,6 @@
     .stream-input {
         display: inline-block;
         transition: font-size 0.25s;
-        vertical-align: baseline;
     }
 
     .stream-input.down {
@@ -257,7 +259,6 @@
 
     .steps {
         display: inline-block;
-        vertical-align: center;
         height: 100%;
         margin-left: var(--wordplay-spacing);
         margin-right: var(--wordplay-spacing);
