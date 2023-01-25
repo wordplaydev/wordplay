@@ -253,12 +253,16 @@ const eng_cs: Translation = {
             description: 'borrow',
             doc: `Use a binding from another source file or project.`,
             start: (source, name) =>
-                Explanation.as(
-                    'borrow ',
-                    name ?? ' unspecified name ',
-                    ' from ',
-                    source ?? ' unspecified source'
-                ),
+                name === undefined && source === undefined
+                    ? 'borrowing nothing'
+                    : name === undefined && source !== undefined
+                    ? Explanation.as('borrow ', source)
+                    : Explanation.as(
+                          'borrow ',
+                          name ?? ' unspecified name ',
+                          ' from ',
+                          source ?? ' unspecified source'
+                      ),
             source: 'source',
             bind: 'name',
             version: 'version',

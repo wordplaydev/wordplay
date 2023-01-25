@@ -227,12 +227,16 @@ const eng_wordplay: Translation = {
             description: 'borrow a named value',
             doc: WRITE_DOC,
             start: (source, name) =>
-                Explanation.as(
-                    'borrow ',
-                    name ?? ' unspecified name ',
-                    ' from ',
-                    source ?? ' unspecified source'
-                ),
+                name === undefined && source === undefined
+                    ? 'borrowing nothing'
+                    : name === undefined && source !== undefined
+                    ? Explanation.as('borrow ', source)
+                    : Explanation.as(
+                          'borrow ',
+                          name ?? ' unspecified name ',
+                          ' from ',
+                          source ?? ' unspecified source'
+                      ),
             source: 'source',
             bind: 'name',
             version: 'version',
