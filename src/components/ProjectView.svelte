@@ -664,6 +664,7 @@
     .header {
         border-bottom: var(--wordplay-border-color) solid
             var(--wordplay-border-width);
+        padding: var(--wordplay-spacing);
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;

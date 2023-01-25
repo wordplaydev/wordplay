@@ -46,7 +46,6 @@
         position: relative;
         transition: transform 0.25s;
         transform-origin: center;
-        margin: var(--wordplay-spacing);
         cursor: pointer;
     }
 

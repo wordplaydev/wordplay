@@ -19,7 +19,7 @@
     $: currentChange = evaluator.getChangePriorTo($currentStepIndex);
     $: historyTrimmed =
         $currentStepIndex && evaluator.getEarliestStepIndexAvailable() > 0;
-    let keyboardNavigation = false;
+    let dragging = false;
 
     /**
      * The time position is the current left position within the timeline of the current step index of the evaluator.
@@ -28,10 +28,21 @@
     let timePosition = 0;
 
     /** After each update, ensure the current change is in view */
-    afterUpdate(() => {
-        if (currentChange === undefined || !keyboardNavigation) return;
+    afterUpdate(updateScrollPosition);
 
-        keyboardNavigation = false;
+    /** When the current step index changes, update the scroll position to make sure it's in view. */
+    $: {
+        $currentStepIndex;
+        updateScrollPosition();
+    }
+
+    /** When the step index changes, update the time slider position */
+    $: updateTimePosition($currentStepIndex);
+
+    function updateScrollPosition() {
+        if (currentChange === undefined || dragging) return;
+
+        dragging = false;
 
         const el = document.querySelector(
             `.stream-input[data-inputindex="${currentChange.stepIndex}"]`
@@ -44,15 +55,15 @@
                 changeRect.left - timelineRect.left + timeline.scrollLeft;
             timeline.scrollLeft = position - timelineRect.width / 2;
         }
-    });
-
-    /** When the step index changes, update the time slider position */
-    $: updateTimePosition($currentStepIndex);
+    }
 
     async function updateTimePosition(stepIndex: number) {
         // Wait for any pending updates
         await tick();
+        timePosition = getTimePosition(stepIndex);
+    }
 
+    function getTimePosition(stepIndex: number) {
         // Get all of the input and step views
         const views = timeline.querySelectorAll('.event');
 
@@ -63,30 +74,29 @@
                     view.dataset.exceptionindex &&
                     parseInt(view.dataset.exceptionindex) === stepIndex
                 ) {
-                    timePosition = view.offsetLeft + view.clientWidth / 2;
-                    break;
+                    return view.offsetLeft + view.clientWidth / 2;
                 } else if (
                     view.dataset.inputindex &&
                     parseInt(view.dataset.inputindex) === stepIndex
                 ) {
-                    timePosition = view.offsetLeft + view.clientWidth / 2;
-                    break;
+                    return view.offsetLeft + view.clientWidth / 2;
                 } else if (
                     view.dataset.startindex !== undefined &&
                     view.dataset.endindex !== undefined &&
                     stepIndex >= parseInt(view.dataset.startindex) &&
-                    stepIndex < parseInt(view.dataset.endindex)
+                    stepIndex <= parseInt(view.dataset.endindex)
                 ) {
                     const start = parseInt(view.dataset.startindex);
                     const end = parseInt(view.dataset.endindex);
-                    timePosition =
+                    return (
                         view.offsetLeft +
-                        (view.clientWidth * (stepIndex - start)) /
-                            (end - start);
-                    break;
+                        (view.clientWidth * (stepIndex - start)) / (end - start)
+                    );
                 }
             }
         }
+        console.error('Uh oh, no time position?');
+        return 0;
     }
 
     function stepToMouse(event: MouseEvent) {
@@ -121,14 +131,12 @@
                     Math.max(0, Math.round(percent * (end - start) + start))
                 );
                 evaluator.stepTo(step);
-            } else
-                console.error(
-                    "Uh oh, don't know what kind of timeline event this is."
-                );
+            }
         }
 
         // If we're on the edge, autoscroll.
         if (timeline) {
+            dragging = true;
             const rect = timeline.getBoundingClientRect();
             const offset = event.clientX - rect.left;
             const width = rect.width;
@@ -148,7 +156,6 @@
                 index - direction < $streams.length &&
                 $streams[index - direction] === currentChange
         );
-        keyboardNavigation = true;
         evaluator.stepTo(
             change
                 ? change.stepIndex
@@ -173,6 +180,8 @@
     on:mousedown={(event) => stepToMouse(event)}
     on:mousemove={(event) =>
         (event.buttons & 1) === 1 ? stepToMouse(event) : undefined}
+    on:mouseleave={() => (dragging = false)}
+    on:mouseup={() => (dragging = false)}
     bind:this={timeline}
 >
     {#if historyTrimmed}<span class="stream-input">…</span>{/if}
@@ -227,7 +236,8 @@
         cursor: pointer;
         border-left: var(--wordplay-border-color) solid
             var(--wordplay-border-width);
-        padding: var(--wordplay-spacing);
+        padding-left: var(--wordplay-spacing);
+        padding-right: var(--wordplay-spacing);
     }
 
     .timeline:focus {
@@ -266,7 +276,7 @@
     .time {
         position: absolute;
         top: 0;
-        width: var(--wordplay-border-width);
+        width: 2px;
         height: 100%;
         background-color: currentColor;
     }
