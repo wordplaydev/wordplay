@@ -10,19 +10,29 @@
     } from '@parser/Symbols';
     import TokenType from '@nodes/TokenType';
     import ValueView from './ValueView.svelte';
+    import Expandable from './Expandable.svelte';
 
     export let value: Map;
 </script>
 
-<SymbolView
-    symbol={SET_OPEN_SYMBOL}
-    type={TokenType.SET_OPEN}
-/>{#each value.values as [key, val], index}<ValueView value={key} /><SymbolView
-        symbol={BIND_SYMBOL}
-        type={TokenType.BIND}
-    /><ValueView
-        value={val}
-    />{#if index < value.values.length - 1}{' '}{/if}{/each}<SymbolView
-    symbol={SET_CLOSE_SYMBOL}
-    type={TokenType.SET_CLOSE}
-/>
+<SymbolView symbol={SET_OPEN_SYMBOL} type={TokenType.SET_OPEN} /><Expandable
+    ><svelte:fragment slot="expanded"
+        >{#each value.values as [key, val], index}<ValueView
+                value={key}
+            /><SymbolView
+                symbol={BIND_SYMBOL}
+                type={TokenType.BIND}
+            /><ValueView
+                value={val}
+            />{#if index < value.values.length - 1}{' '}{/if}{/each}</svelte:fragment
+    ><svelte:fragment slot="collapsed"
+        >{#each value.values.slice(0, 3) as [key, val], index}<ValueView
+                value={key}
+            /><SymbolView
+                symbol={BIND_SYMBOL}
+                type={TokenType.BIND}
+            /><ValueView
+                value={val}
+            />{#if index < value.values.length - 1}{' '}{/if}{/each}{#if value.values.length > 3}…{/if}</svelte:fragment
+    ></Expandable
+><SymbolView symbol={SET_CLOSE_SYMBOL} type={TokenType.SET_CLOSE} />
