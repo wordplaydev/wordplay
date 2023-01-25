@@ -254,7 +254,10 @@ type Translation = {
             >;
         Program: StaticNodeTranslation &
             ExpressionTranslation<
-                (borrows: boolean) => Description,
+                (
+                    stream: ValueLink | undefined,
+                    value: ValueLink | undefined
+                ) => Description,
                 ValueOrUndefinedTranslation
             >;
         PropertyReference: StaticNodeTranslation &

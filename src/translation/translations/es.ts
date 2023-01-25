@@ -407,10 +407,15 @@ const eng_wordplay: Translation = {
         Program: {
             description: 'a program',
             doc: WRITE_DOC,
-            start: (borrows) =>
-                borrows
-                    ? 'first evaluate borrows'
-                    : "evaluate the program's first expression",
+            start: (stream, value) =>
+                stream && value
+                    ? Explanation.as(
+                          stream,
+                          ' produced ',
+                          value,
+                          ' revaluating program'
+                      )
+                    : 'evaluating program for the first time',
             finish: (value) =>
                 Explanation.as('program evaluated to ', value ?? 'nothing'),
         },

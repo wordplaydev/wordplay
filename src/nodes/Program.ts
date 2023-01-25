@@ -22,6 +22,7 @@ import type { Replacement } from './Node';
 import type Translation from '../translation/Translation';
 import type LanguageCode from '../translation/LanguageCode';
 import TokenType from './TokenType';
+import ValueLink from '../translation/ValueLink';
 
 export default class Program extends Expression {
     readonly docs?: Docs;
@@ -170,8 +171,19 @@ export default class Program extends Expression {
         return translation.nodes.Program;
     }
 
-    getStartExplanations(translation: Translation) {
-        return translation.nodes.Program.start(this.borrows.length > 0);
+    getStartExplanations(
+        translation: Translation,
+        context: Context,
+        evaluator: Evaluator
+    ) {
+        const change = evaluator.getChangePriorTo(evaluator.getStepIndex());
+        const stream = change ? change.stream : undefined;
+        const value = change ? change.value : undefined;
+
+        return translation.nodes.Program.start(
+            stream ? new ValueLink(stream, translation, context) : undefined,
+            value ? new ValueLink(value, translation, context) : undefined
+        );
     }
 
     getFinishExplanations(
