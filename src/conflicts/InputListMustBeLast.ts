@@ -1,6 +1,6 @@
 import Conflict from './Conflict';
-import type Bind from '../nodes/Bind';
-import type Translation from '../translation/Translation';
+import type Bind from '@nodes/Bind';
+import type Translation from '@translation/Translation';
 
 export default class InputListMustBeLast extends Conflict {
     readonly bind: Bind;

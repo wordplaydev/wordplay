@@ -1,8 +1,8 @@
-import type Context from '../nodes/Context';
-import type Expression from '../nodes/Expression';
-import type Type from '../nodes/Type';
-import NodeLink from '../translation/NodeLink';
-import type Translation from '../translation/Translation';
+import type Context from '@nodes/Context';
+import type Expression from '@nodes/Expression';
+import type Type from '@nodes/Type';
+import NodeLink from '@translation/NodeLink';
+import type Translation from '@translation/Translation';
 import Conflict from './Conflict';
 
 export default class IncompatibleBind extends Conflict {

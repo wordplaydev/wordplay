@@ -1,7 +1,7 @@
-import type Conflict from '../conflicts/Conflict';
-import { UnparsableConflict } from '../conflicts/UnparsableConflict';
+import type Conflict from '@conflicts/Conflict';
+import { UnparsableConflict } from '@conflicts/UnparsableConflict';
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Translation from '../translation/Translation';
+import type Translation from '@translation/Translation';
 import Node, { type Replacement } from './Node';
 import Type from './Type';
 

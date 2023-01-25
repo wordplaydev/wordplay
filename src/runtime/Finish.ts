@@ -1,9 +1,9 @@
 import type Evaluator from './Evaluator';
 import Step from './Step';
 import type Value from './Value';
-import type Expression from '../nodes/Expression';
+import type Expression from '@nodes/Expression';
 import HOF from '../native/HOF';
-import type Translation from '../translation/Translation';
+import type Translation from '@translation/Translation';
 
 export default class Finish extends Step {
     constructor(node: Expression) {

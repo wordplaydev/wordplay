@@ -1,13 +1,13 @@
 import type NativeInterface from './NativeInterface';
-import FunctionDefinition from '../nodes/FunctionDefinition';
+import FunctionDefinition from '@nodes/FunctionDefinition';
 import NativeExpression from './NativeExpression';
-import type Context from '../nodes/Context';
-import type Type from '../nodes/Type';
-import ConversionDefinition from '../nodes/ConversionDefinition';
-import type Bind from '../nodes/Bind';
-import Value from '../runtime/Value';
-import type Evaluation from '../runtime/Evaluation';
-import type StructureDefinition from '../nodes/StructureDefinition';
+import type Context from '@nodes/Context';
+import type Type from '@nodes/Type';
+import ConversionDefinition from '@nodes/ConversionDefinition';
+import type Bind from '@nodes/Bind';
+import Value from '@runtime/Value';
+import type Evaluation from '@runtime/Evaluation';
+import type StructureDefinition from '@nodes/StructureDefinition';
 import { parseType, toTokens } from '../parser/Parser';
 import bootstrapNone from './NoneNative';
 import bootstrapBool from './BoolNative';
@@ -16,14 +16,14 @@ import bootstrapList from './ListNative';
 import bootstrapMeasurement from './MeasurementNative';
 import bootstrapSet from './SetNative';
 import bootstrapMap from './MapNative';
-import Block from '../nodes/Block';
+import Block from '@nodes/Block';
 import type { NativeTypeName } from './NativeConstants';
-import type Node from '../nodes/Node';
-import Tree from '../nodes/Tree';
-import type TypeVariables from '../nodes/TypeVariables';
-import type Docs from '../nodes/Docs';
-import type Names from '../nodes/Names';
-import type Expression from '../nodes/Expression';
+import type Node from '@nodes/Node';
+import Tree from '@nodes/Tree';
+import type TypeVariables from '@nodes/TypeVariables';
+import type Docs from '@nodes/Docs';
+import type Names from '@nodes/Names';
+import type Expression from '@nodes/Expression';
 
 export class NativeBindings implements NativeInterface {
     readonly functionsByType: Record<

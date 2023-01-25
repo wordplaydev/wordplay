@@ -1,7 +1,7 @@
 import { test } from 'vitest';
-import InvalidLanguage from '../conflicts/InvalidLanguage';
-import MissingLanguage from '../conflicts/MissingLanguage';
-import { testConflict } from '../conflicts/TestUtilities';
+import InvalidLanguage from '@conflicts/InvalidLanguage';
+import MissingLanguage from '@conflicts/MissingLanguage';
+import { testConflict } from '@conflicts/TestUtilities';
 import Language from './Language';
 
 test.each([

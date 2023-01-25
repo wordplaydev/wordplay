@@ -1,9 +1,9 @@
-import ExceptionType from '../nodes/ExceptionType';
+import ExceptionType from '@nodes/ExceptionType';
 import Primitive from './Primitive';
 import type Step from './Step';
 import type Evaluator from './Evaluator';
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Node from '../nodes/Node';
+import type Node from '@nodes/Node';
 
 export default abstract class Exception extends Primitive {
     readonly evaluator: Evaluator;

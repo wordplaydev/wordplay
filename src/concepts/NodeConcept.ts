@@ -1,10 +1,10 @@
 import Concept from './Concept';
-import type Node from '../nodes/Node';
-import type Context from '../nodes/Context';
-import type Translation from '../translation/Translation';
+import type Node from '@nodes/Node';
+import type Context from '@nodes/Context';
+import type Translation from '@translation/Translation';
 import { parseDoc, toTokens } from '../parser/Parser';
 import type Purpose from './Purpose';
-import type StructureDefinition from '../nodes/StructureDefinition';
+import type StructureDefinition from '@nodes/StructureDefinition';
 
 export default class NodeConcept extends Concept {
     readonly template: Node;

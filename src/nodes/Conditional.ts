@@ -1,25 +1,25 @@
 import BooleanType from './BooleanType';
-import type Conflict from '../conflicts/Conflict';
-import ExpectedBooleanCondition from '../conflicts/ExpectedBooleanCondition';
+import type Conflict from '@conflicts/Conflict';
+import ExpectedBooleanCondition from '@conflicts/ExpectedBooleanCondition';
 import Expression from './Expression';
 import Token from './Token';
 import type Type from './Type';
-import type Step from '../runtime/Step';
-import JumpIf from '../runtime/JumpIf';
-import Jump from '../runtime/Jump';
+import type Step from '@runtime/Step';
+import JumpIf from '@runtime/JumpIf';
+import Jump from '@runtime/Jump';
 import type Context from './Context';
 import UnionType from './UnionType';
 import type TypeSet from './TypeSet';
 import type Bind from './Bind';
-import Start from '../runtime/Start';
+import Start from '@runtime/Start';
 import { BOOLEAN_TYPE_SYMBOL } from '../parser/Symbols';
 import TokenType from './TokenType';
-import Finish from '../runtime/Finish';
-import type Evaluator from '../runtime/Evaluator';
-import type Value from '../runtime/Value';
+import Finish from '@runtime/Finish';
+import type Evaluator from '@runtime/Evaluator';
+import type Value from '@runtime/Value';
 import type { Replacement } from './Node';
-import type Translation from '../translation/Translation';
-import NodeLink from '../translation/NodeLink';
+import type Translation from '@translation/Translation';
+import NodeLink from '@translation/NodeLink';
 
 export default class Conditional extends Expression {
     readonly condition: Expression;

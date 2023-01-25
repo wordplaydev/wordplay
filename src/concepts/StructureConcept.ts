@@ -1,18 +1,18 @@
-import type StructureDefinition from '../nodes/StructureDefinition';
-import type Type from '../nodes/Type';
-import type Node from '../nodes/Node';
+import type StructureDefinition from '@nodes/StructureDefinition';
+import type Type from '@nodes/Type';
+import type Node from '@nodes/Node';
 import BindConcept from './BindConcept';
 import Concept from './Concept';
 import FunctionConcept from './FunctionConcept';
-import NameType from '../nodes/NameType';
-import type Context from '../nodes/Context';
+import NameType from '@nodes/NameType';
+import type Context from '@nodes/Context';
 import ConversionConcept from './ConversionConcept';
-import StructureDefinitionType from '../nodes/StructureDefinitionType';
-import Evaluate from '../nodes/Evaluate';
-import Reference from '../nodes/Reference';
-import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
-import type LanguageCode from '../translation/LanguageCode';
-import type Translation from '../translation/Translation';
+import StructureDefinitionType from '@nodes/StructureDefinitionType';
+import Evaluate from '@nodes/Evaluate';
+import Reference from '@nodes/Reference';
+import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
+import type LanguageCode from '@translation/LanguageCode';
+import type Translation from '@translation/Translation';
 import type Purpose from './Purpose';
 
 export default class StructureConcept extends Concept {

@@ -9,7 +9,7 @@ import {
     EVAL_OPEN_SYMBOL,
     FUNCTION_SYMBOL,
 } from '../parser/Symbols';
-import type Translation from '../translation/Translation';
+import type Translation from '@translation/Translation';
 
 export default class FunctionDefinitionType extends Type {
     readonly fun: FunctionDefinition;

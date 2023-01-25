@@ -1,6 +1,6 @@
 import type Project from '../models/Project';
-import MeasurementType from '../nodes/MeasurementType';
-import Unit from '../nodes/Unit';
+import MeasurementType from '@nodes/MeasurementType';
+import Unit from '@nodes/Unit';
 
 export function getPossibleUnits(project: Project) {
     const unitsInConversions = getUnitsInConversions(project);

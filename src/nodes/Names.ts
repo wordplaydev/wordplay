@@ -1,12 +1,12 @@
 import Node, { type Replacement } from './Node';
-import type LanguageCode from '../translation/LanguageCode';
+import type LanguageCode from '@translation/LanguageCode';
 import Name from './Name';
 import Token from './Token';
 import { NAME_SEPARATOR_SYMBOL } from '../parser/Symbols';
 import TokenType from './TokenType';
 import NameToken from './NameToken';
 import Language from './Language';
-import type Translation from '../translation/Translation';
+import type Translation from '@translation/Translation';
 
 export default class Names extends Node {
     readonly names: Name[];

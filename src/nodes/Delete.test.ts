@@ -1,7 +1,7 @@
 import { test } from 'vitest';
-import { testConflict } from '../conflicts/TestUtilities';
-import NonBooleanQuery from '../conflicts/NonBooleanQuery';
-import NotATable from '../conflicts/NotATable';
+import { testConflict } from '@conflicts/TestUtilities';
+import NonBooleanQuery from '@conflicts/NonBooleanQuery';
+import NotATable from '@conflicts/NotATable';
 import Delete from './Delete';
 
 test('Test delete conflicts', () => {

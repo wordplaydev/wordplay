@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest';
 import Project from '../models/Project';
-import Source from '../nodes/Source';
+import Source from '@nodes/Source';
 import EvaluationLimitException from './EvaluationLimitException';
 import StepLimitException from './StepLimitException';
 

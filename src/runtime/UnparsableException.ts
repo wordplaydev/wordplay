@@ -1,8 +1,8 @@
 import type Evaluator from './Evaluator';
 import Exception from './Exception';
-import type Translation from '../translation/Translation';
-import type Expression from '../nodes/Expression';
-import NodeLink from '../translation/NodeLink';
+import type Translation from '@translation/Translation';
+import type Expression from '@nodes/Expression';
+import NodeLink from '@translation/NodeLink';
 
 export default class UnparsableException extends Exception {
     readonly unparsable: Expression;

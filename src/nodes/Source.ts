@@ -1,29 +1,29 @@
 import Node, { type Replacement } from './Node';
 import Token from './Token';
 import Program from './Program';
-import type Conflict from '../conflicts/Conflict';
+import type Conflict from '@conflicts/Conflict';
 import { parseProgram, Tokens } from '../parser/Parser';
 import { DELIMITERS, REVERSE_DELIMITERS, tokenize } from '../parser/Tokenizer';
 import UnicodeString from '../models/UnicodeString';
-import type Value from '../runtime/Value';
+import type Value from '@runtime/Value';
 import type Context from './Context';
 import Tree from './Tree';
 import Names from './Names';
 import type Borrow from './Borrow';
-import type LanguageCode from '../translation/LanguageCode';
+import type LanguageCode from '@translation/LanguageCode';
 import Expression from './Expression';
 import Bind from './Bind';
 import type Type from './Type';
 import type TypeSet from './TypeSet';
-import type Step from '../runtime/Step';
-import type Stream from '../runtime/Stream';
+import type Step from '@runtime/Step';
+import type Stream from '@runtime/Stream';
 import type { SharedDefinition } from './Borrow';
 import FunctionDefinition from './FunctionDefinition';
 import StructureDefinition from './StructureDefinition';
 import type Spaces from '../parser/Spaces';
-import None from '../runtime/None';
+import None from '@runtime/None';
 import type SetOpenToken from './SetOpenToken';
-import type Translation from '../translation/Translation';
+import type Translation from '@translation/Translation';
 
 /** A document representing executable Wordplay code and it's various metadata, such as conflicts, tokens, and evaulator. */
 export default class Source extends Expression {

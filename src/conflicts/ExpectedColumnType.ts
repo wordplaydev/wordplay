@@ -1,7 +1,7 @@
-import type Bind from '../nodes/Bind';
-import type Context from '../nodes/Context';
-import NodeLink from '../translation/NodeLink';
-import type Translation from '../translation/Translation';
+import type Bind from '@nodes/Bind';
+import type Context from '@nodes/Context';
+import NodeLink from '@translation/NodeLink';
+import type Translation from '@translation/Translation';
 import Conflict from './Conflict';
 
 export default class ExpectedColumnType extends Conflict {

@@ -1,11 +1,11 @@
 import Exception from './Exception';
 import type Evaluator from './Evaluator';
-import type Translation from '../translation/Translation';
-import type Node from '../nodes/Node';
+import type Translation from '@translation/Translation';
+import type Node from '@nodes/Node';
 import type { EvaluationNode } from './Evaluation';
-import NodeLink from '../translation/NodeLink';
-import FunctionDefinition from '../nodes/FunctionDefinition';
-import StructureDefinition from '../nodes/StructureDefinition';
+import NodeLink from '@translation/NodeLink';
+import FunctionDefinition from '@nodes/FunctionDefinition';
+import StructureDefinition from '@nodes/StructureDefinition';
 
 export default class EvaluationLimitException extends Exception {
     readonly node: Node;

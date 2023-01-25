@@ -6,11 +6,11 @@ import Type from './Type';
 import BindToken from './BindToken';
 import SetOpenToken from './SetOpenToken';
 import SetCloseToken from './SetCloseToken';
-import UnclosedDelimiter from '../conflicts/UnclosedDelimiter';
-import type Conflict from '../conflicts/Conflict';
+import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
+import type Conflict from '@conflicts/Conflict';
 import type TypeSet from './TypeSet';
 import type { Replacement } from './Node';
-import type Translation from '../translation/Translation';
+import type Translation from '@translation/Translation';
 
 export default class MapType extends NativeType {
     readonly open: Token;

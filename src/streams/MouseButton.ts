@@ -1,10 +1,10 @@
-import BooleanType from '../nodes/BooleanType';
-import StreamType from '../nodes/StreamType';
-import Bool from '../runtime/Bool';
-import type Evaluator from '../runtime/Evaluator';
-import Stream from '../runtime/Stream';
-import { getDocTranslations } from '../translation/getDocTranslations';
-import { getNameTranslations } from '../translation/getNameTranslations';
+import BooleanType from '@nodes/BooleanType';
+import StreamType from '@nodes/StreamType';
+import Bool from '@runtime/Bool';
+import type Evaluator from '@runtime/Evaluator';
+import Stream from '@runtime/Stream';
+import { getDocTranslations } from '@translation/getDocTranslations';
+import { getNameTranslations } from '@translation/getNameTranslations';
 
 export default class MouseButton extends Stream<Bool> {
     on: boolean = false;

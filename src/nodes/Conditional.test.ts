@@ -1,9 +1,9 @@
-import { testConflict } from '../conflicts/TestUtilities';
-import ExpectedBooleanCondition from '../conflicts/ExpectedBooleanCondition';
-import Evaluator from '../runtime/Evaluator';
+import { testConflict } from '@conflicts/TestUtilities';
+import ExpectedBooleanCondition from '@conflicts/ExpectedBooleanCondition';
+import Evaluator from '@runtime/Evaluator';
 import Conditional from './Conditional';
 import BinaryOperation from './BinaryOperation';
-import NotAFunction from '../conflicts/NotAFunction';
+import NotAFunction from '@conflicts/NotAFunction';
 import { test, expect } from 'vitest';
 
 test.each([

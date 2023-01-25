@@ -1,14 +1,14 @@
 import TextType from './TextType';
 import Token from './Token';
 import type Type from './Type';
-import Text from '../runtime/Text';
+import Text from '@runtime/Text';
 import Language from './Language';
 import type Bind from './Bind';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
 import TokenType from './TokenType';
 import type { Replacement } from './Node';
-import type Translation from '../translation/Translation';
+import type Translation from '@translation/Translation';
 import Literal from './Literal';
 
 export default class TextLiteral extends Literal {

@@ -1,5 +1,5 @@
-import type MeasurementLiteral from '../nodes/MeasurementLiteral';
-import type Translation from '../translation/Translation';
+import type MeasurementLiteral from '@nodes/MeasurementLiteral';
+import type Translation from '@translation/Translation';
 import Conflict from './Conflict';
 
 export class NotANumber extends Conflict {

@@ -1,11 +1,11 @@
 import { test, expect } from 'vitest';
-import { testConflict } from '../conflicts/TestUtilities';
-import UnusedBind from '../conflicts/UnusedBind';
-import IncompatibleBind from '../conflicts/IncompatibleBind';
-import Evaluator from '../runtime/Evaluator';
+import { testConflict } from '@conflicts/TestUtilities';
+import UnusedBind from '@conflicts/UnusedBind';
+import IncompatibleBind from '@conflicts/IncompatibleBind';
+import Evaluator from '@runtime/Evaluator';
 import Bind from './Bind';
-import { MisplacedShare } from '../conflicts/MisplacedShare';
-import { MissingShareLanguages } from '../conflicts/MissingShareLanguages';
+import { MisplacedShare } from '@conflicts/MisplacedShare';
+import { MissingShareLanguages } from '@conflicts/MissingShareLanguages';
 
 test.each([
     ['a•#: 1\na', 'a•"": 1\na', Bind, IncompatibleBind],

@@ -1,9 +1,9 @@
 import { test, expect } from 'vitest';
-import { testConflict } from '../conflicts/TestUtilities';
-import { IncompatibleKey } from '../conflicts/IncompatibleKey';
-import Evaluator from '../runtime/Evaluator';
+import { testConflict } from '@conflicts/TestUtilities';
+import { IncompatibleKey } from '@conflicts/IncompatibleKey';
+import Evaluator from '@runtime/Evaluator';
 import SetOrMapAccess from './SetOrMapAccess';
-import { NotASetOrMap } from '../conflicts/NotASetOrMap';
+import { NotASetOrMap } from '@conflicts/NotASetOrMap';
 
 test.each([
     [

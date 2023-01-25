@@ -1,7 +1,7 @@
 import { test } from 'vitest';
-import InvalidTypeInput from '../conflicts/InvalidTypeInput';
-import { testConflict } from '../conflicts/TestUtilities';
-import { UnknownTypeName } from '../conflicts/InvalidTypeName';
+import InvalidTypeInput from '@conflicts/InvalidTypeInput';
+import { testConflict } from '@conflicts/TestUtilities';
+import { UnknownTypeName } from '@conflicts/InvalidTypeName';
 import NameType from './NameType';
 
 test.each([

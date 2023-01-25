@@ -1,12 +1,12 @@
 import { test, expect } from 'vitest';
-import Source from '../nodes/Source';
-import Context from '../nodes/Context';
-import ImplicitShares from '../runtime/ImplicitShares';
+import Source from '@nodes/Source';
+import Context from '@nodes/Context';
+import ImplicitShares from '@runtime/ImplicitShares';
 import Native from './NativeBindings';
-import type Node from '../nodes/Node';
-import UnusedBind from '../conflicts/UnusedBind';
-import UnparsableType from '../nodes/UnparsableType';
-import UnparsableExpression from '../nodes/UnparsableExpression';
+import type Node from '@nodes/Node';
+import UnusedBind from '@conflicts/UnusedBind';
+import UnparsableType from '@nodes/UnparsableType';
+import UnparsableExpression from '@nodes/UnparsableExpression';
 import Project from '../models/Project';
 
 const source = new Source('native', '');

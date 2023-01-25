@@ -4,9 +4,9 @@ import TokenType from './TokenType';
 import { TYPE_CLOSE_SYMBOL, TYPE_OPEN_SYMBOL } from '../parser/Symbols';
 import Names from './Names';
 import type TypeVariable from './TypeVariable';
-import type Conflict from '../conflicts/Conflict';
-import type Translation from '../translation/Translation';
-import DuplicateTypeVariable from '../conflicts/DuplicateTypeVariable';
+import type Conflict from '@conflicts/Conflict';
+import type Translation from '@translation/Translation';
+import DuplicateTypeVariable from '@conflicts/DuplicateTypeVariable';
 
 export default class TypeVariables extends Node {
     readonly open: Token;

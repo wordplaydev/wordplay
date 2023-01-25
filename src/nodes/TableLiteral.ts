@@ -1,21 +1,21 @@
 import Row from './Row';
-import type Conflict from '../conflicts/Conflict';
+import type Conflict from '@conflicts/Conflict';
 import Expression from './Expression';
 import TableType from './TableType';
 import type Bind from './Bind';
 import type Node from './Node';
-import type Evaluator from '../runtime/Evaluator';
-import type Value from '../runtime/Value';
-import Table from '../runtime/Table';
-import type Step from '../runtime/Step';
-import Finish from '../runtime/Finish';
-import Start from '../runtime/Start';
+import type Evaluator from '@runtime/Evaluator';
+import type Value from '@runtime/Value';
+import Table from '@runtime/Table';
+import type Step from '@runtime/Step';
+import Finish from '@runtime/Finish';
+import Start from '@runtime/Start';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
 import { analyzeRow } from './util';
-import Exception from '../runtime/Exception';
+import Exception from '@runtime/Exception';
 import type { Replacement } from './Node';
-import type Translation from '../translation/Translation';
+import type Translation from '@translation/Translation';
 
 export default class TableLiteral extends Expression {
     readonly type: TableType;

@@ -1,23 +1,23 @@
-import type Conflict from '../conflicts/Conflict';
+import type Conflict from '@conflicts/Conflict';
 import Expression from './Expression';
 import { CycleType } from './CycleType';
 import Token from './Token';
 import type Type from './Type';
-import type Evaluator from '../runtime/Evaluator';
-import type Value from '../runtime/Value';
-import type Step from '../runtime/Step';
-import Jump from '../runtime/Jump';
-import Finish from '../runtime/Finish';
-import Start from '../runtime/Start';
+import type Evaluator from '@runtime/Evaluator';
+import type Value from '@runtime/Value';
+import type Step from '@runtime/Step';
+import Jump from '@runtime/Jump';
+import Finish from '@runtime/Finish';
+import Start from '@runtime/Start';
 import Bind from './Bind';
 import type Context from './Context';
 import UnionType from './UnionType';
 import type TypeSet from './TypeSet';
-import Exception from '../runtime/Exception';
+import Exception from '@runtime/Exception';
 import { CHANGE_SYMBOL } from '../parser/Symbols';
 import TokenType from './TokenType';
 import type { Replacement } from './Node';
-import type Translation from '../translation/Translation';
+import type Translation from '@translation/Translation';
 
 export default class Reaction extends Expression {
     readonly initial: Expression;

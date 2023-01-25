@@ -1,9 +1,9 @@
-import type Context from '../nodes/Context';
-import type ConversionDefinition from '../nodes/ConversionDefinition';
-import Convert from '../nodes/Convert';
-import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
-import type Node from '../nodes/Node';
-import type Translation from '../translation/Translation';
+import type Context from '@nodes/Context';
+import type ConversionDefinition from '@nodes/ConversionDefinition';
+import Convert from '@nodes/Convert';
+import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
+import type Node from '@nodes/Node';
+import type Translation from '@translation/Translation';
 import Concept from './Concept';
 import Purpose from './Purpose';
 import type StructureConcept from './StructureConcept';

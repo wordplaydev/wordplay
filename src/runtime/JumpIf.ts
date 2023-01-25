@@ -1,7 +1,7 @@
-import type BinaryOperation from '../nodes/BinaryOperation';
-import BooleanType from '../nodes/BooleanType';
-import type Conditional from '../nodes/Conditional';
-import type Translation from '../translation/Translation';
+import type BinaryOperation from '@nodes/BinaryOperation';
+import BooleanType from '@nodes/BooleanType';
+import type Conditional from '@nodes/Conditional';
+import type Translation from '@translation/Translation';
 import Bool from './Bool';
 import type Evaluator from './Evaluator';
 import Step from './Step';

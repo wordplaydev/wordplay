@@ -5,7 +5,7 @@ import NativeType from './NativeType';
 import type TypeSet from './TypeSet';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type { Replacement } from './Node';
-import type Translation from '../translation/Translation';
+import type Translation from '@translation/Translation';
 
 export default class BooleanType extends NativeType {
     readonly type: Token;

@@ -1,14 +1,14 @@
 import type Concept from './Concept';
-import type Node from '../nodes/Node';
-import type Type from '../nodes/Type';
+import type Node from '@nodes/Node';
+import type Type from '@nodes/Type';
 import StructureConcept from './StructureConcept';
-import type Translation from '../translation/Translation';
+import type Translation from '@translation/Translation';
 import Purpose from './Purpose';
 import type Project from '../models/Project';
-import StructureDefinition from '../nodes/StructureDefinition';
-import FunctionDefinition from '../nodes/FunctionDefinition';
+import StructureDefinition from '@nodes/StructureDefinition';
+import FunctionDefinition from '@nodes/FunctionDefinition';
 import FunctionConcept from './FunctionConcept';
-import Bind from '../nodes/Bind';
+import Bind from '@nodes/Bind';
 import BindConcept from './BindConcept';
 import StreamConcept from './StreamConcept';
 import {
@@ -16,10 +16,10 @@ import {
     getNodeConcepts,
     getOutputConcepts,
 } from './DefaultConcepts';
-import type Stream from '../runtime/Stream';
+import type Stream from '@runtime/Stream';
 import { PlaceType } from '../output/Place';
 import Key from '../streams/Key';
-import type TypeSet from '../nodes/TypeSet';
+import type TypeSet from '@nodes/TypeSet';
 
 export default class ConceptIndex {
     readonly concepts: Concept[];

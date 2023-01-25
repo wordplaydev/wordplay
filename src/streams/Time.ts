@@ -1,12 +1,12 @@
-import MeasurementType from '../nodes/MeasurementType';
-import StreamType from '../nodes/StreamType';
-import Unit from '../nodes/Unit';
-import type Evaluator from '../runtime/Evaluator';
-import Measurement from '../runtime/Measurement';
-import Stream from '../runtime/Stream';
-import type Node from '../nodes/Node';
-import { getDocTranslations } from '../translation/getDocTranslations';
-import { getNameTranslations } from '../translation/getNameTranslations';
+import MeasurementType from '@nodes/MeasurementType';
+import StreamType from '@nodes/StreamType';
+import Unit from '@nodes/Unit';
+import type Evaluator from '@runtime/Evaluator';
+import Measurement from '@runtime/Measurement';
+import Stream from '@runtime/Stream';
+import type Node from '@nodes/Node';
+import { getDocTranslations } from '@translation/getDocTranslations';
+import { getNameTranslations } from '@translation/getNameTranslations';
 
 export const FREQUENCY = 33;
 

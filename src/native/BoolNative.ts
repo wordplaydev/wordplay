@@ -1,20 +1,20 @@
-import Bind from '../nodes/Bind';
-import Block from '../nodes/Block';
-import BooleanType from '../nodes/BooleanType';
-import FunctionDefinition from '../nodes/FunctionDefinition';
-import StructureDefinition from '../nodes/StructureDefinition';
-import Bool from '../runtime/Bool';
-import Text from '../runtime/Text';
+import Bind from '@nodes/Bind';
+import Block from '@nodes/Block';
+import BooleanType from '@nodes/BooleanType';
+import FunctionDefinition from '@nodes/FunctionDefinition';
+import StructureDefinition from '@nodes/StructureDefinition';
+import Bool from '@runtime/Bool';
+import Text from '@runtime/Text';
 import { createNativeConversion } from './NativeBindings';
 import NativeExpression from './NativeExpression';
-import type Node from '../nodes/Node';
-import type Value from '../runtime/Value';
-import type Docs from '../nodes/Docs';
-import type Names from '../nodes/Names';
-import { getInputTranslations } from '../translation/getInputTranslations';
-import { getDocTranslations } from '../translation/getDocTranslations';
-import { getNameTranslations } from '../translation/getNameTranslations';
-import Evaluation from '../runtime/Evaluation';
+import type Node from '@nodes/Node';
+import type Value from '@runtime/Value';
+import type Docs from '@nodes/Docs';
+import type Names from '@nodes/Names';
+import { getInputTranslations } from '@translation/getInputTranslations';
+import { getDocTranslations } from '@translation/getDocTranslations';
+import { getNameTranslations } from '@translation/getNameTranslations';
+import Evaluation from '@runtime/Evaluation';
 
 export default function bootstrapBool() {
     function createBooleanFunction(

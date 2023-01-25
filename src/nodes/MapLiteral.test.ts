@@ -1,6 +1,6 @@
 import { test } from 'vitest';
-import { testConflict } from '../conflicts/TestUtilities';
-import { NotAKeyValue as NotAKeyValue } from '../conflicts/NotAKeyValue';
+import { testConflict } from '@conflicts/TestUtilities';
+import { NotAKeyValue as NotAKeyValue } from '@conflicts/NotAKeyValue';
 import MapLiteral from './MapLiteral';
 
 test.each([['{1:1 2:2 3:3}', '{1:1 2 3:3}', MapLiteral, NotAKeyValue]])(

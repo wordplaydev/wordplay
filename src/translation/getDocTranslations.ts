@@ -1,5 +1,5 @@
 import SupportedTranslations from './translations';
-import Docs from '../nodes/Docs';
+import Docs from '@nodes/Docs';
 import type { DocTranslation } from './Translation';
 import type Translation from './Translation';
 import { translationToLanguage } from './translationToLanguage';

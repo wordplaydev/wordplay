@@ -1,6 +1,6 @@
 <script lang="ts">
-    import App from '../components/App.svelte';
-    import { preferredLanguages } from '../translation/translations';
+    import App from '../components/app/App.svelte';
+    import { preferredLanguages } from '@translation/translations';
 </script>
 
 <svelte:head>

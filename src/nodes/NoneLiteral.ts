@@ -1,14 +1,14 @@
 import Token from './Token';
 import NoneType from './NoneType';
 import type Type from './Type';
-import None from '../runtime/None';
+import None from '@runtime/None';
 import type Bind from './Bind';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
 import { NONE_SYMBOL } from '../parser/Symbols';
 import TokenType from './TokenType';
 import type { Replacement } from './Node';
-import type Translation from '../translation/Translation';
+import type Translation from '@translation/Translation';
 import Literal from './Literal';
 
 export default class NoneLiteral extends Literal {

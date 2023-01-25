@@ -1,15 +1,15 @@
-import type Context from '../nodes/Context';
-import SetType from '../nodes/SetType';
-import UnionType from '../nodes/UnionType';
+import type Context from '@nodes/Context';
+import SetType from '@nodes/SetType';
+import UnionType from '@nodes/UnionType';
 import Bool from './Bool';
 import Measurement from './Measurement';
 import Primitive from './Primitive';
 import type Value from './Value';
-import type Node from '../nodes/Node';
-import type LanguageCode from '../translation/LanguageCode';
+import type Node from '@nodes/Node';
+import type LanguageCode from '@translation/LanguageCode';
 import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '../parser/Symbols';
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Translation from '../translation/Translation';
+import type Translation from '@translation/Translation';
 
 export default class Set extends Primitive {
     readonly values: Value[];

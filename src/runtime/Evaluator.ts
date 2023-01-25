@@ -1,5 +1,5 @@
-import type Node from '../nodes/Node';
-import type Reaction from '../nodes/Reaction';
+import type Node from '@nodes/Node';
+import type Reaction from '@nodes/Reaction';
 import Evaluation, {
     type EvaluationNode,
     type EvaluatorNode,
@@ -9,18 +9,18 @@ import type Stream from './Stream';
 import Value from './Value';
 import Exception from './Exception';
 import ValueException from './ValueException';
-import type Type from '../nodes/Type';
+import type Type from '@nodes/Type';
 import type NativeInterface from '../native/NativeInterface';
-import Source from '../nodes/Source';
-import type Names from '../nodes/Names';
-import Expression from '../nodes/Expression';
+import Source from '@nodes/Source';
+import type Names from '@nodes/Names';
+import Expression from '@nodes/Expression';
 import Project from '../models/Project';
 import type Step from './Step';
-import StructureDefinition from '../nodes/StructureDefinition';
-import Token from '../nodes/Token';
-import FunctionDefinition from '../nodes/FunctionDefinition';
-import ConversionDefinition from '../nodes/ConversionDefinition';
-import Context from '../nodes/Context';
+import StructureDefinition from '@nodes/StructureDefinition';
+import Token from '@nodes/Token';
+import FunctionDefinition from '@nodes/FunctionDefinition';
+import ConversionDefinition from '@nodes/ConversionDefinition';
+import Context from '@nodes/Context';
 
 // Import this last, after everything else, to avoid cycles.
 import Native from '../native/NativeBindings';

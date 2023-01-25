@@ -1,5 +1,5 @@
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Translation from '../translation/Translation';
+import type Translation from '@translation/Translation';
 import Type from './Type';
 
 export default class NeverType extends Type {

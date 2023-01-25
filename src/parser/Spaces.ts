@@ -1,8 +1,8 @@
-import Token from '../nodes/Token';
-import type Node from '../nodes/Node';
+import Token from '@nodes/Token';
+import type Node from '@nodes/Node';
 import type Root from './Root';
-import type Tree from '../nodes/Tree';
-import type Source from '../nodes/Source';
+import type Tree from '@nodes/Tree';
+import type Source from '@nodes/Source';
 
 export const TAB_WIDTH = 2;
 export const SPACE_HTML = '&middot;';

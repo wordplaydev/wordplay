@@ -1,18 +1,18 @@
-import Measurement from '../runtime/Measurement';
-import type Conflict from '../conflicts/Conflict';
+import Measurement from '@runtime/Measurement';
+import type Conflict from '@conflicts/Conflict';
 import MeasurementType from './MeasurementType';
 import Token from './Token';
 import type Type from './Type';
 import Unit from './Unit';
-import { NotANumber } from '../conflicts/NotANumber';
+import { NotANumber } from '@conflicts/NotANumber';
 import type Bind from './Bind';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
 import PlaceholderToken from './PlaceholderToken';
 import TokenType from './TokenType';
 import type { Replacement } from './Node';
-import type Translation from '../translation/Translation';
-import NodeLink from '../translation/NodeLink';
+import type Translation from '@translation/Translation';
+import NodeLink from '@translation/NodeLink';
 import Literal from './Literal';
 
 export default class MeasurementLiteral extends Literal {

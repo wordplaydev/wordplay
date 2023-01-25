@@ -1,7 +1,7 @@
 import { test } from 'vitest';
-import { testConflict } from '../conflicts/TestUtilities';
-import { UnexpectedTypeVariable } from '../conflicts/UnexpectedTypeVariable';
-import { UnknownName } from '../conflicts/UnknownName';
+import { testConflict } from '@conflicts/TestUtilities';
+import { UnexpectedTypeVariable } from '@conflicts/UnexpectedTypeVariable';
+import { UnknownName } from '@conflicts/UnknownName';
 import Reference from './Reference';
 
 test('Test name conflicts', () => {

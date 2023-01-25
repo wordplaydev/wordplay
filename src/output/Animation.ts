@@ -1,7 +1,7 @@
 import Decimal from 'decimal.js';
 import type Project from '../models/Project';
-import type LanguageCode from '../translation/LanguageCode';
-import Measurement from '../runtime/Measurement';
+import type LanguageCode from '@translation/LanguageCode';
+import Measurement from '@runtime/Measurement';
 import Color from './Color';
 import type { RenderContext } from './Group';
 import type Group from './Group';

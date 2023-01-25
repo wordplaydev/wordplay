@@ -1,10 +1,10 @@
 import type Definition from './Definition';
 import Borrow from './Borrow';
-import Block from '../nodes/Block';
-import type Evaluator from '../runtime/Evaluator';
-import type Step from '../runtime/Step';
-import Finish from '../runtime/Finish';
-import Start from '../runtime/Start';
+import Block from '@nodes/Block';
+import type Evaluator from '@runtime/Evaluator';
+import type Step from '@runtime/Step';
+import Finish from '@runtime/Finish';
+import Start from '@runtime/Start';
 import Token from './Token';
 import type Context from './Context';
 import type Node from './Node';
@@ -12,17 +12,17 @@ import Language from './Language';
 import Unit from './Unit';
 import Dimension from './Dimension';
 import Docs from './Docs';
-import { BorrowCycle } from '../conflicts/BorrowCycle';
+import { BorrowCycle } from '@conflicts/BorrowCycle';
 import Expression from './Expression';
 import type Bind from './Bind';
 import type Type from './Type';
 import type TypeSet from './TypeSet';
-import type Value from '../runtime/Value';
+import type Value from '@runtime/Value';
 import type { Replacement } from './Node';
-import type Translation from '../translation/Translation';
-import type LanguageCode from '../translation/LanguageCode';
+import type Translation from '@translation/Translation';
+import type LanguageCode from '@translation/LanguageCode';
 import TokenType from './TokenType';
-import ValueLink from '../translation/ValueLink';
+import ValueLink from '@translation/ValueLink';
 
 export default class Program extends Expression {
     readonly docs?: Docs;

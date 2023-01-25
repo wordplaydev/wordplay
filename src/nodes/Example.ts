@@ -1,5 +1,5 @@
-import type Conflict from '../conflicts/Conflict';
-import type Translation from '../translation/Translation';
+import type Conflict from '@conflicts/Conflict';
+import type Translation from '@translation/Translation';
 import Node, { type Field, type Replacement } from './Node';
 import Program from './Program';
 import Token from './Token';

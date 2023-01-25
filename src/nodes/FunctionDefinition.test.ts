@@ -1,13 +1,13 @@
 import { test, expect } from 'vitest';
-import { testConflict } from '../conflicts/TestUtilities';
-import RequiredAfterOptional from '../conflicts/RequiredAfterOptional';
-import DuplicateTypeVariable from '../conflicts/DuplicateTypeVariable';
+import { testConflict } from '@conflicts/TestUtilities';
+import RequiredAfterOptional from '@conflicts/RequiredAfterOptional';
+import DuplicateTypeVariable from '@conflicts/DuplicateTypeVariable';
 import FunctionDefinition from './FunctionDefinition';
-import DuplicateName from '../conflicts/DuplicateName';
+import DuplicateName from '@conflicts/DuplicateName';
 import TypeVariables from './TypeVariables';
-import Evaluator from '../runtime/Evaluator';
-import NoExpression from '../conflicts/NoExpression';
-import EvaluationLimitException from '../runtime/EvaluationLimitException';
+import Evaluator from '@runtime/Evaluator';
+import NoExpression from '@conflicts/NoExpression';
+import EvaluationLimitException from '@runtime/EvaluationLimitException';
 
 test.each([
     ['ƒ(a b) 1', 'ƒ(a a) 1', FunctionDefinition, DuplicateName],

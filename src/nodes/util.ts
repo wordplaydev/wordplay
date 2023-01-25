@@ -1,18 +1,18 @@
-import RequiredAfterOptional from '../conflicts/RequiredAfterOptional';
-import InputListMustBeLast from '../conflicts/InputListMustBeLast';
+import RequiredAfterOptional from '@conflicts/RequiredAfterOptional';
+import InputListMustBeLast from '@conflicts/InputListMustBeLast';
 import Bind from './Bind';
 import type Context from './Context';
 import type Node from './Node';
 import type TableType from './TableType';
 import type Row from './Row';
-import type Conflict from '../conflicts/Conflict';
-import UnknownColumn from '../conflicts/UnknownColumn';
-import IncompatibleCellType from '../conflicts/IncompatibleCellType';
-import MissingCell from '../conflicts/MissingCell';
-import InvalidRow from '../conflicts/InvalidRow';
+import type Conflict from '@conflicts/Conflict';
+import UnknownColumn from '@conflicts/UnknownColumn';
+import IncompatibleCellType from '@conflicts/IncompatibleCellType';
+import MissingCell from '@conflicts/MissingCell';
+import InvalidRow from '@conflicts/InvalidRow';
 import Token from './Token';
 import TokenType from './TokenType';
-import DuplicateName from '../conflicts/DuplicateName';
+import DuplicateName from '@conflicts/DuplicateName';
 
 export function requiredBindAfterOptional(
     inputs: Bind[]

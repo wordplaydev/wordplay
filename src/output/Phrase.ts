@@ -1,11 +1,11 @@
 import type Pose from './Pose';
-import type Value from '../runtime/Value';
+import type Value from '@runtime/Value';
 import type Color from './Color';
 import Fonts, { SupportedFontsType } from '../native/Fonts';
-import Text from '../runtime/Text';
+import Text from '@runtime/Text';
 import Group, { type RenderContext } from './Group';
 import type Place from './Place';
-import List from '../runtime/List';
+import List from '@runtime/List';
 import TextLang from './TextLang';
 import toStructure from '../native/toStructure';
 import { toColor } from './Color';
@@ -19,8 +19,8 @@ import type Sequence from './Sequence';
 import { PX_PER_METER, sizeToPx } from './phraseToCSS';
 import { toSequence, type SequenceKind } from './Sequence';
 import type Animation from './Animation';
-import type LanguageCode from '../translation/LanguageCode';
-import { getBind } from '../translation/getBind';
+import type LanguageCode from '@translation/LanguageCode';
+import { getBind } from '@translation/getBind';
 
 export const PhraseType = toStructure(`
     ${getBind((t) => t.output.phrase.definition, '•')} Group(

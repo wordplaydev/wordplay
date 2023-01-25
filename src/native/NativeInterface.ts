@@ -1,9 +1,9 @@
-import type ConversionDefinition from '../nodes/ConversionDefinition';
-import type FunctionDefinition from '../nodes/FunctionDefinition';
-import type Context from '../nodes/Context';
-import type StructureDefinition from '../nodes/StructureDefinition';
-import type Type from '../nodes/Type';
-import type Tree from '../nodes/Tree';
+import type ConversionDefinition from '@nodes/ConversionDefinition';
+import type FunctionDefinition from '@nodes/FunctionDefinition';
+import type Context from '@nodes/Context';
+import type StructureDefinition from '@nodes/StructureDefinition';
+import type Type from '@nodes/Type';
+import type Tree from '@nodes/Tree';
 
 export default interface NativeInterface {
     getConversion(

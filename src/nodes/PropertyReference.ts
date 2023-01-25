@@ -1,11 +1,11 @@
-import type Conflict from '../conflicts/Conflict';
+import type Conflict from '@conflicts/Conflict';
 import Expression from './Expression';
 import Token from './Token';
 import type Type from './Type';
-import type Evaluator from '../runtime/Evaluator';
-import type Step from '../runtime/Step';
-import Start from '../runtime/Start';
-import Finish from '../runtime/Finish';
+import type Evaluator from '@runtime/Evaluator';
+import type Step from '@runtime/Step';
+import Start from '@runtime/Start';
+import Finish from '@runtime/Finish';
 import type Context from './Context';
 import type Node from './Node';
 import StructureDefinitionType from './StructureDefinitionType';
@@ -17,17 +17,17 @@ import Is from './Is';
 import { PROPERTY_SYMBOL, PLACEHOLDER_SYMBOL } from '../parser/Symbols';
 import TokenType from './TokenType';
 import TypeVariable from './TypeVariable';
-import NameException from '../runtime/NameException';
+import NameException from '@runtime/NameException';
 import NativeType from './NativeType';
 import type Definition from './Definition';
-import type Value from '../runtime/Value';
+import type Value from '@runtime/Value';
 import StreamType from './StreamType';
 import Reference from './Reference';
 import NameType from './NameType';
 import UnknownNameType from './UnknownNameType';
 import type { Replacement } from './Node';
-import type Translation from '../translation/Translation';
-import NodeLink from '../translation/NodeLink';
+import type Translation from '@translation/Translation';
+import NodeLink from '@translation/NodeLink';
 
 export default class PropertyReference extends Expression {
     readonly structure: Expression;

@@ -1,10 +1,10 @@
-import type Bind from '../nodes/Bind';
-import type Context from '../nodes/Context';
-import type LanguageCode from '../translation/LanguageCode';
-import type Node from '../nodes/Node';
-import Reference from '../nodes/Reference';
+import type Bind from '@nodes/Bind';
+import type Context from '@nodes/Context';
+import type LanguageCode from '@translation/LanguageCode';
+import type Node from '@nodes/Node';
+import Reference from '@nodes/Reference';
 import Concept from './Concept';
-import type Translation from '../translation/Translation';
+import type Translation from '@translation/Translation';
 import type Purpose from './Purpose';
 
 export default class BindConcept extends Concept {

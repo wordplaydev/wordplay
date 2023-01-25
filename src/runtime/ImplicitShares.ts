@@ -1,4 +1,4 @@
-import type StructureDefinition from '../nodes/StructureDefinition';
+import type StructureDefinition from '@nodes/StructureDefinition';
 import { VerseType } from '../output/Verse';
 import { PhraseType } from '../output/Phrase';
 import { GroupType } from '../output/Group';
@@ -22,7 +22,7 @@ import {
     zippy,
     bouncy,
 } from '../output/Easing';
-import type FunctionDefinition from '../nodes/FunctionDefinition';
+import type FunctionDefinition from '@nodes/FunctionDefinition';
 import Key from '../streams/Key';
 
 export const PoseTypes = [

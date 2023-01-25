@@ -1,14 +1,14 @@
 import { test } from 'vitest';
-import { testConflict } from '../conflicts/TestUtilities';
-import RequiredAfterOptional from '../conflicts/RequiredAfterOptional';
-import DuplicateTypeVariable from '../conflicts/DuplicateTypeVariable';
+import { testConflict } from '@conflicts/TestUtilities';
+import RequiredAfterOptional from '@conflicts/RequiredAfterOptional';
+import DuplicateTypeVariable from '@conflicts/DuplicateTypeVariable';
 import StructureDefinition from './StructureDefinition';
-import DuplicateName from '../conflicts/DuplicateName';
-import { UnimplementedInterface } from '../conflicts/UnimplementedInterface';
-import { IncompleteImplementation } from '../conflicts/IncompleteImplementation';
-import { DisallowedInputs } from '../conflicts/DisallowedInputs';
+import DuplicateName from '@conflicts/DuplicateName';
+import { UnimplementedInterface } from '@conflicts/UnimplementedInterface';
+import { IncompleteImplementation } from '@conflicts/IncompleteImplementation';
+import { DisallowedInputs } from '@conflicts/DisallowedInputs';
 import TypeVariables from './TypeVariables';
-import NotAnInterface from '../conflicts/NotAnInterface';
+import NotAnInterface from '@conflicts/NotAnInterface';
 
 test.each([
     ['•Cat(a b)', '•Cat(a a)', StructureDefinition, DuplicateName],

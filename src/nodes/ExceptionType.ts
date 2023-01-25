@@ -1,6 +1,6 @@
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Exception from '../runtime/Exception';
-import type Translation from '../translation/Translation';
+import type Exception from '@runtime/Exception';
+import type Translation from '@translation/Translation';
 import Type from './Type';
 import type TypeSet from './TypeSet';
 

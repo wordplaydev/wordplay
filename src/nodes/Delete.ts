@@ -1,25 +1,25 @@
 import type Node from './Node';
 import Token from './Token';
 import Expression from './Expression';
-import type Conflict from '../conflicts/Conflict';
-import NonBooleanQuery from '../conflicts/NonBooleanQuery';
-import NotATable from '../conflicts/NotATable';
+import type Conflict from '@conflicts/Conflict';
+import NonBooleanQuery from '@conflicts/NonBooleanQuery';
+import NotATable from '@conflicts/NotATable';
 import type Type from './Type';
 import BooleanType from './BooleanType';
 import TableType from './TableType';
-import Bind from '../nodes/Bind';
-import type Value from '../runtime/Value';
-import Finish from '../runtime/Finish';
-import type Step from '../runtime/Step';
-import Start from '../runtime/Start';
+import Bind from '@nodes/Bind';
+import type Value from '@runtime/Value';
+import Finish from '@runtime/Finish';
+import type Step from '@runtime/Step';
+import Start from '@runtime/Start';
 import type Context from './Context';
 import type Definition from './Definition';
 import type TypeSet from './TypeSet';
-import UnimplementedException from '../runtime/UnimplementedException';
-import type Evaluator from '../runtime/Evaluator';
+import UnimplementedException from '@runtime/UnimplementedException';
+import type Evaluator from '@runtime/Evaluator';
 import type { Replacement } from './Node';
-import type Translation from '../translation/Translation';
-import NodeLink from '../translation/NodeLink';
+import type Translation from '@translation/Translation';
+import NodeLink from '@translation/NodeLink';
 
 export default class Delete extends Expression {
     readonly table: Expression;

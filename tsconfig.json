@@ -8,6 +8,15 @@
         "resolveJsonModule": true,
         "skipLibCheck": true,
         "sourceMap": true,
-        "strict": true
+        "strict": true,
+        "baseUrl": "src",
+        "paths": {
+            "@components/*": ["components/*"],
+            "@nodes/*": ["nodes/*"],
+            "@runtime/*": ["runtime/*"],
+            "@conflicts/*": ["conflicts/*"],
+            "@translation/*": ["translation/*"],
+            "@concepts/*": ["concepts/*"]
+        }
     }
 }

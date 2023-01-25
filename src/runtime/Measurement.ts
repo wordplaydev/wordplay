@@ -1,15 +1,15 @@
-import Token from '../nodes/Token';
-import TokenType from '../nodes/TokenType';
-import Unit from '../nodes/Unit';
+import Token from '@nodes/Token';
+import TokenType from '@nodes/TokenType';
+import Unit from '@nodes/Unit';
 import Bool from './Bool';
 import None from './None';
 import Decimal from 'decimal.js';
 import Primitive from './Primitive';
-import MeasurementType from '../nodes/MeasurementType';
+import MeasurementType from '@nodes/MeasurementType';
 import type Value from './Value';
-import type Node from '../nodes/Node';
+import type Node from '@nodes/Node';
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Translation from '../translation/Translation';
+import type Translation from '@translation/Translation';
 
 /** A decimal number with a unit.
  * If all of it's parts are empty, it is not a number.

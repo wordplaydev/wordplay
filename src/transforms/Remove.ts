@@ -1,9 +1,9 @@
-import type { Edit } from '../editor/util/Commands';
+import type { Edit } from '../components/editor/util/Commands';
 import Transform from './Transform';
-import Node from '../nodes/Node';
-import Caret from '../editor/util/Caret';
-import type Context from '../nodes/Context';
-import type Translation from '../translation/Translation';
+import Node from '@nodes/Node';
+import Caret from '../components/editor/util/Caret';
+import type Context from '@nodes/Context';
+import type Translation from '@translation/Translation';
 
 /**
  * Remove a node from sequence of nodes in a parent.

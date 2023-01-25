@@ -1,8 +1,8 @@
-import Bool from '../runtime/Bool';
-import type Evaluator from '../runtime/Evaluator';
-import Finish from '../runtime/Finish';
-import type Step from '../runtime/Step';
-import type Value from '../runtime/Value';
+import Bool from '@runtime/Bool';
+import type Evaluator from '@runtime/Evaluator';
+import Finish from '@runtime/Finish';
+import type Step from '@runtime/Step';
+import type Value from '@runtime/Value';
 import BooleanType from './BooleanType';
 import Expression from './Expression';
 import type Context from './Context';
@@ -12,13 +12,13 @@ import type Bind from './Bind';
 import Reference from './Reference';
 import PropertyReference from './PropertyReference';
 import StructureDefinitionType from './StructureDefinitionType';
-import { ImpossibleType } from '../conflicts/ImpossibleType';
+import { ImpossibleType } from '@conflicts/ImpossibleType';
 import UnionType from './UnionType';
 import TypeSet from './TypeSet';
-import Start from '../runtime/Start';
+import Start from '@runtime/Start';
 import type { Replacement } from './Node';
-import type Translation from '../translation/Translation';
-import NodeLink from '../translation/NodeLink';
+import type Translation from '@translation/Translation';
+import NodeLink from '@translation/NodeLink';
 
 export default class Is extends Expression {
     readonly expression: Expression;

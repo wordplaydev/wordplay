@@ -1,22 +1,22 @@
-import type Conflict from '../conflicts/Conflict';
-import { UnknownTypeName } from '../conflicts/InvalidTypeName';
+import type Conflict from '@conflicts/Conflict';
+import { UnknownTypeName } from '@conflicts/InvalidTypeName';
 import Token from './Token';
 import Type from './Type';
 import TypeVariable from './TypeVariable';
 import type Context from './Context';
-import Value from '../runtime/Value';
+import Value from '@runtime/Value';
 import type Definition from './Definition';
 import StructureDefinition from './StructureDefinition';
 import VariableType from './VariableType';
 import NameToken from './NameToken';
 import TypeInputs from './TypeInputs';
-import InvalidTypeInput from '../conflicts/InvalidTypeInput';
+import InvalidTypeInput from '@conflicts/InvalidTypeInput';
 import type TypeSet from './TypeSet';
 import type { NativeTypeName } from '../native/NativeConstants';
 import UnknownNameType from './UnknownNameType';
 import type { Replacement } from './Node';
-import type Translation from '../translation/Translation';
-import { UnknownName } from '../conflicts/UnknownName';
+import type Translation from '@translation/Translation';
+import { UnknownName } from '@conflicts/UnknownName';
 
 export default class NameType extends Type {
     readonly name: Token;

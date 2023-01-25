@@ -1,6 +1,6 @@
-import type Context from '../nodes/Context';
+import type Context from '@nodes/Context';
 import type Translation from './Translation';
-import type Value from '../runtime/Value';
+import type Value from '@runtime/Value';
 
 export default class ValueLink {
     readonly value: Value;

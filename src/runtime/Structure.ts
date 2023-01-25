@@ -1,24 +1,24 @@
-import type StructureDefinition from '../nodes/StructureDefinition';
-import StructureDefinitionType from '../nodes/StructureDefinitionType';
-import type Type from '../nodes/Type';
+import type StructureDefinition from '@nodes/StructureDefinition';
+import StructureDefinitionType from '@nodes/StructureDefinitionType';
+import type Type from '@nodes/Type';
 import type Conversion from './Conversion';
 import Evaluation from './Evaluation';
 import type Evaluator from './Evaluator';
 import FunctionValue from './FunctionValue';
 import Value from './Value';
-import type Node from '../nodes/Node';
+import type Node from '@nodes/Node';
 import Measurement from './Measurement';
 import Text from './Text';
 import Bool from './Bool';
-import type Names from '../nodes/Names';
-import type LanguageCode from '../translation/LanguageCode';
+import type Names from '@nodes/Names';
+import type LanguageCode from '@translation/LanguageCode';
 import {
     BIND_SYMBOL,
     EVAL_CLOSE_SYMBOL,
     EVAL_OPEN_SYMBOL,
 } from '../parser/Symbols';
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Translation from '../translation/Translation';
+import type Translation from '@translation/Translation';
 
 export default class Structure extends Value {
     readonly type: StructureDefinition;

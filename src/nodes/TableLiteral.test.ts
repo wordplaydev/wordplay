@@ -1,8 +1,8 @@
 import { test } from 'vitest';
-import { testConflict } from '../conflicts/TestUtilities';
-import MissingCell from '../conflicts/MissingCell';
-import ExpectedColumnType from '../conflicts/ExpectedColumnType';
-import IncompatibleCellType from '../conflicts/IncompatibleCellType';
+import { testConflict } from '@conflicts/TestUtilities';
+import MissingCell from '@conflicts/MissingCell';
+import ExpectedColumnType from '@conflicts/ExpectedColumnType';
+import IncompatibleCellType from '@conflicts/IncompatibleCellType';
 import TableLiteral from './TableLiteral';
 import TableType from './TableType';
 

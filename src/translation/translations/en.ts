@@ -1,18 +1,18 @@
-import type Context from '../../nodes/Context';
-import type Dimension from '../../nodes/Dimension';
-import type ExpressionPlaceholder from '../../nodes/ExpressionPlaceholder';
-import type Token from '../../nodes/Token';
-import TokenType from '../../nodes/TokenType';
-import type UnknownType from '../../nodes/UnknownType';
+import type Context from '@nodes/Context';
+import type Dimension from '@nodes/Dimension';
+import type ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
+import type Token from '@nodes/Token';
+import TokenType from '@nodes/TokenType';
+import type UnknownType from '@nodes/UnknownType';
 import type Translation from '../Translation';
-import type ListType from '../../nodes/ListType';
-import type MapType from '../../nodes/MapType';
-import type MeasurementLiteral from '../../nodes/MeasurementLiteral';
-import type NameType from '../../nodes/NameType';
-import type Reference from '../../nodes/Reference';
-import type SetType from '../../nodes/SetType';
-import type StreamType from '../../nodes/StreamType';
-import type UnionType from '../../nodes/UnionType';
+import type ListType from '@nodes/ListType';
+import type MapType from '@nodes/MapType';
+import type MeasurementLiteral from '@nodes/MeasurementLiteral';
+import type NameType from '@nodes/NameType';
+import type Reference from '@nodes/Reference';
+import type SetType from '@nodes/SetType';
+import type StreamType from '@nodes/StreamType';
+import type UnionType from '@nodes/UnionType';
 import {
     AND_SYMBOL,
     OR_SYMBOL,
@@ -24,8 +24,8 @@ import {
     PROPERTY_SYMBOL,
 } from '../../parser/Symbols';
 import type { Description } from '../Translation';
-import type { CycleType } from '../../nodes/CycleType';
-import type UnknownNameType from '../../nodes/UnknownNameType';
+import type { CycleType } from '@nodes/CycleType';
+import type UnknownNameType from '@nodes/UnknownNameType';
 import Explanation from '../Explanation';
 import type NodeLink from '../NodeLink';
 

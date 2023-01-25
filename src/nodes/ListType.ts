@@ -7,7 +7,7 @@ import TokenType from './TokenType';
 import Type from './Type';
 import type TypeSet from './TypeSet';
 import type { Replacement } from './Node';
-import type Translation from '../translation/Translation';
+import type Translation from '@translation/Translation';
 
 export default class ListType extends NativeType {
     readonly open: Token;

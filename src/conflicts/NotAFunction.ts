@@ -1,13 +1,13 @@
-import type BinaryOperation from '../nodes/BinaryOperation';
-import Evaluate from '../nodes/Evaluate';
+import type BinaryOperation from '@nodes/BinaryOperation';
+import Evaluate from '@nodes/Evaluate';
 import Conflict from './Conflict';
-import type UnaryOperation from '../nodes/UnaryOperation';
-import type Token from '../nodes/Token';
-import type Type from '../nodes/Type';
-import type Translation from '../translation/Translation';
-import type Context from '../nodes/Context';
-import NodeLink from '../translation/NodeLink';
-import Reference from '../nodes/Reference';
+import type UnaryOperation from '@nodes/UnaryOperation';
+import type Token from '@nodes/Token';
+import type Type from '@nodes/Type';
+import type Translation from '@translation/Translation';
+import type Context from '@nodes/Context';
+import NodeLink from '@translation/NodeLink';
+import Reference from '@nodes/Reference';
 
 export default class NotAFunction extends Conflict {
     readonly evaluate: Evaluate | BinaryOperation | UnaryOperation;

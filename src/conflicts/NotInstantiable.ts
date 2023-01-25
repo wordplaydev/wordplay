@@ -1,7 +1,7 @@
-import type Evaluate from '../nodes/Evaluate';
-import type FunctionDefinition from '../nodes/FunctionDefinition';
-import type StructureDefinition from '../nodes/StructureDefinition';
-import type Translation from '../translation/Translation';
+import type Evaluate from '@nodes/Evaluate';
+import type FunctionDefinition from '@nodes/FunctionDefinition';
+import type StructureDefinition from '@nodes/StructureDefinition';
+import type Translation from '@translation/Translation';
 import Conflict from './Conflict';
 
 export default class NotInstantiable extends Conflict {

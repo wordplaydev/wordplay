@@ -1,7 +1,7 @@
-import type Name from '../nodes/Name';
+import type Name from '@nodes/Name';
 import SupportedTranslations from './translations';
-import Names from '../nodes/Names';
-import Docs from '../nodes/Docs';
+import Names from '@nodes/Names';
+import Docs from '@nodes/Docs';
 import { translationToLanguage } from './translationToLanguage';
 import type { NameAndDocTranslation } from './Translation';
 import type Translation from './Translation';

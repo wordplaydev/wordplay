@@ -1,11 +1,11 @@
-import type { Edit } from '../editor/util/Commands';
+import type { Edit } from '../components/editor/util/Commands';
 import Transform from './Transform';
-import Node from '../nodes/Node';
-import Caret from '../editor/util/Caret';
-import type LanguageCode from '../translation/LanguageCode';
+import Node from '@nodes/Node';
+import Caret from '../components/editor/util/Caret';
+import type LanguageCode from '@translation/LanguageCode';
 import Refer from './Refer';
-import type Context from '../nodes/Context';
-import type Translation from '../translation/Translation';
+import type Context from '@nodes/Context';
+import type Translation from '@translation/Translation';
 
 export default class Replace<NodeType extends Node> extends Transform {
     readonly parent: Node;

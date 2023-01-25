@@ -1,7 +1,7 @@
-import type Evaluator from '../runtime/Evaluator';
-import StartFinish from '../runtime/StartFinish';
-import type Step from '../runtime/Step';
-import type Value from '../runtime/Value';
+import type Evaluator from '@runtime/Evaluator';
+import StartFinish from '@runtime/StartFinish';
+import type Step from '@runtime/Step';
+import type Value from '@runtime/Value';
 import AtomicExpression from './AtomicExpression';
 import type Expression from './Expression';
 

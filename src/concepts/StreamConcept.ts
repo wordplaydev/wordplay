@@ -1,16 +1,16 @@
-import type Context from '../nodes/Context';
-import type LanguageCode from '../translation/LanguageCode';
-import type Node from '../nodes/Node';
-import Reference from '../nodes/Reference';
-import StreamType from '../nodes/StreamType';
-import type Stream from '../runtime/Stream';
+import type Context from '@nodes/Context';
+import type LanguageCode from '@translation/LanguageCode';
+import type Node from '@nodes/Node';
+import Reference from '@nodes/Reference';
+import StreamType from '@nodes/StreamType';
+import type Stream from '@runtime/Stream';
 import Concept from './Concept';
 import type ConceptIndex from './ConceptIndex';
-import type Translation from '../translation/Translation';
+import type Translation from '@translation/Translation';
 import Purpose from './Purpose';
-import type StructureDefinition from '../nodes/StructureDefinition';
+import type StructureDefinition from '@nodes/StructureDefinition';
 import StructureConcept from './StructureConcept';
-import NameType from '../nodes/NameType';
+import NameType from '@nodes/NameType';
 
 export default class StreamConcept extends Concept {
     /** The type this concept represents. */

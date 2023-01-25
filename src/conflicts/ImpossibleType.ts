@@ -1,7 +1,7 @@
 import Conflict from './Conflict';
-import type Type from '../nodes/Type';
-import type Is from '../nodes/Is';
-import type Translation from '../translation/Translation';
+import type Type from '@nodes/Type';
+import type Is from '@nodes/Is';
+import type Translation from '@translation/Translation';
 
 export class ImpossibleType extends Conflict {
     readonly is: Is;

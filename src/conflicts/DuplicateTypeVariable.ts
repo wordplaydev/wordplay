@@ -1,8 +1,8 @@
 import Conflict from './Conflict';
-import type TypeVariable from '../nodes/TypeVariable';
-import type Translation from '../translation/Translation';
-import NodeLink from '../translation/NodeLink';
-import type Context from '../nodes/Context';
+import type TypeVariable from '@nodes/TypeVariable';
+import type Translation from '@translation/Translation';
+import NodeLink from '@translation/NodeLink';
+import type Context from '@nodes/Context';
 
 export default class DuplicateTypeVariable extends Conflict {
     readonly typeVar: TypeVariable;

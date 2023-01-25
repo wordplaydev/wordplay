@@ -1,9 +1,9 @@
 import { test } from 'vitest';
-import { testConflict } from '../conflicts/TestUtilities';
-import UnknownColumn from '../conflicts/UnknownColumn';
-import ExpectedSelectName from '../conflicts/ExpectedSelectName';
-import NonBooleanQuery from '../conflicts/NonBooleanQuery';
-import NotATable from '../conflicts/NotATable';
+import { testConflict } from '@conflicts/TestUtilities';
+import UnknownColumn from '@conflicts/UnknownColumn';
+import ExpectedSelectName from '@conflicts/ExpectedSelectName';
+import NonBooleanQuery from '@conflicts/NonBooleanQuery';
+import NotATable from '@conflicts/NotATable';
 import Select from './Select';
 
 test.each([

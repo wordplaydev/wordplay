@@ -1,5 +1,5 @@
-import Token from '../nodes/Token';
-import TokenType from '../nodes/TokenType';
+import Token from '@nodes/Token';
+import TokenType from '@nodes/TokenType';
 import {
     BASE_SYMBOL,
     BIND_SYMBOL,

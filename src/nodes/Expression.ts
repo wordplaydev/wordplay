@@ -1,15 +1,15 @@
 import Node from './Node';
 import type Context from './Context';
-import type Evaluator from '../runtime/Evaluator';
-import type Value from '../runtime/Value';
+import type Evaluator from '@runtime/Evaluator';
+import type Value from '@runtime/Value';
 import type Type from './Type';
-import type Step from '../runtime/Step';
+import type Step from '@runtime/Step';
 import type Bind from './Bind';
 import type TypeSet from './TypeSet';
-import type Stream from '../runtime/Stream';
-import type Translation from '../translation/Translation';
-import type { Description } from '../translation/Translation';
-import ValueLink from '../translation/ValueLink';
+import type Stream from '@runtime/Stream';
+import type Translation from '@translation/Translation';
+import type { Description } from '@translation/Translation';
+import ValueLink from '@translation/ValueLink';
 
 export default abstract class Expression extends Node {
     constructor() {

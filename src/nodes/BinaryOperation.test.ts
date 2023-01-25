@@ -1,10 +1,10 @@
 import { test, expect } from 'vitest';
-import { testConflict } from '../conflicts/TestUtilities';
-import Evaluator from '../runtime/Evaluator';
+import { testConflict } from '@conflicts/TestUtilities';
+import Evaluator from '@runtime/Evaluator';
 import BinaryOperation from './BinaryOperation';
 import { FALSE_SYMBOL } from '../parser/Symbols';
 import { OR_SYMBOL } from '../parser/Symbols';
-import IncompatibleInput from '../conflicts/IncompatibleInput';
+import IncompatibleInput from '@conflicts/IncompatibleInput';
 
 test.each([
     ['1 · 5', '1 · ""', BinaryOperation, IncompatibleInput],

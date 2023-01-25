@@ -1,24 +1,24 @@
-import type Conflict from '../conflicts/Conflict';
+import type Conflict from '@conflicts/Conflict';
 import type Expression from './Expression';
 import Token from './Token';
 import Type from './Type';
 import type Node from './Node';
-import type Value from '../runtime/Value';
-import type Step from '../runtime/Step';
-import Placeholder from '../conflicts/Placeholder';
-import Halt from '../runtime/Halt';
+import type Value from '@runtime/Value';
+import type Step from '@runtime/Step';
+import Placeholder from '@conflicts/Placeholder';
+import Halt from '@runtime/Halt';
 import type Bind from './Bind';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
-import type Evaluator from '../runtime/Evaluator';
-import UnimplementedException from '../runtime/UnimplementedException';
+import type Evaluator from '@runtime/Evaluator';
+import UnimplementedException from '@runtime/UnimplementedException';
 import PlaceholderToken from './PlaceholderToken';
 import UnimplementedType from './UnimplementedType';
 import TypeToken from './TypeToken';
 import type { Replacement } from './Node';
-import type Translation from '../translation/Translation';
+import type Translation from '@translation/Translation';
 import AtomicExpression from './AtomicExpression';
-import type { Description } from '../translation/Translation';
+import type { Description } from '@translation/Translation';
 
 export default class ExpressionPlaceholder extends AtomicExpression {
     readonly placeholder: Token;

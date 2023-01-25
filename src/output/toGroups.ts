@@ -1,6 +1,6 @@
-import List from '../runtime/List';
-import Structure from '../runtime/Structure';
-import type Value from '../runtime/Value';
+import List from '@runtime/List';
+import Structure from '@runtime/Structure';
+import type Value from '@runtime/Value';
 import type Group from './Group';
 import { PhraseType, toPhrase } from './Phrase';
 import { RowType, toRow } from './Row';

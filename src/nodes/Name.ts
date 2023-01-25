@@ -1,11 +1,11 @@
 import Node, { type Replacement } from './Node';
 import Token from './Token';
-import type Conflict from '../conflicts/Conflict';
+import type Conflict from '@conflicts/Conflict';
 import Language from './Language';
-import type LanguageCode from '../translation/LanguageCode';
+import type LanguageCode from '@translation/LanguageCode';
 import NameToken from './NameToken';
 import PlaceholderToken from './PlaceholderToken';
-import type Translation from '../translation/Translation';
+import type Translation from '@translation/Translation';
 import { NAME_SEPARATOR_SYMBOL } from '../parser/Symbols';
 import TokenType from './TokenType';
 

@@ -1,24 +1,24 @@
-import Bind from '../nodes/Bind';
-import BooleanType from '../nodes/BooleanType';
-import MeasurementType from '../nodes/MeasurementType';
-import TextType from '../nodes/TextType';
-import type Type from '../nodes/Type';
-import Bool from '../runtime/Bool';
-import type Evaluation from '../runtime/Evaluation';
-import type Value from '../runtime/Value';
+import Bind from '@nodes/Bind';
+import BooleanType from '@nodes/BooleanType';
+import MeasurementType from '@nodes/MeasurementType';
+import TextType from '@nodes/TextType';
+import type Type from '@nodes/Type';
+import Bool from '@runtime/Bool';
+import type Evaluation from '@runtime/Evaluation';
+import type Value from '@runtime/Value';
 import { createNativeConversion, createNativeFunction } from './NativeBindings';
-import Text from '../runtime/Text';
-import StructureDefinition from '../nodes/StructureDefinition';
-import Measurement from '../runtime/Measurement';
-import List from '../runtime/List';
-import Block from '../nodes/Block';
-import type Node from '../nodes/Node';
-import type Docs from '../nodes/Docs';
-import type Names from '../nodes/Names';
-import { getFunctionTranslations } from '../translation/getFunctionTranslations';
-import { getDocTranslations } from '../translation/getDocTranslations';
-import { getNameTranslations } from '../translation/getNameTranslations';
-import type Expression from '../nodes/Expression';
+import Text from '@runtime/Text';
+import StructureDefinition from '@nodes/StructureDefinition';
+import Measurement from '@runtime/Measurement';
+import List from '@runtime/List';
+import Block from '@nodes/Block';
+import type Node from '@nodes/Node';
+import type Docs from '@nodes/Docs';
+import type Names from '@nodes/Names';
+import { getFunctionTranslations } from '@translation/getFunctionTranslations';
+import { getDocTranslations } from '@translation/getDocTranslations';
+import { getNameTranslations } from '@translation/getNameTranslations';
+import type Expression from '@nodes/Expression';
 
 export default function bootstrapText() {
     const equalsNames = getNameTranslations(

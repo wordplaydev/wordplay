@@ -1,5 +1,5 @@
-import type StructureDefinition from '../nodes/StructureDefinition';
-import type Translation from '../translation/Translation';
+import type StructureDefinition from '@nodes/StructureDefinition';
+import type Translation from '@translation/Translation';
 import Conflict from './Conflict';
 
 export class IncompleteImplementation extends Conflict {

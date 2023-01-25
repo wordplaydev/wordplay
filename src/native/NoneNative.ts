@@ -1,22 +1,22 @@
-import FunctionDefinition from '../nodes/FunctionDefinition';
-import StructureDefinition from '../nodes/StructureDefinition';
-import Text from '../runtime/Text';
-import Bool from '../runtime/Bool';
-import None from '../runtime/None';
-import Block from '../nodes/Block';
-import Bind from '../nodes/Bind';
+import FunctionDefinition from '@nodes/FunctionDefinition';
+import StructureDefinition from '@nodes/StructureDefinition';
+import Text from '@runtime/Text';
+import Bool from '@runtime/Bool';
+import None from '@runtime/None';
+import Block from '@nodes/Block';
+import Bind from '@nodes/Bind';
 import NativeExpression from './NativeExpression';
-import BooleanType from '../nodes/BooleanType';
-import NoneType from '../nodes/NoneType';
-import type Value from '../runtime/Value';
+import BooleanType from '@nodes/BooleanType';
+import NoneType from '@nodes/NoneType';
+import type Value from '@runtime/Value';
 import { createNativeConversion } from './NativeBindings';
-import type Node from '../nodes/Node';
+import type Node from '@nodes/Node';
 import { NONE_SYMBOL } from '../parser/Symbols';
-import type Names from '../nodes/Names';
-import type Docs from '../nodes/Docs';
-import { getFunctionTranslations } from '../translation/getFunctionTranslations';
-import { getDocTranslations } from '../translation/getDocTranslations';
-import { getNameTranslations } from '../translation/getNameTranslations';
+import type Names from '@nodes/Names';
+import type Docs from '@nodes/Docs';
+import { getFunctionTranslations } from '@translation/getFunctionTranslations';
+import { getDocTranslations } from '@translation/getDocTranslations';
+import { getNameTranslations } from '@translation/getNameTranslations';
 
 export default function bootstrapNone() {
     function createNativeNoneFunction(

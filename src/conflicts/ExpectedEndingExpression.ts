@@ -1,5 +1,5 @@
-import type Block from '../nodes/Block';
-import type Translation from '../translation/Translation';
+import type Block from '@nodes/Block';
+import type Translation from '@translation/Translation';
 import Conflict from './Conflict';
 
 export class ExpectedEndingExpression extends Conflict {

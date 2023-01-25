@@ -1,19 +1,19 @@
-import Structure from '../runtime/Structure';
-import type Value from '../runtime/Value';
+import Structure from '@runtime/Structure';
+import type Value from '@runtime/Value';
 import Group, { type RenderContext } from './Group';
 import { toFont } from './Phrase';
 import Fonts, { SupportedFontsType } from '../native/Fonts';
 import Color from './Color';
 import Place, { toPlace } from './Place';
 import toStructure from '../native/toStructure';
-import Measurement from '../runtime/Measurement';
+import Measurement from '@runtime/Measurement';
 import Decimal from 'decimal.js';
 import { toGroup, toGroups } from './toGroups';
 import { toColor } from './Color';
-import List from '../runtime/List';
-import type LanguageCode from '../translation/LanguageCode';
-import { getPreferredTranslation } from '../translation/getPreferredTranslation';
-import { getBind } from '../translation/getBind';
+import List from '@runtime/List';
+import type LanguageCode from '@translation/LanguageCode';
+import { getPreferredTranslation } from '@translation/getPreferredTranslation';
+import { getBind } from '@translation/getBind';
 
 const BACKSET = -12;
 

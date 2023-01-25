@@ -1,8 +1,8 @@
 import toStructure from '../native/toStructure';
-import type FunctionDefinition from '../nodes/FunctionDefinition';
-import FunctionValue from '../runtime/FunctionValue';
-import Structure from '../runtime/Structure';
-import type Value from '../runtime/Value';
+import type FunctionDefinition from '@nodes/FunctionDefinition';
+import FunctionValue from '@runtime/FunctionValue';
+import Structure from '@runtime/Structure';
+import type Value from '@runtime/Value';
 import type Color from './Color';
 import Output from './Output';
 import { toTextLang } from './Phrase';
@@ -10,11 +10,11 @@ import type Place from './Place';
 import { toPlace } from './Place';
 import type TextLang from './TextLang';
 import { toDecimal } from './Verse';
-import Text from '../runtime/Text';
+import Text from '@runtime/Text';
 import { toColor } from './Color';
 import { SupportedFontsType } from '../native/Fonts';
 import Sequence from './Sequence';
-import { getBind } from '../translation/getBind';
+import { getBind } from '@translation/getBind';
 
 export const PoseType = toStructure(`
     ${getBind((t) => t.output.pose.definition, '•')}(

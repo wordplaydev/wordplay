@@ -1,11 +1,11 @@
-import { testConflict } from '../conflicts/TestUtilities';
-import { ExpectedEndingExpression } from '../conflicts/ExpectedEndingExpression';
-import { IgnoredExpression } from '../conflicts/IgnoredExpression';
-import Evaluator from '../runtime/Evaluator';
+import { testConflict } from '@conflicts/TestUtilities';
+import { ExpectedEndingExpression } from '@conflicts/ExpectedEndingExpression';
+import { IgnoredExpression } from '@conflicts/IgnoredExpression';
+import Evaluator from '@runtime/Evaluator';
 import Block from './Block';
 import { test, expect } from 'vitest';
 import Evaluate from './Evaluate';
-import NotAFunction from '../conflicts/NotAFunction';
+import NotAFunction from '@conflicts/NotAFunction';
 
 test.each([
     ['(1)', '()', Block, ExpectedEndingExpression],

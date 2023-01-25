@@ -1,11 +1,11 @@
-import type Conflict from '../conflicts/Conflict';
-import Placeholder from '../conflicts/Placeholder';
+import type Conflict from '@conflicts/Conflict';
+import Placeholder from '@conflicts/Placeholder';
 import Token from './Token';
 import Type from './Type';
 import PlaceholderToken from './PlaceholderToken';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type { Replacement } from './Node';
-import type Translation from '../translation/Translation';
+import type Translation from '@translation/Translation';
 
 export default class TypePlaceholder extends Type {
     readonly placeholder: Token;

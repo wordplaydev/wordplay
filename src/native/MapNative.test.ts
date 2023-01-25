@@ -1,5 +1,5 @@
 import { test, expect } from 'vitest';
-import Evaluator from '../runtime/Evaluator';
+import Evaluator from '@runtime/Evaluator';
 
 test.each([
     ['{1:"hi" 2:"bye"}.set(3 "hello")', '{1:"hi" 2:"bye" 3:"hello"}'],

@@ -1,5 +1,5 @@
 import Project from '../models/Project';
-import Source from '../nodes/Source';
+import Source from '@nodes/Source';
 
 import WhatWord from './WhatWord.wp?raw';
 import Listen from './Listen.wp?raw';

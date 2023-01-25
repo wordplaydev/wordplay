@@ -1,17 +1,17 @@
-import type Conflict from '../conflicts/Conflict';
-import { UnexpectedTypeVariable } from '../conflicts/UnexpectedTypeVariable';
-import { UnknownName } from '../conflicts/UnknownName';
+import type Conflict from '@conflicts/Conflict';
+import { UnexpectedTypeVariable } from '@conflicts/UnexpectedTypeVariable';
+import { UnknownName } from '@conflicts/UnknownName';
 import Expression from './Expression';
 import Token from './Token';
 import Type from './Type';
 import TypeVariable from './TypeVariable';
-import type Evaluator from '../runtime/Evaluator';
-import Value from '../runtime/Value';
-import type Step from '../runtime/Step';
+import type Evaluator from '@runtime/Evaluator';
+import Value from '@runtime/Value';
+import type Step from '@runtime/Step';
 import type Context from './Context';
 import type Definition from './Definition';
 import Bind from './Bind';
-import ReferenceCycle from '../conflicts/ReferenceCycle';
+import ReferenceCycle from '@conflicts/ReferenceCycle';
 import Reaction from './Reaction';
 import Conditional from './Conditional';
 import UnionType from './UnionType';
@@ -19,15 +19,15 @@ import type TypeSet from './TypeSet';
 import Is from './Is';
 import type StructureDefinition from './StructureDefinition';
 import NameToken from './NameToken';
-import Stream from '../runtime/Stream';
-import StartFinish from '../runtime/StartFinish';
+import Stream from '@runtime/Stream';
+import StartFinish from '@runtime/StartFinish';
 import StreamType from './StreamType';
 import UnknownNameType from './UnknownNameType';
 import type { Replacement } from './Node';
-import type Translation from '../translation/Translation';
+import type Translation from '@translation/Translation';
 import AtomicExpression from './AtomicExpression';
-import NameException from '../runtime/NameException';
-import NodeLink from '../translation/NodeLink';
+import NameException from '@runtime/NameException';
+import NodeLink from '@translation/NodeLink';
 
 /**
  * A reference to some Definition. Can optionally take the definition which it refers,

@@ -4,7 +4,7 @@ import { EXPONENT_SYMBOL } from '../parser/Symbols';
 import { PRODUCT_SYMBOL } from '../parser/Symbols';
 import TokenType from './TokenType';
 import NameToken from './NameToken';
-import type Translation from '../translation/Translation';
+import type Translation from '@translation/Translation';
 
 export default class Dimension extends Node {
     readonly product: Token | undefined;

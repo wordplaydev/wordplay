@@ -1,15 +1,15 @@
-import type Conflict from '../conflicts/Conflict';
+import type Conflict from '@conflicts/Conflict';
 import type Definition from './Definition';
 import type Context from './Context';
 import type Spaces from '../parser/Spaces';
 import type Type from './Type';
 import type Token from './Token';
-import type Translation from '../translation/Translation';
+import type Translation from '@translation/Translation';
 import type {
     Description,
     DocString,
     NodeTranslation,
-} from '../translation/Translation';
+} from '@translation/Translation';
 
 /* A global ID for nodes, for helping index them */
 let NODE_ID_COUNTER = 0;

@@ -1,9 +1,9 @@
-import MeasurementType from '../nodes/MeasurementType';
-import type Evaluator from '../runtime/Evaluator';
-import Measurement from '../runtime/Measurement';
-import Stream from '../runtime/Stream';
-import { getDocTranslations } from '../translation/getDocTranslations';
-import { getNameTranslations } from '../translation/getNameTranslations';
+import MeasurementType from '@nodes/MeasurementType';
+import type Evaluator from '@runtime/Evaluator';
+import Measurement from '@runtime/Measurement';
+import Stream from '@runtime/Stream';
+import { getDocTranslations } from '@translation/getDocTranslations';
+import { getNameTranslations } from '@translation/getNameTranslations';
 import { FREQUENCY } from './Time';
 
 const FFT_SIZE = 32;

@@ -1,6 +1,6 @@
-import type Context from '../nodes/Context';
+import type Context from '@nodes/Context';
 import type Translation from './Translation';
-import type Node from '../nodes/Node';
+import type Node from '@nodes/Node';
 
 export default class NodeLink {
     readonly node: Node;

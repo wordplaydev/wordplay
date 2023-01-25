@@ -1,10 +1,10 @@
-import type Bind from '../nodes/Bind';
-import type Context from '../nodes/Context';
-import Expression from '../nodes/Expression';
-import FunctionDefinition from '../nodes/FunctionDefinition';
-import type TypeSet from '../nodes/TypeSet';
-import type Evaluator from '../runtime/Evaluator';
-import type Translation from '../translation/Translation';
+import type Bind from '@nodes/Bind';
+import type Context from '@nodes/Context';
+import Expression from '@nodes/Expression';
+import FunctionDefinition from '@nodes/FunctionDefinition';
+import type TypeSet from '@nodes/TypeSet';
+import type Evaluator from '@runtime/Evaluator';
+import type Translation from '@translation/Translation';
 
 export default abstract class HOF extends Expression {
     getGrammar() {

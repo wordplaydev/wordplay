@@ -2,20 +2,20 @@ import Expression from './Expression';
 import TextType from './TextType';
 import Token from './Token';
 import type Type from './Type';
-import type Evaluator from '../runtime/Evaluator';
-import type Value from '../runtime/Value';
-import Text from '../runtime/Text';
-import Finish from '../runtime/Finish';
-import type Step from '../runtime/Step';
+import type Evaluator from '@runtime/Evaluator';
+import type Value from '@runtime/Value';
+import Text from '@runtime/Text';
+import Finish from '@runtime/Finish';
+import type Step from '@runtime/Step';
 import type Context from './Context';
 import Language from './Language';
 import type Bind from './Bind';
 import type TypeSet from './TypeSet';
-import Start from '../runtime/Start';
+import Start from '@runtime/Start';
 import TokenType from './TokenType';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import type { Replacement } from './Node';
-import type Translation from '../translation/Translation';
+import type Translation from '@translation/Translation';
 
 export type TemplatePart = Expression | Token;
 

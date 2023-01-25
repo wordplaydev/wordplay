@@ -1,11 +1,11 @@
 import type Decimal from 'decimal.js';
 import toStructure from '../native/toStructure';
-import type Value from '../runtime/Value';
+import type Value from '@runtime/Value';
 import Output from './Output';
 import { toDecimal } from './Verse';
 import ColorJS from 'colorjs.io';
 import { TYPE_SYMBOL } from '../parser/Symbols';
-import { getBind } from '../translation/getBind';
+import { getBind } from '@translation/getBind';
 
 export const ColorType = toStructure(`
     ${getBind((t) => t.output.color.definition, TYPE_SYMBOL)}(

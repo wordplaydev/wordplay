@@ -1,7 +1,7 @@
 import Node, { type Replacement } from './Node';
 import Doc from './Doc';
-import type LanguageCode from '../translation/LanguageCode';
-import type Translation from '../translation/Translation';
+import type LanguageCode from '@translation/LanguageCode';
+import type Translation from '@translation/Translation';
 
 export default class Docs extends Node {
     readonly docs: Doc[];

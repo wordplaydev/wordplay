@@ -1,18 +1,18 @@
-import ListType from '../nodes/ListType';
+import ListType from '@nodes/ListType';
 import Bool from './Bool';
 import Text from './Text';
 import Measurement from './Measurement';
 import None from './None';
 import Primitive from './Primitive';
 import type Value from './Value';
-import UnionType from '../nodes/UnionType';
-import type Context from '../nodes/Context';
-import type LanguageCode from '../translation/LanguageCode';
-import type Node from '../nodes/Node';
+import UnionType from '@nodes/UnionType';
+import type Context from '@nodes/Context';
+import type LanguageCode from '@translation/LanguageCode';
+import type Node from '@nodes/Node';
 import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from '../parser/Symbols';
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Translation from '../translation/Translation';
-import { getNameTranslations } from '../translation/getNameTranslations';
+import type Translation from '@translation/Translation';
+import { getNameTranslations } from '@translation/getNameTranslations';
 
 export default class List extends Primitive {
     readonly values: Value[] = [];

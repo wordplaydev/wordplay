@@ -1,16 +1,16 @@
-import type Conflict from '../conflicts/Conflict';
-import { UnparsableConflict } from '../conflicts/UnparsableConflict';
-import type Evaluator from '../runtime/Evaluator';
-import Halt from '../runtime/Halt';
-import UnparsableException from '../runtime/UnparsableException';
-import type Step from '../runtime/Step';
-import type Value from '../runtime/Value';
+import type Conflict from '@conflicts/Conflict';
+import { UnparsableConflict } from '@conflicts/UnparsableConflict';
+import type Evaluator from '@runtime/Evaluator';
+import Halt from '@runtime/Halt';
+import UnparsableException from '@runtime/UnparsableException';
+import type Step from '@runtime/Step';
+import type Value from '@runtime/Value';
 import type Bind from './Bind';
 import type Expression from './Expression';
 import Node, { type Replacement } from './Node';
 import type TypeSet from './TypeSet';
 import UnparsableType from './UnparsableType';
-import type Translation from '../translation/Translation';
+import type Translation from '@translation/Translation';
 import AtomicExpression from './AtomicExpression';
 
 export default class UnparsableExpression extends AtomicExpression {

@@ -1,11 +1,11 @@
-import Language from '../nodes/Language';
-import TextType from '../nodes/TextType';
+import Language from '@nodes/Language';
+import TextType from '@nodes/TextType';
 import Measurement from './Measurement';
 import Primitive from './Primitive';
 import type Value from './Value';
-import type Node from '../nodes/Node';
+import type Node from '@nodes/Node';
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Translation from '../translation/Translation';
+import type Translation from '@translation/Translation';
 
 export default class Text extends Primitive {
     readonly text: string;

@@ -1,21 +1,21 @@
-import BinaryOperation from '../nodes/BinaryOperation';
-import type Context from '../nodes/Context';
-import Evaluate from '../nodes/Evaluate';
-import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
-import type FunctionDefinition from '../nodes/FunctionDefinition';
-import type LanguageCode from '../translation/LanguageCode';
-import type Node from '../nodes/Node';
-import PropertyReference from '../nodes/PropertyReference';
-import Reference from '../nodes/Reference';
-import Token from '../nodes/Token';
-import TokenType from '../nodes/TokenType';
-import UnaryOperation from '../nodes/UnaryOperation';
+import BinaryOperation from '@nodes/BinaryOperation';
+import type Context from '@nodes/Context';
+import Evaluate from '@nodes/Evaluate';
+import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
+import type FunctionDefinition from '@nodes/FunctionDefinition';
+import type LanguageCode from '@translation/LanguageCode';
+import type Node from '@nodes/Node';
+import PropertyReference from '@nodes/PropertyReference';
+import Reference from '@nodes/Reference';
+import Token from '@nodes/Token';
+import TokenType from '@nodes/TokenType';
+import UnaryOperation from '@nodes/UnaryOperation';
 import BindConcept from './BindConcept';
 import Concept from './Concept';
 import type StructureConcept from './StructureConcept';
-import type Translation from '../translation/Translation';
+import type Translation from '@translation/Translation';
 import type Purpose from './Purpose';
-import type StructureDefinition from '../nodes/StructureDefinition';
+import type StructureDefinition from '@nodes/StructureDefinition';
 
 export default class FunctionConcept extends Concept {
     /** The function this concept represents. */

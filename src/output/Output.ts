@@ -1,4 +1,4 @@
-import type Value from '../runtime/Value';
+import type Value from '@runtime/Value';
 
 /**
  * A base class that represents some part of Verse output.

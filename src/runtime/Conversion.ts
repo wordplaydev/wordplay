@@ -1,11 +1,11 @@
-import type ConversionDefinition from '../nodes/ConversionDefinition';
-import type Context from '../nodes/Context';
+import type ConversionDefinition from '@nodes/ConversionDefinition';
+import type Context from '@nodes/Context';
 import type Evaluation from './Evaluation';
 import Primitive from './Primitive';
 import Value from './Value';
 import { CONVERT_SYMBOL } from '../parser/Symbols';
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Translation from '../translation/Translation';
+import type Translation from '@translation/Translation';
 
 export default class Conversion extends Primitive {
     /** The definition from the AST. */

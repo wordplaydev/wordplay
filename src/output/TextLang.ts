@@ -1,4 +1,4 @@
-import type Value from '../runtime/Value';
+import type Value from '@runtime/Value';
 import Output from './Output';
 
 export default class TextLang extends Output {

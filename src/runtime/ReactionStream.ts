@@ -1,7 +1,7 @@
-import type Context from '../nodes/Context';
-import type Reaction from '../nodes/Reaction';
-import { getDocTranslations } from '../translation/getDocTranslations';
-import { getNameTranslations } from '../translation/getNameTranslations';
+import type Context from '@nodes/Context';
+import type Reaction from '@nodes/Reaction';
+import { getDocTranslations } from '@translation/getDocTranslations';
+import { getNameTranslations } from '@translation/getNameTranslations';
 import type Evaluator from './Evaluator';
 import Stream from './Stream';
 import type Value from './Value';

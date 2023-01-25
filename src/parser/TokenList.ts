@@ -1,4 +1,4 @@
-import type Token from '../nodes/Token';
+import type Token from '@nodes/Token';
 import type Root from './Root';
 import Spaces from './Spaces';
 

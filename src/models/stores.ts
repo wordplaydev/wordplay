@@ -1,11 +1,11 @@
 import { get, writable, type Writable } from 'svelte/store';
 import { examples, makeProject } from '../examples/examples';
-import type { StreamChange } from '../runtime/Evaluator';
-import type Step from '../runtime/Step';
+import type { StreamChange } from '@runtime/Evaluator';
+import type Step from '@runtime/Step';
 import type Project from './Project';
 import type Animation from '../output/Animation';
-import type Conflict from '../conflicts/Conflict';
-import type Node from '../nodes/Node';
+import type Conflict from '@conflicts/Conflict';
+import type Node from '@nodes/Node';
 
 // A global store that contains the project currently being viewed.
 export const project: Writable<Project | undefined> = writable<

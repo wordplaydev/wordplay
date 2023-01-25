@@ -1,19 +1,19 @@
-import type Context from '../nodes/Context';
-import MapType from '../nodes/MapType';
-import UnionType from '../nodes/UnionType';
+import type Context from '@nodes/Context';
+import MapType from '@nodes/MapType';
+import UnionType from '@nodes/UnionType';
 import Measurement from './Measurement';
 import None from './None';
 import Primitive from './Primitive';
 import type Value from './Value';
-import type Node from '../nodes/Node';
-import type LanguageCode from '../translation/LanguageCode';
+import type Node from '@nodes/Node';
+import type LanguageCode from '@translation/LanguageCode';
 import {
     BIND_SYMBOL,
     SET_CLOSE_SYMBOL,
     SET_OPEN_SYMBOL,
 } from '../parser/Symbols';
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Translation from '../translation/Translation';
+import type Translation from '@translation/Translation';
 
 export default class Map extends Primitive {
     readonly values: [Value, Value][];

@@ -1,13 +1,13 @@
-import Evaluate from '../nodes/Evaluate';
+import Evaluate from '@nodes/Evaluate';
 import Conflict from './Conflict';
-import type Expression from '../nodes/Expression';
-import type Bind from '../nodes/Bind';
-import type BinaryOperation from '../nodes/BinaryOperation';
-import type StructureDefinition from '../nodes/StructureDefinition';
-import type FunctionDefinition from '../nodes/FunctionDefinition';
-import type Translation from '../translation/Translation';
-import NodeLink from '../translation/NodeLink';
-import type Context from '../nodes/Context';
+import type Expression from '@nodes/Expression';
+import type Bind from '@nodes/Bind';
+import type BinaryOperation from '@nodes/BinaryOperation';
+import type StructureDefinition from '@nodes/StructureDefinition';
+import type FunctionDefinition from '@nodes/FunctionDefinition';
+import type Translation from '@translation/Translation';
+import NodeLink from '@translation/NodeLink';
+import type Context from '@nodes/Context';
 
 export default class UnexpectedInputs extends Conflict {
     readonly func: FunctionDefinition | StructureDefinition;

@@ -1,7 +1,7 @@
-import type Type from '../nodes/Type';
-import NodeLink from '../translation/NodeLink';
-import type Translation from '../translation/Translation';
-import ValueLink from '../translation/ValueLink';
+import type Type from '@nodes/Type';
+import NodeLink from '@translation/NodeLink';
+import type Translation from '@translation/Translation';
+import ValueLink from '@translation/ValueLink';
 import type Evaluator from './Evaluator';
 import Exception from './Exception';
 import type Value from './Value';

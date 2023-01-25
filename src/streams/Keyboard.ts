@@ -1,16 +1,16 @@
-import Bool from '../runtime/Bool';
-import Text from '../runtime/Text';
-import Stream from '../runtime/Stream';
+import Bool from '@runtime/Bool';
+import Text from '@runtime/Text';
+import Stream from '@runtime/Stream';
 import Key from './Key';
-import Structure, { createStructure } from '../runtime/Structure';
-import None from '../runtime/None';
-import StructureDefinitionType from '../nodes/StructureDefinitionType';
-import StreamType from '../nodes/StreamType';
-import type Value from '../runtime/Value';
-import type Names from '../nodes/Names';
-import type Evaluator from '../runtime/Evaluator';
-import { getDocTranslations } from '../translation/getDocTranslations';
-import { getNameTranslations } from '../translation/getNameTranslations';
+import Structure, { createStructure } from '@runtime/Structure';
+import None from '@runtime/None';
+import StructureDefinitionType from '@nodes/StructureDefinitionType';
+import StreamType from '@nodes/StreamType';
+import type Value from '@runtime/Value';
+import type Names from '@nodes/Names';
+import type Evaluator from '@runtime/Evaluator';
+import { getDocTranslations } from '@translation/getDocTranslations';
+import { getNameTranslations } from '@translation/getNameTranslations';
 
 export default class Keyboard extends Stream<Structure | None> {
     readonly evaluator: Evaluator;

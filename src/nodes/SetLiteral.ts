@@ -1,12 +1,12 @@
 import Expression from './Expression';
 import Token from './Token';
 import type Type from './Type';
-import type Evaluator from '../runtime/Evaluator';
-import type Value from '../runtime/Value';
-import Set from '../runtime/Set';
-import type Step from '../runtime/Step';
-import Finish from '../runtime/Finish';
-import Start from '../runtime/Start';
+import type Evaluator from '@runtime/Evaluator';
+import type Value from '@runtime/Value';
+import Set from '@runtime/Set';
+import type Step from '@runtime/Step';
+import Finish from '@runtime/Finish';
+import Start from '@runtime/Start';
 import type Context from './Context';
 import UnionType from './UnionType';
 import type TypeSet from './TypeSet';
@@ -16,7 +16,7 @@ import type Bind from './Bind';
 import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '../parser/Symbols';
 import TokenType from './TokenType';
 import type { Replacement } from './Node';
-import type Translation from '../translation/Translation';
+import type Translation from '@translation/Translation';
 
 export default class SetLiteral extends Expression {
     readonly open: Token;

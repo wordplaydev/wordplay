@@ -1,6 +1,6 @@
 import { test, expect } from 'vitest';
 import { NONE_SYMBOL, PROPERTY_SYMBOL } from '../parser/Symbols';
-import Evaluator from '../runtime/Evaluator';
+import Evaluator from '@runtime/Evaluator';
 
 test.each([
     ["⊤→''", '"⊤"'],

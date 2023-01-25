@@ -1,26 +1,26 @@
-import type Conflict from '../conflicts/Conflict';
+import type Conflict from '@conflicts/Conflict';
 import Expression from './Expression';
 import Token from './Token';
 import type Type from './Type';
-import type Evaluator from '../runtime/Evaluator';
-import type Step from '../runtime/Step';
-import Finish from '../runtime/Finish';
-import Start from '../runtime/Start';
+import type Evaluator from '@runtime/Evaluator';
+import type Step from '@runtime/Step';
+import Finish from '@runtime/Finish';
+import Start from '@runtime/Start';
 import type Context from './Context';
 import type Bind from './Bind';
 import { NOT_SYMBOL } from '../parser/Symbols';
 import type TypeSet from './TypeSet';
-import FunctionException from '../runtime/FunctionException';
+import FunctionException from '@runtime/FunctionException';
 import FunctionDefinition from './FunctionDefinition';
-import NotAFunction from '../conflicts/NotAFunction';
-import Evaluation from '../runtime/Evaluation';
+import NotAFunction from '@conflicts/NotAFunction';
+import Evaluation from '@runtime/Evaluation';
 import getConcreteExpectedType from './Generics';
-import type Value from '../runtime/Value';
+import type Value from '@runtime/Value';
 import UnknownNameType from './UnknownNameType';
 import type { Replacement } from './Node';
-import type Translation from '../translation/Translation';
-import StartEvaluation from '../runtime/StartEvaluation';
-import NodeLink from '../translation/NodeLink';
+import type Translation from '@translation/Translation';
+import StartEvaluation from '@runtime/StartEvaluation';
+import NodeLink from '@translation/NodeLink';
 
 export default class UnaryOperation extends Expression {
     readonly operator: Token;

@@ -7,13 +7,13 @@ import { PRODUCT_SYMBOL } from '../parser/Symbols';
 import Dimension from './Dimension';
 import Token from './Token';
 import Type from './Type';
-import Measurement from '../runtime/Measurement';
+import Measurement from '@runtime/Measurement';
 import type TypeSet from './TypeSet';
 import type { NativeTypeName } from '../native/NativeConstants';
 import LanguageToken from './LanguageToken';
 import TokenType from './TokenType';
 import type { Replacement } from './Node';
-import type Translation from '../translation/Translation';
+import type Translation from '@translation/Translation';
 
 export default class Unit extends Type {
     /** In case this was parsed, we keep the original tokens around. */

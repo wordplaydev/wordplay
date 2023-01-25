@@ -1,6 +1,6 @@
-import Name from '../nodes/Name';
+import Name from '@nodes/Name';
 import SupportedTranslations from './translations';
-import Names from '../nodes/Names';
+import Names from '@nodes/Names';
 import type { NameTranslation } from './Translation';
 import type Translation from './Translation';
 import { translationToLanguage } from './translationToLanguage';

@@ -1,14 +1,14 @@
-import type Evaluate from '../nodes/Evaluate';
+import type Evaluate from '@nodes/Evaluate';
 import Conflict from './Conflict';
-import type Bind from '../nodes/Bind';
-import type BinaryOperation from '../nodes/BinaryOperation';
-import type FunctionDefinition from '../nodes/FunctionDefinition';
-import type StructureDefinition from '../nodes/StructureDefinition';
-import type Translation from '../translation/Translation';
-import type Expression from '../nodes/Expression';
-import type Token from '../nodes/Token';
-import type Context from '../nodes/Context';
-import NodeLink from '../translation/NodeLink';
+import type Bind from '@nodes/Bind';
+import type BinaryOperation from '@nodes/BinaryOperation';
+import type FunctionDefinition from '@nodes/FunctionDefinition';
+import type StructureDefinition from '@nodes/StructureDefinition';
+import type Translation from '@translation/Translation';
+import type Expression from '@nodes/Expression';
+import type Token from '@nodes/Token';
+import type Context from '@nodes/Context';
+import NodeLink from '@translation/NodeLink';
 
 export default class MissingInput extends Conflict {
     readonly func: FunctionDefinition | StructureDefinition;

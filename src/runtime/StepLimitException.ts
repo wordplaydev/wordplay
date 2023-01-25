@@ -1,7 +1,7 @@
 import Exception from './Exception';
 import type Evaluator from './Evaluator';
-import type Translation from '../translation/Translation';
-import type Node from '../nodes/Node';
+import type Translation from '@translation/Translation';
+import type Node from '@nodes/Node';
 
 export default class StepLimitException extends Exception {
     readonly node: Node;

@@ -1,8 +1,8 @@
-import type Definition from '../nodes/Definition';
-import TypeVariable from '../nodes/TypeVariable';
-import type Context from '../nodes/Context';
-import type LanguageCode from '../translation/LanguageCode';
-import type Node from '../nodes/Node';
+import type Definition from '@nodes/Definition';
+import TypeVariable from '@nodes/TypeVariable';
+import type Context from '@nodes/Context';
+import type LanguageCode from '@translation/LanguageCode';
+import type Node from '@nodes/Node';
 
 export default class Refer {
     readonly creator: (name: string, operator?: string) => Node;

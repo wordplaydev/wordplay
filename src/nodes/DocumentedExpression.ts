@@ -1,14 +1,14 @@
 import Expression from './Expression';
 import type Type from './Type';
-import type Value from '../runtime/Value';
-import type Step from '../runtime/Step';
+import type Value from '@runtime/Value';
+import type Step from '@runtime/Step';
 import type Bind from './Bind';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
-import type Evaluator from '../runtime/Evaluator';
+import type Evaluator from '@runtime/Evaluator';
 import Docs from './Docs';
 import type { Replacement } from './Node';
-import type Translation from '../translation/Translation';
+import type Translation from '@translation/Translation';
 import AtomicExpression from './AtomicExpression';
 
 export default class DocumentedExpression extends AtomicExpression {

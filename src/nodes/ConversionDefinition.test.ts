@@ -1,7 +1,7 @@
-import { testConflict } from '../conflicts/TestUtilities';
+import { testConflict } from '@conflicts/TestUtilities';
 import { test } from 'vitest';
 import ConversionDefinition from './ConversionDefinition';
-import { MisplacedConversion } from '../conflicts/MisplacedConversion';
+import { MisplacedConversion } from '@conflicts/MisplacedConversion';
 
 test.each([
     ['( → # #m 5)', '1 + → # #m 5', ConversionDefinition, MisplacedConversion],

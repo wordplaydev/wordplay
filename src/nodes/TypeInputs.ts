@@ -1,4 +1,4 @@
-import type Translation from '../translation/Translation';
+import type Translation from '@translation/Translation';
 import Node, { type Replacement } from './Node';
 import Token from './Token';
 import Type from './Type';

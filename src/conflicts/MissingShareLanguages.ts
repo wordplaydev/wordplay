@@ -1,5 +1,5 @@
-import type Bind from '../nodes/Bind';
-import type Translation from '../translation/Translation';
+import type Bind from '@nodes/Bind';
+import type Translation from '@translation/Translation';
 import Conflict from './Conflict';
 
 export class MissingShareLanguages extends Conflict {

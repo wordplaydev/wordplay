@@ -1,9 +1,9 @@
-import type Evaluate from '../nodes/Evaluate';
+import type Evaluate from '@nodes/Evaluate';
 import Conflict from './Conflict';
-import type Bind from '../nodes/Bind';
-import type FunctionDefinition from '../nodes/FunctionDefinition';
-import type StructureDefinition from '../nodes/StructureDefinition';
-import type Translation from '../translation/Translation';
+import type Bind from '@nodes/Bind';
+import type FunctionDefinition from '@nodes/FunctionDefinition';
+import type StructureDefinition from '@nodes/StructureDefinition';
+import type Translation from '@translation/Translation';
 
 export default class MisplacedInput extends Conflict {
     readonly func: FunctionDefinition | StructureDefinition;

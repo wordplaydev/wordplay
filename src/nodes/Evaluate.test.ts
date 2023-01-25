@@ -1,18 +1,18 @@
 import { test, expect } from 'vitest';
-import { testConflict, testTypes } from '../conflicts/TestUtilities';
-import IncompatibleInput from '../conflicts/IncompatibleInput';
-import NotInstantiable from '../conflicts/NotInstantiable';
-import NotAFunction from '../conflicts/NotAFunction';
-import Evaluator from '../runtime/Evaluator';
+import { testConflict, testTypes } from '@conflicts/TestUtilities';
+import IncompatibleInput from '@conflicts/IncompatibleInput';
+import NotInstantiable from '@conflicts/NotInstantiable';
+import NotAFunction from '@conflicts/NotAFunction';
+import Evaluator from '@runtime/Evaluator';
 import Evaluate from './Evaluate';
-import MissingInput from '../conflicts/MissingInput';
-import MisplacedInput from '../conflicts/MisplacedInput';
+import MissingInput from '@conflicts/MissingInput';
+import MisplacedInput from '@conflicts/MisplacedInput';
 import MeasurementType from './MeasurementType';
 import SetType from './SetType';
 import MapType from './MapType';
-import UnknownInput from '../conflicts/UnknownInput';
+import UnknownInput from '@conflicts/UnknownInput';
 import UnionType from './UnionType';
-import InvalidTypeInput from '../conflicts/InvalidTypeInput';
+import InvalidTypeInput from '@conflicts/InvalidTypeInput';
 
 test.each([
     [

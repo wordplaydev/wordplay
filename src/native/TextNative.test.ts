@@ -1,4 +1,4 @@
-import Evaluator from '../runtime/Evaluator';
+import Evaluator from '@runtime/Evaluator';
 import { test, expect } from 'vitest';
 
 test('Test text functions', () => {

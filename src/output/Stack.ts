@@ -1,13 +1,13 @@
 import toStructure from '../native/toStructure';
-import type Value from '../runtime/Value';
+import type Value from '@runtime/Value';
 import type Color from './Color';
 import Group, { type RenderContext } from './Group';
 import { toGroups } from './toGroups';
 import Place from './Place';
 import Decimal from 'decimal.js';
-import type LanguageCode from '../translation/LanguageCode';
-import { getPreferredTranslation } from '../translation/getPreferredTranslation';
-import { getBind } from '../translation/getBind';
+import type LanguageCode from '@translation/LanguageCode';
+import { getPreferredTranslation } from '@translation/getPreferredTranslation';
+import { getBind } from '@translation/getBind';
 
 export const StackType = toStructure(`
     ${getBind((t) => t.output.stack.definition, '•')} Group(

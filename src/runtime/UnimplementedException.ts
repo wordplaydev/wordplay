@@ -1,9 +1,9 @@
-import type Translation from '../translation/Translation';
+import type Translation from '@translation/Translation';
 import type Evaluator from './Evaluator';
 import Exception from './Exception';
-import type Expression from '../nodes/Expression';
-import NodeLink from '../translation/NodeLink';
-import type Token from '../nodes/Token';
+import type Expression from '@nodes/Expression';
+import NodeLink from '@translation/NodeLink';
+import type Token from '@nodes/Token';
 
 export default class UnimplementedException extends Exception {
     readonly placeholder: Expression | Token;

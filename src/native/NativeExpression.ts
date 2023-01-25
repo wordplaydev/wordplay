@@ -1,17 +1,17 @@
-import type Evaluator from '../runtime/Evaluator';
-import type Value from '../runtime/Value';
-import type Type from '../nodes/Type';
-import type Step from '../runtime/Step';
-import type Expression from '../nodes/Expression';
+import type Evaluator from '@runtime/Evaluator';
+import type Value from '@runtime/Value';
+import type Type from '@nodes/Type';
+import type Step from '@runtime/Step';
+import type Expression from '@nodes/Expression';
 import { parseType, toTokens } from '../parser/Parser';
-import type Evaluation from '../runtime/Evaluation';
-import type Bind from '../nodes/Bind';
-import type Context from '../nodes/Context';
-import type TypeSet from '../nodes/TypeSet';
-import StartFinish from '../runtime/StartFinish';
-import AtomicExpression from '../nodes/AtomicExpression';
-import type Translation from '../translation/Translation';
-import InternalException from '../runtime/InternalException';
+import type Evaluation from '@runtime/Evaluation';
+import type Bind from '@nodes/Bind';
+import type Context from '@nodes/Context';
+import type TypeSet from '@nodes/TypeSet';
+import StartFinish from '@runtime/StartFinish';
+import AtomicExpression from '@nodes/AtomicExpression';
+import type Translation from '@translation/Translation';
+import InternalException from '@runtime/InternalException';
 
 export default class NativeExpression extends AtomicExpression {
     readonly type: Type;

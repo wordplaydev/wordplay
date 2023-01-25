@@ -1,10 +1,10 @@
-import type Context from '../nodes/Context';
-import type Delete from '../nodes/Delete';
-import type Select from '../nodes/Select';
-import type Type from '../nodes/Type';
-import type Update from '../nodes/Update';
-import NodeLink from '../translation/NodeLink';
-import type Translation from '../translation/Translation';
+import type Context from '@nodes/Context';
+import type Delete from '@nodes/Delete';
+import type Select from '@nodes/Select';
+import type Type from '@nodes/Type';
+import type Update from '@nodes/Update';
+import NodeLink from '@translation/NodeLink';
+import type Translation from '@translation/Translation';
 import Conflict from './Conflict';
 
 export default class NonBooleanQuery extends Conflict {

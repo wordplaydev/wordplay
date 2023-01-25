@@ -1,5 +1,5 @@
-import type Evaluator from '../runtime/Evaluator';
-import type Translation from '../translation/Translation';
+import type Evaluator from '@runtime/Evaluator';
+import type Translation from '@translation/Translation';
 import type Context from './Context';
 import Expression from './Expression';
 

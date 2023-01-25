@@ -1,26 +1,26 @@
-import type Conflict from '../conflicts/Conflict';
+import type Conflict from '@conflicts/Conflict';
 import type Type from './Type';
-import type Value from '../runtime/Value';
-import type Step from '../runtime/Step';
+import type Value from '@runtime/Value';
+import type Step from '@runtime/Step';
 import type Bind from './Bind';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
-import type Evaluator from '../runtime/Evaluator';
+import type Evaluator from '@runtime/Evaluator';
 import type Expression from './Expression';
 
 import Token from './Token';
 import StructureDefinition from './StructureDefinition';
-import { MisplacedThis } from '../conflicts/MisplacedThis';
+import { MisplacedThis } from '@conflicts/MisplacedThis';
 import StructureDefinitionType from './StructureDefinitionType';
-import NameException from '../runtime/NameException';
+import NameException from '@runtime/NameException';
 import ConversionDefinition from './ConversionDefinition';
 import MeasurementType from './MeasurementType';
-import StartFinish from '../runtime/StartFinish';
+import StartFinish from '@runtime/StartFinish';
 import Reaction from './Reaction';
-import ValueException from '../runtime/ValueException';
+import ValueException from '@runtime/ValueException';
 import type { Replacement } from './Node';
 import AtomicExpression from './AtomicExpression';
-import type Translation from '../translation/Translation';
+import type Translation from '@translation/Translation';
 import { UnenclosedType } from './UnenclosedType';
 
 type ThisStructure = StructureDefinition | ConversionDefinition | Reaction;
