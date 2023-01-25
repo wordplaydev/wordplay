@@ -50,8 +50,7 @@
             {#if $playing && !$KeyboardIdle}
                 <div class="fill editing"><div class="message">⌨️</div></div>
             {:else}
-                <div class="fill evaluating"><div class="message">...</div></div
-                >
+                <div class="fill evaluating"><div class="message">◆</div></div>
             {/if}
             <!-- If there's a value, but it's not a verse, show that -->
         {:else if verse === undefined}

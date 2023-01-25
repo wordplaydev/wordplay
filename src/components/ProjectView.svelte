@@ -48,6 +48,7 @@
     import Menu from '../editor/Menu.svelte';
     import type Caret from '../editor/util/Caret';
     import Node from '../nodes/Node';
+    import Controls from './Controls.svelte';
 
     export let project: Project;
 
@@ -476,7 +477,8 @@
     on:keydown={handleKey}
     transition:fade={{ duration: 200 }}
 >
-    <section class="header">
+    <section class="header" class:stepping={!$playing}>
+        <Controls {project} />
         <Timeline evaluator={project.evaluator} />
     </section>
 
@@ -662,6 +664,16 @@
     .header {
         border-bottom: var(--wordplay-border-color) solid
             var(--wordplay-border-width);
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: var(--wordplay-spacing);
+    }
+
+    .header.stepping {
+        background-color: var(--wordplay-evaluation-color);
+        color: var(--wordplay-background);
+        border-bottom: none;
     }
 
     .footer {

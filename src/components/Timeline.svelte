@@ -6,10 +6,8 @@
     import Keyboard from '../streams/Keyboard';
     import Bool from '../runtime/Bool';
     import MouseButton from '../streams/MouseButton';
-    import Text from '../runtime/Text';
     import { slide } from 'svelte/transition';
     import Controls from './Controls.svelte';
-    import { preferredLanguages } from '../translation/translations';
     import { playing } from '../models/stores';
 
     export let evaluator: Evaluator;
@@ -87,70 +85,48 @@
     }
 </script>
 
-<section class="timeline" transition:slide class:stepping={!$playing}>
-    <Controls project={evaluator.project} />
-    <div
-        class="inputs"
-        tabIndex="0"
-        on:keydown={(event) =>
-            event.key === 'ArrowLeft'
-                ? leap(-1)
-                : event.key === 'ArrowRight'
-                ? leap(1)
+<div
+    transition:slide
+    class="timeline"
+    class:stepping={!$playing}
+    tabIndex="0"
+    on:keydown={(event) =>
+        event.key === 'ArrowLeft'
+            ? leap(-1)
+            : event.key === 'ArrowRight'
+            ? leap(1)
+            : undefined}
+    on:mousedown={(event) => stepToMouse(event)}
+    on:mousemove={(event) =>
+        (event.buttons & 1) === 1 ? stepToMouse(event) : undefined}
+    bind:this={timeline}
+>
+    {#if historyTrimmed}<span class="stream-value">…</span>{/if}
+    {#each $streams as change}
+        {@const down =
+            change.stream instanceof Keyboard
+                ? change.value?.resolve('down')
+                : change.stream instanceof MouseButton
+                ? change.value
                 : undefined}
-        on:mousedown={(event) => stepToMouse(event)}
-        on:mousemove={(event) =>
-            (event.buttons & 1) === 1 ? stepToMouse(event) : undefined}
-        bind:this={timeline}
-    >
-        {#if historyTrimmed}<span class="stream-value">…</span>{/if}
-        {#each $streams as change}
-            {@const down =
-                change.stream instanceof Keyboard
-                    ? change.value?.resolve('down')
-                    : change.stream instanceof MouseButton
-                    ? change.value
-                    : undefined}
-            <span
-                class={`stream-value ${
-                    currentChange === change ? 'current' : ''
-                } ${down instanceof Bool && down.bool ? 'down' : ''}`}
-                data-index={change.stepIndex}
-            >
-                {#if change.stream === undefined}
-                    ◆
-                {:else}
-                    {change.stream.names.getTranslation('😀')}
-                {/if}
-            </span>
-        {/each}
-        <div class="description">
-            {#if historyTrimmed && currentChange === $streams[0]}
-                Can't remember before this…
-            {:else if currentChange && currentChange.stream}
-                {#each $preferredLanguages as lang}
-                    {currentChange.stream.docs.getTranslation(lang)}
-                {/each}
+        <span
+            class={`stream-value ${currentChange === change ? 'current' : ''} ${
+                down instanceof Bool && down.bool ? 'down' : ''
+            }`}
+            data-index={change.stepIndex}
+        >
+            {#if change.stream === undefined}
+                ◆
+            {:else}
+                {change.stream.names.getTranslation('😀')}
             {/if}
-        </div>
-    </div>
-</section>
+        </span>
+    {/each}
+</div>
 
 <style>
     .timeline {
-        padding: var(--wordplay-spacing);
-        display: flex;
-        flex-direction: row;
-        gap: var(--wordplay-spacing);
         flex: 1;
-    }
-
-    .timeline.stepping {
-        background-color: var(--wordplay-evaluation-color);
-        color: var(--wordplay-background);
-    }
-
-    .inputs {
         overflow-x: hidden;
         position: relative;
         white-space: nowrap;
@@ -159,6 +135,10 @@
         border-left: var(--wordplay-border-color) solid
             var(--wordplay-border-width);
         padding: var(--wordplay-spacing);
+    }
+
+    .timeline:focus {
+        outline-offset: calc(-1 * var(--wordplay-focus-width));
     }
 
     .stream-value {
