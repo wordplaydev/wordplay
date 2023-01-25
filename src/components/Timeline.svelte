@@ -61,7 +61,6 @@
         // Wait for any pending updates
         await tick();
         timePosition = getTimePosition(stepIndex);
-        console.log(timePosition);
     }
 
     function getTimePosition(stepIndex: number) {
@@ -200,7 +199,9 @@
             >{/if}
     {/each}
     <!-- Render the time slider -->
-    <div class="time" style:left="{timePosition}px">&ZeroWidthSpace;</div>
+    <div class="time" style:left="{timePosition}px"
+        ><span class="index">{$currentStepIndex}</span></div
+    >
 </div>
 
 <style>
@@ -251,8 +252,17 @@
     .time {
         position: absolute;
         top: 0;
-        width: 2px;
         height: 100%;
-        background-color: currentColor;
+        border-left: currentColor solid 2px;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+    }
+
+    .index {
+        font-size: xx-small;
+        color: currentColor;
+        margin-left: var(--wordplay-spacing);
+        margin-top: auto;
     }
 </style>
