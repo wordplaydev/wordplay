@@ -45,7 +45,12 @@
     import TokenType from '../nodes/TokenType';
     import RootView from './RootView.svelte';
     import type Project from '../models/Project';
-    import { currentStep, playing, animations } from '../models/stores';
+    import {
+        currentStep,
+        currentStepIndex,
+        playing,
+        animations,
+    } from '../models/stores';
     import type Conflict from '../conflicts/Conflict';
     import { tick } from 'svelte';
     import { getEditsAt } from './util/Autocomplete';
@@ -111,8 +116,12 @@
     let evaluatingNode: Node | undefined = undefined;
     let stepping = false;
     $: evaluator = project.evaluator;
+
+    /** When the current step, step index, or playing state changes, update the evaluation view of the editor */
     $: {
-        $currentStep ?? $playing;
+        $currentStepIndex;
+        $currentStep;
+        $playing;
         evalUpdate();
     }
 
@@ -129,14 +138,13 @@
     onMount(() => input?.focus());
 
     function evalUpdate() {
-        if (evaluator === undefined) return;
+        if (evaluator === undefined || evaluator.isPlaying()) return;
 
-        stepping = evaluator.isStepping();
-        evaluatingNode = evaluator?.getCurrentStep()?.node;
+        evaluatingNode = evaluator.getCurrentStep()?.node;
 
         // If the program contains this node, scroll it's first token into view.
         const stepNode = evaluator.getStepNode();
-        if (stepping && stepNode && source.contains(stepNode)) {
+        if (stepNode && source.contains(stepNode)) {
             let highlight: Node | undefined = stepNode;
             let element = null;
             // Keep searching for a visible node, in case the step node is invisible.

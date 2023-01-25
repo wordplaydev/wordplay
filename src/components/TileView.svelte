@@ -289,7 +289,8 @@
 
     .content {
         overflow: scroll;
-        scroll-behavior: smooth;
+        /* This doesn't work in Chrome :( It prevents scrolling altogether */
+        /* scroll-behavior: smooth; */
         position: relative;
         width: 100%;
         height: 100%;
