@@ -13,7 +13,7 @@ import type TypeSet from './TypeSet';
 import SetType from './SetType';
 import AnyType from './AnyType';
 import type Bind from './Bind';
-import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '../parser/Symbols';
+import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '@parser/Symbols';
 import TokenType from './TokenType';
 import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';

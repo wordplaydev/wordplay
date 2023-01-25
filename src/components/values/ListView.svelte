@@ -2,7 +2,7 @@
 
 <script lang="ts">
     import type List from '@runtime/List';
-    import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from '../../parser/Symbols';
+    import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from '@parser/Symbols';
     import SymbolView from './SymbolView.svelte';
     import ValueView from './ValueView.svelte';
     import TokenType from '@nodes/TokenType';

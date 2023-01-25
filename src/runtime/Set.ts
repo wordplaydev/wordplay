@@ -7,7 +7,7 @@ import Primitive from './Primitive';
 import type Value from './Value';
 import type Node from '@nodes/Node';
 import type LanguageCode from '@translation/LanguageCode';
-import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '../parser/Symbols';
+import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '@parser/Symbols';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type Translation from '@translation/Translation';
 

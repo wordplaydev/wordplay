@@ -1,4 +1,4 @@
-import { EVAL_CLOSE_SYMBOL } from '../parser/Symbols';
+import { EVAL_CLOSE_SYMBOL } from '@parser/Symbols';
 import Token from './Token';
 import TokenType from './TokenType';
 

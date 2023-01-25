@@ -22,7 +22,7 @@ import {
     LANGUAGE_SYMBOL,
     NAME_SEPARATOR_SYMBOL,
     PROPERTY_SYMBOL,
-} from '../../parser/Symbols';
+} from '@parser/Symbols';
 import type { Description } from '../Translation';
 import type { CycleType } from '@nodes/CycleType';
 import type UnknownNameType from '@nodes/UnknownNameType';

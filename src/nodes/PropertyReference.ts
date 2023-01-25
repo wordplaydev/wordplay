@@ -14,7 +14,7 @@ import UnionType from './UnionType';
 import type TypeSet from './TypeSet';
 import Conditional from './Conditional';
 import Is from './Is';
-import { PROPERTY_SYMBOL, PLACEHOLDER_SYMBOL } from '../parser/Symbols';
+import { PROPERTY_SYMBOL, PLACEHOLDER_SYMBOL } from '@parser/Symbols';
 import TokenType from './TokenType';
 import TypeVariable from './TypeVariable';
 import NameException from '@runtime/NameException';

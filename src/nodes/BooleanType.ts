@@ -1,6 +1,6 @@
 import Token from './Token';
 import TokenType from './TokenType';
-import { BOOLEAN_TYPE_SYMBOL } from '../parser/Symbols';
+import { BOOLEAN_TYPE_SYMBOL } from '@parser/Symbols';
 import NativeType from './NativeType';
 import type TypeSet from './TypeSet';
 import type { NativeTypeName } from '../native/NativeConstants';

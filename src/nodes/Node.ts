@@ -1,7 +1,7 @@
 import type Conflict from '@conflicts/Conflict';
 import type Definition from './Definition';
 import type Context from './Context';
-import type Spaces from '../parser/Spaces';
+import type Spaces from '@parser/Spaces';
 import type Type from './Type';
 import type Token from './Token';
 import type Translation from '@translation/Translation';

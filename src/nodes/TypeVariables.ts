@@ -1,7 +1,7 @@
 import Node, { type Replacement } from './Node';
 import Token from './Token';
 import TokenType from './TokenType';
-import { TYPE_CLOSE_SYMBOL, TYPE_OPEN_SYMBOL } from '../parser/Symbols';
+import { TYPE_CLOSE_SYMBOL, TYPE_OPEN_SYMBOL } from '@parser/Symbols';
 import Names from './Names';
 import type TypeVariable from './TypeVariable';
 import type Conflict from '@conflicts/Conflict';

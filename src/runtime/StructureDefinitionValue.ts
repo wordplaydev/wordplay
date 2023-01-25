@@ -4,7 +4,7 @@ import type Evaluation from './Evaluation';
 import Primitive from './Primitive';
 import type Value from './Value';
 import type Node from '@nodes/Node';
-import { TYPE_SYMBOL } from '../parser/Symbols';
+import { TYPE_SYMBOL } from '@parser/Symbols';
 import type LanguageCode from '@translation/LanguageCode';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type Translation from '@translation/Translation';

@@ -3,7 +3,7 @@
 <script lang="ts">
     import type Token from '@nodes/Token';
     import TokenType from '@nodes/TokenType';
-    import { PLACEHOLDER_SYMBOL } from '../../parser/Symbols';
+    import { PLACEHOLDER_SYMBOL } from '@parser/Symbols';
     import { getProject, getCaret } from '../project/Contexts';
     import TokenCategories from './TokenCategories';
     import {
@@ -14,7 +14,7 @@
     import {
         REVERSE_TEXT_DELIMITERS,
         TEXT_DELIMITERS,
-    } from '../../parser/Tokenizer';
+    } from '@parser/Tokenizer';
     import Reference from '@nodes/Reference';
 
     export let node: Token;

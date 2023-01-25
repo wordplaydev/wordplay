@@ -1,8 +1,8 @@
 import type { NativeTypeName } from '../native/NativeConstants';
 import BooleanType from '@nodes/BooleanType';
 import type UnaryOperation from '@nodes/UnaryOperation';
-import { FALSE_SYMBOL, TRUE_SYMBOL } from '../parser/Symbols';
-import { NOT_SYMBOL } from '../parser/Symbols';
+import { FALSE_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
+import { NOT_SYMBOL } from '@parser/Symbols';
 import type Evaluator from './Evaluator';
 import FunctionException from './FunctionException';
 import Primitive from './Primitive';

@@ -8,7 +8,7 @@
 <script lang="ts">
     import { afterUpdate, tick } from 'svelte';
     import { getCaret } from '../project/Contexts';
-    import Spaces, { SPACE_HTML, TAB_HTML } from '../../parser/Spaces';
+    import Spaces, { SPACE_HTML, TAB_HTML } from '@parser/Spaces';
     import type Source from '@nodes/Source';
     import { playing } from '../../models/stores';
     import Node from '@nodes/Node';

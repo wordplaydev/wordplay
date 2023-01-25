@@ -8,7 +8,7 @@ import type Bind from '@nodes/Bind';
 import Value from '@runtime/Value';
 import type Evaluation from '@runtime/Evaluation';
 import type StructureDefinition from '@nodes/StructureDefinition';
-import { parseType, toTokens } from '../parser/Parser';
+import { parseType, toTokens } from '@parser/Parser';
 import bootstrapNone from './NoneNative';
 import bootstrapBool from './BoolNative';
 import bootstrapText from './TextNative';

@@ -2,7 +2,7 @@
     import type StructureConcept from '@concepts/StructureConcept';
     import RootView from '../project/RootView.svelte';
     import { getPalettePath } from '../project/Contexts';
-    import { OR_SYMBOL, TYPE_SYMBOL } from '../../parser/Symbols';
+    import { OR_SYMBOL, TYPE_SYMBOL } from '@parser/Symbols';
 
     export let types: StructureConcept[];
 

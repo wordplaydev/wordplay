@@ -1,5 +1,5 @@
 import NoneType from '@nodes/NoneType';
-import { NONE_SYMBOL } from '../parser/Symbols';
+import { NONE_SYMBOL } from '@parser/Symbols';
 import type Value from './Value';
 import type Node from '@nodes/Node';
 import type { NativeTypeName } from '../native/NativeConstants';

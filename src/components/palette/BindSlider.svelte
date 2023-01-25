@@ -1,7 +1,7 @@
 <script lang="ts">
     import { project, reviseProject } from '../../models/stores';
     import type Evaluate from '@nodes/Evaluate';
-    import { parseMeasurement, toTokens } from '../../parser/Parser';
+    import { parseMeasurement, toTokens } from '@parser/Parser';
     import Slider from '../widgets/Slider.svelte';
 
     export let evaluates: Evaluate[];

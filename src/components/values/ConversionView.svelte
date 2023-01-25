@@ -2,7 +2,7 @@
 
 <script lang="ts">
     import TokenType from '@nodes/TokenType';
-    import { CONVERT_SYMBOL } from '../../parser/Symbols';
+    import { CONVERT_SYMBOL } from '@parser/Symbols';
     import type Conversion from '@runtime/Conversion';
     import SymbolView from './SymbolView.svelte';
 

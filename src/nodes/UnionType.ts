@@ -5,7 +5,7 @@ import Token from './Token';
 import type Node from './Node';
 import TokenType from './TokenType';
 import Type from './Type';
-import { OR_SYMBOL } from '../parser/Symbols';
+import { OR_SYMBOL } from '@parser/Symbols';
 import type TypeSet from './TypeSet';
 import NeverType from './NeverType';
 import type { NativeTypeName } from '../native/NativeConstants';

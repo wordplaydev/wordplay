@@ -56,7 +56,7 @@ import BinaryOperation from '@nodes/BinaryOperation';
 import TokenType from '@nodes/TokenType';
 import Convert from '@nodes/Convert';
 import UnaryOperation from '@nodes/UnaryOperation';
-import { NOT_SYMBOL, NEGATE_SYMBOL } from '../../../parser/Symbols';
+import { NOT_SYMBOL, NEGATE_SYMBOL } from '@parser/Symbols';
 
 /** Given a project and a caret in it, generate a set of valid transformations at that caret. */
 export function getEditsAt(project: Project, caret: Caret): Transform[] {

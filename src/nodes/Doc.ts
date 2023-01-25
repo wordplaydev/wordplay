@@ -2,7 +2,7 @@ import Language from './Language';
 import Node, { type Replacement } from './Node';
 import Token from './Token';
 import type Translation from '@translation/Translation';
-import { DOCS_SYMBOL } from '../parser/Symbols';
+import { DOCS_SYMBOL } from '@parser/Symbols';
 import TokenType from './TokenType';
 import Paragraph from './Paragraph';
 import Words from './Words';

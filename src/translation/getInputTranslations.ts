@@ -6,7 +6,7 @@ import Docs from '@nodes/Docs';
 import { translationToLanguage } from './translationToLanguage';
 import type { NameAndDocTranslation } from './Translation';
 import type Translation from './Translation';
-import { parseTranslationDoc } from '../parser/Parser';
+import { parseTranslationDoc } from '@parser/Parser';
 
 export function getInputTranslations(
     select: (translation: Translation) => NameAndDocTranslation[]

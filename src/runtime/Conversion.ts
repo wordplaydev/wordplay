@@ -3,7 +3,7 @@ import type Context from '@nodes/Context';
 import type Evaluation from './Evaluation';
 import Primitive from './Primitive';
 import Value from './Value';
-import { CONVERT_SYMBOL } from '../parser/Symbols';
+import { CONVERT_SYMBOL } from '@parser/Symbols';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type Translation from '@translation/Translation';
 

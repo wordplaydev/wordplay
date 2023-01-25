@@ -6,7 +6,7 @@ import { translationToLanguage } from './translationToLanguage';
 import type { NameAndDocTranslation } from './Translation';
 import type Translation from './Translation';
 import { getInputNames } from './getInputTranslations';
-import { parseTranslationDoc } from '../parser/Parser';
+import { parseTranslationDoc } from '@parser/Parser';
 
 export function getBind(
     select: (translation: Translation) => NameAndDocTranslation,

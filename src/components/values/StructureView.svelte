@@ -7,7 +7,7 @@
         BIND_SYMBOL,
         EVAL_CLOSE_SYMBOL,
         EVAL_OPEN_SYMBOL,
-    } from '../../parser/Symbols';
+    } from '@parser/Symbols';
     import None from '@runtime/None';
     import type Structure from '@runtime/Structure';
     import SymbolView from './SymbolView.svelte';

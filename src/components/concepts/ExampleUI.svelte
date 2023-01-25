@@ -5,7 +5,7 @@
     import Project from '../../models/Project';
     import type Example from '@nodes/Example';
     import Source from '@nodes/Source';
-    import type Spaces from '../../parser/Spaces';
+    import type Spaces from '@parser/Spaces';
     import ValueView from '../values/ValueView.svelte';
 
     export let example: Example;

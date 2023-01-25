@@ -16,7 +16,8 @@
             "@runtime/*": ["runtime/*"],
             "@conflicts/*": ["conflicts/*"],
             "@translation/*": ["translation/*"],
-            "@concepts/*": ["concepts/*"]
+            "@concepts/*": ["concepts/*"],
+            "@parser/*": ["parser/*"]
         }
     }
 }

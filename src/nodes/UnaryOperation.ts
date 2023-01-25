@@ -8,7 +8,7 @@ import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
 import type Context from './Context';
 import type Bind from './Bind';
-import { NOT_SYMBOL } from '../parser/Symbols';
+import { NOT_SYMBOL } from '@parser/Symbols';
 import type TypeSet from './TypeSet';
 import FunctionException from '@runtime/FunctionException';
 import FunctionDefinition from './FunctionDefinition';

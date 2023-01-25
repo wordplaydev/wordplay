@@ -5,7 +5,7 @@
     import SymbolView from './SymbolView.svelte';
     import TokenType from '@nodes/TokenType';
     import ValueView from './ValueView.svelte';
-    import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '../../parser/Symbols';
+    import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '@parser/Symbols';
 
     export let value: Set;
 </script>

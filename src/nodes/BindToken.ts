@@ -1,4 +1,4 @@
-import { BIND_SYMBOL } from '../parser/Symbols';
+import { BIND_SYMBOL } from '@parser/Symbols';
 import Token from './Token';
 import TokenType from './TokenType';
 

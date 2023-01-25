@@ -5,7 +5,7 @@ import Tree from '@nodes/Tree';
 import { dropNodeOnSource, InsertionPoint } from './Drag';
 import type Node from '@nodes/Node';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import { parseExpression, toTokens } from '../../parser/Parser';
+import { parseExpression, toTokens } from '@parser/Parser';
 import MeasurementLiteral from '@nodes/MeasurementLiteral';
 import ListLiteral from '@nodes/ListLiteral';
 import Token from '@nodes/Token';

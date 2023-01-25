@@ -7,8 +7,8 @@ import {
     DELIMITERS,
     REVERSE_DELIMITERS,
     REVERSE_TEXT_DELIMITERS,
-} from '../../../parser/Tokenizer';
-import { PROPERTY_SYMBOL } from '../../../parser/Symbols';
+} from '@parser/Tokenizer';
+import { PROPERTY_SYMBOL } from '@parser/Symbols';
 import type Source from '@nodes/Source';
 import Expression from '@nodes/Expression';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';

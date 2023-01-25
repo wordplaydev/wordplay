@@ -15,7 +15,7 @@ import Exception from '@runtime/Exception';
 import ConversionDefinition from './ConversionDefinition';
 import Halt from '@runtime/Halt';
 import Block from './Block';
-import { CONVERT_SYMBOL, PROPERTY_SYMBOL } from '../parser/Symbols';
+import { CONVERT_SYMBOL, PROPERTY_SYMBOL } from '@parser/Symbols';
 import TokenType from './TokenType';
 import Names from './Names';
 import type Evaluator from '@runtime/Evaluator';

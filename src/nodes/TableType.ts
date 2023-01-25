@@ -3,7 +3,7 @@ import Bind from '@nodes/Bind';
 import type Context from './Context';
 import Token from './Token';
 import TokenType from './TokenType';
-import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '../parser/Symbols';
+import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '@parser/Symbols';
 import type TypeSet from './TypeSet';
 import type { NativeTypeName } from '../native/NativeConstants';
 import AnyType from './AnyType';

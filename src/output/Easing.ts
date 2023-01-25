@@ -1,5 +1,5 @@
 import toFunction from '../native/toFunction';
-import { FUNCTION_SYMBOL } from '../parser/Symbols';
+import { FUNCTION_SYMBOL } from '@parser/Symbols';
 import { getBind } from '@translation/getBind';
 import type { NameAndDocTranslation } from '@translation/Translation';
 import type Translation from '@translation/Translation';

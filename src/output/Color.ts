@@ -4,7 +4,7 @@ import type Value from '@runtime/Value';
 import Output from './Output';
 import { toDecimal } from './Verse';
 import ColorJS from 'colorjs.io';
-import { TYPE_SYMBOL } from '../parser/Symbols';
+import { TYPE_SYMBOL } from '@parser/Symbols';
 import { getBind } from '@translation/getBind';
 
 export const ColorType = toStructure(`

@@ -8,7 +8,7 @@
     import ConceptLinkUI from './ConceptLinkUI.svelte';
     import Example from '@nodes/Example';
     import ExampleUI from './ExampleUI.svelte';
-    import type Spaces from '../../parser/Spaces';
+    import type Spaces from '@parser/Spaces';
 
     export let doc: Doc;
     export let spaces: Spaces;

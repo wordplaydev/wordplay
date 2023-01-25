@@ -7,7 +7,7 @@ import type Step from '@runtime/Step';
 import Measurement from '@runtime/Measurement';
 import Unit from './Unit';
 import TokenType from './TokenType';
-import { BORROW_SYMBOL } from '../parser/Symbols';
+import { BORROW_SYMBOL } from '@parser/Symbols';
 import Expression from './Expression';
 import Bind from './Bind';
 import type Type from './Type';

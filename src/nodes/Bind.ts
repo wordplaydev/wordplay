@@ -20,11 +20,7 @@ import ValueException from '@runtime/ValueException';
 import Exception from '@runtime/Exception';
 import type Definition from './Definition';
 import AnyType from './AnyType';
-import {
-    ETC_SYMBOL,
-    PLACEHOLDER_SYMBOL,
-    SHARE_SYMBOL,
-} from '../parser/Symbols';
+import { ETC_SYMBOL, PLACEHOLDER_SYMBOL, SHARE_SYMBOL } from '@parser/Symbols';
 import FunctionDefinition from './FunctionDefinition';
 import type LanguageCode from '@translation/LanguageCode';
 import BindToken from './BindToken';

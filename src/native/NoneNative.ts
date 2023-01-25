@@ -11,7 +11,7 @@ import NoneType from '@nodes/NoneType';
 import type Value from '@runtime/Value';
 import { createNativeConversion } from './NativeBindings';
 import type Node from '@nodes/Node';
-import { NONE_SYMBOL } from '../parser/Symbols';
+import { NONE_SYMBOL } from '@parser/Symbols';
 import type Names from '@nodes/Names';
 import type Docs from '@nodes/Docs';
 import { getFunctionTranslations } from '@translation/getFunctionTranslations';

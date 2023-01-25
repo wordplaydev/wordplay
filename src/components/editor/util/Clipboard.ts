@@ -1,5 +1,5 @@
 import type Node from '@nodes/Node';
-import type Spaces from '../../../parser/Spaces';
+import type Spaces from '@parser/Spaces';
 
 export function toClipboard(
     node: Node,

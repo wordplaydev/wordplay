@@ -1,7 +1,7 @@
 import Node, { type Replacement } from './Node';
 import Token from './Token';
-import { EXPONENT_SYMBOL } from '../parser/Symbols';
-import { PRODUCT_SYMBOL } from '../parser/Symbols';
+import { EXPONENT_SYMBOL } from '@parser/Symbols';
+import { PRODUCT_SYMBOL } from '@parser/Symbols';
 import TokenType from './TokenType';
 import NameToken from './NameToken';
 import type Translation from '@translation/Translation';

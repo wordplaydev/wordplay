@@ -3,7 +3,7 @@
 <script lang="ts">
     import type FunctionValue from '@runtime/FunctionValue';
     import SymbolView from './SymbolView.svelte';
-    import { FUNCTION_SYMBOL } from '../../parser/Symbols';
+    import { FUNCTION_SYMBOL } from '@parser/Symbols';
     import TokenType from '@nodes/TokenType';
     import { preferredLanguages } from '@translation/translations';
 

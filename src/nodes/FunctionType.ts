@@ -2,7 +2,7 @@ import Token from './Token';
 import TokenType from './TokenType';
 import Type from './Type';
 import type Context from './Context';
-import { FUNCTION_SYMBOL } from '../parser/Symbols';
+import { FUNCTION_SYMBOL } from '@parser/Symbols';
 import Bind from './Bind';
 import { getEvaluationInputConflicts } from './util';
 import EvalCloseToken from './EvalCloseToken';

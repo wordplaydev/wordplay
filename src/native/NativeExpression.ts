@@ -3,7 +3,7 @@ import type Value from '@runtime/Value';
 import type Type from '@nodes/Type';
 import type Step from '@runtime/Step';
 import type Expression from '@nodes/Expression';
-import { parseType, toTokens } from '../parser/Parser';
+import { parseType, toTokens } from '@parser/Parser';
 import type Evaluation from '@runtime/Evaluation';
 import type Bind from '@nodes/Bind';
 import type Context from '@nodes/Context';

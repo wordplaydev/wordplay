@@ -1,4 +1,4 @@
-import { PLACEHOLDER_SYMBOL } from '../parser/Symbols';
+import { PLACEHOLDER_SYMBOL } from '@parser/Symbols';
 import Token from './Token';
 import TokenType from './TokenType';
 

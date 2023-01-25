@@ -8,7 +8,7 @@ import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
 import type Context from './Context';
 import type Node from './Node';
-import { AND_SYMBOL, OR_SYMBOL } from '../parser/Symbols';
+import { AND_SYMBOL, OR_SYMBOL } from '@parser/Symbols';
 import OrderOfOperations from '@conflicts/OrderOfOperations';
 import Bind from './Bind';
 import type TypeSet from './TypeSet';

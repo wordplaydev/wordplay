@@ -2,7 +2,7 @@ import type { NativeTypeName } from '../native/NativeConstants';
 import type LanguageCode from '@translation/LanguageCode';
 import type TableLiteral from '@nodes/TableLiteral';
 import TableType from '@nodes/TableType';
-import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '../parser/Symbols';
+import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '@parser/Symbols';
 import type Exception from './Exception';
 import Value from './Value';
 import type Translation from '@translation/Translation';

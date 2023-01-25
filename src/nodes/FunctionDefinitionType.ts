@@ -8,7 +8,7 @@ import {
     EVAL_CLOSE_SYMBOL,
     EVAL_OPEN_SYMBOL,
     FUNCTION_SYMBOL,
-} from '../parser/Symbols';
+} from '@parser/Symbols';
 import type Translation from '@translation/Translation';
 
 export default class FunctionDefinitionType extends Type {

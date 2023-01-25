@@ -13,9 +13,9 @@ import {
     TYPE_OPEN_SYMBOL,
     TYPE_CLOSE_SYMBOL,
     ETC_SYMBOL,
-} from '../../../parser/Symbols';
+} from '@parser/Symbols';
 
-import { AND_SYMBOL, OR_SYMBOL, NOT_SYMBOL } from '../../../parser/Symbols';
+import { AND_SYMBOL, OR_SYMBOL, NOT_SYMBOL } from '@parser/Symbols';
 
 import type Source from '@nodes/Source';
 import Evaluator, { Mode } from '@runtime/Evaluator';

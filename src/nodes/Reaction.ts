@@ -14,7 +14,7 @@ import type Context from './Context';
 import UnionType from './UnionType';
 import type TypeSet from './TypeSet';
 import Exception from '@runtime/Exception';
-import { CHANGE_SYMBOL } from '../parser/Symbols';
+import { CHANGE_SYMBOL } from '@parser/Symbols';
 import TokenType from './TokenType';
 import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';

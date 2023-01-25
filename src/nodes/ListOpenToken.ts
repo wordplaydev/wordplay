@@ -1,4 +1,4 @@
-import { LIST_OPEN_SYMBOL } from '../parser/Symbols';
+import { LIST_OPEN_SYMBOL } from '@parser/Symbols';
 import Token from './Token';
 import TokenType from './TokenType';
 

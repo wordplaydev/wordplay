@@ -1,5 +1,5 @@
 import { test, expect } from 'vitest';
-import { parseExpression, toTokens } from '../parser/Parser';
+import { parseExpression, toTokens } from '@parser/Parser';
 import Bind from './Bind';
 import Docs from './Docs';
 import Language from './Language';

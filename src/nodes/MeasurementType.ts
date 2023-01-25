@@ -1,5 +1,5 @@
 import type { NativeTypeName } from '../native/NativeConstants';
-import { MEASUREMENT_SYMBOL } from '../parser/Symbols';
+import { MEASUREMENT_SYMBOL } from '@parser/Symbols';
 import type Context from './Context';
 import Token from './Token';
 import TokenType from './TokenType';

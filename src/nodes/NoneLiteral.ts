@@ -5,7 +5,7 @@ import None from '@runtime/None';
 import type Bind from './Bind';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
-import { NONE_SYMBOL } from '../parser/Symbols';
+import { NONE_SYMBOL } from '@parser/Symbols';
 import TokenType from './TokenType';
 import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';

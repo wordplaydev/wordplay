@@ -2,8 +2,8 @@ import {
     BOOLEAN_TYPE_SYMBOL,
     EXPONENT_SYMBOL,
     LANGUAGE_SYMBOL,
-} from '../parser/Symbols';
-import { PRODUCT_SYMBOL } from '../parser/Symbols';
+} from '@parser/Symbols';
+import { PRODUCT_SYMBOL } from '@parser/Symbols';
 import Dimension from './Dimension';
 import Token from './Token';
 import Type from './Type';

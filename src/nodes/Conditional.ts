@@ -12,7 +12,7 @@ import UnionType from './UnionType';
 import type TypeSet from './TypeSet';
 import type Bind from './Bind';
 import Start from '@runtime/Start';
-import { BOOLEAN_TYPE_SYMBOL } from '../parser/Symbols';
+import { BOOLEAN_TYPE_SYMBOL } from '@parser/Symbols';
 import TokenType from './TokenType';
 import Finish from '@runtime/Finish';
 import type Evaluator from '@runtime/Evaluator';

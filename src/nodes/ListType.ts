@@ -1,5 +1,5 @@
 import type { NativeTypeName } from '../native/NativeConstants';
-import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from '../parser/Symbols';
+import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from '@parser/Symbols';
 import type Context from './Context';
 import NativeType from './NativeType';
 import Token from './Token';

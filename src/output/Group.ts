@@ -8,7 +8,7 @@ import type Phrase from './Phrase';
 import type Place from './Place';
 import type Animation from './Animation';
 import { getBind } from '@translation/getBind';
-import { TYPE_SYMBOL } from '../parser/Symbols';
+import { TYPE_SYMBOL } from '@parser/Symbols';
 import type { Description } from '@translation/Translation';
 
 export const GroupType = toStructure(`

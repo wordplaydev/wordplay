@@ -6,7 +6,7 @@ import type LanguageCode from '@translation/LanguageCode';
 import NameToken from './NameToken';
 import PlaceholderToken from './PlaceholderToken';
 import type Translation from '@translation/Translation';
-import { NAME_SEPARATOR_SYMBOL } from '../parser/Symbols';
+import { NAME_SEPARATOR_SYMBOL } from '@parser/Symbols';
 import TokenType from './TokenType';
 
 export default class Name extends Node {

@@ -3,7 +3,7 @@ import type Node from '@nodes/Node';
 import type LanguageCode from '@translation/LanguageCode';
 import type Context from '@nodes/Context';
 import type Source from '@nodes/Source';
-import type Spaces from '../parser/Spaces';
+import type Spaces from '@parser/Spaces';
 import type Translation from '@translation/Translation';
 import type { Description } from '@translation/Translation';
 

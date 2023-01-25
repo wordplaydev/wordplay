@@ -16,7 +16,7 @@ import type TypeSet from './TypeSet';
 import TypeException from '@runtime/TypeException';
 import AnyType from './AnyType';
 import TokenType from './TokenType';
-import { CHANGE_SYMBOL } from '../parser/Symbols';
+import { CHANGE_SYMBOL } from '@parser/Symbols';
 import Start from '@runtime/Start';
 import UnionType from './UnionType';
 import NoneType from './NoneType';

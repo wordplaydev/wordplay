@@ -2,7 +2,7 @@ import type { NativeTypeName } from '../native/NativeConstants';
 import type Context from '@nodes/Context';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
 import type LanguageCode from '@translation/LanguageCode';
-import { FUNCTION_SYMBOL } from '../parser/Symbols';
+import { FUNCTION_SYMBOL } from '@parser/Symbols';
 import type Evaluation from './Evaluation';
 import Value from './Value';
 import type Translation from '@translation/Translation';

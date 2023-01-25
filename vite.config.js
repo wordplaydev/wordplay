@@ -12,6 +12,7 @@ const config = {
             '@conflicts': path.resolve('./src/conflicts'),
             '@translation': path.resolve('./src/translation'),
             '@concepts': path.resolve('./src/concepts'),
+            '@parser': path.resolve('./src/parser'),
         },
     },
 };

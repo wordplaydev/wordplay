@@ -8,7 +8,7 @@
     import type Node from '@nodes/Node';
     import type Token from '@nodes/Token';
     import Tree from '@nodes/Tree';
-    import Spaces from '../../parser/Spaces';
+    import Spaces from '@parser/Spaces';
     import { preferredLanguages } from '@translation/translations';
     import NodeView from '@components/editor/NodeView.svelte';
     import {

@@ -1,4 +1,4 @@
-import { LANGUAGE_SYMBOL } from '../parser/Symbols';
+import { LANGUAGE_SYMBOL } from '@parser/Symbols';
 import Token from './Token';
 import TokenType from './TokenType';
 

@@ -19,7 +19,7 @@ import type TypeSet from './TypeSet';
 import TypeException from '@runtime/TypeException';
 import AnyType from './AnyType';
 import TokenType from './TokenType';
-import { PREVIOUS_SYMBOL } from '../parser/Symbols';
+import { PREVIOUS_SYMBOL } from '@parser/Symbols';
 import Start from '@runtime/Start';
 import UnionType from './UnionType';
 import NoneType from './NoneType';

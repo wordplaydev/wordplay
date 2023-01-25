@@ -2,7 +2,7 @@
 
 <script lang="ts">
     import type Table from '@runtime/Table';
-    import { TABLE_OPEN_SYMBOL } from '../../parser/Symbols';
+    import { TABLE_OPEN_SYMBOL } from '@parser/Symbols';
     import SymbolView from './SymbolView.svelte';
     import TokenType from '@nodes/TokenType';
     import { preferredLanguages } from '@translation/translations';
