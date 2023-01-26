@@ -52,6 +52,9 @@
 
     export let project: Project;
 
+    // The HTMLElement that represents this element
+    let view: HTMLElement | undefined = undefined;
+
     // The conflicts of interest in each editor, used to generate annotations.
     let conflictsOfInterest: Map<Source, Conflict[]> = new Map();
 
@@ -104,6 +107,10 @@
 
     /** The latest value of main in the project */
     let latest: Value | undefined;
+
+    /** Used to track whether the body was focused*/
+    let focusedOut: Element | null;
+    let focusedIn: Element | null;
 
     /** When the project changes, reset the conflicts map. */
     $: if (project) conflictsOfInterest = new Map();
@@ -270,6 +277,8 @@
         layout = layout
             .withTileInMode(tile, mode)
             .resized(canvasWidth, canvasHeight);
+
+        view?.focus();
     }
 
     function setFullscreen(tile: Tile, fullscreen: boolean) {
@@ -488,16 +497,12 @@
     }
 </script>
 
-<svelte:window
-    on:blur={() => (draggedTile = undefined)}
-    on:mouseup={() => (draggedTile = undefined)}
-/>
-
 <!-- Render the app header and the current project, if there is one. -->
 <main
     class="project"
     tabIndex="0"
     on:keydown={handleKey}
+    bind:this={view}
     transition:fade={{ duration: 200 }}
 >
     <section class="header" class:stepping={!$playing}>
