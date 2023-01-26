@@ -106,7 +106,7 @@ export class Animations {
         );
     }
 
-    adjustFocus(x: number, y: number, z: number) {
+    adjustFocus(x: number, y: number, z: number): Place {
         const focus = this.getFocus();
         this.focus = this.createPlace(
             focus.x.toNumber() + x,
@@ -114,6 +114,7 @@ export class Animations {
             focus.z.toNumber() + z
         );
         this.update(this.verse, this.languages, this.fontsLoaded, true);
+        return this.focus;
     }
 
     getAnimationCount() {
@@ -349,7 +350,7 @@ export class Animations {
         this.priorPlaces = places;
 
         // Return the layout for rendering.
-        return { places, visible: this.visible, exiting: this.exiting };
+        return { places, visible: this.visible, exiting: this.exiting, focus };
     }
 
     getStartValue(

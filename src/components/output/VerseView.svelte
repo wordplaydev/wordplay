@@ -100,28 +100,46 @@
         if (event.shiftKey) {
             const increment = 1;
             if (event.key === 'ArrowLeft') {
-                project.evaluator.animations.adjustFocus(-1 * increment, 0, 0);
-                verse = verse;
+                focus = project.evaluator.animations.adjustFocus(
+                    -1 * increment,
+                    0,
+                    0
+                );
                 return;
             } else if (event.key === 'ArrowRight') {
-                project.evaluator.animations.adjustFocus(increment, 0, 0);
-                verse = verse;
+                focus = project.evaluator.animations.adjustFocus(
+                    increment,
+                    0,
+                    0
+                );
                 return;
             } else if (event.key === 'ArrowUp') {
-                project.evaluator.animations.adjustFocus(0, -1 * increment, 0);
-                verse = verse;
+                focus = project.evaluator.animations.adjustFocus(
+                    0,
+                    -1 * increment,
+                    0
+                );
                 return;
             } else if (event.key === 'ArrowDown') {
-                project.evaluator.animations.adjustFocus(0, increment, 0);
-                verse = verse;
+                focus = project.evaluator.animations.adjustFocus(
+                    0,
+                    increment,
+                    0
+                );
                 return;
             } else if (event.key === '+') {
-                project.evaluator.animations.adjustFocus(0, 0, increment);
-                verse = verse;
+                focus = project.evaluator.animations.adjustFocus(
+                    0,
+                    0,
+                    increment
+                );
                 return;
             } else if (event.key === '_') {
-                project.evaluator.animations.adjustFocus(0, 0, -1 * increment);
-                verse = verse;
+                focus = project.evaluator.animations.adjustFocus(
+                    0,
+                    0,
+                    -1 * increment
+                );
                 return;
             }
         }
@@ -153,12 +171,14 @@
     let visible: Phrase[] = [];
     let places = new Map<Group, Place>();
     let exiting: Map<Phrase, Place> = new Map();
+    let focus = project.evaluator.animations.getFocus();
     setContext('animations', project.evaluator.animations);
-    $: ({ places, visible, exiting } = project.evaluator.animations.update(
-        verse,
-        $preferredLanguages,
-        $loadedFonts
-    ));
+    $: ({ places, visible, exiting, focus } =
+        project.evaluator.animations.update(
+            verse,
+            $preferredLanguages,
+            $loadedFonts
+        ));
 </script>
 
 {#if mounted}
@@ -175,16 +195,9 @@
                 verse.tilt.toNumber() !== 0
                     ? `rotate(${verse.tilt.toNumber()}deg)`
                     : ''
-            } translate(${
-                -PX_PER_METER *
-                project.evaluator.animations.getFocus().x.toNumber()
-            }px, ${
-                -PX_PER_METER *
-                project.evaluator.animations.getFocus().y.toNumber()
-            }px) scale(${Math.abs(
-                PX_PER_METER /
-                    project.evaluator.animations.getFocus().z.toNumber()
-            )})`,
+            } translate(${-PX_PER_METER * focus.x.toNumber()}px, ${
+                -PX_PER_METER * focus.y.toNumber()
+            }px) scale(${Math.abs(PX_PER_METER / focus.z.toNumber())})`,
         })}
         on:mousedown={(event) => (interactive ? handleMouseDown(event) : null)}
         on:mouseup={interactive ? handleMouseUp : null}
@@ -244,7 +257,7 @@
     }
 
     .ignored {
-        animation: shake 0.25s 1;
+        animation: shake 0.1s 1;
     }
 
     .viewport {
