@@ -162,6 +162,10 @@
         background-color: var(--wordplay-error);
     }
 
+    .exception :global(.value) {
+        color: var(--wordplay-background);
+    }
+
     .exception .message {
         animation: shake 0.1s 3;
     }
