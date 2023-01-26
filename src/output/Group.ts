@@ -4,12 +4,11 @@ import type LanguageCode from '@translation/LanguageCode';
 import type Value from '@runtime/Value';
 import type Color from './Color';
 import Output from './Output';
-import type Phrase from './Phrase';
 import type Place from './Place';
-import type Animation from './Animation';
 import { getBind } from '@translation/getBind';
 import { TYPE_SYMBOL } from '@parser/Symbols';
 import type { Description } from '@translation/Translation';
+import type { RenderContext } from './RenderContext';
 
 export const GroupType = toStructure(`
     ${getBind((t) => t.output.group.definition, TYPE_SYMBOL)}()
@@ -34,10 +33,3 @@ export default abstract class Group extends Output {
     abstract getBackground(): Color | undefined;
     abstract getDescription(languages: LanguageCode[]): Description;
 }
-
-export type RenderContext = {
-    font: string;
-    languages: LanguageCode[];
-    fonts: Set<string>;
-    animations: Map<Phrase, Animation>;
-};

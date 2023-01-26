@@ -1,7 +1,8 @@
 import toStructure from '../native/toStructure';
 import type Value from '@runtime/Value';
 import type Color from './Color';
-import Group, { type RenderContext } from './Group';
+import Group from './Group';
+import type { RenderContext } from './RenderContext';
 import { toGroups } from './toGroups';
 import Place from './Place';
 import Decimal from 'decimal.js';

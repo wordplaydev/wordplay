@@ -3,7 +3,8 @@ import type Value from '@runtime/Value';
 import type Color from './Color';
 import Fonts, { SupportedFontsType } from '../native/Fonts';
 import Text from '@runtime/Text';
-import Group, { type RenderContext } from './Group';
+import Group from './Group';
+import type { RenderContext } from './RenderContext';
 import type Place from './Place';
 import List from '@runtime/List';
 import TextLang from './TextLang';
@@ -18,7 +19,7 @@ import { toPose as toPose } from './Pose';
 import type Sequence from './Sequence';
 import { PX_PER_METER, sizeToPx } from './phraseToCSS';
 import { toSequence, type SequenceKind } from './Sequence';
-import type Animation from './Animation';
+import type Animation from './Animations';
 import type LanguageCode from '@translation/LanguageCode';
 import { getBind } from '@translation/getBind';
 

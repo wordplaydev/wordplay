@@ -24,7 +24,7 @@ import Context from '@nodes/Context';
 
 // Import this last, after everything else, to avoid cycles.
 import Native from '../native/NativeBindings';
-import { Animations } from '../output/Animation';
+import { Animations } from '../output/Animations';
 import { MAX_STREAM_LENGTH } from './Stream';
 import Start from './Start';
 import Finish from './Finish';

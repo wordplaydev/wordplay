@@ -1,6 +1,7 @@
 import Structure from '@runtime/Structure';
 import type Value from '@runtime/Value';
-import Group, { type RenderContext } from './Group';
+import Group from './Group';
+import type { RenderContext } from './RenderContext';
 import { toFont } from './Phrase';
 import Fonts, { SupportedFontsType } from '../native/Fonts';
 import Color from './Color';
@@ -25,7 +26,7 @@ export const VerseType = toStructure(`
         )}•${SupportedFontsType}: "Noto Sans"
         ${getBind((t) => t.output.verse.foreground)}•Color: Color(0 0 0°)
         ${getBind((t) => t.output.verse.background)}•Color: Color(100 0 0°)
-        ${getBind((t) => t.output.verse.focus)}•Place: Place(0m 0m ${BACKSET}m)
+        ${getBind((t) => t.output.verse.focus)}•Place|ø: ø
         ${getBind((t) => t.output.verse.tilt)}•#°: 0°
     )
 `);
@@ -35,7 +36,7 @@ export default class Verse extends Group {
     readonly font: string;
     readonly background: Color;
     readonly foreground: Color;
-    readonly focus: Place;
+    readonly focus: Place | undefined;
     readonly tilt: Decimal;
 
     constructor(
@@ -44,7 +45,7 @@ export default class Verse extends Group {
         font: string,
         background: Color,
         foreground: Color,
-        focus: Place,
+        focus: Place | undefined,
         tilt: Decimal
     ) {
         super(value);
@@ -75,13 +76,33 @@ export default class Verse extends Group {
      * A Verse is a Group that lays out a list of phrases according to their specified places,
      * or if the phrases */
     getPlaces(context: RenderContext): [Group, Place][] {
-        // Center the group in the verse, and offset by the focus.
+        // Center the group in the verse, and offset by the verse focus, if this has one, and the context focus, if it has one, and zero otherwise.
         return this.groups.map((group) => [
             group,
             new Place(
                 this.value,
-                group.getWidth(context).div(2).neg().sub(this.focus.x),
-                group.getHeight(context).div(2).neg().sub(this.focus.y),
+                group
+                    .getWidth(context)
+                    .div(2)
+                    .neg()
+                    .sub(
+                        this.focus
+                            ? this.focus.x
+                            : context.focus
+                            ? context.focus.x
+                            : 0
+                    ),
+                group
+                    .getHeight(context)
+                    .div(2)
+                    .neg()
+                    .sub(
+                        this.focus
+                            ? this.focus.y
+                            : context.focus
+                            ? context.focus.y
+                            : 0
+                    ),
                 new Decimal(0)
             ),
         ]);
@@ -110,7 +131,7 @@ export function toVerse(value: Value): Verse | undefined {
         const foreground = toColor(value.resolve('foreground'));
         const focus = toPlace(value.resolve('focus'));
         const tilt = toDecimal(value.resolve('tilt'));
-        return group && font && background && foreground && focus && tilt
+        return group && font && background && foreground && tilt
             ? new Verse(
                   value,
                   Array.isArray(group) ? group : [group],

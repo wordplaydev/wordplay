@@ -8,9 +8,9 @@
     import { preferredLanguages } from '@translation/translations';
     import { getContext, tick } from 'svelte';
     import type { Writable } from 'svelte/store';
-    import { reviseProject, selectedOutput } from '../../models/stores';
-    import type { RenderContext } from '../../output/Group';
+    import type { RenderContext } from '../../output/RenderContext';
     import TextLiteral from '@nodes/TextLiteral';
+    import { reviseProject, selectedOutput } from '../../models/stores';
 
     export let phrase: Phrase;
     export let place: Place;

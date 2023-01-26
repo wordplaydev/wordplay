@@ -93,9 +93,34 @@
     }
 
     function handleKeyDown(event: KeyboardEvent) {
-        // Never handle tab; that's for keyboard navigation.
+        // Never handle tab; that's for focus navigation.
         if (event.key === 'Tab') return;
 
+        // Adjust focus
+        if (event.shiftKey) {
+            const increment = 1;
+            if (event.key === 'ArrowLeft') {
+                project.evaluator.animations.adjustFocus(-1 * increment, 0, 0);
+                return;
+            } else if (event.key === 'ArrowRight') {
+                project.evaluator.animations.adjustFocus(increment, 0, 0);
+                return;
+            } else if (event.key === 'ArrowUp') {
+                project.evaluator.animations.adjustFocus(0, -1 * increment, 0);
+                return;
+            } else if (event.key === 'ArrowDown') {
+                project.evaluator.animations.adjustFocus(0, increment, 0);
+                return;
+            } else if (event.key === '+') {
+                project.evaluator.animations.adjustFocus(0, 0, increment);
+                return;
+            } else if (event.key === '_') {
+                project.evaluator.animations.adjustFocus(0, 0, -1 * increment);
+                return;
+            }
+        }
+
+        // Record the key event if it wasn't handled above.
         if (project.evaluator.isPlaying()) {
             project.streams.keyboard.record(event.key, true);
         } else ignore();
@@ -163,7 +188,7 @@
                     <PhraseView
                         {phrase}
                         {place}
-                        focus={verse.focus}
+                        focus={verse.focus ?? context.focus}
                         {context}
                     />
                 {:else}
@@ -174,7 +199,12 @@
                 {@const context =
                     project.evaluator.animations.getRenderContext()}
                 <!-- There should always be a place. If there's not, there's something wrong with our layout algorithm. -->
-                <PhraseView {phrase} {place} focus={verse.focus} {context} />
+                <PhraseView
+                    {phrase}
+                    {place}
+                    focus={verse.focus ?? context.focus}
+                    {context}
+                />
             {/each}
         </div>
     </div>

@@ -3,17 +3,22 @@ import type Project from '../models/Project';
 import type LanguageCode from '@translation/LanguageCode';
 import Measurement from '@runtime/Measurement';
 import Color from './Color';
-import type { RenderContext } from './Group';
+import type { RenderContext } from './RenderContext';
 import type Group from './Group';
 import type MoveState from './MoveState';
 import Phrase from './Phrase';
 import phraseToCSS from './phraseToCSS';
-import Place from './Place';
+import Place, { PlaceType, toPlace } from './Place';
 import type Pose from './Pose';
 import type { SequenceKind } from './Sequence';
 import type Sequence from './Sequence';
 import TextLang from './TextLang';
 import type Verse from './Verse';
+import Structure from '../runtime/Structure';
+import Evaluation from '../runtime/Evaluation';
+import { VerseType } from './Verse';
+import type Names from '../nodes/Names';
+import type Value from '../runtime/Value';
 
 export type PhraseName = string;
 
@@ -47,6 +52,9 @@ export class Animations {
     languages: LanguageCode[];
     fontsLoaded: Set<string>;
 
+    /** The default focus if the verse doesn't apply one. Can be manipulated by the creator or audience. */
+    focus: Place | undefined;
+
     priorPlaces = new Map<Group, Place>();
 
     readonly animations: Map<PhraseName, Animation> = new Map();
@@ -67,9 +75,48 @@ export class Animations {
         this.verse = verse;
         this.languages = languages;
         this.fontsLoaded = fonts;
+        this.focus = undefined;
     }
 
-    getCount() {
+    getFocus() {
+        return this.verse != undefined && this.verse.focus !== undefined
+            ? this.verse.focus
+            : this.focus ?? this.createPlace(0, 0, -12);
+    }
+
+    createPlace(x: number, y: number, z: number): Place {
+        const place = new Map<Names, Value>();
+        place.set(PlaceType.inputs[0].names, new Measurement(VerseType, x));
+        place.set(PlaceType.inputs[1].names, new Measurement(VerseType, y));
+        place.set(PlaceType.inputs[2].names, new Measurement(VerseType, z));
+
+        const evaluation = new Evaluation(
+            this.project.evaluator,
+            this.project.main,
+            PlaceType,
+            undefined,
+            place
+        );
+        const structure = new Structure(VerseType, evaluation);
+        return new Place(
+            structure,
+            new Decimal(x),
+            new Decimal(y),
+            new Decimal(z)
+        );
+    }
+
+    adjustFocus(x: number, y: number, z: number) {
+        const focus = this.getFocus();
+        this.focus = this.createPlace(
+            focus.x.toNumber() + x,
+            focus.y.toNumber() + y,
+            focus.z.toNumber() + z
+        );
+        this.update(this.verse, this.languages, this.fontsLoaded, true);
+    }
+
+    getAnimationCount() {
         return this.animations.size;
     }
 
@@ -151,7 +198,7 @@ export class Animations {
         return undefined;
     }
 
-    getRenderContext() {
+    getRenderContext(): RenderContext {
         const animationsByPhrase = new Map<Phrase, Animation>();
         for (const [name, animation] of this.animations) {
             const phrase = this.getPhraseByName(name);
@@ -161,15 +208,23 @@ export class Animations {
         return {
             font: this.verse?.font ?? '',
             languages: this.languages,
+            focus: this.getFocus(),
             fonts: this.fontsLoaded,
             animations: animationsByPhrase,
         };
     }
 
-    update(verse: Verse, languages: LanguageCode[], fonts: Set<string>) {
+    update(
+        verse: Verse | undefined,
+        languages: LanguageCode[],
+        fonts: Set<string>,
+        unconditional: boolean = false
+    ) {
         this.verse = verse;
         this.languages = languages;
         this.fontsLoaded = fonts;
+
+        const focus = this.getFocus();
 
         // Walk the Verse and compute global places for each group.
         // This relies on each phrase and group to be able to size itself independent of its group
@@ -210,7 +265,7 @@ export class Animations {
                 this.present.push(phrase);
 
                 // If it's in front of the focus, it's visible.
-                if (place.z.sub(verse.focus.z).greaterThan(0))
+                if (place.z.sub(focus.z).greaterThan(0))
                     this.visible.push(phrase);
             }
         }
@@ -237,10 +292,7 @@ export class Animations {
                 ? -1
                 : bPlace == undefined
                 ? 1
-                : aPlace.z
-                      .sub(verse.focus.z)
-                      .sub(bPlace.z.sub(verse.focus.z))
-                      .toNumber();
+                : aPlace.z.sub(focus.z).sub(bPlace.z.sub(focus.z)).toNumber();
         });
 
         // Find all of the phrases that specify a sequence.
@@ -290,7 +342,7 @@ export class Animations {
             if (sequence && kind) this.startSequence(phrase, sequence, kind);
         }
 
-        if (this.getCount() > 0)
+        if (unconditional || this.getAnimationCount() > 0)
             window.requestAnimationFrame((time) => this.animate(time));
 
         // Remember the places, since existing phrases need them after removal.
@@ -663,7 +715,7 @@ export class Animations {
 
         // Render each phrase with the pose.
         for (const [name, animation] of this.animations)
-            this.renderPhrase(name, animation, places);
+            this.renderPhrase(name, animation, places, this.getFocus());
 
         // Clean up all completed sequences.
         for (const name of completed) {
@@ -694,7 +746,7 @@ export class Animations {
         }
 
         // Animate another frame if there are any remaining active sequences and we're still playing.
-        if (this.getCount() > 0) {
+        if (this.getAnimationCount() > 0) {
             if (this.project.evaluator.isPlaying())
                 window.requestAnimationFrame((time) => this.animate(time));
             // If we're not playing, clean up exiting phrases so there's nothing left around.
@@ -708,7 +760,8 @@ export class Animations {
     renderPhrase(
         name: PhraseName,
         animation: Animation,
-        places: Map<Group, Place>
+        places: Map<Group, Place>,
+        focus: Place
     ) {
         if (this.verse === undefined) return;
 
@@ -752,7 +805,7 @@ export class Animations {
                     phraseToCSS(
                         renderedPhrase,
                         renderedPhrase.place ?? place,
-                        this.verse.focus
+                        focus
                     )
                 );
                 view.innerHTML = renderedPhrase.getDescription(this.languages);
