@@ -18,7 +18,7 @@
     export let project: Project;
     export let source: Source;
     export let latest: Value | undefined;
-    export let mode: 'mini' | 'peripheral' | 'fullscreen';
+    export let mode: 'mini' | 'peripheral';
     export let background: string | null = null;
 
     $: verse = latest === undefined ? undefined : toVerse(latest);
@@ -28,6 +28,7 @@
 <section
     class={`output ${mode}`}
     class:mode
+    tabIndex="0"
     style:direction={$writingDirection}
     style:writing-mode={$writingLayout}
 >
@@ -97,11 +98,6 @@
         width: 100%;
         height: 100%;
         overflow: hidden;
-    }
-
-    .fullscreen .value {
-        width: 100%;
-        height: 100%;
     }
 
     .value {
