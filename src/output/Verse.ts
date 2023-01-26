@@ -81,28 +81,22 @@ export default class Verse extends Group {
             group,
             new Place(
                 this.value,
-                group
-                    .getWidth(context)
-                    .div(2)
-                    .neg()
-                    .sub(
-                        this.focus
-                            ? this.focus.x
-                            : context.focus
-                            ? context.focus.x
-                            : 0
-                    ),
-                group
-                    .getHeight(context)
-                    .div(2)
-                    .neg()
-                    .sub(
-                        this.focus
-                            ? this.focus.y
-                            : context.focus
-                            ? context.focus.y
-                            : 0
-                    ),
+                group.getWidth(context).div(2).neg(),
+                // .sub(
+                //     this.focus
+                //         ? this.focus.x
+                //         : context.focus
+                //         ? context.focus.x
+                //         : 0
+                // )
+                group.getHeight(context).div(2).neg(),
+                // .sub(
+                //     this.focus
+                //         ? this.focus.y
+                //         : context.focus
+                //         ? context.focus.y
+                //         : 0
+                // )
                 new Decimal(0)
             ),
         ]);

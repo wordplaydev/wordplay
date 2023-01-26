@@ -50,10 +50,6 @@ export default function phraseToCSS(
                 : undefined,
         'font-family': phrase.font,
         // The font size is whatever it's normal size is, but adjusted for perspective, then translated into pixels.
-        'font-size': sizeToFontSize(
-            phrase.size,
-            place.z.toNumber(),
-            focus.z.toNumber()
-        ),
+        'font-size': sizeToPx(phrase.size),
     });
 }

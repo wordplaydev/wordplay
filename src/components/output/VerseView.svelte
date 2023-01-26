@@ -8,7 +8,7 @@
     import { preferredLanguages } from '@translation/translations';
     import PhraseView from './PhraseView.svelte';
     import { loadedFonts } from '../../native/Fonts';
-    import { toCSS } from '../../output/phraseToCSS';
+    import { PX_PER_METER, toCSS } from '../../output/phraseToCSS';
     import type Phrase from '../../output/Phrase';
     import type Group from '../../output/Group';
     import type Place from '../../output/Place';
@@ -101,21 +101,27 @@
             const increment = 1;
             if (event.key === 'ArrowLeft') {
                 project.evaluator.animations.adjustFocus(-1 * increment, 0, 0);
+                verse = verse;
                 return;
             } else if (event.key === 'ArrowRight') {
                 project.evaluator.animations.adjustFocus(increment, 0, 0);
+                verse = verse;
                 return;
             } else if (event.key === 'ArrowUp') {
                 project.evaluator.animations.adjustFocus(0, -1 * increment, 0);
+                verse = verse;
                 return;
             } else if (event.key === 'ArrowDown') {
                 project.evaluator.animations.adjustFocus(0, increment, 0);
+                verse = verse;
                 return;
             } else if (event.key === '+') {
                 project.evaluator.animations.adjustFocus(0, 0, increment);
+                verse = verse;
                 return;
             } else if (event.key === '_') {
                 project.evaluator.animations.adjustFocus(0, 0, -1 * increment);
+                verse = verse;
                 return;
             }
         }
@@ -165,10 +171,20 @@
             'font-family': verse.font,
             background: verse.background.toCSS(),
             color: verse.foreground.toCSS(),
-            transform:
+            transform: `${
                 verse.tilt.toNumber() !== 0
                     ? `rotate(${verse.tilt.toNumber()}deg)`
-                    : undefined,
+                    : ''
+            } translate(${
+                -PX_PER_METER *
+                project.evaluator.animations.getFocus().x.toNumber()
+            }px, ${
+                -PX_PER_METER *
+                project.evaluator.animations.getFocus().y.toNumber()
+            }px) scale(${Math.abs(
+                PX_PER_METER /
+                    project.evaluator.animations.getFocus().z.toNumber()
+            )})`,
         })}
         on:mousedown={(event) => (interactive ? handleMouseDown(event) : null)}
         on:mouseup={interactive ? handleMouseUp : null}
@@ -220,6 +236,7 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        transition: transform 0.25s ease-out;
     }
 
     .verse:focus {
