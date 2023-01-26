@@ -122,15 +122,18 @@
         .flat();
 
     /**
-     * If the keyboard is idle and the evaluator hasn't started yet,
-     * analyze the program and evaluate it.
+     * Reanalyze on a delay any time the project changes.
      * */
+    let updateTimer: NodeJS.Timer | undefined = undefined;
     $: {
-        if ($KeyboardIdle) {
+        // Re-evaluate immediately.
+        if (!project.evaluator.isStarted()) project.evaluate();
+
+        if (updateTimer) clearTimeout(updateTimer);
+        updateTimer = setTimeout(() => {
             project.analyze();
             nodeConflicts.set(project.getConflicts());
-            if (!project.evaluator.isStarted()) project.evaluate();
-        }
+        }, 300);
     }
 
     /** When stepping and the current step changes, change the active source. */
