@@ -823,8 +823,20 @@ export default class Evaluator {
         if (def instanceof Source) {
             // If not in the past, save the source value.
             if (!this.isInPast()) {
-                const indexedValues = this.sourceValues.get(def) ?? [];
+                // Make a list if necessary
+                let indexedValues = this.sourceValues.get(def) ?? [];
+                // Add the entry
                 indexedValues.push({ stepNumber: this.#stepCount, value });
+                // Trim the history to the same length that streams are trimmed.
+                const oldest = Math.max(
+                    0,
+                    indexedValues.length - MAX_STREAM_LENGTH
+                );
+                indexedValues = indexedValues.slice(
+                    oldest,
+                    oldest + MAX_STREAM_LENGTH
+                );
+                // Update the source value history
                 this.sourceValues.set(def, indexedValues);
             }
         }
