@@ -60,12 +60,36 @@ export default class Verse extends Group {
         Fonts.loadFamily(this.font);
     }
 
-    /** Nothing uses this, so we just return zero. */
-    getWidth(): Decimal {
-        return new Decimal(0);
+    /** A verse's width is the difference between it's left and right extents. */
+    getWidth(context: RenderContext): Decimal {
+        const places = this.getPlaces(context);
+        const left = Math.min.apply(
+            Math,
+            places.map(([, place]) => place.x.toNumber())
+        );
+        const right = Math.max.apply(
+            Math,
+            places.map(([group, place]) =>
+                place.x.add(group.getWidth(context)).toNumber()
+            )
+        );
+        return new Decimal(right - left);
     }
-    getHeight(): Decimal {
-        return new Decimal(0);
+
+    /** A verse's height is the difference between it's highest and lowest extents. */
+    getHeight(context: RenderContext): Decimal {
+        const places = this.getPlaces(context);
+        const top = Math.min.apply(
+            Math,
+            places.map(([, place]) => place.y.toNumber())
+        );
+        const bottom = Math.max.apply(
+            Math,
+            places.map(([group, place]) =>
+                place.y.add(group.getHeight(context)).toNumber()
+            )
+        );
+        return new Decimal(bottom - top);
     }
 
     getGroups(): Group[] {
@@ -158,12 +182,7 @@ export function toVerse(value: Value): Verse | undefined {
                       new Decimal(0),
                       new Decimal(0)
                   ),
-                  new Place(
-                      value,
-                      new Decimal(0),
-                      new Decimal(0),
-                      new Decimal(BACKSET)
-                  ),
+                  undefined,
                   new Decimal(0)
               );
     }

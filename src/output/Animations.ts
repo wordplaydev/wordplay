@@ -108,11 +108,15 @@ export class Animations {
 
     adjustFocus(x: number, y: number, z: number): Place {
         const focus = this.getFocus();
-        this.focus = this.createPlace(
+        return this.setFocus(
             focus.x.toNumber() + x,
             focus.y.toNumber() + y,
             focus.z.toNumber() + z
         );
+    }
+
+    setFocus(x: number, y: number, z: number): Place {
+        this.focus = this.createPlace(x, y, z);
         this.update(this.verse, this.languages, this.fontsLoaded, true);
         return this.focus;
     }
@@ -350,7 +354,15 @@ export class Animations {
         this.priorPlaces = places;
 
         // Return the layout for rendering.
-        return { places, visible: this.visible, exiting: this.exiting, focus };
+        return {
+            places,
+            visible: this.visible,
+            exiting: this.exiting,
+            focus:
+                verse !== undefined && verse.focus !== undefined
+                    ? verse.focus
+                    : this.focus,
+        };
     }
 
     getStartValue(

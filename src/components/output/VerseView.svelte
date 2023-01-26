@@ -8,13 +8,14 @@
     import { preferredLanguages } from '@translation/translations';
     import PhraseView from './PhraseView.svelte';
     import { loadedFonts } from '../../native/Fonts';
-    import { PX_PER_METER, toCSS } from '../../output/phraseToCSS';
+    import { PX_PER_METER, sizeToPx, toCSS } from '../../output/phraseToCSS';
     import type Phrase from '../../output/Phrase';
     import type Group from '../../output/Group';
     import type Place from '../../output/Place';
     import { writable } from 'svelte/store';
     import Evaluate from '@nodes/Evaluate';
     import { VerseType } from '../../output/Verse';
+    import { afterUpdate } from 'svelte';
 
     export let project: Project;
     export let verse: Verse;
@@ -27,6 +28,78 @@
     let editableStore = writable<boolean>(editable);
     setContext('editable', editableStore);
     $: editableStore.set(editable);
+
+    let mounted = false;
+    onMount(() => (mounted = true));
+
+    // On every verse change, compute the canonical places of all phrases.
+    let visible: Phrase[] = [];
+    let places = new Map<Group, Place>();
+    let exiting: Map<Phrase, Place> = new Map();
+    let renderedFocus: Place = project.evaluator.animations.getFocus();
+    let adjustedFocus: Place | undefined = undefined;
+    setContext('animations', project.evaluator.animations);
+    $: ({
+        places,
+        visible,
+        exiting,
+        focus: adjustedFocus,
+    } = project.evaluator.animations.update(
+        verse,
+        $preferredLanguages,
+        $loadedFonts
+    ));
+
+    let parent: Element | null;
+    let observer: ResizeObserver | undefined;
+    $: {
+        if (observer && parent) observer.unobserve(parent);
+        if (view && view.parentElement) {
+            parent = view.parentElement;
+            observer = new ResizeObserver((entries) => {
+                const el = entries.at(0);
+                if (el) {
+                    viewportWidth = el.contentRect.width;
+                    viewportHeight = el.contentRect.height;
+                }
+            });
+            observer.observe(parent);
+        }
+    }
+
+    let viewportWidth: number = 0;
+    let viewportHeight: number = 0;
+
+    // When verse changes, if there's no verse focus set, set the focus to fit to content.
+    $: {
+        const context = project.evaluator.animations.getRenderContext();
+        if (view && adjustedFocus === undefined) {
+            const contentWidth = verse.getWidth(context).toNumber();
+            const contentRenderedWidth = contentWidth * PX_PER_METER;
+            const contentHeight = verse.getHeight(context).toNumber();
+            const contentRenderedHeight = contentHeight * PX_PER_METER;
+            // Some padding
+            const availableWidth = viewportWidth * (2 / 3);
+            const availableHeight = viewportHeight * (2 / 3);
+
+            // Figure out the fit dimension based on which scale would be smaller.
+            const scaleX = availableWidth / contentRenderedWidth;
+            const scaleY = availableHeight / contentRenderedHeight;
+            const horizontal = scaleX < scaleY;
+
+            const z =
+                -(
+                    (horizontal ? contentWidth : contentHeight) *
+                    PX_PER_METER *
+                    PX_PER_METER
+                ) / (horizontal ? availableWidth : availableHeight);
+
+            // Choose the smaller of the two to ensure nothing gets clipped.
+            renderedFocus = project.evaluator.animations.createPlace(0, 0, z);
+        } else if (adjustedFocus) {
+            renderedFocus = adjustedFocus;
+        }
+    }
 
     function ignore() {
         ignored = true;
@@ -100,42 +173,42 @@
         if (event.shiftKey) {
             const increment = 1;
             if (event.key === 'ArrowLeft') {
-                focus = project.evaluator.animations.adjustFocus(
+                adjustedFocus = project.evaluator.animations.adjustFocus(
                     -1 * increment,
                     0,
                     0
                 );
                 return;
             } else if (event.key === 'ArrowRight') {
-                focus = project.evaluator.animations.adjustFocus(
+                adjustedFocus = project.evaluator.animations.adjustFocus(
                     increment,
                     0,
                     0
                 );
                 return;
             } else if (event.key === 'ArrowUp') {
-                focus = project.evaluator.animations.adjustFocus(
+                adjustedFocus = project.evaluator.animations.adjustFocus(
                     0,
                     -1 * increment,
                     0
                 );
                 return;
             } else if (event.key === 'ArrowDown') {
-                focus = project.evaluator.animations.adjustFocus(
+                adjustedFocus = project.evaluator.animations.adjustFocus(
                     0,
                     increment,
                     0
                 );
                 return;
             } else if (event.key === '+') {
-                focus = project.evaluator.animations.adjustFocus(
+                adjustedFocus = project.evaluator.animations.adjustFocus(
                     0,
                     0,
                     increment
                 );
                 return;
             } else if (event.key === '_') {
-                focus = project.evaluator.animations.adjustFocus(
+                adjustedFocus = project.evaluator.animations.adjustFocus(
                     0,
                     0,
                     -1 * increment
@@ -163,22 +236,6 @@
         //         )
         //     );
     }
-
-    let mounted = false;
-    onMount(() => (mounted = true));
-
-    // On every verse change, compute the canonical places of all phrases.
-    let visible: Phrase[] = [];
-    let places = new Map<Group, Place>();
-    let exiting: Map<Phrase, Place> = new Map();
-    let focus = project.evaluator.animations.getFocus();
-    setContext('animations', project.evaluator.animations);
-    $: ({ places, visible, exiting, focus } =
-        project.evaluator.animations.update(
-            verse,
-            $preferredLanguages,
-            $loadedFonts
-        ));
 </script>
 
 {#if mounted}
@@ -195,9 +252,9 @@
                 verse.tilt.toNumber() !== 0
                     ? `rotate(${verse.tilt.toNumber()}deg)`
                     : ''
-            } translate(${-PX_PER_METER * focus.x.toNumber()}px, ${
-                -PX_PER_METER * focus.y.toNumber()
-            }px) scale(${Math.abs(PX_PER_METER / focus.z.toNumber())})`,
+            } translate(${-PX_PER_METER * renderedFocus.x.toNumber()}px, ${
+                -PX_PER_METER * renderedFocus.y.toNumber()
+            }px) scale(${Math.abs(PX_PER_METER / renderedFocus.z.toNumber())})`,
         })}
         on:mousedown={(event) => (interactive ? handleMouseDown(event) : null)}
         on:mouseup={interactive ? handleMouseUp : null}
