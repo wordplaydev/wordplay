@@ -17,6 +17,6 @@
         ><SymbolView
             symbol={text.substring(0, 10)}
             type={TokenType.TEXT}
-        />…</svelte:fragment
+        />{#if text.length > 10}…{/if}</svelte:fragment
     ></Expandable
 >
