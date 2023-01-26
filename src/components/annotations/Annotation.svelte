@@ -85,6 +85,10 @@
         background-color: var(--wordplay-evaluation-color);
     }
 
+    .step :global(.value) {
+        color: var(--wordplay-background);
+    }
+
     .annotation.primary {
         background-color: var(--wordplay-error);
     }

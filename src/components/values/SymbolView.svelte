@@ -14,7 +14,7 @@
 
 <style>
     .symbol {
-        color: var(--wordplay-evaluation-color);
+        color: currentColor;
     }
 
     .category-name {
