@@ -278,7 +278,7 @@
             .withTileInMode(tile, mode)
             .resized(canvasWidth, canvasHeight);
 
-        view?.focus();
+        if (mode === Mode.Collapsed) view?.focus();
     }
 
     function setFullscreen(tile: Tile, fullscreen: boolean) {
