@@ -505,10 +505,12 @@
     bind:this={view}
     transition:fade={{ duration: 200 }}
 >
-    <section class="header" class:stepping={!$playing}>
-        <Controls {project} />
-        <Timeline evaluator={project.evaluator} />
-    </section>
+    {#if !layout.isFullscreen()}
+        <section class="header" class:stepping={!$playing}>
+            <Controls {project} />
+            <Timeline evaluator={project.evaluator} />
+        </section>
+    {/if}
 
     <div
         class="canvas"
@@ -587,78 +589,85 @@
         {/key}
     </div>
 
-    <section class="footer">
-        {#each layout.getSources() as source}
-            <MiniSourceView
-                {project}
-                source={getSourceByID(source.id)}
-                on:toggle={() =>
-                    setMode(
-                        source,
-                        source.mode === Mode.Expanded
-                            ? Mode.Collapsed
-                            : Mode.Expanded
-                    )}
-            />
-        {/each}
-        {#each layout.getNonSources() as tile}
-            <NonSourceTileToggle
-                {tile}
-                on:toggle={() =>
-                    setMode(
-                        tile,
-                        tile.mode === Mode.Expanded
-                            ? Mode.Collapsed
-                            : Mode.Expanded
-                    )}
-            />
-        {/each}
-        <div class="settings">
-            <Button
-                tip={layout.arrangement === Arrangement.free
-                    ? $preferredTranslations[0].ui.tooltip.vertical
-                    : layout.arrangement === Arrangement.vertical
-                    ? $preferredTranslations[0].ui.tooltip.horizontal
-                    : $preferredTranslations[0].ui.tooltip.freeform}
-                action={() =>
-                    (layout = layout.withNextArrangement(
-                        canvasWidth,
-                        canvasHeight
-                    ))}
-                >{#if layout.arrangement === Arrangement.vertical}↕️{:else if layout.arrangement === Arrangement.horizontal}↔️{:else if layout.arrangement === Arrangement.free}█{/if}</Button
-            >
-            <Language />
-            <Button
-                tip={$preferredTranslations[0].ui.tooltip.close}
-                action={() => updateProject(undefined)}>❌</Button
-            >
-        </div>
-    </section>
-    <!-- Render annotations on top of the tiles and the footer -->
-    <Annotations {project} conflicts={visibleConflicts} stepping={!$playing} />
+    {#if !layout.isFullscreen()}
+        <section class="footer">
+            {#each layout.getSources() as source}
+                <MiniSourceView
+                    {project}
+                    source={getSourceByID(source.id)}
+                    on:toggle={() =>
+                        setMode(
+                            source,
+                            source.mode === Mode.Expanded
+                                ? Mode.Collapsed
+                                : Mode.Expanded
+                        )}
+                />
+            {/each}
+            {#each layout.getNonSources() as tile}
+                <NonSourceTileToggle
+                    {tile}
+                    on:toggle={() =>
+                        setMode(
+                            tile,
+                            tile.mode === Mode.Expanded
+                                ? Mode.Collapsed
+                                : Mode.Expanded
+                        )}
+                />
+            {/each}
+            <div class="settings">
+                <Button
+                    tip={layout.arrangement === Arrangement.free
+                        ? $preferredTranslations[0].ui.tooltip.vertical
+                        : layout.arrangement === Arrangement.vertical
+                        ? $preferredTranslations[0].ui.tooltip.horizontal
+                        : $preferredTranslations[0].ui.tooltip.freeform}
+                    action={() =>
+                        (layout = layout.withNextArrangement(
+                            canvasWidth,
+                            canvasHeight
+                        ))}
+                    >{#if layout.arrangement === Arrangement.vertical}↕️{:else if layout.arrangement === Arrangement.horizontal}↔️{:else if layout.arrangement === Arrangement.free}█{/if}</Button
+                >
+                <Language />
+                <Button
+                    tip={$preferredTranslations[0].ui.tooltip.close}
+                    action={() => updateProject(undefined)}>❌</Button
+                >
+            </div>
+        </section>
 
-    <!-- Render the menu on top of the annotations -->
-    {#if menu && menuPosition}
-        <Menu {menu} position={menuPosition} />
-    {/if}
+        <!-- Render annotations on top of the tiles and the footer -->
+        <Annotations
+            {project}
+            conflicts={visibleConflicts}
+            stepping={!$playing}
+        />
 
-    <!-- Render the dragged node over the whole project -->
-    {#if $dragged !== undefined}
-        <!-- Render the highlight underneath the code -->
-        <div class="drag-outline">
-            {#if outline}<Highlight {...outline} above={false} />{/if}
-        </div>
-        <div
-            class="drag-container dragging"
-            style="left: {mouseX}px; top:{mouseY}px;"
-            bind:this={dragContainer}
-        >
-            <RootView
-                node={$dragged.node}
-                spaces={project.getSourceOf($dragged.node)?.spaces}
-            />
-            <div class="cursor">🐲</div>
-        </div>
+        <!-- Render the menu on top of the annotations -->
+        {#if menu && menuPosition}
+            <Menu {menu} position={menuPosition} />
+        {/if}
+
+        <!-- Render the dragged node over the whole project -->
+        {#if $dragged !== undefined}
+            <!-- Render the highlight underneath the code -->
+            <div class="drag-outline">
+                {#if outline}<Highlight {...outline} above={false} />{/if}
+            </div>
+            <div
+                class="drag-container dragging"
+                style="left: {mouseX}px; top:{mouseY}px;"
+                bind:this={dragContainer}
+            >
+                <RootView
+                    node={$dragged.node}
+                    spaces={project.getSourceOf($dragged.node)?.spaces}
+                />
+                <div class="cursor">🐲</div>
+            </div>
+        {/if}
     {/if}
 </main>
 

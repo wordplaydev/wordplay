@@ -27,6 +27,10 @@ export default class Layout {
         this.tiles = tiles;
     }
 
+    isFullscreen() {
+        return this.fullscreenID !== undefined;
+    }
+
     getTileWithID(id: string) {
         return this.tiles.find((tile) => tile.id === id);
     }
