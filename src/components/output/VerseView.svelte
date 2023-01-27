@@ -35,14 +35,27 @@
     let mounted = false;
     onMount(() => (mounted = true));
 
-    // On every verse change, compute the canonical places of all phrases.
+    /** The list of visible phrases */
     let visible: Phrase[] = [];
+
+    /** The location of all phrases, post layout */
     let places = new Map<Group, Place>();
+
+    /** Phrases that have left the scene but are still animating their exit */
     let exiting: Map<Phrase, Place> = new Map();
+
+    /** The verse focus that fits the content to the view*/
     let fitFocus: Place | undefined = undefined;
+
+    /** The creator or audience adjusted focus */
     let adjustedFocus: Place = project.evaluator.animations.getFocus();
 
-    $: verseFocus = verse.focus;
+    /** The state of dragging the adjusted focus. A location or nothiing. */
+    let focusDrag:
+        | { startFocus: Place; left: number; top: number }
+        | undefined = undefined;
+
+    /** Whenever the verse, languages, fonts, or rendered focus changes, update the rendered scene. */
     $: ({ places, visible, exiting } = project.evaluator.animations.update(
         verse,
         $preferredLanguages,
@@ -50,15 +63,19 @@
         renderedFocus
     ));
 
-    // Keep the rendered focus in sync with the various focus controls.
-    $: renderedFocus = verseFocus
-        ? verseFocus
+    /** Whenever the verse focus, fit setting, or adjusted focus change, updated the rendered focus */
+    $: renderedFocus = verse.focus
+        ? verse.focus
         : fit && fitFocus
         ? fitFocus
         : adjustedFocus;
 
+    /** Keep track of the tile view's content window size for use in fitting content to the window */
     let parent: Element | null;
     let observer: ResizeObserver | undefined;
+    let viewportWidth: number = 0;
+    let viewportHeight: number = 0;
+    let changed: boolean = false;
     $: {
         if (observer && parent) observer.unobserve(parent);
         if (view && view.parentElement) {
@@ -79,11 +96,7 @@
         }
     }
 
-    let viewportWidth: number = 0;
-    let viewportHeight: number = 0;
-    let changed: boolean = false;
-
-    // When verse changes, if there's no verse focus set, set the focus to fit to content.
+    /** When verse or viewport changes, update the autofit focus. */
     $: {
         const context = project.evaluator.animations.getRenderContext();
         if (view) {
@@ -131,7 +144,20 @@
     }
 
     function handleMouseDown(event: MouseEvent) {
+        // Focus the view if not focused.
         view?.focus();
+
+        // Start dragging to move the focus
+        if (view && event.shiftKey) {
+            const rect = view.getBoundingClientRect();
+
+            focusDrag = {
+                startFocus: renderedFocus,
+                left: event.clientX - rect.left,
+                top: event.clientY - rect.top,
+            };
+            event.stopPropagation();
+        }
 
         if (project.evaluator.isPlaying())
             project.streams.mouseButton.record(true);
@@ -169,33 +195,66 @@
     }
 
     function handleMouseUp() {
+        // If dragging the focus, stop
+        if (focusDrag) focusDrag = undefined;
+
         if (project.evaluator.isPlaying())
             project.streams.mouseButton.record(false);
         else ignore();
     }
 
     function handleMouseMove(event: MouseEvent) {
+        // If dragging the focus, adjust it accordingly.
+        if (event.buttons === 1 && focusDrag && view && event.shiftKey) {
+            event.stopPropagation();
+            const rect = view.getBoundingClientRect();
+            const deltaX = event.clientX - rect.left - focusDrag.left;
+            const deltaY = event.clientY - rect.top - focusDrag.top;
+
+            const scale = PX_PER_METER / renderedFocus.z.toNumber();
+
+            setFocus(
+                focusDrag.startFocus.x.toNumber() +
+                    deltaX / PX_PER_METER / scale,
+                focusDrag.startFocus.y.toNumber() +
+                    deltaY / PX_PER_METER / scale,
+                focusDrag.startFocus.z.toNumber()
+            );
+        }
+
         if (project.evaluator.isPlaying())
             project.streams.mousePosition.record(event.offsetX, event.offsetY);
         // Don't give feedback on this; it's not expected.
+    }
+
+    function handleWheel(event: WheelEvent) {
+        adjustFocus(0, 0, event.deltaY / Math.pow(PX_PER_METER, 2));
     }
 
     function handleKeyUp(event: KeyboardEvent) {
         // Never handle tab; that's for keyboard navigation.
         if (event.key === 'Tab') return;
 
+        // If dragging the focus, stop
+        if (focusDrag) focusDrag = undefined;
+
         if (project.evaluator.isPlaying()) {
             project.streams.keyboard.record(event.key, false);
         } else ignore();
     }
 
-    function adjustFocus(x: number, y: number, z: number) {
+    function adjustFocus(dx: number, dy: number, dz: number) {
         adjustedFocus = project.evaluator.animations.adjustFocus(
             renderedFocus,
-            x,
-            y,
-            z
+            dx,
+            dy,
+            dz
         );
+        fit = false;
+    }
+
+    function setFocus(x: number, y: number, z: number) {
+        adjustedFocus = project.evaluator.animations.setFocus(x, y, z);
         fit = false;
     }
 
@@ -258,6 +317,7 @@
         on:mousemove={interactive ? handleMouseMove : null}
         on:keydown={interactive ? handleKeyDown : null}
         on:keyup={interactive ? handleKeyUp : null}
+        on:wheel={interactive ? handleWheel : null}
         bind:this={view}
     >
         <div

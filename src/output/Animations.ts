@@ -104,11 +104,11 @@ export class Animations {
         );
     }
 
-    adjustFocus(focus: Place, x: number, y: number, z: number): Place {
+    adjustFocus(focus: Place, dx: number, dy: number, dz: number): Place {
         return this.setFocus(
-            focus.x.toNumber() + x,
-            focus.y.toNumber() + y,
-            focus.z.toNumber() + z
+            focus.x.toNumber() + dx,
+            focus.y.toNumber() + dy,
+            focus.z.toNumber() + dz
         );
     }
 
