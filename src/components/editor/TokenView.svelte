@@ -118,6 +118,7 @@
     class:active
     class:placeholder
     data-id={node.id}
+    style:animation-delay="{Math.random() * 100}ms"
     ><span class="text"
         >{#if placeholder}{choosePlaceholder()}{:else if text.length === 0}&ZeroWidthSpace;{:else}{text.replaceAll(
                 ' ',
