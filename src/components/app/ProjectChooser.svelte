@@ -42,6 +42,7 @@
                         project={preview[0]}
                         source={preview[0].main}
                         latest={preview[1]}
+                        fit={true}
                         mode="mini"
                     />
                 </div>

@@ -98,9 +98,8 @@
     /** The latest value of main in the project */
     let latest: Value | undefined;
 
-    /** Used to track whether the body was focused*/
-    let focusedOut: Element | null;
-    let focusedIn: Element | null;
+    /** True if the output should be fit to content */
+    let fit: boolean = true;
 
     /** When the project changes, reset the conflicts map. */
     $: if (project) conflictsOfInterest = new Map();
@@ -548,31 +547,42 @@
                         on:fullscreen={(event) =>
                             setFullscreen(tile, event.detail.fullscreen)}
                     >
-                        {#if tile.kind === Content.Documentation}
-                            <Documentation />
-                        {:else if tile.kind === Content.Palette}
-                            <Palette {project} />
-                        {:else if tile.kind === Content.Output}
-                            <OutputView
-                                {project}
-                                source={project.main}
-                                {latest}
-                                mode={'peripheral'}
-                                bind:background={outputBackground}
-                            />
-                        {:else}
-                            <Editor
-                                {project}
-                                source={getSourceByID(tile.id)}
-                                bind:menu
-                                on:conflicts={(event) =>
-                                    (conflictsOfInterest =
-                                        conflictsOfInterest.set(
-                                            event.detail.source,
-                                            event.detail.conflicts
-                                        ))}
-                            />
-                        {/if}</TileView
+                        <svelte:fragment slot="extra">
+                            {#if tile.kind === Content.Output}<Button
+                                    tip={$preferredTranslations[0].ui.tooltip
+                                        .fit}
+                                    action={() => (fit = !fit)}
+                                    >{#if fit}🔒{:else}🔓{/if}</Button
+                                >{/if}
+                        </svelte:fragment>
+                        <svelte:fragment slot="content">
+                            {#if tile.kind === Content.Documentation}
+                                <Documentation />
+                            {:else if tile.kind === Content.Palette}
+                                <Palette {project} />
+                            {:else if tile.kind === Content.Output}
+                                <OutputView
+                                    {project}
+                                    source={project.main}
+                                    {latest}
+                                    bind:fit
+                                    mode={'peripheral'}
+                                    bind:background={outputBackground}
+                                />
+                            {:else}
+                                <Editor
+                                    {project}
+                                    source={getSourceByID(tile.id)}
+                                    bind:menu
+                                    on:conflicts={(event) =>
+                                        (conflictsOfInterest =
+                                            conflictsOfInterest.set(
+                                                event.detail.source,
+                                                event.detail.conflicts
+                                            ))}
+                                />
+                            {/if}</svelte:fragment
+                        ></TileView
                     >
                 {/if}
             {/each}

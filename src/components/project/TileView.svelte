@@ -177,6 +177,7 @@
     <!-- Render the toolbar -->
     <div class="controls">
         <span class="name">{tile.name}</span>
+        <slot name="extra" />
         <Button
             tip={$preferredTranslations[0].ui.tooltip.collapse}
             action={() => dispatch('mode', { mode: Mode.Collapsed })}
@@ -207,7 +208,7 @@
     </div>
     <!-- Render the content -->
     <div class="content" on:scroll={() => dispatch('scroll')}>
-        <slot />
+        <slot name="content" />
     </div>
 </section>
 

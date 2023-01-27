@@ -746,6 +746,7 @@ type Translation = {
             vertical: string;
             freeform: string;
             addPhrase: string;
+            fit: string;
         };
         labels: {
             learn: string;

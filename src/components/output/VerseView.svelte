@@ -20,6 +20,7 @@
     export let verse: Verse;
     export let interactive: boolean;
     export let editable: boolean;
+    export let fit: boolean;
 
     let ignored = false;
     let view: HTMLElement | null = null;
@@ -35,19 +36,24 @@
     let visible: Phrase[] = [];
     let places = new Map<Group, Place>();
     let exiting: Map<Phrase, Place> = new Map();
-    let renderedFocus: Place = project.evaluator.animations.getFocus();
-    let adjustedFocus: Place | undefined = undefined;
+    let fitFocus: Place | undefined = undefined;
+    $: verseFocus = verse.focus;
+    let adjustedFocus: Place = project.evaluator.animations.getFocus();
     setContext('animations', project.evaluator.animations);
-    $: ({
-        places,
-        visible,
-        exiting,
-        focus: adjustedFocus,
-    } = project.evaluator.animations.update(
+    $: ({ places, visible, exiting } = project.evaluator.animations.update(
         verse,
         $preferredLanguages,
         $loadedFonts
     ));
+
+    // Keep the rendered focus in sync with the various focus controls.
+    $: renderedFocus = verseFocus
+        ? verseFocus
+        : fit && fitFocus
+        ? fitFocus
+        : adjustedFocus;
+
+    $: console.log(verseFocus);
 
     let parent: Element | null;
     let observer: ResizeObserver | undefined;
@@ -78,7 +84,7 @@
     // When verse changes, if there's no verse focus set, set the focus to fit to content.
     $: {
         const context = project.evaluator.animations.getRenderContext();
-        if (view && adjustedFocus === undefined) {
+        if (view) {
             const contentBounds = verse.getBounds(context);
             const contentWidth = contentBounds.width;
             const contentRenderedWidth = contentWidth * PX_PER_METER;
@@ -102,7 +108,7 @@
                 ) / (horizontal ? availableWidth : availableHeight);
 
             // Now focus the content on the center of the content at this scale.
-            renderedFocus = project.evaluator.animations.createPlace(
+            fitFocus = project.evaluator.animations.createPlace(
                 (viewportWidth / 2 -
                     PX_PER_METER *
                         (contentBounds.left + contentBounds.width / 2)) /
@@ -113,8 +119,6 @@
                     PX_PER_METER,
                 z
             );
-        } else if (adjustedFocus) {
-            renderedFocus = adjustedFocus;
         }
     }
 
@@ -182,6 +186,16 @@
         } else ignore();
     }
 
+    function adjustFocus(x: number, y: number, z: number) {
+        adjustedFocus = project.evaluator.animations.adjustFocus(
+            renderedFocus,
+            x,
+            y,
+            z
+        );
+        fit = false;
+    }
+
     function handleKeyDown(event: KeyboardEvent) {
         // Never handle tab; that's for focus navigation.
         if (event.key === 'Tab') return;
@@ -190,53 +204,17 @@
         if (event.shiftKey) {
             const increment = 1;
             if (event.key === 'ArrowLeft') {
-                adjustedFocus = project.evaluator.animations.adjustFocus(
-                    adjustedFocus ?? renderedFocus,
-                    -1 * increment,
-                    0,
-                    0
-                );
-                return;
+                return adjustFocus(-1 * increment, 0, 0);
             } else if (event.key === 'ArrowRight') {
-                adjustedFocus = project.evaluator.animations.adjustFocus(
-                    adjustedFocus ?? renderedFocus,
-                    increment,
-                    0,
-                    0
-                );
-                return;
+                return adjustFocus(increment, 0, 0);
             } else if (event.key === 'ArrowUp') {
-                adjustedFocus = project.evaluator.animations.adjustFocus(
-                    adjustedFocus ?? renderedFocus,
-                    0,
-                    -1 * increment,
-                    0
-                );
-                return;
+                return adjustFocus(0, -1 * increment, 0);
             } else if (event.key === 'ArrowDown') {
-                adjustedFocus = project.evaluator.animations.adjustFocus(
-                    adjustedFocus ?? renderedFocus,
-                    0,
-                    increment,
-                    0
-                );
-                return;
+                return adjustFocus(0, increment, 0);
             } else if (event.key === '+') {
-                adjustedFocus = project.evaluator.animations.adjustFocus(
-                    adjustedFocus ?? renderedFocus,
-                    0,
-                    0,
-                    increment
-                );
-                return;
+                return adjustFocus(0, 0, increment);
             } else if (event.key === '_') {
-                adjustedFocus = project.evaluator.animations.adjustFocus(
-                    adjustedFocus ?? renderedFocus,
-                    0,
-                    0,
-                    -1 * increment
-                );
-                return;
+                return adjustFocus(0, 0, -1 * increment);
             }
         }
 

@@ -53,7 +53,7 @@
     {#if secondaryCount > 0}<span class="count secondary">{secondaryCount}</span
         >{/if}
     <div class="output">
-        <OutputView {project} {source} {latest} mode="mini" />
+        <OutputView {project} {source} {latest} fit={true} mode="mini" />
     </div>
 </div>
 

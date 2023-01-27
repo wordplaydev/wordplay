@@ -18,6 +18,7 @@
     export let project: Project;
     export let source: Source;
     export let latest: Value | undefined;
+    export let fit: boolean;
     export let mode: 'mini' | 'peripheral';
     export let background: string | null = null;
 
@@ -77,6 +78,7 @@
             <VerseView
                 {project}
                 {verse}
+                bind:fit
                 interactive={mode !== 'mini' && source === project.main}
                 editable={mode === 'peripheral' && $playing}
             />

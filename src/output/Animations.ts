@@ -357,10 +357,6 @@ export class Animations {
             places,
             visible: this.visible,
             exiting: this.exiting,
-            focus:
-                verse !== undefined && verse.focus !== undefined
-                    ? verse.focus
-                    : this.focus,
         };
     }
 

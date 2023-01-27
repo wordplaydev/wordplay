@@ -1603,6 +1603,7 @@ const eng_cs: Translation = {
             vertical: 'switch to vertical arrangement',
             freeform: 'switch to free form arrangement',
             addPhrase: 'add a phrase to the verse',
+            fit: 'fit to content',
         },
         labels: {
             learn: 'learn more …',
