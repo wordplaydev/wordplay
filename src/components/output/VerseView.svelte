@@ -58,8 +58,13 @@
             observer = new ResizeObserver((entries) => {
                 const el = entries.at(0);
                 if (el) {
+                    changed =
+                        viewportWidth !== el.contentRect.width ||
+                        viewportHeight !== el.contentRect.height;
                     viewportWidth = el.contentRect.width;
                     viewportHeight = el.contentRect.height;
+
+                    if (changed) setTimeout(() => (changed = false), 250);
                 }
             });
             observer.observe(parent);
@@ -68,6 +73,7 @@
 
     let viewportWidth: number = 0;
     let viewportHeight: number = 0;
+    let changed: boolean = false;
 
     // When verse changes, if there's no verse focus set, set the focus to fit to content.
     $: {
@@ -86,7 +92,6 @@
             const scaleX = availableWidth / contentRenderedWidth;
             const scaleY = availableHeight / contentRenderedHeight;
             const horizontal = scaleX < scaleY;
-            const scale = scaleX < scaleY ? scaleX : scaleY;
 
             // This is is a bit of constraint solving to calculate the z necessary for achieving the scale computed above.
             const z =
@@ -98,19 +103,16 @@
 
             // Now focus the content on the center of the content at this scale.
             renderedFocus = project.evaluator.animations.createPlace(
-                (1 *
-                    (viewportWidth / 2 -
-                        PX_PER_METER *
-                            (contentBounds.left + contentBounds.width / 2))) /
+                (viewportWidth / 2 -
+                    PX_PER_METER *
+                        (contentBounds.left + contentBounds.width / 2)) /
                     PX_PER_METER,
-                (1 *
-                    (viewportHeight / 2 -
-                        PX_PER_METER *
-                            (contentBounds.top + contentBounds.height / 2))) /
+                (viewportHeight / 2 -
+                    PX_PER_METER *
+                        (contentBounds.top + contentBounds.height / 2)) /
                     PX_PER_METER,
                 z
             );
-            // renderedFocus = project.evaluator.animations.createPlace(0, 0, z);
         } else if (adjustedFocus) {
             renderedFocus = adjustedFocus;
         }
@@ -279,6 +281,7 @@
     >
         <div
             class="viewport"
+            class:changed
             style:transform={` scale(${Math.abs(
                 PX_PER_METER / renderedFocus.z.toNumber()
             )}) translate(${PX_PER_METER * renderedFocus.x.toNumber()}px, ${
@@ -336,6 +339,10 @@
         width: 100%;
         height: 100%;
         transition: transform 0.25s ease-out;
+    }
+
+    .viewport.changed {
+        transition: none;
     }
 
     .ignored {
