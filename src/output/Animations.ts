@@ -106,8 +106,7 @@ export class Animations {
         );
     }
 
-    adjustFocus(x: number, y: number, z: number): Place {
-        const focus = this.getFocus();
+    adjustFocus(focus: Place, x: number, y: number, z: number): Place {
         return this.setFocus(
             focus.x.toNumber() + x,
             focus.y.toNumber() + y,

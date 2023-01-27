@@ -98,12 +98,12 @@
 
             // Now focus the content on the center of the content at this scale.
             renderedFocus = project.evaluator.animations.createPlace(
-                (scale *
+                (1 *
                     (viewportWidth / 2 -
                         PX_PER_METER *
                             (contentBounds.left + contentBounds.width / 2))) /
                     PX_PER_METER,
-                (scale *
+                (1 *
                     (viewportHeight / 2 -
                         PX_PER_METER *
                             (contentBounds.top + contentBounds.height / 2))) /
@@ -189,6 +189,7 @@
             const increment = 1;
             if (event.key === 'ArrowLeft') {
                 adjustedFocus = project.evaluator.animations.adjustFocus(
+                    adjustedFocus ?? renderedFocus,
                     -1 * increment,
                     0,
                     0
@@ -196,6 +197,7 @@
                 return;
             } else if (event.key === 'ArrowRight') {
                 adjustedFocus = project.evaluator.animations.adjustFocus(
+                    adjustedFocus ?? renderedFocus,
                     increment,
                     0,
                     0
@@ -203,6 +205,7 @@
                 return;
             } else if (event.key === 'ArrowUp') {
                 adjustedFocus = project.evaluator.animations.adjustFocus(
+                    adjustedFocus ?? renderedFocus,
                     0,
                     -1 * increment,
                     0
@@ -210,6 +213,7 @@
                 return;
             } else if (event.key === 'ArrowDown') {
                 adjustedFocus = project.evaluator.animations.adjustFocus(
+                    adjustedFocus ?? renderedFocus,
                     0,
                     increment,
                     0
@@ -217,6 +221,7 @@
                 return;
             } else if (event.key === '+') {
                 adjustedFocus = project.evaluator.animations.adjustFocus(
+                    adjustedFocus ?? renderedFocus,
                     0,
                     0,
                     increment
@@ -224,6 +229,7 @@
                 return;
             } else if (event.key === '_') {
                 adjustedFocus = project.evaluator.animations.adjustFocus(
+                    adjustedFocus ?? renderedFocus,
                     0,
                     0,
                     -1 * increment
@@ -273,13 +279,15 @@
     >
         <div
             class="viewport"
-            style:transform={`${
+            style:transform={` scale(${Math.abs(
+                PX_PER_METER / renderedFocus.z.toNumber()
+            )}) translate(${PX_PER_METER * renderedFocus.x.toNumber()}px, ${
+                PX_PER_METER * renderedFocus.y.toNumber()
+            }px) ${
                 verse.tilt.toNumber() !== 0
                     ? `rotate(${verse.tilt.toNumber()}deg)`
                     : ''
-            } translate(${PX_PER_METER * renderedFocus.x.toNumber()}px, ${
-                PX_PER_METER * renderedFocus.y.toNumber()
-            }px) scale(${Math.abs(PX_PER_METER / renderedFocus.z.toNumber())})`}
+            }`}
         >
             <!-- Render all visible phrases at their places, as well as any exiting phrases -->
             {#each visible as phrase}
