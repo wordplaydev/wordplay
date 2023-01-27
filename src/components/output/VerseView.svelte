@@ -60,7 +60,6 @@
                 if (el) {
                     viewportWidth = el.contentRect.width;
                     viewportHeight = el.contentRect.height;
-                    console.log(viewportHeight);
                 }
             });
             observer.observe(parent);
@@ -88,8 +87,6 @@
             const scaleY = availableHeight / contentRenderedHeight;
             const horizontal = scaleX < scaleY;
             const scale = scaleX < scaleY ? scaleX : scaleY;
-
-            console.log(contentBounds);
 
             // This is is a bit of constraint solving to calculate the z necessary for achieving the scale computed above.
             const z =

@@ -52,7 +52,9 @@
     {#if primaryCount > 0}<span class="count primary">{primaryCount}</span>{/if}
     {#if secondaryCount > 0}<span class="count secondary">{secondaryCount}</span
         >{/if}
-    <OutputView {project} {source} {latest} mode="mini" />
+    <div class="output">
+        <OutputView {project} {source} {latest} mode="mini" />
+    </div>
 </div>
 
 <style>
@@ -87,5 +89,11 @@
 
     .secondary {
         background-color: var(--wordplay-warning);
+    }
+
+    .output {
+        width: 3em;
+        height: 3em;
+        border: var(--wordplay-border-color) solid var(--wordplay-border-width);
     }
 </style>
