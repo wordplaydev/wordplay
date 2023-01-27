@@ -1,13 +1,7 @@
 <script lang="ts">
     import { onDestroy, setContext, tick } from 'svelte';
     import { writable } from 'svelte/store';
-    import {
-        type DraggedContext,
-        DraggedSymbol,
-        type ProjectContext,
-        ProjectSymbol,
-    } from './Contexts';
-    import KeyboardIdle from '../editor/util/KeyboardIdle';
+    import { type DraggedContext, DraggedSymbol } from './Contexts';
     import type Project from '../../models/Project';
     import Documentation from '@components/concepts/Documentation.svelte';
     import type Tree from '@nodes/Tree';
@@ -16,7 +10,6 @@
         currentStep,
         nodeConflicts,
         updateProject,
-        selectedOutput,
     } from '../../models/stores';
     import Annotations from '../annotations/Annotations.svelte';
     import type Conflict from '@conflicts/Conflict';
@@ -39,7 +32,7 @@
     import NonSourceTileToggle from './NonSourceTileToggle.svelte';
     import Button from '../widgets/Button.svelte';
     import Language from '../app/Language.svelte';
-    import OutputEditor from '../palette/Palette.svelte';
+    import Palette from '../palette/Palette.svelte';
     import type Bounds from './Bounds';
     import type Source from '@nodes/Source';
     import MiniSourceView from './SourceTileToggle.svelte';
@@ -558,7 +551,7 @@
                         {#if tile.kind === Content.Documentation}
                             <Documentation />
                         {:else if tile.kind === Content.Palette}
-                            <OutputEditor {project} />
+                            <Palette {project} />
                         {:else if tile.kind === Content.Output}
                             <OutputView
                                 {project}
