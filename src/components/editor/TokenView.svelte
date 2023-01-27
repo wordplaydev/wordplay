@@ -131,6 +131,7 @@
         display: inline-block;
         position: relative;
         cursor: text;
+        animation: bounce 0.5s;
     }
 
     .token-category-delimiter {

@@ -37,6 +37,8 @@
     --wordplay-palette-min-width: 5em;
     --wordplay-palette-max-width: 15em;
 
+    --bounce-height: 0.5em;
+
 }
 
 @keyframes wobble {
