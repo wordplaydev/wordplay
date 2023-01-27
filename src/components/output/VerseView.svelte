@@ -29,6 +29,9 @@
     setContext('editable', editableStore);
     $: editableStore.set(editable);
 
+    // Set the animations context for everything in the verse.
+    setContext('animations', project.evaluator.animations);
+
     let mounted = false;
     onMount(() => (mounted = true));
 
@@ -37,13 +40,14 @@
     let places = new Map<Group, Place>();
     let exiting: Map<Phrase, Place> = new Map();
     let fitFocus: Place | undefined = undefined;
-    $: verseFocus = verse.focus;
     let adjustedFocus: Place = project.evaluator.animations.getFocus();
-    setContext('animations', project.evaluator.animations);
+
+    $: verseFocus = verse.focus;
     $: ({ places, visible, exiting } = project.evaluator.animations.update(
         verse,
         $preferredLanguages,
-        $loadedFonts
+        $loadedFonts,
+        renderedFocus
     ));
 
     // Keep the rendered focus in sync with the various focus controls.
@@ -117,6 +121,7 @@
                     PX_PER_METER,
                 z
             );
+            if (fit) adjustedFocus = fitFocus;
         }
     }
 

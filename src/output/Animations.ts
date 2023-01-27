@@ -79,9 +79,7 @@ export class Animations {
     }
 
     getFocus() {
-        return this.verse != undefined && this.verse.focus !== undefined
-            ? this.verse.focus
-            : this.focus ?? this.createPlace(0, 0, -12);
+        return this.focus ?? this.createPlace(0, 0, -12);
     }
 
     createPlace(x: number, y: number, z: number): Place {
@@ -115,9 +113,9 @@ export class Animations {
     }
 
     setFocus(x: number, y: number, z: number): Place {
-        this.focus = this.createPlace(x, y, z);
-        this.update(this.verse, this.languages, this.fontsLoaded, true);
-        return this.focus;
+        const focus = this.createPlace(x, y, z);
+        this.update(this.verse, this.languages, this.fontsLoaded, focus, true);
+        return focus;
     }
 
     getAnimationCount() {
@@ -222,13 +220,13 @@ export class Animations {
         verse: Verse | undefined,
         languages: LanguageCode[],
         fonts: Set<string>,
+        focus: Place,
         unconditional: boolean = false
     ) {
         this.verse = verse;
         this.languages = languages;
         this.fontsLoaded = fonts;
-
-        const focus = this.getFocus();
+        this.focus = focus;
 
         // Walk the Verse and compute global places for each group.
         // This relies on each phrase and group to be able to size itself independent of its group
