@@ -122,7 +122,7 @@
                     PX_PER_METER
                 ) / (horizontal ? availableWidth : availableHeight);
 
-            // Now focus the content on the center of the content at this scale.
+            // Now focus the content on the center of the content.
             fitFocus = project.evaluator.animations.createPlace(
                 (viewportWidth / 2 -
                     PX_PER_METER *
@@ -134,6 +134,8 @@
                     PX_PER_METER,
                 z
             );
+            // If we're currently fitting to content, just make the adjusted focus the same in case the setting is disabled.
+            // This ensures we start from where we left off.
             if (fit) adjustedFocus = fitFocus;
         }
     }
