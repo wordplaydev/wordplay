@@ -154,13 +154,13 @@
     }
 
     /** When output selection changes, make the palette visible. */
-    $: {
-        if ($selectedOutput.length > 0) {
-            const palette = layout.getPalette();
-            if (palette && palette.mode === Mode.Collapsed)
-                setMode(palette, Mode.Expanded);
-        }
-    }
+    // $: {
+    //     if ($selectedOutput.length > 0) {
+    //         const palette = layout.getPalette();
+    //         if (palette && palette.mode === Mode.Collapsed)
+    //             setMode(palette, Mode.Expanded);
+    //     }
+    // }
 
     /** Compute a default layout, or a new layout when the languages change. */
     $: layout = new Layout(

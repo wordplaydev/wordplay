@@ -8,14 +8,13 @@
     import { preferredLanguages } from '@translation/translations';
     import PhraseView from './PhraseView.svelte';
     import { loadedFonts } from '../../native/Fonts';
-    import { PX_PER_METER, sizeToPx, toCSS } from '../../output/phraseToCSS';
+    import { PX_PER_METER, toCSS } from '../../output/phraseToCSS';
     import type Phrase from '../../output/Phrase';
     import type Group from '../../output/Group';
     import type Place from '../../output/Place';
     import { writable } from 'svelte/store';
     import Evaluate from '@nodes/Evaluate';
     import { VerseType } from '../../output/Verse';
-    import { afterUpdate } from 'svelte';
 
     export let project: Project;
     export let verse: Verse;
@@ -61,6 +60,7 @@
                 if (el) {
                     viewportWidth = el.contentRect.width;
                     viewportHeight = el.contentRect.height;
+                    console.log(viewportHeight);
                 }
             });
             observer.observe(parent);
@@ -74,9 +74,10 @@
     $: {
         const context = project.evaluator.animations.getRenderContext();
         if (view && adjustedFocus === undefined) {
-            const contentWidth = verse.getWidth(context).toNumber();
+            const contentBounds = verse.getBounds(context);
+            const contentWidth = contentBounds.width;
             const contentRenderedWidth = contentWidth * PX_PER_METER;
-            const contentHeight = verse.getHeight(context).toNumber();
+            const contentHeight = contentBounds.height;
             const contentRenderedHeight = contentHeight * PX_PER_METER;
             // Some padding
             const availableWidth = viewportWidth * (2 / 3);
@@ -86,7 +87,11 @@
             const scaleX = availableWidth / contentRenderedWidth;
             const scaleY = availableHeight / contentRenderedHeight;
             const horizontal = scaleX < scaleY;
+            const scale = scaleX < scaleY ? scaleX : scaleY;
 
+            console.log(contentBounds);
+
+            // This is is a bit of constraint solving to calculate the z necessary for achieving the scale computed above.
             const z =
                 -(
                     (horizontal ? contentWidth : contentHeight) *
@@ -94,8 +99,21 @@
                     PX_PER_METER
                 ) / (horizontal ? availableWidth : availableHeight);
 
-            // Choose the smaller of the two to ensure nothing gets clipped.
-            renderedFocus = project.evaluator.animations.createPlace(0, 0, z);
+            // Now focus the content on the center of the content at this scale.
+            renderedFocus = project.evaluator.animations.createPlace(
+                (scale *
+                    (viewportWidth / 2 -
+                        PX_PER_METER *
+                            (contentBounds.left + contentBounds.width / 2))) /
+                    PX_PER_METER,
+                (scale *
+                    (viewportHeight / 2 -
+                        PX_PER_METER *
+                            (contentBounds.top + contentBounds.height / 2))) /
+                    PX_PER_METER,
+                z
+            );
+            // renderedFocus = project.evaluator.animations.createPlace(0, 0, z);
         } else if (adjustedFocus) {
             renderedFocus = adjustedFocus;
         }
@@ -248,13 +266,6 @@
             'font-family': verse.font,
             background: verse.background.toCSS(),
             color: verse.foreground.toCSS(),
-            transform: `${
-                verse.tilt.toNumber() !== 0
-                    ? `rotate(${verse.tilt.toNumber()}deg)`
-                    : ''
-            } translate(${-PX_PER_METER * renderedFocus.x.toNumber()}px, ${
-                -PX_PER_METER * renderedFocus.y.toNumber()
-            }px) scale(${Math.abs(PX_PER_METER / renderedFocus.z.toNumber())})`,
         })}
         on:mousedown={(event) => (interactive ? handleMouseDown(event) : null)}
         on:mouseup={interactive ? handleMouseUp : null}
@@ -263,7 +274,16 @@
         on:keyup={interactive ? handleKeyUp : null}
         bind:this={view}
     >
-        <div class="viewport">
+        <div
+            class="viewport"
+            style:transform={`${
+                verse.tilt.toNumber() !== 0
+                    ? `rotate(${verse.tilt.toNumber()}deg)`
+                    : ''
+            } translate(${PX_PER_METER * renderedFocus.x.toNumber()}px, ${
+                PX_PER_METER * renderedFocus.y.toNumber()
+            }px) scale(${Math.abs(PX_PER_METER / renderedFocus.z.toNumber())})`}
+        >
             <!-- Render all visible phrases at their places, as well as any exiting phrases -->
             {#each visible as phrase}
                 {@const place = places.get(phrase)}
@@ -301,26 +321,20 @@
         user-select: none;
         width: 100%;
         height: 100%;
-
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        transition: transform 0.25s ease-out;
     }
 
     .verse:focus {
         outline: none;
     }
 
-    .ignored {
-        animation: shake 0.1s 1;
-    }
-
     .viewport {
         width: 100%;
         height: 100%;
-        transform: translate(50%, 50%);
+        transition: transform 0.25s ease-out;
+    }
+
+    .ignored {
+        animation: shake 0.1s 1;
     }
 
     :global(.group.debug, .phrase.debug) {

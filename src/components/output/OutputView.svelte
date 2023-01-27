@@ -106,12 +106,11 @@
         align-items: center;
         flex: 1;
         width: 100%;
+        height: 100%;
     }
 
     .mini {
         position: static;
-        width: 2em;
-        height: 2em;
         box-shadow: none;
         background-color: var(--wordplay-background);
         transform-origin: center;

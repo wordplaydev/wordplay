@@ -2,7 +2,7 @@ import Structure from '@runtime/Structure';
 import type Value from '@runtime/Value';
 import Group from './Group';
 import type { RenderContext } from './RenderContext';
-import { toFont } from './Phrase';
+import Phrase, { toFont } from './Phrase';
 import Fonts, { SupportedFontsType } from '../native/Fonts';
 import Color from './Color';
 import Place, { toPlace } from './Place';
@@ -60,8 +60,7 @@ export default class Verse extends Group {
         Fonts.loadFamily(this.font);
     }
 
-    /** A verse's width is the difference between it's left and right extents. */
-    getWidth(context: RenderContext): Decimal {
+    getBounds(context: RenderContext) {
         const places = this.getPlaces(context);
         const left = Math.min.apply(
             Math,
@@ -73,12 +72,6 @@ export default class Verse extends Group {
                 place.x.add(group.getWidth(context)).toNumber()
             )
         );
-        return new Decimal(right - left);
-    }
-
-    /** A verse's height is the difference between it's highest and lowest extents. */
-    getHeight(context: RenderContext): Decimal {
-        const places = this.getPlaces(context);
         const top = Math.min.apply(
             Math,
             places.map(([, place]) => place.y.toNumber())
@@ -89,7 +82,22 @@ export default class Verse extends Group {
                 place.y.add(group.getHeight(context)).toNumber()
             )
         );
-        return new Decimal(bottom - top);
+        return {
+            left,
+            top,
+            width: right - left,
+            height: bottom - top,
+        };
+    }
+
+    /** A verse's width is the difference between it's left and right extents. */
+    getWidth(context: RenderContext): Decimal {
+        return new Decimal(this.getBounds(context).width);
+    }
+
+    /** A verse's height is the difference between it's highest and lowest extents. */
+    getHeight(context: RenderContext): Decimal {
+        return new Decimal(this.getBounds(context).height);
     }
 
     getGroups(): Group[] {
@@ -100,29 +108,16 @@ export default class Verse extends Group {
      * A Verse is a Group that lays out a list of phrases according to their specified places,
      * or if the phrases */
     getPlaces(context: RenderContext): [Group, Place][] {
-        // Center the group in the verse, and offset by the verse focus, if this has one, and the context focus, if it has one, and zero otherwise.
         return this.groups.map((group) => [
             group,
-            new Place(
-                this.value,
-                group.getWidth(context).div(2).neg(),
-                // .sub(
-                //     this.focus
-                //         ? this.focus.x
-                //         : context.focus
-                //         ? context.focus.x
-                //         : 0
-                // )
-                group.getHeight(context).div(2).neg(),
-                // .sub(
-                //     this.focus
-                //         ? this.focus.y
-                //         : context.focus
-                //         ? context.focus.y
-                //         : 0
-                // )
-                new Decimal(0)
-            ),
+            group instanceof Phrase && group.place
+                ? group.place
+                : new Place(
+                      this.value,
+                      group.getWidth(context).div(2).neg(),
+                      group.getHeight(context).div(2).neg(),
+                      new Decimal(0)
+                  ),
         ]);
     }
 
