@@ -53,8 +53,6 @@
         ? fitFocus
         : adjustedFocus;
 
-    $: console.log(verseFocus);
-
     let parent: Element | null;
     let observer: ResizeObserver | undefined;
     $: {
