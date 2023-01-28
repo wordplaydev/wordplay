@@ -9,6 +9,7 @@ import Decimal from 'decimal.js';
 import type LanguageCode from '@translation/LanguageCode';
 import { getPreferredTranslation } from '@translation/getPreferredTranslation';
 import { getBind } from '@translation/getBind';
+import Phrase from './Phrase';
 
 export const RowType = toStructure(`
     ${getBind((t) => t.output.row.definition, '•')} Group(
@@ -63,7 +64,10 @@ export class Row extends Group {
                     this.value,
                     position,
                     height.sub(group.getHeight(context)).div(2),
-                    new Decimal(0)
+                    // If the phrase a place, use it's z, otherwise default to the 0 plane.
+                    group instanceof Phrase && group.place
+                        ? group.place.z
+                        : new Decimal(0)
                 ),
             ]);
             position = position.add(group.getWidth(context));

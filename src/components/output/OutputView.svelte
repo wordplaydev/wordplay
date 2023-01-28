@@ -115,7 +115,6 @@
         position: static;
         box-shadow: none;
         background-color: var(--wordplay-background);
-        transform-origin: center;
     }
 
     .fill {

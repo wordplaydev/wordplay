@@ -1,15 +1,13 @@
+import Decimal from 'decimal.js';
 import type Phrase from './Phrase';
 import type Place from './Place';
 
 export const PX_PER_METER = 16;
 export const MAGNIFIER = 12;
+export const FOCAL_LENGTH = new Decimal(20);
 
 export function sizeToPx(size: number): string {
     return `${size * PX_PER_METER}px`;
-}
-
-export function sizeToFontSize(size: number, z: number, focus: number) {
-    return sizeToPx(MAGNIFIER * (size / (z - focus)));
 }
 
 export function toCSS(values: Record<string, string | undefined>) {
@@ -21,28 +19,82 @@ export function toCSS(values: Record<string, string | undefined>) {
         .join(' ');
 }
 
+function translateXY(x: number, y: number) {
+    return `translate(${x}px, ${y}px)`;
+}
+
+function scaleXY(x: number, y: number) {
+    return `scale(${x}, ${y})`;
+}
+
+function rotateDeg(deg: number) {
+    return `rotate(${deg}deg)`;
+}
+
 export default function phraseToCSS(
     phrase: Phrase,
     place: Place,
-    focus: Place
+    focus: Place,
+    viewportWidth: number,
+    viewportHeight: number,
+    metrics: { width: number; ascent: number }
 ) {
+    // A place's rendered position is a combination of it's position relative to the focus,
+    // and the viewport size.
+
+    // Compute the delta between this phrase and the focus.
+    const dz = place.z.sub(focus.z);
+
+    // Compute a scale proportional to the focal length and inversely proporitional to the difference.
+    const perspectiveScale = FOCAL_LENGTH.div(dz);
+
+    const centerXOffset =
+        place.x.times(PX_PER_METER).toNumber() + metrics.width / 2;
+    const centerYOffset =
+        place.y.times(PX_PER_METER).toNumber() + metrics.ascent / 2;
+
+    // These are applied in reverse
+    const transform = [
+        // Lastly, center around the viewport center.
+        translateXY(viewportWidth / 2, viewportHeight / 2),
+        // Undo the focus translation
+        translateXY(
+            -focus.x.toNumber() * PX_PER_METER,
+            -focus.y.toNumber() * PX_PER_METER
+        ),
+        // Scale around the focus
+        scaleXY(perspectiveScale.toNumber(), perspectiveScale.toNumber()),
+        // Translate to the focus
+        translateXY(
+            focus.x.toNumber() * PX_PER_METER,
+            focus.y.toNumber() * PX_PER_METER
+        ),
+        // Translate to the center
+        translateXY(centerXOffset, centerYOffset),
+        // Scale around the center
+        scaleXY(phrase.scalex ?? 1, phrase.scaley ?? 1),
+        // Offset around the center
+        translateXY(
+            (phrase.offset?.x.toNumber() ?? 0) * PX_PER_METER,
+            (phrase.offset?.y.toNumber() ?? 0) * PX_PER_METER
+        ),
+        // Rotate around the center
+        rotateDeg(phrase.rotation ?? 0),
+        // Translate to the center
+        translateXY(-centerXOffset, -centerYOffset),
+        // Translate to its position
+        translateXY(
+            place.x.add(phrase.offset?.x ?? 0).toNumber() * PX_PER_METER,
+            place.y.add(phrase.offset?.y ?? 0).toNumber() * PX_PER_METER
+        ),
+    ];
+
     return toCSS({
-        left: sizeToPx(place.x.toNumber()),
-        top: sizeToPx(place.y.toNumber()),
-        transform:
-            phrase.offset || phrase.rotation || phrase.scalex || phrase.scaley
-                ? `${
-                      phrase.offset
-                          ? `translate(${sizeToPx(
-                                phrase.offset.x.toNumber()
-                            )}, ${sizeToPx(phrase.offset.y.toNumber())})`
-                          : ''
-                  } ${phrase.rotation ? `rotate(${phrase.rotation}deg)` : ''} ${
-                      phrase.scalex || phrase.scaley
-                          ? `scale(${phrase.scalex}, ${phrase.scaley})`
-                          : ''
-                  }`
-                : undefined,
+        left: '0px',
+        top: '0px',
+        transform: transform.join(' '),
+        // This disables translation around the center; we want to translate around the focus.
+        'transform-origin': '0 0',
         color: phrase.color?.toCSS(),
         opacity:
             phrase.opacity !== undefined

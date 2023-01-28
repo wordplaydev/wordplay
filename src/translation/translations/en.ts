@@ -1706,7 +1706,7 @@ const eng_cs: Translation = {
             poses: { doc: WRITE_DOC, name: 'poses' },
         },
         place: {
-            definition: { doc: WRITE_DOC, name: ['📌', 'Place'] },
+            definition: { doc: WRITE_DOC, name: ['📍', 'Place'] },
             x: { doc: WRITE_DOC, name: 'x' },
             y: { doc: WRITE_DOC, name: 'y' },
             z: { doc: WRITE_DOC, name: 'z' },

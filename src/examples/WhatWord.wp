@@ -33,7 +33,7 @@ board/en,🔤/😀: 💬(
   2m
 )
 
-screen: state.status = "start" ? ⬇(💬(["What***Word***"/en "Que***Palabra***"/es "?_"/😀] 3m) 💬("Press ***space*** to begin"))
+screen: state.status = "start" ? ⬇(💬(["What***Word***"/en "Que***Palabra***"/es "?_"/😀] 3m rotation: 2° place:📍(0m 0m -1m)) 💬("Press ***space*** to begin"))
 state.status = "lost" ?  ⬇(board 💬("You lost. Press **space** to play again."))
 state.status = "won" ?   ⬇(board 💬("You won, nice job! Press space to play again."))
                          ⬇(

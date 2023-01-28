@@ -35,9 +35,6 @@
                 secondaryCount++;
         }
     }
-
-    let width;
-    let height;
 </script>
 
 <div

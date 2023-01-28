@@ -15,6 +15,7 @@
     export let phrase: Phrase;
     export let place: Place;
     export let focus: Place;
+    export let viewport: { width: number; height: number };
     export let context: RenderContext;
 
     $: editable = getContext<Writable<boolean>>('editable');
@@ -78,7 +79,14 @@
     class:selected={$editable && selected}
     tabIndex="0"
     id={`phrase-${phrase.getName()}`}
-    style={phraseToCSS(phrase, phrase.place ?? place, focus)}
+    style={phraseToCSS(
+        phrase,
+        place,
+        focus,
+        viewport.width,
+        viewport.height,
+        phrase.getMetrics(context)
+    )}
     on:mousedown={(event) => ($selectedOutput ? select(event) : null)}
     on:keydown={handleKey}
 >

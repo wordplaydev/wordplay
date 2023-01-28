@@ -264,7 +264,8 @@ export function toPhrase(value: Value | undefined): Phrase | undefined {
     const opacity = toDecimal(value.resolve('opacity'))?.toNumber() ?? 1;
     const place = toPlace(value.resolve('place'));
     const offset = toPlace(value.resolve('offset'));
-    const rotation = toDecimal(value.resolve('rotation'))?.toNumber() ?? 0;
+    const rotation =
+        toDecimal(value.resolve('rotation'))?.toNumber() ?? undefined;
     const scalex = toDecimal(value.resolve('scalex'))?.toNumber() ?? 1;
     const scaley = toDecimal(value.resolve('scaley'))?.toNumber() ?? 1;
     const name = toText(value.resolve('name'));

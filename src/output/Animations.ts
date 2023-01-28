@@ -51,6 +51,8 @@ export class Animations {
     verse: Verse | undefined;
     languages: LanguageCode[];
     fontsLoaded: Set<string>;
+    viewportWidth: number;
+    viewportHeight: number;
 
     /** The default focus if the verse doesn't apply one. Can be manipulated by the creator or audience. */
     focus: Place | undefined;
@@ -76,6 +78,8 @@ export class Animations {
         this.languages = languages;
         this.fontsLoaded = fonts;
         this.focus = undefined;
+        this.viewportWidth = 0;
+        this.viewportHeight = 0;
     }
 
     getFocus() {
@@ -114,7 +118,15 @@ export class Animations {
 
     setFocus(x: number, y: number, z: number): Place {
         const focus = this.createPlace(x, y, z);
-        this.update(this.verse, this.languages, this.fontsLoaded, focus, true);
+        this.update(
+            this.verse,
+            this.languages,
+            this.fontsLoaded,
+            focus,
+            this.viewportWidth,
+            this.viewportHeight,
+            true
+        );
         return focus;
     }
 
@@ -210,8 +222,9 @@ export class Animations {
         return {
             font: this.verse?.font ?? '',
             languages: this.languages,
-            focus: this.getFocus(),
             fonts: this.fontsLoaded,
+            width: this.viewportWidth,
+            height: this.viewportHeight,
             animations: animationsByPhrase,
         };
     }
@@ -221,12 +234,16 @@ export class Animations {
         languages: LanguageCode[],
         fonts: Set<string>,
         focus: Place,
+        width: number,
+        height: number,
         unconditional: boolean = false
     ) {
         this.verse = verse;
         this.languages = languages;
         this.fontsLoaded = fonts;
         this.focus = focus;
+        this.viewportWidth = width;
+        this.viewportHeight = height;
 
         // Walk the Verse and compute global places for each group.
         // This relies on each phrase and group to be able to size itself independent of its group
@@ -452,6 +469,8 @@ export class Animations {
 
     animate(currentTime: number) {
         const completed: PhraseName[] = [];
+
+        const context = this.getRenderContext();
 
         // For all of the active sequences, make progress on their current pose's moves, and advance to next poses.
         for (let [name, animation] of this.animations) {
@@ -721,7 +740,13 @@ export class Animations {
 
         // Render each phrase with the pose.
         for (const [name, animation] of this.animations)
-            this.renderPhrase(name, animation, places, this.getFocus());
+            this.renderPhrase(
+                name,
+                animation,
+                places,
+                this.getFocus(),
+                context
+            );
 
         // Clean up all completed sequences.
         for (const name of completed) {
@@ -767,7 +792,8 @@ export class Animations {
         name: PhraseName,
         animation: Animation,
         places: Map<Group, Place>,
-        focus: Place
+        focus: Place,
+        context: RenderContext
     ) {
         if (this.verse === undefined) return;
 
@@ -811,7 +837,10 @@ export class Animations {
                     phraseToCSS(
                         renderedPhrase,
                         renderedPhrase.place ?? place,
-                        focus
+                        focus,
+                        this.viewportWidth,
+                        this.viewportHeight,
+                        renderedPhrase.getMetrics(context)
                     )
                 );
                 view.innerHTML = renderedPhrase.getDescription(this.languages);

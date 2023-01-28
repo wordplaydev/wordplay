@@ -60,7 +60,9 @@
         verse,
         $preferredLanguages,
         $loadedFonts,
-        renderedFocus
+        renderedFocus,
+        viewportWidth,
+        viewportHeight
     ));
 
     /** Whenever the verse focus, fit setting, or adjusted focus change, updated the rendered focus */
@@ -100,19 +102,26 @@
     $: {
         const context = project.evaluator.animations.getRenderContext();
         if (view) {
+            // Get the bounds of the verse in verse units.
             const contentBounds = verse.getBounds(context);
             const contentWidth = contentBounds.width;
-            const contentRenderedWidth = contentWidth * PX_PER_METER;
             const contentHeight = contentBounds.height;
+
+            // Conver them to screen units.
+            const contentRenderedWidth = contentWidth * PX_PER_METER;
             const contentRenderedHeight = contentHeight * PX_PER_METER;
-            // Some padding
+
+            // Leave some padding on the edges.
             const availableWidth = viewportWidth * (2 / 3);
             const availableHeight = viewportHeight * (2 / 3);
 
             // Figure out the fit dimension based on which scale would be smaller.
-            const scaleX = availableWidth / contentRenderedWidth;
-            const scaleY = availableHeight / contentRenderedHeight;
-            const horizontal = scaleX < scaleY;
+            // This ensures that we don't clip anything.
+            const horizontal =
+                availableWidth / contentRenderedWidth <
+                availableHeight / contentRenderedHeight;
+
+            // Adjust the x so that everything fits inside.
 
             // This is is a bit of constraint solving to calculate the z necessary for achieving the scale computed above.
             const z =
@@ -124,14 +133,8 @@
 
             // Now focus the content on the center of the content.
             fitFocus = project.evaluator.animations.createPlace(
-                (viewportWidth / 2 -
-                    PX_PER_METER *
-                        (contentBounds.left + contentBounds.width / 2)) /
-                    PX_PER_METER,
-                (viewportHeight / 2 -
-                    PX_PER_METER *
-                        (contentBounds.top + contentBounds.height / 2)) /
-                    PX_PER_METER,
+                -(contentBounds.left + contentBounds.width / 2),
+                -(contentBounds.top + contentBounds.height / 2),
                 z
             );
             // If we're currently fitting to content, just make the adjusted focus the same in case the setting is disabled.
@@ -213,13 +216,11 @@
             const deltaX = event.clientX - rect.left - focusDrag.left;
             const deltaY = event.clientY - rect.top - focusDrag.top;
 
-            const scale = PX_PER_METER / renderedFocus.z.toNumber();
+            const scale = PX_PER_METER;
 
             setFocus(
-                focusDrag.startFocus.x.toNumber() +
-                    deltaX / PX_PER_METER / scale,
-                focusDrag.startFocus.y.toNumber() +
-                    deltaY / PX_PER_METER / scale,
+                focusDrag.startFocus.x.toNumber() + deltaX / scale,
+                focusDrag.startFocus.y.toNumber() + deltaY / scale,
                 focusDrag.startFocus.z.toNumber()
             );
         }
@@ -231,6 +232,7 @@
 
     function handleWheel(event: WheelEvent) {
         adjustFocus(0, 0, event.deltaY / Math.pow(PX_PER_METER, 2));
+        event.preventDefault();
     }
 
     function handleKeyUp(event: KeyboardEvent) {
@@ -276,9 +278,9 @@
             } else if (event.key === 'ArrowDown') {
                 return adjustFocus(0, increment, 0);
             } else if (event.key === '+') {
-                return adjustFocus(0, 0, increment);
+                return adjustFocus(0, 0, 1);
             } else if (event.key === '_') {
-                return adjustFocus(0, 0, -1 * increment);
+                return adjustFocus(0, 0, -1);
             }
         }
 
@@ -322,9 +324,8 @@
         on:wheel={interactive ? handleWheel : null}
         bind:this={view}
     >
-        <div
-            class="viewport"
-            class:changed
+        <!-- 
+
             style:transform={` scale(${Math.abs(
                 PX_PER_METER / renderedFocus.z.toNumber()
             )}) translate(${PX_PER_METER * renderedFocus.x.toNumber()}px, ${
@@ -334,7 +335,8 @@
                     ? `rotate(${verse.tilt.toNumber()}deg)`
                     : ''
             }`}
-        >
+     -->
+        <div class="viewport" class:changed>
             <!-- Render all visible phrases at their places, as well as any exiting phrases -->
             {#each visible as phrase}
                 {@const place = places.get(phrase)}
@@ -345,7 +347,11 @@
                     <PhraseView
                         {phrase}
                         {place}
-                        focus={verse.focus ?? context.focus}
+                        focus={renderedFocus}
+                        viewport={{
+                            width: viewportWidth,
+                            height: viewportHeight,
+                        }}
                         {context}
                     />
                 {:else}
@@ -359,7 +365,8 @@
                 <PhraseView
                     {phrase}
                     {place}
-                    focus={verse.focus ?? context.focus}
+                    focus={renderedFocus}
+                    viewport={{ width: viewportWidth, height: viewportHeight }}
                     {context}
                 />
             {/each}
@@ -372,6 +379,7 @@
         user-select: none;
         width: 100%;
         height: 100%;
+        position: relative;
     }
 
     .verse:focus {

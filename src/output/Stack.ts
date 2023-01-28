@@ -9,6 +9,7 @@ import Decimal from 'decimal.js';
 import type LanguageCode from '@translation/LanguageCode';
 import { getPreferredTranslation } from '@translation/getPreferredTranslation';
 import { getBind } from '@translation/getBind';
+import Phrase from './Phrase';
 
 export const StackType = toStructure(`
     ${getBind((t) => t.output.stack.definition, '•')} Group(
@@ -63,7 +64,10 @@ export class Stack extends Group {
                     this.value,
                     width.sub(group.getWidth(context)).div(2),
                     position,
-                    new Decimal(0)
+                    // If the phrase a place, use it's z, otherwise default to the 0 plane.
+                    group instanceof Phrase && group.place
+                        ? group.place.z
+                        : new Decimal(0)
                 ),
             ]);
             position = position.add(group.getHeight(context));
