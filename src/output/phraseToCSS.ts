@@ -31,6 +31,13 @@ function rotateDeg(deg: number) {
     return `rotate(${deg}deg)`;
 }
 
+export function zScale(z: Decimal, focusZ: Decimal) {
+    // Compute the delta between this phrase and the focus.
+    const dz = z.sub(focusZ);
+    // Compute a scale proportional to the focal length and inversely proporitional to the difference.
+    return FOCAL_LENGTH.div(dz);
+}
+
 export default function phraseToCSS(
     phrase: Phrase,
     place: Place,
@@ -39,14 +46,8 @@ export default function phraseToCSS(
     viewportHeight: number,
     metrics: { width: number; ascent: number }
 ) {
-    // A place's rendered position is a combination of it's position relative to the focus,
-    // and the viewport size.
-
-    // Compute the delta between this phrase and the focus.
-    const dz = place.z.sub(focus.z);
-
-    // Compute a scale proportional to the focal length and inversely proporitional to the difference.
-    const perspectiveScale = FOCAL_LENGTH.div(dz);
+    // Get the z scale.
+    const perspectiveScale = zScale(place.z, focus.z);
 
     const centerXOffset =
         place.x.times(PX_PER_METER).toNumber() + metrics.width / 2;
