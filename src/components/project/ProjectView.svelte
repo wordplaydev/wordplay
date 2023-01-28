@@ -718,7 +718,7 @@
         display: flex;
         flex-direction: row;
         align-items: center;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         padding: var(--wordplay-spacing);
         gap: var(--wordplay-spacing);
         border-top: var(--wordplay-border-width) solid
