@@ -11,8 +11,8 @@ import { getNameTranslations } from '@translation/getNameTranslations';
 export const FREQUENCY = 33;
 
 export default class Time extends Stream<Measurement> {
-    timerID: NodeJS.Timer | undefined;
-    startTime: number | undefined;
+    running = false;
+    firstTime: number | undefined = undefined;
 
     constructor(evaluator: Evaluator) {
         super(
@@ -30,23 +30,26 @@ export default class Time extends Stream<Measurement> {
     }
 
     start() {
-        if (this.timerID !== undefined) return;
-
-        // Remmember when time starts so that we can start counting from program start.
-        this.startTime = Date.now();
-
-        this.timerID = setInterval(
-            // Add a time measurement on each tick.
-            () => this.tick(),
-            // Tick every 33 milliseconds, trying to achieve a 30 fps frame rate.
-            FREQUENCY
-        );
+        if (this.running) return;
+        this.running = true;
+        if (typeof window !== 'undefined')
+            window.requestAnimationFrame((time) => this.tick(time));
     }
 
-    tick() {
+    tick(time: DOMHighResTimeStamp) {
+        if (this.firstTime === undefined) this.firstTime = time;
+
         this.add(
-            Time.make(this.creator, Date.now() - (this.startTime as number))
+            Time.make(
+                this.creator,
+                this.firstTime === undefined
+                    ? 0
+                    : Math.round(time - this.firstTime)
+            )
         );
+
+        if (this.running)
+            window.requestAnimationFrame((time) => this.tick(time));
     }
 
     static make(creator: Node, time: number) {
@@ -54,8 +57,7 @@ export default class Time extends Stream<Measurement> {
     }
 
     stop() {
-        // Stop the timer.
-        if (this.timerID !== undefined) clearInterval(this.timerID);
+        this.running = false;
     }
 
     getType() {
