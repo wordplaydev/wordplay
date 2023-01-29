@@ -223,8 +223,6 @@ export class Animations {
             font: this.verse?.font ?? '',
             languages: this.languages,
             fonts: this.fontsLoaded,
-            width: this.viewportWidth,
-            height: this.viewportHeight,
             animations: animationsByPhrase,
         };
     }

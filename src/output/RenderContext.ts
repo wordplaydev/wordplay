@@ -6,7 +6,5 @@ export type RenderContext = {
     font: string;
     languages: LanguageCode[];
     fonts: Set<string>;
-    width: number;
-    height: number;
     animations: Map<Phrase, Animation>;
 };
