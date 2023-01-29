@@ -14,7 +14,7 @@ import type Context from './Context';
 import UnionType from './UnionType';
 import type TypeSet from './TypeSet';
 import Exception from '@runtime/Exception';
-import { CHANGE_SYMBOL } from '@parser/Symbols';
+import { CHANGE_SYMBOL, STREAM_SYMBOL } from '@parser/Symbols';
 import TokenType from './TokenType';
 import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
@@ -37,7 +37,7 @@ export default class Reaction extends Expression {
     static make(initial: Expression, next: Expression) {
         return new Reaction(
             initial,
-            new Token(CHANGE_SYMBOL, TokenType.CHANGE),
+            new Token(STREAM_SYMBOL, TokenType.REACTION),
             next
         );
     }
