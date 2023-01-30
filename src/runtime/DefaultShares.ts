@@ -23,7 +23,6 @@ import {
     bouncy,
 } from '../output/Easing';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
-import Key from '../input/Key';
 import TimeDefinition from '../input/TimeDefinition';
 import type StreamDefinition from '../nodes/StreamDefinition';
 import KeyboardDefinition from '../input/KeyboardDefinition';
@@ -66,5 +65,5 @@ const DefaultShares: (
     | StructureDefinition
     | FunctionDefinition
     | StreamDefinition
-)[] = [...PhraseTypes, ...GroupTypes, ...PoseTypes, ...StreamDefinitions, Key];
+)[] = [...PhraseTypes, ...GroupTypes, ...PoseTypes, ...StreamDefinitions];
 export default DefaultShares;

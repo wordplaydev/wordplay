@@ -1,8 +1,6 @@
 import StreamDefinition from '../nodes/StreamDefinition';
-import Key from './Key';
 import { getDocTranslations } from '../translation/getDocTranslations';
 import { getNameTranslations } from '../translation/getNameTranslations';
-import StructureDefinitionType from '../nodes/StructureDefinitionType';
 import Bind from '../nodes/Bind';
 import UnionType from '../nodes/UnionType';
 import NoneType from '../nodes/NoneType';
@@ -31,13 +29,11 @@ const downBind = Bind.make(
     NoneLiteral.make()
 );
 
-const type = new StructureDefinitionType(Key);
-
 const KeyboardDefinition = StreamDefinition.make(
     getDocTranslations((t) => t.input.keyboard.doc),
     getNameTranslations((t) => t.input.keyboard.name),
     [keyBind, downBind],
-    new NativeExpression(StreamType.make(type.clone()), (_, evaluation) => {
+    new NativeExpression(StreamType.make(TextType.make()), (_, evaluation) => {
         const evaluator = evaluation.getEvaluator();
 
         // Get the given key and down.
@@ -63,7 +59,7 @@ const KeyboardDefinition = StreamDefinition.make(
             return newStream;
         }
     }),
-    type.clone()
+    TextType.make()
 );
 
 export default KeyboardDefinition;
