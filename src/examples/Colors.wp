@@ -1,8 +1,8 @@
 === Color Show
-↓ random
-↓ mousebutton
 
-color: Color(0% 0 0°) … Color(50% random · 200 random · 360°)
+click: mousebutton()
+
+color: Color(0% 0 0°) … click ? Color(50% random() · 200 random() · 360°) color
 
 Phrase(
     "wowie" 

@@ -1,3 +1,2 @@
 === Talk
-↓microphone
-Phrase(microphone > 50 ? "😮" "😐" 5m)
+Phrase(microphone() > 50 ? "😮" "😐" 5m)

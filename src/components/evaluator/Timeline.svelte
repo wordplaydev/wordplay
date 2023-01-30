@@ -3,9 +3,9 @@
     import { streams } from '../../models/stores';
     import type Evaluator from '@runtime/Evaluator';
     import { currentStepIndex } from '../../models/stores';
-    import Keyboard from '../../streams/Keyboard';
+    import Keyboard from '../../input/Keyboard';
     import Bool from '@runtime/Bool';
-    import MouseButton from '../../streams/MouseButton';
+    import MouseButton from '../../input/MouseButton';
     import { slide } from 'svelte/transition';
     import { playing } from '../../models/stores';
     import { tick } from 'svelte';

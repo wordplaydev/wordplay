@@ -19,7 +19,6 @@ import type TypeSet from './TypeSet';
 import Is from './Is';
 import type StructureDefinition from './StructureDefinition';
 import NameToken from './NameToken';
-import Stream from '@runtime/Stream';
 import StartFinish from '@runtime/StartFinish';
 import StreamType from './StreamType';
 import UnknownNameType from './UnknownNameType';
@@ -28,6 +27,7 @@ import type Translation from '@translation/Translation';
 import AtomicExpression from './AtomicExpression';
 import NameException from '@runtime/NameException';
 import NodeLink from '@translation/NodeLink';
+import StreamDefinitionType from './StreamDefinitionType';
 
 /**
  * A reference to some Definition. Can optionally take the definition which it refers,
@@ -140,6 +140,8 @@ export default class Reference extends AtomicExpression {
             // If this is a reference to a value in the context of reaction statement, it's the stream type.
             // Otherwise its the stream's value type.
             if (type instanceof StreamType) return type.type;
+            else if (type instanceof StreamDefinitionType)
+                return type.definition.output;
             else return type;
         }
 
@@ -207,7 +209,7 @@ export default class Reference extends AtomicExpression {
 
     getDependencies(context: Context) {
         const def = this.resolve(context);
-        return def instanceof Expression || def instanceof Stream ? [def] : [];
+        return def instanceof Expression ? [def] : [];
     }
 
     compile(): Step[] {

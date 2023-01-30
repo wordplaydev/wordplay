@@ -3,11 +3,13 @@
 
 •Cat(position•#m direction•#)
 
+key: keyboard()
+
 speed: 2m
 cat•Cat: Cat(0m 1) …
-    keyboard.down ? 
-        keyboard.key = "ArrowLeft" ? Cat(cat.position - speed 1) 
-        keyboard.key = "ArrowRight" ? Cat(cat.position + speed -1) 
+    key.down ? 
+        key.key = "ArrowLeft" ? Cat(cat.position - speed 1) 
+        key.key = "ArrowRight" ? Cat(cat.position + speed -1) 
         cat
     cat
 

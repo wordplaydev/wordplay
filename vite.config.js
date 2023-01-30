@@ -13,6 +13,8 @@ const config = {
             '@translation': path.resolve('./src/translation'),
             '@concepts': path.resolve('./src/concepts'),
             '@parser': path.resolve('./src/parser'),
+            '@input': path.resolve('./src/input'),
+            '@output': path.resolve('./src/output'),
         },
     },
 };

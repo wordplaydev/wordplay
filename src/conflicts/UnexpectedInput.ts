@@ -8,14 +8,15 @@ import type FunctionDefinition from '@nodes/FunctionDefinition';
 import type Translation from '@translation/Translation';
 import NodeLink from '@translation/NodeLink';
 import type Context from '@nodes/Context';
+import type StreamDefinition from '../nodes/StreamDefinition';
 
 export default class UnexpectedInputs extends Conflict {
-    readonly func: FunctionDefinition | StructureDefinition;
+    readonly func: FunctionDefinition | StructureDefinition | StreamDefinition;
     readonly evaluate: Evaluate | BinaryOperation;
     readonly input: Expression | Bind;
 
     constructor(
-        func: FunctionDefinition | StructureDefinition,
+        func: FunctionDefinition | StructureDefinition | StreamDefinition,
         evaluate: Evaluate | BinaryOperation,
         input: Expression | Bind
     ) {

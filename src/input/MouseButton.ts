@@ -8,9 +8,16 @@ import { getNameTranslations } from '@translation/getNameTranslations';
 
 export default class MouseButton extends Stream<Bool> {
     on: boolean = false;
+    down: boolean | undefined;
 
-    constructor(evaluator: Evaluator) {
+    constructor(evaluator: Evaluator, down: boolean | undefined) {
         super(evaluator, new Bool(evaluator.getMain(), true));
+
+        this.down = down;
+    }
+
+    setDown(down: boolean | undefined) {
+        this.down = down;
     }
 
     computeDocs() {
@@ -21,8 +28,9 @@ export default class MouseButton extends Stream<Bool> {
         return getNameTranslations((t) => t.input.mousebutton.name);
     }
 
-    record(state: boolean) {
-        if (this.on) this.add(new Bool(this.creator, state));
+    record(down: boolean) {
+        if (this.on && (this.down === undefined || this.down === down))
+            this.add(new Bool(this.creator, down));
     }
 
     start() {

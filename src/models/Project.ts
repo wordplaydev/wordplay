@@ -1,9 +1,4 @@
 import type Conflict from '@conflicts/Conflict';
-import Keyboard from '../streams/Keyboard';
-import Microphone from '../streams/Microphone';
-import MouseButton from '../streams/MouseButton';
-import MousePosition from '../streams/MousePosition';
-import Time from '../streams/Time';
 import Evaluate from '@nodes/Evaluate';
 import Expression from '@nodes/Expression';
 import FunctionDefinition from '@nodes/FunctionDefinition';
@@ -18,30 +13,24 @@ import HOF from '../native/HOF';
 import FunctionDefinitionType from '@nodes/FunctionDefinitionType';
 import Native from '../native/NativeBindings';
 import Tree from '@nodes/Tree';
-import ImplicitShares from '@runtime/ImplicitShares';
+import DefaultShares from '@runtime/DefaultShares';
 import Context from '@nodes/Context';
 import type { SharedDefinition } from '@nodes/Borrow';
 import PropertyReference from '@nodes/PropertyReference';
 import type Bind from '@nodes/Bind';
 import Reference from '@nodes/Reference';
-import Random from '../streams/Random';
 import type LanguageCode from '@translation/LanguageCode';
-
-export type Streams = {
-    time: Time;
-    mouseButton: MouseButton;
-    mousePosition: MousePosition;
-    keyboard: Keyboard;
-    microphone: Microphone;
-    random: Random;
-};
+import type StreamDefinition from '../nodes/StreamDefinition';
 
 type Analysis = {
     conflicts: Conflict[];
     primary: Map<Node, Conflict[]>;
     secondary: Map<Node, Conflict[]>;
     /** Evaluations by function and structures they evaluate (a call graph) */
-    evaluations: Map<FunctionDefinition | StructureDefinition, Set<Evaluate>>;
+    evaluations: Map<
+        FunctionDefinition | StructureDefinition | StreamDefinition,
+        Set<Evaluate>
+    >;
     /** Expression dependencies */
     /** An index of expression dependencies, mapping an Expression to one or more Expressions that are affected if it changes value.  */
     dependencies: Map<Expression | Value, Set<Expression>>;
@@ -62,9 +51,6 @@ export default class Project {
 
     /** The evaluator that evaluates the source. */
     readonly evaluator: Evaluator;
-
-    /** All of the active streams in the project. */
-    readonly streams: Streams;
 
     readonly trees: Tree[];
     readonly _index: Map<Node, Tree | undefined> = new Map();
@@ -88,25 +74,11 @@ export default class Project {
         // Create evaluators for each source.
         this.evaluator = new Evaluator(this);
 
-        // Create all the streams.
-        this.streams = {
-            time: new Time(this.evaluator),
-            mouseButton: new MouseButton(this.evaluator),
-            mousePosition: new MousePosition(this.evaluator),
-            keyboard: new Keyboard(this.evaluator),
-            microphone: new Microphone(this.evaluator),
-            random: new Random(this.evaluator),
-        };
-
-        // Listen to all streams
-        for (const stream of Object.values(this.streams))
-            stream.listen(this.react.bind(this));
-
         // Build all of the trees we might need for analysis.
         this.trees = [
             ...this.getSources().map((source) => new Tree(source)),
             ...Native.getStructureDefinitionTrees(),
-            ...ImplicitShares.map((share) => new Tree(share)),
+            ...DefaultShares.map((share) => new Tree(share)),
         ];
     }
 
@@ -140,7 +112,7 @@ export default class Project {
     }
 
     getDefaultShares() {
-        return ImplicitShares;
+        return DefaultShares;
     }
 
     getContext(source: Source) {
@@ -169,18 +141,6 @@ export default class Project {
     }
     getNative() {
         return Native;
-    }
-
-    getAllStreams() {
-        return Object.values(this.streams);
-    }
-    getImplicitlySharedStreams() {
-        return [this.streams.random];
-    }
-    getImplicitlySharedStream(name: string) {
-        return this.getImplicitlySharedStreams().find((stream) =>
-            stream.hasName(name)
-        );
     }
 
     getAnalysis() {
@@ -401,10 +361,7 @@ export default class Project {
     }
 
     cleanup() {
-        // Stop all streams.
-        for (const stream of Object.values(this.streams)) stream.stop();
-
-        // Stop evaluators
+        // Stop the evaluator evaluator.
         this.evaluator.stop();
     }
 
@@ -422,9 +379,7 @@ export default class Project {
         }
 
         // Do any of the implicit shares match?
-        const defaultMatch =
-            ImplicitShares.find((s) => s.hasName(source)) ??
-            Object.values(this.streams).find((s) => s.hasName(source));
+        const defaultMatch = DefaultShares.find((s) => s.hasName(source));
 
         return defaultMatch === undefined
             ? undefined

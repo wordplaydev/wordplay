@@ -9,15 +9,16 @@ import type Expression from '@nodes/Expression';
 import type Token from '@nodes/Token';
 import type Context from '@nodes/Context';
 import NodeLink from '@translation/NodeLink';
+import type StreamDefinition from '../nodes/StreamDefinition';
 
 export default class MissingInput extends Conflict {
-    readonly func: FunctionDefinition | StructureDefinition;
+    readonly func: FunctionDefinition | StructureDefinition | StreamDefinition;
     readonly evaluate: Evaluate | BinaryOperation;
     readonly last: Token | Expression;
     readonly input: Bind;
 
     constructor(
-        func: FunctionDefinition | StructureDefinition,
+        func: FunctionDefinition | StructureDefinition | StreamDefinition,
         evaluate: Evaluate | BinaryOperation,
         last: Token | Expression,
         expected: Bind

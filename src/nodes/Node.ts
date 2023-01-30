@@ -324,9 +324,7 @@ export default abstract class Node {
         }
 
         // Finally, add project and native level definitions.
-        definitions = definitions
-            .concat(context.project.getDefaultShares())
-            .concat(context.project.getImplicitlySharedStreams());
+        definitions = definitions.concat(context.project.getDefaultShares());
 
         // Cache the definitions for later.
         context.definitions.set(this, definitions);

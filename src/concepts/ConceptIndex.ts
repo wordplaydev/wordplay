@@ -16,10 +16,14 @@ import {
     getNodeConcepts,
     getOutputConcepts,
 } from './DefaultConcepts';
-import type Stream from '@runtime/Stream';
-import { PlaceType } from '../output/Place';
-import Key from '../streams/Key';
 import type TypeSet from '@nodes/TypeSet';
+import type StreamDefinition from '../nodes/StreamDefinition';
+import TimeDefinition from '../input/TimeDefinition';
+import KeyboardDefinition from '../input/KeyboardDefinition';
+import MousePositionDefinition from '../input/MousePositionDefinition';
+import MouseButtonDefinition from '../input/MouseButtonDefinition';
+import RandomDefinition from '../input/RandomDefinition';
+import MicrophoneDefinition from '../input/MicrophoneDefinition';
 
 export default class ConceptIndex {
     readonly concepts: Concept[];
@@ -111,25 +115,21 @@ export default class ConceptIndex {
             )
             .flat();
 
-        function makeStreamConcept(
-            stream: Stream,
-            structures?: StructureDefinition
-        ) {
+        function makeStreamConcept(stream: StreamDefinition) {
             return new StreamConcept(
                 stream,
-                structures,
                 languages,
                 project.getContext(project.main)
             );
         }
 
         const streams = [
-            makeStreamConcept(project.streams.time),
-            makeStreamConcept(project.streams.mouseButton),
-            makeStreamConcept(project.streams.mousePosition, PlaceType),
-            makeStreamConcept(project.streams.keyboard, Key),
-            makeStreamConcept(project.streams.microphone),
-            makeStreamConcept(project.streams.random),
+            makeStreamConcept(TimeDefinition),
+            makeStreamConcept(MouseButtonDefinition),
+            makeStreamConcept(MousePositionDefinition),
+            makeStreamConcept(KeyboardDefinition),
+            makeStreamConcept(MicrophoneDefinition),
+            makeStreamConcept(RandomDefinition),
         ];
 
         const constructs = getNodeConcepts(project.getContext(project.main));

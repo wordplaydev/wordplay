@@ -16,6 +16,7 @@ export type NativeTypeName =
     | 'structure'
     | 'column'
     | 'stream'
+    | 'streamdefinition'
     | 'conversion'
     | 'function'
     | 'union'

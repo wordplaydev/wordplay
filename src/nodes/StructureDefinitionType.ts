@@ -18,7 +18,7 @@ export default class StructureDefinitionType extends Type {
     /** Any type inputs provided in creating this structure. */
     readonly types: Type[];
 
-    constructor(definition: StructureDefinition, types: Type[]) {
+    constructor(definition: StructureDefinition, types: Type[] = []) {
         super();
 
         this.structure = definition;

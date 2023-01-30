@@ -5,6 +5,7 @@
         "checkJs": true,
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,
+        "noUnusedLocals": true,
         "resolveJsonModule": true,
         "skipLibCheck": true,
         "sourceMap": true,
@@ -16,6 +17,8 @@
             "@runtime/*": ["runtime/*"],
             "@conflicts/*": ["conflicts/*"],
             "@translation/*": ["translation/*"],
+            "@input/*": ["input/*"],
+            "@output/*": ["output/*"],
             "@concepts/*": ["concepts/*"],
             "@parser/*": ["parser/*"]
         }

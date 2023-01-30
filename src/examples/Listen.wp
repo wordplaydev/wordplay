@@ -1,3 +1,2 @@
 === Listen
-↓ microphone
-Phrase("🔈" microphone·0.1m)
+Phrase("🔈" microphone()·0.1m)

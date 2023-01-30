@@ -23,7 +23,14 @@ import {
     bouncy,
 } from '../output/Easing';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
-import Key from '../streams/Key';
+import Key from '../input/Key';
+import TimeDefinition from '../input/TimeDefinition';
+import type StreamDefinition from '../nodes/StreamDefinition';
+import KeyboardDefinition from '../input/KeyboardDefinition';
+import MousePositionDefinition from '../input/MousePositionDefinition';
+import MouseButtonDefinition from '../input/MouseButtonDefinition';
+import RandomDefinition from '../input/RandomDefinition';
+import MicrophoneDefinition from '../input/MicrophoneDefinition';
 
 export const PoseTypes = [
     PoseType,
@@ -46,10 +53,18 @@ export const GroupTypes = [VerseType, GroupType, StackType, RowType];
 
 export const PhraseTypes = [PhraseType, ColorType, PlaceType];
 
-const ImplicitShares: (StructureDefinition | FunctionDefinition)[] = [
-    ...PhraseTypes,
-    ...GroupTypes,
-    ...PoseTypes,
-    Key,
+export const StreamDefinitions = [
+    TimeDefinition,
+    KeyboardDefinition,
+    MousePositionDefinition,
+    MouseButtonDefinition,
+    RandomDefinition,
+    MicrophoneDefinition,
 ];
-export default ImplicitShares;
+
+const DefaultShares: (
+    | StructureDefinition
+    | FunctionDefinition
+    | StreamDefinition
+)[] = [...PhraseTypes, ...GroupTypes, ...PoseTypes, ...StreamDefinitions, Key];
+export default DefaultShares;

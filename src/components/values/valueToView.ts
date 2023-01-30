@@ -27,6 +27,8 @@ import SetValue from '@runtime/Set';
 import Stream from '@runtime/Stream';
 import StructureDefinitionValue from '@runtime/StructureDefinitionValue';
 import StructureDefinitionView from './StructureDefinitionView.svelte';
+import StreamDefinitionValue from '../../runtime/StreamDefinitionValue';
+import StreamDefinitionView from './StreamDefinitionView.svelte';
 
 const mapping = new Map<Function, ConstructorOfATypedSvelteComponent>();
 
@@ -34,6 +36,7 @@ mapping.set(FunctionValue, FunctionView);
 mapping.set(None, NoneView);
 mapping.set(Structure, StructureView);
 mapping.set(StructureDefinitionValue, StructureDefinitionView);
+mapping.set(StreamDefinitionValue, StreamDefinitionView);
 mapping.set(Table, TableView);
 mapping.set(Bool, BoolView);
 mapping.set(Conversion, ConversionView);

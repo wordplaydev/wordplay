@@ -8,7 +8,7 @@ import type Group from './Group';
 import type MoveState from './MoveState';
 import Phrase from './Phrase';
 import phraseToCSS from './phraseToCSS';
-import Place, { PlaceType, toPlace } from './Place';
+import Place, { PlaceType } from './Place';
 import type Pose from './Pose';
 import type { SequenceKind } from './Sequence';
 import type Sequence from './Sequence';

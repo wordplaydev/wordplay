@@ -7,7 +7,7 @@
     export let concept: StreamConcept;
 
     let index = getPaletteIndex();
-    $: type = concept.stream.getType(concept.context);
+    $: type = concept.definition.getType(concept.context);
     $: streamType = type instanceof StreamType ? type.type : type;
     $: typeConcepts = $index
         ? $index.getConceptsOfTypes(streamType.getTypeSet(concept.context))

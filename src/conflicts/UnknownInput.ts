@@ -4,14 +4,15 @@ import type Bind from '@nodes/Bind';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
 import type Translation from '@translation/Translation';
+import type StreamDefinition from '../nodes/StreamDefinition';
 
 export default class UnknownInput extends Conflict {
-    readonly func: FunctionDefinition | StructureDefinition;
+    readonly func: FunctionDefinition | StructureDefinition | StreamDefinition;
     readonly evaluate: Evaluate;
     readonly given: Bind;
 
     constructor(
-        func: FunctionDefinition | StructureDefinition,
+        func: FunctionDefinition | StructureDefinition | StreamDefinition,
         evaluate: Evaluate,
         given: Bind
     ) {

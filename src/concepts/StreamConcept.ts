@@ -3,69 +3,47 @@ import type LanguageCode from '@translation/LanguageCode';
 import type Node from '@nodes/Node';
 import Reference from '@nodes/Reference';
 import StreamType from '@nodes/StreamType';
-import type Stream from '@runtime/Stream';
 import Concept from './Concept';
 import type ConceptIndex from './ConceptIndex';
 import type Translation from '@translation/Translation';
 import Purpose from './Purpose';
-import type StructureDefinition from '@nodes/StructureDefinition';
-import StructureConcept from './StructureConcept';
-import NameType from '@nodes/NameType';
+import type StreamDefinition from '../nodes/StreamDefinition';
 
 export default class StreamConcept extends Concept {
     /** The type this concept represents. */
-    readonly stream: Stream;
+    readonly definition: StreamDefinition;
 
     /** A derived reference to the stream */
     readonly reference: Reference;
 
-    /** A list of structure definitions that the stream uses in its stream of values, if any */
-    readonly structure: StructureConcept | undefined;
-
     constructor(
-        stream: Stream,
-        structure: StructureDefinition | undefined,
+        stream: StreamDefinition,
         languages: LanguageCode[],
         context: Context
     ) {
         super(Purpose.INPUT, undefined, context);
 
-        this.stream = stream;
+        this.definition = stream;
         this.reference = Reference.make(
             stream.names.getTranslation(languages),
-            this.stream
+            this.definition
         );
-
-        this.structure = structure
-            ? new StructureConcept(
-                  Purpose.INPUT,
-                  structure,
-                  structure,
-                  NameType.make(
-                      structure.names.getTranslation(languages),
-                      structure
-                  ),
-                  [],
-                  languages,
-                  context
-              )
-            : undefined;
     }
 
     hasName(name: string) {
-        return this.stream.names.hasName(name);
+        return this.definition.names.hasName(name);
     }
 
     getDocs(translation: Translation) {
-        return this.stream.docs?.getTranslation(translation.language);
+        return this.definition.docs?.getTranslation(translation.language);
     }
 
     getName(translation: Translation) {
-        return this.stream.names.getTranslation(translation.language);
+        return this.definition.names.getTranslation(translation.language);
     }
 
     getTypeConcept(index: ConceptIndex): Concept | undefined {
-        const type = this.stream.getType(this.context);
+        const type = this.definition.getType(this.context);
         return type instanceof StreamType
             ? index.getConceptOfType(type.type)
             : undefined;
@@ -84,13 +62,13 @@ export default class StreamConcept extends Concept {
     }
 
     getSubConcepts(): Set<Concept> {
-        return new Set(this.structure ? [this.structure] : []);
+        return new Set();
     }
 
     equals(concept: Concept) {
         return (
             concept instanceof StreamConcept &&
-            concept.stream.constructor === this.stream.constructor
+            concept.definition.constructor === this.definition.constructor
         );
     }
 }

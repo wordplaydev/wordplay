@@ -1,17 +1,12 @@
 import BooleanType from './BooleanType';
-import type Expression from './Expression';
 import Token from './Token';
 import type Type from './Type';
-import type Value from '@runtime/Value';
 import Bool from '@runtime/Bool';
-import type Step from '@runtime/Step';
 import { FALSE_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
 import type Bind from './Bind';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
 import TokenType from './TokenType';
-import type Evaluator from '@runtime/Evaluator';
-import StartFinish from '@runtime/StartFinish';
 import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
 import NodeLink from '@translation/NodeLink';

@@ -3,23 +3,23 @@
 <script lang="ts">
     import {
         preferredLanguages,
-        preferredStyle,
+        // preferredStyle,
         preferredTranslations,
-        type LanguageStyle,
+        // type LanguageStyle,
     } from '@translation/translations';
     import { getLanguageName } from '@translation/LanguageCode';
     import LanguageChooser from '../project/LanguageChooser.svelte';
     import LayoutChooser from '../project/LayoutChooser.svelte';
     import Button from '../widgets/Button.svelte';
 
-    let style: LanguageStyle;
+    // let style: LanguageStyle;
 
     let collapsed = true;
     let element: HTMLElement;
 
-    function changeStyle() {
-        preferredStyle.set(style);
-    }
+    // function changeStyle() {
+    //     preferredStyle.set(style);
+    // }
 
     function toggle() {
         collapsed = !collapsed;

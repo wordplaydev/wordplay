@@ -47,6 +47,9 @@ import type Node from './Node';
 import StartEvaluation from '@runtime/StartEvaluation';
 import UnimplementedException from '@runtime/UnimplementedException';
 import Reference from './Reference';
+import StreamDefinition from './StreamDefinition';
+import StreamDefinitionType from './StreamDefinitionType';
+import StreamDefinitionValue from '../runtime/StreamDefinitionValue';
 
 type Mapping = {
     expected: Bind;
@@ -185,7 +188,7 @@ export default class Evaluate extends Expression {
      * conflict detection, compilation, and autocomplete.
      * */
     getInputMapping(
-        fun: FunctionDefinition | StructureDefinition
+        fun: FunctionDefinition | StructureDefinition | StreamDefinition
     ): InputMapping {
         // Get the expected inputs, unless there are parsing errors..
         const expectedInputs = fun.inputs;
@@ -335,7 +338,8 @@ export default class Evaluate extends Expression {
         if (
             !(
                 fun instanceof FunctionDefinition ||
-                fun instanceof StructureDefinition
+                fun instanceof StructureDefinition ||
+                fun instanceof StreamDefinition
             )
         )
             return [
@@ -464,16 +468,21 @@ export default class Evaluate extends Expression {
                 conflicts.push(new UnexpectedInput(fun, this, extra));
 
         // Check type
-        const expected = fun.types;
-
-        // If there are type inputs provided, verify that they exist on the function.
-        if (this.types && this.types.types.length > 0) {
-            for (let index = 0; index < this.types.types.length; index++) {
-                if (index >= (expected?.variables.length ?? 0)) {
-                    conflicts.push(
-                        new InvalidTypeInput(this, this.types.types[index], fun)
-                    );
-                    break;
+        if (!(fun instanceof StreamDefinition)) {
+            const expected = fun.types;
+            // If there are type inputs provided, verify that they exist on the function.
+            if (this.types && this.types.types.length > 0) {
+                for (let index = 0; index < this.types.types.length; index++) {
+                    if (index >= (expected?.variables.length ?? 0)) {
+                        conflicts.push(
+                            new InvalidTypeInput(
+                                this,
+                                this.types.types[index],
+                                fun
+                            )
+                        );
+                        break;
+                    }
                 }
             }
         }
@@ -488,13 +497,15 @@ export default class Evaluate extends Expression {
 
     getFunction(
         context: Context
-    ): FunctionDefinition | StructureDefinition | undefined {
+    ): FunctionDefinition | StructureDefinition | StreamDefinition | undefined {
         const type = this.func.getType(context);
 
         return type instanceof FunctionDefinitionType
             ? type.fun
             : type instanceof StructureDefinitionType
             ? type.structure
+            : type instanceof StreamDefinitionType
+            ? type.definition
             : undefined;
     }
 
@@ -514,6 +525,7 @@ export default class Evaluate extends Expression {
             return new StructureDefinitionType(fun, [
                 ...(this.types ? this.types.types : []),
             ]);
+        else if (fun instanceof StreamDefinition) return fun.output;
         // Otherwise, who knows.
         else return new NotAFunctionType(this, this.func.getType(context));
     }
@@ -620,28 +632,25 @@ export default class Evaluate extends Expression {
 
     startEvaluation(evaluator: Evaluator) {
         // Get the function off the stack and bail if it's not a function.
-        const functionOrStructure = evaluator.popValue(this);
+        const definitionValue = evaluator.popValue(this);
         if (
             !(
-                functionOrStructure instanceof FunctionValue ||
-                functionOrStructure instanceof StructureDefinitionValue
+                definitionValue instanceof FunctionValue ||
+                definitionValue instanceof StructureDefinitionValue ||
+                definitionValue instanceof StreamDefinitionValue
             )
         )
             return new FunctionException(
                 evaluator,
                 this,
-                functionOrStructure,
+                definitionValue,
                 this.func.toWordplay()
             );
 
         // Pop as many values as the definition requires, or the number of inputs provided, whichever is larger.
         // This accounts for variable length arguments.
         const count = Math.max(
-            functionOrStructure instanceof FunctionValue
-                ? functionOrStructure.definition.inputs.length
-                : functionOrStructure instanceof StructureDefinitionValue
-                ? functionOrStructure.definition.inputs.length
-                : 0,
+            definitionValue.definition.inputs.length,
             this.inputs.length
         );
 
@@ -653,50 +662,61 @@ export default class Evaluate extends Expression {
             else values.unshift(value);
         }
 
-        if (functionOrStructure instanceof FunctionValue) {
-            const definition = functionOrStructure.definition;
-            const body = functionOrStructure.definition.expression;
+        const definition = definitionValue.definition;
+
+        // Build the bindings using the definition's inputs and bail if there's an exception
+        const bindings = this.buildBindings(
+            evaluator,
+            definition.inputs,
+            values
+        );
+        if (bindings instanceof Exception) return bindings;
+
+        // For functions, get the expression, build the bindings, and start an evaluation.
+        if (definitionValue instanceof FunctionValue) {
+            const body = definitionValue.definition.expression;
 
             // Bail if the function's body isn't an expression.
             if (!(body instanceof Expression))
                 return new UnimplementedException(
                     evaluator,
-                    body ?? functionOrStructure.definition
+                    body ?? definitionValue.definition
                 );
-
-            // Build the bindings.
-            const bindings = this.buildBindings(
-                evaluator,
-                definition.inputs,
-                values
-            );
-            if (bindings instanceof Exception) return bindings;
 
             evaluator.startEvaluation(
                 new Evaluation(
                     evaluator,
                     this,
                     definition,
-                    functionOrStructure.context,
+                    definitionValue.context,
                     bindings
                 )
             );
-        } else if (functionOrStructure instanceof StructureDefinitionValue) {
-            // Build the custom type's bindings.
-            const bindings = this.buildBindings(
-                evaluator,
-                functionOrStructure.definition.inputs,
-                values
-            );
-            if (bindings instanceof Exception) return bindings;
-
+        }
+        // For structures, build the bindings and st
+        else if (definitionValue instanceof StructureDefinitionValue) {
             // Evaluate the structure's block with the bindings, generating an evaluation context with the
             // type's inputs and functions.
             evaluator.startEvaluation(
                 new Evaluation(
                     evaluator,
                     this,
-                    functionOrStructure.definition,
+                    definition,
+                    evaluator.getCurrentEvaluation(),
+                    bindings
+                )
+            );
+        }
+        // For streams, we don't evaluate anything. Instead, we check if this node has already created a
+        // stream, and if so, just return it, and if not, create it.
+        else if (definitionValue instanceof StreamDefinitionValue) {
+            // Evaluate the structure's block with the bindings, generating an evaluation context with the
+            // type's inputs and functions.
+            evaluator.startEvaluation(
+                new Evaluation(
+                    evaluator,
+                    this,
+                    definition,
                     evaluator.getCurrentEvaluation(),
                     bindings
                 )

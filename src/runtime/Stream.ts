@@ -48,18 +48,6 @@ export default abstract class Stream<
         );
     }
 
-    getNames() {
-        return this.names.getNames();
-    }
-
-    getTranslation(languages: LanguageCode[]): string {
-        return this.names.getTranslation(languages);
-    }
-
-    hasName(name: string) {
-        return this.names.hasName(name);
-    }
-
     isEqualTo(value: Value): boolean {
         return value === this;
     }

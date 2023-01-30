@@ -37,7 +37,7 @@ import Template from '@nodes/Template';
 import TextLiteral from '@nodes/TextLiteral';
 import TextType from '@nodes/TextType';
 import TypePlaceholder from '@nodes/TypePlaceholder';
-import { GroupTypes, PhraseTypes, PoseTypes } from '@runtime/ImplicitShares';
+import { GroupTypes, PhraseTypes, PoseTypes } from '@runtime/DefaultShares';
 import type Concept from './Concept';
 import NodeConcept from './NodeConcept';
 import FunctionConcept from './FunctionConcept';

@@ -15,14 +15,16 @@
 
 start/en,🟢/😀: Game([] "")
 
+key: ⌨️()
+
 `When the keyboard state changes, the game state changes.`/en
 `Cuando cambia el estado del teclado, cambia el estado del juego.`/es
 `⌨️ + 🤔 + 🤫 → ⚽️`/😀
 state/en,⚽️/😀•Game: start …
-    ⌨️.key = "Escape" ? start
-    (state.status ≠ "playing") & (⌨️.key = " ") & ⌨️.down ? Game([] words.random())
-    (state.status = "playing") & ⌨️.down & (⌨️.key.length() = 1) & ~state.guesses.has(⌨️.key) ? 
-      Game(state.guesses.add(⌨️.key) state.secret)
+    key.key = "Escape" ? start
+    (state.status ≠ "playing") & (key.key = " ") & key.down ? Game([] words.random())
+    (state.status = "playing") & key.down & (key.key.length() = 1) & ~state.guesses.has(key.key) ? 
+      Game(state.guesses.add(key.key) state.secret)
       state
 
 `The board is a translation of the secret, accounting for guesses`/en

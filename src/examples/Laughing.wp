@@ -1,5 +1,4 @@
 === Laughing
-↓time
-🥹: {⊤: «😀» ⊥: «😂»}
-even: (time % 2) = 0ms
-Phrase(🥹{even} 5m)
+tick: time(250ms)
+cry•?: ⊤ … tick > 0ms ? ~cry cry
+Phrase(cry ? «😀» «😂» 5m)

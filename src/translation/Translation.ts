@@ -23,6 +23,7 @@ import type ValueLink from './ValueLink';
 import type { LanguageStyle } from './translations';
 import type BooleanLiteral from '@nodes/BooleanLiteral';
 import type ListLiteral from '@nodes/ListLiteral';
+import type StreamDefinitionType from '../nodes/StreamDefinitionType';
 
 export type Description = string | Explanation;
 export type DocString = string;
@@ -124,6 +125,7 @@ type Translation = {
         row: string;
         set: string;
         structure: string;
+        streamdefinition: string;
         stream: string;
         index: string;
         query: string;
@@ -290,6 +292,7 @@ type Translation = {
                 ValueOrUndefinedTranslation
             >;
         Source: StaticNodeTranslation;
+        StreamDefinition: StaticNodeTranslation & AtomicExpressionTranslation;
         StructureDefinition: StaticNodeTranslation &
             AtomicExpressionTranslation;
         TableLiteral: StaticNodeTranslation &
@@ -325,6 +328,7 @@ type Translation = {
         NeverType: StaticNodeTranslation;
         NoneType: StaticNodeTranslation;
         SetType: DynamicNodeTranslation<SetType>;
+        StreamDefinitionType: DynamicNodeTranslation<StreamDefinitionType>;
         StreamType: DynamicNodeTranslation<StreamType>;
         StructureDefinitionType: StaticNodeTranslation;
         TableType: StaticNodeTranslation;
@@ -759,12 +763,20 @@ type Translation = {
         };
     };
     input: {
-        random: NameAndDocTranslation;
-        mousebutton: NameAndDocTranslation;
+        random: NameAndDocTranslation & {
+            min: NameAndDocTranslation;
+            max: NameAndDocTranslation;
+        };
+        mousebutton: NameAndDocTranslation & { down: NameAndDocTranslation };
         mouseposition: NameAndDocTranslation;
-        keyboard: NameAndDocTranslation;
-        time: NameAndDocTranslation;
-        microphone: NameAndDocTranslation;
+        keyboard: NameAndDocTranslation & {
+            key: NameAndDocTranslation;
+            down: NameAndDocTranslation;
+        };
+        time: NameAndDocTranslation & { frequency: NameAndDocTranslation };
+        microphone: NameAndDocTranslation & {
+            frequency: NameAndDocTranslation;
+        };
         reaction: NameAndDocTranslation;
         key: {
             doc: DocTranslation;

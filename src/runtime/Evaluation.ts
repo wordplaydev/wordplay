@@ -29,6 +29,8 @@ import Context from '@nodes/Context';
 import StructureDefinitionValue from './StructureDefinitionValue';
 import type { StepNumber } from './Evaluator';
 import FunctionValue from './FunctionValue';
+import StreamDefinition from '../nodes/StreamDefinition';
+import StreamDefinitionValue from './StreamDefinitionValue';
 
 export type EvaluatorNode =
     | UnaryOperation
@@ -41,6 +43,7 @@ export type EvaluatorNode =
 export type EvaluationNode =
     | FunctionDefinition
     | StructureDefinition
+    | StreamDefinition
     | ConversionDefinition
     | Source;
 
@@ -299,14 +302,16 @@ export default class Evaluation {
         // Any of the defaults match? Wrap them in values.
         if (def instanceof FunctionDefinition)
             return new FunctionValue(def, undefined);
-        if (def instanceof StructureDefinition)
+        else if (def instanceof StructureDefinition)
             return new StructureDefinitionValue(
                 this.#evaluator.project.main,
                 def
             );
+        else if (def instanceof StreamDefinition)
+            return new StreamDefinitionValue(def);
 
         // Special case random as an implicit share.
-        return this.#evaluator.project.getImplicitlySharedStream(name);
+        return undefined;
     }
 
     /** Remember the given conversion for later. */

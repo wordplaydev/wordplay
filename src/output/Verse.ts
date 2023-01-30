@@ -16,8 +16,6 @@ import type LanguageCode from '@translation/LanguageCode';
 import { getPreferredTranslation } from '@translation/getPreferredTranslation';
 import { getBind } from '@translation/getBind';
 
-const BACKSET = -12;
-
 export const VerseType = toStructure(`
     ${getBind((t) => t.output.verse.definition, '•')} Group(
         ${getBind((t) => t.output.verse.groups)}•Group|[Group]

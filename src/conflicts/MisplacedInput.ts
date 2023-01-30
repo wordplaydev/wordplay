@@ -4,15 +4,16 @@ import type Bind from '@nodes/Bind';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import type Translation from '@translation/Translation';
+import type StreamDefinition from '../nodes/StreamDefinition';
 
 export default class MisplacedInput extends Conflict {
-    readonly func: FunctionDefinition | StructureDefinition;
+    readonly func: FunctionDefinition | StructureDefinition | StreamDefinition;
     readonly evaluate: Evaluate;
     readonly expected: Bind;
     readonly given: Bind;
 
     constructor(
-        func: FunctionDefinition | StructureDefinition,
+        func: FunctionDefinition | StructureDefinition | StreamDefinition,
         evaluate: Evaluate,
         expected: Bind,
         given: Bind

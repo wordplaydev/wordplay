@@ -217,7 +217,7 @@ export default class FunctionDefinition extends Expression {
     }
 
     getDefinitions(node: Node): Definition[] {
-        // Does an input delare the name that isn't the one asking?
+        // Does an input declare the name that isn't the one asking?
         return [
             ...(this.inputs.filter(
                 (i) => i instanceof Bind && i !== node

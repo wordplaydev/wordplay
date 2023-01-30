@@ -12,7 +12,6 @@ import Expression from './Expression';
 import Bind from './Bind';
 import type Type from './Type';
 import type TypeSet from './TypeSet';
-import type Stream from '@runtime/Stream';
 import type Value from '@runtime/Value';
 import Source from './Source';
 import Evaluation from '@runtime/Evaluation';
@@ -30,13 +29,15 @@ import type Translation from '@translation/Translation';
 import AtomicExpression from './AtomicExpression';
 import UnimplementedException from '@runtime/UnimplementedException';
 import NodeLink from '@translation/NodeLink';
+import StreamDefinition from './StreamDefinition';
+import StreamDefinitionValue from '../runtime/StreamDefinitionValue';
 
 export type SharedDefinition =
     | Source
     | Bind
     | FunctionDefinition
     | StructureDefinition
-    | Stream;
+    | StreamDefinition;
 
 export default class Borrow extends AtomicExpression {
     readonly borrow: Token;
@@ -157,6 +158,8 @@ export default class Borrow extends AtomicExpression {
                     ? new FunctionValue(definition, undefined)
                     : definition instanceof StructureDefinition
                     ? new StructureDefinitionValue(this, definition)
+                    : definition instanceof StreamDefinition
+                    ? new StreamDefinitionValue(definition)
                     : definition;
 
             if (value instanceof Bind || value instanceof Source)

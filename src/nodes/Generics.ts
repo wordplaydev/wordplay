@@ -9,6 +9,7 @@ import FunctionType from './FunctionType';
 import MeasurementType from './MeasurementType';
 import NameType from './NameType';
 import PropertyReference from './PropertyReference';
+import StreamDefinition from './StreamDefinition';
 import StructureDefinition from './StructureDefinition';
 import type Type from './Type';
 import TypeVariable from './TypeVariable';
@@ -27,7 +28,7 @@ export type EvaluationType = Evaluate | BinaryOperation | UnaryOperation;
  * @param context The context in which we're evaluating types.
  */
 export default function getConcreteExpectedType(
-    definition: FunctionDefinition | StructureDefinition,
+    definition: FunctionDefinition | StructureDefinition | StreamDefinition,
     input: Bind | undefined,
     evaluation: EvaluationType,
     context: Context
@@ -120,10 +121,13 @@ function getConcreteMeasurementInput(
  */
 function getConcreteTypeVariable(
     type: NameType,
-    definition: FunctionDefinition | StructureDefinition,
+    definition: FunctionDefinition | StructureDefinition | StreamDefinition,
     evaluation: EvaluationType,
     context: Context
 ): Type {
+    if (definition instanceof StreamDefinition)
+        return new UnknownVariableType(evaluation);
+
     // What's the type variable we're trying to resolve?
     const typeVariable = type.resolve(context);
 

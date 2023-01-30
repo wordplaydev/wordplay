@@ -5,7 +5,7 @@ test.each([
     [
         `
 ↓ time
-time
+time()
 `,
         [],
         '0ms',
@@ -17,12 +17,6 @@ time
     `,
         [`0`],
         '0',
-    ],
-    [
-        `↓ time
-         time`,
-        ,
-        '0ms',
     ],
 ])('Expect %s to be %s', (code, supplements, value) => {
     expect(Evaluator.evaluateCode(code, supplements)?.toString()).toBe(value);

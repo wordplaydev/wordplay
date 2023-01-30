@@ -31,6 +31,7 @@ import Finish from './Finish';
 import EvaluationLimitException from './EvaluationLimitException';
 import StepLimitException from './StepLimitException';
 import TypeException from './TypeException';
+import Random from '../input/Random';
 
 /** Anything that wants to listen to changes in the state of this evaluator */
 export type EvaluationObserver = () => void;
@@ -94,6 +95,9 @@ export default class Evaluator {
     /** The expressions that need to be re-evaluated, if any. */
     invalidatedExpressions: Set<Expression> | undefined = undefined;
 
+    /** All of the native streams created while evaluating the program */
+    nativeStreams: Map<EvaluatorNode, Stream> = new Map();
+
     /** A mapping from Reaction nodes in the program to the streams they are listening to. */
     reactionStreams: Map<Reaction, Stream> = new Map();
 
@@ -125,6 +129,11 @@ export default class Evaluator {
      */
     animations: Animations;
 
+    /**
+     * A global random stream for APIs to use.
+     */
+    random: Random;
+
     constructor(project: Project) {
         this.project = project;
 
@@ -134,6 +143,9 @@ export default class Evaluator {
             [],
             new Set()
         );
+
+        // Create a global random number stream for APIs to use.
+        this.random = new Random(this, undefined, undefined);
 
         // Set up start state.
         this.resetAll();
@@ -448,10 +460,15 @@ export default class Evaluator {
         this.broadcast();
     }
 
-    /** Stops listening to listeners and halts execution. */
+    /** Stop execution, eliminate observers, and stop all streams. */
     stop() {
         this.#stopped = true;
         this.observers.length = 0;
+
+        // Stop all native streams.
+        Array.from(this.nativeStreams.values()).forEach((stream) =>
+            stream.stop()
+        );
     }
 
     /**
@@ -755,6 +772,34 @@ export default class Evaluator {
                 this.reactionStreams.set(reaction, newStream);
             }
         }
+    }
+
+    getNativeStreamsOfType<Kind extends Stream>(
+        type: new (...params: any[]) => Kind
+    ) {
+        return Array.from(this.nativeStreams.values()).filter(
+            (stream): stream is Kind => stream instanceof type
+        );
+    }
+
+    getNativeStreamFor(evaluate: EvaluatorNode): Stream | undefined {
+        return this.nativeStreams.get(evaluate);
+    }
+
+    addNativeStreamFor(evaluate: EvaluatorNode, stream: Stream) {
+        // Remember the mapping
+        this.nativeStreams.set(evaluate, stream);
+
+        // Start the stream.
+        stream.start();
+
+        // Listen to it so we can react to changes.
+        stream.listen((stream) => this.react(stream));
+    }
+
+    react(stream: Stream) {
+        // Tell the project that this stream changed.
+        this.project.react(stream);
     }
 
     /**

@@ -4,9 +4,9 @@ import Measurement from '@runtime/Measurement';
 import Stream from '@runtime/Stream';
 import { getDocTranslations } from '@translation/getDocTranslations';
 import { getNameTranslations } from '@translation/getNameTranslations';
-import { FREQUENCY } from './Time';
 
 const FFT_SIZE = 32;
+const DEFAULT_FREQUENCY = 33;
 
 // A helpful article on getting raw data streams:
 // https://stackoverflow.com/questions/69237143/how-do-i-get-the-audio-frequency-from-my-mic-using-javascript
@@ -17,8 +17,11 @@ export default class Microphone extends Stream {
     analyzer: AnalyserNode | undefined;
     frequencies: Uint8Array = new Uint8Array(FFT_SIZE);
 
-    constructor(evaluator: Evaluator) {
+    frequency: number | undefined;
+
+    constructor(evaluator: Evaluator, frequency: number | undefined) {
         super(evaluator, new Measurement(evaluator.getMain(), 0));
+        this.frequency = frequency ?? DEFAULT_FREQUENCY;
     }
 
     computeDocs() {
@@ -51,7 +54,11 @@ export default class Microphone extends Stream {
         if (this.stream === undefined) return;
         if (this.samplerID !== undefined) return;
         this.stream.connect(this.analyzer);
-        this.samplerID = setInterval(() => this.sample(), FREQUENCY);
+        this.samplerID = setInterval(() => this.sample(), this.frequency);
+    }
+
+    setFrequency(frequency: number | undefined) {
+        this.frequency = frequency ?? DEFAULT_FREQUENCY;
     }
 
     start() {

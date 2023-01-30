@@ -8,17 +8,19 @@ import type Node from '@nodes/Node';
 import { getDocTranslations } from '@translation/getDocTranslations';
 import { getNameTranslations } from '@translation/getNameTranslations';
 
-export const FREQUENCY = 33;
+const DEFAULT_FREQUENCY = 33;
 
 export default class Time extends Stream<Measurement> {
     running = false;
     firstTime: number | undefined = undefined;
+    frequency: number = 33;
 
-    constructor(evaluator: Evaluator) {
+    constructor(evaluator: Evaluator, frequency: number = DEFAULT_FREQUENCY) {
         super(
             evaluator,
             new Measurement(evaluator.getMain(), 0, Unit.unit(['ms']))
         );
+        this.frequency = frequency;
     }
 
     computeDocs() {
@@ -36,18 +38,26 @@ export default class Time extends Stream<Measurement> {
             window.requestAnimationFrame((time) => this.tick(time));
     }
 
+    setFrequency(frequency: number | undefined) {
+        this.frequency = frequency ?? DEFAULT_FREQUENCY;
+    }
+
     tick(time: DOMHighResTimeStamp) {
         if (this.firstTime === undefined) this.firstTime = time;
 
-        this.add(
-            Time.make(
-                this.creator,
-                this.firstTime === undefined
-                    ? 0
-                    : Math.round(time - this.firstTime)
-            )
-        );
+        const elapsed = Math.round(time - this.firstTime);
 
+        // If the elapsed time is greater than or equal to the desired frequency, add an event.
+        if (elapsed - this.latest().toNumber() >= this.frequency) {
+            this.add(
+                Time.make(
+                    this.creator,
+                    this.firstTime === undefined ? 0 : elapsed
+                )
+            );
+        }
+
+        // If still running, check again in the next animation frame.
         if (this.running)
             window.requestAnimationFrame((time) => this.tick(time));
     }

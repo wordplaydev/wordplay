@@ -323,7 +323,6 @@
                         height: tile.position.height,
                     };
                 } else {
-                    const dir = draggedTile.direction;
                     const left = draggedTile.direction.includes('left');
                     const top = draggedTile.direction.includes('top');
                     const right = draggedTile.direction.includes('right');

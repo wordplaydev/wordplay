@@ -1,9 +1,8 @@
 === Text Transitions
-↓ keyboard
-↓ random
 
+key: keyboard()
 text: [ "boomy" "boom boom" "boooooomy" "boomymcboomface" "moooey" ]
-choice: text[1] … keyboard.down ? text.random() choice
+choice: text[1] … key.key = " " ? text.random() choice
 
 Phrase(
     choice

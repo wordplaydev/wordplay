@@ -144,14 +144,14 @@
         }
     }
 
-    type Box = {
-        left: number;
-        top: number;
-        right: number;
-        bottom: number;
-        width: number;
-        height: number;
-    };
+    // type Box = {
+    //     left: number;
+    //     top: number;
+    //     right: number;
+    //     bottom: number;
+    //     width: number;
+    //     height: number;
+    // };
 
     // After the annotations are rendered, resolve layout conflicts now that we know their size.
     // afterUpdate(adjustLayout);
@@ -230,26 +230,26 @@
     //     annotations = annotations;
     // }
 
-    function domRectToRect(rect: DOMRect) {
-        return {
-            left: rect.left,
-            top: rect.top,
-            bottom: rect.bottom,
-            right: rect.right,
-            width: rect.width,
-            height: rect.height,
-        };
-    }
+    // function domRectToRect(rect: DOMRect) {
+    //     return {
+    //         left: rect.left,
+    //         top: rect.top,
+    //         bottom: rect.bottom,
+    //         right: rect.right,
+    //         width: rect.width,
+    //         height: rect.height,
+    //     };
+    // }
 
-    function adjustPosition(primary: Box, other: Box) {
-        // If no overlap, do nothing.
-        if (primary.left > other.right || other.left > primary.right) return;
-        if (primary.top > other.bottom || other.top > primary.bottom) return;
+    // function adjustPosition(primary: Box, other: Box) {
+    //     // If no overlap, do nothing.
+    //     if (primary.left > other.right || other.left > primary.right) return;
+    //     if (primary.top > other.bottom || other.top > primary.bottom) return;
 
-        // Shift it up from its current position to prevent overlap.
-        primary.top = other.top - primary.height;
-        primary.bottom = primary.top + primary.height;
-    }
+    //     // Shift it up from its current position to prevent overlap.
+    //     primary.top = other.top - primary.height;
+    //     primary.bottom = primary.top + primary.height;
+    // }
 
     function getStepView(): [Node | null, Element | null] {
         // Find the node corresponding to the step being rendered.

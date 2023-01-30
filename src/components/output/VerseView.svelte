@@ -3,18 +3,21 @@
 <script lang="ts">
     import { onMount, setContext } from 'svelte';
     import type Project from '../../models/Project';
-    import type Verse from '../../output/Verse';
+    import type Verse from '@output/Verse';
     import { playing, selectedOutput } from '../../models/stores';
     import { preferredLanguages } from '@translation/translations';
     import PhraseView from './PhraseView.svelte';
     import { loadedFonts } from '../../native/Fonts';
-    import { PX_PER_METER, toCSS } from '../../output/phraseToCSS';
-    import type Phrase from '../../output/Phrase';
-    import type Group from '../../output/Group';
-    import type Place from '../../output/Place';
+    import { PX_PER_METER, toCSS } from '@output/phraseToCSS';
+    import type Phrase from '@output/Phrase';
+    import type Group from '@output/Group';
+    import type Place from '@output/Place';
     import { writable } from 'svelte/store';
     import Evaluate from '@nodes/Evaluate';
-    import { VerseType } from '../../output/Verse';
+    import { VerseType } from '@output/Verse';
+    import Keyboard from '@input/Keyboard';
+    import MousePosition from '@input/MousePosition';
+    import MouseButton from '@input/MouseButton';
 
     export let project: Project;
     export let verse: Verse;
@@ -165,7 +168,9 @@
         }
 
         if (project.evaluator.isPlaying())
-            project.streams.mouseButton.record(true);
+            project.evaluator
+                .getNativeStreamsOfType(MouseButton)
+                .map((stream) => stream.record(true));
         else ignore();
 
         if (editable && selectedOutput && $selectedOutput) {
@@ -204,7 +209,9 @@
         if (focusDrag) focusDrag = undefined;
 
         if (project.evaluator.isPlaying())
-            project.streams.mouseButton.record(false);
+            project.evaluator
+                .getNativeStreamsOfType(MouseButton)
+                .map((stream) => stream.record(false));
         else ignore();
     }
 
@@ -226,7 +233,9 @@
         }
 
         if (project.evaluator.isPlaying())
-            project.streams.mousePosition.record(event.offsetX, event.offsetY);
+            project.evaluator
+                .getNativeStreamsOfType(MousePosition)
+                .map((stream) => stream.record(event.offsetX, event.offsetY));
         // Don't give feedback on this; it's not expected.
     }
 
@@ -243,7 +252,9 @@
         if (focusDrag) focusDrag = undefined;
 
         if (project.evaluator.isPlaying()) {
-            project.streams.keyboard.record(event.key, false);
+            project.evaluator
+                .getNativeStreamsOfType(Keyboard)
+                .map((stream) => stream.record(event.key, false));
         } else ignore();
     }
 
@@ -284,9 +295,11 @@
             }
         }
 
-        // Record the key event if it wasn't handled above.
+        // Record the key event on all keyboard streams if it wasn't handled above.
         if (project.evaluator.isPlaying()) {
-            project.streams.keyboard.record(event.key, true);
+            project.evaluator
+                .getNativeStreamsOfType(Keyboard)
+                .map((stream) => stream.record(event.key, true));
         } else ignore();
 
         handleOutputSelection(event);

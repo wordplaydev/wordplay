@@ -28,6 +28,7 @@ import type { CycleType } from '@nodes/CycleType';
 import type UnknownNameType from '@nodes/UnknownNameType';
 import Explanation from '../Explanation';
 import type NodeLink from '../NodeLink';
+import type StreamDefinitionType from '../../nodes/StreamDefinitionType';
 
 const WRITE_DOC = 'pendiante';
 
@@ -62,6 +63,7 @@ const eng_wordplay: Translation = {
         list: 'list',
         stream: 'stream',
         structure: 'structure',
+        streamdefinition: 'stream definition',
         index: 'index',
         query: 'query',
         row: 'row',
@@ -488,6 +490,21 @@ const eng_wordplay: Translation = {
         Source: {
             description: 'a named program',
             doc: WRITE_DOC,
+        },
+        StreamDefinitionType: {
+            description: (
+                node: StreamDefinitionType,
+                translation: Translation
+            ) =>
+                `a ${node.definition.names.getTranslation(
+                    translation.language
+                )} stream`,
+            doc: WRITE_DOC,
+        },
+        StreamDefinition: {
+            description: 'a stream definition',
+            doc: `defines a stream of values.`,
+            start: 'define this stream type',
         },
         StructureDefinition: {
             description: 'a structure definition',
@@ -1579,10 +1596,13 @@ const eng_wordplay: Translation = {
         random: {
             doc: WRITE_DOC,
             name: ['random', '🎲'],
+            min: { name: 'min', doc: WRITE_DOC },
+            max: { name: 'max', doc: WRITE_DOC },
         },
         mousebutton: {
             doc: WRITE_DOC,
             name: ['mousebutton', '🖱️'],
+            down: { name: 'down', doc: WRITE_DOC },
         },
         mouseposition: {
             doc: WRITE_DOC,
@@ -1591,14 +1611,24 @@ const eng_wordplay: Translation = {
         keyboard: {
             doc: WRITE_DOC,
             name: ['keyboard', '⌨️'],
+            key: { name: 'key', doc: WRITE_DOC },
+            down: { name: 'down', doc: WRITE_DOC },
         },
         time: {
             doc: WRITE_DOC,
             name: ['time', '🕕'],
+            frequency: {
+                name: ['frequency'],
+                doc: WRITE_DOC,
+            },
         },
         microphone: {
             doc: WRITE_DOC,
             name: ['microphone', '🎤'],
+            frequency: {
+                name: ['frequency'],
+                doc: WRITE_DOC,
+            },
         },
         reaction: {
             doc: WRITE_DOC,

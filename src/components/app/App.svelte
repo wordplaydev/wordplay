@@ -6,8 +6,6 @@
     import Loading from './Loading.svelte';
     import ProjectChooser from './ProjectChooser.svelte';
     import { ProjectSymbol, type ProjectContext } from '../project/Contexts';
-    import { writable } from 'svelte/store';
-    import type Project from '../../models/Project';
 
     // Don't display the manager until the fonts are loaded.
     let fontsLoaded = false;
