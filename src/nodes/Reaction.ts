@@ -14,30 +14,48 @@ import type Context from './Context';
 import UnionType from './UnionType';
 import type TypeSet from './TypeSet';
 import Exception from '@runtime/Exception';
-import { STREAM_SYMBOL } from '@parser/Symbols';
+import { COMMA_SYMBOL, STREAM_SYMBOL } from '@parser/Symbols';
 import TokenType from './TokenType';
 import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
+import BooleanType from './BooleanType';
+import ExpectedBooleanCondition from '../conflicts/ExpectedBooleanCondition';
+import Check from '../runtime/Check';
+import Bool from '../runtime/Bool';
+import ValueException from '../runtime/ValueException';
+import TypeException from '../runtime/TypeException';
 
 export default class Reaction extends Expression {
     readonly initial: Expression;
-    readonly delta: Token;
+    readonly dots: Token;
+    readonly condition: Expression;
+    readonly comma: Token | undefined;
     readonly next: Expression;
 
-    constructor(initial: Expression, delta: Token, next: Expression) {
+    constructor(
+        initial: Expression,
+        dots: Token,
+        condition: Expression,
+        comma: Token | undefined,
+        next: Expression
+    ) {
         super();
 
         this.initial = initial;
-        this.delta = delta;
+        this.dots = dots;
+        this.condition = condition;
+        this.comma = comma;
         this.next = next;
 
         this.computeChildren();
     }
 
-    static make(initial: Expression, next: Expression) {
+    static make(initial: Expression, condition: Expression, next: Expression) {
         return new Reaction(
             initial,
-            new Token(STREAM_SYMBOL, TokenType.REACTION),
+            new Token(STREAM_SYMBOL, TokenType.CHANGE),
+            condition,
+            new Token(COMMA_SYMBOL, TokenType.NEXT),
             next
         );
     }
@@ -50,7 +68,9 @@ export default class Reaction extends Expression {
                 label: (translation: Translation) =>
                     translation.nodes.Reaction.initial,
             },
-            { name: 'delta', types: [Token], space: true, indent: true },
+            { name: 'dots', types: [Token], space: true, indent: true },
+            { name: 'condition', types: [Expression], space: true },
+            { name: 'comma', types: [Token], space: false },
             {
                 name: 'next',
                 types: [Expression],
@@ -65,13 +85,21 @@ export default class Reaction extends Expression {
     clone(replace?: Replacement) {
         return new Reaction(
             this.replaceChild('initial', this.initial, replace),
-            this.replaceChild<Token>('delta', this.delta, replace),
+            this.replaceChild<Token>('dots', this.dots, replace),
+            this.replaceChild('condition', this.condition, replace),
+            this.replaceChild('comma', this.comma, replace),
             this.replaceChild<Expression>('next', this.next, replace)
         ) as this;
     }
 
-    computeConflicts(_: Context): Conflict[] {
+    computeConflicts(context: Context): Conflict[] {
         const conflicts: Conflict[] = [];
+
+        // The condition must be boolean valued.
+        const conditionType = this.condition.getType(context);
+        if (!(conditionType instanceof BooleanType))
+            conflicts.push(new ExpectedBooleanCondition(this, conditionType));
+
         return conflicts;
     }
 
@@ -98,9 +126,11 @@ export default class Reaction extends Expression {
 
     compile(context: Context): Step[] {
         const initialSteps = this.initial.compile(context);
+        const conditionSteps = this.condition.compile(context);
         const nextSteps = this.next.compile(context);
 
         return [
+            // Start by binding the previous value, if there is one.
             new Start(this, (evaluator) => {
                 // Get the latest value if this reaction
                 const latest = evaluator.getReactionStreamLatest(this);
@@ -112,9 +142,55 @@ export default class Reaction extends Expression {
                         evaluator.bind(parent.names, latest);
                 }
 
-                // If this reaction already has a stream, jump past the initial value expression.
-                if (evaluator.hasReactionStream(this as Reaction))
-                    evaluator.jump(initialSteps.length + 1);
+                // Start tracking dependencies.
+                evaluator.reactionDependencies.push({
+                    reaction: this,
+                    streams: new Set(),
+                });
+
+                return undefined;
+            }),
+            // Then evaluate the condition.
+            ...conditionSteps,
+            new Check(this, (evaluator) => {
+                // Get the result of the condition evaluation.
+                const value = evaluator.popValue(this);
+                if (value === undefined)
+                    return new ValueException(evaluator, this);
+                else if (!(value instanceof Bool))
+                    return new TypeException(
+                        evaluator,
+                        BooleanType.make(),
+                        value
+                    );
+
+                // Did any of the streams cause the current evaluation?
+                const dependencies = evaluator.reactionDependencies.pop();
+                const streams = dependencies ? dependencies.streams : undefined;
+                const changed =
+                    streams === undefined
+                        ? false
+                        : Array.from(streams).some((stream) =>
+                              evaluator.didStreamCauseReaction(stream)
+                          );
+
+                // If this reaction already has a stream
+                if (evaluator.hasReactionStream(this)) {
+                    // if the condition was true and a dependency changed, jump to the next step.
+                    if (changed && value.bool)
+                        evaluator.jump(initialSteps.length + 1);
+                    // If it was false, push the last reaction value and skip the rest.
+                    else {
+                        const latest = evaluator.getReactionStreamLatest(this);
+                        if (latest === undefined)
+                            return new ValueException(evaluator, this);
+                        evaluator.pushValue(latest);
+                        evaluator.jump(
+                            initialSteps.length + 1 + nextSteps.length + 1
+                        );
+                    }
+                }
+                // Otherwise, proceed to the initial steps.
 
                 return undefined;
             }),
@@ -130,7 +206,7 @@ export default class Reaction extends Expression {
     }
 
     evaluate(evaluator: Evaluator, value: Value | undefined): Value {
-        // Get the value.
+        // Get the new value.
         const streamValue = value ?? evaluator.popValue(this);
 
         // At this point in the compiled steps above, we should have a value on the stack
@@ -160,11 +236,11 @@ export default class Reaction extends Expression {
     }
 
     getStart() {
-        return this.delta;
+        return this.dots;
     }
 
     getFinish() {
-        return this.delta;
+        return this.dots;
     }
 
     getNodeTranslation(translation: Translation) {

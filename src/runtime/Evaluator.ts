@@ -134,6 +134,18 @@ export default class Evaluator {
      */
     random: Random;
 
+    /**
+     * Remember streams that were converted to values so we can convert them back to streams
+     * when needed in stream operations.
+     */
+    readonly streamsResolved: Map<Value, Stream> = new Map();
+
+    /** Remember streams accessed during reactions conditions so we can decide whether to reevaluate */
+    readonly reactionDependencies: {
+        reaction: Reaction;
+        streams: Set<Stream>;
+    }[] = [];
+
     constructor(project: Project) {
         this.project = project;
 
@@ -375,6 +387,9 @@ export default class Evaluator {
 
         // Didn't recently step to node.
         this.#steppedToNode = false;
+
+        // Reset the streams resolved to avoid memory leaks.
+        this.streamsResolved.clear();
 
         // Notify listeners.
         this.broadcast();
@@ -772,6 +787,24 @@ export default class Evaluator {
                 this.reactionStreams.set(reaction, newStream);
             }
         }
+    }
+
+    getStreamResolved(value: Value): Stream | undefined {
+        const stream = this.streamsResolved.get(value);
+
+        // If we're tracking a reaction's dependencies, remember this was obtained.
+        if (stream && this.reactionDependencies.length > 0)
+            this.reactionDependencies[0].streams.add(stream);
+
+        return stream;
+    }
+
+    setStreamResolved(value: Value, stream: Stream) {
+        this.streamsResolved.set(value, stream);
+
+        // If we're tracking a reaction's dependencies, remember this was converted into a value.
+        if (this.reactionDependencies.length > 0)
+            this.reactionDependencies[0].streams.add(stream);
     }
 
     getNativeStreamsOfType<Kind extends Stream>(

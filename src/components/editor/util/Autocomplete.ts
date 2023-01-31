@@ -584,6 +584,7 @@ function getPossibleNodes(
                 ),
                 Reaction.make(
                     ExpressionPlaceholder.make(),
+                    ExpressionPlaceholder.make(BooleanType.make()),
                     ExpressionPlaceholder.make()
                 ),
             ];
@@ -758,7 +759,11 @@ function getPostfixEdits(context: Context, expr: Expression): Transform[] {
                     context,
                     parent,
                     expr,
-                    Reaction.make(expr, ExpressionPlaceholder.make())
+                    Reaction.make(
+                        expr,
+                        ExpressionPlaceholder.make(BooleanType.make()),
+                        ExpressionPlaceholder.make()
+                    )
                 ),
             ],
             // If given a type, any binary operations that are available on the type. Wrap in a block if a BinaryOperation or Conditional

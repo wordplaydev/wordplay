@@ -8,7 +8,6 @@ import Exception from './Exception';
 import type Step from './Step';
 import Stream from './Stream';
 import Value from './Value';
-import KeepStream from './KeepStream';
 import ValueException from './ValueException';
 import TypeException from './TypeException';
 import Structure from './Structure';
@@ -164,13 +163,13 @@ export default class Evaluation {
 
         // If it's an exception, return it to the evaluator to halt the program.
         if (result instanceof Exception) return result;
-        // If it's a stream, resolve it to its latest value, unless this will
-        // be used in a Previous expression, in which case we leave it alone.
-        else if (
-            result instanceof Stream &&
-            !(this.nextStep() instanceof KeepStream)
-        ) {
-            this.#values.unshift(result.latest());
+        // If it's a stream, resolve it to its latest value,
+        // but remember where it came from so other expressions that need the stream
+        // can get it back.
+        else if (result instanceof Stream) {
+            const value = result.latest();
+            this.#values.unshift(value);
+            evaluator.setStreamResolved(value, result);
         }
         // If it's a value, add it to the top of the stack.
         else if (result instanceof Value) {
@@ -273,9 +272,6 @@ export default class Evaluation {
         this.#bindings.set(names, value);
         for (const name of names.getNames())
             this._bindingsIndex.set(name, value);
-
-        // If the value is a stream, start it.
-        if (value instanceof Stream) value.start();
     }
 
     /** Resolves the given name in this evaluation or its context. */

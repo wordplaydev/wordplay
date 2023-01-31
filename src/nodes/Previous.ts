@@ -80,10 +80,10 @@ export default class Previous extends Expression {
     }
 
     computeConflicts(context: Context): Conflict[] {
-        const streamType = this.stream.getType(context);
+        const valueType = this.stream.getType(context);
+        const streamType = context.getStreamType(valueType);
 
-        if (!(streamType instanceof StreamType))
-            return [new NotAStream(this, streamType)];
+        if (streamType === undefined) return [new NotAStream(this, valueType)];
 
         const indexType = this.index.getType(context);
         if (
@@ -124,12 +124,15 @@ export default class Previous extends Expression {
         if (!(index instanceof Measurement) || !index.num.isInteger())
             return index;
 
-        const stream = evaluator.popValue(this, StreamType.make(new AnyType()));
+        const value = evaluator.popValue(this, StreamType.make(new AnyType()));
+        // Get the stream the value came from.
+        const stream = evaluator.getStreamResolved(value);
+
         if (!(stream instanceof Stream))
             return new TypeException(
                 evaluator,
                 StreamType.make(new AnyType()),
-                stream
+                value
             );
 
         return stream.at(this, index.toNumber());

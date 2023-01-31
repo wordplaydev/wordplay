@@ -9,7 +9,6 @@ import Finish from '@runtime/Finish';
 import type Context from './Context';
 import { NotAStream } from '@conflicts/NotAStream';
 import StreamType from './StreamType';
-import Stream from '@runtime/Stream';
 import KeepStream from '@runtime/KeepStream';
 import type Bind from './Bind';
 import type TypeSet from './TypeSet';
@@ -18,14 +17,12 @@ import AnyType from './AnyType';
 import TokenType from './TokenType';
 import { CHANGE_SYMBOL } from '@parser/Symbols';
 import Start from '@runtime/Start';
-import UnionType from './UnionType';
-import NoneType from './NoneType';
 import Bool from '@runtime/Bool';
-import { NotAStreamType } from './NotAStreamType';
 import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
 import AtomicExpression from './AtomicExpression';
 import NodeLink from '@translation/NodeLink';
+import BooleanType from './BooleanType';
 
 export default class Changed extends AtomicExpression {
     readonly change: Token;
@@ -65,20 +62,18 @@ export default class Changed extends AtomicExpression {
     }
 
     computeConflicts(context: Context): Conflict[] {
-        const streamType = this.stream.getType(context);
+        // This will be a value type
+        const valueType = this.stream.getType(context);
+        const streamType = context.getStreamType(valueType);
 
-        if (!(streamType instanceof StreamType))
-            return [new NotAStream(this, streamType)];
+        if (streamType === undefined) return [new NotAStream(this, valueType)];
 
         return [];
     }
 
-    computeType(context: Context): Type {
-        // The type is the stream's type.
-        const streamType = this.stream.getType(context);
-        return streamType instanceof StreamType
-            ? UnionType.make(streamType.type, NoneType.None)
-            : new NotAStreamType(this, streamType);
+    computeType(): Type {
+        // The type is a boolean.
+        return BooleanType.make();
     }
 
     getDependencies(): Expression[] {
@@ -97,12 +92,17 @@ export default class Changed extends AtomicExpression {
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
         if (prior) return prior;
 
-        const stream = evaluator.popValue(this, StreamType.make(new AnyType()));
-        if (!(stream instanceof Stream))
+        const value = evaluator.popValue(this);
+
+        // Get the stream the value came from.
+        const stream = evaluator.getStreamResolved(value);
+
+        // No stream source? Exception time.
+        if (stream === undefined)
             return new TypeException(
                 evaluator,
                 StreamType.make(new AnyType()),
-                stream
+                value
             );
 
         return new Bool(this, evaluator.didStreamCauseReaction(stream));

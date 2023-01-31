@@ -525,7 +525,12 @@ export default class Evaluate extends Expression {
             return new StructureDefinitionType(fun, [
                 ...(this.types ? this.types.types : []),
             ]);
-        else if (fun instanceof StreamDefinition) return fun.output;
+        else if (fun instanceof StreamDefinition) {
+            // Remember that this type came from this definition.
+            context.setStreamType(fun.output, fun);
+            // Return the type of this stream's output.
+            return fun.output;
+        }
         // Otherwise, who knows.
         else return new NotAFunctionType(this, this.func.getType(context));
     }

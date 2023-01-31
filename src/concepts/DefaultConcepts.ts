@@ -116,9 +116,8 @@ export function getNodeConcepts(context: Context): NodeConcept[] {
             undefined,
             Reaction.make(
                 ExpressionPlaceholder.make(),
-                ExpressionPlaceholder.make(
-                    StreamType.make(new TypePlaceholder())
-                )
+                ExpressionPlaceholder.make(BooleanType.make()),
+                ExpressionPlaceholder.make()
             ),
             context
         ),

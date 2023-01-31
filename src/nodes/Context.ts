@@ -9,6 +9,7 @@ import { CycleType } from './CycleType';
 import type Reference from './Reference';
 import type PropertyReference from './PropertyReference';
 import type Definition from './Definition';
+import type StreamDefinition from './StreamDefinition';
 
 /** Passed around during type inference and conflict detection to facilitate program analysis and cycle-detection. */
 export default class Context {
@@ -21,6 +22,8 @@ export default class Context {
     readonly referenceUnions: Map<PropertyReference | Reference, Type> =
         new Map();
     readonly definitions: Map<Node, Definition[]> = new Map();
+
+    readonly streamTypes: Map<Type, StreamDefinition> = new Map();
 
     constructor(project: Project, source: Source) {
         this.project = project;
@@ -70,5 +73,13 @@ export default class Context {
     }
     setReferenceType(ref: Reference | PropertyReference, type: Type) {
         return this.referenceUnions.set(ref, type);
+    }
+
+    setStreamType(type: Type, stream: StreamDefinition) {
+        this.streamTypes.set(type, stream);
+    }
+
+    getStreamType(type: Type): StreamDefinition | undefined {
+        return this.streamTypes.get(type);
     }
 }

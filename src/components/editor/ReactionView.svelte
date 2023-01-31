@@ -7,6 +7,6 @@
     export let node: Reaction;
 </script>
 
-<NodeView node={node.initial} /><NodeView node={node.delta} /><NodeView
-    node={node.next}
-/>
+<NodeView node={node.initial} /><NodeView node={node.dots} /><NodeView
+    node={node.condition}
+/><NodeView node={node.comma} /><NodeView node={node.next} />

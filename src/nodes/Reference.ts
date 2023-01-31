@@ -6,7 +6,7 @@ import Token from './Token';
 import Type from './Type';
 import TypeVariable from './TypeVariable';
 import type Evaluator from '@runtime/Evaluator';
-import Value from '@runtime/Value';
+import type Value from '@runtime/Value';
 import type Step from '@runtime/Step';
 import type Context from './Context';
 import type Definition from './Definition';
@@ -20,14 +20,12 @@ import Is from './Is';
 import type StructureDefinition from './StructureDefinition';
 import NameToken from './NameToken';
 import StartFinish from '@runtime/StartFinish';
-import StreamType from './StreamType';
 import UnknownNameType from './UnknownNameType';
 import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
 import AtomicExpression from './AtomicExpression';
 import NameException from '@runtime/NameException';
 import NodeLink from '@translation/NodeLink';
-import StreamDefinitionType from './StreamDefinitionType';
 
 /**
  * A reference to some Definition. Can optionally take the definition which it refers,
@@ -134,18 +132,7 @@ export default class Reference extends AtomicExpression {
         if (definition === undefined || definition instanceof TypeVariable)
             return new UnknownNameType(this, this.name, undefined);
 
-        // Get the type of the value,
-        if (definition instanceof Value) {
-            const type = definition.getType(context);
-            // If this is a reference to a value in the context of reaction statement, it's the stream type.
-            // Otherwise its the stream's value type.
-            if (type instanceof StreamType) return type.type;
-            else if (type instanceof StreamDefinitionType)
-                return type.definition.output;
-            else return type;
-        }
-
-        // Otherwise, do some type guard analyis on the bind.
+        // Otherwise, do some type guard analyis on the definition.
         const type = definition.getType(context);
 
         // Is the type a union? Find the subset of types that are feasible, given any type checks in conditionals.

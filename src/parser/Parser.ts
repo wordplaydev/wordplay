@@ -602,7 +602,7 @@ function parseAtomicExpression(tokens: Tokens): Expression {
             left = parseUpdate(left, tokens);
         else if (tokens.nextIs(TokenType.DELETE))
             left = parseDelete(left, tokens);
-        else if (tokens.nextIs(TokenType.REACTION))
+        else if (tokens.nextIs(TokenType.CHANGE))
             left = parseReaction(left, tokens);
         else break;
     }
@@ -926,9 +926,13 @@ function parseDelete(table: Expression, tokens: Tokens): Delete {
 
 /** STREAM :: EXPRESSION … EXPRESSION */
 function parseReaction(initial: Expression, tokens: Tokens): Reaction {
-    const delta = tokens.read(TokenType.REACTION);
+    const dots = tokens.read(TokenType.CHANGE);
+    const condition = parseExpression(tokens);
+    const question = tokens.nextIs(TokenType.NEXT)
+        ? tokens.read(TokenType.NEXT)
+        : undefined;
     const next = parseExpression(tokens);
-    return new Reaction(initial, delta, next);
+    return new Reaction(initial, dots, condition, question, next);
 }
 
 /** FUNCTION :: DOCS? (ƒ | ALIASES) TYPE_VARIABLES? ( BIND* ) (•TYPE)? EXPRESSION */
@@ -1114,7 +1118,7 @@ export function parseType(tokens: Tokens, isExpression: boolean = false): Type {
         ? parseTableType(tokens)
         : tokens.nextIs(TokenType.FUNCTION)
         ? parseFunctionType(tokens)
-        : tokens.nextIs(TokenType.REACTION)
+        : tokens.nextIs(TokenType.CHANGE)
         ? parseStreamType(tokens)
         : new UnparsableType(tokens.readLine());
 

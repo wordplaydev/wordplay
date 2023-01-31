@@ -13,7 +13,6 @@ import OrderOfOperations from '@conflicts/OrderOfOperations';
 import Bind from './Bind';
 import type TypeSet from './TypeSet';
 import FunctionException from '@runtime/FunctionException';
-import JumpIf from '@runtime/JumpIf';
 import FunctionDefinition from './FunctionDefinition';
 import UnexpectedInputs from '@conflicts/UnexpectedInput';
 import MissingInput from '@conflicts/MissingInput';
@@ -228,38 +227,40 @@ export default class BinaryOperation extends Expression {
         const left = this.left.compile(context);
         const right = this.right.compile(context);
 
+        // NOTE: We removed short circuting because Reactions need to evaluate all conditionns to
+        // get stream dependencies.
         // Logical and is short circuited: if the left is false, we do not evaluate the right.
-        if (this.operator.getText() === AND_SYMBOL) {
-            return [
-                new Start(this),
-                ...left,
-                // Jump past the right's instructions if false and just push a false on the stack.
-                new JumpIf(right.length + 1, true, false, this),
-                ...right,
-                new StartEvaluation(this),
-                new Finish(this),
-            ];
-        }
+        // if (this.operator.getText() === AND_SYMBOL) {
+        //     return [
+        //         new Start(this),
+        //         ...left,
+        //         // Jump past the right's instructions if false and just push a false on the stack.
+        //         new JumpIf(right.length + 1, true, false, this),
+        //         ...right,
+        //         new StartEvaluation(this),
+        //         new Finish(this),
+        //     ];
+        // }
         // Logical OR is short circuited: if the left is true, we do not evaluate the right.
-        else if (this.operator.getText() === OR_SYMBOL) {
-            return [
-                new Start(this),
-                ...left,
-                // Jump past the right's instructions if true and just push a true on the stack.
-                new JumpIf(right.length + 1, true, true, this),
-                ...right,
-                new StartEvaluation(this),
-                new Finish(this),
-            ];
-        } else {
-            return [
-                new Start(this),
-                ...left,
-                ...right,
-                new StartEvaluation(this),
-                new Finish(this),
-            ];
-        }
+        // else if (this.operator.getText() === OR_SYMBOL) {
+        //     return [
+        //         new Start(this),
+        //         ...left,
+        //         // Jump past the right's instructions if true and just push a true on the stack.
+        //         new JumpIf(right.length + 1, true, true, this),
+        //         ...right,
+        //         new StartEvaluation(this),
+        //         new Finish(this),
+        //     ];
+        // } else {
+        return [
+            new Start(this),
+            ...left,
+            ...right,
+            new StartEvaluation(this),
+            new Finish(this),
+        ];
+        // }
     }
 
     startEvaluation(evaluator: Evaluator) {

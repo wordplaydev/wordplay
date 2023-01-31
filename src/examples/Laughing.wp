@@ -1,4 +1,3 @@
 === Laughing
-tick: time(250ms)
-cry•?: ⊤ … tick > 0ms ? ~cry cry
+cry•?: ⊤ … ∆ time(250ms), ~cry
 Phrase(cry ? «😀» «😂» 5m)

@@ -2,7 +2,7 @@ import Node, { type Replacement } from './Node';
 import type LanguageCode from '@translation/LanguageCode';
 import Name from './Name';
 import Token from './Token';
-import { NAME_SEPARATOR_SYMBOL } from '@parser/Symbols';
+import { COMMA_SYMBOL } from '@parser/Symbols';
 import TokenType from './TokenType';
 import NameToken from './NameToken';
 import Language from './Language';
@@ -33,10 +33,7 @@ export default class Names extends Node {
                     new Name(
                         first
                             ? undefined
-                            : new Token(
-                                  NAME_SEPARATOR_SYMBOL,
-                                  TokenType.NAME_SEPARATOR
-                              ),
+                            : new Token(COMMA_SYMBOL, TokenType.NAME_SEPARATOR),
                         new NameToken(name)
                     )
                 );
@@ -51,7 +48,7 @@ export default class Names extends Node {
                             index === 0
                                 ? undefined
                                 : new Token(
-                                      NAME_SEPARATOR_SYMBOL,
+                                      COMMA_SYMBOL,
                                       TokenType.NAME_SEPARATOR
                                   ),
                             new Token(

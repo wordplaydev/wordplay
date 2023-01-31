@@ -19,7 +19,7 @@ import {
     LIST_CLOSE_SYMBOL,
     LIST_OPEN_SYMBOL,
     MEASUREMENT_SYMBOL,
-    NAME_SEPARATOR_SYMBOL,
+    COMMA_SYMBOL,
     NEGATE_SYMBOL,
     NONE_SYMBOL,
     NOT_SYMBOL,
@@ -78,7 +78,7 @@ const RESERVED_SYMBOLS = [
     FALSE_SYMBOL,
     NOT_SYMBOL,
     LANGUAGE_SYMBOL,
-    NAME_SEPARATOR_SYMBOL,
+    COMMA_SYMBOL,
 ];
 
 const TEXT_SEPARATORS = '\'‘’"“”„«»‹›「」『』';
@@ -105,7 +105,10 @@ const patterns = [
     { pattern: LIST_CLOSE_SYMBOL, types: [TokenType.LIST_CLOSE] },
     { pattern: SET_OPEN_SYMBOL, types: [TokenType.SET_OPEN] },
     { pattern: SET_CLOSE_SYMBOL, types: [TokenType.SET_CLOSE] },
-    { pattern: NAME_SEPARATOR_SYMBOL, types: [TokenType.NAME_SEPARATOR] },
+    {
+        pattern: COMMA_SYMBOL,
+        types: [TokenType.NAME_SEPARATOR, TokenType.NEXT],
+    },
     { pattern: LANGUAGE_SYMBOL, types: [TokenType.LANGUAGE] },
     { pattern: `${TABLE_OPEN_SYMBOL}?`, types: [TokenType.SELECT] },
     { pattern: `${TABLE_OPEN_SYMBOL}+`, types: [TokenType.INSERT] },
@@ -133,7 +136,7 @@ const patterns = [
     },
     {
         pattern: STREAM_SYMBOL,
-        types: [TokenType.REACTION, TokenType.STREAM_TYPE, TokenType.ETC],
+        types: [TokenType.CHANGE, TokenType.STREAM_TYPE, TokenType.ETC],
     },
     { pattern: CHANGE_SYMBOL, types: [TokenType.CHANGE] },
     { pattern: PREVIOUS_SYMBOL, types: [TokenType.PREVIOUS] },

@@ -12,23 +12,17 @@ test.each([
     // Check stream references.
     [`time() + 500ms`, Time.make(NoneType.None, 1), '500ms', '501ms'],
     // Check reaction binding.
-    [
-        `tick: time()\na: 1 … tick % 2\na`,
-        Time.make(NoneType.None, 1),
-        '1',
-        '1ms',
-    ],
+    [`a: 1 … ∆ time(), a + 1\na`, Time.make(NoneType.None, 1), '1', '2'],
     // Check reactions in evaluations.
     [
         `
-        tick: time()
-        ƒ mult(a•# b•#ms) a · b
-        b: mult(2 0ms … tick)
+        ƒ mult(a•# b•#) a · b
+        b: mult(2 1 … ∆ time(), 2)
         b
         `,
         Time.make(NoneType.None, 1),
-        '0ms',
-        '2ms',
+        '2',
+        '4',
     ],
 ])(
     'React to %s',

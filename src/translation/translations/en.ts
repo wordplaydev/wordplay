@@ -20,7 +20,7 @@ import {
     PRODUCT_SYMBOL,
     EXPONENT_SYMBOL,
     LANGUAGE_SYMBOL,
-    NAME_SEPARATOR_SYMBOL,
+    COMMA_SYMBOL,
     PROPERTY_SYMBOL,
 } from '@parser/Symbols';
 import type { Description } from '../Translation';
@@ -149,7 +149,7 @@ const eng_cs: Translation = {
             doc: `
                 Defines a list of names some code is known by.
                 
-                Names are separated by ${NAME_SEPARATOR_SYMBOL} symbols. 
+                Names are separated by ${COMMA_SYMBOL} symbols. 
                 Having multiple names is most helpful when you want to use multiple languages.
                 `,
         },
