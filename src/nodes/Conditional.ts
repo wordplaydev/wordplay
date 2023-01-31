@@ -12,7 +12,7 @@ import UnionType from './UnionType';
 import type TypeSet from './TypeSet';
 import type Bind from './Bind';
 import Start from '@runtime/Start';
-import { BOOLEAN_TYPE_SYMBOL } from '@parser/Symbols';
+import { QUESTION_SYMBOL } from '@parser/Symbols';
 import TokenType from './TokenType';
 import Finish from '@runtime/Finish';
 import type Evaluator from '@runtime/Evaluator';
@@ -23,20 +23,20 @@ import NodeLink from '@translation/NodeLink';
 
 export default class Conditional extends Expression {
     readonly condition: Expression;
-    readonly conditional: Token;
+    readonly question: Token;
     readonly yes: Expression;
     readonly no: Expression;
 
     constructor(
         condition: Expression,
+        conditional: Token,
         yes: Expression,
-        no: Expression,
-        conditional: Token
+        no: Expression
     ) {
         super();
 
         this.condition = condition;
-        this.conditional = conditional;
+        this.question = conditional;
         this.yes = yes;
         this.no = no;
 
@@ -46,9 +46,9 @@ export default class Conditional extends Expression {
     static make(condition: Expression, yes: Expression, no: Expression) {
         return new Conditional(
             condition,
+            new Token(QUESTION_SYMBOL, TokenType.BOOLEAN_TYPE),
             yes,
-            no,
-            new Token(BOOLEAN_TYPE_SYMBOL, TokenType.BOOLEAN_TYPE)
+            no
         );
     }
 
@@ -62,7 +62,7 @@ export default class Conditional extends Expression {
                 // Must be boolean typed
                 getType: () => BooleanType.make(),
             },
-            { name: 'conditional', types: [Token], space: true },
+            { name: 'question', types: [Token], space: true },
             {
                 name: 'yes',
                 types: [Expression],
@@ -85,9 +85,9 @@ export default class Conditional extends Expression {
     clone(replace?: Replacement) {
         return new Conditional(
             this.replaceChild('condition', this.condition, replace),
+            this.replaceChild<Token>('question', this.question, replace),
             this.replaceChild<Expression>('yes', this.yes, replace),
-            this.replaceChild<Expression>('no', this.no, replace),
-            this.replaceChild<Token>('conditional', this.conditional, replace)
+            this.replaceChild<Expression>('no', this.no, replace)
         ) as this;
     }
 
@@ -170,11 +170,11 @@ export default class Conditional extends Expression {
     }
 
     getStart() {
-        return this.conditional;
+        return this.question;
     }
 
     getFinish() {
-        return this.conditional;
+        return this.question;
     }
 
     getNodeTranslation(translation: Translation) {

@@ -14,7 +14,7 @@ import type Context from './Context';
 import UnionType from './UnionType';
 import type TypeSet from './TypeSet';
 import Exception from '@runtime/Exception';
-import { COMMA_SYMBOL, STREAM_SYMBOL } from '@parser/Symbols';
+import { QUESTION_SYMBOL, COMMA_SYMBOL } from '@parser/Symbols';
 import TokenType from './TokenType';
 import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
@@ -26,25 +26,25 @@ import ValueException from '../runtime/ValueException';
 import TypeException from '../runtime/TypeException';
 
 export default class Reaction extends Expression {
+    readonly condition: Expression;
+    readonly question: Token;
     readonly initial: Expression;
     readonly dots: Token;
-    readonly condition: Expression;
-    readonly comma: Token | undefined;
     readonly next: Expression;
 
     constructor(
+        condition: Expression,
+        question: Token,
         initial: Expression,
         dots: Token,
-        condition: Expression,
-        comma: Token | undefined,
         next: Expression
     ) {
         super();
 
+        this.condition = condition;
+        this.question = question;
         this.initial = initial;
         this.dots = dots;
-        this.condition = condition;
-        this.comma = comma;
         this.next = next;
 
         this.computeChildren();
@@ -53,15 +53,17 @@ export default class Reaction extends Expression {
     static make(initial: Expression, condition: Expression, next: Expression) {
         return new Reaction(
             initial,
-            new Token(STREAM_SYMBOL, TokenType.CHANGE),
+            new Token(QUESTION_SYMBOL, TokenType.CONDITIONAL),
             condition,
-            new Token(COMMA_SYMBOL, TokenType.NEXT),
+            new Token(COMMA_SYMBOL, TokenType.STREAM),
             next
         );
     }
 
     getGrammar() {
         return [
+            { name: 'condition', types: [Expression], space: true },
+            { name: 'question', types: [Token], space: true },
             {
                 name: 'initial',
                 types: [Expression],
@@ -69,8 +71,6 @@ export default class Reaction extends Expression {
                     translation.nodes.Reaction.initial,
             },
             { name: 'dots', types: [Token], space: true, indent: true },
-            { name: 'condition', types: [Expression], space: true },
-            { name: 'comma', types: [Token], space: false },
             {
                 name: 'next',
                 types: [Expression],
@@ -84,10 +84,10 @@ export default class Reaction extends Expression {
 
     clone(replace?: Replacement) {
         return new Reaction(
+            this.replaceChild('condition', this.condition, replace),
+            this.replaceChild('question', this.question, replace),
             this.replaceChild('initial', this.initial, replace),
             this.replaceChild<Token>('dots', this.dots, replace),
-            this.replaceChild('condition', this.condition, replace),
-            this.replaceChild('comma', this.comma, replace),
             this.replaceChild<Expression>('next', this.next, replace)
         ) as this;
     }

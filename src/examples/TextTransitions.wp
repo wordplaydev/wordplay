@@ -1,7 +1,7 @@
 === Text Transitions
 
 text: [ "boomy" "boom boom" "boooooomy" "boomymcboomface" "moooey" ]
-choice: text[1] … ∆ keyboard(), text.random()
+choice: ∆ keyboard() ? text.random() … text.random()
 
 Phrase(
     choice

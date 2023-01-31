@@ -467,10 +467,18 @@ export function parseExpression(
 
     // Is it conditional statement?
     if (tokens.nextIs(TokenType.CONDITIONAL)) {
-        const conditional = tokens.read(TokenType.CONDITIONAL);
+        const question = tokens.read(TokenType.CONDITIONAL);
         const yes = parseExpression(tokens);
-        const no = parseExpression(tokens);
-        return new Conditional(left, yes, no, conditional);
+
+        // Is it a Reaction?
+        if (tokens.nextIs(TokenType.STREAM)) {
+            return parseReaction(left, question, yes, tokens);
+        }
+        // Otherwise its a Conditional.
+        else {
+            const no = parseExpression(tokens);
+            return new Conditional(left, question, yes, no);
+        }
     } else return left;
 }
 
@@ -602,8 +610,6 @@ function parseAtomicExpression(tokens: Tokens): Expression {
             left = parseUpdate(left, tokens);
         else if (tokens.nextIs(TokenType.DELETE))
             left = parseDelete(left, tokens);
-        else if (tokens.nextIs(TokenType.CHANGE))
-            left = parseReaction(left, tokens);
         else break;
     }
     return left;
@@ -925,14 +931,15 @@ function parseDelete(table: Expression, tokens: Tokens): Delete {
 }
 
 /** STREAM :: EXPRESSION … EXPRESSION */
-function parseReaction(initial: Expression, tokens: Tokens): Reaction {
-    const dots = tokens.read(TokenType.CHANGE);
-    const condition = parseExpression(tokens);
-    const question = tokens.nextIs(TokenType.NEXT)
-        ? tokens.read(TokenType.NEXT)
-        : undefined;
+function parseReaction(
+    condition: Expression,
+    question: Token,
+    initial: Expression,
+    tokens: Tokens
+): Reaction {
+    const dots = tokens.read(TokenType.STREAM);
     const next = parseExpression(tokens);
-    return new Reaction(initial, dots, condition, question, next);
+    return new Reaction(condition, question, initial, dots, next);
 }
 
 /** FUNCTION :: DOCS? (ƒ | ALIASES) TYPE_VARIABLES? ( BIND* ) (•TYPE)? EXPRESSION */
@@ -1118,7 +1125,7 @@ export function parseType(tokens: Tokens, isExpression: boolean = false): Type {
         ? parseTableType(tokens)
         : tokens.nextIs(TokenType.FUNCTION)
         ? parseFunctionType(tokens)
-        : tokens.nextIs(TokenType.CHANGE)
+        : tokens.nextIs(TokenType.STREAM)
         ? parseStreamType(tokens)
         : new UnparsableType(tokens.readLine());
 
@@ -1177,7 +1184,7 @@ function parseNoneType(tokens: Tokens): NoneType {
 
 /** STREAM_TYPE :: … TYPE */
 function parseStreamType(tokens: Tokens): StreamType {
-    const stream = tokens.read(TokenType.STREAM_TYPE);
+    const stream = tokens.read(TokenType.STREAM);
     const type = parseType(tokens);
     return new StreamType(stream, type);
 }

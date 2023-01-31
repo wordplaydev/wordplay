@@ -1,5 +1,5 @@
 import {
-    BOOLEAN_TYPE_SYMBOL,
+    QUESTION_SYMBOL,
     EXPONENT_SYMBOL,
     LANGUAGE_SYMBOL,
 } from '@parser/Symbols';
@@ -122,7 +122,7 @@ export default class Unit extends Type {
     static Empty = new Unit();
     static Wildcard = (() => {
         const exp = new Map();
-        exp.set(BOOLEAN_TYPE_SYMBOL, 1);
+        exp.set(QUESTION_SYMBOL, 1);
         return new Unit(exp);
     })();
 

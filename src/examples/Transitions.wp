@@ -1,5 +1,5 @@
 === Mumble
-clicks•#: 0 … mousebutton(), clicks + 1
+clicks•#: mousebutton() ? 0 … clicks + 1
 
 clicks < 5 ?
     Phrase(

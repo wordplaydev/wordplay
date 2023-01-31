@@ -8,7 +8,5 @@
 </script>
 
 <span class="condition"
-    ><NodeView node={node.condition} /><NodeView
-        node={node.conditional}
-    /></span
+    ><NodeView node={node.condition} /><NodeView node={node.question} /></span
 ><NodeView node={node.yes} /><NodeView node={node.no} />

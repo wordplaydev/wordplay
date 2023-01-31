@@ -1,6 +1,6 @@
 === Color Show
 
-color: Color(0% 0 0°) … ∆ 🖱️(), Color(50% random() · 200 random() · 360°)
+color: ∆ 🖱️() ? Color(0% 0 0°) … Color(50% random() · 200 random() · 360°)
 
 Phrase(
     "wowie" 

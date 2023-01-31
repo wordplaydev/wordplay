@@ -1,6 +1,6 @@
 import Token from './Token';
 import TokenType from './TokenType';
-import { BOOLEAN_TYPE_SYMBOL } from '@parser/Symbols';
+import { QUESTION_SYMBOL } from '@parser/Symbols';
 import NativeType from './NativeType';
 import type TypeSet from './TypeSet';
 import type { NativeTypeName } from '../native/NativeConstants';
@@ -20,7 +20,7 @@ export default class BooleanType extends NativeType {
 
     static make() {
         return new BooleanType(
-            new Token(BOOLEAN_TYPE_SYMBOL, TokenType.BOOLEAN_TYPE)
+            new Token(QUESTION_SYMBOL, TokenType.BOOLEAN_TYPE)
         );
     }
 

@@ -26,7 +26,7 @@ export default class StreamType extends Type {
 
     static make(type?: Type) {
         return new StreamType(
-            new Token(STREAM_SYMBOL, TokenType.STREAM_TYPE),
+            new Token(STREAM_SYMBOL, TokenType.STREAM),
             type ?? new AnyType()
         );
     }

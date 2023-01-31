@@ -3,7 +3,7 @@ import TokenType from '@nodes/TokenType';
 import {
     BASE_SYMBOL,
     BIND_SYMBOL,
-    BOOLEAN_TYPE_SYMBOL,
+    QUESTION_SYMBOL,
     BORROW_SYMBOL,
     CHANGE_SYMBOL,
     CONVERT_SYMBOL,
@@ -107,7 +107,7 @@ const patterns = [
     { pattern: SET_CLOSE_SYMBOL, types: [TokenType.SET_CLOSE] },
     {
         pattern: COMMA_SYMBOL,
-        types: [TokenType.NAME_SEPARATOR, TokenType.NEXT],
+        types: [TokenType.NAME_SEPARATOR],
     },
     { pattern: LANGUAGE_SYMBOL, types: [TokenType.LANGUAGE] },
     { pattern: `${TABLE_OPEN_SYMBOL}?`, types: [TokenType.SELECT] },
@@ -136,7 +136,7 @@ const patterns = [
     },
     {
         pattern: STREAM_SYMBOL,
-        types: [TokenType.CHANGE, TokenType.STREAM_TYPE, TokenType.ETC],
+        types: [TokenType.STREAM, TokenType.ETC],
     },
     { pattern: CHANGE_SYMBOL, types: [TokenType.CHANGE] },
     { pattern: PREVIOUS_SYMBOL, types: [TokenType.PREVIOUS] },
@@ -200,7 +200,7 @@ const patterns = [
     // Match primtive types after strings since one is a standalone quote symbol.
     { pattern: MEASUREMENT_SYMBOL, types: [TokenType.NUMBER_TYPE] },
     {
-        pattern: BOOLEAN_TYPE_SYMBOL,
+        pattern: QUESTION_SYMBOL,
         types: [TokenType.BOOLEAN_TYPE, TokenType.CONDITIONAL],
     },
     { pattern: '¿', types: [TokenType.BOOLEAN_TYPE, TokenType.CONDITIONAL] },

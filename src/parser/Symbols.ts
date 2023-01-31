@@ -1,5 +1,5 @@
 export const TYPE_SYMBOL = '•';
-export const BOOLEAN_TYPE_SYMBOL = '?';
+export const QUESTION_SYMBOL = '?';
 export const TABLE_OPEN_SYMBOL = '⎡';
 export const TABLE_CLOSE_SYMBOL = '⎦';
 export const TAG_OPEN_SYMBOL = '<';
