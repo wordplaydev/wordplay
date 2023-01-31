@@ -19,6 +19,7 @@ import {
 } from '@parser/Symbols';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type Translation from '@translation/Translation';
+import type PropertyBind from '../nodes/PropertyBind';
 
 export default class Structure extends Value {
     readonly type: StructureDefinition;
@@ -113,6 +114,19 @@ export default class Structure extends Value {
 
     getDescription(translation: Translation) {
         return translation.data.structure;
+    }
+
+    /**
+     * Clone this structure, but with a new value for the given property.
+     * If the property doesn't exist, then return undefined.
+     */
+    withValue(
+        bind: PropertyBind,
+        property: string,
+        value: Value
+    ): Structure | undefined {
+        const newContext = this.context.withValue(bind, property, value);
+        return newContext ? new Structure(bind, newContext) : undefined;
     }
 }
 

@@ -262,6 +262,11 @@ type Translation = {
                 ) => Description,
                 ValueOrUndefinedTranslation
             >;
+        PropertyBind: StaticNodeTranslation &
+            ExpressionTranslation<
+                Description,
+                (structure: ValueLink | undefined) => Description
+            >;
         PropertyReference: StaticNodeTranslation &
             ExpressionTranslation<
                 Description,

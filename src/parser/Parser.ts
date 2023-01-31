@@ -76,6 +76,7 @@ import WebLink from '@nodes/WebLink';
 import ConceptLink from '@nodes/ConceptLink';
 import Words from '@nodes/Words';
 import Example from '@nodes/Example';
+import PropertyBind from '../nodes/PropertyBind';
 
 export enum SyntacticConflict {
     EXPECTED_BORRW_NAME,
@@ -586,7 +587,8 @@ function parseAtomicExpression(tokens: Tokens): Expression {
 
     // But wait! Is it one or more infix expressions? Slurp them up.
     while (true) {
-        if (tokens.nextIs(TokenType.ACCESS)) left = parseAccess(left, tokens);
+        if (tokens.nextIs(TokenType.ACCESS))
+            left = parsePropertyReference(left, tokens);
         else if (
             tokens.nextIs(TokenType.LIST_OPEN) &&
             tokens.nextLacksPrecedingSpace()
@@ -1063,10 +1065,11 @@ function parseTypeInputs(tokens: Tokens): TypeInputs {
 }
 
 /** ACCESS :: EXPRESSION (.NAME)+ */
-function parseAccess(left: Expression, tokens: Tokens): Expression {
+function parsePropertyReference(left: Expression, tokens: Tokens): Expression {
     if (!tokens.nextIs(TokenType.ACCESS)) return left;
     do {
         const access = tokens.read(TokenType.ACCESS);
+        // See if there's a name, operator, or placeholder next, all of which are valid property names.
         let name;
         if (
             tokens.nextIsOneOf(
@@ -1089,6 +1092,17 @@ function parseAccess(left: Expression, tokens: Tokens): Expression {
             access,
             name ? new Reference(name) : undefined
         );
+
+        // If there's a bind symbol next, then parse a PropertyBind
+        if (
+            left instanceof PropertyReference &&
+            tokens.nextIs(TokenType.BIND)
+        ) {
+            const bind = tokens.read(TokenType.BIND);
+            const value = parseExpression(tokens);
+
+            left = new PropertyBind(left, bind, value);
+        }
 
         // But wait, is it a function evaluation?
         if (

@@ -425,6 +425,15 @@ const eng_wordplay: Translation = {
             finish: (value) =>
                 Explanation.as('program evaluated to ', value ?? 'nothing'),
         },
+        PropertyBind: {
+            description: 'duplicate a structure with a new property value',
+            doc: WRITE_DOC,
+            start: 'get the structure',
+            finish: (structure) =>
+                structure
+                    ? Explanation.as('created new structure ', structure)
+                    : 'no structure created',
+        },
         PropertyReference: {
             description: 'a property on a structure',
             doc: WRITE_DOC,

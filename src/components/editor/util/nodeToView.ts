@@ -70,6 +70,7 @@ import LinkView from '../WebLinkView.svelte';
 import ConceptLinkView from '../ConceptLinkView.svelte';
 import WordsView from '../WordsView.svelte';
 import ExampleView from '../ExampleView.svelte';
+import PropertyBindView from '../PropertyBindView.svelte';
 
 import type Node from '@nodes/Node';
 import Program from '@nodes/Program';
@@ -143,6 +144,7 @@ import WebLink from '@nodes/WebLink';
 import ConceptLink from '@nodes/ConceptLink';
 import Words from '@nodes/Words';
 import Example from '@nodes/Example';
+import PropertyBind from '@nodes/PropertyBind';
 
 const nodeToView = new Map<Function, ConstructorOfATypedSvelteComponent>();
 nodeToView.set(Program, ProgramView);
@@ -168,6 +170,7 @@ nodeToView.set(Reference, ReferenceView);
 
 nodeToView.set(StructureDefinition, StructureDefinitionView);
 nodeToView.set(PropertyReference, PropertyReferenceView);
+nodeToView.set(PropertyBind, PropertyBindView);
 nodeToView.set(NameType, NameTypeView);
 
 nodeToView.set(TypeVariables, TypeVariablesView);

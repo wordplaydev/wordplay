@@ -30,11 +30,13 @@ import type { StepNumber } from './Evaluator';
 import FunctionValue from './FunctionValue';
 import StreamDefinition from '../nodes/StreamDefinition';
 import StreamDefinitionValue from './StreamDefinitionValue';
+import type PropertyBind from '../nodes/PropertyBind';
 
 export type EvaluatorNode =
     | UnaryOperation
     | BinaryOperation
     | Evaluate
+    | PropertyBind
     | Convert
     | HOF
     | Borrow
@@ -333,5 +335,34 @@ export default class Evaluation {
         else if (context instanceof Evaluation)
             return context.getThis(requestor);
         else return undefined;
+    }
+
+    withValue(
+        bind: PropertyBind,
+        property: string,
+        value: Value
+    ): Evaluation | undefined {
+        // Copy the current bindings.
+        const newBindings: Map<Names, Value> = new Map(this.#bindings);
+
+        // Find the corresponding name.
+        const names = Array.from(newBindings.keys()).find((name) =>
+            name.hasName(property)
+        );
+
+        // No corresponding name? Bail.
+        if (names === undefined) return undefined;
+
+        // Otherwise, set the bindings.
+        newBindings.set(names, value);
+
+        // Create the new evaluation.
+        return new Evaluation(
+            this.#evaluator,
+            bind,
+            this.#evaluationNode,
+            this.#closure,
+            newBindings
+        );
     }
 }

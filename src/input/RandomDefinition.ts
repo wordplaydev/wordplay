@@ -10,11 +10,12 @@ import NativeExpression from '../native/NativeExpression';
 import StreamType from '../nodes/StreamType';
 import Measurement from '../runtime/Measurement';
 import Random from './Random';
+import Unit from '../nodes/Unit';
 
 const minBind = Bind.make(
     getDocTranslations((t) => t.input.random.min.doc),
     getNameTranslations((t) => t.input.random.min.name),
-    UnionType.make(MeasurementType.make(), NoneType.make()),
+    UnionType.make(MeasurementType.make(Unit.Wildcard), NoneType.make()),
     // Default to nothing
     NoneLiteral.make()
 );
@@ -22,7 +23,7 @@ const minBind = Bind.make(
 const maxBind = Bind.make(
     getDocTranslations((t) => t.input.random.max.doc),
     getNameTranslations((t) => t.input.random.max.name),
-    UnionType.make(MeasurementType.make(), NoneType.make()),
+    UnionType.make(MeasurementType.make(Unit.Wildcard), NoneType.make()),
     // Default to nothing
     NoneLiteral.make()
 );
