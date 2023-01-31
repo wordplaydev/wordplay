@@ -309,7 +309,7 @@ export class Animations {
                 ? -1
                 : bPlace == undefined
                 ? 1
-                : aPlace.z.sub(focus.z).sub(bPlace.z.sub(focus.z)).toNumber();
+                : bPlace.z.sub(focus.z).sub(aPlace.z.sub(focus.z)).toNumber();
         });
 
         // Find all of the phrases that specify a sequence.
