@@ -4,35 +4,42 @@
     import type Reference from '@nodes/Reference';
     import NodeView from './NodeView.svelte';
     import { currentStep, playing } from '../../models/stores';
-    import Stream from '@runtime/Stream';
     import { getProject } from '../project/Contexts';
+    import Evaluate from '@nodes/Evaluate';
+    import type Stream from '@runtime/Stream';
 
     export let node: Reference;
 
     let project = getProject();
 
-    $: context = $project ? $project.getNodeContext(node) : undefined;
-    $: definition = node.resolve(context);
+    let stream: Stream | undefined;
+    $: {
+        const context = $project ? $project.getNodeContext(node) : undefined;
+        const parent = context ? node.getParent(context) : undefined;
+        stream =
+            parent instanceof Evaluate
+                ? $project?.evaluator.getNativeStreamFor(parent)
+                : undefined;
+    }
 
     // If this evaluated to the stream that recently changed, style it.
-    let evaluated = false;
     let animating = false;
     $: {
         // Evaluated if...
-        evaluated =
+        if (
             // The evaluator is playing
             $playing &&
             // We're done evaluating
             $currentStep === undefined &&
-            // This node refers to a stream
-            definition instanceof Stream &&
             // There's a project
             $project !== undefined &&
+            // This is associated with a stream
+            stream !== undefined &&
             // The stream caused the most recent reaction
-            $project.evaluator.didStreamCauseReaction(definition) &&
+            $project.evaluator.didStreamCauseReaction(stream) &&
             // This node was evaluated
-            $project.evaluator.getLatestValueOf(node) !== undefined;
-        if (evaluated) {
+            $project.evaluator.getLatestValueOf(node) !== undefined
+        ) {
             animating = true;
             // Reset after the animation is done.
             setTimeout(() => (animating = false), 250);
@@ -49,7 +56,7 @@
 {/if}
 
 <style>
-    .changed :global(.token-view) {
+    .changed {
         display: inline-block;
         animation: pop 0.25s 1;
     }
