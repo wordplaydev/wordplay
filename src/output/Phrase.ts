@@ -1,7 +1,7 @@
 import type Pose from './Pose';
 import type Value from '@runtime/Value';
 import type Color from './Color';
-import Fonts, { SupportedFontsType } from '../native/Fonts';
+import Fonts, { SupportedFontsFamiliesType } from '../native/Fonts';
 import Text from '@runtime/Text';
 import Group from './Group';
 import type { RenderContext } from './RenderContext';
@@ -9,37 +9,38 @@ import type Place from './Place';
 import List from '@runtime/List';
 import TextLang from './TextLang';
 import toStructure from '../native/toStructure';
-import { toColor } from './Color';
-import { toPlace } from './Place';
 import Decimal from 'decimal.js';
 import { toDecimal } from './Verse';
 import getTextMetrics from './getTextMetrics';
 import parseRichText, { RichNode, TextNode } from './parseRichText';
 import { toPose as toPose } from './Pose';
-import type Sequence from './Sequence';
-import { PX_PER_METER, sizeToPx } from './phraseToCSS';
-import { toSequence, type SequenceKind } from './Sequence';
-import type Animation from './Animations';
+import Sequence from './Sequence';
+import { PX_PER_METER, sizeToPx } from './outputToCSS';
+import { toSequence } from './Sequence';
 import type LanguageCode from '@translation/LanguageCode';
 import { getBind } from '@translation/getBind';
+import { toPlace } from './Place';
+import en from '../translation/translations/en';
 
 export const PhraseType = toStructure(`
     ${getBind((t) => t.output.phrase.definition, '•')} Group(
         ${getBind((t) => t.output.phrase.text)}•""|[""]
         ${getBind((t) => t.output.phrase.size)}•#m: 1m
-        ${getBind((t) => t.output.phrase.font)}•${SupportedFontsType}|ø: ø
-        ${getBind((t) => t.output.phrase.color)}•Color|ø: ø
-        ${getBind((t) => t.output.phrase.opacity)}•%|ø: ø
-        ${getBind((t) => t.output.phrase.place)}•Place|ø: ø
-        ${getBind((t) => t.output.phrase.offset)}•Place|ø: ø
-        ${getBind((t) => t.output.phrase.rotation)}•#°|ø: ø
-        ${getBind((t) => t.output.phrase.scalex)}•#|ø: ø
-        ${getBind((t) => t.output.phrase.scaley)}•#|ø: ø
+        ${getBind(
+            (t) => t.output.phrase.family
+        )}•${SupportedFontsFamiliesType}|ø: ø
+        ${getBind((t) => t.output.phrase.place)}•ø|Place: ø
         ${getBind((t) => t.output.phrase.name)}•""|ø: ø
-        ${getBind((t) => t.output.phrase.entry)}•ø|Pose|Sequence: ø
-        ${getBind((t) => t.output.phrase.during)}•ø|Pose|Sequence: ø
-        ${getBind((t) => t.output.phrase.between)}•ø|Pose|Sequence: ø
+        ${getBind((t) => t.output.phrase.enter)}•ø|Pose|Sequence: ø
+        ${getBind((t) => t.output.phrase.rest)}•ø|Pose|Sequence: Pose()
+        ${getBind((t) => t.output.phrase.move)}•ø|Pose|Sequence: ø
         ${getBind((t) => t.output.phrase.exit)}•ø|Pose|Sequence: ø
+        ${getBind((t) => t.output.timing.duration)}•#s: 0.25s
+        ${getBind((t) => t.output.timing.style)}•${Object.values(
+    en.output.easing
+)
+    .map((id) => `"${id}"`)
+    .join('|')}: "zippy"
     )
 `);
 
@@ -47,18 +48,14 @@ export default class Phrase extends Group {
     readonly text: TextLang[];
     readonly size: number;
     readonly font: string | undefined;
-    readonly color: Color | undefined;
-    readonly opacity: number | undefined;
     readonly place: Place | undefined;
-    readonly offset: Place | undefined;
-    readonly rotation: number | undefined;
-    readonly scalex: number | undefined;
-    readonly scaley: number | undefined;
     readonly name: TextLang | undefined;
-    readonly entry: Pose | Sequence | undefined;
-    readonly during: Pose | Sequence | undefined;
-    readonly between: Pose | Sequence | undefined;
+    readonly enter: Pose | Sequence | undefined;
+    readonly rest: Pose | Sequence;
+    readonly move: Pose | Sequence | undefined;
     readonly exit: Pose | Sequence | undefined;
+    readonly duration: number;
+    readonly style: string;
 
     _metrics:
         | {
@@ -72,67 +69,61 @@ export default class Phrase extends Group {
         text: TextLang[],
         size: number,
         font: string | undefined = undefined,
-        color: Color | undefined = undefined,
-        opacity: number | undefined = undefined,
         place: Place | undefined = undefined,
-        offset: Place | undefined = undefined,
-        rotation: number | undefined = undefined,
-        scalex: number | undefined = undefined,
-        scaley: number | undefined = undefined,
         name: TextLang | undefined = undefined,
         entry: Pose | Sequence | undefined = undefined,
-        during: Pose | Sequence | undefined = undefined,
-        between: Pose | Sequence | undefined = undefined,
-        exit: Pose | Sequence | undefined = undefined
+        resting: Pose | Sequence,
+        move: Pose | Sequence | undefined = undefined,
+        exit: Pose | Sequence | undefined = undefined,
+        duration: number,
+        style: string
     ) {
         super(value);
 
         this.text = text;
         this.size = size;
         this.font = font;
-        this.color = color;
-        this.opacity = opacity;
         this.place = place;
-        this.offset = offset;
-        this.rotation = rotation;
-        this.scalex = scalex;
-        this.scaley = scaley;
         this.name = name;
-        this.entry = entry;
-        this.during = during;
-        this.between = between;
+        this.enter = entry;
+        this.rest = resting;
+        this.move = move;
         this.exit = exit;
+        this.duration = duration;
+        this.style = style;
 
         // Make sure this font is loaded. This is a little late -- we could do some static analysis
         // and try to determine this in advance -- but anything can compute a font name. Maybe an optimization later.
         if (this.font) Fonts.loadFamily(this.font);
     }
 
-    getMetrics(context: RenderContext, parsed: boolean = true) {
-        // See if any moves are animating this.
-        const animation = context.animations.get(this);
+    isAnimated() {
+        return (
+            this.enter !== undefined ||
+            this.rest instanceof Sequence ||
+            this.move !== undefined ||
+            this.exit !== undefined ||
+            this.duration > 0
+        );
+    }
 
+    getMetrics(context: RenderContext, parsed: boolean = true) {
         // Return the cache, if there is one.
-        if (parsed && this._metrics && animation === undefined)
-            return this._metrics;
+        if (parsed && this._metrics) return this._metrics;
 
         // The font is:
         // 1) the animated font, if there is one
         // 2) this phrase's font, if there is one
         // 3) otherwise, the verse's font.
-        const animatedFont = animation?.moves.font?.value as string | undefined;
-        const renderedFont = animatedFont ?? this.font ?? context.font;
+        const renderedFont = this.font ?? context.font;
 
         // The size is:
         // 1) the animated size, if there is one
         // 2) otherwise, the phrase's size
-        const animatedSize = animation?.moves.size?.value as number | undefined;
-        const renderedSize = animatedSize ?? this.size;
+        const renderedSize = this.size;
 
         // Get the preferred text
-        const text = animation?.moves.text
-            ? (animation.moves.text.value as string)
-            : this.getDescription(context.languages);
+        const text = this.getDescription(context.languages);
 
         // Parse the text as rich text nodes.
         const rich = parsed
@@ -175,8 +166,12 @@ export default class Phrase extends Group {
         return dimensions;
     }
 
+    getHTMLID(): string {
+        return `phrase-${this.getName()}`;
+    }
+
     getName(): string {
-        return this.name?.text ?? Number(this.value.id).toString();
+        return this.name?.text ?? Number(this.value.creator.id).toString();
     }
 
     getWidth(context: RenderContext): Decimal {
@@ -213,38 +208,6 @@ export default class Phrase extends Group {
         );
     }
 
-    /** Get the kind of sequence requested from the phrase and wrap it in a sequence if it's just a lonely pose. */
-    getSequence(kind: SequenceKind) {
-        const sequence = this[kind];
-        return sequence === undefined ? undefined : sequence.asSequence();
-    }
-
-    willLoop(animation: Animation) {
-        const sequence = this.getSequence(animation.kind);
-        // No longer a sequence on this animation? No looping.
-        if (sequence === undefined) return;
-        const currentSequence = sequence.getSequenceOfPose(
-            animation.currentPose
-        );
-        const nextPoseInSequence = currentSequence?.getNextPose(
-            animation.currentPose
-        );
-
-        // If this specific sequence is over, but has more iterations, do another cycle.
-        const firstInCurrent = currentSequence?.getFirstPose();
-        const iterations = currentSequence
-            ? animation.iterations.get(currentSequence)
-            : undefined;
-
-        return (
-            iterations !== undefined &&
-            currentSequence &&
-            nextPoseInSequence === undefined &&
-            iterations < currentSequence.count &&
-            firstInCurrent !== undefined
-        );
-    }
-
     toString() {
         return this.text[0].text;
     }
@@ -260,43 +223,34 @@ export function toPhrase(value: Value | undefined): Phrase | undefined {
     let texts = toTextLang(value.resolve('text'));
     const size = toDecimal(value.resolve('size'))?.toNumber() ?? 1;
     const font = toFont(value.resolve('font'));
-    const color = toColor(value.resolve('color'));
-    const opacity = toDecimal(value.resolve('opacity'))?.toNumber() ?? 1;
-    const place = toPlace(value.resolve('place'));
-    const offset = toPlace(value.resolve('offset'));
-    const rotation =
-        toDecimal(value.resolve('rotation'))?.toNumber() ?? undefined;
-    const scalex = toDecimal(value.resolve('scalex'))?.toNumber() ?? 1;
-    const scaley = toDecimal(value.resolve('scaley'))?.toNumber() ?? 1;
     const name = toText(value.resolve('name'));
+    const place = toPlace(value.resolve('place'));
+    const still =
+        toPose(value.resolve('rest')) ?? toSequence(value.resolve('rest'));
     const entry =
-        toPose(value.resolve('entry')) ?? toSequence(value.resolve('entry'));
-    const during =
-        toPose(value.resolve('during')) ?? toSequence(value.resolve('during'));
+        toPose(value.resolve('enter')) ?? toSequence(value.resolve('enter'));
     const between =
-        toPose(value.resolve('between')) ??
-        toSequence(value.resolve('between'));
+        toPose(value.resolve('move')) ?? toSequence(value.resolve('move'));
     const exit =
         toPose(value.resolve('exit')) ?? toSequence(value.resolve('exit'));
 
-    return texts
+    const duration = toDecimal(value.resolve('duration'));
+    const style = value.resolve('style');
+
+    return texts && duration && style instanceof Text && still
         ? new Phrase(
               value,
               texts,
               size,
               font,
-              color,
-              opacity,
               place,
-              offset,
-              rotation,
-              scalex,
-              scaley,
               name,
               entry,
-              during,
+              still,
               between,
-              exit
+              exit,
+              duration.toNumber(),
+              style.text
           )
         : undefined;
 }

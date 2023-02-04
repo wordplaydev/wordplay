@@ -32,7 +32,7 @@ import type StreamDefinitionType from '../../nodes/StreamDefinitionType';
 
 const WRITE_DOC = 'TBD';
 
-const eng_cs: Translation = {
+const en: Translation = {
     language: 'en',
     style: 'cs',
     welcome: 'hello',
@@ -1708,34 +1708,30 @@ const eng_cs: Translation = {
             definition: { doc: WRITE_DOC, name: ['💬', 'Phrase'] },
             text: { doc: WRITE_DOC, name: 'text' },
             size: { doc: WRITE_DOC, name: 'size' },
-            font: { doc: WRITE_DOC, name: 'font' },
-            color: { doc: WRITE_DOC, name: 'color' },
-            opacity: { doc: WRITE_DOC, name: 'opacity' },
+            family: { doc: WRITE_DOC, name: 'font' },
             place: { doc: WRITE_DOC, name: 'place' },
-            offset: { doc: WRITE_DOC, name: 'offset' },
-            rotation: { doc: WRITE_DOC, name: 'rotation' },
-            scalex: { doc: WRITE_DOC, name: 'scalex' },
-            scaley: { doc: WRITE_DOC, name: 'scaley' },
             name: { doc: WRITE_DOC, name: 'name' },
-            entry: { doc: WRITE_DOC, name: 'entry' },
-            during: { doc: WRITE_DOC, name: 'during' },
-            between: { doc: WRITE_DOC, name: 'between' },
+            timing: { doc: WRITE_DOC, name: 'timing' },
+            enter: { doc: WRITE_DOC, name: 'enter' },
+            rest: { doc: WRITE_DOC, name: 'rest' },
+            move: { doc: WRITE_DOC, name: 'move' },
             exit: { doc: WRITE_DOC, name: 'exit' },
         },
         pose: {
-            definition: { doc: WRITE_DOC, name: 'Pose' },
+            definition: { doc: WRITE_DOC, name: ['🤪', 'Pose'] },
             duration: { doc: WRITE_DOC, name: 'duration' },
             style: { doc: WRITE_DOC, name: 'style' },
-            text: { doc: WRITE_DOC, name: 'text' },
-            size: { doc: WRITE_DOC, name: 'size' },
-            font: { doc: WRITE_DOC, name: 'font' },
             color: { doc: WRITE_DOC, name: 'color' },
             opacity: { doc: WRITE_DOC, name: 'opacity' },
-            place: { doc: WRITE_DOC, name: 'place' },
             offset: { doc: WRITE_DOC, name: 'offset' },
-            rotation: { doc: WRITE_DOC, name: 'rotation' },
-            scalex: { doc: WRITE_DOC, name: 'scalex' },
-            scaley: { doc: WRITE_DOC, name: 'scaley' },
+            scale: { doc: WRITE_DOC, name: 'scale' },
+            flipx: { doc: WRITE_DOC, name: 'flipx' },
+            flipy: { doc: WRITE_DOC, name: 'flipy' },
+        },
+        timing: {
+            definition: { doc: WRITE_DOC, name: ['🏃‍♀️', 'Timing'] },
+            duration: { doc: WRITE_DOC, name: ['⏳', 'duration'] },
+            style: { doc: WRITE_DOC, name: 'style' },
         },
         color: {
             definition: { doc: WRITE_DOC, name: ['🌈', 'Color'] },
@@ -1744,8 +1740,9 @@ const eng_cs: Translation = {
             hue: { doc: WRITE_DOC, name: ['hue', 'h'] },
         },
         sequence: {
-            definition: { doc: WRITE_DOC, name: 'Sequence' },
+            definition: { doc: WRITE_DOC, name: ['┅', 'Sequence'] },
             count: { doc: WRITE_DOC, name: 'count' },
+            timing: { doc: WRITE_DOC, name: 'timing' },
             poses: { doc: WRITE_DOC, name: 'poses' },
         },
         place: {
@@ -1753,6 +1750,7 @@ const eng_cs: Translation = {
             x: { doc: WRITE_DOC, name: 'x' },
             y: { doc: WRITE_DOC, name: 'y' },
             z: { doc: WRITE_DOC, name: 'z' },
+            rotation: { doc: WRITE_DOC, name: 'rotation' },
         },
         row: {
             definition: { doc: WRITE_DOC, name: ['Row'] },
@@ -1775,21 +1773,12 @@ const eng_cs: Translation = {
             tilt: { doc: WRITE_DOC, name: 'tilt' },
         },
         easing: {
-            input: { doc: WRITE_DOC, name: 'x' },
-            straight: { doc: WRITE_DOC, name: 'straight' },
-            pokey: { doc: WRITE_DOC, name: 'pokey' },
-            fast: { doc: WRITE_DOC, name: 'fast' },
-            quick: { doc: WRITE_DOC, name: 'quick' },
-            zippy: { doc: WRITE_DOC, name: 'zippy' },
-            careful: { doc: WRITE_DOC, name: 'careful' },
-            cautious: { doc: WRITE_DOC, name: 'cautious' },
-            rushed: { doc: WRITE_DOC, name: 'rushed' },
-            wreckless: { doc: WRITE_DOC, name: 'wreckless' },
-            elastic: { doc: WRITE_DOC, name: 'elastic' },
-            erratic: { doc: WRITE_DOC, name: 'erratic' },
-            bouncy: { doc: WRITE_DOC, name: 'bouncy' },
+            straight: 'straight',
+            cautious: 'cautious',
+            pokey: 'pokey',
+            zippy: 'zippy',
         },
     },
 };
 
-export default eng_cs;
+export default en;

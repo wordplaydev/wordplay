@@ -97,12 +97,19 @@
         opacity: 0.7;
     }
 
+    .outline.animating path {
+        fill: var(--wordplay-evaluation-color);
+        stroke: var(--wordplay-evaluation-color);
+        animation: 1s ease-in-out shift infinite;
+    }
+
     :global(
             .node-view.evaluating .token-view,
+            .node-view.animating .token-view,
             .node-view.dragging .token-view,
             .node-view.selected .token-view
         ) {
-        color: var(--color-white) !important;
+        color: var(--wordplay-background) !important;
     }
 
     /* Drop targets animate stroke */

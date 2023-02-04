@@ -1,16 +1,17 @@
 <svelte:options immutable={true} />
 
 <script lang="ts">
-    import type Phrase from '../../output/Phrase';
-    import type Place from '../../output/Place';
-    import parseRichText from '../../output/parseRichText';
-    import phraseToCSS from '../../output/phraseToCSS';
+    import type Phrase from '@output/Phrase';
+    import type Place from '@output/Place';
+    import parseRichText from '@output/parseRichText';
+    import outputToCSS from '@output/outputToCSS';
     import { preferredLanguages } from '@translation/translations';
     import { getContext, tick } from 'svelte';
     import type { Writable } from 'svelte/store';
-    import type { RenderContext } from '../../output/RenderContext';
+    import type { RenderContext } from '@output/RenderContext';
     import TextLiteral from '@nodes/TextLiteral';
     import { reviseProject, selectedOutput } from '../../models/stores';
+    import Pose from '@output/Pose';
 
     export let phrase: Phrase;
     export let place: Place;
@@ -78,9 +79,14 @@
     class="phrase"
     class:selected={$editable && selected}
     tabIndex="0"
-    id={`phrase-${phrase.getName()}`}
-    style={phraseToCSS(
-        phrase,
+    data-id={phrase.getHTMLID()}
+    style={outputToCSS(
+        phrase.font,
+        phrase.size,
+        // No first pose because of an empty sequence? Give a default.
+        phrase.rest instanceof Pose
+            ? phrase.rest
+            : phrase.rest.getFirstPose() ?? new Pose(phrase.value),
         place,
         focus,
         viewport.width,

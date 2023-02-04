@@ -18,7 +18,7 @@ kitties•[Kitty]:  ∆ time() ?
     )
     …
     kitties.translate(
-        ƒ(kitty•Kitty) 
+        ƒ(kitty•Kitty)
             (kitty.y: kitty.y > size ? -size kitty.y + 2)
                 .angle: kitty.angle + kitty.speed
     )
@@ -34,8 +34,8 @@ Verse(
                     kitty.x · 1m
                     kitty.y · 1m
                     kitty.z · 1m
+                    kitty.angle ·1°
                 )
-                rotation: kitty.angle ·1°
             )
     )
 )

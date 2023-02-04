@@ -4,11 +4,15 @@
     import { onMount, setContext } from 'svelte';
     import type Project from '../../models/Project';
     import type Verse from '@output/Verse';
-    import { playing, selectedOutput } from '../../models/stores';
+    import {
+        animatingNodes,
+        playing,
+        selectedOutput,
+    } from '../../models/stores';
     import { preferredLanguages } from '@translation/translations';
     import PhraseView from './PhraseView.svelte';
     import { loadedFonts } from '../../native/Fonts';
-    import { PX_PER_METER, toCSS } from '@output/phraseToCSS';
+    import { PX_PER_METER, toCSS } from '@output/outputToCSS';
     import type Phrase from '@output/Phrase';
     import type Group from '@output/Group';
     import type Place from '@output/Place';
@@ -18,6 +22,8 @@
     import Keyboard from '@input/Keyboard';
     import MousePosition from '@input/MousePosition';
     import MouseButton from '@input/MouseButton';
+    import { createPlace } from '@output/Place';
+    import Stage, { type OutputName } from '@output/Stage';
 
     export let project: Project;
     export let verse: Verse;
@@ -32,9 +38,6 @@
     setContext('editable', editableStore);
     $: editableStore.set(editable);
 
-    // Set the animations context for everything in the verse.
-    setContext('animations', project.evaluator.animations);
-
     let mounted = false;
     onMount(() => (mounted = true));
 
@@ -44,31 +47,71 @@
     /** The location of all phrases, post layout */
     let places = new Map<Group, Place>();
 
-    /** Phrases that have left the scene but are still animating their exit */
-    let exiting: Map<Phrase, Place> = new Map();
-
     /** The verse focus that fits the content to the view*/
     let fitFocus: Place | undefined = undefined;
 
-    /** The creator or audience adjusted focus */
-    let adjustedFocus: Place = project.evaluator.animations.getFocus();
+    /** The creator or audience adjusted focus. Defaults backset 12m. */
+    let adjustedFocus: Place = createPlace(project.evaluator, 0, 0, -12);
 
     /** The state of dragging the adjusted focus. A location or nothiing. */
     let focusDrag:
         | { startFocus: Place; left: number; top: number }
         | undefined = undefined;
 
-    /** Whenever the verse, languages, fonts, or rendered focus changes, update the rendered scene. */
-    $: ({ places, visible, exiting } = project.evaluator.animations.update(
-        verse,
-        $preferredLanguages,
-        $loadedFonts,
-        renderedFocus,
-        viewportWidth,
-        viewportHeight
-    ));
+    /** A stage to manage entries, exits, animations. A new one for each project. */
+    let stage: Stage;
+    $: {
+        if (stage !== undefined) stage.stop();
+        stage = new Stage(
+            project,
+            // When output exits, remove it from the list, triggering a render.
+            (name) => {
+                const index = visible.findIndex(
+                    (phrase) => phrase.getName() === name
+                );
+                if (index >= 0)
+                    visible = [
+                        ...visible.slice(0, index),
+                        ...visible.slice(index + 1),
+                    ];
+            },
+            // When the animating poses or sequences on stage change, update the store
+            (nodes) => {
+                if (interactive) animatingNodes.set(new Set(nodes));
+            }
+        );
+    }
 
-    /** Whenever the verse focus, fit setting, or adjusted focus change, updated the rendered focus */
+    /** Whenever the verse, languages, fonts, or rendered focus changes, update the rendered scene accordingly. */
+    $: {
+        // Defer rendering until we have a view so that animations can be bound to DOM elements.
+        ({ places, visible } = stage.update(
+            verse,
+            interactive,
+            view,
+            $preferredLanguages,
+            $loadedFonts,
+            renderedFocus,
+            viewportWidth,
+            viewportHeight
+        ));
+    }
+
+    /** Number visible phrases, giving them unique IDs to key off of. */
+    let phraseKeys: Map<Phrase, OutputName>;
+    $: {
+        phraseKeys = new Map();
+        const phraseCounts = new Map<OutputName, number>();
+        for (const phrase of visible) {
+            const name = phrase.getName();
+            const count = (phraseCounts.get(name) ?? 0) + 1;
+            phraseKeys.set(phrase, `${name}-${count}`);
+            phraseCounts.set(name, count + 1);
+        }
+    }
+
+    /** Decide what focus to render. Explicitly set verse focus takes priority, then the fit focus if fitting content to viewport,
+     * then the adjusted focus if providedWhenever the verse focus, fit setting, or adjusted focus change, updated the rendered focus */
     $: renderedFocus = verse.focus
         ? verse.focus
         : fit && fitFocus
@@ -103,7 +146,7 @@
 
     /** When verse or viewport changes, update the autofit focus. */
     $: {
-        const context = project.evaluator.animations.getRenderContext();
+        const context = stage.getRenderContext();
         if (view) {
             // Get the bounds of the verse in verse units.
             const contentBounds = verse.getBounds(context);
@@ -135,7 +178,8 @@
                 ) / (horizontal ? availableWidth : availableHeight);
 
             // Now focus the content on the center of the content.
-            fitFocus = project.evaluator.animations.createPlace(
+            fitFocus = createPlace(
+                project.evaluator,
                 -(contentBounds.left + contentBounds.width / 2),
                 -(contentBounds.top + contentBounds.height / 2),
                 z
@@ -259,17 +303,17 @@
     }
 
     function adjustFocus(dx: number, dy: number, dz: number) {
-        adjustedFocus = project.evaluator.animations.adjustFocus(
-            renderedFocus,
-            dx,
-            dy,
-            dz
+        setFocus(
+            renderedFocus.x.toNumber() + dx,
+            renderedFocus.y.toNumber() + dy,
+            renderedFocus.z.toNumber() + dz
         );
-        fit = false;
     }
 
     function setFocus(x: number, y: number, z: number) {
-        adjustedFocus = project.evaluator.animations.setFocus(x, y, z);
+        // Set the new adjusted focus (updating the rendered focus, and thus the animator focus)
+        adjustedFocus = createPlace(project.evaluator, x, y, z);
+        // Stop fitting
         fit = false;
     }
 
@@ -337,24 +381,17 @@
         on:wheel={interactive ? handleWheel : null}
         bind:this={view}
     >
-        <!-- 
-
-            style:transform={` scale(${Math.abs(
-                PX_PER_METER / renderedFocus.z.toNumber()
-            )}) translate(${PX_PER_METER * renderedFocus.x.toNumber()}px, ${
-                PX_PER_METER * renderedFocus.y.toNumber()
-            }px) ${
-                verse.tilt.toNumber() !== 0
-                    ? `rotate(${verse.tilt.toNumber()}deg)`
-                    : ''
-            }`}
-     -->
         <div class="viewport" class:changed>
-            <!-- Render all visible phrases at their places, as well as any exiting phrases -->
-            {#each visible as phrase}
+            <!-- 
+                Render all visible phrases at their places, as well as any exiting phrases.
+                Key on name, so that animations can persist between renders, but also 
+                append an ID based on the number of times we've seen the phrase name, to guarantee uniqueness.
+                This basically numbers phrases according to either their given names, or if not given, the node IDs that create them,
+                plus an index to account for nodes that create any phrases.
+            -->
+            {#each visible as phrase (phraseKeys.get(phrase))}
                 {@const place = places.get(phrase)}
-                {@const context =
-                    project.evaluator.animations.getRenderContext()}
+                {@const context = stage.getRenderContext()}
                 <!-- There should always be a place. If there's not, there's something wrong with our layout algorithm. -->
                 {#if place}
                     <PhraseView
@@ -370,18 +407,6 @@
                 {:else}
                     <span>No place for Phrase, oops</span>
                 {/if}
-            {/each}
-            {#each [...exiting] as [phrase, place]}
-                {@const context =
-                    project.evaluator.animations.getRenderContext()}
-                <!-- There should always be a place. If there's not, there's something wrong with our layout algorithm. -->
-                <PhraseView
-                    {phrase}
-                    {place}
-                    focus={renderedFocus}
-                    viewport={{ width: viewportWidth, height: viewportHeight }}
-                    {context}
-                />
             {/each}
         </div>
     </div>

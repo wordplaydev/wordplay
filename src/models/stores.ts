@@ -3,7 +3,6 @@ import { examples, makeProject } from '../examples/examples';
 import type { StreamChange } from '@runtime/Evaluator';
 import type Step from '@runtime/Step';
 import type Project from './Project';
-import type Animations from '../output/Animations';
 import type Conflict from '@conflicts/Conflict';
 import type Node from '@nodes/Node';
 
@@ -27,7 +26,9 @@ export const playing: Writable<boolean> = writable<boolean>(true);
 export const streams: Writable<StreamChange[]> = writable<StreamChange[]>([]);
 
 // A global store that contains the active animations of the evaluator.
-export const animations: Writable<Animations[]> = writable<Animations[]>([]);
+export const animatingNodes: Writable<Set<Node>> = writable<Set<Node>>(
+    new Set()
+);
 
 // A global store of project conflicts
 export const nodeConflicts: Writable<Conflict[]> = writable([]);
@@ -39,7 +40,6 @@ function updateEvaluatorStores() {
         currentStepIndex.set(evaluator.getStepIndex());
         playing.set(evaluator.isPlaying());
         streams.set(evaluator.reactions);
-        animations.set(Array.from(evaluator.animations.animations.values()));
     }
 }
 

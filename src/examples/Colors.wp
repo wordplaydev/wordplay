@@ -1,11 +1,10 @@
 === Color Show
-
-color: ∆ 🖱️() ? Color(0% 0 0°) … Color(50% random() · 200 random() · 360°)
+color:  ∆ 🖱️() ? Color(0% 0 0°) … Color(50% random() · 200 random() · 360°)
 
 Phrase(
     "wowie" 
     name: "kitty"    
     size: 6m
-    color: color
-    between: Pose(1s)
+    rest: Pose(color: color offset:Place(rotation: (random()- 0.5)·30°))
+    duration: .1s
 )

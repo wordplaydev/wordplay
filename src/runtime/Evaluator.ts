@@ -24,7 +24,6 @@ import Context from '@nodes/Context';
 
 // Import this last, after everything else, to avoid cycles.
 import Native from '../native/NativeBindings';
-import { Animations } from '../output/Animations';
 import { MAX_STREAM_LENGTH } from './Stream';
 import Start from './Start';
 import Finish from './Finish';
@@ -125,11 +124,6 @@ export default class Evaluator {
     steps: Map<EvaluationNode, Step[]> = new Map();
 
     /**
-     * Active animations
-     */
-    animations: Animations;
-
-    /**
      * A global random stream for APIs to use.
      */
     random: Random;
@@ -148,13 +142,6 @@ export default class Evaluator {
 
     constructor(project: Project) {
         this.project = project;
-
-        this.animations = new Animations(
-            this.project,
-            undefined,
-            [],
-            new Set()
-        );
 
         // Create a global random number stream for APIs to use.
         this.random = new Random(this, undefined, undefined);

@@ -14,6 +14,7 @@ export const HighlightTypes = {
     primary: true,
     secondary: true,
     minor: true,
+    animating: false,
 };
 export type HighlightType = keyof typeof HighlightTypes;
 export type Highlights = Map<Node, Set<HighlightType>>;

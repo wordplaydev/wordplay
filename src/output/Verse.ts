@@ -3,7 +3,7 @@ import type Value from '@runtime/Value';
 import Group from './Group';
 import type { RenderContext } from './RenderContext';
 import Phrase, { toFont } from './Phrase';
-import Fonts, { SupportedFontsType } from '../native/Fonts';
+import Fonts, { SupportedFontsFamiliesType } from '../native/Fonts';
 import Color from './Color';
 import Place, { toPlace } from './Place';
 import toStructure from '../native/toStructure';
@@ -15,13 +15,14 @@ import List from '@runtime/List';
 import type LanguageCode from '@translation/LanguageCode';
 import { getPreferredTranslation } from '@translation/getPreferredTranslation';
 import { getBind } from '@translation/getBind';
+import Bool from '../runtime/Bool';
 
 export const VerseType = toStructure(`
     ${getBind((t) => t.output.verse.definition, '•')} Group(
         ${getBind((t) => t.output.verse.groups)}•Group|[Group]
         ${getBind(
             (t) => t.output.verse.font
-        )}•${SupportedFontsType}: "Noto Sans"
+        )}•${SupportedFontsFamiliesType}: "Noto Sans"
         ${getBind((t) => t.output.verse.foreground)}•Color: Color(0 0 0°)
         ${getBind((t) => t.output.verse.background)}•Color: Color(100 0 0°)
         ${getBind((t) => t.output.verse.focus)}•Place|ø: ø
@@ -114,6 +115,7 @@ export default class Verse extends Group {
                       this.value,
                       group.getWidth(context).div(2).neg(),
                       group.getHeight(context).div(2).neg(),
+                      new Decimal(0),
                       new Decimal(0)
                   ),
         ]);
@@ -183,4 +185,8 @@ export function toVerse(value: Value): Verse | undefined {
 
 export function toDecimal(value: Value | undefined): Decimal | undefined {
     return value instanceof Measurement ? value.num : undefined;
+}
+
+export function toBoolean(value: Value | undefined): boolean | undefined {
+    return value instanceof Bool ? value.bool : undefined;
 }

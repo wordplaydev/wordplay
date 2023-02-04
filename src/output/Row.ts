@@ -67,6 +67,10 @@ export class Row extends Group {
                     // If the phrase a place, use it's z, otherwise default to the 0 plane.
                     group instanceof Phrase && group.place
                         ? group.place.z
+                        : new Decimal(0),
+                    // Use the place's rotation if provided
+                    group instanceof Phrase && group.place
+                        ? group.place.rotation
                         : new Decimal(0)
                 ),
             ]);

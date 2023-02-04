@@ -49,7 +49,7 @@
         currentStep,
         currentStepIndex,
         playing,
-        animations,
+        animatingNodes,
     } from '../../models/stores';
     import type Conflict from '@conflicts/Conflict';
     import { tick } from 'svelte';
@@ -334,14 +334,10 @@
             addHighlight(newHighlights, secondary, 'secondary');
 
         // Are there any poses in this file being animated?
-        if (animations)
-            for (const animation of $animations.values()) {
-                if (source.contains(animation.currentPose.value.creator))
-                    addHighlight(
-                        newHighlights,
-                        animation.currentPose.value.creator,
-                        'evaluating'
-                    );
+        if (animatingNodes)
+            for (const animating of $animatingNodes) {
+                if (source.contains(animating))
+                    addHighlight(newHighlights, animating, 'animating');
             }
 
         // Is any output selected?
@@ -361,7 +357,7 @@
             $caret ||
             $hovered ||
             evaluatingNode ||
-            $animations ||
+            $animatingNodes ||
             $nodeConflicts ||
             source ||
             $selectedOutput
@@ -1163,6 +1159,7 @@
         <Highlight
             {...outline}
             above={false}
+            types={outline.types}
             ignored={$playing && lastKeyDownIgnored}
         />
     {/each}
@@ -1170,7 +1167,7 @@
     <RootView node={program} spaces={source.spaces} />
     <!-- Render highlights above the code -->
     {#each outlines as outline}
-        <Highlight {...outline} above={true} />
+        <Highlight {...outline} types={outline.types} above={true} />
     {/each}
 
     <!-- Render the caret on top of the program -->

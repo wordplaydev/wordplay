@@ -8,20 +8,6 @@ import { RowType } from '../output/Row';
 import { ColorType } from '../output/Color';
 import { PlaceType } from '../output/Place';
 import { SequenceType } from '../output/Sequence';
-import {
-    careful,
-    cautious,
-    elastic,
-    erratic,
-    fast,
-    pokey,
-    quick,
-    rushed,
-    straight,
-    wreckless,
-    zippy,
-    bouncy,
-} from '../output/Easing';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
 import TimeDefinition from '../input/TimeDefinition';
 import type StreamDefinition from '../nodes/StreamDefinition';
@@ -30,23 +16,9 @@ import MousePositionDefinition from '../input/MousePositionDefinition';
 import MouseButtonDefinition from '../input/MouseButtonDefinition';
 import RandomDefinition from '../input/RandomDefinition';
 import MicrophoneDefinition from '../input/MicrophoneDefinition';
+import { TimingType } from '../output/Timing';
 
-export const PoseTypes = [
-    PoseType,
-    SequenceType,
-    straight,
-    pokey,
-    fast,
-    quick,
-    zippy,
-    careful,
-    cautious,
-    rushed,
-    wreckless,
-    elastic,
-    erratic,
-    bouncy,
-];
+export const AnimationTypes = [PoseType, SequenceType, TimingType];
 
 export const GroupTypes = [VerseType, GroupType, StackType, RowType];
 
@@ -65,5 +37,5 @@ const DefaultShares: (
     | StructureDefinition
     | FunctionDefinition
     | StreamDefinition
-)[] = [...PhraseTypes, ...GroupTypes, ...PoseTypes, ...StreamDefinitions];
+)[] = [...PhraseTypes, ...GroupTypes, ...AnimationTypes, ...StreamDefinitions];
 export default DefaultShares;

@@ -1,88 +1,120 @@
 import toStructure from '../native/toStructure';
 import { TYPE_SYMBOL } from '@parser/Symbols';
-import List from '@runtime/List';
 import Structure from '@runtime/Structure';
 import type Value from '@runtime/Value';
 import { getBind } from '@translation/getBind';
 import Output from './Output';
-import Pose, { toPose } from './Pose';
+import type Pose from './Pose';
+import { toPose } from './Pose';
 import { toDecimal } from './Verse';
+import Text from '../runtime/Text';
+import Map from '../runtime/Map';
+import Measurement from '../runtime/Measurement';
+import Transition from './Transition';
+import type Place from './Place';
+import type { TransitionSequence } from './OutputAnimation';
+import en from '../translation/translations/en';
 
 export const SequenceType = toStructure(`
     ${getBind((t) => t.output.sequence.definition, TYPE_SYMBOL)}(
-        ${getBind((t) => t.output.sequence.count)}•#x
-        ${getBind((t) => t.output.sequence.poses)}…•Pose|Sequence
+        ${getBind((t) => t.output.sequence.poses)}•{ % : Pose }
+        ${getBind((t) => t.output.timing.duration)}•#s: 0.25s
+        ${getBind((t) => t.output.timing.style)}•${Object.values(
+    en.output.easing
+)
+    .map((id) => `"${id}"`)
+    .join('|')}: "zippy"
+        ${getBind((t) => t.output.sequence.count)}•1x|2x|3x|4x|5x: 1x
     )
 `);
 
-export type SequenceKind = 'entry' | 'between' | 'during' | 'exit';
+type SequenceStep = { percent: number; pose: Pose };
 
 export default class Sequence extends Output {
     readonly count: number;
-    readonly poses: (Pose | Sequence)[];
+    readonly poses: SequenceStep[];
+    readonly duration: number;
+    readonly style: string;
 
-    constructor(value: Value, count: number, poses: (Pose | Sequence)[]) {
+    constructor(
+        value: Value,
+        count: number,
+        poses: SequenceStep[],
+        duration: number,
+        style: string
+    ) {
         super(value);
 
         this.count = count;
         this.poses = poses;
+        this.duration = duration;
+        this.style = style;
+    }
+
+    /**
+     * A sequence can compile into three possible things:
+     * 1) nothing, since it's empty
+     * 2) a single pose, if only one is provided,
+     * 3) one or more transitions between two or more poses.
+     */
+    compile(
+        place?: Place,
+        defaultPose?: Pose,
+        size?: number
+    ): TransitionSequence | undefined {
+        // No poses? No pose or transition.
+        if (this.poses.length === 0) return undefined;
+        else if (this.poses.length === 1) {
+            // Only one pose? Just animate the duration with the same pose.
+            return [
+                new Transition(place, size, this.poses[0].pose, 0, this.style),
+                new Transition(
+                    place,
+                    size,
+                    this.poses[0].pose,
+                    this.duration,
+                    this.style
+                ),
+            ];
+        }
+        // Otherwise, to a list of transitions.
+        else {
+            // How many times will this repeat?
+            // We need to know here to divide up time accordingly.
+            const count = Math.max(1, Math.min(Math.round(this.count), 10));
+            const transitions: Transition[] = [];
+            for (let index = 0; index < this.poses.length; index++) {
+                const current = this.poses[index];
+                const previous = this.poses[index - 1];
+                transitions.push(
+                    new Transition(
+                        place,
+                        size,
+                        defaultPose
+                            ? defaultPose.with(current.pose)
+                            : current.pose,
+                        previous === undefined
+                            ? 0
+                            : (this.duration *
+                                  (current.percent - previous.percent)) /
+                              count,
+                        this.style
+                    )
+                );
+            }
+
+            // Duplicate the transitions based on the count
+            // (but with a reasonable limit).
+            let repetitions: Transition[] = [];
+            for (let i = 0; i < count; i++)
+                repetitions = repetitions.concat(transitions);
+
+            return repetitions as TransitionSequence;
+        }
     }
 
     getFirstPose(): Pose | undefined {
-        const first = this.poses[0];
-        if (first === undefined) return undefined;
-        else if (first instanceof Sequence) return first.getFirstPose();
-        else return first;
-    }
-
-    getSequenceOfPose(pose: Pose): Sequence | undefined {
-        for (const p of this.poses) {
-            if (p instanceof Pose) {
-                if (p === pose) return this;
-            } else {
-                const seq = p.getSequenceOfPose(pose);
-                if (seq) return seq;
-            }
-        }
-        return undefined;
-    }
-
-    getNextPose(current: Pose): Pose | undefined {
-        // Is the current pose in this sequence?
-        const index = this.poses.indexOf(current);
-
-        // If so, what's next?
-        if (index >= 0) {
-            const next = this.poses[index + 1];
-            // A pose! Return it.
-            if (next instanceof Pose) return next;
-            // A sequence! Ask for it's first pose.
-            else if (next instanceof Sequence) return next.getFirstPose();
-        }
-        // If it's not in this sequence, recursively check if a subsequence has it.
-        else {
-            for (const sequence of this.poses.filter(
-                (p) => p instanceof Sequence
-            ) as Sequence[]) {
-                const sequenceNext = sequence.getNextPose(current);
-                if (sequenceNext) return sequenceNext;
-            }
-        }
-        // No next pose.
-        return undefined;
-    }
-
-    getNextPoseThat(currentPose: Pose, predicate: (pose: Pose) => boolean) {
-        let next: Pose | undefined = currentPose;
-        do {
-            next = this.getNextPose(next);
-            if (next === undefined) return undefined;
-            if (predicate(next)) return next;
-        } while (true);
-    }
-
-    asSequence() {
-        return this;
+        return this.poses[0].pose;
     }
 }
 
@@ -91,14 +123,32 @@ export function toSequence(value: Value | undefined) {
         return undefined;
 
     const count = toDecimal(value.resolve('count'));
-    const poses = value.resolve('poses');
-    if (!(poses instanceof List)) return undefined;
-    const mapped = poses.values.map(
-        (val) => toPose(val) ?? toSequence(val)
-    ) as (Pose | Sequence | undefined)[];
-    if (mapped.some((val) => val === undefined)) return undefined;
+    const duration = toDecimal(value.resolve('duration'));
+    const style = value.resolve('style');
 
-    return count && poses instanceof List
-        ? new Sequence(value, count.toNumber(), mapped as (Pose | Sequence)[])
+    const poses = value.resolve('poses');
+    if (!(poses instanceof Map)) return undefined;
+
+    // Convert the map to a sorted list of steps
+    const steps: SequenceStep[] = [];
+
+    for (const [key, value] of poses.values) {
+        const percent = key instanceof Measurement ? key.toNumber() : undefined;
+        const pose = toPose(value);
+        if (percent !== undefined && pose !== undefined)
+            steps.push({ percent, pose });
+    }
+
+    // Sort the steps in increasing percents.
+    steps.sort((a, b) => a.percent - b.percent);
+
+    return count && duration && style instanceof Text && poses
+        ? new Sequence(
+              value,
+              count.toNumber(),
+              steps,
+              duration.toNumber(),
+              style.text
+          )
         : undefined;
 }

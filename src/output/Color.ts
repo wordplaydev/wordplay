@@ -41,6 +41,14 @@ export default class Color extends Output {
             .to('srgb')
             .toString();
     }
+
+    equals(color: Color) {
+        return (
+            this.lightness.equals(color.lightness) &&
+            this.chroma.equals(color.chroma) &&
+            this.hue.equals(color.hue)
+        );
+    }
 }
 
 export function toColor(value: Value | undefined) {

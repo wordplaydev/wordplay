@@ -7,5 +7,4 @@ Phrase(
     choice
     name: "word"
     size: 4m
-    between: Pose(1s)
 )

@@ -798,38 +798,35 @@ type Translation = {
             definition: NameAndDocTranslation;
             text: NameAndDocTranslation;
             size: NameAndDocTranslation;
-            font: NameAndDocTranslation;
-            color: NameAndDocTranslation;
-            opacity: NameAndDocTranslation;
+            family: NameAndDocTranslation;
             place: NameAndDocTranslation;
-            offset: NameAndDocTranslation;
-            rotation: NameAndDocTranslation;
-            scalex: NameAndDocTranslation;
-            scaley: NameAndDocTranslation;
             name: NameAndDocTranslation;
-            entry: NameAndDocTranslation;
-            during: NameAndDocTranslation;
-            between: NameAndDocTranslation;
+            timing: NameAndDocTranslation;
+            enter: NameAndDocTranslation;
+            rest: NameAndDocTranslation;
+            move: NameAndDocTranslation;
             exit: NameAndDocTranslation;
         };
         pose: {
             definition: NameAndDocTranslation;
             duration: NameAndDocTranslation;
             style: NameAndDocTranslation;
-            text: NameAndDocTranslation;
-            size: NameAndDocTranslation;
-            font: NameAndDocTranslation;
             color: NameAndDocTranslation;
             opacity: NameAndDocTranslation;
-            place: NameAndDocTranslation;
             offset: NameAndDocTranslation;
-            rotation: NameAndDocTranslation;
-            scalex: NameAndDocTranslation;
-            scaley: NameAndDocTranslation;
+            scale: NameAndDocTranslation;
+            flipx: NameAndDocTranslation;
+            flipy: NameAndDocTranslation;
+        };
+        timing: {
+            definition: NameAndDocTranslation;
+            duration: NameAndDocTranslation;
+            style: NameAndDocTranslation;
         };
         sequence: {
             definition: NameAndDocTranslation;
             count: NameAndDocTranslation;
+            timing: NameAndDocTranslation;
             poses: NameAndDocTranslation;
         };
         color: {
@@ -843,6 +840,7 @@ type Translation = {
             x: NameAndDocTranslation;
             y: NameAndDocTranslation;
             z: NameAndDocTranslation;
+            rotation: NameAndDocTranslation;
         };
         row: {
             definition: NameAndDocTranslation;
@@ -865,19 +863,14 @@ type Translation = {
             tilt: NameAndDocTranslation;
         };
         easing: {
-            input: NameAndDocTranslation;
-            straight: NameAndDocTranslation;
-            pokey: NameAndDocTranslation;
-            fast: NameAndDocTranslation;
-            quick: NameAndDocTranslation;
-            zippy: NameAndDocTranslation;
-            careful: NameAndDocTranslation;
-            cautious: NameAndDocTranslation;
-            rushed: NameAndDocTranslation;
-            wreckless: NameAndDocTranslation;
-            elastic: NameAndDocTranslation;
-            erratic: NameAndDocTranslation;
-            bouncy: NameAndDocTranslation;
+            // CSS linear
+            straight: NameTranslation;
+            // CSS ease-in
+            pokey: NameTranslation;
+            // CSS ease-in-out
+            cautious: NameTranslation;
+            // CSS ease-out
+            zippy: NameTranslation;
         };
     };
 };

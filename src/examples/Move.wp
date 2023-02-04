@@ -16,6 +16,13 @@ Phrase(
     name: "kitty"
     size: 5m
     place: Place(cat.position 0m)
-    between: Pose(0.25s)
-    scalex: cat.direction
+    rest: Pose(flipx: cat.direction < 0)
+    move: Sequence(
+        { 
+            0%: Pose(offset: Place(rotation: 5°))
+            50%: Pose(offset: Place(rotation: -5°))
+            100%: Pose(offset: Place(rotation: 5°))
+        } 
+        0.25s "zippy"
+    )
 )

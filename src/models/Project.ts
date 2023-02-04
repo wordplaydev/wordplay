@@ -20,7 +20,7 @@ import PropertyReference from '@nodes/PropertyReference';
 import type Bind from '@nodes/Bind';
 import Reference from '@nodes/Reference';
 import type LanguageCode from '@translation/LanguageCode';
-import type StreamDefinition from '../nodes/StreamDefinition';
+import type StreamDefinition from '@nodes/StreamDefinition';
 
 type Analysis = {
     conflicts: Conflict[];
@@ -71,7 +71,7 @@ export default class Project {
         this.main = main;
         this.supplements = supplements.slice();
 
-        // Create evaluators for each source.
+        // Create an evaluators for the project.
         this.evaluator = new Evaluator(this);
 
         // Build all of the trees we might need for analysis.
