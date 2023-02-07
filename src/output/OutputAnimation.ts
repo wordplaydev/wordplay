@@ -373,8 +373,8 @@ export default class OutputAnimation {
         // If there's DOM element and this isn't exiting, start an animation.
         // (We have to defer for exits because the output needs to render the new exiting output first.)
         if (!(element instanceof HTMLElement)) {
-            console.error(
-                `Unable to find element '${this.output.getHTMLID()}', created by '${this.output.value.creator.toWordplay()}' for animation; likely defect.`
+            OutputAnimation.log(
+                `No element for '${this.output.getHTMLID()}', ending animation.`
             );
             this.end();
             return;
