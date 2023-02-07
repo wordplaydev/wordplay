@@ -4,7 +4,7 @@ import TypeOutput, { TypeOutputInputs } from './TypeOutput';
 import type RenderContext from './RenderContext';
 import Phrase from './Phrase';
 import Color from './Color';
-import Place, { toPlace } from './Place';
+import Place from './Place';
 import toStructure from '../native/toStructure';
 import Measurement from '@runtime/Measurement';
 import Decimal from 'decimal.js';
@@ -26,7 +26,6 @@ export const VerseType = toStructure(`
     ${getBind((t) => t.output.verse.definition, '•')} Type(
         ${getBind((t) => t.output.verse.content)}•Type|[Type]
         ${getBind((t) => t.output.verse.background)}•Color: Color(100 0 0°)
-        ${getBind((t) => t.output.verse.focus)}•Place|ø: ø
         ${TypeOutputInputs}
     )
 `);
@@ -34,13 +33,11 @@ export const VerseType = toStructure(`
 export default class Verse extends TypeOutput {
     readonly content: TypeOutput[];
     readonly background: Color;
-    readonly focus: Place | undefined;
 
     constructor(
         value: Value,
         content: TypeOutput[],
         background: Color,
-        focus: Place | undefined,
         size: number,
         font: string,
         place: Place | undefined = undefined,
@@ -68,7 +65,6 @@ export default class Verse extends TypeOutput {
 
         this.content = content;
         this.background = background;
-        this.focus = focus;
     }
 
     getBounds(context: RenderContext) {
@@ -169,7 +165,6 @@ export function toVerse(value: Value): Verse | undefined {
                 ? toTypeOutputList(possibleGroups, namer)
                 : toTypeOutput(possibleGroups, namer);
         const background = toColor(value.resolve('background'));
-        const focus = toPlace(value.resolve('focus'));
 
         const {
             size,
@@ -189,7 +184,6 @@ export function toVerse(value: Value): Verse | undefined {
                   value,
                   Array.isArray(content) ? content : [content],
                   background,
-                  focus,
                   size ?? DefaultSize,
                   font ?? DefaultFont,
                   place,
@@ -217,7 +211,6 @@ export function toVerse(value: Value): Verse | undefined {
                       new Decimal(0),
                       new Decimal(0)
                   ),
-                  undefined,
                   DefaultSize,
                   DefaultFont,
                   undefined,

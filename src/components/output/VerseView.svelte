@@ -99,8 +99,8 @@
 
     /** Decide what focus to render. Explicitly set verse focus takes priority, then the fit focus if fitting content to viewport,
      * then the adjusted focus if providedWhenever the verse focus, fit setting, or adjusted focus change, updated the rendered focus */
-    $: renderedFocus = verse.focus
-        ? verse.focus
+    $: renderedFocus = verse.place
+        ? verse.place
         : fit && fitFocus
         ? fitFocus
         : adjustedFocus;

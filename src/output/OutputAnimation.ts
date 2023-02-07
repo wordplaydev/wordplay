@@ -394,7 +394,7 @@ export default class OutputAnimation {
         // (We have to defer for exits because the output needs to render the new exiting output first.)
         if (!(element instanceof HTMLElement)) {
             OutputAnimation.log(
-                `No element for '${this.output.getHTMLID()}', ending animation.`
+                `No element for '${this.output.getHTMLID()}'; ending animation.`
             );
             this.end();
             return;
