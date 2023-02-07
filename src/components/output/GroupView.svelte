@@ -2,13 +2,13 @@
 
 <script lang="ts">
     import type Place from '@output/Place';
-    import outputToCSS, { PX_PER_METER } from '@output/outputToCSS';
+    import outputToCSS from '@output/outputToCSS';
     import type RenderContext from '@output/RenderContext';
     import Pose from '@output/Pose';
     import Phrase from '@output/Phrase';
     import PhraseView from './PhraseView.svelte';
     import type Group from '@output/Group';
-    import type Verse from '../../output/Verse';
+    import type Verse from '@output/Verse';
 
     export let group: Group | Verse;
     export let place: Place;
@@ -18,8 +18,8 @@
     // Compute a local context based on size and font.
     $: context = group.getRenderContext(context);
 
-    $: width = group.getWidth(context).times(PX_PER_METER).toNumber();
-    $: height = group.getHeight(context).times(PX_PER_METER).toNumber();
+    $: width = group.getWidth(context).toNumber();
+    $: height = group.getHeight(context).toNumber();
     $: places = group.getPlaces(context);
 
     // Filter out groups that are behind the focus
@@ -51,7 +51,7 @@
         false
     )}
 >
-    <div class="children">
+    <div class="content">
         {#each visible as [child, childPlace] (child.getName())}
             {#if child instanceof Phrase}
                 <PhraseView
@@ -79,7 +79,7 @@
         top: 0;
     }
 
-    .children {
+    .content {
         position: relative;
         width: 100%;
         height: 100%;
