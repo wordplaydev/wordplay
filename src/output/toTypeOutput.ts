@@ -63,7 +63,7 @@ export function toArrangement(
 }
 
 export function getStyle(value: Value): {
-    size: number;
+    size: number | undefined;
     font: string | undefined;
     name: TextLang | undefined;
     place: Place | undefined;
@@ -74,7 +74,7 @@ export function getStyle(value: Value): {
     duration: number | undefined;
     style: string | undefined;
 } {
-    const size = toDecimal(value.resolve('size'))?.toNumber() ?? 1;
+    const size = toDecimal(value.resolve('size'))?.toNumber();
     const font = toFont(value.resolve('font'));
     const name = toText(value.resolve('name'));
     const place = toPlace(value.resolve('place'));

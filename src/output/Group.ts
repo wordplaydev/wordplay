@@ -6,7 +6,7 @@ import type Arrangement from './Arrangement';
 import type Color from './Color';
 import type Place from './Place';
 import type Pose from './Pose';
-import type { RenderContext } from './RenderContext';
+import type RenderContext from './RenderContext';
 import type Sequence from './Sequence';
 import type TextLang from './TextLang';
 import TypeOutput, { TypeOutputInputs } from './TypeOutput';
@@ -30,7 +30,7 @@ export default class Group extends TypeOutput {
         value: Value,
         arrangement: Arrangement,
         content: TypeOutput[],
-        size: number,
+        size: number | undefined = undefined,
         font: string | undefined = undefined,
         place: Place | undefined = undefined,
         name: TextLang | string,

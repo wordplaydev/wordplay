@@ -58,7 +58,7 @@ screen:
     Group(⬇() [
       💬(["What***Word***"/en "Que***Palabra***"/es "?_"/😀] 
         3m 
-        place:📍(0m 0m -1m 2°) 
+        place:📍(z: -1m) 
         enter: Pose(opacity: 0%)
         rest: Sequence(sway 1s)
       )

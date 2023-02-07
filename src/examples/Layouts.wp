@@ -1,6 +1,6 @@
 === Layout Madness
 throb: Sequence({0%: Pose(scale: .9) 50%: Pose(scale: 1.1) 100%: Pose(scale: .9)})
-spin: Sequence({0%: Pose(offset: Place(rotation: 0°)) 50%: Pose(offset: Place(rotation: 180°)) 100%: Pose(offset: Place(rotation: 360°)) } 2s "linear")
+spin: Sequence({0%: Pose(offset: Place(rotation: 0°)) 50%: Pose(offset: Place(rotation: 180°)) 100%: Pose(offset: Place(rotation: 360°)) } 2s "straight")
 
 Group(Row() [
   Group(Stack() [

@@ -8,6 +8,7 @@ import type Stage from './Stage';
 import type { OutputName } from './Stage';
 import Transition from './Transition';
 import Verse from './Verse';
+import type RenderContext from './RenderContext';
 
 enum State {
     Entering = 'entering',
@@ -32,6 +33,9 @@ export default class OutputAnimation {
     /** The current phrase for this name */
     output: TypeOutput;
 
+    /** The current context for rendering */
+    context: RenderContext;
+
     /** The cached name of the phrase, just to avoid recomputing. */
     name: OutputName;
 
@@ -44,9 +48,15 @@ export default class OutputAnimation {
     /** The curren transitions animating */
     sequence: Transition[] | undefined = undefined;
 
-    constructor(stage: Stage, phrase: TypeOutput, entry: boolean) {
+    constructor(
+        stage: Stage,
+        phrase: TypeOutput,
+        context: RenderContext,
+        entry: boolean
+    ) {
         this.stage = stage;
         this.output = phrase;
+        this.context = context;
         this.name = phrase.getName();
 
         OutputAnimation.log(
@@ -66,13 +76,14 @@ export default class OutputAnimation {
     }
 
     /** Update the current animation with a new phrase by the same name. */
-    update(phrase: TypeOutput, entry: boolean) {
+    update(output: TypeOutput, context: RenderContext, entry: boolean) {
         // Before we update, see if the rest pose changed so we can tween it.
         const prior = this.output;
 
         // Update the phrase and name.
-        this.output = phrase;
-        this.name = phrase.getName();
+        this.output = output;
+        this.context = context;
+        this.name = output.getName();
 
         OutputAnimation.log(
             `Updating '${this.output.getDescription(['en'])}', entry = ${entry}`
@@ -167,19 +178,28 @@ export default class OutputAnimation {
             const entrySequence =
                 enter instanceof Pose ? enter : enter.compile();
 
+            const outputInfo = this.stage.scene.get(this.output.getName());
+
+            if (outputInfo === undefined) {
+                OutputAnimation.log(
+                    `No output info for ${this.output.getName()}`
+                );
+                return;
+            }
+
             // If the entry transition is a pose, just animate from entry to the still pose.
             const newSequence =
                 entrySequence instanceof Pose
                     ? ([
                           new Transition(
-                              this.stage.localPlaces.get(this.output),
+                              outputInfo.local,
                               this.output.size,
                               entrySequence,
                               0,
                               this.output.style
                           ),
                           new Transition(
-                              this.stage.localPlaces.get(this.output),
+                              outputInfo.local,
                               this.output.size,
                               // No first pose? I guess we animate to the entry pose.
                               firstStillPose ?? entrySequence,
@@ -195,7 +215,7 @@ export default class OutputAnimation {
                           ...(firstStillPose
                               ? [
                                     new Transition(
-                                        this.stage.localPlaces.get(this.output),
+                                        outputInfo.local,
                                         this.output.size,
                                         firstStillPose,
                                         this.output.duration,
@@ -380,6 +400,17 @@ export default class OutputAnimation {
             return;
         }
 
+        // Get the info for the output.
+        const info = this.stage.scene.get(this.output.getName());
+
+        if (info === undefined) {
+            OutputAnimation.log(
+                `No output info for '${this.output.getName()}', ending animation.`
+            );
+            this.end();
+            return;
+        }
+
         // Convert the transitions to WebAnimation API keyframes.
         let currentOffset = 0;
         const keyframes = transitions.map((transition) => {
@@ -392,19 +423,24 @@ export default class OutputAnimation {
 
             // Where should we position this? Use the transition's place if it
             // specifies one and the current place if not.
-            const localPlace =
-                transition.place ?? this.stage.localPlaces.get(this.output);
+            const localPlace = transition.place ?? info.local;
 
             // Compute the focus place in this phrase's parent coordinate system.
-            const parents = this.stage.parentsByGroup.get(this.output);
+            const parents = info.parents;
             let offsetFocus: Place | undefined = this.stage.focus;
             if (parents && offsetFocus) {
                 for (const parent of parents) {
                     if (!(parent instanceof Verse)) {
-                        const parentPlace = this.stage.localPlaces.get(parent);
+                        const parentInfo = this.stage.scene.get(
+                            parent.getName()
+                        );
+                        const parentPlace = parentInfo?.local;
                         if (parentPlace)
                             offsetFocus = offsetFocus.offset(parentPlace);
                         else {
+                            OutputAnimation.log(
+                                `Couldn't find output info for parent ${parent.getName()}`
+                            );
                             offsetFocus = undefined;
                             break;
                         }
@@ -424,13 +460,11 @@ export default class OutputAnimation {
                     offsetFocus,
                     {
                         width:
-                            this.output
-                                .getWidth(this.stage.getRenderContext())
-                                .toNumber() * PX_PER_METER,
+                            this.output.getWidth(this.context).toNumber() *
+                            PX_PER_METER,
                         ascent:
-                            this.output
-                                .getHeight(this.stage.getRenderContext())
-                                .toNumber() * PX_PER_METER,
+                            this.output.getHeight(this.context).toNumber() *
+                            PX_PER_METER,
                     },
                     this.output instanceof Phrase
                 );

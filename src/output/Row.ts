@@ -2,7 +2,7 @@ import toStructure from '../native/toStructure';
 import type Value from '@runtime/Value';
 import type Color from './Color';
 import type TypeOutput from './TypeOutput';
-import type { RenderContext } from './RenderContext';
+import type RenderContext from './RenderContext';
 import Place from './Place';
 import Decimal from 'decimal.js';
 import type LanguageCode from '@translation/LanguageCode';

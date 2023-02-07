@@ -20,9 +20,8 @@
     import MousePosition from '@input/MousePosition';
     import MouseButton from '@input/MouseButton';
     import { createPlace } from '@output/Place';
-    import Stage, { type OutputName } from '@output/Stage';
+    import Stage, { type OutputInfoSet } from '@output/Stage';
     import Decimal from 'decimal.js';
-    import type TypeOutput from '@output/TypeOutput';
     import Pose from '@output/Pose';
     import PhraseView from './PhraseView.svelte';
     import GroupView from './GroupView.svelte';
@@ -47,7 +46,7 @@
     onMount(() => (mounted = true));
 
     /** The list of visible phrases */
-    let exiting: Map<OutputName, { output: TypeOutput; place: Place }>;
+    let exiting: OutputInfoSet;
 
     /** The verse focus that fits the content to the view*/
     let fitFocus: Place | undefined = undefined;
@@ -392,18 +391,18 @@
                 context={stage.getRenderContext()}
             />
             <!-- Render exiting nodes -->
-            {#each Array.from(exiting.entries()) as [_, { output, place }] (output.getName())}
-                {#if output instanceof Phrase}
+            {#each Array.from(exiting.entries()) as [name, info] (name)}
+                {#if info.output instanceof Phrase}
                     <PhraseView
-                        phrase={output}
-                        {place}
+                        phrase={info.output}
+                        place={info.global}
                         focus={renderedFocus}
                         context={stage.getRenderContext()}
                     />
-                {:else if output instanceof Group}
+                {:else if info.output instanceof Group}
                     <GroupView
-                        group={output}
-                        {place}
+                        group={info.output}
+                        place={info.global}
                         focus={renderedFocus}
                         context={stage.getRenderContext()}
                     />

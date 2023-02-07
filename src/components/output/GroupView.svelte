@@ -2,20 +2,24 @@
 
 <script lang="ts">
     import type Place from '@output/Place';
-    import outputToCSS from '@output/outputToCSS';
-    import type { RenderContext } from '@output/RenderContext';
+    import outputToCSS, { PX_PER_METER } from '@output/outputToCSS';
+    import type RenderContext from '@output/RenderContext';
     import Pose from '@output/Pose';
-    import type TypographicOutput from '@output/TypeOutput';
     import Phrase from '@output/Phrase';
     import PhraseView from './PhraseView.svelte';
+    import type Group from '@output/Group';
+    import type Verse from '../../output/Verse';
 
-    export let group: TypographicOutput;
+    export let group: Group | Verse;
     export let place: Place;
     export let focus: Place;
     export let context: RenderContext;
 
-    $: width = group.getWidth(context);
-    $: height = group.getHeight(context);
+    // Compute a local context based on size and font.
+    $: context = group.getRenderContext(context);
+
+    $: width = group.getWidth(context).times(PX_PER_METER).toNumber();
+    $: height = group.getHeight(context).times(PX_PER_METER).toNumber();
     $: places = group.getPlaces(context);
 
     // Filter out groups that are behind the focus
@@ -33,17 +37,17 @@
     class="group {group.constructor.name}"
     data-id={group.getHTMLID()}
     style={outputToCSS(
-        undefined, //group.font,
-        undefined, //group.size,
+        context.font,
+        context.size,
         // No first pose because of an empty sequence? Give a default.
-        new Pose(group.value) /*group.rest instanceof Pose
+        group.rest instanceof Pose
             ? group.rest
-            : group.rest.getFirstPose() ?? new Pose(group.value),*/,
+            : group.rest.getFirstPose() ?? new Pose(group.value),
         place,
-        width.toNumber(),
-        height.toNumber(),
+        width,
+        height,
         focus,
-        { width: width.toNumber(), ascent: height.toNumber() },
+        { width, ascent: height },
         false
     )}
 >

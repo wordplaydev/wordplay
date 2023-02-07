@@ -3,14 +3,24 @@ import type LanguageCode from '../translation/LanguageCode';
 import type TypeOutput from './TypeOutput';
 import type Place from './Place';
 import { createPlace } from './Place';
-import type { RenderContext } from './RenderContext';
+import RenderContext from './RenderContext';
 import type Verse from './Verse';
 import OutputAnimation from './OutputAnimation';
 import type Transition from './Transition';
 import type Node from '@nodes/Node';
-import { DefaultFont } from './Verse';
+import { DefaultFont, DefaultSize } from './Verse';
 
 export type OutputName = string;
+
+export type OutputInfo = {
+    output: TypeOutput;
+    global: Place;
+    local: Place;
+    parents: TypeOutput[];
+    context: RenderContext;
+};
+
+export type OutputInfoSet = Map<OutputName, OutputInfo>;
 
 /**
  * Derived state of the previous and current Verses.
@@ -43,17 +53,8 @@ export default class Stage {
     focus: Place;
 
     /** The previous and current places where groups are at */
-    globalPlaces = new Map<TypeOutput, Place>();
-    localPlaces = new Map<TypeOutput, Place>();
-    priorGlobalPlaces = new Map<OutputName, Place>();
-    priorLocalPlaces = new Map<OutputName, Place>();
-
-    /** The parents of groups */
-    parentsByGroup = new Map<TypeOutput, TypeOutput[]>();
-
-    /** Currently and previously present groups. */
-    present = new Map<OutputName, TypeOutput>();
-    previouslyPresent = new Map<OutputName, TypeOutput>();
+    scene: OutputInfoSet = new Map<OutputName, OutputInfo>();
+    priorScene: OutputInfoSet = new Map<OutputName, OutputInfo>();
 
     /** The active animations, responsible for tracking transitions and animations on named output. */
     readonly animations = new Map<OutputName, OutputAnimation>();
@@ -113,92 +114,75 @@ export default class Stage {
         const exited = new Map<OutputName, TypeOutput>();
         const present = new Map<OutputName, TypeOutput>();
 
-        // Remember who was previously present for the future.
-        this.previouslyPresent = this.present;
-
-        // Clear the present and visible lists.
-        this.present = new Map();
-
-        // Reset the parents.
-        this.parentsByGroup.clear();
-
-        // Compute places for all of the groups in the verse.
-        const { global, local } = this.layout(
+        // Compute places, parents, contexts, etc. for all the output in the verse.
+        const newScene = this.layout(
             this.verse,
             [],
-            new Map<TypeOutput, Place>(),
-            new Map<TypeOutput, Place>(),
+            new Map<OutputName, OutputInfo>(),
             this.getRenderContext()
         );
 
-        const newPriorGlobalPlaces: Map<OutputName, Place> = new Map();
-        const newPriorLocalPlaces: Map<OutputName, Place> = new Map();
-
         // Based on the places, figure out which output is present and visible.
-        for (const [group, place] of local) {
-            // Was this phrase not previously present? Add to the entered set.
-            const name = group.getName();
-            if (!this.previouslyPresent.has(name)) {
-                entered.set(name, group);
-            }
+        for (const [name, info] of newScene) {
+            const output = info.output;
 
             // Add this name and phrase to the present sets.
-            present.set(name, group);
-            this.present.set(name, group);
+            present.set(name, output);
+
+            // Was this phrase not previously present? Add to the entered set.
+            if (!this.priorScene.has(name)) entered.set(name, output);
 
             // Did the place change? Note the move.
-            const priorLocalPlace = this.priorLocalPlaces.get(name);
+            const priorLocal = this.scene.get(name)?.local;
             if (
-                priorLocalPlace &&
-                (!priorLocalPlace.x.equals(place.x) ||
-                    !priorLocalPlace.y.equals(place.y) ||
-                    !priorLocalPlace.z.equals(place.z) ||
-                    !priorLocalPlace.rotation.equals(place.rotation))
+                priorLocal &&
+                (!priorLocal.x.equals(info.local.x) ||
+                    !priorLocal.y.equals(info.local.y) ||
+                    !priorLocal.z.equals(info.local.z) ||
+                    !priorLocal.rotation.equals(info.local.rotation))
             ) {
                 moved.set(name, {
-                    output: group,
-                    prior: priorLocalPlace,
-                    present: place,
+                    output: output,
+                    prior: priorLocal,
+                    present: info.local,
                 });
             }
-
-            const globalPlace = global.get(group);
-
-            if (globalPlace) newPriorGlobalPlaces.set(name, globalPlace);
-            newPriorLocalPlaces.set(name, place);
         }
 
         // A mapping from exiting groups to where they previously were.
-        const exiting = new Map<
-            OutputName,
-            { output: TypeOutput; place: Place }
-        >();
+        const exiting = new Map<OutputName, OutputInfo>();
 
-        // Now that we have a list of everyone present, remove everyone that was present that is no longer, and note that they exited.
-        for (const [name, output] of this.previouslyPresent) {
-            if (!present.has(name)) {
+        // Now that we have a list of everyone present, remove everyone that was present in the prior scene that is no longer, and note that they exited.
+        for (const [name, info] of this.priorScene) {
+            const output = info.output;
+            if (!newScene.has(name)) {
                 // If the phrase has an exit squence, then add it to the phrases to keep rendering
                 // and remember it's current global place, so we can render it there.
                 if (output.exit) {
                     exited.set(name, output);
-                    const place = this.priorGlobalPlaces.get(name);
-                    if (place) {
-                        // We add the exiting output to the list so that the VerseView can render it until it's animation is done.
-                        if (place.z.sub(this.focus.z).greaterThan(0)) {
-                            exiting.set(output.getName(), { output, place });
-                            global.set(output, place);
-                            this.parentsByGroup.set(output, [this.verse]);
-                        }
+                    const place = info.global;
+                    // Is this in view?
+                    if (place.z.sub(this.focus.z).greaterThan(0)) {
+                        // Use the global place since it's now parent-less.
+                        const newInfo = {
+                            output,
+                            global: place,
+                            local: place,
+                            context: info.context,
+                            parents: [this.verse],
+                        };
+                        // Add to the exiting list for the verse to render.
+                        exiting.set(name, newInfo);
+                        // Re-add to the scene so that animations can get info.
+                        newScene.set(name, newInfo);
                     }
                 }
             }
         }
 
         // Remember the places, so that exiting phrases after the next change have them above.
-        this.priorLocalPlaces = newPriorLocalPlaces;
-        this.priorGlobalPlaces = newPriorGlobalPlaces;
-        this.globalPlaces = global;
-        this.localPlaces = local;
+        this.priorScene = this.scene;
+        this.scene = newScene;
 
         // Return the layout for rendering.
         return {
@@ -229,15 +213,19 @@ export default class Stage {
         // ending and starting animations.
         for (const [name, output] of present) {
             const animation = this.animations.get(name);
-            if (animation) {
-                animation.update(output, entered.has(name));
-            } else if (output.isAnimated()) {
-                const animation = new OutputAnimation(
-                    this,
-                    output,
-                    entered.has(name)
-                );
-                this.animations.set(name, animation);
+            const info = this.scene.get(name);
+            if (info) {
+                if (animation) {
+                    animation.update(output, info?.context, entered.has(name));
+                } else if (output.isAnimated()) {
+                    const animation = new OutputAnimation(
+                        this,
+                        output,
+                        info.context,
+                        entered.has(name)
+                    );
+                    this.animations.set(name, animation);
+                }
             }
             // Otherwise, there must not be any animation on this name,
             // because otherwise we would have created an animation.
@@ -288,41 +276,46 @@ export default class Stage {
     }
 
     getRenderContext(): RenderContext {
-        return {
-            font: this.verse?.font ?? DefaultFont,
-            languages: this.languages,
-            fonts: this.fontsLoaded,
-        };
+        return new RenderContext(
+            this.verse?.font ?? DefaultFont,
+            this.verse?.size ?? DefaultSize,
+            this.languages,
+            this.fontsLoaded
+        );
     }
 
     // A top down layout algorithm that places groups first, then their subgroups, and uses the
     // ancestor list to compute global places for each group.
     layout(
-        group: TypeOutput,
+        output: TypeOutput,
         parents: TypeOutput[],
-        global: Map<TypeOutput, Place>,
-        local: Map<TypeOutput, Place>,
+        outputInfo: Map<OutputName, OutputInfo>,
         context: RenderContext
     ) {
-        // Add this group to the parent stack.
-        parents.unshift(group);
-        // Get this group's place, so we can offset its subgroups.
-        const parentPlace = global.get(group);
+        // Get the name of the output
+        const name = output.getName();
+        // Add this output to the parent stack.
+        parents.unshift(output);
+        // Update the context passed to children.
+        context = output.getRenderContext(context);
+        // Get this output's place, so we can offset its subgroups.
+        const parentPlace = outputInfo.get(name)?.global;
         // Get the places of each of this group's subgroups.
-        for (const [subgroup, place] of group.getPlaces(context)) {
-            this.parentsByGroup.set(subgroup, parents.slice());
-            local.set(subgroup, place);
+        for (const [subgroup, place] of output.getPlaces(context)) {
             // Set the place of this subgroup, offseting it by the parent's position to keep it in global coordinates.
-            global.set(
-                subgroup,
-                parentPlace ? place.offset(parentPlace) : place
-            );
+            outputInfo.set(subgroup.getName(), {
+                output: subgroup,
+                local: place,
+                global: parentPlace ? place.offset(parentPlace) : place,
+                context,
+                parents: parents.slice(),
+            });
             // Now that this subgroup's position is set, layout the subgroup's subgroups.
-            this.layout(subgroup, parents, global, local, context);
+            this.layout(subgroup, parents, outputInfo, context);
         }
         // Remove this group from the top of the parent stack.
         parents.shift();
 
-        return { global, local };
+        return outputInfo;
     }
 }

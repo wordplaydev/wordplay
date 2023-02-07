@@ -93,19 +93,25 @@ export function toOutputTransform(
         if (pose.flipx === true) xScale = xScale * -1;
         if (pose.flipy === true) yScale = yScale * -1;
         if (pose.offset !== undefined) {
-            xOffset = pose.offset.x.toNumber();
-            yOffset = pose.offset.y.toNumber();
+            xOffset = pose.offset.x.toNumber() * PX_PER_METER;
+            yOffset = pose.offset.y.toNumber() * PX_PER_METER;
             zOffset = pose.offset.z.toNumber();
             rotationOffset = pose.offset.rotation.toNumber();
         }
     }
 
     // Get the z scale using the z place and it's offset.
-    const perspectiveScale = zScale(place.z.add(zOffset), focus.z);
+    const perspectiveScale = zScale(place.z.add(zOffset), focus.z).toNumber();
 
     // When computing the center, account for scale
-    const centerXOffset = metrics.width / 2;
-    const centerYOffset = metrics.ascent / 2;
+    let centerXOffset = metrics.width / 2;
+    let centerYOffset = metrics.ascent / 2;
+
+    let placeX = place.x.toNumber() * PX_PER_METER;
+    let placeY = place.y.toNumber() * PX_PER_METER;
+
+    let focusX = focus.x.toNumber() * PX_PER_METER;
+    let focusY = focus.y.toNumber() * PX_PER_METER;
 
     // These are applied in reverse.
     return [
@@ -115,33 +121,21 @@ export function toOutputTransform(
         perspective
             ? [
                   // Undo the focus translation
-                  translateXY(
-                      -focus.x.toNumber() * PX_PER_METER,
-                      -focus.y.toNumber() * PX_PER_METER
-                  ),
+                  translateXY(-focusX, -focusY),
                   // Scale around the focus
-                  scaleXY(
-                      perspectiveScale.toNumber(),
-                      perspectiveScale.toNumber()
-                  ),
+                  scaleXY(perspectiveScale, perspectiveScale),
                   // Translate to the focus
-                  translateXY(
-                      focus.x.toNumber() * PX_PER_METER,
-                      focus.y.toNumber() * PX_PER_METER
-                  ),
+                  translateXY(focusX, focusY),
               ].join(' ')
             : '',
         // Translate to its position
-        translateXY(
-            place.x.toNumber() * PX_PER_METER,
-            place.y.toNumber() * PX_PER_METER
-        ),
+        translateXY(placeX, placeY),
         // 5. Move back to the top left of the output.
         translateXY(centerXOffset, centerYOffset),
         // 4. Scale around the center and its offset
         scaleXY(xScale, yScale),
         // 3. Offset around the center
-        translateXY(xOffset * PX_PER_METER, yOffset * PX_PER_METER),
+        translateXY(xOffset, yOffset),
         // 2. Rotate around it's center
         rotateDeg(place.rotation.toNumber() + rotationOffset),
         // 1. Translate to the center of the output.

@@ -1,7 +1,7 @@
 import Structure from '@runtime/Structure';
 import type Value from '@runtime/Value';
 import TypeOutput, { TypeOutputInputs } from './TypeOutput';
-import type { RenderContext } from './RenderContext';
+import type RenderContext from './RenderContext';
 import Phrase from './Phrase';
 import Color from './Color';
 import Place, { toPlace } from './Place';
@@ -20,6 +20,7 @@ import Pose from './Pose';
 import type Sequence from './Sequence';
 
 export const DefaultFont = 'Noto Sans';
+export const DefaultSize = 1;
 
 export const VerseType = toStructure(`
     ${getBind((t) => t.output.verse.definition, '•')} Type(
@@ -41,7 +42,7 @@ export default class Verse extends TypeOutput {
         background: Color,
         focus: Place | undefined,
         size: number,
-        font: string | undefined = undefined,
+        font: string,
         place: Place | undefined = undefined,
         name: TextLang | string,
         entry: Pose | Sequence | undefined = undefined,
@@ -189,8 +190,8 @@ export function toVerse(value: Value): Verse | undefined {
                   Array.isArray(content) ? content : [content],
                   background,
                   focus,
-                  size,
-                  font,
+                  size ?? DefaultSize,
+                  font ?? DefaultFont,
                   place,
                   name ?? namer.getName(value),
                   enter,
@@ -217,8 +218,8 @@ export function toVerse(value: Value): Verse | undefined {
                       new Decimal(0)
                   ),
                   undefined,
-                  16,
-                  undefined,
+                  DefaultSize,
+                  DefaultFont,
                   undefined,
                   namer.getName(value),
                   undefined,

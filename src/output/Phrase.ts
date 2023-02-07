@@ -4,7 +4,7 @@ import type Color from './Color';
 import Fonts from '../native/Fonts';
 import Text from '@runtime/Text';
 import TypeOutput, { TypeOutputInputs } from './TypeOutput';
-import type { RenderContext } from './RenderContext';
+import type RenderContext from './RenderContext';
 import type Place from './Place';
 import List from '@runtime/List';
 import TextLang from './TextLang';
@@ -37,7 +37,7 @@ export default class Phrase extends TypeOutput {
     constructor(
         value: Value,
         text: TextLang[],
-        size: number,
+        size: number | undefined = undefined,
         font: string | undefined = undefined,
         place: Place | undefined = undefined,
         name: TextLang | string,
@@ -79,10 +79,10 @@ export default class Phrase extends TypeOutput {
         // 3) otherwise, the verse's font.
         const renderedFont = this.font ?? context.font;
 
-        // The size is:
-        // 1) the animated size, if there is one
+        // The size is: whatever is explicitly set, or whatever is inherited in the context.
+        // 1) the explicit
         // 2) otherwise, the phrase's size
-        const renderedSize = this.size;
+        const renderedSize = this.size ?? context.size;
 
         // Get the preferred text
         const text = this.getDescription(context.languages);

@@ -8,7 +8,7 @@
     import { preferredLanguages } from '@translation/translations';
     import { getContext, tick } from 'svelte';
     import type { Writable } from 'svelte/store';
-    import type { RenderContext } from '@output/RenderContext';
+    import type RenderContext from '@output/RenderContext';
     import TextLiteral from '@nodes/TextLiteral';
     import { reviseProject, selectedOutput } from '../../models/stores';
     import Pose from '@output/Pose';
@@ -17,6 +17,9 @@
     export let place: Place;
     export let focus: Place;
     export let context: RenderContext;
+
+    // Compute a local context based on size and font.
+    $: context = phrase.getRenderContext(context);
 
     $: editable = getContext<Writable<boolean>>('editable');
 
@@ -80,8 +83,8 @@
     tabIndex="0"
     data-id={phrase.getHTMLID()}
     style={outputToCSS(
-        phrase.font,
-        phrase.size,
+        context.font,
+        context.size,
         // No first pose because of an empty sequence? Give a default.
         phrase.rest instanceof Pose
             ? phrase.rest

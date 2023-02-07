@@ -3,7 +3,7 @@ import { TYPE_SYMBOL } from '@parser/Symbols';
 import type Value from '@runtime/Value';
 import { getBind } from '@translation/getBind';
 import Output from './Output';
-import type { RenderContext } from './RenderContext';
+import type RenderContext from './RenderContext';
 import type Decimal from 'decimal.js';
 import type Place from './Place';
 import type TypeOutput from './TypeOutput';

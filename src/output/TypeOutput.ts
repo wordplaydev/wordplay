@@ -8,7 +8,7 @@ import { TYPE_SYMBOL } from '@parser/Symbols';
 import Sequence from './Sequence';
 import TextLang from './TextLang';
 import type Pose from './Pose';
-import type { RenderContext } from './RenderContext';
+import type RenderContext from './RenderContext';
 import type Decimal from 'decimal.js';
 import Fonts, { SupportedFontsFamiliesType } from '../native/Fonts';
 import en from '@translation/translations/en';
@@ -20,7 +20,7 @@ export const TypeType = toStructure(`
 `);
 
 export const TypeOutputInputs = `
-${getBind((t) => t.output.type.size)}•#m: 1m
+${getBind((t) => t.output.type.size)}•#m|ø: ø
 ${getBind((t) => t.output.type.family)}•${SupportedFontsFamiliesType}|ø: ø
 ${getBind((t) => t.output.type.place)}•ø|Place: ø
 ${getBind((t) => t.output.type.name)}•""|ø: ø
@@ -36,7 +36,7 @@ ${getBind((t) => t.output.timing.style)}•${Object.values(en.output.easing)
 
 /** Every group has the same style information. */
 export default abstract class TypeOutput extends Output {
-    readonly size: number;
+    readonly size: number | undefined;
     readonly font: string | undefined;
     readonly place: Place | undefined;
     readonly name: TextLang;
@@ -49,7 +49,7 @@ export default abstract class TypeOutput extends Output {
 
     constructor(
         value: Value,
-        size: number,
+        size: number | undefined = undefined,
         font: string | undefined = undefined,
         place: Place | undefined = undefined,
         name: TextLang | string,
@@ -82,6 +82,10 @@ export default abstract class TypeOutput extends Output {
     abstract getGroups(): TypeOutput[];
     abstract getBackground(): Color | undefined;
     abstract getDescription(lang: LanguageCode[]): Description;
+
+    getRenderContext(context: RenderContext) {
+        return context.withFontAndSize(this.font, this.size);
+    }
 
     getHTMLID(): string {
         return `output-${this.getName()}`;
