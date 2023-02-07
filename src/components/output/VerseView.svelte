@@ -20,11 +20,15 @@
     import MousePosition from '@input/MousePosition';
     import MouseButton from '@input/MouseButton';
     import { createPlace } from '@output/Place';
-    import Stage from '@output/Stage';
-    import GroupView from './GroupView.svelte';
+    import Stage, { type OutputName } from '@output/Stage';
     import Decimal from 'decimal.js';
-    import type TypographicOutput from '@output/TypeOutput';
-    import Pose from '../../output/Pose';
+    import type TypeOutput from '@output/TypeOutput';
+    import Pose from '@output/Pose';
+    import PhraseView from './PhraseView.svelte';
+    import GroupView from './GroupView.svelte';
+    import Phrase from '@output/Phrase';
+    import Group from '@output/Group';
+    import { tick } from 'svelte';
 
     export let project: Project;
     export let verse: Verse;
@@ -43,7 +47,7 @@
     onMount(() => (mounted = true));
 
     /** The list of visible phrases */
-    let visible: TypographicOutput[] = [];
+    let exiting: Map<OutputName, { output: TypeOutput; place: Place }>;
 
     /** The verse focus that fits the content to the view*/
     let fitFocus: Place | undefined = undefined;
@@ -62,16 +66,10 @@
         if (stage !== undefined) stage.stop();
         stage = new Stage(
             project,
-            // When output exits, remove it from the list, triggering a render.
+            // When output exits, remove it from the map and triggering a render.
             (name) => {
-                const index = visible.findIndex(
-                    (phrase) => phrase.getName() === name
-                );
-                if (index >= 0)
-                    visible = [
-                        ...visible.slice(0, index),
-                        ...visible.slice(index + 1),
-                    ];
+                exiting.delete(name);
+                exiting = new Map(exiting);
             },
             // When the animating poses or sequences on stage change, update the store
             (nodes) => {
@@ -82,17 +80,22 @@
 
     /** Whenever the verse, languages, fonts, or rendered focus changes, update the rendered scene accordingly. */
     $: {
-        // Defer rendering until we have a view so that animations can be bound to DOM elements.
-        ({ visible } = stage.update(
+        const results = stage.update(
             verse,
             interactive,
-            view,
             $preferredLanguages,
             $loadedFonts,
             renderedFocus,
             viewportWidth,
             viewportHeight
-        ));
+        );
+
+        exiting = results.exiting;
+
+        // Defer rendering until we have a view so that animations can be bound to DOM elements.
+        tick().then(() => {
+            results.animate();
+        });
     }
 
     /** Decide what focus to render. Explicitly set verse focus takes priority, then the fit focus if fitting content to viewport,
@@ -352,6 +355,7 @@
         class="verse {interactive && $playing ? '' : 'inert'} {ignored
             ? 'ignored'
             : ''}"
+        data-id={verse.getHTMLID()}
         tabIndex={interactive ? 0 : null}
         style={toCSS({
             'font-family': verse.font ?? DefaultFont,
@@ -374,6 +378,7 @@
             class:changed
             style:transform={focusToTransform(viewportWidth, viewportHeight)}
         >
+            <!-- Render the verse -->
             <GroupView
                 group={verse}
                 place={new Place(
@@ -386,6 +391,24 @@
                 focus={renderedFocus}
                 context={stage.getRenderContext()}
             />
+            <!-- Render exiting nodes -->
+            {#each Array.from(exiting.entries()) as [_, { output, place }] (output.getName())}
+                {#if output instanceof Phrase}
+                    <PhraseView
+                        phrase={output}
+                        {place}
+                        focus={renderedFocus}
+                        context={stage.getRenderContext()}
+                    />
+                {:else if output instanceof Group}
+                    <GroupView
+                        group={output}
+                        {place}
+                        focus={renderedFocus}
+                        context={stage.getRenderContext()}
+                    />
+                {/if}
+            {/each}
         </div>
     </div>
 {/if}

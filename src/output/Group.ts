@@ -13,6 +13,7 @@ import TypeOutput, { TypeOutputInputs } from './TypeOutput';
 import type LanguageCode from '../translation/LanguageCode';
 import { getStyle, toArrangement, toTypeOutputList } from './toTypeOutput';
 import { TYPE_SYMBOL } from '../parser/Symbols';
+import type { NameGenerator } from './Verse';
 
 export const GroupType = toStructure(`
     ${getBind((t) => t.output.group.definition, TYPE_SYMBOL)} Type(
@@ -32,7 +33,7 @@ export default class Group extends TypeOutput {
         size: number,
         font: string | undefined = undefined,
         place: Place | undefined = undefined,
-        name: TextLang | undefined = undefined,
+        name: TextLang | string,
         enter: Pose | Sequence | undefined = undefined,
         rest: Pose | Sequence,
         move: Pose | Sequence | undefined = undefined,
@@ -83,11 +84,14 @@ export default class Group extends TypeOutput {
     }
 }
 
-export function toGroup(value: Value | undefined): Group | undefined {
+export function toGroup(
+    value: Value | undefined,
+    namer: NameGenerator
+): Group | undefined {
     if (value === undefined) return undefined;
 
     const arrangement = toArrangement(value.resolve('arrangement'));
-    const content = toTypeOutputList(value.resolve('content'));
+    const content = toTypeOutputList(value.resolve('content'), namer);
 
     const {
         size,
@@ -114,7 +118,7 @@ export function toGroup(value: Value | undefined): Group | undefined {
               size,
               font,
               place,
-              name,
+              name ?? namer.getName(value),
               enter,
               rest,
               move,

@@ -8,7 +8,6 @@
     import type TypographicOutput from '@output/TypeOutput';
     import Phrase from '@output/Phrase';
     import PhraseView from './PhraseView.svelte';
-    import type { OutputName } from '@output/Stage';
 
     export let group: TypographicOutput;
     export let place: Place;
@@ -25,19 +24,6 @@
         .filter(([, place]) => place.z.sub(focus.z).greaterThan(0))
         .sort(([, a], [, b]) => b.z.sub(a.z).toNumber());
 
-    /** Number visible phrases, giving them unique IDs to key off of. */
-    let keys: Map<TypographicOutput, OutputName>;
-    $: {
-        keys = new Map();
-        const phraseCounts = new Map<OutputName, number>();
-        for (const [group] of visible) {
-            const name = group.getName();
-            const count = (phraseCounts.get(name) ?? 0) + 1;
-            keys.set(group, `${name}-${count}`);
-            phraseCounts.set(name, count + 1);
-        }
-    }
-
     // When rendering the children, we need to convert the focus coordinate we were given
     // into this view's coordinate system so that the perspective rendering is in the right coordinates.
     $: offsetFocus = focus.offset(place);
@@ -45,6 +31,7 @@
 
 <div
     class="group {group.constructor.name}"
+    data-id={group.getHTMLID()}
     style={outputToCSS(
         undefined, //group.font,
         undefined, //group.size,
@@ -61,7 +48,7 @@
     )}
 >
     <div class="children">
-        {#each visible as [child, childPlace] (keys.get(child) ?? child.getName())}
+        {#each visible as [child, childPlace] (child.getName())}
             {#if child instanceof Phrase}
                 <PhraseView
                     phrase={child}

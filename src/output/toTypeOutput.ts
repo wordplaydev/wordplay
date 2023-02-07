@@ -12,33 +12,37 @@ import type TextLang from './TextLang';
 import type Place from './Place';
 import type Pose from './Pose';
 import type Sequence from './Sequence';
-import { toDecimal } from './Verse';
+import { NameGenerator, toDecimal } from './Verse';
 import { toPlace } from './Place';
 import { toPose } from './Pose';
 import { toSequence } from './Sequence';
 import Measurement from '../runtime/Measurement';
 import Text from '../runtime/Text';
 
-export function toTypeOutput(value: Value | undefined): TypeOutput | undefined {
+export function toTypeOutput(
+    value: Value | undefined,
+    namer: NameGenerator
+): TypeOutput | undefined {
     if (!(value instanceof Structure)) return undefined;
     switch (value.type) {
         case PhraseType:
-            return toPhrase(value);
+            return toPhrase(value, namer.getName(value));
         case GroupType:
-            return toGroup(value);
+            return toGroup(value, namer);
     }
     return undefined;
 }
 
 export function toTypeOutputList(
-    value: Value | undefined
+    value: Value | undefined,
+    namer: NameGenerator
 ): TypeOutput[] | undefined {
     if (value === undefined || !(value instanceof List)) return undefined;
 
     const phrases: TypeOutput[] = [];
     for (const val of value.values) {
         if (!(val instanceof Structure)) return undefined;
-        const phrase = toTypeOutput(val);
+        const phrase = toTypeOutput(val, namer);
         if (phrase === undefined) return undefined;
         phrases.push(phrase);
     }

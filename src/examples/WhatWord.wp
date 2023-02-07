@@ -35,6 +35,24 @@ board/en,🔤/😀: 💬(
   2m
 )
 
+sway: { 
+  0%: Pose(offset: Place(rotation: -2°))
+  50%: Pose(offset: Place(rotation: 2°)) 
+  100%: Pose(offset: Place(rotation: -2°))
+} 
+
+bounce: {
+  0%: Pose(scale: 1 offset: Place(y: 0m))
+  10%: Pose(scale: 1.1 offset: Place(y: -2m))
+  30%: Pose(scale: .9 offset: Place(y: -2m))
+  50%: Pose(scale: 1 offset: Place(y: 0m))
+  57%: Pose(scale: 1 offset: Place(y: -.1m))
+  64%: Pose(scale: 1 offset: Place(y: 0m))
+  100%: Pose(scale: 1 offset: Place(y: 0m))
+}
+
+fade: Pose(opacity: 0)
+
 screen: 
   state.status = "start" ? 
     Group(⬇() [
@@ -42,46 +60,28 @@ screen:
         3m 
         place:📍(0m 0m -1m 2°) 
         enter: Pose(opacity: 0%)
-        rest: Sequence(
-          { 
-              0%: Pose(offset: Place(rotation: -5°))
-              50%: Pose(offset: Place(rotation: 5°)) 
-              100%: Pose(offset: Place(rotation: -5°))
-          } 
-          1s
-        )
-        exit: Pose(opacity: 0)
+        rest: Sequence(sway 1s)
       )
       💬("Press ***space*** to begin")
-    ])
+    ] 
+    exit: fade
+  )
   state.status = "lost" ? 
     Group(⬇() [
       board 
       💬("You lost. Press **space** to play again." enter: Pose(offset: Place(rotation: 0°)) rest: Pose(offset: Place(rotation: -5°)))
-    ])
+    ] exit: fade)
   state.status = "won" ?
     Group(⬇() [
-        board.rest:Sequence({
-          0%: Pose(scale: 1 offset: Place(y: 0m))
-          10%: Pose(scale: 1.1 offset: Place(y: -2m))
-          30%: Pose(scale: .9 offset: Place(y: -2m))
-          50%: Pose(scale: 1 offset: Place(y: 0m))
-          57%: Pose(scale: 1 offset: Place(y: -.1m))
-          64%: Pose(scale: 1 offset: Place(y: 0m))
-          100%: Pose(scale: 1 offset: Place(y: 0m))
-        } 1s) 
+        board.rest:Sequence(bounce 1s) 
         💬("You won, nice job! Press space to play again.")
-    ])
+    ] exit: fade)
     Group(⬇() [
       board 
       💬(state.guesses.length() = 0 ? "Type a letter to guess" "Guesses: \state.guesses.join(' ')\")
       💬(
         "\state.guessesRemaining→''\ remaining"
-        rest: Sequence({
-          0%: Pose(offset: Place(rotation: 2°))
-          50%: Pose(offset: Place(rotation: -2°))
-          100%: Pose(offset: Place(rotation: 2°))
-        } (state.guessesRemaining ÷ 5) ·1s)
+        rest: Sequence(sway (state.guessesRemaining ÷ 5) ·1s)
       )
     ])
 

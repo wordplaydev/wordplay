@@ -29,9 +29,6 @@ export default class Stage {
     /** True if the stage is animated and interactive */
     live: boolean = true;
 
-    /** The current HTML element in which the stage is being rendered */
-    element: HTMLElement | null = null;
-
     /** The current languages being displayed */
     languages: LanguageCode[] = [];
 
@@ -57,9 +54,6 @@ export default class Stage {
     /** Currently and previously present groups. */
     present = new Map<OutputName, TypeOutput>();
     previouslyPresent = new Map<OutputName, TypeOutput>();
-
-    /** Subset of groups that are visible based on the verse focus. */
-    visible: TypeOutput[] = [];
 
     /** The active animations, responsible for tracking transitions and animations on named output. */
     readonly animations = new Map<OutputName, OutputAnimation>();
@@ -96,7 +90,6 @@ export default class Stage {
     update(
         verse: Verse,
         live: boolean,
-        element: HTMLElement | null,
         languages: LanguageCode[],
         fonts: Set<string>,
         focus: Place,
@@ -105,7 +98,6 @@ export default class Stage {
     ) {
         this.verse = verse;
         this.live = live;
-        this.element = element;
         this.languages = languages;
         this.fontsLoaded = fonts;
         this.focus = focus;
@@ -126,7 +118,6 @@ export default class Stage {
 
         // Clear the present and visible lists.
         this.present = new Map();
-        this.visible = [];
 
         // Reset the parents.
         this.parentsByGroup.clear();
@@ -177,20 +168,26 @@ export default class Stage {
             newPriorLocalPlaces.set(name, place);
         }
 
+        // A mapping from exiting groups to where they previously were.
+        const exiting = new Map<
+            OutputName,
+            { output: TypeOutput; place: Place }
+        >();
+
         // Now that we have a list of everyone present, remove everyone that was present that is no longer, and note that they exited.
-        for (const [name, group] of this.previouslyPresent) {
+        for (const [name, output] of this.previouslyPresent) {
             if (!present.has(name)) {
                 // If the phrase has an exit squence, then add it to the phrases to keep rendering
-                // and remember it's current place, so we can render it.
-                if (group.exit) {
-                    exited.set(name, group);
+                // and remember it's current global place, so we can render it there.
+                if (output.exit) {
+                    exited.set(name, output);
                     const place = this.priorGlobalPlaces.get(name);
                     if (place) {
-                        global.set(group, place);
-                        // We add the exiting output to the visible output so that it stays rendered until the exit is done.
+                        // We add the exiting output to the list so that the VerseView can render it until it's animation is done.
                         if (place.z.sub(this.focus.z).greaterThan(0)) {
-                            this.visible.push(group);
-                            global.set(group, place);
+                            exiting.set(output.getName(), { output, place });
+                            global.set(output, place);
+                            this.parentsByGroup.set(output, [this.verse]);
                         }
                     }
                 }
@@ -203,14 +200,14 @@ export default class Stage {
         this.globalPlaces = global;
         this.localPlaces = local;
 
-        // Notify the animator of present, entered, moved, and exited output so that it
-        // can decide what to animate. We wait until we have an element so the DOM elements
-        // are available for animating.
-        if (this.live) this.animate(present, entered, moved, exited);
-
         // Return the layout for rendering.
         return {
-            visible: this.visible,
+            exiting,
+            // We pass back an animation function so that the view can start animating once it's refreshed
+            // DOM elements. This way the animation handlers can assume DOM elements are ready for animation.
+            animate: () => {
+                if (this.live) this.animate(present, entered, moved, exited);
+            },
         };
     }
 
@@ -230,14 +227,14 @@ export default class Stage {
     ): Set<OutputName> {
         // Update the phrase of all present and exited animations, potentially
         // ending and starting animations.
-        for (const [name, group] of present) {
+        for (const [name, output] of present) {
             const animation = this.animations.get(name);
             if (animation) {
-                animation.update(group, entered.has(name));
-            } else if (group.isAnimated()) {
+                animation.update(output, entered.has(name));
+            } else if (output.isAnimated()) {
                 const animation = new OutputAnimation(
                     this,
-                    group,
+                    output,
                     entered.has(name)
                 );
                 this.animations.set(name, animation);
@@ -252,13 +249,15 @@ export default class Stage {
             if (animation) animation.move(change.prior, change.present);
         }
 
-        // Trigger exits, keeping track of immediate exits.
+        // Trigger exits for animated output, keeping track of immediate exits.
         const done = new Set<OutputName>();
         for (const [name] of exited) {
             const animation = this.animations.get(name);
+            // If we have an animation record, trigger exit
             if (animation) {
                 animation.exit();
-                if (animation.done()) done.add(name);
+                // If it's already done (for a variety of reasons), end it.
+                if (animation.done()) this.ended(animation);
             }
         }
         return done;
@@ -266,10 +265,6 @@ export default class Stage {
 
     stop() {
         this.animations.forEach((animation) => animation.end());
-    }
-
-    getElement() {
-        return this.element;
     }
 
     ended(animation: OutputAnimation) {

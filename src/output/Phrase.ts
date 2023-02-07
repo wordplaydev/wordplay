@@ -40,7 +40,7 @@ export default class Phrase extends TypeOutput {
         size: number,
         font: string | undefined = undefined,
         place: Place | undefined = undefined,
-        name: TextLang | undefined = undefined,
+        name: TextLang | string,
         entry: Pose | Sequence | undefined = undefined,
         resting: Pose | Sequence,
         move: Pose | Sequence | undefined = undefined,
@@ -171,7 +171,10 @@ export function toFont(value: Value | undefined): string | undefined {
     return value instanceof Text ? value.text : undefined;
 }
 
-export function toPhrase(value: Value | undefined): Phrase | undefined {
+export function toPhrase(
+    value: Value | undefined,
+    defaultName: string
+): Phrase | undefined {
     if (value === undefined) return undefined;
 
     let texts = toTextLang(value.resolve('text'));
@@ -196,7 +199,7 @@ export function toPhrase(value: Value | undefined): Phrase | undefined {
               size,
               font,
               place,
-              name,
+              name ?? defaultName,
               enter,
               rest,
               move,

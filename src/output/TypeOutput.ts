@@ -6,7 +6,7 @@ import type Place from './Place';
 import { getBind } from '@translation/getBind';
 import { TYPE_SYMBOL } from '@parser/Symbols';
 import Sequence from './Sequence';
-import type TextLang from './TextLang';
+import TextLang from './TextLang';
 import type Pose from './Pose';
 import type { RenderContext } from './RenderContext';
 import type Decimal from 'decimal.js';
@@ -39,7 +39,7 @@ export default abstract class TypeOutput extends Output {
     readonly size: number;
     readonly font: string | undefined;
     readonly place: Place | undefined;
-    readonly name: TextLang | undefined;
+    readonly name: TextLang;
     readonly enter: Pose | Sequence | undefined;
     readonly rest: Pose | Sequence;
     readonly move: Pose | Sequence | undefined;
@@ -52,7 +52,7 @@ export default abstract class TypeOutput extends Output {
         size: number,
         font: string | undefined = undefined,
         place: Place | undefined = undefined,
-        name: TextLang | undefined = undefined,
+        name: TextLang | string,
         entry: Pose | Sequence | undefined = undefined,
         resting: Pose | Sequence,
         move: Pose | Sequence | undefined = undefined,
@@ -65,7 +65,7 @@ export default abstract class TypeOutput extends Output {
         this.size = size;
         this.font = font;
         this.place = place;
-        this.name = name;
+        this.name = name instanceof TextLang ? name : new TextLang(value, name);
         this.enter = entry;
         this.rest = resting;
         this.move = move;
@@ -91,7 +91,7 @@ export default abstract class TypeOutput extends Output {
      * By default, a group's name for the purpose of animations is the ID of the node that created it.
      * */
     getName(): string {
-        return this.name?.text ?? Number(this.value.creator.id).toString();
+        return this.name.text;
     }
 
     isAnimated() {

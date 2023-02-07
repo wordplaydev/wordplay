@@ -326,11 +326,8 @@ export default class OutputAnimation {
         // Don't start any new animations if we're done.
         if (this.state === State.Done) return;
 
-        // Update to the requested state.
-        this.state = state;
-        OutputAnimation.log(
-            `${this.output.getDescription(['en'])} => ${this.state}`
-        );
+        // Don't start any animations if there's no verse.
+        if (this.stage.verse === undefined) return;
 
         // Cancel any current animation.
         if (this.animation) {
@@ -343,6 +340,14 @@ export default class OutputAnimation {
             this.stage.endingSequence(this.sequence);
             this.sequence = undefined;
         }
+
+        // Update to the requested state.
+        this.state = state;
+        OutputAnimation.log(
+            `${this.output.getDescription([
+                'en',
+            ])} (${this.output.getName()}) => ${this.state}`
+        );
 
         // Compute the total duration so we can generate offsets for the Web Animation API
         // (and decide whether to animate at all)
@@ -358,117 +363,122 @@ export default class OutputAnimation {
         }
 
         // Use the sequence to create an animation with the Web Animation API.
-        const verse = this.stage.getElement();
+        const verse = document.querySelector(
+            `[data-id="${this.stage.verse.getHTMLID()}"]`
+        );
         // Find the element corresponding to the phrase.
         const element = verse?.querySelector(
             `[data-id="${this.output.getHTMLID()}"]`
         );
         // If there's DOM element and this isn't exiting, start an animation.
         // (We have to defer for exits because the output needs to render the new exiting output first.)
-        if (element instanceof HTMLElement) {
-            // Convert the transitions to WebAnimation API keyframes.
-            let currentOffset = 0;
-            const keyframes = transitions.map((transition) => {
-                const keyframe: Keyframe = {};
+        if (!(element instanceof HTMLElement)) {
+            console.error(
+                `Unable to find element '${this.output.getHTMLID()}', created by '${this.output.value.creator.toWordplay()}' for animation; likely defect.`
+            );
+            this.end();
+            return;
+        }
 
-                if (transition.pose.color !== undefined)
-                    keyframe.color = transition.pose.color.toCSS();
-                if (transition.pose.opacity !== undefined)
-                    keyframe.opacity = transition.pose.opacity;
+        // Convert the transitions to WebAnimation API keyframes.
+        let currentOffset = 0;
+        const keyframes = transitions.map((transition) => {
+            const keyframe: Keyframe = {};
 
-                // Where should we position this? Use the transition's place if it
-                // specifies one and the current place if not.
-                const localPlace =
-                    transition.place ?? this.stage.localPlaces.get(this.output);
+            if (transition.pose.color !== undefined)
+                keyframe.color = transition.pose.color.toCSS();
+            if (transition.pose.opacity !== undefined)
+                keyframe.opacity = transition.pose.opacity;
 
-                // Compute the focus place in this phrase's parent coordinate system.
-                const parents = this.stage.parentsByGroup.get(this.output);
-                let offsetFocus: Place | undefined = this.stage.focus;
-                if (parents && offsetFocus) {
-                    for (const parent of parents) {
-                        if (!(parent instanceof Verse)) {
-                            const parentPlace =
-                                this.stage.localPlaces.get(parent);
-                            if (parentPlace)
-                                offsetFocus = offsetFocus.offset(parentPlace);
-                            else {
-                                offsetFocus = undefined;
-                                break;
-                            }
+            // Where should we position this? Use the transition's place if it
+            // specifies one and the current place if not.
+            const localPlace =
+                transition.place ?? this.stage.localPlaces.get(this.output);
+
+            // Compute the focus place in this phrase's parent coordinate system.
+            const parents = this.stage.parentsByGroup.get(this.output);
+            let offsetFocus: Place | undefined = this.stage.focus;
+            if (parents && offsetFocus) {
+                for (const parent of parents) {
+                    if (!(parent instanceof Verse)) {
+                        const parentPlace = this.stage.localPlaces.get(parent);
+                        if (parentPlace)
+                            offsetFocus = offsetFocus.offset(parentPlace);
+                        else {
+                            offsetFocus = undefined;
+                            break;
                         }
                     }
-                } else offsetFocus === undefined;
-
-                // Convert the rest to a transform that respects the rendering rules.
-                // All of this logic should mirror what GroupView and PhraseView do.
-                if (localPlace && offsetFocus) {
-                    keyframe.transform = toOutputTransform(
-                        transition.pose,
-                        localPlace,
-                        // Need to convert the global focus place this phrase's parent coordinate system.
-                        offsetFocus,
-                        {
-                            width:
-                                this.output
-                                    .getWidth(this.stage.getRenderContext())
-                                    .toNumber() * PX_PER_METER,
-                            ascent:
-                                this.output
-                                    .getHeight(this.stage.getRenderContext())
-                                    .toNumber() * PX_PER_METER,
-                        },
-                        this.output instanceof Phrase
-                    );
                 }
+            } else {
+                offsetFocus = undefined;
+            }
 
-                // What size should we transition to? Set if specified by the transition.
-                if (transition.size !== undefined)
-                    keyframe.fontSize = sizeToPx(transition.size);
+            // Convert the rest to a transform that respects the rendering rules.
+            // All of this logic should mirror what GroupView and PhraseView do.
+            if (localPlace && offsetFocus) {
+                keyframe.transform = toOutputTransform(
+                    transition.pose,
+                    localPlace,
+                    // Need to convert the global focus place this phrase's parent coordinate system.
+                    offsetFocus,
+                    {
+                        width:
+                            this.output
+                                .getWidth(this.stage.getRenderContext())
+                                .toNumber() * PX_PER_METER,
+                        ascent:
+                            this.output
+                                .getHeight(this.stage.getRenderContext())
+                                .toNumber() * PX_PER_METER,
+                    },
+                    this.output instanceof Phrase
+                );
+            }
 
-                // Eep, side effect in a higher order function!
-                currentOffset += transition.duration / totalDuration;
+            // What size should we transition to? Set if specified by the transition.
+            if (transition.size !== undefined)
+                keyframe.fontSize = sizeToPx(transition.size);
 
-                keyframe.offset = Math.max(0, Math.min(1, currentOffset));
-                keyframe.easing = styleToCSSEasing(transition.style);
+            // Eep, side effect in a higher order function!
+            currentOffset += transition.duration / totalDuration;
 
-                return keyframe;
-            });
+            keyframe.offset = Math.max(0, Math.min(1, currentOffset));
+            keyframe.easing = styleToCSSEasing(transition.style);
 
-            OutputAnimation.log(
-                `Starting ${totalDuration}s ${this.state} animation...`
-            );
-            OutputAnimation.log(keyframes);
+            return keyframe;
+        });
 
-            // Remember the sequence we're animating so we can highlight elsewhere in the UI.
-            this.sequence = transitions;
+        OutputAnimation.log(
+            `Starting ${totalDuration}s ${this.state} animation...`
+        );
+        OutputAnimation.log(keyframes);
 
-            // Notify the stage that we're starting the sequence.
-            this.stage.startingSequence(transitions);
+        // Remember the sequence we're animating so we can highlight elsewhere in the UI.
+        this.sequence = transitions;
 
-            // Start the Web Animation API animation...
-            this.animation = element.animate(keyframes, {
-                // Wordplay durations are seconds
-                duration: totalDuration * 1000,
-            });
+        // Notify the stage that we're starting the sequence.
+        this.stage.startingSequence(transitions);
 
-            // When the animation is done, update the animation state.
-            this.animation.onfinish = () => this.finish();
-        }
-        // Otherwise, ask for this transition in the next frame, after the DOM element has arrived.
-        else {
-            window.requestAnimationFrame(() => {
-                if (this.state !== State.Done) this.start(state, transitions);
-            });
-        }
+        // Start the Web Animation API animation...
+        this.animation = element.animate(keyframes, {
+            // Wordplay durations are seconds
+            duration: totalDuration * 1000,
+        });
+
+        // When the animation is done, update the animation state.
+        this.animation.onfinish = () => this.finish();
     }
 
     finish() {
+        OutputAnimation.log(`Finishing ${this.output.getName()}`);
+
         // If there's a sequence animating, notify the stage we're ending it.
         if (this.sequence) this.stage.endingSequence(this.sequence);
 
         // Reset the current sequence.
         this.sequence = undefined;
-        // Did entering, still, or move finish? Do still again.
+        // Did entering, still, or move finish? Do rest again.
         if (
             this.state === State.Entering ||
             this.state === State.Rest ||

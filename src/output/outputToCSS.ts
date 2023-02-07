@@ -103,6 +103,7 @@ export function toOutputTransform(
     // Get the z scale using the z place and it's offset.
     const perspectiveScale = zScale(place.z.add(zOffset), focus.z);
 
+    // When computing the center, account for scale
     const centerXOffset = metrics.width / 2;
     const centerYOffset = metrics.ascent / 2;
 

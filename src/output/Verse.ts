@@ -43,7 +43,7 @@ export default class Verse extends TypeOutput {
         size: number,
         font: string | undefined = undefined,
         place: Place | undefined = undefined,
-        name: TextLang | undefined = undefined,
+        name: TextLang | string,
         entry: Pose | Sequence | undefined = undefined,
         rest: Pose | Sequence,
         move: Pose | Sequence | undefined = undefined,
@@ -141,15 +141,32 @@ export default class Verse extends TypeOutput {
     }
 }
 
+export class NameGenerator {
+    /** Number visible phrases, giving them unique IDs to key off of. */
+    readonly counter = new Map<number, number>();
+
+    constructor() {}
+
+    getName(value: Value) {
+        const nodeID = value.creator.id;
+        const count = (this.counter.get(nodeID) ?? 0) + 1;
+        this.counter.set(nodeID, count);
+        return `${nodeID}-${count}`;
+    }
+}
+
 export function toVerse(value: Value): Verse | undefined {
     if (!(value instanceof Structure)) return undefined;
+
+    // Create a name generator to guarantee unique default names for all TypeOutput.
+    const namer = new NameGenerator();
 
     if (value.type === VerseType) {
         const possibleGroups = value.resolve('content');
         const content =
             possibleGroups instanceof List
-                ? toTypeOutputList(possibleGroups)
-                : toTypeOutput(possibleGroups);
+                ? toTypeOutputList(possibleGroups, namer)
+                : toTypeOutput(possibleGroups, namer);
         const background = toColor(value.resolve('background'));
         const focus = toPlace(value.resolve('focus'));
 
@@ -175,7 +192,7 @@ export function toVerse(value: Value): Verse | undefined {
                   size,
                   font,
                   place,
-                  name,
+                  name ?? namer.getName(value),
                   enter,
                   rest ?? new Pose(value),
                   move,
@@ -187,7 +204,7 @@ export function toVerse(value: Value): Verse | undefined {
     }
     // Try converting it to a group and wrapping it in a Verse.
     else {
-        const type = toTypeOutput(value);
+        const type = toTypeOutput(value, namer);
         return type === undefined
             ? undefined
             : new Verse(
@@ -203,7 +220,7 @@ export function toVerse(value: Value): Verse | undefined {
                   16,
                   undefined,
                   undefined,
-                  undefined,
+                  namer.getName(value),
                   undefined,
                   new Pose(value),
                   undefined,
