@@ -1,62 +1,73 @@
 import Structure from '@runtime/Structure';
 import type Value from '@runtime/Value';
-import Group from './Group';
+import TypeOutput, { TypeOutputInputs } from './TypeOutput';
 import type { RenderContext } from './RenderContext';
-import Phrase, { toFont } from './Phrase';
-import Fonts, { SupportedFontsFamiliesType } from '../native/Fonts';
+import Phrase from './Phrase';
 import Color from './Color';
 import Place, { toPlace } from './Place';
 import toStructure from '../native/toStructure';
 import Measurement from '@runtime/Measurement';
 import Decimal from 'decimal.js';
-import { toGroup, toGroups } from './toGroups';
 import { toColor } from './Color';
 import List from '@runtime/List';
 import type LanguageCode from '@translation/LanguageCode';
 import { getPreferredTranslation } from '@translation/getPreferredTranslation';
 import { getBind } from '@translation/getBind';
 import Bool from '../runtime/Bool';
+import { getStyle, toTypeOutput, toTypeOutputList } from './toTypeOutput';
+import type TextLang from './TextLang';
+import Pose from './Pose';
+import type Sequence from './Sequence';
+
+export const DefaultFont = 'Noto Sans';
 
 export const VerseType = toStructure(`
-    ${getBind((t) => t.output.verse.definition, '•')} Group(
-        ${getBind((t) => t.output.verse.groups)}•Group|[Group]
-        ${getBind(
-            (t) => t.output.verse.font
-        )}•${SupportedFontsFamiliesType}: "Noto Sans"
-        ${getBind((t) => t.output.verse.foreground)}•Color: Color(0 0 0°)
+    ${getBind((t) => t.output.verse.definition, '•')} Type(
+        ${getBind((t) => t.output.verse.content)}•Type|[Type]
         ${getBind((t) => t.output.verse.background)}•Color: Color(100 0 0°)
         ${getBind((t) => t.output.verse.focus)}•Place|ø: ø
-        ${getBind((t) => t.output.verse.tilt)}•#°: 0°
+        ${TypeOutputInputs}
     )
 `);
 
-export default class Verse extends Group {
-    readonly groups: Group[];
-    readonly font: string;
+export default class Verse extends TypeOutput {
+    readonly content: TypeOutput[];
     readonly background: Color;
-    readonly foreground: Color;
     readonly focus: Place | undefined;
-    readonly tilt: Decimal;
 
     constructor(
         value: Value,
-        groups: Group[],
-        font: string,
+        content: TypeOutput[],
         background: Color,
-        foreground: Color,
         focus: Place | undefined,
-        tilt: Decimal
+        size: number,
+        font: string | undefined = undefined,
+        place: Place | undefined = undefined,
+        name: TextLang | undefined = undefined,
+        entry: Pose | Sequence | undefined = undefined,
+        rest: Pose | Sequence,
+        move: Pose | Sequence | undefined = undefined,
+        exit: Pose | Sequence | undefined = undefined,
+        duration: number = 0,
+        style: string | undefined = 'zippy'
     ) {
-        super(value);
+        super(
+            value,
+            size,
+            font,
+            place,
+            name,
+            entry,
+            rest,
+            move,
+            exit,
+            duration,
+            style
+        );
 
-        this.groups = groups;
-        this.font = font;
+        this.content = content;
         this.background = background;
-        this.foreground = foreground;
         this.focus = focus;
-        this.tilt = tilt;
-
-        Fonts.loadFamily(this.font);
     }
 
     getBounds(context: RenderContext) {
@@ -99,15 +110,15 @@ export default class Verse extends Group {
         return new Decimal(this.getBounds(context).height);
     }
 
-    getGroups(): Group[] {
-        return this.groups;
+    getGroups(): TypeOutput[] {
+        return this.content;
     }
 
     /**
      * A Verse is a Group that lays out a list of phrases according to their specified places,
      * or if the phrases */
-    getPlaces(context: RenderContext): [Group, Place][] {
-        return this.groups.map((group) => [
+    getPlaces(context: RenderContext): [TypeOutput, Place][] {
+        return this.content.map((group) => [
             group,
             group instanceof Phrase && group.place
                 ? group.place
@@ -134,51 +145,71 @@ export function toVerse(value: Value): Verse | undefined {
     if (!(value instanceof Structure)) return undefined;
 
     if (value.type === VerseType) {
-        const possibleGroups = value.resolve('groups');
-        const group =
+        const possibleGroups = value.resolve('content');
+        const content =
             possibleGroups instanceof List
-                ? toGroups(possibleGroups)
-                : toGroup(possibleGroups);
-        const font = toFont(value.resolve('font'));
+                ? toTypeOutputList(possibleGroups)
+                : toTypeOutput(possibleGroups);
         const background = toColor(value.resolve('background'));
-        const foreground = toColor(value.resolve('foreground'));
         const focus = toPlace(value.resolve('focus'));
-        const tilt = toDecimal(value.resolve('tilt'));
-        return group && font && background && foreground && tilt
+
+        const {
+            size,
+            font,
+            place,
+            name,
+            rest,
+            enter,
+            move,
+            exit,
+            duration,
+            style,
+        } = getStyle(value);
+
+        return content && background && duration && style
             ? new Verse(
                   value,
-                  Array.isArray(group) ? group : [group],
-                  font,
+                  Array.isArray(content) ? content : [content],
                   background,
-                  foreground,
                   focus,
-                  tilt
+                  size,
+                  font,
+                  place,
+                  name,
+                  enter,
+                  rest ?? new Pose(value),
+                  move,
+                  exit,
+                  duration,
+                  style
               )
             : undefined;
     }
     // Try converting it to a group and wrapping it in a Verse.
     else {
-        const group = toGroup(value);
-        return group === undefined
+        const type = toTypeOutput(value);
+        return type === undefined
             ? undefined
             : new Verse(
                   value,
-                  [group],
-                  'Noto Sans',
+                  [type],
                   new Color(
                       value,
                       new Decimal(100),
                       new Decimal(0),
                       new Decimal(0)
                   ),
-                  new Color(
-                      value,
-                      new Decimal(0),
-                      new Decimal(0),
-                      new Decimal(0)
-                  ),
                   undefined,
-                  new Decimal(0)
+                  16,
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                  new Pose(value),
+                  undefined,
+                  undefined,
+                  0,
+                  'zippy'
               );
     }
 }

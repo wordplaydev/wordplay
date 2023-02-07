@@ -1701,12 +1701,8 @@ const en: Translation = {
         },
     },
     output: {
-        group: {
-            definition: { doc: WRITE_DOC, name: 'Group' },
-        },
-        phrase: {
-            definition: { doc: WRITE_DOC, name: ['💬', 'Phrase'] },
-            text: { doc: WRITE_DOC, name: 'text' },
+        type: {
+            definition: { doc: WRITE_DOC, name: 'Type' },
             size: { doc: WRITE_DOC, name: 'size' },
             family: { doc: WRITE_DOC, name: 'font' },
             place: { doc: WRITE_DOC, name: 'place' },
@@ -1716,6 +1712,18 @@ const en: Translation = {
             rest: { doc: WRITE_DOC, name: 'rest' },
             move: { doc: WRITE_DOC, name: 'move' },
             exit: { doc: WRITE_DOC, name: 'exit' },
+        },
+        group: {
+            definition: { doc: WRITE_DOC, name: ['🔳', 'Group'] },
+            content: { doc: WRITE_DOC, name: 'content' },
+            arrangement: { doc: WRITE_DOC, name: 'arrangement' },
+        },
+        phrase: {
+            definition: { doc: WRITE_DOC, name: ['💬', 'Phrase'] },
+            text: { doc: WRITE_DOC, name: 'text' },
+        },
+        arrangement: {
+            definition: { doc: WRITE_DOC, name: ['⠿', 'Arrangement'] },
         },
         pose: {
             definition: { doc: WRITE_DOC, name: ['🤪', 'Pose'] },
@@ -1755,22 +1763,19 @@ const en: Translation = {
         row: {
             definition: { doc: WRITE_DOC, name: ['Row'] },
             description: WRITE_DOC,
-            phrases: { doc: WRITE_DOC, name: 'phrases' },
+            padding: { doc: WRITE_DOC, name: 'padding' },
         },
         stack: {
             definition: { doc: WRITE_DOC, name: ['⬇', 'Stack'] },
             description: WRITE_DOC,
-            phrases: { doc: WRITE_DOC, name: 'phrases' },
+            padding: { doc: WRITE_DOC, name: 'padding' },
         },
         verse: {
             definition: { doc: WRITE_DOC, name: ['🌎', '🌍', '🌏', 'Verse'] },
             description: WRITE_DOC,
-            groups: { doc: WRITE_DOC, name: 'groups' },
-            font: { doc: WRITE_DOC, name: 'font' },
-            foreground: { doc: WRITE_DOC, name: 'foreground' },
+            content: { doc: WRITE_DOC, name: 'content' },
             background: { doc: WRITE_DOC, name: 'background' },
             focus: { doc: WRITE_DOC, name: 'focus' },
-            tilt: { doc: WRITE_DOC, name: 'tilt' },
         },
         easing: {
             straight: 'straight',

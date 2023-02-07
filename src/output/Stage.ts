@@ -1,7 +1,6 @@
 import type Project from '../models/Project';
 import type LanguageCode from '../translation/LanguageCode';
-import type Group from './Group';
-import Phrase from './Phrase';
+import type TypeOutput from './TypeOutput';
 import type Place from './Place';
 import { createPlace } from './Place';
 import type { RenderContext } from './RenderContext';
@@ -9,6 +8,7 @@ import type Verse from './Verse';
 import OutputAnimation from './OutputAnimation';
 import type Transition from './Transition';
 import type Node from '@nodes/Node';
+import { DefaultFont } from './Verse';
 
 export type OutputName = string;
 
@@ -46,15 +46,20 @@ export default class Stage {
     focus: Place;
 
     /** The previous and current places where groups are at */
-    places = new Map<Group, Place>();
-    priorPlaces = new Map<OutputName, Place>();
+    globalPlaces = new Map<TypeOutput, Place>();
+    localPlaces = new Map<TypeOutput, Place>();
+    priorGlobalPlaces = new Map<OutputName, Place>();
+    priorLocalPlaces = new Map<OutputName, Place>();
+
+    /** The parents of groups */
+    parentsByGroup = new Map<TypeOutput, TypeOutput[]>();
 
     /** Currently and previously present groups. */
-    present = new Map<OutputName, Phrase>();
-    previouslyPresent = new Map<OutputName, Phrase>();
+    present = new Map<OutputName, TypeOutput>();
+    previouslyPresent = new Map<OutputName, TypeOutput>();
 
     /** Subset of groups that are visible based on the verse focus. */
-    visible: Phrase[] = [];
+    visible: TypeOutput[] = [];
 
     /** The active animations, responsible for tracking transitions and animations on named output. */
     readonly animations = new Map<OutputName, OutputAnimation>();
@@ -108,13 +113,13 @@ export default class Stage {
         this.viewportHeight = height;
 
         // Create sets of who entered, exited, and present output by their name.
-        const entered = new Map<OutputName, Phrase>();
+        const entered = new Map<OutputName, TypeOutput>();
         const moved = new Map<
             OutputName,
-            { output: Phrase; prior: Place; present: Place }
+            { output: TypeOutput; prior: Place; present: Place }
         >();
-        const exited = new Map<OutputName, Phrase>();
-        const present = new Map<OutputName, Phrase>();
+        const exited = new Map<OutputName, TypeOutput>();
+        const present = new Map<OutputName, TypeOutput>();
 
         // Remember who was previously present for the future.
         this.previouslyPresent = this.present;
@@ -123,68 +128,69 @@ export default class Stage {
         this.present = new Map();
         this.visible = [];
 
+        // Reset the parents.
+        this.parentsByGroup.clear();
+
         // Compute places for all of the groups in the verse.
-        const newPlaces = this.layout(
+        const { global, local } = this.layout(
             this.verse,
             [],
-            new Map<Group, Place>(),
+            new Map<TypeOutput, Place>(),
+            new Map<TypeOutput, Place>(),
             this.getRenderContext()
         );
 
-        const newPriorPlaces: Map<OutputName, Place> = new Map();
+        const newPriorGlobalPlaces: Map<OutputName, Place> = new Map();
+        const newPriorLocalPlaces: Map<OutputName, Place> = new Map();
 
-        // Based on the places, figure out which phrases are present and visible.
-        for (const [phrase, place] of newPlaces) {
-            // TODO Eventually need to generalize this to groups.
-            if (phrase instanceof Phrase) {
-                // Was this phrase not previously present? Add to the entered set.
-                const name = phrase.getName();
-                if (!this.previouslyPresent.has(name)) {
-                    entered.set(name, phrase);
-                }
-
-                // Add this name and phrase to the present sets.
-                present.set(name, phrase);
-                this.present.set(name, phrase);
-
-                // If it's in front of the focus, the phrase is visible (and should be rendered).
-                if (place.z.sub(this.focus.z).greaterThan(0))
-                    this.visible.push(phrase);
-
-                // Did the place change? Note the move.
-                const priorPlace = this.priorPlaces.get(name);
-                if (
-                    priorPlace &&
-                    (!priorPlace.x.equals(place.x) ||
-                        !priorPlace.y.equals(place.y) ||
-                        !priorPlace.z.equals(place.z) ||
-                        !priorPlace.rotation.equals(place.rotation))
-                ) {
-                    moved.set(name, {
-                        output: phrase,
-                        prior: priorPlace,
-                        present: place,
-                    });
-                }
-
-                newPriorPlaces.set(name, place);
+        // Based on the places, figure out which output is present and visible.
+        for (const [group, place] of local) {
+            // Was this phrase not previously present? Add to the entered set.
+            const name = group.getName();
+            if (!this.previouslyPresent.has(name)) {
+                entered.set(name, group);
             }
+
+            // Add this name and phrase to the present sets.
+            present.set(name, group);
+            this.present.set(name, group);
+
+            // Did the place change? Note the move.
+            const priorLocalPlace = this.priorLocalPlaces.get(name);
+            if (
+                priorLocalPlace &&
+                (!priorLocalPlace.x.equals(place.x) ||
+                    !priorLocalPlace.y.equals(place.y) ||
+                    !priorLocalPlace.z.equals(place.z) ||
+                    !priorLocalPlace.rotation.equals(place.rotation))
+            ) {
+                moved.set(name, {
+                    output: group,
+                    prior: priorLocalPlace,
+                    present: place,
+                });
+            }
+
+            const globalPlace = global.get(group);
+
+            if (globalPlace) newPriorGlobalPlaces.set(name, globalPlace);
+            newPriorLocalPlaces.set(name, place);
         }
 
         // Now that we have a list of everyone present, remove everyone that was present that is no longer, and note that they exited.
-        for (const [name, phrase] of this.previouslyPresent) {
+        for (const [name, group] of this.previouslyPresent) {
             if (!present.has(name)) {
                 // If the phrase has an exit squence, then add it to the phrases to keep rendering
-                // and remember it's current place.
-                if (phrase.exit) {
-                    exited.set(name, phrase);
-                    const place = this.priorPlaces.get(name);
+                // and remember it's current place, so we can render it.
+                if (group.exit) {
+                    exited.set(name, group);
+                    const place = this.priorGlobalPlaces.get(name);
                     if (place) {
-                        newPlaces.set(phrase, place);
+                        global.set(group, place);
                         // We add the exiting output to the visible output so that it stays rendered until the exit is done.
                         if (place.z.sub(this.focus.z).greaterThan(0)) {
-                            this.visible.push(phrase);
-                            newPlaces.set(phrase, place);
+                            this.visible.push(group);
+                            global.set(group, place);
                         }
                     }
                 }
@@ -192,22 +198,10 @@ export default class Stage {
         }
 
         // Remember the places, so that exiting phrases after the next change have them above.
-        this.priorPlaces = newPriorPlaces;
-        this.places = newPlaces;
-
-        // Finally, sort the phrases by distance from the focal point.
-        this.visible.sort((a, b) => {
-            const aPlace = newPlaces.get(a);
-            const bPlace = newPlaces.get(b);
-            return aPlace === undefined
-                ? -1
-                : bPlace == undefined
-                ? 1
-                : bPlace.z
-                      .sub(this.focus.z)
-                      .sub(aPlace.z.sub(this.focus.z))
-                      .toNumber();
-        });
+        this.priorLocalPlaces = newPriorLocalPlaces;
+        this.priorGlobalPlaces = newPriorGlobalPlaces;
+        this.globalPlaces = global;
+        this.localPlaces = local;
 
         // Notify the animator of present, entered, moved, and exited output so that it
         // can decide what to animate. We wait until we have an element so the DOM elements
@@ -216,7 +210,6 @@ export default class Stage {
 
         // Return the layout for rendering.
         return {
-            places: this.places,
             visible: this.visible,
         };
     }
@@ -227,24 +220,24 @@ export default class Stage {
      * deletion.
      */
     animate(
-        present: Map<OutputName, Phrase>,
-        entered: Map<OutputName, Phrase>,
+        present: Map<OutputName, TypeOutput>,
+        entered: Map<OutputName, TypeOutput>,
         moved: Map<
             OutputName,
-            { output: Phrase; prior: Place; present: Place }
+            { output: TypeOutput; prior: Place; present: Place }
         >,
-        exited: Map<OutputName, Phrase>
+        exited: Map<OutputName, TypeOutput>
     ): Set<OutputName> {
         // Update the phrase of all present and exited animations, potentially
         // ending and starting animations.
-        for (const [name, phrase] of present) {
+        for (const [name, group] of present) {
             const animation = this.animations.get(name);
             if (animation) {
-                animation.update(phrase, entered.has(name));
-            } else if (phrase.isAnimated()) {
+                animation.update(group, entered.has(name));
+            } else if (group.isAnimated()) {
                 const animation = new OutputAnimation(
                     this,
-                    phrase,
+                    group,
                     entered.has(name)
                 );
                 this.animations.set(name, animation);
@@ -280,7 +273,7 @@ export default class Stage {
     }
 
     ended(animation: OutputAnimation) {
-        const name = animation.phrase.getName();
+        const name = animation.output.getName();
         this.animations.delete(name);
         this.exit(name);
     }
@@ -301,7 +294,7 @@ export default class Stage {
 
     getRenderContext(): RenderContext {
         return {
-            font: this.verse?.font ?? '',
+            font: this.verse?.font ?? DefaultFont,
             languages: this.languages,
             fonts: this.fontsLoaded,
         };
@@ -310,28 +303,31 @@ export default class Stage {
     // A top down layout algorithm that places groups first, then their subgroups, and uses the
     // ancestor list to compute global places for each group.
     layout(
-        group: Group,
-        parents: Group[],
-        places: Map<Group, Place>,
+        group: TypeOutput,
+        parents: TypeOutput[],
+        global: Map<TypeOutput, Place>,
+        local: Map<TypeOutput, Place>,
         context: RenderContext
     ) {
         // Add this group to the parent stack.
         parents.unshift(group);
         // Get this group's place, so we can offset its subgroups.
-        const parentPlace = places.get(group);
+        const parentPlace = global.get(group);
         // Get the places of each of this group's subgroups.
         for (const [subgroup, place] of group.getPlaces(context)) {
+            this.parentsByGroup.set(subgroup, parents.slice());
+            local.set(subgroup, place);
             // Set the place of this subgroup, offseting it by the parent's position to keep it in global coordinates.
-            places.set(
+            global.set(
                 subgroup,
                 parentPlace ? place.offset(parentPlace) : place
             );
             // Now that this subgroup's position is set, layout the subgroup's subgroups.
-            this.layout(subgroup, parents, places, context);
+            this.layout(subgroup, parents, global, local, context);
         }
         // Remove this group from the top of the parent stack.
         parents.shift();
 
-        return places;
+        return { global, local };
     }
 }

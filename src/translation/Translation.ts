@@ -791,12 +791,8 @@ type Translation = {
         };
     };
     output: {
-        group: {
+        type: {
             definition: NameAndDocTranslation;
-        };
-        phrase: {
-            definition: NameAndDocTranslation;
-            text: NameAndDocTranslation;
             size: NameAndDocTranslation;
             family: NameAndDocTranslation;
             place: NameAndDocTranslation;
@@ -806,6 +802,25 @@ type Translation = {
             rest: NameAndDocTranslation;
             move: NameAndDocTranslation;
             exit: NameAndDocTranslation;
+        };
+        group: {
+            definition: NameAndDocTranslation;
+            content: NameAndDocTranslation;
+            arrangement: NameAndDocTranslation;
+        };
+        phrase: {
+            definition: NameAndDocTranslation;
+            text: NameAndDocTranslation;
+        };
+        verse: {
+            definition: NameAndDocTranslation;
+            description: Description;
+            content: NameAndDocTranslation;
+            background: NameAndDocTranslation;
+            focus: NameAndDocTranslation;
+        };
+        arrangement: {
+            definition: NameAndDocTranslation;
         };
         pose: {
             definition: NameAndDocTranslation;
@@ -845,22 +860,12 @@ type Translation = {
         row: {
             definition: NameAndDocTranslation;
             description: Description;
-            phrases: NameAndDocTranslation;
+            padding: NameAndDocTranslation;
         };
         stack: {
             definition: NameAndDocTranslation;
             description: Description;
-            phrases: NameAndDocTranslation;
-        };
-        verse: {
-            definition: NameAndDocTranslation;
-            description: Description;
-            groups: NameAndDocTranslation;
-            font: NameAndDocTranslation;
-            foreground: NameAndDocTranslation;
-            background: NameAndDocTranslation;
-            focus: NameAndDocTranslation;
-            tilt: NameAndDocTranslation;
+            padding: NameAndDocTranslation;
         };
         easing: {
             // CSS linear

@@ -1,63 +1,61 @@
 import toStructure from '../native/toStructure';
 import type Value from '@runtime/Value';
 import type Color from './Color';
-import Group from './Group';
+import type TypeOutput from './TypeOutput';
 import type { RenderContext } from './RenderContext';
-import { toGroups } from './toGroups';
 import Place from './Place';
 import Decimal from 'decimal.js';
 import type LanguageCode from '@translation/LanguageCode';
 import { getPreferredTranslation } from '@translation/getPreferredTranslation';
 import { getBind } from '@translation/getBind';
 import Phrase from './Phrase';
+import Measurement from '../runtime/Measurement';
+import Arrangement from './Arrangement';
 
 export const RowType = toStructure(`
-    ${getBind((t) => t.output.row.definition, '•')} Group(
-        ${getBind((t) => t.output.row.phrases)}…•Group
+    ${getBind((t) => t.output.row.definition, '•')} Arrangement(
+        ${getBind((t) => t.output.row.padding)}•#m: 1m
     )
 `);
 
-export class Row extends Group {
-    readonly groups: Group[] = [];
-    readonly padding = new Decimal(1);
+export class Row extends Arrangement {
+    readonly padding: Measurement;
 
-    constructor(value: Value, phrases: Group[]) {
+    constructor(value: Value, padding: Measurement) {
         super(value);
 
-        this.groups = phrases;
+        this.padding = padding;
     }
 
     // Width is the sum of widths plus padding
-    getWidth(context: RenderContext): Decimal {
-        return this.groups
+    getWidth(output: TypeOutput[], context: RenderContext): Decimal {
+        return output
             .reduce(
                 (height, group) => height.add(group.getWidth(context)),
                 new Decimal(0)
             )
-            .add(this.padding.times(this.groups.length - 1));
+            .add(this.padding.num.times(output.length - 1));
     }
 
     // Height is the max height
-    getHeight(context: RenderContext): Decimal {
-        return this.groups.reduce(
+    getHeight(output: TypeOutput[], context: RenderContext): Decimal {
+        return output.reduce(
             (max, group) => Decimal.max(max, group.getHeight(context)),
             new Decimal(0)
         );
     }
 
-    getGroups(): Group[] {
-        return this.groups;
-    }
-
-    getPlaces(context: RenderContext): [Group, Place][] {
-        // Start at half the height, so we can center everything.
+    getPlaces(
+        output: TypeOutput[],
+        context: RenderContext
+    ): [TypeOutput, Place][] {
         let position = new Decimal(0);
 
         // Get the height of the container so we can center each phrase vertically.
-        let height = this.getHeight(context);
+        let height = this.getHeight(output, context);
 
-        const positions: [Group, Place][] = [];
-        for (const group of this.groups) {
+        const positions: [TypeOutput, Place][] = [];
+        for (const group of output) {
             positions.push([
                 group,
                 new Place(
@@ -75,7 +73,7 @@ export class Row extends Group {
                 ),
             ]);
             position = position.add(group.getWidth(context));
-            position = position.add(this.padding);
+            position = position.add(this.padding.num);
         }
 
         return positions;
@@ -85,15 +83,13 @@ export class Row extends Group {
         return undefined;
     }
 
-    getDescription(languages: LanguageCode[]) {
+    getDescription(_: TypeOutput[], languages: LanguageCode[]) {
         return getPreferredTranslation(languages).output.row.description;
     }
 }
 
 export function toRow(value: Value | undefined): Row | undefined {
     if (value === undefined) return undefined;
-    const phrases = toGroups(
-        value.resolve(RowType.inputs[0].names.getNames()[0])
-    );
-    return phrases ? new Row(value, phrases) : undefined;
+    const padding = value.resolve(RowType.inputs[0].names.getNames()[0]);
+    return padding instanceof Measurement ? new Row(value, padding) : undefined;
 }

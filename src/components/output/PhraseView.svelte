@@ -16,7 +16,6 @@
     export let phrase: Phrase;
     export let place: Place;
     export let focus: Place;
-    export let viewport: { width: number; height: number };
     export let context: RenderContext;
 
     $: editable = getContext<Writable<boolean>>('editable');
@@ -88,10 +87,11 @@
             ? phrase.rest
             : phrase.rest.getFirstPose() ?? new Pose(phrase.value),
         place,
+        undefined,
+        undefined,
         focus,
-        viewport.width,
-        viewport.height,
-        phrase.getMetrics(context)
+        phrase.getMetrics(context),
+        true
     )}
     on:mousedown={(event) => ($selectedOutput ? select(event) : null)}
     on:keydown={handleKey}
@@ -118,6 +118,8 @@
     .phrase {
         /* The position of a phrase is absolute relative to its group. */
         position: absolute;
+        left: 0;
+        top: 0;
         white-space: nowrap;
         width: auto;
         right: auto;

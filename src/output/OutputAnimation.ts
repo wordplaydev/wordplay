@@ -1,11 +1,13 @@
-import { sizeToPx, toOutputTransform } from './outputToCSS';
-import type Phrase from './Phrase';
+import type TypeOutput from './TypeOutput';
+import { PX_PER_METER, sizeToPx, toOutputTransform } from './outputToCSS';
+import Phrase from './Phrase';
 import Place from './Place';
 import Pose from './Pose';
 import Sequence from './Sequence';
 import type Stage from './Stage';
 import type { OutputName } from './Stage';
 import Transition from './Transition';
+import Verse from './Verse';
 
 enum State {
     Entering = 'entering',
@@ -28,7 +30,7 @@ export default class OutputAnimation {
     stage: Stage;
 
     /** The current phrase for this name */
-    phrase: Phrase;
+    output: TypeOutput;
 
     /** The cached name of the phrase, just to avoid recomputing. */
     name: OutputName;
@@ -42,13 +44,15 @@ export default class OutputAnimation {
     /** The curren transitions animating */
     sequence: Transition[] | undefined = undefined;
 
-    constructor(stage: Stage, phrase: Phrase, entry: boolean) {
+    constructor(stage: Stage, phrase: TypeOutput, entry: boolean) {
         this.stage = stage;
-        this.phrase = phrase;
+        this.output = phrase;
         this.name = phrase.getName();
 
         OutputAnimation.log(
-            `Initializing '${this.phrase.text[0].text}', entry = ${entry}`
+            `Initializing '${this.output.getDescription([
+                'en',
+            ])}', entry = ${entry}`
         );
 
         // Is this an entry? Start the entry animation, if there is one.
@@ -62,16 +66,16 @@ export default class OutputAnimation {
     }
 
     /** Update the current animation with a new phrase by the same name. */
-    update(phrase: Phrase, entry: boolean) {
+    update(phrase: TypeOutput, entry: boolean) {
         // Before we update, see if the rest pose changed so we can tween it.
-        const prior = this.phrase;
+        const prior = this.output;
 
         // Update the phrase and name.
-        this.phrase = phrase;
+        this.output = phrase;
         this.name = phrase.getName();
 
         OutputAnimation.log(
-            `Updating '${this.phrase.text[0].text}', entry = ${entry}`
+            `Updating '${this.output.getDescription(['en'])}', entry = ${entry}`
         );
 
         // Did this just enter, or are we currently entering? Go to the enter state.
@@ -82,15 +86,15 @@ export default class OutputAnimation {
     }
 
     /** Change to the still state and start a transition to it. */
-    rest(prior?: Phrase) {
+    rest(prior?: TypeOutput) {
         this.state = State.Rest;
         // If the rest pose changed to a new pose, or the size changed, animate to it.
         if (
             prior &&
             prior.rest instanceof Pose &&
-            this.phrase.rest instanceof Pose &&
-            (!prior.rest.equals(this.phrase.rest) ||
-                prior.size !== this.phrase.size)
+            this.output.rest instanceof Pose &&
+            (!prior.rest.equals(this.output.rest) ||
+                prior.size !== this.output.size)
         ) {
             // If there's a prior that's different from the present, transition to the present.
             this.start(State.Rest, [
@@ -100,24 +104,24 @@ export default class OutputAnimation {
                     prior.size,
                     prior.rest,
                     0,
-                    this.phrase.style
+                    this.output.style
                 ),
                 // Tansition to the new position with resting pose as a baseline, and move on top
                 new Transition(
                     undefined,
-                    this.phrase.size,
-                    this.phrase.rest,
-                    this.phrase.duration,
-                    this.phrase.style
+                    this.output.size,
+                    this.output.rest,
+                    this.output.duration,
+                    this.output.style
                 ),
             ]);
         }
         // If the new rest is a sequence, start the sequence.
-        else if (this.phrase.rest instanceof Sequence) {
-            const sequence = this.phrase.rest.compile(
+        else if (this.output.rest instanceof Sequence) {
+            const sequence = this.output.rest.compile(
                 undefined,
                 undefined,
-                this.phrase.size
+                this.output.size
             );
             // If it wasn't empty, prepend a starting state with the original size and pose.
             if (sequence) {
@@ -129,7 +133,7 @@ export default class OutputAnimation {
                     if (priorRestPose) {
                         // Update the first keyframe's duration, so there's a transition from the first rest pose.
                         sequence[0] = sequence[0].withDuration(
-                            this.phrase.duration
+                            this.output.duration
                         );
                         // Add the first rest pose as the first keyframe.
                         sequence.unshift(
@@ -138,7 +142,7 @@ export default class OutputAnimation {
                                 prior.size,
                                 priorRestPose,
                                 0,
-                                this.phrase.style
+                                this.output.style
                             )
                         );
                     }
@@ -150,16 +154,16 @@ export default class OutputAnimation {
 
     /** Change to the entering state.  */
     enter() {
-        const enter = this.phrase.enter;
+        const enter = this.output.enter;
         // No entry pose or animation? Start still.
         if (enter === undefined) this.rest();
         // Otherwise, transition to from entry to rest
         else {
             // Get the first pose of still so we can animate to it.
             const firstStillPose =
-                this.phrase.rest instanceof Pose
-                    ? this.phrase.rest
-                    : this.phrase.rest.getFirstPose();
+                this.output.rest instanceof Pose
+                    ? this.output.rest
+                    : this.output.rest.getFirstPose();
             const entrySequence =
                 enter instanceof Pose ? enter : enter.compile();
 
@@ -168,19 +172,19 @@ export default class OutputAnimation {
                 entrySequence instanceof Pose
                     ? ([
                           new Transition(
-                              this.stage.places.get(this.phrase),
-                              this.phrase.size,
+                              this.stage.localPlaces.get(this.output),
+                              this.output.size,
                               entrySequence,
                               0,
-                              this.phrase.style
+                              this.output.style
                           ),
                           new Transition(
-                              this.stage.places.get(this.phrase),
-                              this.phrase.size,
+                              this.stage.localPlaces.get(this.output),
+                              this.output.size,
                               // No first pose? I guess we animate to the entry pose.
                               firstStillPose ?? entrySequence,
-                              this.phrase.duration,
-                              this.phrase.style
+                              this.output.duration,
+                              this.output.style
                           ),
                       ] satisfies TransitionSequence)
                     : // If the entry transition is a sequence, animate the sequence, then transition to the first still pose.
@@ -191,11 +195,11 @@ export default class OutputAnimation {
                           ...(firstStillPose
                               ? [
                                     new Transition(
-                                        this.stage.places.get(this.phrase),
-                                        this.phrase.size,
+                                        this.stage.localPlaces.get(this.output),
+                                        this.output.size,
                                         firstStillPose,
-                                        this.phrase.duration,
-                                        this.phrase.style
+                                        this.output.duration,
+                                        this.output.style
                                     ),
                                 ]
                               : []),
@@ -208,11 +212,11 @@ export default class OutputAnimation {
     }
 
     move(prior: Place, present: Place) {
-        const move = this.phrase.move;
+        const move = this.output.move;
         const rest =
-            this.phrase.rest instanceof Pose
-                ? this.phrase.rest
-                : this.phrase.rest.getFirstPose();
+            this.output.rest instanceof Pose
+                ? this.output.rest
+                : this.output.rest.getFirstPose();
 
         OutputAnimation.log(`From ${prior} to ${present}`);
         // If there's a pose, tween the prior and new place, posing while we do it, then transition to the still pose.
@@ -222,26 +226,26 @@ export default class OutputAnimation {
                 // Start at the previous position, no transition
                 new Transition(
                     prior,
-                    this.phrase.size,
+                    this.output.size,
                     rest ? rest.with(move) : move,
                     0,
-                    this.phrase.style
+                    this.output.style
                 ),
                 // Tansition to the new position with resting pose as a baseline, and move on top
                 new Transition(
                     present,
-                    this.phrase.size,
+                    this.output.size,
                     rest ? rest.with(move) : move,
-                    this.phrase.duration / 2,
-                    this.phrase.style
+                    this.output.duration / 2,
+                    this.output.style
                 ),
                 // Transition from the move pose to the rest pose.
                 new Transition(
                     present,
-                    this.phrase.size,
+                    this.output.size,
                     rest ?? move,
-                    this.phrase.duration / 2,
-                    this.phrase.style
+                    this.output.duration / 2,
+                    this.output.style
                 ),
             ]);
         // If move is a sequence, run it, but account for the resting pose.
@@ -279,34 +283,34 @@ export default class OutputAnimation {
 
     exit() {
         // If there's an exit pose, animate from rest to exit.
-        if (this.phrase.exit instanceof Pose) {
+        if (this.output.exit instanceof Pose) {
             // Get the first rest pose.
             const rest =
-                this.phrase.rest instanceof Pose
-                    ? this.phrase.rest
-                    : this.phrase.rest.getFirstPose();
+                this.output.rest instanceof Pose
+                    ? this.output.rest
+                    : this.output.rest.getFirstPose();
 
             // If the exit is a pose, transition from rest to pose.
             this.start(State.Exiting, [
                 // Start at the previous rest position, or if there isn't one, the exit.
                 new Transition(
                     undefined,
-                    this.phrase.size,
-                    rest ?? this.phrase.exit,
+                    this.output.size,
+                    rest ?? this.output.exit,
                     0,
-                    this.phrase.style
+                    this.output.style
                 ),
                 // Tansition to the new position with resting pose as a baseline, and move on top
                 new Transition(
                     undefined,
-                    this.phrase.size,
-                    this.phrase.exit,
-                    this.phrase.duration,
-                    this.phrase.style
+                    this.output.size,
+                    this.output.exit,
+                    this.output.duration,
+                    this.output.style
                 ),
             ]);
-        } else if (this.phrase.exit instanceof Sequence) {
-            const sequence = this.phrase.exit.compile();
+        } else if (this.output.exit instanceof Sequence) {
+            const sequence = this.output.exit.compile();
             if (sequence) this.start(State.Exiting, sequence);
             else this.end();
         }
@@ -324,7 +328,9 @@ export default class OutputAnimation {
 
         // Update to the requested state.
         this.state = state;
-        OutputAnimation.log(`${this.phrase.text[0].text} => ${this.state}`);
+        OutputAnimation.log(
+            `${this.output.getDescription(['en'])} => ${this.state}`
+        );
 
         // Cancel any current animation.
         if (this.animation) {
@@ -355,7 +361,7 @@ export default class OutputAnimation {
         const verse = this.stage.getElement();
         // Find the element corresponding to the phrase.
         const element = verse?.querySelector(
-            `[data-id="${this.phrase.getHTMLID()}"]`
+            `[data-id="${this.output.getHTMLID()}"]`
         );
         // If there's DOM element and this isn't exiting, start an animation.
         // (We have to defer for exits because the output needs to render the new exiting output first.)
@@ -372,19 +378,48 @@ export default class OutputAnimation {
 
                 // Where should we position this? Use the transition's place if it
                 // specifies one and the current place if not.
-                const place =
-                    transition.place ?? this.stage.places.get(this.phrase);
+                const localPlace =
+                    transition.place ?? this.stage.localPlaces.get(this.output);
+
+                // Compute the focus place in this phrase's parent coordinate system.
+                const parents = this.stage.parentsByGroup.get(this.output);
+                let offsetFocus: Place | undefined = this.stage.focus;
+                if (parents && offsetFocus) {
+                    for (const parent of parents) {
+                        if (!(parent instanceof Verse)) {
+                            const parentPlace =
+                                this.stage.localPlaces.get(parent);
+                            if (parentPlace)
+                                offsetFocus = offsetFocus.offset(parentPlace);
+                            else {
+                                offsetFocus = undefined;
+                                break;
+                            }
+                        }
+                    }
+                } else offsetFocus === undefined;
 
                 // Convert the rest to a transform that respects the rendering rules.
-                if (place)
+                // All of this logic should mirror what GroupView and PhraseView do.
+                if (localPlace && offsetFocus) {
                     keyframe.transform = toOutputTransform(
                         transition.pose,
-                        place,
-                        this.stage.focus,
-                        this.stage.viewportWidth,
-                        this.stage.viewportHeight,
-                        this.phrase.getMetrics(this.stage.getRenderContext())
+                        localPlace,
+                        // Need to convert the global focus place this phrase's parent coordinate system.
+                        offsetFocus,
+                        {
+                            width:
+                                this.output
+                                    .getWidth(this.stage.getRenderContext())
+                                    .toNumber() * PX_PER_METER,
+                            ascent:
+                                this.output
+                                    .getHeight(this.stage.getRenderContext())
+                                    .toNumber() * PX_PER_METER,
+                        },
+                        this.output instanceof Phrase
                     );
+                }
 
                 // What size should we transition to? Set if specified by the transition.
                 if (transition.size !== undefined)

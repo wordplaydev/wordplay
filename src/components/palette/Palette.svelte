@@ -27,7 +27,7 @@
     import { ColorType } from '../../output/Color';
     import type Node from '@nodes/Node';
     import StructureDefinition from '@nodes/StructureDefinition';
-    import { GroupType } from '../../output/Group';
+    import { GroupType } from '@output/Group';
     import Reference from '@nodes/Reference';
     import { StackType } from '../../output/Stack';
     import TextLiteral from '@nodes/TextLiteral';

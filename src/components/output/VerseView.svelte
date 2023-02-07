@@ -10,20 +10,21 @@
         selectedOutput,
     } from '../../models/stores';
     import { preferredLanguages } from '@translation/translations';
-    import PhraseView from './PhraseView.svelte';
     import { loadedFonts } from '../../native/Fonts';
-    import { PX_PER_METER, toCSS } from '@output/outputToCSS';
-    import type Phrase from '@output/Phrase';
-    import type Group from '@output/Group';
-    import type Place from '@output/Place';
+    import { focusToTransform, PX_PER_METER, toCSS } from '@output/outputToCSS';
+    import Place from '@output/Place';
     import { writable } from 'svelte/store';
     import Evaluate from '@nodes/Evaluate';
-    import { VerseType } from '@output/Verse';
+    import { DefaultFont, VerseType } from '@output/Verse';
     import Keyboard from '@input/Keyboard';
     import MousePosition from '@input/MousePosition';
     import MouseButton from '@input/MouseButton';
     import { createPlace } from '@output/Place';
-    import Stage, { type OutputName } from '@output/Stage';
+    import Stage from '@output/Stage';
+    import GroupView from './GroupView.svelte';
+    import Decimal from 'decimal.js';
+    import type TypographicOutput from '@output/TypeOutput';
+    import Pose from '../../output/Pose';
 
     export let project: Project;
     export let verse: Verse;
@@ -42,10 +43,7 @@
     onMount(() => (mounted = true));
 
     /** The list of visible phrases */
-    let visible: Phrase[] = [];
-
-    /** The location of all phrases, post layout */
-    let places = new Map<Group, Place>();
+    let visible: TypographicOutput[] = [];
 
     /** The verse focus that fits the content to the view*/
     let fitFocus: Place | undefined = undefined;
@@ -85,7 +83,7 @@
     /** Whenever the verse, languages, fonts, or rendered focus changes, update the rendered scene accordingly. */
     $: {
         // Defer rendering until we have a view so that animations can be bound to DOM elements.
-        ({ places, visible } = stage.update(
+        ({ visible } = stage.update(
             verse,
             interactive,
             view,
@@ -95,19 +93,6 @@
             viewportWidth,
             viewportHeight
         ));
-    }
-
-    /** Number visible phrases, giving them unique IDs to key off of. */
-    let phraseKeys: Map<Phrase, OutputName>;
-    $: {
-        phraseKeys = new Map();
-        const phraseCounts = new Map<OutputName, number>();
-        for (const phrase of visible) {
-            const name = phrase.getName();
-            const count = (phraseCounts.get(name) ?? 0) + 1;
-            phraseKeys.set(phrase, `${name}-${count}`);
-            phraseCounts.set(name, count + 1);
-        }
     }
 
     /** Decide what focus to render. Explicitly set verse focus takes priority, then the fit focus if fitting content to viewport,
@@ -369,9 +354,12 @@
             : ''}"
         tabIndex={interactive ? 0 : null}
         style={toCSS({
-            'font-family': verse.font,
+            'font-family': verse.font ?? DefaultFont,
             background: verse.background.toCSS(),
-            color: verse.foreground.toCSS(),
+            color:
+                (verse.rest instanceof Pose
+                    ? verse.rest.color?.toCSS()
+                    : undefined) ?? 'var(--wordplay-foreground)',
         })}
         on:mousedown={(event) => (interactive ? handleMouseDown(event) : null)}
         on:mouseup={interactive ? handleMouseUp : null}
@@ -381,33 +369,23 @@
         on:wheel={interactive ? handleWheel : null}
         bind:this={view}
     >
-        <div class="viewport" class:changed>
-            <!-- 
-                Render all visible phrases at their places, as well as any exiting phrases.
-                Key on name, so that animations can persist between renders, but also 
-                append an ID based on the number of times we've seen the phrase name, to guarantee uniqueness.
-                This basically numbers phrases according to either their given names, or if not given, the node IDs that create them,
-                plus an index to account for nodes that create any phrases.
-            -->
-            {#each visible as phrase (phraseKeys.get(phrase))}
-                {@const place = places.get(phrase)}
-                {@const context = stage.getRenderContext()}
-                <!-- There should always be a place. If there's not, there's something wrong with our layout algorithm. -->
-                {#if place}
-                    <PhraseView
-                        {phrase}
-                        {place}
-                        focus={renderedFocus}
-                        viewport={{
-                            width: viewportWidth,
-                            height: viewportHeight,
-                        }}
-                        {context}
-                    />
-                {:else}
-                    <span>No place for Phrase, oops</span>
-                {/if}
-            {/each}
+        <div
+            class="viewport"
+            class:changed
+            style:transform={focusToTransform(viewportWidth, viewportHeight)}
+        >
+            <GroupView
+                group={verse}
+                place={new Place(
+                    verse.value,
+                    new Decimal(0),
+                    new Decimal(0),
+                    new Decimal(0),
+                    new Decimal(0)
+                )}
+                focus={renderedFocus}
+                context={stage.getRenderContext()}
+            />
         </div>
     </div>
 {/if}

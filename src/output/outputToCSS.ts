@@ -3,7 +3,6 @@ import type Place from './Place';
 import type Pose from './Pose';
 
 export const PX_PER_METER = 16;
-export const MAGNIFIER = 12;
 export const FOCAL_LENGTH = new Decimal(20);
 
 export function sizeToPx(size: number): string {
@@ -38,34 +37,37 @@ export function zScale(z: Decimal, focusZ: Decimal) {
     return FOCAL_LENGTH.div(dz);
 }
 
+export function focusToTransform(
+    viewportWidth: number,
+    viewportHeight: number
+) {
+    return translateXY(viewportWidth / 2, viewportHeight / 2);
+}
+
 export default function outputToCSS(
     family: string | undefined,
-    size: number,
+    size: number | undefined,
     pose: Pose,
     place: Place,
+    width: number | undefined,
+    height: number | undefined,
     focus: Place,
-    viewportWidth: number,
-    viewportHeight: number,
-    metrics: { width: number; ascent: number }
+    metrics: { width: number; ascent: number },
+    perspective: boolean
 ) {
     return toCSS({
-        left: '0px',
-        top: '0px',
-        transform: toOutputTransform(
-            pose,
-            place,
-            focus,
-            viewportWidth,
-            viewportHeight,
-            metrics
-        ),
+        // left: sizeToPx(place.x.toNumber()),
+        // top: sizeToPx(place.y.toNumber()),
+        width: width ? sizeToPx(width) : undefined,
+        height: height ? sizeToPx(height) : undefined,
+        transform: toOutputTransform(pose, place, focus, metrics, perspective),
         // This disables translation around the center; we want to translate around the focus.
         'transform-origin': '0 0',
         color: pose?.color?.toCSS(),
         opacity: pose?.opacity?.toString(),
         'font-family': family,
         // The font size is whatever it's normal size is, but adjusted for perspective, then translated into pixels.
-        'font-size': sizeToPx(size),
+        'font-size': size ? sizeToPx(size) : undefined,
     });
 }
 
@@ -73,9 +75,8 @@ export function toOutputTransform(
     pose: Pose,
     place: Place,
     focus: Place,
-    viewportWidth: number,
-    viewportHeight: number,
-    metrics: { width: number; ascent: number }
+    metrics: { width: number; ascent: number },
+    perspective: boolean
 ) {
     // Compute rendered scale based on scale and and flip
     let xScale = 1;
@@ -102,41 +103,47 @@ export function toOutputTransform(
     // Get the z scale using the z place and it's offset.
     const perspectiveScale = zScale(place.z.add(zOffset), focus.z);
 
-    const centerXOffset =
-        place.x.times(PX_PER_METER).toNumber() + metrics.width / 2;
-    const centerYOffset =
-        place.y.times(PX_PER_METER).toNumber() + metrics.ascent / 2;
+    const centerXOffset = metrics.width / 2;
+    const centerYOffset = metrics.ascent / 2;
 
-    // These are applied in reverse
+    // These are applied in reverse.
     return [
-        // Lastly, center around the viewport center.
-        translateXY(viewportWidth / 2, viewportHeight / 2),
-        // Undo the focus translation
-        translateXY(
-            -focus.x.toNumber() * PX_PER_METER,
-            -focus.y.toNumber() * PX_PER_METER
-        ),
-        // Scale around the focus
-        scaleXY(perspectiveScale.toNumber(), perspectiveScale.toNumber()),
-        // Translate to the focus
-        translateXY(
-            focus.x.toNumber() * PX_PER_METER,
-            focus.y.toNumber() * PX_PER_METER
-        ),
-        // Translate to the center
-        translateXY(centerXOffset, centerYOffset),
-        // Scale around the center
-        scaleXY(xScale, yScale),
-        // Offset around the center
-        translateXY(xOffset * PX_PER_METER, yOffset * PX_PER_METER),
-        // Rotate around the center
-        rotateDeg(place.rotation.toNumber() + rotationOffset),
-        // Translate to the center
-        translateXY(-centerXOffset, -centerYOffset),
+        // If we're perspective scaling this output, translate around the focus center
+        // in the local coordinate system, scale according to distance from focus,
+        // then translate back. Remember that this all happens after everything below.
+        perspective
+            ? [
+                  // Undo the focus translation
+                  translateXY(
+                      -focus.x.toNumber() * PX_PER_METER,
+                      -focus.y.toNumber() * PX_PER_METER
+                  ),
+                  // Scale around the focus
+                  scaleXY(
+                      perspectiveScale.toNumber(),
+                      perspectiveScale.toNumber()
+                  ),
+                  // Translate to the focus
+                  translateXY(
+                      focus.x.toNumber() * PX_PER_METER,
+                      focus.y.toNumber() * PX_PER_METER
+                  ),
+              ].join(' ')
+            : '',
         // Translate to its position
         translateXY(
             place.x.toNumber() * PX_PER_METER,
             place.y.toNumber() * PX_PER_METER
         ),
+        // 5. Move back to the top left of the output.
+        translateXY(centerXOffset, centerYOffset),
+        // 4. Scale around the center and its offset
+        scaleXY(xScale, yScale),
+        // 3. Offset around the center
+        translateXY(xOffset * PX_PER_METER, yOffset * PX_PER_METER),
+        // 2. Rotate around it's center
+        rotateDeg(place.rotation.toNumber() + rotationOffset),
+        // 1. Translate to the center of the output.
+        translateXY(-centerXOffset, -centerYOffset),
     ].join(' ');
 }

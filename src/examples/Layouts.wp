@@ -1,13 +1,13 @@
 === Layout Madness
-Row(
-  Stack(
+Group(Row() [
+  Group(Stack() [
     Phrase("Kitty") 
     Phrase("Cat") 
-    Row(Phrase("Dog") Phrase("Canine"))
+    Group(Row() [ Phrase("Dog") Phrase("Canine") ])
     Phrase("Feline")
-  )
-  Stack(
+  ])
+  Group(Stack() [
     Phrase("Hi")
     Phrase("Hello")
-  )
-)
+  ])
+])

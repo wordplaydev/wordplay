@@ -40,12 +40,23 @@ export default class Place extends Output {
         this.rotation = rotation;
     }
 
+    /** Adds the given place's x and y to this Place's x and y (but leaves z and rotation alone) */
     offset(place: Place) {
         return new Place(
             this.value,
             this.x.add(place.x),
             this.y.add(place.y),
-            this.z.add(place.z),
+            this.z,
+            this.rotation
+        );
+    }
+
+    subtract(place: Place) {
+        return new Place(
+            this.value,
+            this.x.sub(place.x),
+            this.y.sub(place.y),
+            this.z.sub(place.z),
             this.rotation
         );
     }

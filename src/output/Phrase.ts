@@ -1,61 +1,31 @@
 import type Pose from './Pose';
 import type Value from '@runtime/Value';
 import type Color from './Color';
-import Fonts, { SupportedFontsFamiliesType } from '../native/Fonts';
+import Fonts from '../native/Fonts';
 import Text from '@runtime/Text';
-import Group from './Group';
+import TypeOutput, { TypeOutputInputs } from './TypeOutput';
 import type { RenderContext } from './RenderContext';
 import type Place from './Place';
 import List from '@runtime/List';
 import TextLang from './TextLang';
 import toStructure from '../native/toStructure';
 import Decimal from 'decimal.js';
-import { toDecimal } from './Verse';
 import getTextMetrics from './getTextMetrics';
 import parseRichText, { RichNode, TextNode } from './parseRichText';
-import { toPose as toPose } from './Pose';
-import Sequence from './Sequence';
+import type Sequence from './Sequence';
 import { PX_PER_METER, sizeToPx } from './outputToCSS';
-import { toSequence } from './Sequence';
 import type LanguageCode from '@translation/LanguageCode';
 import { getBind } from '@translation/getBind';
-import { toPlace } from './Place';
-import en from '../translation/translations/en';
+import { getStyle } from './toTypeOutput';
 
 export const PhraseType = toStructure(`
-    ${getBind((t) => t.output.phrase.definition, '•')} Group(
+    ${getBind((t) => t.output.phrase.definition, '•')} Type(
         ${getBind((t) => t.output.phrase.text)}•""|[""]
-        ${getBind((t) => t.output.phrase.size)}•#m: 1m
-        ${getBind(
-            (t) => t.output.phrase.family
-        )}•${SupportedFontsFamiliesType}|ø: ø
-        ${getBind((t) => t.output.phrase.place)}•ø|Place: ø
-        ${getBind((t) => t.output.phrase.name)}•""|ø: ø
-        ${getBind((t) => t.output.phrase.enter)}•ø|Pose|Sequence: ø
-        ${getBind((t) => t.output.phrase.rest)}•ø|Pose|Sequence: Pose()
-        ${getBind((t) => t.output.phrase.move)}•ø|Pose|Sequence: ø
-        ${getBind((t) => t.output.phrase.exit)}•ø|Pose|Sequence: ø
-        ${getBind((t) => t.output.timing.duration)}•#s: 0.25s
-        ${getBind((t) => t.output.timing.style)}•${Object.values(
-    en.output.easing
-)
-    .map((id) => `"${id}"`)
-    .join('|')}: "zippy"
-    )
-`);
+        ${TypeOutputInputs}
+    )`);
 
-export default class Phrase extends Group {
+export default class Phrase extends TypeOutput {
     readonly text: TextLang[];
-    readonly size: number;
-    readonly font: string | undefined;
-    readonly place: Place | undefined;
-    readonly name: TextLang | undefined;
-    readonly enter: Pose | Sequence | undefined;
-    readonly rest: Pose | Sequence;
-    readonly move: Pose | Sequence | undefined;
-    readonly exit: Pose | Sequence | undefined;
-    readonly duration: number;
-    readonly style: string;
 
     _metrics:
         | {
@@ -78,33 +48,25 @@ export default class Phrase extends Group {
         duration: number,
         style: string
     ) {
-        super(value);
+        super(
+            value,
+            size,
+            font,
+            place,
+            name,
+            entry,
+            resting,
+            move,
+            exit,
+            duration,
+            style
+        );
 
         this.text = text;
-        this.size = size;
-        this.font = font;
-        this.place = place;
-        this.name = name;
-        this.enter = entry;
-        this.rest = resting;
-        this.move = move;
-        this.exit = exit;
-        this.duration = duration;
-        this.style = style;
 
         // Make sure this font is loaded. This is a little late -- we could do some static analysis
         // and try to determine this in advance -- but anything can compute a font name. Maybe an optimization later.
         if (this.font) Fonts.loadFamily(this.font);
-    }
-
-    isAnimated() {
-        return (
-            this.enter !== undefined ||
-            this.rest instanceof Sequence ||
-            this.move !== undefined ||
-            this.exit !== undefined ||
-            this.duration > 0
-        );
     }
 
     getMetrics(context: RenderContext, parsed: boolean = true) {
@@ -166,14 +128,6 @@ export default class Phrase extends Group {
         return dimensions;
     }
 
-    getHTMLID(): string {
-        return `phrase-${this.getName()}`;
-    }
-
-    getName(): string {
-        return this.name?.text ?? Number(this.value.creator.id).toString();
-    }
-
     getWidth(context: RenderContext): Decimal {
         // Metrics is in pixels; convert to meters.
         return new Decimal(this.getMetrics(context).width).div(PX_PER_METER);
@@ -183,10 +137,10 @@ export default class Phrase extends Group {
         return new Decimal(this.getMetrics(context).ascent).div(PX_PER_METER);
     }
 
-    getGroups(): Group[] {
+    getGroups(): TypeOutput[] {
         return [];
     }
-    getPlaces(): [Group, Place][] {
+    getPlaces(): [TypeOutput, Place][] {
         return [];
     }
 
@@ -221,23 +175,21 @@ export function toPhrase(value: Value | undefined): Phrase | undefined {
     if (value === undefined) return undefined;
 
     let texts = toTextLang(value.resolve('text'));
-    const size = toDecimal(value.resolve('size'))?.toNumber() ?? 1;
-    const font = toFont(value.resolve('font'));
-    const name = toText(value.resolve('name'));
-    const place = toPlace(value.resolve('place'));
-    const still =
-        toPose(value.resolve('rest')) ?? toSequence(value.resolve('rest'));
-    const entry =
-        toPose(value.resolve('enter')) ?? toSequence(value.resolve('enter'));
-    const between =
-        toPose(value.resolve('move')) ?? toSequence(value.resolve('move'));
-    const exit =
-        toPose(value.resolve('exit')) ?? toSequence(value.resolve('exit'));
 
-    const duration = toDecimal(value.resolve('duration'));
-    const style = value.resolve('style');
+    const {
+        size,
+        font,
+        place,
+        name,
+        rest,
+        enter,
+        move,
+        exit,
+        duration,
+        style,
+    } = getStyle(value);
 
-    return texts && duration && style instanceof Text && still
+    return texts && duration && style !== undefined && rest
         ? new Phrase(
               value,
               texts,
@@ -245,17 +197,17 @@ export function toPhrase(value: Value | undefined): Phrase | undefined {
               font,
               place,
               name,
-              entry,
-              still,
-              between,
+              enter,
+              rest,
+              move,
               exit,
-              duration.toNumber(),
-              style.text
+              duration,
+              style
           )
         : undefined;
 }
 
-function toText(value: Value | undefined) {
+export function toText(value: Value | undefined) {
     return value instanceof Text
         ? new TextLang(value, value.text, value.format)
         : undefined;

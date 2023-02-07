@@ -1,35 +1,126 @@
 import type Decimal from 'decimal.js';
 import toStructure from '../native/toStructure';
-import type LanguageCode from '@translation/LanguageCode';
-import type Value from '@runtime/Value';
+import type Value from '../runtime/Value';
+import { getBind } from '../translation/getBind';
+import type Arrangement from './Arrangement';
 import type Color from './Color';
-import Output from './Output';
 import type Place from './Place';
-import { getBind } from '@translation/getBind';
-import { TYPE_SYMBOL } from '@parser/Symbols';
-import type { Description } from '@translation/Translation';
+import type Pose from './Pose';
 import type { RenderContext } from './RenderContext';
+import type Sequence from './Sequence';
+import type TextLang from './TextLang';
+import TypeOutput, { TypeOutputInputs } from './TypeOutput';
+import type LanguageCode from '../translation/LanguageCode';
+import { getStyle, toArrangement, toTypeOutputList } from './toTypeOutput';
+import { TYPE_SYMBOL } from '../parser/Symbols';
 
 export const GroupType = toStructure(`
-    ${getBind((t) => t.output.group.definition, TYPE_SYMBOL)}()
-`);
+    ${getBind((t) => t.output.group.definition, TYPE_SYMBOL)} Type(
+        ${getBind((t) => t.output.group.arrangement)}•Arrangement
+        ${getBind((t) => t.output.group.content)}•[Type]
+        ${TypeOutputInputs}
+    )`);
 
-export default abstract class Group extends Output {
-    constructor(value: Value) {
-        super(value);
+export default class Group extends TypeOutput {
+    readonly content: TypeOutput[];
+    readonly arrangement: Arrangement;
+
+    constructor(
+        value: Value,
+        arrangement: Arrangement,
+        content: TypeOutput[],
+        size: number,
+        font: string | undefined = undefined,
+        place: Place | undefined = undefined,
+        name: TextLang | undefined = undefined,
+        enter: Pose | Sequence | undefined = undefined,
+        rest: Pose | Sequence,
+        move: Pose | Sequence | undefined = undefined,
+        exit: Pose | Sequence | undefined = undefined,
+        duration: number,
+        style: string
+    ) {
+        super(
+            value,
+            size,
+            font,
+            place,
+            name,
+            enter,
+            rest,
+            move,
+            exit,
+            duration,
+            style
+        );
+
+        this.content = content;
+        this.arrangement = arrangement;
     }
 
-    /** Compute the width in meters. */
-    abstract getWidth(context: RenderContext): Decimal;
+    getWidth(context: RenderContext): Decimal {
+        return this.arrangement.getWidth(this.content, context);
+    }
 
-    /** Compute the height in meters */
-    abstract getHeight(context: RenderContext): Decimal;
+    getHeight(context: RenderContext): Decimal {
+        return this.arrangement.getHeight(this.content, context);
+    }
 
-    abstract getGroups(): Group[];
+    getPlaces(context: RenderContext): [TypeOutput, Place][] {
+        return this.arrangement.getPlaces(this.content, context);
+    }
 
-    /** Compute positions for all subgroups in the group. */
-    abstract getPlaces(context: RenderContext): [Group, Place][];
+    getGroups(): TypeOutput[] {
+        return this.content;
+    }
 
-    abstract getBackground(): Color | undefined;
-    abstract getDescription(languages: LanguageCode[]): Description;
+    getBackground(): Color | undefined {
+        throw new Error('Method not implemented.');
+    }
+
+    getDescription(languages: LanguageCode[]) {
+        return this.arrangement.getDescription(this.content, languages);
+    }
+}
+
+export function toGroup(value: Value | undefined): Group | undefined {
+    if (value === undefined) return undefined;
+
+    const arrangement = toArrangement(value.resolve('arrangement'));
+    const content = toTypeOutputList(value.resolve('content'));
+
+    const {
+        size,
+        font,
+        place,
+        name,
+        rest,
+        enter,
+        move,
+        exit,
+        duration,
+        style,
+    } = getStyle(value);
+
+    return arrangement &&
+        content &&
+        duration !== undefined &&
+        style !== undefined &&
+        rest
+        ? new Group(
+              value,
+              arrangement,
+              content,
+              size,
+              font,
+              place,
+              name,
+              enter,
+              rest,
+              move,
+              exit,
+              duration,
+              style
+          )
+        : undefined;
 }

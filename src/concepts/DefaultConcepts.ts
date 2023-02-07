@@ -39,7 +39,7 @@ import TextType from '@nodes/TextType';
 import TypePlaceholder from '@nodes/TypePlaceholder';
 import {
     GroupTypes,
-    PhraseTypes,
+    AppearanceTypes,
     AnimationTypes,
 } from '@runtime/DefaultShares';
 import type Concept from './Concept';
@@ -252,7 +252,7 @@ export function getOutputConcepts(
     context: Context
 ): Concept[] {
     return [
-        ...PhraseTypes.map((def) =>
+        ...AppearanceTypes.map((def) =>
             getStructureOrFunctionConcept(
                 def,
                 Purpose.OUTPUT,
