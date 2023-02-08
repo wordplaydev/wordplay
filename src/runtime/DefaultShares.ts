@@ -19,6 +19,7 @@ import RandomDefinition from '../input/RandomDefinition';
 import MicrophoneDefinition from '../input/MicrophoneDefinition';
 import { TimingType } from '../output/Timing';
 import { ArrangementType } from '../output/Arrangement';
+import MotionDefinition from '../input/MotionDefinition';
 
 export const AnimationTypes = [PoseType, SequenceType, TimingType];
 
@@ -35,6 +36,7 @@ export const StreamDefinitions = [
     MouseButtonDefinition,
     RandomDefinition,
     MicrophoneDefinition,
+    MotionDefinition,
 ];
 
 const DefaultShares: (

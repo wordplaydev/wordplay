@@ -783,11 +783,12 @@ type Translation = {
             frequency: NameAndDocTranslation;
         };
         reaction: NameAndDocTranslation;
-        key: {
-            doc: DocTranslation;
-            name: DocTranslation;
-            key: NameAndDocTranslation;
-            down: NameAndDocTranslation;
+        motion: NameAndDocTranslation & {
+            vx: NameAndDocTranslation;
+            vy: NameAndDocTranslation;
+            vz: NameAndDocTranslation;
+            va: NameAndDocTranslation;
+            mass: NameAndDocTranslation;
         };
     };
     output: {

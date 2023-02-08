@@ -1687,16 +1687,28 @@ const en: Translation = {
             doc: WRITE_DOC,
             name: 'reaction',
         },
-        key: {
+        motion: {
             doc: WRITE_DOC,
-            name: 'Key',
-            key: {
+            name: ['⚽️', 'Motion'],
+            vx: {
                 doc: WRITE_DOC,
-                name: 'key',
+                name: 'vx',
             },
-            down: {
+            vy: {
                 doc: WRITE_DOC,
-                name: ['👇', 'down'],
+                name: 'vy',
+            },
+            vz: {
+                doc: WRITE_DOC,
+                name: 'vz',
+            },
+            va: {
+                doc: WRITE_DOC,
+                name: 'va',
+            },
+            mass: {
+                doc: WRITE_DOC,
+                name: 'mass',
             },
         },
     },

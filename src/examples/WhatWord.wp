@@ -20,7 +20,7 @@ key: ⌨️()
 `When the keyboard state changes, the game state changes.`/en
 `Cuando cambia el estado del teclado, cambia el estado del juego.`/es
 `⌨️ + 🤔 + 🤫 → ⚽️`/😀
-state/en,⚽️/😀•Game: ∆ key ? start … 
+state/en,🧠/😀•Game: ∆ key ? start … 
     key = "Escape" ? start
     (state.status ≠ "playing") & (key = " ") ? Game([] words.random())
     (state.status = "playing") & (key.length() = 1) & ~state.guesses.has(key) ? 
