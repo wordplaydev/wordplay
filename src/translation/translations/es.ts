@@ -1645,7 +1645,23 @@ const eng_wordplay: Translation = {
         },
         motion: {
             doc: WRITE_DOC,
-            name: 'Motion',
+            name: ['⚽️', 'Motion'],
+            place: {
+                doc: WRITE_DOC,
+                name: 'place',
+            },
+            speed: {
+                doc: WRITE_DOC,
+                name: 'speed',
+            },
+            mass: {
+                doc: WRITE_DOC,
+                name: 'mass',
+            },
+        },
+        speed: {
+            doc: WRITE_DOC,
+            name: ['💨', 'Speed'],
             vx: {
                 doc: WRITE_DOC,
                 name: 'vx',
@@ -1661,10 +1677,6 @@ const eng_wordplay: Translation = {
             va: {
                 doc: WRITE_DOC,
                 name: 'va',
-            },
-            mass: {
-                doc: WRITE_DOC,
-                name: 'mass',
             },
         },
     },

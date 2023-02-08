@@ -82,7 +82,7 @@ export default class Stage {
         this.tick = tick;
 
         // Initialize unintialized defaults.
-        this.focus = createPlace(this.project.evaluator, 0, 0, -6);
+        this.focus = createPlace(this.project.evaluator, 0, 0, -6, 0);
     }
 
     /**

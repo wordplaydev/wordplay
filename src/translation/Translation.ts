@@ -784,11 +784,15 @@ type Translation = {
         };
         reaction: NameAndDocTranslation;
         motion: NameAndDocTranslation & {
+            place: NameAndDocTranslation;
+            speed: NameAndDocTranslation;
+            mass: NameAndDocTranslation;
+        };
+        speed: NameAndDocTranslation & {
             vx: NameAndDocTranslation;
             vy: NameAndDocTranslation;
             vz: NameAndDocTranslation;
             va: NameAndDocTranslation;
-            mass: NameAndDocTranslation;
         };
     };
     output: {

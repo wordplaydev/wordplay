@@ -20,6 +20,7 @@ import MicrophoneDefinition from '../input/MicrophoneDefinition';
 import { TimingType } from '../output/Timing';
 import { ArrangementType } from '../output/Arrangement';
 import MotionDefinition from '../input/MotionDefinition';
+import { SpeedType } from '../input/Speed';
 
 export const AnimationTypes = [PoseType, SequenceType, TimingType];
 
@@ -37,6 +38,7 @@ export const StreamDefinitions = [
     RandomDefinition,
     MicrophoneDefinition,
     MotionDefinition,
+    SpeedType,
 ];
 
 const DefaultShares: (

@@ -125,7 +125,7 @@ export default class Evaluation {
     getCurrentNode() {
         return this.currentStep()?.node ?? this.getCreator();
     }
-    getEvaluator() {
+    getEvaluator(): Evaluator {
         return this.#evaluator;
     }
     getDefinition() {

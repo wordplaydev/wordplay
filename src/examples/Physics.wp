@@ -1,2 +1,6 @@
 === Physics
-Phrase("⚽️" place: Motion())
+count: 10
+
+Verse(count → [].translate(
+    ƒ(_) Phrase("⚽️" place: Motion(Place(x: random(-5 5)·1m y: -10m) Speed(vx: random(-3 3)·1m/s va: 30°/s)))
+))

@@ -91,14 +91,32 @@ export function createPlace(
     evaluator: Evaluator,
     x: number,
     y: number,
-    z: number
+    z: number,
+    angle: number
 ): Place {
+    return new Place(
+        createPlaceStructure(evaluator, x, y, z, angle),
+        new Decimal(x),
+        new Decimal(y),
+        new Decimal(z),
+        new Decimal(0)
+    );
+}
+
+export function createPlaceStructure(
+    evaluator: Evaluator,
+    x: number,
+    y: number,
+    z: number,
+    angle: number
+): Structure {
     const creator = evaluator.getMain();
 
     const place = new Map<Names, Value>();
     place.set(PlaceType.inputs[0].names, new Measurement(creator, x));
     place.set(PlaceType.inputs[1].names, new Measurement(creator, y));
     place.set(PlaceType.inputs[2].names, new Measurement(creator, z));
+    place.set(PlaceType.inputs[3].names, new Measurement(creator, angle));
 
     const evaluation = new Evaluation(
         evaluator,
@@ -109,11 +127,6 @@ export function createPlace(
     );
 
     const structure = new Structure(creator, evaluation);
-    return new Place(
-        structure,
-        new Decimal(x),
-        new Decimal(y),
-        new Decimal(z),
-        new Decimal(0)
-    );
+
+    return structure;
 }

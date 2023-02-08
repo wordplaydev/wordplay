@@ -49,7 +49,7 @@
     let fitFocus: Place | undefined = undefined;
 
     /** The creator or audience adjusted focus. Defaults backset. */
-    let adjustedFocus: Place = createPlace(project.evaluator, 0, 0, 0);
+    let adjustedFocus: Place = createPlace(project.evaluator, 0, 0, 0, 0);
 
     /** The state of dragging the adjusted focus. A location or nothiing. */
     let focusDrag:
@@ -166,7 +166,8 @@
                 project.evaluator,
                 -(contentBounds.left + contentBounds.width / 2),
                 -(contentBounds.top + contentBounds.height / 2),
-                z
+                z,
+                0
             );
             // If we're currently fitting to content, just make the adjusted focus the same in case the setting is disabled.
             // This ensures we start from where we left off.
@@ -296,7 +297,7 @@
 
     function setFocus(x: number, y: number, z: number) {
         // Set the new adjusted focus (updating the rendered focus, and thus the animator focus)
-        adjustedFocus = createPlace(project.evaluator, x, y, z);
+        adjustedFocus = createPlace(project.evaluator, x, y, z, 0);
         // Stop fitting
         fit = false;
     }
