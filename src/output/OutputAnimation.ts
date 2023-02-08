@@ -8,6 +8,7 @@ import type { OutputName } from './Stage';
 import Transition from './Transition';
 import Verse from './Verse';
 import type RenderContext from './RenderContext';
+import Phrase from './Phrase';
 
 enum State {
     Entering = 'entering',
@@ -58,11 +59,7 @@ export default class OutputAnimation {
         this.context = context;
         this.name = phrase.getName();
 
-        OutputAnimation.log(
-            `Initializing '${this.output.getDescription([
-                'en',
-            ])}', entry = ${entry}`
-        );
+        this.log(`Initializing animation state`);
 
         // Is this an entry? Start the entry animation, if there is one.
         if (entry) this.enter();
@@ -70,8 +67,15 @@ export default class OutputAnimation {
         else this.rest();
     }
 
-    static log(message: any) {
-        if (Log) console.log(message);
+    log(message: string) {
+        if (Log)
+            console.log(
+                `(${this.output.getName()}) ${
+                    this.output instanceof Phrase
+                        ? this.output.text[0].text
+                        : this.output.value.creator.toWordplay()
+                }: ${message}`
+            );
     }
 
     /** Update the current animation with a new phrase by the same name. */
@@ -84,15 +88,17 @@ export default class OutputAnimation {
         this.context = context;
         this.name = output.getName();
 
-        OutputAnimation.log(
-            `Updating '${this.output.getDescription(['en'])}', entry = ${entry}`
-        );
+        this.log(`Updating, entry = ${entry}`);
 
-        // Did this just enter, or are we currently entering? Go to the enter state.
-        if (entry || this.state === State.Entering) this.enter();
+        // Did this just enter?
+        if (entry) {
+            // Are we not yet entering? Start the entry animation.
+            if (this.state !== State.Entering) this.enter();
+            // Otherwise just wait for entry to finish.
+        }
         // Otherwise, if we're resting, transition to the new rest state.
         else if (this.state === State.Rest) this.rest(prior);
-        // Otherwise, just let the move or exit finish and we'll use the new poses next time.
+        // Otherwise, just let the move or exit finish and it will pick up the updates next time.
     }
 
     /** Change to the still state and start a transition to it. */
@@ -180,9 +186,7 @@ export default class OutputAnimation {
             const outputInfo = this.stage.scene.get(this.output.getName());
 
             if (outputInfo === undefined) {
-                OutputAnimation.log(
-                    `No output info for ${this.output.getName()}`
-                );
+                this.log(`No output info, not entering`);
                 return;
             }
 
@@ -237,7 +241,8 @@ export default class OutputAnimation {
                 ? this.output.rest
                 : this.output.rest.getFirstPose();
 
-        OutputAnimation.log(`From ${prior} to ${present}`);
+        this.log(`Moving from ${prior.toString()} to ${present.toString()}`);
+
         // If there's a pose, tween the prior and new place, posing while we do it, then transition to the still pose.
         // If the rest is an empty sequence, then just use the move pose.
         if (move instanceof Pose)
@@ -362,11 +367,7 @@ export default class OutputAnimation {
 
         // Update to the requested state.
         this.state = state;
-        OutputAnimation.log(
-            `${this.output.getDescription([
-                'en',
-            ])} (${this.output.getName()}) => ${this.state}`
-        );
+        this.log(`State => ${this.state}`);
 
         // Compute the total duration so we can generate offsets for the Web Animation API
         // (and decide whether to animate at all)
@@ -392,9 +393,7 @@ export default class OutputAnimation {
         // If there's DOM element and this isn't exiting, start an animation.
         // (We have to defer for exits because the output needs to render the new exiting output first.)
         if (!(element instanceof HTMLElement)) {
-            OutputAnimation.log(
-                `No element for '${this.output.getHTMLID()}'; ending animation.`
-            );
+            this.log(`No HTML element, ending animation`);
             this.exited();
             return;
         }
@@ -403,10 +402,33 @@ export default class OutputAnimation {
         const info = this.stage.scene.get(this.output.getName());
 
         if (info === undefined) {
-            OutputAnimation.log(
-                `No output info for '${this.output.getName()}', ending animation.`
-            );
+            this.log(`No output info, ending animation.`);
             this.exited();
+            return;
+        }
+
+        // Compute the focus place in this phrase's parent coordinate system.
+        const parents = info.parents;
+        let offsetFocus: Place | undefined = this.stage.focus;
+        if (parents && offsetFocus) {
+            for (const parent of parents) {
+                if (!(parent instanceof Verse)) {
+                    const parentInfo = this.stage.scene.get(parent.getName());
+                    const parentPlace = parentInfo?.local;
+                    if (parentPlace)
+                        offsetFocus = offsetFocus.offset(parentPlace);
+                    else {
+                        offsetFocus = undefined;
+                        break;
+                    }
+                }
+            }
+        } else {
+            offsetFocus = undefined;
+        }
+
+        if (offsetFocus === undefined) {
+            this.log(`Missing parent output info, ignoring animating.`);
             return;
         }
 
@@ -423,31 +445,6 @@ export default class OutputAnimation {
             // Where should we position this? Use the transition's place if it
             // specifies one and the current place if not.
             const localPlace = transition.place ?? info.local;
-
-            // Compute the focus place in this phrase's parent coordinate system.
-            const parents = info.parents;
-            let offsetFocus: Place | undefined = this.stage.focus;
-            if (parents && offsetFocus) {
-                for (const parent of parents) {
-                    if (!(parent instanceof Verse)) {
-                        const parentInfo = this.stage.scene.get(
-                            parent.getName()
-                        );
-                        const parentPlace = parentInfo?.local;
-                        if (parentPlace)
-                            offsetFocus = offsetFocus.offset(parentPlace);
-                        else {
-                            OutputAnimation.log(
-                                `Couldn't find output info for parent ${parent.getName()}`
-                            );
-                            offsetFocus = undefined;
-                            break;
-                        }
-                    }
-                }
-            } else {
-                offsetFocus = undefined;
-            }
 
             // Convert the rest to a transform that respects the rendering rules.
             // All of this logic should mirror what GroupView and PhraseView do.
@@ -481,10 +478,8 @@ export default class OutputAnimation {
             return keyframe;
         });
 
-        OutputAnimation.log(
-            `Starting ${totalDuration}s ${this.state} animation...`
-        );
-        OutputAnimation.log(keyframes);
+        this.log(`Starting ${totalDuration}s ${this.state} animation...`);
+        this.log(keyframes.toString());
 
         // Remember the sequence we're animating so we can highlight elsewhere in the UI.
         this.sequence = transitions;
@@ -503,7 +498,7 @@ export default class OutputAnimation {
     }
 
     finish() {
-        OutputAnimation.log(`Finishing ${this.output.getName()}`);
+        this.log(`Finished; determining next state`);
 
         // If there's a sequence animating, notify the stage we're ending it.
         if (this.sequence) this.stage.endingSequence(this.sequence);
@@ -522,6 +517,8 @@ export default class OutputAnimation {
     }
 
     exited() {
+        this.log(`Exiting`);
+
         // If there's a sequence animating, notify the stage we're ending it.
         if (this.sequence) this.stage.endingSequence(this.sequence);
 

@@ -149,7 +149,7 @@ export default class Stage {
             present.set(name, output);
 
             // Was this phrase not previously present? Add to the entered set.
-            if (!this.priorScene.has(name)) entered.set(name, output);
+            if (!this.scene.has(name)) entered.set(name, output);
 
             // Did the place change? Note the move.
             const priorLocal = this.scene.get(name)?.local;
@@ -181,35 +181,24 @@ export default class Stage {
                     // and remember it's current global place, so we can render it there.
                     if (output.exit) {
                         exited.set(name, output);
-                        console.log(
-                            'Adding ' +
-                                output.value.creator.toWordplay() +
-                                ' to exited'
-                        );
                         const place = info.global;
-                        // Is this in view?
-                        if (place.z.sub(this.focus.z).greaterThan(0)) {
-                            // Use the global place since it's now parent-less.
-                            const newInfo = {
-                                output,
-                                global: place,
-                                local: place,
-                                context: info.context,
-                                parents: [this.verse],
-                            };
-                            // Add to the exiting list for the verse to render.
-                            exiting.set(name, newInfo);
-                            // Add to the present list so that when we later animate,
-                            // it's animation record is updated.
-                            present.set(name, output);
-                            // Re-add to the scene so that animations can get info.
-                            newScene.set(name, newInfo);
-                        }
+                        // Use the global place since it's now parent-less.
+                        const newInfo = {
+                            output,
+                            global: place,
+                            local: place,
+                            context: info.context,
+                            parents: [this.verse],
+                        };
+                        // Add to the exiting list for the verse to render.
+                        exiting.set(name, newInfo);
+                        // Add to the present list so that when we later animate,
+                        // it's animation record is updated.
+                        present.set(name, output);
+                        // Re-add to the scene so that animations can get info.
+                        newScene.set(name, newInfo);
                     }
-                } else
-                    console.log(
-                        'Still in scene: ' + output.value.creator.toWordplay()
-                    );
+                }
             }
         }
 
@@ -277,10 +266,6 @@ export default class Stage {
             // If we have an animation record, trigger exit
             if (animation) {
                 animation.exit();
-                console.log(
-                    'Starting exit animation ' +
-                        animation.output.value.creator.toWordplay()
-                );
                 // If it's already done (for a variety of reasons), end it.
                 if (animation.done()) this.exited(animation);
             }
@@ -293,10 +278,6 @@ export default class Stage {
     }
 
     exited(animation: OutputAnimation) {
-        console.log(
-            'Exit animation complete: ' +
-                animation.output.value.creator.toWordplay()
-        );
         const name = animation.output.getName();
         this.animations.delete(name);
         this.scene.delete(name);

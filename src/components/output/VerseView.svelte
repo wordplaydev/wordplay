@@ -92,6 +92,7 @@
 
         // Defer rendering until we have a view so that animations can be bound to DOM elements.
         tick().then(() => {
+            console.log('Tick callback');
             results.animate();
         });
     }
