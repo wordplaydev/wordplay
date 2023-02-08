@@ -25,7 +25,7 @@
 
     // Filter out groups that are behind the focus
     // Sort by z to preserve rendering order
-    $: visible = places.sort(([, a], [, b]) => b.z.sub(a.z).toNumber());
+    $: ordered = places.sort(([, a], [, b]) => b.z.sub(a.z).toNumber());
 
     // When rendering the children, we need to convert the focus coordinate we were given
     // into this view's coordinate system so that the perspective rendering is in the right coordinates.
@@ -51,7 +51,7 @@
     )}
 >
     <div class="content">
-        {#each visible as [child, childPlace] (child.getName())}
+        {#each ordered as [child, childPlace] (child.getName())}
             {#if child instanceof Phrase}
                 <PhraseView
                     phrase={child}
@@ -63,7 +63,6 @@
                 <svelte:self
                     group={child}
                     place={childPlace}
-                    parent={place}
                     focus={offsetFocus}
                     {context}
                 />

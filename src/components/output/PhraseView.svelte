@@ -27,8 +27,6 @@
     // Visible if z is ahead of focus.
     $: visible = place.z.greaterThan(focus.z);
 
-    $: console.log(focus.z.toNumber());
-
     function select(event: MouseEvent | KeyboardEvent) {
         if ($editable) {
             const node = phrase.value.creator;

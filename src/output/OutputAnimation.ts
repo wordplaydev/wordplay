@@ -331,10 +331,10 @@ export default class OutputAnimation {
         } else if (this.output.exit instanceof Sequence) {
             const sequence = this.output.exit.compile();
             if (sequence) this.start(State.Exiting, sequence);
-            else this.end();
+            else this.exited();
         }
         // No exit? Mark the animation done and cancel any current animations.
-        else this.end();
+        else this.exited();
     }
 
     // Must have at least two transitions.
@@ -395,7 +395,7 @@ export default class OutputAnimation {
             OutputAnimation.log(
                 `No element for '${this.output.getHTMLID()}'; ending animation.`
             );
-            this.end();
+            this.exited();
             return;
         }
 
@@ -406,7 +406,7 @@ export default class OutputAnimation {
             OutputAnimation.log(
                 `No output info for '${this.output.getName()}', ending animation.`
             );
-            this.end();
+            this.exited();
             return;
         }
 
@@ -518,10 +518,10 @@ export default class OutputAnimation {
         )
             this.rest();
         // Did it finish exiting? Done.
-        else if (this.state === State.Exiting) this.end();
+        else if (this.state === State.Exiting) this.exited();
     }
 
-    end() {
+    exited() {
         // If there's a sequence animating, notify the stage we're ending it.
         if (this.sequence) this.stage.endingSequence(this.sequence);
 
@@ -532,7 +532,7 @@ export default class OutputAnimation {
         this.animation?.cancel();
 
         // Notify the stage this ended.
-        this.stage.ended(this);
+        this.stage.exited(this);
     }
 
     /** Done if finished exiting or still and there's no move or exit.  */

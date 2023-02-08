@@ -117,6 +117,8 @@ export default class Stage {
 
         // Compute places, parents, contexts, etc. for all the output in the verse.
         const initialContext = this.getRenderContext();
+
+        // Add the verse to the scene. This is necessary so that animations can get its context.
         const newScene = this.layout(
             this.verse,
             [],
@@ -170,30 +172,44 @@ export default class Stage {
         const exiting = new Map<OutputName, OutputInfo>();
 
         // Now that we have a list of everyone present, remove everyone that was present in the prior scene that is no longer, and note that they exited.
-        for (const [name, info] of this.priorScene) {
-            const output = info.output;
-            if (!newScene.has(name)) {
-                // If the phrase has an exit squence, then add it to the phrases to keep rendering
-                // and remember it's current global place, so we can render it there.
-                if (output.exit) {
-                    exited.set(name, output);
-                    const place = info.global;
-                    // Is this in view?
-                    if (place.z.sub(this.focus.z).greaterThan(0)) {
-                        // Use the global place since it's now parent-less.
-                        const newInfo = {
-                            output,
-                            global: place,
-                            local: place,
-                            context: info.context,
-                            parents: [this.verse],
-                        };
-                        // Add to the exiting list for the verse to render.
-                        exiting.set(name, newInfo);
-                        // Re-add to the scene so that animations can get info.
-                        newScene.set(name, newInfo);
+        // We only do this if this is an animated stage; exiting isn't animated on non-live stages.
+        if (live) {
+            for (const [name, info] of this.scene) {
+                const output = info.output;
+                if (!newScene.has(name)) {
+                    // If the phrase has an exit squence, then add it to the phrases to keep rendering
+                    // and remember it's current global place, so we can render it there.
+                    if (output.exit) {
+                        exited.set(name, output);
+                        console.log(
+                            'Adding ' +
+                                output.value.creator.toWordplay() +
+                                ' to exited'
+                        );
+                        const place = info.global;
+                        // Is this in view?
+                        if (place.z.sub(this.focus.z).greaterThan(0)) {
+                            // Use the global place since it's now parent-less.
+                            const newInfo = {
+                                output,
+                                global: place,
+                                local: place,
+                                context: info.context,
+                                parents: [this.verse],
+                            };
+                            // Add to the exiting list for the verse to render.
+                            exiting.set(name, newInfo);
+                            // Add to the present list so that when we later animate,
+                            // it's animation record is updated.
+                            present.set(name, output);
+                            // Re-add to the scene so that animations can get info.
+                            newScene.set(name, newInfo);
+                        }
                     }
-                }
+                } else
+                    console.log(
+                        'Still in scene: ' + output.value.creator.toWordplay()
+                    );
             }
         }
 
@@ -261,20 +277,29 @@ export default class Stage {
             // If we have an animation record, trigger exit
             if (animation) {
                 animation.exit();
+                console.log(
+                    'Starting exit animation ' +
+                        animation.output.value.creator.toWordplay()
+                );
                 // If it's already done (for a variety of reasons), end it.
-                if (animation.done()) this.ended(animation);
+                if (animation.done()) this.exited(animation);
             }
         }
         return done;
     }
 
     stop() {
-        this.animations.forEach((animation) => animation.end());
+        this.animations.forEach((animation) => animation.exited());
     }
 
-    ended(animation: OutputAnimation) {
+    exited(animation: OutputAnimation) {
+        console.log(
+            'Exit animation complete: ' +
+                animation.output.value.creator.toWordplay()
+        );
         const name = animation.output.getName();
         this.animations.delete(name);
+        this.scene.delete(name);
         this.exit(name);
     }
 
