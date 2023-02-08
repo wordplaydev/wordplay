@@ -23,10 +23,7 @@
     import Stage, { type OutputInfoSet } from '@output/Stage';
     import Decimal from 'decimal.js';
     import Pose from '@output/Pose';
-    import PhraseView from './PhraseView.svelte';
     import GroupView from './GroupView.svelte';
-    import Phrase from '@output/Phrase';
-    import Group from '@output/Group';
     import { tick } from 'svelte';
 
     export let project: Project;
@@ -393,27 +390,8 @@
                 focus={renderedFocus}
                 root
                 {context}
+                extra={exiting}
             />
-            <!-- Render exiting nodes -->
-            {#each Array.from(exiting.entries()) as [name, info] (name)}
-                {#if info.output instanceof Phrase}
-                    <PhraseView
-                        phrase={info.output}
-                        place={info.global}
-                        focus={renderedFocus}
-                        root
-                        {context}
-                    />
-                {:else if info.output instanceof Group}
-                    <GroupView
-                        group={info.output}
-                        place={info.global}
-                        focus={renderedFocus}
-                        root
-                        {context}
-                    />
-                {/if}
-            {/each}
         </div>
     </div>
 {/if}
