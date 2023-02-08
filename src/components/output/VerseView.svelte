@@ -358,6 +358,7 @@
 </script>
 
 {#if mounted}
+    {@const context = stage.getRenderContext()}
     <div
         class="verse {interactive && $playing ? '' : 'inert'} {ignored
             ? 'ignored'
@@ -391,7 +392,7 @@
                 place={center}
                 focus={renderedFocus}
                 root
-                context={stage.getRenderContext()}
+                {context}
             />
             <!-- Render exiting nodes -->
             {#each Array.from(exiting.entries()) as [name, info] (name)}
@@ -401,7 +402,7 @@
                         place={info.global}
                         focus={renderedFocus}
                         root
-                        context={stage.getRenderContext()}
+                        {context}
                     />
                 {:else if info.output instanceof Group}
                     <GroupView
@@ -409,7 +410,7 @@
                         place={info.global}
                         focus={renderedFocus}
                         root
-                        context={stage.getRenderContext()}
+                        {context}
                     />
                 {/if}
             {/each}
