@@ -1,6 +1,5 @@
 import type TypeOutput from './TypeOutput';
 import { PX_PER_METER, sizeToPx, toOutputTransform } from './outputToCSS';
-import Phrase from './Phrase';
 import Place from './Place';
 import Pose from './Pose';
 import Sequence from './Sequence';
@@ -456,8 +455,8 @@ export default class OutputAnimation {
                 keyframe.transform = toOutputTransform(
                     transition.pose,
                     localPlace,
-                    // Need to convert the global focus place this phrase's parent coordinate system.
                     offsetFocus,
+                    false,
                     {
                         width:
                             this.output.getWidth(this.context).toNumber() *
@@ -465,8 +464,7 @@ export default class OutputAnimation {
                         ascent:
                             this.output.getHeight(this.context).toNumber() *
                             PX_PER_METER,
-                    },
-                    this.output instanceof Phrase
+                    }
                 );
             }
 

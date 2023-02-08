@@ -16,12 +16,18 @@
     export let phrase: Phrase;
     export let place: Place;
     export let focus: Place;
+    export let root: boolean = false;
     export let context: RenderContext;
 
     // Compute a local context based on size and font.
     $: context = phrase.getRenderContext(context);
 
     $: editable = getContext<Writable<boolean>>('editable');
+
+    // Visible if z is ahead of focus.
+    $: visible = place.z.greaterThan(focus.z);
+
+    $: console.log(focus.z.toNumber());
 
     function select(event: MouseEvent | KeyboardEvent) {
         if ($editable) {
@@ -77,45 +83,47 @@
     $: selected = $selectedOutput.includes(phrase.value.creator);
 </script>
 
-<div
-    class="phrase"
-    class:selected={$editable && selected}
-    tabIndex="0"
-    data-id={phrase.getHTMLID()}
-    style={outputToCSS(
-        context.font,
-        context.size,
-        // No first pose because of an empty sequence? Give a default.
-        phrase.rest instanceof Pose
-            ? phrase.rest
-            : phrase.rest.getFirstPose() ?? new Pose(phrase.value),
-        place,
-        undefined,
-        undefined,
-        focus,
-        phrase.getMetrics(context),
-        true
-    )}
-    on:mousedown={(event) => ($selectedOutput ? select(event) : null)}
-    on:keydown={handleKey}
->
-    {#if selected}
-        <!-- svelte-ignore a11y-autofocus -->
-        <input
-            type="text"
-            bind:value={text}
-            bind:this={input}
-            on:input={handleInput}
-            on:keydown|stopPropagation
-            style:width="{phrase.getMetrics(context, false).width}px"
-            autofocus
-        />
-    {:else}
-        {@html parseRichText(
-            phrase.getDescription($preferredLanguages)
-        ).toHTML()}
-    {/if}
-</div>
+{#if visible}
+    <div
+        class="phrase"
+        class:selected={$editable && selected}
+        tabIndex="0"
+        data-id={phrase.getHTMLID()}
+        style={outputToCSS(
+            context.font,
+            context.size,
+            // No first pose because of an empty sequence? Give a default.
+            phrase.rest instanceof Pose
+                ? phrase.rest
+                : phrase.rest.getFirstPose() ?? new Pose(phrase.value),
+            place,
+            undefined,
+            undefined,
+            focus,
+            root,
+            phrase.getMetrics(context)
+        )}
+        on:mousedown={(event) => ($selectedOutput ? select(event) : null)}
+        on:keydown={handleKey}
+    >
+        {#if selected}
+            <!-- svelte-ignore a11y-autofocus -->
+            <input
+                type="text"
+                bind:value={text}
+                bind:this={input}
+                on:input={handleInput}
+                on:keydown|stopPropagation
+                style:width="{phrase.getMetrics(context, false).width}px"
+                autofocus
+            />
+        {:else}
+            {@html parseRichText(
+                phrase.getDescription($preferredLanguages)
+            ).toHTML()}
+        {/if}
+    </div>
+{/if}
 
 <style>
     .phrase {

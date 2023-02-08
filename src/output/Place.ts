@@ -56,7 +56,7 @@ export default class Place extends Output {
             this.value,
             this.x.sub(place.x),
             this.y.sub(place.y),
-            this.z.sub(place.z),
+            this.z,
             this.rotation
         );
     }

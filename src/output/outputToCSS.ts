@@ -3,7 +3,14 @@ import type Place from './Place';
 import type Pose from './Pose';
 
 export const PX_PER_METER = 16;
-export const FOCAL_LENGTH = new Decimal(20);
+/** This is a scaling factor: for every 1m of z distance, we scale this much. */
+export const FOCAL_LENGTH = new Decimal(16);
+/**
+ * This is an extra scaling factor added to all output, creating a slight perspective shift from nesting.
+ * This accounts for CSS transforms, which uniformly scale child content, but do not perspective scale it.
+ * This is a bit of a hack, but does create a nice sense of depth.
+ */
+export const INCREMENTAL_SCALING_FACTOR = 0.01;
 
 export function sizeToPx(size: number): string {
     return `${size * PX_PER_METER}px`;
@@ -30,11 +37,22 @@ function rotateDeg(deg: number) {
     return `rotate(${deg}deg)`;
 }
 
-export function zScale(z: Decimal, focusZ: Decimal) {
+export function rootScale(z: Decimal, focusZ: Decimal) {
     // Compute the delta between this phrase and the focus.
     const dz = z.sub(focusZ);
     // Compute a scale proportional to the focal length and inversely proporitional to the difference.
-    return FOCAL_LENGTH.div(dz);
+    return dz.lessThan(0)
+        ? 0
+        : dz.isZero()
+        ? 1
+        : FOCAL_LENGTH.div(dz).toNumber();
+}
+
+export function incrementalScale(z: Decimal) {
+    return Math.max(
+        0,
+        1 + INCREMENTAL_SCALING_FACTOR - z.div(FOCAL_LENGTH).toNumber()
+    );
 }
 
 export function focusToTransform(
@@ -52,15 +70,15 @@ export default function outputToCSS(
     width: number | undefined,
     height: number | undefined,
     focus: Place,
-    metrics: { width: number; ascent: number },
-    perspective: boolean
+    root: boolean,
+    metrics: { width: number; ascent: number }
 ) {
     return toCSS({
         // left: sizeToPx(place.x.toNumber()),
         // top: sizeToPx(place.y.toNumber()),
         width: width ? sizeToPx(width) : undefined,
         height: height ? sizeToPx(height) : undefined,
-        transform: toOutputTransform(pose, place, focus, metrics, perspective),
+        transform: toOutputTransform(pose, place, focus, root, metrics),
         // This disables translation around the center; we want to translate around the focus.
         'transform-origin': '0 0',
         color: pose?.color?.toCSS(),
@@ -75,8 +93,8 @@ export function toOutputTransform(
     pose: Pose,
     place: Place,
     focus: Place,
-    metrics: { width: number; ascent: number },
-    perspective: boolean
+    root: boolean,
+    metrics: { width: number; ascent: number }
 ) {
     // Compute rendered scale based on scale and and flip
     let xScale = 1;
@@ -100,8 +118,15 @@ export function toOutputTransform(
         }
     }
 
-    // Get the z scale using the z place and it's offset.
-    const perspectiveScale = zScale(place.z.add(zOffset), focus.z).toNumber();
+    // Compute the final z position of the output based on it's place and it's offset.
+    const z = place.z.add(zOffset);
+
+    // We compute two different types of perspectve: if this the root, we do
+    // perspective scaling proportional to the distance from the focus to this output.
+    // If it's not the root, then we add to that some scaling factor proportional to the
+    // additional z of the output. This accounts for the cumulative nature of CSS transforms,
+    // where parents affect their children.
+    const perspectiveScale = root ? rootScale(z, focus.z) : incrementalScale(z);
 
     // When computing the center, account for scale
     let centerXOffset = metrics.width / 2;
@@ -118,16 +143,12 @@ export function toOutputTransform(
         // If we're perspective scaling this output, translate around the focus center
         // in the local coordinate system, scale according to distance from focus,
         // then translate back. Remember that this all happens after everything below.
-        perspective
-            ? [
-                  // Undo the focus translation
-                  translateXY(-focusX, -focusY),
-                  // Scale around the focus
-                  scaleXY(perspectiveScale, perspectiveScale),
-                  // Translate to the focus
-                  translateXY(focusX, focusY),
-              ].join(' ')
-            : '',
+        // Undo the focus translation
+        translateXY(-focusX, -focusY),
+        // Scale around the focus
+        scaleXY(perspectiveScale, perspectiveScale),
+        // Translate to the focus
+        translateXY(focusX, focusY),
         // Translate to its position
         translateXY(placeX, placeY),
         // 5. Move back to the top left of the output.

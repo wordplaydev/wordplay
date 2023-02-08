@@ -13,6 +13,7 @@
     export let group: Group | Verse;
     export let place: Place;
     export let focus: Place;
+    export let root: boolean = false;
     export let context: RenderContext;
 
     // Compute a local context based on size and font.
@@ -24,9 +25,7 @@
 
     // Filter out groups that are behind the focus
     // Sort by z to preserve rendering order
-    $: visible = places
-        .filter(([, place]) => place.z.sub(focus.z).greaterThan(0))
-        .sort(([, a], [, b]) => b.z.sub(a.z).toNumber());
+    $: visible = places.sort(([, a], [, b]) => b.z.sub(a.z).toNumber());
 
     // When rendering the children, we need to convert the focus coordinate we were given
     // into this view's coordinate system so that the perspective rendering is in the right coordinates.
@@ -47,8 +46,8 @@
         width,
         height,
         focus,
-        { width, ascent: height },
-        false
+        root,
+        { width, ascent: height }
     )}
 >
     <div class="content">
@@ -64,6 +63,7 @@
                 <svelte:self
                     group={child}
                     place={childPlace}
+                    parent={place}
                     focus={offsetFocus}
                     {context}
                 />

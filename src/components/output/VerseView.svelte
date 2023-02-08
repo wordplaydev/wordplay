@@ -51,8 +51,8 @@
     /** The verse focus that fits the content to the view*/
     let fitFocus: Place | undefined = undefined;
 
-    /** The creator or audience adjusted focus. Defaults backset 12m. */
-    let adjustedFocus: Place = createPlace(project.evaluator, 0, 0, -12);
+    /** The creator or audience adjusted focus. Defaults backset. */
+    let adjustedFocus: Place = createPlace(project.evaluator, 0, 0, 0);
 
     /** The state of dragging the adjusted focus. A location or nothiing. */
     let focusDrag:
@@ -67,8 +67,10 @@
             project,
             // When output exits, remove it from the map and triggering a render.
             (name) => {
-                exiting.delete(name);
-                exiting = new Map(exiting);
+                if (exiting.has(name)) {
+                    exiting.delete(name);
+                    exiting = new Map(exiting);
+                }
             },
             // When the animating poses or sequences on stage change, update the store
             (nodes) => {
@@ -140,7 +142,7 @@
             const contentWidth = contentBounds.width;
             const contentHeight = contentBounds.height;
 
-            // Conver them to screen units.
+            // Convert them to screen units.
             const contentRenderedWidth = contentWidth * PX_PER_METER;
             const contentRenderedHeight = contentHeight * PX_PER_METER;
 
@@ -154,9 +156,7 @@
                 availableWidth / contentRenderedWidth <
                 availableHeight / contentRenderedHeight;
 
-            // Adjust the x so that everything fits inside.
-
-            // This is is a bit of constraint solving to calculate the z necessary for achieving the scale computed above.
+            // A bit of constraint solving to calculate the z necessary for achieving the scale computed above.
             const z =
                 -(
                     (horizontal ? contentWidth : contentHeight) *
@@ -347,6 +347,14 @@
         //         )
         //     );
     }
+
+    $: center = new Place(
+        verse.value,
+        new Decimal(0),
+        new Decimal(0),
+        new Decimal(0),
+        new Decimal(0)
+    );
 </script>
 
 {#if mounted}
@@ -380,14 +388,9 @@
             <!-- Render the verse -->
             <GroupView
                 group={verse}
-                place={new Place(
-                    verse.value,
-                    new Decimal(0),
-                    new Decimal(0),
-                    new Decimal(0),
-                    new Decimal(0)
-                )}
+                place={center}
                 focus={renderedFocus}
+                root
                 context={stage.getRenderContext()}
             />
             <!-- Render exiting nodes -->
@@ -397,6 +400,7 @@
                         phrase={info.output}
                         place={info.global}
                         focus={renderedFocus}
+                        root
                         context={stage.getRenderContext()}
                     />
                 {:else if info.output instanceof Group}
@@ -404,6 +408,7 @@
                         group={info.output}
                         place={info.global}
                         focus={renderedFocus}
+                        root
                         context={stage.getRenderContext()}
                     />
                 {/if}

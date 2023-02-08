@@ -1,7 +1,7 @@
 import type Project from '../models/Project';
 import type LanguageCode from '../translation/LanguageCode';
 import type TypeOutput from './TypeOutput';
-import type Place from './Place';
+import Place from './Place';
 import { createPlace } from './Place';
 import RenderContext from './RenderContext';
 import type Verse from './Verse';
@@ -9,6 +9,7 @@ import OutputAnimation from './OutputAnimation';
 import type Transition from './Transition';
 import type Node from '@nodes/Node';
 import { DefaultFont, DefaultSize } from './Verse';
+import Decimal from 'decimal.js';
 
 export type OutputName = string;
 
@@ -81,7 +82,7 @@ export default class Stage {
         this.tick = tick;
 
         // Initialize unintialized defaults.
-        this.focus = createPlace(this.project.evaluator, 0, 0, -12);
+        this.focus = createPlace(this.project.evaluator, 0, 0, -6);
     }
 
     /**
@@ -115,12 +116,28 @@ export default class Stage {
         const present = new Map<OutputName, TypeOutput>();
 
         // Compute places, parents, contexts, etc. for all the output in the verse.
+        const initialContext = this.getRenderContext();
         const newScene = this.layout(
             this.verse,
             [],
             new Map<OutputName, OutputInfo>(),
-            this.getRenderContext()
+            initialContext
         );
+
+        const center = new Place(
+            verse.value,
+            new Decimal(0),
+            new Decimal(0),
+            new Decimal(0),
+            new Decimal(0)
+        );
+        newScene.set(verse.getName(), {
+            output: verse,
+            global: center,
+            local: center,
+            parents: [],
+            context: initialContext,
+        });
 
         // Based on the places, figure out which output is present and visible.
         for (const [name, info] of newScene) {

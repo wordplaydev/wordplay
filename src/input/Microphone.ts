@@ -20,7 +20,7 @@ export default class Microphone extends Stream {
     frequency: number | undefined;
 
     constructor(evaluator: Evaluator, frequency: number | undefined) {
-        super(evaluator, new Measurement(evaluator.getMain(), 0));
+        super(evaluator, new Measurement(evaluator.getMain(), 100));
         this.frequency = frequency ?? DEFAULT_FREQUENCY;
     }
 
