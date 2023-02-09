@@ -1,14 +1,28 @@
-import MeasurementType from '@nodes/MeasurementType';
-import StreamType from '@nodes/StreamType';
-import Unit from '@nodes/Unit';
 import type Evaluator from '@runtime/Evaluator';
+import { createPlaceStructure } from '@output/Place';
+import TemporalStream from '@runtime/TemporalStream';
+import NativeExpression from '../native/NativeExpression';
+import Bind from '@nodes/Bind';
+import Evaluate from '@nodes/Evaluate';
+import MeasurementLiteral from '@nodes/MeasurementLiteral';
+import MeasurementType from '@nodes/MeasurementType';
+import type Names from '@nodes/Names';
+import Reference from '@nodes/Reference';
+import StreamDefinition from '@nodes/StreamDefinition';
+import StreamType from '@nodes/StreamType';
+import StructureDefinitionType from '@nodes/StructureDefinitionType';
+import Unit from '@nodes/Unit';
+import { createPlace, PlaceType, toPlace } from '@output/Place';
+import type Evaluation from '@runtime/Evaluation';
+import Measurement from '@runtime/Measurement';
+import Structure from '@runtime/Structure';
 import { getDocTranslations } from '@translation/getDocTranslations';
 import { getNameTranslations } from '@translation/getNameTranslations';
-import type Place from '../output/Place';
-import type Structure from '../runtime/Structure';
-import { createPlaceStructure } from '../output/Place';
-import MotionDefinition from './MotionDefinition';
-import TemporalStream from '../runtime/TemporalStream';
+import toStructure from '../native/toStructure';
+import Place from '@output/Place';
+import { toDecimal } from '@output/Verse';
+import type Value from '@runtime/Value';
+import { getBind } from '@translation/getBind';
 
 const DEFAULT_MASS = 1;
 
@@ -71,14 +85,6 @@ export default class Motion extends TemporalStream<Structure> {
         this.ivz = this.vz;
         this.iva = this.va;
         this.imass = this.mass;
-    }
-
-    computeDocs() {
-        return getDocTranslations((t) => t.input.time.doc);
-    }
-
-    computeNames() {
-        return getNameTranslations((t) => t.input.time.name);
     }
 
     // No setup or teardown, the Evaluator handles the requestAnimationFrame loop.
@@ -149,4 +155,95 @@ export default class Motion extends TemporalStream<Structure> {
     getType() {
         return StreamType.make(MeasurementType.make(Unit.unit(['ms'])));
     }
+}
+
+export const SpeedType = toStructure(`
+    ${getBind((t) => t.input.speed, '•')}(
+        ${getBind((t) => t.input.speed.vx)}•#m/s: 0m/s
+        ${getBind((t) => t.input.speed.vy)}•#m/s: 0m/s
+        ${getBind((t) => t.input.speed.vz)}•#m/s: 0m/s
+        ${getBind((t) => t.input.speed.va)}•#°/s: 0°/s
+    )
+`);
+
+export function toSpeed(value: Value | undefined): Place | undefined {
+    if (value === undefined) return undefined;
+
+    const x = toDecimal(value.resolve('vx'));
+    const y = toDecimal(value.resolve('vy'));
+    const z = toDecimal(value.resolve('vz'));
+    const rotation = toDecimal(value.resolve('va'));
+    return x && y && z && rotation
+        ? new Place(value, x, y, z, rotation)
+        : undefined;
+}
+
+const placeBind = Bind.make(
+    getDocTranslations((t) => t.input.motion.place.doc),
+    getNameTranslations((t) => t.input.motion.place.name),
+    new StructureDefinitionType(PlaceType),
+    Evaluate.make(Reference.make(PlaceType.names.getNames()[0], PlaceType), [])
+);
+
+const speedBind = Bind.make(
+    getDocTranslations((t) => t.input.motion.speed.doc),
+    getNameTranslations((t) => t.input.motion.speed.name),
+    new StructureDefinitionType(SpeedType),
+    Evaluate.make(Reference.make(SpeedType.names.getNames()[0], SpeedType), [])
+);
+
+const massBind = Bind.make(
+    getDocTranslations((t) => t.input.motion.mass.doc),
+    getNameTranslations((t) => t.input.motion.mass.name),
+    MeasurementType.make(Unit.unit(['kg'])),
+    // Default to 1kg.
+    MeasurementLiteral.make(1, Unit.unit(['kg']))
+);
+
+const type = new StructureDefinitionType(PlaceType);
+
+export const MotionDefinition = StreamDefinition.make(
+    getDocTranslations((t) => t.input.motion.doc),
+    getNameTranslations((t) => t.input.motion.name),
+    [placeBind, speedBind, massBind],
+    new NativeExpression(StreamType.make(type.clone()), (_, evaluation) => {
+        const evaluator = evaluation.getEvaluator();
+
+        // Get the given values of the inputs..
+        const place = toPlace(getStructure(evaluation, placeBind.names));
+        const speed = toSpeed(getStructure(evaluation, speedBind.names));
+        const mass: number | undefined = toNumber(evaluation, massBind.names);
+
+        // Get the motion stream corresponding to this node, creating one if necessary with the given inputs, or updating it, get it latest value.
+        const stream = evaluator.getNativeStreamFor(evaluation.getCreator());
+
+        // Update the configuration of the stream with the new frequency.
+        if (stream instanceof Motion) {
+            if (place) stream.setPlace(place);
+            if (speed) stream.setSpeed(speed);
+            if (mass) stream.setMass(mass);
+            return stream;
+        } else {
+            const newStream = new Motion(
+                evaluator,
+                place ?? createPlace(evaluator, 0, 0, 0, 0),
+                speed ?? createPlace(evaluator, 0, 0, 0, 0),
+                mass
+            );
+            evaluator.addNativeStreamFor(evaluation.getCreator(), newStream);
+            return newStream;
+        }
+    }),
+    type.clone()
+);
+
+function getStructure(evaluation: Evaluation, names: Names) {
+    const value = evaluation.resolve(names);
+    if (value === undefined || !(value instanceof Structure)) return undefined;
+    return value;
+}
+
+function toNumber(evaluation: Evaluation, names: Names) {
+    const value = evaluation.resolve(names);
+    return value instanceof Measurement ? value.toNumber() : undefined;
 }

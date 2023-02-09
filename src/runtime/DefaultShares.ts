@@ -10,17 +10,16 @@ import { ColorType } from '../output/Color';
 import { PlaceType } from '../output/Place';
 import { SequenceType } from '../output/Sequence';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
-import TimeDefinition from '../input/TimeDefinition';
 import type StreamDefinition from '../nodes/StreamDefinition';
-import KeyboardDefinition from '../input/KeyboardDefinition';
-import MousePositionDefinition from '../input/MousePositionDefinition';
-import MouseButtonDefinition from '../input/MouseButtonDefinition';
-import RandomDefinition from '../input/RandomDefinition';
-import MicrophoneDefinition from '../input/MicrophoneDefinition';
+import { TimeDefinition } from '../input/Time';
+import { KeyboardDefinition } from '../input/Keyboard';
+import { MicrophoneDefinition } from '../input/Microphone';
+import { MotionDefinition, SpeedType } from '../input/Motion';
+import { MousePositionDefinition } from '../input/MousePosition';
+import { MouseButtonDefinition } from '../input/MouseButton';
+import { RandomDefinition } from '../input/Random';
 import { TimingType } from '../output/Timing';
 import { ArrangementType } from '../output/Arrangement';
-import MotionDefinition from '../input/MotionDefinition';
-import { SpeedType } from '../input/Speed';
 
 export const AnimationTypes = [PoseType, SequenceType, TimingType];
 

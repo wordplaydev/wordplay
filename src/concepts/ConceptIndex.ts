@@ -18,12 +18,12 @@ import {
 } from './DefaultConcepts';
 import type TypeSet from '@nodes/TypeSet';
 import type StreamDefinition from '../nodes/StreamDefinition';
-import TimeDefinition from '../input/TimeDefinition';
-import KeyboardDefinition from '../input/KeyboardDefinition';
-import MousePositionDefinition from '../input/MousePositionDefinition';
-import MouseButtonDefinition from '../input/MouseButtonDefinition';
-import RandomDefinition from '../input/RandomDefinition';
-import MicrophoneDefinition from '../input/MicrophoneDefinition';
+import { TimeDefinition } from '../input/Time';
+import { KeyboardDefinition } from '../input/Keyboard';
+import { MousePositionDefinition } from '../input/MousePosition';
+import { MouseButtonDefinition } from '../input/MouseButton';
+import { RandomDefinition } from '../input/Random';
+import { MicrophoneDefinition } from '../input/Microphone';
 
 export default class ConceptIndex {
     readonly concepts: Concept[];

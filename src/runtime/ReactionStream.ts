@@ -19,14 +19,6 @@ export default class ReactionStream extends Stream {
         this.reaction = reaction;
     }
 
-    computeDocs() {
-        return getDocTranslations((t) => t.input.reaction.doc);
-    }
-
-    computeNames() {
-        return getNameTranslations((t) => t.input.reaction.name);
-    }
-
     start(): void {}
     stop() {}
     getType(context: Context) {
