@@ -16,7 +16,6 @@ import TypeException from '@runtime/TypeException';
 import type Value from '@runtime/Value';
 import { createNativeConversion } from './NativeBindings';
 import NativeExpression from './NativeExpression';
-import type Node from '@nodes/Node';
 import type Evaluation from '@runtime/Evaluation';
 import List from '@runtime/List';
 import type Docs from '@nodes/Docs';
@@ -24,6 +23,7 @@ import type Names from '@nodes/Names';
 import { getFunctionTranslations } from '@translation/getFunctionTranslations';
 import { getDocTranslations } from '@translation/getDocTranslations';
 import { getNameTranslations } from '@translation/getNameTranslations';
+import type Expression from '../nodes/Expression';
 
 export default function bootstrapMeasurement() {
     const subtractNames = getNameTranslations(
@@ -39,7 +39,7 @@ export default function bootstrapMeasurement() {
         inputType: Type,
         outputType: Type,
         expression: (
-            requestor: Node,
+            requestor: Expression,
             left: Measurement,
             right: Measurement
         ) => Value | undefined,
@@ -101,7 +101,10 @@ export default function bootstrapMeasurement() {
             inputs: { docs: Docs; names: Names }[];
         },
         outputType: Type,
-        expression: (requestor: Node, left: Measurement) => Value | undefined
+        expression: (
+            requestor: Expression,
+            left: Measurement
+        ) => Value | undefined
     ) {
         return FunctionDefinition.make(
             translations.docs,
@@ -349,7 +352,7 @@ export default function bootstrapMeasurement() {
                     ),
                     '#?',
                     "''",
-                    (requestor: Node, val: Measurement) =>
+                    (requestor: Expression, val: Measurement) =>
                         new Text(requestor, val.toString())
                 ),
                 createNativeConversion(
@@ -358,7 +361,7 @@ export default function bootstrapMeasurement() {
                     ),
                     '#',
                     '[]',
-                    (requestor: Node, val: Measurement) => {
+                    (requestor: Expression, val: Measurement) => {
                         const list = [];
                         const max = val.toNumber();
                         if (max < 0) return new List(requestor, []);
@@ -375,7 +378,7 @@ export default function bootstrapMeasurement() {
                     ),
                     '#s',
                     '#min',
-                    (requestor: Node, val: Measurement) =>
+                    (requestor: Expression, val: Measurement) =>
                         val.divide(
                             requestor,
                             new Measurement(
@@ -391,7 +394,7 @@ export default function bootstrapMeasurement() {
                     ),
                     '#s',
                     '#h',
-                    (requestor: Node, val: Measurement) =>
+                    (requestor: Expression, val: Measurement) =>
                         val.divide(
                             requestor,
                             new Measurement(
@@ -407,7 +410,7 @@ export default function bootstrapMeasurement() {
                     ),
                     '#s',
                     '#day',
-                    (requestor: Node, val: Measurement) =>
+                    (requestor: Expression, val: Measurement) =>
                         val.divide(
                             requestor,
                             new Measurement(
@@ -423,7 +426,7 @@ export default function bootstrapMeasurement() {
                     ),
                     '#s',
                     '#wk',
-                    (requestor: Node, val: Measurement) =>
+                    (requestor: Expression, val: Measurement) =>
                         val.divide(
                             requestor,
                             new Measurement(
@@ -439,7 +442,7 @@ export default function bootstrapMeasurement() {
                     ),
                     '#s',
                     '#yr',
-                    (requestor: Node, val: Measurement) =>
+                    (requestor: Expression, val: Measurement) =>
                         val.divide(
                             requestor,
                             new Measurement(
@@ -455,7 +458,7 @@ export default function bootstrapMeasurement() {
                     ),
                     '#s',
                     '#ms',
-                    (requestor: Node, val: Measurement) =>
+                    (requestor: Expression, val: Measurement) =>
                         val.multiply(
                             requestor,
                             new Measurement(
@@ -471,7 +474,7 @@ export default function bootstrapMeasurement() {
                     ),
                     '#ms',
                     '#s',
-                    (requestor: Node, val: Measurement) =>
+                    (requestor: Expression, val: Measurement) =>
                         val.divide(
                             requestor,
                             new Measurement(
@@ -487,7 +490,7 @@ export default function bootstrapMeasurement() {
                     ),
                     '#min',
                     '#s',
-                    (requestor: Node, val: Measurement) =>
+                    (requestor: Expression, val: Measurement) =>
                         val.multiply(
                             requestor,
                             new Measurement(
@@ -503,7 +506,7 @@ export default function bootstrapMeasurement() {
                     ),
                     '#h',
                     '#s',
-                    (requestor: Node, val: Measurement) =>
+                    (requestor: Expression, val: Measurement) =>
                         val.multiply(
                             requestor,
                             new Measurement(
@@ -519,7 +522,7 @@ export default function bootstrapMeasurement() {
                     ),
                     '#day',
                     '#s',
-                    (requestor: Node, val: Measurement) =>
+                    (requestor: Expression, val: Measurement) =>
                         val.multiply(
                             requestor,
                             new Measurement(
@@ -535,7 +538,7 @@ export default function bootstrapMeasurement() {
                     ),
                     '#wk',
                     '#s',
-                    (requestor: Node, val: Measurement) =>
+                    (requestor: Expression, val: Measurement) =>
                         val.multiply(
                             requestor,
                             new Measurement(
@@ -551,7 +554,7 @@ export default function bootstrapMeasurement() {
                     ),
                     '#yr',
                     '#s',
-                    (requestor: Node, val: Measurement) =>
+                    (requestor: Expression, val: Measurement) =>
                         val.multiply(
                             requestor,
                             new Measurement(
@@ -569,7 +572,7 @@ export default function bootstrapMeasurement() {
                     ),
                     '#m',
                     '#pm',
-                    (requestor: Node, val: Measurement) =>
+                    (requestor: Expression, val: Measurement) =>
                         val.multiply(
                             requestor,
                             new Measurement(
@@ -585,7 +588,7 @@ export default function bootstrapMeasurement() {
                     ),
                     '#m',
                     '#nm',
-                    (requestor: Node, val: Measurement) =>
+                    (requestor: Expression, val: Measurement) =>
                         val.multiply(
                             requestor,
                             new Measurement(
@@ -601,7 +604,7 @@ export default function bootstrapMeasurement() {
                     ),
                     '#m',
                     '#µm',
-                    (requestor: Node, val: Measurement) =>
+                    (requestor: Expression, val: Measurement) =>
                         val.multiply(
                             requestor,
                             new Measurement(
@@ -617,7 +620,7 @@ export default function bootstrapMeasurement() {
                     ),
                     '#m',
                     '#mm',
-                    (requestor: Node, val: Measurement) =>
+                    (requestor: Expression, val: Measurement) =>
                         val.multiply(
                             requestor,
                             new Measurement(
@@ -634,7 +637,7 @@ export default function bootstrapMeasurement() {
 
                     '#m',
                     '#cm',
-                    (requestor: Node, val: Measurement) =>
+                    (requestor: Expression, val: Measurement) =>
                         val.multiply(
                             requestor,
                             new Measurement(
@@ -650,7 +653,7 @@ export default function bootstrapMeasurement() {
                     ),
                     '#m',
                     '#dm',
-                    (requestor: Node, val: Measurement) =>
+                    (requestor: Expression, val: Measurement) =>
                         val.multiply(
                             requestor,
                             new Measurement(
@@ -666,7 +669,7 @@ export default function bootstrapMeasurement() {
                     ),
                     '#m',
                     '#km',
-                    (requestor: Node, val: Measurement) =>
+                    (requestor: Expression, val: Measurement) =>
                         val.divide(
                             requestor,
                             new Measurement(
@@ -682,7 +685,7 @@ export default function bootstrapMeasurement() {
                     ),
                     '#m',
                     '#Mm',
-                    (requestor: Node, val: Measurement) =>
+                    (requestor: Expression, val: Measurement) =>
                         val.divide(
                             requestor,
                             new Measurement(
@@ -698,7 +701,7 @@ export default function bootstrapMeasurement() {
                     ),
                     '#m',
                     '#Gm',
-                    (requestor: Node, val: Measurement) =>
+                    (requestor: Expression, val: Measurement) =>
                         val.divide(
                             requestor,
                             new Measurement(
@@ -714,7 +717,7 @@ export default function bootstrapMeasurement() {
                     ),
                     '#m',
                     '#Tm',
-                    (requestor: Node, val: Measurement) =>
+                    (requestor: Expression, val: Measurement) =>
                         val.divide(
                             requestor,
                             new Measurement(
@@ -730,7 +733,7 @@ export default function bootstrapMeasurement() {
                     ),
                     '#pm',
                     '#m',
-                    (requestor: Node, val: Measurement) =>
+                    (requestor: Expression, val: Measurement) =>
                         val.divide(
                             requestor,
                             new Measurement(
@@ -746,7 +749,7 @@ export default function bootstrapMeasurement() {
                     ),
                     '#nm',
                     '#m',
-                    (requestor: Node, val: Measurement) =>
+                    (requestor: Expression, val: Measurement) =>
                         val.divide(
                             requestor,
                             new Measurement(
@@ -762,7 +765,7 @@ export default function bootstrapMeasurement() {
                     ),
                     '#µm',
                     '#m',
-                    (requestor: Node, val: Measurement) =>
+                    (requestor: Expression, val: Measurement) =>
                         val.divide(
                             requestor,
                             new Measurement(
@@ -778,7 +781,7 @@ export default function bootstrapMeasurement() {
                     ),
                     '#mm',
                     '#m',
-                    (requestor: Node, val: Measurement) =>
+                    (requestor: Expression, val: Measurement) =>
                         val.divide(
                             requestor,
                             new Measurement(
@@ -794,7 +797,7 @@ export default function bootstrapMeasurement() {
                     ),
                     '#cm',
                     '#m',
-                    (requestor: Node, val: Measurement) =>
+                    (requestor: Expression, val: Measurement) =>
                         val.divide(
                             requestor,
                             new Measurement(
@@ -810,7 +813,7 @@ export default function bootstrapMeasurement() {
                     ),
                     '#dm',
                     '#m',
-                    (requestor: Node, val: Measurement) =>
+                    (requestor: Expression, val: Measurement) =>
                         val.divide(
                             requestor,
                             new Measurement(
@@ -826,7 +829,7 @@ export default function bootstrapMeasurement() {
                     ),
                     '#km',
                     '#m',
-                    (requestor: Node, val: Measurement) =>
+                    (requestor: Expression, val: Measurement) =>
                         val.multiply(
                             requestor,
                             new Measurement(
@@ -842,7 +845,7 @@ export default function bootstrapMeasurement() {
                     ),
                     '#Mm',
                     '#m',
-                    (requestor: Node, val: Measurement) =>
+                    (requestor: Expression, val: Measurement) =>
                         val.multiply(
                             requestor,
                             new Measurement(
@@ -858,7 +861,7 @@ export default function bootstrapMeasurement() {
                     ),
                     '#Gm',
                     '#m',
-                    (requestor: Node, val: Measurement) =>
+                    (requestor: Expression, val: Measurement) =>
                         val.multiply(
                             requestor,
                             new Measurement(
@@ -874,7 +877,7 @@ export default function bootstrapMeasurement() {
                     ),
                     '#Tm',
                     '#m',
-                    (requestor: Node, val: Measurement) =>
+                    (requestor: Expression, val: Measurement) =>
                         val.divide(
                             requestor,
                             new Measurement(
@@ -892,7 +895,7 @@ export default function bootstrapMeasurement() {
                     ),
                     '#km',
                     '#mi',
-                    (requestor: Node, val: Measurement) =>
+                    (requestor: Expression, val: Measurement) =>
                         val.multiply(
                             requestor,
                             new Measurement(
@@ -908,7 +911,7 @@ export default function bootstrapMeasurement() {
                     ),
                     '#mi',
                     '#km',
-                    (requestor: Node, val: Measurement) =>
+                    (requestor: Expression, val: Measurement) =>
                         val.divide(
                             requestor,
                             new Measurement(
@@ -924,7 +927,7 @@ export default function bootstrapMeasurement() {
                     ),
                     '#cm',
                     '#in',
-                    (requestor: Node, val: Measurement) =>
+                    (requestor: Expression, val: Measurement) =>
                         val.multiply(
                             requestor,
                             new Measurement(
@@ -940,7 +943,7 @@ export default function bootstrapMeasurement() {
                     ),
                     '#in',
                     '#cm',
-                    (requestor: Node, val: Measurement) =>
+                    (requestor: Expression, val: Measurement) =>
                         val.divide(
                             requestor,
                             new Measurement(
@@ -956,7 +959,7 @@ export default function bootstrapMeasurement() {
                     ),
                     '#m',
                     '#ft',
-                    (requestor: Node, val: Measurement) =>
+                    (requestor: Expression, val: Measurement) =>
                         val.multiply(
                             requestor,
                             new Measurement(
@@ -972,7 +975,7 @@ export default function bootstrapMeasurement() {
                     ),
                     '#ft',
                     '#m',
-                    (requestor: Node, val: Measurement) =>
+                    (requestor: Expression, val: Measurement) =>
                         val.divide(
                             requestor,
                             new Measurement(
@@ -990,7 +993,7 @@ export default function bootstrapMeasurement() {
                     ),
                     '#g',
                     '#mg',
-                    (requestor: Node, val: Measurement) =>
+                    (requestor: Expression, val: Measurement) =>
                         val.multiply(
                             requestor,
                             new Measurement(
@@ -1006,7 +1009,7 @@ export default function bootstrapMeasurement() {
                     ),
                     '#mg',
                     '#g',
-                    (requestor: Node, val: Measurement) =>
+                    (requestor: Expression, val: Measurement) =>
                         val.divide(
                             requestor,
                             new Measurement(
@@ -1022,7 +1025,7 @@ export default function bootstrapMeasurement() {
                     ),
                     '#g',
                     '#kg',
-                    (requestor: Node, val: Measurement) =>
+                    (requestor: Expression, val: Measurement) =>
                         val.divide(
                             requestor,
                             new Measurement(
@@ -1038,7 +1041,7 @@ export default function bootstrapMeasurement() {
                     ),
                     '#kg',
                     '#g',
-                    (requestor: Node, val: Measurement) =>
+                    (requestor: Expression, val: Measurement) =>
                         val.multiply(
                             requestor,
                             new Measurement(
@@ -1054,7 +1057,7 @@ export default function bootstrapMeasurement() {
                     ),
                     '#g',
                     '#oz',
-                    (requestor: Node, val: Measurement) =>
+                    (requestor: Expression, val: Measurement) =>
                         val.multiply(
                             requestor,
                             new Measurement(
@@ -1070,7 +1073,7 @@ export default function bootstrapMeasurement() {
                     ),
                     '#oz',
                     '#g',
-                    (requestor: Node, val: Measurement) =>
+                    (requestor: Expression, val: Measurement) =>
                         val.divide(
                             requestor,
                             new Measurement(
@@ -1086,7 +1089,7 @@ export default function bootstrapMeasurement() {
                     ),
                     '#oz',
                     '#lb',
-                    (requestor: Node, val: Measurement) =>
+                    (requestor: Expression, val: Measurement) =>
                         val.multiply(
                             requestor,
                             new Measurement(
@@ -1102,7 +1105,7 @@ export default function bootstrapMeasurement() {
                     ),
                     '#lb',
                     '#oz',
-                    (requestor: Node, val: Measurement) =>
+                    (requestor: Expression, val: Measurement) =>
                         val.divide(
                             requestor,
                             new Measurement(

@@ -6,7 +6,6 @@ import Evaluation from './Evaluation';
 import type Evaluator from './Evaluator';
 import FunctionValue from './FunctionValue';
 import Value from './Value';
-import type Node from '@nodes/Node';
 import Measurement from './Measurement';
 import Text from './Text';
 import Bool from './Bool';
@@ -20,12 +19,13 @@ import {
 import type { NativeTypeName } from '../native/NativeConstants';
 import type Translation from '@translation/Translation';
 import type PropertyBind from '../nodes/PropertyBind';
+import type Expression from '../nodes/Expression';
 
 export default class Structure extends Value {
     readonly type: StructureDefinition;
     readonly context: Evaluation;
 
-    constructor(creator: Node, context: Evaluation) {
+    constructor(creator: Expression, context: Evaluation) {
         super(creator);
 
         this.type = context.getDefinition() as StructureDefinition;

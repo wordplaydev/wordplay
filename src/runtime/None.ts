@@ -1,13 +1,13 @@
 import NoneType from '@nodes/NoneType';
 import { NONE_SYMBOL } from '@parser/Symbols';
 import type Value from './Value';
-import type Node from '@nodes/Node';
 import type { NativeTypeName } from '../native/NativeConstants';
 import Primitive from './Primitive';
 import type Translation from '@translation/Translation';
+import type Expression from '../nodes/Expression';
 
 export default class None extends Primitive {
-    constructor(creator: Node) {
+    constructor(creator: Expression) {
         super(creator);
     }
 

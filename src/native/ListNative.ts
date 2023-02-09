@@ -23,13 +23,13 @@ import NativeHOFListUntil from './HOFListUntil';
 import Set from '@runtime/Set';
 import StructureDefinition from '@nodes/StructureDefinition';
 import Block from '@nodes/Block';
-import type Node from '@nodes/Node';
 import Measurement from '@runtime/Measurement';
 import type Evaluation from '@runtime/Evaluation';
 import TypeVariables from '@nodes/TypeVariables';
 import { getDocTranslations } from '@translation/getDocTranslations';
 import { getNameTranslations } from '@translation/getNameTranslations';
 import TypeVariable from '@nodes/TypeVariable';
+import type Expression from '../nodes/Expression';
 
 export default function bootstrapList() {
     const ListTypeVarNames = getNameTranslations((t) => t.native.list.kind);
@@ -742,14 +742,14 @@ export default function bootstrapList() {
                     getDocTranslations((t) => t.native.list.conversion.text),
                     '[]',
                     "''",
-                    (requestor: Node, val: List) =>
+                    (requestor: Expression, val: List) =>
                         new Text(requestor, val.toString())
                 ),
                 createNativeConversion(
                     getDocTranslations((t) => t.native.list.conversion.set),
                     '[]',
                     '{}',
-                    (requestor: Node, val: List) =>
+                    (requestor: Expression, val: List) =>
                         new Set(requestor, val.getValues())
                 ),
             ],

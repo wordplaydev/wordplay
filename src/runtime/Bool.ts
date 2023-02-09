@@ -7,13 +7,13 @@ import type Evaluator from './Evaluator';
 import FunctionException from './FunctionException';
 import Primitive from './Primitive';
 import type Value from './Value';
-import type Node from '@nodes/Node';
 import type Translation from '@translation/Translation';
+import type Expression from '../nodes/Expression';
 
 export default class Bool extends Primitive {
     readonly bool: boolean;
 
-    constructor(creator: Node, bool: boolean) {
+    constructor(creator: Expression, bool: boolean) {
         super(creator);
 
         this.bool = bool;
@@ -31,18 +31,18 @@ export default class Bool extends Primitive {
         return 'boolean';
     }
 
-    and(requestor: Node, value: Bool) {
+    and(requestor: Expression, value: Bool) {
         return new Bool(requestor, this.bool && value.bool);
     }
-    or(requestor: Node, value: Bool) {
+    or(requestor: Expression, value: Bool) {
         return new Bool(requestor, this.bool || value.bool);
     }
-    not(requestor: Node) {
+    not(requestor: Expression) {
         return new Bool(requestor, !this.bool);
     }
 
     evaluatePrefix(
-        requestor: Node,
+        requestor: Expression,
         evaluator: Evaluator,
         op: UnaryOperation
     ): Value {

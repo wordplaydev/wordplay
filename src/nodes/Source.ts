@@ -16,7 +16,6 @@ import Bind from './Bind';
 import type Type from './Type';
 import type TypeSet from './TypeSet';
 import type Step from '@runtime/Step';
-import type Stream from '@runtime/Stream';
 import type { SharedDefinition } from './Borrow';
 import FunctionDefinition from './FunctionDefinition';
 import StructureDefinition from './StructureDefinition';
@@ -554,7 +553,7 @@ export default class Source extends Expression {
     computeType(context: Context): Type {
         return this.expression.getType(context);
     }
-    getDependencies(_: Context): (Expression | Stream)[] {
+    getDependencies(_: Context): Expression[] {
         return [this.expression];
     }
     evaluateTypeSet(_: Bind, __: TypeSet, current: TypeSet): TypeSet {

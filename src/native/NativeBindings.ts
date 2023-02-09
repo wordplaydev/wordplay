@@ -18,7 +18,6 @@ import bootstrapSet from './SetNative';
 import bootstrapMap from './MapNative';
 import Block from '@nodes/Block';
 import type { NativeTypeName } from './NativeConstants';
-import type Node from '@nodes/Node';
 import Tree from '@nodes/Tree';
 import type TypeVariables from '@nodes/TypeVariables';
 import type Docs from '@nodes/Docs';
@@ -148,7 +147,7 @@ export function createNativeConversion<ValueType extends Value>(
     docs: Docs,
     inputTypeString: string,
     outputTypeString: string,
-    convert: (requestor: Node, value: ValueType) => Value
+    convert: (requestor: Expression, value: ValueType) => Value
 ) {
     // Parse the expected type.
     const inputType = parseType(toTokens(inputTypeString));

@@ -11,13 +11,13 @@ import Set from '@runtime/Set';
 import { createNativeConversion, createNativeFunction } from './NativeBindings';
 import HOFSetFilter from './HOFSetFilter';
 import Bool from '@runtime/Bool';
-import type Node from '@nodes/Node';
 import type Value from '@runtime/Value';
 import type Evaluation from '@runtime/Evaluation';
 import TypeVariables from '@nodes/TypeVariables';
 import { getDocTranslations } from '@translation/getDocTranslations';
 import { getNameTranslations } from '@translation/getNameTranslations';
 import TypeVariable from '@nodes/TypeVariable';
+import type Expression from '../nodes/Expression';
 
 export default function bootstrapSet() {
     const SetTypeVariableNames = getNameTranslations((t) => t.native.set.kind);
@@ -323,14 +323,14 @@ export default function bootstrapSet() {
                     getDocTranslations((t) => t.native.set.conversion.text),
                     '{}',
                     "''",
-                    (requestor: Node, val: Set) =>
+                    (requestor: Expression, val: Set) =>
                         new Text(requestor, val.toString())
                 ),
                 createNativeConversion(
                     getDocTranslations((t) => t.native.set.conversion.list),
                     '{}',
                     '[]',
-                    (requestor: Node, val: Set) =>
+                    (requestor: Expression, val: Set) =>
                         new List(requestor, val.values)
                 ),
             ],

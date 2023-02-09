@@ -3,18 +3,18 @@ import StreamType from '@nodes/StreamType';
 import Unit from '@nodes/Unit';
 import type Evaluator from '@runtime/Evaluator';
 import Measurement from '@runtime/Measurement';
-import Stream from '@runtime/Stream';
-import type Node from '@nodes/Node';
 import { getDocTranslations } from '@translation/getDocTranslations';
 import { getNameTranslations } from '@translation/getNameTranslations';
 import TimeDefinition from './TimeDefinition';
+import TemporalStream from '../runtime/TemporalStream';
+import type Expression from '../nodes/Expression';
 
 const DEFAULT_FREQUENCY = 33;
 
-export default class Time extends Stream<Measurement> {
-    running = false;
+export default class Time extends TemporalStream<Measurement> {
     firstTime: number | undefined = undefined;
     frequency: number = 33;
+    lastTime: DOMHighResTimeStamp | undefined = undefined;
 
     constructor(evaluator: Evaluator, frequency: number = DEFAULT_FREQUENCY) {
         super(
@@ -33,12 +33,9 @@ export default class Time extends Stream<Measurement> {
         return getNameTranslations((t) => t.input.time.name);
     }
 
-    start() {
-        if (this.running) return;
-        this.running = true;
-        if (typeof window !== 'undefined')
-            window.requestAnimationFrame((time) => this.tick(time));
-    }
+    // No setup or cleanup necessary; Evaluator manages the requestAnimationFrame loop.
+    start() {}
+    stop() {}
 
     setFrequency(frequency: number | undefined) {
         this.frequency = frequency ?? DEFAULT_FREQUENCY;
@@ -47,29 +44,25 @@ export default class Time extends Stream<Measurement> {
     tick(time: DOMHighResTimeStamp) {
         if (this.firstTime === undefined) this.firstTime = time;
 
-        const elapsed = Math.round(time - this.firstTime);
-
-        // If the elapsed time is greater than or equal to the desired frequency, add an event.
-        if (elapsed - this.latest().toNumber() >= this.frequency) {
+        // If the frequency has elapsed, add a value to the stream.
+        if (
+            this.lastTime === undefined ||
+            time - this.lastTime >= this.frequency
+        ) {
+            this.lastTime = time;
             this.add(
                 Time.make(
                     this.creator,
-                    this.firstTime === undefined ? 0 : elapsed
+                    this.firstTime === undefined
+                        ? 0
+                        : Math.round(time - this.firstTime)
                 )
             );
         }
-
-        // If still running, check again in the next animation frame.
-        if (this.running)
-            window.requestAnimationFrame((time) => this.tick(time));
     }
 
-    static make(creator: Node, time: number) {
+    static make(creator: Expression, time: number) {
         return new Measurement(creator, time, Unit.unit(['ms']));
-    }
-
-    stop() {
-        this.running = false;
     }
 
     getType() {

@@ -301,10 +301,7 @@ export default class Evaluation {
         if (def instanceof FunctionDefinition)
             return new FunctionValue(def, undefined);
         else if (def instanceof StructureDefinition)
-            return new StructureDefinitionValue(
-                this.#evaluator.project.main,
-                def
-            );
+            return new StructureDefinitionValue(def);
         else if (def instanceof StreamDefinition)
             return new StreamDefinitionValue(def);
 
@@ -330,7 +327,7 @@ export default class Evaluation {
         const context = this.#closure;
         if (context instanceof Structure) return context;
         else if (context instanceof Measurement)
-            return context.unitless(requestor);
+            return context.unitless(this.#evaluationNode);
         else if (context instanceof Primitive) return context;
         else if (context instanceof Evaluation)
             return context.getThis(requestor);

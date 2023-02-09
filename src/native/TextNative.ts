@@ -12,7 +12,6 @@ import StructureDefinition from '@nodes/StructureDefinition';
 import Measurement from '@runtime/Measurement';
 import List from '@runtime/List';
 import Block from '@nodes/Block';
-import type Node from '@nodes/Node';
 import type Docs from '@nodes/Docs';
 import type Names from '@nodes/Names';
 import { getFunctionTranslations } from '@translation/getFunctionTranslations';
@@ -137,7 +136,7 @@ export default function bootstrapText() {
                     getDocTranslations((t) => t.native.text.conversion.text),
                     '""',
                     '[""]',
-                    (requestor: Node, val: Text) =>
+                    (requestor: Expression, val: Text) =>
                         new List(
                             requestor,
                             val.text
@@ -149,7 +148,7 @@ export default function bootstrapText() {
                     getDocTranslations((t) => t.native.text.conversion.number),
                     '""',
                     '#',
-                    (requestor: Node, val: Text) =>
+                    (requestor: Expression, val: Text) =>
                         new Measurement(requestor, val.text)
                 ),
             ],

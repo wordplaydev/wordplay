@@ -4,15 +4,17 @@ import Source from './Source';
 import { FALSE_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
 import type Value from '@runtime/Value';
 import Time from '../input/Time';
-import NoneType from './NoneType';
+import type Expression from './Expression';
+
+const makeOne = (creator: Expression) => Time.make(creator, 1);
 
 test.each([
     // Check stream resolution.
-    [`time() > 0ms`, Time.make(NoneType.None, 1), FALSE_SYMBOL, TRUE_SYMBOL],
+    [`time() > 0ms`, makeOne, FALSE_SYMBOL, TRUE_SYMBOL],
     // Check stream references.
-    [`time() + 500ms`, Time.make(NoneType.None, 1), '500ms', '501ms'],
+    [`time() + 500ms`, makeOne, '500ms', '501ms'],
     // Check reaction binding.
-    [`a: ∆ time() ? 1 … a + 1\na`, Time.make(NoneType.None, 1), '1', '2'],
+    [`a: ∆ time() ? 1 … a + 1\na`, makeOne, '1', '2'],
     // Check reactions in evaluations.
     [
         `
@@ -20,7 +22,7 @@ test.each([
         b: mult(2 ∆ time() ? 1 … 2)
         b
         `,
-        Time.make(NoneType.None, 1),
+        makeOne,
         '2',
         '4',
     ],
@@ -28,7 +30,7 @@ test.each([
     'React to %s',
     (
         code: string,
-        value: Value,
+        value: (expression: Expression) => Value,
         expectedInitial: string,
         expectedNext: string
     ) => {
@@ -46,7 +48,10 @@ test.each([
         // Add the given value to the stream
         const stream = Array.from(project.evaluator.nativeStreams.values())[0];
         expect(stream).not.toBeUndefined();
-        stream?.add(value as unknown as any);
+        stream?.add(value(source));
+
+        // Manually flush reactions.
+        project.evaluator.flush();
 
         // Verify that the source has the new value
         const actualNext = project.evaluator.getLatestSourceValue(source);

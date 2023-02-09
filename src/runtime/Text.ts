@@ -3,15 +3,15 @@ import TextType from '@nodes/TextType';
 import Measurement from './Measurement';
 import Primitive from './Primitive';
 import type Value from './Value';
-import type Node from '@nodes/Node';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type Translation from '@translation/Translation';
+import type Expression from '../nodes/Expression';
 
 export default class Text extends Primitive {
     readonly text: string;
     readonly format: string | undefined;
 
-    constructor(creator: Node, text: string, format?: string) {
+    constructor(creator: Expression, text: string, format?: string) {
         super(creator);
 
         // We normalize all strings to ensure they are comparable.
@@ -31,7 +31,7 @@ export default class Text extends Primitive {
     }
 
     /* The number of graphemes in the text (not the number of code points). */
-    length(requestor: Node) {
+    length(requestor: Expression) {
         return new Measurement(requestor, [...this.text].length);
     }
 

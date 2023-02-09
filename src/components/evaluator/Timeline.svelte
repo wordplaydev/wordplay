@@ -16,7 +16,7 @@
     let timeline: HTMLElement;
 
     // Find the latest stream change before the current step index.
-    $: currentChange = evaluator.getChangePriorTo($currentStepIndex);
+    $: currentReaction = evaluator.getReactionPriorTo($currentStepIndex);
     $: historyTrimmed =
         $currentStepIndex && evaluator.getEarliestStepIndexAvailable() > 0;
     let dragging = false;
@@ -40,12 +40,12 @@
     $: updateTimePosition($currentStepIndex);
 
     function updateScrollPosition() {
-        if (currentChange === undefined || dragging) return;
+        if (currentReaction === undefined || dragging) return;
 
         dragging = false;
 
         const el = document.querySelector(
-            `.stream-input[data-inputindex="${currentChange.stepIndex}"]`
+            `.stream-input[data-inputindex="${currentReaction.stepIndex}"]`
         );
         // Move the timeline's scroll left such that the element is in the center.
         if (el && timeline) {
@@ -161,40 +161,46 @@
     bind:this={timeline}
 >
     {#if historyTrimmed}<span class="stream-input">…</span>{/if}
-    {#each $streams as change, index}
-        {@const down =
-            change.stream instanceof Keyboard
-                ? change.value?.resolve('down')
-                : change.stream instanceof MouseButton
-                ? change.value
-                : undefined}
+    {#each $streams as reaction, index}
         <!-- Compute the number of steps that occurred between this and the next input, or if there isn't one, the latest step. -->
         {@const stepCount =
             (index < $streams.length - 1
                 ? $streams[index + 1].stepIndex
-                : evaluator.getStepCount()) - change.stepIndex}
-        <!-- Show an emoji representing the cause of the reevaluation -->
+                : evaluator.getStepCount()) - reaction.stepIndex}
+        <!-- Show up to three of the streams that changed -->
+        {#each reaction.changes.slice(0, 3) as change}
+            {@const down =
+                change.stream instanceof Keyboard
+                    ? change.value?.resolve('down')
+                    : change.stream instanceof MouseButton
+                    ? change.value
+                    : undefined}
+            <!-- Show an emoji representing the cause of the reevaluation -->
+            <span
+                class={`event stream-input ${
+                    currentReaction === reaction ? 'current' : ''
+                } ${down instanceof Bool && down.bool ? 'down' : ''}`}
+                data-inputindex={reaction.stepIndex}
+            >
+                {#if change.stream === undefined}
+                    ◆
+                {:else}
+                    {change.stream.getName(['😀'])}
+                {/if}
+                <!-- Show dots representing the steps after the reevaluation -->
+            </span>
+        {/each}
+        <!-- If there were more than three, indicate the trimming -->
+        {#if reaction.changes.length > 3}…{/if}
         <span
-            class={`event stream-input ${
-                currentChange === change ? 'current' : ''
-            } ${down instanceof Bool && down.bool ? 'down' : ''}`}
-            data-inputindex={change.stepIndex}
-        >
-            {#if change.stream === undefined}
-                ◆
-            {:else}
-                {change.stream.getName(['😀'])}
-            {/if}
-            <!-- Show dots representing the steps after the reevaluation -->
-        </span><span
             class="event steps"
-            data-startindex={change.stepIndex}
-            data-endindex={change.stepIndex + stepCount}
-            style:width="{stepCount / 10}px">&ZeroWidthSpace;</span
+            data-startindex={reaction.stepIndex}
+            data-endindex={reaction.stepIndex + stepCount}
+            style:width="{Math.min(5, stepCount / 10)}em">&ZeroWidthSpace;</span
         >
         <!-- If the value was an exception, show that it ended that way -->
-        {#if evaluator.getSourceValueBefore(evaluator.getMain(), change.stepIndex + stepCount) instanceof Exception}<span
-                data-exceptionindex={change.stepIndex + stepCount}
+        {#if evaluator.getSourceValueBefore(evaluator.getMain(), reaction.stepIndex + stepCount) instanceof Exception}<span
+                data-exceptionindex={reaction.stepIndex + stepCount}
                 class="event exception">!</span
             >{/if}
     {/each}

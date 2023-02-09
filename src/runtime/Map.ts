@@ -5,7 +5,6 @@ import Measurement from './Measurement';
 import None from './None';
 import Primitive from './Primitive';
 import type Value from './Value';
-import type Node from '@nodes/Node';
 import type LanguageCode from '@translation/LanguageCode';
 import {
     BIND_SYMBOL,
@@ -14,11 +13,12 @@ import {
 } from '@parser/Symbols';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type Translation from '@translation/Translation';
+import type Expression from '../nodes/Expression';
 
 export default class Map extends Primitive {
     readonly values: [Value, Value][];
 
-    constructor(creator: Node, values: [Value, Value][]) {
+    constructor(creator: Expression, values: [Value, Value][]) {
         super(creator);
 
         this.values = [];
@@ -30,11 +30,11 @@ export default class Map extends Primitive {
         });
     }
 
-    size(requestor: Node) {
+    size(requestor: Expression) {
         return new Measurement(requestor, this.values.length);
     }
 
-    has(requestor: Node, key: Value) {
+    has(requestor: Expression, key: Value) {
         const kv = this.values.find((kv2) => kv2[0].isEqualTo(key));
         return kv === undefined ? new None(requestor) : kv[1];
     }
@@ -60,7 +60,7 @@ export default class Map extends Primitive {
         return true;
     }
 
-    set(requestor: Node, key: Value, value: Value) {
+    set(requestor: Expression, key: Value, value: Value) {
         let hasKey = false;
         const values: [Value, Value][] = this.values.map((kv) => {
             if (kv[0].isEqualTo(key)) {
@@ -72,14 +72,14 @@ export default class Map extends Primitive {
         return new Map(requestor, values);
     }
 
-    unset(requestor: Node, key: Value) {
+    unset(requestor: Expression, key: Value) {
         return new Map(
             requestor,
             this.values.filter((kv) => !kv[0].isEqualTo(key))
         );
     }
 
-    remove(requestor: Node, value: Value) {
+    remove(requestor: Expression, value: Value) {
         return new Map(
             requestor,
             this.values.filter((kv) => !kv[1].isEqualTo(value))

@@ -8,16 +8,15 @@ import type Value from './Value';
 import UnionType from '@nodes/UnionType';
 import type Context from '@nodes/Context';
 import type LanguageCode from '@translation/LanguageCode';
-import type Node from '@nodes/Node';
 import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from '@parser/Symbols';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type Translation from '@translation/Translation';
-import { getNameTranslations } from '@translation/getNameTranslations';
+import type Expression from '../nodes/Expression';
 
 export default class List extends Primitive {
     readonly values: Value[] = [];
 
-    constructor(creator: Node, values: Value[]) {
+    constructor(creator: Expression, values: Value[]) {
         super(creator);
 
         this.values = values.slice();
@@ -31,14 +30,14 @@ export default class List extends Primitive {
         const num = index.toNumber();
         const value =
             num === 0 ? undefined : this.values.at(num > 0 ? num - 1 : num);
-        return value === undefined ? new None(OutOfBoundsNames) : value;
+        return value === undefined ? new None(this.creator) : value;
     }
 
-    length(requestor: Node) {
+    length(requestor: Expression) {
         return new Measurement(requestor, this.values.length);
     }
 
-    has(requestor: Node, value: Value) {
+    has(requestor: Expression, value: Value) {
         return new Bool(
             requestor,
             this.values.find((v) => value.isEqualTo(v)) !== undefined
@@ -53,7 +52,7 @@ export default class List extends Primitive {
         );
     }
 
-    join(requestor: Node, separator: Text) {
+    join(requestor: Expression, separator: Text) {
         return new Text(
             requestor,
             this.values
@@ -62,31 +61,31 @@ export default class List extends Primitive {
         );
     }
 
-    add(requestor: Node, value: Value) {
+    add(requestor: Expression, value: Value) {
         return new List(requestor, [...this.values, value]);
     }
 
     first() {
         return this.values.length === 0
-            ? new None(OutOfBoundsNames)
+            ? new None(this.creator)
             : this.values[0];
     }
 
     last() {
         return this.values.length === 0
-            ? new None(OutOfBoundsNames)
+            ? new None(this.creator)
             : this.values[this.values.length - 1];
     }
 
-    sansFirst(requestor: Node) {
+    sansFirst(requestor: Expression) {
         return new List(requestor, this.values.slice(1));
     }
 
-    sansLast(requestor: Node) {
+    sansLast(requestor: Expression) {
         return new List(requestor, this.values.slice(0, -1));
     }
 
-    sans(requestor: Node, value: Value) {
+    sans(requestor: Expression, value: Value) {
         const val = this.values.find((v) => v.isEqualTo(value));
         return val === undefined
             ? this
@@ -96,18 +95,18 @@ export default class List extends Primitive {
               );
     }
 
-    sansAll(requestor: Node, value: Value) {
+    sansAll(requestor: Expression, value: Value) {
         return new List(
             requestor,
             this.values.filter((v) => !v.isEqualTo(value))
         );
     }
 
-    reverse(requestor: Node) {
+    reverse(requestor: Expression) {
         return new List(requestor, this.values.reverse());
     }
 
-    append(requestor: Node, value: Value) {
+    append(requestor: Expression, value: Value) {
         return new List(requestor, [...this.values, value]);
     }
 
@@ -134,5 +133,3 @@ export default class List extends Primitive {
         return translation.data.list;
     }
 }
-
-const OutOfBoundsNames = getNameTranslations((t) => t.native.list.outofbounds);

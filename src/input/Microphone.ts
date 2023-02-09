@@ -1,9 +1,9 @@
 import MeasurementType from '@nodes/MeasurementType';
 import type Evaluator from '@runtime/Evaluator';
 import Measurement from '@runtime/Measurement';
-import Stream from '@runtime/Stream';
 import { getDocTranslations } from '@translation/getDocTranslations';
 import { getNameTranslations } from '@translation/getNameTranslations';
+import TemporalStream from '../runtime/TemporalStream';
 import MicrophoneDefinition from './MicrophoneDefinition';
 
 const FFT_SIZE = 32;
@@ -11,14 +11,14 @@ const DEFAULT_FREQUENCY = 33;
 
 // A helpful article on getting raw data streams:
 // https://stackoverflow.com/questions/69237143/how-do-i-get-the-audio-frequency-from-my-mic-using-javascript
-export default class Microphone extends Stream {
-    samplerID: NodeJS.Timer | undefined;
+export default class Microphone extends TemporalStream<Measurement> {
     stream: MediaStreamAudioSourceNode | undefined;
     context: AudioContext | undefined;
     analyzer: AnalyserNode | undefined;
     frequencies: Uint8Array = new Uint8Array(FFT_SIZE);
+    lastSampleTime: number | undefined = undefined;
 
-    frequency: number | undefined;
+    frequency: number;
 
     constructor(evaluator: Evaluator, frequency: number | undefined) {
         super(
@@ -37,6 +37,7 @@ export default class Microphone extends Stream {
         return getNameTranslations((t) => t.input.microphone.name);
     }
 
+    // Compute the maximum frequency in the same and convert it to a percentage.
     percent(frequencies: number[]) {
         return new Measurement(
             this.creator,
@@ -44,22 +45,29 @@ export default class Microphone extends Stream {
         );
     }
 
-    sample() {
+    tick(time: DOMHighResTimeStamp) {
         if (this.analyzer === undefined) return;
 
-        this.analyzer.getByteFrequencyData(this.frequencies);
-        // Get a copy of the frequencies.
-        const frequencies = Array.from(this.frequencies);
-        // Compute the maximum frequency in the same and convert it to a percentage.
-        this.add(this.percent(frequencies));
+        if (
+            this.lastSampleTime === undefined ||
+            time - this.lastSampleTime > this.frequency
+        ) {
+            // Remember when we got the sample.
+            this.lastSampleTime = time;
+
+            // Get the sample.
+            this.analyzer.getByteFrequencyData(this.frequencies);
+            // Get a copy of the frequencies.
+            const frequencies = Array.from(this.frequencies);
+            // Add the stream value.
+            this.add(this.percent(frequencies));
+        }
     }
 
     connect() {
         if (this.analyzer === undefined) return;
         if (this.stream === undefined) return;
-        if (this.samplerID !== undefined) return;
         this.stream.connect(this.analyzer);
-        this.samplerID = setInterval(() => this.sample(), this.frequency);
     }
 
     setFrequency(frequency: number | undefined) {
@@ -86,12 +94,6 @@ export default class Microphone extends Stream {
     }
 
     stop() {
-        // Stop reading samples.
-        if (this.samplerID !== undefined) {
-            clearInterval(this.samplerID);
-            this.samplerID = undefined;
-        }
-
         // Stop streaming microphone input.
         if (this.stream !== undefined) this.stream.disconnect();
     }

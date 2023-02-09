@@ -5,16 +5,16 @@ import Bool from './Bool';
 import Measurement from './Measurement';
 import Primitive from './Primitive';
 import type Value from './Value';
-import type Node from '@nodes/Node';
 import type LanguageCode from '@translation/LanguageCode';
 import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '@parser/Symbols';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type Translation from '@translation/Translation';
+import type Expression from '../nodes/Expression';
 
 export default class Set extends Primitive {
     readonly values: Value[];
 
-    constructor(creator: Node, values: Value[]) {
+    constructor(creator: Expression, values: Value[]) {
         super(creator);
 
         this.values = [];
@@ -24,29 +24,29 @@ export default class Set extends Primitive {
         });
     }
 
-    size(requestor: Node) {
+    size(requestor: Expression) {
         return new Measurement(requestor, this.values.length);
     }
 
-    has(requestor: Node, key: Value) {
+    has(requestor: Expression, key: Value) {
         return new Bool(
             requestor,
             this.values.find((v) => key.isEqualTo(v)) !== undefined
         );
     }
 
-    add(requestor: Node, element: Value) {
+    add(requestor: Expression, element: Value) {
         return new Set(requestor, [...this.values, element]);
     }
 
-    remove(requestor: Node, element: Value) {
+    remove(requestor: Expression, element: Value) {
         return new Set(
             requestor,
             this.values.filter((v) => !v.isEqualTo(element))
         );
     }
 
-    union(requestor: Node, set: Set) {
+    union(requestor: Expression, set: Set) {
         const values = this.values.slice();
         set.values.forEach((v) => {
             if (values.find((e) => e.isEqualTo(v)) === undefined)
@@ -55,7 +55,7 @@ export default class Set extends Primitive {
         return new Set(requestor, values);
     }
 
-    intersection(requestor: Node, set: Set) {
+    intersection(requestor: Expression, set: Set) {
         const values: Value[] = [];
         this.values.forEach((v) => {
             if (set.values.find((e) => e.isEqualTo(v)) !== undefined)
@@ -64,7 +64,7 @@ export default class Set extends Primitive {
         return new Set(requestor, values);
     }
 
-    difference(requestor: Node, set: Set) {
+    difference(requestor: Expression, set: Set) {
         // Remove any values from this set that occur in the given set.
         return new Set(
             requestor,

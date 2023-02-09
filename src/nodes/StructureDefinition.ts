@@ -354,7 +354,7 @@ export default class StructureDefinition extends AtomicExpression {
         // Bind this definition to it's names.
         const context = evaluator.getCurrentEvaluation();
         if (context !== undefined) {
-            const def = new StructureDefinitionValue(this, this, context);
+            const def = new StructureDefinitionValue(this, context);
             evaluator.bind(this.names, def);
             return def;
         } else

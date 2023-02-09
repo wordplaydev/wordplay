@@ -2,12 +2,12 @@ import None from './None';
 import Primitive from './Primitive';
 import type Value from './Value';
 import type LanguageCode from '@translation/LanguageCode';
-import type Node from '@nodes/Node';
 import type Evaluator from './Evaluator';
 import type { StepNumber } from './Evaluator';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type Translation from '@translation/Translation';
 import type StreamDefinition from '../nodes/StreamDefinition';
+import type Expression from '../nodes/Expression';
 
 export const MAX_STREAM_LENGTH = 1024;
 
@@ -91,7 +91,7 @@ export default abstract class Stream<
             .at(-1);
     }
 
-    at(requestor: Node, index: number): Value {
+    at(requestor: Expression, index: number): Value {
         // Get the latest value (based on the current evaluator time)
         const latest = this.latest();
 

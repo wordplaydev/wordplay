@@ -7,9 +7,9 @@ import Decimal from 'decimal.js';
 import Primitive from './Primitive';
 import MeasurementType from '@nodes/MeasurementType';
 import type Value from './Value';
-import type Node from '@nodes/Node';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type Translation from '@translation/Translation';
+import type Expression from '../nodes/Expression';
 
 /** A decimal number with a unit.
  * If all of it's parts are empty, it is not a number.
@@ -20,7 +20,7 @@ export default class Measurement extends Primitive {
     readonly unit: Unit;
 
     constructor(
-        creator: Node,
+        creator: Expression,
         number: number | Token | Decimal | string,
         unit?: Unit
     ) {
@@ -34,36 +34,7 @@ export default class Measurement extends Primitive {
         }
         // If the number is a token, convert it to a Decimal.
         else if (number instanceof Token) {
-            // Infinity
-            if (number.is(TokenType.INFINITY)) {
-                this.num = new Decimal(Infinity);
-            }
-            // If it matches the decimal pattern, randomize requested digits, then convert to a Decimal.
-            else if (number.is(TokenType.DECIMAL)) {
-                let text = number.text.toString();
-
-                // Is there a trailing %? Strip it.
-                const isPercent = text.endsWith('%');
-
-                // Set the number, accounting for percent.
-                this.num = isPercent
-                    ? new Decimal(text.substring(0, text.length - 1)).mul(0.01)
-                    : new Decimal(text);
-            }
-            // If it matches a number with a different base, convert it to a Decimal.
-            else if (number.is(TokenType.BASE)) {
-                this.num = convertBase(number.text.toString());
-            } else if (number.is(TokenType.ROMAN)) {
-                this.num = convertRoman(number.text.toString());
-            } else if (number.is(TokenType.JAPANESE)) {
-                this.num = convertJapanese(number.text.toString());
-            }
-            // If it matches the Pi token, convert to Pi.
-            else if (number.is(TokenType.PI)) {
-                this.num = Decimal.acos(-1);
-            } else {
-                this.num = new Decimal(NaN);
-            }
+            this.num = Measurement.fromToken(number);
         }
         // If it's a Javascript floating point, convert.
         else if (typeof number === 'number') {
@@ -79,11 +50,44 @@ export default class Measurement extends Primitive {
         }
     }
 
-    isNotANumber(requestor: Node): Bool {
+    static fromToken(number: Token): Decimal {
+        // Infinity
+        if (number.is(TokenType.INFINITY)) {
+            return new Decimal(Infinity);
+        }
+        // If it matches the decimal pattern, randomize requested digits, then convert to a Decimal.
+        else if (number.is(TokenType.DECIMAL)) {
+            let text = number.text.toString();
+
+            // Is there a trailing %? Strip it.
+            const isPercent = text.endsWith('%');
+
+            // Set the number, accounting for percent.
+            return isPercent
+                ? new Decimal(text.substring(0, text.length - 1)).mul(0.01)
+                : new Decimal(text);
+        }
+        // If it matches a number with a different base, convert it to a Decimal.
+        else if (number.is(TokenType.BASE)) {
+            return convertBase(number.text.toString());
+        } else if (number.is(TokenType.ROMAN)) {
+            return convertRoman(number.text.toString());
+        } else if (number.is(TokenType.JAPANESE)) {
+            return convertJapanese(number.text.toString());
+        }
+        // If it matches the Pi token, convert to Pi.
+        else if (number.is(TokenType.PI)) {
+            return Decimal.acos(-1);
+        } else {
+            return new Decimal(NaN);
+        }
+    }
+
+    isNotANumber(requestor: Expression): Bool {
         return new Bool(requestor, this.num.isNaN());
     }
 
-    isInteger(requestor: Node): Bool {
+    isInteger(requestor: Expression): Bool {
         return new Bool(requestor, this.num.isInteger());
     }
 
@@ -91,7 +95,7 @@ export default class Measurement extends Primitive {
         return this.num.toNumber();
     }
 
-    root(requestor: Node, operand: Measurement): Measurement {
+    root(requestor: Expression, operand: Measurement): Measurement {
         return new Measurement(
             requestor,
             this.num.pow(new Decimal(1).div(operand.num)),
@@ -99,23 +103,23 @@ export default class Measurement extends Primitive {
         );
     }
 
-    negate(requestor: Node): Measurement {
+    negate(requestor: Expression): Measurement {
         return new Measurement(requestor, this.num.neg(), this.unit);
     }
 
-    absolute(requestor: Node): Measurement {
+    absolute(requestor: Expression): Measurement {
         return new Measurement(requestor, this.num.abs(), this.unit);
     }
 
-    add(requestor: Node, operand: Measurement): Measurement {
+    add(requestor: Expression, operand: Measurement): Measurement {
         return new Measurement(requestor, this.num.add(operand.num), this.unit);
     }
 
-    subtract(requestor: Node, operand: Measurement): Measurement {
+    subtract(requestor: Expression, operand: Measurement): Measurement {
         return new Measurement(requestor, this.num.sub(operand.num), this.unit);
     }
 
-    multiply(requestor: Node, operand: Measurement): Measurement {
+    multiply(requestor: Expression, operand: Measurement): Measurement {
         return new Measurement(
             requestor,
             this.num.times(operand.num),
@@ -123,7 +127,7 @@ export default class Measurement extends Primitive {
         );
     }
 
-    divide(requestor: Node, divisor: Measurement): Measurement | None {
+    divide(requestor: Expression, divisor: Measurement): Measurement | None {
         return divisor.num.isZero()
             ? new None(requestor)
             : new Measurement(
@@ -133,7 +137,7 @@ export default class Measurement extends Primitive {
               );
     }
 
-    remainder(requestor: Node, divisor: Measurement): Measurement | None {
+    remainder(requestor: Expression, divisor: Measurement): Measurement | None {
         return divisor.num.isZero()
             ? new None(requestor)
             : new Measurement(
@@ -151,7 +155,7 @@ export default class Measurement extends Primitive {
         );
     }
 
-    greaterThan(requestor: Node, operand: Measurement): Bool {
+    greaterThan(requestor: Expression, operand: Measurement): Bool {
         return new Bool(
             requestor,
             this.num.greaterThan(operand.num) &&
@@ -159,14 +163,14 @@ export default class Measurement extends Primitive {
         );
     }
 
-    lessThan(requestor: Node, operand: Measurement): Bool {
+    lessThan(requestor: Expression, operand: Measurement): Bool {
         return new Bool(
             requestor,
             this.num.lessThan(operand.num) && this.unit.isEqualTo(operand.unit)
         );
     }
 
-    power(requestor: Node, operand: Measurement) {
+    power(requestor: Expression, operand: Measurement) {
         return new Measurement(
             requestor,
             this.num.pow(operand.num),
@@ -174,11 +178,11 @@ export default class Measurement extends Primitive {
         );
     }
 
-    cos(requestor: Node) {
+    cos(requestor: Expression) {
         return new Measurement(requestor, this.num.cos(), this.unit);
     }
 
-    sin(requestor: Node) {
+    sin(requestor: Expression) {
         return new Measurement(requestor, this.num.sin(), this.unit);
     }
 
@@ -190,7 +194,7 @@ export default class Measurement extends Primitive {
         return 'measurement';
     }
 
-    unitless(requestor: Node): Measurement {
+    unitless(requestor: Expression): Measurement {
         return new Measurement(requestor, this.num);
     }
 

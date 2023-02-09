@@ -13,13 +13,13 @@ import HOFMapFilter from './HOFMapFilter';
 import HOFMapTranslate from './HOFMapTranslate';
 import { createNativeConversion, createNativeFunction } from './NativeBindings';
 import Bool from '@runtime/Bool';
-import type Node from '@nodes/Node';
 import TypeVariables from '@nodes/TypeVariables';
 import { getDocTranslations } from '@translation/getDocTranslations';
 import { getNameTranslations } from '@translation/getNameTranslations';
 import TypeVariable from '@nodes/TypeVariable';
 import type Evaluation from '@runtime/Evaluation';
 import type Value from '@runtime/Value';
+import type Expression from '../nodes/Expression';
 
 export default function bootstrapMap() {
     const KeyTypeVariableNames = getNameTranslations((t) => t.native.map.key);
@@ -340,21 +340,21 @@ export default function bootstrapMap() {
                     getDocTranslations((t) => t.native.map.conversion.text),
                     '{:}',
                     "''",
-                    (requestor: Node, val: Map) =>
+                    (requestor: Expression, val: Map) =>
                         new Text(requestor, val.toString())
                 ),
                 createNativeConversion(
                     getDocTranslations((t) => t.native.map.conversion.set),
                     '{:}',
                     '{}',
-                    (requestor: Node, val: Map) =>
+                    (requestor: Expression, val: Map) =>
                         new Set(requestor, val.getKeys())
                 ),
                 createNativeConversion(
                     getDocTranslations((t) => t.native.map.conversion.list),
                     '{:}',
                     '[]',
-                    (requestor: Node, val: Map) =>
+                    (requestor: Expression, val: Map) =>
                         new List(requestor, val.getValues())
                 ),
             ],

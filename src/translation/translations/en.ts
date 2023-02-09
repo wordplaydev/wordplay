@@ -438,15 +438,23 @@ const en: Translation = {
         Program: {
             description: 'a program',
             doc: WRITE_DOC,
-            start: (stream, value) =>
-                stream && value
+            start: (changes) =>
+                changes.length === 0
+                    ? 'evaluating program for the first time'
+                    : changes.length === 1
                     ? Explanation.as(
-                          stream,
+                          changes[0].stream,
                           ' produced ',
-                          value,
+                          changes[0].value,
                           ' revaluating program'
                       )
-                    : 'evaluating program for the first time',
+                    : Explanation.as(
+                          `${changes.length} streams changed (e.g., `,
+                          changes[0].stream,
+                          ' → ',
+                          changes[0].value,
+                          '); revaluating program'
+                      ),
             finish: (value) =>
                 Explanation.as('program evaluated to ', value ?? 'nothing'),
         },

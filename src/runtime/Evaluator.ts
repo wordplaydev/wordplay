@@ -31,13 +31,13 @@ import EvaluationLimitException from './EvaluationLimitException';
 import StepLimitException from './StepLimitException';
 import TypeException from './TypeException';
 import Random from '../input/Random';
+import TemporalStream from './TemporalStream';
 
 /** Anything that wants to listen to changes in the state of this evaluator */
 export type EvaluationObserver = () => void;
 export type StepNumber = number;
 export type StreamChange = {
-    stream: Stream | undefined;
-    value: Value | undefined;
+    changes: { stream: Stream; value: Value }[];
     stepIndex: number;
 };
 export type IndexedValue = { value: Value | undefined; stepNumber: StepNumber };
@@ -97,6 +97,9 @@ export default class Evaluator {
     /** All of the native streams created while evaluating the program */
     nativeStreams: Map<EvaluatorNode, Stream> = new Map();
 
+    /** A derived cache of temporal streams, to avoid having to look them up. */
+    nativeTemporalStreams: TemporalStream<any>[] = [];
+
     /** A mapping from Reaction nodes in the program to the streams they are listening to. */
     reactionStreams: Map<Reaction, Stream> = new Map();
 
@@ -127,6 +130,18 @@ export default class Evaluator {
      * A global random stream for APIs to use.
      */
     random: Random;
+
+    /**
+     * The last time we received from requestAnimationFrame.
+     */
+    previousTime: DOMHighResTimeStamp | undefined = undefined;
+
+    /**
+     * A list of temporal streams that have updated, for pooling them into a single reevaluation,
+     * rather than evaluating each at once. Reset in Evaluator.tick(), filled by Stream.add() broadcasting
+     * to this Evaluator.
+     */
+    temporalReactions: Stream[] = [];
 
     /**
      * Remember streams that were converted to values so we can convert them back to streams
@@ -396,7 +411,7 @@ export default class Evaluator {
 
     /** Evaluate until we're done */
     start(
-        changedStream?: Stream,
+        changedStreams?: Stream[],
         invalidatedExpressions?: Set<Expression>
     ): void {
         // Reset all state.
@@ -411,8 +426,9 @@ export default class Evaluator {
         // If we're in the present, remember the stream change. (If we're in the past, we use the history.)
         if (!this.isInPast()) {
             this.reactions.push({
-                stream: changedStream,
-                value: changedStream?.latest(),
+                changes: (changedStreams ?? []).map((stream) => {
+                    return { stream, value: stream.latest() };
+                }),
                 stepIndex: this.getStepCount(),
             });
             // Keep trimmed to a reasonable size to prevent memory leaks and remember the earliest step available.
@@ -521,7 +537,7 @@ export default class Evaluator {
                     break;
                 }
             }
-            if (next) this.start(next.stream);
+            if (next) this.start(next.changes.map((change) => change.stream));
         }
 
         // Notify observers.
@@ -620,7 +636,7 @@ export default class Evaluator {
         );
 
         // Find the latest reaction prior to the desired step.
-        const change = this.getChangePriorTo(destinationStep);
+        const change = this.getReactionPriorTo(destinationStep);
 
         // Step to the change's step index.
         this.#stepIndex = change ? change.stepIndex : 0;
@@ -728,7 +744,7 @@ export default class Evaluator {
 
     // STREAM AND REACTION MANAGMEENT
 
-    getChangePriorTo(stepIndex: StepNumber): StreamChange | undefined {
+    getReactionPriorTo(stepIndex: StepNumber): StreamChange | undefined {
         return (
             this.reactions.findLast(
                 (change) => change.stepIndex <= stepIndex
@@ -747,7 +763,10 @@ export default class Evaluator {
         }
 
         // True if the latest stream change is the given stream.
-        return latest !== undefined && latest.stream === stream;
+        return (
+            latest !== undefined &&
+            latest.changes.some((change) => change.stream === stream)
+        );
     }
 
     /**
@@ -806,7 +825,7 @@ export default class Evaluator {
         return this.nativeStreams.get(evaluate);
     }
 
-    addNativeStreamFor(evaluate: EvaluatorNode, stream: Stream) {
+    addNativeStreamFor(evaluate: EvaluatorNode, stream: Stream): void {
         // Remember the mapping
         this.nativeStreams.set(evaluate, stream);
 
@@ -815,11 +834,61 @@ export default class Evaluator {
 
         // Listen to it so we can react to changes.
         stream.listen((stream) => this.react(stream));
+
+        // If it's a temporal stream and we haven't already started a loop, start one.
+        if (stream instanceof TemporalStream) {
+            this.nativeTemporalStreams.push(stream);
+            // If we haven't yet started a loop, start one.
+            if (
+                this.previousTime === undefined &&
+                typeof window !== 'undefined' &&
+                typeof window.requestAnimationFrame !== 'undefined'
+            )
+                window.requestAnimationFrame(this.tick.bind(this));
+        }
+    }
+
+    tick(time: DOMHighResTimeStamp) {
+        // First time? Just record it.
+        if (this.previousTime === undefined) this.previousTime = time;
+
+        // Compute the delta and remember the previous time.
+        const delta = time - this.previousTime;
+        this.previousTime = time;
+
+        // If we're in play mode, tick all the temporal streams.
+        if (!this.isStepping()) {
+            if (this.temporalReactions.length > 0)
+                console.error(
+                    "Hmmm, something is modifying temporal streams outside of the Evaluator's control. Tsk tsk!"
+                );
+            // Tick each one, indireclty filling this.temporalReactions.
+            for (const stream of this.nativeTemporalStreams)
+                stream.tick(time, delta);
+
+            // If they changed, react.
+            this.flush();
+        }
+
+        // Tick again in a bit.
+        window.requestAnimationFrame(this.tick.bind(this));
+    }
+
+    /** React with any pooled temporal reactions */
+    flush() {
+        // If they changed, react.
+        if (this.temporalReactions.length > 0) {
+            this.project.react(this.temporalReactions);
+            this.temporalReactions = [];
+        }
     }
 
     react(stream: Stream) {
-        // Tell the project that this stream changed.
-        this.project.react(stream);
+        // If this is a temporal stream, pool it, letting tick() do a single project reaction.
+        if (stream instanceof TemporalStream)
+            this.temporalReactions.push(stream);
+        // Otherwise, react immediately.
+        else this.project.react([stream]);
     }
 
     /**

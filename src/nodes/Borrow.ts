@@ -157,7 +157,7 @@ export default class Borrow extends AtomicExpression {
                 definition instanceof FunctionDefinition
                     ? new FunctionValue(definition, undefined)
                     : definition instanceof StructureDefinition
-                    ? new StructureDefinitionValue(this, definition)
+                    ? new StructureDefinitionValue(definition)
                     : definition instanceof StreamDefinition
                     ? new StreamDefinitionValue(definition)
                     : definition;

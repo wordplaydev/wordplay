@@ -176,13 +176,25 @@ export default class Program extends Expression {
         context: Context,
         evaluator: Evaluator
     ) {
-        const change = evaluator.getChangePriorTo(evaluator.getStepIndex());
-        const stream = change ? change.stream : undefined;
-        const value = change ? change.value : undefined;
+        const reaction = evaluator.getReactionPriorTo(evaluator.getStepIndex());
 
         return translation.nodes.Program.start(
-            stream ? new ValueLink(stream, translation, context) : undefined,
-            value ? new ValueLink(value, translation, context) : undefined
+            reaction
+                ? reaction.changes.map((change) => {
+                      return {
+                          stream: new ValueLink(
+                              change.stream,
+                              translation,
+                              context
+                          ),
+                          value: new ValueLink(
+                              change.value,
+                              translation,
+                              context
+                          ),
+                      };
+                  })
+                : []
         );
     }
 

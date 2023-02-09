@@ -6,7 +6,6 @@ import type Program from '@nodes/Program';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import Evaluator from '@runtime/Evaluator';
 import type Stream from '@runtime/Stream';
-import type Value from '@runtime/Value';
 import type Source from '@nodes/Source';
 import type Node from '@nodes/Node';
 import HOF from '../native/HOF';
@@ -33,7 +32,7 @@ type Analysis = {
     >;
     /** Expression dependencies */
     /** An index of expression dependencies, mapping an Expression to one or more Expressions that are affected if it changes value.  */
-    dependencies: Map<Expression | Value, Set<Expression>>;
+    dependencies: Map<Expression, Set<Expression>>;
 };
 
 /**
@@ -282,20 +281,23 @@ export default class Project {
         return Array.from(this.getAnalysis().evaluations.get(fun) ?? []);
     }
 
-    getExpressionsAffectedBy(expression: Value | Expression): Set<Expression> {
+    getExpressionsAffectedBy(expression: Expression): Set<Expression> {
         return this.getAnalysis().dependencies.get(expression) ?? new Set();
     }
 
-    react(stream: Stream) {
+    react(changed: Stream[]) {
         // A stream changed!
         // STEP 1: Find the zero or more nodes that depend on this stream.
         let affectedExpressions: Set<Expression> = new Set();
         let streamReferences = new Set<Expression>();
-        const affected = this.getExpressionsAffectedBy(stream);
-        if (affected.size > 0) {
-            for (const dependency of affected) {
-                affectedExpressions.add(dependency);
-                streamReferences.add(dependency);
+        for (const stream of changed) {
+            const streamNode = stream.creator;
+            const affected = this.getExpressionsAffectedBy(streamNode);
+            if (affected.size > 0) {
+                for (const dependency of affected) {
+                    affectedExpressions.add(dependency);
+                    streamReferences.add(dependency);
+                }
             }
         }
 
@@ -332,16 +334,16 @@ export default class Project {
 
         // STEP 4: Reevaluate all Programs affected by the change, sending the affected expressions and source files so that each Evaluator
         //         can re-evaluate only the affected expressions.
-        this.evaluate(stream, affectedSources, undefined);
+        this.evaluate(changed, affectedSources, undefined);
     }
 
     /** Evaluate the sources in the required order, optionally evaluating only a subset of sources. */
     evaluate(
-        changedStream?: Stream,
+        changedStreams?: Stream[],
         _?: Set<Source>,
         changedExpressions?: Set<Expression>
     ) {
-        this.evaluator.start(changedStream, changedExpressions);
+        this.evaluator.start(changedStreams, changedExpressions);
     }
 
     /** Get supplements not referenced by main */

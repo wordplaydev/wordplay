@@ -257,8 +257,7 @@ type Translation = {
         Program: StaticNodeTranslation &
             ExpressionTranslation<
                 (
-                    stream: ValueLink | undefined,
-                    value: ValueLink | undefined
+                    changes: { stream: ValueLink; value: ValueLink }[]
                 ) => Description,
                 ValueOrUndefinedTranslation
             >;

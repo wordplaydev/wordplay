@@ -6,7 +6,6 @@ import type Type from './Type';
 import type Step from '@runtime/Step';
 import type Bind from './Bind';
 import type TypeSet from './TypeSet';
-import type Stream from '@runtime/Stream';
 import type Translation from '@translation/Translation';
 import type { Description } from '@translation/Translation';
 import ValueLink from '@translation/ValueLink';
@@ -35,7 +34,7 @@ export default abstract class Expression extends Node {
         return context.getType(this);
     }
 
-    abstract getDependencies(_: Context): (Expression | Stream<Value>)[];
+    abstract getDependencies(_: Context): Expression[];
 
     /**
      * Used to determine what types are possible for a given after evalutaing this expression/

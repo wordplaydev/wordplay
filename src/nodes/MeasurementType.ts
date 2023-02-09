@@ -164,7 +164,10 @@ export default class MeasurementType extends NativeType {
         const constant =
             this.op instanceof BinaryOperation &&
             this.op.right instanceof MeasurementLiteral
-                ? new Measurement(this, this.op.right.number).toNumber()
+                ? new Measurement(
+                      this.op.right,
+                      this.op.right.number
+                  ).toNumber()
                 : undefined;
 
         // Recursively concretize the left and right units and pass them to the derive the concrete unit.

@@ -50,10 +50,7 @@ export default class Unit extends Type {
                 const exp =
                     dim.exponent === undefined
                         ? 1
-                        : new Measurement(
-                              this,
-                              dim.exponent.getText()
-                          ).toNumber();
+                        : Measurement.fromToken(dim.exponent).toNumber();
                 const current = this.exponents.get(name);
                 this.exponents.set(name, (current ?? 0) + exp);
             }
@@ -62,10 +59,7 @@ export default class Unit extends Type {
                 const exp =
                     dim.exponent === undefined
                         ? -1
-                        : -new Measurement(
-                              this,
-                              dim.exponent.getText()
-                          ).toNumber();
+                        : -Measurement.fromToken(dim.exponent).toNumber();
                 const current = this.exponents.get(name);
                 this.exponents.set(name, (current ?? 0) + exp);
             }
