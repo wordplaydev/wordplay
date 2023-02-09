@@ -94,8 +94,15 @@ export default class Evaluator {
     /** The expressions that need to be re-evaluated, if any. */
     invalidatedExpressions: Set<Expression> | undefined = undefined;
 
-    /** All of the native streams created while evaluating the program */
-    nativeStreams: Map<EvaluatorNode, Stream> = new Map();
+    /**
+     * All of the native streams created while evaluating the program.
+     * Each node gets a list of streams because multiple evaluations of the
+     * node in a single evaluation generates a distinct stream for each evaluation.
+     * They are uniquely identified by the index of their creation.
+     * We keep an index of counts in order to do this mapping.
+     * */
+    nativeStreams: Map<EvaluatorNode, Stream[]> = new Map();
+    nativeStreamEvaluationCount: Map<EvaluatorNode, number> = new Map();
 
     /** A derived cache of temporal streams, to avoid having to look them up. */
     nativeTemporalStreams: TemporalStream<any>[] = [];
@@ -135,6 +142,7 @@ export default class Evaluator {
      * The last time we received from requestAnimationFrame.
      */
     previousTime: DOMHighResTimeStamp | undefined = undefined;
+    animating: boolean = false;
 
     /**
      * A list of temporal streams that have updated, for pooling them into a single reevaluation,
@@ -393,6 +401,9 @@ export default class Evaluator {
         // Reset the streams resolved to avoid memory leaks.
         this.streamsResolved.clear();
 
+        // Reset the stream evaluation count
+        this.nativeStreamEvaluationCount.clear();
+
         // Notify listeners.
         this.broadcast();
     }
@@ -406,7 +417,10 @@ export default class Evaluator {
         this.resetForEvaluation();
 
         // Reset the latest source values. (We keep them around for display after each reaction).
-        this.sourceValues = new Map();
+        this.sourceValues.clear();
+
+        // Reset the streams
+        this.nativeStreams.clear();
     }
 
     /** Evaluate until we're done */
@@ -484,9 +498,9 @@ export default class Evaluator {
         this.observers.length = 0;
 
         // Stop all native streams.
-        Array.from(this.nativeStreams.values()).forEach((stream) =>
-            stream.stop()
-        );
+        for (const streams of this.nativeStreams.values()) {
+            for (const stream of streams) stream.stop();
+        }
     }
 
     /**
@@ -816,18 +830,33 @@ export default class Evaluator {
     getNativeStreamsOfType<Kind extends Stream>(
         type: new (...params: any[]) => Kind
     ) {
-        return Array.from(this.nativeStreams.values()).filter(
-            (stream): stream is Kind => stream instanceof type
-        );
+        // Make a big list of all the streams and filter by the ones of the given type.
+        return Array.from(this.nativeStreams.values())
+            .reduce((streams, list) => streams.concat(list), [])
+            .filter((stream): stream is Kind => stream instanceof type);
+    }
+
+    /** Called by stream definitions to identify previously created streams to which an evaluation should correspond. */
+    incrementNativeStreamEvaluationCount(evaluate: EvaluatorNode) {
+        // Set or increment the evaluation count.
+        const count = this.nativeStreamEvaluationCount.get(evaluate) ?? 0;
+        this.nativeStreamEvaluationCount.set(evaluate, count + 1);
     }
 
     getNativeStreamFor(evaluate: EvaluatorNode): Stream | undefined {
-        return this.nativeStreams.get(evaluate);
+        const streams = this.nativeStreams.get(evaluate);
+        const count = this.nativeStreamEvaluationCount.get(evaluate) ?? 0;
+
+        return streams === undefined || count === 0
+            ? undefined
+            : streams[count - 1];
     }
 
     addNativeStreamFor(evaluate: EvaluatorNode, stream: Stream): void {
+        const streams = this.nativeStreams.get(evaluate) ?? [];
+
         // Remember the mapping
-        this.nativeStreams.set(evaluate, stream);
+        this.nativeStreams.set(evaluate, [...streams, stream]);
 
         // Start the stream.
         stream.start();
@@ -836,15 +865,18 @@ export default class Evaluator {
         stream.listen((stream) => this.react(stream));
 
         // If it's a temporal stream and we haven't already started a loop, start one.
+        // Ensure we only start one by having an animation flag.
         if (stream instanceof TemporalStream) {
             this.nativeTemporalStreams.push(stream);
             // If we haven't yet started a loop, start one.
             if (
-                this.previousTime === undefined &&
+                !this.animating &&
                 typeof window !== 'undefined' &&
                 typeof window.requestAnimationFrame !== 'undefined'
-            )
+            ) {
+                this.animating = true;
                 window.requestAnimationFrame(this.tick.bind(this));
+            }
         }
     }
 
@@ -870,8 +902,8 @@ export default class Evaluator {
             this.flush();
         }
 
-        // Tick again in a bit.
-        window.requestAnimationFrame(this.tick.bind(this));
+        // Tick again in a bit if we're not stopped.
+        if (!this.#stopped) window.requestAnimationFrame(this.tick.bind(this));
     }
 
     /** React with any pooled temporal reactions */

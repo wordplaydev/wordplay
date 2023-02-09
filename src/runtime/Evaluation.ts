@@ -276,6 +276,12 @@ export default class Evaluation {
             this._bindingsIndex.set(name, value);
     }
 
+    /** A convience function for getting a value by name, but only if it is a certain type */
+    get<Kind>(name: string | Names, type: new (...params: any[]) => Kind) {
+        const value = this.resolve(name);
+        return value instanceof type ? value : undefined;
+    }
+
     /** Resolves the given name in this evaluation or its context. */
     resolve(name: string | Names): Value | undefined {
         if (name instanceof Names) {

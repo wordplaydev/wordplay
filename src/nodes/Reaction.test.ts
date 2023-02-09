@@ -42,11 +42,13 @@ test.each([
         project.evaluate();
 
         // Check the latest value of the source
-        const actualIinitial = project.evaluator.getLatestSourceValue(source);
-        expect(actualIinitial?.toString()).toBe(expectedInitial);
+        const actualInitial = project.evaluator.getLatestSourceValue(source);
+        expect(actualInitial?.toString()).toBe(expectedInitial);
 
         // Add the given value to the stream
-        const stream = Array.from(project.evaluator.nativeStreams.values())[0];
+        const stream = Array.from(
+            project.evaluator.nativeStreams.values()
+        )[0][0];
         expect(stream).not.toBeUndefined();
         stream?.add(value(source));
 
