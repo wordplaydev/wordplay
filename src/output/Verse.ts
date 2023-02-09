@@ -113,16 +113,16 @@ export default class Verse extends TypeOutput {
     }
 
     getPlaces(context: RenderContext): [TypeOutput, Place][] {
-        return this.content.map((group) => [
-            group,
-            group instanceof Phrase && group.place
-                ? group.place
+        return this.content.map((child) => [
+            child,
+            child instanceof Phrase && child.place
+                ? child.place
                 : new Place(
                       this.value,
                       // Place everything in the center
-                      group.getWidth(context).div(2).neg(),
+                      child.getWidth(context).div(2).neg(),
                       // We don't negate the y because its in math coordinates.
-                      group.getHeight(context).div(2),
+                      child.getHeight(context).div(2),
                       new Decimal(0),
                       new Decimal(0)
                   ),
