@@ -384,7 +384,7 @@ export default class OutputAnimation {
 
         // Use the sequence to create an animation with the Web Animation API.
         const verse = document.querySelector(
-            `[data-id="${this.stage.verse.getHTMLID()}"]`
+            `.verse.live [data-id="${this.stage.verse.getHTMLID()}"]`
         );
         // Find the element corresponding to the phrase.
         const element = verse?.querySelector(

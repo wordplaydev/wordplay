@@ -356,9 +356,10 @@
 {#if mounted}
     {@const context = stage.getRenderContext()}
     <div
-        class="verse {interactive && $playing ? '' : 'inert'} {ignored
-            ? 'ignored'
-            : ''}"
+        class="verse {interactive && $playing
+            ? 'live'
+            : 'inert'} {project.main.names.getNames()[0]}"
+        class:ignored
         data-id={verse.getHTMLID()}
         tabIndex={interactive ? 0 : null}
         style={toCSS({
