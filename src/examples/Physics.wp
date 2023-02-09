@@ -2,5 +2,5 @@
 count: 10
 
 Verse(count → [].translate(
-    ƒ(_) Phrase("⚽️" place: Motion(Place(y: 10m) Speed(vx: -3m/s va: 30°/s)))
+    ƒ(_) Phrase("💩" place: Motion(Place(y: 5m) Speed(vx: -5m/s va: -150°/s)))
 ))

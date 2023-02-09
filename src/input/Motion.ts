@@ -11,8 +11,8 @@ import { createPlaceStructure } from '../output/Place';
 
 const DEFAULT_MASS = 1;
 
-// Global gravity, 9.8 m/s^2.
-const GRAVITY = 9.8;
+// Global gravity
+const GRAVITY = 15;
 
 export default class Motion extends Stream<Structure> {
     running = false;
@@ -155,7 +155,9 @@ export default class Motion extends Stream<Structure> {
         // If we collide with 0, negate y velocity.
         if (this.y < 0) {
             this.y = 0;
-            this.vy = -this.vy;
+            this.vy = -this.vy * 0.5;
+            this.vx = this.vx * 0.5;
+            this.va = this.va * 0.5;
         }
 
         // Finally, add the new place to the stream.
