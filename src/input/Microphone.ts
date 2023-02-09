@@ -4,6 +4,7 @@ import Measurement from '@runtime/Measurement';
 import Stream from '@runtime/Stream';
 import { getDocTranslations } from '@translation/getDocTranslations';
 import { getNameTranslations } from '@translation/getNameTranslations';
+import MicrophoneDefinition from './MicrophoneDefinition';
 
 const FFT_SIZE = 32;
 const DEFAULT_FREQUENCY = 33;
@@ -20,7 +21,11 @@ export default class Microphone extends Stream {
     frequency: number | undefined;
 
     constructor(evaluator: Evaluator, frequency: number | undefined) {
-        super(evaluator, new Measurement(evaluator.getMain(), 100));
+        super(
+            evaluator,
+            MicrophoneDefinition,
+            new Measurement(evaluator.getMain(), 100)
+        );
         this.frequency = frequency ?? DEFAULT_FREQUENCY;
     }
 

@@ -10,6 +10,7 @@ import { PlaceType } from '../output/Place';
 import type Evaluator from '@runtime/Evaluator';
 import { getDocTranslations } from '@translation/getDocTranslations';
 import { getNameTranslations } from '@translation/getNameTranslations';
+import MousePositionDefinition from './MousePositionDefinition';
 
 function position(evaluator: Evaluator, x: number, y: number) {
     const bindings = new Map<Names, Value>();
@@ -29,7 +30,7 @@ export default class MousePosition extends Stream<Structure> {
     on: boolean = false;
 
     constructor(evaluator: Evaluator) {
-        super(evaluator, position(evaluator, 0, 0));
+        super(evaluator, MousePositionDefinition, position(evaluator, 0, 0));
 
         this.evaluator = evaluator;
     }

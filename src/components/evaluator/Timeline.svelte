@@ -183,7 +183,7 @@
             {#if change.stream === undefined}
                 ◆
             {:else}
-                {change.stream.names.getTranslation('😀')}
+                {change.stream.getName(['😀'])}
             {/if}
             <!-- Show dots representing the steps after the reevaluation -->
         </span><span

@@ -2,21 +2,23 @@ import None from './None';
 import Primitive from './Primitive';
 import type Value from './Value';
 import type LanguageCode from '@translation/LanguageCode';
-import type Names from '@nodes/Names';
-import type Docs from '@nodes/Docs';
 import type Node from '@nodes/Node';
 import type Evaluator from './Evaluator';
 import type { StepNumber } from './Evaluator';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type Translation from '@translation/Translation';
+import type StreamDefinition from '../nodes/StreamDefinition';
 
 export const MAX_STREAM_LENGTH = 1024;
 
 export default abstract class Stream<
     ValueType extends Value = Value
 > extends Primitive {
-    /** The evalutor that processes this stream */
+    /** The evaluator that processes this stream */
     readonly evaluator: Evaluator;
+
+    /** The definition of this stream type */
+    readonly definition: StreamDefinition;
 
     /** The stream of values */
     values: { value: ValueType; stepIndex: StepNumber }[] = [];
@@ -24,26 +26,23 @@ export default abstract class Stream<
     /** Listeners watching this stream */
     reactors: ((stream: Stream) => void)[] = [];
 
-    readonly names: Names;
-    readonly docs: Docs;
-
-    constructor(evaluator: Evaluator, initalValue: ValueType) {
+    constructor(
+        evaluator: Evaluator,
+        definition: StreamDefinition,
+        initalValue: ValueType
+    ) {
         super(evaluator.getMain());
 
         this.evaluator = evaluator;
+        this.definition = definition;
+
         this.add(initalValue);
-
-        this.names = this.computeNames();
-        this.docs = this.computeDocs();
     }
-
-    abstract computeDocs(): Docs;
-    abstract computeNames(): Names;
 
     getDescription(translation: Translation) {
         return (
-            this.docs
-                .getTranslation(translation.language)
+            this.definition.docs
+                ?.getTranslation(translation.language)
                 ?.getFirstParagraph() ?? translation.data.stream
         );
     }
@@ -123,7 +122,11 @@ export default abstract class Stream<
 
     /** Should produce valid Wordplay code string representing the stream's name */
     toWordplay(languages: LanguageCode[]): string {
-        return this.names.getTranslation(languages);
+        return this.getName(languages);
+    }
+
+    getName(languages: LanguageCode[]) {
+        return this.definition.names.getTranslation(languages);
     }
 
     /** Should return named values on the stream. */

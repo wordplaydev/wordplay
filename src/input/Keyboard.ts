@@ -5,6 +5,7 @@ import { getDocTranslations } from '@translation/getDocTranslations';
 import { getNameTranslations } from '@translation/getNameTranslations';
 import Text from '@runtime/Text';
 import TextType from '../nodes/TextType';
+import KeyboardDefinition from './KeyboardDefinition';
 
 export default class Keyboard extends Stream<Text> {
     readonly evaluator: Evaluator;
@@ -14,7 +15,7 @@ export default class Keyboard extends Stream<Text> {
     down: boolean | undefined;
 
     constructor(evaluator: Evaluator, key: string | undefined, down: boolean) {
-        super(evaluator, new Text(evaluator.getMain(), ''));
+        super(evaluator, KeyboardDefinition, new Text(evaluator.getMain(), ''));
 
         this.evaluator = evaluator;
         this.key = key;

@@ -9,7 +9,4 @@
     export let value: Stream;
 </script>
 
-<SymbolView
-    symbol={value.names.getTranslation($preferredLanguages)}
-    type={TokenType.NAME}
-/>
+<SymbolView symbol={value.getName($preferredLanguages)} type={TokenType.NAME} />

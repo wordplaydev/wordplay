@@ -5,6 +5,7 @@ import Measurement from '@runtime/Measurement';
 import Stream from '@runtime/Stream';
 import { getDocTranslations } from '@translation/getDocTranslations';
 import { getNameTranslations } from '@translation/getNameTranslations';
+import RandomDefinition from './RandomDefinition';
 
 export const FREQUENCY = 33;
 
@@ -17,7 +18,7 @@ export default class Random extends Stream<Measurement> {
         min: number | undefined,
         max: number | undefined
     ) {
-        super(evaluator, Random.next(evaluator, min, max));
+        super(evaluator, RandomDefinition, Random.next(evaluator, min, max));
 
         this.min = min;
         this.max = max;

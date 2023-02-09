@@ -5,13 +5,18 @@ import type Evaluator from '@runtime/Evaluator';
 import Stream from '@runtime/Stream';
 import { getDocTranslations } from '@translation/getDocTranslations';
 import { getNameTranslations } from '@translation/getNameTranslations';
+import MouseButtonDefinition from './MouseButtonDefinition';
 
 export default class MouseButton extends Stream<Bool> {
     on: boolean = false;
     down: boolean | undefined;
 
     constructor(evaluator: Evaluator, down: boolean | undefined) {
-        super(evaluator, new Bool(evaluator.getMain(), true));
+        super(
+            evaluator,
+            MouseButtonDefinition,
+            new Bool(evaluator.getMain(), true)
+        );
 
         this.down = down;
     }

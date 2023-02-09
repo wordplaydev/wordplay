@@ -7,6 +7,7 @@ import Stream from '@runtime/Stream';
 import type Node from '@nodes/Node';
 import { getDocTranslations } from '@translation/getDocTranslations';
 import { getNameTranslations } from '@translation/getNameTranslations';
+import TimeDefinition from './TimeDefinition';
 
 const DEFAULT_FREQUENCY = 33;
 
@@ -18,6 +19,7 @@ export default class Time extends Stream<Measurement> {
     constructor(evaluator: Evaluator, frequency: number = DEFAULT_FREQUENCY) {
         super(
             evaluator,
+            TimeDefinition,
             new Measurement(evaluator.getMain(), 0, Unit.unit(['ms']))
         );
         this.frequency = frequency;

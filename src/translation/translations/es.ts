@@ -1625,7 +1625,7 @@ const eng_wordplay: Translation = {
         },
         time: {
             doc: WRITE_DOC,
-            name: ['time', '🕕'],
+            name: ['🕕', 'time'],
             frequency: {
                 name: ['frequency'],
                 doc: WRITE_DOC,

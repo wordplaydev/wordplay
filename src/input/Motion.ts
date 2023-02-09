@@ -8,6 +8,7 @@ import { getNameTranslations } from '@translation/getNameTranslations';
 import type Place from '../output/Place';
 import type Structure from '../runtime/Structure';
 import { createPlaceStructure } from '../output/Place';
+import MotionDefinition from './MotionDefinition';
 
 const DEFAULT_MASS = 1;
 
@@ -50,7 +51,7 @@ export default class Motion extends Stream<Structure> {
         speed: Place,
         mass: number = DEFAULT_MASS
     ) {
-        super(evaluator, place.value as Structure);
+        super(evaluator, MotionDefinition, place.value as Structure);
 
         this.x = place.x.toNumber();
         this.y = place.y.toNumber();
