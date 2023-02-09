@@ -129,14 +129,19 @@ export function toOutputTransform(
     const perspectiveScale = root ? rootScale(z, focus.z) : incrementalScale(z);
 
     // When computing the center, account for scale
+    // Negate ascent to account for flipped y axis.
     let centerXOffset = metrics.width / 2;
     let centerYOffset = metrics.ascent / 2;
 
+    // Translate the place to screen coordinates.
+    // Negate y to account for flipped y axis.
     let placeX = place.x.toNumber() * PX_PER_METER;
-    let placeY = place.y.toNumber() * PX_PER_METER;
+    let placeY = -place.y.toNumber() * PX_PER_METER;
 
+    // Translate the focus to focus coordinates.
+    // Negate y to account for flipped y axis.
     let focusX = focus.x.toNumber() * PX_PER_METER;
-    let focusY = focus.y.toNumber() * PX_PER_METER;
+    let focusY = -focus.y.toNumber() * PX_PER_METER;
 
     // These are applied in reverse.
     return [
@@ -156,7 +161,7 @@ export function toOutputTransform(
         // 4. Scale around the center and its offset
         scaleXY(xScale, yScale),
         // 3. Offset around the center
-        translateXY(xOffset, yOffset),
+        translateXY(xOffset, -yOffset),
         // 2. Rotate around it's center
         rotateDeg(place.rotation.toNumber() + rotationOffset),
         // 1. Translate to the center of the output.

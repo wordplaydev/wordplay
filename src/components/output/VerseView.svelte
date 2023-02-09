@@ -48,8 +48,8 @@
     /** The verse focus that fits the content to the view*/
     let fitFocus: Place | undefined = undefined;
 
-    /** The creator or audience adjusted focus. Defaults backset. */
-    let adjustedFocus: Place = createPlace(project.evaluator, 0, 0, 0, 0);
+    /** The creator or audience adjusted focus. */
+    let adjustedFocus: Place = createPlace(project.evaluator, 0, 0, -12, 0);
 
     /** The state of dragging the adjusted focus. A location or nothiing. */
     let focusDrag:
@@ -165,7 +165,7 @@
             fitFocus = createPlace(
                 project.evaluator,
                 -(contentBounds.left + contentBounds.width / 2),
-                -(contentBounds.top + contentBounds.height / 2),
+                -contentBounds.top + contentBounds.height / 2,
                 z,
                 0
             );
@@ -315,8 +315,6 @@
                 return adjustFocus(increment, 0, 0);
             } else if (event.key === 'ArrowUp') {
                 return adjustFocus(0, -1 * increment, 0);
-            } else if (event.key === 'ArrowDown') {
-                return adjustFocus(0, increment, 0);
             } else if (event.key === '+') {
                 return adjustFocus(0, 0, 1);
             } else if (event.key === '_') {

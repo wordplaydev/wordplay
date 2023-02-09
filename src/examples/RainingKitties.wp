@@ -19,7 +19,7 @@ kitties•[Kitty]:  ∆ time() ?
     …
     kitties.translate(
         ƒ(kitty•Kitty)
-            (kitty.y: kitty.y > size ? -size kitty.y + 2)
+            (kitty.y: kitty.y < -size ? size kitty.y - 2)
                 .angle: kitty.angle + kitty.speed
     )
 

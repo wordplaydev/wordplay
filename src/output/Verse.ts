@@ -79,21 +79,22 @@ export default class Verse extends TypeOutput {
                 place.x.add(group.getWidth(context)).toNumber()
             )
         );
-        const top = Math.min.apply(
+        const bottom = Math.min.apply(
+            Math,
+            places.map(([group, place]) =>
+                place.y.sub(group.getHeight(context)).toNumber()
+            )
+        );
+        const top = Math.max.apply(
             Math,
             places.map(([, place]) => place.y.toNumber())
         );
-        const bottom = Math.max.apply(
-            Math,
-            places.map(([group, place]) =>
-                place.y.add(group.getHeight(context)).toNumber()
-            )
-        );
         return {
-            left,
-            top,
-            width: right - left,
-            height: bottom - top,
+            left: Math.min(left, right),
+            top: Math.max(bottom, top),
+            bottom: Math.min(bottom, bottom),
+            width: Math.abs(right - left),
+            height: Math.abs(top - bottom),
         };
     }
 
@@ -111,9 +112,6 @@ export default class Verse extends TypeOutput {
         return this.content;
     }
 
-    /**
-     * A Verse is a Group that lays out a list of phrases according to their specified places,
-     * or if the phrases */
     getPlaces(context: RenderContext): [TypeOutput, Place][] {
         return this.content.map((group) => [
             group,
@@ -121,8 +119,10 @@ export default class Verse extends TypeOutput {
                 ? group.place
                 : new Place(
                       this.value,
+                      // Place everything in the center
                       group.getWidth(context).div(2).neg(),
-                      group.getHeight(context).div(2).neg(),
+                      // We don't negate the y because its in math coordinates.
+                      group.getHeight(context).div(2),
                       new Decimal(0),
                       new Decimal(0)
                   ),

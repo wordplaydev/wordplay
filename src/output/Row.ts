@@ -46,33 +46,33 @@ export class Row extends Arrangement {
     }
 
     getPlaces(
-        output: TypeOutput[],
+        children: TypeOutput[],
         context: RenderContext
     ): [TypeOutput, Place][] {
         let position = new Decimal(0);
 
         // Get the height of the container so we can center each phrase vertically.
-        let height = this.getHeight(output, context);
+        let height = this.getHeight(children, context);
 
         const positions: [TypeOutput, Place][] = [];
-        for (const group of output) {
+        for (const child of children) {
             positions.push([
-                group,
+                child,
                 new Place(
                     this.value,
                     position,
-                    height.sub(group.getHeight(context)).div(2),
+                    height.sub(child.getHeight(context)).div(2).neg(),
                     // If the phrase a place, use it's z, otherwise default to the 0 plane.
-                    group instanceof Phrase && group.place
-                        ? group.place.z
+                    child instanceof Phrase && child.place
+                        ? child.place.z
                         : new Decimal(0),
                     // Use the place's rotation if provided
-                    group instanceof Phrase && group.place
-                        ? group.place.rotation
+                    child instanceof Phrase && child.place
+                        ? child.place.rotation
                         : new Decimal(0)
                 ),
             ]);
-            position = position.add(group.getWidth(context));
+            position = position.add(child.getWidth(context));
             position = position.add(this.padding.num);
         }
 

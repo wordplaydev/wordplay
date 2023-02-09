@@ -144,7 +144,7 @@ export default class Motion extends Stream<Structure> {
         const seconds = delta / 1000;
 
         // First, apply gravity to the y velocity proporitional to elapsed time.
-        this.vy += GRAVITY * seconds;
+        this.vy -= GRAVITY * seconds;
 
         // Then, apply velocity to place.
         this.x += this.vx * seconds;
@@ -152,8 +152,8 @@ export default class Motion extends Stream<Structure> {
         this.z += this.vz * seconds;
         this.angle += this.va * seconds;
 
-        // If we collide with 0, negative y velocity.
-        if (this.y > 0) {
+        // If we collide with 0, negate y velocity.
+        if (this.y < 0) {
             this.y = 0;
             this.vy = -this.vy;
         }

@@ -45,34 +45,34 @@ export class Stack extends Arrangement {
     }
 
     getPlaces(
-        output: TypeOutput[],
+        children: TypeOutput[],
         context: RenderContext
     ): [TypeOutput, Place][] {
-        let position = new Decimal(0);
-
         // Get the width of the container so we can center each phrase.
-        let width = this.getWidth(output, context);
+        const width = this.getWidth(children, context);
+
+        let y = new Decimal(0);
 
         const positions: [TypeOutput, Place][] = [];
-        for (const group of output) {
+        for (const child of children) {
             positions.push([
-                group,
+                child,
                 new Place(
                     this.value,
-                    width.sub(group.getWidth(context)).div(2),
-                    position,
+                    width.sub(child.getWidth(context)).div(2),
+                    y,
                     // If the phrase a place, use it's z, otherwise default to the 0 plane.
-                    group instanceof Phrase && group.place
-                        ? group.place.z
+                    child instanceof Phrase && child.place
+                        ? child.place.z
                         : new Decimal(0),
                     // Use the place's rotation if provided
-                    group instanceof Phrase && group.place
-                        ? group.place.rotation
+                    child instanceof Phrase && child.place
+                        ? child.place.rotation
                         : new Decimal(0)
                 ),
             ]);
-            position = position.add(group.getHeight(context));
-            position = position.add(this.padding.num);
+            y = y.sub(child.getHeight(context));
+            y = y.sub(this.padding.num);
         }
 
         return positions;

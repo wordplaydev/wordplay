@@ -45,7 +45,7 @@ export default class Place extends Output {
         return new Place(
             this.value,
             this.x.add(place.x),
-            this.y.add(place.y),
+            this.y.sub(place.y),
             this.z,
             this.rotation
         );
@@ -55,7 +55,7 @@ export default class Place extends Output {
         return new Place(
             this.value,
             this.x.sub(place.x),
-            this.y.sub(place.y),
+            this.y.add(place.y),
             this.z,
             this.rotation
         );
@@ -82,7 +82,7 @@ export function toPlace(value: Value | undefined): Place | undefined {
     const y = toDecimal(value.resolve('y'));
     const z = toDecimal(value.resolve('z'));
     const rotation = toDecimal(value.resolve('rotation'));
-    return x && y && z && rotation
+    return x !== undefined && y !== undefined && z !== undefined && rotation
         ? new Place(value, x, y, z, rotation)
         : undefined;
 }
