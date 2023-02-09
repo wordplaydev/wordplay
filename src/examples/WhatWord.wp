@@ -43,10 +43,10 @@ sway: {
 
 bounce: {
   0%: Pose(scale: 1 offset: Place(y: 0m))
-  10%: Pose(scale: 1.1 offset: Place(y: -2m))
-  30%: Pose(scale: .9 offset: Place(y: -2m))
+  10%: Pose(scale: 1.1 offset: Place(y: 2m))
+  30%: Pose(scale: .9 offset: Place(y: 2m))
   50%: Pose(scale: 1 offset: Place(y: 0m))
-  57%: Pose(scale: 1 offset: Place(y: -.1m))
+  57%: Pose(scale: 1 offset: Place(y: .1m))
   64%: Pose(scale: 1 offset: Place(y: 0m))
   100%: Pose(scale: 1 offset: Place(y: 0m))
 }
