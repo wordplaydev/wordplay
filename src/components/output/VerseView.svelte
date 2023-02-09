@@ -256,7 +256,7 @@
 
             setFocus(
                 focusDrag.startFocus.x.toNumber() + deltaX / scale,
-                focusDrag.startFocus.y.toNumber() + deltaY / scale,
+                focusDrag.startFocus.y.toNumber() - deltaY / scale,
                 focusDrag.startFocus.z.toNumber()
             );
         }
