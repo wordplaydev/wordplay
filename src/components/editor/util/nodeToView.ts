@@ -71,6 +71,7 @@ import ConceptLinkView from '../ConceptLinkView.svelte';
 import WordsView from '../WordsView.svelte';
 import ExampleView from '../ExampleView.svelte';
 import PropertyBindView from '../PropertyBindView.svelte';
+import InitialView from '../InitialView.svelte';
 
 import type Node from '@nodes/Node';
 import Program from '@nodes/Program';
@@ -145,6 +146,7 @@ import ConceptLink from '@nodes/ConceptLink';
 import Words from '@nodes/Words';
 import Example from '@nodes/Example';
 import PropertyBind from '@nodes/PropertyBind';
+import Initial from '@nodes/Initial';
 
 const nodeToView = new Map<Function, ConstructorOfATypedSvelteComponent>();
 nodeToView.set(Program, ProgramView);
@@ -227,6 +229,7 @@ nodeToView.set(Select, SelectView);
 nodeToView.set(Reaction, ReactionView);
 nodeToView.set(Previous, PreviousView);
 nodeToView.set(Changed, ChangedView);
+nodeToView.set(Initial, InitialView);
 nodeToView.set(StreamType, StreamTypeView);
 nodeToView.set(UnparsableType, UnparsableTypeView);
 nodeToView.set(UnparsableExpression, UnparsableExpressionView);

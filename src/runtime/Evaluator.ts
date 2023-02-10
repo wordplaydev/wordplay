@@ -766,6 +766,10 @@ export default class Evaluator {
         );
     }
 
+    isInitialEvaluation() {
+        return this.reactions.length === 1;
+    }
+
     didStreamCauseReaction(stream: Stream) {
         // Find the latest stream change after the current step index,
         // and return the stream that triggered evaluation, if any.

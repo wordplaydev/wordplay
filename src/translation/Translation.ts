@@ -229,6 +229,7 @@ type Translation = {
                 (table: NodeLink) => Description,
                 ValueOrUndefinedTranslation
             >;
+        Initial: StaticNodeTranslation;
         Is: StaticNodeTranslation &
             ExpressionTranslation<
                 (expr: NodeLink) => Description,

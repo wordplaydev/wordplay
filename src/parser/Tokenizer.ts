@@ -41,6 +41,7 @@ import {
     TYPE_CLOSE_SYMBOL,
     TYPE_OPEN_SYMBOL,
     TYPE_SYMBOL,
+    INITIAL_SYMBOL,
 } from './Symbols';
 import TokenList from './TokenList';
 
@@ -138,6 +139,7 @@ const patterns = [
         pattern: STREAM_SYMBOL,
         types: [TokenType.STREAM, TokenType.ETC],
     },
+    { pattern: INITIAL_SYMBOL, types: [TokenType.INITIAL] },
     { pattern: CHANGE_SYMBOL, types: [TokenType.CHANGE] },
     { pattern: PREVIOUS_SYMBOL, types: [TokenType.PREVIOUS] },
     { pattern: PLACEHOLDER_SYMBOL, types: [TokenType.PLACEHOLDER] },

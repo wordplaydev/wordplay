@@ -46,6 +46,7 @@ enum TokenType {
     UNION = '|',
     STREAM = '…',
     CHANGE = '∆',
+    INITIAL = '◆',
     PREVIOUS = '…-',
     PLACEHOLDER = '_',
     ETC = '…',

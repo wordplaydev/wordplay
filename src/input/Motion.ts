@@ -22,6 +22,7 @@ import TextLiteral from '../nodes/TextLiteral';
 import Reference from '../nodes/Reference';
 import ValueException from '../runtime/ValueException';
 import UnionType from '../nodes/UnionType';
+import NoneLiteral from '../nodes/NoneLiteral';
 
 const PlaceName =
     typeof en.output.type.place.name === 'string'
@@ -126,9 +127,9 @@ export default class Motion extends TemporalStream<Value> {
         // If we collide with 0, negate y velocity.
         if (this.y < 0) {
             this.y = 0;
-            this.vy = -this.vy * 0.5;
-            this.vx = this.vx * 0.5;
-            this.va = this.va * 0.5;
+            this.vy = -this.vy * this.bounciness;
+            this.vx = this.vx * this.bounciness;
+            this.va = this.va * this.bounciness;
         }
 
         // Get the type so we can clone and modify it.
@@ -173,28 +174,28 @@ const VXBind = Bind.make(
     getDocTranslations((t) => t.input.motion.vx.doc),
     getNameTranslations((t) => t.input.motion.vx.name),
     UnionType.orNone(SpeedType.clone()),
-    MeasurementLiteral.make(0, SpeedUnit)
+    NoneLiteral.make()
 );
 
 const VYBind = Bind.make(
     getDocTranslations((t) => t.input.motion.vy.doc),
     getNameTranslations((t) => t.input.motion.vy.name),
     UnionType.orNone(SpeedType.clone()),
-    MeasurementLiteral.make(0, SpeedUnit)
+    NoneLiteral.make()
 );
 
 const VZBind = Bind.make(
     getDocTranslations((t) => t.input.motion.vz.doc),
     getNameTranslations((t) => t.input.motion.vz.name),
     UnionType.orNone(SpeedType.clone()),
-    MeasurementLiteral.make(0, SpeedUnit)
+    NoneLiteral.make()
 );
 
 const VAngleBind = Bind.make(
     getDocTranslations((t) => t.input.motion.vangle.doc),
     getNameTranslations((t) => t.input.motion.vangle.name),
     UnionType.orNone(AngleSpeedType.clone()),
-    MeasurementLiteral.make(0, AngleSpeedUnit)
+    NoneLiteral.make()
 );
 
 const MassBind = Bind.make(
@@ -208,8 +209,8 @@ const MassBind = Bind.make(
 const BouncinessBind = Bind.make(
     getDocTranslations((t) => t.input.motion.bounciness.doc),
     getNameTranslations((t) => t.input.motion.bounciness.name),
-    UnionType.orNone(MeasurementType.make(Unit.make(['%']))),
-    MeasurementLiteral.make(75, Unit.make(['%']))
+    UnionType.orNone(MeasurementType.make()),
+    MeasurementLiteral.make(0.75)
 );
 
 const GravityBind = Bind.make(

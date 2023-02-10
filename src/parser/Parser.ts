@@ -77,6 +77,7 @@ import ConceptLink from '@nodes/ConceptLink';
 import Words from '@nodes/Words';
 import Example from '@nodes/Example';
 import PropertyBind from '../nodes/PropertyBind';
+import Initial from '../nodes/Initial';
 
 export enum SyntacticConflict {
     EXPECTED_BORRW_NAME,
@@ -531,6 +532,9 @@ function parseAtomicExpression(tokens: Tokens): Expression {
             : // Placeholder
             tokens.nextIs(TokenType.PLACEHOLDER)
             ? parsePlaceholder(tokens)
+            : // Start
+            tokens.nextIs(TokenType.INITIAL)
+            ? parseInitial(tokens)
             : // Change
             tokens.nextIs(TokenType.CHANGE)
             ? parseChanged(tokens)
@@ -628,6 +632,11 @@ function parsePlaceholder(tokens: Tokens): ExpressionPlaceholder {
     }
 
     return new ExpressionPlaceholder(placeholder, dot, type);
+}
+
+function parseInitial(tokens: Tokens): Initial {
+    const diamond = tokens.read(TokenType.INITIAL);
+    return new Initial(diamond);
 }
 
 function parseReference(tokens: Tokens): Reference {

@@ -357,6 +357,10 @@ const en: Translation = {
             finish: (value) =>
                 Explanation.as('evaluated to ', value ?? 'nothing'),
         },
+        Initial: {
+            description: 'is initial evaluation',
+            doc: WRITE_DOC,
+        },
         Insert: {
             description: 'insert a row from a table',
             doc: WRITE_DOC,
