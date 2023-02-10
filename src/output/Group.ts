@@ -86,7 +86,7 @@ export default class Group extends TypeOutput {
 
 export function toGroup(
     value: Value | undefined,
-    namer: NameGenerator
+    namer?: NameGenerator
 ): Group | undefined {
     if (value === undefined) return undefined;
 
@@ -118,7 +118,7 @@ export function toGroup(
               size,
               font,
               place,
-              name ?? namer.getName(value),
+              name ?? namer?.getName(value) ?? `${value.creator.id}`,
               enter,
               rest,
               move,

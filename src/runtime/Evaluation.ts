@@ -40,7 +40,8 @@ export type EvaluatorNode =
     | Convert
     | HOF
     | Borrow
-    | Source;
+    | Source
+    | StreamDefinition;
 export type EvaluationNode =
     | FunctionDefinition
     | StructureDefinition
@@ -341,7 +342,7 @@ export default class Evaluation {
     }
 
     withValue(
-        bind: PropertyBind,
+        creator: EvaluatorNode,
         property: string,
         value: Value
     ): Evaluation | undefined {
@@ -362,7 +363,7 @@ export default class Evaluation {
         // Create the new evaluation.
         return new Evaluation(
             this.#evaluator,
-            bind,
+            creator,
             this.#evaluationNode,
             this.#closure,
             newBindings

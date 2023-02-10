@@ -2,42 +2,34 @@ import type Evaluator from '@runtime/Evaluator';
 import { createPlaceStructure } from '@output/Place';
 import TemporalStream from '@runtime/TemporalStream';
 import Bind from '@nodes/Bind';
-import Evaluate from '@nodes/Evaluate';
 import MeasurementLiteral from '@nodes/MeasurementLiteral';
 import MeasurementType from '@nodes/MeasurementType';
-import Reference from '@nodes/Reference';
 import StreamDefinition from '@nodes/StreamDefinition';
 import StreamType from '@nodes/StreamType';
 import StructureDefinitionType from '@nodes/StructureDefinitionType';
 import Unit from '@nodes/Unit';
-import { createPlace, PlaceType, toPlace } from '@output/Place';
 import Measurement from '@runtime/Measurement';
 import Structure from '@runtime/Structure';
 import { getDocTranslations } from '@translation/getDocTranslations';
 import { getNameTranslations } from '@translation/getNameTranslations';
-import toStructure from '../native/toStructure';
-import Place from '@output/Place';
-import { toDecimal } from '@output/Verse';
-import type Value from '@runtime/Value';
-import { getBind } from '@translation/getBind';
 import createStreamEvaluator from './createStreamEvaluator';
+import TypeOutput, { TypeType } from '../output/TypeOutput';
+import type Value from '../runtime/Value';
+import { toTypeOutput } from '../output/toTypeOutput';
+import en from '../translation/translations/en';
+import Evaluate from '../nodes/Evaluate';
+import TextLiteral from '../nodes/TextLiteral';
+import Reference from '../nodes/Reference';
+import ValueException from '../runtime/ValueException';
+import UnionType from '../nodes/UnionType';
 
-const DEFAULT_MASS = 1;
+const PlaceName =
+    typeof en.output.type.place.name === 'string'
+        ? en.output.type.place.name
+        : en.output.type.place.name[0];
 
-// Global gravity
-const GRAVITY = 15;
-
-export default class Motion extends TemporalStream<Structure> {
-    /** The initial values, so we can decide whether to reset them when the program changes them. */
-    ix: number;
-    iy: number;
-    iz: number;
-    iangle: number;
-    ivx: number;
-    ivy: number;
-    ivz: number;
-    iva: number;
-    imass: number;
+export default class Motion extends TemporalStream<Value> {
+    type: TypeOutput;
 
     /** The current location and angle of the object. */
     x: number;
@@ -51,69 +43,70 @@ export default class Motion extends TemporalStream<Structure> {
     vz: number;
     va: number;
 
-    /* The current mass of the object. */
+    /* Collision and gravity properties.. */
     mass: number;
+    bounciness: number;
+    gravity: number;
 
     constructor(
         evaluator: Evaluator,
-        place: Place,
-        speed: Place,
-        mass: number = DEFAULT_MASS
+        type: TypeOutput,
+        vx: number | undefined,
+        vy: number | undefined,
+        vz: number | undefined,
+        vangle: number | undefined,
+        mass: number | undefined,
+        bounciness: number | undefined,
+        gravity: number | undefined
     ) {
-        super(evaluator, MotionDefinition, place.value as Structure);
+        super(evaluator, MotionDefinition, type.value);
 
-        this.x = place.x.toNumber();
-        this.y = place.y.toNumber();
-        this.z = place.z.toNumber();
-        this.angle = place.rotation.toNumber();
+        this.type = type;
 
-        this.vx = speed.x.toNumber();
-        this.vy = speed.y.toNumber();
-        this.vz = speed.z.toNumber();
-        this.va = speed.rotation.toNumber();
+        this.x = type.place?.x.toNumber() ?? 0;
+        this.y = type.place?.y.toNumber() ?? 0;
+        this.z = type.place?.x.toNumber() ?? 0;
+        this.angle = type.place?.rotation.toNumber() ?? 0;
 
-        this.mass = mass;
+        this.vx = vx ?? 0;
+        this.vy = vy ?? 0;
+        this.vz = vz ?? 0;
+        this.va = vangle ?? 0;
 
-        this.ix = this.x;
-        this.iy = this.y;
-        this.iz = this.z;
-        this.iangle = this.angle;
-        this.ivx = this.vx;
-        this.ivy = this.vy;
-        this.ivz = this.vz;
-        this.iva = this.va;
-        this.imass = this.mass;
+        this.mass = mass ?? 1;
+        this.bounciness = bounciness ?? 0.75;
+        this.gravity = gravity ?? 9.8;
     }
 
     // No setup or teardown, the Evaluator handles the requestAnimationFrame loop.
     start() {}
     stop() {}
 
-    setPlace(place: Place) {
-        const newX = place.x.toNumber();
-        if (newX !== this.ix) this.x = newX;
-        const newY = place.y.toNumber();
-        if (newY !== this.iy) this.y = newY;
-        const newZ = place.z.toNumber();
-        if (newZ !== this.iz) this.z = newY;
-        const newAngle = place.rotation.toNumber();
-        if (newAngle !== this.iangle) this.angle = newAngle;
-    }
+    update(
+        type: TypeOutput | undefined,
+        vx: number | undefined,
+        vy: number | undefined,
+        vz: number | undefined,
+        vangle: number | undefined,
+        mass: number | undefined,
+        bounciness: number | undefined,
+        gravity: number | undefined
+    ) {
+        if (type) {
+            this.x = type.place?.x.toNumber() ?? this.x;
+            this.y = type.place?.y.toNumber() ?? this.y;
+            this.z = type.place?.z.toNumber() ?? this.z;
+            this.angle = type.place?.rotation.toNumber() ?? this.angle;
+        }
 
-    setSpeed(speed: Place) {
-        const newX = speed.x.toNumber();
-        if (newX !== this.ivx) this.vx = newX;
-        const newY = speed.y.toNumber();
-        if (newY !== this.ivy) this.vy = newY;
-        const newZ = speed.z.toNumber();
-        if (newZ !== this.ivz) this.vz = newY;
-        const newAngle = speed.rotation.toNumber();
-        if (newAngle !== this.iva) this.va = newAngle;
-    }
+        this.vx = vx ?? this.vx;
+        this.vy = vy ?? this.vy;
+        this.vz = vz ?? this.vz;
+        this.va = vangle ?? this.va;
 
-    setMass(mass: number | undefined) {
-        if (mass !== undefined && mass !== this.imass)
-            this.mass = mass ?? DEFAULT_MASS;
+        if (mass !== undefined) this.mass = mass;
+        if (bounciness !== undefined) this.bounciness = bounciness;
+        if (gravity !== undefined) this.gravity = gravity;
     }
 
     /** Given some change in time in milliseconds, move the object. */
@@ -122,7 +115,7 @@ export default class Motion extends TemporalStream<Structure> {
         const seconds = delta / 1000;
 
         // First, apply gravity to the y velocity proporitional to elapsed time.
-        this.vy -= GRAVITY * seconds;
+        this.vy -= this.gravity * seconds;
 
         // Then, apply velocity to place.
         this.x += this.vx * seconds;
@@ -138,93 +131,147 @@ export default class Motion extends TemporalStream<Structure> {
             this.va = this.va * 0.5;
         }
 
-        // Finally, add the new place to the stream.
-        this.add(
-            createPlaceStructure(
-                this.evaluator,
-                this.x,
-                this.y,
-                this.z,
-                this.angle
-            )
-        );
+        // Get the type so we can clone and modify it.
+        const type = this.type.value;
+        if (type instanceof Structure) {
+            // Create a new type output with an updated place.
+            const revised = type.withValue(
+                this.definition,
+                PlaceName,
+                createPlaceStructure(
+                    this.evaluator,
+                    this.x,
+                    this.y,
+                    this.z,
+                    this.angle
+                )
+            );
+
+            // Finally, add the new place to the stream.
+            if (revised) this.add(revised);
+        }
     }
 
     getType() {
-        return StreamType.make(MeasurementType.make(Unit.unit(['ms'])));
+        return StreamType.make(MeasurementType.make(Unit.make(['ms'])));
     }
 }
 
-export const SpeedType = toStructure(`
-    ${getBind((t) => t.input.speed, '•')}(
-        ${getBind((t) => t.input.speed.vx)}•#m/s: 0m/s
-        ${getBind((t) => t.input.speed.vy)}•#m/s: 0m/s
-        ${getBind((t) => t.input.speed.vz)}•#m/s: 0m/s
-        ${getBind((t) => t.input.speed.va)}•#°/s: 0°/s
-    )
-`);
+const SpeedUnit = Unit.make(['m'], ['s']);
+const SpeedType = MeasurementType.make(SpeedUnit);
+const AngleSpeedUnit = Unit.make(['°'], ['s']);
+const AngleSpeedType = MeasurementType.make(AngleSpeedUnit);
 
-export function toSpeed(value: Value | undefined): Place | undefined {
-    if (value === undefined) return undefined;
-
-    const x = toDecimal(value.resolve('vx'));
-    const y = toDecimal(value.resolve('vy'));
-    const z = toDecimal(value.resolve('vz'));
-    const rotation = toDecimal(value.resolve('va'));
-    return x && y && z && rotation
-        ? new Place(value, x, y, z, rotation)
-        : undefined;
-}
-
-const PlaceBind = Bind.make(
-    getDocTranslations((t) => t.input.motion.place.doc),
-    getNameTranslations((t) => t.input.motion.place.name),
-    new StructureDefinitionType(PlaceType),
-    Evaluate.make(Reference.make(PlaceType.names.getNames()[0], PlaceType), [])
+const TypeBind = Bind.make(
+    getDocTranslations((t) => t.input.motion.type.doc),
+    getNameTranslations((t) => t.input.motion.type.name),
+    new StructureDefinitionType(TypeType),
+    Evaluate.make(Reference.make('Phrase'), [TextLiteral.make('⚽️')])
 );
 
-const SpeedBind = Bind.make(
-    getDocTranslations((t) => t.input.motion.speed.doc),
-    getNameTranslations((t) => t.input.motion.speed.name),
-    new StructureDefinitionType(SpeedType),
-    Evaluate.make(Reference.make(SpeedType.names.getNames()[0], SpeedType), [])
+const VXBind = Bind.make(
+    getDocTranslations((t) => t.input.motion.vx.doc),
+    getNameTranslations((t) => t.input.motion.vx.name),
+    UnionType.orNone(SpeedType.clone()),
+    MeasurementLiteral.make(0, SpeedUnit)
+);
+
+const VYBind = Bind.make(
+    getDocTranslations((t) => t.input.motion.vy.doc),
+    getNameTranslations((t) => t.input.motion.vy.name),
+    UnionType.orNone(SpeedType.clone()),
+    MeasurementLiteral.make(0, SpeedUnit)
+);
+
+const VZBind = Bind.make(
+    getDocTranslations((t) => t.input.motion.vz.doc),
+    getNameTranslations((t) => t.input.motion.vz.name),
+    UnionType.orNone(SpeedType.clone()),
+    MeasurementLiteral.make(0, SpeedUnit)
+);
+
+const VAngleBind = Bind.make(
+    getDocTranslations((t) => t.input.motion.vangle.doc),
+    getNameTranslations((t) => t.input.motion.vangle.name),
+    UnionType.orNone(AngleSpeedType.clone()),
+    MeasurementLiteral.make(0, AngleSpeedUnit)
 );
 
 const MassBind = Bind.make(
     getDocTranslations((t) => t.input.motion.mass.doc),
     getNameTranslations((t) => t.input.motion.mass.name),
-    MeasurementType.make(Unit.unit(['kg'])),
+    UnionType.orNone(MeasurementType.make(Unit.make(['kg']))),
     // Default to 1kg.
-    MeasurementLiteral.make(1, Unit.unit(['kg']))
+    MeasurementLiteral.make(1, Unit.make(['kg']))
 );
 
-const type = new StructureDefinitionType(PlaceType);
+const BouncinessBind = Bind.make(
+    getDocTranslations((t) => t.input.motion.bounciness.doc),
+    getNameTranslations((t) => t.input.motion.bounciness.name),
+    UnionType.orNone(MeasurementType.make(Unit.make(['%']))),
+    MeasurementLiteral.make(75, Unit.make(['%']))
+);
+
+const GravityBind = Bind.make(
+    getDocTranslations((t) => t.input.motion.gravity.doc),
+    getNameTranslations((t) => t.input.motion.gravity.name),
+    UnionType.orNone(MeasurementType.make(Unit.make(['m'], ['s', 's']))),
+    MeasurementLiteral.make(15, Unit.make(['m'], ['s', 's']))
+);
+
+const type = new StructureDefinitionType(TypeType);
 
 export const MotionDefinition = StreamDefinition.make(
     getDocTranslations((t) => t.input.motion.doc),
     getNameTranslations((t) => t.input.motion.name),
-    [PlaceBind, SpeedBind, MassBind],
-    createStreamEvaluator(
+    [
+        TypeBind,
+        VXBind,
+        VYBind,
+        VZBind,
+        VAngleBind,
+        MassBind,
+        BouncinessBind,
+        GravityBind,
+    ],
+    createStreamEvaluator<Motion>(
         type.clone(),
         Motion,
-        (evaluation) =>
-            new Motion(
-                evaluation.getEvaluator(),
-                toPlace(evaluation.get(PlaceBind.names, Structure)) ??
-                    createPlace(evaluation.getEvaluator(), 0, 0, 0, 0),
-                toSpeed(evaluation.get(SpeedBind.names, Structure)) ??
-                    createPlace(evaluation.getEvaluator(), 0, 0, 0, 0),
-                evaluation.get(MassBind.names, Measurement)?.toNumber()
-            ),
+        (evaluation) => {
+            const type = toTypeOutput(
+                evaluation.get(TypeBind.names, Structure)
+            );
+            return type
+                ? new Motion(
+                      evaluation.getEvaluator(),
+                      type,
+                      evaluation.get(VXBind.names, Measurement)?.toNumber(),
+                      evaluation.get(VYBind.names, Measurement)?.toNumber(),
+                      evaluation.get(VZBind.names, Measurement)?.toNumber(),
+                      evaluation.get(VAngleBind.names, Measurement)?.toNumber(),
+                      evaluation.get(MassBind.names, Measurement)?.toNumber(),
+                      evaluation
+                          .get(BouncinessBind.names, Measurement)
+                          ?.toNumber(),
+                      evaluation.get(GravityBind.names, Measurement)?.toNumber()
+                  )
+                : new ValueException(
+                      evaluation.getEvaluator(),
+                      evaluation.getCreator()
+                  );
+        },
         (stream, evaluation) => {
-            const place = toPlace(evaluation.get(PlaceBind.names, Structure));
-            const speed = toSpeed(evaluation.get(SpeedBind.names, Structure));
-            const mass = evaluation
-                .get(MassBind.names, Measurement)
-                ?.toNumber();
-            if (place !== undefined) stream.setPlace(place);
-            if (speed !== undefined) stream.setSpeed(speed);
-            if (mass !== undefined) stream.setMass(mass);
+            stream.update(
+                // Not valid type output? Revert to the current value.
+                toTypeOutput(evaluation.get(TypeBind.names, Structure)),
+                evaluation.get(VXBind.names, Measurement)?.toNumber(),
+                evaluation.get(VYBind.names, Measurement)?.toNumber(),
+                evaluation.get(VZBind.names, Measurement)?.toNumber(),
+                evaluation.get(VAngleBind.names, Measurement)?.toNumber(),
+                evaluation.get(MassBind.names, Measurement)?.toNumber(),
+                evaluation.get(BouncinessBind.names, Measurement)?.toNumber(),
+                evaluation.get(GravityBind.names, Measurement)?.toNumber()
+            );
         }
     ),
     type.clone()

@@ -14,7 +14,7 @@ import type StreamDefinition from '../nodes/StreamDefinition';
 import { TimeDefinition } from '../input/Time';
 import { KeyboardDefinition } from '../input/Keyboard';
 import { MicrophoneDefinition } from '../input/Microphone';
-import { MotionDefinition, SpeedType } from '../input/Motion';
+import { MotionDefinition } from '../input/Motion';
 import { MousePositionDefinition } from '../input/MousePosition';
 import { MouseButtonDefinition } from '../input/MouseButton';
 import { RandomDefinition } from '../input/Random';
@@ -37,7 +37,6 @@ export const StreamDefinitions = [
     RandomDefinition,
     MicrophoneDefinition,
     MotionDefinition,
-    SpeedType,
 ];
 
 const DefaultShares: (

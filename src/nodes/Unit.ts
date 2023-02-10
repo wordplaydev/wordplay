@@ -152,7 +152,7 @@ export default class Unit extends Type {
         return exponents;
     }
 
-    static unit(numerator: string[], denominator: string[] = []) {
+    static make(numerator: string[], denominator: string[] = []) {
         return Unit.get(Unit.map(numerator, denominator));
     }
 

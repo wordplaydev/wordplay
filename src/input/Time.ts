@@ -25,7 +25,7 @@ export default class Time extends TemporalStream<Measurement> {
         super(
             evaluator,
             TimeDefinition,
-            new Measurement(evaluator.getMain(), 0, Unit.unit(['ms']))
+            new Measurement(evaluator.getMain(), 0, Unit.make(['ms']))
         );
         this.frequency = frequency;
     }
@@ -59,20 +59,20 @@ export default class Time extends TemporalStream<Measurement> {
     }
 
     static make(creator: Expression, time: number) {
-        return new Measurement(creator, time, Unit.unit(['ms']));
+        return new Measurement(creator, time, Unit.make(['ms']));
     }
 
     getType() {
-        return StreamType.make(MeasurementType.make(Unit.unit(['ms'])));
+        return StreamType.make(MeasurementType.make(Unit.make(['ms'])));
     }
 }
 
-const TimeType = MeasurementType.make(Unit.unit(['ms']));
+const TimeType = MeasurementType.make(Unit.make(['ms']));
 
 const FrequencyBind = Bind.make(
     getDocTranslations((t) => t.input.time.frequency.doc),
     getNameTranslations((t) => t.input.time.frequency.name),
-    UnionType.make(MeasurementType.make(Unit.unit(['ms'])), NoneType.make()),
+    UnionType.make(MeasurementType.make(Unit.make(['ms'])), NoneType.make()),
     // Default to nothing
     NoneLiteral.make()
 );

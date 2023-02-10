@@ -384,7 +384,7 @@ export default function bootstrapMeasurement() {
                             new Measurement(
                                 requestor,
                                 60,
-                                Unit.unit(['s'], ['min'])
+                                Unit.make(['s'], ['min'])
                             )
                         )
                 ),
@@ -400,7 +400,7 @@ export default function bootstrapMeasurement() {
                             new Measurement(
                                 requestor,
                                 3600,
-                                Unit.unit(['s'], ['h'])
+                                Unit.make(['s'], ['h'])
                             )
                         )
                 ),
@@ -416,7 +416,7 @@ export default function bootstrapMeasurement() {
                             new Measurement(
                                 requestor,
                                 86400,
-                                Unit.unit(['s'], ['day'])
+                                Unit.make(['s'], ['day'])
                             )
                         )
                 ),
@@ -432,7 +432,7 @@ export default function bootstrapMeasurement() {
                             new Measurement(
                                 requestor,
                                 604800,
-                                Unit.unit(['s'], ['wk'])
+                                Unit.make(['s'], ['wk'])
                             )
                         )
                 ),
@@ -448,7 +448,7 @@ export default function bootstrapMeasurement() {
                             new Measurement(
                                 requestor,
                                 31449600,
-                                Unit.unit(['s'], ['yr'])
+                                Unit.make(['s'], ['yr'])
                             )
                         )
                 ),
@@ -464,7 +464,7 @@ export default function bootstrapMeasurement() {
                             new Measurement(
                                 requestor,
                                 1000,
-                                Unit.unit(['s'], ['ms'])
+                                Unit.make(['s'], ['ms'])
                             )
                         )
                 ),
@@ -480,7 +480,7 @@ export default function bootstrapMeasurement() {
                             new Measurement(
                                 requestor,
                                 1000,
-                                Unit.unit(['ms'], ['s'])
+                                Unit.make(['ms'], ['s'])
                             )
                         )
                 ),
@@ -496,7 +496,7 @@ export default function bootstrapMeasurement() {
                             new Measurement(
                                 requestor,
                                 60,
-                                Unit.unit(['s'], ['min'])
+                                Unit.make(['s'], ['min'])
                             )
                         )
                 ),
@@ -512,7 +512,7 @@ export default function bootstrapMeasurement() {
                             new Measurement(
                                 requestor,
                                 3600,
-                                Unit.unit(['s'], ['h'])
+                                Unit.make(['s'], ['h'])
                             )
                         )
                 ),
@@ -528,7 +528,7 @@ export default function bootstrapMeasurement() {
                             new Measurement(
                                 requestor,
                                 86400,
-                                Unit.unit(['s'], ['day'])
+                                Unit.make(['s'], ['day'])
                             )
                         )
                 ),
@@ -544,7 +544,7 @@ export default function bootstrapMeasurement() {
                             new Measurement(
                                 requestor,
                                 604800,
-                                Unit.unit(['s'], ['wk'])
+                                Unit.make(['s'], ['wk'])
                             )
                         )
                 ),
@@ -560,7 +560,7 @@ export default function bootstrapMeasurement() {
                             new Measurement(
                                 requestor,
                                 31449600,
-                                Unit.unit(['s'], ['yr'])
+                                Unit.make(['s'], ['yr'])
                             )
                         )
                 ),
@@ -578,7 +578,7 @@ export default function bootstrapMeasurement() {
                             new Measurement(
                                 requestor,
                                 1000000000000,
-                                Unit.unit(['pm'], ['m'])
+                                Unit.make(['pm'], ['m'])
                             )
                         )
                 ),
@@ -594,7 +594,7 @@ export default function bootstrapMeasurement() {
                             new Measurement(
                                 requestor,
                                 1000000000,
-                                Unit.unit(['nm'], ['m'])
+                                Unit.make(['nm'], ['m'])
                             )
                         )
                 ),
@@ -610,7 +610,7 @@ export default function bootstrapMeasurement() {
                             new Measurement(
                                 requestor,
                                 1000000,
-                                Unit.unit(['µm'], ['m'])
+                                Unit.make(['µm'], ['m'])
                             )
                         )
                 ),
@@ -626,7 +626,7 @@ export default function bootstrapMeasurement() {
                             new Measurement(
                                 requestor,
                                 1000,
-                                Unit.unit(['mm'], ['m'])
+                                Unit.make(['mm'], ['m'])
                             )
                         )
                 ),
@@ -643,7 +643,7 @@ export default function bootstrapMeasurement() {
                             new Measurement(
                                 requestor,
                                 100,
-                                Unit.unit(['cm'], ['m'])
+                                Unit.make(['cm'], ['m'])
                             )
                         )
                 ),
@@ -659,7 +659,7 @@ export default function bootstrapMeasurement() {
                             new Measurement(
                                 requestor,
                                 10,
-                                Unit.unit(['dm'], ['m'])
+                                Unit.make(['dm'], ['m'])
                             )
                         )
                 ),
@@ -675,7 +675,7 @@ export default function bootstrapMeasurement() {
                             new Measurement(
                                 requestor,
                                 1000,
-                                Unit.unit(['m'], ['km'])
+                                Unit.make(['m'], ['km'])
                             )
                         )
                 ),
@@ -691,7 +691,7 @@ export default function bootstrapMeasurement() {
                             new Measurement(
                                 requestor,
                                 1000000,
-                                Unit.unit(['m'], ['Mm'])
+                                Unit.make(['m'], ['Mm'])
                             )
                         )
                 ),
@@ -707,7 +707,7 @@ export default function bootstrapMeasurement() {
                             new Measurement(
                                 requestor,
                                 1000000000,
-                                Unit.unit(['m'], ['Gm'])
+                                Unit.make(['m'], ['Gm'])
                             )
                         )
                 ),
@@ -723,7 +723,7 @@ export default function bootstrapMeasurement() {
                             new Measurement(
                                 requestor,
                                 1000000000000,
-                                Unit.unit(['m'], ['Tm'])
+                                Unit.make(['m'], ['Tm'])
                             )
                         )
                 ),
@@ -739,7 +739,7 @@ export default function bootstrapMeasurement() {
                             new Measurement(
                                 requestor,
                                 1000000000000,
-                                Unit.unit(['pm'], ['m'])
+                                Unit.make(['pm'], ['m'])
                             )
                         )
                 ),
@@ -755,7 +755,7 @@ export default function bootstrapMeasurement() {
                             new Measurement(
                                 requestor,
                                 1000000000,
-                                Unit.unit(['nm'], ['m'])
+                                Unit.make(['nm'], ['m'])
                             )
                         )
                 ),
@@ -771,7 +771,7 @@ export default function bootstrapMeasurement() {
                             new Measurement(
                                 requestor,
                                 1000000,
-                                Unit.unit(['µm'], ['m'])
+                                Unit.make(['µm'], ['m'])
                             )
                         )
                 ),
@@ -787,7 +787,7 @@ export default function bootstrapMeasurement() {
                             new Measurement(
                                 requestor,
                                 1000,
-                                Unit.unit(['mm'], ['m'])
+                                Unit.make(['mm'], ['m'])
                             )
                         )
                 ),
@@ -803,7 +803,7 @@ export default function bootstrapMeasurement() {
                             new Measurement(
                                 requestor,
                                 100,
-                                Unit.unit(['cm'], ['m'])
+                                Unit.make(['cm'], ['m'])
                             )
                         )
                 ),
@@ -819,7 +819,7 @@ export default function bootstrapMeasurement() {
                             new Measurement(
                                 requestor,
                                 10,
-                                Unit.unit(['dm'], ['m'])
+                                Unit.make(['dm'], ['m'])
                             )
                         )
                 ),
@@ -835,7 +835,7 @@ export default function bootstrapMeasurement() {
                             new Measurement(
                                 requestor,
                                 1000,
-                                Unit.unit(['m'], ['km'])
+                                Unit.make(['m'], ['km'])
                             )
                         )
                 ),
@@ -851,7 +851,7 @@ export default function bootstrapMeasurement() {
                             new Measurement(
                                 requestor,
                                 1000000,
-                                Unit.unit(['m'], ['Mm'])
+                                Unit.make(['m'], ['Mm'])
                             )
                         )
                 ),
@@ -867,7 +867,7 @@ export default function bootstrapMeasurement() {
                             new Measurement(
                                 requestor,
                                 1000000000,
-                                Unit.unit(['m'], ['Gm'])
+                                Unit.make(['m'], ['Gm'])
                             )
                         )
                 ),
@@ -883,7 +883,7 @@ export default function bootstrapMeasurement() {
                             new Measurement(
                                 requestor,
                                 1000000000000,
-                                Unit.unit(['m'], ['Tm'])
+                                Unit.make(['m'], ['Tm'])
                             )
                         )
                 ),
@@ -901,7 +901,7 @@ export default function bootstrapMeasurement() {
                             new Measurement(
                                 requestor,
                                 0.621371,
-                                Unit.unit(['mi'], ['km'])
+                                Unit.make(['mi'], ['km'])
                             )
                         )
                 ),
@@ -917,7 +917,7 @@ export default function bootstrapMeasurement() {
                             new Measurement(
                                 requestor,
                                 0.621371,
-                                Unit.unit(['mi'], ['km'])
+                                Unit.make(['mi'], ['km'])
                             )
                         )
                 ),
@@ -933,7 +933,7 @@ export default function bootstrapMeasurement() {
                             new Measurement(
                                 requestor,
                                 0.393701,
-                                Unit.unit(['in'], ['cm'])
+                                Unit.make(['in'], ['cm'])
                             )
                         )
                 ),
@@ -949,7 +949,7 @@ export default function bootstrapMeasurement() {
                             new Measurement(
                                 requestor,
                                 0.393701,
-                                Unit.unit(['in'], ['cm'])
+                                Unit.make(['in'], ['cm'])
                             )
                         )
                 ),
@@ -965,7 +965,7 @@ export default function bootstrapMeasurement() {
                             new Measurement(
                                 requestor,
                                 0.3048,
-                                Unit.unit(['ft'], ['km'])
+                                Unit.make(['ft'], ['km'])
                             )
                         )
                 ),
@@ -981,7 +981,7 @@ export default function bootstrapMeasurement() {
                             new Measurement(
                                 requestor,
                                 0.3048,
-                                Unit.unit(['ft'], ['km'])
+                                Unit.make(['ft'], ['km'])
                             )
                         )
                 ),
@@ -999,7 +999,7 @@ export default function bootstrapMeasurement() {
                             new Measurement(
                                 requestor,
                                 1000,
-                                Unit.unit(['mg'], ['g'])
+                                Unit.make(['mg'], ['g'])
                             )
                         )
                 ),
@@ -1015,7 +1015,7 @@ export default function bootstrapMeasurement() {
                             new Measurement(
                                 requestor,
                                 1000,
-                                Unit.unit(['mg'], ['g'])
+                                Unit.make(['mg'], ['g'])
                             )
                         )
                 ),
@@ -1031,7 +1031,7 @@ export default function bootstrapMeasurement() {
                             new Measurement(
                                 requestor,
                                 1000,
-                                Unit.unit(['g'], ['kg'])
+                                Unit.make(['g'], ['kg'])
                             )
                         )
                 ),
@@ -1047,7 +1047,7 @@ export default function bootstrapMeasurement() {
                             new Measurement(
                                 requestor,
                                 1000,
-                                Unit.unit(['g'], ['kg'])
+                                Unit.make(['g'], ['kg'])
                             )
                         )
                 ),
@@ -1063,7 +1063,7 @@ export default function bootstrapMeasurement() {
                             new Measurement(
                                 requestor,
                                 0.035274,
-                                Unit.unit(['oz'], ['g'])
+                                Unit.make(['oz'], ['g'])
                             )
                         )
                 ),
@@ -1079,7 +1079,7 @@ export default function bootstrapMeasurement() {
                             new Measurement(
                                 requestor,
                                 0.035274,
-                                Unit.unit(['oz'], ['g'])
+                                Unit.make(['oz'], ['g'])
                             )
                         )
                 ),
@@ -1095,7 +1095,7 @@ export default function bootstrapMeasurement() {
                             new Measurement(
                                 requestor,
                                 0.0625,
-                                Unit.unit(['lb'], ['oz'])
+                                Unit.make(['lb'], ['oz'])
                             )
                         )
                 ),
@@ -1111,7 +1111,7 @@ export default function bootstrapMeasurement() {
                             new Measurement(
                                 requestor,
                                 0.0625,
-                                Unit.unit(['lb'], ['oz'])
+                                Unit.make(['lb'], ['oz'])
                             )
                         )
                 ),

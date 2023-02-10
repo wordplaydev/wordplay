@@ -2,7 +2,7 @@ import type StructureDefinition from '@nodes/StructureDefinition';
 import StructureDefinitionType from '@nodes/StructureDefinitionType';
 import type Type from '@nodes/Type';
 import type Conversion from './Conversion';
-import Evaluation from './Evaluation';
+import Evaluation, { type EvaluatorNode } from './Evaluation';
 import type Evaluator from './Evaluator';
 import FunctionValue from './FunctionValue';
 import Value from './Value';
@@ -18,7 +18,6 @@ import {
 } from '@parser/Symbols';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type Translation from '@translation/Translation';
-import type PropertyBind from '../nodes/PropertyBind';
 import type Expression from '../nodes/Expression';
 
 export default class Structure extends Value {
@@ -121,12 +120,12 @@ export default class Structure extends Value {
      * If the property doesn't exist, then return undefined.
      */
     withValue(
-        bind: PropertyBind,
+        creator: EvaluatorNode,
         property: string,
         value: Value
     ): Structure | undefined {
-        const newContext = this.context.withValue(bind, property, value);
-        return newContext ? new Structure(bind, newContext) : undefined;
+        const newContext = this.context.withValue(creator, property, value);
+        return newContext ? new Structure(creator, newContext) : undefined;
     }
 }
 

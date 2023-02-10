@@ -21,12 +21,15 @@ import Text from '../runtime/Text';
 
 export function toTypeOutput(
     value: Value | undefined,
-    namer: NameGenerator
+    namer?: NameGenerator
 ): TypeOutput | undefined {
     if (!(value instanceof Structure)) return undefined;
     switch (value.type) {
         case PhraseType:
-            return toPhrase(value, namer.getName(value));
+            return toPhrase(
+                value,
+                namer?.getName(value) ?? `${value.creator.id}`
+            );
         case GroupType:
             return toGroup(value, namer);
     }
@@ -35,7 +38,7 @@ export function toTypeOutput(
 
 export function toTypeOutputList(
     value: Value | undefined,
-    namer: NameGenerator
+    namer?: NameGenerator
 ): TypeOutput[] | undefined {
     if (value === undefined || !(value instanceof List)) return undefined;
 

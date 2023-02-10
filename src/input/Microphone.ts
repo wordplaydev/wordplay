@@ -104,9 +104,9 @@ export default class Microphone extends TemporalStream<Measurement> {
 const FrequencyBind = Bind.make(
     getDocTranslations((t) => t.input.microphone.frequency.doc),
     getNameTranslations((t) => t.input.microphone.frequency.name),
-    UnionType.make(MeasurementType.make(Unit.unit(['ms'])), NoneType.make()),
+    UnionType.make(MeasurementType.make(Unit.make(['ms'])), NoneType.make()),
     // Default to nothing
-    MeasurementLiteral.make(33, Unit.unit(['ms']))
+    MeasurementLiteral.make(33, Unit.make(['ms']))
 );
 
 export const MicrophoneDefinition = StreamDefinition.make(

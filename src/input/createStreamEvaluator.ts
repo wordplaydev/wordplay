@@ -4,12 +4,13 @@ import NativeExpression from '../native/NativeExpression';
 import StreamType from '../nodes/StreamType';
 import type Type from '../nodes/Type';
 import type Evaluation from '../runtime/Evaluation';
+import Exception from '../runtime/Exception';
 import type Stream from '../runtime/Stream';
 
 export default function createStreamEvaluator<Kind extends Stream>(
     valueType: Type,
     streamType: new (...params: any[]) => Kind,
-    create: (evaluation: Evaluation) => Kind,
+    create: (evaluation: Evaluation) => Kind | Exception,
     update: (stream: Kind, evaluation: Evaluation) => void
 ) {
     return new NativeExpression(StreamType.make(valueType), (_, evaluation) => {
@@ -30,6 +31,7 @@ export default function createStreamEvaluator<Kind extends Stream>(
         // Otherwise, create a new stream.
         else {
             const newStream = create(evaluation);
+            if (newStream instanceof Exception) return newStream;
             evaluator.addNativeStreamFor(evaluation.getCreator(), newStream);
             return newStream;
         }

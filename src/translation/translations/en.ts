@@ -1698,22 +1698,10 @@ const en: Translation = {
         motion: {
             doc: WRITE_DOC,
             name: ['⚽️', 'Motion'],
-            place: {
+            type: {
                 doc: WRITE_DOC,
-                name: 'place',
+                name: 'type',
             },
-            speed: {
-                doc: WRITE_DOC,
-                name: 'speed',
-            },
-            mass: {
-                doc: WRITE_DOC,
-                name: 'mass',
-            },
-        },
-        speed: {
-            doc: WRITE_DOC,
-            name: ['💨', 'Speed'],
             vx: {
                 doc: WRITE_DOC,
                 name: 'vx',
@@ -1726,9 +1714,21 @@ const en: Translation = {
                 doc: WRITE_DOC,
                 name: 'vz',
             },
-            va: {
+            vangle: {
                 doc: WRITE_DOC,
-                name: 'va',
+                name: 'vangle',
+            },
+            mass: {
+                doc: WRITE_DOC,
+                name: 'mass',
+            },
+            bounciness: {
+                doc: WRITE_DOC,
+                name: 'bounciness',
+            },
+            gravity: {
+                doc: WRITE_DOC,
+                name: 'gravity',
             },
         },
     },
