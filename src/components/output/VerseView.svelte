@@ -525,6 +525,6 @@
     }
 
     .axis {
-        border-color: var(--wordplay-foreground);
+        border-color: currentColor;
     }
 </style>
