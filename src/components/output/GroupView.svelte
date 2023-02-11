@@ -14,6 +14,7 @@
     export let place: Place;
     export let focus: Place;
     export let root: boolean = false;
+    export let parentAscent: number;
     export let context: RenderContext;
 
     // Compute a local context based on size and font.
@@ -47,6 +48,7 @@
         height,
         focus,
         root,
+        parentAscent,
         { width: width * PX_PER_METER, ascent: height * PX_PER_METER }
     )}
 >
@@ -58,6 +60,7 @@
                     phrase={child}
                     place={childPlace}
                     focus={offsetFocus}
+                    parentAscent={root ? 0 : height}
                     {context}
                 />
             {:else}
@@ -65,6 +68,7 @@
                     group={child}
                     place={childPlace}
                     focus={offsetFocus}
+                    parentAscent={root ? 0 : height}
                     {context}
                 />
             {/if}

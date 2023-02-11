@@ -17,6 +17,7 @@
     export let place: Place;
     export let focus: Place;
     export let root: boolean = false;
+    export let parentAscent: number;
     export let context: RenderContext;
 
     // Compute a local context based on size and font.
@@ -99,6 +100,7 @@
             undefined,
             focus,
             root,
+            parentAscent,
             phrase.getMetrics(context)
         )}
         on:mousedown={(event) => ($selectedOutput ? select(event) : null)}

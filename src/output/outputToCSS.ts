@@ -71,6 +71,7 @@ export default function outputToCSS(
     height: number | undefined,
     focus: Place,
     root: boolean,
+    parentAscent: number,
     metrics: { width: number; ascent: number }
 ) {
     return toCSS({
@@ -78,7 +79,14 @@ export default function outputToCSS(
         // top: sizeToPx(place.y.toNumber()),
         width: width ? sizeToPx(width) : undefined,
         height: height ? sizeToPx(height) : undefined,
-        transform: toOutputTransform(pose, place, focus, root, metrics),
+        transform: toOutputTransform(
+            pose,
+            place,
+            focus,
+            root,
+            parentAscent,
+            metrics
+        ),
         // This disables translation around the center; we want to translate around the focus.
         'transform-origin': '0 0',
         color: pose?.color?.toCSS(),
@@ -94,6 +102,7 @@ export function toOutputTransform(
     place: Place,
     focus: Place,
     root: boolean,
+    parentAscent: number,
     metrics: { width: number; ascent: number }
 ) {
     // Compute rendered scale based on scale and and flip
@@ -134,9 +143,14 @@ export function toOutputTransform(
     let centerYOffset = metrics.ascent / 2;
 
     // Translate the place to screen coordinates.
-    // Negate y to account for flipped y axis.
     let placeX = place.x.toNumber() * PX_PER_METER;
-    let placeY = -place.y.toNumber() * PX_PER_METER;
+    let placeY =
+        // Negate y to account for flipped y axis.
+        -place.y.toNumber() * PX_PER_METER -
+        // If this isn't the root, subtract the height to render from the bottom
+        (root ? 0 : metrics.ascent) +
+        // Add the height of the parent to compensate for HTML rendering local coordinates from the top.
+        parentAscent * PX_PER_METER;
 
     // Translate the focus to focus coordinates.
     // Negate y to account for flipped y axis.

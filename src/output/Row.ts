@@ -61,7 +61,7 @@ export class Row extends Arrangement {
                 new Place(
                     this.value,
                     position,
-                    height.sub(child.getHeight(context)).div(2).neg(),
+                    height.sub(child.getHeight(context)).div(2),
                     // If the phrase a place, use it's z, otherwise default to the 0 plane.
                     child instanceof Phrase && child.place
                         ? child.place.z

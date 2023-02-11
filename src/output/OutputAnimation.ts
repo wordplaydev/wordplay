@@ -454,6 +454,12 @@ export default class OutputAnimation {
                     localPlace,
                     offsetFocus,
                     false,
+                    // Anything rooted in the verse has no height.
+                    // Otherwise, pass the height of the parent, just like
+                    // we do in GroupView.
+                    this.state === State.Exiting || parents[0] instanceof Verse
+                        ? 0
+                        : parents[0].getHeight(this.context).toNumber(),
                     {
                         width:
                             this.output.getWidth(this.context).toNumber() *

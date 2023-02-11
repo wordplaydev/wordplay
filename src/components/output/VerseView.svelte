@@ -403,6 +403,7 @@
                 place={center}
                 focus={renderedFocus}
                 root
+                parentAscent={0}
                 {context}
             >
                 {#if grid}
@@ -458,6 +459,7 @@
                             phrase={info.output}
                             place={info.global}
                             focus={offsetFocus}
+                            parentAscent={0}
                             {context}
                         />
                     {:else if info.output instanceof Group}
@@ -465,6 +467,7 @@
                             group={info.output}
                             place={info.global}
                             focus={offsetFocus}
+                            parentAscent={0}
                             {context}
                         />
                     {/if}

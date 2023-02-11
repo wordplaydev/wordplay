@@ -51,10 +51,13 @@ export class Stack extends Arrangement {
         // Get the width of the container so we can center each phrase.
         const width = this.getWidth(children, context);
 
-        let y = new Decimal(0);
+        // Start at the top and work our way down.
+        let y = this.getHeight(children, context);
 
         const positions: [TypeOutput, Place][] = [];
         for (const child of children) {
+            // Subtract the child's height to y to get it to its baseline.
+            y = y.sub(child.getHeight(context));
             positions.push([
                 child,
                 new Place(
@@ -71,7 +74,7 @@ export class Stack extends Arrangement {
                         : new Decimal(0)
                 ),
             ]);
-            y = y.sub(child.getHeight(context));
+            // Subtract the padding.
             y = y.sub(this.padding.num);
         }
 

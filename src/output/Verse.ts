@@ -81,13 +81,13 @@ export default class Verse extends TypeOutput {
         );
         const bottom = Math.min.apply(
             Math,
-            places.map(([group, place]) =>
-                place.y.sub(group.getHeight(context)).toNumber()
-            )
+            places.map(([, place]) => place.y.toNumber())
         );
         const top = Math.max.apply(
             Math,
-            places.map(([, place]) => place.y.toNumber())
+            places.map(([group, place]) =>
+                place.y.add(group.getHeight(context)).toNumber()
+            )
         );
         return {
             left: Math.min(left, right),
@@ -122,8 +122,9 @@ export default class Verse extends TypeOutput {
                       this.value,
                       // Place everything in the center
                       child.getWidth(context).div(2).neg(),
-                      // We don't negate the y because its in math coordinates.
-                      child.getHeight(context).div(2),
+                      // We would normally not t negate the y because its in math coordinates, but we want to move it
+                      // down the y-axis by half, so we subtract.
+                      child.getHeight(context).div(2).neg(),
                       new Decimal(0),
                       new Decimal(0)
                   ),
