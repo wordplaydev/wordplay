@@ -3,13 +3,12 @@ import type LanguageCode from '../translation/LanguageCode';
 import type TypeOutput from './TypeOutput';
 import Place from './Place';
 import { createPlace } from './Place';
-import RenderContext from './RenderContext';
 import type Verse from './Verse';
 import OutputAnimation from './OutputAnimation';
 import type Transition from './Transition';
 import type Node from '@nodes/Node';
-import { DefaultFont, DefaultSize } from './Verse';
 import Decimal from 'decimal.js';
+import type RenderContext from './RenderContext';
 
 export type OutputName = string;
 
@@ -92,16 +91,13 @@ export default class Stage {
     update(
         verse: Verse,
         live: boolean,
-        languages: LanguageCode[],
-        fonts: Set<string>,
         focus: Place,
         width: number,
-        height: number
+        height: number,
+        context: RenderContext
     ) {
         this.verse = verse;
         this.live = live;
-        this.languages = languages;
-        this.fontsLoaded = fonts;
         this.focus = focus;
         this.viewportWidth = width;
         this.viewportHeight = height;
@@ -115,15 +111,12 @@ export default class Stage {
         const exited = new Map<OutputName, TypeOutput>();
         const present = new Map<OutputName, TypeOutput>();
 
-        // Compute places, parents, contexts, etc. for all the output in the verse.
-        const initialContext = this.getRenderContext();
-
         // Add the verse to the scene. This is necessary so that animations can get its context.
         const newScene = this.layout(
             this.verse,
             [],
             new Map<OutputName, OutputInfo>(),
-            initialContext
+            context
         );
 
         const center = new Place(
@@ -138,7 +131,7 @@ export default class Stage {
             global: center,
             local: center,
             parents: [],
-            context: initialContext,
+            context,
         });
 
         // Based on the places, figure out which output is present and visible.
@@ -296,15 +289,6 @@ export default class Stage {
             this.animatingNodes.delete(transition.pose.value.creator);
         }
         this.tick(this.animatingNodes);
-    }
-
-    getRenderContext(): RenderContext {
-        return new RenderContext(
-            this.verse?.font ?? DefaultFont,
-            this.verse?.size ?? DefaultSize,
-            this.languages,
-            this.fontsLoaded
-        );
     }
 
     // A top down layout algorithm that places groups first, then their subgroups, and uses the

@@ -15,7 +15,7 @@
     import Place from '@output/Place';
     import { writable } from 'svelte/store';
     import Evaluate from '@nodes/Evaluate';
-    import { DefaultFont, VerseType } from '@output/Verse';
+    import { DefaultFont, DefaultSize, VerseType } from '@output/Verse';
     import Keyboard from '@input/Keyboard';
     import MousePosition from '@input/MousePosition';
     import MouseButton from '@input/MouseButton';
@@ -29,6 +29,7 @@
     import PhraseView from './PhraseView.svelte';
     import Group from '@output/Group';
     import range from '../../util/range';
+    import RenderContext from '../../output/RenderContext';
 
     export let project: Project;
     export let verse: Verse;
@@ -88,11 +89,10 @@
         const results = stage.update(
             verse,
             interactive,
-            $preferredLanguages,
-            $loadedFonts,
             renderedFocus,
             viewportWidth,
-            viewportHeight
+            viewportHeight,
+            context
         );
 
         exiting = results.exiting;
@@ -147,7 +147,12 @@
         }
     }
 
-    $: context = stage.getRenderContext();
+    $: context = new RenderContext(
+        verse.font ?? DefaultFont,
+        verse.size ?? DefaultSize,
+        $preferredLanguages,
+        $loadedFonts
+    );
     $: contentBounds = verse.getBounds(context);
 
     /** When verse or viewport changes, update the autofit focus. */

@@ -71,7 +71,9 @@ export default class Phrase extends TypeOutput {
 
     getMetrics(context: RenderContext, parsed: boolean = true) {
         // Return the cache, if there is one.
-        if (parsed && this._metrics) return this._metrics;
+        if (parsed && this._metrics) {
+            return this._metrics;
+        }
 
         // The font is:
         // 1) the animated font, if there is one
