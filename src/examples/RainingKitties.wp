@@ -11,7 +11,7 @@ kitties•[Kitty]:  ∆ time() ?
         ƒ(_) Kitty(
             random(-size size)
             random(-size size)
-            random(-size size)
+            random(0 size)
             random(360)
             random(-30 30)
         )
