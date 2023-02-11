@@ -2,7 +2,7 @@
 
 <script lang="ts">
     import type Place from '@output/Place';
-    import outputToCSS from '@output/outputToCSS';
+    import outputToCSS, { PX_PER_METER } from '@output/outputToCSS';
     import type RenderContext from '@output/RenderContext';
     import Pose from '@output/Pose';
     import Phrase from '@output/Phrase';
@@ -47,7 +47,7 @@
         height,
         focus,
         root,
-        { width, ascent: height }
+        { width: width * PX_PER_METER, ascent: height * PX_PER_METER }
     )}
 >
     <div class="content">

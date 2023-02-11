@@ -124,7 +124,8 @@ export default class Phrase extends TypeOutput {
             ascent: ascent ?? 0,
         };
         // If the font is loaded, these metrics can be trusted, so we cache them.
-        if (ascent && Fonts.isLoaded(renderedFont)) this._metrics = dimensions;
+        if (ascent !== undefined && Fonts.isLoaded(renderedFont))
+            this._metrics = dimensions;
 
         // Return the current dimensions.
         return dimensions;
@@ -194,7 +195,10 @@ export function toPhrase(
         style,
     } = getStyle(value);
 
-    return texts && duration && style !== undefined && rest
+    return texts !== undefined &&
+        duration !== undefined &&
+        style !== undefined &&
+        rest !== undefined
         ? new Phrase(
               value,
               texts,
