@@ -756,6 +756,7 @@ type Translation = {
             freeform: string;
             addPhrase: string;
             fit: string;
+            grid: string;
         };
         labels: {
             learn: string;

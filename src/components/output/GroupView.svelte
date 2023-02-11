@@ -9,14 +9,12 @@
     import PhraseView from './PhraseView.svelte';
     import type Group from '@output/Group';
     import type Verse from '@output/Verse';
-    import type { OutputInfoSet } from '../../output/Stage';
 
     export let group: Group | Verse;
     export let place: Place;
     export let focus: Place;
     export let root: boolean = false;
     export let context: RenderContext;
-    export let extra: OutputInfoSet | undefined = undefined;
 
     // Compute a local context based on size and font.
     $: context = group.getRenderContext(context);
@@ -53,6 +51,7 @@
     )}
 >
     <div class="content">
+        <slot />
         {#each ordered as [child, childPlace] (child.getName())}
             {#if child instanceof Phrase}
                 <PhraseView
@@ -70,26 +69,6 @@
                 />
             {/if}
         {/each}
-        {#if extra}
-            <!-- Render exiting nodes -->
-            {#each Array.from(extra.entries()) as [name, info] (name)}
-                {#if info.output instanceof Phrase}
-                    <PhraseView
-                        phrase={info.output}
-                        place={info.global}
-                        focus={offsetFocus}
-                        {context}
-                    />
-                {:else}
-                    <svelte:self
-                        group={info.output}
-                        place={info.global}
-                        focus={offsetFocus}
-                        {context}
-                    />
-                {/if}
-            {/each}
-        {/if}
     </div>
 </div>
 

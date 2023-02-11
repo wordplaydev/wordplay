@@ -101,6 +101,9 @@
     /** True if the output should be fit to content */
     let fit: boolean = true;
 
+    /** True if the output should show a grid */
+    let grid: boolean = false;
+
     /** When the project changes, reset the conflicts map. */
     $: if (project) conflictsOfInterest = new Map();
 
@@ -549,6 +552,10 @@
                         <svelte:fragment slot="extra">
                             {#if tile.kind === Content.Output}<Button
                                     tip={$preferredTranslations[0].ui.tooltip
+                                        .grid}
+                                    action={() => (grid = !grid)}>▦</Button
+                                ><Button
+                                    tip={$preferredTranslations[0].ui.tooltip
                                         .fit}
                                     action={() => (fit = !fit)}
                                     >{#if fit}🔒{:else}🔓{/if}</Button
@@ -565,6 +572,7 @@
                                     source={project.main}
                                     {latest}
                                     bind:fit
+                                    bind:grid
                                     mode={'peripheral'}
                                     bind:background={outputBackground}
                                 />

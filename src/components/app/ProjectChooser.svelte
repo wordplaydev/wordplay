@@ -43,6 +43,7 @@
                         source={preview[0].main}
                         latest={preview[1]}
                         fit={true}
+                        grid={false}
                         mode="mini"
                     />
                 </div>

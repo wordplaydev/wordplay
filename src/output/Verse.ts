@@ -91,6 +91,7 @@ export default class Verse extends TypeOutput {
         );
         return {
             left: Math.min(left, right),
+            right: Math.max(left, right),
             top: Math.max(bottom, top),
             bottom: Math.min(bottom, bottom),
             width: Math.abs(right - left),

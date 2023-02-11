@@ -1602,6 +1602,7 @@ const eng_wordplay: Translation = {
             freeform: 'switch to free form arrangement',
             addPhrase: 'add a phrase to the verse',
             fit: 'fit to content',
+            grid: 'show/hide grid',
         },
         labels: {
             learn: 'learn more …',

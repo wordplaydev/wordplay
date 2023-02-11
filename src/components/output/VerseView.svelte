@@ -25,12 +25,19 @@
     import Pose from '@output/Pose';
     import GroupView from './GroupView.svelte';
     import { tick } from 'svelte';
+    import Phrase from '@output/Phrase';
+    import PhraseView from './PhraseView.svelte';
+    import Group from '@output/Group';
+    import range from '../../util/range';
 
     export let project: Project;
     export let verse: Verse;
     export let interactive: boolean;
     export let editable: boolean;
     export let fit: boolean;
+    export let grid: boolean;
+
+    const GRID_PADDING = 2;
 
     let ignored = false;
     let view: HTMLElement | null = null;
@@ -104,6 +111,16 @@
         ? fitFocus
         : adjustedFocus;
 
+    $: center = new Place(
+        verse.value,
+        new Decimal(0),
+        new Decimal(0),
+        new Decimal(0),
+        new Decimal(0)
+    );
+
+    $: offsetFocus = renderedFocus.offset(center);
+
     /** Keep track of the tile view's content window size for use in fitting content to the window */
     let parent: Element | null;
     let observer: ResizeObserver | undefined;
@@ -130,12 +147,13 @@
         }
     }
 
+    $: context = stage.getRenderContext();
+    $: contentBounds = verse.getBounds(context);
+
     /** When verse or viewport changes, update the autofit focus. */
     $: {
-        const context = stage.getRenderContext();
         if (view) {
             // Get the bounds of the verse in verse units.
-            const contentBounds = verse.getBounds(context);
             const contentWidth = contentBounds.width;
             const contentHeight = contentBounds.height;
 
@@ -343,18 +361,9 @@
         //         )
         //     );
     }
-
-    $: center = new Place(
-        verse.value,
-        new Decimal(0),
-        new Decimal(0),
-        new Decimal(0),
-        new Decimal(0)
-    );
 </script>
 
 {#if mounted}
-    {@const context = stage.getRenderContext()}
     <div
         class="verse {interactive && $playing
             ? 'live'
@@ -390,8 +399,72 @@
                 focus={renderedFocus}
                 root
                 {context}
-                extra={exiting}
-            />
+            >
+                {#if grid}
+                    {@const left = Math.min(
+                        0,
+                        Math.floor(contentBounds.left - GRID_PADDING)
+                    )}
+                    {@const right = Math.max(
+                        0,
+                        contentBounds.right + GRID_PADDING
+                    )}
+                    {@const bottom = Math.min(
+                        0,
+                        Math.floor(contentBounds.bottom - GRID_PADDING)
+                    )}
+                    {@const top = Math.max(0, contentBounds.top + GRID_PADDING)}
+                    <!-- Render a grid if this is the root and the grid is on. Apply the same transform that we do the the verse. -->
+                    {#each range(left, right) as number}
+                        <div
+                            class="gridline vertical"
+                            style:left="{number * PX_PER_METER}px"
+                            style:top="{-top * PX_PER_METER}px"
+                            style:height="{Math.abs(top - bottom) *
+                                PX_PER_METER}px"
+                        />
+                    {/each}
+                    {#each range(bottom, top) as number}
+                        <div
+                            class="gridline horizontal"
+                            style:top="{-number * PX_PER_METER}px"
+                            style:left="{left * PX_PER_METER}px"
+                            style:width="{Math.abs(left - right) *
+                                PX_PER_METER}px"
+                        />
+                    {/each}
+                    <div
+                        class="gridline horizontal axis"
+                        style:top="0px"
+                        style:left="{left * PX_PER_METER}px"
+                        style:width="{Math.abs(left - right) * PX_PER_METER}px"
+                    />
+                    <div
+                        class="gridline vertical axis"
+                        style:left="0px"
+                        style:top="{-top * PX_PER_METER}px"
+                        style:height="{Math.abs(top - bottom) * PX_PER_METER}px"
+                    />
+                {/if}
+                <!-- Render exiting nodes -->
+                {#each Array.from(exiting.entries()) as [name, info] (name)}
+                    {#if info.output instanceof Phrase}
+                        <PhraseView
+                            phrase={info.output}
+                            place={info.global}
+                            focus={offsetFocus}
+                            {context}
+                        />
+                    {:else if info.output instanceof Group}
+                        <GroupView
+                            group={info.output}
+                            place={info.global}
+                            focus={offsetFocus}
+                            {context}
+                        />
+                    {/if}
+                {/each}
+            </GroupView>
         </div>
     </div>
 {/if}
@@ -422,7 +495,31 @@
         animation: shake 0.1s 1;
     }
 
-    :global(.group.debug, .phrase.debug) {
-        border: 1px dotted red;
+    .grid {
+        position: relative;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .gridline {
+        position: absolute;
+        border-style: solid;
+        border-color: var(--wordplay-disabled-color);
+    }
+
+    .horizontal {
+        height: 0.1px;
+        border-top: 0.1px;
+    }
+
+    .vertical {
+        width: 0.1px;
+        border-left: 0.1px;
+    }
+
+    .axis {
+        border-color: var(--wordplay-foreground);
     }
 </style>

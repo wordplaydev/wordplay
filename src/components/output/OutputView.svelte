@@ -18,7 +18,8 @@
     export let project: Project;
     export let source: Source;
     export let latest: Value | undefined;
-    export let fit: boolean;
+    export let fit: boolean = true;
+    export let grid: boolean = false;
     export let mode: 'mini' | 'peripheral';
     export let background: string | null = null;
 
@@ -79,6 +80,7 @@
                 {project}
                 {verse}
                 bind:fit
+                bind:grid
                 interactive={mode !== 'mini' && source === project.main}
                 editable={mode === 'peripheral' && $playing}
             />
