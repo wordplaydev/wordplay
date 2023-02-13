@@ -82,7 +82,7 @@
                 bind:fit
                 bind:grid
                 interactive={mode !== 'mini' && source === project.main}
-                editable={mode === 'peripheral' && $playing}
+                editable={mode === 'peripheral' && !$playing}
             />
         {/if}
     </div>

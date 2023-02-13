@@ -1,21 +1,21 @@
 <svelte:options immutable={true} />
 
 <script lang="ts">
-    import { onMount, setContext } from 'svelte';
+    import { onMount } from 'svelte';
     import type Project from '../../models/Project';
     import type Verse from '@output/Verse';
     import {
         animatingNodes,
         playing,
+        reviseProject,
         selectedOutput,
     } from '../../models/stores';
     import { preferredLanguages } from '@translation/translations';
     import { loadedFonts } from '../../native/Fonts';
     import { focusToTransform, PX_PER_METER, toCSS } from '@output/outputToCSS';
     import Place from '@output/Place';
-    import { writable } from 'svelte/store';
     import Evaluate from '@nodes/Evaluate';
-    import { DefaultFont, DefaultSize, VerseType } from '@output/Verse';
+    import { DefaultFont, DefaultSize } from '@output/Verse';
     import Keyboard from '@input/Keyboard';
     import MousePosition from '@input/MousePosition';
     import MouseButton from '@input/MouseButton';
@@ -29,7 +29,7 @@
     import PhraseView from './PhraseView.svelte';
     import Group from '@output/Group';
     import range from '../../util/range';
-    import RenderContext from '../../output/RenderContext';
+    import RenderContext from '@output/RenderContext';
 
     export let project: Project;
     export let verse: Verse;
@@ -42,10 +42,6 @@
 
     let ignored = false;
     let view: HTMLElement | null = null;
-
-    let editableStore = writable<boolean>(editable);
-    setContext('editable', editableStore);
-    $: editableStore.set(editable);
 
     let mounted = false;
     onMount(() => (mounted = true));
@@ -198,6 +194,21 @@
         }
     }
 
+    function adjustFocus(dx: number, dy: number, dz: number) {
+        setFocus(
+            renderedFocus.x.toNumber() + dx,
+            renderedFocus.y.toNumber() + dy,
+            renderedFocus.z.toNumber() + dz
+        );
+    }
+
+    function setFocus(x: number, y: number, z: number) {
+        // Set the new adjusted focus (updating the rendered focus, and thus the animator focus)
+        adjustedFocus = createPlace(project.evaluator, x, y, z, 0);
+        // Stop fitting
+        fit = false;
+    }
+
     function ignore() {
         ignored = true;
         setTimeout(() => (ignored = false), 250);
@@ -223,36 +234,9 @@
             project.evaluator
                 .getNativeStreamsOfType(MouseButton)
                 .map((stream) => stream.record(true));
-        else ignore();
 
-        if (editable && selectedOutput && $selectedOutput) {
-            const nodes = $selectedOutput;
-            const index = nodes.indexOf(verse.value.creator);
-
-            // If the creator of this verse is a verse, toggle it's selection
-            if (
-                verse.value.creator instanceof Evaluate &&
-                verse.value.creator.is(
-                    VerseType,
-                    project.getNodeContext(verse.value.creator)
-                )
-            ) {
-                // If we clicked directly on this, set the selection to only this
-                if (
-                    event.target instanceof Element &&
-                    event.target.closest('.phrase') === null
-                ) {
-                    selectedOutput.set(index >= 0 ? [] : [verse.value.creator]);
-                }
-                // Otherwise, remove this from the selection
-                else if ($selectedOutput) {
-                    if (index >= 0)
-                        selectedOutput.set([
-                            ...nodes.slice(0, index),
-                            ...nodes.slice(index + 1),
-                        ]);
-                }
-            }
+        if (editable) {
+            if (!selectPointerOutput(event)) ignore();
         }
     }
 
@@ -264,7 +248,6 @@
             project.evaluator
                 .getNativeStreamsOfType(MouseButton)
                 .map((stream) => stream.record(false));
-        else ignore();
     }
 
     function handleMouseMove(event: MouseEvent) {
@@ -296,6 +279,16 @@
         event.preventDefault();
     }
 
+    function handleDoubleclick(event: MouseEvent) {
+        if (project.evaluator.isPlaying()) {
+            project.evaluator.pause();
+            selectPointerOutput(event);
+        } else {
+            selectedOutput.set([]);
+            project.evaluator.play();
+        }
+    }
+
     function handleKeyUp(event: KeyboardEvent) {
         // Never handle tab; that's for keyboard navigation.
         if (event.key === 'Tab') return;
@@ -307,22 +300,7 @@
             project.evaluator
                 .getNativeStreamsOfType(Keyboard)
                 .map((stream) => stream.record(event.key, false));
-        } else ignore();
-    }
-
-    function adjustFocus(dx: number, dy: number, dz: number) {
-        setFocus(
-            renderedFocus.x.toNumber() + dx,
-            renderedFocus.y.toNumber() + dy,
-            renderedFocus.z.toNumber() + dz
-        );
-    }
-
-    function setFocus(x: number, y: number, z: number) {
-        // Set the new adjusted focus (updating the rendered focus, and thus the animator focus)
-        adjustedFocus = createPlace(project.evaluator, x, y, z, 0);
-        // Stop fitting
-        fit = false;
+        }
     }
 
     function handleKeyDown(event: KeyboardEvent) {
@@ -350,13 +328,108 @@
             project.evaluator
                 .getNativeStreamsOfType(Keyboard)
                 .map((stream) => stream.record(event.key, true));
-        } else ignore();
+        }
+        // else ignore();
 
-        handleOutputSelection(event);
+        if (editable) selectKeyboardOutput(event);
     }
 
-    function handleOutputSelection(event: KeyboardEvent) {
-        if (selectedOutput === undefined) return;
+    function getOutputNodeIDFromElement(
+        element: Element | null
+    ): number | undefined {
+        if (!(element instanceof HTMLElement)) return;
+        const nodeIDString = element.dataset.nodeId;
+        if (nodeIDString === undefined) return;
+        const nodeID = parseInt(nodeIDString);
+        if (isNaN(nodeID)) return;
+        return nodeID;
+    }
+
+    function getOutputNodeIDUnderMouse(event: MouseEvent): number | undefined {
+        // Find the nearest .output element and get its node-id data attribute.
+        const element = document.elementFromPoint(event.clientX, event.clientY);
+        if (!(element instanceof HTMLElement)) return;
+        return getOutputNodeIDFromElement(element.closest('.output'));
+    }
+
+    function getOutputNodeIDFromFocus(): number | undefined {
+        const focus = document.activeElement;
+        if (!(focus instanceof HTMLElement)) return undefined;
+        return getOutputNodeIDFromElement(focus);
+    }
+
+    function getOutputNodeFromID(
+        nodeID: number | undefined
+    ): Evaluate | undefined {
+        if (nodeID === undefined) return undefined;
+
+        // Find the node with the corresponding id in the current project.
+        const node = project.getNodeByID(nodeID);
+        return node instanceof Evaluate ? node : undefined;
+    }
+
+    /**
+     * Given a mouse event, finds the nearest output under the mouse and adds it to the project selection
+     * if so.
+     */
+    function selectPointerOutput(event: MouseEvent): boolean {
+        // If we found the node in the project, add it to the selection.
+        const evaluate = getOutputNodeFromID(getOutputNodeIDUnderMouse(event));
+        if (evaluate) {
+            selectedOutput.set([evaluate]);
+            // Focus it too, for keyboard output.
+            const outputView = view?.querySelector(
+                `[data-node-id="${evaluate.id}"`
+            );
+            if (outputView instanceof HTMLElement) outputView.focus();
+        }
+
+        // const nodes = $selectedOutput;
+        // const index = nodes.indexOf(verse.value.creator);
+
+        // // If the creator of this verse is a verse, toggle it's selection
+        // if (
+        //     verse.value.creator instanceof Evaluate &&
+        //     verse.value.creator.is(
+        //         VerseType,
+        //         project.getNodeContext(verse.value.creator)
+        //     )
+        // ) {
+        //     // If we clicked directly on this, set the selection to only this
+        //     if (
+        //         event.target instanceof Element &&
+        //         event.target.closest('.phrase') === null
+        //     ) {
+        //         selectedOutput.set(index >= 0 ? [] : [verse.value.creator]);
+        //     }
+        //     // Otherwise, remove this from the selection
+        //     else if ($selectedOutput) {
+        //         if (index >= 0)
+        //             selectedOutput.set([
+        //                 ...nodes.slice(0, index),
+        //                 ...nodes.slice(index + 1),
+        //             ]);
+        //     }
+        // }
+
+        return true;
+    }
+
+    function selectKeyboardOutput(event: KeyboardEvent) {
+        const evaluate = getOutputNodeFromID(getOutputNodeIDFromFocus());
+        if (evaluate === undefined) return;
+
+        // Add or remove the focused node from the selection.
+        if (event.key === 'Enter' || event.key === ' ') {
+            selectedOutput.set(
+                $selectedOutput.includes(evaluate)
+                    ? $selectedOutput.filter((o) => o !== evaluate)
+                    : [evaluate]
+            );
+        }
+        // Remove the node that created this phrase.
+        else if (event.key === 'Backspace' && (event.metaKey || event.ctrlKey))
+            reviseProject([[evaluate, undefined]]);
 
         // // meta-a: select all phrases
         // if (editable && event.key === 'a' && (event.metaKey || event.ctrlKey))
@@ -370,11 +443,15 @@
 
 {#if mounted}
     <div
-        class="verse {interactive && $playing
+        class="output verse {interactive && $playing
             ? 'live'
             : 'inert'} {project.main.names.getNames()[0]}"
         class:ignored
+        class:selected={verse.value.creator instanceof Evaluate &&
+            $selectedOutput.includes(verse.value.creator)}
+        class:editing={!$playing}
         data-id={verse.getHTMLID()}
+        data-node-id={verse.value.creator.id}
         tabIndex={interactive ? 0 : null}
         style={toCSS({
             'font-family': verse.font ?? DefaultFont,
@@ -387,6 +464,7 @@
         on:mousedown={(event) => (interactive ? handleMouseDown(event) : null)}
         on:mouseup={interactive ? handleMouseUp : null}
         on:mousemove={interactive ? handleMouseMove : null}
+        on:dblclick={interactive ? handleDoubleclick : null}
         on:keydown={interactive ? handleKeyDown : null}
         on:keyup={interactive ? handleKeyUp : null}
         on:wheel={interactive ? handleWheel : null}
@@ -485,8 +563,13 @@
         position: relative;
     }
 
-    .verse:focus {
+    .verse:focus:not(.verse.selected) {
         outline: none;
+    }
+
+    .verse.selected {
+        outline: var(--wordplay-focus-width) dotted var(--wordplay-highlight);
+        outline-offset: calc(-3 * var(--wordplay-focus-width));
     }
 
     .viewport {

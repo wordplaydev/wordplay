@@ -252,11 +252,21 @@ export default class Project {
     getConflicts() {
         return this.getAnalysis().conflicts;
     }
+
     getPrimaryConflicts() {
         return this.getAnalysis().primary;
     }
+
     getSecondaryConflicts() {
         return this.getAnalysis().secondary;
+    }
+
+    getNodeByID(id: number): Node | undefined {
+        for (const source of this.getSources()) {
+            const node = source.getNodeByID(id);
+            if (node) return node;
+        }
+        return undefined;
     }
 
     nodeInvolvedInConflicts(node: Node) {

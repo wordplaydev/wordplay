@@ -5,6 +5,7 @@ import type Step from '@runtime/Step';
 import type Project from './Project';
 import type Conflict from '@conflicts/Conflict';
 import type Node from '@nodes/Node';
+import Evaluate from '../nodes/Evaluate';
 
 // A global store that contains the project currently being viewed.
 export const project: Writable<Project | undefined> = writable<
@@ -48,7 +49,7 @@ function updateEvaluatorStores() {
  * This enables output views like phrases and groups know what mode the output view is in and whether they are selected.
  * so they can render selected feedback.
  */
-export const selectedOutput = writable<Node[]>([]);
+export const selectedOutput = writable<Evaluate[]>([]);
 
 export function updateProject(newProject: Project | undefined) {
     const oldProject = get(project);
@@ -73,9 +74,16 @@ export function reviseProject(replacements: [Node, Node | undefined][]) {
 
     // Replace the old selected output with the new one
     selectedOutput.set(
-        get(selectedOutput).map((n) => {
-            const rep = replacements.find((rep) => rep[0] === n);
-            return rep === undefined || rep[1] === undefined ? n : rep[1];
+        get(selectedOutput).map((original) => {
+            const [, replacement] = replacements.find(
+                (rep) => rep[0] === original
+            ) ?? [undefined, undefined];
+            // If we didn't find a replacement or we did and it's undefined or not an Evaluate, then map to undefined.
+            // Otherwise map to the replacement.
+            return replacement === undefined ||
+                !(replacement instanceof Evaluate)
+                ? original
+                : replacement;
         })
     );
 

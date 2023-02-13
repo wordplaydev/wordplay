@@ -116,15 +116,17 @@
     $: {
         const node = $selectedOutput[0];
         if (node) {
-            const view = getNodeView(node);
-            if (view) ensureElementIsVisible(view, true);
+            tick().then(() => {
+                const view = getNodeView(node);
+                if (view) ensureElementIsVisible(view, true);
+            });
         }
     }
 
     // Focus the hidden text field on mount.
     onMount(() => input?.focus());
 
-    function evalUpdate() {
+    async function evalUpdate() {
         if (evaluator === undefined || evaluator.isPlaying()) return;
 
         evaluatingNode = evaluator.getCurrentStep()?.node;
@@ -132,6 +134,15 @@
         // If the program contains this node, scroll it's first token into view.
         const stepNode = evaluator.getStepNode();
         if (stepNode && source.contains(stepNode)) {
+            // Set the caret to the current step node if stepping.
+            caret.set(
+                $caret.withPosition(
+                    evaluator.isDone() ? source.expression.end : stepNode
+                )
+            );
+
+            // Wait for everything to render, then find the node to scroll to.
+            await tick();
             let highlight: Node | undefined = stepNode;
             let element = null;
             // Keep searching for a visible node, in case the step node is invisible.
@@ -144,13 +155,6 @@
             } while (element === null && highlight !== undefined);
 
             if (element !== null) ensureElementIsVisible(element);
-
-            // Set the caret to the current step node if stepping.
-            caret.set(
-                $caret.withPosition(
-                    evaluator.isDone() ? source.expression.end : stepNode
-                )
-            );
         }
     }
 
@@ -343,7 +347,7 @@
         // Is any output selected?
         if ($selectedOutput) {
             for (const node of $selectedOutput)
-                addHighlight(newHighlights, node, 'hovered');
+                addHighlight(newHighlights, node, 'output');
         }
 
         // Update the store, broadcasting the highlights to all node views for rendering.
@@ -426,8 +430,7 @@
         element: Element,
         nearest: boolean = false
     ) {
-        await tick();
-        // Note that we don't set "smooth" here because it break's Chrome's ability to horizontally scroll.
+        // Scroll to the element. Note that we don't set "smooth" here because it break's Chrome's ability to horizontally scroll.
         element.scrollIntoView({
             block: nearest ? 'nearest' : 'center',
             inline: nearest ? 'nearest' : 'center',

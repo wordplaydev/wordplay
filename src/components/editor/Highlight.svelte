@@ -154,4 +154,10 @@
     .ignored {
         animation: shake 0.25s 1;
     }
+
+    .outline.output path {
+        stroke: var(--wordplay-highlight);
+        stroke-dasharray: 4px;
+        stroke-width: var(--wordplay-focus-width);
+    }
 </style>

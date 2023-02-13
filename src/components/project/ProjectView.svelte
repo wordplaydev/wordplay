@@ -10,6 +10,7 @@
         currentStep,
         nodeConflicts,
         updateProject,
+        selectedOutput,
     } from '../../models/stores';
     import Annotations from '../annotations/Annotations.svelte';
     import type Conflict from '@conflicts/Conflict';
@@ -149,13 +150,15 @@
     }
 
     /** When output selection changes, make the palette visible. */
-    // $: {
-    //     if ($selectedOutput.length > 0) {
-    //         const palette = layout.getPalette();
-    //         if (palette && palette.mode === Mode.Collapsed)
-    //             setMode(palette, Mode.Expanded);
-    //     }
-    // }
+    $: {
+        const palette = layout.getPalette();
+        if (palette) {
+            if ($selectedOutput.length > 0) {
+                if (palette.mode === Mode.Collapsed)
+                    setMode(palette, Mode.Expanded);
+            } else setMode(palette, Mode.Collapsed);
+        }
+    }
 
     /** Compute a default layout, or a new layout when the languages change. */
     $: layout = new Layout(

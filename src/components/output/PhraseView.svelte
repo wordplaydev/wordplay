@@ -6,12 +6,10 @@
     import parseRichText from '@output/parseRichText';
     import outputToCSS from '@output/outputToCSS';
     import { preferredLanguages } from '@translation/translations';
-    import { getContext, tick } from 'svelte';
-    import type { Writable } from 'svelte/store';
     import type RenderContext from '@output/RenderContext';
-    import TextLiteral from '@nodes/TextLiteral';
-    import { reviseProject, selectedOutput } from '../../models/stores';
+    import { selectedOutput } from '../../models/stores';
     import Pose from '@output/Pose';
+    import Evaluate from '@nodes/Evaluate';
 
     export let phrase: Phrase;
     export let place: Place;
@@ -23,71 +21,45 @@
     // Compute a local context based on size and font.
     $: context = phrase.getRenderContext(context);
 
-    $: editable = getContext<Writable<boolean>>('editable');
-
     // Visible if z is ahead of focus.
     $: visible = place.z.greaterThan(focus.z);
 
-    function select(event: MouseEvent | KeyboardEvent) {
-        if ($editable) {
-            const node = phrase.value.creator;
-            const nodes = $selectedOutput;
-            const index = nodes.indexOf(node);
-            selectedOutput.set(
-                event.shiftKey
-                    ? index >= 0
-                        ? [...nodes.slice(0, index), ...nodes.slice(index + 1)]
-                        : [...nodes, node]
-                    : [node]
-            );
-        }
-    }
+    // let input: HTMLInputElement;
+    // async function handleInput(event: any) {
+    //     const newText = event.currentTarget.value;
+    //     const originalTextValue = phrase.value.resolve('text');
+    //     if (originalTextValue === undefined) return;
 
-    function handleKey(event: KeyboardEvent) {
-        if (!$editable) return;
-        if (event.key === 'Enter' || event.key === ' ') select(event);
-        // Remove the node that created this phrase.
-        else if (event.key === 'Backspace' && (event.metaKey || event.ctrlKey))
-            reviseProject([[phrase.value.creator, undefined]]);
-    }
+    //     const start = event.currentTarget.selectionStart;
+    //     const end = event.currentTarget.selectionEnd;
 
-    let text: string = phrase.getDescription($preferredLanguages);
-    let input: HTMLInputElement;
-    async function handleInput(event: any) {
-        const newText = event.currentTarget.value;
-        const originalTextValue = phrase.value.resolve('text');
-        if (originalTextValue === undefined) return;
+    //     reviseProject([
+    //         [
+    //             phrase.value.creator,
+    //             phrase.value.creator.replace(
+    //                 originalTextValue.creator,
+    //                 TextLiteral.make(newText)
+    //             ),
+    //         ],
+    //     ]);
 
-        const start = event.currentTarget.selectionStart;
-        const end = event.currentTarget.selectionEnd;
-
-        reviseProject([
-            [
-                phrase.value.creator,
-                phrase.value.creator.replace(
-                    originalTextValue.creator,
-                    TextLiteral.make(newText)
-                ),
-            ],
-        ]);
-
-        // After the update, focus on the new input and restore the caret position.
-        await tick();
-        if (input) {
-            input.focus({ preventScroll: true });
-            input.setSelectionRange(start, end);
-        }
-    }
-
-    $: selected = $selectedOutput.includes(phrase.value.creator);
+    //     // After the update, focus on the new input and restore the caret position.
+    //     await tick();
+    //     if (input) {
+    //         input.focus({ preventScroll: true });
+    //         input.setSelectionRange(start, end);
+    //     }
+    // }
 </script>
 
 {#if visible}
     <div
-        class="phrase"
-        class:selected={$editable && selected}
+        class="output phrase"
+        class:selected={phrase.value.creator instanceof Evaluate &&
+            $selectedOutput.includes(phrase.value.creator)}
         tabIndex="0"
         data-id={phrase.getHTMLID()}
+        data-node-id={phrase.value.creator.id}
         style={outputToCSS(
             context.font,
             context.size,
@@ -103,11 +75,9 @@
             parentAscent,
             phrase.getMetrics(context)
         )}
-        on:mousedown={(event) => ($selectedOutput ? select(event) : null)}
-        on:keydown={handleKey}
     >
-        {#if selected}
-            <!-- svelte-ignore a11y-autofocus -->
+        <!-- {#if selected}
+            svelte-ignore a11y-autofocus
             <input
                 type="text"
                 bind:value={text}
@@ -117,11 +87,11 @@
                 style:width="{phrase.getMetrics(context, false).width}px"
                 autofocus
             />
-        {:else}
-            {@html parseRichText(
-                phrase.getDescription($preferredLanguages)
-            ).toHTML()}
-        {/if}
+        {:else} -->
+        {@html parseRichText(
+            phrase.getDescription($preferredLanguages)
+        ).toHTML()}
+        <!-- {/if} -->
     </div>
 {/if}
 
@@ -135,24 +105,30 @@
         width: auto;
         right: auto;
     }
+
     .phrase > :global(.light) {
         font-weight: 300;
     }
+
     .phrase > :global(.extra) {
         font-weight: 700;
     }
 
-    .phrase.selected {
-        text-shadow: 0 0 0 var(--wordplay-highlight);
+    .selected {
+        outline: var(--wordplay-border-width) dotted var(--wordplay-highlight);
     }
 
-    .phrase:focus {
+    :not(.selected):focus {
         outline: none;
-        border-bottom: var(--wordplay-highlight) solid
-            var(--wordplay-focus-width);
+        color: var(--wordplay-highlight);
     }
 
-    input {
+    :global(.verse.editing) :not(.selected) {
+        outline: var(--wordplay-border-width) dotted
+            var(--wordplay-disabled-color);
+    }
+
+    /* input {
         font-family: inherit;
         font-weight: inherit;
         font-style: inherit;
@@ -165,5 +141,5 @@
             var(--wordplay-focus-width);
         outline: none;
         min-width: 1em;
-    }
+    } */
 </style>

@@ -9,6 +9,8 @@
     import PhraseView from './PhraseView.svelte';
     import type Group from '@output/Group';
     import type Verse from '@output/Verse';
+    import Evaluate from '@nodes/Evaluate';
+    import { selectedOutput } from '../../models/stores';
 
     export let group: Group | Verse;
     export let place: Place;
@@ -31,11 +33,19 @@
     // When rendering the children, we need to convert the focus coordinate we were given
     // into this view's coordinate system so that the perspective rendering is in the right coordinates.
     $: offsetFocus = focus.offset(place);
+
+    $: selected =
+        group.value.creator instanceof Evaluate &&
+        $selectedOutput.includes(group.value.creator);
 </script>
 
 <div
-    class="group {group.constructor.name}"
+    class="output group {group.constructor.name}"
+    class:selected={selected && !root}
+    class:root
+    tabIndex={!root ? 0 : null}
     data-id={group.getHTMLID()}
+    data-node-id={group.value.creator.id}
     style={outputToCSS(
         context.font,
         context.size,
@@ -87,5 +97,19 @@
         position: relative;
         width: 100%;
         height: 100%;
+    }
+
+    :global(.verse.editing) .group:not(.selected):not(.root) {
+        outline: var(--wordplay-border-width) dotted
+            var(--wordplay-disabled-color);
+    }
+
+    .group.selected {
+        outline: var(--wordplay-border-width) dotted var(--wordplay-highlight);
+    }
+
+    .group:not(.selected):focus {
+        outline: none;
+        background-color: var(--wordplay-highlight);
     }
 </style>
