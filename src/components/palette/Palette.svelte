@@ -4,7 +4,7 @@
         preferredLanguages,
         preferredTranslations,
     } from '@translation/translations';
-    import { PhraseType } from '../../output/Phrase';
+    import { PhraseType } from '@output/Phrase';
     import Literal from '@nodes/Literal';
     import Measurement from '@runtime/Measurement';
     import type Value from '@runtime/Value';
@@ -18,20 +18,19 @@
     } from '../../models/stores';
     import Button from '../widgets/Button.svelte';
     import Note from '../widgets/Note.svelte';
-    import { SupportedFonts } from '../../native/Fonts';
+    import { SupportedFonts } from '@native/Fonts';
     import BindOptions from './BindOptions.svelte';
     import Text from '@runtime/Text';
-    import { VerseType } from '../../output/Verse';
+    import { VerseType } from '@output/Verse';
     import type Project from '../../models/Project';
     import BindColor from './BindColor.svelte';
-    import { ColorType } from '../../output/Color';
+    import { ColorType } from '@output/Color';
     import type Node from '@nodes/Node';
     import StructureDefinition from '@nodes/StructureDefinition';
     import { GroupType } from '@output/Group';
     import Reference from '@nodes/Reference';
-    import { StackType } from '../../output/Stack';
+    import { StackType } from '@output/Stack';
     import TextLiteral from '@nodes/TextLiteral';
-    import Structure from '@runtime/Structure';
 
     export let project: Project;
 
@@ -42,19 +41,6 @@
                 (node.is(PhraseType, project.getNodeContext(node)) ||
                     node.is(VerseType, project.getNodeContext(node)))
         ) ?? [];
-
-    $: {
-        const latest = project.evaluator.getLatestSourceValue(project.main);
-        if (!(latest && latest instanceof Structure && latest.is(VerseType)))
-            selectedOutput.set([]);
-        else {
-            const filtered = $selectedOutput.filter((node) =>
-                project.contains(node)
-            );
-            if (filtered.length !== $selectedOutput.length)
-                selectedOutput.set(filtered);
-        }
-    }
 
     type Slider = {
         type: 'slider';

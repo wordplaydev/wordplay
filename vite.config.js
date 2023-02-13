@@ -15,6 +15,7 @@ const config = {
             '@parser': path.resolve('./src/parser'),
             '@input': path.resolve('./src/input'),
             '@output': path.resolve('./src/output'),
+            '@native': path.resolve('./src/native'),
         },
     },
 };

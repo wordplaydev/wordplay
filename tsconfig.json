@@ -20,7 +20,8 @@
             "@input/*": ["input/*"],
             "@output/*": ["output/*"],
             "@concepts/*": ["concepts/*"],
-            "@parser/*": ["parser/*"]
+            "@parser/*": ["parser/*"],
+            "@native/*": ["native/*"]
         }
     }
 }
