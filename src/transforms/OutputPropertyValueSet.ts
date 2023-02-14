@@ -68,7 +68,7 @@ export default class OutputPropertyValueSet {
     }
 
     someGiven() {
-        return this.values.some((val) => val.given !== undefined);
+        return this.values.some((val) => val.given);
     }
 
     /** Given a project, unsets this property on expressions on which it is set. */

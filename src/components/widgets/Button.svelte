@@ -13,6 +13,7 @@
     tabIndex="0"
     on:click={() => (enabled ? action() : undefined)}
     on:mousedown
+    disabled={!enabled}
     aria-disabled={!enabled}
 >
     <slot />

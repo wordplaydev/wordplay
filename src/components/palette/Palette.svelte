@@ -8,7 +8,6 @@
     import BindSlider from './BindSlider.svelte';
     import { reviseProject, selectedOutput } from '../../models/stores';
     import Button from '../widgets/Button.svelte';
-    import Note from '../widgets/Note.svelte';
     import BindOptions from './BindOptions.svelte';
     import { VerseType } from '@output/Verse';
     import type Project from '../../models/Project';
@@ -170,53 +169,37 @@
         >
     </div>
 
-    {#if outputs.length > 0}
-        <table>
-            {#each Array.from(propertyValues.entries()) as [property, values]}
-                <tr class="property">
-                    <td class="name"
-                        ><Note
-                            >{values.getTranslation($preferredLanguages)}</Note
-                        ></td
-                    >
-                    <td class="control">
-                        <!-- {#if valuesByProperty[property.name].some((val) => val?.value instanceof Expression)}
+    {#each Array.from(propertyValues.entries()) as [property, values]}
+        <div class="property">
+            <h3 class="name">{values.getTranslation($preferredLanguages)} </h3>
+            <Button
+                tip={$preferredTranslations[0].ui.tooltip.revert}
+                action={() => values.unset(project)}
+                enabled={values.someGiven()}>⨉</Button
+            >
+            <div class="control">
+                <!-- {#if valuesByProperty[property.name].some((val) => val?.value instanceof Expression)}
                             <RootView node={parseFunction(toTokens('ƒ()'))} /> -->
-                        {#if property.type instanceof OutputPropertyRange}
-                            <BindSlider
-                                {property}
-                                {values}
-                                range={property.type}
-                            />
-                        {:else if property.type instanceof OutputPropertyOptions}
-                            <BindOptions
-                                {property}
-                                {values}
-                                options={property.type.values}
-                            />
-                        {:else if property.type instanceof OutputPropertyText}
-                            <BindText
-                                {property}
-                                {values}
-                                validator={property.type.validator}
-                            />
-                        {:else if property.type === 'color'}
-                            <BindColor {property} {values} />
-                        {/if}
-                    </td>
-                    <td class="revert">
-                        {#if values.someGiven()}
-                            <Button
-                                tip={$preferredTranslations[0].ui.tooltip
-                                    .revert}
-                                action={() => values.unset(project)}>x</Button
-                            >
-                        {/if}
-                    </td>
-                </tr>
-            {/each}
-        </table>
-    {/if}
+                {#if property.type instanceof OutputPropertyRange}
+                    <BindSlider {property} {values} range={property.type} />
+                {:else if property.type instanceof OutputPropertyOptions}
+                    <BindOptions
+                        {property}
+                        {values}
+                        options={property.type.values}
+                    />
+                {:else if property.type instanceof OutputPropertyText}
+                    <BindText
+                        {property}
+                        {values}
+                        validator={property.type.validator}
+                    />
+                {:else if property.type === 'color'}
+                    <BindColor {property} {values} />
+                {/if}
+            </div>
+        </div>
+    {/each}
 </section>
 
 <style>
@@ -227,6 +210,12 @@
         min-width: 100%;
         min-height: 100%;
         padding: var(--wordplay-spacing);
+
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        align-items: left;
+        gap: var(--wordplay-spacing);
     }
 
     .actions {
@@ -240,25 +229,25 @@
         outline: none;
     }
 
-    table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    td {
-        padding-top: var(--wordplay-spacing);
-        padding-bottom: var(--wordplay-spacing);
-    }
-
-    td:first-child {
-        text-align: right;
-    }
-
-    td:not(:first-child) {
-        padding-left: var(--wordplay-spacing);
+    .property {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: var(--wordplay-spacing);
+        row-gap: var(--wordplay-spacing);
     }
 
     .name {
-        font-family: var(--wordplay-code-font);
+        flex-basis: 5em;
+        text-align: left;
+    }
+
+    .control {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: var(--wordplay-spacing);
     }
 </style>
