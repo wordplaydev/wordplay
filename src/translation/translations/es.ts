@@ -1700,11 +1700,12 @@ const eng_wordplay: Translation = {
             family: { doc: WRITE_DOC, name: 'font' },
             place: { doc: WRITE_DOC, name: 'place' },
             name: { doc: WRITE_DOC, name: 'name' },
-            timing: { doc: WRITE_DOC, name: 'timing' },
             enter: { doc: WRITE_DOC, name: 'enter' },
             rest: { doc: WRITE_DOC, name: 'rest' },
             move: { doc: WRITE_DOC, name: 'move' },
             exit: { doc: WRITE_DOC, name: 'exit' },
+            duration: { doc: WRITE_DOC, name: ['⏳', 'duration'] },
+            style: { doc: WRITE_DOC, name: 'style' },
         },
         verse: {
             definition: { doc: WRITE_DOC, name: ['🌎', '🌍', '🌏', 'Verse'] },
@@ -1735,11 +1736,6 @@ const eng_wordplay: Translation = {
             scale: { doc: WRITE_DOC, name: 'scale' },
             flipx: { doc: WRITE_DOC, name: 'flipx' },
             flipy: { doc: WRITE_DOC, name: 'flipy' },
-        },
-        timing: {
-            definition: { doc: WRITE_DOC, name: ['🏃‍♀️', 'Timing'] },
-            duration: { doc: WRITE_DOC, name: ['⏳', 'duration'] },
-            style: { doc: WRITE_DOC, name: 'style' },
         },
         color: {
             definition: { doc: WRITE_DOC, name: ['Color', '🌈'] },

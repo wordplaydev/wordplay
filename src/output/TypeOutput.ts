@@ -28,8 +28,8 @@ ${getBind((t) => t.output.type.enter)}•ø|Pose|Sequence: ø
 ${getBind((t) => t.output.type.rest)}•ø|Pose|Sequence: Pose()
 ${getBind((t) => t.output.type.move)}•ø|Pose|Sequence: ø
 ${getBind((t) => t.output.type.exit)}•ø|Pose|Sequence: ø
-${getBind((t) => t.output.timing.duration)}•#s: 0.25s
-${getBind((t) => t.output.timing.style)}•${Object.values(en.output.easing)
+${getBind((t) => t.output.type.duration)}•#s: 0.25s
+${getBind((t) => t.output.type.style)}•${Object.values(en.output.easing)
     .map((id) => `"${id}"`)
     .join('|')}: "zippy"
 )`;

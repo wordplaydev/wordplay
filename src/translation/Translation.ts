@@ -802,11 +802,12 @@ type Translation = {
             family: NameAndDocTranslation;
             place: NameAndDocTranslation;
             name: NameAndDocTranslation;
-            timing: NameAndDocTranslation;
             enter: NameAndDocTranslation;
             rest: NameAndDocTranslation;
             move: NameAndDocTranslation;
             exit: NameAndDocTranslation;
+            duration: NameAndDocTranslation;
+            style: NameAndDocTranslation;
         };
         group: {
             definition: NameAndDocTranslation;
@@ -837,11 +838,6 @@ type Translation = {
             scale: NameAndDocTranslation;
             flipx: NameAndDocTranslation;
             flipy: NameAndDocTranslation;
-        };
-        timing: {
-            definition: NameAndDocTranslation;
-            duration: NameAndDocTranslation;
-            style: NameAndDocTranslation;
         };
         sequence: {
             definition: NameAndDocTranslation;

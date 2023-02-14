@@ -73,6 +73,16 @@ const OutputProperties: OutputProperty[] = [
         ]),
         required: false,
     },
+    {
+        name:
+            typeof en.output.type.duration.name === 'string'
+                ? en.output.type.duration.name
+                : en.output.type.duration.name[0],
+        type: new OutputPropertyOptions([
+            ...SupportedFonts.map((font) => font.name),
+        ]),
+        required: false,
+    },
 ];
 
 const VerseProperties: OutputProperty[] = [

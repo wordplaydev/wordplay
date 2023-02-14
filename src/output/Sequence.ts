@@ -13,15 +13,13 @@ import Measurement from '../runtime/Measurement';
 import Transition from './Transition';
 import type Place from './Place';
 import type { TransitionSequence } from './OutputAnimation';
-import en from '../translation/translations/en';
+import en from '@translation/translations/en';
 
 export const SequenceType = toStructure(`
     ${getBind((t) => t.output.sequence.definition, TYPE_SYMBOL)}(
         ${getBind((t) => t.output.sequence.poses)}•{ % : Pose }
-        ${getBind((t) => t.output.timing.duration)}•#s: 0.25s
-        ${getBind((t) => t.output.timing.style)}•${Object.values(
-    en.output.easing
-)
+        ${getBind((t) => t.output.type.duration)}•#s: 0.25s
+        ${getBind((t) => t.output.type.style)}•${Object.values(en.output.easing)
     .map((id) => `"${id}"`)
     .join('|')}: "zippy"
         ${getBind((t) => t.output.sequence.count)}•1x|2x|3x|4x|5x: 1x

@@ -18,10 +18,9 @@ import { MotionDefinition } from '../input/Motion';
 import { MousePositionDefinition } from '../input/MousePosition';
 import { MouseButtonDefinition } from '../input/MouseButton';
 import { RandomDefinition } from '../input/Random';
-import { TimingType } from '../output/Timing';
 import { ArrangementType } from '../output/Arrangement';
 
-export const AnimationTypes = [PoseType, SequenceType, TimingType];
+export const AnimationTypes = [PoseType, SequenceType];
 
 export const GroupTypes = [TypeType, VerseType, GroupType, PhraseType];
 
