@@ -24,21 +24,23 @@
         OutputPropertyRange,
         type OutputProperty,
     } from '@transforms/OutputExpression';
-    import OutputPropertyValues from '../../transforms/OutputValueSet';
+    import OutputValueSet from '@transforms/OutputValueSet';
 
     export let project: Project;
 
     /** Transform the selected Evaluate nodes into Output wrappers, filtering out anything that's not valid output. */
-    $: output = $selectedOutput
+    $: outputs = $selectedOutput
         .map((evaluate) => new OutputExpression(project, evaluate))
         .filter((out) => out.isOutput());
 
-    /** From the list of output, generate a list of properties that all output share. */
-    let propertyValues: Map<OutputProperty, OutputPropertyValues>;
+    /**
+     * From the list of OutputExpressions, generate a value set for each property to allow for editing
+     * multiple output expressions at once. */
+    let propertyValues: Map<OutputProperty, OutputValueSet>;
     $: {
         // Make a set of all of the properties in the selection set
         const properties = new Set<OutputProperty>(
-            output.reduce(
+            outputs.reduce(
                 (
                     all: OutputProperty[],
                     out: OutputExpression
@@ -49,7 +51,8 @@
         propertyValues = new Map();
         // Map the properties to a set of values.
         for (const property of properties) {
-            const values = new OutputPropertyValues(property.name, output);
+            const values = new OutputValueSet(property.name, outputs);
+            // Exclue any properties that happen to have no values.
             if (!values.isEmpty()) propertyValues.set(property, values);
         }
     }
@@ -165,7 +168,7 @@
         >
     </div>
 
-    {#if output.length > 0}
+    {#if outputs.length > 0}
         <table>
             {#each Array.from(propertyValues.entries()) as [property, values]}
                 <tr class="property">

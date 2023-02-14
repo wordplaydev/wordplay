@@ -11,7 +11,8 @@ import Bind from '@nodes/Bind';
 import Literal from '@nodes/Literal';
 import Measurement from '@runtime/Measurement';
 import Text from '@runtime/Text';
-import { ColorType } from '../output/Color';
+import { ColorType } from '@output/Color';
+import en from '../translation/translations/en';
 
 /** Represents an editable property on the output expression, with some optional information about valid property values */
 export type OutputProperty = {
@@ -55,12 +56,18 @@ export type OutputPropertyValue = {
 // All output has these properties.
 const OutputProperties: OutputProperty[] = [
     {
-        name: 'size',
+        name:
+            typeof en.output.type.size.name === 'string'
+                ? en.output.type.size.name
+                : en.output.type.size.name[0],
         type: new OutputPropertyRange(0.25, 32, 0.25, 'm'),
         required: false,
     },
     {
-        name: 'family',
+        name:
+            typeof en.output.type.family.name === 'string'
+                ? en.output.type.family.name
+                : en.output.type.family.name[0],
         type: new OutputPropertyOptions([
             ...SupportedFonts.map((font) => font.name),
         ]),
