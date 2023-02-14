@@ -2,7 +2,7 @@
     import { project, reviseProject } from '../../models/stores';
     import { parseMeasurement, toTokens } from '@parser/Parser';
     import Slider from '../widgets/Slider.svelte';
-    import type OutputPropertyValues from '@transforms/OutputValueSet';
+    import type OutputPropertyValues from '@transforms/OutputPropertyValueSet';
     import type {
         OutputProperty,
         OutputPropertyRange,

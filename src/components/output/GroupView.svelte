@@ -99,12 +99,12 @@
         height: 100%;
     }
 
-    :global(.verse.editing) .group:not(.selected):not(.root) {
+    :global(.verse.editing.interactive) .group:not(.selected):not(.root) {
         outline: var(--wordplay-border-width) dotted
             var(--wordplay-disabled-color);
     }
 
-    .group.selected {
+    :global(.verse.editing.interactive) .group.selected {
         outline: var(--wordplay-border-width) dotted var(--wordplay-highlight);
     }
 

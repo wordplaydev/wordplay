@@ -12,8 +12,8 @@ import type RenderContext from './RenderContext';
 import type Decimal from 'decimal.js';
 import Fonts, { SupportedFontsFamiliesType } from '../native/Fonts';
 import en from '@translation/translations/en';
-import type LanguageCode from '../translation/LanguageCode';
-import type { Description } from '../translation/Translation';
+import type LanguageCode from '@translation/LanguageCode';
+import type { Description } from '@translation/Translation';
 
 export const TypeType = toStructure(`
     ${getBind((t) => t.output.type.definition, TYPE_SYMBOL)}()

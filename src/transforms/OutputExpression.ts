@@ -13,11 +13,16 @@ import Measurement from '@runtime/Measurement';
 import Text from '@runtime/Text';
 import { ColorType } from '@output/Color';
 import en from '../translation/translations/en';
+import type { NameTranslation } from '../translation/Translation';
 
 /** Represents an editable property on the output expression, with some optional information about valid property values */
 export type OutputProperty = {
     name: string;
-    type: OutputPropertyRange | OutputPropertyOptions | 'color';
+    type:
+        | OutputPropertyRange
+        | OutputPropertyOptions
+        | OutputPropertyText
+        | 'color';
     required: boolean;
 };
 
@@ -31,6 +36,13 @@ export class OutputPropertyRange {
         this.max = max;
         this.step = step;
         this.unit = unit;
+    }
+}
+
+export class OutputPropertyText {
+    readonly validator: (text: string) => boolean;
+    constructor(validator: (text: string) => boolean) {
+        this.validator = validator;
     }
 }
 
@@ -53,34 +65,45 @@ export type OutputPropertyValue = {
     value: Value | Expression;
 };
 
+function getTranslation(name: NameTranslation) {
+    return typeof name === 'string' ? name : name[0];
+}
+
 // All output has these properties.
 const OutputProperties: OutputProperty[] = [
     {
-        name:
-            typeof en.output.type.size.name === 'string'
-                ? en.output.type.size.name
-                : en.output.type.size.name[0],
+        name: getTranslation(en.output.type.size.name),
         type: new OutputPropertyRange(0.25, 32, 0.25, 'm'),
         required: false,
     },
     {
-        name:
-            typeof en.output.type.family.name === 'string'
-                ? en.output.type.family.name
-                : en.output.type.family.name[0],
+        name: getTranslation(en.output.type.family.name),
         type: new OutputPropertyOptions([
             ...SupportedFonts.map((font) => font.name),
         ]),
         required: false,
     },
     {
-        name:
-            typeof en.output.type.duration.name === 'string'
-                ? en.output.type.duration.name
-                : en.output.type.duration.name[0],
-        type: new OutputPropertyOptions([
-            ...SupportedFonts.map((font) => font.name),
-        ]),
+        name: getTranslation(en.output.type.duration.name),
+        type: new OutputPropertyRange(0, 2, 0.25, 's'),
+        required: false,
+    },
+    {
+        name: getTranslation(en.output.type.style.name),
+        type: new OutputPropertyOptions(
+            Object.values(en.output.easing).reduce(
+                (all: string[], next: NameTranslation) => [
+                    ...all,
+                    ...(Array.isArray(next) ? next : [next]),
+                ],
+                []
+            )
+        ),
+        required: false,
+    },
+    {
+        name: getTranslation(en.output.type.name.name),
+        type: new OutputPropertyText((text) => text.length > 0),
         required: false,
     },
 ];

@@ -1,3 +1,4 @@
+import type Project from '../models/Project';
 import type Evaluate from '../nodes/Evaluate';
 import Expression from '../nodes/Expression';
 import Measurement from '../runtime/Measurement';
@@ -11,7 +12,7 @@ import type { OutputPropertyValue } from './OutputExpression';
  * Represents one or more equivalent inputs to an output expression.
  * Used for editing multiple inputs at once.
  */
-export default class OutputPropertyValues {
+export default class OutputPropertyValueSet {
     readonly name: string;
     readonly values: OutputPropertyValue[];
 
@@ -65,4 +66,11 @@ export default class OutputPropertyValues {
     isDefault() {
         return this.values.every((val) => !val.given);
     }
+
+    someGiven() {
+        return this.values.some((val) => val.given !== undefined);
+    }
+
+    /** Given a project, unsets this property on expressions on which it is set. */
+    unset(project: Project) {}
 }

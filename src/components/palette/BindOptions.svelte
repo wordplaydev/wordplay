@@ -2,7 +2,7 @@
     import { project, reviseProject } from '../../models/stores';
     import TextLiteral from '@nodes/TextLiteral';
     import Options from '../widgets/Options.svelte';
-    import type OutputPropertyValues from '@transforms/OutputValueSet';
+    import type OutputPropertyValues from '@transforms/OutputPropertyValueSet';
     import type { OutputProperty } from '@transforms/OutputExpression';
 
     export let property: OutputProperty;

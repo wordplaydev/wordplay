@@ -10,7 +10,7 @@
     import Note from '../widgets/Note.svelte';
     import Slider from '../widgets/Slider.svelte';
     import type { OutputProperty } from '@transforms/OutputExpression';
-    import type OutputPropertyValues from '@transforms/OutputValueSet';
+    import type OutputPropertyValues from '@transforms/OutputPropertyValueSet';
 
     export let property: OutputProperty;
     export let values: OutputPropertyValues;

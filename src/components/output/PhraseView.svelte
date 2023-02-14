@@ -114,7 +114,7 @@
         font-weight: 700;
     }
 
-    .selected {
+    :global(.verse.editing.interactive) .selected {
         outline: var(--wordplay-border-width) dotted var(--wordplay-highlight);
     }
 
@@ -123,7 +123,7 @@
         color: var(--wordplay-highlight);
     }
 
-    :global(.verse.editing) :not(.selected) {
+    :global(.verse.editing.interactive) :not(.selected) {
         outline: var(--wordplay-border-width) dotted
             var(--wordplay-disabled-color);
     }

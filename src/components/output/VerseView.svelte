@@ -447,6 +447,7 @@
             ? 'live'
             : 'inert'} {project.main.names.getNames()[0]}"
         class:ignored
+        class:interactive
         class:selected={verse.value.creator instanceof Evaluate &&
             $selectedOutput.includes(verse.value.creator)}
         class:editing={!$playing}
@@ -567,7 +568,7 @@
         outline: none;
     }
 
-    .verse.selected {
+    .verse.editing.interactive.selected {
         outline: var(--wordplay-focus-width) dotted var(--wordplay-highlight);
         outline-offset: calc(-3 * var(--wordplay-focus-width));
     }

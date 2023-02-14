@@ -22,9 +22,11 @@
     import OutputExpression, {
         OutputPropertyOptions,
         OutputPropertyRange,
+        OutputPropertyText,
         type OutputProperty,
     } from '@transforms/OutputExpression';
-    import OutputValueSet from '@transforms/OutputValueSet';
+    import OutputValueSet from '@transforms/OutputPropertyValueSet';
+    import BindText from './BindText.svelte';
 
     export let project: Project;
 
@@ -192,25 +194,28 @@
                                 {values}
                                 options={property.type.values}
                             />
+                        {:else if property.type instanceof OutputPropertyText}
+                            <BindText
+                                {property}
+                                {values}
+                                validator={property.type.validator}
+                            />
                         {:else if property.type === 'color'}
                             <BindColor {property} {values} />
                         {/if}
                     </td>
-                    <!-- <td class="revert">
-                        {#if allSet}
+                    <td class="revert">
+                        {#if values.someGiven()}
                             <Button
                                 tip={$preferredTranslations[0].ui.tooltip
                                     .revert}
-                                action={() => unsetProperty(property.name)}
-                                >x</Button
+                                action={() => values.unset(project)}>x</Button
                             >
                         {/if}
-                    </td> -->
+                    </td>
                 </tr>
             {/each}
         </table>
-    {:else}
-        <table><tr><td>&mdash;</td></tr></table>
     {/if}
 </section>
 
@@ -218,10 +223,10 @@
     .palette {
         background-color: var(--wordplay-background);
         border-radius: var(--wordplay-border-radius);
-        cursor: move;
         user-select: none;
         min-width: 100%;
         min-height: 100%;
+        padding: var(--wordplay-spacing);
     }
 
     .actions {
@@ -247,10 +252,6 @@
 
     td:first-child {
         text-align: right;
-    }
-
-    tr:nth-child(odd) {
-        background: var(--wordplay-chrome);
     }
 
     td:not(:first-child) {
