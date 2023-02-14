@@ -103,7 +103,7 @@
      * then the adjusted focus if providedWhenever the verse focus, fit setting, or adjusted focus change, updated the rendered focus */
     $: renderedFocus = verse.place
         ? verse.place
-        : fit && fitFocus
+        : fit && fitFocus && $playing
         ? fitFocus
         : adjustedFocus;
 
