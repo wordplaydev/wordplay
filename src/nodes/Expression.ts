@@ -58,6 +58,7 @@ export default abstract class Expression extends Node {
         context: Context,
         evaluator: Evaluator
     ): Description;
+
     abstract getFinishExplanations(
         translation: Translation,
         context: Context,

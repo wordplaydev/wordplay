@@ -12,7 +12,7 @@ import type TextLang from './TextLang';
 import type Place from './Place';
 import type Pose from './Pose';
 import type Sequence from './Sequence';
-import { NameGenerator, toDecimal } from './Verse';
+import { NameGenerator, toDecimal, toVerse, VerseType } from './Verse';
 import { toPlace } from './Place';
 import { toPose } from './Pose';
 import { toSequence } from './Sequence';
@@ -32,6 +32,8 @@ export function toTypeOutput(
             );
         case GroupType:
             return toGroup(value, namer);
+        case VerseType:
+            return toVerse(value);
     }
     return undefined;
 }

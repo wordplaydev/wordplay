@@ -1,12 +1,12 @@
 <script lang="ts">
     import { project, reviseProject } from '../../models/stores';
-    import type Evaluate from '@nodes/Evaluate';
     import TextLiteral from '@nodes/TextLiteral';
     import Options from '../widgets/Options.svelte';
+    import type OutputPropertyValues from '@transforms/OutputValueSet';
+    import type { OutputProperty } from '@transforms/OutputExpression';
 
-    export let evaluates: Evaluate[];
-    export let name: string;
-    export let value: string | undefined;
+    export let property: OutputProperty;
+    export let values: OutputPropertyValues;
     export let options: (undefined | string)[];
 
     // Whenever the slider value changes, revise the Evaluates to match the new value.
@@ -14,12 +14,12 @@
         if ($project === undefined) return;
         reviseProject(
             $project.getBindReplacements(
-                evaluates,
-                name,
+                values.getExpressions(),
+                property.name,
                 newValue ? TextLiteral.make(newValue) : undefined
             )
         );
     }
 </script>
 
-<Options {value} {options} change={handleChange} />
+<Options value={values.getText()} {options} change={handleChange} />

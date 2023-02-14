@@ -21,7 +21,8 @@
             "@output/*": ["output/*"],
             "@concepts/*": ["concepts/*"],
             "@parser/*": ["parser/*"],
-            "@native/*": ["native/*"]
+            "@native/*": ["native/*"],
+            "@transforms/*": ["transforms/*"]
         }
     }
 }

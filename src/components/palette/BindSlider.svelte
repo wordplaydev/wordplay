@@ -1,17 +1,16 @@
 <script lang="ts">
     import { project, reviseProject } from '../../models/stores';
-    import type Evaluate from '@nodes/Evaluate';
     import { parseMeasurement, toTokens } from '@parser/Parser';
     import Slider from '../widgets/Slider.svelte';
+    import type OutputPropertyValues from '@transforms/OutputValueSet';
+    import type {
+        OutputProperty,
+        OutputPropertyRange,
+    } from '@transforms/OutputExpression';
 
-    export let evaluates: Evaluate[];
-    export let name: string;
-    export let value: number | undefined;
-    export let min: number;
-    export let max: number;
-    export let unit: string;
-    export let increment: number;
-    export let set: boolean;
+    export let property: OutputProperty;
+    export let values: OutputPropertyValues;
+    export let range: OutputPropertyRange;
 
     // Whenever the slider value changes, revise the Evaluates to match the new value.
     function handleChange(newValue: number) {
@@ -19,20 +18,20 @@
 
         reviseProject(
             $project.getBindReplacements(
-                evaluates,
-                name,
-                parseMeasurement(toTokens(newValue + unit))
+                values.getExpressions(),
+                property.name,
+                parseMeasurement(toTokens(newValue + range.unit))
             )
         );
     }
 </script>
 
 <Slider
-    {value}
-    {min}
-    {max}
-    {unit}
-    {increment}
+    value={values.getNumber()}
+    min={range.min}
+    max={range.max}
+    unit={range.unit}
+    increment={range.step}
     change={handleChange}
-    isDefault={!set}
+    isDefault={values.isDefault()}
 />

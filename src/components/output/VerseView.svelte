@@ -377,7 +377,6 @@
         const evaluate = getOutputNodeFromID(getOutputNodeIDUnderMouse(event));
         if (evaluate) {
             selectedOutput.set([evaluate]);
-            console.log('Selecting ' + evaluate.toWordplay());
             // Focus it too, for keyboard output.
             const outputView = view?.querySelector(
                 `[data-node-id="${evaluate.id}"`

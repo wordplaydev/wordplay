@@ -5,18 +5,23 @@
     import MeasurementLiteral from '@nodes/MeasurementLiteral';
     import Reference from '@nodes/Reference';
     import Unit from '@nodes/Unit';
-    import { ColorType } from '../../output/Color';
+    import { ColorType } from '@output/Color';
     import { preferredLanguages } from '@translation/translations';
     import Note from '../widgets/Note.svelte';
     import Slider from '../widgets/Slider.svelte';
+    import type { OutputProperty } from '@transforms/OutputExpression';
+    import type OutputPropertyValues from '@transforms/OutputValueSet';
 
-    export let evaluates: Evaluate[];
-    export let name: string;
-    export let value: Evaluate | undefined;
+    export let property: OutputProperty;
+    export let values: OutputPropertyValues;
+
+    $: lightness = getColorValue('lightness') ?? 0;
+    $: chroma = getColorValue('chroma') ?? 0;
+    $: hue = getColorValue('hue') ?? 0;
 
     // Whenever the slider value changes, revise the Evaluates to match the new value.
     function handleChange(
-        property: 'lightness' | 'chroma' | 'hue',
+        dim: 'lightness' | 'chroma' | 'hue',
         newValue: number
     ) {
         if ($project === undefined) return;
@@ -26,40 +31,45 @@
             Reference.make(ColorType.names.getNames()[0], ColorType),
             [
                 MeasurementLiteral.make(
-                    (property === 'lightness' ? newValue : lightness) + '%'
+                    (dim === 'lightness' ? newValue : lightness) + '%'
                 ),
+                MeasurementLiteral.make(dim === 'chroma' ? newValue : chroma),
                 MeasurementLiteral.make(
-                    property === 'chroma' ? newValue : chroma
-                ),
-                MeasurementLiteral.make(
-                    property === 'hue' ? newValue : hue,
+                    dim === 'hue' ? newValue : hue,
                     new Unit(undefined, [Dimension.make(false, '°', 1)])
                 ),
             ]
         );
 
         reviseProject(
-            $project.getBindReplacements(evaluates, name, replacement)
+            $project.getBindReplacements(
+                values.getExpressions(),
+                property.name,
+                replacement
+            )
         );
     }
 
     function getColorValue(name: string) {
-        if ($project === undefined || value === undefined) return undefined;
-        const mapping = value.getMappingFor(
-            name,
-            $project?.getNodeContext(value)
-        );
-        const number =
-            mapping && mapping.given instanceof MeasurementLiteral
-                ? mapping.given.getValue().toNumber() *
-                  (name === 'lightness' ? 100 : 1)
-                : undefined;
-        return number;
+        if ($project === undefined) return undefined;
+        // The value of this facet on every value selected.
+        const facets = values.values.map((val) => {
+            if ($project && val instanceof Evaluate) {
+                const mapping = val.getMappingFor(
+                    name,
+                    $project.getNodeContext(val)
+                );
+                const number =
+                    mapping && mapping.given instanceof MeasurementLiteral
+                        ? mapping.given.getValue().toNumber() *
+                          (name === 'lightness' ? 100 : 1)
+                        : undefined;
+                return number;
+            }
+        });
+        // If they're all equal, return the value.
+        return new Set(facets).size === 1 ? facets[0] : undefined;
     }
-
-    $: lightness = value ? getColorValue('lightness') ?? 0 : 0;
-    $: chroma = value ? getColorValue('chroma') ?? 0 : 0;
-    $: hue = value ? getColorValue('hue') ?? 0 : 0;
 </script>
 
 <div class="facet">

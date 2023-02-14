@@ -5,220 +5,53 @@
         preferredTranslations,
     } from '@translation/translations';
     import { PhraseType } from '@output/Phrase';
-    import Literal from '@nodes/Literal';
-    import Measurement from '@runtime/Measurement';
-    import type Value from '@runtime/Value';
-    import type Expression from '@nodes/Expression';
     import BindSlider from './BindSlider.svelte';
-    import Bind from '@nodes/Bind';
-    import {
-        reviseProject,
-        selectedOutput,
-        updateProject,
-    } from '../../models/stores';
+    import { reviseProject, selectedOutput } from '../../models/stores';
     import Button from '../widgets/Button.svelte';
     import Note from '../widgets/Note.svelte';
-    import { SupportedFonts } from '@native/Fonts';
     import BindOptions from './BindOptions.svelte';
-    import Text from '@runtime/Text';
     import { VerseType } from '@output/Verse';
     import type Project from '../../models/Project';
     import BindColor from './BindColor.svelte';
-    import { ColorType } from '@output/Color';
     import type Node from '@nodes/Node';
     import StructureDefinition from '@nodes/StructureDefinition';
     import { GroupType } from '@output/Group';
     import Reference from '@nodes/Reference';
     import { StackType } from '@output/Stack';
     import TextLiteral from '@nodes/TextLiteral';
+    import OutputExpression, {
+        OutputPropertyOptions,
+        OutputPropertyRange,
+        type OutputProperty,
+    } from '@transforms/OutputExpression';
+    import OutputPropertyValues from '../../transforms/OutputValueSet';
 
     export let project: Project;
 
-    $: nodes =
-        $selectedOutput.filter(
-            (node): node is Evaluate =>
-                node instanceof Evaluate &&
-                (node.is(PhraseType, project.getNodeContext(node)) ||
-                    node.is(VerseType, project.getNodeContext(node)))
-        ) ?? [];
+    /** Transform the selected Evaluate nodes into Output wrappers, filtering out anything that's not valid output. */
+    $: output = $selectedOutput
+        .map((evaluate) => new OutputExpression(project, evaluate))
+        .filter((out) => out.isOutput());
 
-    type Slider = {
-        type: 'slider';
-        min: number;
-        max: number;
-        step: number;
-        unit: string;
-    };
-
-    type Options = {
-        type: 'options';
-        options: (string | undefined)[];
-    };
-
-    type Color = {
-        type: 'color';
-    };
-
-    type OutputProperty = {
-        name: string;
-        editable: boolean | ((phrase: Evaluate) => boolean);
-        type: Slider | Options | Color;
-    };
-
-    type PropertyValues = (
-        | {
-              given: boolean;
-              value: Value | Expression | Expression[] | undefined;
-          }
-        | undefined
-    )[];
-
-    const fontProperty: OutputProperty = {
-        name: 'font',
-        type: {
-            type: 'options',
-            options: [undefined, ...SupportedFonts.map((font) => font.name)],
-        },
-        editable: true,
-    };
-
-    const phraseProperties: OutputProperty[] = [
-        fontProperty,
-        { name: 'color', type: { type: 'color' }, editable: true },
-        {
-            name: 'size',
-            type: { type: 'slider', min: 0.25, max: 32, step: 0.25, unit: 'm' },
-            editable: true,
-        },
-        {
-            name: 'opacity',
-            type: { type: 'slider', min: 0, max: 100, step: 1, unit: '%' },
-            editable: true,
-        },
-        {
-            name: 'rotation',
-            type: { type: 'slider', min: 0, max: 360, step: 1, unit: '°' },
-            editable: true,
-        },
-    ];
-
-    const verseProperties: OutputProperty[] = [
-        fontProperty,
-        { name: 'foreground', type: { type: 'color' }, editable: true },
-        { name: 'background', type: { type: 'color' }, editable: true },
-    ];
-
-    $: isVerse = nodes.some((node) =>
-        node.is(VerseType, project.getNodeContext(node))
-    );
-
-    $: currentType = isVerse ? VerseType : PhraseType;
-    $: currentProperties = isVerse ? verseProperties : phraseProperties;
-
-    let valuesByProperty: Record<string, PropertyValues> = {};
+    /** From the list of output, generate a list of properties that all output share. */
+    let propertyValues: Map<OutputProperty, OutputPropertyValues>;
     $: {
-        valuesByProperty = {};
-        if (project) {
-            for (const property of currentProperties)
-                valuesByProperty[property.name] = nodes.map((evaluate) =>
-                    getPropertyValue(evaluate, property.name)
-                );
-        }
-    }
-
-    function getPropertyValue(evaluate: Evaluate, name: string) {
-        // First, find the expressino the binding is mapped to, if any.
-        const binding = evaluate
-            .getInputMapping(currentType)
-            .inputs.find((mapping) => mapping.expected.names.hasName(name));
-
-        // Didn't find the binding? Undefined.
-        if (binding === undefined) return undefined;
-
-        // If the binding is mapped to a default value, get its value if a literal or its expression if not
-        const expression =
-            binding.given === undefined
-                ? binding.expected.value
-                : binding.given instanceof Bind
-                ? binding.given.value
-                : binding.given;
-        return {
-            given: binding.given !== undefined,
-            value:
-                expression instanceof Literal
-                    ? expression.getValue()
-                    : expression,
-        };
-    }
-
-    function getNumberProperty(
-        values: PropertyValues,
-        unit: string
-    ): number | undefined {
-        // If they're all equal number values, return the value.
-        let number: number | undefined = undefined;
-        for (const value of values) {
-            if (value?.value instanceof Measurement) {
-                const num = value.value.toNumber();
-                if (number === undefined) number = num;
-                else if (number !== num) return undefined;
-            } else return undefined;
-        }
-        return unit === '%' && number !== undefined ? number * 100 : number;
-    }
-
-    function getTextProperty(values: PropertyValues): string | undefined {
-        // If they're all equal text values, return the value.
-        let text: string | undefined = undefined;
-        for (const value of values) {
-            if (value?.value instanceof Text) {
-                const thisText = value.value.text;
-                if (text === undefined) text = thisText;
-                else if (thisText !== text) return undefined;
-            } else return undefined;
-        }
-        return text;
-    }
-
-    function getColorProperty(values: PropertyValues): Evaluate | undefined {
-        // If they're all equal color values, return the value.
-        let color: Evaluate | undefined = undefined;
-        for (const value of values) {
-            if (
-                value &&
-                value.value instanceof Evaluate &&
-                value.value.getFunction(project.getNodeContext(value.value)) ===
-                    ColorType
-            ) {
-                if (color === undefined) color = value.value;
-                else if (!color.equals(value.value)) return undefined;
-            } else return undefined;
-        }
-        return color;
-    }
-
-    function unsetProperty(name: string) {
-        const replacements: [Evaluate, Evaluate | undefined][] = nodes.map(
-            (evaluate) => [
-                evaluate,
-                project
-                    ? evaluate.withBindAs(
-                          name,
-                          undefined,
-                          project.getNodeContext(evaluate)
-                      )
-                    : undefined,
-            ]
+        // Make a set of all of the properties in the selection set
+        const properties = new Set<OutputProperty>(
+            output.reduce(
+                (
+                    all: OutputProperty[],
+                    out: OutputExpression
+                ): OutputProperty[] => [...all, ...out.getEditableProperties()],
+                []
+            )
         );
-        // Replace the old selected output with the new one
-        selectedOutput.set(
-            $selectedOutput.map((n) => {
-                const rep = replacements.find((rep) => rep[0] === n);
-                return rep === undefined || rep[1] === undefined ? n : rep[1];
-            })
-        );
-        // Update the project with the new sources.
-        updateProject(project.withRevisedNodes(replacements));
+        propertyValues = new Map();
+        // Map the properties to a set of values.
+        for (const property of properties) {
+            const values = new OutputPropertyValues(property.name, output);
+            if (!values.isEmpty()) propertyValues.set(property, values);
+        }
     }
 
     function addOutput() {
@@ -332,61 +165,35 @@
         >
     </div>
 
-    {#if nodes.length > 0}
+    {#if output.length > 0}
         <table>
-            {#each currentProperties as property}
-                {@const allSet = valuesByProperty[property.name].every(
-                    (val) => val?.given
-                )}
+            {#each Array.from(propertyValues.entries()) as [property, values]}
                 <tr class="property">
                     <td class="name"
                         ><Note
-                            >{currentType.inputs
-                                .find((input) =>
-                                    input.names.hasName(property.name)
-                                )
-                                ?.names?.getTranslation(
-                                    $preferredLanguages
-                                )}</Note
+                            >{values.getTranslation($preferredLanguages)}</Note
                         ></td
                     >
                     <td class="control">
                         <!-- {#if valuesByProperty[property.name].some((val) => val?.value instanceof Expression)}
                             <RootView node={parseFunction(toTokens('ƒ()'))} /> -->
-                        {#if property.type.type === 'slider'}
+                        {#if property.type instanceof OutputPropertyRange}
                             <BindSlider
-                                evaluates={nodes}
-                                name={property.name}
-                                value={getNumberProperty(
-                                    valuesByProperty[property.name],
-                                    property.type.unit
-                                )}
-                                min={property.type.min}
-                                max={property.type.max}
-                                unit={property.type.unit}
-                                increment={property.type.step}
-                                set={allSet}
+                                {property}
+                                {values}
+                                range={property.type}
                             />
-                        {:else if property.type.type === 'options'}
+                        {:else if property.type instanceof OutputPropertyOptions}
                             <BindOptions
-                                name={property.name}
-                                evaluates={nodes}
-                                value={getTextProperty(
-                                    valuesByProperty[property.name]
-                                )}
-                                options={property.type.options}
+                                {property}
+                                {values}
+                                options={property.type.values}
                             />
-                        {:else if property.type.type === 'color'}
-                            <BindColor
-                                evaluates={nodes}
-                                name={property.name}
-                                value={getColorProperty(
-                                    valuesByProperty[property.name]
-                                )}
-                            />
+                        {:else if property.type === 'color'}
+                            <BindColor {property} {values} />
                         {/if}
                     </td>
-                    <td class="revert">
+                    <!-- <td class="revert">
                         {#if allSet}
                             <Button
                                 tip={$preferredTranslations[0].ui.tooltip
@@ -395,7 +202,7 @@
                                 >x</Button
                             >
                         {/if}
-                    </td>
+                    </td> -->
                 </tr>
             {/each}
         </table>

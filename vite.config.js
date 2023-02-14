@@ -16,6 +16,7 @@ const config = {
             '@input': path.resolve('./src/input'),
             '@output': path.resolve('./src/output'),
             '@native': path.resolve('./src/native'),
+            '@transforms': path.resolve('./src/transforms'),
         },
     },
 };
