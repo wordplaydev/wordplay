@@ -14,6 +14,12 @@ import Text from '@runtime/Text';
 import { ColorType } from '@output/Color';
 import en from '../translation/translations/en';
 import type { NameTranslation } from '../translation/Translation';
+import { RowType } from '../output/Row';
+import { StackType } from '../output/Stack';
+import OutputPropertyRange from './OutputPropertyRange';
+import OutputPropertyOptions from './OutputPropertyOptions';
+import TextLiteral from '../nodes/TextLiteral';
+import Reference from '../nodes/Reference';
 
 /** Represents an editable property on the output expression, with some optional information about valid property values */
 export type OutputProperty = {
@@ -26,32 +32,10 @@ export type OutputProperty = {
     required: boolean;
 };
 
-export class OutputPropertyRange {
-    readonly min: number;
-    readonly max: number;
-    readonly step: number;
-    readonly unit: string;
-    constructor(min: number, max: number, step: number, unit: string) {
-        this.min = min;
-        this.max = max;
-        this.step = step;
-        this.unit = unit;
-    }
-}
-
 export class OutputPropertyText {
     readonly validator: (text: string) => boolean;
     constructor(validator: (text: string) => boolean) {
         this.validator = validator;
-    }
-}
-
-export class OutputPropertyOptions {
-    readonly values: string[];
-    readonly allowNone: boolean;
-    constructor(values: string[], allowNone: boolean) {
-        this.values = [...values];
-        this.allowNone = allowNone;
     }
 }
 
@@ -82,7 +66,12 @@ const OutputProperties: OutputProperty[] = [
         name: getTranslation(en.output.type.family.name),
         type: new OutputPropertyOptions(
             [...SupportedFonts.map((font) => font.name)],
-            true
+            true,
+            (text: string) => TextLiteral.make(text),
+            (expression: Expression | undefined) =>
+                expression instanceof TextLiteral
+                    ? expression.toWordplay()
+                    : undefined
         ),
         required: false,
     },
@@ -101,13 +90,34 @@ const OutputProperties: OutputProperty[] = [
                 ],
                 []
             ),
-            true
+            true,
+            (text: string) => TextLiteral.make(text),
+            (expression: Expression | undefined) =>
+                expression instanceof TextLiteral
+                    ? expression.toWordplay()
+                    : undefined
         ),
         required: false,
     },
     {
         name: getTranslation(en.output.type.name.name),
         type: new OutputPropertyText((text) => text.length > 0),
+        required: false,
+    },
+];
+
+const GroupProperties: OutputProperty[] = [
+    {
+        name: 'layout',
+        type: new OutputPropertyOptions(
+            [RowType, StackType].map((type) => `${type.names.getNames()[0]}`),
+            false,
+            (text: string) => Evaluate.make(Reference.make(text), []),
+            (expression: Expression | undefined) =>
+                expression instanceof Evaluate
+                    ? expression.func.toWordplay()
+                    : undefined
+        ),
         required: false,
     },
 ];
@@ -120,7 +130,6 @@ const VerseProperties: OutputProperty[] = [
     },
 ];
 
-const GroupProperties: OutputProperty[] = [];
 const PhraseProperties: OutputProperty[] = [];
 
 /**

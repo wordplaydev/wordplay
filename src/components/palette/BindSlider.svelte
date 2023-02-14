@@ -3,10 +3,8 @@
     import { parseMeasurement, toTokens } from '@parser/Parser';
     import Slider from '../widgets/Slider.svelte';
     import type OutputPropertyValues from '@transforms/OutputPropertyValueSet';
-    import type {
-        OutputProperty,
-        OutputPropertyRange,
-    } from '@transforms/OutputExpression';
+    import type OutputPropertyRange from '@transforms/OutputPropertyRange';
+    import type { OutputProperty } from '@transforms/OutputExpression';
 
     export let property: OutputProperty;
     export let values: OutputPropertyValues;

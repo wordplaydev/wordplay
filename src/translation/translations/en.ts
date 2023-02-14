@@ -1754,7 +1754,7 @@ const en: Translation = {
         group: {
             definition: { doc: WRITE_DOC, name: ['🔳', 'Group'] },
             content: { doc: WRITE_DOC, name: 'content' },
-            arrangement: { doc: WRITE_DOC, name: 'arrangement' },
+            arrangement: { doc: WRITE_DOC, name: 'layout' },
         },
         phrase: {
             definition: { doc: WRITE_DOC, name: ['💬', 'Phrase'] },
@@ -1794,7 +1794,7 @@ const en: Translation = {
             rotation: { doc: WRITE_DOC, name: 'rotation' },
         },
         row: {
-            definition: { doc: WRITE_DOC, name: ['Row'] },
+            definition: { doc: WRITE_DOC, name: ['➡', 'Row'] },
             description: WRITE_DOC,
             padding: { doc: WRITE_DOC, name: 'padding' },
         },

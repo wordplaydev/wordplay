@@ -18,14 +18,14 @@
     import Reference from '@nodes/Reference';
     import { StackType } from '@output/Stack';
     import TextLiteral from '@nodes/TextLiteral';
+    import OutputPropertyRange from '@transforms/OutputPropertyRange';
+    import OutputValueSet from '@transforms/OutputPropertyValueSet';
+    import BindText from './BindText.svelte';
     import OutputExpression, {
-        OutputPropertyOptions,
-        OutputPropertyRange,
         OutputPropertyText,
         type OutputProperty,
     } from '@transforms/OutputExpression';
-    import OutputValueSet from '@transforms/OutputPropertyValueSet';
-    import BindText from './BindText.svelte';
+    import OutputPropertyOptions from '../../transforms/OutputPropertyOptions';
 
     export let project: Project;
 
@@ -183,12 +183,7 @@
                 {#if property.type instanceof OutputPropertyRange}
                     <BindSlider {property} {values} range={property.type} />
                 {:else if property.type instanceof OutputPropertyOptions}
-                    <BindOptions
-                        {property}
-                        {values}
-                        options={property.type.values}
-                        allowNone={property.type.allowNone}
-                    />
+                    <BindOptions {property} {values} options={property.type} />
                 {:else if property.type instanceof OutputPropertyText}
                     <BindText
                         {property}

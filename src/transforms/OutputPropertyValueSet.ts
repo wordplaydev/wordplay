@@ -4,7 +4,7 @@ import type Evaluate from '../nodes/Evaluate';
 import Expression from '../nodes/Expression';
 import Measurement from '../runtime/Measurement';
 import Text from '../runtime/Text';
-import type Value from '../runtime/Value';
+import Value from '../runtime/Value';
 import type LanguageCode from '../translation/LanguageCode';
 import type OutputExpression from './OutputExpression';
 import type { OutputPropertyValue } from './OutputExpression';
@@ -40,6 +40,16 @@ export default class OutputPropertyValueSet {
             else if (!candidate.value.isEqualTo(value)) return undefined;
         }
         return value;
+    }
+
+    getExpression(): Expression | undefined {
+        let expr: Expression | undefined;
+        for (const candidate of this.values) {
+            if (candidate.value instanceof Value) return undefined;
+            else if (expr === undefined) expr = candidate.value;
+            else if (!candidate.value.equals(expr)) return undefined;
+        }
+        return expr;
     }
 
     getNumber() {
