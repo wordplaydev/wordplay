@@ -376,41 +376,32 @@
         // If we found the node in the project, add it to the selection.
         const evaluate = getOutputNodeFromID(getOutputNodeIDUnderMouse(event));
         if (evaluate) {
-            selectedOutput.set([evaluate]);
+            // If the shift key is down
+            let newSelection: Evaluate[];
+            if (event.shiftKey) {
+                const index = $selectedOutput.indexOf(evaluate);
+                // If it's in the set, remove it.
+                if (index >= 0) {
+                    newSelection = [
+                        ...$selectedOutput.slice(0, index),
+                        ...$selectedOutput.slice(index + 1),
+                    ];
+                } else {
+                    newSelection = [...$selectedOutput, evaluate];
+                }
+            }
+            // Otherise, set the selection to the selection.
+            else newSelection = [evaluate];
+
+            // Update the selection
+            selectedOutput.set(newSelection);
+
             // Focus it too, for keyboard output.
             const outputView = view?.querySelector(
                 `[data-node-id="${evaluate.id}"`
             );
             if (outputView instanceof HTMLElement) outputView.focus();
         }
-
-        // const nodes = $selectedOutput;
-        // const index = nodes.indexOf(verse.value.creator);
-
-        // // If the creator of this verse is a verse, toggle it's selection
-        // if (
-        //     verse.value.creator instanceof Evaluate &&
-        //     verse.value.creator.is(
-        //         VerseType,
-        //         project.getNodeContext(verse.value.creator)
-        //     )
-        // ) {
-        //     // If we clicked directly on this, set the selection to only this
-        //     if (
-        //         event.target instanceof Element &&
-        //         event.target.closest('.phrase') === null
-        //     ) {
-        //         selectedOutput.set(index >= 0 ? [] : [verse.value.creator]);
-        //     }
-        //     // Otherwise, remove this from the selection
-        //     else if ($selectedOutput) {
-        //         if (index >= 0)
-        //             selectedOutput.set([
-        //                 ...nodes.slice(0, index),
-        //                 ...nodes.slice(index + 1),
-        //             ]);
-        //     }
-        // }
 
         return true;
     }
