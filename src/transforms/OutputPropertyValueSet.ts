@@ -1,4 +1,5 @@
 import type Project from '../models/Project';
+import { reviseProject } from '../models/stores';
 import type Evaluate from '../nodes/Evaluate';
 import Expression from '../nodes/Expression';
 import Measurement from '../runtime/Measurement';
@@ -72,5 +73,17 @@ export default class OutputPropertyValueSet {
     }
 
     /** Given a project, unsets this property on expressions on which it is set. */
-    unset(project: Project) {}
+    unset(project: Project) {
+        // Find all the values that are given, then map them to [ Evaluate, Evaluate ] pairs
+        // that represent the original Evaluate and the replacement without the given value.
+        reviseProject(
+            project.getBindReplacements(
+                this.values
+                    .filter((value) => value.given)
+                    .map((value) => value.evaluate),
+                this.name,
+                undefined
+            )
+        );
+    }
 }

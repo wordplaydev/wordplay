@@ -48,8 +48,10 @@ export class OutputPropertyText {
 
 export class OutputPropertyOptions {
     readonly values: string[];
-    constructor(values: string[]) {
+    readonly allowNone: boolean;
+    constructor(values: string[], allowNone: boolean) {
         this.values = [...values];
+        this.allowNone = allowNone;
     }
 }
 
@@ -78,9 +80,10 @@ const OutputProperties: OutputProperty[] = [
     },
     {
         name: getTranslation(en.output.type.family.name),
-        type: new OutputPropertyOptions([
-            ...SupportedFonts.map((font) => font.name),
-        ]),
+        type: new OutputPropertyOptions(
+            [...SupportedFonts.map((font) => font.name)],
+            true
+        ),
         required: false,
     },
     {
@@ -97,7 +100,8 @@ const OutputProperties: OutputProperty[] = [
                     ...(Array.isArray(next) ? next : [next]),
                 ],
                 []
-            )
+            ),
+            true
         ),
         required: false,
     },

@@ -7,7 +7,8 @@
 
     export let property: OutputProperty;
     export let values: OutputPropertyValues;
-    export let options: (undefined | string)[];
+    export let options: string[];
+    export let allowNone: boolean;
 
     // Whenever the slider value changes, revise the Evaluates to match the new value.
     function handleChange(newValue: string | undefined) {
@@ -22,4 +23,8 @@
     }
 </script>
 
-<Options value={values.getText()} {options} change={handleChange} />
+<Options
+    value={values.getText()}
+    options={allowNone ? [undefined, ...options] : options}
+    change={handleChange}
+/>

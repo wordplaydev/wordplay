@@ -187,6 +187,7 @@
                         {property}
                         {values}
                         options={property.type.values}
+                        allowNone={property.type.allowNone}
                     />
                 {:else if property.type instanceof OutputPropertyText}
                     <BindText
