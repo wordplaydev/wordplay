@@ -11,7 +11,6 @@
     import BindOptions from './BindOptions.svelte';
     import { VerseType } from '@output/Verse';
     import type Project from '../../models/Project';
-    import BindColor from './BindColor.svelte';
     import type Node from '@nodes/Node';
     import StructureDefinition from '@nodes/StructureDefinition';
     import { GroupType } from '@output/Group';
@@ -26,6 +25,7 @@
         type OutputProperty,
     } from '@transforms/OutputExpression';
     import OutputPropertyOptions from '@transforms/OutputPropertyOptions';
+    import ColorChooser from '../widgets/ColorChooser.svelte';
 
     export let project: Project;
 
@@ -196,7 +196,8 @@
                         validator={property.type.validator}
                     />
                 {:else if property.type === 'color'}
-                    <BindColor {property} {values} />
+                    <ColorChooser />
+                    <!-- <BindColor {property} {values} /> -->
                 {/if}
             </div>
         </div>
