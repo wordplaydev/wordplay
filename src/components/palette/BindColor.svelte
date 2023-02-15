@@ -54,7 +54,8 @@
                 );
                 const number =
                     mapping && mapping.given instanceof MeasurementLiteral
-                        ? mapping.given.getValue().toNumber()
+                        ? mapping.given.getValue().toNumber() *
+                          (name === 'lightness' ? 100 : 1)
                         : undefined;
                 return number;
             }
