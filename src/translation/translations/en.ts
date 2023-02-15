@@ -1657,6 +1657,9 @@ const en: Translation = {
             docs: '📕',
             palette: '🎨',
         },
+        headers: {
+            editing: 'editing',
+        },
     },
     input: {
         random: {

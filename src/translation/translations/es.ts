@@ -1613,6 +1613,9 @@ const eng_wordplay: Translation = {
             docs: '📕',
             palette: '🎨',
         },
+        headers: {
+            editing: 'editing',
+        },
     },
     input: {
         random: {

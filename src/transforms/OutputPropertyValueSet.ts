@@ -15,13 +15,15 @@ import type { OutputPropertyValue } from './OutputExpression';
  */
 export default class OutputPropertyValueSet {
     readonly name: string;
+    readonly outputs: OutputExpression[];
     readonly values: OutputPropertyValue[];
 
     /** Constructs a set of values given a set of expressions and a name on them. */
-    constructor(name: string, output: OutputExpression[]) {
+    constructor(name: string, outputs: OutputExpression[]) {
         this.name = name;
+        this.outputs = outputs;
         this.values = [];
-        for (const out of output) {
+        for (const out of outputs) {
             const value = out.getPropertyValue(name);
             if (value) this.values.push(value);
         }
@@ -72,6 +74,10 @@ export default class OutputPropertyValueSet {
 
     isEmpty() {
         return this.values.length === 0;
+    }
+
+    onAll() {
+        return this.values.length === this.outputs.length;
     }
 
     isDefault() {

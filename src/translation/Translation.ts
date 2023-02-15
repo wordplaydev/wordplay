@@ -767,6 +767,9 @@ type Translation = {
             docs: string;
             palette: string;
         };
+        headers: {
+            editing: string;
+        };
     };
     input: {
         random: NameAndDocTranslation & {

@@ -54,7 +54,8 @@
         for (const property of properties) {
             const values = new OutputValueSet(property.name, outputs);
             // Exclue any properties that happen to have no values.
-            if (!values.isEmpty()) propertyValues.set(property, values);
+            if (!values.isEmpty() && values.onAll())
+                propertyValues.set(property, values);
         }
     }
 
@@ -162,6 +163,10 @@
 </script>
 
 <section class="palette" tabIndex="0">
+    <h2
+        >{$preferredTranslations.map((t) => t.ui.headers.editing).join(' ')}
+        {outputs.map((output) => output.node.func.toWordplay()).join(', ')}
+    </h2>
     <div class="actions">
         <Button
             tip={$preferredTranslations[0].ui.tooltip.addPhrase}
