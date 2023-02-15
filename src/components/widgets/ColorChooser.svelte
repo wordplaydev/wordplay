@@ -12,6 +12,8 @@
         );
     }
 
+    const MaxChroma = 100;
+
     /** 0-1 => 0-359 */
     function percentToHue(percent: number) {
         return 360 * Math.max(0, Math.min(1, percent));
@@ -24,14 +26,16 @@
 
     /** 0-1 => 0-100 */
     function percentToChroma(percent: number) {
-        return 100 * Math.sqrt(Math.max(0, Math.min(1, percent)));
+        return MaxChroma * Math.sqrt(Math.max(0, Math.min(1, percent)));
     }
 
     function chromaToPercent(value: number) {
-        return Math.pow(value / 100, 2);
+        return Math.pow(value / MaxChroma, 2);
     }
 
-    const Bands = [1, 0.8, 0.6, 0.4, 0.2, 0].map((val) => percentToChroma(val));
+    const Bands = [1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0].map(
+        (val) => percentToChroma(val)
+    );
 </script>
 
 <script lang="ts">
@@ -66,7 +70,7 @@
         bind:clientWidth={hueWidth}
         bind:clientHeight={hueHeight}
     >
-        {#each [100, 90, 80, 50, 30, 0] as val}
+        {#each Bands as val}
             <div
                 class="band"
                 style:height="{100 / Bands.length}%"
