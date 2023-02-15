@@ -25,7 +25,7 @@
         OutputPropertyText,
         type OutputProperty,
     } from '@transforms/OutputExpression';
-    import OutputPropertyOptions from '../../transforms/OutputPropertyOptions';
+    import OutputPropertyOptions from '@transforms/OutputPropertyOptions';
 
     export let project: Project;
 

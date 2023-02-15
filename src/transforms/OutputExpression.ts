@@ -130,7 +130,13 @@ const VerseProperties: OutputProperty[] = [
     },
 ];
 
-const PhraseProperties: OutputProperty[] = [];
+const PhraseProperties: OutputProperty[] = [
+    {
+        name: getTranslation(en.output.phrase.text.name),
+        type: new OutputPropertyText(() => true),
+        required: true,
+    },
+];
 
 /**
  * A wrapper for Evaluate nodes that represent output.
