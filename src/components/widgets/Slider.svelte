@@ -76,12 +76,12 @@
 
     input[type='range']::-webkit-slider-runnable-track {
         background: var(--wordplay-border-color);
-        height: var(--wordplay-focus-width);
+        height: calc(2 * var(--wordplay-border-width));
     }
 
     input[type='range']::-moz-range-track {
         background: var(--wordplay-border-color);
-        height: var(--wordplay-focus-width);
+        height: calc(2 * var(--wordplay-border-width));
     }
 
     input[type='range']::-webkit-slider-thumb {

@@ -28,7 +28,7 @@
         border: none;
         padding: var(--wordplay-spacing);
         border-bottom: var(--wordplay-disabled-color) solid
-            var(--wordplay-focus-width);
+            calc(2 * var(--wordplay-border-width));
     }
 
     input:focus {
