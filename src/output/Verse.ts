@@ -181,7 +181,10 @@ export function toVerse(value: Value): Verse | undefined {
             style,
         } = getStyle(value);
 
-        return content && background && duration && style
+        return content !== undefined &&
+            background !== undefined &&
+            duration !== undefined &&
+            style !== undefined
             ? new Verse(
                   value,
                   Array.isArray(content) ? content : [content],
