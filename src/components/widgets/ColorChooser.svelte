@@ -11,6 +11,27 @@
                 .toString()
         );
     }
+
+    /** 0-1 => 0-359 */
+    function percentToHue(percent: number) {
+        return 360 * Math.max(0, Math.min(1, percent));
+    }
+
+    /** 0-359 => 0-1 */
+    function hueToPercent(hue: number) {
+        return hue / 360;
+    }
+
+    /** 0-1 => 0-100 */
+    function percentToChroma(percent: number) {
+        return 100 * Math.sqrt(Math.max(0, Math.min(1, percent)));
+    }
+
+    function chromaToPercent(value: number) {
+        return Math.pow(value / 100, 2);
+    }
+
+    const Bands = [1, 0.8, 0.6, 0.4, 0.2, 0].map((val) => percentToChroma(val));
 </script>
 
 <script lang="ts">
@@ -32,9 +53,8 @@
             hueHeight === undefined
         )
             return;
-        hue = 360 * Math.max(0, Math.min(1, event.offsetX / hueWidth));
-        chroma =
-            100 * (1 - Math.max(0, Math.min(1, event.offsetY / hueHeight)));
+        hue = percentToHue(event.offsetX / hueWidth);
+        chroma = percentToChroma(1 - event.offsetY / hueHeight);
     }
 </script>
 
@@ -46,9 +66,10 @@
         bind:clientWidth={hueWidth}
         bind:clientHeight={hueHeight}
     >
-        {#each [100, 90, 80, 70, 60, 50, 40, 30, 20, 10, 0] as val}
+        {#each [100, 90, 80, 50, 30, 0] as val}
             <div
                 class="band"
+                style:height="{100 / Bands.length}%"
                 style:background="linear-gradient(to right, {getColors(
                     lightness,
                     val
@@ -58,8 +79,8 @@
 
         <div
             class="selection"
-            style:left="{(hue / 360) * hueWidth}px"
-            style:top="{((100 - chroma) / 100) * hueHeight}px"
+            style:left="{hueToPercent(hue) * hueWidth}px"
+            style:top="{(1 - chromaToPercent(chroma)) * hueHeight}px"
         />
     </div>
     <div class="slider">
@@ -100,7 +121,6 @@
 
     .band {
         width: 100%;
-        height: 10%;
         pointer-events: none;
     }
 
