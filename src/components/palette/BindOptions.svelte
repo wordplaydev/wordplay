@@ -9,7 +9,7 @@
     export let values: OutputPropertyValues;
     export let options: OutputPropertyOptions;
 
-    // Whenever the slider value changes, revise the Evaluates to match the new value.
+    // Whenever the drop down value changes, revise the Evaluates to match the new value.
     function handleChange(newValue: string | undefined) {
         if ($project === undefined) return;
         reviseProject(

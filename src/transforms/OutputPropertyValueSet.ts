@@ -88,6 +88,10 @@ export default class OutputPropertyValueSet {
         return this.values.some((val) => val.given);
     }
 
+    getDocs(languages: LanguageCode[]) {
+        return this.values[0]?.bind.docs?.getTranslation(languages);
+    }
+
     /** Given a project, unsets this property on expressions on which it is set. */
     unset(project: Project) {
         // Find all the values that are given, then map them to [ Evaluate, Evaluate ] pairs

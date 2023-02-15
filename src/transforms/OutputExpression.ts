@@ -101,7 +101,7 @@ const OutputProperties: OutputProperty[] = [
     },
     {
         name: getTranslation(en.output.type.name.name),
-        type: new OutputPropertyText((text) => text.length > 0),
+        type: new OutputPropertyText(() => true),
         required: false,
     },
 ];
