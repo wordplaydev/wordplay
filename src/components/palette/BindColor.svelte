@@ -47,10 +47,10 @@
         if ($project === undefined) return undefined;
         // The value of this facet on every value selected.
         const facets = values.values.map((val) => {
-            if ($project && val instanceof Evaluate) {
-                const mapping = val.getMappingFor(
+            if ($project && val.expression instanceof Evaluate) {
+                const mapping = val.expression.getMappingFor(
                     name,
-                    $project.getNodeContext(val)
+                    $project.getNodeContext(val.expression)
                 );
                 const number =
                     mapping && mapping.given instanceof MeasurementLiteral

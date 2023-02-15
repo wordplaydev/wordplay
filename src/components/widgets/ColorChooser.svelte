@@ -40,11 +40,11 @@
 
 <script lang="ts">
     /** a degree (any number remainder 360) */
-    export let hue: number = 0;
+    export let hue: number;
     /** any positive value to infinity */
-    export let chroma: number = 100;
+    export let chroma: number;
     /** 0-100 */
-    export let lightness: number = 50;
+    export let lightness: number;
     /** A handler */
     export let change: (l: number, c: number, h: number) => void;
 

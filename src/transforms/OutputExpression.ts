@@ -5,7 +5,9 @@ import { PhraseType } from '@output/Phrase';
 import { VerseType } from '@output/Verse';
 import { SupportedFonts } from '../native/Fonts';
 import type StructureDefinition from '@nodes/StructureDefinition';
-import Expression from '../nodes/Expression';
+import Expression from '@nodes/Expression';
+import TextLiteral from '@nodes/TextLiteral';
+import Reference from '@nodes/Reference';
 import type Value from '@runtime/Value';
 import Bind from '@nodes/Bind';
 import Literal from '@nodes/Literal';
@@ -14,12 +16,10 @@ import Text from '@runtime/Text';
 import { ColorType } from '@output/Color';
 import en from '../translation/translations/en';
 import type { NameTranslation } from '../translation/Translation';
-import { RowType } from '../output/Row';
-import { StackType } from '../output/Stack';
+import { RowType } from '@output/Row';
+import { StackType } from '@output/Stack';
 import OutputPropertyRange from './OutputPropertyRange';
 import OutputPropertyOptions from './OutputPropertyOptions';
-import TextLiteral from '../nodes/TextLiteral';
-import Reference from '../nodes/Reference';
 
 /** Represents an editable property on the output expression, with some optional information about valid property values */
 export type OutputProperty = {
