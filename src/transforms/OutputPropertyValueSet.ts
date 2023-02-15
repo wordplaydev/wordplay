@@ -1,10 +1,10 @@
 import type Project from '../models/Project';
 import { reviseProject } from '../models/stores';
 import type Evaluate from '../nodes/Evaluate';
-import Expression from '../nodes/Expression';
+import type Expression from '../nodes/Expression';
 import Measurement from '../runtime/Measurement';
 import Text from '../runtime/Text';
-import Value from '../runtime/Value';
+import type Value from '../runtime/Value';
 import type LanguageCode from '../translation/LanguageCode';
 import type OutputExpression from './OutputExpression';
 import type { OutputPropertyValue } from './OutputExpression';
@@ -37,7 +37,7 @@ export default class OutputPropertyValueSet {
     getValue(): Value | undefined {
         let value: Value | undefined;
         for (const candidate of this.values) {
-            if (candidate.value instanceof Expression) return undefined;
+            if (candidate.value === undefined) return undefined;
             else if (value === undefined) value = candidate.value;
             else if (!candidate.value.isEqualTo(value)) return undefined;
         }
@@ -47,9 +47,9 @@ export default class OutputPropertyValueSet {
     getExpression(): Expression | undefined {
         let expr: Expression | undefined;
         for (const candidate of this.values) {
-            if (candidate.value instanceof Value) return undefined;
-            else if (expr === undefined) expr = candidate.value;
-            else if (!candidate.value.equals(expr)) return undefined;
+            if (candidate.expression === undefined) return undefined;
+            else if (expr === undefined) expr = candidate.expression;
+            else if (!candidate.expression.equals(expr)) return undefined;
         }
         return expr;
     }

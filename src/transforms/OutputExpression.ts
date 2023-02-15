@@ -5,7 +5,7 @@ import { PhraseType } from '@output/Phrase';
 import { VerseType } from '@output/Verse';
 import { SupportedFonts } from '../native/Fonts';
 import type StructureDefinition from '@nodes/StructureDefinition';
-import type Expression from '../nodes/Expression';
+import Expression from '../nodes/Expression';
 import type Value from '@runtime/Value';
 import Bind from '@nodes/Bind';
 import Literal from '@nodes/Literal';
@@ -47,8 +47,9 @@ export class OutputPropertyText {
 export type OutputPropertyValue = {
     evaluate: Evaluate;
     bind: Bind;
+    expression: Expression | undefined;
     given: boolean;
-    value: Value | Expression;
+    value: Value | undefined;
 };
 
 function getTranslation(name: NameTranslation) {
@@ -70,7 +71,7 @@ const OutputProperties: OutputProperty[] = [
             (text: string) => TextLiteral.make(text),
             (expression: Expression | undefined) =>
                 expression instanceof TextLiteral
-                    ? expression.toWordplay()
+                    ? expression.getValue().text
                     : undefined
         ),
         required: false,
@@ -230,10 +231,12 @@ export default class OutputExpression {
             evaluate: this.node,
             bind: binding.expected,
             given: binding.given !== undefined,
+            expression:
+                expression instanceof Expression ? expression : undefined,
             value:
                 expression instanceof Literal
                     ? expression.getValue()
-                    : expression,
+                    : undefined,
         };
     }
 
