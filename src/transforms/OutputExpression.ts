@@ -78,7 +78,7 @@ const OutputProperties: OutputProperty[] = [
     },
     {
         name: getTranslation(en.output.type.duration.name),
-        type: new OutputPropertyRange(0, 2, 0.25, 's'),
+        type: new OutputPropertyRange(0, 2, 0.25, 's', 2),
         required: false,
     },
     {

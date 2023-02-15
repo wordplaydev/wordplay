@@ -6,8 +6,9 @@
     export let increment: number;
     export let change: (value: number) => void;
     export let isDefault: boolean;
+    export let precision: number = 0;
 
-    function handleChange(event: Event) {
+    function handleChange() {
         if (value !== undefined) change(value);
     }
 </script>
@@ -27,7 +28,7 @@
         {#if value === undefined}
             ø
         {:else}
-            {value.toFixed(0) + unit}
+            {value.toFixed(precision) + unit}
         {/if}
     </div>
 </div>

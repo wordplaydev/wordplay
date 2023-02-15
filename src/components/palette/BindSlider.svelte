@@ -32,4 +32,5 @@
     increment={range.step}
     change={handleChange}
     isDefault={values.isDefault()}
+    precision={range.precision}
 />

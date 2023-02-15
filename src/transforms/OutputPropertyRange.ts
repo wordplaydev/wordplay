@@ -3,10 +3,18 @@ export default class OutputPropertyRange {
     readonly max: number;
     readonly step: number;
     readonly unit: string;
-    constructor(min: number, max: number, step: number, unit: string) {
+    readonly precision: number = 0;
+    constructor(
+        min: number,
+        max: number,
+        step: number,
+        unit: string,
+        precision: number = 0
+    ) {
         this.min = min;
         this.max = max;
         this.step = step;
         this.unit = unit;
+        this.precision = precision;
     }
 }
