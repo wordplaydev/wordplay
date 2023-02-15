@@ -24,49 +24,54 @@
     $: color = new ColorJS(ColorJS.spaces.lch, [lightness, chroma, hue], 1);
 
     let hueWidth: number | undefined = undefined;
-
+    let hueHeight: number | undefined = undefined;
     function handleMouseMove(event: MouseEvent) {
-        if (event.buttons !== 1 || hueWidth === undefined) return;
+        if (
+            event.buttons !== 1 ||
+            hueWidth === undefined ||
+            hueHeight === undefined
+        )
+            return;
         hue = 360 * Math.max(0, Math.min(1, event.offsetX / hueWidth));
+        chroma =
+            100 * (1 - Math.max(0, Math.min(1, event.offsetY / hueHeight)));
     }
 </script>
 
 <div class="component">
-    <div class="chooser">
+    <div
+        class="hue"
+        on:mousedown={handleMouseMove}
+        on:mousemove={handleMouseMove}
+        bind:clientWidth={hueWidth}
+        bind:clientHeight={hueHeight}
+    >
+        {#each [100, 90, 80, 70, 60, 50, 40, 30, 20, 10, 0] as val}
+            <div
+                class="band"
+                style:background="linear-gradient(to right, {getColors(
+                    lightness,
+                    val
+                ).join(', ')})"
+            />
+        {/each}
+
         <div
-            class="hue"
-            style:background="linear-gradient(to right, {getColors(
-                lightness,
-                chroma
-            ).join(', ')})"
-            on:mousedown={handleMouseMove}
-            on:mousemove={handleMouseMove}
-            bind:clientWidth={hueWidth}
-            ><div
-                class="selection"
-                style:left="{(hue / 360) * hueWidth}px"
-            /></div
-        >
-        <div class="sliders">
-            <Slider
-                value={chroma}
-                min={0}
-                max={100}
-                increment={1}
-                unit={''}
-                change={(value) => (chroma = value)}
-                isDefault={false}
-            />
-            <Slider
-                value={lightness}
-                min={0}
-                max={100}
-                increment={1}
-                unit={'%'}
-                change={(value) => (lightness = value)}
-                isDefault={false}
-            />
-        </div>
+            class="selection"
+            style:left="{(hue / 360) * hueWidth}px"
+            style:top="{((100 - chroma) / 100) * hueHeight}px"
+        />
+    </div>
+    <div class="slider">
+        <Slider
+            value={lightness}
+            min={0}
+            max={100}
+            increment={1}
+            unit={'%'}
+            change={(value) => (lightness = value)}
+            isDefault={false}
+        />
     </div>
     <div class="color" style:background-color={color.to('srgb').toString()} />
 </div>
@@ -76,39 +81,42 @@
         width: 100%;
         display: flex;
         flex-direction: row;
-        gap: var(--wordplay-spacing);
-    }
-
-    .chooser {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        gap: var(--wordplay-spacing);
-    }
-
-    .sliders {
-        display: flex;
-        flex-direction: row;
+        flex-wrap: wrap;
         gap: var(--wordplay-spacing);
     }
 
     .hue {
-        height: 1em;
+        flex-grow: 1;
+        height: 2rem;
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
+        display: flex;
+        flex-direction: column;
+        position: relative;
+    }
+
+    .slider {
+        flex-grow: 0;
+    }
+
+    .band {
+        width: 100%;
+        height: 10%;
+        pointer-events: none;
     }
 
     .selection {
-        position: relative;
-        top: 0;
-        height: 100%;
-        width: 2px;
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        transform: translate(-2px, -2px);
         background: var(--wordplay-background);
         pointer-events: none;
     }
 
     .color {
-        width: 3rem;
-        height: 3rem;
+        width: auto;
+        min-width: 2rem;
+        height: 2rem;
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
     }
 </style>
