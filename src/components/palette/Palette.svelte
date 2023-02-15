@@ -25,7 +25,7 @@
         type OutputProperty,
     } from '@transforms/OutputExpression';
     import OutputPropertyOptions from '@transforms/OutputPropertyOptions';
-    import ColorChooser from '../widgets/ColorChooser.svelte';
+    import BindColor from './BindColor.svelte';
 
     export let project: Project;
 
@@ -196,8 +196,7 @@
                         validator={property.type.validator}
                     />
                 {:else if property.type === 'color'}
-                    <ColorChooser />
-                    <!-- <BindColor {property} {values} /> -->
+                    <BindColor {property} {values} />
                 {/if}
             </div>
         </div>
@@ -220,6 +219,10 @@
         gap: var(--wordplay-spacing);
     }
 
+    h3 {
+        margin: 0;
+    }
+
     .actions {
         padding: var(--wordplay-spacing);
         display: flex;
@@ -235,7 +238,7 @@
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
-        align-items: baseline;
+        align-items: center;
         gap: var(--wordplay-spacing);
         row-gap: var(--wordplay-spacing);
     }

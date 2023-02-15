@@ -45,8 +45,14 @@
     export let chroma: number = 100;
     /** 0-100 */
     export let lightness: number = 50;
+    /** A handler */
+    export let change: (l: number, c: number, h: number) => void;
 
-    $: color = new ColorJS(ColorJS.spaces.lch, [lightness, chroma, hue], 1);
+    let color: ColorJS;
+    $: {
+        color = new ColorJS(ColorJS.spaces.lch, [lightness, chroma, hue], 1);
+        change(lightness, chroma, hue);
+    }
 
     let hueWidth: number | undefined = undefined;
     let hueHeight: number | undefined = undefined;
@@ -57,8 +63,8 @@
             hueHeight === undefined
         )
             return;
-        hue = percentToHue(event.offsetX / hueWidth);
-        chroma = percentToChroma(1 - event.offsetY / hueHeight);
+        hue = Math.round(percentToHue(event.offsetX / hueWidth));
+        chroma = Math.round(percentToChroma(1 - event.offsetY / hueHeight));
     }
 </script>
 
@@ -94,7 +100,7 @@
             max={100}
             increment={1}
             unit={'%'}
-            change={(value) => (lightness = value)}
+            change={(value) => (lightness = Math.round(value))}
             isDefault={false}
         />
     </div>
@@ -120,7 +126,7 @@
     }
 
     .slider {
-        flex-grow: 0;
+        width: 40%;
     }
 
     .band {

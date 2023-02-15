@@ -49,10 +49,10 @@
     }
 
     .text {
-        width: 3em;
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: nowrap;
+        font-size: small;
     }
 
     .isDefault {
@@ -64,12 +64,10 @@
         margin: 0 0;
         /* width: 5em; */
         background: none;
-    }
-
-    /* Reset Remove main styling */
-    input[type='range'] {
         appearance: none;
         -webkit-appearance: none;
+        /* Allow for it to be tiny */
+        min-width: 2em;
     }
 
     input[type='range']:focus {
@@ -78,12 +76,12 @@
 
     input[type='range']::-webkit-slider-runnable-track {
         background: var(--wordplay-border-color);
-        height: var(--wordplay-border-width);
+        height: var(--wordplay-focus-width);
     }
 
     input[type='range']::-moz-range-track {
         background: var(--wordplay-border-color);
-        height: var(--wordplay-border-width);
+        height: var(--wordplay-focus-width);
     }
 
     input[type='range']::-webkit-slider-thumb {
