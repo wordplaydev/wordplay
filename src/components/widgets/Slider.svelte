@@ -12,7 +12,7 @@
     }
 </script>
 
-<div class="control">
+<div class="component">
     <input
         class="slider"
         type="range"
@@ -33,13 +33,14 @@
 </div>
 
 <style>
-    .control {
+    .component {
         white-space: nowrap;
         display: flex;
         flex-direction: row;
         gap: var(--wordplay-spacing);
         align-items: center;
         height: 2em;
+        width: 100%;
     }
 
     .slider {
