@@ -245,14 +245,13 @@
         user-select: none;
         min-width: 100%;
         min-height: 100%;
-        padding-left: var(--wordplay-spacing);
-        padding-right: var(--wordplay-spacing);
+        padding: calc(2 * var(--wordplay-spacing));
 
         display: flex;
         flex-direction: column;
         flex-wrap: nowrap;
         align-items: left;
-        gap: var(--wordplay-spacing);
+        gap: calc(2 * var(--wordplay-spacing));
     }
 
     .palette:focus {
