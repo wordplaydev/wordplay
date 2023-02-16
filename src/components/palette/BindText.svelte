@@ -4,6 +4,7 @@
     import TextField from '../widgets/TextField.svelte';
     import { project, reviseProject } from '../../models/stores';
     import TextLiteral from '@nodes/TextLiteral';
+    import { preferredLanguages } from '../../translation/translations';
 
     export let property: OutputProperty;
     export let values: OutputPropertyValues;
@@ -24,7 +25,9 @@
 
 <TextField
     text={values.getText()}
-    placeholder={'—'}
+    placeholder={values.isEmpty()
+        ? ''
+        : values.values[0].bind.names.getTranslation($preferredLanguages)}
     {validator}
     changed={handleChange}
 />
