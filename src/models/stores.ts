@@ -1,6 +1,6 @@
 import { get, writable, type Writable } from 'svelte/store';
 import { examples, makeProject } from '../examples/examples';
-import type { StreamChange } from '@runtime/Evaluator';
+import { Mode, type StreamChange } from '@runtime/Evaluator';
 import type Step from '@runtime/Step';
 import type Project from './Project';
 import type Conflict from '@conflicts/Conflict';
@@ -55,7 +55,22 @@ export function updateProject(newProject: Project | undefined) {
     const oldProject = get(project);
     if (oldProject) oldProject.cleanup();
 
-    if (newProject) newProject.evaluator.observe(updateEvaluatorStores);
+    if (newProject) {
+        // If there was an old project, transfer some state.
+        if (oldProject) {
+            const isPlaying = get(playing);
+            if (isPlaying) {
+                // Set the evaluator's playing state to the current playing state.
+                newProject.evaluator.setMode(Mode.Play);
+            } else {
+                // Play to the same place the old project's evaluator was at.
+                newProject.evaluate();
+                newProject.evaluator.setMode(Mode.Step);
+            }
+        }
+        // Have the new evaluator broadcast to this.
+        newProject.evaluator.observe(updateEvaluatorStores);
+    }
 
     project.set(newProject);
 

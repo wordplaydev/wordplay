@@ -45,8 +45,8 @@ export const MAX_CALL_STACK_DEPTH = 256;
 export const MAX_STEP_COUNT = 262144;
 
 export enum Mode {
-    PLAY,
-    STEP,
+    Play,
+    Step,
 }
 
 export default class Evaluator {
@@ -111,7 +111,7 @@ export default class Evaluator {
     reactionStreams: Map<Reaction, Stream> = new Map();
 
     /** A set of possible execution modes, defaulting to play. */
-    mode: Mode = Mode.PLAY;
+    mode: Mode = Mode.Play;
 
     /** The value of each source, indexed by the step index at which it was created. */
     sourceValues: Map<Source, IndexedValue[]> = new Map();
@@ -320,10 +320,10 @@ export default class Evaluator {
         return this.#started;
     }
     isPlaying(): boolean {
-        return this.mode === Mode.PLAY;
+        return this.mode === Mode.Play;
     }
     isStepping(): boolean {
-        return this.mode === Mode.STEP;
+        return this.mode === Mode.Step;
     }
     isDone() {
         return this.evaluations.length === 0;
@@ -483,12 +483,12 @@ export default class Evaluator {
     }
 
     play() {
-        this.setMode(Mode.PLAY);
+        this.setMode(Mode.Play);
         this.finish();
     }
 
     pause() {
-        this.setMode(Mode.STEP);
+        this.setMode(Mode.Step);
         this.broadcast();
     }
 
@@ -509,7 +509,7 @@ export default class Evaluator {
      */
     stepToNode(node: Node) {
         const previousMode = this.mode;
-        this.mode = Mode.PLAY;
+        this.mode = Mode.Play;
         while (!this.isDone() && this.getCurrentStep()?.node !== node)
             this.step();
         this.mode = previousMode;
