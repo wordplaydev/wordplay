@@ -5,7 +5,7 @@ import type Step from '@runtime/Step';
 import type Project from './Project';
 import type Conflict from '@conflicts/Conflict';
 import type Node from '@nodes/Node';
-import Evaluate from '../nodes/Evaluate';
+import Evaluate from '@nodes/Evaluate';
 
 // A global store that contains the project currently being viewed.
 export const project: Writable<Project | undefined> = writable<
@@ -34,6 +34,13 @@ export const animatingNodes: Writable<Set<Node>> = writable<Set<Node>>(
 // A global store of project conflicts
 export const nodeConflicts: Writable<Conflict[]> = writable([]);
 
+/**
+ * Create a project global context that stores the current selected value (and if not in an editing mode, nothing).
+ * This enables output views like phrases and groups know what mode the output view is in and whether they are selected.
+ * so they can render selected feedback.
+ */
+export const selectedOutput = writable<Evaluate[]>([]);
+
 function updateEvaluatorStores() {
     const evaluator = get(project)?.evaluator;
     if (evaluator) {
@@ -44,12 +51,10 @@ function updateEvaluatorStores() {
     }
 }
 
-/**
- * Create a project global context that stores the current selected value (and if not in an editing mode, nothing).
- * This enables output views like phrases and groups know what mode the output view is in and whether they are selected.
- * so they can render selected feedback.
- */
-export const selectedOutput = writable<Evaluate[]>([]);
+// Clear the selection upon playing.
+playing.subscribe((val) => {
+    if (val) selectedOutput.set([]);
+});
 
 export function updateProject(newProject: Project | undefined) {
     const oldProject = get(project);
