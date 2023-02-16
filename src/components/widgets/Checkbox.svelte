@@ -1,0 +1,30 @@
+<script lang="ts">
+    export let on: boolean | undefined;
+    export let changed: undefined | ((value: boolean | undefined) => void) =
+        undefined;
+
+    function handleInput() {
+        if (changed) changed(on);
+    }
+</script>
+
+<input type="checkbox" bind:checked={on} on:change={handleInput} />
+
+<style>
+    [type='checkbox'] {
+        appearance: none;
+        border: solid var(--wordplay-border-color) var(--wordplay-border-width);
+        width: 1rem;
+        height: 1rem;
+        cursor: pointer;
+    }
+
+    input:focus {
+        outline: none;
+        border-color: var(--wordplay-highlight);
+    }
+
+    [type='checkbox']:checked {
+        background: var(--wordplay-disabled-color);
+    }
+</style>

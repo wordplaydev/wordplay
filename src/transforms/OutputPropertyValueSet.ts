@@ -2,6 +2,7 @@ import type Project from '../models/Project';
 import { reviseProject } from '../models/stores';
 import type Evaluate from '../nodes/Evaluate';
 import type Expression from '../nodes/Expression';
+import Bool from '../runtime/Bool';
 import Measurement from '../runtime/Measurement';
 import Text from '../runtime/Text';
 import type Value from '../runtime/Value';
@@ -62,6 +63,11 @@ export default class OutputPropertyValueSet {
     getText() {
         const value = this.getValue();
         return value instanceof Text ? value.text : undefined;
+    }
+
+    getBool() {
+        const value = this.getValue();
+        return value instanceof Bool ? value.bool : undefined;
     }
 
     getName() {

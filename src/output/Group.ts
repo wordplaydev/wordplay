@@ -10,7 +10,7 @@ import type RenderContext from './RenderContext';
 import type Sequence from './Sequence';
 import type TextLang from './TextLang';
 import TypeOutput, { TypeOutputInputs } from './TypeOutput';
-import type LanguageCode from '../translation/LanguageCode';
+import type LanguageCode from '@translation/LanguageCode';
 import { getStyle, toArrangement, toTypeOutputList } from './toTypeOutput';
 import { TYPE_SYMBOL } from '../parser/Symbols';
 import type { NameGenerator } from './Verse';

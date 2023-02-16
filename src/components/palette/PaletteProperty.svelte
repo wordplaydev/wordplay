@@ -1,0 +1,72 @@
+<script lang="ts">
+    import {
+        OutputPropertyText,
+        type OutputProperty,
+    } from '@transforms/OutputExpression';
+    import OutputPropertyOptions from '@transforms/OutputPropertyOptions';
+    import OutputPropertyRange from '@transforms/OutputPropertyRange';
+    import type OutputPropertyValueSet from '@transforms/OutputPropertyValueSet';
+    import Button from '../widgets/Button.svelte';
+    import BindCheckbox from './BindCheckbox.svelte';
+    import BindColor from './BindColor.svelte';
+    import BindOptions from './BindOptions.svelte';
+    import BindSlider from './BindSlider.svelte';
+    import BindText from './BindText.svelte';
+    import {
+        preferredTranslations,
+        preferredLanguages,
+    } from '@translation/translations';
+    import type Project from '../../models/Project';
+
+    export let project: Project;
+    export let property: OutputProperty;
+    export let values: OutputPropertyValueSet;
+</script>
+
+<div class="property">
+    <h3 class="name">{values.getTranslation($preferredLanguages)} </h3>
+    <Button
+        tip={$preferredTranslations[0].ui.tooltip.revert}
+        action={() => values.unset(project)}
+        enabled={values.someGiven()}>⨉</Button
+    >
+    <div class="control">
+        {#if property.type instanceof OutputPropertyRange}
+            <BindSlider {property} {values} range={property.type} />
+        {:else if property.type instanceof OutputPropertyOptions}
+            <BindOptions {property} {values} options={property.type} />
+        {:else if property.type instanceof OutputPropertyText}
+            <BindText {property} {values} validator={property.type.validator} />
+        {:else if property.type === 'color'}
+            <BindColor {property} {values} />
+        {:else if property.type === 'bool'}
+            <BindCheckbox {property} {values} />
+        {/if}
+    </div>
+</div>
+
+<style>
+    .property {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: var(--wordplay-spacing);
+        row-gap: var(--wordplay-spacing);
+    }
+
+    .name {
+        flex-basis: 5em;
+        text-align: left;
+        margin: 0;
+    }
+
+    .control {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: var(--wordplay-spacing);
+    }
+</style>

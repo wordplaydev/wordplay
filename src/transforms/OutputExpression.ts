@@ -4,7 +4,7 @@ import { GroupType } from '@output/Group';
 import { PhraseType } from '@output/Phrase';
 import { VerseType } from '@output/Verse';
 import { SupportedFonts } from '../native/Fonts';
-import type StructureDefinition from '@nodes/StructureDefinition';
+import StructureDefinition from '@nodes/StructureDefinition';
 import Expression from '@nodes/Expression';
 import TextLiteral from '@nodes/TextLiteral';
 import Reference from '@nodes/Reference';
@@ -20,6 +20,7 @@ import { RowType } from '@output/Row';
 import { StackType } from '@output/Stack';
 import OutputPropertyRange from './OutputPropertyRange';
 import OutputPropertyOptions from './OutputPropertyOptions';
+import { PoseType } from '../output/Pose';
 
 /** Represents an editable property on the output expression, with some optional information about valid property values */
 export type OutputProperty = {
@@ -28,7 +29,8 @@ export type OutputProperty = {
         | OutputPropertyRange
         | OutputPropertyOptions
         | OutputPropertyText
-        | 'color';
+        | 'color'
+        | 'bool';
     required: boolean;
 };
 
@@ -107,6 +109,34 @@ const OutputProperties: OutputProperty[] = [
     },
 ];
 
+export const PoseProperties: OutputProperty[] = [
+    {
+        name: getTranslation(en.output.pose.color.name),
+        type: 'color',
+        required: false,
+    },
+    {
+        name: getTranslation(en.output.pose.opacity.name),
+        type: new OutputPropertyRange(0, 1, 0.05, '%', 2),
+        required: false,
+    },
+    {
+        name: getTranslation(en.output.pose.scale.name),
+        type: new OutputPropertyRange(0, 10, 0.25, '', 2),
+        required: false,
+    },
+    {
+        name: getTranslation(en.output.pose.flipx.name),
+        type: 'bool',
+        required: false,
+    },
+    {
+        name: getTranslation(en.output.pose.flipy.name),
+        type: 'bool',
+        required: false,
+    },
+];
+
 const GroupProperties: OutputProperty[] = [
     {
         name: 'layout',
@@ -139,6 +169,13 @@ const PhraseProperties: OutputProperty[] = [
     },
 ];
 
+const SupportedTypes: StructureDefinition[] = [
+    VerseType,
+    GroupType,
+    PhraseType,
+    PoseType,
+];
+
 /**
  * A wrapper for Evaluate nodes that represent output.
  * This allows us to encapsulate logic that gets values
@@ -159,18 +196,14 @@ export default class OutputExpression {
 
     /** True if the evaluate represents one of the known output types */
     isOutput() {
-        const context = this.project.getNodeContext(this.node);
-        return (
-            this.node.is(VerseType, context) ||
-            this.node.is(GroupType, context) ||
-            this.node.is(PhraseType, context)
-        );
+        return this.getType() !== undefined;
     }
 
     getType(): StructureDefinition | undefined {
         const context = this.project.getNodeContext(this.node);
         const fun = this.node.getFunction(context);
-        return fun === VerseType || fun === GroupType || fun == PhraseType
+        return fun instanceof StructureDefinition &&
+            SupportedTypes.includes(fun)
             ? fun
             : undefined;
     }
@@ -185,17 +218,21 @@ export default class OutputExpression {
         // What type of output is this?
         const type = this.getType();
 
-        return [
-            // Add output type specific properties first
-            ...(type === PhraseType
-                ? PhraseProperties
-                : type === GroupType
-                ? GroupProperties
-                : type === VerseType
-                ? VerseProperties
-                : []),
-            ...OutputProperties,
-        ];
+        // We handle pose types differently, so we return an empty list here.
+        return type === PoseType
+            ? []
+            : // For all other types, we create a list of editable properties.
+              [
+                  // Add output type specific properties first
+                  ...(type === PhraseType
+                      ? PhraseProperties
+                      : type === GroupType
+                      ? GroupProperties
+                      : type === VerseType
+                      ? VerseProperties
+                      : []),
+                  ...OutputProperties,
+              ];
     }
 
     /**

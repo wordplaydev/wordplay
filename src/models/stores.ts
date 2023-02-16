@@ -72,23 +72,35 @@ export function reviseProject(replacements: [Node, Node | undefined][]) {
     const currentProject = get(project);
     if (currentProject === undefined) return;
 
-    // Replace the old selected output with the new one
-    selectedOutput.set(
-        get(selectedOutput).map((original) => {
-            const [, replacement] = replacements.find(
-                (rep) => rep[0] === original
-            ) ?? [undefined, undefined];
-            // If we didn't find a replacement or we did and it's undefined or not an Evaluate, then map to undefined.
-            // Otherwise map to the replacement.
-            return replacement === undefined ||
-                !(replacement instanceof Evaluate)
-                ? original
-                : replacement;
-        })
+    // Map each selected output to its replacement, then set the selected output to the replacements.
+    const paths = get(selectedOutput).map(
+        (output) =>
+            [
+                currentProject.getSourceOf(output),
+                currentProject.get(output)?.getPath(),
+            ] as const
     );
 
+    // Make the new project.
+    const newProject = currentProject.withRevisedNodes(replacements);
+
     // Update the project with the new sources.
-    updateProject(currentProject.withRevisedNodes(replacements));
+    updateProject(newProject);
+
+    // Try to resolve all of the originally selected nodes using the paths.
+    selectedOutput.set(
+        paths
+            .map(([source, path]) => {
+                if (source === undefined || path === undefined)
+                    return undefined;
+                const name = source.getNames()[0];
+                if (name === undefined) return undefined;
+                const newSource = newProject.getSourceWithName(name);
+                if (newSource === undefined) return undefined;
+                return newSource.tree.resolvePath(path);
+            })
+            .filter((output): output is Evaluate => output instanceof Evaluate)
+    );
 }
 
 let defaultProject: string | undefined = undefined;

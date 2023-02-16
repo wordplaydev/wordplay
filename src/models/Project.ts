@@ -106,6 +106,10 @@ export default class Project {
         return [this.main, ...this.supplements];
     }
 
+    getSourceWithName(name: string) {
+        return this.getSources().find((source) => source.hasName(name));
+    }
+
     getIndexOfSource(source: Source) {
         return this.getSources().indexOf(source);
     }
