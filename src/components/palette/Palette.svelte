@@ -64,7 +64,7 @@
         flex-direction: column;
         flex-wrap: nowrap;
         align-items: left;
-        gap: calc(2 * var(--wordplay-spacing));
+        gap: var(--wordplay-spacing);
     }
 
     .palette:focus {
