@@ -51,7 +51,6 @@
     let color: ColorJS;
     $: {
         color = new ColorJS(ColorJS.spaces.lch, [lightness, chroma, hue], 1);
-        change(lightness, chroma, hue);
     }
 
     let hueWidth: number | undefined = undefined;
@@ -65,6 +64,11 @@
             return;
         hue = Math.round(percentToHue(event.offsetX / hueWidth));
         chroma = Math.round(percentToChroma(1 - event.offsetY / hueHeight));
+        broadcast();
+    }
+
+    function broadcast() {
+        change(lightness, chroma, hue);
     }
 </script>
 
@@ -100,7 +104,10 @@
             max={100}
             increment={1}
             unit={'%'}
-            change={(value) => (lightness = Math.round(value))}
+            change={(value) => {
+                lightness = Math.round(value);
+                broadcast();
+            }}
             isDefault={false}
         />
     </div>
