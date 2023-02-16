@@ -108,7 +108,6 @@
                 lightness = Math.round(value);
                 broadcast();
             }}
-            isDefault={false}
         />
     </div>
     <div class="color" style:background-color={color.to('srgb').toString()} />

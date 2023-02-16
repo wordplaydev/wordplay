@@ -19,6 +19,8 @@ export const TypeType = toStructure(`
     ${getBind((t) => t.output.type.definition, TYPE_SYMBOL)}()
 `);
 
+export const DefaultStyle = 'zippy';
+
 export const TypeOutputInputs = `
 ${getBind((t) => t.output.type.size)}•#m|ø: ø
 ${getBind((t) => t.output.type.family)}•${SupportedFontsFamiliesType}|ø: ø
@@ -31,7 +33,7 @@ ${getBind((t) => t.output.type.exit)}•ø|Pose|Sequence: ø
 ${getBind((t) => t.output.type.duration)}•#s: 0.25s
 ${getBind((t) => t.output.type.style)}•${Object.values(en.output.easing)
     .map((id) => `"${id}"`)
-    .join('|')}: "zippy"
+    .join('|')}: "${DefaultStyle}"
 )`;
 
 /** Every group has the same style information. */

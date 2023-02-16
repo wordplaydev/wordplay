@@ -15,8 +15,8 @@ export const PoseType = toStructure(`
         ${getBind((t) => t.output.pose.opacity)}•%|ø: ø
         ${getBind((t) => t.output.pose.offset)}•Place|ø: ø
         ${getBind((t) => t.output.pose.scale)}•#|ø: ø
-        ${getBind((t) => t.output.pose.flipx)}•?|ø: ø
-        ${getBind((t) => t.output.pose.flipy)}•?|ø: ø
+        ${getBind((t) => t.output.pose.flipx)}•?: ⊥
+        ${getBind((t) => t.output.pose.flipy)}•?: ⊥
     )
 `);
 

@@ -2,7 +2,7 @@
     import { preferredTranslations } from '@translation/translations';
     import { selectedOutput } from '../../models/stores';
     import type Project from '../../models/Project';
-    import OutputValueSet from '@transforms/OutputPropertyValueSet';
+    import OutputPropertyValueSet from '@transforms/OutputPropertyValueSet';
     import type { PoseSelected } from './PoseChooser.svelte';
     import PoseChooser from './PoseChooser.svelte';
     import Evaluate from '@nodes/Evaluate';
@@ -34,7 +34,7 @@
     /**
      * From the list of OutputExpressions, generate a value set for each property to allow for editing
      * multiple output expressions at once. */
-    let propertyValues: Map<OutputProperty, OutputValueSet>;
+    let propertyValues: Map<OutputProperty, OutputPropertyValueSet>;
     $: {
         // Make a set of all of the properties in the selection set
         const properties = new Set<OutputProperty>(
@@ -49,14 +49,14 @@
         propertyValues = new Map();
         // Map the properties to a set of values.
         for (const property of properties) {
-            const values = new OutputValueSet(property.name, outputs);
+            const values = new OutputPropertyValueSet(property, outputs);
             // Exclue any properties that happen to have no values.
             if (!values.isEmpty() && values.onAll())
                 propertyValues.set(property, values);
         }
     }
 
-    let posePropertyValues: Map<OutputProperty, OutputValueSet>;
+    let posePropertyValues: Map<OutputProperty, OutputPropertyValueSet>;
     $: {
         // Create a list of the selected pose properties.
         const poses = outputs
@@ -106,7 +106,7 @@
         posePropertyValues = new Map();
         // Map each property to a set of values based on the selected output.
         for (const property of PoseProperties) {
-            const values = new OutputValueSet(property.name, poses);
+            const values = new OutputPropertyValueSet(property, poses);
             if (!values.isEmpty() && values.onAll())
                 posePropertyValues.set(property, values);
         }

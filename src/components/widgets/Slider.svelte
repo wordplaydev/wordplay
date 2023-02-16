@@ -5,7 +5,6 @@
     export let unit: string;
     export let increment: number;
     export let change: (value: number) => void;
-    export let isDefault: boolean;
     export let precision: number = 0;
 
     function handleChange() {
@@ -24,7 +23,7 @@
         on:mousedown|stopPropagation
         on:input={handleChange}
     />
-    <div class="text" class:isDefault>
+    <div class="text">
         {#if value === undefined}
             ø
         {:else}
@@ -53,10 +52,6 @@
         overflow: hidden;
         white-space: nowrap;
         font-size: small;
-    }
-
-    .isDefault {
-        color: var(--wordplay-disabled-color);
     }
 
     input[type='range'] {

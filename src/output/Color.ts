@@ -6,6 +6,11 @@ import { toDecimal } from './Verse';
 import ColorJS from 'colorjs.io';
 import { TYPE_SYMBOL } from '@parser/Symbols';
 import { getBind } from '@translation/getBind';
+import Evaluate from '../nodes/Evaluate';
+import MeasurementLiteral from '../nodes/MeasurementLiteral';
+import Reference from '../nodes/Reference';
+import type LanguageCode from '../translation/LanguageCode';
+import Unit from '../nodes/Unit';
 
 export const ColorType = toStructure(`
     ${getBind((t) => t.output.color.definition, TYPE_SYMBOL)}(
@@ -49,6 +54,22 @@ export default class Color extends Output {
             this.hue.equals(color.hue)
         );
     }
+}
+
+export function createColorLiteral(
+    languages: LanguageCode[],
+    lightness: number,
+    chroma: number,
+    hue: number
+) {
+    return Evaluate.make(
+        Reference.make(ColorType.names.getTranslation(languages), ColorType),
+        [
+            MeasurementLiteral.make(lightness),
+            MeasurementLiteral.make(chroma),
+            MeasurementLiteral.make(hue, Unit.make(['°'])),
+        ]
+    );
 }
 
 export function toColor(value: Value | undefined) {

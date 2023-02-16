@@ -746,6 +746,7 @@ type Translation = {
             reset: string;
             home: string;
             revert: string;
+            set: string;
             fullscreen: string;
             collapse: string;
             expand: string;
@@ -761,6 +762,14 @@ type Translation = {
         labels: {
             learn: string;
             nodoc: string;
+            /** Shown in the output palette when multiple outputs are selected but they have unequal values. */
+            mixed: string;
+            /** Shown in the output palette when the output(s) selected have expressions that are not editable using the editor. */
+            computed: string;
+            /** Shown in the output palette when the output(s) selected have no value set, but have a default */
+            default: string;
+            /** Shown in the output palette when a value is unset but is inherited */
+            inherited: string;
         };
         tiles: {
             output: string;

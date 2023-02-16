@@ -9,23 +9,24 @@ import type Value from '@runtime/Value';
 import type LanguageCode from '@translation/LanguageCode';
 import type OutputExpression from './OutputExpression';
 import type { OutputPropertyValue } from './OutputExpression';
+import type OutputProperty from './OutputProperty';
 
 /**
  * Represents one or more equivalent inputs to an output expression.
  * Used for editing multiple inputs at once.
  */
 export default class OutputPropertyValueSet {
-    readonly name: string;
+    readonly property: OutputProperty;
     readonly outputs: OutputExpression[];
     readonly values: OutputPropertyValue[];
 
     /** Constructs a set of values given a set of expressions and a name on them. */
-    constructor(name: string, outputs: OutputExpression[]) {
-        this.name = name;
+    constructor(property: OutputProperty, outputs: OutputExpression[]) {
+        this.property = property;
         this.outputs = outputs;
         this.values = [];
         for (const out of outputs) {
-            const value = out.getPropertyValue(name);
+            const value = out.getPropertyValue(property.name);
             if (value) this.values.push(value);
         }
     }
@@ -43,6 +44,26 @@ export default class OutputPropertyValueSet {
             else if (!candidate.value.isEqualTo(value)) return undefined;
         }
         return value;
+    }
+
+    areSet() {
+        return this.values.every((value) => value.given);
+    }
+
+    areMixed() {
+        return this.getExpression() === undefined;
+    }
+
+    areDefault() {
+        return this.values.every((val) => !val.given);
+    }
+
+    areEditable(project: Project) {
+        const expr = this.getExpression();
+        return (
+            expr !== undefined &&
+            this.property.editable(expr, project.getNodeContext(expr))
+        );
     }
 
     getExpression(): Expression | undefined {
@@ -71,7 +92,7 @@ export default class OutputPropertyValueSet {
     }
 
     getName() {
-        return this.name;
+        return this.property.name;
     }
 
     getExpressions(): Evaluate[] {
@@ -84,10 +105,6 @@ export default class OutputPropertyValueSet {
 
     onAll() {
         return this.values.length === this.outputs.length;
-    }
-
-    isDefault() {
-        return this.values.every((val) => !val.given);
     }
 
     someGiven() {
@@ -107,8 +124,21 @@ export default class OutputPropertyValueSet {
                 this.values
                     .filter((value) => value.given)
                     .map((value) => value.evaluate),
-                this.name,
+                this.property.name,
                 undefined
+            )
+        );
+    }
+
+    /** Given a project, set this property to a reasonable starting value */
+    set(project: Project, languages: LanguageCode[]) {
+        reviseProject(
+            project.getBindReplacements(
+                this.values
+                    .filter((value) => !value.given)
+                    .map((value) => value.evaluate),
+                this.property.name,
+                this.property.create(languages)
             )
         );
     }

@@ -1636,6 +1636,7 @@ const en: Translation = {
             reset: 'restart the evaluation of the project from the beginning.',
             home: 'return to the types menu',
             revert: 'revert to default',
+            set: 'edit this property',
             fullscreen: 'fill the browser with this window',
             collapse: 'collapse window',
             expand: 'expand window',
@@ -1650,7 +1651,11 @@ const en: Translation = {
         },
         labels: {
             learn: 'learn more …',
-            nodoc: 'No documentation.',
+            nodoc: 'no documentation',
+            mixed: 'mixed',
+            computed: 'computed',
+            default: 'default',
+            inherited: 'inherited',
         },
         tiles: {
             output: '💬',

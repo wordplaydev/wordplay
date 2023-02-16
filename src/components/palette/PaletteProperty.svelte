@@ -15,6 +15,8 @@
     import OutputPropertyOptions from '@transforms/OutputPropertyOptions';
     import { OutputPropertyText } from '@transforms/OutputExpression';
     import type OutputProperty from '@transforms/OutputProperty';
+    import Note from '../widgets/Note.svelte';
+    import NodeView from '../editor/NodeView.svelte';
 
     export let project: Project;
     export let property: OutputProperty;
@@ -23,13 +25,43 @@
 
 <div class="property">
     <h3 class="name">{values.getTranslation($preferredLanguages)} </h3>
-    <Button
-        tip={$preferredTranslations[0].ui.tooltip.revert}
-        action={() => values.unset(project)}
-        enabled={values.someGiven()}>⨉</Button
-    >
+    {#if values.areSet()}
+        <Button
+            tip={$preferredTranslations[0].ui.tooltip.revert}
+            action={() => values.unset(project)}>⨉</Button
+        >
+    {:else}
+        <Button
+            tip={$preferredTranslations[0].ui.tooltip.set}
+            action={() => values.set(project, $preferredLanguages)}>✎</Button
+        >
+    {/if}
     <div class="control">
-        {#if property.type instanceof OutputPropertyRange}
+        {#if values.areMixed()}
+            <Note
+                >{$preferredTranslations
+                    .map((t) => t.ui.labels.mixed)
+                    .join('/')}</Note
+            >
+        {:else if !values.areSet()}
+            {@const expression = values.getExpression()}
+            <!-- If the values arent set, show as inherited if inherited, and otherwise show the default -->
+            <Note
+                >{#if property.inherited}({$preferredTranslations
+                        .map((t) => t.ui.labels.inherited)
+                        .join(
+                            '/'
+                        )}){:else if values.areDefault() && expression !== undefined}<NodeView
+                        node={expression}
+                    /> ({$preferredTranslations
+                        .map((t) => t.ui.labels.default)
+                        .join('/')}){:else}&mdash;{/if}</Note
+            >
+        {:else if !values.areEditable(project)}
+            <Note
+                >{$preferredTranslations.map((t) => t.ui.labels.computed)}</Note
+            >
+        {:else if property.type instanceof OutputPropertyRange}
             <BindSlider {property} {values} range={property.type} />
         {:else if property.type instanceof OutputPropertyOptions}
             <BindOptions {property} {values} options={property.type} />
