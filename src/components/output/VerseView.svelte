@@ -11,7 +11,7 @@
         selectedOutput,
     } from '../../models/stores';
     import { preferredLanguages } from '@translation/translations';
-    import { loadedFonts } from '../../native/Fonts';
+    import { loadedFonts } from '@native/Fonts';
     import { focusToTransform, PX_PER_METER, toCSS } from '@output/outputToCSS';
     import Place from '@output/Place';
     import Evaluate from '@nodes/Evaluate';

@@ -184,7 +184,8 @@ export default class Spaces {
         if (replacedToken && replacementToken && space !== undefined) {
             const newSpaces = new Map(this.#spaces);
             newSpaces.set(replacementToken, space + (after ?? ''));
-            newSpaces.delete(replacedToken);
+            if (replacedToken !== replacementToken)
+                newSpaces.delete(replacedToken);
             return new Spaces(this.root, newSpaces);
         }
         // Otherwise, just return the space as is.
@@ -226,7 +227,7 @@ export default class Spaces {
         const space = this.#spaces.get(existing);
         if (space) {
             this.#spaces.set(replacement, space);
-            this.#spaces.delete(existing);
+            if (existing !== replacement) this.#spaces.delete(existing);
         }
     }
 
