@@ -13,10 +13,13 @@
     } from '@translation/translations';
     import type Project from '../../models/Project';
     import OutputPropertyOptions from '@transforms/OutputPropertyOptions';
-    import { OutputPropertyText } from '@transforms/OutputExpression';
+    import OutputPropertyText from '@transforms/OutputPropertyText';
     import type OutputProperty from '@transforms/OutputProperty';
     import Note from '../widgets/Note.svelte';
     import NodeView from '../editor/NodeView.svelte';
+    import Evaluate from '@nodes/Evaluate';
+    import { PoseType } from '@output/Pose';
+    import PoseEditor from './PoseEditor.svelte';
 
     export let project: Project;
     export let property: OutputProperty;
@@ -71,6 +74,11 @@
             <BindColor {property} {values} />
         {:else if property.type === 'bool'}
             <BindCheckbox {property} {values} />
+        {:else if property.type === 'pose'}
+            {@const expression = values.getExpression()}
+            {#if expression instanceof Evaluate && expression.is(PoseType, project.getNodeContext(expression))}
+                <PoseEditor {project} {values} />
+            {/if}
         {/if}
     </div>
 </div>

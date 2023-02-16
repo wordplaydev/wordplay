@@ -1,6 +1,6 @@
 import type OutputPropertyRange from './OutputPropertyRange';
 import type OutputPropertyOptions from './OutputPropertyOptions';
-import type { OutputPropertyText } from './OutputExpression';
+import type OutputPropertyText from './OutputPropertyText';
 import type Expression from '@nodes/Expression';
 import type Context from '@nodes/Context';
 import type LanguageCode from '@translation/LanguageCode';
@@ -16,7 +16,8 @@ type OutputProperty = {
         | OutputPropertyOptions
         | OutputPropertyText
         | 'color'
-        | 'bool';
+        | 'bool'
+        | 'pose';
     /** True if the property is required */
     required: boolean;
     /** True if the property uses the nearest parent's property if unset */

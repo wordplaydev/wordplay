@@ -3,36 +3,22 @@ import Evaluate from '../nodes/Evaluate';
 import { GroupType } from '@output/Group';
 import { PhraseType } from '@output/Phrase';
 import { VerseType } from '@output/Verse';
-import { SupportedFonts } from '../native/Fonts';
 import StructureDefinition from '@nodes/StructureDefinition';
 import Expression from '@nodes/Expression';
-import TextLiteral from '@nodes/TextLiteral';
-import Reference from '@nodes/Reference';
 import type Value from '@runtime/Value';
 import Bind from '@nodes/Bind';
 import Literal from '@nodes/Literal';
 import Measurement from '@runtime/Measurement';
 import Text from '@runtime/Text';
-import { ColorType, createColorLiteral } from '@output/Color';
-import en from '../translation/translations/en';
-import type { NameTranslation } from '../translation/Translation';
-import { RowType } from '@output/Row';
-import { StackType } from '@output/Stack';
-import OutputPropertyRange from './OutputPropertyRange';
-import OutputPropertyOptions from './OutputPropertyOptions';
+import { ColorType } from '@output/Color';
 import { PoseType } from '../output/Pose';
 import type OutputProperty from './OutputProperty';
-import MeasurementLiteral from '../nodes/MeasurementLiteral';
-import BooleanLiteral from '../nodes/BooleanLiteral';
-import Unit from '../nodes/Unit';
-import { DefaultStyle } from '../output/TypeOutput';
-
-export class OutputPropertyText {
-    readonly validator: (text: string) => boolean;
-    constructor(validator: (text: string) => boolean) {
-        this.validator = validator;
-    }
-}
+import {
+    GroupProperties,
+    PhraseProperties,
+    TypeOutputProperties,
+    VerseProperties,
+} from './TypeOutputProperties';
 
 /**
  * Represents the value of a property. If given is true, it means its set explicitly.
@@ -46,169 +32,6 @@ export type OutputPropertyValue = {
     given: boolean;
     value: Value | undefined;
 };
-
-function getTranslation(name: NameTranslation) {
-    return typeof name === 'string' ? name : name[0];
-}
-
-// All output has these properties.
-const OutputProperties: OutputProperty[] = [
-    {
-        name: getTranslation(en.output.type.size.name),
-        type: new OutputPropertyRange(0.25, 32, 0.25, 'm'),
-        required: false,
-        inherited: true,
-        editable: (expr) => expr instanceof MeasurementLiteral,
-        create: () => MeasurementLiteral.make(1, Unit.make(['m'])),
-    },
-    {
-        name: getTranslation(en.output.type.family.name),
-        type: new OutputPropertyOptions(
-            [...SupportedFonts.map((font) => font.name)],
-            true,
-            (text: string) => TextLiteral.make(text),
-            (expression: Expression | undefined) =>
-                expression instanceof TextLiteral
-                    ? expression.getValue().text
-                    : undefined
-        ),
-        required: false,
-        inherited: true,
-        editable: (expr) => expr instanceof TextLiteral,
-        create: () => TextLiteral.make('Noto Sans'),
-    },
-    {
-        name: getTranslation(en.output.type.duration.name),
-        type: new OutputPropertyRange(0, 2, 0.25, 's', 2),
-        required: false,
-        inherited: false,
-        editable: (expr) => expr instanceof MeasurementLiteral,
-        create: () => MeasurementLiteral.make(0.25, Unit.make(['s'])),
-    },
-    {
-        name: getTranslation(en.output.type.style.name),
-        type: new OutputPropertyOptions(
-            Object.values(en.output.easing).reduce(
-                (all: string[], next: NameTranslation) => [
-                    ...all,
-                    ...(Array.isArray(next) ? next : [next]),
-                ],
-                []
-            ),
-            true,
-            (text: string) => TextLiteral.make(text),
-            (expression: Expression | undefined) =>
-                expression instanceof TextLiteral
-                    ? expression.getValue().text
-                    : undefined
-        ),
-        required: false,
-        inherited: false,
-        editable: (expr) => expr instanceof TextLiteral,
-        create: () => TextLiteral.make(DefaultStyle),
-    },
-    {
-        name: getTranslation(en.output.type.name.name),
-        type: new OutputPropertyText(() => true),
-        required: false,
-        inherited: false,
-        editable: (expr) => expr instanceof TextLiteral,
-        create: () => TextLiteral.make(''),
-    },
-];
-
-export const PoseProperties: OutputProperty[] = [
-    {
-        name: getTranslation(en.output.pose.color.name),
-        type: 'color',
-        required: false,
-        inherited: true,
-        editable: (expr, context) =>
-            expr instanceof Evaluate && expr.is(ColorType, context),
-        create: (languages) => createColorLiteral(languages, 0.5, 100, 180),
-    },
-    {
-        name: getTranslation(en.output.pose.opacity.name),
-        type: new OutputPropertyRange(0, 1, 0.05, '%', 2),
-        required: false,
-        inherited: false,
-        editable: (expr) => expr instanceof MeasurementLiteral,
-        create: () => MeasurementLiteral.make(1),
-    },
-    {
-        name: getTranslation(en.output.pose.scale.name),
-        type: new OutputPropertyRange(0, 10, 0.25, '', 2),
-        required: false,
-        inherited: false,
-        editable: (expr) => expr instanceof MeasurementLiteral,
-        create: () => MeasurementLiteral.make(1),
-    },
-    {
-        name: getTranslation(en.output.pose.flipx.name),
-        type: 'bool',
-        required: false,
-        inherited: false,
-        editable: (expr) => expr instanceof BooleanLiteral,
-        create: () => BooleanLiteral.make(false),
-    },
-    {
-        name: getTranslation(en.output.pose.flipy.name),
-        type: 'bool',
-        required: false,
-        inherited: false,
-        editable: (expr) => expr instanceof BooleanLiteral,
-        create: () => BooleanLiteral.make(false),
-    },
-];
-
-const GroupProperties: OutputProperty[] = [
-    {
-        name: 'layout',
-        type: new OutputPropertyOptions(
-            [RowType, StackType].map((type) => `${type.names.getNames()[0]}`),
-            false,
-            (text: string) => Evaluate.make(Reference.make(text), []),
-            (expression: Expression | undefined) =>
-                expression instanceof Evaluate
-                    ? expression.func.toWordplay()
-                    : undefined
-        ),
-        required: true,
-        inherited: false,
-        editable: () => true,
-        create: (languages) =>
-            Evaluate.make(
-                Reference.make(
-                    StackType.names.getTranslation(languages),
-                    StackType
-                ),
-                []
-            ),
-    },
-];
-
-const VerseProperties: OutputProperty[] = [
-    {
-        name: 'background',
-        type: 'color' as const,
-        required: false,
-        inherited: false,
-        editable: (expr, context) =>
-            expr instanceof Evaluate && expr.is(ColorType, context),
-        create: (languages) => createColorLiteral(languages, 0.5, 100, 180),
-    },
-];
-
-const PhraseProperties: OutputProperty[] = [
-    {
-        name: getTranslation(en.output.phrase.text.name),
-        type: new OutputPropertyText(() => true),
-        required: true,
-        inherited: false,
-        editable: (expr) => expr instanceof TextLiteral,
-        create: () => TextLiteral.make(''),
-    },
-];
 
 const SupportedTypes: StructureDefinition[] = [
     VerseType,
@@ -272,7 +95,7 @@ export default class OutputExpression {
                       : type === VerseType
                       ? VerseProperties
                       : []),
-                  ...OutputProperties,
+                  ...TypeOutputProperties,
               ];
     }
 
