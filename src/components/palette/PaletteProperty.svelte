@@ -88,13 +88,13 @@
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
-        align-items: center;
+        align-items: baseline;
         gap: var(--wordplay-spacing);
         row-gap: var(--wordplay-spacing);
     }
 
     .name {
-        flex-basis: 5em;
+        flex-basis: 3em;
         text-align: left;
         margin: 0;
     }
