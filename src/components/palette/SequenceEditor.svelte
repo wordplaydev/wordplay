@@ -1,9 +1,9 @@
 <script lang="ts">
     import type OutputProperty from '@transforms/OutputProperty';
     import OutputPropertyValueSet from '@transforms/OutputPropertyValueSet';
-    import PoseProperties from '@transforms/PoseProperties';
     import PaletteProperty from './PaletteProperty.svelte';
     import type Project from '../../models/Project';
+    import SequenceProperties from '@transforms/SequenceProperties';
     import type OutputExpression from '@transforms/OutputExpression';
 
     export let project: Project;
@@ -15,7 +15,7 @@
         propertyValues = new Map();
 
         // Map the properties to a set of values.
-        for (const property of PoseProperties) {
+        for (const property of SequenceProperties) {
             const valueSet = new OutputPropertyValueSet(property, outputs);
             // Exclue any properties that happen to have no values.
             if (!valueSet.isEmpty() && valueSet.onAll())
@@ -24,14 +24,14 @@
     }
 </script>
 
-<div class="pose-properties">
+<div class="sequence-properties">
     {#each Array.from(propertyValues.entries()) as [property, values]}
         <PaletteProperty {project} {property} {values} />
     {/each}
 </div>
 
 <style>
-    .pose-properties {
+    .sequence-properties {
         margin-left: var(--wordplay-spacing);
         padding-left: var(--wordplay-spacing);
         border-left: solid var(--wordplay-border-color)

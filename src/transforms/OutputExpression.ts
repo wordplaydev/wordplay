@@ -12,6 +12,7 @@ import Measurement from '@runtime/Measurement';
 import Text from '@runtime/Text';
 import { ColorType } from '@output/Color';
 import { PoseType } from '../output/Pose';
+import { SequenceType } from '@output/Sequence';
 import type OutputProperty from './OutputProperty';
 import {
     GroupProperties,
@@ -38,6 +39,7 @@ const SupportedTypes: StructureDefinition[] = [
     GroupType,
     PhraseType,
     PoseType,
+    SequenceType,
 ];
 
 /**

@@ -5,7 +5,7 @@ import MeasurementLiteral from '@nodes/MeasurementLiteral';
 import Reference from '@nodes/Reference';
 import TextLiteral from '@nodes/TextLiteral';
 import Unit from '@nodes/Unit';
-import { PoseType } from '@output/Pose';
+import { createPoseLiteral, PoseType } from '@output/Pose';
 import { SequenceType } from '@output/Sequence';
 import { DefaultStyle } from '@output/TypeOutput';
 import type { NameTranslation } from '@translation/Translation';
@@ -31,16 +31,41 @@ function getPoseProperty(name: string): OutputProperty {
         editable: (expr, context) =>
             expr instanceof Evaluate &&
             (expr.is(PoseType, context) || expr.is(SequenceType, context)),
-        create: (languages) =>
-            Evaluate.make(
-                Reference.make(
-                    PoseType.names.getTranslation(languages),
-                    PoseType
-                ),
-                []
-            ),
+        create: (languages) => createPoseLiteral(languages),
     };
 }
+
+export const DurationProperty: OutputProperty = {
+    name: getTranslation(en.output.type.duration.name),
+    type: new OutputPropertyRange(0, 2, 0.25, 's', 2),
+    required: false,
+    inherited: false,
+    editable: (expr) => expr instanceof MeasurementLiteral,
+    create: () => MeasurementLiteral.make(0.25, Unit.make(['s'])),
+};
+
+export const StyleProperty: OutputProperty = {
+    name: getTranslation(en.output.type.style.name),
+    type: new OutputPropertyOptions(
+        Object.values(en.output.easing).reduce(
+            (all: string[], next: NameTranslation) => [
+                ...all,
+                ...(Array.isArray(next) ? next : [next]),
+            ],
+            []
+        ),
+        true,
+        (text: string) => TextLiteral.make(text),
+        (expression: Expression | undefined) =>
+            expression instanceof TextLiteral
+                ? expression.getValue().text
+                : undefined
+    ),
+    required: false,
+    inherited: false,
+    editable: (expr) => expr instanceof TextLiteral,
+    create: () => TextLiteral.make(DefaultStyle),
+};
 
 // All output has these properties.
 export const TypeOutputProperties: OutputProperty[] = [
@@ -68,36 +93,8 @@ export const TypeOutputProperties: OutputProperty[] = [
         editable: (expr) => expr instanceof TextLiteral,
         create: () => TextLiteral.make('Noto Sans'),
     },
-    {
-        name: getTranslation(en.output.type.duration.name),
-        type: new OutputPropertyRange(0, 2, 0.25, 's', 2),
-        required: false,
-        inherited: false,
-        editable: (expr) => expr instanceof MeasurementLiteral,
-        create: () => MeasurementLiteral.make(0.25, Unit.make(['s'])),
-    },
-    {
-        name: getTranslation(en.output.type.style.name),
-        type: new OutputPropertyOptions(
-            Object.values(en.output.easing).reduce(
-                (all: string[], next: NameTranslation) => [
-                    ...all,
-                    ...(Array.isArray(next) ? next : [next]),
-                ],
-                []
-            ),
-            true,
-            (text: string) => TextLiteral.make(text),
-            (expression: Expression | undefined) =>
-                expression instanceof TextLiteral
-                    ? expression.getValue().text
-                    : undefined
-        ),
-        required: false,
-        inherited: false,
-        editable: (expr) => expr instanceof TextLiteral,
-        create: () => TextLiteral.make(DefaultStyle),
-    },
+    DurationProperty,
+    StyleProperty,
     {
         name: getTranslation(en.output.type.name.name),
         type: new OutputPropertyText(() => true),

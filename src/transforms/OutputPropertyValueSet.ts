@@ -1,15 +1,16 @@
 import type Project from '../models/Project';
 import { reviseProject } from '../models/stores';
-import type Evaluate from '@nodes/Evaluate';
+import Evaluate from '@nodes/Evaluate';
 import type Expression from '@nodes/Expression';
 import Bool from '@runtime/Bool';
 import Measurement from '../runtime/Measurement';
 import Text from '@runtime/Text';
 import type Value from '@runtime/Value';
 import type LanguageCode from '@translation/LanguageCode';
-import type OutputExpression from './OutputExpression';
+import OutputExpression from './OutputExpression';
 import type { OutputPropertyValue } from './OutputExpression';
 import type OutputProperty from './OutputProperty';
+import MapLiteral from '../nodes/MapLiteral';
 
 /**
  * Represents one or more equivalent inputs to an output expression.
@@ -76,6 +77,17 @@ export default class OutputPropertyValueSet {
         return expr;
     }
 
+    getOutputExpressions(project: Project): OutputExpression[] {
+        return this.values
+            .filter(
+                (value) => value.given && value.expression instanceof Evaluate
+            )
+            .map(
+                (value) =>
+                    new OutputExpression(project, value.expression as Evaluate)
+            );
+    }
+
     getNumber() {
         const value = this.getValue();
         return value instanceof Measurement ? value.toNumber() : undefined;
@@ -89,6 +101,11 @@ export default class OutputPropertyValueSet {
     getBool() {
         const value = this.getValue();
         return value instanceof Bool ? value.bool : undefined;
+    }
+
+    getMap() {
+        const expr = this.getExpression();
+        return expr instanceof MapLiteral ? expr : undefined;
     }
 
     getName() {

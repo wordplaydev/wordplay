@@ -19,6 +19,10 @@ export default class KeyValue extends Node {
         this.computeChildren();
     }
 
+    static make(key: Expression, value: Expression) {
+        return new KeyValue(key, value, new BindToken());
+    }
+
     getGrammar() {
         return [
             {

@@ -1604,6 +1604,7 @@ const eng_wordplay: Translation = {
             addPhrase: 'add a phrase to the verse',
             fit: 'fit to content',
             grid: 'show/hide grid',
+            addPose: 'add pose',
         },
         labels: {
             learn: 'learn more …',

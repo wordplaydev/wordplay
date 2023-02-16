@@ -11,7 +11,7 @@
 
 <input
     type="text"
-    class:error={validator ? validator(text) : null}
+    class:error={validator ? validator(text) === false : null}
     {placeholder}
     bind:value={text}
     on:keydown|stopPropagation
@@ -26,7 +26,7 @@
         font-size: var(--wordplay-font-size);
         font-family: var(--wordplay-app-font);
         border: none;
-        padding: var(--wordplay-spacing);
+        padding-bottom: var(--wordplay-spacing);
         border-bottom: var(--wordplay-disabled-color) solid
             var(--wordplay-border-width);
     }
@@ -37,6 +37,6 @@
     }
 
     .error {
-        outline-color: var(--wordplay-error);
+        border-color: var(--wordplay-error);
     }
 </style>

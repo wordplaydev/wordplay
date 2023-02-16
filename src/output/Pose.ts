@@ -1,4 +1,4 @@
-import toStructure from '../native/toStructure';
+import toStructure from '@native/toStructure';
 import Structure from '@runtime/Structure';
 import type Value from '@runtime/Value';
 import type Color from './Color';
@@ -8,6 +8,9 @@ import { toPlace } from './Place';
 import { toBoolean, toDecimal } from './Verse';
 import { toColor } from './Color';
 import { getBind } from '@translation/getBind';
+import type LanguageCode from '@translation/LanguageCode';
+import Evaluate from '@nodes/Evaluate';
+import Reference from '@nodes/Reference';
 
 export const PoseType = toStructure(`
     ${getBind((t) => t.output.pose.definition, '•')}(
@@ -15,8 +18,8 @@ export const PoseType = toStructure(`
         ${getBind((t) => t.output.pose.opacity)}•%|ø: ø
         ${getBind((t) => t.output.pose.offset)}•Place|ø: ø
         ${getBind((t) => t.output.pose.scale)}•#|ø: ø
-        ${getBind((t) => t.output.pose.flipx)}•?: ⊥
-        ${getBind((t) => t.output.pose.flipy)}•?: ⊥
+        ${getBind((t) => t.output.pose.flipx)}•?|ø: ø
+        ${getBind((t) => t.output.pose.flipy)}•?|ø: ø
     )
 `);
 
@@ -91,4 +94,11 @@ export function toPose(value: Value | undefined): Pose | undefined {
     const flipy = toBoolean(value.resolve('flipy'));
 
     return new Pose(value, color, opacity, offset, scale, flipx, flipy);
+}
+
+export function createPoseLiteral(languages: LanguageCode[]) {
+    return Evaluate.make(
+        Reference.make(PoseType.names.getTranslation(languages), PoseType),
+        []
+    );
 }

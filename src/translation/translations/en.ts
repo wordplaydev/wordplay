@@ -1648,6 +1648,10 @@ const en: Translation = {
             addPhrase: 'add a phrase to the verse',
             fit: 'fit to content',
             grid: 'show/hide grid',
+            addPose: 'add pose',
+            removePose: 'remove pose',
+            movePoseUp: 'move pose up',
+            movePoseDown: 'move pose down',
         },
         labels: {
             learn: 'learn more …',

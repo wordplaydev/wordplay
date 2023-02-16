@@ -20,6 +20,9 @@
     import Evaluate from '@nodes/Evaluate';
     import { PoseType } from '@output/Pose';
     import PoseEditor from './PoseEditor.svelte';
+    import { SequenceType } from '@output/Sequence';
+    import SequenceEditor from './SequenceEditor.svelte';
+    import SequencePosesEditor from './SequencePosesEditor.svelte';
 
     export let project: Project;
     export let property: OutputProperty;
@@ -77,8 +80,18 @@
         {:else if property.type === 'pose'}
             {@const expression = values.getExpression()}
             {#if expression instanceof Evaluate && expression.is(PoseType, project.getNodeContext(expression))}
-                <PoseEditor {project} {values} />
+                <PoseEditor
+                    {project}
+                    outputs={values.getOutputExpressions(project)}
+                />
+            {:else if expression instanceof Evaluate && expression.is(SequenceType, project.getNodeContext(expression))}
+                <SequenceEditor
+                    {project}
+                    outputs={values.getOutputExpressions(project)}
+                />
             {/if}
+        {:else if property.type == 'poses'}
+            <SequencePosesEditor {project} map={values.getMap()} />
         {/if}
     </div>
 </div>

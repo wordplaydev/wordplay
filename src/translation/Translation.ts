@@ -758,6 +758,10 @@ type Translation = {
             addPhrase: string;
             fit: string;
             grid: string;
+            addPose: string;
+            removePose: string;
+            movePoseUp: string;
+            movePoseDown: string;
         };
         labels: {
             learn: string;
