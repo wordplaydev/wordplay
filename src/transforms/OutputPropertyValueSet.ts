@@ -116,16 +116,19 @@ export default class OutputPropertyValueSet {
     }
 
     /** Given a project, unsets this property on expressions on which it is set. */
-    unset(project: Project) {
+    unset(project: Project, languages: LanguageCode[]) {
         // Find all the values that are given, then map them to [ Evaluate, Evaluate ] pairs
         // that represent the original Evaluate and the replacement without the given value.
+        // If the property is required, replace with a default value.
         reviseProject(
             project.getBindReplacements(
                 this.values
                     .filter((value) => value.given)
                     .map((value) => value.evaluate),
                 this.property.name,
-                undefined
+                this.property.required
+                    ? this.property.create(languages)
+                    : undefined
             )
         );
     }

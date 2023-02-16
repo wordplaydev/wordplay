@@ -56,6 +56,7 @@ const OutputProperties: OutputProperty[] = [
     {
         name: getTranslation(en.output.type.size.name),
         type: new OutputPropertyRange(0.25, 32, 0.25, 'm'),
+        required: false,
         inherited: true,
         editable: (expr) => expr instanceof MeasurementLiteral,
         create: () => MeasurementLiteral.make(1, Unit.make(['m'])),
@@ -71,6 +72,7 @@ const OutputProperties: OutputProperty[] = [
                     ? expression.getValue().text
                     : undefined
         ),
+        required: false,
         inherited: true,
         editable: (expr) => expr instanceof TextLiteral,
         create: () => TextLiteral.make('Noto Sans'),
@@ -78,6 +80,7 @@ const OutputProperties: OutputProperty[] = [
     {
         name: getTranslation(en.output.type.duration.name),
         type: new OutputPropertyRange(0, 2, 0.25, 's', 2),
+        required: false,
         inherited: false,
         editable: (expr) => expr instanceof MeasurementLiteral,
         create: () => MeasurementLiteral.make(0.25, Unit.make(['s'])),
@@ -99,6 +102,7 @@ const OutputProperties: OutputProperty[] = [
                     ? expression.getValue().text
                     : undefined
         ),
+        required: false,
         inherited: false,
         editable: (expr) => expr instanceof TextLiteral,
         create: () => TextLiteral.make(DefaultStyle),
@@ -106,6 +110,7 @@ const OutputProperties: OutputProperty[] = [
     {
         name: getTranslation(en.output.type.name.name),
         type: new OutputPropertyText(() => true),
+        required: false,
         inherited: false,
         editable: (expr) => expr instanceof TextLiteral,
         create: () => TextLiteral.make(''),
@@ -116,6 +121,7 @@ export const PoseProperties: OutputProperty[] = [
     {
         name: getTranslation(en.output.pose.color.name),
         type: 'color',
+        required: false,
         inherited: true,
         editable: (expr, context) =>
             expr instanceof Evaluate && expr.is(ColorType, context),
@@ -124,6 +130,7 @@ export const PoseProperties: OutputProperty[] = [
     {
         name: getTranslation(en.output.pose.opacity.name),
         type: new OutputPropertyRange(0, 1, 0.05, '%', 2),
+        required: false,
         inherited: false,
         editable: (expr) => expr instanceof MeasurementLiteral,
         create: () => MeasurementLiteral.make(1),
@@ -131,6 +138,7 @@ export const PoseProperties: OutputProperty[] = [
     {
         name: getTranslation(en.output.pose.scale.name),
         type: new OutputPropertyRange(0, 10, 0.25, '', 2),
+        required: false,
         inherited: false,
         editable: (expr) => expr instanceof MeasurementLiteral,
         create: () => MeasurementLiteral.make(1),
@@ -138,6 +146,7 @@ export const PoseProperties: OutputProperty[] = [
     {
         name: getTranslation(en.output.pose.flipx.name),
         type: 'bool',
+        required: false,
         inherited: false,
         editable: (expr) => expr instanceof BooleanLiteral,
         create: () => BooleanLiteral.make(false),
@@ -145,6 +154,7 @@ export const PoseProperties: OutputProperty[] = [
     {
         name: getTranslation(en.output.pose.flipy.name),
         type: 'bool',
+        required: false,
         inherited: false,
         editable: (expr) => expr instanceof BooleanLiteral,
         create: () => BooleanLiteral.make(false),
@@ -163,6 +173,7 @@ const GroupProperties: OutputProperty[] = [
                     ? expression.func.toWordplay()
                     : undefined
         ),
+        required: true,
         inherited: false,
         editable: () => true,
         create: (languages) =>
@@ -180,6 +191,7 @@ const VerseProperties: OutputProperty[] = [
     {
         name: 'background',
         type: 'color' as const,
+        required: false,
         inherited: false,
         editable: (expr, context) =>
             expr instanceof Evaluate && expr.is(ColorType, context),
@@ -191,6 +203,7 @@ const PhraseProperties: OutputProperty[] = [
     {
         name: getTranslation(en.output.phrase.text.name),
         type: new OutputPropertyText(() => true),
+        required: true,
         inherited: false,
         editable: (expr) => expr instanceof TextLiteral,
         create: () => TextLiteral.make(''),

@@ -17,6 +17,8 @@ type OutputProperty = {
         | OutputPropertyText
         | 'color'
         | 'bool';
+    /** True if the property is required */
+    required: boolean;
     /** True if the property uses the nearest parent's property if unset */
     inherited: boolean;
     /** A function that determines whether an Expression set on the property can be edited using the output editing controls. */

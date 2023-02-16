@@ -28,7 +28,7 @@
     {#if values.areSet()}
         <Button
             tip={$preferredTranslations[0].ui.tooltip.revert}
-            action={() => values.unset(project)}>⨉</Button
+            action={() => values.unset(project, $preferredLanguages)}>⨉</Button
         >
     {:else}
         <Button
