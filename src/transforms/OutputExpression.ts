@@ -97,7 +97,7 @@ const OutputProperties: OutputProperty[] = [
             (text: string) => TextLiteral.make(text),
             (expression: Expression | undefined) =>
                 expression instanceof TextLiteral
-                    ? expression.toWordplay()
+                    ? expression.getValue().text
                     : undefined
         ),
         required: false,
