@@ -1,12 +1,12 @@
 import type Project from '../models/Project';
 import { reviseProject } from '../models/stores';
-import type Evaluate from '../nodes/Evaluate';
-import type Expression from '../nodes/Expression';
-import Bool from '../runtime/Bool';
+import type Evaluate from '@nodes/Evaluate';
+import type Expression from '@nodes/Expression';
+import Bool from '@runtime/Bool';
 import Measurement from '../runtime/Measurement';
-import Text from '../runtime/Text';
-import type Value from '../runtime/Value';
-import type LanguageCode from '../translation/LanguageCode';
+import Text from '@runtime/Text';
+import type Value from '@runtime/Value';
+import type LanguageCode from '@translation/LanguageCode';
 import type OutputExpression from './OutputExpression';
 import type { OutputPropertyValue } from './OutputExpression';
 
