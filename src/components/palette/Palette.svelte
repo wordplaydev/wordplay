@@ -3,10 +3,6 @@
     import { selectedOutput } from '../../models/stores';
     import type Project from '../../models/Project';
     import OutputValueSet from '@transforms/OutputPropertyValueSet';
-    import OutputExpression, {
-        PoseProperties,
-        type OutputProperty,
-    } from '@transforms/OutputExpression';
     import type { PoseSelected } from './PoseChooser.svelte';
     import PoseChooser from './PoseChooser.svelte';
     import Evaluate from '@nodes/Evaluate';
@@ -16,6 +12,10 @@
     import MapLiteral from '@nodes/MapLiteral';
     import KeyValue from '@nodes/KeyValue';
     import MeasurementLiteral from '@nodes/MeasurementLiteral';
+    import type OutputProperty from '@transforms/OutputProperty';
+    import OutputExpression, {
+        PoseProperties,
+    } from '@transforms/OutputExpression';
 
     export let project: Project;
 

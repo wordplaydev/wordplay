@@ -5,10 +5,10 @@
     import MeasurementLiteral from '@nodes/MeasurementLiteral';
     import Reference from '@nodes/Reference';
     import Unit from '@nodes/Unit';
-    import { ColorType } from '@output/Color';
-    import type { OutputProperty } from '@transforms/OutputExpression';
     import type OutputPropertyValues from '@transforms/OutputPropertyValueSet';
     import ColorChooser from '../widgets/ColorChooser.svelte';
+    import type OutputProperty from '../../transforms/OutputProperty';
+    import { ColorType } from '../../output/Color';
 
     export let property: OutputProperty;
     export let values: OutputPropertyValues;

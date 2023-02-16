@@ -1,10 +1,10 @@
 <script lang="ts">
     import type OutputPropertyValues from '@transforms/OutputPropertyValueSet';
-    import type { OutputProperty } from '@transforms/OutputExpression';
-    import TextField from '../widgets/TextField.svelte';
     import { project, reviseProject } from '../../models/stores';
     import TextLiteral from '@nodes/TextLiteral';
-    import { preferredLanguages } from '../../translation/translations';
+    import { preferredLanguages } from '@translation/translations';
+    import TextField from '../widgets/TextField.svelte';
+    import type OutputProperty from '@transforms/OutputProperty';
 
     export let property: OutputProperty;
     export let values: OutputPropertyValues;

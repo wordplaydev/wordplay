@@ -21,18 +21,7 @@ import { StackType } from '@output/Stack';
 import OutputPropertyRange from './OutputPropertyRange';
 import OutputPropertyOptions from './OutputPropertyOptions';
 import { PoseType } from '../output/Pose';
-
-/** Represents an editable property on the output expression, with some optional information about valid property values */
-export type OutputProperty = {
-    name: string;
-    type:
-        | OutputPropertyRange
-        | OutputPropertyOptions
-        | OutputPropertyText
-        | 'color'
-        | 'bool';
-    required: boolean;
-};
+import type OutputProperty from './OutputProperty';
 
 export class OutputPropertyText {
     readonly validator: (text: string) => boolean;

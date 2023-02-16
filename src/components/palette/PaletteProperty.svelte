@@ -1,9 +1,4 @@
 <script lang="ts">
-    import {
-        OutputPropertyText,
-        type OutputProperty,
-    } from '@transforms/OutputExpression';
-    import OutputPropertyOptions from '@transforms/OutputPropertyOptions';
     import OutputPropertyRange from '@transforms/OutputPropertyRange';
     import type OutputPropertyValueSet from '@transforms/OutputPropertyValueSet';
     import Button from '../widgets/Button.svelte';
@@ -17,6 +12,9 @@
         preferredLanguages,
     } from '@translation/translations';
     import type Project from '../../models/Project';
+    import OutputPropertyOptions from '@transforms/OutputPropertyOptions';
+    import { OutputPropertyText } from '@transforms/OutputExpression';
+    import type OutputProperty from '@transforms/OutputProperty';
 
     export let project: Project;
     export let property: OutputProperty;
