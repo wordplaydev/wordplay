@@ -34,7 +34,9 @@ export default class Measurement extends Primitive {
         }
         // If the number is a token, convert it to a Decimal.
         else if (number instanceof Token) {
-            this.num = Measurement.fromToken(number);
+            this.num = Measurement.fromToken(number).times(
+                this.unit.isPercent() ? 0.01 : 1
+            );
         }
         // If it's a Javascript floating point, convert.
         else if (typeof number === 'number') {

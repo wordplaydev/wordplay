@@ -29,14 +29,14 @@
         padding-bottom: var(--wordplay-spacing);
         border-bottom: var(--wordplay-disabled-color) solid
             var(--wordplay-border-width);
+        outline: none;
     }
 
     input:focus {
-        outline: none;
         border-bottom-color: var(--wordplay-highlight);
     }
 
-    .error {
-        border-color: var(--wordplay-error);
+    input.error {
+        color: var(--wordplay-error);
     }
 </style>

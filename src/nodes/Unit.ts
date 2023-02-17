@@ -175,6 +175,10 @@ export default class Unit extends Type {
         return newUnit;
     }
 
+    isPercent() {
+        return this.exponents.get('%') === 1 && this.exponents.size === 1;
+    }
+
     isWildcard() {
         return this.exponents.get('?') === 1;
     }
