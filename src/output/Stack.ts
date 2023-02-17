@@ -9,16 +9,16 @@ import type LanguageCode from '@translation/LanguageCode';
 import { getPreferredTranslation } from '@translation/getPreferredTranslation';
 import { getBind } from '@translation/getBind';
 import Phrase from './Phrase';
-import Arrangement from './Arrangement';
+import Layout from './Layout';
 import Measurement from '../runtime/Measurement';
 
 export const StackType = toStructure(`
-    ${getBind((t) => t.output.stack.definition, '•')} Arrangement(
+    ${getBind((t) => t.output.stack.definition, '•')} Layout(
         ${getBind((t) => t.output.stack.padding)}•#m: 1m
     )
 `);
 
-export class Stack extends Arrangement {
+export class Stack extends Layout {
     readonly padding: Measurement;
 
     constructor(value: Value, padding: Measurement) {

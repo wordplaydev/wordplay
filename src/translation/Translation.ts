@@ -832,7 +832,7 @@ type Translation = {
         group: {
             definition: NameAndDocTranslation;
             content: NameAndDocTranslation;
-            arrangement: NameAndDocTranslation;
+            layout: NameAndDocTranslation;
         };
         phrase: {
             definition: NameAndDocTranslation;
@@ -845,7 +845,7 @@ type Translation = {
             background: NameAndDocTranslation;
             focus: NameAndDocTranslation;
         };
-        arrangement: {
+        layout: {
             definition: NameAndDocTranslation;
         };
         pose: {

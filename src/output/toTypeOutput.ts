@@ -1,7 +1,7 @@
 import List from '../runtime/List';
 import Structure from '../runtime/Structure';
 import type Value from '../runtime/Value';
-import type Arrangement from './Arrangement';
+import type Layout from './Layout';
 import { toGroup } from './Group';
 import { PhraseType, toFont, toPhrase, toText } from './Phrase';
 import { RowType, toRow } from './Row';
@@ -54,9 +54,7 @@ export function toTypeOutputList(
     return phrases;
 }
 
-export function toArrangement(
-    value: Value | undefined
-): Arrangement | undefined {
+export function toArrangement(value: Value | undefined): Layout | undefined {
     if (!(value instanceof Structure)) return undefined;
     switch (value.type) {
         case RowType:

@@ -10,15 +10,15 @@ import { getPreferredTranslation } from '@translation/getPreferredTranslation';
 import { getBind } from '@translation/getBind';
 import Phrase from './Phrase';
 import Measurement from '../runtime/Measurement';
-import Arrangement from './Arrangement';
+import Layout from './Layout';
 
 export const RowType = toStructure(`
-    ${getBind((t) => t.output.row.definition, '•')} Arrangement(
+    ${getBind((t) => t.output.row.definition, '•')} Layout(
         ${getBind((t) => t.output.row.padding)}•#m: 1m
     )
 `);
 
-export class Row extends Arrangement {
+export class Row extends Layout {
     readonly padding: Measurement;
 
     constructor(value: Value, padding: Measurement) {

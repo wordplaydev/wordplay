@@ -1732,13 +1732,13 @@ const eng_wordplay: Translation = {
         group: {
             definition: { doc: WRITE_DOC, name: 'Group' },
             content: { doc: WRITE_DOC, name: 'content' },
-            arrangement: { doc: WRITE_DOC, name: 'arrangement' },
+            layout: { doc: WRITE_DOC, name: 'layout' },
         },
         phrase: {
             definition: { doc: WRITE_DOC, name: ['💬', 'Phrase'] },
             text: { doc: WRITE_DOC, name: 'text' },
         },
-        arrangement: {
+        layout: {
             definition: { doc: WRITE_DOC, name: ['Arrangement'] },
         },
         pose: {

@@ -11,10 +11,10 @@ import type LanguageCode from '@translation/LanguageCode';
 import type { Description } from '@translation/Translation';
 
 export const ArrangementType = toStructure(`
-    ${getBind((t) => t.output.arrangement.definition, TYPE_SYMBOL)}()
+    ${getBind((t) => t.output.layout.definition, TYPE_SYMBOL)}()
 `);
 
-export default abstract class Arrangement extends Output {
+export default abstract class Layout extends Output {
     constructor(value: Value) {
         super(value);
     }

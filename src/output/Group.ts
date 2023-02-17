@@ -2,7 +2,7 @@ import type Decimal from 'decimal.js';
 import toStructure from '../native/toStructure';
 import type Value from '../runtime/Value';
 import { getBind } from '../translation/getBind';
-import type Arrangement from './Arrangement';
+import type Layout from './Layout';
 import type Color from './Color';
 import type Place from './Place';
 import type Pose from './Pose';
@@ -17,18 +17,18 @@ import type { NameGenerator } from './Verse';
 
 export const GroupType = toStructure(`
     ${getBind((t) => t.output.group.definition, TYPE_SYMBOL)} Type(
-        ${getBind((t) => t.output.group.arrangement)}•Arrangement
+        ${getBind((t) => t.output.group.layout)}•Arrangement
         ${getBind((t) => t.output.group.content)}•[Type]
         ${TypeOutputInputs}
     )`);
 
 export default class Group extends TypeOutput {
     readonly content: TypeOutput[];
-    readonly arrangement: Arrangement;
+    readonly layout: Layout;
 
     constructor(
         value: Value,
-        arrangement: Arrangement,
+        layout: Layout,
         content: TypeOutput[],
         size: number | undefined = undefined,
         font: string | undefined = undefined,
@@ -56,19 +56,19 @@ export default class Group extends TypeOutput {
         );
 
         this.content = content;
-        this.arrangement = arrangement;
+        this.layout = layout;
     }
 
     getWidth(context: RenderContext): Decimal {
-        return this.arrangement.getWidth(this.content, context);
+        return this.layout.getWidth(this.content, context);
     }
 
     getHeight(context: RenderContext): Decimal {
-        return this.arrangement.getHeight(this.content, context);
+        return this.layout.getHeight(this.content, context);
     }
 
     getPlaces(context: RenderContext): [TypeOutput, Place][] {
-        return this.arrangement.getPlaces(this.content, context);
+        return this.layout.getPlaces(this.content, context);
     }
 
     getGroups(): TypeOutput[] {
@@ -80,7 +80,7 @@ export default class Group extends TypeOutput {
     }
 
     getDescription(languages: LanguageCode[]) {
-        return this.arrangement.getDescription(this.content, languages);
+        return this.layout.getDescription(this.content, languages);
     }
 }
 

@@ -18,7 +18,7 @@ import { MotionDefinition } from '../input/Motion';
 import { MousePositionDefinition } from '../input/MousePosition';
 import { MouseButtonDefinition } from '../input/MouseButton';
 import { RandomDefinition } from '../input/Random';
-import { ArrangementType } from '../output/Arrangement';
+import { ArrangementType } from '../output/Layout';
 
 export const AnimationTypes = [PoseType, SequenceType];
 
