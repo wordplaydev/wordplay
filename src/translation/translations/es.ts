@@ -1618,6 +1618,7 @@ const eng_wordplay: Translation = {
             computed: 'computed',
             default: 'default',
             inherited: 'inherited',
+            notSequence: 'not a sequence',
         },
         tiles: {
             output: '💬',

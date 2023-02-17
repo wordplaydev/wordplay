@@ -776,6 +776,8 @@ type Translation = {
             default: string;
             /** Shown in the output palette when a value is unset but is inherited */
             inherited: string;
+            /** Shown in the output palette when a sequence isn't valid */
+            notSequence: string;
         };
         tiles: {
             output: string;

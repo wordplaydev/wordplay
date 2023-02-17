@@ -16,6 +16,7 @@
         preferredLanguages,
         preferredTranslations,
     } from '../../translation/translations';
+    import Note from '../widgets/Note.svelte';
 
     export let project: Project;
     export let map: MapLiteral | undefined;
@@ -158,7 +159,7 @@
             {/if}
         {/each}
     {:else}
-        not a valid sequence
+        <Note>{$preferredTranslations[0].ui.labels.notSequence}</Note>
     {/if}
 </div>
 

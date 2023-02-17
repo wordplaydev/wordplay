@@ -1662,6 +1662,7 @@ const en: Translation = {
             computed: 'computed',
             default: 'default',
             inherited: 'inherited',
+            notSequence: 'not a sequence',
         },
         tiles: {
             output: '💬',
