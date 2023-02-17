@@ -13,6 +13,13 @@
 </script>
 
 <div class="component">
+    <!-- 
+        Add a zero width space to ensure that when sliders are in a 
+        flex that is aligned by baseline, it properly aligns.
+        Without this, it takes the bottom of the slider, which
+        makes it vertically off center.
+    -->
+    &#8203;
     <input
         class="slider"
         type="range"
