@@ -1608,6 +1608,7 @@ const eng_wordplay: Translation = {
             removePose: 'remove pose',
             movePoseUp: 'move pose up',
             movePoseDown: 'move pose down',
+            sequence: 'convert to a sequence',
         },
         labels: {
             learn: 'learn more …',

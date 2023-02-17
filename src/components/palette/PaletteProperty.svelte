@@ -83,6 +83,7 @@
                 <PoseEditor
                     {project}
                     outputs={values.getOutputExpressions(project)}
+                    sequence={false}
                 />
             {:else if expression instanceof Evaluate && expression.is(SequenceType, project.getNodeContext(expression))}
                 <SequenceEditor

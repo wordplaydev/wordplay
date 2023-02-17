@@ -150,6 +150,7 @@
                             outputs={[
                                 new OutputExpression(project, pair.value),
                             ]}
+                            sequence
                         /></div
                     >
                 </div>

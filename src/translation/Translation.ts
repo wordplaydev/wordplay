@@ -762,6 +762,7 @@ type Translation = {
             removePose: string;
             movePoseUp: string;
             movePoseDown: string;
+            sequence: string;
         };
         labels: {
             learn: string;
