@@ -1,8 +1,17 @@
 import Evaluate from '../nodes/Evaluate';
+import ListLiteral from '../nodes/ListLiteral';
 import { ColorType, createColorLiteral } from '../output/Color';
 import type OutputProperty from './OutputProperty';
 
 const VerseProperties: OutputProperty[] = [
+    {
+        name: 'content',
+        type: 'content',
+        required: true,
+        inherited: false,
+        editable: (expr) => expr instanceof ListLiteral,
+        create: () => ListLiteral.make([]),
+    },
     {
         name: 'background',
         type: 'color' as const,

@@ -18,7 +18,8 @@ type OutputProperty = {
         | 'color'
         | 'bool'
         | 'pose'
-        | 'poses';
+        | 'poses'
+        | 'content';
     /** True if the property is required */
     required: boolean;
     /** True if the property uses the nearest parent's property if unset */

@@ -23,6 +23,7 @@
     import { SequenceType } from '@output/Sequence';
     import SequenceEditor from './SequenceEditor.svelte';
     import SequencePosesEditor from './SequencePosesEditor.svelte';
+    import ContentEditor from './ContentEditor.svelte';
 
     export let project: Project;
     export let property: OutputProperty;
@@ -53,15 +54,16 @@
             {@const expression = values.getExpression()}
             <!-- If the values arent set, show as inherited if inherited, and otherwise show the default -->
             <Note
-                >{#if property.inherited}({$preferredTranslations
+                >{#if property.inherited}{$preferredTranslations
                         .map((t) => t.ui.labels.inherited)
                         .join(
                             '/'
-                        )}){:else if values.areDefault() && expression !== undefined}<NodeView
+                        )}{:else if values.areDefault() && expression !== undefined}<NodeView
                         node={expression}
-                    /> ({$preferredTranslations
+                    />
+                    {$preferredTranslations
                         .map((t) => t.ui.labels.default)
-                        .join('/')}){:else}&mdash;{/if}</Note
+                        .join('/')}{:else}&mdash;{/if}</Note
             >
         {:else if !values.areEditable(project)}
             <Note
@@ -93,6 +95,8 @@
             {/if}
         {:else if property.type == 'poses'}
             <SequencePosesEditor {project} map={values.getMap()} />
+        {:else if property.type == 'content'}
+            <ContentEditor {project} list={values.getList()} />
         {/if}
     </div>
 </div>

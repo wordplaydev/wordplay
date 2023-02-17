@@ -11,6 +11,7 @@ import OutputExpression from './OutputExpression';
 import type { OutputPropertyValue } from './OutputExpression';
 import type OutputProperty from './OutputProperty';
 import MapLiteral from '../nodes/MapLiteral';
+import ListLiteral from '../nodes/ListLiteral';
 
 /**
  * Represents one or more equivalent inputs to an output expression.
@@ -106,6 +107,11 @@ export default class OutputPropertyValueSet {
     getMap() {
         const expr = this.getExpression();
         return expr instanceof MapLiteral ? expr : undefined;
+    }
+
+    getList() {
+        const expr = this.getExpression();
+        return expr instanceof ListLiteral ? expr : undefined;
     }
 
     getName() {

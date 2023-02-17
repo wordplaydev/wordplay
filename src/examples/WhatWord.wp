@@ -86,7 +86,7 @@ screen:
     ])
 
 `Create a world with the screen in it`/en
-Verse(screen font: "Poor Story" background: 🌈(0% 0 0°) rest: Pose(color: 🌈(100% 0 0°)))
+Verse([screen] font: "Poor Story" background: 🌈(0% 0 0°) rest: Pose(color: 🌈(100% 0 0°)))
 
 === words
 `These are the secret words. Don't tell anyone!`/en

@@ -1,5 +1,6 @@
 import Evaluate from '../nodes/Evaluate';
 import type Expression from '../nodes/Expression';
+import ListLiteral from '../nodes/ListLiteral';
 import Reference from '../nodes/Reference';
 import { RowType } from '../output/Row';
 import { StackType } from '../output/Stack';
@@ -29,6 +30,14 @@ const GroupProperties: OutputProperty[] = [
                 ),
                 []
             ),
+    },
+    {
+        name: 'content',
+        type: 'content',
+        required: true,
+        inherited: false,
+        editable: (expr) => expr instanceof ListLiteral,
+        create: () => ListLiteral.make([]),
     },
 ];
 

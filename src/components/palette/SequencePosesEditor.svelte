@@ -127,21 +127,24 @@
                         />
                         <Button
                             tip={$preferredTranslations[0].ui.tooltip.addPose}
-                            action={() => addPose(index)}
+                            action={() => addPose(index)}>+</Button
+                        >
+                        <Button
+                            tip={$preferredTranslations[0].ui.tooltip
+                                .removePose}
+                            action={() => removePose(index)}
                             enabled={map !== undefined && map.values.length > 1}
-                            >+</Button
+                            >⨉</Button
                         >
                         <Button
-                            tip={$preferredTranslations[0].ui.tooltip.addPose}
-                            action={() => removePose(index)}>⨉</Button
-                        >
-                        <Button
-                            tip={$preferredTranslations[0].ui.tooltip.addPose}
+                            tip={$preferredTranslations[0].ui.tooltip
+                                .movePoseUp}
                             action={() => movePose(index, -1)}
                             enabled={index > 0}>↑</Button
                         >
                         <Button
-                            tip={$preferredTranslations[0].ui.tooltip.addPose}
+                            tip={$preferredTranslations[0].ui.tooltip
+                                .movePoseDown}
                             action={() => movePose(index, 1)}
                             enabled={index < map.values.length - 1}>↓</Button
                         >

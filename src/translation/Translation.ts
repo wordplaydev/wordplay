@@ -760,13 +760,18 @@ type Translation = {
             horizontal: string;
             vertical: string;
             freeform: string;
-            addPhrase: string;
             fit: string;
             grid: string;
             addPose: string;
             removePose: string;
             movePoseUp: string;
             movePoseDown: string;
+            addGroup: string;
+            addPhrase: string;
+            removeContent: string;
+            moveContentUp: string;
+            moveContentDown: string;
+            editContent: string;
             sequence: string;
         };
         labels: {
@@ -782,6 +787,8 @@ type Translation = {
             inherited: string;
             /** Shown in the output palette when a sequence isn't valid */
             notSequence: string;
+            /** Shown in the output palette when a list of content is isn't valid */
+            notContent: string;
         };
         tiles: {
             output: string;

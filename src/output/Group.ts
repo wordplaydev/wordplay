@@ -90,7 +90,7 @@ export function toGroup(
 ): Group | undefined {
     if (value === undefined) return undefined;
 
-    const arrangement = toArrangement(value.resolve('arrangement'));
+    const layout = toArrangement(value.resolve('layout'));
     const content = toTypeOutputList(value.resolve('content'), namer);
 
     const {
@@ -106,14 +106,14 @@ export function toGroup(
         style,
     } = getStyle(value);
 
-    return arrangement &&
+    return layout &&
         content &&
         duration !== undefined &&
         style !== undefined &&
         rest
         ? new Group(
               value,
-              arrangement,
+              layout,
               content,
               size,
               font,

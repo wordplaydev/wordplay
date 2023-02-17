@@ -36,6 +36,7 @@
         color: currentcolor;
         cursor: pointer;
         width: fit-content;
+        white-space: nowrap;
     }
 
     button:disabled {
