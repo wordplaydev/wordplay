@@ -97,11 +97,6 @@ type Translation = {
     language: LanguageCode;
     style: LanguageStyle;
     welcome: string;
-    placeholders: {
-        code: string;
-        expression: string;
-        type: string;
-    };
     terminology: {
         store: string;
         code: string;
@@ -733,6 +728,12 @@ type Translation = {
         replace: (node: Description | undefined) => Description;
     };
     ui: {
+        placeholders: {
+            code: string;
+            expression: string;
+            type: string;
+            percent: string;
+        };
         tooltip: {
             play: string;
             pause: string;

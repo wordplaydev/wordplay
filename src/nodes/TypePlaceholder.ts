@@ -24,7 +24,7 @@ export default class TypePlaceholder extends Type {
                 name: 'placeholder',
                 types: [Token],
                 label: (translation: Translation) =>
-                    translation.placeholders.type,
+                    translation.ui.placeholders.type,
             },
         ];
     }

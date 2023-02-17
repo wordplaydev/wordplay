@@ -94,7 +94,8 @@
                     <div class="percent"
                         ><TextField
                             text={pair.key.toWordplay()}
-                            placeholder="percent"
+                            placeholder={$preferredTranslations[0].ui
+                                .placeholders.percent}
                             validator={(value) => {
                                 const number = parseInt(value.replace('%', ''));
                                 if (isNaN(number)) return false;

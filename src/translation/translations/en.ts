@@ -36,11 +36,6 @@ const en: Translation = {
     language: 'en',
     style: 'cs',
     welcome: 'hello',
-    placeholders: {
-        code: 'code',
-        expression: 'value',
-        type: 'type',
-    },
     terminology: {
         store: 'store',
         code: 'compute',
@@ -1623,6 +1618,12 @@ const en: Translation = {
             `replace with ${node ?? 'nothing'}`,
     },
     ui: {
+        placeholders: {
+            code: 'code',
+            expression: 'value',
+            type: 'type',
+            percent: 'percent',
+        },
         tooltip: {
             play: 'evaluate the program fully',
             pause: 'evaluate the program one step at a time',
