@@ -64,10 +64,10 @@
     } from './Drag';
     import type Tree from '@nodes/Tree';
     import Menu from './util/Menu';
-    import Evaluate from '../../nodes/Evaluate';
-    import { PhraseType } from '../../output/Phrase';
-    import { GroupType } from '../../output/Group';
-    import { VerseType } from '../../output/Verse';
+    import Evaluate from '@nodes/Evaluate';
+    import { PhraseType } from '@output/Phrase';
+    import { GroupType } from '@output/Group';
+    import { VerseType } from '@output/Verse';
 
     export let project: Project;
     export let source: Source;
