@@ -15,7 +15,9 @@
             $project.getBindReplacements(
                 values.getExpressions(),
                 property.name,
-                newValue ? BooleanLiteral.make(newValue) : undefined
+                newValue !== undefined
+                    ? BooleanLiteral.make(newValue)
+                    : undefined
             )
         );
     }
