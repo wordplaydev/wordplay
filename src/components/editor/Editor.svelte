@@ -64,6 +64,10 @@
     } from './Drag';
     import type Tree from '@nodes/Tree';
     import Menu from './util/Menu';
+    import Evaluate from '../../nodes/Evaluate';
+    import { PhraseType } from '../../output/Phrase';
+    import { GroupType } from '../../output/Group';
+    import { VerseType } from '../../output/Verse';
 
     export let project: Project;
     export let source: Source;
@@ -79,21 +83,21 @@
     let editor: HTMLElement | null;
 
     // A per-editor store that contains the current editor's cursor. We expose it as context to children.
-    let caret = writable<Caret>(new Caret(source, 0));
+    const caret = writable<Caret>(new Caret(source, 0));
 
     // A store of highlighted nodes, used by node views to highlight themselves.
     // We store centrally since the logic that determines what's highlighted is in the Editor.
-    let highlights = writable<Highlights>(new Map());
+    const highlights = writable<Highlights>(new Map());
     setContext(HighlightSymbol, highlights);
 
     // A store of what node is hovered over, excluding tokens, used in drag and drop.
-    let hovered = writable<Node | undefined>(undefined);
+    const hovered = writable<Node | undefined>(undefined);
     setContext(HoveredSymbol, hovered);
 
     // A store of what node is hovered over, including tokens.
-    let hoveredAny = writable<Node | undefined>(undefined);
+    const hoveredAny = writable<Node | undefined>(undefined);
 
-    let insertion = writable<InsertionPoint | undefined>(undefined);
+    const insertion = writable<InsertionPoint | undefined>(undefined);
     setContext(InsertionPointsSymbol, insertion);
 
     // A shorthand for the current program.
@@ -182,6 +186,21 @@
     $: {
         caret.set($caret.withSource(source));
         setContext(CaretSymbol, caret);
+    }
+
+    // When the caret changes, see if it contains output, and if so, select it so the
+    // palette appears.
+    $: {
+        if (
+            $caret.position instanceof Evaluate &&
+            $caret.position.isOneOf(
+                project.getNodeContext($caret.position),
+                PhraseType,
+                GroupType,
+                VerseType
+            )
+        )
+            selectedOutput.set([$caret.position]);
     }
 
     // Determine the conflicts of interest based on caret and mouse position.

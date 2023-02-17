@@ -513,6 +513,11 @@ export default class Evaluate extends Expression {
         return this.getFunction(context) === def;
     }
 
+    isOneOf(context: Context, ...types: StructureDefinition[]) {
+        const fun = this.getFunction(context);
+        return types.includes(fun as StructureDefinition);
+    }
+
     computeType(context: Context): Type {
         const fun = this.getFunction(context);
 
