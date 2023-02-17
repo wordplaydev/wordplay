@@ -88,6 +88,10 @@ type ValueOrUndefinedTranslation = (
     value: ValueLink | undefined
 ) => Description;
 
+export function getFirstName(name: NameTranslation) {
+    return typeof name === 'string' ? name : name[0];
+}
+
 /**
  * Represents a complete translation for Wordplay,
  * including every user interface label, every description, etc.
