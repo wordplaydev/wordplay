@@ -14,13 +14,10 @@ import { ColorType } from '@output/Color';
 import { PoseType } from '../output/Pose';
 import { SequenceType } from '@output/Sequence';
 import type OutputProperty from './OutputProperty';
-import {
-    GroupProperties,
-    PhraseProperties,
-    TypeOutputProperties,
-    VerseProperties,
-} from './TypeOutputProperties';
-
+import TypeOutputProperties from './TypeOutputProperties';
+import GroupProperties from './GroupProperties';
+import PhraseProperties from './PhraseProperties';
+import VerseProperties from './VerseProperties';
 /**
  * Represents the value of a property. If given is true, it means its set explicitly.
  * If false, it means that it's the default value defined on the output type.

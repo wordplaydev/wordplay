@@ -2,7 +2,6 @@ import { SupportedFonts } from '@native/Fonts';
 import Evaluate from '@nodes/Evaluate';
 import type Expression from '@nodes/Expression';
 import MeasurementLiteral from '@nodes/MeasurementLiteral';
-import Reference from '@nodes/Reference';
 import TextLiteral from '@nodes/TextLiteral';
 import Unit from '@nodes/Unit';
 import { createPoseLiteral, PoseType } from '@output/Pose';
@@ -10,9 +9,6 @@ import { SequenceType } from '@output/Sequence';
 import { DefaultStyle } from '@output/TypeOutput';
 import type { NameTranslation } from '@translation/Translation';
 import en from '@translation/translations/en';
-import { ColorType, createColorLiteral } from '../output/Color';
-import { RowType } from '@output/Row';
-import { StackType } from '@output/Stack';
 import type OutputProperty from './OutputProperty';
 import OutputPropertyText from './OutputPropertyText';
 import OutputPropertyOptions from './OutputPropertyOptions';
@@ -68,7 +64,7 @@ export const StyleProperty: OutputProperty = {
 };
 
 // All output has these properties.
-export const TypeOutputProperties: OutputProperty[] = [
+const TypeOutputProperties: OutputProperty[] = [
     {
         name: getTranslation(en.output.type.size.name),
         type: new OutputPropertyRange(0.25, 32, 0.25, 'm'),
@@ -109,51 +105,4 @@ export const TypeOutputProperties: OutputProperty[] = [
     getPoseProperty(getTranslation(en.output.type.exit.name)),
 ];
 
-export const GroupProperties: OutputProperty[] = [
-    {
-        name: 'layout',
-        type: new OutputPropertyOptions(
-            [RowType, StackType].map((type) => `${type.names.getNames()[0]}`),
-            false,
-            (text: string) => Evaluate.make(Reference.make(text), []),
-            (expression: Expression | undefined) =>
-                expression instanceof Evaluate
-                    ? expression.func.toWordplay()
-                    : undefined
-        ),
-        required: true,
-        inherited: false,
-        editable: () => true,
-        create: (languages) =>
-            Evaluate.make(
-                Reference.make(
-                    StackType.names.getTranslation(languages),
-                    StackType
-                ),
-                []
-            ),
-    },
-];
-
-export const VerseProperties: OutputProperty[] = [
-    {
-        name: 'background',
-        type: 'color' as const,
-        required: false,
-        inherited: false,
-        editable: (expr, context) =>
-            expr instanceof Evaluate && expr.is(ColorType, context),
-        create: (languages) => createColorLiteral(languages, 0.5, 100, 180),
-    },
-];
-
-export const PhraseProperties: OutputProperty[] = [
-    {
-        name: getTranslation(en.output.phrase.text.name),
-        type: new OutputPropertyText(() => true),
-        required: true,
-        inherited: false,
-        editable: (expr) => expr instanceof TextLiteral,
-        create: () => TextLiteral.make(''),
-    },
-];
+export default TypeOutputProperties;
