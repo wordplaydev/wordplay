@@ -65,10 +65,6 @@ export class Row extends Layout {
                     // If the phrase a place, use it's z, otherwise default to the 0 plane.
                     child instanceof Phrase && child.place
                         ? child.place.z
-                        : new Decimal(0),
-                    // Use the place's rotation if provided
-                    child instanceof Phrase && child.place
-                        ? child.place.rotation
                         : new Decimal(0)
                 ),
             ]);

@@ -63,6 +63,7 @@
         style={outputToCSS(
             context.font,
             context.size,
+            phrase.rotation,
             // No first pose because of an empty sequence? Give a default.
             phrase.rest instanceof Pose
                 ? phrase.rest

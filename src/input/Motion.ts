@@ -29,6 +29,11 @@ const PlaceName =
         ? en.output.type.place.name
         : en.output.type.place.name[0];
 
+const RotationName =
+    typeof en.output.type.rotation.name === 'string'
+        ? en.output.type.rotation.name
+        : en.output.type.rotation.name[0];
+
 export default class Motion extends TemporalStream<Value> {
     type: TypeOutput;
 
@@ -67,7 +72,7 @@ export default class Motion extends TemporalStream<Value> {
         this.x = type.place?.x.toNumber() ?? 0;
         this.y = type.place?.y.toNumber() ?? 0;
         this.z = type.place?.x.toNumber() ?? 0;
-        this.angle = type.place?.rotation.toNumber() ?? 0;
+        this.angle = type.rotation ?? 0;
 
         this.vx = vx ?? 0;
         this.vy = vy ?? 0;
@@ -97,7 +102,7 @@ export default class Motion extends TemporalStream<Value> {
             this.x = type.place?.x.toNumber() ?? this.x;
             this.y = type.place?.y.toNumber() ?? this.y;
             this.z = type.place?.z.toNumber() ?? this.z;
-            this.angle = type.place?.rotation.toNumber() ?? this.angle;
+            this.angle = type.rotation ?? this.angle;
         }
 
         this.vx = vx ?? this.vx;
@@ -136,17 +141,22 @@ export default class Motion extends TemporalStream<Value> {
         const type = this.type.value;
         if (type instanceof Structure) {
             // Create a new type output with an updated place.
-            const revised = type.withValue(
-                this.definition,
-                PlaceName,
-                createPlaceStructure(
-                    this.evaluator,
-                    this.x,
-                    this.y,
-                    this.z,
-                    this.angle
+            const revised = type
+                .withValue(
+                    this.definition,
+                    PlaceName,
+                    createPlaceStructure(this.evaluator, this.x, this.y, this.z)
                 )
-            );
+                ?.withValue(
+                    this.definition,
+                    RotationName,
+                    new Measurement(
+                        this.definition,
+                        this.angle,
+                        Unit.make(['°'])
+                    )
+                );
+            console.log(this.angle);
 
             // Finally, add the new place to the stream.
             if (revised) this.add(revised);

@@ -17,6 +17,7 @@ export const PoseType = toStructure(`
         ${getBind((t) => t.output.pose.color)}•Color|ø: ø
         ${getBind((t) => t.output.pose.opacity)}•%|ø: ø
         ${getBind((t) => t.output.pose.offset)}•Place|ø: ø
+        ${getBind((t) => t.output.pose.tilt)}•#°|ø: ø
         ${getBind((t) => t.output.pose.scale)}•#|ø: ø
         ${getBind((t) => t.output.pose.flipx)}•?|ø: ø
         ${getBind((t) => t.output.pose.flipy)}•?|ø: ø
@@ -27,6 +28,7 @@ export default class Pose extends Output {
     readonly color?: Color;
     readonly opacity?: number;
     readonly offset?: Place;
+    readonly tilt?: number;
     readonly scale?: number;
     readonly flipx?: boolean;
     readonly flipy?: boolean;
@@ -36,6 +38,7 @@ export default class Pose extends Output {
         color?: Color,
         opacity?: number,
         offset?: Place,
+        tilt?: number,
         scale?: number,
         flipx?: boolean,
         flipy?: boolean
@@ -45,6 +48,7 @@ export default class Pose extends Output {
         this.color = color;
         this.opacity = opacity;
         this.offset = offset;
+        this.tilt = tilt;
         this.scale = scale;
         this.flipx = flipx;
         this.flipy = flipy;
@@ -57,6 +61,7 @@ export default class Pose extends Output {
             pose.color ?? this.color,
             pose.opacity ?? this.opacity,
             pose.offset ?? this.offset,
+            pose.tilt ?? this.tilt,
             pose.scale ?? this.scale,
             pose.flipx ?? this.flipx,
             pose.flipy ?? this.flipy
@@ -75,6 +80,7 @@ export default class Pose extends Output {
                 (this.offset !== undefined &&
                     pose.offset !== undefined &&
                     this.offset.equals(pose.offset))) &&
+            this.tilt === pose.tilt &&
             this.scale === pose.scale &&
             this.flipx === pose.flipx &&
             this.flipy === pose.flipy
@@ -89,11 +95,12 @@ export function toPose(value: Value | undefined): Pose | undefined {
     const color = toColor(value.resolve('color'));
     const opacity = toDecimal(value.resolve('opacity'))?.toNumber();
     const offset = toPlace(value.resolve('offset'));
+    const tilt = toDecimal(value.resolve('tilt'))?.toNumber();
     const scale = toDecimal(value.resolve('scale'))?.toNumber();
     const flipx = toBoolean(value.resolve('flipx'));
     const flipy = toBoolean(value.resolve('flipy'));
 
-    return new Pose(value, color, opacity, offset, scale, flipx, flipy);
+    return new Pose(value, color, opacity, offset, tilt, scale, flipx, flipy);
 }
 
 export function createPoseLiteral(languages: LanguageCode[]) {

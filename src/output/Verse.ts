@@ -41,6 +41,7 @@ export default class Verse extends TypeOutput {
         size: number,
         font: string,
         place: Place | undefined = undefined,
+        rotation: number | undefined = undefined,
         name: TextLang | string,
         entry: Pose | Sequence | undefined = undefined,
         rest: Pose | Sequence,
@@ -54,6 +55,7 @@ export default class Verse extends TypeOutput {
             size,
             font,
             place,
+            rotation,
             name,
             entry,
             rest,
@@ -125,7 +127,6 @@ export default class Verse extends TypeOutput {
                       // We would normally not t negate the y because its in math coordinates, but we want to move it
                       // down the y-axis by half, so we subtract.
                       child.getHeight(context).div(2).neg(),
-                      new Decimal(0),
                       new Decimal(0)
                   ),
         ]);
@@ -172,6 +173,7 @@ export function toVerse(value: Value): Verse | undefined {
             size,
             font,
             place,
+            rotation,
             name,
             rest,
             enter,
@@ -192,6 +194,7 @@ export function toVerse(value: Value): Verse | undefined {
                   size ?? DefaultSize,
                   font ?? DefaultFont,
                   place,
+                  rotation,
                   name ?? namer.getName(value),
                   enter,
                   rest ?? new Pose(value),
@@ -219,6 +222,7 @@ export function toVerse(value: Value): Verse | undefined {
                   DefaultSize,
                   DefaultFont,
                   undefined,
+                  0,
                   namer.getName(value),
                   undefined,
                   new Pose(value),

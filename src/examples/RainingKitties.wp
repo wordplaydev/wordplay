@@ -34,8 +34,8 @@ Verse(
                     kitty.x · 1m
                     kitty.y · 1m
                     kitty.z · 1m
-                    kitty.angle ·1°
                 )
+                rotation: kitty.angle ·1°
             )
     )
 )

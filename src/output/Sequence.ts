@@ -57,6 +57,7 @@ export default class Sequence extends Output {
      */
     compile(
         place?: Place,
+        rotation?: number | undefined,
         defaultPose?: Pose,
         size?: number
     ): TransitionSequence | undefined {
@@ -65,9 +66,17 @@ export default class Sequence extends Output {
         else if (this.poses.length === 1) {
             // Only one pose? Just animate the duration with the same pose.
             return [
-                new Transition(place, size, this.poses[0].pose, 0, this.style),
                 new Transition(
                     place,
+                    rotation,
+                    size,
+                    this.poses[0].pose,
+                    0,
+                    this.style
+                ),
+                new Transition(
+                    place,
+                    rotation,
                     size,
                     this.poses[0].pose,
                     this.duration,
@@ -87,6 +96,7 @@ export default class Sequence extends Output {
                 transitions.push(
                     new Transition(
                         place,
+                        rotation,
                         size,
                         defaultPose
                             ? defaultPose.with(current.pose)

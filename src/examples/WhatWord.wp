@@ -36,9 +36,9 @@ board/en,🔤/😀: 💬(
 )
 
 sway: { 
-  0%: Pose(offset: Place(rotation: -2°))
-  50%: Pose(offset: Place(rotation: 2°)) 
-  100%: Pose(offset: Place(rotation: -2°))
+  0%: Pose(tilt: -2°)
+  50%: Pose(tilt: 2°) 
+  100%: Pose(tilt: -2°)
 } 
 
 bounce: {
@@ -63,13 +63,13 @@ screen:
         rest: Sequence(sway 1s)
       )
       💬("Press ***space*** to begin")
-    ] 
+    ]
     exit: fade
   )
   state.status = "lost" ? 
     Group(⬇() [
       board 
-      💬("You lost. Press **space** to play again." enter: Pose(offset: Place(rotation: 0°)) rest: Pose(offset: Place(rotation: -5°)))
+      💬("You lost. Press **space** to play again." enter: Pose(tilt: 0°) rest: Pose(tilt: -5°))
     ] exit: fade)
   state.status = "won" ?
     Group(⬇() [

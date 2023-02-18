@@ -16,11 +16,13 @@ export type OutputInfo = {
     output: TypeOutput;
     global: Place;
     local: Place;
+    rotation: number | undefined;
     parents: TypeOutput[];
     context: RenderContext;
 };
 
 export type OutputInfoSet = Map<OutputName, OutputInfo>;
+export type Orientation = { place: Place; rotation: number | undefined };
 
 /**
  * Derived state of the previous and current Verses.
@@ -106,7 +108,11 @@ export default class Stage {
         const entered = new Map<OutputName, TypeOutput>();
         const moved = new Map<
             OutputName,
-            { output: TypeOutput; prior: Place; present: Place }
+            {
+                output: TypeOutput;
+                prior: Orientation;
+                present: Orientation;
+            }
         >();
         const exited = new Map<OutputName, TypeOutput>();
         const present = new Map<OutputName, TypeOutput>();
@@ -123,13 +129,13 @@ export default class Stage {
             verse.value,
             new Decimal(0),
             new Decimal(0),
-            new Decimal(0),
             new Decimal(0)
         );
         newScene.set(verse.getName(), {
             output: verse,
             global: center,
             local: center,
+            rotation: verse.rotation,
             parents: [],
             context,
         });
@@ -145,18 +151,24 @@ export default class Stage {
             if (!this.scene.has(name)) entered.set(name, output);
 
             // Did the place change? Note the move.
-            const priorLocal = this.scene.get(name)?.local;
+            const priorOutputInfo = this.scene.get(name);
+            const priorLocal = priorOutputInfo?.local;
             if (
                 priorLocal &&
                 (!priorLocal.x.equals(info.local.x) ||
                     !priorLocal.y.equals(info.local.y) ||
-                    !priorLocal.z.equals(info.local.z) ||
-                    !priorLocal.rotation.equals(info.local.rotation))
+                    !priorLocal.z.equals(info.local.z))
             ) {
                 moved.set(name, {
                     output: output,
-                    prior: priorLocal,
-                    present: info.local,
+                    prior: {
+                        place: priorLocal,
+                        rotation: priorOutputInfo?.rotation,
+                    },
+                    present: {
+                        place: info.local,
+                        rotation: info.output.rotation,
+                    },
                 });
             }
         }
@@ -180,6 +192,7 @@ export default class Stage {
                             output,
                             global: place,
                             local: place,
+                            rotation: info.rotation,
                             context: info.context,
                             parents: [this.verse],
                         };
@@ -220,7 +233,11 @@ export default class Stage {
         entered: Map<OutputName, TypeOutput>,
         moved: Map<
             OutputName,
-            { output: TypeOutput; prior: Place; present: Place }
+            {
+                output: TypeOutput;
+                prior: Orientation;
+                present: Orientation;
+            }
         >,
         exited: Map<OutputName, TypeOutput>
     ): Set<OutputName> {
@@ -305,8 +322,10 @@ export default class Stage {
         parents.unshift(output);
         // Update the context passed to children.
         context = output.getRenderContext(context);
+        // Get the info for the name.
+        const info = outputInfo.get(name);
         // Get this output's place, so we can offset its subgroups.
-        const parentPlace = outputInfo.get(name)?.global;
+        const parentPlace = info?.global;
         // Get the places of each of this group's subgroups.
         for (const [subgroup, place] of output.getPlaces(context)) {
             // Set the place of this subgroup, offseting it by the parent's position to keep it in global coordinates.
@@ -314,6 +333,7 @@ export default class Stage {
                 output: subgroup,
                 local: place,
                 global: parentPlace ? place.offset(parentPlace) : place,
+                rotation: info?.rotation,
                 context,
                 parents: parents.slice(),
             });

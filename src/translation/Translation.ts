@@ -832,6 +832,7 @@ type Translation = {
             size: NameAndDocTranslation;
             family: NameAndDocTranslation;
             place: NameAndDocTranslation;
+            rotation: NameAndDocTranslation;
             name: NameAndDocTranslation;
             enter: NameAndDocTranslation;
             rest: NameAndDocTranslation;
@@ -866,6 +867,7 @@ type Translation = {
             color: NameAndDocTranslation;
             opacity: NameAndDocTranslation;
             offset: NameAndDocTranslation;
+            tilt: NameAndDocTranslation;
             scale: NameAndDocTranslation;
             flipx: NameAndDocTranslation;
             flipy: NameAndDocTranslation;
@@ -887,7 +889,6 @@ type Translation = {
             x: NameAndDocTranslation;
             y: NameAndDocTranslation;
             z: NameAndDocTranslation;
-            rotation: NameAndDocTranslation;
         };
         row: {
             definition: NameAndDocTranslation;

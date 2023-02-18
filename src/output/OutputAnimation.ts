@@ -4,7 +4,7 @@ import Place from './Place';
 import Pose from './Pose';
 import Sequence from './Sequence';
 import type Stage from './Stage';
-import type { OutputName } from './Stage';
+import type { Orientation, OutputName } from './Stage';
 import Transition from './Transition';
 import Verse from './Verse';
 import type RenderContext from './RenderContext';
@@ -117,6 +117,7 @@ export default class OutputAnimation {
                 // Start at the previous position, no transition
                 new Transition(
                     undefined,
+                    prior.rotation,
                     prior.size,
                     prior.rest,
                     0,
@@ -125,6 +126,7 @@ export default class OutputAnimation {
                 // Tansition to the new position with resting pose as a baseline, and move on top
                 new Transition(
                     undefined,
+                    this.output.rotation,
                     this.output.size,
                     this.output.rest,
                     this.output.duration,
@@ -136,6 +138,7 @@ export default class OutputAnimation {
         else if (this.output.rest instanceof Sequence) {
             const sequence = this.output.rest.compile(
                 undefined,
+                this.output.rotation,
                 undefined,
                 this.output.size
             );
@@ -155,6 +158,7 @@ export default class OutputAnimation {
                         sequence.unshift(
                             new Transition(
                                 undefined,
+                                prior.rotation,
                                 prior.size,
                                 priorRestPose,
                                 0,
@@ -196,6 +200,7 @@ export default class OutputAnimation {
                     ? ([
                           new Transition(
                               outputInfo.local,
+                              this.output.rotation,
                               this.output.size,
                               entrySequence,
                               0,
@@ -203,6 +208,7 @@ export default class OutputAnimation {
                           ),
                           new Transition(
                               outputInfo.local,
+                              this.output.rotation,
                               this.output.size,
                               // No first pose? I guess we animate to the entry pose.
                               firstStillPose ?? entrySequence,
@@ -219,6 +225,7 @@ export default class OutputAnimation {
                               ? [
                                     new Transition(
                                         outputInfo.local,
+                                        this.output.rotation,
                                         this.output.size,
                                         firstStillPose,
                                         this.output.duration,
@@ -234,7 +241,7 @@ export default class OutputAnimation {
         }
     }
 
-    move(prior: Place, present: Place) {
+    move(prior: Orientation, present: Orientation) {
         const move = this.output.move;
         const rest =
             this.output.rest instanceof Pose
@@ -249,7 +256,8 @@ export default class OutputAnimation {
             this.start(State.Moving, [
                 // Start at the previous position, no transition
                 new Transition(
-                    prior,
+                    prior.place,
+                    this.output.rotation,
                     this.output.size,
                     rest ? rest.with(move) : move,
                     0,
@@ -257,7 +265,8 @@ export default class OutputAnimation {
                 ),
                 // Tansition to the new position with resting pose as a baseline, and move on top
                 new Transition(
-                    present,
+                    present.place,
+                    this.output.rotation,
                     this.output.size,
                     rest ? rest.with(move) : move,
                     this.output.duration / 2,
@@ -265,7 +274,8 @@ export default class OutputAnimation {
                 ),
                 // Transition from the move pose to the rest pose.
                 new Transition(
-                    present,
+                    present.place,
+                    this.output.rotation,
                     this.output.size,
                     rest ?? move,
                     this.output.duration / 2,
@@ -274,7 +284,7 @@ export default class OutputAnimation {
             ]);
         // If move is a sequence, run it, but account for the resting pose.
         else if (move instanceof Sequence) {
-            let transitions = move.compile(undefined, rest);
+            let transitions = move.compile(undefined, undefined, rest);
 
             if (transitions === undefined) return;
 
@@ -289,15 +299,24 @@ export default class OutputAnimation {
                 currentDuration += transition.duration;
                 const percent = currentDuration / totalDuration;
                 const interpolatedPlace = new Place(
-                    prior.value,
-                    prior.x.add(present.x.sub(prior.x).times(percent)),
-                    prior.y.add(present.y.sub(prior.y).times(percent)),
-                    prior.z.add(present.z.sub(prior.z).times(percent)),
-                    prior.rotation.add(
-                        present.rotation.sub(prior.rotation).times(percent)
+                    prior.place.value,
+                    prior.place.x.add(
+                        present.place.x.sub(prior.place.x).times(percent)
+                    ),
+                    prior.place.y.add(
+                        present.place.y.sub(prior.place.y).times(percent)
+                    ),
+                    prior.place.z.add(
+                        present.place.z.sub(prior.place.z).times(percent)
                     )
                 );
-                return transition.withPlace(interpolatedPlace);
+                return transition
+                    .withPlace(interpolatedPlace)
+                    .withRotation(
+                        (prior.rotation ?? 0) +
+                            ((present.rotation ?? 0) - (prior.rotation ?? 0)) *
+                                percent
+                    );
             }) as TransitionSequence;
 
             // Start the sequence
@@ -319,6 +338,7 @@ export default class OutputAnimation {
                 // Start at the previous rest position, or if there isn't one, the exit.
                 new Transition(
                     undefined,
+                    this.output.rotation,
                     this.output.size,
                     rest ?? this.output.exit,
                     0,
@@ -327,6 +347,7 @@ export default class OutputAnimation {
                 // Tansition to the new position with resting pose as a baseline, and move on top
                 new Transition(
                     undefined,
+                    this.output.rotation,
                     this.output.size,
                     this.output.exit,
                     this.output.duration,
@@ -452,6 +473,7 @@ export default class OutputAnimation {
                 keyframe.transform = toOutputTransform(
                     transition.pose,
                     localPlace,
+                    transition.rotation,
                     offsetFocus,
                     false,
                     // Anything rooted in the verse has no height.

@@ -1720,6 +1720,7 @@ const eng_wordplay: Translation = {
             size: { doc: WRITE_DOC, name: 'size' },
             family: { doc: WRITE_DOC, name: 'font' },
             place: { doc: WRITE_DOC, name: 'place' },
+            rotation: { doc: WRITE_DOC, name: 'rotation' },
             name: { doc: WRITE_DOC, name: 'name' },
             enter: { doc: WRITE_DOC, name: 'enter' },
             rest: { doc: WRITE_DOC, name: 'rest' },
@@ -1754,6 +1755,7 @@ const eng_wordplay: Translation = {
             color: { doc: WRITE_DOC, name: 'color' },
             opacity: { doc: WRITE_DOC, name: 'opacity' },
             offset: { doc: WRITE_DOC, name: 'offset' },
+            tilt: { doc: WRITE_DOC, name: 'tilt' },
             scale: { doc: WRITE_DOC, name: 'scale' },
             flipx: { doc: WRITE_DOC, name: 'flipx' },
             flipy: { doc: WRITE_DOC, name: 'flipy' },
@@ -1775,7 +1777,6 @@ const eng_wordplay: Translation = {
             x: { doc: WRITE_DOC, name: 'x' },
             y: { doc: WRITE_DOC, name: 'y' },
             z: { doc: WRITE_DOC, name: 'z' },
-            rotation: { doc: WRITE_DOC, name: 'rotation' },
         },
         row: {
             definition: { doc: WRITE_DOC, name: ['Row'] },

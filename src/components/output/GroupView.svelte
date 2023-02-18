@@ -49,6 +49,7 @@
     style={outputToCSS(
         context.font,
         context.size,
+        group.rotation,
         // No first pose because of an empty sequence? Give a default.
         group.rest instanceof Pose
             ? group.rest

@@ -65,6 +65,7 @@ export function focusToTransform(
 export default function outputToCSS(
     family: string | undefined,
     size: number | undefined,
+    rotation: number | undefined,
     pose: Pose,
     place: Place,
     width: number | undefined,
@@ -82,6 +83,7 @@ export default function outputToCSS(
         transform: toOutputTransform(
             pose,
             place,
+            rotation,
             focus,
             root,
             parentAscent,
@@ -100,6 +102,7 @@ export default function outputToCSS(
 export function toOutputTransform(
     pose: Pose,
     place: Place,
+    rotation: number | undefined,
     focus: Place,
     root: boolean,
     parentAscent: number,
@@ -123,8 +126,8 @@ export function toOutputTransform(
             xOffset = pose.offset.x.toNumber() * PX_PER_METER;
             yOffset = pose.offset.y.toNumber() * PX_PER_METER;
             zOffset = pose.offset.z.toNumber();
-            rotationOffset = pose.offset.rotation.toNumber();
         }
+        rotationOffset = pose.tilt ?? 0;
     }
 
     // Compute the final z position of the output based on it's place and it's offset.
@@ -177,7 +180,7 @@ export function toOutputTransform(
         // 3. Offset around the center
         translateXY(xOffset, -yOffset),
         // 2. Rotate around it's center
-        rotateDeg(place.rotation.toNumber() + rotationOffset),
+        rotateDeg((rotation ?? 0) + rotationOffset),
         // 1. Translate to the center of the output.
         translateXY(-centerXOffset, -centerYOffset),
     ].join(' ');

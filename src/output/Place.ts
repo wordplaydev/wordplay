@@ -15,7 +15,6 @@ export const PlaceType = toStructure(`
         ${getBind((t) => t.output.place.x)}•#m: 0m
         ${getBind((t) => t.output.place.y)}•#m: 0m
         ${getBind((t) => t.output.place.z)}•#m: 0m
-        ${getBind((t) => t.output.place.rotation)}•#°: 0°
     )
 `);
 
@@ -23,21 +22,13 @@ export default class Place extends Output {
     readonly x: Decimal;
     readonly y: Decimal;
     readonly z: Decimal;
-    readonly rotation: Decimal;
 
-    constructor(
-        value: Value,
-        x: Decimal,
-        y: Decimal,
-        z: Decimal,
-        rotation: Decimal
-    ) {
+    constructor(value: Value, x: Decimal, y: Decimal, z: Decimal) {
         super(value);
 
         this.x = x;
         this.y = y;
         this.z = z;
-        this.rotation = rotation;
     }
 
     /** Adds the given place's x and y to this Place's x and y (but leaves z and rotation alone) */
@@ -46,8 +37,7 @@ export default class Place extends Output {
             this.value,
             this.x.add(place.x),
             this.y.sub(place.y),
-            this.z,
-            this.rotation
+            this.z
         );
     }
 
@@ -56,8 +46,7 @@ export default class Place extends Output {
             this.value,
             this.x.sub(place.x),
             this.y.add(place.y),
-            this.z,
-            this.rotation
+            this.z
         );
     }
 
@@ -65,13 +54,12 @@ export default class Place extends Output {
         return (
             this.x.equals(place.x) &&
             this.y.equals(place.y) &&
-            this.z.equals(place.z) &&
-            this.rotation.equals(place.rotation)
+            this.z.equals(place.z)
         );
     }
 
     toString() {
-        return `Place(${this.x.toString()}m ${this.y.toString()}m ${this.z.toString()}m ${this.rotation.toString()}°)`;
+        return `Place(${this.x.toString()}m ${this.y.toString()}m ${this.z.toString()}m)`;
     }
 }
 
@@ -81,9 +69,8 @@ export function toPlace(value: Value | undefined): Place | undefined {
     const x = toDecimal(value.resolve('x'));
     const y = toDecimal(value.resolve('y'));
     const z = toDecimal(value.resolve('z'));
-    const rotation = toDecimal(value.resolve('rotation'));
-    return x !== undefined && y !== undefined && z !== undefined && rotation
-        ? new Place(value, x, y, z, rotation)
+    return x !== undefined && y !== undefined && z !== undefined
+        ? new Place(value, x, y, z)
         : undefined;
 }
 
@@ -95,11 +82,10 @@ export function createPlace(
     angle: number
 ): Place {
     return new Place(
-        createPlaceStructure(evaluator, x, y, z, angle),
+        createPlaceStructure(evaluator, x, y, z),
         new Decimal(x),
         new Decimal(y),
-        new Decimal(z),
-        new Decimal(0)
+        new Decimal(z)
     );
 }
 
@@ -107,8 +93,7 @@ export function createPlaceStructure(
     evaluator: Evaluator,
     x: number,
     y: number,
-    z: number,
-    angle: number
+    z: number
 ): Structure {
     const creator = evaluator.getMain();
 
@@ -116,7 +101,6 @@ export function createPlaceStructure(
     place.set(PlaceType.inputs[0].names, new Measurement(creator, x));
     place.set(PlaceType.inputs[1].names, new Measurement(creator, y));
     place.set(PlaceType.inputs[2].names, new Measurement(creator, z));
-    place.set(PlaceType.inputs[3].names, new Measurement(creator, angle));
 
     const evaluation = new Evaluation(
         evaluator,

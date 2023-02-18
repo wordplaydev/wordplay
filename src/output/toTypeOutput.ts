@@ -70,6 +70,7 @@ export function getStyle(value: Value): {
     font: string | undefined;
     name: TextLang | undefined;
     place: Place | undefined;
+    rotation: number | undefined;
     rest: Pose | Sequence | undefined;
     enter: Pose | Sequence | undefined;
     move: Pose | Sequence | undefined;
@@ -79,8 +80,9 @@ export function getStyle(value: Value): {
 } {
     const size = toDecimal(value.resolve('size'))?.toNumber();
     const font = toFont(value.resolve('font'));
-    const name = toText(value.resolve('name'));
     const place = toPlace(value.resolve('place'));
+    const rotation = toDecimal(value.resolve('rotation'))?.toNumber();
+    const name = toText(value.resolve('name'));
     const rest =
         toPose(value.resolve('rest')) ?? toSequence(value.resolve('rest'));
     const enter =
@@ -97,6 +99,7 @@ export function getStyle(value: Value): {
         font,
         name,
         place,
+        rotation,
         rest,
         enter,
         move,

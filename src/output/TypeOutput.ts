@@ -25,6 +25,7 @@ export const TypeOutputInputs = `
 ${getBind((t) => t.output.type.size)}•#m|ø: ø
 ${getBind((t) => t.output.type.family)}•${SupportedFontsFamiliesType}|ø: ø
 ${getBind((t) => t.output.type.place)}•ø|Place: ø
+${getBind((t) => t.output.type.rotation)}•#°|ø: ø
 ${getBind((t) => t.output.type.name)}•""|ø: ø
 ${getBind((t) => t.output.type.enter)}•ø|Pose|Sequence: ø
 ${getBind((t) => t.output.type.rest)}•ø|Pose|Sequence: Pose()
@@ -41,6 +42,7 @@ export default abstract class TypeOutput extends Output {
     readonly size: number | undefined;
     readonly font: string | undefined;
     readonly place: Place | undefined;
+    readonly rotation: number | undefined;
     readonly name: TextLang;
     readonly enter: Pose | Sequence | undefined;
     readonly rest: Pose | Sequence;
@@ -54,6 +56,7 @@ export default abstract class TypeOutput extends Output {
         size: number | undefined = undefined,
         font: string | undefined = undefined,
         place: Place | undefined = undefined,
+        rotation: number | undefined = undefined,
         name: TextLang | string,
         entry: Pose | Sequence | undefined = undefined,
         resting: Pose | Sequence,
@@ -67,6 +70,7 @@ export default abstract class TypeOutput extends Output {
         this.size = size;
         this.font = font;
         this.place = place;
+        this.rotation = rotation;
         this.name = name instanceof TextLang ? name : new TextLang(value, name);
         this.enter = entry;
         this.rest = resting;
