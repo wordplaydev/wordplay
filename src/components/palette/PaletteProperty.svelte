@@ -24,6 +24,7 @@
     import SequenceEditor from './SequenceEditor.svelte';
     import SequencePosesEditor from './SequencePosesEditor.svelte';
     import ContentEditor from './ContentEditor.svelte';
+    import PlaceEditor from './PlaceEditor.svelte';
 
     export let project: Project;
     export let property: OutputProperty;
@@ -95,8 +96,10 @@
             {/if}
         {:else if property.type == 'poses'}
             <SequencePosesEditor {project} map={values.getMap()} />
-        {:else if property.type == 'content'}
+        {:else if property.type === 'content'}
             <ContentEditor {project} list={values.getList()} />
+        {:else if property.type === 'place'}
+            <PlaceEditor {project} place={values.getPlace(project)} />
         {/if}
     </div>
 </div>

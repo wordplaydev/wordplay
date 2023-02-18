@@ -13,6 +13,8 @@ import type OutputProperty from './OutputProperty';
 import OutputPropertyText from './OutputPropertyText';
 import OutputPropertyOptions from './OutputPropertyOptions';
 import OutputPropertyRange from './OutputPropertyRange';
+import { PlaceType } from '../output/Place';
+import Reference from '../nodes/Reference';
 
 function getPoseProperty(name: string): OutputProperty {
     return {
@@ -84,6 +86,22 @@ const TypeOutputProperties: OutputProperty[] = [
         inherited: true,
         editable: (expr) => expr instanceof TextLiteral,
         create: () => TextLiteral.make('Noto Sans'),
+    },
+    {
+        name: getFirstName(en.output.type.place.name),
+        type: 'place',
+        required: false,
+        inherited: false,
+        editable: (expr, context) =>
+            expr instanceof Evaluate && expr.is(PlaceType, context),
+        create: (languages) =>
+            Evaluate.make(
+                Reference.make(
+                    PlaceType.names.getTranslation(languages),
+                    PlaceType
+                ),
+                []
+            ),
     },
     {
         name: getFirstName(en.output.type.rotation.name),

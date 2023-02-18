@@ -44,7 +44,7 @@ export default class Measurement extends Primitive {
         }
         // If it's a string, try to convert it from one of our known formats to decimal.
         else if (typeof number === 'string') {
-            this.num = convertUnknown(number);
+            this.num = Measurement.fromUnknown(number);
         }
         // Otherwise, we don't know what it is.
         else {
@@ -83,6 +83,21 @@ export default class Measurement extends Primitive {
         } else {
             return new Decimal(NaN);
         }
+    }
+
+    static fromUnknown(text: string) {
+        const conversions = [
+            convertDecimal,
+            convertBase,
+            convertJapanese,
+            convertRoman,
+        ];
+
+        for (const conversion of conversions) {
+            const result = conversion(text);
+            if (!result.isNaN()) return result;
+        }
+        return new Decimal(NaN);
     }
 
     isNotANumber(requestor: Expression): Bool {
@@ -416,19 +431,4 @@ function convertDecimal(text: string) {
     } catch (error) {
         return new Decimal(NaN);
     }
-}
-
-function convertUnknown(text: string) {
-    const conversions = [
-        convertDecimal,
-        convertBase,
-        convertJapanese,
-        convertRoman,
-    ];
-
-    for (const conversion of conversions) {
-        const result = conversion(text);
-        if (!result.isNaN()) return result;
-    }
-    return new Decimal(NaN);
 }

@@ -8,7 +8,6 @@ import Decimal from 'decimal.js';
 import type LanguageCode from '@translation/LanguageCode';
 import { getPreferredTranslation } from '@translation/getPreferredTranslation';
 import { getBind } from '@translation/getBind';
-import Phrase from './Phrase';
 import Layout from './Layout';
 import Measurement from '../runtime/Measurement';
 
@@ -62,10 +61,13 @@ export class Stack extends Layout {
                 child,
                 new Place(
                     this.value,
-                    width.sub(child.getWidth(context)).div(2),
+                    // Place the x in the center of the stack, or if it has a place, use that
+                    child.place && child.place.x !== undefined
+                        ? child.place.x
+                        : width.sub(child.getWidth(context)).div(2),
                     y,
-                    // If the phrase a place, use it's z, otherwise default to the 0 plane.
-                    child instanceof Phrase && child.place
+                    // If the phrase has a place, use it's z, otherwise default to the 0 plane.
+                    child.place && child.place.z !== undefined
                         ? child.place.z
                         : new Decimal(0)
                 ),

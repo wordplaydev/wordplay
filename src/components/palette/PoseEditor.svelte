@@ -11,13 +11,13 @@
         preferredLanguages,
         preferredTranslations,
     } from '@translation/translations';
-    import Evaluate from '../../nodes/Evaluate';
+    import Evaluate from '@nodes/Evaluate';
     import { reviseProject } from '../../models/stores';
-    import Reference from '../../nodes/Reference';
-    import MapLiteral from '../../nodes/MapLiteral';
-    import KeyValue from '../../nodes/KeyValue';
-    import MeasurementLiteral from '../../nodes/MeasurementLiteral';
-    import Unit from '../../nodes/Unit';
+    import Reference from '@nodes/Reference';
+    import MapLiteral from '@nodes/MapLiteral';
+    import KeyValue from '@nodes/KeyValue';
+    import MeasurementLiteral from '@nodes/MeasurementLiteral';
+    import Unit from '@nodes/Unit';
 
     export let project: Project;
     export let outputs: OutputExpression[];

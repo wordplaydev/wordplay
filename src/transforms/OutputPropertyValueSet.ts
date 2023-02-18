@@ -12,6 +12,7 @@ import type { OutputPropertyValue } from './OutputExpression';
 import type OutputProperty from './OutputProperty';
 import MapLiteral from '../nodes/MapLiteral';
 import ListLiteral from '../nodes/ListLiteral';
+import { PlaceType } from '../output/Place';
 
 /**
  * Represents one or more equivalent inputs to an output expression.
@@ -112,6 +113,14 @@ export default class OutputPropertyValueSet {
     getList() {
         const expr = this.getExpression();
         return expr instanceof ListLiteral ? expr : undefined;
+    }
+
+    getPlace(project: Project) {
+        const expr = this.getExpression();
+        return expr instanceof Evaluate &&
+            expr.is(PlaceType, project.getNodeContext(expr))
+            ? expr
+            : undefined;
     }
 
     getName() {
