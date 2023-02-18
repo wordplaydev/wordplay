@@ -1,6 +1,7 @@
 import BooleanLiteral from '../nodes/BooleanLiteral';
 import Evaluate from '../nodes/Evaluate';
 import MeasurementLiteral from '../nodes/MeasurementLiteral';
+import Unit from '../nodes/Unit';
 import { ColorType, createColorLiteral } from '../output/Color';
 import { getFirstName } from '../translation/Translation';
 import en from '../translation/translations/en';
@@ -32,6 +33,14 @@ const PoseProperties: OutputProperty[] = [
         inherited: false,
         editable: (expr) => expr instanceof MeasurementLiteral,
         create: () => MeasurementLiteral.make(1),
+    },
+    {
+        name: getFirstName(en.output.pose.tilt.name),
+        type: new OutputPropertyRange(0, 360, 1, '°'),
+        required: false,
+        inherited: false,
+        editable: (expr) => expr instanceof MeasurementLiteral,
+        create: () => MeasurementLiteral.make(0, Unit.make(['°'])),
     },
     {
         name: getFirstName(en.output.pose.flipx.name),

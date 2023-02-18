@@ -7,20 +7,16 @@ import Unit from '@nodes/Unit';
 import { createPoseLiteral, PoseType } from '@output/Pose';
 import { SequenceType } from '@output/Sequence';
 import { DefaultStyle } from '@output/TypeOutput';
-import type { NameTranslation } from '@translation/Translation';
+import { getFirstName, type NameTranslation } from '@translation/Translation';
 import en from '@translation/translations/en';
 import type OutputProperty from './OutputProperty';
 import OutputPropertyText from './OutputPropertyText';
 import OutputPropertyOptions from './OutputPropertyOptions';
 import OutputPropertyRange from './OutputPropertyRange';
 
-function getTranslation(name: NameTranslation) {
-    return typeof name === 'string' ? name : name[0];
-}
-
 function getPoseProperty(name: string): OutputProperty {
     return {
-        name: getTranslation(name),
+        name: getFirstName(name),
         type: 'pose',
         required: false,
         inherited: false,
@@ -32,7 +28,7 @@ function getPoseProperty(name: string): OutputProperty {
 }
 
 export const DurationProperty: OutputProperty = {
-    name: getTranslation(en.output.type.duration.name),
+    name: getFirstName(en.output.type.duration.name),
     type: new OutputPropertyRange(0, 2, 0.25, 's', 2),
     required: false,
     inherited: false,
@@ -41,7 +37,7 @@ export const DurationProperty: OutputProperty = {
 };
 
 export const StyleProperty: OutputProperty = {
-    name: getTranslation(en.output.type.style.name),
+    name: getFirstName(en.output.type.style.name),
     type: new OutputPropertyOptions(
         Object.values(en.output.easing).reduce(
             (all: string[], next: NameTranslation) => [
@@ -66,7 +62,7 @@ export const StyleProperty: OutputProperty = {
 // All output has these properties.
 const TypeOutputProperties: OutputProperty[] = [
     {
-        name: getTranslation(en.output.type.size.name),
+        name: getFirstName(en.output.type.size.name),
         type: new OutputPropertyRange(0.25, 32, 0.25, 'm'),
         required: false,
         inherited: true,
@@ -74,7 +70,7 @@ const TypeOutputProperties: OutputProperty[] = [
         create: () => MeasurementLiteral.make(1, Unit.make(['m'])),
     },
     {
-        name: getTranslation(en.output.type.family.name),
+        name: getFirstName(en.output.type.family.name),
         type: new OutputPropertyOptions(
             [...SupportedFonts.map((font) => font.name)],
             true,
@@ -89,20 +85,28 @@ const TypeOutputProperties: OutputProperty[] = [
         editable: (expr) => expr instanceof TextLiteral,
         create: () => TextLiteral.make('Noto Sans'),
     },
+    {
+        name: getFirstName(en.output.type.rotation.name),
+        type: new OutputPropertyRange(0, 360, 1, '°'),
+        required: false,
+        inherited: false,
+        editable: (expr) => expr instanceof MeasurementLiteral,
+        create: () => MeasurementLiteral.make(0, Unit.make(['°'])),
+    },
     DurationProperty,
     StyleProperty,
     {
-        name: getTranslation(en.output.type.name.name),
+        name: getFirstName(en.output.type.name.name),
         type: new OutputPropertyText(() => true),
         required: false,
         inherited: false,
         editable: (expr) => expr instanceof TextLiteral,
         create: () => TextLiteral.make(''),
     },
-    getPoseProperty(getTranslation(en.output.type.enter.name)),
-    getPoseProperty(getTranslation(en.output.type.rest.name)),
-    getPoseProperty(getTranslation(en.output.type.move.name)),
-    getPoseProperty(getTranslation(en.output.type.exit.name)),
+    getPoseProperty(getFirstName(en.output.type.enter.name)),
+    getPoseProperty(getFirstName(en.output.type.rest.name)),
+    getPoseProperty(getFirstName(en.output.type.move.name)),
+    getPoseProperty(getFirstName(en.output.type.exit.name)),
 ];
 
 export default TypeOutputProperties;
