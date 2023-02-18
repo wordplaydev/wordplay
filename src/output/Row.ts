@@ -8,7 +8,6 @@ import Decimal from 'decimal.js';
 import type LanguageCode from '@translation/LanguageCode';
 import { getPreferredTranslation } from '@translation/getPreferredTranslation';
 import { getBind } from '@translation/getBind';
-import Phrase from './Phrase';
 import Measurement from '../runtime/Measurement';
 import Layout from './Layout';
 
@@ -61,9 +60,11 @@ export class Row extends Layout {
                 new Place(
                     this.value,
                     position,
-                    height.sub(child.getHeight(context)).div(2),
+                    child.place && child.place.y !== undefined
+                        ? child.place.y
+                        : height.sub(child.getHeight(context)).div(2),
                     // If the phrase a place, use it's z, otherwise default to the 0 plane.
-                    child instanceof Phrase && child.place
+                    child.place && child.place.z !== undefined
                         ? child.place.z
                         : new Decimal(0)
                 ),
