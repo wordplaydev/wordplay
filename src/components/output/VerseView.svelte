@@ -9,6 +9,7 @@
         playing,
         reviseProject,
         selectedOutput,
+        selectedPhrase,
     } from '../../models/stores';
     import { preferredLanguages } from '@translation/translations';
     import { loadedFonts } from '@native/Fonts';
@@ -291,6 +292,7 @@
             selectPointerOutput(event);
         } else {
             selectedOutput.set([]);
+            selectedPhrase.set(null);
             project.evaluator.play();
         }
     }
@@ -401,6 +403,8 @@
 
             // Update the selection
             selectedOutput.set(newSelection);
+            // Erase the selected phrase.
+            selectedPhrase.set(null);
 
             // Focus it too, for keyboard output.
             const outputView = view?.querySelector(

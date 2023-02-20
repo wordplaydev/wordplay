@@ -40,25 +40,40 @@
     // Selected if this phrase's value creator is selected
     $: selected =
         phrase.value.creator instanceof Evaluate &&
-        $selectedOutput.includes(phrase.value.creator);
+        $selectedOutput.includes(phrase.value.creator) &&
+        $selectedPhrase &&
+        (phrase.getName() === $selectedPhrase.name ||
+            (phrase.getName().includes('-') &&
+                phrase.getName().split('-')[1] ===
+                    $selectedPhrase.name.split('-')[1]));
 
     let editable = getContext<Writable<boolean>>('editable');
-    $: editing = selected && $editable === true;
+    $: entered = selected && $editable;
+    $: editing = selected && entered;
 
-    onMount(() => {
-        if (
-            input &&
-            editing &&
-            $selectedPhrase !== null &&
-            $selectedPhrase.name === phrase.getName()
-        ) {
+    onMount(restore);
+
+    function restore() {
+        if (input && editing && $selectedPhrase) {
             input.setSelectionRange(
                 $selectedPhrase.index,
                 $selectedPhrase.index
             );
             input.focus();
         }
-    });
+    }
+
+    function enter() {
+        entered = true;
+        select(input ? input.selectionStart ?? 0 : 0);
+    }
+
+    function select(index: number) {
+        selectedPhrase.set({
+            name: phrase.getName(),
+            index,
+        });
+    }
 
     async function handleInput(event: { currentTarget: HTMLInputElement }) {
         if (event.currentTarget === null) return;
@@ -70,10 +85,7 @@
         phrase._metrics = undefined;
 
         if (event.currentTarget.selectionStart !== null)
-            selectedPhrase.set({
-                name: phrase.getName(),
-                index: event.currentTarget.selectionStart,
-            });
+            select(event.currentTarget.selectionStart);
 
         reviseProject([
             [
@@ -94,6 +106,7 @@
         tabIndex="0"
         data-id={phrase.getHTMLID()}
         data-node-id={phrase.value.creator.id}
+        on:dblclick|stopPropagation={editable ? enter : null}
         style={outputToCSS(
             context.font,
             context.size,
@@ -119,6 +132,7 @@
                 bind:this={input}
                 on:input={handleInput}
                 on:keydown|stopPropagation
+                on:mousedown|stopPropagation
                 style:width="{phrase.getMetrics(context, false).width}px"
                 autofocus
             />
