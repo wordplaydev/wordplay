@@ -30,6 +30,8 @@
     import Group from '@output/Group';
     import range from '../../util/range';
     import RenderContext from '@output/RenderContext';
+    import { setContext } from 'svelte';
+    import { writable } from 'svelte/store';
 
     export let project: Project;
     export let verse: Verse;
@@ -79,6 +81,11 @@
             }
         );
     }
+
+    /** Expose the editable context to all children */
+    let editableStore = writable<boolean>(editable);
+    setContext('editable', editableStore);
+    $: editableStore.set(editable);
 
     /** Whenever the verse, languages, fonts, or rendered focus changes, update the rendered scene accordingly. */
     $: {

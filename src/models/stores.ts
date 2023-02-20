@@ -40,6 +40,8 @@ export const nodeConflicts: Writable<Conflict[]> = writable([]);
  * so they can render selected feedback.
  */
 export const selectedOutput = writable<Evaluate[]>([]);
+export const selectedPhrase = writable<SelectedPhraseType>(null);
+export type SelectedPhraseType = { name: string; index: number } | null;
 
 function updateEvaluatorStores() {
     const evaluator = get(project)?.evaluator;

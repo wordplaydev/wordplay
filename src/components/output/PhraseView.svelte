@@ -7,9 +7,16 @@
     import outputToCSS from '@output/outputToCSS';
     import { preferredLanguages } from '@translation/translations';
     import type RenderContext from '@output/RenderContext';
-    import { selectedOutput } from '../../models/stores';
+    import {
+        reviseProject,
+        selectedOutput,
+        selectedPhrase,
+    } from '../../models/stores';
     import Pose from '@output/Pose';
     import Evaluate from '@nodes/Evaluate';
+    import TextLiteral from '@nodes/TextLiteral';
+    import { getContext, onMount } from 'svelte';
+    import type { Writable } from 'svelte/store';
 
     export let phrase: Phrase;
     export let place: Place;
@@ -24,39 +31,66 @@
     // Visible if z is ahead of focus.
     $: visible = place.z.greaterThan(focus.z);
 
-    // let input: HTMLInputElement;
-    // async function handleInput(event: any) {
-    //     const newText = event.currentTarget.value;
-    //     const originalTextValue = phrase.value.resolve('text');
-    //     if (originalTextValue === undefined) return;
+    // Get the phrase's text in the preferred language
+    $: text = phrase.getDescription($preferredLanguages);
 
-    //     const start = event.currentTarget.selectionStart;
-    //     const end = event.currentTarget.selectionEnd;
+    // The text field, if being edited.
+    let input: HTMLInputElement | undefined;
 
-    //     reviseProject([
-    //         [
-    //             phrase.value.creator,
-    //             phrase.value.creator.replace(
-    //                 originalTextValue.creator,
-    //                 TextLiteral.make(newText)
-    //             ),
-    //         ],
-    //     ]);
+    // Selected if this phrase's value creator is selected
+    $: selected =
+        phrase.value.creator instanceof Evaluate &&
+        $selectedOutput.includes(phrase.value.creator);
 
-    //     // After the update, focus on the new input and restore the caret position.
-    //     await tick();
-    //     if (input) {
-    //         input.focus({ preventScroll: true });
-    //         input.setSelectionRange(start, end);
-    //     }
-    // }
+    let editable = getContext<Writable<boolean>>('editable');
+    $: editing = selected && $editable === true;
+
+    onMount(() => {
+        if (
+            input &&
+            editing &&
+            $selectedPhrase !== null &&
+            $selectedPhrase.name === phrase.getName()
+        ) {
+            input.setSelectionRange(
+                $selectedPhrase.index,
+                $selectedPhrase.index
+            );
+            input.focus();
+        }
+    });
+
+    async function handleInput(event: { currentTarget: HTMLInputElement }) {
+        if (event.currentTarget === null) return;
+        const newText = event.currentTarget.value;
+        const originalTextValue = phrase.value.resolve('text');
+        if (originalTextValue === undefined) return;
+
+        // Reset the cache for proper layout.
+        phrase._metrics = undefined;
+
+        if (event.currentTarget.selectionStart !== null)
+            selectedPhrase.set({
+                name: phrase.getName(),
+                index: event.currentTarget.selectionStart,
+            });
+
+        reviseProject([
+            [
+                phrase.value.creator,
+                phrase.value.creator.replace(
+                    originalTextValue.creator,
+                    TextLiteral.make(newText)
+                ),
+            ],
+        ]);
+    }
 </script>
 
 {#if visible}
     <div
         class="output phrase"
-        class:selected={phrase.value.creator instanceof Evaluate &&
-            $selectedOutput.includes(phrase.value.creator)}
+        class:selected
         tabIndex="0"
         data-id={phrase.getHTMLID()}
         data-node-id={phrase.value.creator.id}
@@ -77,8 +111,8 @@
             phrase.getMetrics(context)
         )}
     >
-        <!-- {#if selected}
-            svelte-ignore a11y-autofocus
+        {#if editing}
+            <!-- svelte-ignore a11y-autofocus -->
             <input
                 type="text"
                 bind:value={text}
@@ -88,11 +122,9 @@
                 style:width="{phrase.getMetrics(context, false).width}px"
                 autofocus
             />
-        {:else} -->
-        {@html parseRichText(
-            phrase.getDescription($preferredLanguages)
-        ).toHTML()}
-        <!-- {/if} -->
+        {:else}
+            {@html parseRichText(text).toHTML()}
+        {/if}
     </div>
 {/if}
 
@@ -129,7 +161,7 @@
             var(--wordplay-disabled-color);
     }
 
-    /* input {
+    input {
         font-family: inherit;
         font-weight: inherit;
         font-style: inherit;
@@ -142,5 +174,5 @@
             var(--wordplay-focus-width);
         outline: none;
         min-width: 1em;
-    } */
+    }
 </style>
