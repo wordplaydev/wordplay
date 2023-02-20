@@ -83,8 +83,9 @@
         }
     }
 
-    function enter() {
+    function enter(event: MouseEvent) {
         select(input?.selectionStart ?? 0);
+        event.stopPropagation();
     }
 
     function select(index: number | null) {
@@ -209,8 +210,8 @@
         tabIndex="0"
         data-id={phrase.getHTMLID()}
         data-node-id={phrase.value.creator.id}
-        on:dblclick|stopPropagation={editable ? enter : null}
-        on:keydown={editable ? move : null}
+        on:dblclick={$editable ? enter : null}
+        on:keydown={$editable ? move : null}
         bind:this={view}
         style={outputToCSS(
             context.font,
