@@ -156,7 +156,6 @@ export default class Motion extends TemporalStream<Value> {
                         Unit.make(['°'])
                     )
                 );
-            console.log(this.angle);
 
             // Finally, add the new place to the stream.
             if (revised) this.add(revised);
