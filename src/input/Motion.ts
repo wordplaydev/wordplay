@@ -140,15 +140,19 @@ export default class Motion extends TemporalStream<Value> {
         // Get the type so we can clone and modify it.
         const type = this.type.value;
         if (type instanceof Structure) {
+            const creator =
+                type.creator instanceof Evaluate
+                    ? type.creator
+                    : this.definition;
             // Create a new type output with an updated place.
             const revised = type
                 .withValue(
-                    this.definition,
+                    creator,
                     PlaceName,
                     createPlaceStructure(this.evaluator, this.x, this.y, this.z)
                 )
                 ?.withValue(
-                    this.definition,
+                    creator,
                     RotationName,
                     new Measurement(
                         this.definition,
