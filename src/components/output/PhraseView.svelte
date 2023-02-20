@@ -17,6 +17,14 @@
     import TextLiteral from '@nodes/TextLiteral';
     import { getContext, onMount } from 'svelte';
     import type { Writable } from 'svelte/store';
+    import Reference from '@nodes/Reference';
+    import { PlaceType } from '@output/Place';
+    import MeasurementLiteral from '@nodes/MeasurementLiteral';
+    import Unit from '@nodes/Unit';
+    import Expression from '@nodes/Expression';
+    import type Project from '../../models/Project';
+    import Bind from '../../nodes/Bind';
+    import Decimal from 'decimal.js';
 
     export let phrase: Phrase;
     export let place: Place;
@@ -35,6 +43,7 @@
     $: text = phrase.getDescription($preferredLanguages);
 
     // The text field, if being edited.
+    let view: HTMLDivElement | undefined;
     let input: HTMLInputElement | undefined;
 
     // Selected if this phrase's value creator is selected
@@ -48,31 +57,125 @@
                     $selectedPhrase.name.split('-')[1]));
 
     let editable = getContext<Writable<boolean>>('editable');
-    $: entered = selected && $editable;
-    $: editing = selected && entered;
+    $: entered =
+        selected &&
+        $editable &&
+        $selectedPhrase &&
+        $selectedPhrase.index !== null;
+
+    let project: Project = getContext('project');
 
     onMount(restore);
 
     function restore() {
-        if (input && editing && $selectedPhrase) {
-            input.setSelectionRange(
-                $selectedPhrase.index,
-                $selectedPhrase.index
-            );
-            input.focus();
+        if ($editable) {
+            if (entered) {
+                if (input && $selectedPhrase && $selectedPhrase.index) {
+                    input.setSelectionRange(
+                        $selectedPhrase.index,
+                        $selectedPhrase.index
+                    );
+                    input.focus();
+                }
+            } else {
+                if (selected && view) view.focus();
+            }
         }
     }
 
     function enter() {
-        entered = true;
-        select(input ? input.selectionStart ?? 0 : 0);
+        select(input?.selectionStart ?? 0);
     }
 
-    function select(index: number) {
+    function select(index: number | null) {
         selectedPhrase.set({
             name: phrase.getName(),
             index,
         });
+    }
+
+    function move(event: KeyboardEvent) {
+        const increment = 0.5;
+        let horizontal =
+            event.key === 'ArrowLeft'
+                ? -1 * increment
+                : event.key === 'ArrowRight'
+                ? increment
+                : 0;
+        let vertical =
+            event.key === 'ArrowUp'
+                ? 1 * increment
+                : event.key === 'ArrowDown'
+                ? -1 * increment
+                : 0;
+
+        if (phrase.value.creator instanceof Evaluate) {
+            select(null);
+
+            const evaluate = phrase.value.creator;
+            const ctx = project.getNodeContext(evaluate);
+
+            const given = evaluate.getMappingFor('place', ctx);
+            const place =
+                given &&
+                given.given instanceof Evaluate &&
+                given.given.is(PlaceType, ctx)
+                    ? given.given
+                    : given &&
+                      given.given instanceof Bind &&
+                      given.given.value instanceof Evaluate &&
+                      given.given.value.is(PlaceType, ctx)
+                    ? given.given.value
+                    : undefined;
+
+            const x = place?.getMappingFor('x', ctx)?.given;
+            const y = place?.getMappingFor('y', ctx)?.given;
+            const z = place?.getMappingFor('z', ctx)?.given;
+
+            reviseProject([
+                [
+                    evaluate,
+                    evaluate.withBindAs(
+                        'place',
+                        Evaluate.make(
+                            Reference.make(
+                                PlaceType.names.getTranslation(
+                                    $preferredLanguages
+                                ),
+                                PlaceType
+                            ),
+                            [
+                                MeasurementLiteral.make(
+                                    (x instanceof MeasurementLiteral
+                                        ? x.getValue().num
+                                        : new Decimal(0)
+                                    )
+                                        .add(horizontal)
+                                        .toNumber(),
+                                    Unit.make(['m'])
+                                ),
+                                MeasurementLiteral.make(
+                                    (y instanceof MeasurementLiteral
+                                        ? y.getValue().num
+                                        : new Decimal(0)
+                                    )
+                                        .add(vertical)
+                                        .toNumber(),
+                                    Unit.make(['m'])
+                                ),
+                                z instanceof Expression
+                                    ? z
+                                    : MeasurementLiteral.make(
+                                          0,
+                                          Unit.make(['m'])
+                                      ),
+                            ]
+                        ),
+                        ctx
+                    ),
+                ],
+            ]);
+        }
     }
 
     async function handleInput(event: { currentTarget: HTMLInputElement }) {
@@ -107,6 +210,8 @@
         data-id={phrase.getHTMLID()}
         data-node-id={phrase.value.creator.id}
         on:dblclick|stopPropagation={editable ? enter : null}
+        on:keydown={editable ? move : null}
+        bind:this={view}
         style={outputToCSS(
             context.font,
             context.size,
@@ -124,7 +229,7 @@
             phrase.getMetrics(context)
         )}
     >
-        {#if editing}
+        {#if entered}
             <!-- svelte-ignore a11y-autofocus -->
             <input
                 type="text"

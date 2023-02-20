@@ -41,7 +41,7 @@ export const nodeConflicts: Writable<Conflict[]> = writable([]);
  */
 export const selectedOutput = writable<Evaluate[]>([]);
 export const selectedPhrase = writable<SelectedPhraseType>(null);
-export type SelectedPhraseType = { name: string; index: number } | null;
+export type SelectedPhraseType = { name: string; index: number | null } | null;
 
 function updateEvaluatorStores() {
     const evaluator = get(project)?.evaluator;

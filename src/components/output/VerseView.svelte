@@ -87,6 +87,7 @@
     let editableStore = writable<boolean>(editable);
     setContext('editable', editableStore);
     $: editableStore.set(editable);
+    setContext('project', project);
 
     /** Whenever the verse, languages, fonts, or rendered focus changes, update the rendered scene accordingly. */
     $: {
