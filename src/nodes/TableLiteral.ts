@@ -16,6 +16,7 @@ import { analyzeRow } from './util';
 import Exception from '@runtime/Exception';
 import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
+import Glyphs from '../lore/Glyphs';
 
 export default class TableLiteral extends Expression {
     readonly type: TableType;
@@ -156,5 +157,9 @@ export default class TableLiteral extends Expression {
         return translation.nodes.TableLiteral.finish(
             this.getValueIfDefined(translation, context, evaluator)
         );
+    }
+
+    getGlyphs() {
+        return Glyphs.Table;
     }
 }

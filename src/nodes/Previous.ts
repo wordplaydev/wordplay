@@ -27,6 +27,7 @@ import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
 import { NotAStreamType } from './NotAStreamType';
 import NodeLink from '@translation/NodeLink';
+import Glyphs from '../lore/Glyphs';
 
 export default class Previous extends Expression {
     readonly stream: Expression;
@@ -176,5 +177,9 @@ export default class Previous extends Expression {
         return translation.nodes.Previous.finish(
             this.getValueIfDefined(translation, context, evaluator)
         );
+    }
+
+    getGlyphs() {
+        return Glyphs.Previous;
     }
 }

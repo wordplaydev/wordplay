@@ -14,6 +14,7 @@ import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
 import NodeLink from '@translation/NodeLink';
 import Literal from './Literal';
+import Glyphs from '../lore/Glyphs';
 
 export default class MeasurementLiteral extends Literal {
     readonly number: Token;
@@ -98,5 +99,9 @@ export default class MeasurementLiteral extends Literal {
         return translation.nodes.MeasurementLiteral.start(
             new NodeLink(this.number, translation, context)
         );
+    }
+
+    getGlyphs() {
+        return Glyphs.Measurement;
     }
 }

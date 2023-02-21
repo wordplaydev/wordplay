@@ -24,6 +24,7 @@ import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
 import UnimplementedException from '@runtime/UnimplementedException';
 import NodeLink from '@translation/NodeLink';
+import Glyphs from '../lore/Glyphs';
 
 export default class Insert extends Expression {
     readonly table: Expression;
@@ -219,5 +220,9 @@ export default class Insert extends Expression {
         return translation.nodes.Insert.finish(
             this.getValueIfDefined(translation, context, evaluator)
         );
+    }
+
+    getGlyphs() {
+        return Glyphs.Insert;
     }
 }

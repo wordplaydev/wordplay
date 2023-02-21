@@ -8,6 +8,7 @@ import Type from './Type';
 import type TypeSet from './TypeSet';
 import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
+import Glyphs from '../lore/Glyphs';
 
 export default class ListType extends NativeType {
     readonly open: Token;
@@ -85,5 +86,9 @@ export default class ListType extends NativeType {
 
     getNodeTranslation(translation: Translation) {
         return translation.nodes.ListType;
+    }
+
+    getGlyphs() {
+        return Glyphs.List;
     }
 }

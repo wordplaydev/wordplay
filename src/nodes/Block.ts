@@ -27,6 +27,7 @@ import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import NoExpressionType from './NoExpressionType';
 import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
+import Glyphs from '../lore/Glyphs';
 
 export default class Block extends Expression {
     readonly docs?: Docs;
@@ -287,5 +288,9 @@ export default class Block extends Expression {
     }
     getFinish(): Node {
         return this.close ?? this.getLast() ?? this;
+    }
+
+    getGlyphs() {
+        return Glyphs.Evaluate;
     }
 }

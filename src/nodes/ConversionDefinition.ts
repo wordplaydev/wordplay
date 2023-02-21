@@ -21,6 +21,7 @@ import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
 import AtomicExpression from './AtomicExpression';
 import InternalException from '@runtime/InternalException';
+import Glyphs from '../lore/Glyphs';
 
 export default class ConversionDefinition extends AtomicExpression {
     readonly docs: Docs | undefined;
@@ -172,5 +173,9 @@ export default class ConversionDefinition extends AtomicExpression {
 
     getStartExplanations(translation: Translation) {
         return translation.nodes.ConversionDefinition.start;
+    }
+
+    getGlyphs() {
+        return Glyphs.Conversion;
     }
 }

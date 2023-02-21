@@ -3,6 +3,7 @@ import Node, { type Replacement } from './Node';
 import Token from './Token';
 import BindToken from './BindToken';
 import type Translation from '@translation/Translation';
+import Glyphs from '../lore/Glyphs';
 
 export default class KeyValue extends Node {
     readonly key: Expression;
@@ -51,5 +52,9 @@ export default class KeyValue extends Node {
 
     getNodeTranslation(translation: Translation) {
         return translation.nodes.KeyValue;
+    }
+
+    getGlyphs() {
+        return Glyphs.Bind;
     }
 }

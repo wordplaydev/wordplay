@@ -10,6 +10,7 @@ import TokenType from './TokenType';
 import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
 import Literal from './Literal';
+import Glyphs from '../lore/Glyphs';
 
 export default class NoneLiteral extends Literal {
     readonly none: Token;
@@ -71,5 +72,9 @@ export default class NoneLiteral extends Literal {
 
     getStartExplanations(translation: Translation) {
         return translation.nodes.NoneLiteral.start;
+    }
+
+    getGlyphs() {
+        return Glyphs.None;
     }
 }

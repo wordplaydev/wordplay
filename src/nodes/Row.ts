@@ -3,6 +3,7 @@ import Token from './Token';
 import Bind from './Bind';
 import Expression from './Expression';
 import type Translation from '@translation/Translation';
+import Glyphs from '../lore/Glyphs';
 
 export default class Row extends Node {
     readonly open: Token;
@@ -50,5 +51,9 @@ export default class Row extends Node {
 
     getNodeTranslation(translation: Translation) {
         return translation.nodes.Row;
+    }
+
+    getGlyphs() {
+        return Glyphs.Table;
     }
 }

@@ -3,6 +3,8 @@ import type Exception from '@runtime/Exception';
 import type Translation from '@translation/Translation';
 import Type from './Type';
 import type TypeSet from './TypeSet';
+import { EXCEPTION_SYMBOL } from '../parser/Symbols';
+import Glyphs from '../lore/Glyphs';
 
 export default class ExceptionType extends Type {
     readonly exception: Exception;
@@ -18,6 +20,7 @@ export default class ExceptionType extends Type {
     }
 
     computeConflicts() {}
+
     acceptsAll(types: TypeSet): boolean {
         return types
             .list()
@@ -37,7 +40,7 @@ export default class ExceptionType extends Type {
     }
 
     toWordplay(): string {
-        return this.exception.toString();
+        return EXCEPTION_SYMBOL;
     }
 
     clone() {
@@ -46,5 +49,9 @@ export default class ExceptionType extends Type {
 
     getNodeTranslation(translation: Translation) {
         return translation.nodes.ExceptionType;
+    }
+
+    getGlyphs() {
+        return Glyphs.Exception;
     }
 }

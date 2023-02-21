@@ -31,6 +31,7 @@ import UnimplementedException from '@runtime/UnimplementedException';
 import NodeLink from '@translation/NodeLink';
 import StreamDefinition from './StreamDefinition';
 import StreamDefinitionValue from '../runtime/StreamDefinitionValue';
+import Glyphs from '../lore/Glyphs';
 
 export type SharedDefinition =
     | Source
@@ -261,5 +262,9 @@ export default class Borrow extends AtomicExpression {
                   )
                 : undefined
         );
+    }
+
+    getGlyphs() {
+        return Glyphs.Borrow;
     }
 }

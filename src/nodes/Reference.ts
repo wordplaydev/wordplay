@@ -26,6 +26,7 @@ import type Translation from '@translation/Translation';
 import AtomicExpression from './AtomicExpression';
 import NameException from '@runtime/NameException';
 import NodeLink from '@translation/NodeLink';
+import Glyphs from '../lore/Glyphs';
 
 /**
  * A reference to some Definition. Can optionally take the definition which it refers,
@@ -229,5 +230,9 @@ export default class Reference extends AtomicExpression {
         return translation.nodes.Reference.start(
             new NodeLink(this.name, translation, context, this.name.getText())
         );
+    }
+
+    getGlyphs() {
+        return Glyphs.Name;
     }
 }

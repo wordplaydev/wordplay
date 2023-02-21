@@ -7,6 +7,7 @@ import TokenType from './TokenType';
 import NameToken from './NameToken';
 import Language from './Language';
 import type Translation from '@translation/Translation';
+import Glyphs from '../lore/Glyphs';
 
 export default class Names extends Node {
     readonly names: Name[];
@@ -130,5 +131,9 @@ export default class Names extends Node {
 
     getNodeTranslation(translation: Translation) {
         return translation.nodes.Names;
+    }
+
+    getGlyphs() {
+        return Glyphs.Name;
     }
 }

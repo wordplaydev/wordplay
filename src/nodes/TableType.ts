@@ -11,6 +11,7 @@ import type Conflict from '@conflicts/Conflict';
 import ExpectedColumnType from '@conflicts/ExpectedColumnType';
 import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
+import Glyphs from '../lore/Glyphs';
 
 export default class TableType extends Type {
     readonly open: Token;
@@ -88,5 +89,9 @@ export default class TableType extends Type {
 
     getNodeTranslation(translation: Translation) {
         return translation.nodes.TableType;
+    }
+
+    getGlyphs() {
+        return Glyphs.Table;
     }
 }

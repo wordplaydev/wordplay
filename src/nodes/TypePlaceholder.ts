@@ -6,6 +6,7 @@ import PlaceholderToken from './PlaceholderToken';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
+import Glyphs from '../lore/Glyphs';
 
 export default class TypePlaceholder extends Type {
     readonly placeholder: Token;
@@ -53,5 +54,9 @@ export default class TypePlaceholder extends Type {
 
     getNodeTranslation(translation: Translation) {
         return translation.nodes.TypePlaceholder;
+    }
+
+    getGlyphs() {
+        return Glyphs.Placeholder;
     }
 }

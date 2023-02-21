@@ -2,6 +2,7 @@ import type Conflict from '@conflicts/Conflict';
 import type Translation from '@translation/Translation';
 import Node, { type Field, type Replacement } from './Node';
 import Token from './Token';
+import Glyphs from '../lore/Glyphs';
 
 export default class ConceptLink extends Node {
     readonly concept: Token;
@@ -28,5 +29,9 @@ export default class ConceptLink extends Node {
 
     getNodeTranslation(translation: Translation) {
         return translation.nodes.ConceptLink;
+    }
+
+    getGlyphs() {
+        return Glyphs.Link;
     }
 }

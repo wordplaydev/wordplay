@@ -12,6 +12,7 @@ import StartFinish from '@runtime/StartFinish';
 import AtomicExpression from '@nodes/AtomicExpression';
 import type Translation from '@translation/Translation';
 import InternalException from '@runtime/InternalException';
+import Glyphs from '../lore/Glyphs';
 
 export default class NativeExpression extends AtomicExpression {
     readonly type: Type;
@@ -90,5 +91,9 @@ export default class NativeExpression extends AtomicExpression {
 
     getStartExplanations(translation: Translation) {
         return translation.nodes.NativeExpression.start;
+    }
+
+    getGlyphs() {
+        return Glyphs.Native;
     }
 }

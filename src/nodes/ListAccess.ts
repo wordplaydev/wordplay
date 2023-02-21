@@ -27,6 +27,7 @@ import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
 import { NotAListType } from './NotAListType';
 import NodeLink from '@translation/NodeLink';
+import Glyphs from '../lore/Glyphs';
 
 export default class ListAccess extends Expression {
     readonly list: Expression;
@@ -195,5 +196,9 @@ export default class ListAccess extends Expression {
         return translation.nodes.ListAccess.finish(
             this.getValueIfDefined(translation, context, evaluator)
         );
+    }
+
+    getGlyphs() {
+        return Glyphs.List;
     }
 }

@@ -3,6 +3,7 @@ import type { NativeTypeName } from '../native/NativeConstants';
 import type TypeSet from './TypeSet';
 import type Translation from '@translation/Translation';
 import type StreamDefinition from './StreamDefinition';
+import Glyphs from '../lore/Glyphs';
 
 export default class StreamDefinitionType extends Type {
     readonly definition: StreamDefinition;
@@ -45,5 +46,9 @@ export default class StreamDefinitionType extends Type {
 
     getNodeTranslation(translation: Translation) {
         return translation.nodes.StreamDefinitionType;
+    }
+
+    getGlyphs() {
+        return Glyphs.Stream;
     }
 }

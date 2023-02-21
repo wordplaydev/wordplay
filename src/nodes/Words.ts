@@ -1,5 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import type Translation from '@translation/Translation';
+import Glyphs from '../lore/Glyphs';
 import Node, { type Field, type Replacement } from './Node';
 import Token from './Token';
 import TokenType from './TokenType';
@@ -61,5 +62,9 @@ export default class Words extends Node {
 
     containsText(text: string) {
         return this.words && this.words.containsText(text);
+    }
+
+    getGlyphs() {
+        return Glyphs.Words;
     }
 }

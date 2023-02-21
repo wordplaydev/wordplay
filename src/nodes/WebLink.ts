@@ -1,5 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import type Translation from '@translation/Translation';
+import Glyphs from '../lore/Glyphs';
 import Node, { type Field, type Replacement } from './Node';
 import Token from './Token';
 
@@ -52,5 +53,9 @@ export default class WebLink extends Node {
 
     getNodeTranslation(translation: Translation) {
         return translation.nodes.WebLink;
+    }
+
+    getGlyphs() {
+        return Glyphs.Link;
     }
 }

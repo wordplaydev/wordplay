@@ -13,6 +13,7 @@ import type TypeSet from './TypeSet';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
+import Glyphs from '../lore/Glyphs';
 
 export default class FunctionType extends Type {
     readonly fun: Token;
@@ -129,5 +130,9 @@ export default class FunctionType extends Type {
 
     getNodeTranslation(translation: Translation) {
         return translation.nodes.FunctionType;
+    }
+
+    getGlyphs() {
+        return Glyphs.Function;
     }
 }

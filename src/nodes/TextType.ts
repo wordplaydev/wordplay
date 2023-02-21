@@ -7,6 +7,7 @@ import type { Replacement } from './Node';
 import Token from './Token';
 import TokenType from './TokenType';
 import type TypeSet from './TypeSet';
+import Glyphs from '../lore/Glyphs';
 
 /** Any string or a specific string, depending on whether the given token is an empty text literal. */
 export default class TextType extends NativeType {
@@ -76,5 +77,9 @@ export default class TextType extends NativeType {
 
     getNodeTranslation(translation: Translation) {
         return translation.nodes.TextType;
+    }
+
+    getGlyphs() {
+        return Glyphs.Text;
     }
 }

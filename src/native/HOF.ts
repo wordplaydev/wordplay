@@ -5,6 +5,7 @@ import FunctionDefinition from '@nodes/FunctionDefinition';
 import type TypeSet from '@nodes/TypeSet';
 import type Evaluator from '@runtime/Evaluator';
 import type Translation from '@translation/Translation';
+import Glyphs from '../lore/Glyphs';
 
 export default abstract class HOF extends Expression {
     getGrammar() {
@@ -75,5 +76,9 @@ export default abstract class HOF extends Expression {
         return translation.nodes.HOF.finish(
             this.getValueIfDefined(translation, context, evaluator)
         );
+    }
+
+    getGlyphs() {
+        return Glyphs.Function;
     }
 }

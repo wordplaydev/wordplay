@@ -24,6 +24,7 @@ import Check from '../runtime/Check';
 import Bool from '../runtime/Bool';
 import ValueException from '../runtime/ValueException';
 import TypeException from '../runtime/TypeException';
+import Glyphs from '../lore/Glyphs';
 
 export default class Reaction extends Expression {
     readonly condition: Expression;
@@ -259,5 +260,9 @@ export default class Reaction extends Expression {
         return translation.nodes.Reaction.finish(
             this.getValueIfDefined(translation, context, evaluator)
         );
+    }
+
+    getGlyphs() {
+        return Glyphs.Stream;
     }
 }

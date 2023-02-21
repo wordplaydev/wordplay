@@ -30,6 +30,7 @@ import TypeToken from './TypeToken';
 import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
 import InternalException from '@runtime/InternalException';
+import Glyphs from '../lore/Glyphs';
 
 export default class FunctionDefinition extends Expression {
     readonly docs?: Docs;
@@ -302,5 +303,9 @@ export default class FunctionDefinition extends Expression {
 
     getFinishExplanations(translation: Translation) {
         return translation.nodes.FunctionDefinition.start;
+    }
+
+    getGlyphs() {
+        return Glyphs.Function;
     }
 }

@@ -7,6 +7,7 @@ import type TypeVariable from './TypeVariable';
 import type Conflict from '@conflicts/Conflict';
 import type Translation from '@translation/Translation';
 import DuplicateTypeVariable from '@conflicts/DuplicateTypeVariable';
+import Glyphs from '../lore/Glyphs';
 
 export default class TypeVariables extends Node {
     readonly open: Token;
@@ -67,5 +68,9 @@ export default class TypeVariables extends Node {
 
     getNodeTranslation(translation: Translation) {
         return translation.nodes.TypeVariables;
+    }
+
+    getGlyphs() {
+        return Glyphs.Name;
     }
 }

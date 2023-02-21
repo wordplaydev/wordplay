@@ -18,6 +18,7 @@ import ListOpenToken from './ListOpenToken';
 import ListCloseToken from './ListCloseToken';
 import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
+import Glyphs from '../lore/Glyphs';
 
 export default class ListLiteral extends Expression {
     readonly open: Token;
@@ -151,5 +152,9 @@ export default class ListLiteral extends Expression {
         return translation.nodes.ListLiteral.finish(
             this.getValueIfDefined(translation, context, evaluator)
         );
+    }
+
+    getGlyphs() {
+        return Glyphs.List;
     }
 }

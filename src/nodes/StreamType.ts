@@ -8,6 +8,7 @@ import Token from './Token';
 import TokenType from './TokenType';
 import Type from './Type';
 import type TypeSet from './TypeSet';
+import Glyphs from '../lore/Glyphs';
 
 export const STREAM_NATIVE_TYPE_NAME = 'stream';
 
@@ -63,5 +64,9 @@ export default class StreamType extends Type {
 
     getNodeTranslation(translation: Translation) {
         return translation.nodes.StreamType;
+    }
+
+    getGlyphs() {
+        return Glyphs.Stream;
     }
 }

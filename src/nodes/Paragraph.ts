@@ -5,6 +5,7 @@ import type Example from './Example';
 import WebLink from './WebLink';
 import Node, { type Field, type Replacement } from './Node';
 import Words from './Words';
+import Glyphs from '../lore/Glyphs';
 
 export type Content = Words | WebLink | ConceptLink | Example;
 
@@ -33,5 +34,9 @@ export default class Paragraph extends Node {
 
     getNodeTranslation(translation: Translation) {
         return translation.nodes.Paragraph;
+    }
+
+    getGlyphs() {
+        return Glyphs.Paragraph;
     }
 }

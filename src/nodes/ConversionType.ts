@@ -7,6 +7,7 @@ import Type from './Type';
 import type TypeSet from './TypeSet';
 import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
+import Glyphs from '../lore/Glyphs';
 
 export default class ConversionType extends Type {
     readonly input: Type;
@@ -59,5 +60,9 @@ export default class ConversionType extends Type {
 
     getNodeTranslation(translation: Translation) {
         return translation.nodes.ConversionType;
+    }
+
+    getGlyphs() {
+        return Glyphs.Conversion;
     }
 }

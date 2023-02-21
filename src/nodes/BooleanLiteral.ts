@@ -11,6 +11,7 @@ import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
 import NodeLink from '@translation/NodeLink';
 import Literal from './Literal';
+import Glyphs from '../lore/Glyphs';
 
 export default class BooleanLiteral extends Literal {
     readonly value: Token;
@@ -83,5 +84,9 @@ export default class BooleanLiteral extends Literal {
         return translation.nodes.BooleanLiteral.start(
             new NodeLink(this.value, translation, context, this.value.getText())
         );
+    }
+
+    getGlyphs() {
+        return Glyphs.Bool;
     }
 }

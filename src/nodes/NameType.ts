@@ -132,4 +132,10 @@ export default class NameType extends Type {
     getNodeTranslation(translation: Translation) {
         return translation.nodes.NameType;
     }
+
+    getGlyphs() {
+        return {
+            symbols: this.name.getText(),
+        };
+    }
 }

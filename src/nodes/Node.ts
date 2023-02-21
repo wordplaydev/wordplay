@@ -10,6 +10,7 @@ import type {
     DocString,
     NodeTranslation,
 } from '@translation/Translation';
+import type Glyph from '../lore/Glyph';
 
 /* A global ID for nodes, for helping index them */
 let NODE_ID_COUNTER = 0;
@@ -610,6 +611,9 @@ export default abstract class Node {
     }
 
     // DESCRIPTIONS
+
+    /** Returns a sequence of symbols that represents the personified form of the node */
+    abstract getGlyphs(): Glyph;
 
     /**
      * Given a translation and a context, generate a description of the node.

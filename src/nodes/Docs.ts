@@ -2,6 +2,7 @@ import Node, { type Replacement } from './Node';
 import Doc from './Doc';
 import type LanguageCode from '@translation/LanguageCode';
 import type Translation from '@translation/Translation';
+import Glyphs from '../lore/Glyphs';
 
 export default class Docs extends Node {
     readonly docs: Doc[];
@@ -51,5 +52,9 @@ export default class Docs extends Node {
             .filter(
                 (match): match is [string, number] => match !== undefined
             )[0];
+    }
+
+    getGlyphs() {
+        return Glyphs.Doc;
     }
 }

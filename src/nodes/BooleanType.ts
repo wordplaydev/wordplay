@@ -6,6 +6,7 @@ import type TypeSet from './TypeSet';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
+import Glyphs from '../lore/Glyphs';
 
 export default class BooleanType extends NativeType {
     readonly type: Token;
@@ -46,5 +47,9 @@ export default class BooleanType extends NativeType {
 
     getNodeTranslation(translation: Translation) {
         return translation.nodes.BooleanType;
+    }
+
+    getGlyphs() {
+        return Glyphs.Bool;
     }
 }

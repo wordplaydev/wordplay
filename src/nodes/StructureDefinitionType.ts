@@ -8,6 +8,7 @@ import type { NativeTypeName } from '../native/NativeConstants';
 import type Definition from './Definition';
 import type Node from './Node';
 import type Translation from '@translation/Translation';
+import Glyphs from '../lore/Glyphs';
 
 export const STRUCTURE_NATIVE_TYPE_NAME = 'structure';
 
@@ -113,5 +114,9 @@ export default class StructureDefinitionType extends Type {
 
     getNodeTranslation(translation: Translation) {
         return translation.nodes.StructureDefinitionType;
+    }
+
+    getGlyphs() {
+        return Glyphs.Type;
     }
 }

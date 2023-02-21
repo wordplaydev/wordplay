@@ -50,6 +50,7 @@ import Reference from './Reference';
 import StreamDefinition from './StreamDefinition';
 import StreamDefinitionType from './StreamDefinitionType';
 import StreamDefinitionValue from '../runtime/StreamDefinitionValue';
+import Glyphs from '../lore/Glyphs';
 
 type Mapping = {
     expected: Bind;
@@ -816,5 +817,9 @@ export default class Evaluate extends Expression {
         return translation.nodes.Evaluate.finish(
             this.getValueIfDefined(translation, context, evaluator)
         );
+    }
+
+    getGlyphs() {
+        return Glyphs.Evaluate;
     }
 }

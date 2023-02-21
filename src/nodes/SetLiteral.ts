@@ -17,6 +17,7 @@ import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '@parser/Symbols';
 import TokenType from './TokenType';
 import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
+import Glyphs from '../lore/Glyphs';
 
 export default class SetLiteral extends Expression {
     readonly open: Token;
@@ -142,5 +143,9 @@ export default class SetLiteral extends Expression {
         return translation.nodes.SetLiteral.finish(
             this.getValueIfDefined(translation, context, evaluator)
         );
+    }
+
+    getGlyphs() {
+        return Glyphs.Set;
     }
 }

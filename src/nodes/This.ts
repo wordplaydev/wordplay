@@ -22,6 +22,7 @@ import type { Replacement } from './Node';
 import AtomicExpression from './AtomicExpression';
 import type Translation from '@translation/Translation';
 import { UnenclosedType } from './UnenclosedType';
+import Glyphs from '../lore/Glyphs';
 
 type ThisStructure = StructureDefinition | ConversionDefinition | Reaction;
 
@@ -145,5 +146,9 @@ export default class This extends AtomicExpression {
         return translation.nodes.This.start(
             this.getValueIfDefined(translation, context, evaluator)
         );
+    }
+
+    getGlyphs() {
+        return Glyphs.This;
     }
 }

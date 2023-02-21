@@ -209,4 +209,10 @@ export default class UnaryOperation extends Expression {
             this.getValueIfDefined(translation, context, evaluator)
         );
     }
+
+    getGlyphs() {
+        return {
+            symbols: this.operator.getText(),
+        };
+    }
 }

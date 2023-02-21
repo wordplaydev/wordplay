@@ -34,6 +34,7 @@ import type Translation from '@translation/Translation';
 import AtomicExpression from './AtomicExpression';
 import type NameType from './NameType';
 import InternalException from '@runtime/InternalException';
+import Glyphs from '../lore/Glyphs';
 
 export default class StructureDefinition extends AtomicExpression {
     readonly docs: Docs | undefined;
@@ -398,5 +399,9 @@ export default class StructureDefinition extends AtomicExpression {
 
     getStartExplanations(translation: Translation) {
         return translation.nodes.StructureDefinition.start;
+    }
+
+    getGlyphs() {
+        return Glyphs.Type;
     }
 }

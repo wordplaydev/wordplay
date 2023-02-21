@@ -1,4 +1,5 @@
 import type Translation from '@translation/Translation';
+import Glyphs from '../lore/Glyphs';
 import Node, { type Replacement } from './Node';
 import Token from './Token';
 import Type from './Type';
@@ -38,5 +39,9 @@ export default class TypeInputs extends Node {
 
     getNodeTranslation(translation: Translation) {
         return translation.nodes.TypeInputs;
+    }
+
+    getGlyphs() {
+        return Glyphs.Type;
     }
 }

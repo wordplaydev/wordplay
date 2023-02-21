@@ -12,6 +12,7 @@ import type TypeSet from './TypeSet';
 import UnparsableType from './UnparsableType';
 import type Translation from '@translation/Translation';
 import AtomicExpression from './AtomicExpression';
+import Glyphs from '../lore/Glyphs';
 
 export default class UnparsableExpression extends AtomicExpression {
     readonly unparsables: Node[];
@@ -76,5 +77,9 @@ export default class UnparsableExpression extends AtomicExpression {
 
     getStartExplanations(translation: Translation) {
         return translation.nodes.UnparsableExpression.start;
+    }
+
+    getGlyphs() {
+        return Glyphs.Unparsable;
     }
 }

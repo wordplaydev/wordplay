@@ -10,6 +10,7 @@ import {
     FUNCTION_SYMBOL,
 } from '@parser/Symbols';
 import type Translation from '@translation/Translation';
+import Glyphs from '../lore/Glyphs';
 
 export default class FunctionDefinitionType extends Type {
     readonly fun: FunctionDefinition;
@@ -65,5 +66,9 @@ export default class FunctionDefinitionType extends Type {
 
     getNodeTranslation(translation: Translation) {
         return translation.nodes.FunctionDefinitionType;
+    }
+
+    getGlyphs() {
+        return Glyphs.Function;
     }
 }

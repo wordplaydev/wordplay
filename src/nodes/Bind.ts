@@ -38,6 +38,7 @@ import DuplicateName from '@conflicts/DuplicateName';
 import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
 import NodeLink from '@translation/NodeLink';
+import Glyphs from '../lore/Glyphs';
 
 export default class Bind extends Expression {
     readonly docs?: Docs;
@@ -414,5 +415,9 @@ export default class Bind extends Expression {
                 this.names.getTranslation(translation.language)
             )
         );
+    }
+
+    getGlyphs() {
+        return Glyphs.Bind;
     }
 }

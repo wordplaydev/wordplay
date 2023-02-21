@@ -11,6 +11,7 @@ import type Conflict from '@conflicts/Conflict';
 import type TypeSet from './TypeSet';
 import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
+import Glyphs from '../lore/Glyphs';
 
 export default class MapType extends NativeType {
     readonly open: Token;
@@ -112,5 +113,9 @@ export default class MapType extends NativeType {
 
     getNodeTranslation(translation: Translation) {
         return translation.nodes.MapType;
+    }
+
+    getGlyphs() {
+        return Glyphs.Set;
     }
 }

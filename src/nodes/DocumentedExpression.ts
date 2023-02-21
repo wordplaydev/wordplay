@@ -10,6 +10,7 @@ import Docs from './Docs';
 import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
 import AtomicExpression from './AtomicExpression';
+import Glyphs from '../lore/Glyphs';
 
 export default class DocumentedExpression extends AtomicExpression {
     readonly docs: Docs;
@@ -82,5 +83,9 @@ export default class DocumentedExpression extends AtomicExpression {
 
     getStartExplanations(translation: Translation) {
         return translation.nodes.DocumentedExpression.start;
+    }
+
+    getGlyphs() {
+        return Glyphs.Doc;
     }
 }

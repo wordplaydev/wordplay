@@ -19,6 +19,7 @@ import Start from '@runtime/Start';
 import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
 import NodeLink from '@translation/NodeLink';
+import Glyphs from '../lore/Glyphs';
 
 export default class Is extends Expression {
     readonly expression: Expression;
@@ -155,5 +156,9 @@ export default class Is extends Expression {
             result instanceof Bool && result.bool,
             new NodeLink(this.type, translation, context)
         );
+    }
+
+    getGlyphs() {
+        return Glyphs.Type;
     }
 }

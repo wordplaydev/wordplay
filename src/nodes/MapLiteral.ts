@@ -22,6 +22,7 @@ import SetCloseToken from './SetCloseToken';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
+import Glyphs from '../lore/Glyphs';
 
 export default class MapLiteral extends Expression {
     readonly open: Token;
@@ -194,5 +195,9 @@ export default class MapLiteral extends Expression {
         return translation.nodes.MapLiteral.finish(
             this.getValueIfDefined(translation, context, evaluator)
         );
+    }
+
+    getGlyphs() {
+        return Glyphs.Set;
     }
 }

@@ -5,6 +5,7 @@ import { PRODUCT_SYMBOL } from '@parser/Symbols';
 import TokenType from './TokenType';
 import NameToken from './NameToken';
 import type Translation from '@translation/Translation';
+import Glyphs from '../lore/Glyphs';
 
 export default class Dimension extends Node {
     readonly product: Token | undefined;
@@ -72,5 +73,9 @@ export default class Dimension extends Node {
 
     getNodeTranslation(translation: Translation) {
         return translation.nodes.Dimension;
+    }
+
+    getGlyphs() {
+        return Glyphs.Dimension;
     }
 }

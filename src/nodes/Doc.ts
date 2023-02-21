@@ -6,6 +6,7 @@ import { DOCS_SYMBOL } from '@parser/Symbols';
 import TokenType from './TokenType';
 import Paragraph from './Paragraph';
 import Words from './Words';
+import Glyphs from '../lore/Glyphs';
 
 export default class Doc extends Node {
     readonly open: Token;
@@ -106,5 +107,9 @@ export default class Doc extends Node {
 
     getNodeTranslation(translation: Translation) {
         return translation.nodes.Doc;
+    }
+
+    getGlyphs() {
+        return Glyphs.Doc;
     }
 }

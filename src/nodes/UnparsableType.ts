@@ -4,6 +4,7 @@ import type { NativeTypeName } from '../native/NativeConstants';
 import type Translation from '@translation/Translation';
 import Node, { type Replacement } from './Node';
 import Type from './Type';
+import Glyphs from '../lore/Glyphs';
 
 export default class UnparsableType extends Type {
     readonly unparsables: Node[];
@@ -38,5 +39,9 @@ export default class UnparsableType extends Type {
 
     getNodeTranslation(translation: Translation) {
         return translation.nodes.UnparsableType;
+    }
+
+    getGlyphs() {
+        return Glyphs.Unparsable;
     }
 }

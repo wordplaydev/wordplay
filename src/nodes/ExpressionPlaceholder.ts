@@ -19,6 +19,7 @@ import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
 import AtomicExpression from './AtomicExpression';
 import type { Description } from '@translation/Translation';
+import Glyphs from '../lore/Glyphs';
 
 export default class ExpressionPlaceholder extends AtomicExpression {
     readonly placeholder: Token;
@@ -149,5 +150,9 @@ export default class ExpressionPlaceholder extends AtomicExpression {
 
     getStartExplanations(translation: Translation) {
         return translation.nodes.ExpressionPlaceholder.start;
+    }
+
+    getGlyphs() {
+        return Glyphs.Placeholder;
     }
 }

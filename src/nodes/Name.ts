@@ -100,4 +100,10 @@ export default class Name extends Node {
     getNodeTranslation(translation: Translation) {
         return translation.nodes.Name;
     }
+
+    getGlyphs() {
+        return {
+            symbols: this.name.getText(),
+        };
+    }
 }

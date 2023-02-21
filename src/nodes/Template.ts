@@ -16,6 +16,7 @@ import TokenType from './TokenType';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
+import Glyphs from '../lore/Glyphs';
 
 export type TemplatePart = Expression | Token;
 
@@ -153,5 +154,9 @@ export default class Template extends Expression {
 
     getFinishExplanations(translation: Translation) {
         return translation.nodes.Template.finish;
+    }
+
+    getGlyphs() {
+        return Glyphs.Evaluate;
     }
 }

@@ -18,6 +18,7 @@ import Structure from '../runtime/Structure';
 import ValueException from '../runtime/ValueException';
 import PropertyReference from './PropertyReference';
 import IncompatibleBind from '../conflicts/IncompatibleBind';
+import Glyphs from '../lore/Glyphs';
 
 export default class PropertyBind extends Expression {
     readonly reference: PropertyReference;
@@ -144,5 +145,9 @@ export default class PropertyBind extends Expression {
         return translation.nodes.PropertyBind.finish(
             this.getValueIfDefined(translation, context, evaluator)
         );
+    }
+
+    getGlyphs() {
+        return Glyphs.Bind;
     }
 }

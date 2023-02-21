@@ -391,4 +391,10 @@ export default class BinaryOperation extends Expression {
             this.getValueIfDefined(translation, context, evaluator)
         );
     }
+
+    getGlyphs() {
+        return {
+            symbols: this.operator.getText(),
+        };
+    }
 }

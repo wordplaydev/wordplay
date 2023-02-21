@@ -12,6 +12,7 @@ import type { NativeTypeName } from '../native/NativeConstants';
 import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
 import NoneType from './NoneType';
+import Glyphs from '../lore/Glyphs';
 
 export default class UnionType extends Type {
     readonly left: Type;
@@ -174,5 +175,9 @@ export default class UnionType extends Type {
                 union = UnionType.make(union, uniqueTypes[0]);
         } while (uniqueTypes.length > 0);
         return union;
+    }
+
+    getGlyphs() {
+        return Glyphs.Union;
     }
 }

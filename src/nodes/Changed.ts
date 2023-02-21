@@ -23,6 +23,7 @@ import type Translation from '@translation/Translation';
 import AtomicExpression from './AtomicExpression';
 import NodeLink from '@translation/NodeLink';
 import BooleanType from './BooleanType';
+import Glyphs from '../lore/Glyphs';
 
 export default class Changed extends AtomicExpression {
     readonly change: Token;
@@ -134,5 +135,9 @@ export default class Changed extends AtomicExpression {
         return translation.nodes.Changed.start(
             new NodeLink(this.stream, translation, context)
         );
+    }
+
+    getGlyphs() {
+        return Glyphs.Change;
     }
 }

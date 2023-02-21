@@ -6,6 +6,7 @@ import type { Replacement } from './Node';
 import Token from './Token';
 import TokenType from './TokenType';
 import type TypeSet from './TypeSet';
+import Glyphs from '../lore/Glyphs';
 
 export default class NoneType extends NativeType {
     readonly none: Token;
@@ -46,5 +47,9 @@ export default class NoneType extends NativeType {
 
     getNodeTranslation(translation: Translation) {
         return translation.nodes.NoneType;
+    }
+
+    getGlyphs() {
+        return Glyphs.None;
     }
 }

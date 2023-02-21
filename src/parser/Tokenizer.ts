@@ -42,6 +42,8 @@ import {
     TYPE_OPEN_SYMBOL,
     TYPE_SYMBOL,
     INITIAL_SYMBOL,
+    SUM_SYMBOL,
+    DIFFERENCE_SYMBOL,
 } from './Symbols';
 import TokenList from './TokenList';
 
@@ -84,7 +86,7 @@ const RESERVED_SYMBOLS = [
 
 const TEXT_SEPARATORS = '\'‘’"“”„«»‹›「」『』';
 const UNARY_OPERATORS = `${NOT_SYMBOL}${NEGATE_SYMBOL}`;
-const BINARY_OPERATORS = `+\\-×${PRODUCT_SYMBOL}÷%^<≤=≠≥>&|~\?\\u2200-\\u22FF\\u2A00-\\u2AFF\\u2190-\\u21FF\\u27F0-\\u27FF\\u2900-\\u297F`;
+const BINARY_OPERATORS = `${SUM_SYMBOL}\\${DIFFERENCE_SYMBOL}×${PRODUCT_SYMBOL}÷%^<≤=≠≥>&|~\?\\u2200-\\u22FF\\u2A00-\\u2AFF\\u2190-\\u21FF\\u27F0-\\u27FF\\u2900-\\u297F`;
 
 export const UnaryOpRegEx = new RegExp(`^[${UNARY_OPERATORS}](?! )`, 'u');
 export const BinaryOpRegEx = new RegExp(`^[${BINARY_OPERATORS}]`, 'u');

@@ -1,6 +1,8 @@
 import type { NativeTypeName } from '../native/NativeConstants';
 import type Translation from '@translation/Translation';
 import Type from './Type';
+import Glyphs from '../lore/Glyphs';
+import { NEVER_SYMBOL } from '@parser/Symbols';
 
 export default class NeverType extends Type {
     constructor() {
@@ -20,7 +22,7 @@ export default class NeverType extends Type {
     computeConflicts() {}
 
     toWordplay() {
-        return '-';
+        return NEVER_SYMBOL;
     }
 
     clone() {
@@ -29,5 +31,9 @@ export default class NeverType extends Type {
 
     getNodeTranslation(translation: Translation) {
         return translation.nodes.NeverType;
+    }
+
+    getGlyphs() {
+        return Glyphs.Never;
     }
 }

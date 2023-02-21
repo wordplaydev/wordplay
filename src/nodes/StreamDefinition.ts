@@ -24,6 +24,7 @@ import type Translation from '@translation/Translation';
 import StreamDefinitionValue from '../runtime/StreamDefinitionValue';
 import type TypeSet from './TypeSet';
 import StreamDefinitionType from './StreamDefinitionType';
+import Glyphs from '../lore/Glyphs';
 
 export default class StreamDefinition extends Expression {
     readonly docs?: Docs;
@@ -200,5 +201,9 @@ export default class StreamDefinition extends Expression {
 
     getFinishExplanations(translation: Translation) {
         return translation.nodes.StreamDefinition.start;
+    }
+
+    getGlyphs() {
+        return Glyphs.Stream;
     }
 }

@@ -3,6 +3,7 @@ import type Translation from '@translation/Translation';
 import Node, { type Field, type Replacement } from './Node';
 import Program from './Program';
 import Token from './Token';
+import Glyphs from '../lore/Glyphs';
 
 export default class Example extends Node {
     readonly open: Token;
@@ -39,5 +40,9 @@ export default class Example extends Node {
 
     getNodeTranslation(translation: Translation) {
         return translation.nodes.Example;
+    }
+
+    getGlyphs() {
+        return Glyphs.Evaluate;
     }
 }

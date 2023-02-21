@@ -26,6 +26,7 @@ import UnknownNameType from './UnknownNameType';
 import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
 import NodeLink from '@translation/NodeLink';
+import Glyphs from '../lore/Glyphs';
 
 export default class Select extends Expression {
     readonly table: Expression;
@@ -212,5 +213,9 @@ export default class Select extends Expression {
         return translation.nodes.Select.finish(
             this.getValueIfDefined(translation, context, evaluator)
         );
+    }
+
+    getGlyphs() {
+        return Glyphs.Select;
     }
 }

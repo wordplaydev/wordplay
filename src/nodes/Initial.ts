@@ -16,6 +16,7 @@ import AtomicExpression from './AtomicExpression';
 import BooleanType from './BooleanType';
 import StartFinish from '../runtime/StartFinish';
 import type Node from './Node';
+import Glyphs from '../lore/Glyphs';
 
 export default class Initial extends AtomicExpression {
     readonly diamond: Token;
@@ -82,5 +83,9 @@ export default class Initial extends AtomicExpression {
 
     getStartExplanations(translation: Translation) {
         return translation.nodes.Initial.description;
+    }
+
+    getGlyphs() {
+        return Glyphs.Initial;
     }
 }

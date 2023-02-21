@@ -3,6 +3,7 @@ import type Translation from '@translation/Translation';
 import Type from './Type';
 import type TypeSet from './TypeSet';
 import type TypeVariable from './TypeVariable';
+import Glyphs from '../lore/Glyphs';
 
 export default class VariableType extends Type {
     readonly definition: TypeVariable;
@@ -52,5 +53,9 @@ export default class VariableType extends Type {
 
     getNodeTranslation(translation: Translation) {
         return translation.nodes.VariableType;
+    }
+
+    getGlyphs() {
+        return Glyphs.VariableType;
     }
 }

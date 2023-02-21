@@ -115,4 +115,10 @@ export default class Token extends Node {
             .replaceAll('\n', '\\n')
             .replaceAll('\t', '\\t')}`;
     }
+
+    getGlyphs() {
+        return {
+            symbols: this.getText(),
+        };
+    }
 }

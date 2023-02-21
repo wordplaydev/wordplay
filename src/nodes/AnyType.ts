@@ -1,6 +1,8 @@
 import type { NativeTypeName } from '../native/NativeConstants';
 import type Translation from '@translation/Translation';
 import Type from './Type';
+import Glyphs from '../lore/Glyphs';
+import { PLACEHOLDER_SYMBOL } from '../parser/Symbols';
 
 export default class AnyType extends Type {
     constructor() {
@@ -26,10 +28,14 @@ export default class AnyType extends Type {
     }
 
     toWordplay() {
-        return '*';
+        return PLACEHOLDER_SYMBOL;
     }
 
     clone() {
         return this;
+    }
+
+    getGlyphs() {
+        return Glyphs.Placeholder;
     }
 }

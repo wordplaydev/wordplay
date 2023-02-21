@@ -25,6 +25,7 @@ import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
 import StartConversion from '@runtime/StartConversion';
 import NodeLink from '@translation/NodeLink';
+import Glyphs from '../lore/Glyphs';
 
 export default class Convert extends Expression {
     readonly expression: Expression;
@@ -226,6 +227,10 @@ export default class Convert extends Expression {
         return translation.nodes.Convert.finish(
             this.getValueIfDefined(translation, context, evaluator)
         );
+    }
+
+    getGlyphs() {
+        return Glyphs.Conversion;
     }
 }
 

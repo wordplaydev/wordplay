@@ -28,6 +28,7 @@ import UnknownNameType from './UnknownNameType';
 import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
 import NodeLink from '@translation/NodeLink';
+import Glyphs from '../lore/Glyphs';
 
 export default class PropertyReference extends Expression {
     readonly structure: Expression;
@@ -306,5 +307,9 @@ export default class PropertyReference extends Expression {
                 : undefined,
             this.getValueIfDefined(translation, context, evaluator)
         );
+    }
+
+    getGlyphs() {
+        return Glyphs.Reference;
     }
 }

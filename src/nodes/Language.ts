@@ -7,6 +7,7 @@ import type Conflict from '@conflicts/Conflict';
 import { Languages } from '@translation/LanguageCode';
 import InvalidLanguage from '@conflicts/InvalidLanguage';
 import type Translation from '@translation/Translation';
+import Glyphs from '../lore/Glyphs';
 
 export default class Language extends Node {
     readonly slash: Token;
@@ -67,5 +68,9 @@ export default class Language extends Node {
 
     getNodeTranslation(translation: Translation) {
         return translation.nodes.Language;
+    }
+
+    getGlyphs() {
+        return Glyphs.Language;
     }
 }

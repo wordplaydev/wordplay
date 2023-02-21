@@ -10,6 +10,7 @@ import type Conflict from '@conflicts/Conflict';
 import type TypeSet from './TypeSet';
 import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
+import Glyphs from '../lore/Glyphs';
 
 export default class SetType extends NativeType {
     readonly open: Token;
@@ -82,5 +83,9 @@ export default class SetType extends NativeType {
 
     getNodeTranslation(translation: Translation) {
         return translation.nodes.SetType;
+    }
+
+    getGlyphs() {
+        return Glyphs.Set;
     }
 }

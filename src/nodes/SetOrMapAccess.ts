@@ -26,6 +26,7 @@ import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
 import { NotASetOrMapType } from './NotASetOrMapType';
 import NodeLink from '@translation/NodeLink';
+import Glyphs from '../lore/Glyphs';
 
 export default class SetOrMapAccess extends Expression {
     readonly setOrMap: Expression;
@@ -189,5 +190,9 @@ export default class SetOrMapAccess extends Expression {
         return translation.nodes.SetOrMapAccess.finish(
             this.getValueIfDefined(translation, context, evaluator)
         );
+    }
+
+    getGlyphs() {
+        return Glyphs.Set;
     }
 }

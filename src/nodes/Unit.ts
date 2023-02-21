@@ -303,4 +303,10 @@ export default class Unit extends Type {
     getNodeTranslation(translation: Translation) {
         return translation.nodes.Unit;
     }
+
+    getGlyphs() {
+        return {
+            symbols: this.toWordplay(),
+        };
+    }
 }

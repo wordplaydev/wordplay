@@ -20,6 +20,7 @@ import type Value from '@runtime/Value';
 import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
 import NodeLink from '@translation/NodeLink';
+import Glyphs from '../lore/Glyphs';
 
 export default class Conditional extends Expression {
     readonly condition: Expression;
@@ -195,5 +196,9 @@ export default class Conditional extends Expression {
         return translation.nodes.Conditional.finish(
             this.getValueIfDefined(translation, context, evaluator)
         );
+    }
+
+    getGlyphs() {
+        return Glyphs.Conditional;
     }
 }

@@ -23,6 +23,7 @@ import type Translation from '@translation/Translation';
 import type LanguageCode from '@translation/LanguageCode';
 import TokenType from './TokenType';
 import ValueLink from '@translation/ValueLink';
+import Glyphs from '../lore/Glyphs';
 
 export default class Program extends Expression {
     readonly docs?: Docs;
@@ -206,5 +207,9 @@ export default class Program extends Expression {
         return translation.nodes.Program.finish(
             this.getValueIfDefined(translation, context, evaluator)
         );
+    }
+
+    getGlyphs() {
+        return Glyphs.Function;
     }
 }

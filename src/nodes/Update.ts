@@ -24,6 +24,7 @@ import type Evaluator from '@runtime/Evaluator';
 import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
 import NodeLink from '@translation/NodeLink';
+import Glyphs from '../lore/Glyphs';
 
 export default class Update extends Expression {
     readonly table: Expression;
@@ -214,5 +215,9 @@ export default class Update extends Expression {
         return translation.nodes.Update.finish(
             this.getValueIfDefined(translation, context, evaluator)
         );
+    }
+
+    getGlyphs() {
+        return Glyphs.Update;
     }
 }

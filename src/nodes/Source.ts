@@ -23,6 +23,7 @@ import type Spaces from '@parser/Spaces';
 import None from '@runtime/None';
 import type SetOpenToken from './SetOpenToken';
 import type Translation from '@translation/Translation';
+import Glyphs from '../lore/Glyphs';
 
 /** A document representing executable Wordplay code and it's various metadata, such as conflicts, tokens, and evaulator. */
 export default class Source extends Expression {
@@ -590,7 +591,12 @@ export default class Source extends Expression {
     getStartExplanations() {
         return '';
     }
+
     getFinishExplanations() {
         return '';
+    }
+
+    getGlyphs() {
+        return Glyphs.Source;
     }
 }
