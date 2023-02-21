@@ -17,14 +17,8 @@
     import TextLiteral from '@nodes/TextLiteral';
     import { getContext, onMount } from 'svelte';
     import type { Writable } from 'svelte/store';
-    import Reference from '@nodes/Reference';
-    import { PlaceType } from '@output/Place';
-    import MeasurementLiteral from '@nodes/MeasurementLiteral';
-    import Unit from '@nodes/Unit';
-    import Expression from '@nodes/Expression';
     import type Project from '../../models/Project';
-    import Bind from '../../nodes/Bind';
-    import Decimal from 'decimal.js';
+    import moveOutput from '../palette/moveOutput';
 
     export let phrase: Phrase;
     export let place: Place;
@@ -113,69 +107,14 @@
         if (phrase.value.creator instanceof Evaluate) {
             select(null);
 
-            const evaluate = phrase.value.creator;
-            const ctx = project.getNodeContext(evaluate);
-
-            const given = evaluate.getMappingFor('place', ctx);
-            const place =
-                given &&
-                given.given instanceof Evaluate &&
-                given.given.is(PlaceType, ctx)
-                    ? given.given
-                    : given &&
-                      given.given instanceof Bind &&
-                      given.given.value instanceof Evaluate &&
-                      given.given.value.is(PlaceType, ctx)
-                    ? given.given.value
-                    : undefined;
-
-            const x = place?.getMappingFor('x', ctx)?.given;
-            const y = place?.getMappingFor('y', ctx)?.given;
-            const z = place?.getMappingFor('z', ctx)?.given;
-
-            reviseProject([
-                [
-                    evaluate,
-                    evaluate.withBindAs(
-                        'place',
-                        Evaluate.make(
-                            Reference.make(
-                                PlaceType.names.getTranslation(
-                                    $preferredLanguages
-                                ),
-                                PlaceType
-                            ),
-                            [
-                                MeasurementLiteral.make(
-                                    (x instanceof MeasurementLiteral
-                                        ? x.getValue().num
-                                        : new Decimal(0)
-                                    )
-                                        .add(horizontal)
-                                        .toNumber(),
-                                    Unit.make(['m'])
-                                ),
-                                MeasurementLiteral.make(
-                                    (y instanceof MeasurementLiteral
-                                        ? y.getValue().num
-                                        : new Decimal(0)
-                                    )
-                                        .add(vertical)
-                                        .toNumber(),
-                                    Unit.make(['m'])
-                                ),
-                                z instanceof Expression
-                                    ? z
-                                    : MeasurementLiteral.make(
-                                          0,
-                                          Unit.make(['m'])
-                                      ),
-                            ]
-                        ),
-                        ctx
-                    ),
-                ],
-            ]);
+            moveOutput(
+                project,
+                [phrase.value.creator],
+                $preferredLanguages,
+                horizontal,
+                vertical,
+                true
+            );
         }
     }
 

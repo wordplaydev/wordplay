@@ -33,6 +33,7 @@
     import RenderContext from '@output/RenderContext';
     import { setContext } from 'svelte';
     import { writable } from 'svelte/store';
+    import moveOutput from '../palette/moveOutput';
 
     export let project: Project;
     export let verse: Verse;
@@ -58,7 +59,7 @@
     /** The creator or audience adjusted focus. */
     let adjustedFocus: Place = createPlace(project.evaluator, 0, 0, -12, 0);
 
-    /** The state of dragging the adjusted focus. A location or nothiing. */
+    /** The state of dragging the adjusted focus. A location or nothing. */
     let focusDrag:
         | { startFocus: Place; left: number; top: number }
         | undefined = undefined;
@@ -227,7 +228,7 @@
         view?.focus();
 
         // Start dragging to move the focus
-        if (view && event.shiftKey) {
+        if (view) {
             const rect = view.getBoundingClientRect();
 
             focusDrag = {
@@ -249,8 +250,10 @@
     }
 
     function handleMouseUp() {
-        // If dragging the focus, stop
-        if (focusDrag) focusDrag = undefined;
+        // If dragging, stop
+        if (focusDrag) {
+            focusDrag = undefined;
+        }
 
         if (project.evaluator.isPlaying())
             project.evaluator
@@ -260,19 +263,31 @@
 
     function handleMouseMove(event: MouseEvent) {
         // If dragging the focus, adjust it accordingly.
-        if (event.buttons === 1 && focusDrag && view && event.shiftKey) {
+        if (event.buttons === 1 && focusDrag && view) {
             event.stopPropagation();
             const rect = view.getBoundingClientRect();
             const deltaX = event.clientX - rect.left - focusDrag.left;
             const deltaY = event.clientY - rect.top - focusDrag.top;
-
             const scale = PX_PER_METER;
+            const scaleDeltaX = deltaX / scale;
+            const scaleDeltaY = deltaY / scale;
 
-            setFocus(
-                focusDrag.startFocus.x.toNumber() + deltaX / scale,
-                focusDrag.startFocus.y.toNumber() - deltaY / scale,
-                focusDrag.startFocus.z.toNumber()
-            );
+            if (event.shiftKey)
+                setFocus(
+                    focusDrag.startFocus.x.toNumber() + scaleDeltaX,
+                    focusDrag.startFocus.y.toNumber() - scaleDeltaY,
+                    focusDrag.startFocus.z.toNumber()
+                );
+            else if ($selectedOutput.length > 0) {
+                moveOutput(
+                    project,
+                    $selectedOutput,
+                    $preferredLanguages,
+                    scaleDeltaX,
+                    -scaleDeltaY,
+                    false
+                );
+            }
         }
 
         if (project.evaluator.isPlaying())
@@ -411,6 +426,7 @@
             const outputView = view?.querySelector(
                 `[data-node-id="${evaluate.id}"`
             );
+
             if (outputView instanceof HTMLElement) outputView.focus();
         }
 
