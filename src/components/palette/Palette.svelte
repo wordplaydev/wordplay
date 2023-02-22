@@ -6,6 +6,8 @@
     import PaletteProperty from './PaletteProperty.svelte';
     import type OutputProperty from '@transforms/OutputProperty';
     import OutputExpression from '@transforms/OutputExpression';
+    import Speech from '../lore/Speech.svelte';
+    import { Emotion } from '../../lore/Glyph';
 
     export let project: Project;
 
@@ -41,10 +43,16 @@
 </script>
 
 <section class="palette" tabIndex="0">
-    <h1
-        >{$preferredTranslations.map((t) => t.ui.headers.editing).join(' ')}
-        {outputs.map((output) => output.node.func.toWordplay()).join(', ')}
-    </h1>
+    <Speech
+        glyph={{
+            symbols: outputs
+                .map((output) => output.node.func.toWordplay())
+                .join(', '),
+            emotion: Emotion.Cheerful,
+        }}
+    >
+        {$preferredTranslations.map((t) => t.ui.headers.editing).join(' ')}
+    </Speech>
 
     {#each Array.from(propertyValues.entries()) as [property, values]}
         <PaletteProperty {project} {property} {values} />
@@ -63,7 +71,6 @@
         display: flex;
         flex-direction: column;
         flex-wrap: nowrap;
-        align-items: left;
         gap: var(--wordplay-spacing);
     }
 

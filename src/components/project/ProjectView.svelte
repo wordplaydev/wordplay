@@ -269,6 +269,8 @@
     onDestroy(() => project.cleanup());
 
     function setMode(tile: Tile, mode: Mode) {
+        if (layout.getTileWithID(tile.id)?.mode === mode) return;
+
         layout = layout
             .withTileInMode(tile, mode)
             .resized(canvasWidth, canvasHeight);

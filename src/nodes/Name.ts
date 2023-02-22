@@ -8,6 +8,7 @@ import PlaceholderToken from './PlaceholderToken';
 import type Translation from '@translation/Translation';
 import { COMMA_SYMBOL } from '@parser/Symbols';
 import TokenType from './TokenType';
+import { Emotion } from '../lore/Glyph';
 
 export default class Name extends Node {
     readonly separator?: Token;
@@ -104,6 +105,7 @@ export default class Name extends Node {
     getGlyphs() {
         return {
             symbols: this.name.getText(),
+            emotion: Emotion.Kind,
         };
     }
 }

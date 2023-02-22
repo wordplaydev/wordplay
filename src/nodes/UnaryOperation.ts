@@ -21,6 +21,7 @@ import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
 import StartEvaluation from '@runtime/StartEvaluation';
 import NodeLink from '@translation/NodeLink';
+import { Emotion } from '../lore/Glyph';
 
 export default class UnaryOperation extends Expression {
     readonly operator: Token;
@@ -213,6 +214,7 @@ export default class UnaryOperation extends Expression {
     getGlyphs() {
         return {
             symbols: this.operator.getText(),
+            emotion: Emotion.Kind,
         };
     }
 }

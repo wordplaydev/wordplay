@@ -3,6 +3,7 @@ import type Spaces from '@parser/Spaces';
 import type Translation from '@translation/Translation';
 import Node, { type Replacement } from './Node';
 import TokenType from './TokenType';
+import { Emotion } from '../lore/Glyph';
 
 export default class Token extends Node {
     /** The one or more types of token this might represent. This is narrowed during parsing to one.*/
@@ -119,6 +120,7 @@ export default class Token extends Node {
     getGlyphs() {
         return {
             symbols: this.getText(),
+            emotion: Emotion.Loving,
         };
     }
 }

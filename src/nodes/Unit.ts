@@ -14,6 +14,7 @@ import LanguageToken from './LanguageToken';
 import TokenType from './TokenType';
 import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
+import { Emotion } from '../lore/Glyph';
 
 export default class Unit extends Type {
     /** In case this was parsed, we keep the original tokens around. */
@@ -307,6 +308,7 @@ export default class Unit extends Type {
     getGlyphs() {
         return {
             symbols: this.toWordplay(),
+            emotion: Emotion.Kind,
         };
     }
 }

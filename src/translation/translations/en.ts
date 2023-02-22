@@ -1676,7 +1676,7 @@ const en: Translation = {
             palette: '🎨',
         },
         headers: {
-            editing: 'editing',
+            editing: 'edit me!',
         },
     },
     input: {

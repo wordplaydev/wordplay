@@ -55,12 +55,6 @@
     100% { opacity: 0.8; }
 }
 
-@keyframes throb {
-    0% { opacity: 0.8}
-    50% { opacity: 1.0; }
-    100% { opacity: 0.8; }
-}
-
 @keyframes shift {
     0% { transform: translateX(2px) }
     50% { transform: translateX(-2px) }

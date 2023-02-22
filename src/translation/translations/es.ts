@@ -1632,7 +1632,7 @@ const eng_wordplay: Translation = {
             palette: '🎨',
         },
         headers: {
-            editing: 'editing',
+            editing: 'edit me!',
         },
     },
     input: {

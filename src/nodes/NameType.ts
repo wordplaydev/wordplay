@@ -17,6 +17,7 @@ import UnknownNameType from './UnknownNameType';
 import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
 import { UnknownName } from '@conflicts/UnknownName';
+import { Emotion } from '../lore/Glyph';
 
 export default class NameType extends Type {
     readonly name: Token;
@@ -136,6 +137,7 @@ export default class NameType extends Type {
     getGlyphs() {
         return {
             symbols: this.name.getText(),
+            emotion: Emotion.Kind,
         };
     }
 }

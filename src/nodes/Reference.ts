@@ -26,7 +26,7 @@ import type Translation from '@translation/Translation';
 import AtomicExpression from './AtomicExpression';
 import NameException from '@runtime/NameException';
 import NodeLink from '@translation/NodeLink';
-import Glyphs from '../lore/Glyphs';
+import { Emotion } from '../lore/Glyph';
 
 /**
  * A reference to some Definition. Can optionally take the definition which it refers,
@@ -233,6 +233,9 @@ export default class Reference extends AtomicExpression {
     }
 
     getGlyphs() {
-        return Glyphs.Name;
+        return {
+            symbols: this.name.getText(),
+            emotion: Emotion.Kind,
+        };
     }
 }

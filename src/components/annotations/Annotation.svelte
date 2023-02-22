@@ -3,6 +3,7 @@
     import { fade } from 'svelte/transition';
     import type { AnnotationInfo } from './Annotations.svelte';
     import DescriptionView from '@components/concepts/DescriptionView.svelte';
+    import Dialog from '../lore/Speech.svelte';
 
     export let id: number;
     export let annotations: AnnotationInfo[];
@@ -48,11 +49,13 @@
                 data-annotationid={id}
                 transition:fade={{ duration: 100 }}
             >
-                {#each annotation.text as description}
-                    <p>
-                        <DescriptionView {description} />
-                    </p>
-                {/each}
+                <Dialog glyph={annotation.node.getGlyphs()}>
+                    {#each annotation.text as description}
+                        <p>
+                            <DescriptionView {description} />
+                        </p>
+                    {/each}
+                </Dialog>
             </div>
         {/each}
     </div>
@@ -61,7 +64,6 @@
 <style>
     .annotations {
         position: absolute;
-        max-width: 320px;
         display: flex;
         flex-direction: column;
         gap: var(--wordplay-spacing);
@@ -83,10 +85,6 @@
 
     .annotation.step {
         background-color: var(--wordplay-evaluation-color);
-    }
-
-    .step :global(.value) {
-        color: var(--wordplay-background);
     }
 
     .annotation.primary {

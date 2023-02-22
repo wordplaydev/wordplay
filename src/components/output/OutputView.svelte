@@ -14,6 +14,7 @@
         writingDirection,
         writingLayout,
     } from '@translation/translations';
+    import Dialog from '../lore/Speech.svelte';
 
     export let project: Project;
     export let source: Source;
@@ -40,11 +41,13 @@
         {#if latest instanceof Exception}
             <div class="fill exception"
                 ><div class="message"
-                    >{#each $preferredTranslations as translation}
-                        <DescriptionView
-                            description={latest.getDescription(translation)}
-                        />
-                    {/each}
+                    ><Dialog glyph={latest.creator.getGlyphs()}
+                        >{#each $preferredTranslations as translation}
+                            <DescriptionView
+                                description={latest.getDescription(translation)}
+                            />
+                        {/each}</Dialog
+                    >
                 </div></div
             >
             <!-- If there's no verse -->
@@ -165,7 +168,7 @@
     }
 
     .exception :global(.value) {
-        color: var(--wordplay-background);
+        color: var(--wordplay-evaluation-color);
     }
 
     .exception .message {
