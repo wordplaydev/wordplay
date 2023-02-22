@@ -2,11 +2,12 @@
     import type Glyph from '../../lore/Glyph';
 
     export let glyph: Glyph;
+    export let below: boolean = false;
 
     const Limit = 10;
 </script>
 
-<div class="dialog">
+<div class="dialog {below ? 'column' : 'row'}">
     {#key glyph}
         <div class="glyphs emotion-{glyph.emotion}">
             {glyph.symbols.length > Limit
@@ -14,7 +15,7 @@
                 : glyph.symbols}
         </div>
     {/key}
-    <div class="message">
+    <div class="message {below ? 'below' : 'right'}">
         <slot />
     </div>
 </div>
@@ -28,14 +29,28 @@
         align-items: center;
     }
 
+    .dialog.column {
+        flex-direction: column;
+    }
+
     .glyphs {
         display: inline-block;
-        font-size: 2em;
-        max-width: 2em;
-        flex-shrink: 0;
-        word-break: break-all;
         line-height: 100%;
+        font-family: var(--wordplay-code-font);
+    }
+
+    .row .glyphs {
+        font-size: 1em;
+        max-width: 4em;
+        flex-shrink: 0;
         text-align: center;
+        word-break: break-all;
+    }
+
+    .column .glyphs {
+        font-size: 2em;
+        text-align: left;
+        width: 100%;
     }
 
     .message {
@@ -50,11 +65,18 @@
         text-align: left;
         flex-grow: 1;
         position: relative;
-        margin-left: var(--tail-width);
         --tail-width: 0.25em;
     }
 
-    .message:after {
+    .message.right {
+        margin-left: var(--tail-width);
+    }
+
+    .message.below {
+        margin-top: var(--tail-width);
+    }
+
+    .message.right:after {
         content: '';
         position: absolute;
         border-style: solid;
@@ -68,7 +90,7 @@
         top: 50%;
     }
 
-    .message:before {
+    .message.right:before {
         content: '';
         position: absolute;
         border-style: solid;
@@ -84,6 +106,33 @@
         );
         left: calc(-1 * (var(--tail-width) + 1 * var(--wordplay-border-width)));
         top: 50%;
+    }
+
+    .message.below:after {
+        content: '';
+        position: absolute;
+        border-style: solid;
+        border-width: 0 var(--tail-width) var(--tail-width);
+        border-color: var(--wordplay-background) transparent;
+        display: block;
+        width: 0;
+        z-index: 1;
+        top: calc(-1 * var(--tail-width));
+        left: calc(2 * var(--tail-width));
+    }
+
+    .message.below:before {
+        content: '';
+        position: absolute;
+        border-style: solid;
+        border-width: 0 calc(var(--tail-width) + var(--wordplay-border-width))
+            calc(var(--tail-width) + var(--wordplay-border-width));
+        border-color: var(--wordplay-border-color) transparent;
+        display: block;
+        width: 0;
+        z-index: 0;
+        top: calc(-1 * (var(--tail-width) + var(--wordplay-border-width)));
+        left: calc(2 * var(--tail-width) - 1 * var(--wordplay-border-width));
     }
 
     .emotion-cheerful {
@@ -103,7 +152,6 @@
     .emotion-kind {
         animation: kind 0.5s ease 1;
         transform-origin: bottom;
-        transform: rotate(7deg) scaleY(0.9) translateX(0.1em);
     }
 
     @keyframes kind {

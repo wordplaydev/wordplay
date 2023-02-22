@@ -14,6 +14,7 @@ import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import type LanguageCode from '@translation/LanguageCode';
 import type Translation from '@translation/Translation';
 import type Purpose from './Purpose';
+import Emotion from '../lore/Emotion';
 
 export default class StructureConcept extends Concept {
     /** The type this concept represents. */
@@ -119,6 +120,13 @@ export default class StructureConcept extends Concept {
                         context
                     )
             );
+    }
+
+    getGlyphs(languages: LanguageCode[]) {
+        return {
+            symbols: this.definition.names.getTranslation(languages),
+            emotion: Emotion.Serious,
+        };
     }
 
     hasName(name: string) {

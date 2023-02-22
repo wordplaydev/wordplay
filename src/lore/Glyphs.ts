@@ -33,7 +33,6 @@ import {
     SUM_SYMBOL,
     TABLE_CLOSE_SYMBOL,
     TABLE_OPEN_SYMBOL,
-    TEXT_SYMBOL,
     TYPE_CLOSE_SYMBOL,
     TYPE_OPEN_SYMBOL,
     TYPE_SYMBOL,
@@ -41,7 +40,7 @@ import {
     UNPARSABLE_SYMBOL,
 } from '@parser/Symbols';
 import type Glyph from './Glyph';
-import { Emotion } from './Glyph';
+import Emotion from './Emotion';
 
 const GlyphSet = {
     // Parsing
@@ -120,10 +119,6 @@ const GlyphSet = {
         symbols: TYPE_SYMBOL,
         emotion: Emotion.Kind,
     },
-    Text: {
-        symbols: TEXT_SYMBOL,
-        emotion: Emotion.Kind,
-    },
     Bool: {
         symbols: QUESTION_SYMBOL,
         emotion: Emotion.Kind,
@@ -179,7 +174,7 @@ const GlyphSet = {
     // Input
     Stream: {
         symbols: STREAM_SYMBOL,
-        emotion: Emotion.Kind,
+        emotion: Emotion.Restless,
     },
     Previous: {
         symbols: PREVIOUS_SYMBOL,

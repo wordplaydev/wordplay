@@ -6,6 +6,7 @@ import Reference from '@nodes/Reference';
 import Concept from './Concept';
 import type Translation from '@translation/Translation';
 import type Purpose from './Purpose';
+import Emotion from '../lore/Emotion';
 
 export default class BindConcept extends Concept {
     /** The type this concept represents. */
@@ -27,6 +28,13 @@ export default class BindConcept extends Concept {
             this.bind.names.getTranslation(languages),
             this.bind
         );
+    }
+
+    getGlyphs(languages: LanguageCode[]) {
+        return {
+            symbols: this.bind.names.getTranslation(languages),
+            emotion: Emotion.Kind,
+        };
     }
 
     getType() {

@@ -26,7 +26,7 @@ import type Translation from '@translation/Translation';
 import AtomicExpression from './AtomicExpression';
 import NameException from '@runtime/NameException';
 import NodeLink from '@translation/NodeLink';
-import { Emotion } from '../lore/Glyph';
+import Emotion from '../lore/Emotion';
 
 /**
  * A reference to some Definition. Can optionally take the definition which it refers,

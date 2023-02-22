@@ -5,6 +5,8 @@ import type { Description } from '@translation/Translation';
 import type Translation from '@translation/Translation';
 import type Purpose from './Purpose';
 import type StructureDefinition from '@nodes/StructureDefinition';
+import type Glyph from '../lore/Glyph';
+import type LanguageCode from '../translation/LanguageCode';
 
 /**
  * Represents some part of the Wordplay language, API, or example ecosystem.
@@ -34,6 +36,11 @@ export default abstract class Concept {
     getAffiliation() {
         return this.affiliation;
     }
+
+    /**
+     * Returns the glyph that represents the concept.
+     */
+    abstract getGlyphs(languages: LanguageCode[]): Glyph;
 
     /**
      * Returns true if the concept has the given name or id.

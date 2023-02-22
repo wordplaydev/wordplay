@@ -88,16 +88,17 @@ export default class Names extends Node {
     }
 
     getTranslation(language: string | string[]) {
-        const preferredTranslation = (
-            Array.isArray(language) ? language : [language]
-        )
+        return this.getNameTranslation(language)?.getName() ?? '-';
+    }
+
+    getNameTranslation(language: string | string[]) {
+        const preferredName = (Array.isArray(language) ? language : [language])
             .map((lang) =>
                 this.names.find((name) => name.getLanguage() === lang)
             )
             .find((name) => name !== undefined && name.getName() !== undefined);
         return (
-            preferredTranslation?.getName() ??
-            (this.names.length > 0 ? this.names[0].getName() ?? '—' : '-')
+            preferredName ?? (this.names.length > 0 ? this.names[0] : undefined)
         );
     }
 

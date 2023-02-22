@@ -7,7 +7,7 @@ import type { Replacement } from './Node';
 import Token from './Token';
 import TokenType from './TokenType';
 import type TypeSet from './TypeSet';
-import Glyphs from '../lore/Glyphs';
+import Emotion from '../lore/Emotion';
 
 /** Any string or a specific string, depending on whether the given token is an empty text literal. */
 export default class TextType extends NativeType {
@@ -80,6 +80,9 @@ export default class TextType extends NativeType {
     }
 
     getGlyphs() {
-        return Glyphs.Text;
+        return {
+            symbols: this.text.getDelimiters(),
+            emotion: Emotion.Excited,
+        };
     }
 }

@@ -31,7 +31,7 @@ import type Translation from '@translation/Translation';
 import type { Description } from '@translation/Translation';
 import StartEvaluation from '@runtime/StartEvaluation';
 import NodeLink from '@translation/NodeLink';
-import { Emotion } from '../lore/Glyph';
+import Emotion from '../lore/Emotion';
 
 export default class BinaryOperation extends Expression {
     readonly left: Expression;

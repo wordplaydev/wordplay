@@ -1662,7 +1662,7 @@ const en: Translation = {
         },
         labels: {
             learn: 'learn more …',
-            nodoc: 'no documentation',
+            nodoc: 'Who am I? What am I? What is my purpose?',
             mixed: 'mixed',
             computed: 'computed',
             default: 'default',

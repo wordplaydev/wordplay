@@ -17,7 +17,7 @@ import UnknownNameType from './UnknownNameType';
 import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
 import { UnknownName } from '@conflicts/UnknownName';
-import { Emotion } from '../lore/Glyph';
+import Emotion from '../lore/Emotion';
 
 export default class NameType extends Type {
     readonly name: Token;

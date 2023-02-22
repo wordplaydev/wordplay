@@ -3,7 +3,7 @@ import type Spaces from '@parser/Spaces';
 import type Translation from '@translation/Translation';
 import Node, { type Replacement } from './Node';
 import TokenType from './TokenType';
-import { Emotion } from '../lore/Glyph';
+import Emotion from '../lore/Emotion';
 
 export default class Token extends Node {
     /** The one or more types of token this might represent. This is narrowed during parsing to one.*/
@@ -60,6 +60,13 @@ export default class Token extends Node {
     /** Get the grapheme length of the text (as opposed to the codepoint length) */
     getText() {
         return this.text.toString();
+    }
+
+    getDelimiters() {
+        return (
+            (this.text.at(0)?.toString() ?? '') +
+            (this.text.at(this.text.getLength() - 1)?.toString() ?? '')
+        );
     }
 
     getTextLength() {

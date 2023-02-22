@@ -16,6 +16,7 @@ import type StructureConcept from './StructureConcept';
 import type Translation from '@translation/Translation';
 import type Purpose from './Purpose';
 import type StructureDefinition from '@nodes/StructureDefinition';
+import Emotion from '../lore/Emotion';
 
 export default class FunctionConcept extends Concept {
     /** The function this concept represents. */
@@ -85,6 +86,13 @@ export default class FunctionConcept extends Concept {
         this.inputs = this.definition.inputs.map(
             (bind) => new BindConcept(purpose, bind, languages, context)
         );
+    }
+
+    getGlyphs(languages: LanguageCode[]) {
+        return {
+            symbols: this.definition.names.getTranslation(languages),
+            emotion: Emotion.Curious,
+        };
     }
 
     hasName(name: string) {

@@ -4,6 +4,7 @@ import Convert from '@nodes/Convert';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import type Node from '@nodes/Node';
 import type Translation from '@translation/Translation';
+import Glyphs from '../lore/Glyphs';
 import Concept from './Concept';
 import Purpose from './Purpose';
 import type StructureConcept from './StructureConcept';
@@ -32,6 +33,10 @@ export default class ConversionConcept extends Concept {
             ExpressionPlaceholder.make(this.definition.input),
             definition.output
         );
+    }
+
+    getGlyphs() {
+        return Glyphs.Conversion;
     }
 
     hasName() {

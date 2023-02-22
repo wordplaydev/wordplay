@@ -7,7 +7,7 @@
     import type OutputProperty from '@transforms/OutputProperty';
     import OutputExpression from '@transforms/OutputExpression';
     import Speech from '../lore/Speech.svelte';
-    import { Emotion } from '../../lore/Glyph';
+    import Emotion from '../../lore/Emotion';
 
     export let project: Project;
 

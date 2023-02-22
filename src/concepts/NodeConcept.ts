@@ -20,6 +20,10 @@ export default class NodeConcept extends Concept {
         this.template = template;
     }
 
+    getGlyphs() {
+        return this.template.getGlyphs();
+    }
+
     hasName(name: string, translation: Translation): boolean {
         const nodeTranslation = this.template.getNodeTranslation(translation);
         const match = Object.entries(translation.nodes).find(

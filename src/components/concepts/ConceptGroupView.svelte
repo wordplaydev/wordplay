@@ -2,6 +2,7 @@
     import { slide } from 'svelte/transition';
     import type Concept from '@concepts/Concept';
     import CodeView from './CodeView.svelte';
+    import Note from '../widgets/Note.svelte';
 
     export let concepts: Concept[];
     export let selectable: boolean;
@@ -24,6 +25,8 @@
                 />
             </span>
         {/if}
+    {:else}
+        <Note>&mdash;</Note>
     {/each}
 </div>
 {#if expanded || concepts.length > 3}

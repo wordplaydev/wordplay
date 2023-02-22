@@ -8,6 +8,7 @@ import type ConceptIndex from './ConceptIndex';
 import type Translation from '@translation/Translation';
 import Purpose from './Purpose';
 import type StreamDefinition from '../nodes/StreamDefinition';
+import Emotion from '../lore/Emotion';
 
 export default class StreamConcept extends Concept {
     /** The type this concept represents. */
@@ -28,6 +29,13 @@ export default class StreamConcept extends Concept {
             stream.names.getTranslation(languages),
             this.definition
         );
+    }
+
+    getGlyphs(languages: LanguageCode[]) {
+        return {
+            symbols: this.definition.names.getTranslation(languages),
+            emotion: Emotion.Restless,
+        };
     }
 
     hasName(name: string) {

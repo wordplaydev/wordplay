@@ -10,7 +10,7 @@ import TokenType from './TokenType';
 import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
 import Literal from './Literal';
-import Glyphs from '../lore/Glyphs';
+import Emotion from '../lore/Emotion';
 
 export default class TextLiteral extends Literal {
     readonly text: Token;
@@ -104,6 +104,9 @@ export default class TextLiteral extends Literal {
     }
 
     getGlyphs() {
-        return Glyphs.Text;
+        return {
+            symbols: this.text.getDelimiters(),
+            emotion: Emotion.Excited,
+        };
     }
 }
