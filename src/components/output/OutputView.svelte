@@ -39,17 +39,21 @@
     <div class="value">
         <!-- If there's an exception, show that. -->
         {#if latest instanceof Exception}
-            <div class="fill exception"
-                ><div class="message"
-                    ><Dialog glyph={latest.creator.getGlyphs()}
-                        >{#each $preferredTranslations as translation}
-                            <DescriptionView
-                                description={latest.getDescription(translation)}
-                            />
-                        {/each}</Dialog
-                    >
-                </div></div
-            >
+            {#key latest}
+                <div class="fill exception"
+                    ><div class="message"
+                        ><Dialog glyph={latest.creator.getGlyphs()}
+                            >{#each $preferredTranslations as translation}
+                                <DescriptionView
+                                    description={latest.getDescription(
+                                        translation
+                                    )}
+                                />
+                            {/each}</Dialog
+                        >
+                    </div></div
+                >
+            {/key}
             <!-- If there's no verse -->
         {:else if latest === undefined}
             <!-- If it's because the keyboard isn't idle, show the typing feedback.-->

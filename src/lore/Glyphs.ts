@@ -60,19 +60,19 @@ const GlyphSet = {
     },
     Name: {
         symbols: COMMA_SYMBOL,
-        emotion: Emotion.Loving,
+        emotion: Emotion.Cheerful,
     },
     Reference: {
         symbols: PROPERTY_SYMBOL,
-        emotion: Emotion.Loving,
+        emotion: Emotion.Cheerful,
     },
     Bind: {
         symbols: BIND_SYMBOL,
-        emotion: Emotion.Loving,
+        emotion: Emotion.Cheerful,
     },
     This: {
         symbols: PROPERTY_SYMBOL,
-        emotion: Emotion.Loving,
+        emotion: Emotion.Cheerful,
     },
     Native: {
         symbols: NATIVE_SYMBOL,

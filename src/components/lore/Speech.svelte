@@ -99,4 +99,25 @@
             transform: scaleY(1.3) rotate(-5deg);
         }
     }
+
+    .emotion-kind {
+        animation: kind 0.5s ease 1;
+        transform-origin: bottom;
+        transform: rotate(7deg) scaleY(0.9) translateX(0.1em);
+    }
+
+    @keyframes kind {
+        0% {
+            transform: rotate(3deg);
+            transform-origin: bottom;
+        }
+        30% {
+            transform: rotate(-3deg);
+            transform-origin: bottom;
+        }
+        100% {
+            transform: rotate(7deg) scaleY(0.9) translateX(0.1em);
+            transform-origin: bottom;
+        }
+    }
 </style>
