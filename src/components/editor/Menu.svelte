@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type Transform from '../../transforms/Transform';
+    import type Transform from '@transforms/Transform';
     import {
         preferredLanguages,
         preferredTranslations,
@@ -7,6 +7,9 @@
     import RootView from '../project/RootView.svelte';
     import Block from '@nodes/Block';
     import type Menu from './util/Menu';
+    import Node from '@nodes/Node';
+    import { getConceptIndex } from '../project/Contexts';
+    import Speech from '../lore/Speech.svelte';
 
     export let menu: Menu;
     export let position: { left: number; top: number };
@@ -16,6 +19,11 @@
     function handleItemClick(item: Transform) {
         menu.doEdit($preferredLanguages, item);
     }
+
+    let index = getConceptIndex();
+    $: node =
+        menu.caret.position instanceof Node ? menu.caret.position : undefined;
+    $: concept = node ? $index?.getNodeConcept(node) : undefined;
 
     // Compute the visible window of items based on the selection.
     let minItem = menu.selection;
@@ -31,6 +39,13 @@
 
 <div class="menu" style:left="{position.left}px" style:top="{position.top}px">
     <table>
+        {#if node && concept}
+            <td colspan="2"
+                ><Speech glyph={node.getGlyphs()} {concept}
+                    >{$preferredTranslations[0].ui.headers.editing}</Speech
+                ></td
+            >
+        {/if}
         {#each menu.transforms as transform, index}
             {@const [newNode, newParent] =
                 transform.getEditedNode($preferredLanguages)}
