@@ -18,6 +18,9 @@
     $: outputs = $selectedOutput
         .map((evaluate) => new OutputExpression(project, evaluate))
         .filter((out) => out.isOutput());
+    $: definition = outputs[0].node.getFunction(
+        project.getNodeContext(outputs[0].node)
+    );
 
     /**
      * From the list of OutputExpressions, generate a value set for each property to allow for editing
@@ -53,13 +56,9 @@
                 .join(', '),
             emotion: Emotion.Cheerful,
         }}
-        concept={outputs.length > 1
+        concept={outputs.length > 1 || definition === undefined
             ? undefined
-            : $index?.getStructureConcept(
-                  outputs[0].node.getFunction(
-                      project.getNodeContext(outputs[0].node)
-                  )
-              )}
+            : $index?.getStructureConcept(definition)}
     >
         {$preferredTranslations.map((t) => t.ui.headers.editing).join(' ')}
     </Speech>
