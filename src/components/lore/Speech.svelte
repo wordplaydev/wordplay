@@ -50,8 +50,8 @@
         text-align: left;
         flex-grow: 1;
         position: relative;
-
-        --tail-width: 10px;
+        margin-left: var(--tail-width);
+        --tail-width: 0.25em;
     }
 
     .message:after {
@@ -82,7 +82,7 @@
         margin-top: calc(
             -1 * (var(--tail-width) + var(--wordplay-border-width))
         );
-        left: calc(-1 * (var(--tail-width) + 2 * var(--wordplay-border-width)));
+        left: calc(-1 * (var(--tail-width) + 1 * var(--wordplay-border-width)));
         top: 50%;
     }
 
