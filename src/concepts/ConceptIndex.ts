@@ -24,6 +24,7 @@ import { MousePositionDefinition } from '../input/MousePosition';
 import { MouseButtonDefinition } from '../input/MouseButton';
 import { RandomDefinition } from '../input/Random';
 import { MicrophoneDefinition } from '../input/Microphone';
+import NodeConcept from './NodeConcept';
 
 export default class ConceptIndex {
     readonly concepts: Concept[];
@@ -173,6 +174,22 @@ export default class ConceptIndex {
     getBindConcept(bind: Bind) {
         return this.concepts.find(
             (concept) => concept instanceof BindConcept && concept.bind === bind
+        );
+    }
+
+    getStructureConcept(definition: Node) {
+        return this.concepts.find(
+            (concept) =>
+                concept instanceof StructureConcept &&
+                concept.definition === definition
+        );
+    }
+
+    getNodeConcept(node: Node) {
+        return this.concepts.find(
+            (concept) =>
+                concept instanceof NodeConcept &&
+                concept.template.constructor === node.constructor
         );
     }
 

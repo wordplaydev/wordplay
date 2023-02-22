@@ -14,7 +14,8 @@
         writingDirection,
         writingLayout,
     } from '@translation/translations';
-    import Dialog from '../lore/Speech.svelte';
+    import Speech from '../lore/Speech.svelte';
+    import { getConceptIndex } from '../project/Contexts';
 
     export let project: Project;
     export let source: Source;
@@ -23,6 +24,8 @@
     export let grid: boolean = false;
     export let mode: 'mini' | 'peripheral';
     export let background: string | null = null;
+
+    let index = getConceptIndex();
 
     $: verse = latest === undefined ? undefined : toVerse(latest);
     $: background = verse?.background.toCSS() ?? null;
@@ -42,14 +45,16 @@
             {#key latest}
                 <div class="fill exception"
                     ><div class="message"
-                        ><Dialog glyph={latest.creator.getGlyphs()}
+                        ><Speech
+                            glyph={latest.creator.getGlyphs()}
+                            concept={$index?.getNodeConcept(latest.creator)}
                             >{#each $preferredTranslations as translation}
                                 <DescriptionView
                                     description={latest.getDescription(
                                         translation
                                     )}
                                 />
-                            {/each}</Dialog
+                            {/each}</Speech
                         >
                     </div></div
                 >

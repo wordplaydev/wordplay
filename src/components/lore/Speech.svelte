@@ -1,18 +1,27 @@
 <script lang="ts">
+    import type Concept from '../../concepts/Concept';
     import type Glyph from '../../lore/Glyph';
+    import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
 
     export let glyph: Glyph;
     export let below: boolean = false;
+    export let concept: Concept | undefined = undefined;
 
     const Limit = 10;
+    $: symbols =
+        glyph.symbols.length > Limit
+            ? `${glyph.symbols.substring(0, Limit)}…`
+            : glyph.symbols;
 </script>
 
 <div class="dialog {below ? 'column' : 'row'}">
     {#key glyph}
         <div class="glyphs emotion-{glyph.emotion}">
-            {glyph.symbols.length > Limit
-                ? `${glyph.symbols.substring(0, Limit)}…`
-                : glyph.symbols}
+            {#if concept}
+                <ConceptLinkUI link={concept} salient={false} label={symbols} />
+            {:else}
+                {symbols}
+            {/if}
         </div>
     {/key}
     <div class="message {below ? 'below' : 'right'}">

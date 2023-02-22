@@ -8,8 +8,11 @@
     import OutputExpression from '@transforms/OutputExpression';
     import Speech from '../lore/Speech.svelte';
     import Emotion from '../../lore/Emotion';
+    import { getConceptIndex } from '../project/Contexts';
 
     export let project: Project;
+
+    let index = getConceptIndex();
 
     /** Transform the selected Evaluate nodes into Output wrappers, filtering out anything that's not valid output. */
     $: outputs = $selectedOutput
@@ -50,6 +53,13 @@
                 .join(', '),
             emotion: Emotion.Cheerful,
         }}
+        concept={outputs.length > 1
+            ? undefined
+            : $index?.getStructureConcept(
+                  outputs[0].node.getFunction(
+                      project.getNodeContext(outputs[0].node)
+                  )
+              )}
     >
         {$preferredTranslations.map((t) => t.ui.headers.editing).join(' ')}
     </Speech>

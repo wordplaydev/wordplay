@@ -3,12 +3,15 @@
     import { fade } from 'svelte/transition';
     import type { AnnotationInfo } from './Annotations.svelte';
     import DescriptionView from '@components/concepts/DescriptionView.svelte';
-    import Dialog from '../lore/Speech.svelte';
+    import Speech from '../lore/Speech.svelte';
+    import { getConceptIndex } from '../project/Contexts';
 
     export let id: number;
     export let annotations: AnnotationInfo[];
 
     $: position = annotations[0].position;
+
+    let index = getConceptIndex();
 
     let view: HTMLElement | undefined;
 
@@ -49,13 +52,16 @@
                 data-annotationid={id}
                 transition:fade={{ duration: 100 }}
             >
-                <Dialog glyph={annotation.node.getGlyphs()}>
+                <Speech
+                    glyph={annotation.node.getGlyphs()}
+                    concept={$index?.getNodeConcept(annotation.node)}
+                >
                     {#each annotation.text as description}
                         <p>
                             <DescriptionView {description} />
                         </p>
                     {/each}
-                </Dialog>
+                </Speech>
             </div>
         {/each}
     </div>

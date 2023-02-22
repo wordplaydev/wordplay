@@ -6,6 +6,7 @@
 
     export let link: ConceptLink | Concept;
     export let salient: boolean = true;
+    export let label: string | undefined = undefined;
 
     // Resolve the concept
     let index = getConceptIndex();
@@ -34,7 +35,9 @@
         on:click={navigate}
         on:keydown={(event) =>
             event.key == ' ' || event.key === 'Enter' ? navigate() : undefined}
-        >{concept.getName($preferredTranslations[0])}
+        >{#if label}{label}{:else}{concept.getName(
+                $preferredTranslations[0]
+            )}{/if}
     </span>
 {:else}
     <span>&mdash;</span>
