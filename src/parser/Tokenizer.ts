@@ -99,6 +99,8 @@ export const WordsRegEx = new RegExp(
     'u'
 );
 
+export const ConceptRegEx = `${LINK_SYMBOL}(?!http)[a-zA-Z]*`;
+
 function escapeRegexCharacter(c: string) {
     return /[\\\/\(\)\[\]\{\}]/.test(c) ? '\\' + c : c;
 }
@@ -218,7 +220,7 @@ const patterns = [
     { pattern: BinaryOpRegEx, types: [TokenType.BINARY_OP] },
     { pattern: DOCS_SYMBOL, types: [TokenType.DOC] },
     {
-        pattern: new RegExp(`^${LINK_SYMBOL}(?!http)[a-zA-Z]*`),
+        pattern: new RegExp(`^${ConceptRegEx}`),
         types: [TokenType.CONCEPT],
     },
     { pattern: LINK_SYMBOL, types: [TokenType.LINK] },

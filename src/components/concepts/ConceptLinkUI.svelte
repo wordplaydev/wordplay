@@ -1,19 +1,20 @@
 <script lang="ts">
-    import { getPaletteIndex, getPalettePath } from '../project/Contexts';
+    import { getConceptIndex, getConceptPath } from '../project/Contexts';
     import type ConceptLink from '@nodes/ConceptLink';
     import { preferredTranslations } from '@translation/translations';
 
     export let link: ConceptLink;
 
     // Resolve the concept
-    let index = getPaletteIndex();
-    let path = getPalettePath();
+    let index = getConceptIndex();
+    let path = getConceptPath();
 
     $: id = link.concept.getText().slice(1);
     $: concept = id === undefined ? undefined : $index?.getConceptByName(id);
 
     function navigate() {
-        if (concept) path.set([...$path, concept]);
+        if (concept && $path[$path.length - 1] !== concept)
+            path.set([...$path, concept]);
     }
 </script>
 

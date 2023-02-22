@@ -2,10 +2,8 @@
     import {
         getDragged,
         getProject,
-        PaletteIndexSymbol,
-        PalettePathSymbol,
-        type PaletteIndexContext,
-        type PalettePathContext,
+        getConceptIndex,
+        getConceptPath,
     } from '../project/Contexts';
     import { updateProject } from '../../models/stores';
     import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
@@ -20,7 +18,6 @@
     import FunctionConcept from '@concepts/FunctionConcept';
     import BindConcept from '@concepts/BindConcept';
     import type Concept from '@concepts/Concept';
-    import { writable } from 'svelte/store';
     import FunctionConceptView from './FunctionConceptView.svelte';
     import BindConceptView from './BindConceptView.svelte';
     import StreamConcept from '@concepts/StreamConcept';
@@ -28,10 +25,7 @@
     import ConversionConcept from '@concepts/ConversionConcept';
     import ConversionConceptView from './ConversionConceptView.svelte';
     import StreamConceptView from './StreamConceptView.svelte';
-    import KeyboardIdle from '../editor/util/KeyboardIdle';
-    import type Project from '../../models/Project';
     import NodeConcept from '@concepts/NodeConcept';
-    import ConceptIndex from '@concepts/ConceptIndex';
     import type Node from '@nodes/Node';
     import { preferredTranslations } from '@translation/translations';
     import NodeConceptView from './NodeConceptView.svelte';
@@ -50,45 +44,10 @@
      * 2) functions on the type. It includes any creator-defined types and borrowed types in the active project.
      */
 
-    let latestProject: Project | undefined;
-
-    let index: PaletteIndexContext = writable(
-        new ConceptIndex([], $preferredTranslations)
-    );
-    setContext(PaletteIndexSymbol, index);
-
-    $: {
-        // When the project changes, languages change, and the keyboard is idle, recompute the concept index.
-        if ($KeyboardIdle && latestProject !== $project) {
-            latestProject = $project;
-
-            // Make a new concept index with the new project and translations, but the old examples.
-            const newIndex =
-                $project && $index
-                    ? ConceptIndex.make(
-                          $project,
-                          $preferredTranslations
-                      ).withExamples($index.examples)
-                    : undefined;
-
-            // Set the index
-            index.set(newIndex);
-
-            // Map the old path to the new one using concept equality.
-            path.set(
-                $index
-                    ? $path
-                          .map((concept) => $index?.getEquivalent(concept))
-                          .filter((c): c is Concept => c !== undefined)
-                    : []
-            );
-        }
-    }
+    let index = getConceptIndex();
+    let path = getConceptPath();
 
     let dragged = getDragged();
-
-    let path: PalettePathContext = writable([]);
-    setContext(PalettePathSymbol, path);
 
     let query: string = '';
     let results: [Concept, [string, number][]][] | undefined = undefined;

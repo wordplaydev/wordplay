@@ -68,14 +68,14 @@ export function getHidden() {
     return getContext<HiddenContext>(HiddenSymbol);
 }
 
-export const PalettePathSymbol = Symbol('palette-path');
-export type PalettePathContext = Writable<Concept[]>;
-export function getPalettePath() {
-    return getContext<PalettePathContext>(PalettePathSymbol);
+export const ConceptPathSymbol = Symbol('palette-path');
+export type ConceptPathContext = Writable<Concept[]>;
+export function getConceptPath() {
+    return getContext<ConceptPathContext>(ConceptPathSymbol);
 }
 
-export const PaletteIndexSymbol = Symbol('palette-index');
-export type PaletteIndexContext = Writable<ConceptIndex | undefined>;
-export function getPaletteIndex() {
-    return getContext<PaletteIndexContext>(PaletteIndexSymbol);
+export const ConceptIndexSymbol = Symbol('palette-index');
+export type ConceptIndexContext = Writable<ConceptIndex | undefined>;
+export function getConceptIndex() {
+    return getContext<ConceptIndexContext>(ConceptIndexSymbol);
 }

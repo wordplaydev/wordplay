@@ -1,7 +1,7 @@
 <script lang="ts">
     import { onDestroy } from 'svelte';
     import RootView from '../project/RootView.svelte';
-    import { getPaletteIndex } from '../project/Contexts';
+    import { getConceptIndex } from '../project/Contexts';
     import Project from '../../models/Project';
     import type Example from '@nodes/Example';
     import Source from '@nodes/Source';
@@ -19,7 +19,7 @@
     $: project.evaluate();
     $: value = project.evaluator.getLatestSourceValue(project.main);
 
-    let index = getPaletteIndex();
+    let index = getConceptIndex();
 
     if ($index) {
         $index.addExample(example.program.expression);

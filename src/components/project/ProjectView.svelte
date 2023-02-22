@@ -1,7 +1,14 @@
 <script lang="ts">
     import { onDestroy, setContext, tick } from 'svelte';
     import { writable } from 'svelte/store';
-    import { type DraggedContext, DraggedSymbol } from './Contexts';
+    import {
+        type DraggedContext,
+        DraggedSymbol,
+        ConceptIndexSymbol,
+        ConceptPathSymbol,
+        type ConceptPathContext,
+        type ConceptIndexContext,
+    } from './Contexts';
     import type Project from '../../models/Project';
     import Documentation from '@components/concepts/Documentation.svelte';
     import type Tree from '@nodes/Tree';
@@ -43,6 +50,9 @@
     import type Caret from '../editor/util/Caret';
     import Node from '@nodes/Node';
     import Controls from '../evaluator/Controls.svelte';
+    import ConceptIndex from '../../concepts/ConceptIndex';
+    import KeyboardIdle from '../editor/util/KeyboardIdle';
+    import type Concept from '../../concepts/Concept';
 
     export let project: Project;
 
@@ -104,6 +114,58 @@
 
     /** True if the output should show a grid */
     let grid: boolean = false;
+
+    /** Set up project wide concept index and path context */
+    let index: ConceptIndexContext = writable(
+        new ConceptIndex([], $preferredTranslations)
+    );
+    setContext(ConceptIndexSymbol, index);
+    let path: ConceptPathContext = writable([]);
+    setContext(ConceptPathSymbol, path);
+
+    let latestProject: Project | undefined;
+
+    // When the project changes, languages change, and the keyboard is idle, recompute the concept index.
+    $: {
+        if ($KeyboardIdle && latestProject !== project) {
+            latestProject = project;
+
+            // Make a new concept index with the new project and translations, but the old examples.
+            const newIndex =
+                project && $index
+                    ? ConceptIndex.make(
+                          project,
+                          $preferredTranslations
+                      ).withExamples($index.examples)
+                    : undefined;
+
+            // Set the index
+            index.set(newIndex);
+
+            // Map the old path to the new one using concept equality.
+            path.set(
+                $index
+                    ? $path
+                          .map((concept) => $index?.getEquivalent(concept))
+                          .filter((c): c is Concept => c !== undefined)
+                    : []
+            );
+        }
+    }
+
+    // When the path changes, show the docs.
+    let latestPath: Concept[] = $path;
+    $: {
+        if (
+            $path.length !== latestPath.length ||
+            !$path.every((concept, index) => concept === latestPath[index])
+        ) {
+            const docs = layout.getDocs();
+            if (docs) setMode(docs, Mode.Expanded);
+        }
+        // Update the latest path.
+        latestPath = $path;
+    }
 
     /** When the project changes, reset the conflicts map. */
     $: if (project) conflictsOfInterest = new Map();
@@ -493,6 +555,7 @@
     }
 </script>
 
+<!-- svelte-ignore missing-declaration -->
 <!-- Render the app header and the current project, if there is one. -->
 <main
     class="project"

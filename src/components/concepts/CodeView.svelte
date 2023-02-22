@@ -1,7 +1,7 @@
 <script lang="ts">
     import type Concept from '@concepts/Concept';
     import RootView from '../project/RootView.svelte';
-    import { getPalettePath } from '../project/Contexts';
+    import { getConceptPath } from '../project/Contexts';
     import { preferredTranslations } from '@translation/translations';
     import type Node from '@nodes/Node';
     import Note from '../widgets/Note.svelte';
@@ -37,7 +37,7 @@
         toClipboard(node);
     }
 
-    $: selection = getPalettePath();
+    $: selection = getConceptPath();
     $: doc = docs
         ? concept.getDocs($preferredTranslations[0])?.getFirstParagraph()
         : undefined;

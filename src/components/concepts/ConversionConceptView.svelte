@@ -2,11 +2,11 @@
     import CodeView from './CodeView.svelte';
     import type ConversionConcept from '@concepts/ConversionConcept';
     import ConceptView from './ConceptView.svelte';
-    import { getPaletteIndex } from '../project/Contexts';
+    import { getConceptIndex } from '../project/Contexts';
 
     export let concept: ConversionConcept;
 
-    let index = getPaletteIndex();
+    let index = getConceptIndex();
     $: input = $index
         ? $index.getConceptOfType(concept.definition.input)
         : undefined;

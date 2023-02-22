@@ -3,6 +3,8 @@ import type Translation from '@translation/Translation';
 import Node, { type Field, type Replacement } from './Node';
 import Token from './Token';
 import Glyphs from '../lore/Glyphs';
+import { LINK_SYMBOL } from '../parser/Symbols';
+import TokenType from './TokenType';
 
 export default class ConceptLink extends Node {
     readonly concept: Token;
@@ -11,6 +13,12 @@ export default class ConceptLink extends Node {
         super();
 
         this.concept = concept;
+    }
+
+    static make(concept: string) {
+        return new ConceptLink(
+            new Token(`${LINK_SYMBOL}${concept}`, TokenType.CONCEPT)
+        );
     }
 
     getGrammar(): Field[] {

@@ -28,7 +28,7 @@ import type { CycleType } from '@nodes/CycleType';
 import type UnknownNameType from '@nodes/UnknownNameType';
 import Explanation from '../Explanation';
 import type NodeLink from '../NodeLink';
-import type StreamDefinitionType from '../../nodes/StreamDefinitionType';
+import type StreamDefinitionType from '@nodes/StreamDefinitionType';
 
 const WRITE_DOC = 'TBD';
 
@@ -105,7 +105,7 @@ const en: Translation = {
                     }[dim] ?? 'dimension'
                 );
             },
-            doc: `A unit of measurement.
+            doc: `I A unit of measurement.
             
                 They can be combined using the product ${PRODUCT_SYMBOL}, power ${EXPONENT_SYMBOL}, and slash ${LANGUAGE_SYMBOL} symbols to construct compound units.`,
         },
@@ -1279,10 +1279,10 @@ const en: Translation = {
             ),
         name: (node, scope) =>
             Explanation.as(
-                'nothing named ',
+                'There is no value named ',
                 node,
                 ' in ',
-                scope === undefined ? ' scope' : scope
+                scope === undefined ? ' this @Block' : scope
             ),
         cycle: (node) => Explanation.as(node, ' depends on itself'),
         functionlimit: (fun) =>
@@ -1572,9 +1572,8 @@ const en: Translation = {
         UnknownName: {
             primary: (name, type) =>
                 Explanation.as(
-                    name,
-                    ' is not defined in ',
-                    type ? type : ' this scope'
+                    `We aren't bound to anything in `,
+                    type ? type : ' this @Block'
                 ),
         },
         InvalidTypeName: {

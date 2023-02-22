@@ -3,11 +3,11 @@
     import ConceptView from './ConceptView.svelte';
     import BindConceptView from './BindConceptView.svelte';
     import Note from '../widgets/Note.svelte';
-    import { getPaletteIndex } from '../project/Contexts';
+    import { getConceptIndex } from '../project/Contexts';
 
     export let concept: FunctionConcept;
 
-    let index = getPaletteIndex();
+    let index = getConceptIndex();
     $: type = concept.definition.getOutputType(concept.context);
     $: outputs = $index
         ? $index.getConceptsOfTypes(type.getTypeSet(concept.context))
