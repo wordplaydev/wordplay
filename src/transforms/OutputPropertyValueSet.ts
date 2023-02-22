@@ -13,6 +13,7 @@ import type OutputProperty from './OutputProperty';
 import MapLiteral from '../nodes/MapLiteral';
 import ListLiteral from '../nodes/ListLiteral';
 import { PlaceType } from '../output/Place';
+import type Bind from '../nodes/Bind';
 
 /**
  * Represents one or more equivalent inputs to an output expression.
@@ -34,8 +35,12 @@ export default class OutputPropertyValueSet {
         }
     }
 
+    getBind(): Bind | undefined {
+        return this.values[0]?.bind;
+    }
+
     getTranslation(languages: LanguageCode[]): string | undefined {
-        return this.values[0]?.bind.getTranslation(languages);
+        return this.getBind()?.getTranslation(languages);
     }
 
     /** If all the values are equivalent, returns the value, otherwise undefined */

@@ -170,6 +170,12 @@ export default class ConceptIndex {
         return this.examples.get(id);
     }
 
+    getBindConcept(bind: Bind) {
+        return this.concepts.find(
+            (concept) => concept instanceof BindConcept && concept.bind === bind
+        );
+    }
+
     getEquivalent(concept: Concept): Concept | undefined {
         return this.concepts.find((c) => c.equals(concept));
     }

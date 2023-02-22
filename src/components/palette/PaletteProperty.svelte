@@ -25,14 +25,25 @@
     import SequencePosesEditor from './SequencePosesEditor.svelte';
     import ContentEditor from './ContentEditor.svelte';
     import PlaceEditor from './PlaceEditor.svelte';
+    import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
+    import { getConceptIndex } from '../project/Contexts';
 
     export let project: Project;
     export let property: OutputProperty;
     export let values: OutputPropertyValueSet;
+
+    let index = getConceptIndex();
+    $: bind = values.getBind();
+    $: bindConcept = bind ? $index?.getBindConcept(bind) : undefined;
 </script>
 
 <div class="property">
-    <h3 class="name">{values.getTranslation($preferredLanguages)} </h3>
+    <h3 class="name"
+        >{#if bindConcept}<ConceptLinkUI
+                link={bindConcept}
+                salient={false}
+            />{:else}&mdash;{/if}</h3
+    >
     {#if values.areSet()}
         <Button
             tip={$preferredTranslations[0].ui.tooltip.revert}
