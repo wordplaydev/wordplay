@@ -144,20 +144,6 @@
         left: calc(2 * var(--tail-width) - 1 * var(--wordplay-border-width));
     }
 
-    .emotion-cheerful {
-        animation: cheerful 0.2s ease-out 3;
-    }
-
-    @keyframes cheerful {
-        0%,
-        100% {
-            transform: scaleY(0.9) rotate(5deg);
-        }
-        10% {
-            transform: scaleY(1.3) rotate(-5deg);
-        }
-    }
-
     .emotion-kind {
         animation: kind 0.5s ease 1;
         transform-origin: bottom;
@@ -175,6 +161,42 @@
         100% {
             transform: rotate(7deg) scaleY(0.9) translateX(0.1em);
             transform-origin: bottom;
+        }
+    }
+
+    .emotion-serious {
+        animation: serious 0.25s ease 3;
+        transform-origin: bottom;
+    }
+
+    @keyframes serious {
+        0% {
+            transform: scaleY(1);
+        }
+        10%,
+        90% {
+            transform: scaleY(0.5);
+        }
+        100% {
+            transform: scaleY(1);
+        }
+    }
+
+    .emotion-cheerful {
+        animation: cheerful 0.25s ease 3;
+        transform-origin: bottom;
+        --cheerfulness: 1deg;
+    }
+
+    @keyframes cheerful {
+        0%,
+        100% {
+            transform: rotate(calc(-1 * var(--cheerfulness)))
+                skewX(calc(-1 * var(--cheerfulness))) translateX(-10px);
+        }
+        50% {
+            transform: rotate(var(--cheerfulness)) skewX(var(--cheerfulness))
+                translateX(10px);
         }
     }
 </style>

@@ -39,7 +39,7 @@ function getUnitsInConversions(project: Project) {
                 ? conversion.output.unit
                 : undefined
         )
-        .filter((unit) => unit !== undefined) as Unit[];
+        .filter((unit): unit is Unit => unit !== undefined) as Unit[];
 
     // Remove duplicates
     return unitsInConversions.filter(

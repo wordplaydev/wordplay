@@ -88,7 +88,7 @@ const GlyphSet = {
     },
     Evaluate: {
         symbols: EVAL_OPEN_SYMBOL + EVAL_CLOSE_SYMBOL,
-        emotion: Emotion.Eager,
+        emotion: Emotion.Cheerful,
     },
     Conditional: {
         symbols: QUESTION_SYMBOL,
@@ -145,7 +145,7 @@ const GlyphSet = {
     },
     Dimension: {
         symbols: EXPONENT_SYMBOL,
-        emotion: Emotion.Kind,
+        emotion: Emotion.Serious,
     },
     Placeholder: {
         symbols: PLACEHOLDER_SYMBOL,

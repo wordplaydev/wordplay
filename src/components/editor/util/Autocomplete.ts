@@ -38,7 +38,6 @@ import Reference from '@nodes/Reference';
 import Refer from '../../../transforms/Refer';
 import Token from '@nodes/Token';
 import Dimension from '@nodes/Dimension';
-import NameToken from '@nodes/NameToken';
 import Type from '@nodes/Type';
 import BooleanType from '@nodes/BooleanType';
 import MeasurementType from '@nodes/MeasurementType';
@@ -631,8 +630,8 @@ function getPossibleNodes(
         case Unit:
             return getPossibleUnits(context.project);
         case Dimension:
-            return getPossibleDimensions(context.project).map(
-                (dim) => new NameToken(dim)
+            return getPossibleDimensions(context.project).map((dim) =>
+                Dimension.make(false, dim, 1)
             );
         case Docs:
             return [new Docs([Doc.make([])])];

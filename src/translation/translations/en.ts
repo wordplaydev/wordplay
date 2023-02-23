@@ -18,8 +18,6 @@ import {
     OR_SYMBOL,
     NOT_SYMBOL,
     PRODUCT_SYMBOL,
-    EXPONENT_SYMBOL,
-    LANGUAGE_SYMBOL,
     COMMA_SYMBOL,
     PROPERTY_SYMBOL,
 } from '@parser/Symbols';
@@ -105,13 +103,17 @@ const en: Translation = {
                     }[dim] ?? 'dimension'
                 );
             },
-            doc: `I A unit of measurement.
+            doc: `I am a *unit of measurement*, like (1m), (10s), (100g), or any other scientific unit. I'm happy to be any unit want to make up too, like (17apple).
             
-                They can be combined using the product ${PRODUCT_SYMBOL}, power ${EXPONENT_SYMBOL}, and slash ${LANGUAGE_SYMBOL} symbols to construct compound units.`,
+                I can be combined with other symbols to make compound units like (9.8m/s^2) or (17apple/day).
+                
+                I must always follow a number. If I don't, I might be mistaken for a name, which would be quite embarassing, because I name units, not values.`,
         },
         Doc: {
             description: 'documentation',
-            doc: `
+            doc:
+                WRITE_DOC +
+                `
                 Describes the purpose of some code.
                 
                 It can precede any expression, but is most useful before definitions to explain how to use them. 
@@ -119,15 +121,19 @@ const en: Translation = {
         },
         Docs: {
             description: 'set of documentation',
-            doc: `a list of documentation`,
+            doc: WRITE_DOC + `a list of documentation`,
         },
         KeyValue: {
             description: 'key/value pair',
-            doc: `represents a single mapping in a map between a key and a value.`,
+            doc:
+                WRITE_DOC +
+                `represents a single mapping in a map between a key and a value.`,
         },
         Language: {
             description: 'language tag',
-            doc: `applied to a name or documentation to indicate the language it is written in.`,
+            doc:
+                WRITE_DOC +
+                `applied to a name or documentation to indicate the language it is written in.`,
         },
         Name: {
             description: 'name',
@@ -317,7 +323,19 @@ const en: Translation = {
         },
         Evaluate: {
             description: 'evaluate a function',
-            doc: WRITE_DOC,
+            doc: `
+            OMG I am sooo excited to *evaluate functions*. 
+            I take a function, and some values, and then I follow the function's steps to compute a value.
+            It's like cooking: give me the ingredients and the receipe and I'll make the dish.
+
+            Because I play with functions a lot, @FunctionDefinition is kind of my best friend.
+            They say what to do, and I do it, and together we make values for everyone else to use.
+
+            Did you know that @FunctionDefinition and I basically make the whole world of algorithms *work*?
+            We're kind of a big deal.
+            I mean, I couldn't do it without everyone else, but I'm pretty proud of making all of our
+            performances possible.
+            `,
             start: (inputs) =>
                 inputs
                     ? 'evaluate the inputs first'
