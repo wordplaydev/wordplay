@@ -19,6 +19,8 @@ import {
     NOT_SYMBOL,
     PRODUCT_SYMBOL,
     PROPERTY_SYMBOL,
+    TRUE_SYMBOL,
+    FALSE_SYMBOL,
 } from '@parser/Symbols';
 import type { Description } from '../Translation';
 import type { CycleType } from '@nodes/CycleType';
@@ -274,7 +276,19 @@ const eng_wordplay: Translation = {
             description:
                 'evaluate to one of two expressions based on a boolean',
             emotion: Emotion.TBD,
-            doc: WRITE_DOC,
+            doc: `¿Alguna vez pensaste en cómo decidimos?
+            Pienso mucho en eso.
+            Tantas decisiones en la vida pueden ser tan complicadas.
+            A veces siento mucha presión para decidir, ya que soy el único en este mundo que puede decidir.
+           
+            Me siento abrumado, así que he tratado de simplificar las cosas.
+            Primero, solo considero dos opciones: (${TRUE_SYMBOL}) y (${FALSE_SYMBOL}).
+            Si es (${TRUE_SYMBOL}), entonces evalúo mi código *sí*. Si es (${FALSE_SYMBOL}), entonces evalúo mi código *no*.
+
+            Sé que las decisiones rara vez son tan simples, pero dividir el mundo en estos binarios me facilita las cosas.
+            Sí, no, si, si no, esto, aquello.
+            Es mi pequeña forma de mantener las cosas organizadas, incluso ante tanta complejidad.
+            `,
             start: (condition) => Explanation.as('check ', condition, ' first'),
             finish: (value) =>
                 Explanation.as(
