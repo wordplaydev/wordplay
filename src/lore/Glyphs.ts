@@ -87,7 +87,7 @@ const GlyphSet = {
         emotion: Emotion.Kind,
     },
     Evaluate: {
-        symbols: EVAL_OPEN_SYMBOL + EVAL_CLOSE_SYMBOL,
+        symbols: PLACEHOLDER_SYMBOL + EVAL_OPEN_SYMBOL + EVAL_CLOSE_SYMBOL,
         emotion: Emotion.Cheerful,
     },
     Conditional: {
@@ -149,7 +149,7 @@ const GlyphSet = {
     },
     Placeholder: {
         symbols: PLACEHOLDER_SYMBOL,
-        emotion: Emotion.Kind,
+        emotion: Emotion.Sad,
     },
     Never: {
         symbols: NEVER_SYMBOL,

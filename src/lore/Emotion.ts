@@ -16,6 +16,7 @@ enum Emotion {
     Mad = 'mad',
     Peaceful = 'peaceful',
     Pleased = 'pleased',
+    Sad = 'sad',
     Shy = 'shy',
     Sorry = 'sorry',
     Surprised = 'surprised',

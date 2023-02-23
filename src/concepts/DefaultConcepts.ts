@@ -110,6 +110,7 @@ const template: Node[] = [
         new TypePlaceholder(),
         ExpressionPlaceholder.make()
     ),
+    ExpressionPlaceholder.make(),
 
     // Decisions
     Conditional.make(

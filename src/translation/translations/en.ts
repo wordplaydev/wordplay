@@ -20,6 +20,8 @@ import {
     PRODUCT_SYMBOL,
     COMMA_SYMBOL,
     PROPERTY_SYMBOL,
+    TRUE_SYMBOL,
+    FALSE_SYMBOL,
 } from '@parser/Symbols';
 import type { Description } from '../Translation';
 import type { CycleType } from '@nodes/CycleType';
@@ -113,8 +115,7 @@ const en: Translation = {
             description: 'documentation',
             doc:
                 WRITE_DOC +
-                `
-                Describes the purpose of some code.
+                `Describes the purpose of some code.
                 
                 It can precede any expression, but is most useful before definitions to explain how to use them. 
                 Documentation can be tagged with a language`,
@@ -137,7 +138,9 @@ const en: Translation = {
         },
         Name: {
             description: 'name',
-            doc: `
+            doc:
+                WRITE_DOC +
+                `
                 Identifies code.
                 
                 names are used to represent some value in a program, such as a function, structure type, or a binding in a block. 
@@ -147,7 +150,9 @@ const en: Translation = {
         },
         Names: {
             description: 'names list',
-            doc: `
+            doc:
+                WRITE_DOC +
+                `
                 Defines a list of names some code is known by.
                 
                 Names are separated by ${COMMA_SYMBOL} symbols. 
@@ -156,7 +161,7 @@ const en: Translation = {
         },
         Row: {
             description: 'row',
-            doc: `a row of values, matching a table definition`,
+            doc: WRITE_DOC + `a row of values, matching a table definition`,
         },
         Token: {
             description: (token: Token) =>
@@ -176,43 +181,51 @@ const en: Translation = {
                     : token.is(TokenType.SHARE)
                     ? 'share'
                     : 'token',
-            doc: 'the smallest group of symbols in a performance',
+            doc: WRITE_DOC + 'the smallest group of symbols in a performance',
         },
         TypeInputs: {
             description: 'type inputs',
-            doc: `a list of types given to a @FunctionDefinition or @StructureDefinition`,
+            doc:
+                WRITE_DOC +
+                `a list of types given to a @FunctionDefinition or @StructureDefinition`,
         },
         TypeVariable: {
             description: 'type variable',
-            doc: `a placeholder for a type used in a @FunctionDefinition or @StructureDefinition`,
+            doc:
+                WRITE_DOC +
+                `a placeholder for a type used in a @FunctionDefinition or @StructureDefinition`,
         },
         TypeVariables: {
             description: 'type variables',
-            doc: `a list of @TypeVariable`,
+            doc: WRITE_DOC + `a list of @TypeVariable`,
         },
         Paragraph: {
             description: 'paragraph',
-            doc: `a formatted list of words, links, and example code`,
+            doc:
+                WRITE_DOC +
+                `a formatted list of words, links, and example code`,
         },
         WebLink: {
             description: 'link',
-            doc: `a link to something on the web`,
+            doc: WRITE_DOC + `a link to something on the web`,
         },
         ConceptLink: {
             description: 'concept',
-            doc: `a link to a concept in Wordplay`,
+            doc: WRITE_DOC + `a link to a concept in Wordplay`,
         },
         Words: {
             description: 'words',
-            doc: `words that are part of @Doc`,
+            doc: WRITE_DOC + `words that are part of @Doc`,
         },
         Example: {
             description: 'example',
-            doc: `a program that illustrates how to use some code`,
+            doc: WRITE_DOC + `a program that illustrates how to use some code`,
         },
         BinaryOperation: {
             description: 'binary operation',
-            doc: "Binary operations compute a left and right value and then compute the function indicated by the operator in the middle. The operator name must exist on the left value's type. This syntax is really just a special form of an Evaluate",
+            doc:
+                WRITE_DOC +
+                "Binary operations compute a left and right value and then compute the function indicated by the operator in the middle. The operator name must exist on the left value's type. This syntax is really just a special form of an Evaluate",
             right: 'input',
             start: (left) => Explanation.as('evaluating ', left, ' first'),
             finish: (result) =>
@@ -220,7 +233,9 @@ const en: Translation = {
         },
         Bind: {
             description: 'bind',
-            doc: `Name a value for later use.
+            doc:
+                WRITE_DOC +
+                `Name a value for later use.
                 
                 In many programs, these are called 'variables', but unlike in other languages, a binding's value cannot change: once something is named, 
                 it keeps the value it was assigned until the part of the program that defined it is complete, 
@@ -239,7 +254,9 @@ const en: Translation = {
         },
         Block: {
             description: 'block',
-            doc: `Name a series of values to evaluate a complex expression.
+            doc:
+                WRITE_DOC +
+                `Name a series of values to evaluate a complex expression.
             
             Blocks usually are a series of bindings, culminating in an expression that produces a block's final value. They are a way to compute complex values without having to write one large complex expression.`,
             statement: 'statement',
@@ -249,12 +266,14 @@ const en: Translation = {
         },
         BooleanLiteral: {
             description: (literal) => (literal.bool() ? 'true' : 'false'),
-            doc: `A single true or false value.`,
+            doc: WRITE_DOC + `A single true or false value.`,
             start: (value) => Explanation.as('create a ', value),
         },
         Borrow: {
             description: 'borrow',
-            doc: `Use a binding from another source file or project.`,
+            doc:
+                WRITE_DOC +
+                `Use a binding from another source file or project.`,
             start: (source, name) =>
                 name === undefined && source === undefined
                     ? 'borrowing nothing'
@@ -272,7 +291,7 @@ const en: Translation = {
         },
         Changed: {
             description: 'changed',
-            doc: `true if a stream caused a program to re-evaluate`,
+            doc: WRITE_DOC + `true if a stream caused a program to re-evaluate`,
             start: (stream: NodeLink) =>
                 Explanation.as(
                     'check if ',
@@ -283,32 +302,49 @@ const en: Translation = {
         },
         Conditional: {
             description: 'conditional',
-            doc: 'choose a value to compute based on a boolean',
-            start: (condition) => Explanation.as('check ', condition, ' first'),
-            finish: (value) =>
+            doc: `
+            Did you ever think about how we decide? 
+            I think about that a lot. 
+            So many decisions in life can be so complicated. 
+            Sometimes I feel a lot of pressure to decide, since I'm the only one in this world who gets to decide.
+            
+            I get overwhelmed, and so I've tried to simplify things. 
+            First, I only ever consider two options: (${TRUE_SYMBOL}) and (${FALSE_SYMBOL}).
+            If it's (${TRUE_SYMBOL}), then I evaluate my true part. If it's (${FALSE_SYMBOL}), then I evaluate my false part.
+
+            I know that decisions are rarely this simple, but breaking down the world into these binaries makes things easier for me.
+            Yes, no, if, else, this, that.
+            It's my little way of keeping things organized, even in the face of so much complexity.
+            `,
+            start: (condition) =>
                 Explanation.as(
-                    'conditional evaluated to ',
-                    value ?? ' nothing'
+                    `let's see if `,
+                    condition,
+                    ` is ${TRUE_SYMBOL} or ${FALSE_SYMBOL}`
                 ),
+            finish: (value) =>
+                Explanation.as(`it's `, value ?? ' nothing', '!'),
             condition: 'condition',
             yes: 'yes',
             no: 'no',
         },
         ConversionDefinition: {
             description: 'conversion',
-            doc: `define a conversion from one value type to another`,
+            doc:
+                WRITE_DOC +
+                `define a conversion from one value type to another`,
             start: 'define this conversion',
         },
         Convert: {
             description: 'convert',
-            doc: `convert one type of value to another`,
+            doc: WRITE_DOC + `convert one type of value to another`,
             start: (expr) => Explanation.as('first evaluate ', expr),
             finish: (value) =>
                 Explanation.as('converted to ', value ?? 'nothing'),
         },
         Delete: {
             description: 'delete',
-            doc: `delete rows from a table`,
+            doc: WRITE_DOC + `delete rows from a table`,
             start: (table) => Explanation.as('evaluate ', table, ' first'),
             finish: (value) =>
                 Explanation.as(
@@ -354,8 +390,18 @@ const en: Translation = {
                 node.type
                     ? node.type.getDescription(translation, context)
                     : 'expression placeholder',
-            doc: WRITE_DOC,
-            start: 'cannot evaluate a placeholder',
+            doc: `
+            I can be anything. That might sound amazing, but it's actually really hard, because everyone things of me as temporary. 
+            Like, if we were adding some numbers, I might take the place of a number (1 + _), or if someone was evaluating a function with @Evaluate, I might stand in for the function (_(1 2 3)).
+            But as soon as someone decides what to replace me with, I'm just discarded.
+            Tossed out.
+            And so while I can be anything, it's never for long, and I don't get to actually do anything.
+
+            Actually, I do get to do one thing: if someone leaves me in a performance, I will SHUT IT DOWN when it's my turn to dance.
+            But it's actually because I don't know what to do.
+            Because I can be anything, I not really anything...
+            `,
+            start: "Stop the performance, I don't know what I am!",
             placeholder: 'expression',
         },
         FunctionDefinition: {

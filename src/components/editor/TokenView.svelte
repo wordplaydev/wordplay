@@ -4,7 +4,7 @@
     import type Token from '@nodes/Token';
     import TokenType from '@nodes/TokenType';
     import { PLACEHOLDER_SYMBOL } from '@parser/Symbols';
-    import { getProject, getCaret } from '../project/Contexts';
+    import { getProject, getCaret, getRoot } from '../project/Contexts';
     import TokenCategories from './TokenCategories';
     import {
         preferredLanguages,
@@ -19,25 +19,7 @@
 
     export let node: Token;
 
-    function choosePlaceholder() {
-        const source = $caret?.source;
-        const context =
-            source !== undefined && $project !== undefined
-                ? $project.getContext(source)
-                : undefined;
-        const labels =
-            context !== undefined
-                ? source
-                      ?.get(node)
-                      ?.getParent()
-                      ?.getChildPlaceholderLabel(
-                          node,
-                          $preferredTranslations[0],
-                          context
-                      )
-                : undefined;
-        return labels ?? PLACEHOLDER_SYMBOL;
-    }
+    let root = getRoot();
 
     $: kind = TokenCategories.get(
         Array.isArray(node.types) ? node.types[0] ?? 'default' : node.types
@@ -106,6 +88,25 @@
                     text = definition.names.getTranslation($preferredLanguages);
             }
         }
+    }
+
+    function choosePlaceholder() {
+        const context =
+            $project !== undefined
+                ? $project.getContext($caret?.source ?? $project.main)
+                : undefined;
+        const labels =
+            context !== undefined
+                ? $root
+                      ?.get(node)
+                      ?.getParent()
+                      ?.getChildPlaceholderLabel(
+                          node,
+                          $preferredTranslations[0],
+                          context
+                      )
+                : undefined;
+        return labels ?? PLACEHOLDER_SYMBOL;
     }
 </script>
 
