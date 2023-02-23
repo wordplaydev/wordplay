@@ -24,6 +24,7 @@ import type { LanguageStyle } from './translations';
 import type BooleanLiteral from '@nodes/BooleanLiteral';
 import type ListLiteral from '@nodes/ListLiteral';
 import type StreamDefinitionType from '../nodes/StreamDefinitionType';
+import type Emotion from '../lore/Emotion';
 
 export type Description = string | Explanation;
 export type DocString = string;
@@ -31,6 +32,7 @@ export type DocString = string;
 export interface NodeTranslation<Kind> {
     description: Kind;
     doc: DocString;
+    emotion: Emotion;
 }
 
 export type StaticNodeTranslation = NodeTranslation<Description>;

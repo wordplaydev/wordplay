@@ -35,8 +35,11 @@ export default class BindConcept extends Concept {
     getGlyphs(languages: LanguageCode[]) {
         return {
             symbols: this.bind.names.getTranslation(languages),
-            emotion: Emotion.Kind,
         };
+    }
+
+    getEmotion() {
+        return Emotion.Kind;
     }
 
     getType() {

@@ -93,8 +93,11 @@ export default class FunctionConcept extends Concept {
     getGlyphs(languages: LanguageCode[]) {
         return {
             symbols: this.definition.names.getTranslation(languages),
-            emotion: Emotion.Curious,
         };
+    }
+
+    getEmotion() {
+        return Emotion.Curious;
     }
 
     hasName(name: string) {

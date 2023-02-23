@@ -4,6 +4,7 @@ import Convert from '@nodes/Convert';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import type Node from '@nodes/Node';
 import type Translation from '@translation/Translation';
+import Emotion from '../lore/Emotion';
 import Glyphs from '../lore/Glyphs';
 import type Doc from '../nodes/Doc';
 import type Spaces from '../parser/Spaces';
@@ -39,6 +40,10 @@ export default class ConversionConcept extends Concept {
 
     getGlyphs() {
         return Glyphs.Conversion;
+    }
+
+    getEmotion() {
+        return Emotion.Cheerful;
     }
 
     hasName() {

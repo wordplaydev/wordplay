@@ -8,6 +8,7 @@ import type StructureDefinition from '@nodes/StructureDefinition';
 import type Glyph from '../lore/Glyph';
 import type LanguageCode from '../translation/LanguageCode';
 import type Spaces from '../parser/Spaces';
+import type Emotion from '../lore/Emotion';
 
 /**
  * Represents some part of the Wordplay language, API, or example ecosystem.
@@ -42,6 +43,9 @@ export default abstract class Concept {
      * Returns the glyph that represents the concept.
      */
     abstract getGlyphs(languages: LanguageCode[]): Glyph;
+
+    /** Returns the emotions for the glyphs */
+    abstract getEmotion(translation: Translation): Emotion;
 
     /**
      * Returns true if the concept has the given name or id.

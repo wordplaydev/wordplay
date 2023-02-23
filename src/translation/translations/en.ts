@@ -29,6 +29,7 @@ import type UnknownNameType from '@nodes/UnknownNameType';
 import Explanation from '../Explanation';
 import type NodeLink from '../NodeLink';
 import type StreamDefinitionType from '@nodes/StreamDefinitionType';
+import Emotion from '../../lore/Emotion';
 
 const WRITE_DOC = 'TBD';
 
@@ -105,6 +106,7 @@ const en: Translation = {
                     }[dim] ?? 'dimension'
                 );
             },
+            emotion: Emotion.Serious,
             doc: `I am a *unit of measurement*, like (1m), (10s), (100g), or any other scientific unit. I'm happy to be any unit want to make up too, like (17apple).
             
                 I can be combined with other symbols to make compound units like (9.8m/s^2) or (17apple/day).
@@ -113,6 +115,7 @@ const en: Translation = {
         },
         Doc: {
             description: 'documentation',
+            emotion: Emotion.TBD,
             doc:
                 WRITE_DOC +
                 `Describes the purpose of some code.
@@ -122,22 +125,26 @@ const en: Translation = {
         },
         Docs: {
             description: 'set of documentation',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC + `a list of documentation`,
         },
         KeyValue: {
             description: 'key/value pair',
+            emotion: Emotion.TBD,
             doc:
                 WRITE_DOC +
                 `represents a single mapping in a map between a key and a value.`,
         },
         Language: {
             description: 'language tag',
+            emotion: Emotion.TBD,
             doc:
                 WRITE_DOC +
                 `applied to a name or documentation to indicate the language it is written in.`,
         },
         Name: {
             description: 'name',
+            emotion: Emotion.TBD,
             doc:
                 WRITE_DOC +
                 `
@@ -150,6 +157,7 @@ const en: Translation = {
         },
         Names: {
             description: 'names list',
+            emotion: Emotion.TBD,
             doc:
                 WRITE_DOC +
                 `
@@ -161,6 +169,7 @@ const en: Translation = {
         },
         Row: {
             description: 'row',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC + `a row of values, matching a table definition`,
         },
         Token: {
@@ -181,48 +190,58 @@ const en: Translation = {
                     : token.is(TokenType.SHARE)
                     ? 'share'
                     : 'token',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC + 'the smallest group of symbols in a performance',
         },
         TypeInputs: {
             description: 'type inputs',
+            emotion: Emotion.TBD,
             doc:
                 WRITE_DOC +
                 `a list of types given to a @FunctionDefinition or @StructureDefinition`,
         },
         TypeVariable: {
             description: 'type variable',
+            emotion: Emotion.TBD,
             doc:
                 WRITE_DOC +
                 `a placeholder for a type used in a @FunctionDefinition or @StructureDefinition`,
         },
         TypeVariables: {
             description: 'type variables',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC + `a list of @TypeVariable`,
         },
         Paragraph: {
             description: 'paragraph',
+            emotion: Emotion.TBD,
             doc:
                 WRITE_DOC +
                 `a formatted list of words, links, and example code`,
         },
         WebLink: {
             description: 'link',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC + `a link to something on the web`,
         },
         ConceptLink: {
             description: 'concept',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC + `a link to a concept in Wordplay`,
         },
         Words: {
             description: 'words',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC + `words that are part of @Doc`,
         },
         Example: {
             description: 'example',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC + `a program that illustrates how to use some code`,
         },
         BinaryOperation: {
             description: 'binary operation',
+            emotion: Emotion.TBD,
             doc:
                 WRITE_DOC +
                 "Binary operations compute a left and right value and then compute the function indicated by the operator in the middle. The operator name must exist on the left value's type. This syntax is really just a special form of an Evaluate",
@@ -233,6 +252,7 @@ const en: Translation = {
         },
         Bind: {
             description: 'bind',
+            emotion: Emotion.TBD,
             doc:
                 WRITE_DOC +
                 `Name a value for later use.
@@ -254,6 +274,7 @@ const en: Translation = {
         },
         Block: {
             description: 'block',
+            emotion: Emotion.TBD,
             doc:
                 WRITE_DOC +
                 `Name a series of values to evaluate a complex expression.
@@ -266,11 +287,13 @@ const en: Translation = {
         },
         BooleanLiteral: {
             description: (literal) => (literal.bool() ? 'true' : 'false'),
+            emotion: Emotion.TBD,
             doc: WRITE_DOC + `A single true or false value.`,
             start: (value) => Explanation.as('create a ', value),
         },
         Borrow: {
             description: 'borrow',
+            emotion: Emotion.TBD,
             doc:
                 WRITE_DOC +
                 `Use a binding from another source file or project.`,
@@ -291,6 +314,7 @@ const en: Translation = {
         },
         Changed: {
             description: 'changed',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC + `true if a stream caused a program to re-evaluate`,
             start: (stream: NodeLink) =>
                 Explanation.as(
@@ -302,6 +326,7 @@ const en: Translation = {
         },
         Conditional: {
             description: 'conditional',
+            emotion: Emotion.Curious,
             doc: `
             Did you ever think about how we decide? 
             I think about that a lot. 
@@ -330,6 +355,7 @@ const en: Translation = {
         },
         ConversionDefinition: {
             description: 'conversion',
+            emotion: Emotion.TBD,
             doc:
                 WRITE_DOC +
                 `define a conversion from one value type to another`,
@@ -337,6 +363,7 @@ const en: Translation = {
         },
         Convert: {
             description: 'convert',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC + `convert one type of value to another`,
             start: (expr) => Explanation.as('first evaluate ', expr),
             finish: (value) =>
@@ -344,6 +371,7 @@ const en: Translation = {
         },
         Delete: {
             description: 'delete',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC + `delete rows from a table`,
             start: (table) => Explanation.as('evaluate ', table, ' first'),
             finish: (value) =>
@@ -354,11 +382,13 @@ const en: Translation = {
         },
         DocumentedExpression: {
             description: 'a documented expression',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: 'evaluate the documented expression',
         },
         Evaluate: {
             description: 'evaluate a function',
+            emotion: Emotion.Cheerful,
             doc: `
             OMG I am sooo excited to *evaluate functions*. 
             I take a function, and some values, and then I follow the function's steps to compute a value.
@@ -390,6 +420,7 @@ const en: Translation = {
                 node.type
                     ? node.type.getDescription(translation, context)
                     : 'expression placeholder',
+            emotion: Emotion.Sad,
             doc: `
             I can be anything. That might sound amazing, but it's actually really hard, because everyone things of me as temporary. 
             Like, if we were adding some numbers, I might take the place of a number (1 + _), or if someone was evaluating a function with @Evaluate, I might stand in for the function (_(1 2 3)).
@@ -406,11 +437,15 @@ const en: Translation = {
         },
         FunctionDefinition: {
             description: 'function',
-            doc: `define a function that maps input values to an output value`,
+            emotion: Emotion.TBD,
+            doc:
+                WRITE_DOC +
+                `define a function that maps input values to an output value`,
             start: 'define this function',
         },
         HOF: {
             description: 'a higher order function',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: 'evaluating the function given',
             finish: (value) =>
@@ -418,10 +453,12 @@ const en: Translation = {
         },
         Initial: {
             description: 'is initial evaluation',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         Insert: {
             description: 'insert a row from a table',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: (table) => Explanation.as('evaluate ', table, ' first'),
             finish: (value) =>
@@ -432,6 +469,7 @@ const en: Translation = {
         },
         Is: {
             description: 'true if a value is a specific type',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: (value) => Explanation.as('evaluate ', value, ' first'),
             finish: (is, type) =>
@@ -445,6 +483,7 @@ const en: Translation = {
         },
         ListAccess: {
             description: 'get a value in a list',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: (list) => Explanation.as('evaluate ', list, ' first'),
             finish: (value) =>
@@ -453,6 +492,7 @@ const en: Translation = {
         ListLiteral: {
             description: (literal) =>
                 literal.values.length === 0 ? 'empty list' : 'list of values',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: 'evaluate items first',
             finish: (value) =>
@@ -461,6 +501,7 @@ const en: Translation = {
         },
         MapLiteral: {
             description: 'a list of mappings from keys to values',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: 'evaluate each key and value first',
             finish: (value) =>
@@ -475,21 +516,25 @@ const en: Translation = {
                     : node.unit.isUnitless()
                     ? 'number'
                     : 'number with a unit',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: (value) => Explanation.as('evaluate to ', value),
         },
         NativeExpression: {
             description: 'a built-in expression',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: 'evaluate the built-in expression',
         },
         NoneLiteral: {
             description: 'nothing',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: 'create a nothing value',
         },
         Previous: {
             description: 'a previous stream value',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: (stream) => Explanation.as('first get ', stream),
             finish: (value) =>
@@ -500,6 +545,7 @@ const en: Translation = {
         },
         Program: {
             description: 'a program',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: (changes) =>
                 changes.length === 0
@@ -523,6 +569,7 @@ const en: Translation = {
         },
         PropertyBind: {
             description: 'duplicate a structure with a new property value',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: 'get the structure',
             finish: (structure) =>
@@ -532,6 +579,7 @@ const en: Translation = {
         },
         PropertyReference: {
             description: 'a property on a structure',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: 'first get the value',
             finish: (property, value) =>
@@ -547,6 +595,7 @@ const en: Translation = {
         },
         Reaction: {
             description: 'reaction',
+            emotion: Emotion.TBD,
             doc: `A reaction to a stream change.`,
             start: 'first check if the stream has changed',
             finish: (value) =>
@@ -565,11 +614,13 @@ const en: Translation = {
             ) =>
                 node.resolve(context)?.getDescription(translation, context) ??
                 node.getName(),
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: (name) => Explanation.as('get the value of ', name),
         },
         Select: {
             description: 'select rows from a table',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: (table) => Explanation.as('evaluate ', table, ' first'),
             finish: (value) =>
@@ -580,6 +631,7 @@ const en: Translation = {
         },
         SetLiteral: {
             description: 'a set of unique values',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: 'evaluate each value first',
             finish: (value) =>
@@ -587,6 +639,7 @@ const en: Translation = {
         },
         SetOrMapAccess: {
             description: 'get a value from a set or map',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: (set) => Explanation.as('evaluate ', set, ' first'),
             finish: (value) =>
@@ -594,20 +647,24 @@ const en: Translation = {
         },
         Source: {
             description: 'a named program',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         StreamDefinition: {
             description: 'a stream definition',
+            emotion: Emotion.TBD,
             doc: `defines a stream of values.`,
             start: 'define this stream type',
         },
         StructureDefinition: {
             description: 'a structure definition',
+            emotion: Emotion.TBD,
             doc: `define a data structure that stores values and functions on those values.`,
             start: 'define this structure type',
         },
         TableLiteral: {
             description: 'a table',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
             item: 'row',
             start: 'first evaluate the rows',
@@ -616,23 +673,27 @@ const en: Translation = {
         },
         Template: {
             description: 'a text template',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: 'evaluate each expression in the template',
             finish: 'constructing text from the values',
         },
         TextLiteral: {
             description: 'some text',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: 'create a text value',
         },
         This: {
             description: 'get the structure evaluting this',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: (value) =>
                 Explanation.as('evaluated to ', value ?? 'nothing'),
         },
         UnaryOperation: {
             description: 'evaluate function ',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: (value) => Explanation.as('evaluate the ', value),
             finish: (value) =>
@@ -640,11 +701,13 @@ const en: Translation = {
         },
         UnparsableExpression: {
             description: 'unparsable',
+            emotion: Emotion.TBD,
             doc: `a list of unparsable @Token`,
             start: 'cannot evaluate unparsable code',
         },
         Update: {
             description: 'update',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: (table) => Explanation.as('evaluate ', table, ' first'),
             finish: (value) =>
@@ -655,26 +718,32 @@ const en: Translation = {
         },
         AnyType: {
             description: 'anything',
+            emotion: Emotion.TBD,
             doc: `represents any possible type`,
         },
         BooleanType: {
             description: 'boolean',
+            emotion: Emotion.TBD,
             doc: `a true or false value`,
         },
         ConversionType: {
             description: 'conversion',
+            emotion: Emotion.TBD,
             doc: `a type of function that converts values of one type to another `,
         },
         ExceptionType: {
             description: 'exception',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         FunctionDefinitionType: {
             description: 'function',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         FunctionType: {
             description: 'function',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         ListType: {
@@ -689,6 +758,7 @@ const en: Translation = {
                           translation,
                           context
                       )}`,
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         MapType: {
@@ -703,22 +773,27 @@ const en: Translation = {
                           translation,
                           context
                       )} to ${node.value.getDescription(translation, context)}`,
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         MeasurementType: {
             description: () => 'number',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         NameType: {
             description: (node: NameType) => `${node.name.getText()}`,
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         NeverType: {
             description: 'impossible type',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         NoneType: {
             description: 'nothing',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         SetType: {
@@ -733,6 +808,7 @@ const en: Translation = {
                           translation,
                           context
                       )}`,
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         StreamDefinitionType: {
@@ -743,6 +819,7 @@ const en: Translation = {
                 `a ${node.definition.names.getTranslation(
                     translation.language
                 )} stream`,
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         StreamType: {
@@ -755,10 +832,12 @@ const en: Translation = {
                     translation,
                     context
                 )}`,
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         StructureDefinitionType: {
             description: 'structure',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         UnknownType: {
@@ -772,18 +851,22 @@ const en: Translation = {
                     .map((unknown) => unknown.getReason(translation, context))
                     .join(', because ')}`;
             },
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         TableType: {
             description: 'table',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         TextType: {
             description: 'text',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         TypePlaceholder: {
             description: 'placeholder type',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         UnionType: {
@@ -799,6 +882,7 @@ const en: Translation = {
                     translation,
                     context
                 )}`,
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         Unit: {
@@ -811,55 +895,68 @@ const en: Translation = {
                     : node.toWordplay() === 'm/s'
                     ? 'velocity'
                     : 'number with unit',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         UnparsableType: {
             description: 'unparsable type',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         VariableType: {
             description: 'variable type',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         CycleType: {
             description: (node: CycleType) =>
                 `${node.expression.toWordplay()} depends on itself`,
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         UnknownVariableType: {
             description: "this type variable couldn't be inferred",
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         NotAListType: {
             description: 'not a list',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         NoExpressionType: {
             description: 'there was no expression given',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         NotAFunctionType: {
             description: 'not a function',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         NotATableType: {
             description: 'not a table',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         NotAStreamType: {
             description: 'not a stream',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         NotASetOrMapType: {
             description: 'not a set or map',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         NotEnclosedType: {
             description: 'not in a structure, conversion, or reaction',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         NotImplementedType: {
             description: 'not implemented',
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         UnknownNameType: {
@@ -867,6 +964,7 @@ const en: Translation = {
                 node.name === undefined
                     ? "a name wasn't given"
                     : `${node.name.getText()} isn't defined`,
+            emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
     },

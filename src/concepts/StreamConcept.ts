@@ -36,8 +36,11 @@ export default class StreamConcept extends Concept {
     getGlyphs(languages: LanguageCode[]) {
         return {
             symbols: this.definition.names.getTranslation(languages),
-            emotion: Emotion.Restless,
         };
+    }
+
+    getEmotion() {
+        return Emotion.Restless;
     }
 
     hasName(name: string) {

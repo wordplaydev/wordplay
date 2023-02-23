@@ -1,6 +1,7 @@
 <script lang="ts">
     import type Concept from '../../concepts/Concept';
     import type Glyph from '../../lore/Glyph';
+    import { preferredTranslations } from '../../translation/translations';
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
 
     export let glyph: Glyph;
@@ -16,7 +17,11 @@
 
 <div class="dialog {below ? 'column' : 'row'}">
     {#key glyph}
-        <div class="glyphs emotion-{glyph.emotion}">
+        <div
+            class="glyphs emotion-{concept?.getEmotion(
+                $preferredTranslations[0]
+            )}"
+        >
             {#if concept}
                 <ConceptLinkUI link={concept} salient={false} label={symbols} />
             {:else}

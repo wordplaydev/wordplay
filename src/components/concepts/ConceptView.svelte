@@ -29,7 +29,11 @@
         </h1>
     {/if}
 
-    <Speech glyph={concept.getGlyphs($preferredLanguages)} below={header}>
+    <Speech
+        glyph={concept.getGlyphs($preferredLanguages)}
+        below={header}
+        {concept}
+    >
         <MissingTranslationsView />
         {#each $preferredTranslations as trans}
             {@const [doc, spaces] = concept.getDocs(trans) ?? [

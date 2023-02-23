@@ -26,6 +26,11 @@ export default class NodeConcept extends Concept {
         return this.template.getGlyphs();
     }
 
+    /** Returns the emotions for the glyphs */
+    getEmotion(translation: Translation) {
+        return this.template.getNodeTranslation(translation).emotion;
+    }
+
     hasName(name: string, translation: Translation): boolean {
         const nodeTranslation = this.template.getNodeTranslation(translation);
         const match = Object.entries(translation.nodes).find(

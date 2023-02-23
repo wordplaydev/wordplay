@@ -7,7 +7,6 @@
     import type OutputProperty from '@transforms/OutputProperty';
     import OutputExpression from '@transforms/OutputExpression';
     import Speech from '../lore/Speech.svelte';
-    import Emotion from '../../lore/Emotion';
     import { getConceptIndex } from '../project/Contexts';
 
     export let project: Project;
@@ -54,7 +53,6 @@
             symbols: outputs
                 .map((output) => output.node.func.toWordplay())
                 .join(', '),
-            emotion: Emotion.Cheerful,
         }}
         concept={outputs.length > 1 || definition === undefined
             ? undefined

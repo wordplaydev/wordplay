@@ -127,8 +127,11 @@ export default class StructureConcept extends Concept {
     getGlyphs(languages: LanguageCode[]) {
         return {
             symbols: this.definition.names.getTranslation(languages),
-            emotion: Emotion.Serious,
         };
+    }
+
+    getEmotion() {
+        return Emotion.Serious;
     }
 
     hasName(name: string) {
