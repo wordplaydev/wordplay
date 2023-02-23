@@ -16,6 +16,7 @@ export default class Context {
     readonly project: Project;
     readonly source: Source;
     readonly native: NativeInterface;
+    readonly root: Tree | undefined;
 
     readonly stack: Node[] = [];
     readonly types: Map<Node, Type> = new Map();
@@ -25,15 +26,20 @@ export default class Context {
 
     readonly streamTypes: Map<Type, StreamDefinition> = new Map();
 
-    constructor(project: Project, source: Source) {
+    constructor(project: Project, source: Source, root?: Tree) {
         this.project = project;
         this.source = source;
         this.native = project.getNative();
+        this.root = root;
     }
 
     /** Check the cache for a Tree representing the given node, and set the cache if we haven't checked yet. */
     get(node: Node): Tree | undefined {
-        return this.project.get(node);
+        return this.root?.get(node) ?? this.project.get(node);
+    }
+
+    withRoot(root: Tree) {
+        return new Context(this.project, this.source, root);
     }
 
     /** Track cycles during conflict analysis. */

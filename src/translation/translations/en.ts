@@ -335,7 +335,7 @@ const en: Translation = {
             
             I get overwhelmed, and so I've tried to simplify things. 
             First, I only ever consider two options: (${TRUE_SYMBOL}) and (${FALSE_SYMBOL}).
-            If it's (${TRUE_SYMBOL}), then I evaluate my true part. If it's (${FALSE_SYMBOL}), then I evaluate my false part.
+            If it's (${TRUE_SYMBOL}), then I evaluate my *yes* code. If it's (${FALSE_SYMBOL}), then I evaluate my *no* code.
 
             I know that decisions are rarely this simple, but breaking down the world into these binaries makes things easier for me.
             Yes, no, if, else, this, that.

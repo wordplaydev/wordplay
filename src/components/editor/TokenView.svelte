@@ -103,7 +103,7 @@
                       ?.getChildPlaceholderLabel(
                           node,
                           $preferredTranslations[0],
-                          context
+                          context.withRoot($root)
                       )
                 : undefined;
         return labels ?? PLACEHOLDER_SYMBOL;
