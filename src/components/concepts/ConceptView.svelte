@@ -32,9 +32,12 @@
     <Speech glyph={concept.getGlyphs($preferredLanguages)} below={header}>
         <MissingTranslationsView />
         {#each $preferredTranslations as trans}
-            {@const doc = concept.getDocs(trans)}
-            {#if doc}
-                <DocHTMLView {doc} spaces={concept.context.source.spaces} />
+            {@const [doc, spaces] = concept.getDocs(trans) ?? [
+                undefined,
+                undefined,
+            ]}
+            {#if doc && spaces}
+                <DocHTMLView {doc} {spaces} />
             {:else}
                 {trans.ui.labels.nodoc}
             {/if}

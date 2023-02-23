@@ -25,7 +25,7 @@
                         rel="noreferrer">{content.description.getText()}</a
                     >
                 {:else if content.description}
-                    {content.description}
+                    {content.description.getText()}
                 {/if}
             {:else if content instanceof Example}
                 <ExampleUI example={content} {spaces} />

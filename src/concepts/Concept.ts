@@ -7,6 +7,7 @@ import type Purpose from './Purpose';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import type Glyph from '../lore/Glyph';
 import type LanguageCode from '../translation/LanguageCode';
+import type Spaces from '../parser/Spaces';
 
 /**
  * Represents some part of the Wordplay language, API, or example ecosystem.
@@ -60,7 +61,7 @@ export default abstract class Concept {
     /**
      * Returns, if available, documentation for the concept.
      */
-    abstract getDocs(translation: Translation): Doc | undefined;
+    abstract getDocs(translation: Translation): [Doc, Spaces] | undefined;
 
     /**
      * Provides a set of Nodes that could be rendered in the UI.
@@ -103,7 +104,8 @@ export default abstract class Concept {
             );
             if (match !== undefined) return match;
         }
-        return this.getDocs(translation)?.getMatchingText(query);
+        const [doc] = this.getDocs(translation) ?? [undefined];
+        return doc?.getMatchingText(query);
     }
 
     /**

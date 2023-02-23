@@ -39,7 +39,9 @@
 
     $: selection = getConceptPath();
     $: doc = docs
-        ? concept.getDocs($preferredTranslations[0])?.getFirstParagraph()
+        ? (concept.getDocs($preferredTranslations[0]) ?? [
+              undefined,
+          ])[0]?.getFirstParagraph()
         : undefined;
     $: description = docs
         ? undefined
