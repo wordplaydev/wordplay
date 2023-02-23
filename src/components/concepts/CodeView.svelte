@@ -127,7 +127,7 @@
     }
 
     .description {
-        margin: var(--wordplay-spacing);
+        margin-top: var(--wordplay-spacing);
     }
 
     .description:focus {

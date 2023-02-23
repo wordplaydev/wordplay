@@ -3,6 +3,7 @@
     import type Concept from '@concepts/Concept';
     import CodeView from './CodeView.svelte';
     import Note from '../widgets/Note.svelte';
+    import NodeConcept from '../../concepts/NodeConcept';
 
     export let concepts: Concept[];
     export let selectable: boolean;
@@ -22,6 +23,7 @@
                     {concept}
                     node={concept.getRepresentation()}
                     {selectable}
+                    docs={!(concept instanceof NodeConcept)}
                 />
             </span>
         {/if}
