@@ -39,6 +39,7 @@ import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
 import NodeLink from '@translation/NodeLink';
 import Glyphs from '../lore/Glyphs';
+import Purpose from '../concepts/Purpose';
 
 export default class Bind extends Expression {
     readonly docs?: Docs;
@@ -145,6 +146,10 @@ export default class Bind extends Expression {
                 replace
             )
         ) as this;
+    }
+
+    getPurpose() {
+        return Purpose.STORE;
     }
 
     isEvaluationInvolved() {

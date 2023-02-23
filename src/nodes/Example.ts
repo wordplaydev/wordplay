@@ -4,6 +4,9 @@ import Node, { type Field, type Replacement } from './Node';
 import Program from './Program';
 import Token from './Token';
 import Glyphs from '../lore/Glyphs';
+import EvalOpenToken from './EvalOpenToken';
+import EvalCloseToken from './EvalCloseToken';
+import Purpose from '../concepts/Purpose';
 
 export default class Example extends Node {
     readonly open: Token;
@@ -16,6 +19,10 @@ export default class Example extends Node {
         this.open = open;
         this.program = program;
         this.close = close;
+    }
+
+    static make(program: Program) {
+        return new Example(new EvalOpenToken(), program, new EvalCloseToken());
     }
 
     getGrammar(): Field[] {
@@ -36,6 +43,10 @@ export default class Example extends Node {
             this.replaceChild('program', this.program, replace),
             this.replaceChild('close', this.close, replace)
         ) as this;
+    }
+
+    getPurpose() {
+        return Purpose.DOCUMENT;
     }
 
     getNodeTranslation(translation: Translation) {

@@ -6,6 +6,7 @@ import WebLink from './WebLink';
 import Node, { type Field, type Replacement } from './Node';
 import Words from './Words';
 import Glyphs from '../lore/Glyphs';
+import Purpose from '../concepts/Purpose';
 
 export type Content = Words | WebLink | ConceptLink | Example;
 
@@ -30,6 +31,10 @@ export default class Paragraph extends Node {
         return new Paragraph(
             this.replaceChild('content', this.content, replace)
         ) as this;
+    }
+
+    getPurpose() {
+        return Purpose.DOCUMENT;
     }
 
     getNodeTranslation(translation: Translation) {

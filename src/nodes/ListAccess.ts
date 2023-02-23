@@ -28,6 +28,8 @@ import type Translation from '@translation/Translation';
 import { NotAListType } from './NotAListType';
 import NodeLink from '@translation/NodeLink';
 import Glyphs from '../lore/Glyphs';
+import type { NativeTypeName } from '../native/NativeConstants';
+import Purpose from '../concepts/Purpose';
 
 export default class ListAccess extends Expression {
     readonly list: Expression;
@@ -88,6 +90,14 @@ export default class ListAccess extends Expression {
             this.replaceChild('index', this.index, replace),
             this.replaceChild('close', this.close, replace)
         ) as this;
+    }
+
+    getPurpose(): Purpose {
+        return Purpose.STORE;
+    }
+
+    getAffiliatedType(): NativeTypeName | undefined {
+        return 'list';
     }
 
     computeConflicts(context: Context): Conflict[] {

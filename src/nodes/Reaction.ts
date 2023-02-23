@@ -25,6 +25,8 @@ import Bool from '../runtime/Bool';
 import ValueException from '../runtime/ValueException';
 import TypeException from '../runtime/TypeException';
 import Glyphs from '../lore/Glyphs';
+import Purpose from '../concepts/Purpose';
+import type { NativeTypeName } from '../native/NativeConstants';
 
 export default class Reaction extends Expression {
     readonly condition: Expression;
@@ -91,6 +93,14 @@ export default class Reaction extends Expression {
             this.replaceChild<Token>('dots', this.dots, replace),
             this.replaceChild<Expression>('next', this.next, replace)
         ) as this;
+    }
+
+    getPurpose() {
+        return Purpose.DECIDE;
+    }
+
+    getAffiliatedType(): NativeTypeName | undefined {
+        return 'stream';
     }
 
     computeConflicts(context: Context): Conflict[] {

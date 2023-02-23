@@ -4,6 +4,8 @@ import Token from './Token';
 import BindToken from './BindToken';
 import type Translation from '@translation/Translation';
 import Glyphs from '../lore/Glyphs';
+import Purpose from '../concepts/Purpose';
+import type { NativeTypeName } from '../native/NativeConstants';
 
 export default class KeyValue extends Node {
     readonly key: Expression;
@@ -46,6 +48,14 @@ export default class KeyValue extends Node {
             this.replaceChild('value', this.value, replace),
             this.replaceChild('bind', this.bind, replace)
         ) as this;
+    }
+
+    getPurpose(): Purpose {
+        return Purpose.STORE;
+    }
+
+    getAffiliatedType(): NativeTypeName | undefined {
+        return 'map';
     }
 
     computeConflicts() {}

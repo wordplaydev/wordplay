@@ -23,6 +23,8 @@ import AtomicExpression from './AtomicExpression';
 import type Translation from '@translation/Translation';
 import { UnenclosedType } from './UnenclosedType';
 import Glyphs from '../lore/Glyphs';
+import { PROPERTY_SYMBOL } from '../parser/Symbols';
+import TokenType from './TokenType';
 
 type ThisStructure = StructureDefinition | ConversionDefinition | Reaction;
 
@@ -34,6 +36,10 @@ export default class This extends AtomicExpression {
         this.dis = dis;
 
         this.computeChildren();
+    }
+
+    static make() {
+        return new This(new Token(PROPERTY_SYMBOL, TokenType.ACCESS));
     }
 
     getGrammar() {

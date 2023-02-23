@@ -3,6 +3,7 @@ import Doc from './Doc';
 import type LanguageCode from '@translation/LanguageCode';
 import type Translation from '@translation/Translation';
 import Glyphs from '../lore/Glyphs';
+import Purpose from '../concepts/Purpose';
 
 export default class Docs extends Node {
     readonly docs: Doc[];
@@ -23,6 +24,10 @@ export default class Docs extends Node {
         return new Docs(
             this.replaceChild<Doc[]>('docs', this.docs, replace)
         ) as this;
+    }
+
+    getPurpose() {
+        return Purpose.DOCUMENT;
     }
 
     computeConflicts() {

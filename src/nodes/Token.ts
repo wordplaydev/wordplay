@@ -4,6 +4,7 @@ import type Translation from '@translation/Translation';
 import Node, { type Replacement } from './Node';
 import TokenType from './TokenType';
 import Emotion from '../lore/Emotion';
+import Purpose from '../concepts/Purpose';
 
 export default class Token extends Node {
     /** The one or more types of token this might represent. This is narrowed during parsing to one.*/
@@ -38,6 +39,10 @@ export default class Token extends Node {
 
     getNodeTranslation(translation: Translation) {
         return translation.nodes.Token;
+    }
+
+    getPurpose() {
+        return Purpose.REPRESENT;
     }
 
     // TOKEN TYPES

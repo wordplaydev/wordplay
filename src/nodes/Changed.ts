@@ -24,6 +24,8 @@ import AtomicExpression from './AtomicExpression';
 import NodeLink from '@translation/NodeLink';
 import BooleanType from './BooleanType';
 import Glyphs from '../lore/Glyphs';
+import Purpose from '../concepts/Purpose';
+import type { NativeTypeName } from '../native/NativeConstants';
 
 export default class Changed extends AtomicExpression {
     readonly change: Token;
@@ -60,6 +62,14 @@ export default class Changed extends AtomicExpression {
             this.replaceChild('change', this.change, replace),
             this.replaceChild('stream', this.stream, replace)
         ) as this;
+    }
+
+    getPurpose() {
+        return Purpose.DECIDE;
+    }
+
+    getAffiliatedType(): NativeTypeName | undefined {
+        return 'stream';
     }
 
     computeConflicts(context: Context): Conflict[] {

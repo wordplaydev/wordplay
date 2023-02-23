@@ -4,6 +4,7 @@ import type LanguageCode from '@translation/LanguageCode';
 import type Translation from '@translation/Translation';
 import NameType from './NameType';
 import Glyphs from '../lore/Glyphs';
+import Purpose from '../concepts/Purpose';
 
 export default class TypeVariable extends Node {
     readonly names: Names;
@@ -24,6 +25,10 @@ export default class TypeVariable extends Node {
         return new TypeVariable(
             this.replaceChild('names', this.names, replace)
         ) as this;
+    }
+
+    getPurpose() {
+        return Purpose.TYPE;
     }
 
     getReference(): NameType {

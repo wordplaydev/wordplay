@@ -8,6 +8,7 @@ import { Languages } from '@translation/LanguageCode';
 import InvalidLanguage from '@conflicts/InvalidLanguage';
 import type Translation from '@translation/Translation';
 import Glyphs from '../lore/Glyphs';
+import Purpose from '../concepts/Purpose';
 
 export default class Language extends Node {
     readonly slash: Token;
@@ -38,6 +39,10 @@ export default class Language extends Node {
             this.replaceChild('slash', this.slash, replace),
             this.replaceChild('lang', this.lang, replace)
         ) as this;
+    }
+
+    getPurpose() {
+        return Purpose.DOCUMENT;
     }
 
     computeConflicts(): Conflict[] {

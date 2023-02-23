@@ -4,6 +4,7 @@ import Bind from './Bind';
 import Expression from './Expression';
 import type Translation from '@translation/Translation';
 import Glyphs from '../lore/Glyphs';
+import Purpose from '../concepts/Purpose';
 
 export default class Row extends Node {
     readonly open: Token;
@@ -32,15 +33,6 @@ export default class Row extends Node {
         ];
     }
 
-    allBinds() {
-        return this.cells.every((cell) => cell instanceof Bind);
-    }
-    allExpressions() {
-        return this.cells.every((cell) => !(cell instanceof Bind));
-    }
-
-    computeConflicts() {}
-
     clone(replace?: Replacement) {
         return new Row(
             this.replaceChild('open', this.open, replace),
@@ -48,6 +40,20 @@ export default class Row extends Node {
             this.replaceChild('close', this.close, replace)
         ) as this;
     }
+
+    getPurpose() {
+        return Purpose.STORE;
+    }
+
+    allBinds() {
+        return this.cells.every((cell) => cell instanceof Bind);
+    }
+
+    allExpressions() {
+        return this.cells.every((cell) => !(cell instanceof Bind));
+    }
+
+    computeConflicts() {}
 
     getNodeTranslation(translation: Translation) {
         return translation.nodes.Row;

@@ -15,6 +15,8 @@ import type Translation from '@translation/Translation';
 import NodeLink from '@translation/NodeLink';
 import Literal from './Literal';
 import Glyphs from '../lore/Glyphs';
+import Purpose from '../concepts/Purpose';
+import type { NativeTypeName } from '../native/NativeConstants';
 
 export default class MeasurementLiteral extends Literal {
     readonly number: Token;
@@ -41,6 +43,13 @@ export default class MeasurementLiteral extends Literal {
         );
     }
 
+    getGrammar() {
+        return [
+            { name: 'number', types: [Token] },
+            { name: 'unit', types: [Unit] },
+        ];
+    }
+
     clone(replace?: Replacement) {
         return new MeasurementLiteral(
             this.replaceChild('number', this.number, replace),
@@ -48,11 +57,12 @@ export default class MeasurementLiteral extends Literal {
         ) as this;
     }
 
-    getGrammar() {
-        return [
-            { name: 'number', types: [Token] },
-            { name: 'unit', types: [Unit] },
-        ];
+    getPurpose() {
+        return Purpose.STORE;
+    }
+
+    getAffiliatedType(): NativeTypeName | undefined {
+        return 'measurement';
     }
 
     isInteger() {

@@ -21,6 +21,7 @@ import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
 import NodeLink from '@translation/NodeLink';
 import Glyphs from '../lore/Glyphs';
+import Purpose from '../concepts/Purpose';
 
 export default class Conditional extends Expression {
     readonly condition: Expression;
@@ -90,6 +91,10 @@ export default class Conditional extends Expression {
             this.replaceChild<Expression>('yes', this.yes, replace),
             this.replaceChild<Expression>('no', this.no, replace)
         ) as this;
+    }
+
+    getPurpose() {
+        return Purpose.DECIDE;
     }
 
     computeConflicts(context: Context): Conflict[] {

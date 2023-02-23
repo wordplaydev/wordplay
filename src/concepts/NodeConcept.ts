@@ -33,9 +33,7 @@ export default class NodeConcept extends Concept {
     }
 
     getDocs(translation: Translation) {
-        const tokens = toTokens(
-            '`' + this.template.getPurpose(translation) + '`'
-        );
+        const tokens = toTokens('`' + this.template.getDoc(translation) + '`');
         return parseDoc(tokens);
     }
 

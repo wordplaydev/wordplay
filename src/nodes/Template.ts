@@ -17,6 +17,8 @@ import ExpressionPlaceholder from './ExpressionPlaceholder';
 import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
 import Glyphs from '../lore/Glyphs';
+import Purpose from '../concepts/Purpose';
+import type { NativeTypeName } from '../native/NativeConstants';
 
 export type TemplatePart = Expression | Token;
 
@@ -63,6 +65,14 @@ export default class Template extends Expression {
             this.replaceChild('expressions', this.expressions, replace),
             this.replaceChild('format', this.format, replace)
         ) as this;
+    }
+
+    getPurpose() {
+        return Purpose.STORE;
+    }
+
+    getAffiliatedType(): NativeTypeName | undefined {
+        return 'text';
     }
 
     computeConflicts() {

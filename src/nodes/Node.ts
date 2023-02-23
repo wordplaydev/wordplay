@@ -11,6 +11,8 @@ import type {
     NodeTranslation,
 } from '@translation/Translation';
 import type Glyph from '../lore/Glyph';
+import type Purpose from '../concepts/Purpose';
+import type { NativeTypeName } from '../native/NativeConstants';
 
 /* A global ID for nodes, for helping index them */
 let NODE_ID_COUNTER = 0;
@@ -625,8 +627,17 @@ export default abstract class Node {
             : trans.description;
     }
 
-    getPurpose(translation: Translation): DocString {
+    getDoc(translation: Translation): DocString {
         return this.getNodeTranslation(translation).doc;
+    }
+
+    /**
+     * Provide a category for documentation and any related type that it should be organized within.
+     */
+    abstract getPurpose(): Purpose;
+
+    getAffiliatedType(): NativeTypeName | undefined {
+        return undefined;
     }
 
     abstract getNodeTranslation(translation: Translation): NodeTranslation<any>;

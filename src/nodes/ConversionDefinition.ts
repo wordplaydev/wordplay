@@ -22,6 +22,7 @@ import type Translation from '@translation/Translation';
 import AtomicExpression from './AtomicExpression';
 import InternalException from '@runtime/InternalException';
 import Glyphs from '../lore/Glyphs';
+import Purpose from '../concepts/Purpose';
 
 export default class ConversionDefinition extends AtomicExpression {
     readonly docs: Docs | undefined;
@@ -80,6 +81,10 @@ export default class ConversionDefinition extends AtomicExpression {
         ];
     }
 
+    getPurpose() {
+        return Purpose.CONVERT;
+    }
+
     clone(replace?: Replacement) {
         return new ConversionDefinition(
             this.replaceChild('docs', this.docs, replace),
@@ -123,7 +128,7 @@ export default class ConversionDefinition extends AtomicExpression {
     }
 
     computeType(): Type {
-        return new ConversionType(this.input, undefined, this.output);
+        return ConversionType.make(this.input, this.output);
     }
 
     getDependencies(): Expression[] {

@@ -5,10 +5,15 @@ import type Context from './Context';
 import type Expression from './Expression';
 import TypeSet from './TypeSet';
 import type { NativeTypeName } from '../native/NativeConstants';
+import Purpose from '../concepts/Purpose';
 
 export default abstract class Type extends Node {
     constructor() {
         super();
+    }
+
+    getPurpose() {
+        return Purpose.TYPE;
     }
 
     /**
@@ -28,7 +33,12 @@ export default abstract class Type extends Node {
         context: Context,
         expression?: Expression
     ): boolean;
+
     abstract getNativeTypeName(): NativeTypeName;
+
+    getAffiliatedType(): NativeTypeName | undefined {
+        return this.getNativeTypeName();
+    }
 
     /**
      * All types can only be themeselves, unless otherwise noted (primarily the case for UnionTypes).

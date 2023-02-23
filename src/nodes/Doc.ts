@@ -7,6 +7,7 @@ import TokenType from './TokenType';
 import Paragraph from './Paragraph';
 import Words from './Words';
 import Glyphs from '../lore/Glyphs';
+import Purpose from '../concepts/Purpose';
 
 export default class Doc extends Node {
     readonly open: Token;
@@ -55,6 +56,10 @@ export default class Doc extends Node {
             this.replaceChild('close', this.close, replace),
             this.replaceChild('lang', this.lang, replace)
         ) as this;
+    }
+
+    getPurpose() {
+        return Purpose.DOCUMENT;
     }
 
     withLanguage(language: Language) {

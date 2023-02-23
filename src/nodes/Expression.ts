@@ -9,10 +9,15 @@ import type TypeSet from './TypeSet';
 import type Translation from '@translation/Translation';
 import type { Description } from '@translation/Translation';
 import ValueLink from '@translation/ValueLink';
+import Purpose from '../concepts/Purpose';
 
 export default abstract class Expression extends Node {
     constructor() {
         super();
+    }
+
+    getPurpose() {
+        return Purpose.COMPUTE;
     }
 
     /**

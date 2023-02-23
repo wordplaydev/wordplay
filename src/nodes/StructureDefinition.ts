@@ -35,6 +35,7 @@ import AtomicExpression from './AtomicExpression';
 import type NameType from './NameType';
 import InternalException from '@runtime/InternalException';
 import Glyphs from '../lore/Glyphs';
+import Purpose from '../concepts/Purpose';
 
 export default class StructureDefinition extends AtomicExpression {
     readonly docs: Docs | undefined;
@@ -125,6 +126,10 @@ export default class StructureDefinition extends AtomicExpression {
             this.replaceChild('close', this.close, replace),
             this.replaceChild('expression', this.expression, replace)
         ) as this;
+    }
+
+    getPurpose() {
+        return Purpose.STORE;
     }
 
     getNames() {

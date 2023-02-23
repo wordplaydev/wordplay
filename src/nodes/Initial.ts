@@ -17,6 +17,8 @@ import BooleanType from './BooleanType';
 import StartFinish from '../runtime/StartFinish';
 import type Node from './Node';
 import Glyphs from '../lore/Glyphs';
+import Purpose from '../concepts/Purpose';
+import type { NativeTypeName } from '../native/NativeConstants';
 
 export default class Initial extends AtomicExpression {
     readonly diamond: Token;
@@ -41,6 +43,14 @@ export default class Initial extends AtomicExpression {
         return new Initial(
             this.replaceChild('diamond', this.diamond, replace)
         ) as this;
+    }
+
+    getPurpose() {
+        return Purpose.DECIDE;
+    }
+
+    getAffiliatedType(): NativeTypeName | undefined {
+        return 'stream';
     }
 
     computeConflicts(): Conflict[] {

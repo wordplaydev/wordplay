@@ -8,6 +8,7 @@ import type Conflict from '@conflicts/Conflict';
 import type Translation from '@translation/Translation';
 import DuplicateTypeVariable from '@conflicts/DuplicateTypeVariable';
 import Glyphs from '../lore/Glyphs';
+import Purpose from '../concepts/Purpose';
 
 export default class TypeVariables extends Node {
     readonly open: Token;
@@ -46,6 +47,10 @@ export default class TypeVariables extends Node {
             this.replaceChild('variables', this.variables, replace),
             this.replaceChild('close', this.close, replace)
         ) as this;
+    }
+
+    getPurpose() {
+        return Purpose.TYPE;
     }
 
     computeConflicts() {

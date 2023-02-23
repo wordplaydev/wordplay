@@ -11,6 +11,8 @@ import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
 import Literal from './Literal';
 import Emotion from '../lore/Emotion';
+import Purpose from '../concepts/Purpose';
+import type { NativeTypeName } from '../native/NativeConstants';
 
 export default class TextLiteral extends Literal {
     readonly text: Token;
@@ -43,6 +45,14 @@ export default class TextLiteral extends Literal {
             this.replaceChild('text', this.text, replace),
             this.replaceChild('format', this.format, replace)
         ) as this;
+    }
+
+    getPurpose() {
+        return Purpose.STORE;
+    }
+
+    getAffiliatedType(): NativeTypeName {
+        return 'text';
     }
 
     computeConflicts() {}

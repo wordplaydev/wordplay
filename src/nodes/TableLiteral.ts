@@ -17,6 +17,7 @@ import Exception from '@runtime/Exception';
 import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
 import Glyphs from '../lore/Glyphs';
+import Purpose from '../concepts/Purpose';
 
 export default class TableLiteral extends Expression {
     readonly type: TableType;
@@ -40,6 +41,10 @@ export default class TableLiteral extends Expression {
             },
             { name: 'rows', types: [[Row]] },
         ];
+    }
+
+    getPurpose() {
+        return Purpose.STORE;
     }
 
     computeConflicts(context: Context): Conflict[] {

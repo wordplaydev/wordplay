@@ -8,6 +8,7 @@ import NameToken from './NameToken';
 import Language from './Language';
 import type Translation from '@translation/Translation';
 import Glyphs from '../lore/Glyphs';
+import Purpose from '../concepts/Purpose';
 
 export default class Names extends Node {
     readonly names: Name[];
@@ -71,6 +72,10 @@ export default class Names extends Node {
         return new Names(
             this.replaceChild<Name[]>('names', this.names, replace)
         ) as this;
+    }
+
+    getPurpose() {
+        return Purpose.REPRESENT;
     }
 
     computeConflicts() {

@@ -12,6 +12,7 @@ import type TypeSet from './TypeSet';
 import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
 import Glyphs from '../lore/Glyphs';
+import Purpose from '../concepts/Purpose';
 
 export default class MapType extends NativeType {
     readonly open: Token;
@@ -66,6 +67,10 @@ export default class MapType extends NativeType {
             this.replaceChild('value', this.value, replace),
             this.replaceChild('close', this.close, replace)
         ) as this;
+    }
+
+    getPurpose() {
+        return Purpose.STORE;
     }
 
     computeConflicts(): Conflict[] {

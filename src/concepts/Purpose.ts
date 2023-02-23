@@ -6,6 +6,9 @@ enum Purpose {
     DECIDE = 'decide',
     CONVERT = 'convert',
     PROJECT = 'project',
+    TYPE = 'type',
+    DOCUMENT = 'document',
+    REPRESENT = 'represent',
 }
 
 export default Purpose;

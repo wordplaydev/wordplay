@@ -12,6 +12,8 @@ import type Translation from '@translation/Translation';
 import NodeLink from '@translation/NodeLink';
 import Literal from './Literal';
 import Glyphs from '../lore/Glyphs';
+import Purpose from '../concepts/Purpose';
+import type { NativeTypeName } from '../native/NativeConstants';
 
 export default class BooleanLiteral extends Literal {
     readonly value: Token;
@@ -37,6 +39,20 @@ export default class BooleanLiteral extends Literal {
         return [{ name: 'value', types: [Token] }];
     }
 
+    clone(replace?: Replacement) {
+        return new BooleanLiteral(
+            this.replaceChild('value', this.value, replace)
+        ) as this;
+    }
+
+    getPurpose() {
+        return Purpose.STORE;
+    }
+
+    getAffiliatedType(): NativeTypeName | undefined {
+        return 'boolean';
+    }
+
     computeConflicts() {}
 
     computeType(): Type {
@@ -49,12 +65,6 @@ export default class BooleanLiteral extends Literal {
 
     bool(): boolean {
         return this.value.text.toString() === TRUE_SYMBOL;
-    }
-
-    clone(replace?: Replacement) {
-        return new BooleanLiteral(
-            this.replaceChild('value', this.value, replace)
-        ) as this;
     }
 
     evaluateTypeSet(

@@ -5,6 +5,7 @@ import Token from './Token';
 import Glyphs from '../lore/Glyphs';
 import { LINK_SYMBOL } from '../parser/Symbols';
 import TokenType from './TokenType';
+import Purpose from '../concepts/Purpose';
 
 export default class ConceptLink extends Node {
     readonly concept: Token;
@@ -25,14 +26,18 @@ export default class ConceptLink extends Node {
         return [{ name: 'concept', types: [Token] }];
     }
 
-    computeConflicts(): void | Conflict[] {
-        return [];
-    }
-
     clone(replace?: Replacement | undefined): this {
         return new ConceptLink(
             this.replaceChild('concept', this.concept, replace)
         ) as this;
+    }
+
+    getPurpose() {
+        return Purpose.DOCUMENT;
+    }
+
+    computeConflicts(): void | Conflict[] {
+        return [];
     }
 
     getNodeTranslation(translation: Translation) {

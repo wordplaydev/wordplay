@@ -18,6 +18,8 @@ import TokenType from './TokenType';
 import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
 import Glyphs from '../lore/Glyphs';
+import type { NativeTypeName } from '../native/NativeConstants';
+import Purpose from '../concepts/Purpose';
 
 export default class SetLiteral extends Expression {
     readonly open: Token;
@@ -61,6 +63,14 @@ export default class SetLiteral extends Expression {
             this.replaceChild<Expression[]>('values', this.values, replace),
             this.replaceChild('close', this.close, replace)
         ) as this;
+    }
+
+    getPurpose(): Purpose {
+        return Purpose.STORE;
+    }
+
+    getAffiliatedType(): NativeTypeName | undefined {
+        return 'set';
     }
 
     computeConflicts() {}

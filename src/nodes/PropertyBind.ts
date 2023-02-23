@@ -19,6 +19,7 @@ import ValueException from '../runtime/ValueException';
 import PropertyReference from './PropertyReference';
 import IncompatibleBind from '../conflicts/IncompatibleBind';
 import Glyphs from '../lore/Glyphs';
+import Purpose from '../concepts/Purpose';
 
 export default class PropertyBind extends Expression {
     readonly reference: PropertyReference;
@@ -53,6 +54,10 @@ export default class PropertyBind extends Expression {
             this.replaceChild('bind', this.bind, replace),
             this.replaceChild('value', this.value, replace)
         ) as this;
+    }
+
+    getPurpose() {
+        return Purpose.STORE;
     }
 
     computeConflicts(context: Context): Conflict[] {

@@ -6,6 +6,7 @@ import TokenType from './TokenType';
 import NameToken from './NameToken';
 import type Translation from '@translation/Translation';
 import Glyphs from '../lore/Glyphs';
+import Purpose from '../concepts/Purpose';
 
 export default class Dimension extends Node {
     readonly product: Token | undefined;
@@ -63,6 +64,10 @@ export default class Dimension extends Node {
             this.replaceChild('caret', this.caret, replace),
             this.replaceChild('exponent', this.exponent, replace)
         ) as this;
+    }
+
+    getPurpose() {
+        return Purpose.TYPE;
     }
 
     getName() {

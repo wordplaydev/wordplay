@@ -20,6 +20,9 @@ import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
 import NodeLink from '@translation/NodeLink';
 import Glyphs from '../lore/Glyphs';
+import TokenType from './TokenType';
+import { TYPE_SYMBOL } from '../parser/Symbols';
+import Purpose from '../concepts/Purpose';
 
 export default class Is extends Expression {
     readonly expression: Expression;
@@ -36,6 +39,10 @@ export default class Is extends Expression {
         this.computeChildren();
     }
 
+    static make(left: Expression, right: Type) {
+        return new Is(left, new Token(TYPE_SYMBOL, TokenType.TYPE_OP), right);
+    }
+
     getGrammar() {
         return [
             { name: 'expression', types: [Expression] },
@@ -50,6 +57,10 @@ export default class Is extends Expression {
             this.replaceChild('operator', this.operator, replace),
             this.replaceChild('type', this.type, replace)
         ) as this;
+    }
+
+    getPurpose(): Purpose {
+        return Purpose.DECIDE;
     }
 
     computeType() {

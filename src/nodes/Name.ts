@@ -9,6 +9,7 @@ import type Translation from '@translation/Translation';
 import { COMMA_SYMBOL } from '@parser/Symbols';
 import TokenType from './TokenType';
 import Emotion from '../lore/Emotion';
+import Purpose from '../concepts/Purpose';
 
 export default class Name extends Node {
     readonly separator?: Token;
@@ -47,6 +48,10 @@ export default class Name extends Node {
             this.replaceChild('name', this.name, replace),
             this.replaceChild('lang', this.lang, replace)
         ) as this;
+    }
+
+    getPurpose() {
+        return Purpose.REPRESENT;
     }
 
     computeConflicts(): Conflict[] {

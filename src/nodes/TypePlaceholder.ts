@@ -11,12 +11,16 @@ import Glyphs from '../lore/Glyphs';
 export default class TypePlaceholder extends Type {
     readonly placeholder: Token;
 
-    constructor(etc?: Token) {
+    constructor(placeholder?: Token) {
         super();
 
-        this.placeholder = etc ?? new PlaceholderToken();
+        this.placeholder = placeholder ?? new PlaceholderToken();
 
         this.computeChildren();
+    }
+
+    static make() {
+        return new TypePlaceholder(new PlaceholderToken());
     }
 
     getGrammar() {
@@ -30,6 +34,12 @@ export default class TypePlaceholder extends Type {
         ];
     }
 
+    clone(replace?: Replacement) {
+        return new TypePlaceholder(
+            this.replaceChild('placeholder', this.placeholder, replace)
+        ) as this;
+    }
+
     computeConflicts(): Conflict[] {
         return [new Placeholder(this)];
     }
@@ -40,12 +50,6 @@ export default class TypePlaceholder extends Type {
 
     getNativeTypeName(): NativeTypeName {
         return 'unknown';
-    }
-
-    clone(replace?: Replacement) {
-        return new TypePlaceholder(
-            this.replaceChild('placeholder', this.placeholder, replace)
-        ) as this;
     }
 
     isPlaceholder() {

@@ -14,21 +14,38 @@ export default class ConversionType extends Type {
     readonly convert: Token;
     readonly output: Type;
 
-    constructor(input: Type, convert: Token | undefined, output: Type) {
+    constructor(input: Type, convert: Token, output: Type) {
         super();
 
         this.input = input;
-        this.convert = convert ?? new Token(CONVERT_SYMBOL, TokenType.CONVERT);
+        this.convert = convert;
         this.output = output;
 
         this.computeChildren();
     }
+
+    static make(input: Type, output: Type) {
+        return new ConversionType(
+            input,
+            new Token(CONVERT_SYMBOL, TokenType.CONVERT),
+            output
+        );
+    }
+
     getGrammar() {
         return [
             { name: 'input', types: [Type] },
             { name: 'convert', types: [Token] },
             { name: 'output', types: [Type] },
         ];
+    }
+
+    clone(replace?: Replacement) {
+        return new ConversionType(
+            this.replaceChild('input', this.input, replace),
+            this.replaceChild('convert', this.convert, replace),
+            this.replaceChild('output', this.output, replace)
+        ) as this;
     }
 
     computeConflicts() {}
@@ -48,14 +65,6 @@ export default class ConversionType extends Type {
 
     getNativeTypeName(): NativeTypeName {
         return 'conversion';
-    }
-
-    clone(replace?: Replacement) {
-        return new ConversionType(
-            this.replaceChild('input', this.input, replace),
-            this.replaceChild('convert', this.convert, replace),
-            this.replaceChild('output', this.output, replace)
-        ) as this;
     }
 
     getNodeTranslation(translation: Translation) {

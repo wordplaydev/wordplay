@@ -27,6 +27,8 @@ import type Translation from '@translation/Translation';
 import { NotASetOrMapType } from './NotASetOrMapType';
 import NodeLink from '@translation/NodeLink';
 import Glyphs from '../lore/Glyphs';
+import type { NativeTypeName } from '../native/NativeConstants';
+import Purpose from '../concepts/Purpose';
 
 export default class SetOrMapAccess extends Expression {
     readonly setOrMap: Expression;
@@ -85,6 +87,14 @@ export default class SetOrMapAccess extends Expression {
             this.replaceChild('key', this.key, replace),
             this.replaceChild('close', this.close, replace)
         ) as this;
+    }
+
+    getPurpose(): Purpose {
+        return Purpose.STORE;
+    }
+
+    getAffiliatedType(): NativeTypeName | undefined {
+        return 'set';
     }
 
     computeConflicts(context: Context): Conflict[] {

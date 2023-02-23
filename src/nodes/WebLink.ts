@@ -1,8 +1,15 @@
 import type Conflict from '@conflicts/Conflict';
 import type Translation from '@translation/Translation';
+import Purpose from '../concepts/Purpose';
 import Glyphs from '../lore/Glyphs';
+import {
+    LINK_SYMBOL,
+    TAG_CLOSE_SYMBOL,
+    TAG_OPEN_SYMBOL,
+} from '../parser/Symbols';
 import Node, { type Field, type Replacement } from './Node';
 import Token from './Token';
+import TokenType from './TokenType';
 
 export default class WebLink extends Node {
     readonly open: Token;
@@ -27,6 +34,16 @@ export default class WebLink extends Node {
         this.close = close;
     }
 
+    static make(description: string, url: string) {
+        return new WebLink(
+            new Token(TAG_OPEN_SYMBOL, TokenType.TAG_OPEN),
+            new Token(description, TokenType.WORDS),
+            new Token(LINK_SYMBOL, TokenType.LINK),
+            new Token(url, TokenType.URL),
+            new Token(TAG_CLOSE_SYMBOL, TokenType.TAG_CLOSE)
+        );
+    }
+
     getGrammar(): Field[] {
         return [
             { name: 'open', types: [Token] },
@@ -49,6 +66,10 @@ export default class WebLink extends Node {
             this.replaceChild('url', this.url, replace),
             this.replaceChild('close', this.close, replace)
         ) as this;
+    }
+
+    getPurpose() {
+        return Purpose.DOCUMENT;
     }
 
     getNodeTranslation(translation: Translation) {

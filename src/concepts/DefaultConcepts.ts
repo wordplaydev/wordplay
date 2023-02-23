@@ -50,99 +50,184 @@ import Purpose from './Purpose';
 import { PhraseType } from '../output/Phrase';
 import { GroupType } from '../output/Group';
 import { PoseType } from '../output/Pose';
+import type Node from '../nodes/Node';
+import AnyType from '../nodes/AnyType';
+import BinaryOperation from '../nodes/BinaryOperation';
+import PlaceholderToken from '../nodes/PlaceholderToken';
+import { PLACEHOLDER_SYMBOL } from '../parser/Symbols';
+import ConceptLink from '../nodes/ConceptLink';
+import ConversionType from '../nodes/ConversionType';
+import Dimension from '../nodes/Dimension';
+import Doc from '../nodes/Doc';
+import Paragraph from '../nodes/Paragraph';
+import Words from '../nodes/Words';
+import TokenType from '../nodes/TokenType';
+import Token from '../nodes/Token';
+import Evaluate from '../nodes/Evaluate';
+import Example from '../nodes/Example';
+import Program from '../nodes/Program';
+import FunctionType from '../nodes/FunctionType';
+import Initial from '../nodes/Initial';
+import Is from '../nodes/Is';
+import KeyValue from '../nodes/KeyValue';
+import Language from '../nodes/Language';
+import ListAccess from '../nodes/ListAccess';
+import Previous from '../nodes/Previous';
+import PropertyBind from '../nodes/PropertyBind';
+import PropertyReference from '../nodes/PropertyReference';
+import Reference from '../nodes/Reference';
+import This from '../nodes/This';
+import TypeInputs from '../nodes/TypeInputs';
+import TypeVariables from '../nodes/TypeVariables';
+import UnaryOperation from '../nodes/UnaryOperation';
+import UnionType from '../nodes/UnionType';
+import WebLink from '../nodes/WebLink';
+
+/** These are ordered by appearance in the docs. */
+const template: Node[] = [
+    // Evaluation
+    Evaluate.make(ExpressionPlaceholder.make(), []),
+    FunctionDefinition.make(
+        undefined,
+        Names.make(['_']),
+        undefined,
+        [],
+        ExpressionPlaceholder.make()
+    ),
+    new BinaryOperation(
+        ExpressionPlaceholder.make(),
+        new PlaceholderToken(),
+        ExpressionPlaceholder.make()
+    ),
+    new UnaryOperation(
+        new Token('-', TokenType.UNARY_OP),
+        ExpressionPlaceholder.make()
+    ),
+    Block.make([]),
+    ConversionDefinition.make(
+        undefined,
+        new TypePlaceholder(),
+        new TypePlaceholder(),
+        ExpressionPlaceholder.make()
+    ),
+
+    // Decisions
+    Conditional.make(
+        ExpressionPlaceholder.make(BooleanType.make()),
+        ExpressionPlaceholder.make(),
+        ExpressionPlaceholder.make()
+    ),
+    Is.make(ExpressionPlaceholder.make(), TypePlaceholder.make()),
+    Reaction.make(
+        ExpressionPlaceholder.make(),
+        ExpressionPlaceholder.make(BooleanType.make()),
+        ExpressionPlaceholder.make()
+    ),
+    Initial.make(),
+    Changed.make(ExpressionPlaceholder.make(StreamType.make())),
+
+    // Bindings
+    Bind.make(
+        undefined,
+        Names.make([PLACEHOLDER_SYMBOL]),
+        undefined,
+        ExpressionPlaceholder.make()
+    ),
+    PropertyReference.make(
+        ExpressionPlaceholder.make(),
+        Reference.make(PLACEHOLDER_SYMBOL)
+    ),
+    PropertyBind.make(
+        PropertyReference.make(
+            ExpressionPlaceholder.make(),
+            Reference.make(PLACEHOLDER_SYMBOL)
+        ),
+        PLACEHOLDER_SYMBOL,
+        ExpressionPlaceholder.make()
+    ),
+
+    Convert.make(ExpressionPlaceholder.make(), TypePlaceholder.make()),
+    Dimension.make(false, PLACEHOLDER_SYMBOL, 1),
+    new AnyType(),
+    FunctionType.make(undefined, [], TypePlaceholder.make()),
+
+    // Boolean
+    BooleanType.make(),
+    BooleanLiteral.make(true),
+
+    // Measurements
+    MeasurementType.make(),
+    MeasurementLiteral.make(0),
+
+    // Text
+    TextType.make(),
+    TextLiteral.make(''),
+    Template.make(),
+
+    // List
+    ListType.make(),
+    ListLiteral.make([]),
+    ListAccess.make(
+        ExpressionPlaceholder.make(ListType.make()),
+        ExpressionPlaceholder.make()
+    ),
+
+    // Maps
+    MapLiteral.make([]),
+    KeyValue.make(ExpressionPlaceholder.make(), ExpressionPlaceholder.make()),
+    MapType.make(),
+
+    // Sets
+    SetType.make(),
+    SetLiteral.make([]),
+
+    // None
+    NoneType.make(),
+    NoneLiteral.make(),
+
+    StructureDefinition.make(
+        undefined,
+        Names.make(['_']),
+        [],
+        undefined,
+        [],
+        Block.make([ExpressionPlaceholder.make()])
+    ),
+    This.make(),
+
+    // Streams
+    StreamType.make(),
+    Previous.make(
+        ExpressionPlaceholder.make(StreamType.make()),
+        ExpressionPlaceholder.make(MeasurementType.make())
+    ),
+
+    // Types
+    TypeInputs.make([]),
+    TypeVariables.make([]),
+    UnionType.make(TypePlaceholder.make(), TypePlaceholder.make()),
+    ConversionType.make(TypePlaceholder.make(), TypePlaceholder.make()),
+
+    // Documentation
+    Doc.make([
+        new Paragraph([
+            new Words(undefined, new Token('TBD', TokenType.WORDS), undefined),
+        ]),
+    ]),
+    ConceptLink.make(PLACEHOLDER_SYMBOL),
+    WebLink.make('wordplay', 'http://wordplay.dev'),
+    Language.make('en'),
+    Example.make(Program.make()),
+];
 
 export function getNodeConcepts(context: Context): NodeConcept[] {
-    return [
-        new NodeConcept(
-            Purpose.STORE,
-            undefined,
-            Bind.make(
-                undefined,
-                Names.make(['_']),
-                undefined,
-                ExpressionPlaceholder.make()
-            ),
-            context
-        ),
-        new NodeConcept(
-            Purpose.COMPUTE,
-            undefined,
-            Block.make([ExpressionPlaceholder.make()]),
-            context
-        ),
-        new NodeConcept(
-            Purpose.STORE,
-            undefined,
-            StructureDefinition.make(
-                undefined,
-                Names.make(['_']),
-                [],
-                undefined,
-                [],
-                Block.make([ExpressionPlaceholder.make()])
-            ),
-            context
-        ),
-        new NodeConcept(
-            Purpose.DECIDE,
-            BoolDefinition,
-            Conditional.make(
-                ExpressionPlaceholder.make(BooleanType.make()),
-                ExpressionPlaceholder.make(),
-                ExpressionPlaceholder.make()
-            ),
-            context
-        ),
-        new NodeConcept(
-            Purpose.COMPUTE,
-            undefined,
-            FunctionDefinition.make(
-                undefined,
-                Names.make(['_']),
-                undefined,
-                [],
-                ExpressionPlaceholder.make()
-            ),
-            context
-        ),
-        new NodeConcept(
-            Purpose.DECIDE,
-            undefined,
-            Changed.make(
-                ExpressionPlaceholder.make(
-                    StreamType.make(new TypePlaceholder())
-                )
-            ),
-            context
-        ),
-        new NodeConcept(
-            Purpose.DECIDE,
-            undefined,
-            Reaction.make(
-                ExpressionPlaceholder.make(),
-                ExpressionPlaceholder.make(BooleanType.make()),
-                ExpressionPlaceholder.make()
-            ),
-            context
-        ),
-        new NodeConcept(
-            Purpose.CONVERT,
-            undefined,
-            ConversionDefinition.make(
-                undefined,
-                new TypePlaceholder(),
-                new TypePlaceholder(),
-                ExpressionPlaceholder.make()
-            ),
-            context
-        ),
-        new NodeConcept(
-            Purpose.CONVERT,
-            undefined,
-            Convert.make(ExpressionPlaceholder.make(), new TypePlaceholder()),
-            context
-        ),
-    ];
+    return template.map((node) => {
+        const typeName = node.getAffiliatedType();
+        const type = typeName
+            ? context.native.getStructureDefinition(typeName)
+            : undefined;
+        return new NodeConcept(node.getPurpose(), type, node, context);
+    });
 }
 
 export function getNativeConcepts(

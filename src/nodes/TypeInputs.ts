@@ -1,7 +1,10 @@
 import type Translation from '@translation/Translation';
+import Purpose from '../concepts/Purpose';
 import Glyphs from '../lore/Glyphs';
+import { TYPE_CLOSE_SYMBOL, TYPE_OPEN_SYMBOL } from '../parser/Symbols';
 import Node, { type Replacement } from './Node';
 import Token from './Token';
+import TokenType from './TokenType';
 import Type from './Type';
 
 export default class TypeInputs extends Node {
@@ -17,6 +20,18 @@ export default class TypeInputs extends Node {
         this.close = close;
 
         this.computeChildren();
+    }
+
+    static make(types: Type[]) {
+        return new TypeInputs(
+            new Token(TYPE_OPEN_SYMBOL, TokenType.TYPE_OPEN),
+            types,
+            new Token(TYPE_CLOSE_SYMBOL, TokenType.TYPE_CLOSE)
+        );
+    }
+
+    getPurpose() {
+        return Purpose.TYPE;
     }
 
     getGrammar() {

@@ -19,6 +19,8 @@ import ListCloseToken from './ListCloseToken';
 import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
 import Glyphs from '../lore/Glyphs';
+import Purpose from '../concepts/Purpose';
+import type { NativeTypeName } from '../native/NativeConstants';
 
 export default class ListLiteral extends Expression {
     readonly open: Token;
@@ -64,6 +66,14 @@ export default class ListLiteral extends Expression {
             this.replaceChild<Expression[]>('values', this.values, replace),
             this.replaceChild('close', this.close, replace)
         ) as this;
+    }
+
+    getPurpose() {
+        return Purpose.STORE;
+    }
+
+    getAffiliatedType(): NativeTypeName | undefined {
+        return 'list';
     }
 
     computeType(context: Context): Type {

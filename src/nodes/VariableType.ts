@@ -20,6 +20,10 @@ export default class VariableType extends Type {
 
     computeConflicts() {}
 
+    clone() {
+        return new VariableType(this.definition) as this;
+    }
+
     /** All types are concrete unless noted otherwise. */
     isGeneric() {
         return true;
@@ -45,10 +49,6 @@ export default class VariableType extends Type {
 
     toWordplay() {
         return this.definition.toWordplay();
-    }
-
-    clone() {
-        return new VariableType(this.definition) as this;
     }
 
     getNodeTranslation(translation: Translation) {

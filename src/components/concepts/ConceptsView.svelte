@@ -1,6 +1,6 @@
 <script lang="ts">
     import type Concept from '@concepts/Concept';
-    import { preferredTranslations } from '@translation/translations';
+    import { preferredLanguages } from '@translation/translations';
     import type StructureDefinition from '@nodes/StructureDefinition';
     import ConceptGroupView from './ConceptGroupView.svelte';
 
@@ -23,11 +23,7 @@
 <ConceptGroupView concepts={typeless} {selectable} />
 
 {#each Array.from(types) as typeCategory}
-    <h2
-        >{typeCategory.names.getTranslation(
-            $preferredTranslations[0].language
-        )}</h2
-    >
+    <h2>{typeCategory.names.getTranslation($preferredLanguages)}</h2>
     <ConceptGroupView
         concepts={concepts.filter((c) => c.getAffiliation() === typeCategory)}
         {selectable}

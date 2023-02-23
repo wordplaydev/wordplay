@@ -31,18 +31,18 @@ export default class NoneType extends NativeType {
 
     computeConflicts() {}
 
+    clone(replace?: Replacement) {
+        return new NoneType(
+            this.replaceChild('none', this.none, replace)
+        ) as this;
+    }
+
     acceptsAll(types: TypeSet): boolean {
         return types.list().every((type) => type instanceof NoneType);
     }
 
     getNativeTypeName(): NativeTypeName {
         return 'none';
-    }
-
-    clone(replace?: Replacement) {
-        return new NoneType(
-            this.replaceChild('none', this.none, replace)
-        ) as this;
     }
 
     getNodeTranslation(translation: Translation) {
