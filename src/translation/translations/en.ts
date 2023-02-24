@@ -252,25 +252,67 @@ const en: Translation = {
         },
         Bind: {
             description: 'bind',
-            emotion: Emotion.TBD,
-            doc:
-                WRITE_DOC +
-                `Name a value for later use.
+            emotion: Emotion.Restless,
+            doc: `Hello!
+                I love names. 
+                I name things. 
+                Can I name you? 
+                Do you have something I can name? 
+                Give me an expression and I'll name it!
+                I name inputs to @FunctionDefinition and @StructureDefinition, I name values in @Block. I name everything!
+
+                Why name something?
+                Well, some of us are fine without a name because we collaborate so closely.
+                But sometimes its helpful to give us names so you can refer to us by name instead.
                 
-                In many programs, these are called 'variables', but unlike in other languages, a binding's value cannot change: once something is named, 
-                it keeps the value it was assigned until the part of the program that defined it is complete, 
-                and then the name is discarded.
-                
-                Binds are used in @Block to name values and in @FunctionDefinition and @StructureDefinition to define inputs.
+                Be careful with names though: once I name a value, it will *always* have that value.
+                And also don't like it when multiple things have the same name.
+                That just gets confusing.
+                One name, one value!
+
+                Oh, but did you know you can have one value *many names*?
+                I'm s excited to tell you about this!
+                One value, many names. For example:
+
+                (joe,tess,amy: 5)
+
+                See what I did there? 
+                One value, three names.
+                You can refer to that five by *any* of those names.
+                This is especially when you want to give names in many languages:
+
+                (joe/en,aimee/fr,明/zh: 5)
+
+                See what I did *there*? 
+                Three names for one value, just in different languages!
+
+                Okay, I have one last secret.
+                Did you know that you can tell me what kind of value a name should have, and if it doesn't have it, I will tell you?
+                Like this:
+
+                (bignumber•#: "one zillion")
+
+                See, I said (bignumber) should be a number, but it's text, and those aren't compatible and so BOOM!
+                I'll let you know if they disagree.
+                Sometimes you might *have* to tell me what kind of data something else because I can't figure it out myself.
                 `,
             start: (value) =>
                 value
-                    ? Explanation.as('evaluate ', value, ' first')
-                    : 'no value',
+                    ? Explanation.as(
+                          `Let's see what value we get from `,
+                          value,
+                          `!`
+                      )
+                    : 'Mm, no value. I hope I`m in a @FunctionDefinition',
             finish: (value, names) =>
                 value
-                    ? Explanation.as('giving ', value, ' the name ', names)
-                    : 'no value',
+                    ? Explanation.as(
+                          'Oh nice, I got ',
+                          value,
+                          `! Let's name it `,
+                          names
+                      )
+                    : 'Uh oh, no value. How am I suppose to name nothing?',
         },
         Block: {
             description: 'block',
@@ -646,7 +688,7 @@ const en: Translation = {
                 Explanation.as('item in  with key is ', value ?? 'nothing'),
         },
         Source: {
-            description: 'a named program',
+            description: 'source',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
@@ -657,7 +699,7 @@ const en: Translation = {
             start: 'define this stream type',
         },
         StructureDefinition: {
-            description: 'a structure definition',
+            description: 'structure',
             emotion: Emotion.TBD,
             doc: `define a data structure that stores values and functions on those values.`,
             start: 'define this structure type',
@@ -1462,7 +1504,7 @@ const en: Translation = {
         BorrowCycle: {
             primary: (borrow) =>
                 Explanation.as(
-                    'this depends on ',
+                    WRITE_DOC + 'this depends on ',
                     borrow,
                     " which depends on this source, so the program can't be evaluated"
                 ),
@@ -1471,18 +1513,20 @@ const en: Translation = {
             primary: (ref) =>
                 Explanation.as(
                     ref,
-                    ' depends on itself, so it cannot be evaluated'
+                    WRITE_DOC + ' depends on itself, so it cannot be evaluated'
                 ),
         },
         DisallowedInputs: {
             primary:
+                WRITE_DOC +
                 'inputs on interfaces not allowed because one or more of its functions are unimplemented',
         },
         DuplicateName: {
             primary: (name) =>
                 Explanation.as(
                     name,
-                    ' is already defined, which might intend to refer to the other bind with the same name'
+                    WRITE_DOC +
+                        ' is already defined, which might intend to refer to the other bind with the same name'
                 ),
             secondary: (name) =>
                 Explanation.as('this is overwritten by ', name),
@@ -1490,78 +1534,87 @@ const en: Translation = {
         DuplicateShare: {
             primary: (bind) =>
                 Explanation.as(
-                    'has the same name as ',
+                    WRITE_DOC + 'has the same name as ',
                     bind,
                     ', which makes what is shared ambiguous'
                 ),
             secondary: (bind) =>
                 Explanation.as(
-                    'has the same name as ',
+                    WRITE_DOC + 'has the same name as ',
                     bind,
                     ', which makes what is shared ambiguous'
                 ),
         },
         DuplicateTypeVariable: {
             primary: (dupe) =>
-                Explanation.as('this has the same name as ', dupe),
+                Explanation.as(WRITE_DOC + 'this has the same name as ', dupe),
             secondary: (dupe) =>
                 Explanation.as('this has the same name as ', dupe),
         },
         ExpectedBooleanCondition: {
             primary: (type: NodeLink) =>
                 Explanation.as(
-                    'expected boolean condition but received ',
+                    WRITE_DOC + 'expected boolean condition but received ',
                     type
                 ),
         },
         ExpectedColumnType: {
             primary: (bind) =>
                 Explanation.as(
-                    'this table column ',
+                    WRITE_DOC + 'this table column ',
                     bind,
                     ' has no type, but all columns require one'
                 ),
         },
         ExpectedEndingExpression: {
             primary:
+                WRITE_DOC +
                 'blocks require at least one expression so that they evaluate to something',
         },
         ExpectedSelectName: {
             primary: (cell) =>
                 Explanation.as(
                     cell,
-                    ' has no name; selects require column names to know what columns to return'
+                    WRITE_DOC +
+                        ' has no name; selects require column names to know what columns to return'
                 ),
         },
         ExpectedUpdateBind: {
             primary: (cell) =>
                 Explanation.as(
+                    WRITE_DOC,
                     cell,
                     ' has value; updates require a value for each column specified to know what value to set'
                 ),
         },
         IgnoredExpression: {
             primary:
+                WRITE_DOC +
                 'this expression is not used; it will not affect the value of anything',
         },
         IncompleteImplementation: {
-            primary: `structures must either be fully implemented or not implemented; this has a mixture`,
+            primary:
+                WRITE_DOC +
+                `structures must either be fully implemented or not implemented; this has a mixture`,
         },
         IncompatibleBind: {
             primary: (expected) =>
-                Explanation.as(`Hey, I'm supposed to get a `, expected),
+                Explanation.as(
+                    WRITE_DOC + `Hey, I'm supposed to get a `,
+                    expected
+                ),
             secondary: (given) =>
                 Explanation.as(`You're supposed to get a `, given),
         },
         IncompatibleCellType: {
             primary: (expected) =>
-                Explanation.as('expected column type ', expected),
+                Explanation.as(WRITE_DOC + 'expected column type ', expected),
             secondary: (given) => Explanation.as('given ', given),
         },
         IncompatibleInput: {
             primary: (given) =>
                 Explanation.as(
-                    `I thought you were supposed to take a `,
+                    WRITE_DOC + `I thought you were supposed to take a `,
                     given,
                     '?'
                 ),
@@ -1570,39 +1623,49 @@ const en: Translation = {
         },
         IncompatibleKey: {
             primary: (expected) =>
-                Explanation.as('expected ', expected, ' key '),
+                Explanation.as(WRITE_DOC + 'expected ', expected, ' key '),
             secondary: (given) => Explanation.as('given ', given),
         },
         ImpossibleType: {
-            primary: 'this can never be this type',
+            primary: WRITE_DOC + 'this can never be this type',
         },
         InvalidLanguage: {
-            primary: `this is not a valid language code`,
+            primary: WRITE_DOC + `this is not a valid language code`,
         },
         InvalidRow: {
-            primary: `row is missing one or more required columns`,
+            primary: WRITE_DOC + `row is missing one or more required columns`,
         },
         InvalidTypeInput: {
             primary: (def) =>
-                Explanation.as(def, ` does not expect this type input`),
+                Explanation.as(
+                    WRITE_DOC,
+                    def,
+                    ` does not expect this type input`
+                ),
             secondary: (type) =>
                 Explanation.as('this definition does expect type ', type),
         },
         MisplacedConversion: {
-            primary: `conversions only allowed in structure definitions`,
+            primary:
+                WRITE_DOC + `conversions only allowed in structure definitions`,
         },
         MisplacedInput: {
-            primary: `this input is out of the expected order`,
+            primary: WRITE_DOC + `this input is out of the expected order`,
         },
         MisplacedShare: {
-            primary: `shares only allowed at top level of program`,
+            primary: WRITE_DOC + `shares only allowed at top level of program`,
         },
         MisplacedThis: {
-            primary: `${PROPERTY_SYMBOL} only allowed in structure definition, conversion definition, or reaction`,
+            primary:
+                WRITE_DOC +
+                `${PROPERTY_SYMBOL} only allowed in structure definition, conversion definition, or reaction`,
         },
         MissingCell: {
             primary: (column) =>
-                Explanation.as(`this row is missing column`, column),
+                Explanation.as(
+                    WRITE_DOC + `this row is missing column`,
+                    column
+                ),
             secondary: (row) =>
                 Explanation.as(
                     `this column is required, but `,
@@ -1613,7 +1676,7 @@ const en: Translation = {
         MissingInput: {
             primary: (input) =>
                 Explanation.as(
-                    'expected input ',
+                    WRITE_DOC + 'expected input ',
                     input,
                     ' but did not receive it'
                 ),
@@ -1626,22 +1689,30 @@ const en: Translation = {
         },
         MissingLanguage: {
             primary:
+                WRITE_DOC +
                 'no language was provided, but there was a slash suggesting one would be',
         },
         MissingShareLanguages: {
             primary:
+                WRITE_DOC +
                 'shared bindings must specify language so others know what languages are supported',
         },
         NoExpression: {
-            primary: `functions require an expression, but none was provided for this one`,
+            primary:
+                WRITE_DOC +
+                `functions require an expression, but none was provided for this one`,
         },
         NonBooleanQuery: {
             primary: (type) =>
-                Explanation.as('queries must be boolean, but this is a ', type),
+                Explanation.as(
+                    WRITE_DOC + 'queries must be boolean, but this is a ',
+                    type
+                ),
         },
         NotAFunction: {
             primary: (name, type) =>
                 Explanation.as(
+                    WRITE_DOC,
                     name ? name : 'this',
                     ' is not a function ',
                     type ? ' in ' : ' in scope',
@@ -1650,66 +1721,99 @@ const en: Translation = {
         },
         NotAList: {
             primary: (type) =>
-                Explanation.as('expected a list, this is a ', type),
+                Explanation.as(WRITE_DOC, 'expected a list, this is a ', type),
         },
         NotAListIndex: {
             primary: (type) =>
-                Explanation.as('expected number, this is a ', type),
+                Explanation.as(WRITE_DOC, 'expected number, this is a ', type),
         },
         NotAMap: {
             primary:
+                WRITE_DOC +
                 'this expression is not allowed in a map, only key/value pairs are allowed',
             secondary: (expr) => Explanation.as('this map has a ', expr),
         },
         NotANumber: {
-            primary: "this number isn't formatted correctly",
+            primary: WRITE_DOC + "this number isn't formatted correctly",
         },
         NotAnInterface: {
             primary:
+                WRITE_DOC +
                 'this is not an interface; structures can only implement interfaces, not other structures',
         },
         NotASetOrMap: {
             primary: (type) =>
-                Explanation.as('expected set or map, but this is a ', type),
+                Explanation.as(
+                    WRITE_DOC,
+                    'expected set or map, but this is a ',
+                    type
+                ),
         },
         NotAStream: {
             primary: (type) =>
-                Explanation.as('expected stream, but this is a ', type),
+                Explanation.as(
+                    WRITE_DOC,
+                    'expected stream, but this is a ',
+                    type
+                ),
         },
         NotAStreamIndex: {
             primary: (type) =>
-                Explanation.as('expected a number, but this is a ', type),
+                Explanation.as(
+                    WRITE_DOC,
+                    'expected a number, but this is a ',
+                    type
+                ),
         },
         NotATable: {
             primary: (type) =>
-                Explanation.as('expected a table, but this is a ', type),
+                Explanation.as(
+                    WRITE_DOC,
+                    'expected a table, but this is a ',
+                    type
+                ),
         },
         NotInstantiable: {
             primary:
+                WRITE_DOC +
                 'cannot make this structure because it refers to an interface',
         },
         OrderOfOperations: {
             primary:
+                WRITE_DOC +
                 'operators evalute left to right, unlike math; use parentheses to specify order of evaluation',
         },
         Placeholder: {
             primary:
+                WRITE_DOC +
                 'this is unimplemented, so the program will stop if evaluated',
         },
         RequiredAfterOptional: {
-            primary: 'required inputs cannot come after optional ones',
+            primary:
+                WRITE_DOC + 'required inputs cannot come after optional ones',
         },
         UnclosedDelimiter: {
             primary: (token, expected) =>
-                Explanation.as('expected ', expected, ' to match ', token),
+                Explanation.as(
+                    WRITE_DOC,
+                    'expected ',
+                    expected,
+                    ' to match ',
+                    token
+                ),
         },
         UnexpectedEtc: {
             primary:
+                WRITE_DOC +
                 'variable length inputs can only appear on function evaluations',
         },
         UnexpectedInput: {
             primary: (evaluation) =>
-                Explanation.as('this input is not specified on ', evaluation),
+                Explanation.as(
+                    WRITE_DOC,
+                    'this input is not specified on ',
+                    evaluation
+                ),
             secondary: (input) =>
                 Explanation.as('this function does not expect this ', input),
         },
@@ -1719,6 +1823,7 @@ const en: Translation = {
         UnimplementedInterface: {
             primary: (inter, fun) =>
                 Explanation.as(
+                    WRITE_DOC,
                     'this structure implements ',
                     inter,
                     ' but does not implement ',
@@ -1726,21 +1831,28 @@ const en: Translation = {
                 ),
         },
         UnknownBorrow: {
-            primary: 'unknown source and name',
+            primary: WRITE_DOC + 'unknown source and name',
         },
         UnknownColumn: {
-            primary: 'unknown column in table',
+            primary: WRITE_DOC + 'unknown column in table',
         },
         UnknownConversion: {
             primary: (from, to) =>
-                Explanation.as('no conversion from ', from, ' to ', to),
+                Explanation.as(
+                    WRITE_DOC,
+                    'no conversion from ',
+                    from,
+                    ' to ',
+                    to
+                ),
         },
         UnknownInput: {
-            primary: 'no input by this name',
+            primary: WRITE_DOC + 'no input by this name',
         },
         UnknownName: {
             primary: (name, type) =>
                 Explanation.as(
+                    WRITE_DOC,
                     `We aren't bound to anything in `,
                     type ? type : ' this @Block'
                 ),
@@ -1748,17 +1860,18 @@ const en: Translation = {
         InvalidTypeName: {
             primary: (type) =>
                 Explanation.as(
+                    WRITE_DOC,
                     'type names can only refer to structures or type variables, but this refers to a ',
                     type
                 ),
         },
         Unnamed: {
-            primary: 'missing name',
+            primary: WRITE_DOC + 'missing name',
         },
         UnparsableConflict: {
             primary: (expression) =>
                 expression
-                    ? 'expected expression, but could not parse one'
+                    ? WRITE_DOC + 'expected expression, but could not parse one'
                     : 'expected type, but could not parse one',
         },
         UnusedBind: {
