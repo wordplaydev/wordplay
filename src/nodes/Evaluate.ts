@@ -789,8 +789,7 @@ export default class Evaluate extends Expression {
         return (
             this.getFunction(context)
                 ?.docs?.getTranslation([translation.language])
-                ?.getFirstParagraph() ??
-            translation.nodes.UnaryOperation.description
+                ?.getFirstParagraph() ?? translation.nodes.Evaluate.description
         );
     }
 

@@ -240,15 +240,44 @@ const en: Translation = {
             doc: WRITE_DOC + `a program that illustrates how to use some code`,
         },
         BinaryOperation: {
-            description: 'binary operation',
-            emotion: Emotion.TBD,
-            doc:
-                WRITE_DOC +
-                "Binary operations compute a left and right value and then compute the function indicated by the operator in the middle. The operator name must exist on the left value's type. This syntax is really just a special form of an Evaluate",
+            description: 'binary operator',
+            emotion: Emotion.Arrogant,
+            doc: `Yo. You need me?
+                I'm not suprised, I'm pretty bad ass.
+                @Evaluate is nice, but I am *nicer*.
+                Give me a left and right value?
+                I can do all kinds of things.
+                Whatever functions the left value has.
+                And I can do it with out all of those annoying parentheses.
+
+                Check this out.
+
+                (1 + 1)
+                (1 > 1)
+                (1 - 1)
+                (1 = 1)
+
+                Did you see that? 
+                No parentheses, just a tight little operator in the middle.
+                *Sleek*.
+
+                Okay, yeah, I can get ahead of myself.
+                I only do left to right.
+                I have no idea what "order of operations" is.
+                You *might* have to wrap some parentheses around me
+                to get what you want.
+                But otherwise?
+                *Streamlined*.
+                `,
             right: 'input',
-            start: (left) => Explanation.as('evaluating ', left, ' first'),
+            start: (left) =>
+                Explanation.as('left first! ', left, ', then right!'),
             finish: (result) =>
-                Explanation.as('evaluated to ', result ?? ' nothing'),
+                Explanation.as(
+                    'your value, ',
+                    result ?? ' nothing',
+                    ', *slick*'
+                ),
         },
         Bind: {
             description: 'bind',
@@ -499,7 +528,7 @@ const en: Translation = {
             start: 'evaluate the documented expression',
         },
         Evaluate: {
-            description: 'evaluate a function',
+            description: 'evaluate',
             emotion: Emotion.Cheerful,
             doc: `
             OMG I am sooo excited to *evaluate functions*. 
@@ -513,6 +542,13 @@ const en: Translation = {
             We're kind of a big deal.
             I mean, I couldn't do it without everyone else, but I'm pretty proud of making all of our
             performances possible.
+
+            @BinaryOperation and @UnaryOperation?
+            Yeah, I know them.
+            They're cool.
+            I mean, they do what I do, and I guess they're a little more compact.
+            But they're baaaaasically copying me.
+            Sometimes I think they're just trying to look cool.
             `,
             start: (inputs) =>
                 inputs
@@ -804,12 +840,32 @@ const en: Translation = {
                 Explanation.as('evaluated to ', value ?? 'nothing'),
         },
         UnaryOperation: {
-            description: 'evaluate function ',
-            emotion: Emotion.TBD,
-            doc: WRITE_DOC,
-            start: (value) => Explanation.as('evaluate the ', value),
-            finish: (value) =>
-                Explanation.as('evaluated to ', value ?? 'nothing'),
+            description: 'unary operator',
+            emotion: Emotion.Insecure,
+            doc: `
+            Hi.
+
+            Oh, did you need me?
+            Have you talked to @Evaluate or @BinaryOperation?
+            They are way cooler than me.
+
+            Yes?
+            You still need me?
+            I can only do two little things:
+
+            (-5)
+
+            I made that (5) into (-5).
+
+            (~⊥)
+
+            I made that (⊥) into (⊤).
+
+            That's it.
+            I'm not very special.
+            `,
+            start: (value) => Explanation.as('what are you ', value),
+            finish: (value) => Explanation.as('I made it ', value ?? 'nothing'),
         },
         UnparsableExpression: {
             description: 'unparsable',
