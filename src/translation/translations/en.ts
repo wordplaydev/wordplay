@@ -1548,8 +1548,10 @@ const en: Translation = {
             primary: `structures must either be fully implemented or not implemented; this has a mixture`,
         },
         IncompatibleBind: {
-            primary: (expected) => Explanation.as('expected ', expected),
-            secondary: (given) => Explanation.as('given ', given),
+            primary: (expected) =>
+                Explanation.as(`Hey, I'm supposed to get a `, expected),
+            secondary: (given) =>
+                Explanation.as(`You're supposed to get a `, given),
         },
         IncompatibleCellType: {
             primary: (expected) =>
@@ -1557,9 +1559,14 @@ const en: Translation = {
             secondary: (given) => Explanation.as('given ', given),
         },
         IncompatibleInput: {
-            primary: (expected) =>
-                Explanation.as('expected ', expected, ' input'),
-            secondary: (given) => Explanation.as('given ', given),
+            primary: (given) =>
+                Explanation.as(
+                    `I thought you were supposed to take a `,
+                    given,
+                    '?'
+                ),
+            secondary: (expected) =>
+                Explanation.as(`Hey, I'm supposed to get a `, expected, '!'),
         },
         IncompatibleKey: {
             primary: (expected) =>
@@ -1755,7 +1762,7 @@ const en: Translation = {
                     : 'expected type, but could not parse one',
         },
         UnusedBind: {
-            primary: 'this name is unused',
+            primary: `Hey, can I help? No one is saying my name :(`,
         },
         InputListMustBeLast: {
             primary: 'list of inputs must be last',

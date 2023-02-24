@@ -7,8 +7,8 @@ import TokenType from './TokenType';
 import NameToken from './NameToken';
 import Language from './Language';
 import type Translation from '@translation/Translation';
-import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
+import Emotion from '../lore/Emotion';
 
 export default class Names extends Node {
     readonly names: Name[];
@@ -140,6 +140,9 @@ export default class Names extends Node {
     }
 
     getGlyphs() {
-        return Glyphs.Name;
+        return {
+            symbols: this.getNames()[0],
+            emotion: Emotion.Kind,
+        };
     }
 }
