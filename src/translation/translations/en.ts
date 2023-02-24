@@ -316,16 +316,73 @@ const en: Translation = {
         },
         Block: {
             description: 'block',
-            emotion: Emotion.TBD,
-            doc:
-                WRITE_DOC +
-                `Name a series of values to evaluate a complex expression.
-            
-            Blocks usually are a series of bindings, culminating in an expression that produces a block's final value. They are a way to compute complex values without having to write one large complex expression.`,
+            emotion: Emotion.Grumpy,
+            doc: `Have you met my friend @Bind?
+                I think you'd know if you had.
+                Sometimes they are so annoying.
+                They're always like 'name this', 'name that'
+                We work together a lot, because my job is to make a
+                space to temporarily name complicated things.
+                @Bind names them, and I keep track of all the names
+                and evaluate to whatever value was last.
+                And that makes your job as director easier, right?
+                So you can calculate things?
+
+                Well @Bind does *not* make my job easier!
+                This happened last week:
+
+                (
+                    (
+                    a: 1
+                    b: 2
+                    c: 3
+                    d: 4
+                    e: 5
+                    f: 6
+                    g: 7
+                    h: 8
+                    i: 9
+                    j: 10
+                    k: 11
+                    l: 12
+                    m: 13
+                    n: 14
+                    o: 15
+                    p: 16
+                    q: 17
+                    r: 18
+                    s: 19
+                    t: 20
+                    u: 21
+                    v: 22
+                    w: 23
+                    x: 24
+                    y: 25
+                    z: 26
+                    )
+                )
+
+                @Bind just went on and on and on, spelling out the whole alphabet and numbering
+                them and I was just like "*Can you just give me 26? You didn't even use any of those names. I could have just passed on 26 and we would have been done.*" 
+                Why do you have to name them all?
+
+                This is is why I like working with @FunctionDefinition.
+                They put @Bind up there with all the @Name
+                I can just focus on my business.
+                Of course, @Bind always shows up there too.
+
+                Okay, I think I'm done venting.
+                I really do like @Bind.
+                They are my friend.
+                Their love of names is cute sometimes.
+                Sometimes I just need some quiet.`,
             statement: 'statement',
-            start: 'start evaluating the statements',
+            start: `Here we go with @Bind again, getting all excited about naming things`,
             finish: (value) =>
-                Explanation.as('block evaluated to ', value ?? 'nothing'),
+                Explanation.as(
+                    `Finally done. The last thing I got was `,
+                    value ?? 'nothing'
+                ),
         },
         BooleanLiteral: {
             description: (literal) => (literal.bool() ? 'true' : 'false'),
@@ -1614,7 +1671,7 @@ const en: Translation = {
         IncompatibleInput: {
             primary: (given) =>
                 Explanation.as(
-                    WRITE_DOC + `I thought you were supposed to take a `,
+                    `I thought you were supposed to take a `,
                     given,
                     '?'
                 ),

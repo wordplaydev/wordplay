@@ -291,6 +291,6 @@ export default class Block extends Expression {
     }
 
     getGlyphs() {
-        return Glyphs.Evaluate;
+        return Glyphs.Block;
     }
 }
