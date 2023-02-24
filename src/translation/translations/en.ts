@@ -386,9 +386,21 @@ const en: Translation = {
         },
         BooleanLiteral: {
             description: (literal) => (literal.bool() ? 'true' : 'false'),
-            emotion: Emotion.TBD,
-            doc: WRITE_DOC + `A single true or false value.`,
-            start: (value) => Explanation.as('create a ', value),
+            emotion: Emotion.Obsessed,
+            doc: `
+                Zero. One. Yes. No. True. False. 
+                There are only two. 
+                True ways and false ways. 
+                Yes ways and no ways. 
+                Zero ways and one ways. 
+                (${TRUE_SYMBOL}) and (${FALSE_SYMBOL}) ways.
+                
+                But which is right?
+                Which is left?
+                What do they mean?
+                Perhaps @Conditional knows.
+                `,
+            start: (value) => Explanation.as(value, '!'),
         },
         Borrow: {
             description: 'borrow',
@@ -433,12 +445,13 @@ const en: Translation = {
             Sometimes I feel a lot of pressure to decide, since I'm the only one in this world who gets to decide.
             
             I get overwhelmed, and so I've tried to simplify things. 
-            First, I only ever consider two options: (${TRUE_SYMBOL}) and (${FALSE_SYMBOL}).
+            @BooleanLiteral helps see that I could reduce everything to just two options: (${TRUE_SYMBOL}) and (${FALSE_SYMBOL}).
             If it's (${TRUE_SYMBOL}), then I evaluate my *yes* code. If it's (${FALSE_SYMBOL}), then I evaluate my *no* code.
 
-            I know that decisions are rarely this simple, but breaking down the world into these binaries makes things easier for me.
-            Yes, no, if, else, this, that.
+            I know that decisions are rarely this simple, but breaking down the world into these two options makes things easier for me.
             It's my little way of keeping things organized, even in the face of so much complexity.
+            Yes, no, if, else, this, that.
+            Hm, I'm starting to sound like @BooleanLiteral...
             `,
             start: (condition) =>
                 Explanation.as(

@@ -24,6 +24,7 @@ enum Emotion {
     Curious = 'curious',
     Serious = 'serious',
     Eager = 'eager',
+    Obsessed = 'obsessed',
 }
 
 export default Emotion;

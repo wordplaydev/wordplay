@@ -97,6 +97,6 @@ export default class BooleanLiteral extends Literal {
     }
 
     getGlyphs() {
-        return Glyphs.Bool;
+        return Glyphs.BooleanLiteral;
     }
 }

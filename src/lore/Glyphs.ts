@@ -11,6 +11,7 @@ import {
     EVAL_OPEN_SYMBOL,
     EXCEPTION_SYMBOL,
     EXPONENT_SYMBOL,
+    FALSE_SYMBOL,
     FUNCTION_SYMBOL,
     INITIAL_SYMBOL,
     LANGUAGE_SYMBOL,
@@ -33,6 +34,7 @@ import {
     SUM_SYMBOL,
     TABLE_CLOSE_SYMBOL,
     TABLE_OPEN_SYMBOL,
+    TRUE_SYMBOL,
     TYPE_CLOSE_SYMBOL,
     TYPE_OPEN_SYMBOL,
     TYPE_SYMBOL,
@@ -105,6 +107,9 @@ const GlyphSet = {
     },
     Bool: {
         symbols: QUESTION_SYMBOL,
+    },
+    BooleanLiteral: {
+        symbols: TRUE_SYMBOL + FALSE_SYMBOL,
     },
     None: {
         symbols: NONE_SYMBOL,
