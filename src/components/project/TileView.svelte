@@ -18,8 +18,10 @@
     import type { Arrangement } from './Layout';
     import type Tile from './Tile';
     import { Mode } from './Tile';
+    import type Layout from './Layout';
 
     export let tile: Tile;
+    export let layout: Layout;
     export let arrangement: Arrangement;
     export let dragging: boolean;
     export let fullscreenID: string | undefined;
@@ -181,7 +183,7 @@
         <Button
             tip={$preferredTranslations[0].ui.tooltip.collapse}
             action={() => dispatch('mode', { mode: Mode.Collapsed })}
-            >&ndash;</Button
+            enabled={!layout.isFullscreen()}>&ndash;</Button
         >
         <Button
             tip={$preferredTranslations[0].ui.tooltip.fullscreen}

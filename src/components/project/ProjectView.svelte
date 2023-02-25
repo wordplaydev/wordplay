@@ -597,6 +597,7 @@
                 {#if tile.mode === Mode.Expanded && (layout.fullscreenID === undefined || layout.fullscreenID === tile.id)}
                     <TileView
                         {tile}
+                        {layout}
                         arrangement={layout.arrangement}
                         background={tile.kind === Content.Output
                             ? outputBackground
