@@ -9,7 +9,6 @@
     } from '@translation/translations';
     import { getLanguageName } from '@translation/LanguageCode';
     import LanguageChooser from '../project/LanguageChooser.svelte';
-    import LayoutChooser from '../project/LayoutChooser.svelte';
     import Button from '../widgets/Button.svelte';
 
     // let style: LanguageStyle;
@@ -48,7 +47,6 @@
             {/each}
         </select> -->
             <LanguageChooser />
-            <LayoutChooser />
         </div>
     {:else}
         <Button

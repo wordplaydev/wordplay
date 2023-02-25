@@ -43,6 +43,7 @@
         display: flex;
         flex-direction: row;
         gap: var(--wordplay-spacing);
+        font-size: 50%;
     }
 
     .layout,

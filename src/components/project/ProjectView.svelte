@@ -53,6 +53,7 @@
     import ConceptIndex from '../../concepts/ConceptIndex';
     import KeyboardIdle from '../editor/util/KeyboardIdle';
     import type Concept from '../../concepts/Concept';
+    import LayoutChooser from './LayoutChooser.svelte';
 
     export let project: Project;
 
@@ -712,6 +713,7 @@
                         ))}
                     >{#if layout.arrangement === Arrangement.vertical}↕️{:else if layout.arrangement === Arrangement.horizontal}↔️{:else if layout.arrangement === Arrangement.free}█{/if}</Button
                 >
+                <LayoutChooser />
                 <Language />
                 <Button
                     tip={$preferredTranslations[0].ui.tooltip.close}
