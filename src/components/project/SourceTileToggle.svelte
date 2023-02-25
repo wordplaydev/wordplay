@@ -57,7 +57,13 @@
         >{/if}
     {#if output}
         <div class="output">
-            <OutputView {project} {source} {latest} mode="mini" />
+            <OutputView
+                {project}
+                {source}
+                {latest}
+                fullscreen={false}
+                mode="mini"
+            />
         </div>
     {/if}
 </div>

@@ -43,6 +43,7 @@
                             project={preview[0]}
                             source={preview[0].main}
                             latest={preview[1]}
+                            fullscreen={false}
                             fit={true}
                             grid={false}
                             mode="mini"
