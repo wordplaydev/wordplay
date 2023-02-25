@@ -72,9 +72,11 @@
     on:outclick={() => (collapsed = true)}
     on:keydown={(event) =>
         event.key === 'Escape' ? (collapsed = true) : undefined}
+    tabIndex="0"
+    bind:this={element}
 >
     {#if !collapsed}
-        <div class="language-preferences" bind:this={element} tabIndex="0">
+        <div class="language-preferences">
             <div class="languages">
                 {#each languageChoices as lang}
                     {@const supported = supportedLanguages.includes(lang)}
@@ -111,6 +113,10 @@
 </div>
 
 <style>
+    .settings {
+        outline-offset: calc(-1 * var(--wordplay-focus-width));
+    }
+
     .settings.expanded {
         position: fixed;
         bottom: 0;
@@ -122,7 +128,7 @@
         background: var(--wordplay-background);
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
         z-index: 3;
-        padding: var(--wordplay-focus-width);
+        padding: var(--wordplay-spacing);
     }
 
     .language-preferences {
