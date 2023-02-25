@@ -657,6 +657,7 @@
                                     {project}
                                     source={project.main}
                                     {latest}
+                                    fullscreen={layout.fullscreenID === tile.id}
                                     bind:fit
                                     bind:grid
                                     mode={'peripheral'}

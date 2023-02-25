@@ -37,6 +37,7 @@
 
     export let project: Project;
     export let verse: Verse;
+    export let fullscreen: boolean;
     export let interactive: boolean;
     export let editable: boolean;
     export let fit: boolean;
@@ -483,7 +484,7 @@
         on:mousedown={(event) => (interactive ? handleMouseDown(event) : null)}
         on:mouseup={interactive ? handleMouseUp : null}
         on:mousemove={interactive ? handleMouseMove : null}
-        on:dblclick={interactive ? handleDoubleclick : null}
+        on:dblclick={interactive && !fullscreen ? handleDoubleclick : null}
         on:keydown={interactive ? handleKeyDown : null}
         on:keyup={interactive ? handleKeyUp : null}
         on:wheel={interactive ? handleWheel : null}
