@@ -20,20 +20,6 @@ export const preferredLanguages: Writable<LanguageCode[]> = writable(['en']);
 export const writingLayout: Writable<WritingLayout> = writable('horizontal-tb');
 export const writingDirection: Writable<WritingDirection> = writable('ltr');
 
-export type LanguageStyle = 'cs' | 'wp';
-
-export const styleDescriptions: Record<LanguageStyle, string> = {
-    wp: 'wordplay',
-    cs: 'CS',
-};
-
-export function getStyleDescription(style: LanguageStyle) {
-    return styleDescriptions[style];
-}
-
-/** An app-wide setting of writing style. */
-export const preferredStyle: Writable<LanguageStyle> = writable('wp');
-
 /** A list of translations officially supported by Wordplay. */
 const SupportedTranslations: Translation[] = [eng, spa];
 
@@ -45,27 +31,19 @@ export type MissingTranslation = LanguageCode;
  * is available.
  */
 export const preferredTranslations: Readable<Translation[]> = derived(
-    [preferredLanguages, preferredStyle],
+    [preferredLanguages],
     () => {
         // Map preferrred languages into translations,
         // filtering out missing translations, and
         // choosing preferred style of translations of the same language.
         const languages = get(preferredLanguages);
-        const style = get(preferredStyle);
 
         const translations: Translation[] = languages
             .map((lang) => {
                 const translationsInLanguage = SupportedTranslations.filter(
                     (translation) => translation.language === lang
                 );
-                const translationInStyle = translationsInLanguage.filter(
-                    (trans) => trans.style == style
-                );
-                return (
-                    translationInStyle[0] ??
-                    translationsInLanguage[0] ??
-                    undefined
-                );
+                return translationsInLanguage[0] ?? undefined;
             })
             .filter((trans): trans is Translation => trans !== undefined);
 
@@ -74,7 +52,7 @@ export const preferredTranslations: Readable<Translation[]> = derived(
 );
 
 export const missingTranslations: Readable<LanguageCode[]> = derived(
-    [preferredLanguages, preferredStyle],
+    [preferredLanguages],
     () => {
         return get(preferredLanguages).filter(
             (lang) =>

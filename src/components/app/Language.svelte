@@ -3,22 +3,14 @@
 <script lang="ts">
     import {
         preferredLanguages,
-        // preferredStyle,
         preferredTranslations,
-        // type LanguageStyle,
     } from '@translation/translations';
     import { getLanguageName } from '@translation/LanguageCode';
     import LanguageChooser from '../project/LanguageChooser.svelte';
     import Button from '../widgets/Button.svelte';
 
-    // let style: LanguageStyle;
-
     let collapsed = true;
     let element: HTMLElement;
-
-    // function changeStyle() {
-    //     preferredStyle.set(style);
-    // }
 
     function toggle() {
         collapsed = !collapsed;
@@ -34,18 +26,6 @@
 >
     {#if !collapsed}
         <div class="language-preferences" bind:this={element} tabIndex="0">
-            <!-- <label for="style">style</label> -->
-            <!-- Disabled while we decide whether to keep this feature. -->
-            <!-- <select
-            style="display:none"
-            id="style"
-            bind:value={style}
-            on:change={changeStyle}
-        >
-            {#each Object.entries(styleDescriptions) as [style, description]}
-                <option value={style}>{description}</option>
-            {/each}
-        </select> -->
             <LanguageChooser />
         </div>
     {:else}
@@ -57,9 +37,6 @@
                 {#each $preferredLanguages as lang, index}{#if index > 0}+{/if}<span
                         class="language">{getLanguageName(lang)}</span
                     >{/each}
-                <!-- {#if $preferredStyle === 'cs'}<small
-                    ><em>{styleDescriptions['cs']}</em></small
-                >{/if} -->
             </span>
         </Button>
     {/if}

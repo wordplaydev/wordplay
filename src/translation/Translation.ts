@@ -20,7 +20,6 @@ import type UnknownNameType from '@nodes/UnknownNameType';
 import type NodeLink from './NodeLink';
 import type Explanation from './Explanation';
 import type ValueLink from './ValueLink';
-import type { LanguageStyle } from './translations';
 import type BooleanLiteral from '@nodes/BooleanLiteral';
 import type ListLiteral from '@nodes/ListLiteral';
 import type StreamDefinitionType from '../nodes/StreamDefinitionType';
@@ -101,7 +100,6 @@ export function getFirstName(name: NameTranslation) {
  **/
 type Translation = {
     language: LanguageCode;
-    style: LanguageStyle;
     welcome: string;
     terminology: {
         store: string;
