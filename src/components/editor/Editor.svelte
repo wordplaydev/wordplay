@@ -112,7 +112,7 @@
     $: {
         $currentStepIndex;
         $currentStep;
-        $playing;
+        stepping = !$playing;
         evalUpdate();
     }
 
@@ -1170,8 +1170,7 @@
 <svelte:window on:blur={handleRelease} />
 
 <div
-    class="editor"
-    class:stepping
+    class="editor {stepping ? 'stepping' : 'playing'}"
     style:direction={$writingDirection}
     style:writing-mode={$writingLayout}
     data-id={source.id}
@@ -1234,6 +1233,10 @@
         padding: calc(2 * var(--wordplay-spacing));
         min-height: 100%;
         min-width: 100%;
+    }
+
+    .stepping {
+        background: var(--wordplay-chrome);
     }
 
     .keyboard-input {

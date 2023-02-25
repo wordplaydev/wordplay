@@ -298,7 +298,7 @@
         position: relative;
         width: 100%;
         height: 100%;
-        margin-top: calc(-1 * (var(--wordplay-spacing) * 3 + 1em));
+        margin-top: calc(-1 * (var(--wordplay-spacing) * 4 + 1em));
     }
 
     .tile:focus-within:after {
