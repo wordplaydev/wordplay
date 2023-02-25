@@ -8,6 +8,8 @@
 
     export let project: Project;
     export let source: Source;
+    export let output: boolean;
+    export let expanded: boolean;
 
     const dispatch = createEventDispatcher();
 
@@ -39,6 +41,7 @@
 
 <div
     class="mini"
+    class:expanded
     tabIndex="0"
     on:click={() => dispatch('toggle')}
     on:keydown={(event) => {
@@ -49,9 +52,11 @@
     {#if primaryCount > 0}<span class="count primary">{primaryCount}</span>{/if}
     {#if secondaryCount > 0}<span class="count secondary">{secondaryCount}</span
         >{/if}
-    <div class="output">
-        <OutputView {project} {source} {latest} mode="mini" />
-    </div>
+    {#if output}
+        <div class="output">
+            <OutputView {project} {source} {latest} mode="mini" />
+        </div>
+    {/if}
 </div>
 
 <style>
@@ -69,6 +74,13 @@
     .mini:focus {
         outline: none;
         color: var(--wordplay-highlight);
+    }
+
+    .expanded .name {
+        padding-right: var(--wordplay-spacing);
+        border-right: var(--wordplay-border-color) solid
+            var(--wordplay-border-width);
+        font-weight: bold;
     }
 
     .count {
@@ -89,8 +101,8 @@
     }
 
     .output {
-        width: 3em;
-        height: 3em;
+        width: 2em;
+        height: 2em;
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
     }
 </style>

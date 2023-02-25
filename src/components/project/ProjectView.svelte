@@ -666,14 +666,20 @@
 
     {#if !layout.isFullscreen()}
         <section class="footer">
-            {#each layout.getSources() as source}
+            {#each layout.getSources() as tile}
+                {@const source = getSourceByID(tile.id)}
+                <!-- Mini source view output is visible when collapsed, or if its main, when output is collapsed. -->
                 <MiniSourceView
                     {project}
-                    source={getSourceByID(source.id)}
+                    {source}
+                    output={source === project.main
+                        ? layout.getOutput()?.mode === Mode.Collapsed
+                        : tile.mode === Mode.Collapsed}
+                    expanded={tile.mode === Mode.Expanded}
                     on:toggle={() =>
                         setMode(
-                            source,
-                            source.mode === Mode.Expanded
+                            tile,
+                            tile.mode === Mode.Expanded
                                 ? Mode.Collapsed
                                 : Mode.Expanded
                         )}
