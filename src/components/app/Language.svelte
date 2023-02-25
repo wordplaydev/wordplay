@@ -79,6 +79,7 @@
         background: var(--wordplay-background);
         padding: var(--wordplay-spacing);
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
+        z-index: 3;
     }
 
     .language-preferences {
