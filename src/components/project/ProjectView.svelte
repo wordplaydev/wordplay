@@ -556,13 +556,13 @@
     }
 
     function toggleTile(tile: Tile) {
-        if (
-            tile === layout.getPalette() &&
-            tile.mode === Mode.Collapsed &&
-            $selectedOutput.length === 0
-        ) {
-            const output = project.getOutput();
-            if (output.length > 0) selectedOutput.set([output[0]]);
+        if (tile === layout.getPalette()) {
+            if (tile.mode === Mode.Collapsed && $selectedOutput.length === 0) {
+                const output = project.getOutput();
+                if (output.length > 0) selectedOutput.set([output[0]]);
+            } else if (tile.mode === Mode.Expanded) {
+                selectedOutput.set([]);
+            }
         }
 
         setMode(
