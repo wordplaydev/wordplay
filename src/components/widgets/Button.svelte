@@ -47,7 +47,7 @@
 
     button:focus:not(:disabled),
     button:hover:not(:disabled) {
-        transform: scale(1.3);
+        transform: scale(1.1);
         outline: none;
         color: var(--wordplay-highlight);
         fill: var(--wordplay-highlight);
