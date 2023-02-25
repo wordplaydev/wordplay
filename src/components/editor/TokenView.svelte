@@ -31,7 +31,7 @@
     $: active =
         $caret?.getTokenExcludingSpace() === node ||
         ($caret?.tokenPrior === node &&
-            $caret.atBeginningOfToken() &&
+            $caret.atBeginningOfTokenSpace() &&
             $caret.token &&
             $caret.tokenAtHasPrecedingSpace());
 

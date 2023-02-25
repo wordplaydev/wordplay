@@ -50,8 +50,15 @@ export default class Caret {
                 : undefined;
     }
 
-    atBeginningOfToken() {
+    atBeginningOfTokenSpace() {
         return this.tokenSpaceIndex === this.position;
+    }
+
+    atTokenStart() {
+        return (
+            this.token &&
+            this.source.getTokenTextPosition(this.token) === this.position
+        );
     }
 
     atTokenEnd() {

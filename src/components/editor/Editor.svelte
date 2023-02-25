@@ -243,18 +243,27 @@
                     conflictSelection === undefined &&
                     typeof $caret.position === 'number'
                 ) {
-                    let tokenAtPosition = source.getTokenAt($caret.position);
-                    let nodesAtPosition =
-                        tokenAtPosition === undefined
-                            ? []
-                            : project
-                                  .get(tokenAtPosition)
-                                  ?.getSelfAndAncestors() ?? [];
-                    let conflictsAtPosition = nodesAtPosition.find((node) =>
-                        project.nodeInvolvedInConflicts(node)
-                    );
+                    // Try the token we're at and the one prior if we're at it's beginning.
+                    let conflictsAtPosition = [
+                        source.getTokenAt($caret.position, false),
+                        $caret.atTokenEnd() ? $caret.tokenPrior : undefined,
+                    ].reduce((conflicted: Node[], token: Node | undefined) => {
+                        let nodesAtPosition =
+                            token === undefined
+                                ? []
+                                : project.get(token)?.getSelfAndAncestors() ??
+                                  [];
+                        let nodesInConflict = nodesAtPosition.find((node) =>
+                            project.nodeInvolvedInConflicts(node)
+                        );
+                        return [
+                            ...conflicted,
+                            ...(nodesInConflict ? [nodesInConflict] : []),
+                        ];
+                    }, []);
+
                     if (conflictsAtPosition !== undefined)
-                        conflictSelection = conflictsAtPosition;
+                        conflictSelection = conflictsAtPosition[0];
                 }
 
                 // If we found a selection, get its conflicts.
