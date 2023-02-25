@@ -54,7 +54,7 @@
             </div>
         {/each}
         <div
-            class="project"
+            class="project add"
             tabIndex="0"
             on:click={newProject}
             on:keydown={(event) =>
@@ -62,10 +62,10 @@
                     ? newProject()
                     : undefined}
         >
-            <div class="add">+</div>
+            <div class="preview" /><div class="name">+</div>
         </div>
-    </div>
-</section>
+    </div></section
+>
 
 <style>
     .chooser {
@@ -93,7 +93,7 @@
         border-radius: var(--wordplay-border-radius);
         cursor: pointer;
         transition: transform 0.25s ease-out;
-        width: 10em;
+        width: 12em;
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -106,16 +106,14 @@
     }
 
     .preview {
-        width: 4em;
-        height: 4em;
+        width: 4rem;
+        height: 4rem;
         overflow: hidden;
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
         border-radius: var(--wordplay-border-radius);
     }
 
-    .add {
-        text-align: center;
+    .add .name {
         font-size: xx-large;
-        width: 1.5em;
     }
 </style>
