@@ -69,6 +69,9 @@
         overflow: hidden;
         cursor: pointer;
         gap: var(--wordplay-spacing);
+        padding-right: var(--wordplay-spacing);
+        border-right: var(--wordplay-border-color) solid
+            var(--wordplay-border-width);
     }
 
     .mini:focus {
@@ -77,9 +80,6 @@
     }
 
     .expanded .name {
-        padding-right: var(--wordplay-spacing);
-        border-right: var(--wordplay-border-color) solid
-            var(--wordplay-border-width);
         font-weight: bold;
     }
 
