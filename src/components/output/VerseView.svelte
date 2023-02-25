@@ -502,6 +502,7 @@
                 root
                 parentAscent={0}
                 {context}
+                {interactive}
             >
                 {#if grid}
                     {@const left = Math.min(
@@ -556,6 +557,7 @@
                             phrase={info.output}
                             place={info.global}
                             focus={offsetFocus}
+                            {interactive}
                             parentAscent={0}
                             {context}
                         />
@@ -565,6 +567,7 @@
                             place={info.global}
                             focus={offsetFocus}
                             parentAscent={0}
+                            {interactive}
                             {context}
                         />
                     {/if}

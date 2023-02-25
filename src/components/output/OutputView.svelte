@@ -34,7 +34,7 @@
 <section
     class={`output ${mode}`}
     class:mode
-    tabIndex="0"
+    tabIndex={mode === 'peripheral' ? 0 : null}
     style:direction={$writingDirection}
     style:writing-mode={$writingLayout}
 >

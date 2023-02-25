@@ -24,6 +24,7 @@
     export let place: Place;
     export let focus: Place;
     export let root: boolean = false;
+    export let interactive: boolean;
     export let parentAscent: number;
     export let context: RenderContext;
 
@@ -146,11 +147,11 @@
     <div
         class="output phrase"
         class:selected
-        tabIndex="0"
+        tabIndex={interactive ? 0 : null}
         data-id={phrase.getHTMLID()}
         data-node-id={phrase.value.creator.id}
-        on:dblclick={$editable ? enter : null}
-        on:keydown={$editable ? move : null}
+        on:dblclick={$editable && interactive ? enter : null}
+        on:keydown={$editable && interactive ? move : null}
         bind:this={view}
         style={outputToCSS(
             context.font,

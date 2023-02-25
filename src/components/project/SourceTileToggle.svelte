@@ -45,7 +45,10 @@
     tabIndex="0"
     on:click={() => dispatch('toggle')}
     on:keydown={(event) => {
-        if (event.key === 'Enter' || event.key === ' ') dispatch('toggle');
+        if (event.key === 'Enter' || event.key === ' ') {
+            dispatch('toggle');
+            event.stopPropagation();
+        }
     }}
 >
     <span class="name">{source.getNames()} </span>

@@ -16,6 +16,7 @@
     export let place: Place;
     export let focus: Place;
     export let root: boolean = false;
+    export let interactive: boolean;
     export let parentAscent: number;
     export let context: RenderContext;
 
@@ -43,7 +44,7 @@
     class="output group {group.constructor.name}"
     class:selected={selected && !root}
     class:root
-    tabIndex={!root ? 0 : null}
+    tabIndex={!root && interactive ? 0 : null}
     data-id={group.getHTMLID()}
     data-node-id={group.value.creator.id}
     style={outputToCSS(
@@ -71,6 +72,7 @@
                     phrase={child}
                     place={childPlace}
                     focus={offsetFocus}
+                    {interactive}
                     parentAscent={root ? 0 : height}
                     {context}
                 />
@@ -80,6 +82,7 @@
                     place={childPlace}
                     focus={offsetFocus}
                     parentAscent={root ? 0 : height}
+                    {interactive}
                     {context}
                 />
             {/if}
