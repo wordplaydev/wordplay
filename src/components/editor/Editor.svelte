@@ -1030,11 +1030,6 @@
                     event.code
                 );
 
-                // Prevent the OS from executing the default behavior for this keystroke.
-                // This is key to preventing the hidden text field intercepting backspaces and arrow key navigation,
-                // which messages with input interception.
-                event.preventDefault();
-
                 // If it produced a new caret and optionally a new project, update the stores.
                 if (result !== undefined) {
                     if (typeof result === 'boolean') {
