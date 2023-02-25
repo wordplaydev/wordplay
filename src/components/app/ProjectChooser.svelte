@@ -24,56 +24,66 @@
     }
 </script>
 
-<section class="projects">
-    {#each examples as example}
-        {@const preview = verses.get(example.name)}
+<section class="chooser">
+    <div class="projects">
+        {#each examples as example}
+            {@const preview = verses.get(example.name)}
+            <div
+                class="project"
+                tabIndex="0"
+                on:click={() => changeProject(example)}
+                on:keydown={(event) =>
+                    event.key === '' || event.key === 'Enter'
+                        ? changeProject(example)
+                        : undefined}
+            >
+                {#if preview}
+                    <div class="preview">
+                        <OutputView
+                            project={preview[0]}
+                            source={preview[0].main}
+                            latest={preview[1]}
+                            fit={true}
+                            grid={false}
+                            mode="mini"
+                        />
+                    </div>
+                {/if}
+                <div class="name">{example.name}</div>
+            </div>
+        {/each}
         <div
             class="project"
             tabIndex="0"
-            on:click={() => changeProject(example)}
+            on:click={newProject}
             on:keydown={(event) =>
                 event.key === '' || event.key === 'Enter'
-                    ? changeProject(example)
+                    ? newProject()
                     : undefined}
         >
-            {#if preview}
-                <div class="preview">
-                    <OutputView
-                        project={preview[0]}
-                        source={preview[0].main}
-                        latest={preview[1]}
-                        fit={true}
-                        grid={false}
-                        mode="mini"
-                    />
-                </div>
-            {/if}
-            <div class="name">{example.name}</div>
+            <div class="add">+</div>
         </div>
-    {/each}
-    <div
-        class="project"
-        tabIndex="0"
-        on:click={newProject}
-        on:keydown={(event) =>
-            event.key === '' || event.key === 'Enter'
-                ? newProject()
-                : undefined}
-    >
-        <div class="add">+</div>
     </div>
 </section>
 
 <style>
-    .projects {
-        padding: var(--wordplay-spacing);
+    .chooser {
+        padding: calc(4 * var(--wordplay-spacing));
         width: 100vw;
         height: 100vh;
 
         display: flex;
-        flex-direction: column;
-        align-items: flex-start;
+        flex-direction: row;
+        align-items: center;
         justify-content: center;
+    }
+
+    .projects {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: flex-start;
     }
 
     .project {
@@ -82,21 +92,21 @@
         border-radius: var(--wordplay-border-radius);
         cursor: pointer;
         transition: transform 0.25s ease-out;
+        width: 10em;
         display: flex;
         flex-direction: row;
         align-items: center;
         gap: var(--wordplay-spacing);
-        margin-left: 40%;
     }
 
     .project:hover,
     .project:focus {
-        transform: scale(1.2);
+        transform: scale(1.05);
     }
 
     .preview {
-        width: 3em;
-        height: 3em;
+        width: 4em;
+        height: 4em;
         overflow: hidden;
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
         border-radius: var(--wordplay-border-radius);
@@ -105,6 +115,6 @@
     .add {
         text-align: center;
         font-size: xx-large;
-        width: 5em;
+        width: 1.5em;
     }
 </style>
