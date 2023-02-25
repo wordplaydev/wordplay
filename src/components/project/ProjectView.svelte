@@ -39,7 +39,7 @@
     import Layout, { Arrangement, DocsID, OutputID, PaletteID } from './Layout';
     import NonSourceTileToggle from './NonSourceTileToggle.svelte';
     import Button from '../widgets/Button.svelte';
-    import Language from '../app/Language.svelte';
+    import LanguageChooser from '../app/LanguageChooser.svelte';
     import Palette from '../palette/Palette.svelte';
     import type Bounds from './Bounds';
     import type Source from '@nodes/Source';
@@ -714,7 +714,7 @@
                     >{#if layout.arrangement === Arrangement.vertical}↕️{:else if layout.arrangement === Arrangement.horizontal}↔️{:else if layout.arrangement === Arrangement.free}█{/if}</Button
                 >
                 <LayoutChooser />
-                <Language />
+                <LanguageChooser />
                 <Button
                     tip={$preferredTranslations[0].ui.tooltip.close}
                     action={() => updateProject(undefined)}>❌</Button

@@ -9,3 +9,9 @@ declare namespace App {
     // interface Session {}
     // interface Stuff {}
 }
+
+declare namespace svelte.JSX {
+    interface HTMLProps<T> {
+        onoutclick?: (e: CustomEvent) => void;
+    }
+}
