@@ -11,5 +11,14 @@
 
 <Button
     tip={`${$preferredTranslations[0].ui.tooltip.expand} ${tile.name}`}
-    action={() => dispatch('toggle')}>{tile.name}</Button
+    action={() => dispatch('toggle')}
+    ><span class="name" class:collapsed={tile.isCollapsed()}>{tile.name}</span
+    ></Button
 >
+
+<style>
+    .collapsed {
+        display: inline-block;
+        transform: scale(1.4);
+    }
+</style>
