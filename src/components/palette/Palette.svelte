@@ -17,7 +17,7 @@
     $: outputs = $selectedOutput
         .map((evaluate) => new OutputExpression(project, evaluate))
         .filter((out) => out.isOutput());
-    $: definition = outputs[0].node.getFunction(
+    $: definition = outputs[0]?.node.getFunction(
         project.getNodeContext(outputs[0].node)
     );
 

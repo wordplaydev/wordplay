@@ -554,6 +554,22 @@
             };
         }
     }
+
+    function toggleTile(tile: Tile) {
+        if (
+            tile === layout.getPalette() &&
+            tile.mode === Mode.Collapsed &&
+            $selectedOutput.length === 0
+        ) {
+            const output = project.getOutput();
+            if (output.length > 0) selectedOutput.set([output[0]]);
+        }
+
+        setMode(
+            tile,
+            tile.mode === Mode.Expanded ? Mode.Collapsed : Mode.Expanded
+        );
+    }
 </script>
 
 <!-- svelte-ignore missing-declaration -->
@@ -678,25 +694,13 @@
                         ? layout.getOutput()?.mode === Mode.Collapsed
                         : tile.mode === Mode.Collapsed}
                     expanded={tile.mode === Mode.Expanded}
-                    on:toggle={() =>
-                        setMode(
-                            tile,
-                            tile.mode === Mode.Expanded
-                                ? Mode.Collapsed
-                                : Mode.Expanded
-                        )}
+                    on:toggle={() => toggleTile(tile)}
                 />
             {/each}
             {#each layout.getNonSources() as tile}
                 <NonSourceTileToggle
                     {tile}
-                    on:toggle={() =>
-                        setMode(
-                            tile,
-                            tile.mode === Mode.Expanded
-                                ? Mode.Collapsed
-                                : Mode.Expanded
-                        )}
+                    on:toggle={() => toggleTile(tile)}
                 />
             {/each}
             <div class="settings">

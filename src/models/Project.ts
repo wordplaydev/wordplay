@@ -20,6 +20,9 @@ import type Bind from '@nodes/Bind';
 import Reference from '@nodes/Reference';
 import type LanguageCode from '@translation/LanguageCode';
 import type StreamDefinition from '@nodes/StreamDefinition';
+import { VerseType } from '../output/Verse';
+import { GroupType } from '../output/Group';
+import { PhraseType } from '../output/Phrase';
 
 type Analysis = {
     conflicts: Conflict[];
@@ -492,5 +495,22 @@ export default class Project {
                 )
             )
         );
+    }
+
+    getOutput() {
+        const evaluates = this.main
+            .nodes()
+            .filter((node): node is Evaluate => node instanceof Evaluate);
+        return [
+            ...evaluates.filter((evaluate) =>
+                evaluate.is(VerseType, this.getNodeContext(evaluate))
+            ),
+            ...evaluates.filter((evaluate) =>
+                evaluate.is(GroupType, this.getNodeContext(evaluate))
+            ),
+            ...evaluates.filter((evaluate) =>
+                evaluate.is(PhraseType, this.getNodeContext(evaluate))
+            ),
+        ];
     }
 }
