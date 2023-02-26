@@ -942,8 +942,6 @@
         // Get the unique valid edits at the caret.
         const transforms = getEditsAt(project, $caret);
 
-        if (transforms.length === 0) return;
-
         // Wait for everything to be rendered so we can get the position of things.
         await tick();
 
@@ -955,8 +953,7 @@
     $: {
         if (
             $playing &&
-            ($caret.isNode() ||
-                $caret.tokenPrior?.is(TokenType.ACCESS) ||
+            ($caret.tokenPrior?.is(TokenType.ACCESS) ||
                 ($caret.tokenPrior !== undefined &&
                     $caret.tokenPrior.is(TokenType.NAME) &&
                     source
@@ -997,7 +994,7 @@
             }
         }
 
-        if ($playing && event.key === 'Escape') {
+        if ($playing && event.key === 'Shift') {
             // If there's no menu showing, show one, then return.
             if (menu === undefined) {
                 showMenu();
@@ -1006,6 +1003,7 @@
             // Rid of the menu.
             else {
                 hideMenu();
+                return;
             }
         }
 
