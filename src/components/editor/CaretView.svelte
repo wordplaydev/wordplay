@@ -39,7 +39,7 @@
     // The index we should render
     let caretIndex: number | undefined = undefined;
 
-    // Whenever the caret changes, update the index we should render.
+    // Whenever the caret changes, update the index we should render and scroll to it.
     $: {
         if (token !== undefined && $caret !== undefined) {
             // Get some of the token's metadata
@@ -69,17 +69,16 @@
                       // If the caret position is on a newline or tab, then it will be negative.
                       $caret.position - textIndex
                     : undefined;
-
-            // Update the caret's location.
-            location = computeLocation();
-
-            // Now that we've rendered the caret, if it's out of the viewport and we're not evaluating, scroll to it.
-            if (element && $playing) scrollToCaret();
         }
+        // Update the caret's location.
+        location = computeLocation();
+        // Now that we've rendered the caret, if it's out of the viewport and we're not evaluating, scroll to it.
+        if (element && $playing) scrollToCaret();
     }
 
     async function scrollToCaret() {
         await tick();
+        console.log('Scrolling');
         if (element) element.scrollIntoView({ block: 'nearest' });
     }
 
@@ -109,27 +108,36 @@
         const viewportXOffset = -viewportRect.left + viewport.scrollLeft;
         const viewportYOffset = -viewportRect.top + viewport.scrollTop;
 
-        // If the caret is a node and it's a placeholder, then position a caret in it's center
-        if (
-            $caret.position instanceof Node &&
-            $caret.position.isPlaceholder()
-        ) {
+        // If the caret is a node...
+        if ($caret.position instanceof Node) {
             const tokenView = editorView.querySelector(
                 `.node-view[data-id="${$caret.position.id}"]`
             );
             if (tokenView === null) return;
             const tokenViewRect = tokenView.getBoundingClientRect();
 
-            return {
-                left: `${
-                    tokenViewRect.left +
-                    viewportXOffset +
-                    tokenViewRect.width / 2
-                }px`,
-                top: `${tokenViewRect.top + viewportYOffset}px`,
-                height: `${tokenViewRect.height}px`,
-                bottom: tokenViewRect.bottom + viewportYOffset,
-            };
+            // ... and it's a placeholder, then position a caret in it's center
+            if ($caret.position.isPlaceholder()) {
+                return {
+                    left: `${
+                        tokenViewRect.left +
+                        viewportXOffset +
+                        tokenViewRect.width / 2
+                    }px`,
+                    top: `${tokenViewRect.top + viewportYOffset}px`,
+                    height: `${tokenViewRect.height}px`,
+                    bottom: tokenViewRect.bottom + viewportYOffset,
+                };
+            }
+            // ... and it's not a placeholder, position (invisible) caret at it's top left
+            // This is for scrolling purposes.
+            else
+                return {
+                    left: `${tokenViewRect.left + viewportXOffset}px`,
+                    top: `${tokenViewRect.top + viewportYOffset}px`,
+                    height: `${tokenViewRect.height}px`,
+                    bottom: tokenViewRect.bottom + viewportYOffset,
+                };
         }
 
         // No token? No caret.
@@ -370,6 +378,10 @@
         position: absolute;
         width: 2px;
         background-color: var(--color-black);
+    }
+
+    .node {
+        visibility: hidden;
     }
 
     .caret.blink {
