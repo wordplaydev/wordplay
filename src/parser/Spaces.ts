@@ -186,6 +186,7 @@ export default class Spaces {
             newSpaces.set(replacementToken, space + (after ?? ''));
             if (replacedToken !== replacementToken)
                 newSpaces.delete(replacedToken);
+
             return new Spaces(this.root, newSpaces);
         }
         // Otherwise, just return the space as is.
@@ -210,17 +211,35 @@ export default class Spaces {
     withPreferredSpace(source: Source) {
         const newSpace = new Spaces(this.root, this.#spaces);
         for (const token of source.getTokens()) {
-            const tree = source.get(token);
-            const currentSpace = newSpace.getSpace(token);
-            const preferred = tree
-                ? Spaces.getPreferredPrecedingSpace(currentSpace, tree)
-                : currentSpace;
             newSpace.#spaces.set(
                 token,
-                currentSpace + this.getAdditionalSpace(token, preferred)
+                this.getPreferredTokenSpace(source, token)
             );
         }
         return newSpace;
+    }
+
+    /** Create a version of this that pretty prints the given node */
+    withPreferredSpaceForNode(source: Source, node: Node) {
+        const newSpace = new Spaces(this.root, this.#spaces);
+        for (const token of node
+            .nodes()
+            .filter((n): n is Token => n instanceof Token)) {
+            newSpace.#spaces.set(
+                token,
+                this.getPreferredTokenSpace(source, token)
+            );
+        }
+        return newSpace;
+    }
+
+    getPreferredTokenSpace(source: Source, token: Token) {
+        const tree = source.get(token);
+        const currentSpace = this.getSpace(token);
+        const preferred = tree
+            ? Spaces.getPreferredPrecedingSpace(currentSpace, tree)
+            : currentSpace;
+        return currentSpace + this.getAdditionalSpace(token, preferred);
     }
 
     replace(existing: Token, replacement: Token) {

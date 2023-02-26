@@ -357,13 +357,25 @@ export default class Source extends Expression {
             (replace.replacement instanceof Node ||
                 replace.replacement === undefined)
         ) {
-            return new Source(this.names, [
+            const newSource = new Source(this.names, [
                 this.replaceChild('expression', this.expression, replace),
                 this.spaces.withReplacement(
                     replace.original,
                     replace.replacement
                 ),
-            ]) as this;
+            ]);
+
+            // Pretty print the replaced node, if there is one.
+            return (
+                replace.replacement
+                    ? newSource.withSpaces(
+                          newSource.spaces.withPreferredSpaceForNode(
+                              newSource,
+                              replace.replacement
+                          )
+                      )
+                    : newSource
+            ) as this;
         } else
             return new Source(this.names, [
                 this.expression,
