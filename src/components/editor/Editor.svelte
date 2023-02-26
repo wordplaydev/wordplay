@@ -753,9 +753,7 @@
                 .map((br) => {
                     const [token, tokenView] = getTokenFromLineBreak(br) ?? [];
                     // Check the br container, which gives us a more accurate bounding client rect.
-                    const rect = (
-                        br.parentElement as HTMLElement
-                    ).getBoundingClientRect();
+                    const rect = (br as HTMLElement).getBoundingClientRect();
                     return tokenView === undefined || token === undefined
                         ? undefined
                         : {
@@ -763,12 +761,9 @@
                               offset: Math.abs(
                                   rect.top + rect.height / 2 - event.clientY
                               ),
-                              // We add one because the position of the span that contains the <br/> is one line above the br,
-                              // but we actually want to measure the line after the br.
-                              index:
-                                  Array.from(
-                                      tokenView.querySelectorAll('br')
-                                  ).indexOf(br as HTMLBRElement) + 1,
+                              index: Array.from(
+                                  tokenView.querySelectorAll('br')
+                              ).indexOf(br as HTMLBRElement),
                           };
                 })
                 // Filter out any empty breaks that we couldn't find
@@ -895,6 +890,7 @@
             // And filter them by kinds that match, getting the field's allowed types,
             // and seeing if the dragged node is an instance of any of the dragged types.
             // This only works if the types list contains a single item that is a list of types.
+
             insertion.set(
                 $hovered
                     ? undefined
