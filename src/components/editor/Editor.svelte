@@ -674,9 +674,9 @@
                 }
             }
         }
-        // If its the editor, find the closest text and choose either it's right or left side.
+        // If its the editor, find the closest token and choose either it's right or left side.
         // Map the token text to a list of vertical and horizontal distances
-        const closestText = Array.from(editor.querySelectorAll('.token-view'))
+        const closestToken = Array.from(editor.querySelectorAll('.token-view'))
             .map((tokenView) => {
                 const textView = tokenView.querySelector('.text');
                 const textRect = textView?.getBoundingClientRect();
@@ -689,6 +689,14 @@
                                   event.clientY -
                                       (textRect.top + textRect.height / 2)
                               ),
+                    textLeft:
+                        textRect === undefined
+                            ? Number.POSITIVE_INFINITY
+                            : textRect.left,
+                    textRight:
+                        textRect === undefined
+                            ? Number.POSITIVE_INFINITY
+                            : textRect.right,
                     textTop:
                         textRect === undefined
                             ? Number.POSITIVE_INFINITY
@@ -705,30 +713,32 @@
                         textRect === undefined
                             ? Number.POSITIVE_INFINITY
                             : Math.abs(event.clientX - textRect.right),
+                    hidden: textView && textView.closest('.hide') !== null,
                 };
             })
-            // Sort by increasing horizontal distance from the smaller of view's left and right
+            // Filter by tokens within the vertical boundaries of the token.
+            .filter(
+                (text) =>
+                    !text.hidden &&
+                    text.textDistance !== Number.POSITIVE_INFINITY &&
+                    event.clientY >= text.textTop &&
+                    event.clientY <= text.textBottom
+            )
+            // Sort by increasing horizontal distance from the pointer
             .sort(
                 (a, b) =>
                     Math.min(a.leftDistance, a.rightDistance) -
                     Math.min(b.leftDistance, b.rightDistance)
-            )
-            // Sort by increasing vertical distance from the smaller of view's space top and text middle.
-            .sort((a, b) => a.textDistance - b.textDistance)[0]; // Choose the closest.
+            )[0]; // Choose the closest.
 
-        // If we found one, choose either 1) the nearest empty line or 2) its left or right side of text.
-        if (closestText) {
-            const [token] = getTokenFromElement(closestText.view) ?? [];
+        // If we found one, choose either the beginnng or end of the line.
+        if (closestToken) {
+            const [token] = getTokenFromElement(closestToken.view) ?? [];
             if (token === undefined) return undefined;
-            // If the mouse was within the vertical bounds of the text, choose its left or right.
-            if (
-                event.clientY < closestText.textBottom &&
-                event.clientY >= closestText.textTop
-            ) {
-                return closestText.leftDistance < closestText.rightDistance
-                    ? $caret.source.getTokenTextPosition(token)
-                    : $caret.source.getTokenLastPosition(token);
-            }
+
+            return closestToken.textRight < event.clientX
+                ? source.getEndOfTokenLine(token)
+                : source.getStartOfTokenLine(token);
         }
 
         // Otherwise, if the mouse wasn't within the vertical bounds of the nearest token text, choose the nearest empty line.
@@ -776,7 +786,8 @@
                 source.spaces
                     .getSpace(closestLine.token)
                     .split('\n', closestLine.index)
-                    .join('\n').length
+                    .join('\n').length +
+                1
             );
 
         // Otherwise, choose the last position if nothing else matches.

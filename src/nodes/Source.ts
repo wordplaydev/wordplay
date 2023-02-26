@@ -390,7 +390,31 @@ export default class Source extends Expression {
         return this.getTokenTextPosition(token) + token.getTextLength();
     }
 
-    /** Given a node in this source, return the line the node is one */
+    getEndOfTokenLine(token: Token) {
+        let position = this.getTokenTextPosition(token);
+        while (
+            position < this.code.getLength() &&
+            this.code.at(position) !== '\n'
+        )
+            position++;
+        return position;
+    }
+
+    getStartOfTokenLine(token: Token) {
+        let position = this.getTokenTextPosition(token);
+        while (position > 0 && this.code.at(position) !== '\n') position--;
+        if (position > 0) {
+            position++;
+            while (
+                this.code.at(position) === ' ' ||
+                this.code.at(position) === '\t'
+            )
+                position++;
+        }
+        return position;
+    }
+
+    /** Given a node in this source, return the line the node is on */
     getLine(position: number | Node): number | undefined {
         if (position instanceof Node) {
             const leaf = position.getFirstLeaf();
