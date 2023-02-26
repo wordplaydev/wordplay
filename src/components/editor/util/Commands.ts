@@ -310,7 +310,8 @@ const commands: Command[] = [
         alt: false,
         control: false,
         mode: Mode.Play,
-        execute: (caret: Caret) => caret.insert('\n'),
+        execute: (caret: Caret) =>
+            caret.isNode() ? caret.enter() : caret.insert('\n'),
     },
     {
         description: 'Step to node',

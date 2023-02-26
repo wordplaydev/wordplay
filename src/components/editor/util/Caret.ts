@@ -460,6 +460,18 @@ export default class Caret {
         }
     }
 
+    /** If the caret is a node, set the position to its first index */
+    enter() {
+        if (this.position instanceof Node) {
+            const firstToken = this.source.getFirstToken(this.position);
+            return firstToken
+                ? this.withPosition(
+                      this.source.getTokenTextPosition(firstToken)
+                  )
+                : this;
+        } else return this;
+    }
+
     getRange(node: Node): [number, number] | undefined {
         const tokens = node.nodes((t) => t instanceof Token) as Token[];
         const first = tokens[0];
