@@ -54,8 +54,7 @@
                 text.length > 1 &&
                 lastChar !== undefined &&
                 lastChar in REVERSE_TEXT_DELIMITERS;
-            const preferredQuote =
-                Languages[$preferredLanguages[0]].quote ?? '"';
+            const preferredQuote = Languages[$preferredLanguages[0]].quote;
             if (preferredQuote) {
                 const preferredClosing = TEXT_DELIMITERS[preferredQuote];
                 text = isText
