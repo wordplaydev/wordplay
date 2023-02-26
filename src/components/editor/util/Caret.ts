@@ -419,7 +419,8 @@ export default class Caret {
                 text in DELIMITERS &&
                 this.tokenPrior &&
                 !(
-                    this.tokenPrior.is(TokenType.TEXT) &&
+                    (this.tokenPrior.is(TokenType.TEXT) ||
+                        this.tokenPrior.is(TokenType.UNKNOWN)) &&
                     text === DELIMITERS[this.tokenPrior.getText().charAt(0)]
                 )
             ) {
