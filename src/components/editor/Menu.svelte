@@ -14,6 +14,9 @@
     export let menu: Menu;
     export let position: { left: number; top: number };
 
+    let width: number;
+    let height: number;
+
     const WINDOW = 2;
 
     function handleItemClick(item: Transform) {
@@ -37,7 +40,15 @@
     }
 </script>
 
-<div class="menu" style:left="{position.left}px" style:top="{position.top}px">
+<div
+    class="menu"
+    bind:clientWidth={width}
+    bind:clientHeight={height}
+    style:left="{position.left -
+        Math.max(0, position.left + (width ?? 0) - window.innerWidth)}px"
+    style:top="{position.top -
+        Math.max(0, position.top + (height ?? 0) - window.innerHeight)}px"
+>
     <table>
         {#if node && concept}
             <td colspan="2"
