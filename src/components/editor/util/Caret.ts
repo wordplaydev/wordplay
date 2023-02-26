@@ -307,21 +307,35 @@ export default class Caret {
 
     moveHorizontal(direction: -1 | 1): Caret {
         if (this.position instanceof Node) {
+            // Get the token after/before the current selection in the depth first traversal of the search.
+            const nodes = this.source.nodes();
+            let currentIndex = nodes.indexOf(this.position);
+            if (currentIndex < 0) return this;
+            do {
+                currentIndex += direction;
+                if (currentIndex < 0 || currentIndex >= nodes.length)
+                    return this;
+                const currentNode = nodes[currentIndex];
+                if (currentNode instanceof Token)
+                    return this.withPosition(currentNode);
+            } while (this);
+            return this;
+
             // Get the first or last token of the given node.
-            const tokens = this.position.nodes(
-                (n) => n instanceof Token
-            ) as Token[];
-            const last = tokens[tokens.length - 1];
-            const index =
-                direction < 0
-                    ? this.source.getTokenTextPosition(tokens[0])
-                    : this.source.getTokenTextPosition(last) === undefined
-                    ? undefined
-                    : this.source.getTokenTextPosition(last) +
-                      tokens[tokens.length - 1].getTextLength();
-            if (index !== undefined)
-                return tokens.length === 0 ? this : this.withPosition(index);
-            else return this;
+            // const tokens = this.position.nodes(
+            //     (n): n is Token => n instanceof Token
+            // ) as Token[];
+            // const last = tokens[tokens.length - 1];
+            // const index =
+            //     direction < 0
+            //         ? this.source.getTokenTextPosition(tokens[0])
+            //         : this.source.getTokenTextPosition(last) === undefined
+            //         ? undefined
+            //         : this.source.getTokenTextPosition(last) +
+            //           tokens[tokens.length - 1].getTextLength();
+            // if (index !== undefined)
+            //     return tokens.length === 0 ? this : this.withPosition(index);
+            // else return this;
         } else {
             if (
                 this.position ===
@@ -334,15 +348,9 @@ export default class Caret {
             const placeholder = this.getPlaceholderAtPosition(
                 this.position - (direction < 0 ? 1 : 0)
             );
-            if (placeholder) return this.withPosition(placeholder);
-            // // If we're at a placeholder, return the token at this position
-            // if(this.source.code.at(this.position - (direction < 0 ? 1 : 0)) === PLACEHOLDER_SYMBOL) {
-            //     const placeholderToken = this.source.getTokenAt(this.position - (direction < 0 ? 1 : 0));
-            //     if(placeholderToken)
-            //         return this.withPosition(placeholderToken);
-            // }
 
-            return this.withPosition(pos);
+            if (placeholder) return this.withPosition(placeholder);
+            else return this.withPosition(pos);
         }
     }
 
@@ -638,11 +646,13 @@ export default class Caret {
         // Find the tokens on the row in the direction we're moving.
         else {
             // Find the caret and it's position.
-            const caretView =
-                editor.querySelector('.caret') ??
-                editor.querySelector('.selected');
+            let caretView = editor.querySelector('.caret');
             if (!(caretView instanceof HTMLElement)) return;
-            const caretRect = caretView.getBoundingClientRect();
+            if (caretView.classList.contains('node'))
+                caretView = editor.querySelector('.selected');
+            if (!(caretView instanceof SVGElement)) return;
+            let caretRect = caretView.getBoundingClientRect();
+
             const caretX = caretRect.left;
 
             // Find the views on this line and their horizontal distance from the caret.
