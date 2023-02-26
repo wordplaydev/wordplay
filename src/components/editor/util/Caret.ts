@@ -662,9 +662,10 @@ export default class Caret {
             // Find the caret and it's position.
             let caretView = editor.querySelector('.caret');
             if (!(caretView instanceof HTMLElement)) return;
-            if (caretView.classList.contains('node'))
+            if (caretView.classList.contains('node')) {
                 caretView = editor.querySelector('.selected');
-            if (!(caretView instanceof SVGElement)) return;
+                if (!(caretView instanceof SVGElement)) return;
+            }
             let caretRect = caretView.getBoundingClientRect();
 
             const caretX = caretRect.left;
