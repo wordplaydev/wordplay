@@ -950,19 +950,20 @@
     }
 
     // Always show the menu if the caret is after a property reference.
-    $: {
-        if (
-            $playing &&
-            ($caret.tokenPrior?.is(TokenType.ACCESS) ||
-                ($caret.tokenPrior !== undefined &&
-                    $caret.tokenPrior.is(TokenType.NAME) &&
-                    source
-                        .getTokenBefore($caret.tokenPrior)
-                        ?.is(TokenType.ACCESS)))
-        )
-            showMenu();
-        else hideMenu();
-    }
+    // This is annoying; disabling it.
+    // $: {
+    //     if (
+    //         $playing &&
+    //         ($caret.tokenPrior?.is(TokenType.ACCESS) ||
+    //             ($caret.tokenPrior !== undefined &&
+    //                 $caret.tokenPrior.is(TokenType.NAME) &&
+    //                 source
+    //                     .getTokenBefore($caret.tokenPrior)
+    //                     ?.is(TokenType.ACCESS)))
+    //     )
+    //         showMenu();
+    //     else hideMenu();
+    // }
 
     function handleKeyDown(event: KeyboardEvent) {
         // Never handle tab; that's for keyboard navigation.
