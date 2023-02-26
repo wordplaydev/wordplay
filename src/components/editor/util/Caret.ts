@@ -463,12 +463,14 @@ export default class Caret {
     /** If the caret is a node, set the position to its first index */
     enter() {
         if (this.position instanceof Node) {
-            const firstToken = this.source.getFirstToken(this.position);
-            return firstToken
-                ? this.withPosition(
-                      this.source.getTokenTextPosition(firstToken)
-                  )
-                : this;
+            if (this.position instanceof Token)
+                return this.withPosition(
+                    this.source.getTokenTextPosition(this.position)
+                );
+
+            return this.withPosition(
+                this.position.getChildren()[0] ?? this.position
+            );
         } else return this;
     }
 
