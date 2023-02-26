@@ -111,12 +111,9 @@
 </script>
 
 <span
-    class="token-view {`token-category-${kind}`} {node.is(
-        TokenType.NAME_SEPARATOR
-    )
-        ? 'comma'
-        : ''} {$caret !== undefined ? 'editable' : ''}"
+    class="token-view token-category-{kind}"
     class:active
+    class:editable={$caret !== undefined}
     class:placeholder
     data-id={node.id}
     style:animation-delay="{Math.random() * 100}ms"
@@ -132,8 +129,11 @@
     .token-view {
         display: inline-block;
         position: relative;
-        cursor: text;
         animation: bounce 0.5s;
+    }
+
+    .token-view.editable {
+        cursor: text;
     }
 
     .token-category-delimiter {
