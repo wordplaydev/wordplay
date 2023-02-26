@@ -62,7 +62,7 @@
                     ? newProject()
                     : undefined}
         >
-            <div class="preview" /><div class="name">+</div>
+            <div class="preview">+</div><div class="name" />
         </div>
     </div></section
 >
@@ -113,7 +113,14 @@
         border-radius: var(--wordplay-border-radius);
     }
 
-    .add .name {
-        font-size: xx-large;
+    .project.add {
+        width: 4em;
+        gap: 0;
+    }
+
+    .add .preview {
+        font-size: 3em;
+        text-align: center;
+        vertical-align: baseline;
     }
 </style>
