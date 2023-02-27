@@ -4,9 +4,9 @@
 `a list of guesses and a secret word`/en
 `El estado del juego es una lista de conjeturas y una palabra secreta.`/es
 `🧩 = 🤔 + 🤫`/😀
-•Game/en, 🧩/😀(guesses/en,🤔/😀•[""] secret/en, 🤫/😀•"") (
-  guessesRemaining/en,🔢/😀: (secret.📏() · 2) - guesses.📏()
-  status/en,🚨/😀: 
+•Game/en, 🧩/😀, Juego/es(guesses/en,🤔/😀,suposiciones/es•[""] secret/en,🤫/😀,secreta/es•"") (
+  guessesRemaining/en,🔢/😀,conjeturasRestantes/es: (secret.📏() · 2) - guesses.📏()
+  status/en,🚨/😀,estado/es: 
     secret = "" ? "start"
     secret→[""].all(ƒ(letter•"") guesses.has(letter)) ? "won"
     guessesRemaining ≤ 0 ? "lost"
@@ -62,7 +62,7 @@ screen:
         enter: Pose(opacity: 0%)
         rest: Sequence(sway 1s)
       )
-      💬("Press ***space*** to begin")
+      💬(["press ***space*** to begin"/en "presiona espacio para comenzar"/es])
     ]
     exit: fade
   )
