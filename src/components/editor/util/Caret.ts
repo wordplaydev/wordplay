@@ -286,11 +286,11 @@ export default class Caret {
         return undefined;
     }
 
-    left(): Caret {
-        return this.moveHorizontal(-1);
+    left(sibling: boolean): Caret {
+        return this.moveHorizontal(sibling, -1);
     }
-    right(): Caret {
-        return this.moveHorizontal(1);
+    right(sibling: boolean): Caret {
+        return this.moveHorizontal(sibling, 1);
     }
 
     nextNewline(direction: -1 | 1): Caret | undefined {
@@ -305,21 +305,36 @@ export default class Caret {
         );
     }
 
-    moveHorizontal(direction: -1 | 1): Caret {
+    moveHorizontal(sibling: boolean, direction: -1 | 1): Caret {
         if (this.position instanceof Node) {
-            // Get the token after/before the current selection in the depth first traversal of the search.
-            const nodes = this.source.nodes();
-            let currentIndex = nodes.indexOf(this.position);
-            if (currentIndex < 0) return this;
-            do {
-                currentIndex += direction;
-                if (currentIndex < 0 || currentIndex >= nodes.length)
-                    return this;
-                const currentNode = nodes[currentIndex];
-                if (currentNode instanceof Token)
-                    return this.withPosition(currentNode);
-            } while (this);
-            return this;
+            // If sibling, then find the parent of the current node and choose it's sibling.
+            // If there's no sibling in this direction, then do nothing.
+            if (sibling) {
+                const children = this.source
+                    .get(this.position)
+                    ?.getParent()
+                    ?.getChildren();
+                if (children === undefined) return this;
+                const sibling =
+                    children[children.indexOf(this.position) + direction];
+                return sibling ? this.withPosition(sibling) : this;
+            }
+            // If requesting the non-sibling, get the token after/before the current selection
+            // in the depth first traversal of the search.
+            else {
+                const nodes = this.source.nodes();
+                let currentIndex = nodes.indexOf(this.position);
+                if (currentIndex < 0) return this;
+                do {
+                    currentIndex += direction;
+                    if (currentIndex < 0 || currentIndex >= nodes.length)
+                        return this;
+                    const currentNode = nodes[currentIndex];
+                    if (currentNode instanceof Token)
+                        return this.withPosition(currentNode);
+                } while (this);
+                return this;
+            }
 
             // Get the first or last token of the given node.
             // const tokens = this.position.nodes(
