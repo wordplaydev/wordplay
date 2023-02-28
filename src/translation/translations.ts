@@ -10,9 +10,18 @@ import spa from './translations/es';
 import type LanguageCode from './LanguageCode';
 import type Translation from './Translation';
 import type { WritingDirection, WritingLayout } from './LanguageCode';
+import { getPersistedValue, setPersistedValue } from '@components/app/persist';
 
 /** Global list of preferred languages. */
-export const preferredLanguages: Writable<LanguageCode[]> = writable(['en']);
+const LANGUAGES_KEY = 'languages';
+export const preferredLanguages: Writable<LanguageCode[]> = writable(
+    getPersistedValue<string[]>(LANGUAGES_KEY) ?? ['en']
+);
+
+/** Persist preferred languages whenever changed */
+preferredLanguages.subscribe((languages) =>
+    setPersistedValue(LANGUAGES_KEY, languages)
+);
 
 /** A global setting for writing layout */
 

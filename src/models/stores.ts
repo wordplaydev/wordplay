@@ -6,6 +6,10 @@ import type Project from './Project';
 import type Conflict from '@conflicts/Conflict';
 import type Node from '@nodes/Node';
 import Evaluate from '@nodes/Evaluate';
+import {
+    getPersistedValue,
+    setPersistedValue,
+} from '../components/app/persist';
 
 // A global store that contains the project currently being viewed.
 export const project: Writable<Project | undefined> = writable<
@@ -48,20 +52,7 @@ export function getAnimationDuration() {
 }
 
 // When the animation flag changes, persist it.
-animationsOn.subscribe((on) => persist(ANIMATED_KEY, on));
-
-function persist(key: string, value: string | number | boolean | null) {
-    if (typeof window !== 'undefined') {
-        if (value === null) window.localStorage.removeItem(key);
-        else window.localStorage.setItem(key, JSON.stringify(value));
-    }
-}
-
-function getPersistedValue(key: string) {
-    const value =
-        typeof window !== 'undefined' ? window.localStorage.getItem(key) : null;
-    return value === null ? null : JSON.parse(value);
-}
+animationsOn.subscribe((on) => setPersistedValue(ANIMATED_KEY, on));
 
 /**
  * Create a project global context that stores the current selected value (and if not in an editing mode, nothing).
@@ -112,7 +103,7 @@ export function updateProject(newProject: Project | undefined) {
 
     project.set(newProject);
 
-    persist(PROJECT_KEY, newProject ? newProject.name : null);
+    setPersistedValue(PROJECT_KEY, newProject ? newProject.name : null);
 }
 
 /**
@@ -156,7 +147,7 @@ export function reviseProject(replacements: [Node, Node | undefined][]) {
 let defaultProject: string | undefined = undefined;
 
 if (typeof window !== 'undefined') {
-    const priorProject = getPersistedValue(PROJECT_KEY);
+    const priorProject = getPersistedValue<string>(PROJECT_KEY);
     if (priorProject !== null) defaultProject = priorProject;
 }
 
