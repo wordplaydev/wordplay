@@ -131,7 +131,7 @@ export default class Layout {
     }
 
     withTileLast(tile: Tile) {
-        const index = this.tiles.indexOf(tile);
+        const index = this.tiles.findIndex((t) => t.id === tile.id);
         return index < 0
             ? this
             : new Layout(

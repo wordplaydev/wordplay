@@ -359,7 +359,7 @@
         if (layout.getTileWithID(tile.id)?.mode === mode) return;
 
         layout = layout
-            .withTileInMode(tile, mode)
+            .withTileLast(tile.withMode(mode))
             .resized(canvasWidth, canvasHeight);
 
         if (mode === Mode.Collapsed) view?.focus();
@@ -709,18 +709,20 @@
 
     {#if !layout.isFullscreen()}
         <section class="footer">
-            {#each layout.getSources() as tile}
-                {@const source = getSourceByID(tile.id)}
-                <!-- Mini source view output is visible when collapsed, or if its main, when output is collapsed. -->
-                <MiniSourceView
-                    {project}
-                    {source}
-                    output={source === project.main
-                        ? layout.getOutput()?.mode === Mode.Collapsed
-                        : tile.mode === Mode.Collapsed}
-                    expanded={tile.mode === Mode.Expanded}
-                    on:toggle={() => toggleTile(tile)}
-                />
+            {#each project.getSources() as source, index}
+                {@const tile = layout.getTileWithID(Layout.getSourceID(index))}
+                {#if tile}
+                    <!-- Mini source view output is visible when collapsed, or if its main, when output is collapsed. -->
+                    <MiniSourceView
+                        {project}
+                        {source}
+                        output={source === project.main
+                            ? layout.getOutput()?.mode === Mode.Collapsed
+                            : tile.mode === Mode.Collapsed}
+                        expanded={tile.mode === Mode.Expanded}
+                        on:toggle={() => toggleTile(tile)}
+                    />
+                {/if}
             {/each}
             {#each layout.getNonSources() as tile}
                 <NonSourceTileToggle
