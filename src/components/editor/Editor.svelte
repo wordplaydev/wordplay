@@ -94,8 +94,9 @@
     /** Convert a persisted caret position to a concrete position **/
     function getPersistedCaret() {
         const carets = getCarets();
-        const position = carets[source.names.getNames()[0]];
-        if (typeof position === 'number') return position;
+        const position = carets[source.names.getNames()[0]] ?? undefined;
+        if (position === undefined) return 0;
+        else if (typeof position === 'number') return position;
         else return source.tree.resolvePath(position);
     }
 
