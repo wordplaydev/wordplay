@@ -26,8 +26,21 @@ preferredLanguages.subscribe((languages) =>
 /** A global setting for writing layout */
 
 /** A global setting for writing direction */
-export const writingLayout: Writable<WritingLayout> = writable('horizontal-tb');
-export const writingDirection: Writable<WritingDirection> = writable('ltr');
+const WRITING_LAYOUT_KEY = 'writing-layout';
+const WRITING_DIRECTION_KEY = 'writing-direction';
+export const writingLayout: Writable<WritingLayout> = writable(
+    getPersistedValue(WRITING_LAYOUT_KEY) ?? 'horizontal-tb'
+);
+export const writingDirection: Writable<WritingDirection> = writable(
+    getPersistedValue(WRITING_DIRECTION_KEY) ?? 'ltr'
+);
+
+writingLayout.subscribe((layout) =>
+    setPersistedValue(WRITING_LAYOUT_KEY, layout)
+);
+writingDirection.subscribe((direction) =>
+    setPersistedValue(WRITING_DIRECTION_KEY, direction)
+);
 
 /** A list of translations officially supported by Wordplay. */
 const SupportedTranslations: Translation[] = [eng, spa];
