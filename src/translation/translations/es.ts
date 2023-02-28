@@ -1688,6 +1688,8 @@ const eng_wordplay: Translation = {
             percent: 'percent',
         },
         tooltip: {
+            yes: 'confirm',
+            no: 'cancel',
             play: 'evaluate the program fully',
             pause: 'evaluate the program one step at a time',
             back: 'back one step',
@@ -1725,6 +1727,9 @@ const eng_wordplay: Translation = {
             animate: 'toggle animations on/off',
             addSource: 'create a new source',
             removeSource: 'remove this source',
+        },
+        prompt: {
+            removeSource: 'delete this source',
         },
         labels: {
             learn: 'learn more …',

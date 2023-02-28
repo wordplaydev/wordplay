@@ -740,6 +740,8 @@ type Translation = {
             percent: string;
         };
         tooltip: {
+            yes: string;
+            no: string;
             play: string;
             pause: string;
             back: string;
@@ -776,6 +778,9 @@ type Translation = {
             sequence: string;
             animate: string;
             addSource: string;
+            removeSource: string;
+        };
+        prompt: {
             removeSource: string;
         };
         labels: {

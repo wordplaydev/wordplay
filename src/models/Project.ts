@@ -426,6 +426,14 @@ export default class Project {
         return this.withSources([[oldSource, newSource]]);
     }
 
+    withoutSource(source: Source) {
+        return new Project(
+            this.name,
+            this.main,
+            this.supplements.filter((s) => s !== source)
+        );
+    }
+
     withSources(replacements: [Source, Source][]) {
         // Note: we need to clone all of the unchanged sources in order to generate new Programs so that the views can
         // trigger an update. Without this, we'd have the same Source, Program, and Nodes, and the views would have no idea

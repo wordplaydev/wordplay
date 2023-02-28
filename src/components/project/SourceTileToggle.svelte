@@ -4,7 +4,13 @@
     import type Source from '@nodes/Source';
     import type Value from '@runtime/Value';
     import OutputView from '../output/OutputView.svelte';
-    import { currentStep, nodeConflicts } from '../../models/stores';
+    import {
+        currentStep,
+        nodeConflicts,
+        updateProject,
+    } from '../../models/stores';
+    import { preferredTranslations } from '../../translation/translations';
+    import ConfirmButton from '../widgets/ConfirmButton.svelte';
 
     export let project: Project;
     export let source: Source;
@@ -37,21 +43,25 @@
                 secondaryCount++;
         }
     }
+
+    function removeSource(source: Source) {
+        updateProject(project.withoutSource(source));
+    }
 </script>
 
-<div
-    class="mini"
-    class:expanded
-    tabIndex="0"
-    on:click={() => dispatch('toggle')}
-    on:keydown={(event) => {
-        if (event.key === 'Enter' || event.key === ' ') {
-            dispatch('toggle');
-            event.stopPropagation();
-        }
-    }}
->
-    <span class="name">{source.getNames()} </span>
+<div class="mini" class:expanded>
+    <span
+        class="name"
+        tabIndex="0"
+        on:click={() => dispatch('toggle')}
+        on:keydown={(event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                dispatch('toggle');
+                event.stopPropagation();
+            }
+        }}
+        >{source.getNames()}
+    </span>
     {#if primaryCount > 0}<span class="count primary">{primaryCount}</span>{/if}
     {#if secondaryCount > 0}<span class="count secondary">{secondaryCount}</span
         >{/if}
@@ -66,6 +76,14 @@
             />
         </div>
     {/if}
+    {#if source !== project.main}
+        <ConfirmButton
+            tip={$preferredTranslations[0].ui.tooltip.removeSource}
+            action={() => removeSource(source)}
+            prompt={$preferredTranslations[0].ui.prompt.removeSource}
+            >⨉</ConfirmButton
+        >
+    {/if}
 </div>
 
 <style>
@@ -76,14 +94,17 @@
         flex-direction: row;
         align-items: center;
         overflow: hidden;
-        cursor: pointer;
         gap: var(--wordplay-spacing);
         padding-right: var(--wordplay-spacing);
         border-right: var(--wordplay-border-color) solid
             var(--wordplay-border-width);
     }
 
-    .mini:focus {
+    .name {
+        cursor: pointer;
+    }
+
+    .name:focus {
         outline: none;
         color: var(--wordplay-highlight);
     }

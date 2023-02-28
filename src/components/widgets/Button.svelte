@@ -4,11 +4,13 @@
     export let tip: string;
     export let action: () => void;
     export let enabled: boolean = true;
+    export let stretch: boolean = false;
 </script>
 
 <!-- Note that we don't disable the button using disabled because that makes
     it invisible to screen readers. -->
 <button
+    class:stretch
     title={tip}
     tabIndex="0"
     on:click={() => (enabled ? action() : undefined)}
@@ -24,7 +26,7 @@
         display: inline-block;
         background-color: var(--wordplay-chrome);
         font-family: var(--wordplay-app-font);
-        font-size: var(--wordplay-font-size);
+        font-size: inherit;
         font-weight: var(--wordplay-font-weight);
         transform-origin: center;
         user-select: none;
@@ -36,6 +38,11 @@
         cursor: pointer;
         width: fit-content;
         white-space: nowrap;
+    }
+
+    button.stretch {
+        width: inherit;
+        height: inherit;
     }
 
     :global(.animated) button {
