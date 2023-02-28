@@ -176,6 +176,10 @@
     on:keydown={handleKeyDown}
     bind:this={view}
 >
+    <!-- Render the content -->
+    <div class="content" on:scroll={() => dispatch('scroll')}>
+        <slot name="content" />
+    </div>
     <!-- Render the toolbar -->
     <div class="controls">
         <span class="name">{tile.name}</span>
@@ -208,10 +212,6 @@
             >
         </Button>
     </div>
-    <!-- Render the content -->
-    <div class="content" on:scroll={() => dispatch('scroll')}>
-        <slot name="content" />
-    </div>
 </section>
 
 <style>
@@ -220,7 +220,7 @@
         background: var(--wordplay-background);
         overflow: hidden;
         display: flex;
-        flex-direction: column;
+        flex-direction: column-reverse;
         align-items: flex-start;
     }
 
@@ -273,7 +273,7 @@
         border-right: var(--wordplay-border-color) solid 1px;
     }
 
-    .dragging {
+    .tile.dragging {
         transition: none;
     }
 
@@ -291,7 +291,6 @@
         color: var(--wordplay-disabled-color);
         fill: var(--wordplay-disabled-color);
         gap: var(--wordplay-spacing);
-        z-index: 1;
     }
 
     .content {

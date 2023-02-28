@@ -239,7 +239,6 @@
                 left: event.clientX - rect.left,
                 top: event.clientY - rect.top,
             };
-            event.stopPropagation();
         }
 
         if (project.evaluator.isPlaying())
@@ -267,7 +266,6 @@
     function handleMouseMove(event: MouseEvent) {
         // If dragging the focus, adjust it accordingly.
         if (event.buttons === 1 && focusDrag && view) {
-            event.stopPropagation();
             const rect = view.getBoundingClientRect();
             const deltaX = event.clientX - rect.left - focusDrag.left;
             const deltaY = event.clientY - rect.top - focusDrag.top;
@@ -275,13 +273,14 @@
             const scaleDeltaX = deltaX / scale;
             const scaleDeltaY = deltaY / scale;
 
-            if (event.shiftKey)
+            if (event.shiftKey) {
                 setFocus(
                     focusDrag.startFocus.x.toNumber() + scaleDeltaX,
                     focusDrag.startFocus.y.toNumber() - scaleDeltaY,
                     focusDrag.startFocus.z.toNumber()
                 );
-            else if ($selectedOutput.length > 0) {
+                event.stopPropagation();
+            } else if ($selectedOutput.length > 0) {
                 moveOutput(
                     project,
                     $selectedOutput,
@@ -290,6 +289,7 @@
                     -scaleDeltaY,
                     false
                 );
+                event.stopPropagation();
             }
         }
 
