@@ -16,10 +16,9 @@
         playing,
         currentStep,
         nodeConflicts,
-        updateProject,
         selectedOutput,
-        animationsOn,
         getAnimationDuration,
+        updateProject,
     } from '../../models/stores';
     import Annotations from '../annotations/Annotations.svelte';
     import type Conflict from '@conflicts/Conflict';
@@ -41,7 +40,6 @@
     import Layout, { Arrangement, DocsID, OutputID, PaletteID } from './Layout';
     import NonSourceTileToggle from './NonSourceTileToggle.svelte';
     import Button from '../widgets/Button.svelte';
-    import LanguageChooser from '../app/LanguageChooser.svelte';
     import Palette from '../palette/Palette.svelte';
     import type Bounds from './Bounds';
     import type Source from '@nodes/Source';
@@ -55,7 +53,7 @@
     import ConceptIndex from '../../concepts/ConceptIndex';
     import KeyboardIdle from '../editor/util/KeyboardIdle';
     import type Concept from '../../concepts/Concept';
-    import LayoutChooser from './LayoutChooser.svelte';
+    import Settings from '../settings/Settings.svelte';
 
     export let project: Project;
 
@@ -706,12 +704,8 @@
                     on:toggle={() => toggleTile(tile)}
                 />
             {/each}
+
             <div class="settings">
-                <Button
-                    tip={$preferredTranslations[0].ui.tooltip.animate}
-                    action={() => animationsOn.set(!$animationsOn)}
-                    >{#if $animationsOn}🏃‍♀️{:else}🧘🏽‍♀️{/if}</Button
-                >
                 <Button
                     tip={layout.arrangement === Arrangement.free
                         ? $preferredTranslations[0].ui.tooltip.vertical
@@ -725,8 +719,7 @@
                         ))}
                     >{#if layout.arrangement === Arrangement.vertical}↕️{:else if layout.arrangement === Arrangement.horizontal}↔️{:else if layout.arrangement === Arrangement.free}█{/if}</Button
                 >
-                <LayoutChooser />
-                <LanguageChooser />
+                <Settings />
                 <Button
                     tip={$preferredTranslations[0].ui.tooltip.close}
                     action={() => updateProject(undefined)}>❌</Button

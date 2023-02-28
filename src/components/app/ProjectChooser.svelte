@@ -5,6 +5,7 @@
     import Source from '@nodes/Source';
     import type Value from '@runtime/Value';
     import OutputView from '../output/OutputView.svelte';
+    import Settings from '../settings/Settings.svelte';
 
     let verses = new Map<string, [Project, Value | undefined]>();
     for (const example of examples) {
@@ -64,7 +65,7 @@
         >
             <div class="preview">+</div><div class="name" />
         </div>
-    </div></section
+    </div><div class="settings"><Settings /></div></section
 >
 
 <style>
@@ -74,7 +75,7 @@
         height: 100vh;
 
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
     }
@@ -85,6 +86,11 @@
         flex-direction: row;
         flex-wrap: wrap;
         align-items: flex-start;
+    }
+
+    .settings {
+        margin-top: auto;
+        align-self: right;
     }
 
     .project {

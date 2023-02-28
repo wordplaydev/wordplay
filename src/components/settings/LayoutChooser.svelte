@@ -43,11 +43,11 @@
         display: flex;
         flex-direction: row;
         gap: var(--wordplay-spacing);
-        font-size: 50%;
     }
 
     .layout,
     .direction {
+        font-size: 50%;
         max-width: 5em;
         max-height: 5em;
         cursor: pointer;

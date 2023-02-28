@@ -13,7 +13,7 @@
         writingLayout,
     } from '@translation/translations';
     import { tick } from 'svelte';
-    import { clickOutside } from './clickOutside';
+    import { clickOutside } from '../app/clickOutside';
 
     let collapsed = true;
     let element: HTMLElement;
