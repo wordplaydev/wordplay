@@ -102,7 +102,7 @@
         stroke: var(--wordplay-evaluation-color);
     }
 
-    :global(.animated) .output.animating path {
+    :global(.animated) .outline.animating path {
         animation: shift ease-in-out infinite;
         animation-duration: 1s;
     }

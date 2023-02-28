@@ -53,10 +53,6 @@
         font-family: var(--wordplay-code-font);
     }
 
-    :global(:not(.animated)) {
-        animation-duration: 0s;
-    }
-
     .row .glyphs {
         font-size: 1em;
         max-width: 4em;
