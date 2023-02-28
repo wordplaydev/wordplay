@@ -68,6 +68,8 @@
     import { PhraseType } from '@output/Phrase';
     import { GroupType } from '@output/Group';
     import { VerseType } from '@output/Verse';
+    import { getPersistedValue, setPersistedValue } from '../app/persist';
+    import type { Path } from '@nodes/Tree';
 
     export let project: Project;
     export let source: Source;
@@ -82,8 +84,35 @@
 
     let editor: HTMLElement | null;
 
+    const CARETS_KEY = 'carets';
+    type Carets = Record<string, number | Path>;
+
+    function getCarets() {
+        return getPersistedValue<Carets>(CARETS_KEY) ?? {};
+    }
+
+    /** Convert a persisted caret position to a concrete position **/
+    function getPersistedCaret() {
+        const carets = getCarets();
+        const position = carets[source.names.getNames()[0]];
+        if (typeof position === 'number') return position;
+        else return source.tree.resolvePath(position);
+    }
+
     // A per-editor store that contains the current editor's cursor. We expose it as context to children.
-    const caret = writable<Caret>(new Caret(source, 0));
+    const caret = writable<Caret>(new Caret(source, getPersistedCaret() ?? 0));
+
+    // Persist the caret position every time it changes and the keyboard is idle.
+    $: {
+        if ($KeyboardIdle) {
+            const carets = getCarets();
+            carets[source.names.getNames()[0]] =
+                $caret.position instanceof Node
+                    ? source.get($caret.position)?.getPath() ?? 0
+                    : $caret.position;
+            setPersistedValue(CARETS_KEY, carets);
+        }
+    }
 
     // A store of highlighted nodes, used by node views to highlight themselves.
     // We store centrally since the logic that determines what's highlighted is in the Editor.

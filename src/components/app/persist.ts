@@ -1,6 +1,14 @@
+import type { Path } from '../../nodes/Tree';
+
 export function setPersistedValue(
     key: string,
-    value: string | number | boolean | string[] | null
+    value:
+        | string
+        | number
+        | boolean
+        | string[]
+        | Record<string, number | string | Path>
+        | null
 ) {
     if (typeof window !== 'undefined') {
         if (value === null) window.localStorage.removeItem(key);
