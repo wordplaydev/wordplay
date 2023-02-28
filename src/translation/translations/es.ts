@@ -40,6 +40,7 @@ const eng_wordplay: Translation = {
         decide: 'decide',
         code: 'code',
         project: 'project',
+        source: 'source',
         input: 'input',
         output: 'output',
         type: 'type',
@@ -1722,6 +1723,8 @@ const eng_wordplay: Translation = {
             editContent: 'edit this content',
             sequence: 'convert to a sequence',
             animate: 'toggle animations on/off',
+            addSource: 'create a new source',
+            removeSource: 'remove this source',
         },
         labels: {
             learn: 'learn more …',

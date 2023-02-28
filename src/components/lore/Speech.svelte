@@ -54,7 +54,7 @@
     }
 
     :global(:not(.animated)) {
-        animation-duration: 0;
+        animation-duration: 0s;
     }
 
     .row .glyphs {

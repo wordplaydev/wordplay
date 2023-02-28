@@ -97,19 +97,65 @@
     const LAYOUT_KEY = 'layout';
     let layoutInitialized = false;
 
+    function syncTiles(tiles: Tile[]): Tile[] {
+        const newTiles: Tile[] = [];
+
+        // Go through each tile and map it to a source file.
+        // If we don't find it, remove the tile.
+        for (const tile of tiles) {
+            if (tile.kind !== Content.Source) {
+                newTiles.push(tile);
+            } else {
+                const source = project
+                    .getSources()
+                    .find((_, index) => Layout.getSourceID(index) === tile.id);
+                if (source) newTiles.push(tile);
+            }
+        }
+
+        // Go through each source file and find the tile. If we don't find one, create one.
+        let index = 0;
+        for (const source of project.getSources()) {
+            const tile = tiles.find(
+                (tile) => tile.id === Layout.getSourceID(index)
+            );
+            if (tile === undefined)
+                newTiles.push(createSourceTile(source, index));
+            index++;
+        }
+
+        return newTiles;
+    }
+
+    function createSourceTile(source: Source, index: number) {
+        return new Tile(
+            Layout.getSourceID(index),
+            source.names.getTranslation($preferredLanguages),
+            Content.Source,
+            index === 0 ? Mode.Expanded : Mode.Collapsed,
+            undefined,
+            Tile.randomPosition(1024, 768)
+        );
+    }
+
+    function initializedLayout() {
+        const persistedLayout = Layout.fromObject(
+            project.name,
+            getPersistedValue<LayoutObject>(LAYOUT_KEY)
+        );
+        if (persistedLayout === null) return null;
+
+        return persistedLayout.withTiles(syncTiles(persistedLayout.tiles));
+    }
+
     /** Compute a default layout, or a new layout when the languages change. */
     let layout: Layout;
     $: {
         layout =
-            (!layoutInitialized
-                ? Layout.fromObject(
-                      project.name,
-                      getPersistedValue<LayoutObject>(LAYOUT_KEY)
-                  )
-                : null) ??
+            (!layoutInitialized ? initializedLayout() : null) ??
             new Layout(
                 layout
-                    ? layout.tiles
+                    ? syncTiles(layout.tiles)
                     : [
                           new Tile(
                               OutputID,
@@ -121,20 +167,8 @@
                           ),
                           ...project
                               .getSources()
-                              .map(
-                                  (source, index) =>
-                                      new Tile(
-                                          Layout.getSourceID(index),
-                                          source.names.getTranslation(
-                                              $preferredLanguages
-                                          ),
-                                          Content.Source,
-                                          index === 0
-                                              ? Mode.Expanded
-                                              : Mode.Collapsed,
-                                          undefined,
-                                          Tile.randomPosition(1024, 768)
-                                      )
+                              .map((source, index) =>
+                                  createSourceTile(source, index)
                               ),
                           new Tile(
                               PaletteID,
@@ -594,6 +628,16 @@
             tile.mode === Mode.Expanded ? Mode.Collapsed : Mode.Expanded
         );
     }
+
+    function addSource() {
+        updateProject(
+            project.withNewSource(
+                `${$preferredTranslations[0].terminology.source}${
+                    project.supplements.length + 1
+                }`
+            )
+        );
+    }
 </script>
 
 <!-- svelte-ignore missing-declaration -->
@@ -724,6 +768,10 @@
                     />
                 {/if}
             {/each}
+            <Button
+                tip={$preferredTranslations[0].ui.tooltip.addSource}
+                action={addSource}>+</Button
+            >
             {#each layout.getNonSources() as tile}
                 <NonSourceTileToggle
                     {tile}

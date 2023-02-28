@@ -41,6 +41,7 @@ const en: Translation = {
         code: 'compute',
         decide: 'decide',
         project: 'project',
+        source: 'source',
         input: 'input',
         output: 'output',
         type: 'type',
@@ -2066,6 +2067,8 @@ const en: Translation = {
             editContent: 'edit this content',
             sequence: 'convert to a sequence',
             animate: 'toggle animations on/off',
+            addSource: 'create a new source',
+            removeSource: 'remove this source',
         },
         labels: {
             learn: 'learn more …',

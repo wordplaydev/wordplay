@@ -130,6 +130,10 @@ export default class Layout {
               );
     }
 
+    withTiles(tiles: Tile[]) {
+        return new Layout(tiles, this.arrangement, this.fullscreenID);
+    }
+
     withTileLast(tile: Tile) {
         const index = this.tiles.findIndex((t) => t.id === tile.id);
         return index < 0

@@ -106,6 +106,7 @@ type Translation = {
         code: string;
         decide: string;
         project: string;
+        source: string;
         input: string;
         output: string;
         type: string;
@@ -774,6 +775,8 @@ type Translation = {
             editContent: string;
             sequence: string;
             animate: string;
+            addSource: string;
+            removeSource: string;
         };
         labels: {
             learn: string;
