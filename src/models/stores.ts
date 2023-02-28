@@ -35,12 +35,10 @@ export const animatingNodes: Writable<Set<Node>> = writable<Set<Node>>(
 export const nodeConflicts: Writable<Conflict[]> = writable([]);
 
 // A local storage key for the animated state
-export const ANIMATED = 'animated';
+export const ANIMATED_KEY = 'animated';
 // Animations on.
 export const animationsOn: Writable<boolean> = writable(
-    (typeof window !== 'undefined' &&
-        window.localStorage.getItem(ANIMATED) === 'true') ??
-        true
+    getPersistedValue(ANIMATED_KEY) ?? true
 );
 // Animation duration.
 export const animationDuration: Writable<number> = writable(200);
@@ -49,11 +47,21 @@ export function getAnimationDuration() {
     return get(animationsOn) ? { duration: get(animationDuration) } : undefined;
 }
 
-animationsOn.subscribe((on) => {
+// When the animation flag changes, persist it.
+animationsOn.subscribe((on) => persist(ANIMATED_KEY, on));
+
+function persist(key: string, value: string | number | boolean | null) {
     if (typeof window !== 'undefined') {
-        window.localStorage.setItem(ANIMATED, `${on}`);
+        if (value === null) window.localStorage.removeItem(key);
+        else window.localStorage.setItem(key, JSON.stringify(value));
     }
-});
+}
+
+function getPersistedValue(key: string) {
+    const value =
+        typeof window !== 'undefined' ? window.localStorage.getItem(key) : null;
+    return value === null ? null : JSON.parse(value);
+}
 
 /**
  * Create a project global context that stores the current selected value (and if not in an editing mode, nothing).
@@ -73,6 +81,8 @@ function updateEvaluatorStores() {
         streams.set(evaluator.reactions);
     }
 }
+
+const PROJECT_KEY = 'project';
 
 // Clear the selection upon playing.
 playing.subscribe((val) => {
@@ -102,10 +112,7 @@ export function updateProject(newProject: Project | undefined) {
 
     project.set(newProject);
 
-    if (typeof window !== 'undefined') {
-        if (newProject) window.localStorage.setItem('project', newProject.name);
-        else window.localStorage.removeItem('project');
-    }
+    persist(PROJECT_KEY, newProject ? newProject.name : null);
 }
 
 /**
@@ -147,8 +154,9 @@ export function reviseProject(replacements: [Node, Node | undefined][]) {
 }
 
 let defaultProject: string | undefined = undefined;
+
 if (typeof window !== 'undefined') {
-    const priorProject = window.localStorage.getItem('project');
+    const priorProject = getPersistedValue(PROJECT_KEY);
     if (priorProject !== null) defaultProject = priorProject;
 }
 
