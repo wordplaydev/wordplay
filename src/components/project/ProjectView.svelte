@@ -18,6 +18,8 @@
         nodeConflicts,
         updateProject,
         selectedOutput,
+        animationsOn,
+        getAnimationDuration,
     } from '../../models/stores';
     import Annotations from '../annotations/Annotations.svelte';
     import type Conflict from '@conflicts/Conflict';
@@ -579,7 +581,7 @@
     tabIndex="0"
     on:keydown={handleKey}
     bind:this={view}
-    transition:fade={{ duration: 200 }}
+    transition:fade={getAnimationDuration()}
 >
     {#if !layout.isFullscreen()}
         <section class="header" class:stepping={!$playing}>
@@ -705,6 +707,11 @@
                 />
             {/each}
             <div class="settings">
+                <Button
+                    tip={$preferredTranslations[0].ui.tooltip.animate}
+                    action={() => animationsOn.set(!$animationsOn)}
+                    >{#if $animationsOn}🏃‍♀️{:else}🧘🏽‍♀️{/if}</Button
+                >
                 <Button
                     tip={layout.arrangement === Arrangement.free
                         ? $preferredTranslations[0].ui.tooltip.vertical

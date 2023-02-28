@@ -34,6 +34,27 @@ export const animatingNodes: Writable<Set<Node>> = writable<Set<Node>>(
 // A global store of project conflicts
 export const nodeConflicts: Writable<Conflict[]> = writable([]);
 
+// A local storage key for the animated state
+export const ANIMATED = 'animated';
+// Animations on.
+export const animationsOn: Writable<boolean> = writable(
+    (typeof window !== 'undefined' &&
+        window.localStorage.getItem(ANIMATED) === 'true') ??
+        true
+);
+// Animation duration.
+export const animationDuration: Writable<number> = writable(200);
+// Shorthand for Svelte transitions.
+export function getAnimationDuration() {
+    return get(animationsOn) ? { duration: get(animationDuration) } : undefined;
+}
+
+animationsOn.subscribe((on) => {
+    if (typeof window !== 'undefined') {
+        window.localStorage.setItem(ANIMATED, `${on}`);
+    }
+});
+
 /**
  * Create a project global context that stores the current selected value (and if not in an editing mode, nothing).
  * This enables output views like phrases and groups know what mode the output view is in and whether they are selected.

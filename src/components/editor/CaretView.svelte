@@ -387,8 +387,9 @@
         animation: blink-animation 0.5s steps(2, start) infinite;
     }
 
-    .caret.ignored {
-        animation: shake 0.25s 1;
+    :global(.animated) .caret.ignored {
+        animation: shake 1;
+        animation-duration: 200ms;
     }
 
     @keyframes blink-animation {

@@ -1,6 +1,6 @@
 <script lang="ts">
     import { afterUpdate } from 'svelte';
-    import { streams } from '../../models/stores';
+    import { getAnimationDuration, streams } from '../../models/stores';
     import type Evaluator from '@runtime/Evaluator';
     import { currentStepIndex } from '../../models/stores';
     import Keyboard from '../../input/Keyboard';
@@ -150,7 +150,7 @@
 </script>
 
 <div
-    transition:slide
+    transition:slide={getAnimationDuration()}
     class="timeline"
     class:stepping={!$playing}
     on:mousedown={(event) => stepToMouse(event)}
@@ -230,7 +230,11 @@
 
     .stream-input {
         display: inline-block;
-        transition: font-size 0.25s;
+    }
+
+    :global(.animated) .stream-input {
+        transition-property: font-size;
+        transition-duration: 200ms;
     }
 
     .stream-input.down {

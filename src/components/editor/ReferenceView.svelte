@@ -42,7 +42,7 @@
         ) {
             animating = true;
             // Reset after the animation is done.
-            setTimeout(() => (animating = false), 250);
+            setTimeout(() => (animating = false), 200);
         }
     }
 </script>
@@ -56,9 +56,10 @@
 {/if}
 
 <style>
-    .changed {
+    :global(.animated) .changed {
         display: inline-block;
-        animation: pop 0.25s 1;
+        animation: pop 1;
+        animation-duration: 200;
     }
 
     @keyframes pop {

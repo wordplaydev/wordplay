@@ -10,6 +10,7 @@
     import DocHTMLView from './DocHTMLView.svelte';
     import type StructureConcept from '@concepts/StructureConcept';
     import Speech from '../lore/Speech.svelte';
+    import { getAnimationDuration } from '../../models/stores';
 
     export let concept: Concept;
     export let types: StructureConcept[] | undefined = undefined;
@@ -18,7 +19,7 @@
     $: node = concept.getRepresentation();
 </script>
 
-<div class="concept" transition:slide={{ duration: 250 }}>
+<div class="concept" transition:slide={getAnimationDuration()}>
     {#if header}
         <h1
             ><CodeView {concept} {types} {node} describe={false} />

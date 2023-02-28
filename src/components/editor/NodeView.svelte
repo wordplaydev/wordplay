@@ -85,7 +85,6 @@
         position: relative;
         border-top-left-radius: var(--wordplay-editor-radius);
         border-bottom-right-radius: var(--wordplay-editor-radius);
-        transition: transform 0.25s linear;
     }
 
     .node-view.hovered {

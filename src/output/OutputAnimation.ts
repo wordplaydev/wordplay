@@ -368,7 +368,7 @@ export default class OutputAnimation {
         state: State,
         transitions: [Transition, Transition, ...Transition[]]
     ) {
-        // Don't start any new animations if we're done.
+        // Don't start any new animations if we're done or already in the state.
         if (this.state === State.Done) return;
 
         // Don't start any animations if there's no verse.
@@ -392,14 +392,17 @@ export default class OutputAnimation {
 
         // Compute the total duration so we can generate offsets for the Web Animation API
         // (and decide whether to animate at all)
-        const totalDuration = transitions.reduce(
-            (total, transition) => total + transition.duration,
-            0
-        );
+        const totalDuration = this.context.animated
+            ? transitions.reduce(
+                  (total, transition) => total + transition.duration,
+                  0
+              )
+            : 0;
 
-        // No duration? End immediately.
+        // No duration? End immediately (unless resting, since
+        // that would cause an infinite loop).
         if (totalDuration <= 0) {
-            this.finish();
+            if (this.state !== State.Rest) this.finish();
             return;
         }
 

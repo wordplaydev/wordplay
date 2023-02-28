@@ -262,13 +262,14 @@
     .palette {
         flex: 1;
         background-color: var(--wordplay-background);
-
-        transition: width 0.25s ease-out, visibility 0.25s ease-out,
-            opacity 0.25s ease-out;
-
         display: flex;
         flex-direction: column;
         height: 100%;
+    }
+
+    :global(.animated) .palette {
+        transition: width ease-out, visibility ease-out, opacity ease-out;
+        transition-duration: 200ms;
     }
 
     .content {

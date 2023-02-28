@@ -128,7 +128,11 @@
     .token-view {
         display: inline-block;
         position: relative;
-        animation: bounce 0.5s;
+    }
+
+    :global(.animated) .token-view {
+        animation: bounce;
+        animation-duration: 500ms;
     }
 
     .token-view.editable {

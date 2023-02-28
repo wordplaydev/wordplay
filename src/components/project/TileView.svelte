@@ -218,12 +218,15 @@
     .tile {
         position: absolute;
         background: var(--wordplay-background);
-        transition: left 0.1s ease-out, top 0.1s ease-out, width 0.1s ease-out,
-            height 0.1s ease-out;
         overflow: hidden;
         display: flex;
         flex-direction: column;
         align-items: flex-start;
+    }
+
+    :global(.animated) .tile {
+        transition: left ease-out, top ease-out, width ease-out, height ease-out;
+        transition-duration: 200ms;
     }
 
     .tile.free {

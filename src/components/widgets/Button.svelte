@@ -26,7 +26,6 @@
         font-family: var(--wordplay-app-font);
         font-size: var(--wordplay-font-size);
         font-weight: var(--wordplay-font-weight);
-        transition: transform 0.25s;
         transform-origin: center;
         user-select: none;
         border: none;
@@ -37,6 +36,11 @@
         cursor: pointer;
         width: fit-content;
         white-space: nowrap;
+    }
+
+    :global(.animated) button {
+        transition: transform;
+        transition-duration: 200ms;
     }
 
     button:disabled {

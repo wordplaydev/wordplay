@@ -44,9 +44,13 @@
     .button {
         display: inline-block;
         position: relative;
-        transition: transform 0.25s;
         transform-origin: center;
         cursor: pointer;
+    }
+
+    :global(.animated) .button {
+        transition: transform;
+        transition-duration: 200ms;
     }
 
     .off {

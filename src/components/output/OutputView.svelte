@@ -104,7 +104,6 @@
 
 <style>
     .output {
-        transition: ease-in, width 0.25s ease-in, height 0.25s ease-in;
         transform-origin: top right;
 
         display: flex;
@@ -116,6 +115,11 @@
         width: 100%;
         height: 100%;
         overflow: hidden;
+    }
+
+    :global(.animated) .output {
+        transition: ease-in, width ease-in, height ease-in;
+        transition-duration: 200ms;
     }
 
     .value {
@@ -151,8 +155,9 @@
         transform-origin: center;
     }
 
-    .editing .message {
-        animation: jiggle 0.2s ease-out infinite;
+    :global(.animated) .editing .message {
+        animation: jiggle ease-out infinite;
+        animation-duration: 0.2s;
     }
 
     @keyframes jiggle {
@@ -182,7 +187,8 @@
         color: var(--wordplay-evaluation-color);
     }
 
-    .exception .message {
-        animation: shake 0.1s 3;
+    :global(.animated) .exception .message {
+        animation: shake 3;
+        animation-duration: 200ms;
     }
 </style>

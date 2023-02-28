@@ -5,17 +5,20 @@ export default class RenderContext {
     readonly size: number;
     readonly languages: LanguageCode[];
     readonly fonts: Set<string>;
+    readonly animated: boolean;
 
     constructor(
         font: string,
         size: number,
         languages: LanguageCode[],
-        fonts: Set<string>
+        fonts: Set<string>,
+        animated: boolean
     ) {
         this.font = font;
         this.size = size;
         this.languages = languages;
         this.fonts = fonts;
+        this.animated = animated;
     }
 
     withFontAndSize(font: string | undefined, size: number | undefined) {
@@ -23,7 +26,8 @@ export default class RenderContext {
             font ?? this.font,
             size ?? this.size,
             this.languages,
-            this.fonts
+            this.fonts,
+            this.animated
         );
     }
 }

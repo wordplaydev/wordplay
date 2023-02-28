@@ -4,6 +4,7 @@
     import CodeView from './CodeView.svelte';
     import Note from '../widgets/Note.svelte';
     import NodeConcept from '../../concepts/NodeConcept';
+    import { getAnimationDuration } from '../../models/stores';
 
     export let concepts: Concept[];
     export let selectable: boolean;
@@ -18,7 +19,7 @@
 <div class="group">
     {#each concepts as concept, index}
         {#if expanded || index < 3}
-            <span transition:slide={{ duration: 200 }}>
+            <span transition:slide={getAnimationDuration()}>
                 <CodeView
                     {concept}
                     node={concept.getRepresentation()}
@@ -55,8 +56,12 @@
     .expander {
         text-align: center;
         cursor: pointer;
-        transition: transform 0.25s ease-out;
         color: var(--wordplay-disabled-color);
+    }
+
+    :global(.animated) .expander {
+        transition: transform ease-out;
+        transition-duration: 200ms;
     }
 
     .expander:focus {

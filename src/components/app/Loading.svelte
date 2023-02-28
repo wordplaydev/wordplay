@@ -8,7 +8,11 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        animation: wobble 0.5s infinite linear;
+    }
+
+    :global(.animated) div {
+        animation: wobble infinite linear;
+        animation-duration: 1s;
     }
 
     @keyframes wobble {

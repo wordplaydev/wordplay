@@ -1,6 +1,6 @@
 <!-- A window manager that displays a set of windows -->
 <script lang="ts">
-    import { project } from '../../models/stores';
+    import { animationsOn, project } from '../../models/stores';
     import { onMount, setContext } from 'svelte';
     import ProjectView from '../project/ProjectView.svelte';
     import Loading from './Loading.svelte';
@@ -17,12 +17,14 @@
     setContext<ProjectContext>(ProjectSymbol, project);
 </script>
 
-{#if fontsLoaded}
-    {#if $project}
-        <ProjectView project={$project} />
+<main class:animated={$animationsOn}>
+    {#if fontsLoaded}
+        {#if $project}
+            <ProjectView project={$project} />
+        {:else}
+            <ProjectChooser />
+        {/if}
     {:else}
-        <ProjectChooser />
+        <Loading />
     {/if}
-{:else}
-    <Loading />
-{/if}
+</main>

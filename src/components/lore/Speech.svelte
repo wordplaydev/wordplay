@@ -53,6 +53,10 @@
         font-family: var(--wordplay-code-font);
     }
 
+    :global(:not(.animated)) {
+        animation-duration: 0;
+    }
+
     .row .glyphs {
         font-size: 1em;
         max-width: 4em;
@@ -150,7 +154,8 @@
     }
 
     .emotion-kind {
-        animation: kind 0.5s ease 1;
+        animation: kind ease 1;
+        animation-duration: 0.5s;
         transform-origin: bottom;
     }
 
@@ -170,7 +175,8 @@
     }
 
     .emotion-serious {
-        animation: serious 0.25s ease 3;
+        animation: serious ease 3;
+        animation-duration: 0.25s;
         transform-origin: bottom;
     }
 
@@ -188,7 +194,8 @@
     }
 
     .emotion-cheerful {
-        animation: cheerful 0.25s ease 3;
+        animation: cheerful ease 3;
+        animation-duration: 0.25s;
         transform-origin: bottom;
         --cheerfulness: 1deg;
     }

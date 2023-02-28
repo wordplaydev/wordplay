@@ -157,7 +157,11 @@
     .language {
         display: inline-block;
         border-radius: var(--wordplay-border-radius);
-        transition: transform 0.25s;
+    }
+
+    :global(.animated) .language {
+        transition-property: transform;
+        transition-duration: 200ms;
     }
 
     .language.supported {

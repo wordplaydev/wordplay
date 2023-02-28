@@ -100,7 +100,11 @@
     .outline.animating path {
         fill: var(--wordplay-evaluation-color);
         stroke: var(--wordplay-evaluation-color);
-        animation: 1s ease-in-out shift infinite;
+    }
+
+    :global(.animated) .output.animating path {
+        animation: shift ease-in-out infinite;
+        animation-duration: 1s;
     }
 
     :global(
@@ -115,13 +119,21 @@
     /* Drop targets animate stroke */
     .outline.target path {
         stroke: var(--wordplay-highlight);
-        animation: pulse 1s infinite;
         opacity: 1;
+    }
+
+    :global(.animated) .outline.target path {
+        animation: pulse infinite;
+        animation-duration: 2s;
     }
 
     .outline.match path {
         stroke: var(--wordplay-highlight);
-        animation: pulse 0.2s infinite;
+    }
+
+    :global(.animated) .outline.target path {
+        animation: pulse infinite;
+        animation-duration: 1s;
     }
 
     /* Conflicts layer on top of everything else */
@@ -139,7 +151,11 @@
         fill: var(--wordplay-error);
         stroke-width: calc(2 * var(--wordplay-border-width));
         stroke-dasharray: calc(2 * var(--wordplay-border-width));
-        animation: exception 0.5s linear infinite;
+    }
+
+    :global(.animated) .underline.exception path {
+        animation: exception linear infinite;
+        animation-duration: 0.5s;
     }
 
     @keyframes exception {
@@ -151,7 +167,7 @@
         }
     }
 
-    .ignored {
+    :global(.animated) .ignored {
         animation: shake 0.25s 1;
     }
 

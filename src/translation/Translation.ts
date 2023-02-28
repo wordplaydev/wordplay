@@ -773,6 +773,7 @@ type Translation = {
             moveContentDown: string;
             editContent: string;
             sequence: string;
+            animate: string;
         };
         labels: {
             learn: string;

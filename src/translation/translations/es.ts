@@ -1721,6 +1721,7 @@ const eng_wordplay: Translation = {
             moveContentDown: 'move this content down',
             editContent: 'edit this content',
             sequence: 'convert to a sequence',
+            animate: 'toggle animations on/off',
         },
         labels: {
             learn: 'learn more …',

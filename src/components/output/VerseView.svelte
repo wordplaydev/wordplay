@@ -10,6 +10,7 @@
         reviseProject,
         selectedOutput,
         selectedPhrase,
+        animationsOn,
     } from '../../models/stores';
     import { preferredLanguages } from '@translation/translations';
     import { loadedFonts } from '@native/Fonts';
@@ -157,7 +158,8 @@
         verse.font ?? DefaultFont,
         verse.size ?? DefaultSize,
         $preferredLanguages,
-        $loadedFonts
+        $loadedFonts,
+        $animationsOn
     );
     $: contentBounds = verse.getBounds(context);
 
@@ -598,15 +600,20 @@
     .viewport {
         width: 100%;
         height: 100%;
-        transition: transform 0.25s ease-out;
+    }
+
+    :global(.animated) .viewport {
+        transition: transform ease-out;
+        transition-duration: 200ms;
     }
 
     .viewport.changed {
         transition: none;
     }
 
-    .ignored {
-        animation: shake 0.1s 1;
+    :global(.animated) .ignored {
+        animation: shake 1;
+        animation-duration: 100ms;
     }
 
     .grid {

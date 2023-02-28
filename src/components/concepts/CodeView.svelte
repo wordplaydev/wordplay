@@ -121,9 +121,10 @@
         align-items: baseline;
     }
 
-    .node:focus,
-    .node:hover {
-        animation: wobble 0.25s ease-out infinite;
+    :global(.animated) .node:focus,
+    :global(.animated) .node:hover {
+        animation: wobble ease-out infinite;
+        animation-duration: 200ms;
     }
 
     .description {

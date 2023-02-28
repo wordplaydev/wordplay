@@ -92,12 +92,16 @@
         border: var(--wordplay-border-color);
         border-radius: var(--wordplay-border-radius);
         cursor: pointer;
-        transition: transform 0.25s ease-out;
         width: 12em;
         display: flex;
         flex-direction: row;
         align-items: center;
         gap: var(--wordplay-spacing);
+    }
+
+    :global(.animated) .project {
+        transition: transform ease-out;
+        transition-duration: 200ms;
     }
 
     .project:hover,
