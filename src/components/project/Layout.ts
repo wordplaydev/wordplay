@@ -1,6 +1,6 @@
 import type Bounds from './Bounds';
-import { Mode } from './Tile';
-import type Tile from './Tile';
+import { Content, Mode } from './Tile';
+import Tile from './Tile';
 
 export enum Arrangement {
     vertical = 'vertical',
@@ -11,6 +11,20 @@ export enum Arrangement {
 export const OutputID = 'output';
 export const PaletteID = 'palette';
 export const DocsID = 'docs';
+
+export type LayoutObject = {
+    project: string;
+    fullscreen: string | null;
+    tiles: {
+        id: string;
+        expanded: boolean;
+        bounds: Bounds | null;
+        position: Bounds;
+        name: string;
+        kind: Content;
+    }[];
+    arrangement: Arrangement;
+};
 
 export default class Layout {
     readonly tiles: Tile[];
@@ -25,6 +39,44 @@ export default class Layout {
         this.arrangement = arrangement;
         this.fullscreenID = fullscreenID;
         this.tiles = tiles;
+    }
+
+    toObject(project: string): LayoutObject {
+        return {
+            project,
+            fullscreen: this.fullscreenID ?? null,
+            tiles: this.tiles.map((tile) => {
+                return {
+                    id: tile.id,
+                    kind: tile.kind,
+                    name: tile.name,
+                    bounds: tile.bounds ?? null,
+                    expanded: tile.mode === Mode.Expanded,
+                    position: tile.position,
+                };
+            }),
+            arrangement: this.arrangement,
+        };
+    }
+
+    static fromObject(project: string, layout: LayoutObject | null) {
+        return layout === null || layout.project !== project
+            ? null
+            : new Layout(
+                  layout.tiles.map(
+                      (tile) =>
+                          new Tile(
+                              tile.id,
+                              tile.name,
+                              tile.kind,
+                              tile.expanded ? Mode.Expanded : Mode.Collapsed,
+                              tile.bounds ?? undefined,
+                              tile.position ?? undefined
+                          )
+                  ),
+                  layout.arrangement,
+                  layout.fullscreen ?? undefined
+              );
     }
 
     isFullscreen() {

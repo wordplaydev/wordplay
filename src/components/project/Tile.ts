@@ -1,15 +1,15 @@
 import type Bounds from './Bounds';
 
 export enum Mode {
-    Expanded,
-    Collapsed,
+    Expanded = 'expanded',
+    Collapsed = 'collapsed',
 }
 
 export enum Content {
-    Output,
-    Documentation,
-    Source,
-    Palette,
+    Output = 'output',
+    Documentation = 'docs',
+    Source = 'source',
+    Palette = 'palette',
 }
 
 export default class Tile {

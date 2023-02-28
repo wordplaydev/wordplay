@@ -1,15 +1,4 @@
-import type { Path } from '../../nodes/Tree';
-
-export function setPersistedValue(
-    key: string,
-    value:
-        | string
-        | number
-        | boolean
-        | string[]
-        | Record<string, number | string | Path>
-        | null
-) {
+export function setPersistedValue(key: string, value: any) {
     if (typeof window !== 'undefined') {
         if (value === null) window.localStorage.removeItem(key);
         else window.localStorage.setItem(key, JSON.stringify(value));

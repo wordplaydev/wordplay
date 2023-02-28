@@ -37,7 +37,13 @@
     } from '@translation/translations';
     import type Value from '@runtime/Value';
     import Editor from '../editor/Editor.svelte';
-    import Layout, { Arrangement, DocsID, OutputID, PaletteID } from './Layout';
+    import Layout, {
+        Arrangement,
+        DocsID,
+        OutputID,
+        PaletteID,
+        type LayoutObject,
+    } from './Layout';
     import NonSourceTileToggle from './NonSourceTileToggle.svelte';
     import Button from '../widgets/Button.svelte';
     import Palette from '../palette/Palette.svelte';
@@ -54,6 +60,7 @@
     import KeyboardIdle from '../editor/util/KeyboardIdle';
     import type Concept from '../../concepts/Concept';
     import Settings from '../settings/Settings.svelte';
+    import { getPersistedValue, setPersistedValue } from '../app/persist';
 
     export let project: Project;
 
@@ -87,7 +94,73 @@
     let outputBackground: string | null;
 
     /** The current tile layout */
+    const LAYOUT_KEY = 'layout';
+    let layoutInitialized = false;
+
+    /** Compute a default layout, or a new layout when the languages change. */
     let layout: Layout;
+    $: {
+        layout =
+            (!layoutInitialized
+                ? Layout.fromObject(
+                      project.name,
+                      getPersistedValue<LayoutObject>(LAYOUT_KEY)
+                  )
+                : null) ??
+            new Layout(
+                layout
+                    ? layout.tiles
+                    : [
+                          new Tile(
+                              OutputID,
+                              $preferredTranslations[0].ui.tiles.output,
+                              Content.Output,
+                              Mode.Expanded,
+                              undefined,
+                              Tile.randomPosition(1024, 768)
+                          ),
+                          ...project
+                              .getSources()
+                              .map(
+                                  (source, index) =>
+                                      new Tile(
+                                          Layout.getSourceID(index),
+                                          source.names.getTranslation(
+                                              $preferredLanguages
+                                          ),
+                                          Content.Source,
+                                          index === 0
+                                              ? Mode.Expanded
+                                              : Mode.Collapsed,
+                                          undefined,
+                                          Tile.randomPosition(1024, 768)
+                                      )
+                              ),
+                          new Tile(
+                              PaletteID,
+                              $preferredTranslations[0].ui.tiles.palette,
+                              Content.Palette,
+                              Mode.Collapsed,
+                              undefined,
+                              Tile.randomPosition(1024, 768)
+                          ),
+                          new Tile(
+                              DocsID,
+                              $preferredTranslations[0].ui.tiles.docs,
+                              Content.Documentation,
+                              Mode.Collapsed,
+                              undefined,
+                              Tile.randomPosition(1024, 768)
+                          ),
+                      ],
+                layout ? layout.arrangement : Arrangement.vertical,
+                layout ? layout.fullscreenID : undefined
+            );
+        layoutInitialized = true;
+    }
+
+    /** Persist the layout when it changes */
+    $: setPersistedValue(LAYOUT_KEY, layout.toObject(project.name));
 
     /** The tile being dragged */
     let draggedTile:
@@ -222,55 +295,6 @@
             } else setMode(palette, Mode.Collapsed);
         }
     }
-
-    /** Compute a default layout, or a new layout when the languages change. */
-    $: layout = new Layout(
-        layout
-            ? layout.tiles
-            : [
-                  new Tile(
-                      OutputID,
-                      $preferredTranslations[0].ui.tiles.output,
-                      Content.Output,
-                      Mode.Expanded,
-                      undefined,
-                      Tile.randomPosition(1024, 768)
-                  ),
-                  ...project
-                      .getSources()
-                      .map(
-                          (source, index) =>
-                              new Tile(
-                                  Layout.getSourceID(index),
-                                  source.names.getTranslation(
-                                      $preferredLanguages
-                                  ),
-                                  Content.Source,
-                                  index === 0 ? Mode.Expanded : Mode.Collapsed,
-                                  undefined,
-                                  Tile.randomPosition(1024, 768)
-                              )
-                      ),
-                  new Tile(
-                      PaletteID,
-                      $preferredTranslations[0].ui.tiles.palette,
-                      Content.Palette,
-                      Mode.Collapsed,
-                      undefined,
-                      Tile.randomPosition(1024, 768)
-                  ),
-                  new Tile(
-                      DocsID,
-                      $preferredTranslations[0].ui.tiles.docs,
-                      Content.Documentation,
-                      Mode.Collapsed,
-                      undefined,
-                      Tile.randomPosition(1024, 768)
-                  ),
-              ],
-        layout ? layout.arrangement : Arrangement.vertical,
-        layout ? layout.fullscreenID : undefined
-    );
 
     $: {
         if (canvasWidth && canvasHeight) {
