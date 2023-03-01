@@ -4,13 +4,7 @@
     import type Source from '@nodes/Source';
     import type Value from '@runtime/Value';
     import OutputView from '../output/OutputView.svelte';
-    import {
-        currentStep,
-        nodeConflicts,
-        updateProject,
-    } from '../../models/stores';
-    import { preferredTranslations } from '../../translation/translations';
-    import ConfirmButton from '../widgets/ConfirmButton.svelte';
+    import { currentStep, nodeConflicts } from '../../models/stores';
 
     export let project: Project;
     export let source: Source;
@@ -43,10 +37,6 @@
                 secondaryCount++;
         }
     }
-
-    function removeSource(source: Source) {
-        updateProject(project.withoutSource(source));
-    }
 </script>
 
 <div class="mini" class:expanded>
@@ -75,14 +65,6 @@
                 mode="mini"
             />
         </div>
-    {/if}
-    {#if source !== project.main}
-        <ConfirmButton
-            tip={$preferredTranslations[0].ui.tooltip.removeSource}
-            action={() => removeSource(source)}
-            prompt={$preferredTranslations[0].ui.prompt.removeSource}
-            >⨉</ConfirmButton
-        >
     {/if}
 </div>
 
