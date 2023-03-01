@@ -188,8 +188,8 @@
     </div>
     <!-- Render the toolbar -->
     <div class="controls">
-        {#if tile.isSource()}
-            <div class="name-editor">
+        <div class="name">
+            {#if tile.isSource()}
                 <TextField
                     text={tile.name}
                     placeholder={$preferredTranslations[0].ui.placeholders.name}
@@ -198,10 +198,10 @@
                     fit
                     border={false}
                 />
-            </div>
-        {:else}
-            <span tabIndex="0" class="name">{tile.name}</span>
-        {/if}
+            {:else}
+                {tile.name}
+            {/if}
+        </div>
         <slot name="extra" />
         <Button
             tip={$preferredTranslations[0].ui.tooltip.collapse}
@@ -345,7 +345,7 @@
         bottom: 0;
     }
 
-    .name-editor {
+    .name {
         margin-right: auto;
     }
 </style>
