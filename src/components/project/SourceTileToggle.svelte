@@ -4,12 +4,15 @@
     import type Source from '@nodes/Source';
     import type Value from '@runtime/Value';
     import OutputView from '../output/OutputView.svelte';
-    import { currentStep, nodeConflicts } from '@models/stores';
+    import { getConflicts, getCurrentStep } from './Contexts';
 
     export let project: Project;
     export let source: Source;
     export let output: boolean;
     export let expanded: boolean;
+
+    let currentStep = getCurrentStep();
+    let conflicts = getConflicts();
 
     const dispatch = createEventDispatcher();
 
@@ -25,16 +28,18 @@
     $: {
         primaryCount = 0;
         secondaryCount = 0;
-        for (const conflict of $nodeConflicts) {
-            const nodes = conflict.getConflictingNodes();
-            if (source.contains(nodes.primary.node)) {
-                if (!conflict.isMinor()) primaryCount++;
-                else secondaryCount++;
-            } else if (
-                nodes.secondary !== undefined &&
-                source.contains(nodes.secondary.node)
-            )
-                secondaryCount++;
+        if ($conflicts) {
+            for (const conflict of $conflicts) {
+                const nodes = conflict.getConflictingNodes();
+                if (source.contains(nodes.primary.node)) {
+                    if (!conflict.isMinor()) primaryCount++;
+                    else secondaryCount++;
+                } else if (
+                    nodes.secondary !== undefined &&
+                    source.contains(nodes.secondary.node)
+                )
+                    secondaryCount++;
+            }
         }
     }
 </script>

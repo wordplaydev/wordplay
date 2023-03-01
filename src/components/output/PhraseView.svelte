@@ -7,18 +7,18 @@
     import outputToCSS from '@output/outputToCSS';
     import { preferredLanguages } from '@translation/translations';
     import type RenderContext from '@output/RenderContext';
-    import {
-        reviseProject,
-        selectedOutput,
-        selectedPhrase,
-    } from '@models/stores';
     import Pose from '@output/Pose';
     import Evaluate from '@nodes/Evaluate';
     import TextLiteral from '@nodes/TextLiteral';
     import { getContext, onMount } from 'svelte';
     import type { Writable } from 'svelte/store';
-    import type Project from '@models/Project';
     import moveOutput from '../palette/moveOutput';
+    import {
+        getProject,
+        getSelectedOutput,
+        getSelectedPhrase,
+    } from '../project/Contexts';
+    import { reviseProject } from '../project/project';
 
     export let phrase: Phrase;
     export let place: Place;
@@ -27,6 +27,10 @@
     export let interactive: boolean;
     export let parentAscent: number;
     export let context: RenderContext;
+
+    let selectedOutput = getSelectedOutput();
+    let selectedPhrase = getSelectedPhrase();
+    let project = getProject();
 
     // Compute a local context based on size and font.
     $: context = phrase.getRenderContext(context);
@@ -44,7 +48,7 @@
     // Selected if this phrase's value creator is selected
     $: selected =
         phrase.value.creator instanceof Evaluate &&
-        $selectedOutput.includes(phrase.value.creator) &&
+        $selectedOutput?.includes(phrase.value.creator) &&
         $selectedPhrase &&
         (phrase.getName() === $selectedPhrase.name ||
             (phrase.getName().includes('-') &&
@@ -57,8 +61,6 @@
         $editable &&
         $selectedPhrase &&
         $selectedPhrase.index !== null;
-
-    let project: Project = getContext('project');
 
     onMount(restore);
 
@@ -84,6 +86,7 @@
     }
 
     function select(index: number | null) {
+        if (selectedPhrase === undefined) return;
         selectedPhrase.set({
             name: phrase.getName(),
             index,
@@ -91,6 +94,7 @@
     }
 
     function move(event: KeyboardEvent) {
+        if ($project === undefined || selectedOutput === undefined) return;
         const increment = 0.5;
         let horizontal =
             event.key === 'ArrowLeft'
@@ -110,6 +114,8 @@
 
             moveOutput(
                 project,
+                selectedOutput,
+                $project,
                 [phrase.value.creator],
                 $preferredLanguages,
                 horizontal,
@@ -120,6 +126,7 @@
     }
 
     async function handleInput(event: { currentTarget: HTMLInputElement }) {
+        if ($project === undefined || selectedOutput === undefined) return;
         if (event.currentTarget === null) return;
         const newText = event.currentTarget.value;
         const originalTextValue = phrase.value.resolve('text');
@@ -131,7 +138,7 @@
         if (event.currentTarget.selectionStart !== null)
             select(event.currentTarget.selectionStart);
 
-        reviseProject([
+        reviseProject(project, selectedOutput, [
             [
                 phrase.value.creator,
                 phrase.value.creator.replace(

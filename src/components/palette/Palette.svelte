@@ -1,22 +1,24 @@
 <script lang="ts">
     import { preferredTranslations } from '@translation/translations';
-    import { selectedOutput } from '@models/stores';
     import type Project from '@models/Project';
     import OutputPropertyValueSet from '@transforms/OutputPropertyValueSet';
     import PaletteProperty from './PaletteProperty.svelte';
     import type OutputProperty from '@transforms/OutputProperty';
     import OutputExpression from '@transforms/OutputExpression';
     import Speech from '../lore/Speech.svelte';
-    import { getConceptIndex } from '../project/Contexts';
+    import { getConceptIndex, getSelectedOutput } from '../project/Contexts';
 
     export let project: Project;
 
     let index = getConceptIndex();
+    let selectedOutput = getSelectedOutput();
 
     /** Transform the selected Evaluate nodes into Output wrappers, filtering out anything that's not valid output. */
     $: outputs = $selectedOutput
-        .map((evaluate) => new OutputExpression(project, evaluate))
-        .filter((out) => out.isOutput());
+        ? $selectedOutput
+              .map((evaluate) => new OutputExpression(project, evaluate))
+              .filter((out) => out.isOutput())
+        : [];
     $: definition = outputs[0]?.node.getFunction(
         project.getNodeContext(outputs[0].node)
     );

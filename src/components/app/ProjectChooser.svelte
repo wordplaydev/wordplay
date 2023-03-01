@@ -1,12 +1,10 @@
 <script lang="ts">
     import { examples, makeProject, type Stuff } from '../../examples/examples';
-    import Project from '@models/Project';
-    import { project, updateProject } from '@models/stores';
-    import Source from '@nodes/Source';
     import type Value from '@runtime/Value';
     import OutputView from '../output/OutputView.svelte';
     import Settings from '../settings/Settings.svelte';
     import { goto } from '$app/navigation';
+    import type Project from '../../models/Project';
 
     let verses = new Map<string, [Project, Value | undefined]>();
     for (const example of examples) {
@@ -18,15 +16,12 @@
     }
 
     function changeProject(example: Stuff) {
-        updateProject(makeProject(example));
         goto(`/project/${example.name}`);
     }
 
     function newProject() {
-        updateProject(new Project('—', Source.make('—'), []));
+        goto(`/project/new`);
     }
-
-    project.set(undefined);
 </script>
 
 <section class="chooser">

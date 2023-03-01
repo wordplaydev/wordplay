@@ -1,11 +1,6 @@
 <svelte:options immutable={true} />
 
 <script lang="ts">
-    import {
-        nodeConflicts,
-        selectedOutput,
-        updateProject,
-    } from '@models/stores';
     import Node from '@nodes/Node';
     import Caret from './util/Caret';
     import { createEventDispatcher, onMount, setContext } from 'svelte';
@@ -24,6 +19,13 @@
         HighlightSymbol,
         InsertionPointsSymbol,
         getDragged,
+        getSelectedOutput,
+        getProject,
+        getPlaying,
+        getCurrentStep,
+        getCurrentStepIndex,
+        getAnimatingNodes,
+        getConflicts,
     } from '../project/Contexts';
     import {
         preferredLanguages,
@@ -45,12 +47,6 @@
     import TokenType from '@nodes/TokenType';
     import RootView from '../project/RootView.svelte';
     import type Project from '@models/Project';
-    import {
-        currentStep,
-        currentStepIndex,
-        playing,
-        animatingNodes,
-    } from '@models/stores';
     import type Conflict from '@conflicts/Conflict';
     import { tick } from 'svelte';
     import { getEditsAt } from './util/Autocomplete';
@@ -70,6 +66,7 @@
     import { VerseType } from '@output/Verse';
     import { getPersistedValue, setPersistedValue } from '../app/persist';
     import type { Path } from '@nodes/Tree';
+    import { updateProject } from '../project/project';
 
     export let project: Project;
     export let source: Source;
@@ -77,6 +74,14 @@
     // A menu of potential transformations based on the caret position.
     // Managed here but displayed by the project to allow it to escape the editor view.
     export let menu: Menu | undefined = undefined;
+
+    let projectStore = getProject();
+    let selectedOutput = getSelectedOutput();
+    let playing = getPlaying();
+    let currentStep = getCurrentStep();
+    let currentStepIndex = getCurrentStepIndex();
+    let animatingNodes = getAnimatingNodes();
+    let nodeConflicts = getConflicts();
 
     const dispatch = createEventDispatcher();
 
@@ -148,12 +153,14 @@
 
     // Whenever the selected output changes, ensure the first selected node is scrolled to.
     $: {
-        const node = $selectedOutput[0];
-        if (node) {
-            tick().then(() => {
-                const view = getNodeView(node);
-                if (view) ensureElementIsVisible(view, true);
-            });
+        if ($selectedOutput !== undefined) {
+            const node = $selectedOutput[0];
+            if (node) {
+                tick().then(() => {
+                    const view = getNodeView(node);
+                    if (view) ensureElementIsVisible(view, true);
+                });
+            }
         }
     }
 
@@ -222,6 +229,7 @@
     // palette appears.
     $: {
         if (
+            selectedOutput &&
             $caret.position instanceof Evaluate &&
             $caret.position.isOneOf(
                 project.getNodeContext($caret.position),
@@ -244,7 +252,7 @@
             if ($dragged !== undefined) break $;
 
             // If there are any conflicts in the project...
-            if ($nodeConflicts.length > 0) {
+            if ($nodeConflicts !== undefined && $nodeConflicts.length > 0) {
                 let conflictSelection: Node | undefined = undefined;
 
                 // Is the mouse hovering over one? Get the node at the mouse, including tokens
@@ -396,7 +404,7 @@
             addHighlight(newHighlights, secondary, 'secondary');
 
         // Are there any poses in this file being animated?
-        if (animatingNodes)
+        if ($animatingNodes)
             for (const animating of $animatingNodes) {
                 if (source.contains(animating))
                     addHighlight(newHighlights, animating, 'animating');
@@ -557,7 +565,7 @@
         );
 
         // Update the project with the new source files
-        updateProject(newProject);
+        updateProject(projectStore, newProject);
 
         // Wait for the DOM updates.
         await tick();
@@ -1094,7 +1102,7 @@
 
         // Update the caret and project.
         if (newSource) {
-            updateProject(project.withSource(source, newSource));
+            updateProject(projectStore, project.withSource(source, newSource));
             caret.set(newCaret.withSource(newSource));
         } else {
             caret.set(newCaret);
@@ -1236,7 +1244,7 @@
         <CaretView
             {source}
             blink={$KeyboardIdle && focused}
-            ignored={playing && lastKeyDownIgnored}
+            ignored={$playing === true && lastKeyDownIgnored}
             bind:location={caretLocation}
         />
     {/if}

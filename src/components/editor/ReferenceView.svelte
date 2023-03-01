@@ -3,14 +3,19 @@
 <script lang="ts">
     import type Reference from '@nodes/Reference';
     import NodeView from './NodeView.svelte';
-    import { currentStep, playing } from '@models/stores';
-    import { getProject } from '../project/Contexts';
+    import {
+        getCurrentStep,
+        getPlaying,
+        getProject,
+    } from '../project/Contexts';
     import Evaluate from '@nodes/Evaluate';
     import type Stream from '@runtime/Stream';
 
     export let node: Reference;
 
     let project = getProject();
+    let playing = getPlaying();
+    let currentStep = getCurrentStep();
 
     let stream: Stream | undefined;
     $: {

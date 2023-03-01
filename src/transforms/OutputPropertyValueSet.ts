@@ -1,5 +1,4 @@
 import type Project from '../models/Project';
-import { reviseProject } from '../models/stores';
 import Evaluate from '@nodes/Evaluate';
 import type Expression from '@nodes/Expression';
 import Bool from '@runtime/Bool';
@@ -14,6 +13,11 @@ import MapLiteral from '../nodes/MapLiteral';
 import ListLiteral from '../nodes/ListLiteral';
 import { PlaceType } from '../output/Place';
 import type Bind from '../nodes/Bind';
+import type {
+    ProjectContext,
+    SelectedOutputContext,
+} from '../components/project/Contexts';
+import { reviseProject } from '../components/project/project';
 
 /**
  * Represents one or more equivalent inputs to an output expression.
@@ -153,11 +157,18 @@ export default class OutputPropertyValueSet {
     }
 
     /** Given a project, unsets this property on expressions on which it is set. */
-    unset(project: Project, languages: LanguageCode[]) {
+    unset(
+        store: ProjectContext,
+        selected: SelectedOutputContext,
+        project: Project,
+        languages: LanguageCode[]
+    ) {
         // Find all the values that are given, then map them to [ Evaluate, Evaluate ] pairs
         // that represent the original Evaluate and the replacement without the given value.
         // If the property is required, replace with a default value.
         reviseProject(
+            store,
+            selected,
             project.getBindReplacements(
                 this.values
                     .filter((value) => value.given)
@@ -171,8 +182,15 @@ export default class OutputPropertyValueSet {
     }
 
     /** Given a project, set this property to a reasonable starting value */
-    set(project: Project, languages: LanguageCode[]) {
+    set(
+        store: ProjectContext,
+        selected: SelectedOutputContext,
+        project: Project,
+        languages: LanguageCode[]
+    ) {
         reviseProject(
+            store,
+            selected,
             project.getBindReplacements(
                 this.values
                     .filter((value) => !value.given)

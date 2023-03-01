@@ -10,7 +10,7 @@
     import type Group from '@output/Group';
     import type Verse from '@output/Verse';
     import Evaluate from '@nodes/Evaluate';
-    import { selectedOutput } from '@models/stores';
+    import { getSelectedOutput } from '../project/Contexts';
 
     export let group: Group | Verse;
     export let place: Place;
@@ -19,6 +19,8 @@
     export let interactive: boolean;
     export let parentAscent: number;
     export let context: RenderContext;
+
+    let selectedOutput = getSelectedOutput();
 
     // Compute a local context based on size and font.
     $: context = group.getRenderContext(context);
@@ -37,7 +39,7 @@
 
     $: selected =
         group.value.creator instanceof Evaluate &&
-        $selectedOutput.includes(group.value.creator);
+        $selectedOutput?.includes(group.value.creator);
 </script>
 
 <div

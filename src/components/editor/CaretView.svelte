@@ -7,10 +7,9 @@
 
 <script lang="ts">
     import { afterUpdate, tick } from 'svelte';
-    import { getCaret } from '../project/Contexts';
+    import { getCaret, getPlaying } from '../project/Contexts';
     import Spaces, { SPACE_HTML, TAB_HTML } from '@parser/Spaces';
     import type Source from '@nodes/Source';
-    import { playing } from '@models/stores';
     import Node from '@nodes/Node';
 
     type CaretPosition = {
@@ -29,6 +28,7 @@
 
     // The caret of the editor that contains this view.
     let caret = getCaret();
+    let playing = getPlaying();
 
     // The HTMLElement rendering this view.
     let element: HTMLElement;

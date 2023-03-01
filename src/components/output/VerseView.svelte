@@ -4,14 +4,7 @@
     import { onMount } from 'svelte';
     import type Project from '@models/Project';
     import type Verse from '@output/Verse';
-    import {
-        animatingNodes,
-        playing,
-        reviseProject,
-        selectedOutput,
-        selectedPhrase,
-        animationsOn,
-    } from '@models/stores';
+    import { animationsOn } from '@models/stores';
     import { preferredLanguages } from '@translation/translations';
     import { loadedFonts } from '@native/Fonts';
     import { focusToTransform, PX_PER_METER, toCSS } from '@output/outputToCSS';
@@ -35,6 +28,14 @@
     import { setContext } from 'svelte';
     import { writable } from 'svelte/store';
     import moveOutput from '../palette/moveOutput';
+    import {
+        getAnimatingNodes,
+        getPlaying,
+        getProject,
+        getSelectedOutput,
+        getSelectedPhrase,
+    } from '../project/Contexts';
+    import { reviseProject } from '../project/project';
 
     export let project: Project;
     export let verse: Verse;
@@ -43,6 +44,12 @@
     export let editable: boolean;
     export let fit: boolean;
     export let grid: boolean;
+
+    let projectStore = getProject();
+    let selectedOutput = getSelectedOutput();
+    let selectedPhrase = getSelectedPhrase();
+    let playing = getPlaying();
+    let animatingNodes = getAnimatingNodes();
 
     const GRID_PADDING = 2;
 
@@ -81,7 +88,8 @@
             },
             // When the animating poses or sequences on stage change, update the store
             (nodes) => {
-                if (interactive) animatingNodes.set(new Set(nodes));
+                if (interactive && animatingNodes)
+                    animatingNodes.set(new Set(nodes));
             }
         );
     }
@@ -280,8 +288,14 @@
                     focusDrag.startFocus.z.toNumber()
                 );
                 event.stopPropagation();
-            } else if ($selectedOutput.length > 0) {
+            } else if (
+                selectedOutput &&
+                $selectedOutput &&
+                $selectedOutput.length > 0
+            ) {
                 moveOutput(
+                    projectStore,
+                    selectedOutput,
                     project,
                     $selectedOutput,
                     $preferredLanguages,
@@ -306,13 +320,15 @@
     }
 
     function handleDoubleclick(event: MouseEvent) {
-        if (project.evaluator.isPlaying()) {
-            project.evaluator.pause();
-            selectPointerOutput(event);
-        } else {
-            selectedOutput.set([]);
-            selectedPhrase.set(null);
-            project.evaluator.play();
+        if (selectedOutput && selectedPhrase) {
+            if (project.evaluator.isPlaying()) {
+                project.evaluator.pause();
+                selectPointerOutput(event);
+            } else {
+                selectedOutput.set([]);
+                selectedPhrase.set(null);
+                project.evaluator.play();
+            }
         }
     }
 
@@ -400,6 +416,12 @@
      * if so.
      */
     function selectPointerOutput(event: MouseEvent): boolean {
+        if (
+            selectedOutput === undefined ||
+            $selectedOutput === undefined ||
+            selectedPhrase === undefined
+        )
+            return false;
         // If we found the node in the project, add it to the selection.
         const evaluate = getOutputNodeFromID(getOutputNodeIDUnderMouse(event));
         if (evaluate) {
@@ -437,6 +459,9 @@
     }
 
     function selectKeyboardOutput(event: KeyboardEvent) {
+        if (selectedOutput === undefined || $selectedOutput === undefined)
+            return;
+
         const evaluate = getOutputNodeFromID(getOutputNodeIDFromFocus());
         if (evaluate === undefined) return;
 
@@ -450,7 +475,9 @@
         }
         // Remove the node that created this phrase.
         else if (event.key === 'Backspace' && (event.metaKey || event.ctrlKey))
-            reviseProject([[evaluate, undefined]]);
+            reviseProject(projectStore, selectedOutput, [
+                [evaluate, undefined],
+            ]);
 
         // // meta-a: select all phrases
         // if (editable && event.key === 'a' && (event.metaKey || event.ctrlKey))
@@ -470,6 +497,7 @@
         class:ignored
         class:interactive
         class:selected={verse.value.creator instanceof Evaluate &&
+            $selectedOutput &&
             $selectedOutput.includes(verse.value.creator)}
         class:editing={!$playing}
         data-id={verse.getHTMLID()}

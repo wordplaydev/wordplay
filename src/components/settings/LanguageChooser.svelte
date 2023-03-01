@@ -6,7 +6,6 @@
         preferredTranslations,
     } from '@translation/translations';
     import Button from '../widgets/Button.svelte';
-    import { project } from '@models/stores';
     import type LanguageCode from '@translation/LanguageCode';
     import { getLanguageName, Languages } from '@translation/LanguageCode';
     import SupportedTranslations, {
@@ -19,10 +18,7 @@
     let element: HTMLElement;
 
     $: languageChoices = Array.from(
-        new Set([
-            ...(Object.keys(Languages) as LanguageCode[]),
-            ...($project === undefined ? [] : $project.getLanguages()),
-        ])
+        new Set([...(Object.keys(Languages) as LanguageCode[])])
     );
 
     const supportedLanguages = SupportedTranslations.map((t) => t.language);

@@ -1,14 +1,8 @@
 <!-- A window manager that displays a set of windows -->
 <script lang="ts">
-    import { project } from '@models/stores';
-    import { setContext } from 'svelte';
-    import { ProjectSymbol, type ProjectContext } from '../project/Contexts';
     import { PUBLIC_CONTEXT } from '$env/static/public';
 
     if (PUBLIC_CONTEXT !== 'prod') console.log(`*** ${PUBLIC_CONTEXT} ***`);
-
-    /** A global context for the current project */
-    setContext<ProjectContext>(ProjectSymbol, project);
 </script>
 
 <div class="teaser">

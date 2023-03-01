@@ -1,21 +1,27 @@
 <script lang="ts">
-    import {
-        playing,
-        updateProject,
-        streams,
-        currentStep,
-        currentStepIndex,
-    } from '@models/stores';
-
     import Button from '../widgets/Button.svelte';
     import Switch from '../widgets/Switch.svelte';
     import type Project from '@models/Project';
     import { preferredTranslations } from '@translation/translations';
+    import { updateProject } from '../project/project';
+    import {
+        getCurrentStep,
+        getCurrentStepIndex,
+        getPlaying,
+        getProject,
+        getStreamChanges,
+    } from '../project/Contexts';
 
     export let project: Project;
 
+    let projectStore = getProject();
+    let playing = getPlaying();
+    let currentStep = getCurrentStep();
+    let streams = getStreamChanges();
+    let currentStepIndex = getCurrentStepIndex();
+
     function reset() {
-        updateProject(project.clone());
+        updateProject(projectStore, project.clone());
     }
 </script>
 
@@ -23,10 +29,10 @@
     <Button
         tip={$preferredTranslations[0].ui.tooltip.reset}
         action={reset}
-        enabled={$streams.length > 1}>↻</Button
+        enabled={$streams !== undefined && $streams.length > 1}>↻</Button
     >
     <Switch
-        on={$playing}
+        on={$playing === true}
         toggle={(play) =>
             play ? project.evaluator.play() : project.evaluator.pause()}
         offTip={$preferredTranslations[0].ui.tooltip.pause}
@@ -60,6 +66,7 @@
         tip={$preferredTranslations[0].ui.tooltip.forward}
         action={() => project.evaluator.stepWithinProgram()}
         enabled={project.evaluator.isInPast() &&
+            $currentStepIndex !== undefined &&
             $currentStepIndex < project.evaluator.getStepCount()}>→</Button
     >
     <Button

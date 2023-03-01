@@ -1,7 +1,6 @@
 <script lang="ts">
     import type Project from '@models/Project';
     import Evaluate from '@nodes/Evaluate';
-    import { reviseProject, selectedOutput } from '@models/stores';
     import type Expression from '@nodes/Expression';
     import Button from '../widgets/Button.svelte';
     import {
@@ -16,9 +15,14 @@
     import Reference from '@nodes/Reference';
     import { RowType } from '@output/Row';
     import RootView from '../project/RootView.svelte';
+    import { getProject, getSelectedOutput } from '../project/Contexts';
+    import { reviseProject } from '../project/project';
 
     export let project: Project;
     export let list: ListLiteral | undefined;
+
+    let projectStore = getProject();
+    let selectedOutput = getSelectedOutput();
 
     // Get the map from the value set, unless its not a valid sequence or the maps of the selections aren't equal.
     $: valid =
@@ -89,12 +93,17 @@
 
     function editContent(index: number) {
         if (list === undefined) return;
+        if (selectedOutput === undefined) return;
+
         const item = list.values[index];
         if (item instanceof Evaluate) selectedOutput.set([item]);
     }
 
     function revise(newValues: Expression[]) {
-        if (list) reviseProject([[list, ListLiteral.make(newValues)]]);
+        if (list && selectedOutput)
+            reviseProject(projectStore, selectedOutput, [
+                [list, ListLiteral.make(newValues)],
+            ]);
     }
 </script>
 

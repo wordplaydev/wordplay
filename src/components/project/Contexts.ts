@@ -9,6 +9,11 @@ import type Node from '@nodes/Node';
 import type Token from '@nodes/Token';
 import type Tree from '@nodes/Tree';
 import type { Highlights } from '../editor/util/Highlights';
+import type Evaluate from '@nodes/Evaluate';
+import type { SelectedPhraseType } from './project';
+import type Step from '@runtime/Step';
+import type { StreamChange } from '@runtime/Evaluator';
+import type Conflict from '@conflicts/Conflict';
 
 export type CaretContext = Writable<Caret> | undefined;
 export const CaretSymbol = Symbol('caret');
@@ -78,4 +83,52 @@ export const ConceptIndexSymbol = Symbol('palette-index');
 export type ConceptIndexContext = Writable<ConceptIndex | undefined>;
 export function getConceptIndex() {
     return getContext<ConceptIndexContext>(ConceptIndexSymbol);
+}
+
+export const SelectedOutputSymbol = Symbol('selected-output');
+export type SelectedOutputContext = Writable<Evaluate[]>;
+export function getSelectedOutput(): SelectedOutputContext | undefined {
+    return getContext(SelectedOutputSymbol);
+}
+
+export const SelectedPhraseSymbol = Symbol('selected-phrase');
+export type SelectedPhraseContext = Writable<SelectedPhraseType>;
+export function getSelectedPhrase(): SelectedPhraseContext | undefined {
+    return getContext(SelectedPhraseSymbol);
+}
+
+export const PlayingSymbol = Symbol('playing');
+export type PlayingContext = Writable<boolean>;
+export function getPlaying(): PlayingContext | undefined {
+    return getContext(PlayingSymbol);
+}
+
+export const CurrentStepSymbol = Symbol('currentStep');
+export type CurrentStepContext = Writable<Step | undefined>;
+export function getCurrentStep(): CurrentStepContext | undefined {
+    return getContext(CurrentStepSymbol);
+}
+
+export const CurrentStepIndexSymbol = Symbol('currentStepIndex');
+export type CurrentStepIndexContext = Writable<number>;
+export function getCurrentStepIndex(): CurrentStepIndexContext | undefined {
+    return getContext(CurrentStepIndexSymbol);
+}
+
+export const StreamChangesSymbol = Symbol('streamChanges');
+export type StreamChangesContext = Writable<StreamChange[]>;
+export function getStreamChanges(): StreamChangesContext | undefined {
+    return getContext(StreamChangesSymbol);
+}
+
+export const AnimatingNodesSymbol = Symbol('animatingNodes');
+export type AnimatingNodesContext = Writable<Set<Node>>;
+export function getAnimatingNodes(): AnimatingNodesContext | undefined {
+    return getContext(AnimatingNodesSymbol);
+}
+
+export const ConflictsSymbol = Symbol('conflicts');
+export type ConflictsContext = Writable<Conflict[]>;
+export function getConflicts(): ConflictsContext | undefined {
+    return getContext(ConflictsSymbol);
 }

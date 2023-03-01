@@ -5,24 +5,28 @@
     import type Evaluate from '../../nodes/Evaluate';
     import type Project from '@models/Project';
     import Measurement from '@runtime/Measurement';
-    import { reviseProject } from '@models/stores';
     import MeasurementLiteral from '@nodes/MeasurementLiteral';
     import Unit from '@nodes/Unit';
     import Note from '../widgets/Note.svelte';
     import Bind from '../../nodes/Bind';
+    import { getProject, getSelectedOutput } from '../project/Contexts';
+    import { reviseProject } from '../project/project';
 
     export let project: Project;
     export let place: Evaluate | undefined;
+
+    let projectStore = getProject();
+    let selectedOutput = getSelectedOutput();
 
     function valid(val: string) {
         return !Measurement.fromUnknown(val).isNaN();
     }
 
     function handleChange(dimension: string, value: string) {
-        if (place === undefined) return;
+        if (place === undefined || selectedOutput === undefined) return;
         if (value.length > 0 && !valid(value)) return;
 
-        reviseProject([
+        reviseProject(projectStore, selectedOutput, [
             [
                 place,
                 place.withBindAs(

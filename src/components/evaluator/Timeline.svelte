@@ -1,22 +1,31 @@
 <script lang="ts">
     import { afterUpdate } from 'svelte';
-    import { getAnimationDuration, streams } from '@models/stores';
+    import { getAnimationDuration } from '@models/stores';
     import type Evaluator from '@runtime/Evaluator';
-    import { currentStepIndex } from '@models/stores';
     import Keyboard from '../../input/Keyboard';
     import Bool from '@runtime/Bool';
     import MouseButton from '../../input/MouseButton';
     import { slide } from 'svelte/transition';
-    import { playing } from '@models/stores';
     import { tick } from 'svelte';
     import Exception from '@runtime/Exception';
+    import {
+        getCurrentStepIndex,
+        getPlaying,
+        getStreamChanges,
+    } from '../project/Contexts';
 
     export let evaluator: Evaluator;
+
+    let playing = getPlaying();
+    let currentStepIndex = getCurrentStepIndex();
+    let streams = getStreamChanges();
 
     let timeline: HTMLElement;
 
     // Find the latest stream change before the current step index.
-    $: currentReaction = evaluator.getReactionPriorTo($currentStepIndex);
+    $: currentReaction = $currentStepIndex
+        ? evaluator.getReactionPriorTo($currentStepIndex)
+        : undefined;
     $: historyTrimmed =
         $currentStepIndex && evaluator.getEarliestStepIndexAvailable() > 0;
     let dragging = false;
@@ -37,7 +46,7 @@
     }
 
     /** When the step index changes, update the time slider position */
-    $: updateTimePosition($currentStepIndex);
+    $: if ($currentStepIndex) updateTimePosition($currentStepIndex);
 
     function updateScrollPosition() {
         if (currentReaction === undefined || dragging) return;
@@ -102,6 +111,8 @@
     }
 
     function stepToMouse(event: MouseEvent) {
+        if ($streams === undefined) return;
+
         // Map the mouse position onto a change.
         const view = document
             .elementFromPoint(event.clientX, event.clientY)
@@ -161,49 +172,52 @@
     bind:this={timeline}
 >
     {#if historyTrimmed}<span class="stream-input">…</span>{/if}
-    {#each $streams as reaction, index}
-        <!-- Compute the number of steps that occurred between this and the next input, or if there isn't one, the latest step. -->
-        {@const stepCount =
-            (index < $streams.length - 1
-                ? $streams[index + 1].stepIndex
-                : evaluator.getStepCount()) - reaction.stepIndex}
-        <!-- Show up to three of the streams that changed -->
-        {#each reaction.changes.slice(0, 3) as change}
-            {@const down =
-                change.stream instanceof Keyboard
-                    ? change.value?.resolve('down')
-                    : change.stream instanceof MouseButton
-                    ? change.value
-                    : undefined}
-            <!-- Show an emoji representing the cause of the reevaluation -->
+    {#if $streams}
+        {#each $streams as reaction, index}
+            <!-- Compute the number of steps that occurred between this and the next input, or if there isn't one, the latest step. -->
+            {@const stepCount =
+                (index < $streams.length - 1
+                    ? $streams[index + 1].stepIndex
+                    : evaluator.getStepCount()) - reaction.stepIndex}
+            <!-- Show up to three of the streams that changed -->
+            {#each reaction.changes.slice(0, 3) as change}
+                {@const down =
+                    change.stream instanceof Keyboard
+                        ? change.value?.resolve('down')
+                        : change.stream instanceof MouseButton
+                        ? change.value
+                        : undefined}
+                <!-- Show an emoji representing the cause of the reevaluation -->
+                <span
+                    class={`event stream-input ${
+                        currentReaction === reaction ? 'current' : ''
+                    } ${down instanceof Bool && down.bool ? 'down' : ''}`}
+                    data-inputindex={reaction.stepIndex}
+                >
+                    {#if change.stream === undefined}
+                        ◆
+                    {:else}
+                        {change.stream.getName(['😀'])}
+                    {/if}
+                    <!-- Show dots representing the steps after the reevaluation -->
+                </span>
+            {/each}
+            <!-- If there were more than three, indicate the trimming -->
+            {#if reaction.changes.length > 3}…{/if}
             <span
-                class={`event stream-input ${
-                    currentReaction === reaction ? 'current' : ''
-                } ${down instanceof Bool && down.bool ? 'down' : ''}`}
-                data-inputindex={reaction.stepIndex}
+                class="event steps"
+                data-startindex={reaction.stepIndex}
+                data-endindex={reaction.stepIndex + stepCount}
+                style:width="{Math.min(5, stepCount / 10)}em"
+                >&ZeroWidthSpace;</span
             >
-                {#if change.stream === undefined}
-                    ◆
-                {:else}
-                    {change.stream.getName(['😀'])}
-                {/if}
-                <!-- Show dots representing the steps after the reevaluation -->
-            </span>
+            <!-- If the value was an exception, show that it ended that way -->
+            {#if evaluator.getSourceValueBefore(evaluator.getMain(), reaction.stepIndex + stepCount) instanceof Exception}<span
+                    data-exceptionindex={reaction.stepIndex + stepCount}
+                    class="event exception">!</span
+                >{/if}
         {/each}
-        <!-- If there were more than three, indicate the trimming -->
-        {#if reaction.changes.length > 3}…{/if}
-        <span
-            class="event steps"
-            data-startindex={reaction.stepIndex}
-            data-endindex={reaction.stepIndex + stepCount}
-            style:width="{Math.min(5, stepCount / 10)}em">&ZeroWidthSpace;</span
-        >
-        <!-- If the value was an exception, show that it ended that way -->
-        {#if evaluator.getSourceValueBefore(evaluator.getMain(), reaction.stepIndex + stepCount) instanceof Exception}<span
-                data-exceptionindex={reaction.stepIndex + stepCount}
-                class="event exception">!</span
-            >{/if}
-    {/each}
+    {/if}
     <!-- Render the time slider -->
     <div class="time" style:left="{timePosition}px"
         ><span class="index">{$currentStepIndex}</span></div

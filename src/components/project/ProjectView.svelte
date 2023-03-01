@@ -8,18 +8,16 @@
         ConceptPathSymbol,
         type ConceptPathContext,
         type ConceptIndexContext,
+        getProject,
+        getSelectedOutput,
+        getPlaying,
+        getCurrentStep,
+        getConflicts,
     } from './Contexts';
     import type Project from '@models/Project';
     import Documentation from '@components/concepts/Documentation.svelte';
     import type Tree from '@nodes/Tree';
-    import {
-        playing,
-        currentStep,
-        nodeConflicts,
-        selectedOutput,
-        getAnimationDuration,
-        updateProject,
-    } from '@models/stores';
+    import { getAnimationDuration } from '@models/stores';
     import Annotations from '../annotations/Annotations.svelte';
     import type Conflict from '@conflicts/Conflict';
     import RootView from './RootView.svelte';
@@ -64,8 +62,15 @@
     import ConfirmButton from '../widgets/ConfirmButton.svelte';
     import { isName } from '../../parser/Tokenizer';
     import { goto } from '$app/navigation';
+    import { updateProject } from './project';
 
     export let project: Project;
+
+    let projectStore = getProject();
+    let selectedOutput = getSelectedOutput();
+    let playing = getPlaying();
+    let currentStep = getCurrentStep();
+    let conflicts = getConflicts();
 
     // The HTMLElement that represents this element
     let view: HTMLElement | undefined = undefined;
@@ -310,7 +315,7 @@
         if (updateTimer) clearTimeout(updateTimer);
         updateTimer = setTimeout(() => {
             project.analyze();
-            nodeConflicts.set(project.getConflicts());
+            conflicts?.set(project.getConflicts());
         }, 300);
     }
 
@@ -331,7 +336,7 @@
     $: {
         const palette = layout.getPalette();
         if (palette) {
-            if ($selectedOutput.length > 0) {
+            if ($selectedOutput && $selectedOutput.length > 0) {
                 if (palette.mode === Mode.Collapsed)
                     setMode(palette, Mode.Expanded);
             } else setMode(palette, Mode.Collapsed);
@@ -622,7 +627,7 @@
     }
 
     function toggleTile(tile: Tile) {
-        if (tile === layout.getPalette()) {
+        if (tile === layout.getPalette() && selectedOutput && $selectedOutput) {
             if (tile.mode === Mode.Collapsed && $selectedOutput.length === 0) {
                 const output = project.getOutput();
                 if (output.length > 0) selectedOutput.set([output[0]]);
@@ -639,6 +644,7 @@
 
     function addSource() {
         updateProject(
+            projectStore,
             project.withNewSource(
                 `${$preferredTranslations[0].terminology.source}${
                     project.supplements.length + 1
@@ -648,22 +654,28 @@
     }
 
     function removeSource(source: Source) {
-        updateProject(project.withoutSource(source));
+        updateProject(projectStore, project.withoutSource(source));
     }
 
     function renameSource(id: string, name: string) {
         if (!isName(name)) return;
         const source = getSourceByID(id);
         updateProject(
+            projectStore,
             project.withSource(
                 source,
                 source.withName(name, $preferredLanguages[0])
             )
         );
     }
+
+    async function close() {
+        projectStore.set(undefined);
+        await tick();
+        goto('/project');
+    }
 </script>
 
-<!-- svelte-ignore missing-declaration -->
 <!-- Render the app header and the current project, if there is one. -->
 <main
     class="project"
@@ -834,9 +846,7 @@
                 <Settings />
                 <Button
                     tip={$preferredTranslations[0].ui.tooltip.close}
-                    action={() => {
-                        goto('/project');
-                    }}>❌</Button
+                    action={close}>❌</Button
                 >
             </div>
         </section>

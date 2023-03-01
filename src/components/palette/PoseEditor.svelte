@@ -12,16 +12,20 @@
         preferredTranslations,
     } from '@translation/translations';
     import Evaluate from '@nodes/Evaluate';
-    import { reviseProject } from '@models/stores';
     import Reference from '@nodes/Reference';
     import MapLiteral from '@nodes/MapLiteral';
     import KeyValue from '@nodes/KeyValue';
     import MeasurementLiteral from '@nodes/MeasurementLiteral';
     import Unit from '@nodes/Unit';
+    import { reviseProject } from '../project/project';
+    import { getProject, getSelectedOutput } from '../project/Contexts';
 
     export let project: Project;
     export let outputs: OutputExpression[];
     export let sequence: boolean;
+
+    let projectStore = getProject();
+    let selectedOutput = getSelectedOutput();
 
     // Create a mapping from pose properties to values
     let propertyValues: Map<OutputProperty, OutputPropertyValueSet>;
@@ -38,25 +42,33 @@
     }
 
     function convert() {
-        reviseProject(
-            outputs.map((output) => [
-                output.node,
-                Evaluate.make(
-                    Reference.make(
-                        SequenceType.names.getTranslation($preferredLanguages),
-                        SequenceType
-                    ),
-                    [
-                        MapLiteral.make([
-                            KeyValue.make(
-                                MeasurementLiteral.make(0, Unit.make(['%'])),
-                                output.node
+        if (selectedOutput)
+            reviseProject(
+                projectStore,
+                selectedOutput,
+                outputs.map((output) => [
+                    output.node,
+                    Evaluate.make(
+                        Reference.make(
+                            SequenceType.names.getTranslation(
+                                $preferredLanguages
                             ),
-                        ]),
-                    ]
-                ),
-            ])
-        );
+                            SequenceType
+                        ),
+                        [
+                            MapLiteral.make([
+                                KeyValue.make(
+                                    MeasurementLiteral.make(
+                                        0,
+                                        Unit.make(['%'])
+                                    ),
+                                    output.node
+                                ),
+                            ]),
+                        ]
+                    ),
+                ])
+            );
     }
 </script>
 

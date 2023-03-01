@@ -1,20 +1,26 @@
 <script lang="ts">
-    import { project, reviseProject } from '@models/stores';
     import { parseMeasurement, toTokens } from '@parser/Parser';
     import Slider from '../widgets/Slider.svelte';
     import type OutputPropertyValues from '@transforms/OutputPropertyValueSet';
     import type OutputPropertyRange from '@transforms/OutputPropertyRange';
     import type OutputProperty from '@transforms/OutputProperty';
+    import { getProject, getSelectedOutput } from '../project/Contexts';
+    import { reviseProject } from '../project/project';
 
     export let property: OutputProperty;
     export let values: OutputPropertyValues;
     export let range: OutputPropertyRange;
 
+    let project = getProject();
+    let selectedOutput = getSelectedOutput();
+
     // Whenever the slider value changes, revise the Evaluates to match the new value.
     function handleChange(newValue: number) {
-        if ($project === undefined) return;
+        if ($project === undefined || selectedOutput === undefined) return;
 
         reviseProject(
+            project,
+            selectedOutput,
             $project.getBindReplacements(
                 values.getExpressions(),
                 property.name,

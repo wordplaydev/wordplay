@@ -5,7 +5,6 @@
         getConceptIndex,
         getConceptPath,
     } from '../project/Contexts';
-    import { updateProject } from '@models/stores';
     import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
     import Expression from '@nodes/Expression';
     import Tree from '@nodes/Tree';
@@ -33,6 +32,7 @@
     import DescriptionView from './DescriptionView.svelte';
     import { tick } from 'svelte';
     import TextField from '../widgets/TextField.svelte';
+    import { updateProject } from '../project/project';
 
     let palette: HTMLElement | undefined;
 
@@ -131,6 +131,7 @@
 
         // Update the project with the new source files
         updateProject(
+            project,
             $project.withSource(
                 source,
                 source.withProgram(

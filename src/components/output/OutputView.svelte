@@ -2,7 +2,6 @@
     import { toVerse } from '../../output/Verse';
     import Exception from '@runtime/Exception';
     import type Value from '@runtime/Value';
-    import { playing } from '@models/stores';
     import KeyboardIdle from '../editor/util/KeyboardIdle';
     import type Project from '@models/Project';
     import ValueView from '../values/ValueView.svelte';
@@ -15,7 +14,7 @@
         writingLayout,
     } from '@translation/translations';
     import Speech from '../lore/Speech.svelte';
-    import { getConceptIndex } from '../project/Contexts';
+    import { getConceptIndex, getPlaying } from '../project/Contexts';
 
     export let project: Project;
     export let source: Source;
@@ -27,6 +26,7 @@
     export let background: string | null = null;
 
     let index = getConceptIndex();
+    let playing = getPlaying();
 
     $: verse = latest === undefined ? undefined : toVerse(latest);
     $: background = verse?.background.toCSS() ?? null;

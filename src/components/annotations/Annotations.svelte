@@ -11,7 +11,6 @@
 <script lang="ts">
     import type Conflict from '@conflicts/Conflict';
     import type Project from '@models/Project';
-    import { currentStep } from '@models/stores';
     import { preferredTranslations } from '@translation/translations';
     import Expression from '@nodes/Expression';
     import type Node from '@nodes/Node';
@@ -20,10 +19,13 @@
     import { tick } from 'svelte';
     import type { Description } from '@translation/Translation';
     import type Step from '@runtime/Step';
+    import { getCurrentStep } from '../project/Contexts';
 
     export let project: Project;
     export let stepping: boolean;
     export let conflicts: Conflict[];
+
+    let currentStep = getCurrentStep();
 
     $: evaluator = project.evaluator;
 

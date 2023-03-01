@@ -1,7 +1,6 @@
 import Evaluate from '@nodes/Evaluate';
 import Decimal from 'decimal.js';
 import type Project from '@models/Project';
-import { reviseProject } from '@models/stores';
 import Bind from '@nodes/Bind';
 import Expression from '@nodes/Expression';
 import MeasurementLiteral from '@nodes/MeasurementLiteral';
@@ -9,8 +8,15 @@ import Reference from '@nodes/Reference';
 import Unit from '@nodes/Unit';
 import { PlaceType } from '@output/Place';
 import type LanguageCode from '@translation/LanguageCode';
+import type {
+    ProjectContext,
+    SelectedOutputContext,
+} from '../project/Contexts';
+import { reviseProject } from '../project/project';
 
 export default function moveOutput(
+    store: ProjectContext,
+    selected: SelectedOutputContext,
     project: Project,
     evaluates: Evaluate[],
     languages: LanguageCode[],
@@ -19,6 +25,8 @@ export default function moveOutput(
     relative: boolean
 ) {
     reviseProject(
+        store,
+        selected,
         evaluates.map((evaluate) => {
             const ctx = project.getNodeContext(evaluate);
 

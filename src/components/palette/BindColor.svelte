@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { project, reviseProject } from '@models/stores';
     import Dimension from '@nodes/Dimension';
     import Evaluate from '@nodes/Evaluate';
     import MeasurementLiteral from '@nodes/MeasurementLiteral';
@@ -9,9 +8,14 @@
     import ColorChooser from '../widgets/ColorChooser.svelte';
     import type OutputProperty from '../../transforms/OutputProperty';
     import { ColorType } from '../../output/Color';
+    import { getProject, getSelectedOutput } from '../project/Contexts';
+    import { reviseProject } from '../project/project';
 
     export let property: OutputProperty;
     export let values: OutputPropertyValueSet;
+
+    let project = getProject();
+    let selectedOutput = getSelectedOutput();
 
     $: lightness = getColorValue('lightness') ?? 0;
     $: chroma = getColorValue('chroma') ?? 0;
@@ -19,7 +23,7 @@
 
     // Whenever the slider value changes, revise the Evaluates to match the new value.
     function handleChange(l: number, c: number, h: number) {
-        if ($project === undefined) return;
+        if ($project === undefined || selectedOutput === undefined) return;
 
         // Make a Color evaluation corresponding to the new value
         const replacement = Evaluate.make(
@@ -35,6 +39,8 @@
         );
 
         reviseProject(
+            project,
+            selectedOutput,
             $project.getBindReplacements(
                 values.getExpressions(),
                 property.name,
