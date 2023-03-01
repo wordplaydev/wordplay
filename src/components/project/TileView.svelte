@@ -196,7 +196,6 @@
                     validator={(text) => isName(text)}
                     changed={handleChange}
                     fit
-                    right
                     border={false}
                 />
             </div>
