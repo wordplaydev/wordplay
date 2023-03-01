@@ -19,6 +19,8 @@
     import type Tile from './Tile';
     import { Mode } from './Tile';
     import type Layout from './Layout';
+    import TextField from '../widgets/TextField.svelte';
+    import { isName } from '../../parser/Tokenizer';
 
     export let tile: Tile;
     export let layout: Layout;
@@ -156,6 +158,10 @@
                     : null;
         }
     }
+
+    function handleChange(name: string) {
+        dispatch('rename', { id: tile.id, name });
+    }
 </script>
 
 <section
@@ -182,7 +188,21 @@
     </div>
     <!-- Render the toolbar -->
     <div class="controls">
-        <span class="name">{tile.name}</span>
+        {#if tile.isSource()}
+            <div class="name-editor">
+                <TextField
+                    text={tile.name}
+                    placeholder={$preferredTranslations[0].ui.placeholders.name}
+                    validator={(text) => isName(text)}
+                    changed={handleChange}
+                    fit
+                    right
+                    border={false}
+                />
+            </div>
+        {:else}
+            <span tabIndex="0" class="name">{tile.name}</span>
+        {/if}
         <slot name="extra" />
         <Button
             tip={$preferredTranslations[0].ui.tooltip.collapse}
@@ -277,17 +297,19 @@
         transition: none;
     }
 
-    .name {
-        color: var(--wordplay-disabled-color);
-    }
-
     .controls {
         position: relative;
         align-self: end;
         display: flex;
+        width: 100%;
         flex-direction: row;
+        justify-content: right;
         align-items: center;
-        padding: var(--wordplay-spacing);
+        padding-top: var(--wordplay-spacing);
+        padding-left: calc(2 * var(--wordplay-spacing));
+        padding-right: var(--wordplay-spacing);
+        padding-bottom: 0;
+
         color: var(--wordplay-disabled-color);
         fill: var(--wordplay-disabled-color);
         gap: var(--wordplay-spacing);
@@ -300,7 +322,6 @@
         position: relative;
         width: 100%;
         height: 100%;
-        margin-top: calc(-1 * (var(--wordplay-spacing) * 4 + 1em));
     }
 
     .tile:focus-within:after {
@@ -323,5 +344,9 @@
         left: 0;
         right: 0;
         bottom: 0;
+    }
+
+    .name-editor {
+        margin-right: auto;
     }
 </style>

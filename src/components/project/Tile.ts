@@ -46,6 +46,21 @@ export default class Tile {
         return this.mode == Mode.Collapsed;
     }
 
+    isSource() {
+        return this.kind === Content.Source;
+    }
+
+    withName(name: string) {
+        return new Tile(
+            this.id,
+            name,
+            this.kind,
+            this.mode,
+            this.bounds,
+            this.position
+        );
+    }
+
     withBounds(bounds: Bounds) {
         return new Tile(
             this.id,

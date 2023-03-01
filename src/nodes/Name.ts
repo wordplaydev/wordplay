@@ -29,7 +29,7 @@ export default class Name extends Node {
     static make(name?: string, lang?: Language) {
         return new Name(
             undefined,
-            name ? new NameToken(name) : new PlaceholderToken(),
+            name !== undefined ? new NameToken(name) : new PlaceholderToken(),
             lang
         );
     }

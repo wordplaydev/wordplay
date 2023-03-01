@@ -2030,6 +2030,7 @@ const en: Translation = {
             expression: 'value',
             type: 'type',
             percent: 'percent',
+            name: 'name',
         },
         tooltip: {
             yes: 'confirm',

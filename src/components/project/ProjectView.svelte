@@ -62,6 +62,7 @@
     import Settings from '../settings/Settings.svelte';
     import { getPersistedValue, setPersistedValue } from '../app/persist';
     import ConfirmButton from '../widgets/ConfirmButton.svelte';
+    import { isName } from '../../parser/Tokenizer';
 
     export let project: Project;
 
@@ -110,7 +111,12 @@
                 const source = project
                     .getSources()
                     .find((_, index) => Layout.getSourceID(index) === tile.id);
-                if (source) newTiles.push(tile);
+                if (source)
+                    newTiles.push(
+                        tile.withName(
+                            source.names.getTranslation($preferredLanguages)
+                        )
+                    );
             }
         }
 
@@ -643,6 +649,17 @@
     function removeSource(source: Source) {
         updateProject(project.withoutSource(source));
     }
+
+    function renameSource(id: string, name: string) {
+        if (!isName(name)) return;
+        const source = getSourceByID(id);
+        updateProject(
+            project.withSource(
+                source,
+                source.withName(name, $preferredLanguages[0])
+            )
+        );
+    }
 </script>
 
 <!-- svelte-ignore missing-declaration -->
@@ -705,6 +722,8 @@
                                 event.detail.top
                             )}
                         on:scroll={repositionFloaters}
+                        on:rename={(event) =>
+                            renameSource(event.detail.id, event.detail.name)}
                         on:fullscreen={(event) =>
                             setFullscreen(tile, event.detail.fullscreen)}
                     >
@@ -719,7 +738,7 @@
                                     action={() => (fit = !fit)}
                                     >{#if fit}🔒{:else}🔓{/if}</Button
                                 >
-                            {:else if tile.kind === Content.Source}
+                            {:else if tile.isSource()}
                                 {@const source = getSourceByID(tile.id)}
                                 {#if source !== project.main}
                                     <ConfirmButton

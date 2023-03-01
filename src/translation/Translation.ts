@@ -738,6 +738,7 @@ type Translation = {
             expression: string;
             type: string;
             percent: string;
+            name: string;
         };
         tooltip: {
             yes: string;

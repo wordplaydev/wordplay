@@ -99,6 +99,15 @@ export const WordsRegEx = new RegExp(
     'u'
 );
 
+export const NameRegExPattern = `^[^\n\t ${RESERVED_SYMBOLS.map((s) =>
+    escapeRegexCharacter(s)
+).join('')}${TEXT_SEPARATORS}${BINARY_OPERATORS}]+`;
+export const NameRegEx = new RegExp(NameRegExPattern, 'u');
+
+export function isName(name: string) {
+    return new RegExp(`${NameRegExPattern}$`, 'u').test(name);
+}
+
 export const ConceptRegEx = `${LINK_SYMBOL}(?!http)[a-zA-Z]*`;
 
 function escapeRegexCharacter(c: string) {
@@ -230,12 +239,7 @@ const patterns = [
 
     // All other tokens are names, which are sequences of Unicode glyphs that are not one of the reserved symbols above or whitespace.
     {
-        pattern: new RegExp(
-            `^[^\n\t ${RESERVED_SYMBOLS.map((s) =>
-                escapeRegexCharacter(s)
-            ).join('')}${TEXT_SEPARATORS}${BINARY_OPERATORS}]+`,
-            'u'
-        ),
+        pattern: NameRegEx,
         types: [TokenType.NAME],
     },
 ];

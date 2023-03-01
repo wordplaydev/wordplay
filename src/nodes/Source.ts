@@ -199,6 +199,13 @@ export default class Source extends Expression {
             );
     }
 
+    withName(name: string, language: LanguageCode) {
+        return new Source(this.names.withName(name, language), [
+            this.expression,
+            this.spaces,
+        ]);
+    }
+
     withSpaces(spaces: Spaces) {
         return new Source(this.names, [this.expression, spaces]);
     }

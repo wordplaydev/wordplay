@@ -139,6 +139,28 @@ export default class Names extends Node {
         return translation.nodes.Names;
     }
 
+    withName(name: string, language: LanguageCode) {
+        const languageMatchIndex = this.names.findIndex(
+            (name) => name.getLanguage() === language
+        );
+        const untaggedMatchIndex = this.names.findIndex(
+            (name) => name.getLanguage() === undefined
+        );
+        const index =
+            languageMatchIndex >= 0 ? languageMatchIndex : untaggedMatchIndex;
+
+        const newName = Name.make(name, Language.make(language));
+        return new Names(
+            index < 0
+                ? [...this.names, newName]
+                : [
+                      ...this.names.slice(0, index),
+                      newName,
+                      ...this.names.slice(index + 1),
+                  ]
+        );
+    }
+
     getGlyphs() {
         return {
             symbols: this.getNames()[0],
