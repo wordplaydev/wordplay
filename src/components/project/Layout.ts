@@ -112,7 +112,9 @@ export default class Layout {
     }
 
     getNonSources() {
-        return this.tiles.filter((tile) => !tile.id.startsWith('source'));
+        return this.tiles
+            .filter((tile) => !tile.id.startsWith('source'))
+            .sort((a, b) => a.id.localeCompare(b.id));
     }
 
     replace(tile: Tile, newTile: Tile) {
