@@ -1,6 +1,6 @@
 <script lang="ts">
+    import { preferredTranslations } from '../../translation/translations';
     import Button from './Button.svelte';
-    import Confirm from './Confirm.svelte';
 
     export let tip: string;
     export let action: () => void;
@@ -10,11 +10,28 @@
     let confirming = false;
 </script>
 
-{#if confirming}
-    <Confirm
-        {prompt}
-        decide={(yes) => (yes ? action() : (confirming = false))}
-    />
-{:else}
-    <Button {tip} action={() => (confirming = true)} {enabled}><slot /></Button>
-{/if}
+<div class="prompt" class:confirming>
+    <Button {tip} action={() => (confirming = !confirming)} {enabled}
+        ><slot /></Button
+    >
+    {#if confirming}
+        <Button
+            stretch
+            tip={$preferredTranslations[0].ui.tooltip.yes}
+            action={() => action()}>{prompt}</Button
+        >
+    {/if}
+</div>
+
+<style>
+    .prompt.confirming {
+        display: flex;
+        flex-direction: row;
+        gap: var(--wordplay-spacing);
+        padding-left: var(--wordplay-spacing);
+        padding-right: var(--wordplay-spacing);
+        align-items: baseline;
+        outline: var(--wordplay-border-color) solid var(--wordplay-border-width);
+        border-radius: var(--wordplay-border-radius);
+    }
+</style>

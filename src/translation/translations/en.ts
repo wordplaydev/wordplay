@@ -2073,7 +2073,7 @@ const en: Translation = {
             removeSource: 'remove this source',
         },
         prompt: {
-            removeSource: 'delete this source',
+            removeSource: 'delete?',
         },
         labels: {
             learn: 'learn more …',

@@ -61,6 +61,7 @@
     import type Concept from '../../concepts/Concept';
     import Settings from '../settings/Settings.svelte';
     import { getPersistedValue, setPersistedValue } from '../app/persist';
+    import ConfirmButton from '../widgets/ConfirmButton.svelte';
 
     export let project: Project;
 
@@ -638,6 +639,10 @@
             )
         );
     }
+
+    function removeSource(source: Source) {
+        updateProject(project.withoutSource(source));
+    }
 </script>
 
 <!-- svelte-ignore missing-declaration -->
@@ -713,7 +718,20 @@
                                         .fit}
                                     action={() => (fit = !fit)}
                                     >{#if fit}🔒{:else}🔓{/if}</Button
-                                >{/if}
+                                >
+                            {:else if tile.kind === Content.Source}
+                                {@const source = getSourceByID(tile.id)}
+                                {#if source !== project.main}
+                                    <ConfirmButton
+                                        tip={$preferredTranslations[0].ui
+                                            .tooltip.removeSource}
+                                        action={() => removeSource(source)}
+                                        prompt={$preferredTranslations[0].ui
+                                            .prompt.removeSource}
+                                        >⨉</ConfirmButton
+                                    >
+                                {/if}
+                            {/if}
                         </svelte:fragment>
                         <svelte:fragment slot="content">
                             {#if tile.kind === Content.Documentation}
