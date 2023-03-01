@@ -3,9 +3,9 @@
     import { getFirstName } from '@translation/Translation';
     import TextField from '../widgets/TextField.svelte';
     import type Evaluate from '../../nodes/Evaluate';
-    import type Project from '../../models/Project';
+    import type Project from '@models/Project';
     import Measurement from '@runtime/Measurement';
-    import { reviseProject } from '../../models/stores';
+    import { reviseProject } from '@models/stores';
     import MeasurementLiteral from '@nodes/MeasurementLiteral';
     import Unit from '@nodes/Unit';
     import Note from '../widgets/Note.svelte';

@@ -1,7 +1,7 @@
 <script lang="ts">
     import { preferredTranslations } from '@translation/translations';
     import Button from '../widgets/Button.svelte';
-    import { animationsOn } from '../../models/stores';
+    import { animationsOn } from '@models/stores';
     import LayoutChooser from './LayoutChooser.svelte';
     import LanguageChooser from './LanguageChooser.svelte';
 </script>

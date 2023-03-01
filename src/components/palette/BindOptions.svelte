@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { project, reviseProject } from '../../models/stores';
+    import { project, reviseProject } from '@models/stores';
     import Options from '../widgets/Options.svelte';
     import type OutputPropertyValues from '@transforms/OutputPropertyValueSet';
     import type OutputProperty from '@transforms/OutputProperty';

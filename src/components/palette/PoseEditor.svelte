@@ -3,7 +3,7 @@
     import OutputPropertyValueSet from '@transforms/OutputPropertyValueSet';
     import PoseProperties from '@transforms/PoseProperties';
     import PaletteProperty from './PaletteProperty.svelte';
-    import type Project from '../../models/Project';
+    import type Project from '@models/Project';
     import type OutputExpression from '@transforms/OutputExpression';
     import Button from '../widgets/Button.svelte';
     import { SequenceType } from '@output/Sequence';
@@ -12,7 +12,7 @@
         preferredTranslations,
     } from '@translation/translations';
     import Evaluate from '@nodes/Evaluate';
-    import { reviseProject } from '../../models/stores';
+    import { reviseProject } from '@models/stores';
     import Reference from '@nodes/Reference';
     import MapLiteral from '@nodes/MapLiteral';
     import KeyValue from '@nodes/KeyValue';

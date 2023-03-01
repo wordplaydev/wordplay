@@ -22,7 +22,8 @@
             "@concepts/*": ["concepts/*"],
             "@parser/*": ["parser/*"],
             "@native/*": ["native/*"],
-            "@transforms/*": ["transforms/*"]
+            "@transforms/*": ["transforms/*"],
+            "@models/*": ["models/*"]
         }
     }
 }

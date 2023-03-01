@@ -3,7 +3,7 @@
 <script lang="ts">
     import type Reference from '@nodes/Reference';
     import NodeView from './NodeView.svelte';
-    import { currentStep, playing } from '../../models/stores';
+    import { currentStep, playing } from '@models/stores';
     import { getProject } from '../project/Contexts';
     import Evaluate from '@nodes/Evaluate';
     import type Stream from '@runtime/Stream';

@@ -10,7 +10,7 @@
     import { getCaret } from '../project/Contexts';
     import Spaces, { SPACE_HTML, TAB_HTML } from '@parser/Spaces';
     import type Source from '@nodes/Source';
-    import { playing } from '../../models/stores';
+    import { playing } from '@models/stores';
     import Node from '@nodes/Node';
 
     type CaretPosition = {

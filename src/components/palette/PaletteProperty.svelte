@@ -11,7 +11,7 @@
         preferredTranslations,
         preferredLanguages,
     } from '@translation/translations';
-    import type Project from '../../models/Project';
+    import type Project from '@models/Project';
     import OutputPropertyOptions from '@transforms/OutputPropertyOptions';
     import OutputPropertyText from '@transforms/OutputPropertyText';
     import type OutputProperty from '@transforms/OutputProperty';

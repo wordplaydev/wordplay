@@ -5,11 +5,11 @@
         nodeConflicts,
         selectedOutput,
         updateProject,
-    } from '../../models/stores';
+    } from '@models/stores';
     import Node from '@nodes/Node';
     import Caret from './util/Caret';
     import { createEventDispatcher, onMount, setContext } from 'svelte';
-    import UnicodeString from '../../models/UnicodeString';
+    import UnicodeString from '@models/UnicodeString';
     import commands, { type Edit } from './util/Commands';
     import type Source from '@nodes/Source';
     import { writable } from 'svelte/store';
@@ -44,13 +44,13 @@
     import Block from '@nodes/Block';
     import TokenType from '@nodes/TokenType';
     import RootView from '../project/RootView.svelte';
-    import type Project from '../../models/Project';
+    import type Project from '@models/Project';
     import {
         currentStep,
         currentStepIndex,
         playing,
         animatingNodes,
-    } from '../../models/stores';
+    } from '@models/stores';
     import type Conflict from '@conflicts/Conflict';
     import { tick } from 'svelte';
     import { getEditsAt } from './util/Autocomplete';

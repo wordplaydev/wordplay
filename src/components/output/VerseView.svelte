@@ -2,7 +2,7 @@
 
 <script lang="ts">
     import { onMount } from 'svelte';
-    import type Project from '../../models/Project';
+    import type Project from '@models/Project';
     import type Verse from '@output/Verse';
     import {
         animatingNodes,
@@ -11,7 +11,7 @@
         selectedOutput,
         selectedPhrase,
         animationsOn,
-    } from '../../models/stores';
+    } from '@models/stores';
     import { preferredLanguages } from '@translation/translations';
     import { loadedFonts } from '@native/Fonts';
     import { focusToTransform, PX_PER_METER, toCSS } from '@output/outputToCSS';

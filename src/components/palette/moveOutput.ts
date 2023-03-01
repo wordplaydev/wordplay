@@ -1,7 +1,7 @@
 import Evaluate from '@nodes/Evaluate';
 import Decimal from 'decimal.js';
-import type Project from '../../models/Project';
-import { reviseProject } from '../../models/stores';
+import type Project from '@models/Project';
+import { reviseProject } from '@models/stores';
 import Bind from '@nodes/Bind';
 import Expression from '@nodes/Expression';
 import MeasurementLiteral from '@nodes/MeasurementLiteral';

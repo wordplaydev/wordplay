@@ -10,7 +10,7 @@
     import type Group from '@output/Group';
     import type Verse from '@output/Verse';
     import Evaluate from '@nodes/Evaluate';
-    import { selectedOutput } from '../../models/stores';
+    import { selectedOutput } from '@models/stores';
 
     export let group: Group | Verse;
     export let place: Place;

@@ -2,9 +2,9 @@
     import { toVerse } from '../../output/Verse';
     import Exception from '@runtime/Exception';
     import type Value from '@runtime/Value';
-    import { playing } from '../../models/stores';
+    import { playing } from '@models/stores';
     import KeyboardIdle from '../editor/util/KeyboardIdle';
-    import type Project from '../../models/Project';
+    import type Project from '@models/Project';
     import ValueView from '../values/ValueView.svelte';
     import type Source from '@nodes/Source';
     import VerseView from './VerseView.svelte';

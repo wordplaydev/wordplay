@@ -6,7 +6,7 @@
         preferredTranslations,
     } from '@translation/translations';
     import Button from '../widgets/Button.svelte';
-    import { project } from '../../models/stores';
+    import { project } from '@models/stores';
     import type LanguageCode from '@translation/LanguageCode';
     import { getLanguageName, Languages } from '@translation/LanguageCode';
     import SupportedTranslations, {

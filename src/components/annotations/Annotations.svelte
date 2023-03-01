@@ -10,8 +10,8 @@
 
 <script lang="ts">
     import type Conflict from '@conflicts/Conflict';
-    import type Project from '../../models/Project';
-    import { currentStep } from '../../models/stores';
+    import type Project from '@models/Project';
+    import { currentStep } from '@models/stores';
     import { preferredTranslations } from '@translation/translations';
     import Expression from '@nodes/Expression';
     import type Node from '@nodes/Node';

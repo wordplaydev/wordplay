@@ -5,7 +5,7 @@
     import DescriptionView from '@components/concepts/DescriptionView.svelte';
     import Speech from '../lore/Speech.svelte';
     import { getConceptIndex } from '../project/Contexts';
-    import { getAnimationDuration } from '../../models/stores';
+    import { getAnimationDuration } from '@models/stores';
 
     export let id: number;
     export let annotations: AnnotationInfo[];

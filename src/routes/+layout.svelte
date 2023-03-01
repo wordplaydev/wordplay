@@ -1,0 +1,285 @@
+<script lang="ts">
+    import { animationsOn } from '@models/stores';
+    import { onMount } from 'svelte';
+    import Loading from '../components/app/Loading.svelte';
+
+    // Don't display the manager until the fonts are loaded.
+    let fontsLoaded = false;
+
+    // Wait for the fonts to load before we display
+    onMount(() => document.fonts.ready.then(() => (fontsLoaded = true)));
+</script>
+
+<svelte:head>
+    <!-- Preload the default fonts -->
+    <link
+        rel="preload"
+        href="/fonts/NotoSans/NotoSans-400.ttf"
+        as="font"
+        type="font/ttf"
+    />
+    <link
+        rel="preload"
+        href="/fonts/NotoSans/NotoSans-400-italic.ttf"
+        as="font"
+        type="font/ttf"
+    />
+    <link
+        rel="preload"
+        href="/fonts/NotoSans/NotoSans-700.ttf"
+        as="font"
+        type="font/ttf"
+    />
+    <link
+        rel="preload"
+        href="/fonts/NotoSans/NotoSans-700-italic.ttf"
+        as="font"
+        type="font/ttf"
+    />
+    <link
+        rel="preload"
+        href="/fonts/NotoEmoji/NotoEmoji-all.ttf"
+        as="font"
+        type="font/ttf"
+    />
+    <link
+        rel="preload"
+        href="/fonts/NotoMono/NotoMono-all.ttf"
+        as="font"
+        type="font/ttf"
+    />
+</svelte:head>
+
+<main class:animated={$animationsOn}>
+    {#if fontsLoaded}
+        <slot />
+    {:else}<Loading />
+    {/if}
+</main>
+
+<style global>
+    :root {
+        --color-blue: #648fff;
+        --color-purple: #785ef0;
+        --color-pink: #dc267f;
+        --color-orange: #fe6100;
+        --color-yellow: #ffb000;
+        --color-grey: #999999;
+        --color-lightgrey: #dddddd;
+        --color-white: #ffffff;
+        --color-black: #000000;
+
+        --wordplay-editor-indent: 3em;
+        --wordplay-editor-radius: 3px;
+        --wordplay-foreground: var(--color-black);
+        --wordplay-background: var(--color-white);
+        --wordplay-chrome: rgb(240, 240, 240);
+        --wordplay-border-color: rgb(200, 200, 200);
+        --wordplay-evaluation-color: var(--color-pink);
+        --wordplay-highlight: var(--color-yellow);
+        --wordplay-error: var(--color-orange);
+        --wordplay-warning: var(--color-yellow);
+        --wordplay-disabled-color: rgb(180, 180, 180);
+        --wordplay-doc-color: var(--color-purple);
+        --wordplay-relation-color: var(--color-orange);
+        --wordplay-operator-color: var(--color-orange);
+        --wordplay-type-color: var(--color-orange);
+        --wordplay-spacing: 0.5em;
+        --wordplay-app-font: 'Noto Sans', 'Noto Emoji', sans-serif;
+        --wordplay-code-font: 'Noto Mono', 'Noto Emoji', monospace;
+        --wordplay-font-weight: 500;
+        --wordplay-font-size: 12pt;
+        --wordplay-border-width: 1px;
+        --wordplay-focus-width: 4px;
+        --wordplay-border-radius: 5px;
+        --wordplay-code-line-height: 1.6;
+        --wordplay-palette-min-width: 5em;
+        --wordplay-palette-max-width: 15em;
+
+        --bounce-height: 0.5em;
+
+        --wobble-rotation: 2deg;
+    }
+
+    @keyframes wobble {
+        0% {
+            transform: rotate(var(--wobble-rotation));
+        }
+        50% {
+            transform: rotate(calc(-1 * var(--wobble-rotation)));
+        }
+        100% {
+            transform: rotate(var(--wobble-rotation));
+        }
+    }
+
+    @keyframes throb {
+        0% {
+            opacity: 0.8;
+        }
+        50% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0.8;
+        }
+    }
+
+    @keyframes shift {
+        0% {
+            transform: translateX(2px);
+        }
+        50% {
+            transform: translateX(-2px);
+        }
+        100% {
+            transform: translateX(2px);
+        }
+    }
+
+    @keyframes bounce {
+        0% {
+            transform: scale(1, 1) translateY(0);
+        }
+        10% {
+            transform: scale(1.1, 0.9) translateY(0);
+        }
+        30% {
+            transform: scale(0.9, 1.1)
+                translateY(calc(-1 * var(--bounce-height)));
+        }
+        50% {
+            transform: scale(1.05, 0.95) translateY(0);
+        }
+        57% {
+            transform: scale(1, 1) translateY(-7px);
+        }
+        64% {
+            transform: scale(1, 1) translateY(0);
+        }
+        100% {
+            transform: scale(1, 1) translateY(0);
+        }
+    }
+
+    @keyframes pulse {
+        0% {
+            stroke-width: calc(var(--wordplay-border-width) * 2);
+        }
+
+        70% {
+            stroke-width: var(--wordplay-border-width);
+        }
+
+        100% {
+            stroke-width: calc(var(--wordplay-border-width) * 2);
+        }
+    }
+
+    @keyframes shake {
+        10%,
+        90% {
+            transform: translate3d(-1px, 0, 0);
+        }
+
+        20%,
+        80% {
+            transform: translate3d(2px, 0, 0);
+        }
+
+        30%,
+        50%,
+        70% {
+            transform: translate3d(-4px, 0, 0);
+        }
+
+        40%,
+        60% {
+            transform: translate3d(4px, 0, 0);
+        }
+    }
+
+    @keyframes squish {
+        10%,
+        90% {
+            transform: translate3d(0, -1px, 0);
+        }
+        20%,
+        80% {
+            transform: translate3d(0px, 2px, 0);
+        }
+        30%,
+        50%,
+        70% {
+            transform: translate3d(0, -4px, 0) scale(1, 1.25);
+        }
+        40%,
+        60% {
+            transform: translate3d(0, 4px, 0) scale(1, 0.5);
+        }
+    }
+
+    body {
+        background-color: var(--wordplay-background);
+        padding: 0;
+        margin: 0;
+        font-family: var(--wordplay-app-font);
+        font-weight: var(--wordplay-font-weight);
+        color: var(--wordplay-foreground);
+    }
+
+    html {
+        box-sizing: border-box;
+    }
+
+    * {
+        box-sizing: inherit;
+    }
+
+    h1,
+    h2,
+    h3 {
+        margin-bottom: var(--wordplay-spacing);
+        margin-top: 0;
+    }
+
+    h1:not(:first-child),
+    h2:not(:first-child),
+    h3:not(:first-child) {
+        margin-top: calc(2 * var(--wordplay-spacing));
+    }
+
+    h1 {
+        font-size: large;
+        font-weight: bold;
+    }
+
+    h2 {
+        font-size: medium;
+        font-weight: bold;
+    }
+
+    h3 {
+        font-size: medium;
+        font-style: italic;
+        font-weight: normal;
+    }
+
+    p {
+        margin: 0;
+    }
+
+    p:not(:last-of-type) {
+        margin-bottom: calc(2 * var(--wordplay-spacing));
+    }
+
+    a {
+        color: var(--wordplay-highlight);
+        text-decoration: none;
+        text-decoration-thickness: var(--wordplay-focus-width);
+    }
+
+    *:focus {
+        outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
+    }
+</style>

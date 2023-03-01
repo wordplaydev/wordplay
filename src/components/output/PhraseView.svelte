@@ -11,13 +11,13 @@
         reviseProject,
         selectedOutput,
         selectedPhrase,
-    } from '../../models/stores';
+    } from '@models/stores';
     import Pose from '@output/Pose';
     import Evaluate from '@nodes/Evaluate';
     import TextLiteral from '@nodes/TextLiteral';
     import { getContext, onMount } from 'svelte';
     import type { Writable } from 'svelte/store';
-    import type Project from '../../models/Project';
+    import type Project from '@models/Project';
     import moveOutput from '../palette/moveOutput';
 
     export let phrase: Phrase;

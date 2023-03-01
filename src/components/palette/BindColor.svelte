@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { project, reviseProject } from '../../models/stores';
+    import { project, reviseProject } from '@models/stores';
     import Dimension from '@nodes/Dimension';
     import Evaluate from '@nodes/Evaluate';
     import MeasurementLiteral from '@nodes/MeasurementLiteral';

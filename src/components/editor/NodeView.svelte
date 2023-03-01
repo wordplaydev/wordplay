@@ -9,11 +9,7 @@
         getSpace,
     } from '../project/Contexts';
     import getNodeView from './util/nodeToView';
-    import {
-        currentStep,
-        currentStepIndex,
-        playing,
-    } from '../../models/stores';
+    import { currentStep, currentStepIndex, playing } from '@models/stores';
     import Expression from '@nodes/Expression';
     import ValueView from '@components/values/ValueView.svelte';
     import type Value from '@runtime/Value';

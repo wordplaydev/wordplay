@@ -10,7 +10,7 @@
     import DocHTMLView from './DocHTMLView.svelte';
     import type StructureConcept from '@concepts/StructureConcept';
     import Speech from '../lore/Speech.svelte';
-    import { getAnimationDuration } from '../../models/stores';
+    import { getAnimationDuration } from '@models/stores';
 
     export let concept: Concept;
     export let types: StructureConcept[] | undefined = undefined;

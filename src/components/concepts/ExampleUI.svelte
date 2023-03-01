@@ -2,7 +2,7 @@
     import { onDestroy } from 'svelte';
     import RootView from '../project/RootView.svelte';
     import { getConceptIndex } from '../project/Contexts';
-    import Project from '../../models/Project';
+    import Project from '@models/Project';
     import type Example from '@nodes/Example';
     import Source from '@nodes/Source';
     import type Spaces from '@parser/Spaces';

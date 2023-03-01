@@ -5,11 +5,11 @@
         streams,
         currentStep,
         currentStepIndex,
-    } from '../../models/stores';
+    } from '@models/stores';
 
     import Button from '../widgets/Button.svelte';
     import Switch from '../widgets/Switch.svelte';
-    import type Project from '../../models/Project';
+    import type Project from '@models/Project';
     import { preferredTranslations } from '@translation/translations';
 
     export let project: Project;

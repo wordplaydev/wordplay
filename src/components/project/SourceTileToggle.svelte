@@ -1,10 +1,10 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
-    import type Project from '../../models/Project';
+    import type Project from '@models/Project';
     import type Source from '@nodes/Source';
     import type Value from '@runtime/Value';
     import OutputView from '../output/OutputView.svelte';
-    import { currentStep, nodeConflicts } from '../../models/stores';
+    import { currentStep, nodeConflicts } from '@models/stores';
 
     export let project: Project;
     export let source: Source;

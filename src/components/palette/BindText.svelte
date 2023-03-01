@@ -1,6 +1,6 @@
 <script lang="ts">
     import type OutputPropertyValues from '@transforms/OutputPropertyValueSet';
-    import { project, reviseProject } from '../../models/stores';
+    import { project, reviseProject } from '@models/stores';
     import TextLiteral from '@nodes/TextLiteral';
     import { preferredLanguages } from '@translation/translations';
     import TextField from '../widgets/TextField.svelte';

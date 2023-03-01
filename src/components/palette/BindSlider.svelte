@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { project, reviseProject } from '../../models/stores';
+    import { project, reviseProject } from '@models/stores';
     import { parseMeasurement, toTokens } from '@parser/Parser';
     import Slider from '../widgets/Slider.svelte';
     import type OutputPropertyValues from '@transforms/OutputPropertyValueSet';

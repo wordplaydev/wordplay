@@ -1,7 +1,7 @@
 <script lang="ts">
-    import type Project from '../../models/Project';
+    import type Project from '@models/Project';
     import Evaluate from '@nodes/Evaluate';
-    import { reviseProject, selectedOutput } from '../../models/stores';
+    import { reviseProject, selectedOutput } from '@models/stores';
     import type Expression from '@nodes/Expression';
     import Button from '../widgets/Button.svelte';
     import {

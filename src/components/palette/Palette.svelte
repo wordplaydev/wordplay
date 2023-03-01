@@ -1,7 +1,7 @@
 <script lang="ts">
     import { preferredTranslations } from '@translation/translations';
-    import { selectedOutput } from '../../models/stores';
-    import type Project from '../../models/Project';
+    import { selectedOutput } from '@models/stores';
+    import type Project from '@models/Project';
     import OutputPropertyValueSet from '@transforms/OutputPropertyValueSet';
     import PaletteProperty from './PaletteProperty.svelte';
     import type OutputProperty from '@transforms/OutputProperty';

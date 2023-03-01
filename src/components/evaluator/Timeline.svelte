@@ -1,13 +1,13 @@
 <script lang="ts">
     import { afterUpdate } from 'svelte';
-    import { getAnimationDuration, streams } from '../../models/stores';
+    import { getAnimationDuration, streams } from '@models/stores';
     import type Evaluator from '@runtime/Evaluator';
-    import { currentStepIndex } from '../../models/stores';
+    import { currentStepIndex } from '@models/stores';
     import Keyboard from '../../input/Keyboard';
     import Bool from '@runtime/Bool';
     import MouseButton from '../../input/MouseButton';
     import { slide } from 'svelte/transition';
-    import { playing } from '../../models/stores';
+    import { playing } from '@models/stores';
     import { tick } from 'svelte';
     import Exception from '@runtime/Exception';
 

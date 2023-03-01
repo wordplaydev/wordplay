@@ -17,6 +17,7 @@ const config = {
             '@output': path.resolve('./src/output'),
             '@native': path.resolve('./src/native'),
             '@transforms': path.resolve('./src/transforms'),
+            '@models': path.resolve('./src/models'),
         },
     },
 };

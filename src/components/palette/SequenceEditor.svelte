@@ -2,7 +2,7 @@
     import type OutputProperty from '@transforms/OutputProperty';
     import OutputPropertyValueSet from '@transforms/OutputPropertyValueSet';
     import PaletteProperty from './PaletteProperty.svelte';
-    import type Project from '../../models/Project';
+    import type Project from '@models/Project';
     import SequenceProperties from '@transforms/SequenceProperties';
     import type OutputExpression from '@transforms/OutputExpression';
 

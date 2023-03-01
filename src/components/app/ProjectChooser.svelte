@@ -1,11 +1,12 @@
 <script lang="ts">
     import { examples, makeProject, type Stuff } from '../../examples/examples';
-    import Project from '../../models/Project';
-    import { updateProject } from '../../models/stores';
+    import Project from '@models/Project';
+    import { project, updateProject } from '@models/stores';
     import Source from '@nodes/Source';
     import type Value from '@runtime/Value';
     import OutputView from '../output/OutputView.svelte';
     import Settings from '../settings/Settings.svelte';
+    import { goto } from '$app/navigation';
 
     let verses = new Map<string, [Project, Value | undefined]>();
     for (const example of examples) {
@@ -18,11 +19,14 @@
 
     function changeProject(example: Stuff) {
         updateProject(makeProject(example));
+        goto(`/project/${example.name}`);
     }
 
     function newProject() {
         updateProject(new Project('—', Source.make('—'), []));
     }
+
+    project.set(undefined);
 </script>
 
 <section class="chooser">
@@ -65,19 +69,23 @@
         >
             <div class="preview">+</div><div class="name" />
         </div>
-    </div><div class="settings"><Settings /></div></section
+    </div><div class="footer"
+        ><span class="settings"><Settings /></span><a href="/">❌</a></div
+    ></section
 >
 
 <style>
     .chooser {
-        padding: calc(4 * var(--wordplay-spacing));
-        width: 100vw;
-        height: 100vh;
-
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        padding: var(--wordplay-spacing);
     }
 
     .projects {
@@ -86,15 +94,24 @@
         flex-direction: row;
         flex-wrap: wrap;
         align-items: flex-start;
+        gap: calc(2 * var(--wordplay-spacing));
+        row-gap: calc(2 * var(--wordplay-spacing));
+    }
+
+    .footer {
+        margin-top: auto;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: var(--wordplay-spacing);
     }
 
     .settings {
-        margin-top: auto;
-        align-self: right;
+        margin-left: auto;
     }
 
     .project {
-        margin: var(--wordplay-spacing);
         border: var(--wordplay-border-color);
         border-radius: var(--wordplay-border-radius);
         cursor: pointer;

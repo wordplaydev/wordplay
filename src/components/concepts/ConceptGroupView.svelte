@@ -4,7 +4,7 @@
     import CodeView from './CodeView.svelte';
     import Note from '../widgets/Note.svelte';
     import NodeConcept from '../../concepts/NodeConcept';
-    import { getAnimationDuration } from '../../models/stores';
+    import { getAnimationDuration } from '@models/stores';
 
     export let concepts: Concept[];
     export let selectable: boolean;

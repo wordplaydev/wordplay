@@ -5,7 +5,7 @@
         getConceptIndex,
         getConceptPath,
     } from '../project/Contexts';
-    import { updateProject } from '../../models/stores';
+    import { updateProject } from '@models/stores';
     import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
     import Expression from '@nodes/Expression';
     import Tree from '@nodes/Tree';

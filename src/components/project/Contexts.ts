@@ -4,7 +4,7 @@ import type Concept from '@concepts/Concept';
 import type ConceptIndex from '@concepts/ConceptIndex';
 import type { InsertionPoint } from '../editor/Drag';
 import type Caret from '../editor/util/Caret';
-import type Project from '../../models/Project';
+import type Project from '@models/Project';
 import type Node from '@nodes/Node';
 import type Token from '@nodes/Token';
 import type Tree from '@nodes/Tree';

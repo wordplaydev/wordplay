@@ -2,7 +2,7 @@
     import type OutputPropertyValues from '@transforms/OutputPropertyValueSet';
     import Checkbox from '../widgets/Checkbox.svelte';
     import BooleanLiteral from '@nodes/BooleanLiteral';
-    import { project, reviseProject } from '../../models/stores';
+    import { project, reviseProject } from '@models/stores';
     import type OutputProperty from '@transforms/OutputProperty';
 
     export let property: OutputProperty;

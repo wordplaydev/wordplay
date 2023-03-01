@@ -2,13 +2,13 @@
     import KeyValue from '@nodes/KeyValue';
     import TextField from '../widgets/TextField.svelte';
     import PoseEditor from './PoseEditor.svelte';
-    import type Project from '../../models/Project';
+    import type Project from '@models/Project';
     import MapLiteral from '@nodes/MapLiteral';
     import MeasurementLiteral from '@nodes/MeasurementLiteral';
     import { createPoseLiteral, PoseType } from '@output/Pose';
     import Evaluate from '@nodes/Evaluate';
     import OutputExpression from '@transforms/OutputExpression';
-    import { reviseProject } from '../../models/stores';
+    import { reviseProject } from '@models/stores';
     import Unit from '@nodes/Unit';
     import type Expression from '@nodes/Expression';
     import Button from '../widgets/Button.svelte';

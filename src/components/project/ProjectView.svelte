@@ -9,7 +9,7 @@
         type ConceptPathContext,
         type ConceptIndexContext,
     } from './Contexts';
-    import type Project from '../../models/Project';
+    import type Project from '@models/Project';
     import Documentation from '@components/concepts/Documentation.svelte';
     import type Tree from '@nodes/Tree';
     import {
@@ -19,7 +19,7 @@
         selectedOutput,
         getAnimationDuration,
         updateProject,
-    } from '../../models/stores';
+    } from '@models/stores';
     import Annotations from '../annotations/Annotations.svelte';
     import type Conflict from '@conflicts/Conflict';
     import RootView from './RootView.svelte';
@@ -63,6 +63,7 @@
     import { getPersistedValue, setPersistedValue } from '../app/persist';
     import ConfirmButton from '../widgets/ConfirmButton.svelte';
     import { isName } from '../../parser/Tokenizer';
+    import { goto } from '$app/navigation';
 
     export let project: Project;
 
@@ -833,7 +834,9 @@
                 <Settings />
                 <Button
                     tip={$preferredTranslations[0].ui.tooltip.close}
-                    action={() => updateProject(undefined)}>❌</Button
+                    action={() => {
+                        goto('/project');
+                    }}>❌</Button
                 >
             </div>
         </section>
@@ -873,8 +876,11 @@
 
 <style>
     .project {
-        width: 100vw;
-        height: 100vh;
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
         background-color: var(--wordplay-background);
         display: flex;
         flex-direction: column;
@@ -931,7 +937,6 @@
         flex-direction: row;
         align-items: center;
         gap: var(--wordplay-spacing);
-        min-width: 5em;
     }
 
     .drag-outline {
