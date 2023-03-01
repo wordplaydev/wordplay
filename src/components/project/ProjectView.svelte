@@ -790,9 +790,15 @@
 
     {#if !layout.isFullscreen()}
         <section class="footer">
+            {#each layout.getNonSources() as tile}
+                <NonSourceTileToggle
+                    {tile}
+                    on:toggle={() => toggleTile(tile)}
+                />
+            {/each}
             {#each project.getSources() as source, index}
                 {@const tile = layout.getTileWithID(Layout.getSourceID(index))}
-                {#if tile}
+                {#if tile && tile.isCollapsed()}
                     <!-- Mini source view output is visible when collapsed, or if its main, when output is collapsed. -->
                     <MiniSourceView
                         {project}
@@ -809,12 +815,6 @@
                 tip={$preferredTranslations[0].ui.tooltip.addSource}
                 action={addSource}>+</Button
             >
-            {#each layout.getNonSources() as tile}
-                <NonSourceTileToggle
-                    {tile}
-                    on:toggle={() => toggleTile(tile)}
-                />
-            {/each}
 
             <div class="settings">
                 <Button

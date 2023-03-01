@@ -77,8 +77,8 @@
         align-items: center;
         overflow: hidden;
         gap: var(--wordplay-spacing);
-        padding-right: var(--wordplay-spacing);
-        border-right: var(--wordplay-border-color) solid
+        padding-left: var(--wordplay-spacing);
+        border-left: var(--wordplay-border-color) solid
             var(--wordplay-border-width);
     }
 
