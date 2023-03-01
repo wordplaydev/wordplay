@@ -64,10 +64,9 @@
         >
             <div class="preview">+</div><div class="name" />
         </div>
-    </div><div class="footer"
-        ><span class="settings"><Settings /></span><a href="/">❌</a></div
-    ></section
+    </div></section
 >
+<div class="footer"><Settings /><a href="/">❌</a></div>
 
 <style>
     .chooser {
@@ -94,16 +93,13 @@
     }
 
     .footer {
-        margin-top: auto;
-        width: 100%;
+        position: fixed;
+        bottom: var(--wordplay-spacing);
+        right: calc(2 * var(--wordplay-spacing));
         display: flex;
         flex-direction: row;
         align-items: center;
         gap: var(--wordplay-spacing);
-    }
-
-    .settings {
-        margin-left: auto;
     }
 
     .project {
