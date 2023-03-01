@@ -3,9 +3,10 @@
     "version": "0.0.1",
     "scripts": {
         "dev": "vite dev",
-        "build": "svelte-kit build",
-        "package": "svelte-kit package",
-        "preview": "svelte-kit preview",
+        "emu": "firebase use dev && npm run env && firebase emulators:start",
+        "env": "cp .env.${GCLOUD_PROJECT:-local} .env",
+        "build": "npm run env && vite build",
+        "preview": "vite preview",
         "prepare": "svelte-kit sync",
         "check": "svelte-check --tsconfig ./tsconfig.json --watch --ignore .svelte-kit",
         "lint": "eslint .",
@@ -13,7 +14,7 @@
         "test:coverage": "vitest run --coverage"
     },
     "devDependencies": {
-        "@sveltejs/adapter-auto": "next",
+        "@sveltejs/adapter-static": "^1.0.6",
         "@sveltejs/kit": "1.8.6",
         "@testing-library/jest-dom": "^5.16.5",
         "@testing-library/svelte": "^3.2.2",
@@ -37,6 +38,7 @@
     "dependencies": {
         "colorjs.io": "^0.4.3",
         "decimal.js": "^10.4.3",
+        "firebase": "^9.17.1",
         "graphemer": "^1.4.0"
     }
 }
