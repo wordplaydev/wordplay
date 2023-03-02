@@ -32,7 +32,9 @@
         on:keydown|stopPropagation
         on:blur={done}
     />
-    <span class="measurer" bind:clientWidth={width}>{text}</span>
+    <span class="measurer" bind:clientWidth={width}
+        >{text.length === 0 ? placeholder : text}</span
+    >
 </div>
 
 <style>

@@ -814,7 +814,7 @@
         <section class="footer">
             <Status />
             <TextField
-                placeholder={$preferredTranslations[0].ui.placeholders.name}
+                placeholder={$preferredTranslations[0].ui.placeholders.project}
                 fit
                 text={project.name}
                 border={false}

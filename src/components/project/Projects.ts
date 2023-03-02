@@ -74,10 +74,15 @@ export default class Projects {
     }
 
     /** Create a project and return it's ID */
-    create(name: string) {
-        this.addUnique([
-            new Project(null, name, new Source(INITIAL_SYMBOL, ''), []),
-        ]);
+    create() {
+        const newProject = new Project(
+            null,
+            '',
+            new Source(INITIAL_SYMBOL, ''),
+            []
+        );
+        this.addUnique([newProject]);
+        return newProject.id;
     }
 
     /** Replaces the project with the given project */
