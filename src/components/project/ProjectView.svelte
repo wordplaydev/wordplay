@@ -815,7 +815,6 @@
             <Status />
             <TextField
                 placeholder={$preferredTranslations[0].ui.placeholders.name}
-                validator={(text) => /^[^ \n\t]+$/u.test(text)}
                 fit
                 text={project.name}
                 border={false}
