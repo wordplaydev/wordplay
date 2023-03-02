@@ -4,16 +4,24 @@
     import { animationsOn } from '@models/stores';
     import LayoutChooser from './LayoutChooser.svelte';
     import LanguageChooser from './LanguageChooser.svelte';
+
+    let expanded = false;
 </script>
 
-<div class="settings">
+<div class="settings" class:expanded>
+    {#if expanded}
+        <Button
+            tip={$preferredTranslations[0].ui.tooltip.animate}
+            action={() => animationsOn.set(!$animationsOn)}
+            >{#if $animationsOn}🏃‍♀️{:else}🧘🏽‍♀️{/if}</Button
+        >
+        <LayoutChooser />
+        <LanguageChooser />
+    {/if}
     <Button
-        tip={$preferredTranslations[0].ui.tooltip.animate}
-        action={() => animationsOn.set(!$animationsOn)}
-        >{#if $animationsOn}🏃‍♀️{:else}🧘🏽‍♀️{/if}</Button
+        tip={$preferredTranslations[0].ui.tooltip.settings}
+        action={() => (expanded = !expanded)}>⚙</Button
     >
-    <LayoutChooser />
-    <LanguageChooser />
 </div>
 
 <style>

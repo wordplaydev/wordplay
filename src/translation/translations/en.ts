@@ -2072,6 +2072,7 @@ const en: Translation = {
             animate: 'toggle animations on/off',
             addSource: 'create a new source',
             removeSource: 'remove this source',
+            settings: 'show settings',
         },
         prompt: {
             removeSource: 'delete?',

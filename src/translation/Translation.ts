@@ -780,6 +780,7 @@ type Translation = {
             animate: string;
             addSource: string;
             removeSource: string;
+            settings: string;
         };
         prompt: {
             removeSource: string;

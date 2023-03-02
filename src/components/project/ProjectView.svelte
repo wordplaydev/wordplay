@@ -822,6 +822,19 @@
                 changed={(name) =>
                     $projects.revise(project, project.withName(name))}
             />
+            <Button
+                tip={layout.arrangement === Arrangement.free
+                    ? $preferredTranslations[0].ui.tooltip.vertical
+                    : layout.arrangement === Arrangement.vertical
+                    ? $preferredTranslations[0].ui.tooltip.horizontal
+                    : $preferredTranslations[0].ui.tooltip.freeform}
+                action={() =>
+                    (layout = layout.withNextArrangement(
+                        canvasWidth,
+                        canvasHeight
+                    ))}
+                >{#if layout.arrangement === Arrangement.vertical}↕️{:else if layout.arrangement === Arrangement.horizontal}↔️{:else if layout.arrangement === Arrangement.free}█{/if}</Button
+            >
             {#each layout.getNonSources() as tile}
                 <NonSourceTileToggle
                     {tile}
@@ -849,19 +862,6 @@
             >
 
             <div class="settings">
-                <Button
-                    tip={layout.arrangement === Arrangement.free
-                        ? $preferredTranslations[0].ui.tooltip.vertical
-                        : layout.arrangement === Arrangement.vertical
-                        ? $preferredTranslations[0].ui.tooltip.horizontal
-                        : $preferredTranslations[0].ui.tooltip.freeform}
-                    action={() =>
-                        (layout = layout.withNextArrangement(
-                            canvasWidth,
-                            canvasHeight
-                        ))}
-                    >{#if layout.arrangement === Arrangement.vertical}↕️{:else if layout.arrangement === Arrangement.horizontal}↔️{:else if layout.arrangement === Arrangement.free}█{/if}</Button
-                >
                 <Settings />
                 <Button
                     tip={$preferredTranslations[0].ui.tooltip.close}
