@@ -97,7 +97,7 @@ export default class Projects {
                 if (
                     project instanceof Project
                         ? candidate === project
-                        : candidate.name === project
+                        : candidate.id === project
                 ) {
                     candidate.cleanup();
 
