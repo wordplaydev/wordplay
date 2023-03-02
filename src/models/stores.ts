@@ -14,7 +14,7 @@ export const animationsOn: Writable<boolean> = writable(
 export const animationDuration: Writable<number> = writable(200);
 // Shorthand for Svelte transitions.
 export function getAnimationDuration() {
-    return get(animationsOn) ? { duration: get(animationDuration) } : undefined;
+    return { duration: get(animationsOn) ? get(animationDuration) : 0 };
 }
 
 // When the animation flag changes, persist it.
