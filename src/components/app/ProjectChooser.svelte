@@ -8,7 +8,7 @@
     const projects = getProjects();
 
     function changeProject(example: Project) {
-        goto(`/project/${example.name}`);
+        goto(`/project/${example.id}`);
     }
 
     function newProject() {

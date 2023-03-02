@@ -9,26 +9,38 @@
     export let border: boolean = true;
     export let right: boolean = false;
 
+    let width: number = 0;
+
     function handleInput() {
-        if (changed) changed(text);
+        if (changed && (validator === undefined || validator(text) === true))
+            changed(text);
     }
 </script>
 
-<input
-    type="text"
-    class:fit
-    class:border
-    class:right
-    class:error={validator ? validator(text) === false : null}
-    bind:this={input}
-    {placeholder}
-    bind:value={text}
-    on:keydown|stopPropagation
-    on:input={handleInput}
-    on:blur={done}
-/>
+<div class="field">
+    <input
+        type="text"
+        class:fit
+        class:border
+        class:right
+        class:error={validator ? validator(text) === false : null}
+        {placeholder}
+        style:width="{width + 5}px"
+        bind:this={input}
+        bind:value={text}
+        on:input={handleInput}
+        on:keydown|stopPropagation
+        on:blur={done}
+    />
+    <span class="measurer" bind:clientWidth={width}>{text}</span>
+</div>
 
 <style>
+    .field {
+        display: inline-block;
+        position: relative;
+    }
+
     input {
         width: 100%;
         height: 100%;
@@ -38,6 +50,21 @@
         color: inherit;
         border: none;
         outline: none;
+        min-width: 4em;
+    }
+
+    .measurer {
+        display: inline-block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        background: none;
+        font-size: inherit;
+        font-family: inherit;
+        color: inherit;
+        border: none;
+        outline: none;
+        visibility: hidden;
     }
 
     input.border {

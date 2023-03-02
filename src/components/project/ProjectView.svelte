@@ -64,6 +64,7 @@
     import ConfirmButton from '../widgets/ConfirmButton.svelte';
     import { isName } from '../../parser/Tokenizer';
     import { goto } from '$app/navigation';
+    import TextField from '../widgets/TextField.svelte';
 
     export let project: Project;
 
@@ -810,6 +811,15 @@
 
     {#if !layout.isFullscreen()}
         <section class="footer">
+            <TextField
+                placeholder={$preferredTranslations[0].ui.placeholders.name}
+                validator={(text) => /^[^ \n\t]+$/u.test(text)}
+                fit
+                text={project.name}
+                border={false}
+                changed={(name) =>
+                    $projects.revise(project, project.withName(name))}
+            />
             {#each layout.getNonSources() as tile}
                 <NonSourceTileToggle
                     {tile}

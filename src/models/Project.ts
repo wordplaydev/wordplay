@@ -448,6 +448,10 @@ export default class Project {
         return new Project(this.id, this.name, this.main, this.supplements);
     }
 
+    withName(name: string) {
+        return new Project(this.id, name, this.main, this.supplements);
+    }
+
     withSource(oldSource: Source, newSource: Source) {
         return this.withSources([[oldSource, newSource]]);
     }

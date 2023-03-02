@@ -62,8 +62,8 @@ export default class Projects {
     }
 
     /** Returns the first project with the given name, if it exists. */
-    get(name: string) {
-        return this.projects.find((project) => project.name === name);
+    get(id: string) {
+        return this.projects.find((project) => project.id === id);
     }
 
     /** Replaces the project with the given project */
