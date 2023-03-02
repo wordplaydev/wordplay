@@ -4,7 +4,6 @@ import type Node from '@nodes/Node';
 import type { ProjectsContext } from './Contexts';
 import { writable } from 'svelte/store';
 import { getPersistedValue, setPersistedValue } from '../app/persist';
-import debounce from '../../util/debounce';
 import Source from '../../nodes/Source';
 import { parseNames, toTokens } from '../../parser/Parser';
 
@@ -17,7 +16,7 @@ type SerializedProjects = {
     sources: SerializedSource[];
 }[];
 
-enum Status {
+export enum Status {
     Saved = 'saved',
     Saving = 'saving',
     Error = 'error',
@@ -28,6 +27,8 @@ export default class Projects {
     private projects: Project[];
 
     private status: Status = Status.Saved;
+
+    private timer: NodeJS.Timer | undefined = undefined;
 
     constructor(projects: Project[]) {
         this.projects = projects;
@@ -43,12 +44,17 @@ export default class Projects {
     }
 
     setProjects(projects: Project[]) {
+        this.setStatus(Status.Saving);
         // Update the field.
         this.projects = projects;
         // Notify subscribers
         this.store.set(this);
-        // Debounce a save
-        debounce(() => this.save());
+
+        // Clear pending saves.
+        clearTimeout(this.timer);
+
+        // Initiate another.
+        this.timer = setTimeout(() => this.save(), 1000);
     }
 
     setStatus(status: Status) {
@@ -102,8 +108,10 @@ export default class Projects {
 
     /** Persist in storage somewhere */
     save() {
+        this.setStatus(Status.Saving);
         try {
             setPersistedValue(LOCAL_STORAGE_KEY, this.toObject());
+            this.setStatus(Status.Saved);
         } catch (_) {
             this.setStatus(Status.Error);
         }

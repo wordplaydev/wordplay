@@ -65,6 +65,7 @@
     import { isName } from '../../parser/Tokenizer';
     import { goto } from '$app/navigation';
     import TextField from '../widgets/TextField.svelte';
+    import Status from '../app/Status.svelte';
 
     export let project: Project;
 
@@ -811,6 +812,7 @@
 
     {#if !layout.isFullscreen()}
         <section class="footer">
+            <Status />
             <TextField
                 placeholder={$preferredTranslations[0].ui.placeholders.name}
                 validator={(text) => /^[^ \n\t]+$/u.test(text)}
