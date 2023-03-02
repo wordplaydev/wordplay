@@ -4,6 +4,7 @@
     import { goto } from '$app/navigation';
     import type Project from '../../models/Project';
     import { getProjects } from '../project/Contexts';
+    import { preferredTranslations } from '../../translation/translations';
 
     const projects = getProjects();
 
@@ -12,7 +13,11 @@
     }
 
     function newProject() {
-        goto(`/project/new`);
+        goto(
+            `/project/${$projects.create(
+                $preferredTranslations[0].ui.placeholders.project
+            )}`
+        );
     }
 </script>
 

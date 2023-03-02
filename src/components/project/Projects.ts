@@ -6,6 +6,7 @@ import { writable } from 'svelte/store';
 import { getPersistedValue, setPersistedValue } from '../app/persist';
 import Source from '../../nodes/Source';
 import { parseNames, toTokens } from '../../parser/Parser';
+import { INITIAL_SYMBOL } from '../../parser/Symbols';
 
 const LOCAL_STORAGE_KEY = 'projects';
 
@@ -70,6 +71,13 @@ export default class Projects {
     /** Returns the first project with the given name, if it exists. */
     get(id: string) {
         return this.projects.find((project) => project.id === id);
+    }
+
+    /** Create a project and return it's ID */
+    create(name: string) {
+        this.addUnique([
+            new Project(null, name, new Source(INITIAL_SYMBOL, ''), []),
+        ]);
     }
 
     /** Replaces the project with the given project */

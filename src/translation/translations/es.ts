@@ -1687,6 +1687,7 @@ const eng_wordplay: Translation = {
             type: 'type',
             percent: 'percent',
             name: 'name',
+            project: 'untitled',
         },
         tooltip: {
             yes: 'confirm',

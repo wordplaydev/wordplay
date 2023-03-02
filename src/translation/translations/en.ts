@@ -2031,6 +2031,7 @@ const en: Translation = {
             type: 'type',
             percent: 'percent',
             name: 'name',
+            project: 'untitled',
         },
         tooltip: {
             yes: 'confirm',

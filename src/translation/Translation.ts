@@ -739,6 +739,7 @@ type Translation = {
             type: string;
             percent: string;
             name: string;
+            project: string;
         };
         tooltip: {
             yes: string;
