@@ -4,6 +4,8 @@
     import { goto } from '$app/navigation';
     import type Project from '../../models/Project';
     import { getProjects } from '../project/Contexts';
+    import ConfirmButton from '../widgets/ConfirmButton.svelte';
+    import { preferredTranslations } from '@translation/translations';
 
     const projects = getProjects();
 
@@ -19,16 +21,16 @@
 <section class="chooser">
     <div class="projects">
         {#each $projects.all() as project}
-            <div
-                class="project"
-                tabIndex="0"
-                on:click={() => changeProject(project)}
-                on:keydown={(event) =>
-                    event.key === '' || event.key === 'Enter'
-                        ? changeProject(project)
-                        : undefined}
-            >
-                <div class="preview">
+            <div class="project">
+                <div
+                    class="preview"
+                    tabIndex="0"
+                    on:click={() => changeProject(project)}
+                    on:keydown={(event) =>
+                        event.key === '' || event.key === 'Enter'
+                            ? changeProject(project)
+                            : undefined}
+                >
                     <OutputView
                         {project}
                         source={project.main}
@@ -39,7 +41,15 @@
                         mode="mini"
                     />
                 </div>
-                <div class="name">{project.name}</div>
+                <div class="name"
+                    >{project.name}<ConfirmButton
+                        prompt={$preferredTranslations[0].ui.prompt
+                            .deleteProject}
+                        tip={$preferredTranslations[0].ui.tooltip.deleteProject}
+                        action={() => $projects.delete(project.id)}
+                        >⨉</ConfirmButton
+                    ></div
+                >
             </div>
         {/each}
         <div

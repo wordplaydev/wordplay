@@ -780,11 +780,13 @@ type Translation = {
             sequence: string;
             animate: string;
             addSource: string;
-            removeSource: string;
+            deleteSource: string;
+            deleteProject: string;
             settings: string;
         };
         prompt: {
-            removeSource: string;
+            deleteSource: string;
+            deleteProject: string;
         };
         labels: {
             learn: string;

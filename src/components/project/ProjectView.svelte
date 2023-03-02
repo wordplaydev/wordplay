@@ -765,10 +765,10 @@
                                 {#if source !== project.main}
                                     <ConfirmButton
                                         tip={$preferredTranslations[0].ui
-                                            .tooltip.removeSource}
+                                            .tooltip.deleteSource}
                                         action={() => removeSource(source)}
                                         prompt={$preferredTranslations[0].ui
-                                            .prompt.removeSource}
+                                            .prompt.deleteSource}
                                         >⨉</ConfirmButton
                                     >
                                 {/if}

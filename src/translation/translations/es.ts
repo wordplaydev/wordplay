@@ -1728,11 +1728,13 @@ const eng_wordplay: Translation = {
             sequence: 'convert to a sequence',
             animate: 'toggle animations on/off',
             addSource: 'create a new source',
-            removeSource: 'remove this source',
+            deleteSource: 'remove this source',
+            deleteProject: 'delete this project',
             settings: 'show settings',
         },
         prompt: {
-            removeSource: 'delete this source',
+            deleteSource: 'delete?',
+            deleteProject: 'delete?',
         },
         labels: {
             learn: 'learn more …',

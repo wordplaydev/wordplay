@@ -85,6 +85,11 @@ export default class Projects {
         return newProject.id;
     }
 
+    /** Delete the project with the given ID, if it exists */
+    delete(id: string) {
+        this.setProjects(this.projects.filter((project) => project.id !== id));
+    }
+
     /** Replaces the project with the given project */
     revise(project: string | Project, revised: Project) {
         this.setProjects(
