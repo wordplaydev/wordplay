@@ -161,7 +161,7 @@
 </script>
 
 <div
-    transition:slide={getAnimationDuration()}
+    transition:slide|local={getAnimationDuration()}
     class="timeline"
     class:stepping={!$playing}
     on:mousedown={(event) => stepToMouse(event)}

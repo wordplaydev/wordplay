@@ -41,8 +41,8 @@
 
     /** The project store is derived from the projects and the page's project ID. */
     const project: Readable<Project | undefined> = derived(
-        projects,
-        ($projects) => $projects.get($page.params.projectid)
+        [page, projects],
+        ([$page, $projects]) => $projects.get($page.params.projectid)
     );
 
     /** The current index of the current project's step **/
