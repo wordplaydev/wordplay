@@ -12,6 +12,7 @@
     export let spaces: Spaces;
 
     $: project = new Project(
+        null,
         'example',
         new Source('example', [example.program, spaces]),
         []

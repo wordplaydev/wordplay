@@ -40,7 +40,7 @@ test.each([
                 code.substring(insertionPoint + 2);
 
         const source = new Source('test', code);
-        const project = new Project('test', source, []);
+        const project = new Project(null, 'test', source, []);
         let resolvedPosition =
             position === undefined
                 ? insertionPoint

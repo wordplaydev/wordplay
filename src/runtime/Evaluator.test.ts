@@ -11,7 +11,7 @@ test.each([0, 1, 10, 15])('Step back %i', (steps: number) => {
     `;
 
     const source = new Source('test', fib);
-    const project = new Project('test', source, []);
+    const project = new Project(null, 'test', source, []);
     project.evaluate();
     const stepIndex = project.evaluator.getStepIndex();
 
@@ -33,7 +33,7 @@ test('Too many steps', () => {
     `;
 
     const source = new Source('test', fib);
-    const project = new Project('test', source, []);
+    const project = new Project(null, 'test', source, []);
     project.evaluate();
     expect(project.evaluator.getLatestSourceValue(source)).toBeInstanceOf(
         StepLimitException
@@ -47,7 +47,7 @@ test('Too many evaluations', () => {
     `;
 
     const source = new Source('test', fib);
-    const project = new Project('test', source, []);
+    const project = new Project(null, 'test', source, []);
     project.evaluate();
     expect(project.evaluator.getLatestSourceValue(source)).toBeInstanceOf(
         EvaluationLimitException

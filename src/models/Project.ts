@@ -23,6 +23,7 @@ import type StreamDefinition from '@nodes/StreamDefinition';
 import { VerseType } from '../output/Verse';
 import { GroupType } from '../output/Group';
 import { PhraseType } from '../output/Phrase';
+import { v4 as uuidv4 } from 'uuid';
 
 type Analysis = {
     conflicts: Conflict[];
@@ -42,6 +43,9 @@ type Analysis = {
  * A project with a name, some source files, and evaluators for each source file.
  **/
 export default class Project {
+    /** The unique ID of the project */
+    readonly id: string;
+
     /** The name of the project */
     readonly name: string;
 
@@ -67,7 +71,14 @@ export default class Project {
         dependencies: new Map(),
     };
 
-    constructor(name: string, main: Source, supplements: Source[]) {
+    constructor(
+        id: string | null,
+        name: string,
+        main: Source,
+        supplements: Source[]
+    ) {
+        this.id = id ?? uuidv4();
+
         // Remember the source.
         this.name = name;
         this.main = main;
@@ -82,6 +93,15 @@ export default class Project {
             ...Native.getStructureDefinitionTrees(),
             ...DefaultShares.map((share) => new Tree(share)),
         ];
+    }
+
+    equals(project: Project) {
+        return (
+            this.name === project.name &&
+            this.getSources().every((source1) =>
+                project.getSources().some((source2) => source1.equals(source2))
+            )
+        );
     }
 
     getInitialValue() {
@@ -425,7 +445,7 @@ export default class Project {
     }
 
     clone() {
-        return new Project(this.name, this.main, this.supplements);
+        return new Project(this.id, this.name, this.main, this.supplements);
     }
 
     withSource(oldSource: Source, newSource: Source) {
@@ -434,6 +454,7 @@ export default class Project {
 
     withoutSource(source: Source) {
         return new Project(
+            this.id,
             this.name,
             this.main,
             this.supplements.filter((s) => s !== source)
@@ -456,7 +477,7 @@ export default class Project {
                 ? supplementReplacement[1]
                 : supplement;
         });
-        return new Project(this.name, newMain, newSupplements);
+        return new Project(this.id, this.name, newMain, newSupplements);
     }
 
     withRevisedNodes(nodes: [Node, Node | undefined][]) {
@@ -484,7 +505,7 @@ export default class Project {
     }
 
     withNewSource(name: string) {
-        return new Project(this.name, this.main, [
+        return new Project(this.id, this.name, this.main, [
             ...this.supplements,
             new Source(name, ''),
         ]);

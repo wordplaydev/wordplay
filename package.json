@@ -18,6 +18,7 @@
         "@sveltejs/kit": "1.8.6",
         "@testing-library/jest-dom": "^5.16.5",
         "@testing-library/svelte": "^3.2.2",
+        "@types/uuid": "^9.0.1",
         "@typescript-eslint/eslint-plugin": "^5.54.0",
         "@typescript-eslint/parser": "^5.54.0",
         "eslint": "^8.35.0",
@@ -39,6 +40,7 @@
         "colorjs.io": "^0.4.3",
         "decimal.js": "^10.4.3",
         "firebase": "^9.17.1",
-        "graphemer": "^1.4.0"
+        "graphemer": "^1.4.0",
+        "uuid": "^9.0.0"
     }
 }

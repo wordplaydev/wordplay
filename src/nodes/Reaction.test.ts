@@ -36,7 +36,7 @@ test.each([
     ) => {
         // Make the project
         const source = new Source('test', code);
-        const project = new Project('test', source, []);
+        const project = new Project(null, 'test', source, []);
 
         // Evaluate it
         project.evaluate();

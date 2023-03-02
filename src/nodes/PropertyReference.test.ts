@@ -16,7 +16,7 @@ test('Test scoping', () => {
         `;
 
     const source = new Source('test', code);
-    const project = new Project('test', source, []);
+    const project = new Project(null, 'test', source, []);
     const context = project.getContext(source);
 
     const prop = source.nodes().find((n) => n instanceof PropertyReference);

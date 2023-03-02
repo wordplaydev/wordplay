@@ -19,6 +19,7 @@ export type Stuff = { name: string; sources: { name: string; code: string }[] };
 export function makeProject(stuff: Stuff) {
     return new Project(
         stuff.name,
+        stuff.name,
         new Source(stuff.sources[0].name, stuff.sources[0].code),
         stuff.sources.slice(1).map((s) => new Source(s.name, s.code))
     );

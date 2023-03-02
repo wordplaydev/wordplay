@@ -105,7 +105,7 @@ test.each([
         supplementExpected?: string
     ) => {
         const sources = source.map((s) => new Source('test', s));
-        const project = new Project('test', sources[0], sources.slice(1));
+        const project = new Project(null, 'test', sources[0], sources.slice(1));
         const [newProject] = dropNodeOnSource(
             project,
             sources[0],

@@ -10,7 +10,7 @@ import UnparsableExpression from '@nodes/UnparsableExpression';
 import Project from '../models/Project';
 
 const source = new Source('native', '');
-const project = new Project('test', source, []);
+const project = new Project(null, 'test', source, []);
 const context = new Context(project, source);
 
 function checkNativeNodes(nodes: Node[]) {
