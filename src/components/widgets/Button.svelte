@@ -33,7 +33,6 @@
         border: none;
         background: none;
         padding: 0;
-        margin: calc(var(--wordplay-spacing) / 2);
         color: currentcolor;
         cursor: pointer;
         width: fit-content;

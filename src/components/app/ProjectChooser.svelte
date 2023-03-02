@@ -112,6 +112,11 @@
         gap: var(--wordplay-spacing);
     }
 
+    .name {
+        display: flex;
+        flex-direction: column;
+    }
+
     :global(.animated) .project {
         transition: transform ease-out;
         transition-duration: 200ms;
