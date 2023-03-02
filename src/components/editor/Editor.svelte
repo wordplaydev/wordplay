@@ -20,12 +20,14 @@
         InsertionPointsSymbol,
         getDragged,
         getSelectedOutput,
-        getProject,
         getPlaying,
         getCurrentStep,
         getCurrentStepIndex,
         getAnimatingNodes,
         getConflicts,
+        getProjects,
+        setSelectedOutput,
+        getSelectedOutputPaths,
     } from '../project/Contexts';
     import {
         preferredLanguages,
@@ -66,7 +68,6 @@
     import { VerseType } from '@output/Verse';
     import { getPersistedValue, setPersistedValue } from '../app/persist';
     import type { Path } from '@nodes/Tree';
-    import { updateProject } from '../project/project';
 
     export let project: Project;
     export let source: Source;
@@ -75,13 +76,14 @@
     // Managed here but displayed by the project to allow it to escape the editor view.
     export let menu: Menu | undefined = undefined;
 
-    let projectStore = getProject();
-    let selectedOutput = getSelectedOutput();
-    let playing = getPlaying();
-    let currentStep = getCurrentStep();
-    let currentStepIndex = getCurrentStepIndex();
-    let animatingNodes = getAnimatingNodes();
-    let nodeConflicts = getConflicts();
+    const projects = getProjects();
+    const selectedOutput = getSelectedOutput();
+    const selectedOutputPaths = getSelectedOutputPaths();
+    const playing = getPlaying();
+    const currentStep = getCurrentStep();
+    const currentStepIndex = getCurrentStepIndex();
+    const animatingNodes = getAnimatingNodes();
+    const nodeConflicts = getConflicts();
 
     const dispatch = createEventDispatcher();
 
@@ -229,7 +231,7 @@
     // palette appears.
     $: {
         if (
-            selectedOutput &&
+            selectedOutputPaths &&
             $caret.position instanceof Evaluate &&
             $caret.position.isOneOf(
                 project.getNodeContext($caret.position),
@@ -238,7 +240,7 @@
                 VerseType
             )
         )
-            selectedOutput.set([$caret.position]);
+            setSelectedOutput(selectedOutputPaths, project, [$caret.position]);
     }
 
     // Determine the conflicts of interest based on caret and mouse position.
@@ -565,7 +567,7 @@
         );
 
         // Update the project with the new source files
-        updateProject(projectStore, newProject);
+        $projects.revise(project, newProject);
 
         // Wait for the DOM updates.
         await tick();
@@ -1102,7 +1104,7 @@
 
         // Update the caret and project.
         if (newSource) {
-            updateProject(projectStore, project.withSource(source, newSource));
+            $projects.revise(project, project.withSource(source, newSource));
             caret.set(newCaret.withSource(newSource));
         } else {
             caret.set(newCaret);

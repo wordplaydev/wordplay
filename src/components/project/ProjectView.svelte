@@ -8,11 +8,13 @@
         ConceptPathSymbol,
         type ConceptPathContext,
         type ConceptIndexContext,
-        getProject,
         getSelectedOutput,
         getPlaying,
         getCurrentStep,
         getConflicts,
+        getProjects,
+        setSelectedOutput,
+        getSelectedOutputPaths,
     } from './Contexts';
     import type Project from '@models/Project';
     import Documentation from '@components/concepts/Documentation.svelte';
@@ -62,15 +64,15 @@
     import ConfirmButton from '../widgets/ConfirmButton.svelte';
     import { isName } from '../../parser/Tokenizer';
     import { goto } from '$app/navigation';
-    import { updateProject } from './project';
 
     export let project: Project;
 
-    let projectStore = getProject();
-    let selectedOutput = getSelectedOutput();
-    let playing = getPlaying();
-    let currentStep = getCurrentStep();
-    let conflicts = getConflicts();
+    const projects = getProjects();
+    const selectedOutput = getSelectedOutput();
+    const selectedOutputPaths = getSelectedOutputPaths();
+    const playing = getPlaying();
+    const currentStep = getCurrentStep();
+    const conflicts = getConflicts();
 
     // The HTMLElement that represents this element
     let view: HTMLElement | undefined = undefined;
@@ -627,12 +629,19 @@
     }
 
     function toggleTile(tile: Tile) {
-        if (tile === layout.getPalette() && selectedOutput && $selectedOutput) {
+        if (
+            tile === layout.getPalette() &&
+            $selectedOutput &&
+            selectedOutputPaths
+        ) {
             if (tile.mode === Mode.Collapsed && $selectedOutput.length === 0) {
                 const output = project.getOutput();
-                if (output.length > 0) selectedOutput.set([output[0]]);
+                if (output.length > 0)
+                    setSelectedOutput(selectedOutputPaths, project, [
+                        output[0],
+                    ]);
             } else if (tile.mode === Mode.Expanded) {
-                selectedOutput.set([]);
+                setSelectedOutput(selectedOutputPaths, project, []);
             }
         }
 
@@ -643,8 +652,8 @@
     }
 
     function addSource() {
-        updateProject(
-            projectStore,
+        $projects.revise(
+            project,
             project.withNewSource(
                 `${$preferredTranslations[0].terminology.source}${
                     project.supplements.length + 1
@@ -654,14 +663,14 @@
     }
 
     function removeSource(source: Source) {
-        updateProject(projectStore, project.withoutSource(source));
+        $projects.revise(project, project.withoutSource(source));
     }
 
     function renameSource(id: string, name: string) {
         if (!isName(name)) return;
         const source = getSourceByID(id);
-        updateProject(
-            projectStore,
+        $projects.revise(
+            project,
             project.withSource(
                 source,
                 source.withName(name, $preferredLanguages[0])
@@ -670,8 +679,6 @@
     }
 
     async function close() {
-        projectStore.set(undefined);
-        await tick();
         goto('/project');
     }
 </script>

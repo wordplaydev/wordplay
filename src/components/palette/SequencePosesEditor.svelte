@@ -16,14 +16,12 @@
         preferredTranslations,
     } from '@translation/translations';
     import Note from '../widgets/Note.svelte';
-    import { reviseProject } from '../project/project';
-    import { getProject, getSelectedOutput } from '../project/Contexts';
+    import { getProjects } from '../project/Contexts';
 
     export let project: Project;
     export let map: MapLiteral | undefined;
 
-    let projectStore = getProject();
-    let selectedOutput = getSelectedOutput();
+    const projects = getProjects();
 
     // Get the map from the value set, unless its not a valid sequence or the maps of the selections aren't equal.
     $: valid =
@@ -39,8 +37,8 @@
     function revisePercent(kv: KeyValue | Expression, percent: string) {
         let text = percent.replace('%', '');
         const number = MeasurementLiteral.make(text, Unit.make(['%']));
-        if (kv instanceof KeyValue && number.isInteger() && selectedOutput)
-            reviseProject(projectStore, selectedOutput, [[kv.key, number]]);
+        if (kv instanceof KeyValue && number.isInteger())
+            $projects.reviseNodes(project, [[kv.key, number]]);
     }
 
     function addPose(index: number) {
@@ -87,10 +85,8 @@
     }
 
     function revise(newValues: KeyValue[]) {
-        if (map && selectedOutput)
-            reviseProject(projectStore, selectedOutput, [
-                [map, MapLiteral.make(newValues)],
-            ]);
+        if (map)
+            $projects.reviseNodes(project, [[map, MapLiteral.make(newValues)]]);
     }
 </script>
 

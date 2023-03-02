@@ -1,5 +1,5 @@
 import { getContext } from 'svelte';
-import type { Writable } from 'svelte/store';
+import type { Readable, Writable } from 'svelte/store';
 import type Concept from '@concepts/Concept';
 import type ConceptIndex from '@concepts/ConceptIndex';
 import type { InsertionPoint } from '../editor/Drag';
@@ -10,10 +10,18 @@ import type Token from '@nodes/Token';
 import type Tree from '@nodes/Tree';
 import type { Highlights } from '../editor/util/Highlights';
 import type Evaluate from '@nodes/Evaluate';
-import type { SelectedPhraseType } from './project';
 import type Step from '@runtime/Step';
 import type { StreamChange } from '@runtime/Evaluator';
 import type Conflict from '@conflicts/Conflict';
+import type Projects from './Projects';
+import type { Path } from '@nodes/Tree';
+import type Source from '../../nodes/Source';
+
+export type ProjectsContext = Writable<Projects>;
+export const ProjectsSymbol = Symbol('projects');
+export function getProjects() {
+    return getContext<ProjectsContext>(ProjectsSymbol);
+}
 
 export type CaretContext = Writable<Caret> | undefined;
 export const CaretSymbol = Symbol('caret');
@@ -41,7 +49,7 @@ export function getDragged() {
     return getContext<DraggedContext>(DraggedSymbol);
 }
 
-export type ProjectContext = Writable<Project | undefined>;
+export type ProjectContext = Readable<Project | undefined>;
 export const ProjectSymbol = Symbol('project');
 export function getProject() {
     return getContext<ProjectContext>(ProjectSymbol);
@@ -85,14 +93,43 @@ export function getConceptIndex() {
     return getContext<ConceptIndexContext>(ConceptIndexSymbol);
 }
 
+export const SelectedOutputPathsSymbol = Symbol('selected-output-paths');
+export type SelectedOutputPathsContext = Writable<
+    { source: Source | undefined; path: Path | undefined }[]
+>;
+export function getSelectedOutputPaths():
+    | SelectedOutputPathsContext
+    | undefined {
+    return getContext(SelectedOutputPathsSymbol);
+}
+
+export function setSelectedOutput(
+    paths: SelectedOutputPathsContext,
+    project: Project,
+    evaluates: Evaluate[]
+) {
+    // Map each selected output to its replacement, then set the selected output to the replacements.
+    paths.set(
+        evaluates.map((output) => {
+            return {
+                source: project.getSourceOf(output),
+                path: project.get(output)?.getPath(),
+            };
+        })
+    );
+}
+
 export const SelectedOutputSymbol = Symbol('selected-output');
-export type SelectedOutputContext = Writable<Evaluate[]>;
+export type SelectedOutputContext = Readable<Evaluate[]>;
 export function getSelectedOutput(): SelectedOutputContext | undefined {
     return getContext(SelectedOutputSymbol);
 }
 
 export const SelectedPhraseSymbol = Symbol('selected-phrase');
-export type SelectedPhraseContext = Writable<SelectedPhraseType>;
+export type SelectedPhraseContext = Writable<{
+    name: string;
+    index: number | null;
+} | null>;
 export function getSelectedPhrase(): SelectedPhraseContext | undefined {
     return getContext(SelectedPhraseSymbol);
 }

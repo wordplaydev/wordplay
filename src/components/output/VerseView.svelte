@@ -31,11 +31,12 @@
     import {
         getAnimatingNodes,
         getPlaying,
-        getProject,
+        getProjects,
         getSelectedOutput,
+        getSelectedOutputPaths,
         getSelectedPhrase,
+        setSelectedOutput,
     } from '../project/Contexts';
-    import { reviseProject } from '../project/project';
 
     export let project: Project;
     export let verse: Verse;
@@ -45,11 +46,12 @@
     export let fit: boolean;
     export let grid: boolean;
 
-    let projectStore = getProject();
-    let selectedOutput = getSelectedOutput();
-    let selectedPhrase = getSelectedPhrase();
-    let playing = getPlaying();
-    let animatingNodes = getAnimatingNodes();
+    const projects = getProjects();
+    const selectedOutput = getSelectedOutput();
+    const selectedOutputPaths = getSelectedOutputPaths();
+    const selectedPhrase = getSelectedPhrase();
+    const playing = getPlaying();
+    const animatingNodes = getAnimatingNodes();
 
     const GRID_PADDING = 2;
 
@@ -294,8 +296,7 @@
                 $selectedOutput.length > 0
             ) {
                 moveOutput(
-                    projectStore,
-                    selectedOutput,
+                    $projects,
                     project,
                     $selectedOutput,
                     $preferredLanguages,
@@ -320,12 +321,12 @@
     }
 
     function handleDoubleclick(event: MouseEvent) {
-        if (selectedOutput && selectedPhrase) {
+        if (selectedOutputPaths && selectedPhrase) {
             if (project.evaluator.isPlaying()) {
                 project.evaluator.pause();
                 selectPointerOutput(event);
             } else {
-                selectedOutput.set([]);
+                setSelectedOutput(selectedOutputPaths, project, []);
                 selectedPhrase.set(null);
                 project.evaluator.play();
             }
@@ -417,7 +418,7 @@
      */
     function selectPointerOutput(event: MouseEvent): boolean {
         if (
-            selectedOutput === undefined ||
+            selectedOutputPaths === undefined ||
             $selectedOutput === undefined ||
             selectedPhrase === undefined
         )
@@ -443,7 +444,7 @@
             else newSelection = [evaluate];
 
             // Update the selection
-            selectedOutput.set(newSelection);
+            setSelectedOutput(selectedOutputPaths, project, newSelection);
             // Erase the selected phrase.
             selectedPhrase.set(null);
 
@@ -459,7 +460,7 @@
     }
 
     function selectKeyboardOutput(event: KeyboardEvent) {
-        if (selectedOutput === undefined || $selectedOutput === undefined)
+        if (selectedOutputPaths === undefined || $selectedOutput === undefined)
             return;
 
         const evaluate = getOutputNodeFromID(getOutputNodeIDFromFocus());
@@ -467,7 +468,9 @@
 
         // Add or remove the focused node from the selection.
         if (event.key === 'Enter' || event.key === ' ') {
-            selectedOutput.set(
+            setSelectedOutput(
+                selectedOutputPaths,
+                project,
                 $selectedOutput.includes(evaluate)
                     ? $selectedOutput.filter((o) => o !== evaluate)
                     : [evaluate]
@@ -475,9 +478,7 @@
         }
         // Remove the node that created this phrase.
         else if (event.key === 'Backspace' && (event.metaKey || event.ctrlKey))
-            reviseProject(projectStore, selectedOutput, [
-                [evaluate, undefined],
-            ]);
+            $projects.reviseNodes(project, [[evaluate, undefined]]);
 
         // // meta-a: select all phrases
         // if (editable && event.key === 'a' && (event.metaKey || event.ctrlKey))

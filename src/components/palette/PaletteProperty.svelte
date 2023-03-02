@@ -26,18 +26,13 @@
     import ContentEditor from './ContentEditor.svelte';
     import PlaceEditor from './PlaceEditor.svelte';
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
-    import {
-        getConceptIndex,
-        getProject,
-        getSelectedOutput,
-    } from '../project/Contexts';
+    import { getConceptIndex, getProjects } from '../project/Contexts';
 
     export let project: Project;
     export let property: OutputProperty;
     export let values: OutputPropertyValueSet;
 
-    let projectStore = getProject();
-    let selectedOutput = getSelectedOutput();
+    const projects = getProjects();
 
     let index = getConceptIndex();
     $: bind = values.getBind();
@@ -54,28 +49,14 @@
     {#if values.areSet()}
         <Button
             tip={$preferredTranslations[0].ui.tooltip.revert}
-            action={() =>
-                selectedOutput
-                    ? values.unset(
-                          projectStore,
-                          selectedOutput,
-                          project,
-                          $preferredLanguages
-                      )
-                    : undefined}>⨉</Button
+            action={() => values.unset($projects, project, $preferredLanguages)}
+            >⨉</Button
         >
     {:else}
         <Button
             tip={$preferredTranslations[0].ui.tooltip.set}
-            action={() =>
-                selectedOutput
-                    ? values.set(
-                          projectStore,
-                          selectedOutput,
-                          project,
-                          $preferredLanguages
-                      )
-                    : undefined}>✎</Button
+            action={() => values.set($projects, project, $preferredLanguages)}
+            >✎</Button
         >
     {/if}
     <div class="control">

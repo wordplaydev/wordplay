@@ -9,24 +9,22 @@
     import Unit from '@nodes/Unit';
     import Note from '../widgets/Note.svelte';
     import Bind from '../../nodes/Bind';
-    import { getProject, getSelectedOutput } from '../project/Contexts';
-    import { reviseProject } from '../project/project';
+    import { getProjects } from '../project/Contexts';
 
     export let project: Project;
     export let place: Evaluate | undefined;
 
-    let projectStore = getProject();
-    let selectedOutput = getSelectedOutput();
+    const projects = getProjects();
 
     function valid(val: string) {
         return !Measurement.fromUnknown(val).isNaN();
     }
 
     function handleChange(dimension: string, value: string) {
-        if (place === undefined || selectedOutput === undefined) return;
+        if (place === undefined) return;
         if (value.length > 0 && !valid(value)) return;
 
-        reviseProject(projectStore, selectedOutput, [
+        $projects.reviseNodes(project, [
             [
                 place,
                 place.withBindAs(

@@ -1,7 +1,15 @@
 <script lang="ts">
     import { animationsOn } from '@models/stores';
-    import { onMount } from 'svelte';
-    import Loading from '../components/app/Loading.svelte';
+    import { onMount, setContext } from 'svelte';
+    import Loading from '@components/app/Loading.svelte';
+    import { ProjectsSymbol } from '@components/project/Contexts';
+    import Projects from '@components/project/Projects';
+
+    /** @type {import('./$types').LayoutData} */
+    export let data;
+
+    const projects = new Projects(data.projects);
+    setContext(ProjectsSymbol, projects.getStore());
 
     // Don't display the manager until the fonts are loaded.
     let fontsLoaded = false;

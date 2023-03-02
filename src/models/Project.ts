@@ -84,6 +84,12 @@ export default class Project {
         ];
     }
 
+    getInitialValue() {
+        this.evaluate();
+        this.evaluator.pause();
+        return this.evaluator.getLatestSourceValue(this.main);
+    }
+
     get(node: Node): Tree | undefined {
         if (!this._index.has(node)) this._index.set(node, this.resolve(node));
         return this._index.get(node);

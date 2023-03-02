@@ -15,14 +15,17 @@
     import Reference from '@nodes/Reference';
     import { RowType } from '@output/Row';
     import RootView from '../project/RootView.svelte';
-    import { getProject, getSelectedOutput } from '../project/Contexts';
-    import { reviseProject } from '../project/project';
+    import {
+        getProjects,
+        getSelectedOutputPaths,
+        setSelectedOutput,
+    } from '../project/Contexts';
 
     export let project: Project;
     export let list: ListLiteral | undefined;
 
-    let projectStore = getProject();
-    let selectedOutput = getSelectedOutput();
+    const projects = getProjects();
+    const selectedOutputPaths = getSelectedOutputPaths();
 
     // Get the map from the value set, unless its not a valid sequence or the maps of the selections aren't equal.
     $: valid =
@@ -92,16 +95,16 @@
     }
 
     function editContent(index: number) {
-        if (list === undefined) return;
-        if (selectedOutput === undefined) return;
+        if (list === undefined || selectedOutputPaths === undefined) return;
 
         const item = list.values[index];
-        if (item instanceof Evaluate) selectedOutput.set([item]);
+        if (item instanceof Evaluate)
+            setSelectedOutput(selectedOutputPaths, project, [item]);
     }
 
     function revise(newValues: Expression[]) {
-        if (list && selectedOutput)
-            reviseProject(projectStore, selectedOutput, [
+        if (list)
+            $projects.reviseNodes(project, [
                 [list, ListLiteral.make(newValues)],
             ]);
     }

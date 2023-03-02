@@ -4,23 +4,21 @@
     import type OutputPropertyValues from '@transforms/OutputPropertyValueSet';
     import type OutputPropertyRange from '@transforms/OutputPropertyRange';
     import type OutputProperty from '@transforms/OutputProperty';
-    import { getProject, getSelectedOutput } from '../project/Contexts';
-    import { reviseProject } from '../project/project';
+    import { getProject, getProjects } from '../project/Contexts';
 
     export let property: OutputProperty;
     export let values: OutputPropertyValues;
     export let range: OutputPropertyRange;
 
-    let project = getProject();
-    let selectedOutput = getSelectedOutput();
+    const project = getProject();
+    const projects = getProjects();
 
     // Whenever the slider value changes, revise the Evaluates to match the new value.
     function handleChange(newValue: number) {
-        if ($project === undefined || selectedOutput === undefined) return;
+        if ($project === undefined) return;
 
-        reviseProject(
-            project,
-            selectedOutput,
+        $projects.reviseNodes(
+            $project,
             $project.getBindReplacements(
                 values.getExpressions(),
                 property.name,

@@ -15,10 +15,10 @@
     import moveOutput from '../palette/moveOutput';
     import {
         getProject,
+        getProjects,
         getSelectedOutput,
         getSelectedPhrase,
     } from '../project/Contexts';
-    import { reviseProject } from '../project/project';
 
     export let phrase: Phrase;
     export let place: Place;
@@ -31,6 +31,7 @@
     let selectedOutput = getSelectedOutput();
     let selectedPhrase = getSelectedPhrase();
     let project = getProject();
+    const projects = getProjects();
 
     // Compute a local context based on size and font.
     $: context = phrase.getRenderContext(context);
@@ -113,8 +114,7 @@
             select(null);
 
             moveOutput(
-                project,
-                selectedOutput,
+                $projects,
                 $project,
                 [phrase.value.creator],
                 $preferredLanguages,
@@ -138,7 +138,7 @@
         if (event.currentTarget.selectionStart !== null)
             select(event.currentTarget.selectionStart);
 
-        reviseProject(project, selectedOutput, [
+        $projects.reviseNodes($project, [
             [
                 phrase.value.creator,
                 phrase.value.creator.replace(

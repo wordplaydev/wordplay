@@ -2,7 +2,7 @@
     import { setContext } from 'svelte';
     import {
         type ProjectContext,
-        type SelectedOutputContext,
+        type SelectedOutputPathsContext,
         type SelectedPhraseContext,
         type PlayingContext,
         type CurrentStepContext,
@@ -12,28 +12,38 @@
         type ConflictsContext,
         PlayingSymbol,
         ProjectSymbol,
-        SelectedOutputSymbol,
+        SelectedOutputPathsSymbol,
         SelectedPhraseSymbol,
         CurrentStepSymbol,
         CurrentStepIndexSymbol,
         AnimatingNodesSymbol,
         ConflictsSymbol,
         StreamChangesSymbol,
+        getProjects,
+        type SelectedOutputContext,
+        SelectedOutputSymbol,
     } from '@components/project/Contexts';
-    import { writable, type Writable } from 'svelte/store';
-    import type Evaluate from '@nodes/Evaluate';
-    import type { SelectedPhraseType } from '@components/project/project';
+    import {
+        derived,
+        writable,
+        type Readable,
+        type Writable,
+    } from 'svelte/store';
+    import Evaluate from '@nodes/Evaluate';
     import type Step from '@runtime/Step';
     import type { StreamChange } from '@runtime/Evaluator';
     import type Node from '@nodes/Node';
     import { page } from '$app/stores';
-    import { examples, makeProject } from '../../../examples/examples';
     import ProjectView from '@components/project/ProjectView.svelte';
     import type Project from '@models/Project';
 
-    const project: Writable<Project | undefined> = writable<
-        Project | undefined
-    >();
+    const projects = getProjects();
+
+    /** The project store is derived from the projects and the page's project ID. */
+    const project: Readable<Project | undefined> = derived(
+        projects,
+        ($projects) => $projects.get($page.params.projectid)
+    );
 
     /** The current index of the current project's step **/
     const currentStepIndex = writable<number>(0);
@@ -54,8 +64,30 @@
      * This enables output views like phrases and groups know what mode the output view is in and whether they are selected.
      * so they can render selected feedback.
      */
-    const selectedOutput = writable<Evaluate[]>([]);
-    const selectedPhrase = writable<SelectedPhraseType>(null);
+    const selectedOutputPaths: SelectedOutputPathsContext = writable([]);
+    const selectedOutput = derived(
+        [project, selectedOutputPaths],
+        ([proj, paths]) => {
+            return paths
+                .map(({ source, path }) => {
+                    if (
+                        source === undefined ||
+                        path === undefined ||
+                        proj === undefined
+                    )
+                        return undefined;
+                    const name = source.getNames()[0];
+                    if (name === undefined) return undefined;
+                    const newSource = proj.getSourceWithName(name);
+                    if (newSource === undefined) return undefined;
+                    return newSource.tree.resolvePath(path);
+                })
+                .filter(
+                    (output): output is Evaluate => output instanceof Evaluate
+                );
+        }
+    );
+    const selectedPhrase: SelectedPhraseContext = writable(null);
 
     /** Whether the current project's evaluator is playing. */
     const playing = writable<boolean>(true);
@@ -71,6 +103,10 @@
         currentStepIndex
     );
     setContext<AnimatingNodesContext>(AnimatingNodesSymbol, animatingNodes);
+    setContext<SelectedOutputPathsContext>(
+        SelectedOutputPathsSymbol,
+        selectedOutputPaths
+    );
     setContext<SelectedOutputContext>(SelectedOutputSymbol, selectedOutput);
     setContext<SelectedPhraseContext>(SelectedPhraseSymbol, selectedPhrase);
     setContext<PlayingContext>(PlayingSymbol, playing);
@@ -80,7 +116,7 @@
 
     // Clear the selected output upon playing.
     playing.subscribe((val) => {
-        if (val) selectedOutput.set([]);
+        if (val) selectedOutputPaths.set([]);
     });
 
     // When the project, changes, observe it.
@@ -99,12 +135,6 @@
         currentStepIndex.set(evaluator.getStepIndex());
         playing.set(evaluator.isPlaying());
         streams.set(evaluator.reactions);
-    }
-
-    $: {
-        const projectID = $page.params.projectid;
-        const example = examples.find((example) => example.name === projectID);
-        project.set(example ? makeProject(example) : undefined);
     }
 </script>
 

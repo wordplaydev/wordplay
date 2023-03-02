@@ -1,21 +1,13 @@
 <script lang="ts">
-    import { examples, makeProject, type Stuff } from '../../examples/examples';
-    import type Value from '@runtime/Value';
     import OutputView from '../output/OutputView.svelte';
     import Settings from '../settings/Settings.svelte';
     import { goto } from '$app/navigation';
     import type Project from '../../models/Project';
+    import { getProjects } from '../project/Contexts';
 
-    let verses = new Map<string, [Project, Value | undefined]>();
-    for (const example of examples) {
-        const project = makeProject(example);
-        project.evaluate();
-        project.evaluator.pause();
-        const value = project.evaluator.getLatestSourceValue(project.main);
-        verses.set(example.name, [project, value]);
-    }
+    const projects = getProjects();
 
-    function changeProject(example: Stuff) {
+    function changeProject(example: Project) {
         goto(`/project/${example.name}`);
     }
 
@@ -26,31 +18,28 @@
 
 <section class="chooser">
     <div class="projects">
-        {#each examples as example}
-            {@const preview = verses.get(example.name)}
+        {#each $projects.all() as project}
             <div
                 class="project"
                 tabIndex="0"
-                on:click={() => changeProject(example)}
+                on:click={() => changeProject(project)}
                 on:keydown={(event) =>
                     event.key === '' || event.key === 'Enter'
-                        ? changeProject(example)
+                        ? changeProject(project)
                         : undefined}
             >
-                {#if preview}
-                    <div class="preview">
-                        <OutputView
-                            project={preview[0]}
-                            source={preview[0].main}
-                            latest={preview[1]}
-                            fullscreen={false}
-                            fit={true}
-                            grid={false}
-                            mode="mini"
-                        />
-                    </div>
-                {/if}
-                <div class="name">{example.name}</div>
+                <div class="preview">
+                    <OutputView
+                        {project}
+                        source={project.main}
+                        latest={project.getInitialValue()}
+                        fullscreen={false}
+                        fit={true}
+                        grid={false}
+                        mode="mini"
+                    />
+                </div>
+                <div class="name">{project.name}</div>
             </div>
         {/each}
         <div

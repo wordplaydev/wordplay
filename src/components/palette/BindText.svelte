@@ -4,22 +4,20 @@
     import { preferredLanguages } from '@translation/translations';
     import TextField from '../widgets/TextField.svelte';
     import type OutputProperty from '@transforms/OutputProperty';
-    import { getProject, getSelectedOutput } from '../project/Contexts';
-    import { reviseProject } from '../project/project';
+    import { getProject, getProjects } from '../project/Contexts';
 
     export let property: OutputProperty;
     export let values: OutputPropertyValues;
     export let validator: (text: string) => boolean;
 
     let project = getProject();
-    let selectedOutput = getSelectedOutput();
+    const projects = getProjects();
 
     // Whenever the text changes, update in the project.
     function handleChange(newValue: string) {
-        if ($project === undefined || selectedOutput === undefined) return;
-        reviseProject(
-            project,
-            selectedOutput,
+        if ($project === undefined) return;
+        $projects.reviseNodes(
+            $project,
             $project.getBindReplacements(
                 values.getExpressions(),
                 property.name,

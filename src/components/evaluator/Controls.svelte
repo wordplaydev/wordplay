@@ -3,25 +3,24 @@
     import Switch from '../widgets/Switch.svelte';
     import type Project from '@models/Project';
     import { preferredTranslations } from '@translation/translations';
-    import { updateProject } from '../project/project';
     import {
         getCurrentStep,
         getCurrentStepIndex,
         getPlaying,
-        getProject,
+        getProjects,
         getStreamChanges,
     } from '../project/Contexts';
 
     export let project: Project;
 
-    let projectStore = getProject();
+    const projects = getProjects();
     let playing = getPlaying();
     let currentStep = getCurrentStep();
     let streams = getStreamChanges();
     let currentStepIndex = getCurrentStepIndex();
 
     function reset() {
-        updateProject(projectStore, project.clone());
+        $projects.revise(project, project.clone());
     }
 </script>
 

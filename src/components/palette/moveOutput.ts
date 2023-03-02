@@ -8,15 +8,10 @@ import Reference from '@nodes/Reference';
 import Unit from '@nodes/Unit';
 import { PlaceType } from '@output/Place';
 import type LanguageCode from '@translation/LanguageCode';
-import type {
-    ProjectContext,
-    SelectedOutputContext,
-} from '../project/Contexts';
-import { reviseProject } from '../project/project';
+import type Projects from '../project/Projects';
 
 export default function moveOutput(
-    store: ProjectContext,
-    selected: SelectedOutputContext,
+    projects: Projects,
     project: Project,
     evaluates: Evaluate[],
     languages: LanguageCode[],
@@ -24,9 +19,8 @@ export default function moveOutput(
     vertical: number,
     relative: boolean
 ) {
-    reviseProject(
-        store,
-        selected,
+    projects.reviseNodes(
+        project,
         evaluates.map((evaluate) => {
             const ctx = project.getNodeContext(evaluate);
 
