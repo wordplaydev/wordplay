@@ -2032,6 +2032,7 @@ const en: Translation = {
             percent: 'percent',
             name: 'name',
             project: 'untitled',
+            email: 'email',
         },
         tooltip: {
             yes: 'confirm',
@@ -2090,6 +2091,7 @@ const en: Translation = {
             inherited: 'inherited',
             notSequence: 'not a sequence',
             notContent: 'not a content list',
+            anonymous: 'login to save',
         },
         tiles: {
             output: '💬',

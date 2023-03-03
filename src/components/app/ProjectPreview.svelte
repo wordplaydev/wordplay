@@ -31,7 +31,6 @@
     .project {
         border: var(--wordplay-border-color);
         border-radius: var(--wordplay-border-radius);
-        cursor: pointer;
         width: 12em;
         display: flex;
         flex-direction: row;
@@ -55,6 +54,7 @@
     }
 
     .preview {
+        cursor: pointer;
         width: 4rem;
         height: 4rem;
         overflow: hidden;

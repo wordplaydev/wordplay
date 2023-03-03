@@ -1688,6 +1688,7 @@ const eng_wordplay: Translation = {
             percent: 'percent',
             name: 'name',
             project: 'untitled',
+            email: 'email',
         },
         tooltip: {
             yes: 'confirm',
@@ -1746,6 +1747,7 @@ const eng_wordplay: Translation = {
             inherited: 'inherited',
             notSequence: 'invalid sequence',
             notContent: 'invalid content',
+            anonymous: 'temporary account - click to login',
         },
         tiles: {
             output: '💬',

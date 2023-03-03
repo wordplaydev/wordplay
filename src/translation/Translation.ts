@@ -740,6 +740,7 @@ type Translation = {
             percent: string;
             name: string;
             project: string;
+            email: string;
         };
         tooltip: {
             yes: string;
@@ -804,6 +805,8 @@ type Translation = {
             notSequence: string;
             /** Shown in the output palette when a list of content is isn't valid */
             notContent: string;
+            /** Shown when using an anonymous account */
+            anonymous: string;
         };
         tiles: {
             output: string;
