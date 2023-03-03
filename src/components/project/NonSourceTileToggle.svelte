@@ -15,10 +15,3 @@
     ><span class="name" class:collapsed={tile.isCollapsed()}>{tile.name}</span
     ></Button
 >
-
-<style>
-    .collapsed {
-        display: inline-block;
-        transform: scale(1.4);
-    }
-</style>

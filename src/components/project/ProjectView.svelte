@@ -835,10 +835,12 @@
                 >{#if layout.arrangement === Arrangement.vertical}↕️{:else if layout.arrangement === Arrangement.horizontal}↔️{:else if layout.arrangement === Arrangement.free}█{/if}</Button
             >
             {#each layout.getNonSources() as tile}
-                <NonSourceTileToggle
-                    {tile}
-                    on:toggle={() => toggleTile(tile)}
-                />
+                {#if tile.isCollapsed()}
+                    <NonSourceTileToggle
+                        {tile}
+                        on:toggle={() => toggleTile(tile)}
+                    />
+                {/if}
             {/each}
             {#each project.getSources() as source, index}
                 {@const tile = layout.getTileWithID(Layout.getSourceID(index))}
