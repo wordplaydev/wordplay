@@ -783,6 +783,7 @@ type Translation = {
             deleteSource: string;
             deleteProject: string;
             settings: string;
+            newProject: string;
         };
         prompt: {
             deleteSource: string;
@@ -803,8 +804,6 @@ type Translation = {
             notSequence: string;
             /** Shown in the output palette when a list of content is isn't valid */
             notContent: string;
-            /** Shown in the project chooser for creating a new project */
-            newProject: string;
         };
         tiles: {
             output: string;
@@ -813,6 +812,9 @@ type Translation = {
         };
         headers: {
             editing: string;
+        };
+        feedback: {
+            unknownProject: string;
         };
     };
     input: {

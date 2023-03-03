@@ -1731,6 +1731,7 @@ const eng_wordplay: Translation = {
             deleteSource: 'remove this source',
             deleteProject: 'delete this project',
             settings: 'show settings',
+            newProject: 'new project',
         },
         prompt: {
             deleteSource: 'delete?',
@@ -1745,7 +1746,6 @@ const eng_wordplay: Translation = {
             inherited: 'inherited',
             notSequence: 'invalid sequence',
             notContent: 'invalid content',
-            newProject: 'new project',
         },
         tiles: {
             output: '💬',
@@ -1754,6 +1754,9 @@ const eng_wordplay: Translation = {
         },
         headers: {
             editing: 'edit me!',
+        },
+        feedback: {
+            unknownProject: "There's no project with this ID.",
         },
     },
     input: {

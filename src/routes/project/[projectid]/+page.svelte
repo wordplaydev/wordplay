@@ -36,6 +36,8 @@
     import { page } from '$app/stores';
     import ProjectView from '@components/project/ProjectView.svelte';
     import type Project from '@models/Project';
+    import { preferredTranslations } from '@translation/translations';
+    import Feedback from '@components/app/Feedback.svelte';
 
     const projects = getProjects();
 
@@ -140,4 +142,6 @@
 
 {#if $project}
     <ProjectView project={$project} />
+{:else}
+    <Feedback>{$preferredTranslations[0].ui.feedback.unknownProject}</Feedback>
 {/if}

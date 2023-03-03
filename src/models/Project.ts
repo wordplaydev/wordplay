@@ -114,6 +114,16 @@ export default class Project {
         ];
     }
 
+    copy() {
+        return new Project(
+            null,
+            this.name,
+            this.main,
+            this.supplements,
+            this.uids
+        );
+    }
+
     equals(project: Project) {
         return (
             this.name === project.name &&
@@ -553,6 +563,18 @@ export default class Project {
             this.main,
             [...this.supplements, new Source(name, '')],
             this.uids
+        );
+    }
+
+    withUser(uid: string) {
+        return new Project(
+            this.id,
+            this.name,
+            this.main,
+            this.supplements,
+            this.uids.some((user) => user === uid)
+                ? this.uids
+                : [...this.uids, uid]
         );
     }
 

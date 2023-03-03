@@ -2075,6 +2075,7 @@ const en: Translation = {
             deleteSource: 'remove this source',
             deleteProject: 'delete this project',
             settings: 'show settings',
+            newProject: 'new project',
         },
         prompt: {
             deleteSource: 'delete',
@@ -2089,7 +2090,6 @@ const en: Translation = {
             inherited: 'inherited',
             notSequence: 'not a sequence',
             notContent: 'not a content list',
-            newProject: 'new project',
         },
         tiles: {
             output: '💬',
@@ -2098,6 +2098,9 @@ const en: Translation = {
         },
         headers: {
             editing: 'edit me!',
+        },
+        feedback: {
+            unknownProject: "There's no project with this ID.",
         },
     },
     input: {

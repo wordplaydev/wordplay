@@ -9,7 +9,6 @@
     import { writable } from 'svelte/store';
     import { ProjectsSymbol, UserSymbol } from '@components/project/Contexts';
     import Projects from '@db/Projects';
-    // import { examples, makeProject } from '../../examples/examples';
     import { onDestroy } from 'svelte';
 
     /** Create a user store */
@@ -20,9 +19,6 @@
 
     /** Load whatever is stored in local storage */
     projects.loadLocal();
-
-    /** Add some example projects */
-    // projects.addUnique(examples.map((example) => makeProject(example)));
 
     /** Try logging in */
     try {
