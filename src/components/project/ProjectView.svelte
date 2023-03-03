@@ -60,9 +60,9 @@
     import KeyboardIdle from '../editor/util/KeyboardIdle';
     import type Concept from '../../concepts/Concept';
     import Settings from '../settings/Settings.svelte';
-    import { getPersistedValue, setPersistedValue } from '../app/persist';
+    import { getPersistedValue, setPersistedValue } from '@db/persist';
     import ConfirmButton from '../widgets/ConfirmButton.svelte';
-    import { isName } from '../../parser/Tokenizer';
+    import { isName } from '@parser/Tokenizer';
     import { goto } from '$app/navigation';
     import TextField from '../widgets/TextField.svelte';
     import Status from '../app/Status.svelte';

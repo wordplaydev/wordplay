@@ -8,7 +8,7 @@ import Reference from '@nodes/Reference';
 import Unit from '@nodes/Unit';
 import { PlaceType } from '@output/Place';
 import type LanguageCode from '@translation/LanguageCode';
-import type Projects from '../project/Projects';
+import type Projects from '../../db/Projects';
 
 export default function moveOutput(
     projects: Projects,

@@ -3,18 +3,25 @@
     import Settings from '../settings/Settings.svelte';
     import { goto } from '$app/navigation';
     import type Project from '../../models/Project';
-    import { getProjects } from '../project/Contexts';
+    import { getProjects, getUser } from '../project/Contexts';
     import ConfirmButton from '../widgets/ConfirmButton.svelte';
     import { preferredTranslations } from '@translation/translations';
 
     const projects = getProjects();
+    const user = getUser();
 
     function changeProject(example: Project) {
         goto(`/project/${example.id}`);
     }
 
     function newProject() {
-        goto(`/project/${$projects.create()}`);
+        if ($user)
+            goto(
+                `/project/${$projects.create(
+                    $preferredTranslations[0],
+                    $user.uid
+                )}`
+            );
     }
 </script>
 
@@ -52,6 +59,7 @@
                 >
             </div>
         {/each}
+        <div class="break" />
         <div
             class="project add"
             tabIndex="0"
@@ -61,9 +69,12 @@
                     ? newProject()
                     : undefined}
         >
-            <div class="preview">+</div><div class="name" />
-        </div>
-    </div></section
+            <div class="preview">+</div>
+            <div class="name"
+                ><em>{$preferredTranslations[0].ui.labels.newProject}</em></div
+            >
+        </div></div
+    ></section
 >
 <div class="footer"><Settings /><a href="/">❌</a></div>
 
@@ -86,9 +97,10 @@
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
-        align-items: flex-start;
+        align-items: center;
         gap: calc(2 * var(--wordplay-spacing));
         row-gap: calc(2 * var(--wordplay-spacing));
+        justify-content: center;
     }
 
     .footer {
@@ -135,9 +147,9 @@
         border-radius: var(--wordplay-border-radius);
     }
 
-    .project.add {
-        width: 4em;
-        gap: 0;
+    .break {
+        flex-basis: 100%;
+        height: 0;
     }
 
     .add .preview {

@@ -803,6 +803,8 @@ type Translation = {
             notSequence: string;
             /** Shown in the output palette when a list of content is isn't valid */
             notContent: string;
+            /** Shown in the project chooser for creating a new project */
+            newProject: string;
         };
         tiles: {
             output: string;

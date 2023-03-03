@@ -1,8 +1,5 @@
 import { get, writable, type Writable } from 'svelte/store';
-import {
-    getPersistedValue,
-    setPersistedValue,
-} from '../components/app/persist';
+import { getPersistedValue, setPersistedValue } from '@db/persist';
 
 // A local storage key for the animated state
 export const ANIMATED_KEY = 'animated';

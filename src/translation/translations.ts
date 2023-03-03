@@ -10,7 +10,7 @@ import spa from './translations/es';
 import type LanguageCode from './LanguageCode';
 import type Translation from './Translation';
 import type { WritingDirection, WritingLayout } from './LanguageCode';
-import { getPersistedValue, setPersistedValue } from '@components/app/persist';
+import { getPersistedValue, setPersistedValue } from '@db/persist';
 
 /** Global list of preferred languages. */
 const LANGUAGES_KEY = 'languages';

@@ -13,9 +13,10 @@ import type Evaluate from '@nodes/Evaluate';
 import type Step from '@runtime/Step';
 import type { StreamChange } from '@runtime/Evaluator';
 import type Conflict from '@conflicts/Conflict';
-import type Projects from './Projects';
+import type Projects from '../../db/Projects';
 import type { Path } from '@nodes/Tree';
-import type Source from '../../nodes/Source';
+import type Source from '@nodes/Source';
+import type { User } from 'firebase/auth';
 
 export type ProjectsContext = Writable<Projects>;
 export const ProjectsSymbol = Symbol('projects');
@@ -168,4 +169,10 @@ export const ConflictsSymbol = Symbol('conflicts');
 export type ConflictsContext = Writable<Conflict[]>;
 export function getConflicts(): ConflictsContext | undefined {
     return getContext(ConflictsSymbol);
+}
+
+export const UserSymbol = Symbol('user');
+export type UserContext = Writable<User | null>;
+export function getUser(): UserContext {
+    return getContext(UserSymbol);
 }

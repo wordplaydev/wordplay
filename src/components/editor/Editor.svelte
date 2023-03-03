@@ -66,7 +66,7 @@
     import { PhraseType } from '@output/Phrase';
     import { GroupType } from '@output/Group';
     import { VerseType } from '@output/Verse';
-    import { getPersistedValue, setPersistedValue } from '../app/persist';
+    import { getPersistedValue, setPersistedValue } from '@db/persist';
     import type { Path } from '@nodes/Tree';
 
     export let project: Project;

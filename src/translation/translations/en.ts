@@ -2089,6 +2089,7 @@ const en: Translation = {
             inherited: 'inherited',
             notSequence: 'not a sequence',
             notContent: 'not a content list',
+            newProject: 'new project',
         },
         tiles: {
             output: '💬',

@@ -1745,6 +1745,7 @@ const eng_wordplay: Translation = {
             inherited: 'inherited',
             notSequence: 'invalid sequence',
             notContent: 'invalid content',
+            newProject: 'new project',
         },
         tiles: {
             output: '💬',

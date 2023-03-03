@@ -24,6 +24,15 @@ import { VerseType } from '../output/Verse';
 import { GroupType } from '../output/Group';
 import { PhraseType } from '../output/Phrase';
 import { v4 as uuidv4 } from 'uuid';
+import { parseNames, toTokens } from '../parser/Parser';
+
+export type SerializedSource = { names: string; code: string };
+export type SerializedProject = {
+    id: string;
+    name: string;
+    sources: SerializedSource[];
+    uids: string[];
+};
 
 type Analysis = {
     conflicts: Conflict[];
@@ -55,6 +64,12 @@ export default class Project {
     /** All source files in the project, and their evaluators */
     readonly supplements: Source[];
 
+    /** True if the project is fresh data from the remote database, so it does not need to be persisted. */
+    saved: boolean;
+
+    /** A list of uids that have write access to this project. */
+    readonly uids: string[];
+
     /** The evaluator that evaluates the source. */
     readonly evaluator: Evaluator;
 
@@ -75,9 +90,13 @@ export default class Project {
         id: string | null,
         name: string,
         main: Source,
-        supplements: Source[]
+        supplements: Source[],
+        uids: string[] = [],
+        saved: boolean = false
     ) {
         this.id = id ?? uuidv4();
+        this.uids = uids;
+        this.saved = saved;
 
         // Remember the source.
         this.name = name;
@@ -445,11 +464,23 @@ export default class Project {
     }
 
     clone() {
-        return new Project(this.id, this.name, this.main, this.supplements);
+        return new Project(
+            this.id,
+            this.name,
+            this.main,
+            this.supplements,
+            this.uids
+        );
     }
 
     withName(name: string) {
-        return new Project(this.id, name, this.main, this.supplements);
+        return new Project(
+            this.id,
+            name,
+            this.main,
+            this.supplements,
+            this.uids
+        );
     }
 
     withSource(oldSource: Source, newSource: Source) {
@@ -461,7 +492,8 @@ export default class Project {
             this.id,
             this.name,
             this.main,
-            this.supplements.filter((s) => s !== source)
+            this.supplements.filter((s) => s !== source),
+            this.uids
         );
     }
 
@@ -481,7 +513,13 @@ export default class Project {
                 ? supplementReplacement[1]
                 : supplement;
         });
-        return new Project(this.id, this.name, newMain, newSupplements);
+        return new Project(
+            this.id,
+            this.name,
+            newMain,
+            newSupplements,
+            this.uids
+        );
     }
 
     withRevisedNodes(nodes: [Node, Node | undefined][]) {
@@ -509,10 +547,13 @@ export default class Project {
     }
 
     withNewSource(name: string) {
-        return new Project(this.id, this.name, this.main, [
-            ...this.supplements,
-            new Source(name, ''),
-        ]);
+        return new Project(
+            this.id,
+            this.name,
+            this.main,
+            [...this.supplements, new Source(name, '')],
+            this.uids
+        );
     }
 
     getBindReplacements(
@@ -558,5 +599,35 @@ export default class Project {
                 evaluate.is(PhraseType, this.getNodeContext(evaluate))
             ),
         ];
+    }
+
+    static sourceToSource(source: SerializedSource): Source {
+        return new Source(parseNames(toTokens(source.names)), source.code);
+    }
+
+    static fromObject(project: SerializedProject) {
+        return new Project(
+            project.id,
+            project.name,
+            Project.sourceToSource(project.sources[0]),
+            project.sources
+                .slice(1)
+                .map((source) => Project.sourceToSource(source)),
+            project.uids
+        );
+    }
+
+    toObject(): SerializedProject {
+        return {
+            id: this.id,
+            name: this.name,
+            sources: this.getSources().map((source) => {
+                return {
+                    names: source.names.toWordplay(),
+                    code: source.code.toString(),
+                };
+            }),
+            uids: this.uids,
+        };
     }
 }

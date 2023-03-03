@@ -1,14 +1,7 @@
 <script lang="ts">
     import { animationsOn } from '@models/stores';
-    import { onMount, setContext } from 'svelte';
+    import { onMount } from 'svelte';
     import Loading from '@components/app/Loading.svelte';
-    import { ProjectsSymbol } from '@components/project/Contexts';
-
-    /** @type {import('./$types').LayoutData} */
-    export let data;
-
-    const projects = data.projects;
-    setContext(ProjectsSymbol, projects.getStore());
 
     // Don't display the manager until the fonts are loaded.
     let fontsLoaded = false;
@@ -288,5 +281,16 @@
 
     *:focus {
         outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
+    }
+
+    .firebase-emulator-warning {
+        top: 0 !important;
+        right: 1% !important;
+        bottom: auto !important;
+        left: 99% !important;
+        font-family: var(--wordplay-app-font) !important;
+        font-size: 4pt;
+        color: var(--wordplay-error) !important;
+        background: var(--wordplay-error) !important;
     }
 </style>

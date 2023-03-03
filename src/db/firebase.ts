@@ -3,7 +3,6 @@ import { initializeApp } from 'firebase/app';
 import { connectAuthEmulator, getAuth } from 'firebase/auth';
 import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore';
 import { connectFunctionsEmulator, getFunctions } from 'firebase/functions';
-import { getAnalytics } from 'firebase/analytics';
 import {
     PUBLIC_CONTEXT,
     PUBLIC_FIREBASE_API_KEY,
@@ -22,8 +21,8 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-getAnalytics(app);
+export const app = initializeApp(firebaseConfig);
+// export const analyitcs = getAnalytics(app);
 
 export const auth = getAuth(app);
 export const firestore = getFirestore(app);

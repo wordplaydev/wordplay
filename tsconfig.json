@@ -23,7 +23,8 @@
             "@parser/*": ["parser/*"],
             "@native/*": ["native/*"],
             "@transforms/*": ["transforms/*"],
-            "@models/*": ["models/*"]
+            "@models/*": ["models/*"],
+            "@db/*": ["db/*"]
         }
     }
 }

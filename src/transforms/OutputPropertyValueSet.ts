@@ -13,7 +13,7 @@ import MapLiteral from '../nodes/MapLiteral';
 import ListLiteral from '../nodes/ListLiteral';
 import { PlaceType } from '../output/Place';
 import type Bind from '../nodes/Bind';
-import type Projects from '../components/project/Projects';
+import type Projects from '../db/Projects';
 
 /**
  * Represents one or more equivalent inputs to an output expression.
