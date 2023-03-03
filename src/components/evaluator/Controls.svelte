@@ -82,6 +82,9 @@
 
 <style>
     .controls {
-        white-space: nowrap;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: var(--wordplay-spacing);
     }
 </style>
