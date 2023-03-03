@@ -19,7 +19,6 @@
     import type Project from '@models/Project';
     import Documentation from '@components/concepts/Documentation.svelte';
     import type Tree from '@nodes/Tree';
-    import { getAnimationDuration } from '@models/stores';
     import Annotations from '../annotations/Annotations.svelte';
     import type Conflict from '@conflicts/Conflict';
     import RootView from './RootView.svelte';
@@ -27,7 +26,6 @@
     import { afterUpdate } from 'svelte';
     import getOutlineOf, { getUnderlineOf } from '../editor/util/outline';
     import type { HighlightSpec } from '../editor/util/Highlights';
-    import { fade } from 'svelte/transition';
     import TileView, { type ResizeDirection } from './TileView.svelte';
     import Tile, { Content, Mode } from './Tile';
     import OutputView from '../output/OutputView.svelte';
@@ -686,13 +684,7 @@
 </script>
 
 <!-- Render the app header and the current project, if there is one. -->
-<main
-    class="project"
-    tabIndex="0"
-    on:keydown={handleKey}
-    bind:this={view}
-    transition:fade={getAnimationDuration()}
->
+<main class="project" tabIndex="0" on:keydown={handleKey} bind:this={view}>
     {#if !layout.isFullscreen()}
         <section class="header" class:stepping={!$playing}>
             <Controls {project} />
