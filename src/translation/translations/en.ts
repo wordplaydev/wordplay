@@ -2113,7 +2113,7 @@ const en: Translation = {
                 "It looks like you're logging in on a different device. Can you enter your email again?",
             sent: 'Check your email for a link.',
             success: 'Account created!',
-            failure: 'There was a problem linking your email.',
+            failure: "Couldn't reach the database",
             expiredFailure: 'This link expired.',
             invalidFailure: "This link isn't valid.",
             emailFailure: "This email wasn't valid.",

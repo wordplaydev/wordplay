@@ -73,7 +73,7 @@
                 .catch((err) => fail(err));
         }
         // If there is a user and it's anonymous
-        else if ($user.isAnonymous) {
+        else if ($user && $user.isAnonymous) {
             linkWithCredential(
                 $user,
                 EmailAuthProvider.credentialWithLink(

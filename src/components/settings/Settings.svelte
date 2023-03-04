@@ -10,16 +10,19 @@
 
     let user = getUser();
     $: anonymous = $user && $user.isAnonymous;
+    $: offline = $user === undefined;
 </script>
 
 <div class="settings" class:expanded>
-    <div class="account" class:anonymous>
+    <div class="account" class:anonymous class:offline>
         {#if $user}
             <a href="/login">
                 {anonymous
                     ? $preferredTranslations[0].ui.labels.anonymous
                     : $user.email}
             </a>
+        {:else if offline}
+            ⚡️
         {/if}
     </div>
     <div class="controls">
@@ -87,5 +90,11 @@
 
     .account.anonymous a {
         color: var(--wordplay-background);
+    }
+
+    .account.offline {
+        background: var(--wordplay-error);
+        color: var(--wordplay-background);
+        padding: calc(var(--wordplay-spacing) / 2) var(--wordplay-spacing);
     }
 </style>

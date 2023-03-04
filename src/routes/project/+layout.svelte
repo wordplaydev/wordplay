@@ -6,10 +6,11 @@
     import { onAuthStateChanged, signInAnonymously } from 'firebase/auth';
     import { auth } from '../../db/firebase';
     import { FirebaseError } from 'firebase/app';
+    import Loading from '@components/app/Loading.svelte';
 
-    let user = getUser();
+    let authenticated: boolean | null = false;
 
-    let authenticated = false;
+    const user = getUser();
 
     /** Create a database of projects linked to the current user. */
     const projects = new Projects([]);
@@ -20,15 +21,17 @@
     setContext(ProjectsSymbol, projects.getStore());
 
     // Sign in anonymously if no user.
-    onAuthStateChanged(auth, (user) => {
-        if (user === null && !authenticated) {
+    onAuthStateChanged(auth, async (newUser) => {
+        if (newUser === null && !authenticated) {
             try {
-                signInAnonymously(auth);
+                await signInAnonymously(auth);
                 authenticated = true;
             } catch (err: any) {
                 if (err instanceof FirebaseError) {
                     console.log(err.code);
                     console.log(err.message);
+                    authenticated = null;
+                    user.set(undefined);
                 }
             }
         } else authenticated = true;
@@ -39,6 +42,8 @@
     });
 </script>
 
-{#if authenticated && $user}
+{#if authenticated === false}
+    <Loading />
+{:else}
     <slot />
 {/if}

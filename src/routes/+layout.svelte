@@ -10,7 +10,7 @@
     import Fonts from '../native/Fonts';
 
     /** Create a user store */
-    const user = writable<User | null>(null);
+    const user = writable<User | null | undefined>(undefined);
     setContext(UserSymbol, user);
 
     // Force Noto Sans to load
