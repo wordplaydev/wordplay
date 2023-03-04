@@ -12,7 +12,8 @@
         "env": "cp .env.${GCLOUD_PROJECT:-emulator} .env",
         "build": "npm run env && vite build",
         "preview": "vite preview",
-        "stage": "firebase use dev && firebase deploy"
+        "stage": "firebase use dev && firebase deploy",
+        "release": "firebase use prod && firebase deploy"
     },
     "devDependencies": {
         "@sveltejs/adapter-static": "^1.0.6",
