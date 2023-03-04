@@ -13,14 +13,18 @@
     const user = writable<User | null>(null);
     setContext(UserSymbol, user);
 
-    // Don't display the manager until the fonts are loaded.
-    $: fontsLoaded = Fonts.isLoaded('Noto Sans');
+    // Force Noto Sans to load
+    Fonts.loadFamily('Noto Sans');
+
+    let loaded = false;
 
     /** Whenever the user changes, reset the project store. */
     onMount(() => {
         onAuthStateChanged(auth, (newUser) => {
             user.set(newUser);
         });
+
+        document.fonts.ready.then(() => (loaded = true));
     });
 </script>
 
@@ -71,9 +75,10 @@
 </svelte:head>
 
 <main class:animated={$animationsOn} lang={$preferredLanguages[0]}>
-    {#if fontsLoaded}
+    {#if loaded}
         <slot />
-    {:else}<Loading />
+    {:else}
+        <Loading />
     {/if}
 </main>
 
