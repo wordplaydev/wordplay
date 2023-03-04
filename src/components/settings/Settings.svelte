@@ -9,16 +9,18 @@
     let expanded = false;
 
     let user = getUser();
-    $: anonymous = $user === null || $user.isAnonymous;
+    $: anonymous = $user && $user.isAnonymous;
 </script>
 
 <div class="settings" class:expanded>
     <div class="account" class:anonymous>
-        <a href="/login">
-            {$user === null || anonymous
-                ? $preferredTranslations[0].ui.labels.anonymous
-                : $user.email}
-        </a>
+        {#if $user}
+            <a href="/login">
+                {anonymous
+                    ? $preferredTranslations[0].ui.labels.anonymous
+                    : $user.email}
+            </a>
+        {/if}
     </div>
     <div class="controls">
         <Button
@@ -80,7 +82,7 @@
     .account.anonymous {
         background: var(--wordplay-warning);
         color: var(--wordplay-background);
-        padding: var(--wordplay-spacing);
+        padding: calc(var(--wordplay-spacing) / 2) var(--wordplay-spacing);
     }
 
     .account.anonymous a {

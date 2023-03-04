@@ -1,6 +1,9 @@
 <script>
     import TextField from '@components/widgets/TextField.svelte';
+    import Page from '@components/app/Page.svelte';
     import { preferredTranslations } from '@translation/translations';
 </script>
 
-<TextField placeholder={$preferredTranslations[0].ui.placeholders.email} />
+<Page>
+    <TextField placeholder={$preferredTranslations[0].ui.placeholders.email} />
+</Page>

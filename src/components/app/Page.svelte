@@ -1,0 +1,35 @@
+<script lang="ts">
+    import Settings from '../settings/Settings.svelte';
+</script>
+
+<main class="page">
+    <slot />
+</main>
+<footer>
+    <div class="footer"><Settings /><a href="/">❌</a></div>
+</footer>
+
+<style>
+    .page {
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: var(--wordplay-spacing);
+    }
+
+    .footer {
+        position: fixed;
+        bottom: var(--wordplay-spacing);
+        right: var(--wordplay-spacing);
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: var(--wordplay-spacing);
+    }
+</style>

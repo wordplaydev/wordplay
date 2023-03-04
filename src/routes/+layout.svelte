@@ -2,6 +2,7 @@
     import { animationsOn } from '@models/stores';
     import { onMount } from 'svelte';
     import Loading from '@components/app/Loading.svelte';
+    import { preferredLanguages } from '@translation/translations';
 
     // Don't display the manager until the fonts are loaded.
     let fontsLoaded = false;
@@ -50,7 +51,7 @@
     />
 </svelte:head>
 
-<main class:animated={$animationsOn}>
+<main class:animated={$animationsOn} lang={$preferredLanguages[0]}>
     {#if fontsLoaded}
         <slot />
     {:else}<Loading />

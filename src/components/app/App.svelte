@@ -2,11 +2,12 @@
 <script lang="ts">
     import { PUBLIC_CONTEXT } from '$env/static/public';
     import Lead from './Lead.svelte';
+    import Page from './Page.svelte';
 
     if (PUBLIC_CONTEXT !== 'prod') console.log(`*** ${PUBLIC_CONTEXT} ***`);
 </script>
 
-<div class="teaser">
+<Page>
     {#if PUBLIC_CONTEXT === 'prod'}
         <h1><strong>Wordplay.dev</strong> is coming</h1>
         <p>Curious? Write <a href="https://amyjko.com">Amy</a></p>
@@ -15,16 +16,4 @@
         <a href="/project">projects</a>
         <a href="/login">login</a>
     {/if}
-</div>
-
-<style>
-    .teaser {
-        width: 100vw;
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: var(--wordplay-spacing);
-    }
-</style>
+</Page>

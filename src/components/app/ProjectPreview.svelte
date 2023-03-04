@@ -43,13 +43,13 @@
         flex-direction: column;
     }
 
-    :global(.animated) .project {
+    :global(.animated) .preview {
         transition: transform ease-out;
         transition-duration: 200ms;
     }
 
     .project:hover,
-    .project:focus {
+    .project:focus .preview {
         transform: scale(1.05);
     }
 
