@@ -2,16 +2,17 @@
     "name": "wordplay",
     "version": "0.0.1",
     "scripts": {
-        "dev": "vite dev",
-        "emu": "firebase use dev && npm run env && firebase emulators:start",
-        "env": "cp .env.${GCLOUD_PROJECT:-local} .env",
-        "build": "npm run env && vite build",
-        "preview": "vite preview",
         "prepare": "svelte-kit sync",
         "check": "svelte-check --tsconfig ./tsconfig.json --watch --ignore .svelte-kit",
         "lint": "eslint .",
         "test": "vitest",
-        "test:coverage": "vitest run --coverage"
+        "test:coverage": "vitest run --coverage",
+        "dev": "vite dev",
+        "emu": "firebase use dev && npm run env && firebase emulators:start",
+        "env": "cp .env.${GCLOUD_PROJECT:-emulator} .env",
+        "build": "npm run env && vite build",
+        "preview": "vite preview",
+        "stage": "firebase use dev && firebase deploy"
     },
     "devDependencies": {
         "@sveltejs/adapter-static": "^1.0.6",

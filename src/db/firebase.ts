@@ -28,7 +28,9 @@ export const auth = getAuth(app);
 export const firestore = getFirestore(app);
 export const functions = getFunctions(app);
 
-// Initialize emulator
+console.log(PUBLIC_CONTEXT);
+
+// Initialize emulator if environment is local.
 if (PUBLIC_CONTEXT === 'local') {
     connectFirestoreEmulator(firestore, 'localhost', 8080);
     connectAuthEmulator(auth, 'http://localhost:9099');
