@@ -2079,9 +2079,6 @@ const en: Translation = {
             newProject: 'new project',
         },
         prompt: {
-            anonymousLogin:
-                'You are currently using an anonymous account. Log in to ensure your projects are saved.',
-            login: 'Log in to access your projects.',
             deleteSource: 'delete',
             deleteProject: 'delete',
         },
@@ -2106,6 +2103,18 @@ const en: Translation = {
         },
         feedback: {
             unknownProject: "There's no project with this ID.",
+        },
+        login: {
+            header: 'Login',
+            prompt: 'Log in to access your projects.',
+            anonymousPrompt: "You're anonymous. Log in to keep your projects.",
+            submit: 'send a login email',
+            enterEmail:
+                "It looks like you're logging in on a different device. Can you enter your email again?",
+            sent: 'Check your email for a link.',
+            success: 'Account created!',
+            failure: 'There was a problem linking your email.',
+            logout: 'logout',
         },
     },
     input: {

@@ -4,11 +4,7 @@
     import Loading from '@components/app/Loading.svelte';
     import { preferredLanguages } from '@translation/translations';
     import { auth } from '@db/firebase';
-    import {
-        onAuthStateChanged,
-        signInAnonymously,
-        type User,
-    } from 'firebase/auth';
+    import { onAuthStateChanged, type User } from 'firebase/auth';
     import { UserSymbol } from '../components/project/Contexts';
     import { writable } from 'svelte/store';
     import Fonts from '../native/Fonts';
@@ -20,20 +16,11 @@
     // Don't display the manager until the fonts are loaded.
     $: fontsLoaded = Fonts.isLoaded('Noto Sans');
 
-    // Wait for the fonts to load before we display
-    onMount(() => {
-        /** Try logging in */
-        try {
-            signInAnonymously(auth);
-        } catch (err: any) {
-            console.log(err.code);
-            console.log(err.message);
-        }
-    });
-
     /** Whenever the user changes, reset the project store. */
-    onAuthStateChanged(auth, (newUser) => {
-        user.set(newUser);
+    onMount(() => {
+        onAuthStateChanged(auth, (newUser) => {
+            user.set(newUser);
+        });
     });
 </script>
 

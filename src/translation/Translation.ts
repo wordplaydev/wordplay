@@ -787,8 +787,6 @@ type Translation = {
             newProject: string;
         };
         prompt: {
-            anonymousLogin: string;
-            login: string;
             deleteSource: string;
             deleteProject: string;
         };
@@ -820,6 +818,17 @@ type Translation = {
         };
         feedback: {
             unknownProject: string;
+        };
+        login: {
+            header: string;
+            prompt: string;
+            anonymousPrompt: string;
+            enterEmail: string;
+            submit: string;
+            sent: string;
+            success: string;
+            failure: string;
+            logout: string;
         };
     };
     input: {

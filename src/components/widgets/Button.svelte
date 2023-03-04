@@ -5,12 +5,14 @@
     export let action: () => void;
     export let enabled: boolean = true;
     export let stretch: boolean = false;
+    export let submit: boolean = false;
 </script>
 
 <!-- Note that we don't disable the button using disabled because that makes
     it invisible to screen readers. -->
 <button
     class:stretch
+    type={submit ? 'submit' : null}
     title={tip}
     tabIndex="0"
     on:click={() => (enabled ? action() : undefined)}
