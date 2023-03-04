@@ -287,7 +287,6 @@
 
     p {
         margin: 0;
-        text-align: left;
         font-family: var(--wordplay-app-font);
     }
 

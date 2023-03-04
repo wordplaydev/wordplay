@@ -38,13 +38,24 @@
     import type Project from '@models/Project';
     import { preferredTranslations } from '@translation/translations';
     import Feedback from '@components/app/Feedback.svelte';
+    import Loading from '@components/app/Loading.svelte';
 
     const projects = getProjects();
+
+    /** True if we're async loading the project, as opposed to getting it from the browser cache. */
+    let loading: boolean = false;
 
     /** The project store is derived from the projects and the page's project ID. */
     const project: Readable<Project | undefined> = derived(
         [page, projects],
-        ([$page, $projects]) => $projects.get($page.params.projectid)
+        ([$page, $projects]) => {
+            const projectID = $page.params.projectid;
+            const project = $projects.get(projectID);
+            if (project === undefined) {
+                loading = true;
+                $projects.load(projectID);
+            } else return project;
+        }
     );
 
     /** The current index of the current project's step **/
@@ -142,6 +153,8 @@
 
 {#if $project}
     <ProjectView project={$project} />
+{:else if loading}
+    <Loading />
 {:else}
     <Feedback>{$preferredTranslations[0].ui.feedback.unknownProject}</Feedback>
 {/if}

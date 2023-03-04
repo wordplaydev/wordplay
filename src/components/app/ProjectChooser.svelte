@@ -34,17 +34,14 @@
         }
     }
 
+    // Load all projects from the database.
+    if ($user) $projects.loadRemote($user.uid);
+
     /** Create some example projects */
     const exampleProjects = examples.map((example) => makeProject(example));
 </script>
 
 <div class="projects">
-    <Button
-        tip={$preferredTranslations[0].ui.tooltip.newProject}
-        action={newProject}
-        ><span style:font-size="xxx-large">+</span>
-    </Button>
-    <div class="break" />
     {#each $projects.all() as project (project.id)}
         <ProjectPreview {project} action={() => changeProject(project)}
             ><ConfirmButton
@@ -54,6 +51,12 @@
             ></ProjectPreview
         >
     {/each}
+    <div class="break" />
+    <Button
+        tip={$preferredTranslations[0].ui.tooltip.newProject}
+        action={newProject}
+        ><span style:font-size="xxx-large">+</span>
+    </Button>
 </div>
 <Lead>examples</Lead>
 <div class="projects">

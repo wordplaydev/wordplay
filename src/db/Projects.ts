@@ -9,6 +9,7 @@ import {
     collection,
     deleteDoc,
     doc,
+    getDoc,
     onSnapshot,
     query,
     where,
@@ -85,7 +86,18 @@ export default class Projects {
 
     /** Returns the first project with the given name, if it exists. */
     get(id: string) {
-        return this.projects.find((project) => project.id === id);
+        const project = this.projects.find((project) => project.id === id);
+        if (project) return project;
+    }
+
+    async load(projectID: string) {
+        // If we don't have it, ask the database for it.
+        const projectDoc = await getDoc(doc(firestore, 'projects', projectID));
+        if (projectDoc.exists()) {
+            this.addUnique([
+                Project.fromObject(projectDoc.data() as SerializedProject),
+            ]);
+        }
     }
 
     /** Create a project and return it's ID */

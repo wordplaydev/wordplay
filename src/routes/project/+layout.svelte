@@ -14,14 +14,6 @@
     /** Create a database of projects linked to the current user. */
     const projects = new Projects([]);
 
-    $: {
-        if ($user === null) {
-            projects.reset();
-        } else {
-            projects.loadRemote($user.uid);
-        }
-    }
-
     /** Load whatever is stored in local storage */
     projects.loadLocal();
 
