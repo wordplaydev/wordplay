@@ -22,6 +22,7 @@
     let missingEmail: boolean = false;
     let sent: boolean = false;
     let success: boolean | undefined = undefined;
+    let error: string = '';
 
     function redirect() {
         window.localStorage.removeItem('email');
@@ -33,7 +34,21 @@
         if (err instanceof FirebaseError) {
             console.error(err.code);
             console.error(err.message);
-        } else console.error(err);
+            error =
+                {
+                    'auth/id-token-expired':
+                        $preferredTranslations[0].ui.login.expiredFailure,
+                    'auth/id-token-revoked':
+                        $preferredTranslations[0].ui.login.invalidFailure,
+                    'auth/invalid-argument':
+                        $preferredTranslations[0].ui.login.invalidFailure,
+                    'auth/invalid-email':
+                        $preferredTranslations[0].ui.login.emailFailure,
+                }[err.code] ?? $preferredTranslations[0].ui.login.failure;
+        } else {
+            console.error(err);
+            error = $preferredTranslations[0].ui.login.failure;
+        }
         success = false;
     }
 
@@ -133,7 +148,7 @@
                 {:else if success === true}
                     {$preferredTranslations[0].ui.login.success}
                 {:else if success === false}
-                    {$preferredTranslations[0].ui.login.failure}
+                    {error}
                 {/if}
             </p>
         {/if}

@@ -51,7 +51,7 @@
         ([$page, $projects]) => {
             const projectID = $page.params.projectid;
             const project = $projects.get(projectID);
-            if (project === undefined) {
+            if (project === undefined && projectID && projectID.length > 0) {
                 loading = true;
                 $projects.load(projectID);
             } else return project;

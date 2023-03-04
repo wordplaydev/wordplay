@@ -828,6 +828,9 @@ type Translation = {
             sent: string;
             success: string;
             failure: string;
+            expiredFailure: string;
+            invalidFailure: string;
+            emailFailure: string;
             logout: string;
         };
     };
