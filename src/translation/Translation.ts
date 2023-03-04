@@ -787,6 +787,8 @@ type Translation = {
             newProject: string;
         };
         prompt: {
+            anonymousLogin: string;
+            login: string;
             deleteSource: string;
             deleteProject: string;
         };

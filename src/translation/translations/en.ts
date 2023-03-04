@@ -2079,6 +2079,9 @@ const en: Translation = {
             newProject: 'new project',
         },
         prompt: {
+            anonymousLogin:
+                'You are currently using an anonymous account. Log in to ensure your projects are saved.',
+            login: 'Log in to access your projects.',
             deleteSource: 'delete',
             deleteProject: 'delete',
         },

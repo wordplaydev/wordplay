@@ -1737,6 +1737,9 @@ const eng_wordplay: Translation = {
         prompt: {
             deleteSource: 'delete?',
             deleteProject: 'delete?',
+            anonymousLogin:
+                'You are currently anonymous account; log in to ensure your projects are saved.',
+            login: 'Log in to access your projects.',
         },
         labels: {
             learn: 'learn more …',

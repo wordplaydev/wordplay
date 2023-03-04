@@ -1,14 +1,40 @@
 <script lang="ts">
     import { animationsOn } from '@models/stores';
-    import { onMount } from 'svelte';
+    import { onMount, setContext } from 'svelte';
     import Loading from '@components/app/Loading.svelte';
     import { preferredLanguages } from '@translation/translations';
+    import { auth } from '@db/firebase';
+    import {
+        onAuthStateChanged,
+        signInAnonymously,
+        type User,
+    } from 'firebase/auth';
+    import { UserSymbol } from '../components/project/Contexts';
+    import { writable } from 'svelte/store';
+    import Fonts from '../native/Fonts';
+
+    /** Create a user store */
+    const user = writable<User | null>(null);
+    setContext(UserSymbol, user);
 
     // Don't display the manager until the fonts are loaded.
-    let fontsLoaded = false;
+    $: fontsLoaded = Fonts.isLoaded('Noto Sans');
 
     // Wait for the fonts to load before we display
-    onMount(() => document.fonts.ready.then(() => (fontsLoaded = true)));
+    onMount(() => {
+        /** Try logging in */
+        try {
+            signInAnonymously(auth);
+        } catch (err: any) {
+            console.log(err.code);
+            console.log(err.message);
+        }
+    });
+
+    /** Whenever the user changes, reset the project store. */
+    onAuthStateChanged(auth, (newUser) => {
+        user.set(newUser);
+    });
 </script>
 
 <svelte:head>
@@ -18,36 +44,42 @@
         href="/fonts/NotoSans/NotoSans-400.ttf"
         as="font"
         type="font/ttf"
+        crossorigin="anonymous"
     />
     <link
         rel="preload"
         href="/fonts/NotoSans/NotoSans-400-italic.ttf"
         as="font"
         type="font/ttf"
+        crossorigin="anonymous"
     />
     <link
         rel="preload"
         href="/fonts/NotoSans/NotoSans-700.ttf"
         as="font"
         type="font/ttf"
+        crossorigin="anonymous"
     />
     <link
         rel="preload"
         href="/fonts/NotoSans/NotoSans-700-italic.ttf"
         as="font"
         type="font/ttf"
+        crossorigin="anonymous"
     />
     <link
         rel="preload"
         href="/fonts/NotoEmoji/NotoEmoji-all.ttf"
         as="font"
         type="font/ttf"
+        crossorigin="anonymous"
     />
     <link
         rel="preload"
         href="/fonts/NotoMono/NotoMono-all.ttf"
         as="font"
         type="font/ttf"
+        crossorigin="anonymous"
     />
 </svelte:head>
 
@@ -86,8 +118,8 @@
         --wordplay-operator-color: var(--color-orange);
         --wordplay-type-color: var(--color-orange);
         --wordplay-spacing: 0.5em;
-        --wordplay-app-font: 'Noto Sans', 'Noto Emoji', sans-serif;
-        --wordplay-code-font: 'Noto Mono', 'Noto Emoji', monospace;
+        --wordplay-app-font: 'Noto Sans', 'Noto Emoji';
+        --wordplay-code-font: 'Noto Mono', 'Noto Emoji';
         --wordplay-font-weight: 500;
         --wordplay-font-size: 12pt;
         --wordplay-border-width: 1px;
@@ -268,6 +300,8 @@
 
     p {
         margin: 0;
+        text-align: left;
+        font-family: var(--wordplay-app-font);
     }
 
     p:not(:last-of-type) {
