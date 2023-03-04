@@ -1,12 +1,16 @@
 <script lang="ts">
     import Settings from '../settings/Settings.svelte';
+    import { page } from '$app/stores';
 </script>
 
 <main class="page">
     <slot />
 </main>
 <footer>
-    <div class="footer"><Settings /><a href="/">❌</a></div>
+    <div class="footer"
+        ><Settings />{#if $page.route.id !== '/'}<a href="/">🏠</a
+            >{:else}🏠{/if}</div
+    >
 </footer>
 
 <style>
