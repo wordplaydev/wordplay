@@ -407,13 +407,12 @@ export default class OutputAnimation {
         }
 
         // Use the sequence to create an animation with the Web Animation API.
-        const verse = document.querySelector(
-            `.verse.live [data-id="${this.stage.verse.getHTMLID()}"]`
+
+        // Find the element corresponding to the phrase in the given verse.
+        const element = document.querySelector(
+            `.verse.live [data-id="${this.stage.verse.getHTMLID()}"] [data-id="${this.output.getHTMLID()}"]`
         );
-        // Find the element corresponding to the phrase.
-        const element = verse?.querySelector(
-            `[data-id="${this.output.getHTMLID()}"]`
-        );
+
         // If there's DOM element and this isn't exiting, start an animation.
         // (We have to defer for exits because the output needs to render the new exiting output first.)
         if (!(element instanceof HTMLElement)) {
