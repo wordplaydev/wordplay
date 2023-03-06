@@ -547,21 +547,19 @@
     function handleKey(event: KeyboardEvent) {
         const key = event.key;
         const command = event.ctrlKey || event.metaKey;
+        const alt = event.altKey;
 
         if (key === 'Escape') {
             layout = layout.withoutFullscreen();
             return;
         }
-        if (key === '1' && command) {
-            layout = layout.withArrangement(Arrangement.vertical);
-            return;
-        }
-        if (key === '2' && command) {
-            layout = layout.withArrangement(Arrangement.horizontal);
-            return;
-        }
-        if (key === '3' && command) {
-            layout = layout.withArrangement(Arrangement.free);
+        if (key === 'Tab' && alt) {
+            layout =
+                layout.arrangement === Arrangement.vertical
+                    ? layout.withArrangement(Arrangement.horizontal)
+                    : layout.arrangement === Arrangement.horizontal
+                    ? layout.withArrangement(Arrangement.free)
+                    : layout.withArrangement(Arrangement.vertical);
             return;
         }
         if (key === 'Enter' && command) {
