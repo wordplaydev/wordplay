@@ -186,9 +186,4 @@
     .exception :global(.value) {
         color: var(--wordplay-evaluation-color);
     }
-
-    :global(.animated) .exception .message {
-        animation: shake 3;
-        animation-duration: 200ms;
-    }
 </style>
