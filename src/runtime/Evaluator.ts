@@ -418,10 +418,10 @@ export default class Evaluator {
         this.resetForEvaluation();
 
         // Reset the latest source values. (We keep them around for display after each reaction).
-        this.sourceValues.clear();
+        this.sourceValues = new Map();
 
         // Clear the stream mapping
-        this.nativeStreams.clear();
+        this.nativeStreams = new Map();
     }
 
     /** Evaluate until we're done */
