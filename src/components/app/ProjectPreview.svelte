@@ -1,9 +1,18 @@
 <script lang="ts">
     import type Project from '@models/Project';
     import OutputView from '@components/output/OutputView.svelte';
+    import type Value from '@runtime/Value';
 
     export let project: Project;
     export let action: () => void;
+
+    // Clone the project and get its initial value, then stop the project's evaluator.
+    let value: Value | undefined;
+    $: {
+        const clone = project.clone();
+        value = clone.getInitialValue();
+        clone.cleanup();
+    }
 </script>
 
 <div class="project">
@@ -17,7 +26,7 @@
         <OutputView
             {project}
             source={project.main}
-            latest={project.getInitialValue()}
+            latest={value}
             fullscreen={false}
             fit={true}
             grid={false}
