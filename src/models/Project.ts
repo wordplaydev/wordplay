@@ -79,6 +79,9 @@ export default class Project {
     /** A cache of sources by node, for fast lookup. */
     readonly nodeSources: Map<Node, Source | undefined> = new Map();
 
+    /** A cache of source contexts */
+    readonly sourceContext: Map<Source, Context> = new Map();
+
     /** Conflicts. */
     analyzed: 'unanalyzed' | 'analyzing' | 'analyzed' = 'unanalyzed';
     analysis: Analysis = {
@@ -183,7 +186,12 @@ export default class Project {
     }
 
     getContext(source: Source) {
-        return new Context(this, source);
+        let context = this.sourceContext.get(source);
+        if (context === undefined) {
+            context = new Context(this, source);
+            this.sourceContext.set(source, context);
+        }
+        return context;
     }
 
     getNodeContext(node: Node) {

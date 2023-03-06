@@ -24,13 +24,13 @@ import type HOF from '../native/HOF';
 import type Source from '@nodes/Source';
 import type Convert from '@nodes/Convert';
 import type Borrow from '@nodes/Borrow';
-import Context from '@nodes/Context';
 import StructureDefinitionValue from './StructureDefinitionValue';
 import type { StepNumber } from './Evaluator';
 import FunctionValue from './FunctionValue';
 import StreamDefinition from '../nodes/StreamDefinition';
 import StreamDefinitionValue from './StreamDefinitionValue';
 import type PropertyBind from '../nodes/PropertyBind';
+import type Context from '../nodes/Context';
 
 export type EvaluatorNode =
     | UnaryOperation
@@ -104,8 +104,7 @@ export default class Evaluation {
 
         // Derive some state
         this.#source = evaluator.project.getSourceOf(evaluationNode);
-        this.#context = new Context(
-            evaluator.project,
+        this.#context = evaluator.project.getContext(
             this.#source ?? evaluator.project.main
         );
 
