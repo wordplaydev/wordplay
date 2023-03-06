@@ -117,15 +117,14 @@ export default class UnaryOperation extends Expression {
     }
 
     startEvaluation(evaluator: Evaluator) {
+        const context = evaluator.getCurrentContext();
+
         // Get the value of the operand.
         const value = evaluator.popValue(this);
 
         const fun = value
-            .getType(evaluator.getCurrentContext())
-            .getDefinitionOfNameInScope(
-                this.getOperator(),
-                evaluator.getCurrentContext()
-            );
+            .getType(context)
+            .getDefinitionOfNameInScope(this.getOperator(), context);
         if (
             !(fun instanceof FunctionDefinition) ||
             !(fun.expression instanceof Expression)
