@@ -19,6 +19,7 @@ import { MousePositionDefinition } from '../input/MousePosition';
 import { MouseButtonDefinition } from '../input/MouseButton';
 import { RandomDefinition } from '../input/Random';
 import { ArrangementType } from '../output/Layout';
+import { CameraDefinition } from '../input/Camera';
 
 export const AnimationTypes = [PoseType, SequenceType];
 
@@ -35,6 +36,7 @@ export const StreamDefinitions = [
     MouseButtonDefinition,
     RandomDefinition,
     MicrophoneDefinition,
+    CameraDefinition,
     MotionDefinition,
 ];
 

@@ -28,8 +28,8 @@
                 authenticated = true;
             } catch (err: any) {
                 if (err instanceof FirebaseError) {
-                    console.log(err.code);
-                    console.log(err.message);
+                    console.error(err.code);
+                    console.error(err.message);
                     authenticated = null;
                     user.set(undefined);
                 }

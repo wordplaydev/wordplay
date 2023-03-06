@@ -25,6 +25,7 @@ import { MouseButtonDefinition } from '../input/MouseButton';
 import { RandomDefinition } from '../input/Random';
 import { MicrophoneDefinition } from '../input/Microphone';
 import NodeConcept from './NodeConcept';
+import { CameraDefinition } from '../input/Camera';
 
 export default class ConceptIndex {
     readonly concepts: Concept[];
@@ -130,6 +131,7 @@ export default class ConceptIndex {
             makeStreamConcept(MousePositionDefinition),
             makeStreamConcept(KeyboardDefinition),
             makeStreamConcept(MicrophoneDefinition),
+            makeStreamConcept(CameraDefinition),
             makeStreamConcept(RandomDefinition),
         ];
 

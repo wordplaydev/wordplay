@@ -106,8 +106,8 @@ export default class List extends Primitive {
         return new List(requestor, this.values.reverse());
     }
 
-    append(requestor: Expression, value: Value) {
-        return new List(requestor, [...this.values, value]);
+    append(requestor: Expression, list: List) {
+        return new List(requestor, [...this.values, ...list.values]);
     }
 
     getType(context: Context) {

@@ -13,6 +13,7 @@ import Move from './Move.wp?raw';
 import Colors from './Colors.wp?raw';
 import TextTransitions from './TextTransitions.wp?raw';
 import Physics from './Physics.wp?raw';
+import Video from './Video.wp?raw';
 
 export type Stuff = { name: string; sources: { name: string; code: string }[] };
 
@@ -58,4 +59,5 @@ export const examples: Stuff[] = [
     Colors,
     TextTransitions,
     Physics,
+    Video,
 ].map((source) => wpToStuff(source));

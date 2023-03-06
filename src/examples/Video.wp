@@ -1,0 +1,16 @@
+=== Video
+colors: camera(32px 32px 200ms)
+
+Verse(
+    colors.combine(
+        [] 
+        ƒ(phrases•[Phrase] row•[Color] y•#) 
+            phrases.append(
+                row.translate(
+                    ƒ(color•Color x•#) 
+                        Phrase("⏺" place: Place(x·-0.5m y·-0.5m) rest: Pose(color: color)
+                )
+            )
+        )
+    )
+)

@@ -28,8 +28,6 @@ export const auth = getAuth(app);
 export const firestore = getFirestore(app);
 export const functions = getFunctions(app);
 
-console.log(PUBLIC_CONTEXT);
-
 // Initialize emulator if environment is local.
 if (PUBLIC_CONTEXT === 'local') {
     connectFirestoreEmulator(firestore, 'localhost', 8080);

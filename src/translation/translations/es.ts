@@ -1106,6 +1106,11 @@ const eng_wordplay: Translation = {
                     name: 'add',
                     inputs: [{ doc: WRITE_DOC, name: 'item' }],
                 },
+                append: {
+                    doc: WRITE_DOC,
+                    name: 'append',
+                    inputs: [{ doc: WRITE_DOC, name: 'list' }],
+                },
                 length: {
                     doc: WRITE_DOC,
                     name: 'length',
@@ -1176,6 +1181,7 @@ const eng_wordplay: Translation = {
                     name: 'translate',
                     inputs: [{ doc: WRITE_DOC, name: 'translator' }],
                     value: { doc: WRITE_DOC, name: 'item' },
+                    index: { doc: WRITE_DOC, name: 'index' },
                 },
                 filter: {
                     doc: WRITE_DOC,
@@ -1210,6 +1216,7 @@ const eng_wordplay: Translation = {
                     ],
                     combination: { doc: WRITE_DOC, name: 'combination' },
                     next: { doc: WRITE_DOC, name: 'next' },
+                    index: { doc: WRITE_DOC, name: 'index' },
                 },
             },
             conversion: {
@@ -1810,6 +1817,22 @@ const eng_wordplay: Translation = {
         microphone: {
             doc: WRITE_DOC,
             name: ['microphone', '🎤'],
+            frequency: {
+                name: ['frequency'],
+                doc: WRITE_DOC,
+            },
+        },
+        camera: {
+            doc: WRITE_DOC,
+            name: ['🎥', 'camera'],
+            width: {
+                name: ['width'],
+                doc: WRITE_DOC,
+            },
+            height: {
+                name: ['height'],
+                doc: WRITE_DOC,
+            },
             frequency: {
                 name: ['frequency'],
                 doc: WRITE_DOC,

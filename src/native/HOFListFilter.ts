@@ -143,7 +143,7 @@ export default class HOFListMap extends HOF {
                 else {
                     if (include.bool) {
                         const listValue = list.get(index);
-                        evaluator.bind(LIST, newList.append(this, listValue));
+                        evaluator.bind(LIST, newList.add(this, listValue));
                     }
                 }
 

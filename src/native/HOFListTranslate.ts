@@ -81,6 +81,12 @@ export default class HOFListTranslate extends HOF {
                                 translator.definition.inputs[0].names,
                                 listValue
                             );
+                            // Bind the index, if the function given takes one.
+                            if (translator.definition.inputs.length >= 2)
+                                bindings.set(
+                                    translator.definition.inputs[1].names,
+                                    index
+                                );
                             // Apply the translator function to the value
                             evaluator.startEvaluation(
                                 new Evaluation(
@@ -109,7 +115,7 @@ export default class HOFListTranslate extends HOF {
                 // Append the translated value to the list.
                 const list = evaluator.resolve(LIST);
                 if (list instanceof List)
-                    evaluator.bind(LIST, list.append(this, translatedValue));
+                    evaluator.bind(LIST, list.add(this, translatedValue));
                 else
                     evaluator.getValueOrTypeException(
                         this,

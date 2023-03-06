@@ -59,11 +59,21 @@ export default function bootstrapList() {
                 getNameTranslations(
                     (t) => t.native.list.function.translate.value.name
                 ),
+                // The type is a type variable, so we refer to it.
                 new NameType(
                     DefaultListTypeVarName,
                     undefined,
                     ListTypeVariable
                 )
+            ),
+            Bind.make(
+                getDocTranslations(
+                    (t) => t.native.list.function.translate.index.doc
+                ),
+                getNameTranslations(
+                    (t) => t.native.list.function.translate.index.name
+                ),
+                MeasurementType.make()
             ),
         ],
         translateTypeVariable.getReference()
@@ -156,6 +166,15 @@ export default function bootstrapList() {
                 ),
                 getListTypeVariableReference()
             ),
+            Bind.make(
+                getDocTranslations(
+                    (t) => t.native.list.function.combine.index.doc
+                ),
+                getNameTranslations(
+                    (t) => t.native.list.function.combine.index.name
+                ),
+                MeasurementType.make()
+            ),
         ],
         combineTypeVariable.getReference()
     );
@@ -222,6 +241,43 @@ export default function bootstrapList() {
                                 ListType.make(),
                                 list
                             );
+                    }
+                ),
+                createNativeFunction(
+                    getDocTranslations(
+                        (t) => t.native.list.function.append.doc
+                    ),
+                    getNameTranslations(
+                        (t) => t.native.list.function.append.name
+                    ),
+                    undefined,
+                    [
+                        Bind.make(
+                            getDocTranslations(
+                                (t) =>
+                                    t.native.list.function.append.inputs[0].doc
+                            ),
+                            addInputNames,
+                            ListType.make(getListTypeVariableReference())
+                        ),
+                    ],
+                    ListType.make(getListTypeVariableReference()),
+                    (requestor, evaluation) => {
+                        const list = evaluation.getClosure();
+                        const value = evaluation.resolve(addInputNames);
+                        if (!(list instanceof List))
+                            return evaluation.getValueOrTypeException(
+                                requestor,
+                                ListType.make(),
+                                list
+                            );
+                        else if (!(value instanceof List))
+                            return evaluation.getValueOrTypeException(
+                                requestor,
+                                ListType.make(),
+                                value
+                            );
+                        else return list.append(requestor, value);
                     }
                 ),
                 createNativeFunction(

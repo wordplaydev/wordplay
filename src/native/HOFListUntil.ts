@@ -143,7 +143,7 @@ export default class HOFListMap extends HOF {
                     // If the include decided yes, append the value.
                     if (include.bool) {
                         const listValue = list.get(index);
-                        evaluator.bind(LIST, newList.append(this, listValue));
+                        evaluator.bind(LIST, newList.add(this, listValue));
                     }
                     // Otherwise, don't loop, just go to the end.
                     else {

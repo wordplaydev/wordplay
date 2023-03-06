@@ -98,6 +98,12 @@ export default class HOFListCombine extends HOF {
                             translator.definition.inputs[1].names,
                             listValue
                         );
+                        // Bind the index value
+                        if (translator.definition.inputs.length >= 3)
+                            bindings.set(
+                                translator.definition.inputs[2].names,
+                                index
+                            );
                         // Apply the translator function to the value
                         evaluator.startEvaluation(
                             new Evaluation(

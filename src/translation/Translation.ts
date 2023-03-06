@@ -474,6 +474,7 @@ type Translation = {
             outofbounds: NameTranslation;
             function: {
                 add: FunctionTranslation<[NameAndDocTranslation]>;
+                append: FunctionTranslation<[NameAndDocTranslation]>;
                 length: FunctionTranslation<[]>;
                 random: FunctionTranslation<[]>;
                 first: FunctionTranslation<[]>;
@@ -489,6 +490,7 @@ type Translation = {
                 notequals: FunctionTranslation<[NameAndDocTranslation]>;
                 translate: FunctionTranslation<[NameAndDocTranslation]> & {
                     value: NameAndDocTranslation;
+                    index: NameAndDocTranslation;
                 };
                 filter: FunctionTranslation<[NameAndDocTranslation]> & {
                     value: NameAndDocTranslation;
@@ -507,6 +509,7 @@ type Translation = {
                 > & {
                     combination: NameAndDocTranslation;
                     next: NameAndDocTranslation;
+                    index: NameAndDocTranslation;
                 };
             };
             conversion: {
@@ -847,6 +850,11 @@ type Translation = {
         };
         time: NameAndDocTranslation & { frequency: NameAndDocTranslation };
         microphone: NameAndDocTranslation & {
+            frequency: NameAndDocTranslation;
+        };
+        camera: NameAndDocTranslation & {
+            width: NameAndDocTranslation;
+            height: NameAndDocTranslation;
             frequency: NameAndDocTranslation;
         };
         reaction: NameAndDocTranslation;
