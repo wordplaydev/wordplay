@@ -17,10 +17,13 @@ import Literal from './Literal';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';
+import type Decimal from 'decimal.js';
 
 export default class MeasurementLiteral extends Literal {
     readonly number: Token;
     readonly unit: Unit;
+
+    #cache: Decimal | undefined;
 
     constructor(number: Token, unit: Unit) {
         super();
@@ -79,7 +82,12 @@ export default class MeasurementLiteral extends Literal {
     }
 
     getValue() {
-        return new Measurement(this, this.number, this.unit);
+        if (this.#cache) return new Measurement(this, this.#cache, this.unit);
+        else {
+            const value = new Measurement(this, this.number, this.unit);
+            this.#cache = value.num;
+            return value;
+        }
     }
 
     evaluateTypeSet(
