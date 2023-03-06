@@ -105,20 +105,27 @@ export default class Camera extends TemporalStream<List> {
                     const lch = srgb.to('lch');
                     // Create bindings from it.
                     const bindings = new Map();
+
+                    // PERF: We convert to integers to prevent
+                    // Decimal from parsing as a string.
+
                     // Lightness
                     bindings.set(
                         ColorType.inputs[0],
-                        new Measurement(this.creator, lch.coords[0] / 100)
+                        new Measurement(
+                            this.creator,
+                            Math.round(lch.coords[0]) / 100
+                        )
                     );
                     // Chroma
                     bindings.set(
                         ColorType.inputs[1],
-                        new Measurement(this.creator, lch.coords[1])
+                        new Measurement(this.creator, Math.round(lch.coords[1]))
                     );
                     // Hue
                     bindings.set(
                         ColorType.inputs[2],
-                        new Measurement(this.creator, lch.coords[2])
+                        new Measurement(this.creator, Math.round(lch.coords[2]))
                     );
 
                     // Convert it to a Color value.
