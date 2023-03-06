@@ -213,6 +213,9 @@ export default class Camera extends TemporalStream<List> {
         if (this.config) {
             document.body.removeChild(this.config.canvas);
             document.body.removeChild(this.config.video);
+
+            this.config.stream.getTracks().forEach((track) => track.stop());
+            this.config.video.srcObject = null;
         }
     }
 
