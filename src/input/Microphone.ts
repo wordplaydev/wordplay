@@ -23,6 +23,7 @@ export default class Microphone extends TemporalStream<Measurement> {
     analyzer: AnalyserNode | undefined;
     frequencies: Uint8Array = new Uint8Array(FFT_SIZE);
     lastSampleTime: number | undefined = undefined;
+    stopped: boolean = false;
 
     frequency: number;
 
@@ -81,6 +82,8 @@ export default class Microphone extends TemporalStream<Measurement> {
         if (this.stream !== undefined) return;
 
         navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
+            // Dont' start if we've stopped.
+            if (this.stopped) return;
             // Create an analyzer that gets 64 frequency samples per time frame.
             this.context = new AudioContext();
             this.analyzer = this.context.createAnalyser();
@@ -92,6 +95,7 @@ export default class Microphone extends TemporalStream<Measurement> {
     }
 
     stop() {
+        this.stopped = true;
         // Stop streaming microphone input.
         if (this.stream !== undefined) this.stream.disconnect();
     }
