@@ -85,6 +85,10 @@ export default class UnicodeString {
               );
     }
 
+    isEmpty() {
+        return this.text.length === 0;
+    }
+
     getLength() {
         return this.getSegments().length;
     }
