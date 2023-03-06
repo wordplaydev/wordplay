@@ -76,6 +76,9 @@ export default class Project {
     readonly trees: Tree[];
     readonly _index: Map<Node, Tree | undefined> = new Map();
 
+    /** A cache of sources by node, for fast lookup. */
+    readonly nodeSources: Map<Node, Source | undefined> = new Map();
+
     /** Conflicts. */
     analyzed: 'unanalyzed' | 'analyzing' | 'analyzed' = 'unanalyzed';
     analysis: Analysis = {
@@ -157,7 +160,10 @@ export default class Project {
 
     /** True if one of the project's contains the given node. */
     contains(node: Node) {
-        return this.getSourceOf(node) !== undefined;
+        // PERF: Check the cache first, and then fall back to searching sources.
+        return (
+            this.get(node) !== undefined || this.getSourceOf(node) !== undefined
+        );
     }
 
     getSources() {
@@ -186,7 +192,12 @@ export default class Project {
     }
 
     getSourceOf(node: Node) {
-        return this.getSources().find((source) => source.contains(node));
+        if (!this.nodeSources.has(node))
+            this.nodeSources.set(
+                node,
+                this.getSources().find((source) => source.contains(node))
+            );
+        return this.nodeSources.get(node);
     }
 
     getSourcesExcept(source: Source) {
