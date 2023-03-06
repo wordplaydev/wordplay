@@ -48,6 +48,9 @@ export default class StructureDefinition extends AtomicExpression {
     readonly close: Token | undefined;
     readonly expression?: Block;
 
+    // PERF: Cache definitions to avoid having to recreate the list.
+    #definitionsCache: Map<Node, Definition[]> = new Map();
+
     constructor(
         docs: Docs | undefined,
         type: Token,
@@ -300,20 +303,25 @@ export default class StructureDefinition extends AtomicExpression {
 
     getDefinitions(node: Node): Definition[] {
         // Does an input delare the name that isn't the one asking?
-        return [
-            ...(this.inputs.filter(
-                (i) => i instanceof Bind && i !== node
-            ) as Bind[]),
-            ...(this.types ? this.types.variables : []),
-            ...(this.expression instanceof Block
-                ? (this.expression.statements.filter(
-                      (s) =>
-                          s instanceof FunctionDefinition ||
-                          s instanceof StructureDefinition ||
-                          s instanceof Bind
-                  ) as Definition[])
-                : []),
-        ];
+        let definitions = this.#definitionsCache.get(node);
+        if (definitions === undefined) {
+            definitions = [
+                ...(this.inputs.filter(
+                    (i) => i instanceof Bind && i !== node
+                ) as Bind[]),
+                ...(this.types ? this.types.variables : []),
+                ...(this.expression instanceof Block
+                    ? (this.expression.statements.filter(
+                          (s) =>
+                              s instanceof FunctionDefinition ||
+                              s instanceof StructureDefinition ||
+                              s instanceof Bind
+                      ) as Definition[])
+                    : []),
+            ];
+            this.#definitionsCache.set(node, definitions);
+        }
+        return definitions;
     }
 
     /**
