@@ -22,6 +22,7 @@ import type Translation from '@translation/Translation';
 import StartEvaluation from '@runtime/StartEvaluation';
 import NodeLink from '@translation/NodeLink';
 import Emotion from '../lore/Emotion';
+import FunctionValue from '../runtime/FunctionValue';
 
 export default class UnaryOperation extends Expression {
     readonly operator: Token;
@@ -117,17 +118,15 @@ export default class UnaryOperation extends Expression {
     }
 
     startEvaluation(evaluator: Evaluator) {
-        const context = evaluator.getCurrentContext();
-
         // Get the value of the operand.
         const value = evaluator.popValue(this);
 
-        const fun = value
-            .getType(context)
-            .getDefinitionOfNameInScope(this.getOperator(), context);
+        // Resolve the function on the value.
+        const fun = value.resolve(this.getOperator(), evaluator);
+
         if (
-            !(fun instanceof FunctionDefinition) ||
-            !(fun.expression instanceof Expression)
+            !(fun instanceof FunctionValue) ||
+            !(fun.definition.expression instanceof Expression)
         )
             return new FunctionException(
                 evaluator,
@@ -138,7 +137,7 @@ export default class UnaryOperation extends Expression {
 
         // Start the function's expression.
         evaluator.startEvaluation(
-            new Evaluation(evaluator, this, fun, value, new Map())
+            new Evaluation(evaluator, this, fun.definition, value, new Map())
         );
     }
 

@@ -32,6 +32,7 @@ import type { Description } from '@translation/Translation';
 import StartEvaluation from '@runtime/StartEvaluation';
 import NodeLink from '@translation/NodeLink';
 import Emotion from '../lore/Emotion';
+import FunctionValue from '../runtime/FunctionValue';
 
 export default class BinaryOperation extends Expression {
     readonly left: Expression;
@@ -265,17 +266,16 @@ export default class BinaryOperation extends Expression {
     }
 
     startEvaluation(evaluator: Evaluator) {
-        const context = evaluator.getCurrentContext();
-
         const right = evaluator.popValue(this);
         const left = evaluator.popValue(this);
 
-        const fun = left
-            .getType(context)
-            .getDefinitionOfNameInScope(this.getOperator(), context);
+        // Resolve the function on the value.
+        const functionValue = left.resolve(this.getOperator(), evaluator);
+
+        // Verify that it's a function.
         if (
-            !(fun instanceof FunctionDefinition) ||
-            !(fun.expression instanceof Expression)
+            !(functionValue instanceof FunctionValue) ||
+            !(functionValue.definition.expression instanceof Expression)
         )
             return new FunctionException(
                 evaluator,
@@ -283,6 +283,8 @@ export default class BinaryOperation extends Expression {
                 left,
                 this.getOperator()
             );
+
+        const fun = functionValue.definition;
 
         const operand = fun.inputs[0];
 
