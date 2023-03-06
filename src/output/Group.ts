@@ -1,4 +1,3 @@
-import type Decimal from 'decimal.js';
 import toStructure from '../native/toStructure';
 import type Value from '../runtime/Value';
 import { getBind } from '../translation/getBind';
@@ -61,11 +60,11 @@ export default class Group extends TypeOutput {
         this.layout = layout;
     }
 
-    getWidth(context: RenderContext): Decimal {
+    getWidth(context: RenderContext): number {
         return this.layout.getWidth(this.content, context);
     }
 
-    getHeight(context: RenderContext): Decimal {
+    getHeight(context: RenderContext): number {
         return this.layout.getHeight(this.content, context);
     }
 

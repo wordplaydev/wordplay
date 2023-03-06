@@ -16,7 +16,6 @@
     import MouseButton from '@input/MouseButton';
     import { createPlace } from '@output/Place';
     import Stage, { type OutputInfoSet } from '@output/Stage';
-    import Decimal from 'decimal.js';
     import Pose from '@output/Pose';
     import GroupView from './GroupView.svelte';
     import { tick } from 'svelte';
@@ -129,12 +128,7 @@
         ? fitFocus
         : adjustedFocus;
 
-    $: center = new Place(
-        verse.value,
-        new Decimal(0),
-        new Decimal(0),
-        new Decimal(0)
-    );
+    $: center = new Place(verse.value, 0, 0, 0);
 
     $: offsetFocus = renderedFocus.offset(center);
 
@@ -218,9 +212,9 @@
 
     function adjustFocus(dx: number, dy: number, dz: number) {
         setFocus(
-            renderedFocus.x.toNumber() + dx,
-            renderedFocus.y.toNumber() + dy,
-            renderedFocus.z.toNumber() + dz
+            renderedFocus.x + dx,
+            renderedFocus.y + dy,
+            renderedFocus.z + dz
         );
     }
 
@@ -285,9 +279,9 @@
 
             if (event.shiftKey) {
                 setFocus(
-                    focusDrag.startFocus.x.toNumber() + scaleDeltaX,
-                    focusDrag.startFocus.y.toNumber() - scaleDeltaY,
-                    focusDrag.startFocus.z.toNumber()
+                    focusDrag.startFocus.x + scaleDeltaX,
+                    focusDrag.startFocus.y - scaleDeltaY,
+                    focusDrag.startFocus.z
                 );
                 event.stopPropagation();
             } else if (

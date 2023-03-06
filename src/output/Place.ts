@@ -1,4 +1,3 @@
-import Decimal from 'decimal.js';
 import toStructure from '../native/toStructure';
 import type Value from '@runtime/Value';
 import { getBind } from '@translation/getBind';
@@ -19,11 +18,11 @@ export const PlaceType = toStructure(`
 `);
 
 export default class Place extends Output {
-    readonly x: Decimal;
-    readonly y: Decimal;
-    readonly z: Decimal;
+    readonly x: number;
+    readonly y: number;
+    readonly z: number;
 
-    constructor(value: Value, x: Decimal, y: Decimal, z: Decimal) {
+    constructor(value: Value, x: number, y: number, z: number) {
         super(value);
 
         this.x = x;
@@ -35,8 +34,8 @@ export default class Place extends Output {
     offset(place: Place) {
         return new Place(
             this.value,
-            this.x.add(place.x),
-            this.y.sub(place.y),
+            this.x + place.x,
+            this.y - place.y,
             this.z
         );
     }
@@ -44,18 +43,14 @@ export default class Place extends Output {
     subtract(place: Place) {
         return new Place(
             this.value,
-            this.x.sub(place.x),
-            this.y.add(place.y),
+            this.x - place.x,
+            this.y + place.y,
             this.z
         );
     }
 
     equals(place: Place) {
-        return (
-            this.x.equals(place.x) &&
-            this.y.equals(place.y) &&
-            this.z.equals(place.z)
-        );
+        return this.x === place.x && this.y === place.y && this.z === place.z;
     }
 
     toString() {
@@ -66,9 +61,9 @@ export default class Place extends Output {
 export function toPlace(value: Value | undefined): Place | undefined {
     if (value === undefined) return undefined;
 
-    const x = toDecimal(value.resolve('x'));
-    const y = toDecimal(value.resolve('y'));
-    const z = toDecimal(value.resolve('z'));
+    const x = toDecimal(value.resolve('x'))?.toNumber();
+    const y = toDecimal(value.resolve('y'))?.toNumber();
+    const z = toDecimal(value.resolve('z'))?.toNumber();
     return x !== undefined && y !== undefined && z !== undefined
         ? new Place(value, x, y, z)
         : undefined;
@@ -81,12 +76,7 @@ export function createPlace(
     z: number,
     angle: number
 ): Place {
-    return new Place(
-        createPlaceStructure(evaluator, x, y, z),
-        new Decimal(x),
-        new Decimal(y),
-        new Decimal(z)
-    );
+    return new Place(createPlaceStructure(evaluator, x, y, z), x, y, z);
 }
 
 export function createPlaceStructure(

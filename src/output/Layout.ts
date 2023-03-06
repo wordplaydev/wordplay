@@ -4,7 +4,6 @@ import type Value from '@runtime/Value';
 import { getBind } from '@translation/getBind';
 import Output from './Output';
 import type RenderContext from './RenderContext';
-import type Decimal from 'decimal.js';
 import type Place from './Place';
 import type TypeOutput from './TypeOutput';
 import type LanguageCode from '@translation/LanguageCode';
@@ -20,10 +19,10 @@ export default abstract class Layout extends Output {
     }
 
     /** Compute the width in meters. */
-    abstract getWidth(output: TypeOutput[], context: RenderContext): Decimal;
+    abstract getWidth(output: TypeOutput[], context: RenderContext): number;
 
     /** Compute the height in meters */
-    abstract getHeight(output: TypeOutput[], context: RenderContext): Decimal;
+    abstract getHeight(output: TypeOutput[], context: RenderContext): number;
 
     /** Compute positions for all subgroups in the group. */
     abstract getPlaces(

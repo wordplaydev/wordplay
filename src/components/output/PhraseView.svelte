@@ -37,7 +37,7 @@
     $: context = phrase.getRenderContext(context);
 
     // Visible if z is ahead of focus.
-    $: visible = place.z.greaterThan(focus.z);
+    $: visible = place.z > focus.z;
 
     // Get the phrase's text in the preferred language
     $: text = phrase.getDescription($preferredLanguages);

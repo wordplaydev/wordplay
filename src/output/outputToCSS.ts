@@ -1,10 +1,9 @@
-import Decimal from 'decimal.js';
 import type Place from './Place';
 import type Pose from './Pose';
 
 export const PX_PER_METER = 16;
 /** This is a scaling factor: for every 1m of z distance, we scale this much. */
-export const FOCAL_LENGTH = new Decimal(16);
+export const FOCAL_LENGTH = 16;
 /**
  * This is an extra scaling factor added to all output, creating a slight perspective shift from nesting.
  * This accounts for CSS transforms, which uniformly scale child content, but do not perspective scale it.
@@ -37,22 +36,15 @@ function rotateDeg(deg: number) {
     return `rotate(${deg}deg)`;
 }
 
-export function rootScale(z: Decimal, focusZ: Decimal) {
+export function rootScale(z: number, focusZ: number) {
     // Compute the delta between this phrase and the focus.
-    const dz = z.sub(focusZ);
+    const dz = z - focusZ;
     // Compute a scale proportional to the focal length and inversely proporitional to the difference.
-    return dz.lessThan(0)
-        ? 0
-        : dz.isZero()
-        ? 1
-        : FOCAL_LENGTH.div(dz).toNumber();
+    return dz < 0 ? 0 : dz === 0 ? 1 : FOCAL_LENGTH / dz;
 }
 
-export function incrementalScale(z: Decimal) {
-    return Math.max(
-        0,
-        1 + INCREMENTAL_SCALING_FACTOR - z.div(FOCAL_LENGTH).toNumber()
-    );
+export function incrementalScale(z: number) {
+    return Math.max(0, 1 + INCREMENTAL_SCALING_FACTOR - z / FOCAL_LENGTH);
 }
 
 export function focusToTransform(
@@ -123,15 +115,15 @@ export function toOutputTransform(
         if (pose.flipx === true) xScale = xScale * -1;
         if (pose.flipy === true) yScale = yScale * -1;
         if (pose.offset !== undefined) {
-            xOffset = pose.offset.x.toNumber() * PX_PER_METER;
-            yOffset = pose.offset.y.toNumber() * PX_PER_METER;
-            zOffset = pose.offset.z.toNumber();
+            xOffset = pose.offset.x * PX_PER_METER;
+            yOffset = pose.offset.y * PX_PER_METER;
+            zOffset = pose.offset.z;
         }
         rotationOffset = pose.tilt ?? 0;
     }
 
     // Compute the final z position of the output based on it's place and it's offset.
-    const z = place.z.add(zOffset);
+    const z = place.z + zOffset;
 
     // We compute two different types of perspectve: if this the root, we do
     // perspective scaling proportional to the distance from the focus to this output.
@@ -146,10 +138,10 @@ export function toOutputTransform(
     let centerYOffset = metrics.ascent / 2;
 
     // Translate the place to screen coordinates.
-    let placeX = place.x.toNumber() * PX_PER_METER;
+    let placeX = place.x * PX_PER_METER;
     let placeY =
         // Negate y to account for flipped y axis.
-        -place.y.toNumber() * PX_PER_METER -
+        -place.y * PX_PER_METER -
         // If this isn't the root, subtract the height to render from the bottom
         (root ? 0 : metrics.ascent) +
         // Add the height of the parent to compensate for HTML rendering local coordinates from the top.
@@ -157,8 +149,8 @@ export function toOutputTransform(
 
     // Translate the focus to focus coordinates.
     // Negate y to account for flipped y axis.
-    let focusX = focus.x.toNumber() * PX_PER_METER;
-    let focusY = -focus.y.toNumber() * PX_PER_METER;
+    let focusX = focus.x * PX_PER_METER;
+    let focusY = -focus.y * PX_PER_METER;
 
     // These are applied in reverse.
     return [

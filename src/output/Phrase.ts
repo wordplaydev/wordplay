@@ -9,7 +9,6 @@ import type Place from './Place';
 import List from '@runtime/List';
 import TextLang from './TextLang';
 import toStructure from '../native/toStructure';
-import Decimal from 'decimal.js';
 import getTextMetrics from './getTextMetrics';
 import parseRichText, { RichNode, TextNode } from './parseRichText';
 import type Sequence from './Sequence';
@@ -133,13 +132,13 @@ export default class Phrase extends TypeOutput {
         return dimensions;
     }
 
-    getWidth(context: RenderContext): Decimal {
+    getWidth(context: RenderContext): number {
         // Metrics is in pixels; convert to meters.
-        return new Decimal(this.getMetrics(context).width).div(PX_PER_METER);
+        return this.getMetrics(context).width / PX_PER_METER;
     }
 
-    getHeight(context: RenderContext): Decimal {
-        return new Decimal(this.getMetrics(context).ascent).div(PX_PER_METER);
+    getHeight(context: RenderContext): number {
+        return this.getMetrics(context).ascent / PX_PER_METER;
     }
 
     getGroups(): TypeOutput[] {

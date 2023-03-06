@@ -73,23 +73,19 @@ export default class Verse extends TypeOutput {
         const places = this.getPlaces(context);
         const left = Math.min.apply(
             Math,
-            places.map(([, place]) => place.x.toNumber())
+            places.map(([, place]) => place.x)
         );
         const right = Math.max.apply(
             Math,
-            places.map(([group, place]) =>
-                place.x.add(group.getWidth(context)).toNumber()
-            )
+            places.map(([group, place]) => place.x + group.getWidth(context))
         );
         const bottom = Math.min.apply(
             Math,
-            places.map(([, place]) => place.y.toNumber())
+            places.map(([, place]) => place.y)
         );
         const top = Math.max.apply(
             Math,
-            places.map(([group, place]) =>
-                place.y.add(group.getHeight(context)).toNumber()
-            )
+            places.map(([group, place]) => place.y + group.getHeight(context))
         );
         return {
             left: Math.min(left, right),
@@ -102,13 +98,13 @@ export default class Verse extends TypeOutput {
     }
 
     /** A verse's width is the difference between it's left and right extents. */
-    getWidth(context: RenderContext): Decimal {
-        return new Decimal(this.getBounds(context).width);
+    getWidth(context: RenderContext): number {
+        return this.getBounds(context).width;
     }
 
     /** A verse's height is the difference between it's highest and lowest extents. */
-    getHeight(context: RenderContext): Decimal {
-        return new Decimal(this.getBounds(context).height);
+    getHeight(context: RenderContext): number {
+        return this.getBounds(context).height;
     }
 
     getGroups(): TypeOutput[] {
@@ -123,11 +119,11 @@ export default class Verse extends TypeOutput {
                 : new Place(
                       this.value,
                       // Place everything in the center
-                      child.getWidth(context).div(2).neg(),
+                      -child.getWidth(context) / 2,
                       // We would normally not t negate the y because its in math coordinates, but we want to move it
                       // down the y-axis by half, so we subtract.
-                      child.getHeight(context).div(2).neg(),
-                      new Decimal(0)
+                      -child.getHeight(context) / 2,
+                      0
                   ),
         ]);
     }

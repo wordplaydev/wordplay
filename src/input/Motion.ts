@@ -69,9 +69,9 @@ export default class Motion extends TemporalStream<Value> {
 
         this.type = type;
 
-        this.x = type.place?.x.toNumber() ?? 0;
-        this.y = type.place?.y.toNumber() ?? 0;
-        this.z = type.place?.x.toNumber() ?? 0;
+        this.x = type.place?.x ?? 0;
+        this.y = type.place?.y ?? 0;
+        this.z = type.place?.x ?? 0;
         this.angle = type.rotation ?? 0;
 
         this.vx = vx ?? 0;
@@ -99,9 +99,9 @@ export default class Motion extends TemporalStream<Value> {
         gravity: number | undefined
     ) {
         if (type) {
-            this.x = type.place?.x.toNumber() ?? this.x;
-            this.y = type.place?.y.toNumber() ?? this.y;
-            this.z = type.place?.z.toNumber() ?? this.z;
+            this.x = type.place?.x ?? this.x;
+            this.y = type.place?.y ?? this.y;
+            this.z = type.place?.z ?? this.z;
             this.angle = type.rotation ?? this.angle;
         }
 

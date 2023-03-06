@@ -7,7 +7,6 @@ import type Verse from './Verse';
 import OutputAnimation from './OutputAnimation';
 import type Transition from './Transition';
 import type Node from '@nodes/Node';
-import Decimal from 'decimal.js';
 import type RenderContext from './RenderContext';
 
 export type OutputName = string;
@@ -125,12 +124,7 @@ export default class Stage {
             context
         );
 
-        const center = new Place(
-            verse.value,
-            new Decimal(0),
-            new Decimal(0),
-            new Decimal(0)
-        );
+        const center = new Place(verse.value, 0, 0, 0);
         newScene.set(verse.getName(), {
             output: verse,
             global: center,
@@ -155,9 +149,9 @@ export default class Stage {
             const priorLocal = priorOutputInfo?.local;
             if (
                 priorLocal &&
-                (!priorLocal.x.equals(info.local.x) ||
-                    !priorLocal.y.equals(info.local.y) ||
-                    !priorLocal.z.equals(info.local.z))
+                (priorLocal.x !== info.local.x ||
+                    priorLocal.y !== info.local.y ||
+                    priorLocal.z !== info.local.z)
             ) {
                 moved.set(name, {
                     output: output,

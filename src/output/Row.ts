@@ -4,7 +4,6 @@ import type Color from './Color';
 import type TypeOutput from './TypeOutput';
 import type RenderContext from './RenderContext';
 import Place from './Place';
-import Decimal from 'decimal.js';
 import type LanguageCode from '@translation/LanguageCode';
 import { getPreferredTranslation } from '@translation/getPreferredTranslation';
 import { getBind } from '@translation/getBind';
@@ -18,29 +17,30 @@ export const RowType = toStructure(`
 `);
 
 export class Row extends Layout {
-    readonly padding: Measurement;
+    readonly padding: number;
 
     constructor(value: Value, padding: Measurement) {
         super(value);
 
-        this.padding = padding;
+        this.padding = padding.toNumber();
     }
 
     // Width is the sum of widths plus padding
-    getWidth(output: TypeOutput[], context: RenderContext): Decimal {
-        return output
-            .reduce(
-                (height, group) => height.add(group.getWidth(context)),
-                new Decimal(0)
-            )
-            .add(this.padding.num.times(output.length - 1));
+    getWidth(output: TypeOutput[], context: RenderContext): number {
+        return (
+            output.reduce(
+                (height, group) => height + group.getWidth(context),
+                0
+            ) +
+            this.padding * (output.length - 1)
+        );
     }
 
     // Height is the max height
-    getHeight(output: TypeOutput[], context: RenderContext): Decimal {
+    getHeight(output: TypeOutput[], context: RenderContext): number {
         return output.reduce(
-            (max, group) => Decimal.max(max, group.getHeight(context)),
-            new Decimal(0)
+            (max, group) => Math.max(max, group.getHeight(context)),
+            0
         );
     }
 
@@ -48,7 +48,7 @@ export class Row extends Layout {
         children: TypeOutput[],
         context: RenderContext
     ): [TypeOutput, Place][] {
-        let position = new Decimal(0);
+        let position = 0;
 
         // Get the height of the container so we can center each phrase vertically.
         let height = this.getHeight(children, context);
@@ -60,17 +60,18 @@ export class Row extends Layout {
                 new Place(
                     this.value,
                     position,
+
                     child.place && child.place.y !== undefined
                         ? child.place.y
-                        : height.sub(child.getHeight(context)).div(2),
+                        : (height - child.getHeight(context)) / 2,
                     // If the phrase a place, use it's z, otherwise default to the 0 plane.
                     child.place && child.place.z !== undefined
                         ? child.place.z
-                        : new Decimal(0)
+                        : 0
                 ),
             ]);
-            position = position.add(child.getWidth(context));
-            position = position.add(this.padding.num);
+            position = position + child.getWidth(context);
+            position = position + this.padding;
         }
 
         return positions;

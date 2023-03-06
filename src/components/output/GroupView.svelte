@@ -25,13 +25,13 @@
     // Compute a local context based on size and font.
     $: context = group.getRenderContext(context);
 
-    $: width = group.getWidth(context).toNumber();
-    $: height = group.getHeight(context).toNumber();
+    $: width = group.getWidth(context);
+    $: height = group.getHeight(context);
     $: places = group.getPlaces(context);
 
     // Filter out groups that are behind the focus
     // Sort by z to preserve rendering order
-    $: ordered = places.sort(([, a], [, b]) => b.z.sub(a.z).toNumber());
+    $: ordered = places.sort(([, a], [, b]) => b.z - a.z);
 
     // When rendering the children, we need to convert the focus coordinate we were given
     // into this view's coordinate system so that the perspective rendering is in the right coordinates.

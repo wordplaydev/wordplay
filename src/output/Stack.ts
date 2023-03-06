@@ -4,7 +4,6 @@ import type Color from './Color';
 import type TypeOutput from './TypeOutput';
 import type RenderContext from './RenderContext';
 import Place from './Place';
-import Decimal from 'decimal.js';
 import type LanguageCode from '@translation/LanguageCode';
 import { getPreferredTranslation } from '@translation/getPreferredTranslation';
 import { getBind } from '@translation/getBind';
@@ -18,29 +17,30 @@ export const StackType = toStructure(`
 `);
 
 export class Stack extends Layout {
-    readonly padding: Measurement;
+    readonly padding: number;
 
     constructor(value: Value, padding: Measurement) {
         super(value);
-        this.padding = padding;
+        this.padding = padding.toNumber();
     }
 
     // Width is the max width
-    getWidth(output: TypeOutput[], context: RenderContext): Decimal {
+    getWidth(output: TypeOutput[], context: RenderContext): number {
         return output.reduce(
-            (max, group) => Decimal.max(max, group.getWidth(context)),
-            new Decimal(0)
+            (max, group) => Math.max(max, group.getWidth(context)),
+            0
         );
     }
 
     // Height is the sum of heights plus padding
-    getHeight(output: TypeOutput[], context: RenderContext): Decimal {
-        return output
-            .reduce(
-                (height, group) => height.add(group.getHeight(context)),
-                new Decimal(0)
-            )
-            .add(this.padding.num.times(output.length - 1));
+    getHeight(output: TypeOutput[], context: RenderContext): number {
+        return (
+            output.reduce(
+                (height, group) => height + group.getHeight(context),
+                0
+            ) +
+            this.padding * (output.length - 1)
+        );
     }
 
     getPlaces(
@@ -56,7 +56,7 @@ export class Stack extends Layout {
         const positions: [TypeOutput, Place][] = [];
         for (const child of children) {
             // Subtract the child's height to y to get it to its baseline.
-            y = y.sub(child.getHeight(context));
+            y = y - child.getHeight(context);
             positions.push([
                 child,
                 new Place(
@@ -64,16 +64,16 @@ export class Stack extends Layout {
                     // Place the x in the center of the stack, or if it has a place, use that
                     child.place && child.place.x !== undefined
                         ? child.place.x
-                        : width.sub(child.getWidth(context)).div(2),
+                        : (width - child.getWidth(context)) / 2,
                     y,
                     // If the phrase has a place, use it's z, otherwise default to the 0 plane.
                     child.place && child.place.z !== undefined
                         ? child.place.z
-                        : new Decimal(0)
+                        : 0
                 ),
             ]);
             // Subtract the padding.
-            y = y.sub(this.padding.num);
+            y = y - this.padding;
         }
 
         return positions;

@@ -300,15 +300,9 @@ export default class OutputAnimation {
                 const percent = currentDuration / totalDuration;
                 const interpolatedPlace = new Place(
                     prior.place.value,
-                    prior.place.x.add(
-                        present.place.x.sub(prior.place.x).times(percent)
-                    ),
-                    prior.place.y.add(
-                        present.place.y.sub(prior.place.y).times(percent)
-                    ),
-                    prior.place.z.add(
-                        present.place.z.sub(prior.place.z).times(percent)
-                    )
+                    prior.place.x + (present.place.x - prior.place.x) * percent,
+                    prior.place.y + (present.place.y - prior.place.y) * percent,
+                    prior.place.z + (present.place.z - prior.place.z) * percent
                 );
                 return transition
                     .withPlace(interpolatedPlace)
@@ -483,14 +477,12 @@ export default class OutputAnimation {
                     // we do in GroupView.
                     this.state === State.Exiting || parents[0] instanceof Verse
                         ? 0
-                        : parents[0].getHeight(this.context).toNumber(),
+                        : parents[0].getHeight(this.context),
                     {
                         width:
-                            this.output.getWidth(this.context).toNumber() *
-                            PX_PER_METER,
+                            this.output.getWidth(this.context) * PX_PER_METER,
                         ascent:
-                            this.output.getHeight(this.context).toNumber() *
-                            PX_PER_METER,
+                            this.output.getHeight(this.context) * PX_PER_METER,
                     }
                 );
             }

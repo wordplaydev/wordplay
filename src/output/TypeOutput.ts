@@ -9,7 +9,6 @@ import Sequence from './Sequence';
 import TextLang from './TextLang';
 import type Pose from './Pose';
 import type RenderContext from './RenderContext';
-import type Decimal from 'decimal.js';
 import Fonts, { SupportedFontsFamiliesType } from '../native/Fonts';
 import en from '@translation/translations/en';
 import type LanguageCode from '@translation/LanguageCode';
@@ -82,8 +81,8 @@ export default abstract class TypeOutput extends Output {
         if (this.font) Fonts.loadFamily(this.font);
     }
 
-    abstract getWidth(context: RenderContext): Decimal;
-    abstract getHeight(context: RenderContext): Decimal;
+    abstract getWidth(context: RenderContext): number;
+    abstract getHeight(context: RenderContext): number;
     abstract getPlaces(context: RenderContext): [TypeOutput, Place][];
     abstract getGroups(): TypeOutput[];
     abstract getBackground(): Color | undefined;
