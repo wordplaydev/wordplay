@@ -19,7 +19,7 @@
     $: node = concept.getRepresentation();
 </script>
 
-<div class="concept" transition:slide={getAnimationDuration()}>
+<div class="concept" transition:slide|local={getAnimationDuration()}>
     {#if header}
         <h1
             ><CodeView {concept} {types} {node} describe={false} />

@@ -57,7 +57,7 @@ export function getProject() {
     return getContext<ProjectContext>(ProjectSymbol);
 }
 
-export type EvaluatorContext = Readable<Evaluator>;
+export type EvaluatorContext = Readable<Evaluator | undefined>;
 export const EvaluatorSymbol = Symbol('evaluator');
 export function getEvaluator() {
     return getContext<EvaluatorContext>(EvaluatorSymbol);

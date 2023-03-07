@@ -24,7 +24,7 @@
         const context = $project ? $project.getNodeContext(node) : undefined;
         const parent = context ? node.getParent(context) : undefined;
         stream =
-            parent instanceof Evaluate
+            parent instanceof Evaluate && $evaluator
                 ? $evaluator.getNativeStreamFor(parent)
                 : undefined;
     }
@@ -38,8 +38,9 @@
             $playing &&
             // We're done evaluating
             $currentStep === undefined &&
-            // There's a project
+            // There's a project and evaluator
             $project !== undefined &&
+            $evaluator !== undefined &&
             // This is associated with a stream
             stream !== undefined &&
             // The stream caused the most recent reaction

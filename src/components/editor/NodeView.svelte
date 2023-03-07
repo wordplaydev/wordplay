@@ -35,6 +35,7 @@
         value = undefined;
         if (
             $project &&
+            $evaluator &&
             !$playing &&
             node instanceof Expression &&
             !node.isEvaluationInvolved()

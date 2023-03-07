@@ -15,7 +15,6 @@
         getProjects,
         setSelectedOutput,
         getSelectedOutputPaths,
-        getEvaluator,
     } from './Contexts';
     import type Project from '@models/Project';
     import Documentation from '@components/concepts/Documentation.svelte';
@@ -65,11 +64,12 @@
     import { goto } from '$app/navigation';
     import TextField from '../widgets/TextField.svelte';
     import Status from '../app/Status.svelte';
+    import type Evaluator from '@runtime/Evaluator';
 
     export let project: Project;
+    export let evaluator: Evaluator;
 
     const projects = getProjects();
-    const evaluator = getEvaluator();
     const selectedOutput = getSelectedOutput();
     const selectedOutputPaths = getSelectedOutputPaths();
     const playing = getPlaying();
@@ -314,7 +314,7 @@
     let updateTimer: NodeJS.Timer | undefined = undefined;
     $: {
         // Re-evaluate immediately.
-        if (!$evaluator.isStarted()) $evaluator.start();
+        if (!evaluator.isStarted()) evaluator.start();
 
         if (updateTimer) clearTimeout(updateTimer);
         updateTimer = setTimeout(() => {
@@ -367,7 +367,7 @@
     $: {
         $currentStep;
         $preferredLanguages;
-        latest = $evaluator.getLatestSourceValue(project.main);
+        latest = evaluator.getLatestSourceValue(project.main);
     }
 
     /**
@@ -562,8 +562,8 @@
             return;
         }
         if (key === 'Enter' && command) {
-            if ($evaluator.isPlaying()) $evaluator.pause();
-            else $evaluator.play();
+            if (evaluator.isPlaying()) evaluator.pause();
+            else evaluator.play();
             event.preventDefault();
             return;
         }
@@ -572,19 +572,19 @@
         if (!$playing || command) {
             if (key === 'Backspace') {
                 // To start
-                if (event.ctrlKey && event.shiftKey) $evaluator.stepTo(0);
+                if (event.ctrlKey && event.shiftKey) evaluator.stepTo(0);
                 // To previous input
-                else if (event.shiftKey) $evaluator.stepBackToInput();
+                else if (event.shiftKey) evaluator.stepBackToInput();
                 // To previous step
-                else $evaluator.stepBackWithinProgram();
+                else evaluator.stepBackWithinProgram();
                 event.preventDefault();
             } else if (key === ' ') {
                 // To start
-                if (event.ctrlKey && event.shiftKey) $evaluator.stepToEnd();
+                if (event.ctrlKey && event.shiftKey) evaluator.stepToEnd();
                 // To previous input
-                else if (event.shiftKey) $evaluator.stepToInput();
+                else if (event.shiftKey) evaluator.stepToInput();
                 // To previous step
-                else $evaluator.stepWithinProgram();
+                else evaluator.stepWithinProgram();
                 event.preventDefault();
             }
             return;
@@ -682,8 +682,8 @@
 <main class="project" tabIndex="0" on:keydown={handleKey} bind:this={view}>
     {#if !layout.isFullscreen()}
         <section class="header" class:stepping={!$playing}>
-            <Controls {project} evaluator={$evaluator} />
-            <Timeline evaluator={$evaluator} />
+            <Controls {project} {evaluator} />
+            <Timeline {evaluator} />
         </section>
     {/if}
 
@@ -769,7 +769,7 @@
                             {:else if tile.kind === Content.Output}
                                 <OutputView
                                     {project}
-                                    evaluator={$evaluator}
+                                    {evaluator}
                                     source={project.main}
                                     {latest}
                                     fullscreen={layout.fullscreenID === tile.id}
@@ -781,7 +781,7 @@
                             {:else}
                                 <Editor
                                     {project}
-                                    evaluator={$evaluator}
+                                    {evaluator}
                                     source={getSourceByID(tile.id)}
                                     bind:menu
                                     on:conflicts={(event) =>
@@ -837,7 +837,7 @@
                     <!-- Mini source view output is visible when collapsed, or if its main, when output is collapsed. -->
                     <SourceTileToggle
                         {project}
-                        evaluator={$evaluator}
+                        {evaluator}
                         {source}
                         output={source === project.main
                             ? layout.getOutput()?.mode === Mode.Collapsed
@@ -864,7 +864,7 @@
         <!-- Render annotations on top of the tiles and the footer -->
         <Annotations
             {project}
-            evaluator={$evaluator}
+            {evaluator}
             conflicts={visibleConflicts}
             stepping={!$playing}
         />

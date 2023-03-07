@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { onDestroy, setContext } from 'svelte';
     import {
         type ProjectContext,
         type SelectedOutputPathsContext,
@@ -42,6 +41,7 @@
     import Feedback from '@components/app/Feedback.svelte';
     import Loading from '@components/app/Loading.svelte';
     import Evaluator from '@runtime/Evaluator';
+    import { onDestroy, setContext } from 'svelte';
 
     const projects = getProjects();
 
@@ -54,7 +54,12 @@
         ([$page, $projects]) => {
             const projectID = $page.params.projectid;
             const project = $projects.get(projectID);
-            if (project === undefined && projectID && projectID.length > 0) {
+            if (projectID === undefined) return undefined;
+            else if (
+                project === undefined &&
+                projectID &&
+                projectID.length > 0
+            ) {
                 loading = true;
                 $projects.load(projectID);
             } else return project;
@@ -114,7 +119,7 @@
     );
 
     /** A store holding the evaluator corresponding to the current project */
-    const evaluator: Writable<Evaluator> = writable();
+    const evaluator: Writable<Evaluator | undefined> = writable(undefined);
 
     setContext<ProjectContext>(ProjectSymbol, project);
     setContext<EvaluatorContext>(EvaluatorSymbol, evaluator);
@@ -162,14 +167,18 @@
         }
     });
 
-    /** Clean up the evaluator when this is unmounted. */
-    onDestroy(() => $evaluator.stop());
+    /** Clean up the evaluator when leaving this page. */
+    onDestroy(() => {
+        $evaluator?.stop();
+        evaluator.set(undefined);
+        streams.set([]);
+    });
 </script>
 
-{#if $project}
-    <ProjectView project={$project} />
+{#if $project && $evaluator}
+    <ProjectView project={$project} evaluator={$evaluator} />
 {:else if loading}
     <Loading />
-{:else}
+{:else if $page.params.projectid}
     <Feedback>{$preferredTranslations[0].ui.feedback.unknownProject}</Feedback>
 {/if}

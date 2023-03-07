@@ -51,7 +51,7 @@
             <div
                 class={`annotation ${annotation.kind}`}
                 data-annotationid={id}
-                transition:fade={getAnimationDuration()}
+                transition:fade|local={getAnimationDuration()}
             >
                 <Speech
                     glyph={annotation.node.getGlyphs()}

@@ -19,7 +19,7 @@
 <div class="group">
     {#each concepts as concept, index}
         {#if expanded || index < 3}
-            <span transition:slide={getAnimationDuration()}>
+            <span transition:slide|local={getAnimationDuration()}>
                 <CodeView
                     {concept}
                     node={concept.getRepresentation()}
