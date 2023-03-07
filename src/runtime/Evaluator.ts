@@ -44,6 +44,11 @@ export type IndexedValue = { value: Value | undefined; stepNumber: StepNumber };
 export const MAX_CALL_STACK_DEPTH = 256;
 export const MAX_STEP_COUNT = 262144;
 
+// Don't let source values take more than 256 MB of memory.
+// One memory unit is probably an average of about 64 bytes, given how much
+// provenance we store per value.
+export const MAX_SOURCE_VALUE_SIZE = 1048576;
+
 export enum Mode {
     Play,
     Step,
@@ -115,6 +120,9 @@ export default class Evaluator {
 
     /** The value of each source, indexed by the step index at which it was created. */
     sourceValues: Map<Source, IndexedValue[]> = new Map();
+
+    /** The total size of the source values, for managing memory */
+    sourceValueSize: number = 0;
 
     /**
      * An execution history, mapping Expressions to the sequence of values they have produced.
@@ -419,6 +427,7 @@ export default class Evaluator {
 
         // Reset the latest source values. (We keep them around for display after each reaction).
         this.sourceValues = new Map();
+        this.sourceValueSize = 0;
 
         // Clear the stream mapping
         this.nativeStreams = new Map();
@@ -998,6 +1007,7 @@ export default class Evaluator {
                 let indexedValues = this.sourceValues.get(def) ?? [];
                 // Add the entry
                 indexedValues.push({ stepNumber: this.#stepCount, value });
+
                 // Trim the history to the same length that streams are trimmed.
                 const oldest = Math.max(
                     0,
@@ -1007,6 +1017,23 @@ export default class Evaluator {
                     oldest,
                     oldest + MAX_STREAM_LENGTH
                 );
+
+                // Update the size
+                this.sourceValueSize += value ? value.getSize() : 0;
+                for (const removed of indexedValues.slice(0, oldest))
+                    this.sourceValueSize -= removed.value
+                        ? removed.value.getSize()
+                        : 0;
+
+                // Trim to source value max size to cap memory usage
+                while (
+                    this.sourceValueSize > MAX_SOURCE_VALUE_SIZE &&
+                    indexedValues.length > 0
+                ) {
+                    this.sourceValueSize -=
+                        indexedValues.shift()?.value?.getSize() ?? 0;
+                }
+
                 // Update the source value history
                 this.sourceValues.set(def, indexedValues);
             }

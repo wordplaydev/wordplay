@@ -32,7 +32,7 @@
 
     /**
      * The time position is the current left position within the timeline of the current step index of the evaluator.
-     * We update it after we update/
+     * We update it after we update.
      */
     let timePosition = 0;
 

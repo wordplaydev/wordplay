@@ -125,4 +125,11 @@ export default class Map extends Primitive {
     getDescription(translation: Translation) {
         return translation.data.map;
     }
+
+    getSize() {
+        let sum = 0;
+        for (const [key, value] of this.values)
+            sum += key.getSize() + value.getSize();
+        return sum;
+    }
 }

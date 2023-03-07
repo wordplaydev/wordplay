@@ -34,4 +34,8 @@ export default abstract class Exception extends Primitive {
     toWordplay(): string {
         return '!' + this.constructor.name;
     }
+
+    getSize() {
+        return 1;
+    }
 }

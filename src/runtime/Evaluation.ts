@@ -368,4 +368,10 @@ export default class Evaluation {
             newBindings
         );
     }
+
+    getSize() {
+        let sum = 0;
+        for (const [, value] of this.#bindings) sum += value.getSize();
+        return sum;
+    }
 }

@@ -67,4 +67,8 @@ export default class Bool extends Primitive {
     getDescription(translation: Translation) {
         return translation.data.boolean;
     }
+
+    getSize() {
+        return 1;
+    }
 }

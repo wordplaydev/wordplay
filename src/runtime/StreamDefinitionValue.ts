@@ -41,4 +41,8 @@ export default class StreamDefinitionValue extends Primitive {
     getDescription(translation: Translation) {
         return translation.data.function;
     }
+
+    getSize() {
+        return 1;
+    }
 }

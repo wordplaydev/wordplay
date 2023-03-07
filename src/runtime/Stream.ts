@@ -139,4 +139,10 @@ export default abstract class Stream<
 
     /** Should do whatever cleanup is necessary to stop listening to a data stream */
     abstract stop(): void;
+
+    getSize() {
+        let sum = 0;
+        for (const value of this.values) sum += value.value.getSize();
+        return sum;
+    }
 }

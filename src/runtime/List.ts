@@ -132,4 +132,10 @@ export default class List extends Primitive {
     getDescription(translation: Translation) {
         return translation.data.list;
     }
+
+    getSize() {
+        let sum = 0;
+        for (const value of this.values) sum += value.getSize();
+        return sum;
+    }
 }

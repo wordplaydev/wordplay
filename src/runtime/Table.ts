@@ -48,4 +48,11 @@ export default class Table extends Value {
     getDescription(translation: Translation) {
         return translation.data.table;
     }
+
+    getSize() {
+        let sum = 0;
+        for (const row of this.rows)
+            for (const cell of row) sum += cell.getSize();
+        return sum;
+    }
 }

@@ -50,4 +50,8 @@ export default class Text extends Primitive {
     getDescription(translation: Translation) {
         return translation.data.text;
     }
+
+    getSize() {
+        return 1;
+    }
 }

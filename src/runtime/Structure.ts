@@ -127,6 +127,10 @@ export default class Structure extends Value {
         const newContext = this.context.withValue(creator, property, value);
         return newContext ? new Structure(creator, newContext) : undefined;
     }
+
+    getSize() {
+        return this.context.getSize();
+    }
 }
 
 export function createStructure(

@@ -107,4 +107,10 @@ export default class Set extends Primitive {
     getDescription(translation: Translation) {
         return translation.data.set;
     }
+
+    getSize() {
+        let sum = 0;
+        for (const value of this.values) sum += value.getSize();
+        return sum;
+    }
 }

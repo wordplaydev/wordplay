@@ -222,6 +222,10 @@ export default class Measurement extends Primitive {
     getDescription(translation: Translation) {
         return translation.data.measurement;
     }
+
+    getSize() {
+        return 1;
+    }
 }
 
 const kanjiNumbers: Record<string, number> = {

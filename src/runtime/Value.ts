@@ -36,4 +36,10 @@ export default abstract class Value {
     abstract isEqualTo(value: Value): boolean;
 
     abstract getDescription(translation: Translation): Description;
+
+    /**
+     * Should returns a rough estimate of how much memory this value uses.
+     * Used to manage history size.
+     */
+    abstract getSize(): number;
 }

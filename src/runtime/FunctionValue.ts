@@ -56,4 +56,8 @@ export default class FunctionValue extends Value {
     getDescription(translation: Translation) {
         return translation.data.function;
     }
+
+    getSize() {
+        return 1;
+    }
 }

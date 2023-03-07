@@ -34,4 +34,8 @@ export default class None extends Primitive {
     getDescription(translation: Translation) {
         return translation.data.none;
     }
+
+    getSize() {
+        return 1;
+    }
 }
