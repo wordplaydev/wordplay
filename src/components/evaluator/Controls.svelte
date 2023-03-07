@@ -10,8 +10,10 @@
         getProjects,
         getStreamChanges,
     } from '../project/Contexts';
+    import type Evaluator from '@runtime/Evaluator';
 
     export let project: Project;
+    export let evaluator: Evaluator;
 
     const projects = getProjects();
     let playing = getPlaying();
@@ -32,8 +34,7 @@
     >
     <Switch
         on={$playing === true}
-        toggle={(play) =>
-            play ? project.evaluator.play() : project.evaluator.pause()}
+        toggle={(play) => (play ? evaluator.play() : evaluator.pause())}
         offTip={$preferredTranslations[0].ui.tooltip.pause}
         onTip={$preferredTranslations[0].ui.tooltip.play}
         offLabel="⏸️"
@@ -41,42 +42,42 @@
     />
     <Button
         tip={$preferredTranslations[0].ui.tooltip.start}
-        action={() => project.evaluator.stepTo(0)}
-        enabled={!project.evaluator.isAtBeginning()}>⇤</Button
+        action={() => evaluator.stepTo(0)}
+        enabled={!evaluator.isAtBeginning()}>⇤</Button
     >
     <Button
         tip={$preferredTranslations[0].ui.tooltip.backInput}
-        action={() => project.evaluator.stepBackToInput()}
-        enabled={!project.evaluator.isAtBeginning()}>⇠</Button
+        action={() => evaluator.stepBackToInput()}
+        enabled={!evaluator.isAtBeginning()}>⇠</Button
     >
     <Button
         tip={$preferredTranslations[0].ui.tooltip.back}
-        action={() => project.evaluator.stepBackWithinProgram()}
-        enabled={!project.evaluator.isAtBeginning()}>←</Button
+        action={() => evaluator.stepBackWithinProgram()}
+        enabled={!evaluator.isAtBeginning()}>←</Button
     >
     <Button
         tip={$preferredTranslations[0].ui.tooltip.out}
-        action={() => project.evaluator.stepOut()}
+        action={() => evaluator.stepOut()}
         enabled={!playing &&
             $currentStep &&
-            project.evaluator.getCurrentEvaluation() !== undefined}>↑</Button
+            evaluator.getCurrentEvaluation() !== undefined}>↑</Button
     >
     <Button
         tip={$preferredTranslations[0].ui.tooltip.forward}
-        action={() => project.evaluator.stepWithinProgram()}
-        enabled={project.evaluator.isInPast() &&
+        action={() => evaluator.stepWithinProgram()}
+        enabled={evaluator.isInPast() &&
             $currentStepIndex !== undefined &&
-            $currentStepIndex < project.evaluator.getStepCount()}>→</Button
+            $currentStepIndex < evaluator.getStepCount()}>→</Button
     >
     <Button
         tip={$preferredTranslations[0].ui.tooltip.forwardInput}
-        action={() => project.evaluator.stepToInput()}
-        enabled={project.evaluator.isInPast()}>⇢</Button
+        action={() => evaluator.stepToInput()}
+        enabled={evaluator.isInPast()}>⇢</Button
     >
     <Button
         tip={$preferredTranslations[0].ui.tooltip.present}
-        action={() => project.evaluator.stepToEnd()}
-        enabled={project.evaluator.isInPast()}>⇥</Button
+        action={() => evaluator.stepToEnd()}
+        enabled={evaluator.isInPast()}>⇥</Button
     >
 </section>
 

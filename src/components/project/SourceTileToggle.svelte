@@ -1,12 +1,14 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
-    import type Project from '@models/Project';
     import type Source from '@nodes/Source';
     import type Value from '@runtime/Value';
     import OutputView from '../output/OutputView.svelte';
     import { getConflicts, getCurrentStep } from './Contexts';
+    import type Evaluator from '@runtime/Evaluator';
+    import type Project from '../../models/Project';
 
     export let project: Project;
+    export let evaluator: Evaluator;
     export let source: Source;
     export let output: boolean;
     export let expanded: boolean;
@@ -19,7 +21,7 @@
     let latest: Value | undefined;
     $: {
         $currentStep;
-        latest = project.evaluator.getLatestSourceValue(source);
+        latest = evaluator.getLatestSourceValue(source);
     }
 
     // The number of conflicts is the number of nodes in the source involved in conflicts
@@ -64,6 +66,7 @@
         <div class="output">
             <OutputView
                 {project}
+                {evaluator}
                 {source}
                 {latest}
                 fullscreen={false}

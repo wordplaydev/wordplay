@@ -1,5 +1,4 @@
 import Project, { type SerializedProject } from '@models/Project';
-import { Mode } from '@runtime/Evaluator';
 import type Node from '@nodes/Node';
 import type { ProjectsContext } from '../components/project/Contexts';
 import { writable } from 'svelte/store';
@@ -133,29 +132,12 @@ export default class Projects {
     /** Replaces the project with the given project */
     revise(project: string | Project, revised: Project) {
         this.setProjects(
-            this.projects.map((candidate) => {
-                if (
-                    project instanceof Project
-                        ? candidate === project
-                        : candidate.id === project
-                ) {
-                    candidate.cleanup();
-
-                    // Preserve evaluator state.
-                    const isPlaying =
-                        candidate.evaluator.getMode() === Mode.Play;
-                    if (isPlaying) {
-                        // Set the evaluator's playing state to the current playing state.
-                        revised.evaluator.setMode(Mode.Play);
-                    } else {
-                        // Play to the same place the old project's evaluator was at.
-                        revised.evaluate();
-                        revised.evaluator.setMode(Mode.Step);
-                    }
-
-                    return revised;
-                } else return candidate;
-            })
+            this.projects.map((candidate) =>
+                (project instanceof Project && project === candidate) ||
+                candidate.id === project
+                    ? revised
+                    : candidate
+            )
         );
     }
 

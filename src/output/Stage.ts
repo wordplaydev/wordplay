@@ -1,4 +1,3 @@
-import type Project from '../models/Project';
 import type LanguageCode from '../translation/LanguageCode';
 import type TypeOutput from './TypeOutput';
 import Place from './Place';
@@ -8,6 +7,7 @@ import OutputAnimation from './OutputAnimation';
 import type Transition from './Transition';
 import type Node from '@nodes/Node';
 import type RenderContext from './RenderContext';
+import type Evaluator from '../runtime/Evaluator';
 
 export type OutputName = string;
 
@@ -32,7 +32,7 @@ export type Orientation = { place: Place; rotation: number | undefined };
  * any time the project reevaluates.
  * */
 export default class Stage {
-    readonly project: Project;
+    readonly evaluator: Evaluator;
 
     /** The current verse being displayed */
     verse: Verse | undefined = undefined;
@@ -73,16 +73,16 @@ export default class Stage {
     readonly tick: (nodes: Set<Node>) => void;
 
     constructor(
-        project: Project,
+        evaluator: Evaluator,
         exit: (name: OutputName) => void,
         tick: (nodes: Set<Node>) => void
     ) {
-        this.project = project;
+        this.evaluator = evaluator;
         this.exit = exit;
         this.tick = tick;
 
         // Initialize unintialized defaults.
-        this.focus = createPlace(this.project.evaluator, 0, 0, -6, 0);
+        this.focus = createPlace(this.evaluator, 0, 0, -6, 0);
     }
 
     /**

@@ -1,17 +1,19 @@
 <script lang="ts">
     import type Project from '@models/Project';
     import OutputView from '@components/output/OutputView.svelte';
+    import Evaluator from '@runtime/Evaluator';
     import type Value from '@runtime/Value';
 
     export let project: Project;
     export let action: () => void;
 
     // Clone the project and get its initial value, then stop the project's evaluator.
+    let evaluator: Evaluator;
     let value: Value | undefined;
     $: {
-        const clone = project.clone();
-        value = clone.getInitialValue();
-        clone.cleanup();
+        evaluator = new Evaluator(project);
+        value = evaluator.getInitialValue();
+        evaluator.stop();
     }
 </script>
 
@@ -25,6 +27,7 @@
     >
         <OutputView
             {project}
+            {evaluator}
             source={project.main}
             latest={value}
             fullscreen={false}

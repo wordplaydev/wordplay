@@ -190,6 +190,9 @@ export default class Camera extends TemporalStream<List> {
                         height: settings.height,
                     };
 
+                    // Save the config
+                    this.config = config;
+
                     // Set the video stream's source to the camera.
                     config.canvas.width = this.width;
                     config.canvas.height = this.height;
@@ -198,13 +201,12 @@ export default class Camera extends TemporalStream<List> {
                     config.canvas.style.display = 'none';
                     config.video.style.display = 'none';
 
-                    // Save the config
-                    this.config = config;
-
-                    config.video.srcObject = stream;
-
+                    // Add them to the dom.
                     document.body.appendChild(config.video);
                     document.body.appendChild(config.canvas);
+
+                    // Link the stream to the video tag
+                    config.video.srcObject = stream;
 
                     // Start the video
                     config.video.play();
@@ -218,11 +220,13 @@ export default class Camera extends TemporalStream<List> {
     stop() {
         this.stopped = true;
         if (this.config) {
-            document.body.removeChild(this.config.canvas);
-            document.body.removeChild(this.config.video);
-
             this.config.stream.getTracks().forEach((track) => track.stop());
             this.config.video.srcObject = null;
+
+            if (document.body.contains(this.config.canvas))
+                document.body.removeChild(this.config.canvas);
+            if (document.body.contains(this.config.video))
+                document.body.removeChild(this.config.video);
         }
     }
 

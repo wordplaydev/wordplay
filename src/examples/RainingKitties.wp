@@ -38,4 +38,5 @@ Verse(
                 rotation: kitty.angle ·1°
             )
     )
+    place: Place(0m 0m -5m)
 )

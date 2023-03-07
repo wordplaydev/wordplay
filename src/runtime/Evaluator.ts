@@ -171,7 +171,7 @@ export default class Evaluator {
         streams: Set<Stream>;
     }[] = [];
 
-    constructor(project: Project) {
+    constructor(project: Project, prior: Evaluator | undefined = undefined) {
         this.project = project;
 
         // Create a global random number stream for APIs to use.
@@ -179,6 +179,9 @@ export default class Evaluator {
 
         // Set up start state.
         this.resetAll();
+
+        // Mirror the given prior, if there is one.
+        if (prior) this.mirror(prior);
     }
 
     /**
@@ -198,8 +201,20 @@ export default class Evaluator {
                 (code, index) => new Source(`sup${index + 1}`, code)
             )
         );
-        project.evaluate();
-        return project.evaluator.getLatestSourceValue(source);
+        return new Evaluator(project).getInitialValue();
+    }
+
+    /** Mirror the given evaluator's stream history and state, but with the new source. */
+    mirror(evaluator: Evaluator) {
+        const isPlaying = evaluator.getMode() === Mode.Play;
+        if (isPlaying) {
+            // Set the evaluator's playing state to the current playing state.
+            this.setMode(Mode.Play);
+        } else {
+            // Play to the same place the old project's evaluator was at.
+            this.start();
+            this.setMode(Mode.Step);
+        }
     }
 
     // GETTERS
@@ -431,6 +446,13 @@ export default class Evaluator {
 
         // Clear the stream mapping
         this.nativeStreams = new Map();
+    }
+
+    getInitialValue() {
+        this.setMode(Mode.Play);
+        this.start();
+        this.pause();
+        return this.getLatestSourceValue(this.project.main);
     }
 
     /** Evaluate until we're done */
@@ -924,8 +946,9 @@ export default class Evaluator {
     flush() {
         // If they changed, react.
         if (this.temporalReactions.length > 0) {
-            this.project.react(this.temporalReactions);
+            const changes = this.temporalReactions;
             this.temporalReactions = [];
+            this.evaluate(changes);
         }
     }
 
@@ -934,7 +957,60 @@ export default class Evaluator {
         if (stream instanceof TemporalStream)
             this.temporalReactions.push(stream);
         // Otherwise, react immediately.
-        else this.project.react([stream]);
+        else this.evaluate([stream]);
+    }
+
+    evaluate(changed: Stream[]) {
+        // A stream changed!
+        // STEP 1: Find the zero or more nodes that depend on this stream.
+        let affectedExpressions: Set<Expression> = new Set();
+        let streamReferences = new Set<Expression>();
+        for (const stream of changed) {
+            const streamNode = stream.creator;
+            const affected = this.project.getExpressionsAffectedBy(streamNode);
+            if (affected.size > 0) {
+                for (const dependency of affected) {
+                    affectedExpressions.add(dependency);
+                    streamReferences.add(dependency);
+                }
+            }
+        }
+
+        // STEP 2: Traverse the dependency graphs of each source, finding all that directly or indirectly are affected by this stream's change.
+        const affectedSources: Set<Source> = new Set();
+        let unvisited = new Set(affectedExpressions);
+        while (unvisited.size > 0) {
+            for (const expr of unvisited) {
+                // Remove from the visited list.
+                unvisited.delete(expr);
+
+                // Mark that the source was affected.
+                const affectedSource = this.project
+                    .getSources()
+                    .find((source) => source.contains(expr));
+                if (affectedSource) affectedSources.add(affectedSource);
+
+                const affected = this.project.getExpressionsAffectedBy(expr);
+                // Visit all of the affected nodes.
+                for (const newExpr of affected) {
+                    // Avoid cycles
+                    if (!affectedExpressions.has(newExpr)) {
+                        affectedExpressions.add(newExpr);
+                        unvisited.add(newExpr);
+                    }
+                }
+            }
+        }
+
+        // STEP 3: After traversal, remove the stream references from the affected expressions; they will evaluate to the same thing, so they don't need to
+        // be reevaluated.
+        for (const streamRef of streamReferences)
+            affectedExpressions.delete(streamRef);
+
+        // STEP 4: Reevaluate all Programs affected by the change, sending the affected expressions and source files so that each Evaluator
+        //         can re-evaluate only the affected expressions.
+        // TODO Disabled affected sources analysis for now; it's not correct.
+        this.start(changed, undefined);
     }
 
     /**

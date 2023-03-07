@@ -3,6 +3,7 @@ import Project from '../models/Project';
 import Source from '@nodes/Source';
 import EvaluationLimitException from './EvaluationLimitException';
 import StepLimitException from './StepLimitException';
+import Evaluator from './Evaluator';
 
 test.each([0, 1, 10, 15])('Step back %i', (steps: number) => {
     const fib = `
@@ -12,18 +13,19 @@ test.each([0, 1, 10, 15])('Step back %i', (steps: number) => {
 
     const source = new Source('test', fib);
     const project = new Project(null, 'test', source, []);
-    project.evaluate();
-    const stepIndex = project.evaluator.getStepIndex();
+    const evaluator = new Evaluator(project);
+    evaluator.start();
+    const stepIndex = evaluator.getStepIndex();
 
     // Step back
-    project.evaluator.stepBack(-steps);
+    evaluator.stepBack(-steps);
 
     // Expect to be back precisely that many steps
-    expect(project.evaluator.getStepIndex() === stepIndex - steps);
+    expect(evaluator.getStepIndex() === stepIndex - steps);
 
     // Back to the future
-    project.evaluator.stepTo(stepIndex);
-    expect(project.evaluator.getStepIndex() === stepIndex);
+    evaluator.stepTo(stepIndex);
+    expect(evaluator.getStepIndex() === stepIndex);
 });
 
 test('Too many steps', () => {
@@ -34,8 +36,9 @@ test('Too many steps', () => {
 
     const source = new Source('test', fib);
     const project = new Project(null, 'test', source, []);
-    project.evaluate();
-    expect(project.evaluator.getLatestSourceValue(source)).toBeInstanceOf(
+    const evaluator = new Evaluator(project);
+    evaluator.start();
+    expect(evaluator.getLatestSourceValue(source)).toBeInstanceOf(
         StepLimitException
     );
 });
@@ -48,8 +51,9 @@ test('Too many evaluations', () => {
 
     const source = new Source('test', fib);
     const project = new Project(null, 'test', source, []);
-    project.evaluate();
-    expect(project.evaluator.getLatestSourceValue(source)).toBeInstanceOf(
+    const evaluator = new Evaluator(project);
+    evaluator.start();
+    expect(evaluator.getLatestSourceValue(source)).toBeInstanceOf(
         EvaluationLimitException
     );
 });

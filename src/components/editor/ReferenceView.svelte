@@ -5,6 +5,7 @@
     import NodeView from './NodeView.svelte';
     import {
         getCurrentStep,
+        getEvaluator,
         getPlaying,
         getProject,
     } from '../project/Contexts';
@@ -14,6 +15,7 @@
     export let node: Reference;
 
     let project = getProject();
+    let evaluator = getEvaluator();
     let playing = getPlaying();
     let currentStep = getCurrentStep();
 
@@ -23,7 +25,7 @@
         const parent = context ? node.getParent(context) : undefined;
         stream =
             parent instanceof Evaluate
-                ? $project?.evaluator.getNativeStreamFor(parent)
+                ? $evaluator.getNativeStreamFor(parent)
                 : undefined;
     }
 
@@ -41,9 +43,9 @@
             // This is associated with a stream
             stream !== undefined &&
             // The stream caused the most recent reaction
-            $project.evaluator.didStreamCauseReaction(stream) &&
+            $evaluator.didStreamCauseReaction(stream) &&
             // This node was evaluated
-            $project.evaluator.getLatestValueOf(node) !== undefined
+            $evaluator.getLatestValueOf(node) !== undefined
         ) {
             animating = true;
             // Reset after the animation is done.

@@ -17,6 +17,7 @@ import type Projects from '../../db/Projects';
 import type { Path } from '@nodes/Tree';
 import type Source from '@nodes/Source';
 import type { User } from 'firebase/auth';
+import type Evaluator from '@runtime/Evaluator';
 
 export type ProjectsContext = Writable<Projects>;
 export const ProjectsSymbol = Symbol('projects');
@@ -54,6 +55,12 @@ export type ProjectContext = Readable<Project | undefined>;
 export const ProjectSymbol = Symbol('project');
 export function getProject() {
     return getContext<ProjectContext>(ProjectSymbol);
+}
+
+export type EvaluatorContext = Readable<Evaluator>;
+export const EvaluatorSymbol = Symbol('evaluator');
+export function getEvaluator() {
+    return getContext<EvaluatorContext>(EvaluatorSymbol);
 }
 
 export type HighlightContext = Writable<Highlights> | undefined;

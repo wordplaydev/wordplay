@@ -5,6 +5,7 @@ import { FALSE_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
 import type Value from '@runtime/Value';
 import Time from '../input/Time';
 import type Expression from './Expression';
+import Evaluator from '../runtime/Evaluator';
 
 const makeOne = (creator: Expression) => Time.make(creator, 1);
 
@@ -37,27 +38,25 @@ test.each([
         // Make the project
         const source = new Source('test', code);
         const project = new Project(null, 'test', source, []);
+        const evaluator = new Evaluator(project);
 
-        // Evaluate it
-        project.evaluate();
+        evaluator.start();
 
         // Check the latest value of the source
-        const actualInitial = project.evaluator.getLatestSourceValue(source);
+        const actualInitial = evaluator.getLatestSourceValue(source);
         expect(actualInitial?.toString()).toBe(expectedInitial);
 
         // Add the given value to the stream
-        const stream = Array.from(
-            project.evaluator.nativeStreams.values()
-        )[0][0];
+        const stream = Array.from(evaluator.nativeStreams.values())[0][0];
         expect(stream).not.toBeUndefined();
         stream?.add(value(source));
 
-        // Manually flush reactions.
-        project.evaluator.flush();
+        // Manually flush reactions, since time is pooled.
+        evaluator.flush();
 
         // Verify that the source has the new value
-        const actualNext = project.evaluator.getLatestSourceValue(source);
+        const actualNext = evaluator.getLatestSourceValue(source);
         expect(actualNext?.toString()).toBe(expectedNext);
-        project.evaluator.stop();
+        evaluator.stop();
     }
 );

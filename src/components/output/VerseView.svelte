@@ -36,8 +36,10 @@
         getSelectedPhrase,
         setSelectedOutput,
     } from '../project/Contexts';
+    import type Evaluator from '@runtime/Evaluator';
 
     export let project: Project;
+    export let evaluator: Evaluator;
     export let verse: Verse;
     export let fullscreen: boolean;
     export let interactive: boolean;
@@ -67,7 +69,7 @@
     let fitFocus: Place | undefined = undefined;
 
     /** The creator or audience adjusted focus. */
-    let adjustedFocus: Place = createPlace(project.evaluator, 0, 0, -12, 0);
+    let adjustedFocus: Place = createPlace(evaluator, 0, 0, -12, 0);
 
     /** The state of dragging the adjusted focus. A location or nothing. */
     let focusDrag:
@@ -79,7 +81,7 @@
     $: {
         if (stage !== undefined) stage.stop();
         stage = new Stage(
-            project,
+            evaluator,
             // When output exits, remove it from the map and triggering a render.
             (name) => {
                 if (exiting.has(name)) {
@@ -198,7 +200,7 @@
 
             // Now focus the content on the center of the content.
             fitFocus = createPlace(
-                project.evaluator,
+                evaluator,
                 -(contentBounds.left + contentBounds.width / 2),
                 -contentBounds.top + contentBounds.height / 2,
                 z,
@@ -220,7 +222,7 @@
 
     function setFocus(x: number, y: number, z: number) {
         // Set the new adjusted focus (updating the rendered focus, and thus the animator focus)
-        adjustedFocus = createPlace(project.evaluator, x, y, z, 0);
+        adjustedFocus = createPlace(evaluator, x, y, z, 0);
         // Stop fitting
         fit = false;
     }
@@ -245,8 +247,8 @@
             };
         }
 
-        if (project.evaluator.isPlaying())
-            project.evaluator
+        if (evaluator.isPlaying())
+            evaluator
                 .getNativeStreamsOfType(MouseButton)
                 .map((stream) => stream.record(true));
 
@@ -261,8 +263,8 @@
             focusDrag = undefined;
         }
 
-        if (project.evaluator.isPlaying())
-            project.evaluator
+        if (evaluator.isPlaying())
+            evaluator
                 .getNativeStreamsOfType(MouseButton)
                 .map((stream) => stream.record(false));
     }
@@ -302,8 +304,8 @@
             }
         }
 
-        if (project.evaluator.isPlaying())
-            project.evaluator
+        if (evaluator.isPlaying())
+            evaluator
                 .getNativeStreamsOfType(MousePosition)
                 .map((stream) => stream.record(event.offsetX, event.offsetY));
         // Don't give feedback on this; it's not expected.
@@ -316,13 +318,13 @@
 
     function handleDoubleclick(event: MouseEvent) {
         if (selectedOutputPaths && selectedPhrase) {
-            if (project.evaluator.isPlaying()) {
-                project.evaluator.pause();
+            if (evaluator.isPlaying()) {
+                evaluator.pause();
                 selectPointerOutput(event);
             } else {
                 setSelectedOutput(selectedOutputPaths, project, []);
                 selectedPhrase.set(null);
-                project.evaluator.play();
+                evaluator.play();
             }
         }
     }
@@ -334,8 +336,8 @@
         // If dragging the focus, stop
         if (focusDrag) focusDrag = undefined;
 
-        if (project.evaluator.isPlaying()) {
-            project.evaluator
+        if (evaluator.isPlaying()) {
+            evaluator
                 .getNativeStreamsOfType(Keyboard)
                 .map((stream) => stream.record(event.key, false));
         }
@@ -362,8 +364,8 @@
         }
 
         // Record the key event on all keyboard streams if it wasn't handled above.
-        if (project.evaluator.isPlaying()) {
-            project.evaluator
+        if (evaluator.isPlaying()) {
+            evaluator
                 .getNativeStreamsOfType(Keyboard)
                 .map((stream) => stream.record(event.key, true));
         }

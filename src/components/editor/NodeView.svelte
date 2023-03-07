@@ -5,6 +5,7 @@
     import {
         getCurrentStep,
         getCurrentStepIndex,
+        getEvaluator,
         getHidden,
         getInsertionPoint,
         getPlaying,
@@ -20,6 +21,7 @@
     export let node: Node | undefined;
 
     let project = getProject();
+    let evaluator = getEvaluator();
     let playing = getPlaying();
     let currentStep = getCurrentStep();
     let currentStepIndex = getCurrentStepIndex();
@@ -39,10 +41,10 @@
         ) {
             const root = $project.get(node)?.getEvaluationRoot();
             const evaluation = root
-                ? $project.evaluator.getEvaluationOf(root)
+                ? $evaluator.getEvaluationOf(root)
                 : undefined;
             if (evaluation)
-                value = $project.evaluator.getLatestValueOf(
+                value = $evaluator.getLatestValueOf(
                     node,
                     evaluation.getStepNumber()
                 );

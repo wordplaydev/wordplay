@@ -317,7 +317,7 @@ export default function bootstrapList() {
                         if (list instanceof List) {
                             const random = evaluation
                                 .getEvaluator()
-                                .project.evaluator.random.latest();
+                                .random.latest();
                             return list.get(
                                 new Measurement(
                                     evaluation.getEvaluator().getMain(),

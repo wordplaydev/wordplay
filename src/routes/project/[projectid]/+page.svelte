@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { setContext } from 'svelte';
+    import { onDestroy, setContext } from 'svelte';
     import {
         type ProjectContext,
         type SelectedOutputPathsContext,
@@ -22,6 +22,8 @@
         getProjects,
         type SelectedOutputContext,
         SelectedOutputSymbol,
+        EvaluatorSymbol,
+        type EvaluatorContext,
     } from '@components/project/Contexts';
     import {
         derived,
@@ -39,6 +41,7 @@
     import { preferredTranslations } from '@translation/translations';
     import Feedback from '@components/app/Feedback.svelte';
     import Loading from '@components/app/Loading.svelte';
+    import Evaluator from '@runtime/Evaluator';
 
     const projects = getProjects();
 
@@ -110,7 +113,12 @@
         undefined
     );
 
+    /** A store holding the evaluator corresponding to the current project */
+    const evaluator: Writable<Evaluator> = writable();
+
     setContext<ProjectContext>(ProjectSymbol, project);
+    setContext<EvaluatorContext>(EvaluatorSymbol, evaluator);
+
     setContext<CurrentStepIndexContext>(
         CurrentStepIndexSymbol,
         currentStepIndex
@@ -132,23 +140,30 @@
         if (val) selectedOutputPaths.set([]);
     });
 
-    // When the project, changes, observe it.
+    // When the project changes, create a new evaluator, observe it.
     project.subscribe((newProject) => {
         if (newProject) {
-            // Have the new evaluator broadcast to this.
-            newProject.evaluator.observe(() =>
-                updateEvaluatorStores(newProject)
-            );
+            // Make the new evaluator
+            const newEvaluator = new Evaluator(newProject, $evaluator);
+
+            // Listen to the evaluator changes to update evaluator-related stores.
+            newEvaluator.observe(() => {
+                currentStep.set(newEvaluator.getCurrentStep());
+                currentStepIndex.set(newEvaluator.getStepIndex());
+                playing.set(newEvaluator.isPlaying());
+                streams.set(newEvaluator.reactions);
+            });
+
+            // Stop the old evaluator.
+            if ($evaluator) $evaluator.stop();
+
+            // Set the evaluator store
+            evaluator.set(newEvaluator);
         }
     });
 
-    function updateEvaluatorStores(project: Project) {
-        const evaluator = project.evaluator;
-        currentStep.set(evaluator.getCurrentStep());
-        currentStepIndex.set(evaluator.getStepIndex());
-        playing.set(evaluator.isPlaying());
-        streams.set(evaluator.reactions);
-    }
+    /** Clean up the evaluator when this is unmounted. */
+    onDestroy(() => $evaluator.stop());
 </script>
 
 {#if $project}

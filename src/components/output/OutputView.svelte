@@ -15,8 +15,10 @@
     } from '@translation/translations';
     import Speech from '../lore/Speech.svelte';
     import { getConceptIndex, getPlaying } from '../project/Contexts';
+    import type Evaluator from '@runtime/Evaluator';
 
     export let project: Project;
+    export let evaluator: Evaluator;
     export let source: Source;
     export let latest: Value | undefined;
     export let fullscreen: boolean;
@@ -91,6 +93,7 @@
         {:else}
             <VerseView
                 {project}
+                {evaluator}
                 {verse}
                 {fullscreen}
                 bind:fit

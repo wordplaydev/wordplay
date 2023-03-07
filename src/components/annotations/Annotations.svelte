@@ -10,7 +10,6 @@
 
 <script lang="ts">
     import type Conflict from '@conflicts/Conflict';
-    import type Project from '@models/Project';
     import { preferredTranslations } from '@translation/translations';
     import Expression from '@nodes/Expression';
     import type Node from '@nodes/Node';
@@ -20,15 +19,15 @@
     import type { Description } from '@translation/Translation';
     import type Step from '@runtime/Step';
     import { getCurrentStep } from '../project/Contexts';
+    import type Evaluator from '@runtime/Evaluator';
+    import type Project from '../../models/Project';
 
     export let project: Project;
+    export let evaluator: Evaluator;
     export let stepping: boolean;
     export let conflicts: Conflict[];
 
     let currentStep = getCurrentStep();
-
-    $: evaluator = project.evaluator;
-
     let annotations: AnnotationInfo[] = [];
     let annotationsByNode: Map<Node, AnnotationInfo[]> = new Map();
 
@@ -55,11 +54,10 @@
                             ? $preferredTranslations.map((trans) =>
                                   ($currentStep as Step).getExplanations(
                                       trans,
-                                      project.evaluator
+                                      evaluator
                                   )
                               )
-                            : project.evaluator.steppedToNode() &&
-                              project.evaluator.isDone()
+                            : evaluator.steppedToNode() && evaluator.isDone()
                             ? $preferredTranslations.map(
                                   (t) => t.evaluation.unevaluated
                               )

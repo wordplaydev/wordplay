@@ -7,6 +7,7 @@
     import Source from '@nodes/Source';
     import type Spaces from '@parser/Spaces';
     import ValueView from '../values/ValueView.svelte';
+    import Evaluator from '@runtime/Evaluator';
 
     export let example: Example;
     export let spaces: Spaces;
@@ -17,8 +18,7 @@
         new Source('example', [example.program, spaces]),
         []
     );
-    $: project.evaluate();
-    $: value = project.evaluator.getLatestSourceValue(project.main);
+    $: value = new Evaluator(project).getInitialValue();
 
     let index = getConceptIndex();
 

@@ -4,8 +4,6 @@ import Expression from '@nodes/Expression';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import type Program from '@nodes/Program';
 import type StructureDefinition from '@nodes/StructureDefinition';
-import Evaluator from '@runtime/Evaluator';
-import type Stream from '@runtime/Stream';
 import Source from '@nodes/Source';
 import type Node from '@nodes/Node';
 import HOF from '../native/HOF';
@@ -70,9 +68,6 @@ export default class Project {
     /** A list of uids that have write access to this project. */
     readonly uids: string[];
 
-    /** The evaluator that evaluates the source. */
-    readonly evaluator: Evaluator;
-
     readonly trees: Tree[];
     readonly _index: Map<Node, Tree | undefined> = new Map();
 
@@ -109,9 +104,6 @@ export default class Project {
         this.main = main;
         this.supplements = supplements.slice();
 
-        // Create an evaluators for the project.
-        this.evaluator = new Evaluator(this);
-
         // Build all of the trees we might need for analysis.
         this.trees = [
             ...this.getSources().map((source) => new Tree(source)),
@@ -137,12 +129,6 @@ export default class Project {
                 project.getSources().some((source2) => source1.equals(source2))
             )
         );
-    }
-
-    getInitialValue() {
-        this.evaluate();
-        this.evaluator.pause();
-        return this.evaluator.getLatestSourceValue(this.main);
     }
 
     get(node: Node): Tree | undefined {
@@ -376,67 +362,6 @@ export default class Project {
         return this.getAnalysis().dependencies.get(expression) ?? new Set();
     }
 
-    react(changed: Stream[]) {
-        // A stream changed!
-        // STEP 1: Find the zero or more nodes that depend on this stream.
-        let affectedExpressions: Set<Expression> = new Set();
-        let streamReferences = new Set<Expression>();
-        for (const stream of changed) {
-            const streamNode = stream.creator;
-            const affected = this.getExpressionsAffectedBy(streamNode);
-            if (affected.size > 0) {
-                for (const dependency of affected) {
-                    affectedExpressions.add(dependency);
-                    streamReferences.add(dependency);
-                }
-            }
-        }
-
-        // STEP 2: Traverse the dependency graphs of each source, finding all that directly or indirectly are affected by this stream's change.
-        const affectedSources: Set<Source> = new Set();
-        let unvisited = new Set(affectedExpressions);
-        while (unvisited.size > 0) {
-            for (const expr of unvisited) {
-                // Remove from the visited list.
-                unvisited.delete(expr);
-
-                // Mark that the source was affected.
-                const affectedSource = this.getSources().find((source) =>
-                    source.contains(expr)
-                );
-                if (affectedSource) affectedSources.add(affectedSource);
-
-                const affected = this.getExpressionsAffectedBy(expr);
-                // Visit all of the affected nodes.
-                for (const newExpr of affected) {
-                    // Avoid cycles
-                    if (!affectedExpressions.has(newExpr)) {
-                        affectedExpressions.add(newExpr);
-                        unvisited.add(newExpr);
-                    }
-                }
-            }
-        }
-
-        // STEP 3: After traversal, remove the stream references from the affected expressions; they will evaluate to the same thing, so they don't need to
-        // be reevaluated.
-        for (const streamRef of streamReferences)
-            affectedExpressions.delete(streamRef);
-
-        // STEP 4: Reevaluate all Programs affected by the change, sending the affected expressions and source files so that each Evaluator
-        //         can re-evaluate only the affected expressions.
-        this.evaluate(changed, affectedSources, undefined);
-    }
-
-    /** Evaluate the sources in the required order, optionally evaluating only a subset of sources. */
-    evaluate(
-        changedStreams?: Stream[],
-        _?: Set<Source>,
-        changedExpressions?: Set<Expression>
-    ) {
-        this.evaluator.start(changedStreams, changedExpressions);
-    }
-
     /** Get supplements not referenced by main */
     getUnusedSupplements(): Source[] {
         // Return all supplements for which no source's borrows borrow it.
@@ -445,17 +370,11 @@ export default class Project {
                 !this.getSources().some((source) =>
                     source.expression.borrows.some(
                         (borrow) =>
-                            (borrow.getShare(
-                                this.evaluator.getCurrentContext()
-                            ) ?? [])[0] === supplement
+                            (borrow.getShare(this.getContext(source)) ??
+                                [])[0] === supplement
                     )
                 )
         );
-    }
-
-    cleanup() {
-        // Stop the evaluator evaluator.
-        this.evaluator.stop();
     }
 
     /** Searches source other than the given borrow for top-level binds matching the given name. */

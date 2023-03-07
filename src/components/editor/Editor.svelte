@@ -68,7 +68,9 @@
     import { VerseType } from '@output/Verse';
     import { getPersistedValue, setPersistedValue } from '@db/persist';
     import type { Path } from '@nodes/Tree';
+    import type Evaluator from '../../runtime/Evaluator';
 
+    export let evaluator: Evaluator;
     export let project: Project;
     export let source: Source;
 
@@ -143,7 +145,6 @@
     // A shorthand for the current evaluator
     let evaluatingNode: Node | undefined = undefined;
     let stepping = false;
-    $: evaluator = project.evaluator;
 
     /** When the current step, step index, or playing state changes, update the evaluation view of the editor */
     $: {
