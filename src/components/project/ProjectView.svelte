@@ -123,8 +123,9 @@
     /** The conflicts present in the current project. **/
     const conflicts: ConflictsContext = writable([]);
 
+    /** Keep the project in a store so we can derive other stores from it. */
     let projectStore = writable<Project>(project);
-    $: projectStore.set(project);
+    $: if ($projectStore !== project) projectStore.set(project);
 
     /**
      * Create a project global context that stores the current selected value (and if not in an editing mode, nothing).
@@ -163,17 +164,51 @@
     setContext<SelectedOutputContext>(SelectedOutputSymbol, selectedOutput);
     setContext<SelectedPhraseContext>(SelectedPhraseSymbol, selectedPhrase);
 
+    /**
+     * Create a store for an evaluator for the project.
+     * Make it available to children.
+     * When the project changes,
+     */
+    const evaluator: Writable<Evaluator> = writable();
+
+    setContext<EvaluatorContext>(EvaluatorSymbol, evaluator);
+
+    // When the project changes, create a new evaluator, observe it.
+    projectStore.subscribe((newProject) => {
+        // Stop the old evaluator.
+        $evaluator?.stop();
+
+        // Make the new evaluator
+        const newEvaluator = new Evaluator(newProject, $evaluator);
+
+        // Listen to the evaluator changes to update evaluator-related stores.
+        newEvaluator.observe(updateEvaluatorStores);
+
+        // Set the evaluator store
+        evaluator.set(newEvaluator);
+    });
+
+    function updateEvaluatorStores() {
+        currentStep.set($evaluator.getCurrentStep());
+        currentStepIndex.set($evaluator.getStepIndex());
+        playing.set($evaluator.isPlaying());
+        streams.set($evaluator.reactions);
+    }
+
+    /** Clean up the evaluator when unmounting. */
+    onDestroy(() => {
+        $evaluator.stop();
+    });
+
     /** Several store contexts for tracking evaluator state. */
     const currentStepIndex = writable<number>(0);
     const playing: PlayingContext = writable(true);
     const currentStep: CurrentStepContext = writable(undefined);
-    const evaluator: Writable<Evaluator> = writable(new Evaluator(project));
     const streams: StreamChangesContext = writable<StreamChange[]>([]);
     const animatingNodes: AnimatingNodesContext = writable<Set<Node>>(
         new Set()
     );
 
-    setContext<EvaluatorContext>(EvaluatorSymbol, evaluator);
     setContext<CurrentStepIndexContext>(
         CurrentStepIndexSymbol,
         currentStepIndex
@@ -187,31 +222,6 @@
     // Clear the selected output upon playing.
     playing.subscribe((val) => {
         if (val) selectedOutputPaths.set([]);
-    });
-
-    // When the project changes, create a new evaluator, observe it.
-    $: {
-        // Stop the old evaluator.
-        $evaluator.stop();
-
-        // Make the new evaluator
-        const newEvaluator = new Evaluator(project, $evaluator);
-
-        // Listen to the evaluator changes to update evaluator-related stores.
-        newEvaluator.observe(() => {
-            currentStep.set(newEvaluator.getCurrentStep());
-            currentStepIndex.set(newEvaluator.getStepIndex());
-            playing.set(newEvaluator.isPlaying());
-            streams.set(newEvaluator.reactions);
-        });
-
-        // Set the evaluator store
-        evaluator.set(newEvaluator);
-    }
-
-    /** Clean up the evaluator when unmounting this project. */
-    onDestroy(() => {
-        $evaluator.stop();
     });
 
     function syncTiles(tiles: Tile[]): Tile[] {

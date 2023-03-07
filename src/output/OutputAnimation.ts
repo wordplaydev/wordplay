@@ -70,7 +70,7 @@ export default class OutputAnimation {
     log(message: string) {
         if (Log)
             console.log(
-                `(${this.output.getName()}) ${
+                `${Math.round(Date.now() / 1000)}s (${this.output.getName()}) ${
                     this.output instanceof Phrase
                         ? this.output.text[0].text
                         : this.output.value.creator.toWordplay()
@@ -501,7 +501,6 @@ export default class OutputAnimation {
         });
 
         this.log(`Starting ${totalDuration}s ${this.state} animation...`);
-        this.log(keyframes.toString());
 
         // Remember the sequence we're animating so we can highlight elsewhere in the UI.
         this.sequence = transitions;
@@ -510,6 +509,7 @@ export default class OutputAnimation {
         this.stage.startingSequence(transitions);
 
         // Start the Web Animation API animation...
+        this.animation?.cancel();
         this.animation = element.animate(keyframes, {
             // Wordplay durations are seconds
             duration: totalDuration * 1000,
