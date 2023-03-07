@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { setContext, tick } from 'svelte';
-    import { writable } from 'svelte/store';
+    import { onDestroy, setContext, tick } from 'svelte';
+    import { derived, writable, type Writable } from 'svelte/store';
     import {
         type DraggedContext,
         DraggedSymbol,
@@ -8,13 +8,28 @@
         ConceptPathSymbol,
         type ConceptPathContext,
         type ConceptIndexContext,
-        getSelectedOutput,
-        getPlaying,
-        getCurrentStep,
-        getConflicts,
         getProjects,
         setSelectedOutput,
-        getSelectedOutputPaths,
+        type StreamChangesContext,
+        type AnimatingNodesContext,
+        type ConflictsContext,
+        type SelectedOutputPathsContext,
+        type SelectedPhraseContext,
+        type EvaluatorContext,
+        EvaluatorSymbol,
+        type CurrentStepIndexContext,
+        CurrentStepIndexSymbol,
+        SelectedOutputSymbol,
+        SelectedPhraseSymbol,
+        type SelectedOutputContext,
+        type PlayingContext,
+        PlayingSymbol,
+        CurrentStepSymbol,
+        ConflictsSymbol,
+        StreamChangesSymbol,
+        type CurrentStepContext,
+        AnimatingNodesSymbol,
+        SelectedOutputPathsSymbol,
     } from './Contexts';
     import type Project from '@models/Project';
     import Documentation from '@components/concepts/Documentation.svelte';
@@ -64,17 +79,13 @@
     import { goto } from '$app/navigation';
     import TextField from '../widgets/TextField.svelte';
     import Status from '../app/Status.svelte';
-    import type Evaluator from '@runtime/Evaluator';
+    import Evaluator from '@runtime/Evaluator';
+    import type { StreamChange } from '@runtime/Evaluator';
+    import Evaluate from '@nodes/Evaluate';
 
     export let project: Project;
-    export let evaluator: Evaluator;
 
     const projects = getProjects();
-    const selectedOutput = getSelectedOutput();
-    const selectedOutputPaths = getSelectedOutputPaths();
-    const playing = getPlaying();
-    const currentStep = getCurrentStep();
-    const conflicts = getConflicts();
 
     // The HTMLElement that represents this element
     let view: HTMLElement | undefined = undefined;
@@ -108,6 +119,100 @@
     /** The current tile layout */
     const LAYOUT_KEY = 'layout';
     let layoutInitialized = false;
+
+    /** The conflicts present in the current project. **/
+    const conflicts: ConflictsContext = writable([]);
+
+    let projectStore = writable<Project>(project);
+    $: projectStore.set(project);
+
+    /**
+     * Create a project global context that stores the current selected value (and if not in an editing mode, nothing).
+     * This enables output views like phrases and groups know what mode the output view is in and whether they are selected.
+     * so they can render selected feedback.
+     */
+    const selectedOutputPaths: SelectedOutputPathsContext = writable([]);
+    const selectedOutput: SelectedOutputContext = derived(
+        [projectStore, selectedOutputPaths],
+        ([proj, paths]) => {
+            return paths
+                .map(({ source, path }) => {
+                    if (
+                        source === undefined ||
+                        path === undefined ||
+                        proj === undefined
+                    )
+                        return undefined;
+                    const name = source.getNames()[0];
+                    if (name === undefined) return undefined;
+                    const newSource = proj.getSourceWithName(name);
+                    if (newSource === undefined) return undefined;
+                    return newSource.tree.resolvePath(path);
+                })
+                .filter(
+                    (output): output is Evaluate => output instanceof Evaluate
+                );
+        }
+    );
+    const selectedPhrase: SelectedPhraseContext = writable(null);
+
+    setContext<SelectedOutputPathsContext>(
+        SelectedOutputPathsSymbol,
+        selectedOutputPaths
+    );
+    setContext<SelectedOutputContext>(SelectedOutputSymbol, selectedOutput);
+    setContext<SelectedPhraseContext>(SelectedPhraseSymbol, selectedPhrase);
+
+    /** Several store contexts for tracking evaluator state. */
+    const currentStepIndex = writable<number>(0);
+    const playing: PlayingContext = writable(true);
+    const currentStep: CurrentStepContext = writable(undefined);
+    const evaluator: Writable<Evaluator> = writable(new Evaluator(project));
+    const streams: StreamChangesContext = writable<StreamChange[]>([]);
+    const animatingNodes: AnimatingNodesContext = writable<Set<Node>>(
+        new Set()
+    );
+
+    setContext<EvaluatorContext>(EvaluatorSymbol, evaluator);
+    setContext<CurrentStepIndexContext>(
+        CurrentStepIndexSymbol,
+        currentStepIndex
+    );
+    setContext<AnimatingNodesContext>(AnimatingNodesSymbol, animatingNodes);
+    setContext<PlayingContext>(PlayingSymbol, playing);
+    setContext<CurrentStepContext>(CurrentStepSymbol, currentStep);
+    setContext<ConflictsContext>(ConflictsSymbol, conflicts);
+    setContext<StreamChangesContext>(StreamChangesSymbol, streams);
+
+    // Clear the selected output upon playing.
+    playing.subscribe((val) => {
+        if (val) selectedOutputPaths.set([]);
+    });
+
+    // When the project changes, create a new evaluator, observe it.
+    $: {
+        // Stop the old evaluator.
+        $evaluator.stop();
+
+        // Make the new evaluator
+        const newEvaluator = new Evaluator(project, $evaluator);
+
+        // Listen to the evaluator changes to update evaluator-related stores.
+        newEvaluator.observe(() => {
+            currentStep.set(newEvaluator.getCurrentStep());
+            currentStepIndex.set(newEvaluator.getStepIndex());
+            playing.set(newEvaluator.isPlaying());
+            streams.set(newEvaluator.reactions);
+        });
+
+        // Set the evaluator store
+        evaluator.set(newEvaluator);
+    }
+
+    /** Clean up the evaluator when unmounting this project. */
+    onDestroy(() => {
+        $evaluator.stop();
+    });
 
     function syncTiles(tiles: Tile[]): Tile[] {
         const newTiles: Tile[] = [];
@@ -314,7 +419,7 @@
     let updateTimer: NodeJS.Timer | undefined = undefined;
     $: {
         // Re-evaluate immediately.
-        if (!evaluator.isStarted()) evaluator.start();
+        if (!$evaluator.isStarted()) $evaluator.start();
 
         if (updateTimer) clearTimeout(updateTimer);
         updateTimer = setTimeout(() => {
@@ -367,7 +472,7 @@
     $: {
         $currentStep;
         $preferredLanguages;
-        latest = evaluator.getLatestSourceValue(project.main);
+        latest = $evaluator.getLatestSourceValue(project.main);
     }
 
     /**
@@ -562,8 +667,8 @@
             return;
         }
         if (key === 'Enter' && command) {
-            if (evaluator.isPlaying()) evaluator.pause();
-            else evaluator.play();
+            if ($evaluator.isPlaying()) $evaluator.pause();
+            else $evaluator.play();
             event.preventDefault();
             return;
         }
@@ -572,19 +677,19 @@
         if (!$playing || command) {
             if (key === 'Backspace') {
                 // To start
-                if (event.ctrlKey && event.shiftKey) evaluator.stepTo(0);
+                if (event.ctrlKey && event.shiftKey) $evaluator.stepTo(0);
                 // To previous input
-                else if (event.shiftKey) evaluator.stepBackToInput();
+                else if (event.shiftKey) $evaluator.stepBackToInput();
                 // To previous step
-                else evaluator.stepBackWithinProgram();
+                else $evaluator.stepBackWithinProgram();
                 event.preventDefault();
             } else if (key === ' ') {
                 // To start
-                if (event.ctrlKey && event.shiftKey) evaluator.stepToEnd();
+                if (event.ctrlKey && event.shiftKey) $evaluator.stepToEnd();
                 // To previous input
-                else if (event.shiftKey) evaluator.stepToInput();
+                else if (event.shiftKey) $evaluator.stepToInput();
                 // To previous step
-                else evaluator.stepWithinProgram();
+                else $evaluator.stepWithinProgram();
                 event.preventDefault();
             }
             return;
@@ -682,8 +787,8 @@
 <main class="project" tabIndex="0" on:keydown={handleKey} bind:this={view}>
     {#if !layout.isFullscreen()}
         <section class="header" class:stepping={!$playing}>
-            <Controls {project} {evaluator} />
-            <Timeline {evaluator} />
+            <Controls {project} evaluator={$evaluator} />
+            <Timeline evaluator={$evaluator} />
         </section>
     {/if}
 
@@ -769,7 +874,7 @@
                             {:else if tile.kind === Content.Output}
                                 <OutputView
                                     {project}
-                                    {evaluator}
+                                    evaluator={$evaluator}
                                     source={project.main}
                                     {latest}
                                     fullscreen={layout.fullscreenID === tile.id}
@@ -781,7 +886,7 @@
                             {:else}
                                 <Editor
                                     {project}
-                                    {evaluator}
+                                    evaluator={$evaluator}
                                     source={getSourceByID(tile.id)}
                                     bind:menu
                                     on:conflicts={(event) =>
@@ -837,7 +942,7 @@
                     <!-- Mini source view output is visible when collapsed, or if its main, when output is collapsed. -->
                     <SourceTileToggle
                         {project}
-                        {evaluator}
+                        evaluator={$evaluator}
                         {source}
                         output={source === project.main
                             ? layout.getOutput()?.mode === Mode.Collapsed
@@ -864,7 +969,7 @@
         <!-- Render annotations on top of the tiles and the footer -->
         <Annotations
             {project}
-            {evaluator}
+            evaluator={$evaluator}
             conflicts={visibleConflicts}
             stepping={!$playing}
         />
