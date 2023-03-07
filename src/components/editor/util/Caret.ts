@@ -251,8 +251,6 @@ export default class Caret {
         if (this.position instanceof Node)
             return this.position === node || node.contains(this.position);
 
-        if (!this.source.expression.contains(node)) return false;
-
         const start = this.source.getNodeFirstPosition(node);
         const end = this.source.getNodeLastPosition(node);
         return (
