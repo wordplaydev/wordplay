@@ -525,7 +525,8 @@ export default class Source extends Expression {
 
     getNodeFirstPosition(node: Node) {
         const firstToken = this.getFirstToken(node);
-        if (firstToken) return this.getTokenTextPosition(firstToken);
+        if (firstToken && this.tokenPositions.has(firstToken))
+            return this.getTokenTextPosition(firstToken);
         const tokenBefore = this.getTokenBeforeNode(node);
         return tokenBefore === undefined
             ? undefined
@@ -534,7 +535,8 @@ export default class Source extends Expression {
 
     getNodeLastPosition(node: Node) {
         const lastToken = this.getLastToken(node);
-        if (lastToken) return this.getTokenLastPosition(lastToken);
+        if (lastToken && this.tokenPositions.has(lastToken))
+            return this.getTokenLastPosition(lastToken);
         const tokenAfter = this.getTokenAfterNode(node);
         return tokenAfter === undefined
             ? undefined
