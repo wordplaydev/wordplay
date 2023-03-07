@@ -34,6 +34,7 @@ export default class Camera extends TemporalStream<List> {
     frequency: number;
     width: number;
     height: number;
+    playing: boolean = false;
     stopped: boolean = false;
 
     constructor(
@@ -209,7 +210,7 @@ export default class Camera extends TemporalStream<List> {
                     config.video.srcObject = stream;
 
                     // Start the video
-                    config.video.play();
+                    config.video.play().then(() => (this.playing = true));
                 } else this.config = null;
             })
             .catch(() => {
@@ -220,7 +221,8 @@ export default class Camera extends TemporalStream<List> {
     stop() {
         this.stopped = true;
         if (this.config) {
-            this.config.stream.getTracks().forEach((track) => track.stop());
+            if (this.playing)
+                this.config.stream.getTracks().forEach((track) => track.stop());
             this.config.video.srcObject = null;
 
             if (document.body.contains(this.config.canvas))
