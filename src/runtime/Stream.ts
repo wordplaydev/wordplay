@@ -9,7 +9,7 @@ import type Translation from '@translation/Translation';
 import type StreamDefinition from '../nodes/StreamDefinition';
 import type Expression from '../nodes/Expression';
 
-export const MAX_STREAM_LENGTH = 1024;
+export const MAX_STREAM_LENGTH = 256;
 
 export default abstract class Stream<
     ValueType extends Value = Value
