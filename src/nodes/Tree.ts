@@ -20,8 +20,6 @@ export default class Tree {
 
     _children: Tree[] | undefined = undefined;
 
-    _trees: Map<Node, Tree | undefined> = new Map();
-
     _spaceRoot: Node | undefined | null = null;
 
     public constructor(node: Node, parent?: Tree) {
