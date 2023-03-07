@@ -16,8 +16,10 @@
     title={tip}
     tabIndex="0"
     on:click={() => (enabled ? action() : undefined)}
-    on:mousedown
-    disabled={!enabled}
+    on:keydown={(event) =>
+        enabled && (event.key === ' ' || event.key === 'Enter')
+            ? action()
+            : undefined}
     aria-disabled={!enabled}
 >
     <slot />
