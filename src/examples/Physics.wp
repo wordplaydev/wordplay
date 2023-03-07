@@ -1,12 +1,12 @@
 === Physics
-count: 10
+count: 32
 
-gravity•#m/s^2: ∆ mousebutton() ? 15m/s^2 … -gravity
+gravity•#m/s^2:  ∆ mousebutton() ? 15m/s^2 … -gravity
 
 Verse(count → [].translate(
     ƒ(_) Motion(
-        Phrase("💩" place: ◆ ? Place(y: 5m) ø) 
-        vx: ◆ ? random(-5 5)·1m/s ø 
+        Phrase(["a" "b" "c"].random() place: ◆ ? Place(y: 5m) ø) 
+        vx: ◆ ? random(-5 5) · 1m/s ø 
         vangle: ◆ ? random(0 360) · 1°/s ø
         bounciness: random()
         gravity: gravity

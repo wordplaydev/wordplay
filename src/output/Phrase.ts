@@ -162,12 +162,12 @@ export default class Phrase extends TypeOutput {
                     .filter(
                         (text): text is TextLang => text !== undefined
                     )[0] ?? this.text[0]
-            ).text
+            )?.text ?? ''
         );
     }
 
     toString() {
-        return this.text[0].text;
+        return this.text[0].text ?? '';
     }
 }
 
