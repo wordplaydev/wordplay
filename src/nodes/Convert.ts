@@ -81,13 +81,14 @@ export default class Convert extends Expression {
                 context
                     .getRoot(this)
                     ?.getAncestors(this)
-                    ?.filter((a) => a instanceof Block) as Block[]
+                    ?.filter((a): a is Block => a instanceof Block) ?? []
             ).reduce(
                 (list: ConversionDefinition[], block) => [
                     ...list,
-                    ...(block.statements.filter(
-                        (s) => s instanceof ConversionDefinition
-                    ) as ConversionDefinition[]),
+                    ...block.statements.filter(
+                        (s): s is ConversionDefinition =>
+                            s instanceof ConversionDefinition
+                    ),
                 ],
                 []
             ) ?? [];
