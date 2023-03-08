@@ -787,9 +787,10 @@ export default class Evaluate extends Expression {
     getDescription(translation: Translation, context: Context) {
         // Find the function on the left's type.
         return (
-            this.getFunction(context)
+            translation.nodes.Evaluate.description +
+            (this.getFunction(context)
                 ?.docs?.getTranslation([translation.language])
-                ?.getFirstParagraph() ?? translation.nodes.Evaluate.description
+                ?.getFirstParagraph() ?? '')
         );
     }
 
