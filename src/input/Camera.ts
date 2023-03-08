@@ -26,6 +26,10 @@ type CameraConfig = {
     context: CanvasRenderingContext2D;
     width: number;
     height: number;
+    sourceX: number;
+    sourceY: number;
+    sourceWidth: number;
+    sourceHeight: number;
 };
 
 export default class Camera extends TemporalStream<List> {
@@ -72,11 +76,14 @@ export default class Camera extends TemporalStream<List> {
                 // Draw the current image from the camera to the canvas
                 context.drawImage(
                     this.config.video,
-                    // Draw the frame in the top left of the canvas
+                    // Render the cropped portion of the source image computed upon initialization
+                    this.config.sourceX,
+                    this.config.sourceY,
+                    this.config.sourceWidth,
+                    this.config.sourceHeight,
+                    // Render the source to the full size of the canvas destination
                     0,
                     0,
-                    // Crop the image to fit the requested aspect ratio into the given aspect ratio
-                    // Scale the image to the desired size
                     this.width,
                     this.height
                 );
@@ -88,11 +95,13 @@ export default class Camera extends TemporalStream<List> {
                     this.height,
                     { colorSpace: 'srgb' }
                 );
+
+                console.log(`${image.width} ${image.height}`);
                 // Translate the rows into a 2D array of colors
                 const rows: Structure[][] = [];
                 for (let i = 0; i < image.data.length; i += 4) {
                     const index = i / 4;
-                    const row = Math.floor(index / image.height);
+                    const row = Math.floor(index / image.width);
                     const column = index % image.width;
                     if (rows[row] === undefined) rows[row] = [];
 
@@ -180,6 +189,27 @@ export default class Camera extends TemporalStream<List> {
                 });
 
                 if (settings && settings.width && settings.height && context) {
+                    // Based on the camera size we received, determine the sub-rectangle
+                    // we care about based on the requested size. The goal is to pick a rectangle that
+                    // as the same aspect ratio as the requested size, cropping horizontally or
+                    // vertically as necessary.
+                    let sourceX, sourceY, sourceWidth, sourceHeight;
+                    const sourceAspectRatio = settings.width / settings.height;
+                    const targetAspectRatio = this.width / this.height;
+                    // Fit to height
+                    if (targetAspectRatio < sourceAspectRatio) {
+                        sourceHeight = settings.height;
+                        sourceWidth = settings.height * targetAspectRatio;
+                        sourceX = 0 + (settings.width - sourceWidth) / 2;
+                        sourceY = 0;
+                    }
+                    // Fit to width
+                    else {
+                        sourceWidth = settings.width;
+                        sourceHeight = sourceWidth / targetAspectRatio;
+                        sourceX = 0;
+                        sourceY = 0 + (settings.height - sourceHeight) / 2;
+                    }
                     // First, create a video tag to render the stream to
                     // and a canvas on which to render the video.
                     const config: CameraConfig = {
@@ -189,6 +219,10 @@ export default class Camera extends TemporalStream<List> {
                         stream,
                         width: settings.width,
                         height: settings.height,
+                        sourceX,
+                        sourceY,
+                        sourceWidth,
+                        sourceHeight,
                     };
 
                     // Save the config
