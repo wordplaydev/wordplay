@@ -14,6 +14,7 @@
     class:stretch
     type={submit ? 'submit' : null}
     title={tip}
+    aria-label={tip}
     tabIndex="0"
     on:click={() => (enabled ? action() : undefined)}
     aria-disabled={!enabled}

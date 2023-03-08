@@ -10,6 +10,9 @@
 <span class="switch">
     <span
         class={`button off ${on ? 'inactive' : 'active'}`}
+        role="button"
+        aria-disabled={!on}
+        aria-label={onTip}
         tabIndex="0"
         title={offTip}
         on:click={() => toggle(false)}
@@ -19,6 +22,9 @@
                 : undefined}>{offLabel}</span
     ><span
         class={`button on ${on ? 'active' : 'inactive'}`}
+        role="button"
+        aria-disabled={on}
+        aria-label={offTip}
         tabIndex="0"
         title={onTip}
         on:click={() => toggle(true)}
