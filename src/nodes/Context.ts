@@ -1,6 +1,5 @@
 import type Node from './Node';
 import type NativeInterface from '../native/NativeInterface';
-import type Tree from './Tree';
 import type Project from '../models/Project';
 import type Source from './Source';
 import type Type from './Type';
@@ -16,7 +15,6 @@ export default class Context {
     readonly project: Project;
     readonly source: Source;
     readonly native: NativeInterface;
-    readonly root: Tree | undefined;
 
     readonly stack: Node[] = [];
     readonly types: Map<Node, Type> = new Map();
@@ -26,20 +24,14 @@ export default class Context {
 
     readonly streamTypes: Map<Type, StreamDefinition> = new Map();
 
-    constructor(project: Project, source: Source, root?: Tree) {
+    constructor(project: Project, source: Source) {
         this.project = project;
         this.source = source;
         this.native = project.getNative();
-        this.root = root;
     }
 
-    /** Check the cache for a Tree representing the given node, and set the cache if we haven't checked yet. */
-    get(node: Node): Tree | undefined {
-        return this.root?.get(node) ?? this.project.get(node);
-    }
-
-    withRoot(root: Tree) {
-        return new Context(this.project, this.source, root);
+    getRoot(node: Node) {
+        return this.project.getRoot(node);
     }
 
     /** Track cycles during conflict analysis. */

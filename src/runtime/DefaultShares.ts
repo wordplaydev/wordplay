@@ -20,6 +20,7 @@ import { MouseButtonDefinition } from '../input/MouseButton';
 import { RandomDefinition } from '../input/Random';
 import { ArrangementType } from '../output/Layout';
 import { CameraDefinition } from '../input/Camera';
+import Root from '../nodes/Root';
 
 export const AnimationTypes = [PoseType, SequenceType];
 
@@ -51,4 +52,7 @@ const DefaultShares: (
     ...AnimationTypes,
     ...StreamDefinitions,
 ];
+
 export default DefaultShares;
+
+export const DefaultRoots = DefaultShares.map((share) => new Root(share));

@@ -206,7 +206,7 @@ export default class Block extends Expression {
     }
 
     getDependencies(context: Context): Expression[] {
-        const parent = context.get(this)?.getParent();
+        const parent = this.getParent(context);
 
         // If the block is in a structure definition, then it depends on the parent's inputs
         if (this.creator && parent instanceof StructureDefinition)

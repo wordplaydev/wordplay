@@ -79,8 +79,8 @@ export default class Convert extends Expression {
         const scopeConversions =
             (
                 context
-                    .get(this)
-                    ?.getAncestors()
+                    .getRoot(this)
+                    ?.getAncestors(this)
                     ?.filter((a) => a instanceof Block) as Block[]
             ).reduce(
                 (list: ConversionDefinition[], block) => [

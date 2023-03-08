@@ -4,7 +4,7 @@
     import type Token from '@nodes/Token';
     import TokenType from '@nodes/TokenType';
     import { PLACEHOLDER_SYMBOL } from '@parser/Symbols';
-    import { getProject, getCaret, getRoot } from '../project/Contexts';
+    import { getProject, getCaret } from '../project/Contexts';
     import TokenCategories from './TokenCategories';
     import {
         preferredLanguages,
@@ -18,8 +18,6 @@
     import Reference from '@nodes/Reference';
 
     export let node: Token;
-
-    let root = getRoot();
 
     $: kind = TokenCategories.get(
         Array.isArray(node.types) ? node.types[0] ?? 'default' : node.types
@@ -96,13 +94,12 @@
                 : undefined;
         const labels =
             context !== undefined
-                ? $root
-                      ?.get(node)
-                      ?.getParent()
+                ? $caret?.source.root
+                      .getParent(node)
                       ?.getChildPlaceholderLabel(
                           node,
                           $preferredTranslations[0],
-                          context.withRoot($root)
+                          context
                       )
                 : undefined;
         return labels ?? PLACEHOLDER_SYMBOL;

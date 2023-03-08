@@ -59,9 +59,7 @@ export default class ExpressionPlaceholder extends AtomicExpression {
                     _: Node,
                     context: Context
                 ): Description => {
-                    const parent: Node | undefined = context
-                        .get(this)
-                        ?.getParent();
+                    const parent: Node | undefined = this.getParent(context);
                     // See if the parent has a label.
                     return (
                         parent?.getChildPlaceholderLabel(

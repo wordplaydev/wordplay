@@ -987,7 +987,7 @@ export default class Evaluator {
                 // Mark that the source was affected.
                 const affectedSource = this.project
                     .getSources()
-                    .find((source) => source.contains(expr));
+                    .find((source) => source.has(expr));
                 if (affectedSource) affectedSources.add(affectedSource);
 
                 const affected = this.project.getExpressionsAffectedBy(expr);
@@ -1014,7 +1014,7 @@ export default class Evaluator {
     }
 
     /**
-     * Given a node, walks its ancestors until it finds a   node corresponding to a step.
+     * Given a node, walks its ancestors until it finds a node corresponding to a step.
      * Returns undefined if there is no such node.
      */
     getEvaluableNode(node: Node): Node | undefined {
@@ -1023,7 +1023,7 @@ export default class Evaluator {
         do {
             // If the node corresponds to a step
             if (this.nodeIsStep(current)) return current;
-            else current = this.project.get(current)?.getParent();
+            else current = this.project.getRoot(current)?.getParent(current);
         } while (current !== undefined);
         return undefined;
     }

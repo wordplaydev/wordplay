@@ -7,7 +7,6 @@ import { DELIMITERS, REVERSE_DELIMITERS, tokenize } from '@parser/Tokenizer';
 import UnicodeString from '../models/UnicodeString';
 import type Value from '@runtime/Value';
 import type Context from './Context';
-import Tree from './Tree';
 import Names from './Names';
 import type Borrow from './Borrow';
 import type LanguageCode from '@translation/LanguageCode';
@@ -24,6 +23,7 @@ import None from '@runtime/None';
 import type SetOpenToken from './SetOpenToken';
 import type Translation from '@translation/Translation';
 import Glyphs from '../lore/Glyphs';
+import Root from './Root';
 
 /** A document representing executable Wordplay code and it's various metadata, such as conflicts, tokens, and evaulator. */
 export default class Source extends Expression {
@@ -47,11 +47,8 @@ export default class Source extends Expression {
     /** An index of token positions in the source file. */
     readonly tokenPositions: Map<Token, number> = new Map();
 
-    /** A tree representing the source's program. */
-    readonly tree: Tree;
-
-    /** An index of Trees by Node, for fast retrieval of tree structure by a Node. */
-    _index: Map<Node, Tree | undefined> = new Map();
+    /** An index of this tree for analyzing structure */
+    readonly root: Root;
 
     constructor(
         names: string | Names,
@@ -60,9 +57,6 @@ export default class Source extends Expression {
         super();
 
         this.names = names instanceof Names ? names : Names.make([names]);
-
-        // A facade for analyzing the tree.
-        this.tree = new Tree(this);
 
         if (typeof code === 'string' || code instanceof UnicodeString) {
             // Generate the AST from the provided code.
@@ -73,6 +67,7 @@ export default class Source extends Expression {
             this.expression = parseProgram(
                 new Tokens(this.tokens, tokens.getSpaces())
             );
+            this.root = new Root(this);
             this.spaces = tokens
                 .getSpaces()
                 .withRoot(this)
@@ -82,6 +77,7 @@ export default class Source extends Expression {
             const [program, spaces] = code;
             this.expression = program;
             this.tokens = program.leaves() as Token[];
+            this.root = new Root(this);
             this.spaces = spaces.withRoot(this);
         }
 
@@ -124,14 +120,13 @@ export default class Source extends Expression {
     isEvaluationInvolved() {
         return true;
     }
+
     isEvaluationRoot() {
         return true;
     }
 
-    get(node: Node) {
-        // See if the cache has it.
-        if (!this._index.has(node)) this._index.set(node, this.tree.get(node));
-        return this._index.get(node);
+    has(node: Node) {
+        return this.root.has(node);
     }
 
     hasName(name: string) {
@@ -190,8 +185,8 @@ export default class Source extends Expression {
                 ? REVERSE_DELIMITERS[text]
                 : undefined;
         if (match === undefined) return;
-        return this.get(delimiter)
-            ?.getParent()
+        return this.root
+            .getParent(delimiter)
             ?.getChildren()
             .find(
                 (node): node is SetOpenToken =>

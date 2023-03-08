@@ -182,7 +182,7 @@ export default class Caret {
                 !this.source.tokenSpaceContains(firstToken, this.position)
             )
                 break;
-            const parent: Node | undefined = this.source.get(node)?.getParent();
+            const parent: Node | undefined = this.source.root.getParent(node);
             if (
                 parent &&
                 (this.source.getLine(node) === lineNumber ||
@@ -196,9 +196,8 @@ export default class Caret {
         if (tokenBefore !== undefined) {
             let node: Node | undefined | null = tokenBefore;
             while (node instanceof Node) {
-                const parent: Node | undefined = this.source
-                    .get(node)
-                    ?.getParent();
+                const parent: Node | undefined =
+                    this.source.root.getParent(node);
                 const nodeLineNumber = this.source.getLine(node);
                 if (
                     nodeLineNumber === lineNumber ||
@@ -308,9 +307,8 @@ export default class Caret {
             // If sibling, then find the parent of the current node and choose it's sibling.
             // If there's no sibling in this direction, then do nothing.
             if (sibling) {
-                const children = this.source
-                    .get(this.position)
-                    ?.getParent()
+                const children = this.source.root
+                    .getParent(this.position)
                     ?.getChildren();
                 if (children === undefined) return this;
                 const sibling =
@@ -370,9 +368,8 @@ export default class Caret {
     getPlaceholderAtPosition(position: number): Node | undefined {
         const tokenAtPosition = this.source.getTokenAt(position, false);
         if (tokenAtPosition === undefined) return undefined;
-        return this.source
-            .get(tokenAtPosition)
-            ?.getAncestors()
+        return this.source.root
+            .getAncestors(tokenAtPosition)
             .find((a) => a.isPlaceholder());
     }
 
@@ -550,7 +547,7 @@ export default class Caret {
         else {
             // Get the parent of the node.
             const node = this.position;
-            const parent = this.source.tree.get(node)?.getParent();
+            const parent = this.source.root.getParent(node);
             const field = parent?.getFieldOfChild(node);
             const index = this.source.getNodeFirstPosition(node);
             if (field && index !== undefined) {

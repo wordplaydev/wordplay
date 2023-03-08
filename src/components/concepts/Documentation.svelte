@@ -1,14 +1,12 @@
 <script lang="ts">
     import {
         getDragged,
-        getProject,
         getConceptIndex,
         getConceptPath,
         getProjects,
     } from '../project/Contexts';
     import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
     import Expression from '@nodes/Expression';
-    import Tree from '@nodes/Tree';
     import Button from '../widgets/Button.svelte';
     import Source from '@nodes/Source';
     import ConceptsView from './ConceptsView.svelte';
@@ -33,11 +31,13 @@
     import DescriptionView from './DescriptionView.svelte';
     import { tick } from 'svelte';
     import TextField from '../widgets/TextField.svelte';
+    import type Project from '../../models/Project';
+
+    export let project: Project;
 
     let palette: HTMLElement | undefined;
 
     let projects = getProjects();
-    let project = getProject();
 
     /**
      * The palette is hybrid documentation/drag and drop palette, organized by types.
@@ -57,10 +57,7 @@
 
     // Set a context that stores a project context for nodes in the palette to use.
     // Keep it up to date as the project changes.
-    $: setContext(
-        'context',
-        $project ? $project.getContext($project.main) : undefined
-    );
+    $: setContext('context', project.getContext(project.main));
 
     async function scrollToTop() {
         if (palette) {
@@ -96,7 +93,7 @@
                     );
                     if (node !== undefined) {
                         // Set the dragged node to a deep clone of the (it may contain nodes from declarations that we don't want leaking into the program);
-                        dragged.set(new Tree(node.clone()));
+                        dragged.set(node.clone());
                         break;
                     }
                 }
@@ -106,9 +103,7 @@
 
     // When a creator drops on the palette, remove the dragged node from the source it was dragged from.
     function handleDrop() {
-        if ($project === undefined) return;
-
-        const node: Tree | undefined = $dragged;
+        const node: Node | undefined = $dragged;
 
         // Release the dragged node.
         dragged.set(undefined);
@@ -117,27 +112,27 @@
         if (node === undefined) return;
 
         // See if we can remove the node from it's root.
-        const source = node.getRoot();
+        const source = project.getRoot(node);
         if (!(source instanceof Source)) return;
 
         // Figure out what to replace the dragged node with. By default, we remove it.
         const type =
-            node.node instanceof Expression
-                ? node.node.getType($project.getContext(source))
+            node instanceof Expression
+                ? node.getType(project.getContext(source))
                 : undefined;
         let replacement =
-            node.node instanceof Expression && !node.inList()
+            node instanceof Expression && !source.root.inList(node)
                 ? ExpressionPlaceholder.make(type)
                 : undefined;
 
         // Update the project with the new source files
         $projects.revise(
-            $project,
-            $project.withSource(
+            project,
+            project.withSource(
                 source,
                 source.withProgram(
-                    source.expression.replace(node.node, replacement),
-                    source.spaces.withReplacement(node.node, replacement)
+                    source.expression.replace(node, replacement),
+                    source.spaces.withReplacement(node, replacement)
                 )
             )
         );

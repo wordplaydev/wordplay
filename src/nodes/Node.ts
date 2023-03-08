@@ -282,7 +282,7 @@ export default abstract class Node {
     }
 
     getParent(context: Context) {
-        return context.get(this)?.getParent();
+        return context.project.getRoot(this)?.getParent(this);
     }
 
     // BINDINGS

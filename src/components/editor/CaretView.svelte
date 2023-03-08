@@ -142,9 +142,6 @@
         // No token? No caret.
         if (token === undefined) return;
 
-        const tokenTree = $caret.source.get(token);
-        if (tokenTree === undefined) return;
-
         // No index to render? No caret.
         if (caretIndex === undefined) return;
 
@@ -336,8 +333,9 @@
                     spaceOnLastLine += $caret.source.spaces.getAdditionalSpace(
                         token,
                         Spaces.getPreferredPrecedingSpace(
+                            $caret.source.root,
                             $caret.source.spaces.getSpace(token),
-                            tokenTree
+                            token
                         ) ?? ''
                     );
                 }

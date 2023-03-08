@@ -1,12 +1,14 @@
 import Token from '@nodes/Token';
 import type Node from '@nodes/Node';
-import type Root from './Root';
-import type Tree from '@nodes/Tree';
 import type Source from '@nodes/Source';
+import type TokenList from './TokenList';
+import type Root from '@nodes/Root';
 
 export const TAB_WIDTH = 2;
 export const SPACE_HTML = '&middot;';
 export const TAB_HTML = '&nbsp;'.repeat(TAB_WIDTH - 1) + '→';
+
+type Spacer = TokenList | Source;
 
 /**
  * An immutable mapping from tokens to spaces that should appear before them.
@@ -19,7 +21,7 @@ export default class Spaces {
      * A root that contains the tokens and spaces. Usually a Source, but
      * other things can implement the Root interface (e.g., for drag and drop, copy and paste, palettes).
      */
-    readonly root: Root;
+    readonly root: Spacer;
 
     /**
      * An immutable, private mapping between tokens and preceding space.
@@ -28,7 +30,7 @@ export default class Spaces {
      * */
     readonly #spaces: Map<Token, string>;
 
-    constructor(root: Root, mapping: Map<Token, string>) {
+    constructor(root: Spacer, mapping: Map<Token, string>) {
         this.root = root;
         this.#spaces = new Map(mapping);
     }
@@ -116,27 +118,27 @@ export default class Spaces {
 
     /** Recurse up the ancestors, constructing preferred preceding space. */
     static getPreferredPrecedingSpace(
+        root: Root,
         currentPrecedingSpace: string,
-        leafTree: Tree
+        leaf: Node
     ): string {
         // Start from this node, walking up the ancestor tree
-        const leaf: Node = leafTree.node;
-        const depth = leafTree.getDepth();
-        let child: Tree = leafTree;
-        let parent = leafTree.parent;
+        const depth = root.getDepth(leaf);
+        let child = leaf;
+        let parent = root.getParent(leaf);
         let preferredSpace = '';
         while (parent) {
             // If the current child's first token is still this, prepend some more space.
-            if (child.node.getFirstLeaf() === leaf) {
+            if (child.getFirstLeaf() === leaf) {
                 // See what space the parent would prefer based on the current space in place.
                 preferredSpace =
-                    parent.node.getPreferredPrecedingSpace(
-                        child.node,
+                    parent.getPreferredPrecedingSpace(
+                        child,
                         currentPrecedingSpace,
                         depth
                     ) + preferredSpace;
                 child = parent;
-                parent = parent.parent;
+                parent = root.getParent(parent);
             }
             // Otherwise, the child was the last parent that could influence space.
             else break;
@@ -234,11 +236,12 @@ export default class Spaces {
     }
 
     getPreferredTokenSpace(source: Source, token: Token) {
-        const tree = source.get(token);
         const currentSpace = this.getSpace(token);
-        const preferred = tree
-            ? Spaces.getPreferredPrecedingSpace(currentSpace, tree)
-            : currentSpace;
+        const preferred = Spaces.getPreferredPrecedingSpace(
+            source.root,
+            currentSpace,
+            token
+        );
         return currentSpace + this.getAdditionalSpace(token, preferred);
     }
 
@@ -250,7 +253,7 @@ export default class Spaces {
         }
     }
 
-    withRoot(root: Root) {
+    withRoot(root: Spacer) {
         return new Spaces(root, this.#spaces);
     }
 }

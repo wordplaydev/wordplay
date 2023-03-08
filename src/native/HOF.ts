@@ -48,7 +48,7 @@ export default abstract class HOF extends Expression {
 
     getDependencies(context: Context): Expression[] {
         // Higher order functions expressions depend on the inputs of their FunctionDefinitions.
-        const parent = context.get(this)?.getParent();
+        const parent = this.getParent(context);
         return parent instanceof FunctionDefinition ? parent.inputs : [];
     }
 

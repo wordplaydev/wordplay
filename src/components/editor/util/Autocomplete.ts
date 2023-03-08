@@ -81,12 +81,7 @@ export function getEditsAt(project: Project, caret: Caret): Transform[] {
             ...before.reduce(
                 (transforms: Transform[], child) => [
                     ...transforms,
-                    ...getEditsBefore(
-                        project,
-                        context,
-                        child,
-                        caret.position as number
-                    ),
+                    ...getEditsBefore(context, child, caret.position as number),
                 ],
                 []
             ),
@@ -94,12 +89,7 @@ export function getEditsAt(project: Project, caret: Caret): Transform[] {
             ...after.reduce(
                 (transforms: Transform[], child) => [
                     ...transforms,
-                    ...getEditsAfter(
-                        project,
-                        context,
-                        child,
-                        caret.position as number
-                    ),
+                    ...getEditsAfter(context, child, caret.position as number),
                 ],
                 []
             ),
@@ -116,7 +106,7 @@ export function getEditsAt(project: Project, caret: Caret): Transform[] {
     else if (node !== undefined) {
         // What can this be replaced with?
         transforms = [
-            ...getReplacements(project, context, node),
+            ...getReplacements(context, node),
             ...(node instanceof Expression
                 ? getPostfixEdits(context, node)
                 : []),
@@ -133,7 +123,7 @@ export function getEditsAt(project: Project, caret: Caret): Transform[] {
 }
 
 function getFieldOf(node: Node, context: Context): Field | undefined {
-    const parent = context.get(node)?.getParent();
+    const parent = node.getParent(context);
     if (parent === undefined) return;
 
     for (const [field, value] of Object.entries(parent.getChildrenAsGrammar()))
@@ -218,13 +208,9 @@ function traverseGrammar(
 }
 
 /** Given a node, identify a set of possible replacements for the node */
-function getReplacements(
-    project: Project,
-    context: Context,
-    selection: Node
-): Transform[] {
+function getReplacements(context: Context, selection: Node): Transform[] {
     // Find the parent of the node.
-    const parent = project.get(selection)?.getParent();
+    const parent = selection.getParent(context);
     if (parent === undefined) return [];
 
     // Traverse the parent's grammar to find out what types are allowed.
@@ -268,13 +254,12 @@ function getReplacements(
 }
 
 function getEditsBefore(
-    project: Project,
     context: Context,
     anchor: Node,
     position: number
 ): Transform[] {
     // Find the parent of the node.
-    const parent = project.get(anchor)?.getParent();
+    const parent = anchor.getParent(context);
     if (parent === undefined) return [];
 
     // Walk the grammar, accumulating possible transforms, until we reach the node.
@@ -381,13 +366,12 @@ function getEditsBefore(
 }
 
 function getEditsAfter(
-    project: Project,
     context: Context,
     anchor: Node,
     position: number
 ): Transform[] {
     // Find the parent of the node.
-    const parent = project.get(anchor)?.getParent();
+    const parent = anchor.getParent(context);
     if (parent === undefined) return [];
 
     // Walk the grammar, consuming matching children finding the node, finding everything that can follow the node.
@@ -659,7 +643,7 @@ function getPossibleNodes(
 }
 
 function getPostfixEdits(context: Context, expr: Expression): Transform[] {
-    const parent = context.get(expr)?.getParent();
+    const parent = expr.getParent(context);
     const field = getFieldOf(expr, context);
     if (
         parent &&

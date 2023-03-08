@@ -1,5 +1,4 @@
 import Source from '@nodes/Source';
-import type Tree from '@nodes/Tree';
 import Node from '@nodes/Node';
 import Expression from '@nodes/Expression';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
@@ -64,14 +63,17 @@ export class InsertionPoint {
 export function dropNodeOnSource(
     project: Project,
     source: Source,
-    dragged: Tree,
+    dragged: Node,
     target: Node | InsertionPoint
 ): [Project, Node] {
+    const root = project.getRoot(dragged);
+    const draggedRoot = root?.root;
+
     let editedProgram = source.expression;
     let editedSpace = source.spaces;
 
     // Clone the dragged node in case it came with nodes that we shouldn't mess with.
-    const draggedNode = dragged.node;
+    const draggedNode = dragged;
     const draggedClone: Node = draggedNode.clone();
 
     // First, decide whether to remove the node or replace it with a placeholder.
@@ -79,10 +81,9 @@ export function dropNodeOnSource(
     // otherwise we replace with a placeholder. This ensures that we don't introduce a syntax error.
 
     // Get the field of the node.
-    const field = dragged.getField();
+    const field = root?.getParent(dragged)?.getFieldOfChild(dragged);
 
     // Get the root of the dragged program.
-    const draggedRoot = dragged.getRoot();
     const draggedInSource = draggedRoot instanceof Source;
 
     const replacement =
@@ -93,10 +94,9 @@ export function dropNodeOnSource(
             field.types.includes(undefined) || Array.isArray(field.types[0])
             ? undefined
             : // Is the node an expression and the field allows expressions? Replace with an expression placeholder of the type of the current expression.
-            dragged.node instanceof Expression &&
-              field.types.includes(Expression)
+            dragged instanceof Expression && field.types.includes(Expression)
             ? ExpressionPlaceholder.make(
-                  dragged.node.getType(project.getContext(source))
+                  dragged.getType(project.getContext(source))
               )
             : // Is the field a type? Replace with a type placeholder.
             field.types.includes(Type)
@@ -200,34 +200,32 @@ export function dropNodeOnSource(
 }
 
 export function getInsertionPoint(
-    tree: Tree,
+    source: Source,
+    node: Node,
     before: boolean,
     token: Token,
     line: number
 ) {
-    const node = tree.node;
-
-    const parent = tree.getParent();
+    const parent = source.root.getParent(node);
     if (parent === undefined) return;
 
     // Special case the end token of the Program, since it's block has no delimters.
     if (node instanceof Token && node.is(TokenType.END)) {
-        const program = tree.getParent();
-        if (program instanceof Program && program.expression instanceof Block) {
+        if (parent instanceof Program && parent.expression instanceof Block) {
             return new InsertionPoint(
-                program.expression,
+                parent.expression,
                 'statements',
-                program.expression.statements,
+                parent.expression.statements,
                 node,
                 line,
                 // The index is at the end of the statements.
-                program.expression.statements.length
+                parent.expression.statements.length
             );
         }
     }
 
     // Find the list this node is either in or delimits.
-    let field = tree.getContainingParentList(before);
+    let field = source.root.getContainingParentList(node, before);
     if (field === undefined) return;
     const list = parent.getField(field);
     if (!Array.isArray(list)) return undefined;

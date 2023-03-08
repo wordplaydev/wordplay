@@ -40,7 +40,7 @@
             node instanceof Expression &&
             !node.isEvaluationInvolved()
         ) {
-            const root = $project.get(node)?.getEvaluationRoot();
+            const root = $project.getRoot(node)?.getEvaluationRoot(node);
             const evaluation = root
                 ? $evaluator.getEvaluationOf(root)
                 : undefined;

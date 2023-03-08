@@ -198,8 +198,10 @@ export default class Bind extends Expression {
     computeConflicts(context: Context): Conflict[] {
         const conflicts = [];
 
+        const parent = this.getParent(context);
+
         // Etc tokens can't appear in block bindings, just structure and function definitions.
-        if (this.etc && context.get(this)?.getParent() instanceof Block)
+        if (this.etc && parent instanceof Block)
             conflicts.push(new UnexpectedEtc(this.etc, this));
 
         // If there's a type, the value must match.
@@ -232,7 +234,7 @@ export default class Bind extends Expression {
                         (alias) =>
                             name.getName() === alias.getName() &&
                             name !== alias &&
-                            context.get(alias)?.getParent() !== this.names
+                            alias.getParent(context) !== this.names
                     );
 
                     if (defsWithName.length > 0)
@@ -244,7 +246,6 @@ export default class Bind extends Expression {
         }
 
         // Search the project for references and warn if there aren't any.
-        const parent = context.get(this)?.getParent();
         if (
             !this.isShared() &&
             (parent instanceof Block ||
@@ -334,7 +335,7 @@ export default class Bind extends Expression {
     }
 
     getDependencies(context: Context): Expression[] {
-        const parent = context.get(this)?.getParent();
+        const parent = this.getParent(context);
 
         // A bind in a function or structure definition depends on all calls to the function/structure definition,
         // because they determine what values the binds have.

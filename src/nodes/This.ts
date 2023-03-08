@@ -52,8 +52,8 @@ export default class This extends AtomicExpression {
 
     getEnclosingStructure(context: Context): ThisStructure | undefined {
         return context
-            .get(this)
-            ?.getAncestors()
+            .getRoot(this)
+            ?.getAncestors(this)
             ?.find(
                 (a) =>
                     a instanceof StructureDefinition ||
@@ -105,8 +105,8 @@ export default class This extends AtomicExpression {
         // If this is in a reaction, it refers to the latest value of the reaction being evaluated.
         const reaction = evaluator
             .getCurrentContext()
-            .get(this)
-            ?.getAncestors()
+            .getRoot(this)
+            ?.getAncestors(this)
             .find((n) => n instanceof Reaction) as Reaction | undefined;
         if (reaction) {
             const latestValue = evaluator.getReactionStreamLatest(reaction);

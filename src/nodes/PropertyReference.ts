@@ -167,8 +167,8 @@ export default class PropertyReference extends Expression {
                 // Find any conditionals with type checks that refer to the value bound to this name.
                 // Reverse them so they are in furthest to nearest ancestor, so we narrow types in execution order.
                 const guards = context
-                    .get(this)
-                    ?.getAncestors()
+                    .getRoot(this)
+                    ?.getAncestors(this)
                     ?.filter(
                         (a) =>
                             // Guards must be conditionals
@@ -177,7 +177,8 @@ export default class PropertyReference extends Expression {
                             a.condition.nodes(
                                 (n) =>
                                     this.name !== undefined &&
-                                    context.get(n)?.getParent() instanceof Is &&
+                                    context.source.root.getParent(n) instanceof
+                                        Is &&
                                     n instanceof PropertyReference &&
                                     n.getSubjectType(context) instanceof
                                         StructureDefinitionType &&

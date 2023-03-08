@@ -21,8 +21,7 @@
 
     let stream: Stream | undefined;
     $: {
-        const context = $project ? $project.getNodeContext(node) : undefined;
-        const parent = context ? node.getParent(context) : undefined;
+        const parent = $project?.getRoot(node)?.getParent(node);
         stream =
             parent instanceof Evaluate && $evaluator
                 ? $evaluator.getNativeStreamFor(parent)

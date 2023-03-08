@@ -9,8 +9,7 @@ import type Node from '@nodes/Node';
 import HOF from '../native/HOF';
 import FunctionDefinitionType from '@nodes/FunctionDefinitionType';
 import Native from '../native/NativeBindings';
-import Tree from '@nodes/Tree';
-import DefaultShares from '@runtime/DefaultShares';
+import DefaultShares, { DefaultRoots } from '@runtime/DefaultShares';
 import Context from '@nodes/Context';
 import type { SharedDefinition } from '@nodes/Borrow';
 import PropertyReference from '@nodes/PropertyReference';
@@ -23,6 +22,7 @@ import { GroupType } from '../output/Group';
 import { PhraseType } from '../output/Phrase';
 import { v4 as uuidv4 } from 'uuid';
 import { parseNames, toTokens } from '../parser/Parser';
+import type Root from '../nodes/Root';
 
 export type SerializedSource = { names: string; code: string };
 export type SerializedProject = {
@@ -68,14 +68,11 @@ export default class Project {
     /** A list of uids that have write access to this project. */
     readonly uids: string[];
 
-    readonly trees: Tree[];
-    readonly _index: Map<Node, Tree | undefined> = new Map();
-
-    /** A cache of sources by node, for fast lookup. */
-    readonly nodeSources: Map<Node, Source | undefined> = new Map();
-
     /** A cache of source contexts */
     readonly sourceContext: Map<Source, Context> = new Map();
+
+    /** An index of each source in the project */
+    readonly roots: Root[];
 
     /** Conflicts. */
     analyzed: 'unanalyzed' | 'analyzing' | 'analyzed' = 'unanalyzed';
@@ -104,11 +101,10 @@ export default class Project {
         this.main = main;
         this.supplements = supplements.slice();
 
-        // Build all of the trees we might need for analysis.
-        this.trees = [
-            ...this.getSources().map((source) => new Tree(source)),
-            ...Native.getStructureDefinitionTrees(),
-            ...DefaultShares.map((share) => new Tree(share)),
+        this.roots = [
+            ...this.getSources().map((source) => source.root),
+            ...Native.roots,
+            ...DefaultRoots,
         ];
     }
 
@@ -131,28 +127,13 @@ export default class Project {
         );
     }
 
-    get(node: Node): Tree | undefined {
-        if (!this._index.has(node)) this._index.set(node, this.resolve(node));
-        return this._index.get(node);
-    }
-
-    /** Get a tree that that represents the node. It could be in a source, one of the native types, or a share. */
-    resolve(node: Node): Tree | undefined {
-        // Search the trees in the context for a matching node.
-        for (const tree of this.trees) {
-            const match = tree.get(node);
-            if (match) return match;
-        }
-
-        return undefined;
+    getRoot(node: Node): Root | undefined {
+        return this.roots.find((root) => root.has(node));
     }
 
     /** True if one of the project's contains the given node. */
     contains(node: Node) {
-        // PERF: Check the cache first, and then fall back to searching sources.
-        return (
-            this.get(node) !== undefined || this.getSourceOf(node) !== undefined
-        );
+        return this.getRoot(node) !== undefined;
     }
 
     getSources() {
@@ -186,12 +167,7 @@ export default class Project {
     }
 
     getSourceOf(node: Node) {
-        if (!this.nodeSources.has(node))
-            this.nodeSources.set(
-                node,
-                this.getSources().find((source) => source.contains(node))
-            );
-        return this.nodeSources.get(node);
+        return this.getSources().find((source) => source.root.has(node));
     }
 
     getSourcesExcept(source: Source) {

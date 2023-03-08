@@ -98,12 +98,15 @@ export default class Reference extends AtomicExpression {
         if (bindOrTypeVar instanceof Bind && bindOrTypeVar.contains(this)) {
             // Does this name have a parent that's a reaction, and is the bind a parent of that reaction?
             const reaction = context
-                .get(this)
-                ?.getAncestors()
+                .getRoot(this)
+                ?.getAncestors(this)
                 ?.find((n) => n instanceof Reaction);
             const validCircularReference =
                 reaction !== undefined &&
-                context.get(reaction)?.getAncestors()?.includes(bindOrTypeVar);
+                context
+                    .getRoot(reaction)
+                    ?.getAncestors(reaction)
+                    .includes(bindOrTypeVar);
             if (!validCircularReference)
                 conflicts.push(new ReferenceCycle(this));
         }
@@ -144,15 +147,15 @@ export default class Reference extends AtomicExpression {
         ) {
             // Find any conditionals with type checks that refer to the value bound to this name.
             // Reverse them so they are in furthest to nearest ancestor, so we narrow types in execution order.
-            const guards = context
-                .get(this)
-                ?.getAncestors()
+            const guards = context.source.root
+                .getAncestors(this)
                 ?.filter(
                     (a) =>
                         a instanceof Conditional &&
                         a.condition.nodes(
                             (n) =>
-                                context.get(n)?.getParent() instanceof Is &&
+                                context.source.root.getParent(n) instanceof
+                                    Is &&
                                 n instanceof Reference &&
                                 definition === n.resolve(context)
                         )

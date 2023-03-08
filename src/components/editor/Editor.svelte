@@ -60,15 +60,14 @@
         getInsertionPoint,
         InsertionPoint,
     } from './Drag';
-    import type Tree from '@nodes/Tree';
     import Menu from './util/Menu';
     import Evaluate from '@nodes/Evaluate';
     import { PhraseType } from '@output/Phrase';
     import { GroupType } from '@output/Group';
     import { VerseType } from '@output/Verse';
     import { getPersistedValue, setPersistedValue } from '@db/persist';
-    import type { Path } from '@nodes/Tree';
-    import type Evaluator from '../../runtime/Evaluator';
+    import type Evaluator from '@runtime/Evaluator';
+    import type { Path } from '@nodes/Root';
 
     export let evaluator: Evaluator;
     export let project: Project;
@@ -106,7 +105,7 @@
         const position = carets[source.names.getNames()[0]] ?? undefined;
         if (position === undefined) return 0;
         else if (typeof position === 'number') return position;
-        else return source.tree.resolvePath(position);
+        else return source.root.resolvePath(source, position);
     }
 
     // A per-editor store that contains the current editor's cursor. We expose it as context to children.
@@ -118,7 +117,7 @@
             const carets = getCarets();
             carets[source.names.getNames()[0]] =
                 $caret.position instanceof Node
-                    ? source.get($caret.position)?.getPath() ?? 0
+                    ? source.root.getPath($caret.position) ?? 0
                     : $caret.position;
             setPersistedValue(CARETS_KEY, carets);
         }
@@ -177,7 +176,7 @@
 
         // If the program contains this node, scroll it's first token into view.
         const stepNode = evaluator.getStepNode();
-        if (stepNode && source.contains(stepNode)) {
+        if (stepNode && source.has(stepNode)) {
             // Set the caret to the current step node if stepping.
             caret.set(
                 $caret.withPosition(
@@ -195,7 +194,7 @@
                     `[data-id="${highlight.id}"] .text`
                 );
                 if (element !== null) break;
-                else highlight = source.get(highlight)?.getParent();
+                else highlight = source.root.getParent(highlight);
             } while (element === null && highlight !== undefined);
 
             if (element !== null) ensureElementIsVisible(element);
@@ -264,8 +263,9 @@
                     $hoveredAny === undefined
                         ? undefined
                         : (
-                              project.get($hoveredAny)?.getSelfAndAncestors() ??
-                              []
+                              project
+                                  .getRoot($hoveredAny)
+                                  ?.getSelfAndAncestors($hoveredAny) ?? []
                           ).find((node) =>
                               project.nodeInvolvedInConflicts(node)
                           );
@@ -292,8 +292,9 @@
                         let nodesAtPosition =
                             token === undefined
                                 ? []
-                                : project.get(token)?.getSelfAndAncestors() ??
-                                  [];
+                                : project
+                                      .getRoot(token)
+                                      ?.getSelfAndAncestors(token) ?? [];
                         let nodesInConflict = nodesAtPosition.find((node) =>
                             project.nodeInvolvedInConflicts(node)
                         );
@@ -332,7 +333,7 @@
     }
 
     function addHighlight(map: Highlights, node: Node, type: HighlightType) {
-        if (source.contains(node)) {
+        if (source.has(node)) {
             if (!map.has(node)) map.set(node, new Set<HighlightType>());
             map.get(node)?.add(type);
         }
@@ -363,7 +364,7 @@
         // Is a node being dragged?
         if ($dragged !== undefined) {
             // Highlight the node.
-            addHighlight(newHighlights, $dragged.node, 'dragged');
+            addHighlight(newHighlights, $dragged, 'dragged');
 
             // If there's something hovered or an insertion point, show targets and matches.
             // If we're hovered over a valid drop target, highlight the hovered node.
@@ -374,19 +375,19 @@
             else if ($insertion === undefined) {
                 // Find all of the expression placeholders and highlight them as drop targets,
                 // unless they are dragged or contained in the dragged node
-                if ($dragged.node instanceof Expression)
+                if ($dragged instanceof Expression)
                     for (const placeholder of source.expression.nodes(
                         (n) => n instanceof ExpressionPlaceholder
                     ))
-                        if (!$dragged.node.contains(placeholder))
+                        if (!$dragged.contains(placeholder))
                             addHighlight(newHighlights, placeholder, 'target');
 
                 // Find all of the type placeholders and highlight them sa drop target
-                if ($dragged.node instanceof Type)
+                if ($dragged instanceof Type)
                     for (const placeholder of source.expression.nodes(
                         (n) => n instanceof TypePlaceholder
                     ))
-                        if (!$dragged.node.contains(placeholder))
+                        if (!$dragged.contains(placeholder))
                             addHighlight(newHighlights, placeholder, 'target');
             }
         }
@@ -409,7 +410,7 @@
         // Are there any poses in this file being animated?
         if ($animatingNodes)
             for (const animating of $animatingNodes) {
-                if (source.contains(animating))
+                if (source.has(animating))
                     addHighlight(newHighlights, animating, 'animating');
             }
 
@@ -509,15 +510,13 @@
     function isValidDropTarget(): boolean {
         if ($dragged === undefined) return false;
 
-        const node = $dragged.node;
-
         // Allow expressions to be dropped on expressions.
-        if (node instanceof Expression && $hovered instanceof Expression)
+        if ($dragged instanceof Expression && $hovered instanceof Expression)
             return true;
 
         // Allow binds to be dropped on children of blocks.
-        if (node instanceof Bind && $hovered) {
-            const hoverParent = $caret.source.get($hovered)?.getParent();
+        if ($dragged instanceof Bind && $hovered) {
+            const hoverParent = $caret.source.root.getParent($hovered);
             if (
                 hoverParent instanceof Block &&
                 hoverParent.statements.includes($hovered as Expression)
@@ -526,7 +525,7 @@
         }
 
         // Allow types to be dropped on types.
-        if (node instanceof Type && $hovered instanceof Type) return true;
+        if ($dragged instanceof Type && $hovered instanceof Type) return true;
 
         // Allow inserts to be inserted.
         if ($insertion) return true;
@@ -859,18 +858,12 @@
             return between === undefined
                 ? []
                 : [
-                      ...between.before
-                          .map((node) => source.get(node))
-                          .filter((node): node is Tree => node !== undefined)
-                          .map((tree) =>
-                              getInsertionPoint(tree, true, token, line)
-                          ),
-                      ...between.after
-                          .map((node) => source.get(node))
-                          .filter((node): node is Tree => node !== undefined)
-                          .map((tree) =>
-                              getInsertionPoint(tree, false, token, line)
-                          ),
+                      ...between.before.map((tree) =>
+                          getInsertionPoint(source, tree, true, token, line)
+                      ),
+                      ...between.after.map((tree) =>
+                          getInsertionPoint(source, tree, false, token, line)
+                      ),
                   ]
                       // Filter out duplicates and undefineds
                       .filter<InsertionPoint>(
@@ -916,13 +909,9 @@
 
         // If we have a drag candidate and it's past 5 pixels from the start point, set the insertion points to whatever points are under the mouse.
         if (dragCandidate && exceededDragThreshold(event)) {
-            const tree = source.get(dragCandidate);
-            if (tree) {
-                dragged.set(source.get(dragCandidate));
-
-                dragCandidate = undefined;
-                dragPoint = undefined;
-            }
+            dragged.set(dragCandidate);
+            dragCandidate = undefined;
+            dragPoint = undefined;
         }
 
         // Update insertion points if there's nothing hovered.
@@ -943,9 +932,7 @@
                               $dragged &&
                               Array.isArray(types) &&
                               Array.isArray(types[0]) &&
-                              types[0].some(
-                                  (kind) => $dragged?.node instanceof kind
-                              )
+                              types[0].some((kind) => $dragged instanceof kind)
                           );
                       })[0]
             );

@@ -18,11 +18,11 @@ import bootstrapSet from './SetNative';
 import bootstrapMap from './MapNative';
 import Block from '@nodes/Block';
 import type { NativeTypeName } from './NativeConstants';
-import Tree from '@nodes/Tree';
 import type TypeVariables from '@nodes/TypeVariables';
 import type Docs from '@nodes/Docs';
 import type Names from '@nodes/Names';
 import type Expression from '@nodes/Expression';
+import Root from '../nodes/Root';
 
 export class NativeBindings implements NativeInterface {
     readonly functionsByType: Record<
@@ -32,7 +32,7 @@ export class NativeBindings implements NativeInterface {
     readonly conversionsByType: Record<string, ConversionDefinition[]> = {};
     readonly structureDefinitionsByName: Record<string, StructureDefinition> =
         {};
-    readonly structureDefinitionTrees: Tree[] = [];
+    readonly roots: Root[] = [];
 
     addFunction(kind: NativeTypeName, fun: FunctionDefinition) {
         if (!(kind in this.functionsByType)) this.functionsByType[kind] = {};
@@ -64,7 +64,7 @@ export class NativeBindings implements NativeInterface {
             }
         }
 
-        this.structureDefinitionTrees.push(new Tree(structure));
+        this.roots.push(new Root(structure));
     }
 
     getConversion(
@@ -106,10 +106,6 @@ export class NativeBindings implements NativeInterface {
 
     getAllStructureDefinitions() {
         return Object.values(this.structureDefinitionsByName);
-    }
-
-    getStructureDefinitionTrees() {
-        return this.structureDefinitionTrees;
     }
 
     getSetDefinition() {

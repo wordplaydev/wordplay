@@ -112,9 +112,8 @@ const commands: Command[] = [
             const position = caret.position;
             if (position instanceof Node) {
                 // Select the parent node
-                let parent: Node | undefined | null = caret.source
-                    .get(position)
-                    ?.getParent();
+                let parent: Node | undefined | null =
+                    caret.source.root.getParent(position);
                 // // What tokens are selected currently?
                 // const selectedTokens = position.nodes(n => n instanceof Token) as Token[];
                 // let parentTokens = parent?.nodes(n => n instanceof Token) as Token[];
@@ -138,7 +137,7 @@ const commands: Command[] = [
                         ? caret.tokenPrior
                         : caret.getToken();
                 if (token !== undefined) {
-                    const parent = caret.source.get(token)?.getParent();
+                    const parent = caret.source.root.getParent(token);
                     return caret.withPosition(
                         parent?.getChildren()[0] === token ? parent : token
                     );

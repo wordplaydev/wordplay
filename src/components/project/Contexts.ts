@@ -7,14 +7,13 @@ import type Caret from '../editor/util/Caret';
 import type Project from '@models/Project';
 import type Node from '@nodes/Node';
 import type Token from '@nodes/Token';
-import type Tree from '@nodes/Tree';
 import type { Highlights } from '../editor/util/Highlights';
 import type Evaluate from '@nodes/Evaluate';
 import type Step from '@runtime/Step';
 import type { StreamChange } from '@runtime/Evaluator';
 import type Conflict from '@conflicts/Conflict';
 import type Projects from '../../db/Projects';
-import type { Path } from '@nodes/Tree';
+import type { Path } from '@nodes/Root';
 import type Source from '@nodes/Source';
 import type { User } from 'firebase/auth';
 import type Evaluator from '@runtime/Evaluator';
@@ -45,7 +44,7 @@ export function getInsertionPoint() {
     return getContext<InsertionPointContext>(InsertionPointsSymbol);
 }
 
-export type DraggedContext = Writable<Tree | undefined>;
+export type DraggedContext = Writable<Node | undefined>;
 export const DraggedSymbol = Symbol('dragged');
 export function getDragged() {
     return getContext<DraggedContext>(DraggedSymbol);
@@ -67,12 +66,6 @@ export type HighlightContext = Writable<Highlights> | undefined;
 export const HighlightSymbol = Symbol('highlight');
 export function getHighlights() {
     return getContext<HighlightContext>(HighlightSymbol);
-}
-
-export type RootContext = Writable<Tree> | undefined;
-export const RootSymbol = Symbol('root');
-export function getRoot() {
-    return getContext<RootContext>(RootSymbol);
 }
 
 export const SpaceSymbol = Symbol('space');
@@ -121,7 +114,7 @@ export function setSelectedOutput(
         evaluates.map((output) => {
             return {
                 source: project.getSourceOf(output),
-                path: project.get(output)?.getPath(),
+                path: project.getRoot(output)?.getPath(output),
             };
         })
     );

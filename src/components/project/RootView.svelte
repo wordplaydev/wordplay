@@ -7,30 +7,25 @@
     import Names from '@nodes/Names';
     import type Node from '@nodes/Node';
     import type Token from '@nodes/Token';
-    import Tree from '@nodes/Tree';
     import Spaces from '@parser/Spaces';
     import { preferredLanguages } from '@translation/translations';
     import NodeView from '@components/editor/NodeView.svelte';
     import {
         getCaret,
         HiddenSymbol,
-        RootSymbol,
         SpaceSymbol,
-        type RootContext,
         type SpaceContext,
     } from './Contexts';
+    import Root from '@nodes/Root';
+    import Source from '@nodes/Source';
 
     export let node: Node;
     /** Optional space; if not provided, all nodes are rendered with preferred space. */
     export let spaces: Spaces | undefined = undefined;
     export let inert: boolean = false;
 
-    // Make a store for the root and set it as context.
-    let root = writable<Tree>(new Tree(node));
-    setContext<RootContext>(RootSymbol, root);
-
-    // When the node changes, update the store
-    $: root.set(new Tree(node));
+    /** Get the root, or make one if it's not a source. */
+    let root = node instanceof Source ? node.root : new Root(node);
 
     // When the spaces change, update the rendered spaces
     let renderedSpace: SpaceContext = writable(new Map());
@@ -44,14 +39,16 @@
             // Get the first leaf of this node.
             const firstLeaf = n.getFirstLeaf() as Token | undefined;
             if (firstLeaf === undefined) continue;
-            const leafTree = $root.get(firstLeaf);
-            if (leafTree === undefined) continue;
             // Determine if the first leaf is the leaf's space root.
-            if (leafTree.getSpaceRoot() !== n) continue;
+            if (root.getSpaceRoot(firstLeaf) !== n) continue;
             // What's the given space?
             let space = spaces ? spaces.getSpace(firstLeaf) : '';
             // What is the leaf's preferred space?
-            let preferred = Spaces.getPreferredPrecedingSpace(space, leafTree);
+            let preferred = Spaces.getPreferredPrecedingSpace(
+                root,
+                space,
+                firstLeaf
+            );
             // Compute the additional space for rendering.
             let additional = spaces
                 ? spaces.getAdditionalSpace(firstLeaf, preferred)

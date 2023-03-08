@@ -160,8 +160,8 @@
                     currentStep.node instanceof Expression
                         ? currentStep.node
                         : evaluator.project
-                              .get(currentStep.node)
-                              ?.getAncestors()
+                              .getRoot(currentStep.node)
+                              ?.getAncestors(currentStep.node)
                               .find(
                                   (a): a is Expression =>
                                       a instanceof Expression

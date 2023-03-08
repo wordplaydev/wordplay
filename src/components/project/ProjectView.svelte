@@ -33,7 +33,6 @@
     } from './Contexts';
     import type Project from '@models/Project';
     import Documentation from '@components/concepts/Documentation.svelte';
-    import type Tree from '@nodes/Tree';
     import Annotations from '../annotations/Annotations.svelte';
     import type Conflict from '@conflicts/Conflict';
     import RootView from './RootView.svelte';
@@ -148,7 +147,7 @@
                     if (name === undefined) return undefined;
                     const newSource = proj.getSourceWithName(name);
                     if (newSource === undefined) return undefined;
-                    return newSource.tree.resolvePath(path);
+                    return newSource.root.resolvePath(newSource, path);
                 })
                 .filter(
                     (output): output is Evaluate => output instanceof Evaluate
@@ -343,7 +342,7 @@
     let maxBottom: number = 0;
 
     /* A global context for a node being dragged */
-    let dragged = writable<Tree | undefined>(undefined);
+    let dragged = writable<Node | undefined>(undefined);
     setContext<DraggedContext>(DraggedSymbol, dragged);
 
     /** The latest value of main in the project */
@@ -878,7 +877,7 @@
                         </svelte:fragment>
                         <svelte:fragment slot="content">
                             {#if tile.kind === Content.Documentation}
-                                <Documentation />
+                                <Documentation {project} />
                             {:else if tile.kind === Content.Palette}
                                 <Palette {project} />
                             {:else if tile.kind === Content.Output}
@@ -1001,8 +1000,8 @@
                 bind:this={dragContainer}
             >
                 <RootView
-                    node={$dragged.node}
-                    spaces={project.getSourceOf($dragged.node)?.spaces}
+                    node={$dragged}
+                    spaces={project.getSourceOf($dragged)?.spaces}
                 />
                 <div class="cursor">🐲</div>
             </div>

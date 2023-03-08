@@ -1,7 +1,6 @@
 import { test, expect } from 'vitest';
 import Project from '@models/Project';
 import Source from '@nodes/Source';
-import Tree from '@nodes/Tree';
 import { dropNodeOnSource, InsertionPoint } from './Drag';
 import type Node from '@nodes/Node';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
@@ -14,7 +13,7 @@ test.each([
     // Replace placeholder with rootless expression
     [
         ['1 + _'],
-        () => new Tree(parseExpression(toTokens('1'))),
+        () => parseExpression(toTokens('1')),
         (sources: Source[]) =>
             sources[0].nodes(
                 (node) => node instanceof ExpressionPlaceholder
@@ -24,16 +23,14 @@ test.each([
     // Replace placeholder with expression from same source
     [
         ['1 + _\n2'],
-        (sources: Source[]) =>
-            sources[0].get(sources[0].find(MeasurementLiteral, 1)) as Tree,
+        (sources: Source[]) => sources[0].find(MeasurementLiteral, 1),
         (sources: Source[]) => sources[0].find(ExpressionPlaceholder),
         '1 + 2\n',
     ],
     // Replace placeholder with expression from other source
     [
         ['1 + _', '2'],
-        (sources: Source[]) =>
-            sources[1].get(sources[1].find(MeasurementLiteral)) as Tree,
+        (sources: Source[]) => sources[1].find<Node>(MeasurementLiteral),
         (sources: Source[]) =>
             sources[0].nodes(
                 (node) => node instanceof ExpressionPlaceholder
@@ -44,7 +41,7 @@ test.each([
     // Insertion rootless expression in source
     [
         ['[ 1 3 4 5 ]'],
-        () => new Tree(parseExpression(toTokens('2'))),
+        () => parseExpression(toTokens('2')),
         (sources: Source[]) => {
             const node = sources[0].find<ListLiteral>(ListLiteral);
             return new InsertionPoint(
@@ -61,8 +58,7 @@ test.each([
     // Insertion expression from source in expression
     [
         ['[ 1 3 4 5 ]\n2'],
-        (sources) =>
-            sources[0].get(sources[0].find(MeasurementLiteral, 4)) as Tree,
+        (sources) => sources[0].find(MeasurementLiteral, 4),
         (sources) => {
             const node = sources[0].find<ListLiteral>(ListLiteral);
             return new InsertionPoint(
@@ -79,8 +75,7 @@ test.each([
     // Insert expression from other source in expression
     [
         ['[ 1 3 4 5 ]', '2'],
-        (sources) =>
-            sources[1].get(sources[1].find(MeasurementLiteral)) as Tree,
+        (sources) => sources[1].find(MeasurementLiteral),
         (sources) => {
             const node = sources[0].find<ListLiteral>(ListLiteral);
             return new InsertionPoint(
@@ -99,7 +94,7 @@ test.each([
     'Drop on %s should yield %s',
     (
         source: string[],
-        dragged: (sources: Source[]) => Tree,
+        dragged: (sources: Source[]) => Node,
         target: (sources: Source[]) => Node | InsertionPoint,
         mainExpected: string,
         supplementExpected?: string

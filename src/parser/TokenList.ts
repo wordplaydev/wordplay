@@ -1,8 +1,7 @@
 import type Token from '@nodes/Token';
-import type Root from './Root';
 import Spaces from './Spaces';
 
-export default class TokenList implements Root {
+export default class TokenList {
     readonly #tokens: Token[];
     readonly #spaces: Spaces;
 
