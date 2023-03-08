@@ -620,7 +620,7 @@ export default abstract class Node {
     /**
      * Given a translation and a context, generate a description of the node.
      * */
-    getDescription(translation: Translation, context: Context): Description {
+    getDescription(translation: Translation, context: Context) {
         const trans = this.getNodeTranslation(translation);
         return trans.description instanceof Function
             ? trans.description(this, translation, context)

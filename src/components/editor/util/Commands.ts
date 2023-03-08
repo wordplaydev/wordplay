@@ -346,10 +346,20 @@ const commands: Command[] = [
         },
     },
     {
-        description: 'Insert tab',
+        description: 'Move to next',
         key: 'Tab',
+        shift: false,
         mode: Mode.Play,
-        execute: (caret: Caret) => caret.insert('\t'),
+        execute: (caret: Caret) =>
+            caret.isNode() ? caret.moveHorizontal(false, 1) : undefined,
+    },
+    {
+        description: 'Move to previous',
+        key: 'Tab',
+        shift: true,
+        mode: Mode.Play,
+        execute: (caret: Caret) =>
+            caret.isNode() ? caret.moveHorizontal(false, -1) : undefined,
     },
     {
         description: 'Delete previous character',

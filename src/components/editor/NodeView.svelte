@@ -11,6 +11,7 @@
         getPlaying,
         getProject,
         getSpace,
+        getTranslations,
     } from '../project/Contexts';
     import getNodeView from './util/nodeToView';
     import Expression from '@nodes/Expression';
@@ -25,6 +26,15 @@
     let playing = getPlaying();
     let currentStep = getCurrentStep();
     let currentStepIndex = getCurrentStepIndex();
+    let translations = getTranslations();
+
+    $: description =
+        node && $project && translations && translations.length > 0
+            ? node.getDescription(
+                  translations[0],
+                  $project?.getNodeContext(node)
+              )
+            : null;
 
     let value: Value | undefined;
     $: {
@@ -76,7 +86,9 @@
         />{/if}<div
         class="{node.constructor.name} node-view"
         class:hide
-        aria-hidden={hide}
+        tabIndex="0"
+        aria-hidden={hide ? 'true' : null}
+        aria-label={description}
         data-id={node.id}
         >{#if value}<ValueView {value} />{:else}<svelte:component
                 this={getNodeView(node)}
@@ -91,6 +103,10 @@
         position: relative;
         border-top-left-radius: var(--wordplay-editor-radius);
         border-bottom-right-radius: var(--wordplay-editor-radius);
+    }
+
+    .node-view:focus {
+        outline: none;
     }
 
     .node-view.hovered {

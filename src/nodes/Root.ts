@@ -12,24 +12,36 @@ export default class Root {
 
     /** A mapping from child to parent */
     readonly parents: Map<Node, Node>;
+    readonly ids: Map<number, Node>;
 
     constructor(node: Node) {
         this.root = node;
 
         this.parents = new Map();
-        Root.walk(this.parents, node);
+        this.ids = new Map();
+
+        Root.walk(this.ids, this.parents, node);
     }
 
-    static walk(parents: Map<Node, Node>, n: Node) {
-        for (const child of n.getChildren()) {
-            parents.set(child, n);
-            Root.walk(parents, child);
+    static walk(ids: Map<number, Node>, parents: Map<Node, Node>, node: Node) {
+        ids.set(node.id, node);
+        for (const child of node.getChildren()) {
+            parents.set(child, node);
+            Root.walk(ids, parents, child);
         }
     }
 
     /** Returns true if this root contains the given node. */
     has(node: Node) {
         return node === this.root || this.parents.has(node);
+    }
+
+    hasID(id: number) {
+        return this.getID(id) !== undefined;
+    }
+
+    getID(id: number) {
+        return this.ids.get(id);
     }
 
     /** Returns the parent of the given node, or undefined if it has none. */

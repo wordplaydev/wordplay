@@ -827,7 +827,7 @@ const en: Translation = {
             finish: 'constructing text from the values',
         },
         TextLiteral: {
-            description: 'some text',
+            description: 'text literal',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: 'create a text value',

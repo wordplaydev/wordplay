@@ -17,6 +17,7 @@ import type { Path } from '@nodes/Root';
 import type Source from '@nodes/Source';
 import type { User } from 'firebase/auth';
 import type Evaluator from '@runtime/Evaluator';
+import type Translation from '@translation/Translation';
 
 export type ProjectsContext = Writable<Projects>;
 export const ProjectsSymbol = Symbol('projects');
@@ -175,4 +176,9 @@ export const UserSymbol = Symbol('user');
 export type UserContext = Writable<User | null | undefined>;
 export function getUser(): UserContext {
     return getContext(UserSymbol);
+}
+
+export const TranslationsSymbol = Symbol('translations');
+export function getTranslations(): Translation[] {
+    return getContext(TranslationsSymbol);
 }

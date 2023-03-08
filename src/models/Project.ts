@@ -127,6 +127,14 @@ export default class Project {
         );
     }
 
+    getNodeByID(id: number): Node | undefined {
+        for (const root of this.roots) {
+            const node = root.getID(id);
+            if (node) return node;
+        }
+        return undefined;
+    }
+
     getRoot(node: Node): Root | undefined {
         return this.roots.find((root) => root.has(node));
     }
@@ -302,14 +310,6 @@ export default class Project {
 
     getSecondaryConflicts() {
         return this.getAnalysis().secondary;
-    }
-
-    getNodeByID(id: number): Node | undefined {
-        for (const source of this.getSources()) {
-            const node = source.getNodeByID(id);
-            if (node) return node;
-        }
-        return undefined;
     }
 
     nodeInvolvedInConflicts(node: Node) {

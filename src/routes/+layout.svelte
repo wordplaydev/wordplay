@@ -2,16 +2,25 @@
     import { animationsOn } from '@models/stores';
     import { onMount, setContext } from 'svelte';
     import Loading from '@components/app/Loading.svelte';
-    import { preferredLanguages } from '@translation/translations';
+    import {
+        preferredLanguages,
+        preferredTranslations,
+    } from '@translation/translations';
     import { auth } from '@db/firebase';
     import { onAuthStateChanged, type User } from 'firebase/auth';
-    import { UserSymbol } from '../components/project/Contexts';
+    import {
+        TranslationsSymbol,
+        UserSymbol,
+    } from '../components/project/Contexts';
     import { writable } from 'svelte/store';
     import Fonts from '../native/Fonts';
 
     /** Create a user store */
     const user = writable<User | null | undefined>(undefined);
     setContext(UserSymbol, user);
+
+    /** Expose the translations as context, updating them as necessary */
+    $: setContext(TranslationsSymbol, $preferredTranslations);
 
     // Force Noto Sans to load
     Fonts.loadFamily('Noto Sans');

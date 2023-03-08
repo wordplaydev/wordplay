@@ -110,6 +110,7 @@
 
     // A per-editor store that contains the current editor's cursor. We expose it as context to children.
     const caret = writable<Caret>(new Caret(source, getPersistedCaret() ?? 0));
+    setContext(CaretSymbol, caret);
 
     // Persist the caret position every time it changes and the keyboard is idle.
     $: {
@@ -222,9 +223,18 @@
     let dragCandidate: Node | undefined = undefined;
 
     // When source changes, update various nested state from the source.
+    $: caret.set($caret.withSource(source));
+
+    // When the caret changes, if it's a node, focus on the node, and if it's an index, focus on the hidden text field.
     $: {
-        caret.set($caret.withSource(source));
-        setContext(CaretSymbol, caret);
+        if ($caret.position instanceof Node) {
+            if ($caret.position instanceof Node) {
+                const view = getNodeView($caret.position);
+                if (view) view.focus();
+            }
+        } else {
+            input?.focus();
+        }
     }
 
     // When the caret changes, see if it contains output, and if so, select it so the
@@ -994,9 +1004,6 @@
     // }
 
     function handleKeyDown(event: KeyboardEvent) {
-        // Never handle tab; that's for keyboard navigation.
-        if (event.key === 'Tab') return;
-
         if (evaluator === undefined) return;
         if (editor === null) return;
 
@@ -1090,9 +1097,11 @@
     async function handleEdit(edit: Edit | undefined) {
         if (edit === undefined) return;
 
+        const unmodified = edit instanceof Caret;
+
         // Get the new caret and source to display.
-        const newCaret = edit instanceof Caret ? edit : edit[1];
-        const newSource = edit instanceof Caret ? undefined : edit[0];
+        const newCaret = unmodified ? edit : edit[1];
+        const newSource = unmodified ? undefined : edit[0];
 
         // Update the caret and project.
         if (newSource) {
@@ -1104,7 +1113,7 @@
 
         // After every edit and everything is updated, focus back on on text input
         await tick();
-        if (input && caretLocation) input.focus();
+        if (input && caretLocation && !unmodified) input.focus();
     }
 
     let lastKeyboardInputValue: undefined | UnicodeString = undefined;
@@ -1216,6 +1225,7 @@
     on:mouseup={handleRelease}
     on:mousemove={handleMouseMove}
     on:mouseleave={handleMouseLeave}
+    on:keydown={(event) => ($caret.isNode() ? handleKeyDown(event) : undefined)}
 >
     <!-- Render highlights below the code -->
     {#each outlines as outline}
@@ -1242,19 +1252,21 @@
             bind:location={caretLocation}
         />
     {/if}
-    <!-- Render the invisible text field that allows us to capture inputs -->
-    <input
-        type="text"
-        class="keyboard-input"
-        style={`left: ${caretLocation?.left ?? 0}; top: ${
-            caretLocation?.top ?? 0
-        };`}
-        bind:this={input}
-        on:input={handleTextInput}
-        on:keydown={handleKeyDown}
-        on:focus={handleTextInputFocusGain}
-        on:blur={handleTextInputFocusLoss}
-    />
+    <!-- If the caret is a position, render the invisible text field that allows us to capture inputs -->
+    {#if $caret.isIndex()}
+        <input
+            type="text"
+            class="keyboard-input"
+            style={`left: ${caretLocation?.left ?? 0}; top: ${
+                caretLocation?.top ?? 0
+            };`}
+            bind:this={input}
+            on:input={handleTextInput}
+            on:keydown={handleKeyDown}
+            on:focus={handleTextInputFocusGain}
+            on:blur={handleTextInputFocusLoss}
+        />
+    {/if}
 </div>
 
 <style>

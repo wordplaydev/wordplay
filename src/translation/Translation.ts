@@ -34,10 +34,10 @@ export interface NodeTranslation<Kind> {
     emotion: Emotion;
 }
 
-export type StaticNodeTranslation = NodeTranslation<Description>;
+export type StaticNodeTranslation = NodeTranslation<string>;
 
 export type DynamicNodeTranslation<NodeType extends Node> = NodeTranslation<
-    (node: NodeType, translation: Translation, context: Context) => Description
+    (node: NodeType, translation: Translation, context: Context) => string
 >;
 
 export interface AtomicExpressionTranslation<
