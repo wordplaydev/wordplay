@@ -2108,6 +2108,15 @@ const en: Translation = {
         headers: {
             editing: 'edit me!',
         },
+        section: {
+            project: 'project',
+            conflicts: 'conflicts',
+            timeline: 'timeline',
+            toolbar: 'toolbar',
+            output: 'output',
+            palette: 'palette',
+            editor: 'editor',
+        },
         feedback: {
             unknownProject: "There's no project with this ID.",
         },

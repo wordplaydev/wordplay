@@ -156,6 +156,7 @@
 
 <section
     class="palette"
+    aria-label={$preferredTranslations[0].ui.section.palette}
     on:mousedown={handleMouseDown}
     on:mouseup={handleDrop}
     bind:this={palette}
@@ -176,7 +177,7 @@
             </span>
         {/if}
     </div>
-    <section
+    <div
         class="content"
         tabIndex="0"
         on:keydown={(event) =>
@@ -252,7 +253,7 @@
                 concepts={$index.getPrimaryConceptsWithPurpose(Purpose.OUTPUT)}
             />
         {/if}
-    </section>
+    </div>
 </section>
 
 <style>

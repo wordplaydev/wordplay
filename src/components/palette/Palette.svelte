@@ -49,7 +49,11 @@
     }
 </script>
 
-<section class="palette" tabIndex="0">
+<section
+    class="palette"
+    tabIndex="0"
+    aria-label={$preferredTranslations[0].ui.section.palette}
+>
     <Speech
         glyph={{
             symbols: outputs

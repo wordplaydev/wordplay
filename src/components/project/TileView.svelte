@@ -164,7 +164,7 @@
     }
 </script>
 
-<section
+<div
     class="tile {resizeDirection
         ? `resize-${resizeDirection}`
         : ''} {arrangement} {tile.id}"
@@ -231,7 +231,7 @@
             >
         </Button>
     </div>
-</section>
+</div>
 
 <style>
     .tile {

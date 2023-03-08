@@ -20,7 +20,7 @@
     let currentStepIndex = getCurrentStepIndex();
     let streams = getStreamChanges();
 
-    let timeline: HTMLElement;
+    let timeline: HTMLElement | undefined;
 
     // Find the latest stream change before the current step index.
     $: currentReaction = $currentStepIndex
@@ -69,10 +69,12 @@
     async function updateTimePosition(stepIndex: number) {
         // Wait for any pending updates
         await tick();
-        timePosition = getTimePosition(stepIndex);
+        timePosition = getTimePosition(stepIndex) ?? 0;
     }
 
     function getTimePosition(stepIndex: number) {
+        if (timeline === undefined) return;
+
         // Get all of the input and step views
         const views = timeline.querySelectorAll('.event');
 
@@ -160,7 +162,7 @@
     }
 </script>
 
-<div
+<header
     transition:slide|local={getAnimationDuration()}
     class="timeline"
     class:stepping={!$playing}
@@ -222,7 +224,7 @@
     <div class="time" style:left="{timePosition}px"
         ><span class="index">{$currentStepIndex}</span></div
     >
-</div>
+</header>
 
 <style>
     .timeline {

@@ -795,7 +795,11 @@
 <!-- Render the app header and the current project, if there is one. -->
 <main class="project" tabIndex="0" on:keydown={handleKey} bind:this={view}>
     {#if !layout.isFullscreen()}
-        <section class="header" class:stepping={!$playing}>
+        <section
+            class="header"
+            aria-label={$preferredTranslations[0].ui.section.timeline}
+            class:stepping={!$playing}
+        >
             <Controls {project} evaluator={$evaluator} />
             <Timeline evaluator={$evaluator} />
         </section>
@@ -914,7 +918,7 @@
     </div>
 
     {#if !layout.isFullscreen()}
-        <section class="footer">
+        <nav class="footer">
             <Status />
             <TextField
                 placeholder={$preferredTranslations[0].ui.placeholders.project}
@@ -973,7 +977,7 @@
                     action={close}>❌</Button
                 >
             </div>
-        </section>
+        </nav>
 
         <!-- Render annotations on top of the tiles and the footer -->
         <Annotations
@@ -1055,7 +1059,7 @@
         border-bottom: none;
     }
 
-    .footer {
+    nav {
         display: flex;
         flex-direction: row;
         align-items: center;

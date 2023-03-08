@@ -26,7 +26,7 @@
     }
 </script>
 
-<section class="controls">
+<div class="controls">
     <Button
         tip={$preferredTranslations[0].ui.tooltip.reset}
         action={reset}
@@ -79,7 +79,7 @@
         action={() => evaluator.stepToEnd()}
         enabled={evaluator.isInPast()}>⇥</Button
     >
-</section>
+</div>
 
 <style>
     .controls {

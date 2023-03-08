@@ -31,6 +31,7 @@
     } from '../project/Contexts';
     import {
         preferredLanguages,
+        preferredTranslations,
         writingDirection,
         writingLayout,
     } from '@translation/translations';
@@ -1212,8 +1213,11 @@
 <!-- Drop what's being dragged if the window loses focus. -->
 <svelte:window on:blur={handleRelease} />
 
-<div
+<section
     class="editor {stepping ? 'stepping' : 'playing'}"
+    aria-label={`${
+        $preferredTranslations[0].ui.section.editor
+    } ${source.getTranslation($preferredLanguages)}`}
     style:direction={$writingDirection}
     style:writing-mode={$writingLayout}
     data-id={source.id}
@@ -1268,7 +1272,7 @@
             on:blur={handleTextInputFocusLoss}
         />
     {/if}
-</div>
+</section>
 
 <style>
     .editor {

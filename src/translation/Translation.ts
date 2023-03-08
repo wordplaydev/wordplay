@@ -819,6 +819,15 @@ type Translation = {
         headers: {
             editing: string;
         };
+        section: {
+            project: string;
+            conflicts: string;
+            timeline: string;
+            toolbar: string;
+            output: string;
+            palette: string;
+            editor: string;
+        };
         feedback: {
             unknownProject: string;
         };

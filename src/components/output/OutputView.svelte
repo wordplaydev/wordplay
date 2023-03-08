@@ -36,6 +36,7 @@
 
 <section
     class={`output ${mode}`}
+    aria-label={$preferredTranslations[0].ui.section.output}
     class:mode
     tabIndex={mode === 'peripheral' ? 0 : null}
     style:direction={$writingDirection}

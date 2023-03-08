@@ -83,13 +83,13 @@
     />
 </svelte:head>
 
-<main class:animated={$animationsOn} lang={$preferredLanguages[0]}>
+<div class:animated={$animationsOn} lang={$preferredLanguages[0]}>
     {#if loaded}
         <slot />
     {:else}
         <Loading />
     {/if}
-</main>
+</div>
 
 <style global>
     :root {

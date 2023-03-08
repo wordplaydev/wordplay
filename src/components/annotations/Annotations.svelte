@@ -220,6 +220,11 @@
 </script>
 
 <!-- Render annotations by node -->
-{#each Array.from(annotationsByNode.values()) as annotations, index}
-    <Annotation id={index} {annotations} />
-{/each}
+<section
+    class="annotations"
+    aria-label={$preferredTranslations[0].ui.section.conflicts}
+>
+    {#each Array.from(annotationsByNode.values()) as annotations, index}
+        <Annotation id={index} {annotations} />
+    {/each}
+</section>
