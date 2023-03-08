@@ -1,7 +1,7 @@
 <svelte:options immutable={true} />
 
 <script lang="ts">
-    import { onMount } from 'svelte';
+    import { onDestroy, onMount } from 'svelte';
     import type Project from '@models/Project';
     import type Verse from '@output/Verse';
     import { animationsOn } from '@models/stores';
@@ -96,6 +96,9 @@
             }
         );
     }
+
+    /** When this is unmounted, stop all animations.*/
+    onDestroy(() => stage.stop());
 
     /** Expose the editable context to all children */
     let editableStore = writable<boolean>(editable);
