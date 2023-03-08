@@ -76,6 +76,7 @@
         />{/if}<div
         class="{node.constructor.name} node-view"
         class:hide
+        aria-hidden={hide}
         data-id={node.id}
         >{#if value}<ValueView {value} />{:else}<svelte:component
                 this={getNodeView(node)}
