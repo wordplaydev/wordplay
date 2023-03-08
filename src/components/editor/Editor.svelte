@@ -227,6 +227,8 @@
 
     // When the caret changes, if it's a node, focus on the node, and if it's an index, focus on the hidden text field.
     $: {
+        // Hide the menu, if there is one.
+        hideMenu();
         if ($caret.position instanceof Node) {
             if ($caret.position instanceof Node) {
                 const view = getNodeView($caret.position);
