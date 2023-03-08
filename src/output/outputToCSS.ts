@@ -157,6 +157,7 @@ export function toOutputTransform(
         // If we're perspective scaling this output, translate around the focus center
         // in the local coordinate system, scale according to distance from focus,
         // then translate back. Remember that this all happens after everything below.
+
         // Undo the focus translation
         translateXY(-focusX, -focusY),
         // Scale around the focus

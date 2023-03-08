@@ -1,5 +1,5 @@
 === Video
-colors: camera(32px 32px 33ms)
+colors: camera(32px 24px 33ms)
 
 Verse(
     colors.combine(
@@ -8,7 +8,7 @@ Verse(
             phrases.append(
                 row.translate(
                     ƒ(color•Color x•#) 
-                        Phrase("⏺" place: Place(x · -0.5m y · -0.5m) rest: Pose(color: color) duration: 0s
+                        Phrase("⏺" place: Place((x - 1) · 0.5m y · -0.5m) rest: Pose(color: color) duration: 0s
                 )
             )
         )

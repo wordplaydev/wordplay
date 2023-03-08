@@ -171,7 +171,7 @@
 
     /** When verse or viewport changes, update the autofit focus. */
     $: {
-        if (view) {
+        if (view && fit) {
             // Get the bounds of the verse in verse units.
             const contentWidth = contentBounds.width;
             const contentHeight = contentBounds.height;
@@ -181,8 +181,8 @@
             const contentRenderedHeight = contentHeight * PX_PER_METER;
 
             // Leave some padding on the edges.
-            const availableWidth = viewportWidth * (2 / 3);
-            const availableHeight = viewportHeight * (2 / 3);
+            const availableWidth = viewportWidth * (3 / 4);
+            const availableHeight = viewportHeight * (3 / 4);
 
             // Figure out the fit dimension based on which scale would be smaller.
             // This ensures that we don't clip anything.
@@ -208,7 +208,7 @@
             );
             // If we're currently fitting to content, just make the adjusted focus the same in case the setting is disabled.
             // This ensures we start from where we left off.
-            if (fit) adjustedFocus = fitFocus;
+            adjustedFocus = fitFocus;
         }
     }
 
