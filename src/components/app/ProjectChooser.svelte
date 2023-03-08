@@ -8,6 +8,7 @@
     import Lead from './Lead.svelte';
     import ProjectPreview from './ProjectPreview.svelte';
     import Button from '../widgets/Button.svelte';
+    import { onMount } from 'svelte';
 
     const projects = getProjects();
     const user = getUser();
@@ -35,7 +36,9 @@
     }
 
     // Load all projects from the database.
-    if ($user) $projects.loadRemote($user.uid);
+    onMount(() => {
+        if ($user) $projects.loadRemote($user.uid);
+    });
 
     /** Create some example projects */
     const exampleProjects = examples.map((example) => makeProject(example));
