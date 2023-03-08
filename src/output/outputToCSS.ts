@@ -47,10 +47,7 @@ export function incrementalScale(z: number) {
     return Math.max(0, 1 + INCREMENTAL_SCALING_FACTOR - z / FOCAL_LENGTH);
 }
 
-export function focusToTransform(
-    viewportWidth: number,
-    viewportHeight: number
-) {
+export function centerTransform(viewportWidth: number, viewportHeight: number) {
     return translateXY(viewportWidth / 2, viewportHeight / 2);
 }
 
