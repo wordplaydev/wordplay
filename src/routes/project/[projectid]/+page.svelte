@@ -39,6 +39,10 @@
     setContext<ProjectContext>(ProjectSymbol, project);
 </script>
 
+<svelte:head>
+    <title>{$project ? $project.name : '…'}</title>
+</svelte:head>
+
 {#if $project}
     <ProjectView project={$project} />
 {:else if loading}
