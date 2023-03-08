@@ -164,7 +164,8 @@ export default class Camera extends TemporalStream<List> {
     start() {
         if (
             typeof navigator === 'undefined' ||
-            typeof navigator.mediaDevices == 'undefined'
+            typeof navigator.mediaDevices == 'undefined' ||
+            this.config !== undefined
         )
             return;
 
