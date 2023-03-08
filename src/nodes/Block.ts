@@ -169,9 +169,12 @@ export default class Block extends Expression {
         return conflicts;
     }
 
-    getStatementIndexContaining(node: Node): number | undefined {
-        const containingStatement = this.statements.find((s) =>
-            s.contains(node)
+    getStatementIndexContaining(
+        node: Node,
+        context: Context
+    ): number | undefined {
+        const containingStatement = this.statements.find(
+            (s) => node === s || context.source.root.hasAncestor(node, s)
         );
         if (containingStatement === undefined) return;
         const index = this.statements.indexOf(containingStatement);
@@ -179,8 +182,8 @@ export default class Block extends Expression {
         return index;
     }
 
-    getDefinitions(node: Node): Definition[] {
-        const index = this.getStatementIndexContaining(node);
+    getDefinitions(node: Node, context: Context): Definition[] {
+        const index = this.getStatementIndexContaining(node, context);
         if (index === undefined) return [];
 
         // Expose any bind, function, or structures, including on the line that contains this node, to allow them to refer to themselves.

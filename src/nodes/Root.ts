@@ -51,6 +51,15 @@ export default class Root {
         return ancestors;
     }
 
+    hasAncestor(node: Node, ancestor: Node): boolean {
+        let current: Node | undefined = node;
+        do {
+            current = this.getParent(current);
+            if (current === ancestor) return true;
+        } while (current);
+        return false;
+    }
+
     getSelfAndAncestors(node: Node): Node[] {
         return [node, ...this.getAncestors(node)];
     }

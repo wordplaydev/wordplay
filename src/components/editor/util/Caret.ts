@@ -248,7 +248,10 @@ export default class Caret {
     /** True if this caret's position is or is inside of the given node. */
     isIn(node: Node) {
         if (this.position instanceof Node)
-            return this.position === node || node.contains(this.position);
+            return (
+                this.position === node ||
+                this.source.root.hasAncestor(this.position, node)
+            );
 
         const start = this.source.getNodeFirstPosition(node);
         const end = this.source.getNodeLastPosition(node);

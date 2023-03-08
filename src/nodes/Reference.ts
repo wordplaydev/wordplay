@@ -95,7 +95,10 @@ export default class Reference extends AtomicExpression {
             conflicts.push(new UnexpectedTypeVariable(this));
 
         // Is this name referred to in its bind?
-        if (bindOrTypeVar instanceof Bind && bindOrTypeVar.contains(this)) {
+        if (
+            bindOrTypeVar instanceof Bind &&
+            context.source.root.hasAncestor(this, bindOrTypeVar)
+        ) {
             // Does this name have a parent that's a reaction, and is the bind a parent of that reaction?
             const reaction = context
                 .getRoot(this)
