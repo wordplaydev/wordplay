@@ -96,7 +96,6 @@ export default class Camera extends TemporalStream<List> {
                     { colorSpace: 'srgb' }
                 );
 
-                console.log(`${image.width} ${image.height}`);
                 // Translate the rows into a 2D array of colors
                 const rows: Structure[][] = [];
                 for (let i = 0; i < image.data.length; i += 4) {
