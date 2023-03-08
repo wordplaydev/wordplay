@@ -23,6 +23,7 @@
 <svg
     class={`highlight outline ${filteredClasses}`}
     class:ignored
+    aria-hidden="true"
     style={`top: ${outline.miny - HIGHLIGHT_PADDING}px; left: ${
         outline.minx - HIGHLIGHT_PADDING
     }px; `}
@@ -38,6 +39,7 @@
 </svg><svg
     class={`highlight underline ${filteredClasses}`}
     class:ignored
+    aria-hidden="true"
     style={`top: ${outline.miny - HIGHLIGHT_PADDING}px; left: ${
         outline.minx - HIGHLIGHT_PADDING
     }px; `}
