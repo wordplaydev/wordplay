@@ -1081,8 +1081,7 @@
                         result.then((edit) => handleEdit(edit));
                     else handleEdit(result);
 
-                    // Prevent the keyboard command from being otherwise handled.
-                    event.stopPropagation();
+                    // Prevent default keyboard commands from being otherwise handled.
                     event.preventDefault();
 
                     // Stop looking for commands, we found one and tried it!
