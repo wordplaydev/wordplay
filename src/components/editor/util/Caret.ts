@@ -321,51 +321,78 @@ export default class Caret {
             // If requesting the non-sibling, get the token after/before the current selection
             // in the depth first traversal of the search.
             else {
-                const nodes = this.source.nodes();
-                let currentIndex = nodes.indexOf(this.position);
-                if (currentIndex < 0) return this;
-                do {
-                    currentIndex += direction;
-                    if (currentIndex < 0 || currentIndex >= nodes.length)
-                        return this;
-                    const currentNode = nodes[currentIndex];
-                    if (currentNode instanceof Token)
-                        return this.withPosition(currentNode);
-                } while (this);
-                return this;
-            }
+                // Choose the first or last index of the node.
 
-            // Get the first or last token of the given node.
-            // const tokens = this.position.nodes(
-            //     (n): n is Token => n instanceof Token
-            // ) as Token[];
-            // const last = tokens[tokens.length - 1];
-            // const index =
-            //     direction < 0
-            //         ? this.source.getTokenTextPosition(tokens[0])
-            //         : this.source.getTokenTextPosition(last) === undefined
-            //         ? undefined
-            //         : this.source.getTokenTextPosition(last) +
-            //           tokens[tokens.length - 1].getTextLength();
-            // if (index !== undefined)
-            //     return tokens.length === 0 ? this : this.withPosition(index);
-            // else return this;
+                // const nodes = this.source.nodes();
+                // let currentIndex = nodes.indexOf(this.position);
+                // if (currentIndex < 0) return this;
+                // do {
+                //     currentIndex += direction;
+                //     if (currentIndex < 0 || currentIndex >= nodes.length)
+                //         return this;
+                //     const currentNode = nodes[currentIndex];
+                //     if (currentNode instanceof Token)
+                //         return this.withPosition(currentNode);
+                // } while (this);
+                // return this;
+
+                // Get the first or last token of the given node.
+                const index = this.getTextPosition(direction < 0);
+                return index !== undefined ? this.withPosition(index) : this;
+            }
         } else {
+            // At the beginning or end? Do nothing.
             if (
                 this.position ===
                 (direction < 0 ? 0 : this.source.getCode().getLength())
             )
                 return this;
-            let pos = this.position + direction;
 
-            // See if the token at this position is a placeholder token or in a placeholder expression.
+            // At a placeholder? Select the placeholder.
             const placeholder = this.getPlaceholderAtPosition(
                 this.position - (direction < 0 ? 1 : 0)
             );
-
             if (placeholder) return this.withPosition(placeholder);
-            else return this.withPosition(pos);
+
+            // At a token start and going next? Select the token.
+            const token = this.source.getTokenAt(this.position, false);
+            const tokenBefore = this.source.getTokenAt(
+                this.position - 1,
+                false
+            );
+            if (
+                token &&
+                direction > 0 &&
+                this.source.getTokenTextPosition(token) === this.position
+            )
+                return this.withPosition(token);
+            else if (
+                tokenBefore &&
+                direction < 0 &&
+                this.source.getTokenLastPosition(tokenBefore) === this.position
+            )
+                return this.withPosition(tokenBefore);
+
+            return this.withPosition(this.position + direction);
         }
+    }
+
+    getTextPosition(start: boolean): number | undefined {
+        if (this.position instanceof Node) {
+            // Get the first or last token of the given node.
+            const tokens = this.position.nodes(
+                (n): n is Token => n instanceof Token
+            ) as Token[];
+            const first = tokens[0];
+            const last = tokens[tokens.length - 1];
+            if (start && first) {
+                return this.source.getTokenTextPosition(first);
+            } else if (!start && last) {
+                const index = this.source.getTokenTextPosition(last);
+                if (index !== undefined) return index + last.getTextLength();
+            }
+            return undefined;
+        } else return undefined;
     }
 
     getPlaceholderAtPosition(position: number): Node | undefined {
@@ -476,11 +503,12 @@ export default class Caret {
     /** If the caret is a node, set the position to its first index */
     enter() {
         if (this.position instanceof Node) {
-            if (this.position instanceof Token)
-                return this.withPosition(
-                    this.source.getTokenTextPosition(this.position)
-                );
-
+            if (this.position instanceof Token) {
+                const index = this.source.getTokenTextPosition(this.position);
+                return index !== undefined
+                    ? this.withPosition(index + 1)
+                    : this;
+            }
             return this.withPosition(
                 this.position.getChildren()[0] ?? this.position
             );

@@ -49,6 +49,10 @@
 
             // Compute where the caret should be placed. Place it if...
             caretIndex =
+                // This token has to be in the source
+                spaceIndex !== undefined &&
+                lastIndex !== undefined &&
+                textIndex !== undefined &&
                 // Don't show the caret if the program is evaluating.
                 $playing &&
                 // Only show the caret if it's pointing to a number

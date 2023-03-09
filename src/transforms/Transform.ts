@@ -29,9 +29,10 @@ export default abstract class Transform {
         const tokenAfter = source.getTokenAt(position);
         let newSpaces = source.spaces;
         if (tokenAfter !== undefined) {
+            const indexAfter = source.getTokenSpacePosition(tokenAfter);
+            if (indexAfter === undefined) return newSpaces;
             const spaceAfter = source.spaces.getSpace(tokenAfter);
-            const spaceOffset =
-                position - source.getTokenSpacePosition(tokenAfter);
+            const spaceOffset = position - indexAfter;
             const newSpaceBefore = spaceAfter.substring(0, spaceOffset);
             const newSpaceAfter = spaceAfter.substring(spaceOffset);
             newSpaces = newSpaces

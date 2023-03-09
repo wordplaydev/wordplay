@@ -385,27 +385,24 @@ export default class Source extends Expression {
             ]) as this;
     }
 
-    getTokenTextPosition(token: Token) {
-        const index = this.tokenPositions.get(token);
-        if (index === undefined)
-            throw Error(
-                `No index for ${token.toWordplay()}; it must not be in this source, which means there's a defect somewhere.`
-            );
-        return index;
+    getTokenTextPosition(token: Token): number | undefined {
+        return this.tokenPositions.get(token);
     }
 
     getTokenSpacePosition(token: Token) {
-        return (
-            this.getTokenTextPosition(token) -
-            this.spaces.getSpace(token).length
-        );
+        const index = this.getTokenTextPosition(token);
+        return index !== undefined
+            ? index - this.spaces.getSpace(token).length
+            : undefined;
     }
     getTokenLastPosition(token: Token) {
-        return this.getTokenTextPosition(token) + token.getTextLength();
+        const index = this.getTokenTextPosition(token);
+        return index !== undefined ? index + token.getTextLength() : undefined;
     }
 
     getEndOfTokenLine(token: Token) {
         let position = this.getTokenTextPosition(token);
+        if (position === undefined) return undefined;
         while (
             position < this.code.getLength() &&
             this.code.at(position) !== '\n'
@@ -416,6 +413,7 @@ export default class Source extends Expression {
 
     getStartOfTokenLine(token: Token) {
         let position = this.getTokenTextPosition(token);
+        if (position === undefined) return undefined;
         while (position > 0 && this.code.at(position) !== '\n') position--;
         if (position > 0) {
             position++;
@@ -476,6 +474,7 @@ export default class Source extends Expression {
 
     tokenSpaceContains(token: Token, position: number) {
         const index = this.getTokenTextPosition(token);
+        if (index === undefined) return false;
         return (
             position >= index - this.spaces.getSpace(token).length &&
             position <= index

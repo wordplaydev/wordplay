@@ -231,6 +231,8 @@
         // Hide the menu, if there is one.
         hideMenu();
         if ($caret.position instanceof Node) {
+            // Clear the last input value
+            lastKeyboardInputValue = undefined;
             if ($caret.position instanceof Node) {
                 const view = getNodeView($caret.position);
                 if (view) view.focus();
@@ -828,15 +830,19 @@
                 .sort((a, b) => a.offset - b.offset)[0]; // Chose the closest
 
         // If we have a closest line, find the line number
-        if (closestLine)
-            return (
-                $caret.source.getTokenSpacePosition(closestLine.token) +
-                source.spaces
-                    .getSpace(closestLine.token)
-                    .split('\n', closestLine.index)
-                    .join('\n').length +
-                1
+        if (closestLine) {
+            const index = $caret.source.getTokenSpacePosition(
+                closestLine.token
             );
+            return index
+                ? index +
+                      source.spaces
+                          .getSpace(closestLine.token)
+                          .split('\n', closestLine.index)
+                          .join('\n').length +
+                      1
+                : undefined;
+        }
 
         // Otherwise, choose the last position if nothing else matches.
         return source.getTokenLastPosition(source.expression.end);
@@ -850,15 +856,11 @@
             const token = caret.getToken();
             if (token === undefined) return [];
             // What is the space prior to this insertion point?
-            const spacePrior =
-                token === undefined
-                    ? ''
-                    : source.spaces
-                          .getSpace(token)
-                          .substring(
-                              0,
-                              position - source.getTokenSpacePosition(token)
-                          );
+            const index = source.getTokenSpacePosition(token);
+            if (index === undefined) return [];
+            const spacePrior = source.spaces
+                .getSpace(token)
+                .substring(0, position - index);
 
             // How many lines does the space prior include?
             const line = spacePrior.split('\n').length - 1;
@@ -1046,9 +1048,6 @@
             }
         }
 
-        // Hide the menu, then process the navigation.
-        if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') hideMenu();
-
         // Map meta to control on Mac OS/iOS.
         const control = event.metaKey || event.ctrlKey;
 
@@ -1115,7 +1114,8 @@
 
         // After every edit and everything is updated, focus back on on text input
         await tick();
-        if (input && caretLocation && !unmodified) input.focus();
+        if (input && caretLocation && !unmodified && $caret.isIndex())
+            input.focus();
     }
 
     let lastKeyboardInputValue: undefined | UnicodeString = undefined;
@@ -1230,7 +1230,7 @@
     on:mouseup={handleRelease}
     on:mousemove={handleMouseMove}
     on:mouseleave={handleMouseLeave}
-    on:keydown={(event) => ($caret.isNode() ? handleKeyDown(event) : undefined)}
+    on:keydown={handleKeyDown}
 >
     <!-- Render highlights below the code -->
     {#each outlines as outline}
@@ -1267,7 +1267,6 @@
             };`}
             bind:this={input}
             on:input={handleTextInput}
-            on:keydown={handleKeyDown}
             on:focus={handleTextInputFocusGain}
             on:blur={handleTextInputFocusLoss}
         />
