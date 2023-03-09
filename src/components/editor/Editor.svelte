@@ -181,9 +181,6 @@
         }
     }
 
-    // Focused when the active element is the text input.
-    let focused = false;
-
     // True if the last keyboard input was not handled by a command.
     let lastKeyDownIgnored = false;
 
@@ -1189,14 +1186,6 @@
         else lastKeyDownIgnored = true;
     }
 
-    function handleTextInputFocusLoss() {
-        focused = false;
-    }
-
-    function handleTextInputFocusGain() {
-        focused = true;
-    }
-
     function hideMenu() {
         menu = undefined;
     }
@@ -1244,7 +1233,7 @@
     {#if !stepping}
         <CaretView
             {source}
-            blink={$KeyboardIdle && focused}
+            blink={$KeyboardIdle}
             ignored={$playing === true && lastKeyDownIgnored}
             bind:location={caretLocation}
         />
@@ -1259,8 +1248,6 @@
             };`}
             bind:this={input}
             on:input={handleTextInput}
-            on:focus={handleTextInputFocusGain}
-            on:blur={handleTextInputFocusLoss}
         />
     {/if}
 </section>
