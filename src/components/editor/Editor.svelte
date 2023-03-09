@@ -435,6 +435,14 @@
                 addHighlight(newHighlights, node, 'output');
         }
 
+        // Does the selected node have a matching delimiter?
+        if ($caret.position instanceof Token) {
+            const match = source.getMatchedDelimiter($caret.position);
+            if (match) {
+                addHighlight(newHighlights, match, 'hovered');
+            }
+        }
+
         // Update the store, broadcasting the highlights to all node views for rendering.
         highlights.set(newHighlights);
     }
