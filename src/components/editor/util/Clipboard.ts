@@ -9,7 +9,7 @@ export function toClipboard(
         return navigator.clipboard
             .write([
                 new ClipboardItem({
-                    'text/plain': new Blob([node.toWordplay(spaces)], {
+                    'text/plain': new Blob([node.toWordplay(spaces).trim()], {
                         type: 'text/plain',
                     }),
                 }),
