@@ -25,7 +25,7 @@
     export let inert: boolean = false;
 
     /** Get the root, or make one if it's not a source. */
-    let root = node instanceof Source ? node.root : new Root(node);
+    $: root = node instanceof Source ? node.root : new Root(node);
 
     // When the spaces change, update the rendered spaces
     let renderedSpace: SpaceContext = writable(new Map());
@@ -58,6 +58,7 @@
         }
 
         renderedSpace.set(newSpace);
+        console.log('Updated root spaces');
     }
 
     let caret = getCaret();
