@@ -125,16 +125,17 @@
                 ? ExpressionPlaceholder.make(type)
                 : undefined;
 
+        const newSource = source.withProgram(
+            source.expression.replace(node, replacement),
+            source.spaces.withReplacement(node, replacement)
+        );
+
         // Update the project with the new source files
         $projects.revise(
             project,
-            project.withSource(
-                source,
-                source.withProgram(
-                    source.expression.replace(node, replacement),
-                    source.spaces.withReplacement(node, replacement)
-                )
-            )
+            project
+                .withSource(source, newSource)
+                .withCaret(newSource, source.getNodeFirstPosition(node) ?? 0)
         );
     }
 

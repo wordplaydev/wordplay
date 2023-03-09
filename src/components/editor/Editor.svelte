@@ -66,9 +66,7 @@
     import { PhraseType } from '@output/Phrase';
     import { GroupType } from '@output/Group';
     import { VerseType } from '@output/Verse';
-    import { getPersistedValue, setPersistedValue } from '@db/persist';
     import type Evaluator from '@runtime/Evaluator';
-    import type { Path } from '@nodes/Root';
 
     export let evaluator: Evaluator;
     export let project: Project;
@@ -93,36 +91,16 @@
 
     let editor: HTMLElement | null;
 
-    const CARETS_KEY = 'carets';
-    type Carets = Record<string, number | Path>;
-
-    function getCarets() {
-        return getPersistedValue<Carets>(CARETS_KEY) ?? {};
-    }
-
-    /** Convert a persisted caret position to a concrete position **/
-    function getPersistedCaret() {
-        const carets = getCarets();
-        const position = carets[source.names.getNames()[0]] ?? undefined;
-        if (position === undefined) return 0;
-        else if (typeof position === 'number') return position;
-        else return source.root.resolvePath(source, position);
-    }
-
     // A per-editor store that contains the current editor's cursor. We expose it as context to children.
-    const caret = writable<Caret>(new Caret(source, getPersistedCaret() ?? 0));
+    const caret = writable<Caret>(
+        new Caret(source, project.getCaretPosition(source) ?? 0)
+    );
     setContext(CaretSymbol, caret);
 
-    // Persist the caret position every time it changes and the keyboard is idle.
+    // Whenever the project or source changes, set the caret to the project's caret for the source.
     $: {
-        if ($KeyboardIdle) {
-            const carets = getCarets();
-            carets[source.names.getNames()[0]] =
-                $caret.position instanceof Node
-                    ? source.root.getPath($caret.position) ?? 0
-                    : $caret.position;
-            setPersistedValue(CARETS_KEY, carets);
-        }
+        const position = project.getCaretPosition(source);
+        if (position) caret.set(new Caret(source, position));
     }
 
     // A store of highlighted nodes, used by node views to highlight themselves.
@@ -573,7 +551,7 @@
         if ($dragged === undefined) return;
         if ($hovered === undefined && $insertion === undefined) return;
 
-        const [newProject, droppedNode] = dropNodeOnSource(
+        const [newProject, newSource, droppedNode] = dropNodeOnSource(
             project,
             source,
             $dragged,
@@ -583,14 +561,15 @@
         if (newProject === undefined || droppedNode === undefined) return;
 
         // Set the caret to the first placeholder or the dragged node, or the node itself if there isn't one.
-        caret.set(
-            $caret.withPosition(
-                droppedNode.getFirstPlaceholder() ?? droppedNode
-            )
-        );
+        const newCaretPosition =
+            droppedNode.getFirstPlaceholder() ?? droppedNode;
+        caret.set($caret.withPosition(newCaretPosition));
 
         // Update the project with the new source files
-        $projects.revise(project, newProject);
+        $projects.revise(
+            project,
+            newProject.withCaret(newSource, newCaretPosition)
+        );
 
         // Wait for the DOM updates.
         await tick();
@@ -1114,7 +1093,12 @@
 
         // Update the caret and project.
         if (newSource) {
-            $projects.revise(project, project.withSource(source, newSource));
+            $projects.revise(
+                project,
+                project
+                    .withSource(source, newSource)
+                    .withCaret(newSource, newCaret.position)
+            );
             caret.set(newCaret.withSource(newSource));
         } else {
             caret.set(newCaret);

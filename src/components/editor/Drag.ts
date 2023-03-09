@@ -65,7 +65,7 @@ export function dropNodeOnSource(
     source: Source,
     dragged: Node,
     target: Node | InsertionPoint
-): [Project, Node] {
+): [Project, Source, Node] {
     const root = project.getRoot(dragged);
     const draggedRoot = root?.root;
 
@@ -188,15 +188,13 @@ export function dropNodeOnSource(
     }
 
     // Make a new source
-    const newSource = source.withProgram(editedProgram, editedSpace);
+    let newSource = source.withProgram(editedProgram, editedSpace);
+    newSource = newSource.withSpaces(editedSpace.withPreferredSpace(newSource));
 
     // Finally, add this editor's updated source to the list of sources to replace in the project.
-    sourceReplacements.push([
-        source,
-        newSource.withSpaces(editedSpace.withPreferredSpace(newSource)),
-    ]);
+    sourceReplacements.push([source, newSource]);
 
-    return [project.withSources(sourceReplacements), draggedClone];
+    return [project.withSources(sourceReplacements), newSource, draggedClone];
 }
 
 export function getInsertionPoint(

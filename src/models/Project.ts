@@ -5,7 +5,7 @@ import FunctionDefinition from '@nodes/FunctionDefinition';
 import type Program from '@nodes/Program';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import Source from '@nodes/Source';
-import type Node from '@nodes/Node';
+import Node from '@nodes/Node';
 import HOF from '../native/HOF';
 import FunctionDefinitionType from '@nodes/FunctionDefinitionType';
 import Native from '../native/NativeBindings';
@@ -23,8 +23,14 @@ import { PhraseType } from '../output/Phrase';
 import { v4 as uuidv4 } from 'uuid';
 import { parseNames, toTokens } from '../parser/Parser';
 import type Root from '../nodes/Root';
+import type { Path } from '../nodes/Root';
+import type { CaretPosition } from '../components/editor/util/Caret';
 
-export type SerializedSource = { names: string; code: string };
+export type SerializedSource = {
+    names: string;
+    code: string;
+    caret: SerializedCaret;
+};
 export type SerializedProject = {
     id: string;
     name: string;
@@ -46,6 +52,10 @@ type Analysis = {
     dependencies: Map<Expression, Set<Expression>>;
 };
 
+type SerializedCaret = number | Path;
+type SerializedSourceCaret = { source: Source; caret: SerializedCaret };
+type SerializedCarets = SerializedSourceCaret[];
+
 /**
  * A project with a name, some source files, and evaluators for each source file.
  **/
@@ -61,6 +71,9 @@ export default class Project {
 
     /** All source files in the project, and their evaluators */
     readonly supplements: Source[];
+
+    /** Serialized caret positions for each source file */
+    readonly carets: SerializedCarets;
 
     /** True if the project is fresh data from the remote database, so it does not need to be persisted. */
     saved: boolean;
@@ -89,6 +102,7 @@ export default class Project {
         name: string,
         main: Source,
         supplements: Source[],
+        carets: SerializedCarets | undefined = undefined,
         uids: string[] = [],
         saved: boolean = false
     ) {
@@ -100,6 +114,14 @@ export default class Project {
         this.name = name;
         this.main = main;
         this.supplements = supplements.slice();
+
+        // Remember the carets
+        this.carets =
+            carets === undefined
+                ? this.getSources().map((source) => {
+                      return { source, caret: 0 };
+                  })
+                : carets;
 
         this.roots = [
             ...this.getSources().map((source) => source.root),
@@ -114,6 +136,7 @@ export default class Project {
             this.name,
             this.main,
             this.supplements,
+            this.carets,
             this.uids
         );
     }
@@ -393,6 +416,7 @@ export default class Project {
             this.name,
             this.main,
             this.supplements,
+            this.carets,
             this.uids
         );
     }
@@ -403,6 +427,7 @@ export default class Project {
             name,
             this.main,
             this.supplements,
+            this.carets,
             this.uids
         );
     }
@@ -411,20 +436,39 @@ export default class Project {
         return this.withSources([[oldSource, newSource]]);
     }
 
+    withCaret(source: Source, caret: CaretPosition) {
+        return new Project(
+            this.id,
+            this.name,
+            this.main,
+            this.supplements,
+            this.carets.map((c) =>
+                c.source === source
+                    ? {
+                          source,
+                          caret:
+                              caret instanceof Node
+                                  ? source.root.getPath(caret)
+                                  : caret,
+                      }
+                    : c
+            ),
+            this.uids
+        );
+    }
+
     withoutSource(source: Source) {
         return new Project(
             this.id,
             this.name,
             this.main,
             this.supplements.filter((s) => s !== source),
+            this.carets.filter((c) => c.source !== source),
             this.uids
         );
     }
 
     withSources(replacements: [Source, Source][]) {
-        // Note: we need to clone all of the unchanged sources in order to generate new Programs so that the views can
-        // trigger an update. Without this, we'd have the same Source, Program, and Nodes, and the views would have no idea
-        // that the conflicts in those same objects have changed.
         const mainReplacement = replacements.find(
             (replacement) => replacement[0] === this.main
         );
@@ -442,17 +486,29 @@ export default class Project {
             this.name,
             newMain,
             newSupplements,
+            this.carets.map((caret) => {
+                // See if the caret's source was replaced.
+                const replacement = replacements.find(
+                    ([original]) => original === caret.source
+                );
+                return replacement !== undefined
+                    ? { source: replacement[1], caret: caret.caret }
+                    : caret;
+            }),
             this.uids
         );
     }
 
     withRevisedNodes(nodes: [Node, Node | undefined][]) {
-        const replacementSources: [Source, Source][] = [];
+        const replacementSources: [Source, Source, CaretPosition][] = [];
 
         // Go through each replacement and generate a new source.
         for (const [original, replacement] of nodes) {
-            const context = this.getNodeContext(original);
-            const source = context.source;
+            const source = this.getSourceOf(original);
+            if (source === undefined) {
+                console.error("Couldn't find source of node being replaced");
+                return this;
+            }
             // Check if we made a new source already.
             const sources = replacementSources.find(
                 ([original]) => original === source
@@ -462,20 +518,44 @@ export default class Project {
                 replacementSources.push([
                     source,
                     source.replace(original, replacement),
+                    replacement === undefined
+                        ? source.getNodeFirstPosition(original) ?? 0
+                        : replacement,
                 ]);
             // Update the replacement source with the next replacement.
-            else sources[1] = sources[1].replace(original, replacement);
+            else {
+                sources[1] = sources[1].replace(original, replacement);
+                sources[2] =
+                    replacement === undefined
+                        ? source.getNodeFirstPosition(original) ?? 0
+                        : replacement;
+            }
         }
 
-        return this.withSources(replacementSources);
+        // Replace the sources
+        let newProject = this.withSources(
+            replacementSources.map(([oldSource, newSource]) => [
+                oldSource,
+                newSource,
+            ])
+        );
+
+        // Replace the carets
+        for (const [, newSource, caret] of replacementSources)
+            newProject = newProject.withCaret(newSource, caret);
+
+        // Return the revised project
+        return newProject;
     }
 
     withNewSource(name: string) {
+        const newSource = new Source(name, '');
         return new Project(
             this.id,
             this.name,
             this.main,
-            [...this.supplements, new Source(name, '')],
+            [...this.supplements, newSource],
+            [...this.carets, { source: newSource, caret: 0 }],
             this.uids
         );
     }
@@ -486,6 +566,7 @@ export default class Project {
             this.name,
             this.main,
             this.supplements,
+            this.carets,
             this.uids.some((user) => user === uid)
                 ? this.uids
                 : [...this.uids, uid]
@@ -537,18 +618,35 @@ export default class Project {
         ];
     }
 
+    getCaretPosition(source: Source): CaretPosition | undefined {
+        const position: SerializedCaret | undefined = this.carets.find(
+            (c) => c.source === source
+        )?.caret;
+
+        return position !== undefined
+            ? typeof position === 'number'
+                ? position
+                : source.root.resolvePath(source, position)
+            : undefined;
+    }
+
     static sourceToSource(source: SerializedSource): Source {
         return new Source(parseNames(toTokens(source.names)), source.code);
     }
 
     static fromObject(project: SerializedProject) {
+        const sources = project.sources.map((source) =>
+            Project.sourceToSource(source)
+        );
+
         return new Project(
             project.id,
             project.name,
-            Project.sourceToSource(project.sources[0]),
-            project.sources
-                .slice(1)
-                .map((source) => Project.sourceToSource(source)),
+            sources[0],
+            sources.slice(1),
+            project.sources.map((s, index) => {
+                return { source: sources[index], caret: s.caret };
+            }),
             project.uids
         );
     }
@@ -561,6 +659,9 @@ export default class Project {
                 return {
                     names: source.names.toWordplay(),
                     code: source.code.toString(),
+                    caret:
+                        this.carets.find((c) => c.source === source)?.caret ??
+                        0,
                 };
             }),
             uids: this.uids,

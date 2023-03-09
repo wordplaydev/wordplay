@@ -1,7 +1,7 @@
 import Expression from './Expression';
 import type Node from './Node';
 
-export type Path = [string, number][];
+export type Path = { type: string; index: number }[];
 
 /**
  * Represents a node and everything in it, providing accessors for parents, accessors, children, and more.
@@ -152,7 +152,10 @@ export default class Root {
         if (parent)
             return [
                 ...this.getPath(parent),
-                [parent.constructor.name, parent.getChildren().indexOf(node)],
+                {
+                    type: parent.constructor.name,
+                    index: parent.getChildren().indexOf(node),
+                },
             ];
         else return [];
     }
@@ -163,7 +166,7 @@ export default class Root {
     resolvePath(node: Node, path: Path): Node | undefined {
         if (path.length === 0) return node;
 
-        const [type, index] = path[0];
+        const { type, index } = path[0];
 
         // If the type of node doesn't match, this path doesn't resolve.
         return node.constructor.name !== type

@@ -15,11 +15,12 @@ import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import Program from '@nodes/Program';
 
 export type InsertionContext = { before: Node[]; after: Node[] };
+export type CaretPosition = number | Node;
 
 export default class Caret {
     readonly time: number;
     readonly source: Source;
-    readonly position: number | Node;
+    readonly position: CaretPosition;
 
     // A cache of the token we're at, since we use it frequently.
     readonly token: Token | undefined;
@@ -27,7 +28,7 @@ export default class Caret {
     readonly tokenSpaceIndex: number | undefined;
     readonly tokenExcludingWhitespace: Token | undefined;
 
-    constructor(source: Source, position: number | Node) {
+    constructor(source: Source, position: CaretPosition) {
         this.time = Date.now();
         this.source = source;
         this.position = position;

@@ -106,6 +106,7 @@ export default class Projects {
             '',
             new Source(translation.ui.placeholders.name, ''),
             [],
+            undefined,
             [uid],
             false
         );

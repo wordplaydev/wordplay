@@ -20,7 +20,7 @@
     let currentStepIndex = getCurrentStepIndex();
     let streams = getStreamChanges();
 
-    let timeline: HTMLElement | undefined;
+    let timeline: HTMLElement | null;
 
     // Find the latest stream change before the current step index.
     $: currentReaction = $currentStepIndex
@@ -73,7 +73,7 @@
     }
 
     function getTimePosition(stepIndex: number) {
-        if (timeline === undefined) return;
+        if (!timeline) return;
 
         // Get all of the input and step views
         const views = timeline.querySelectorAll('.event');

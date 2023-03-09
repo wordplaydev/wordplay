@@ -446,6 +446,8 @@ export default class Evaluator {
 
         // Clear the stream mapping
         this.nativeStreams = new Map();
+
+        this.broadcast();
     }
 
     getInitialValue() {
