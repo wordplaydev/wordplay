@@ -367,7 +367,9 @@
 
 <span
     class="caret {blink ? 'blink' : ''} {ignored ? 'ignored' : ''}"
-    class:node={$caret?.isNode()}
+    class:node={$caret &&
+        $caret.position instanceof Node &&
+        !$caret.position.isPlaceholder()}
     style={location === undefined
         ? 'display:none'
         : `left: ${location.left}; top: ${location.top}; height: ${location.height};`}
