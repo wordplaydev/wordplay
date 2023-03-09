@@ -607,6 +607,20 @@ export default class Caret {
                         this.withPosition(index),
                     ];
                 }
+                // Is the parent an expression with a single token? Replace the parent.
+                else if (
+                    parent instanceof Expression &&
+                    node instanceof Token &&
+                    parent.leaves().length === 1
+                ) {
+                    return [
+                        this.source.replace(
+                            parent,
+                            ExpressionPlaceholder.make()
+                        ),
+                        this.withPosition(index),
+                    ];
+                }
             }
             // Otherwise, do nothing.
         }
