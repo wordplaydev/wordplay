@@ -58,7 +58,6 @@
         }
 
         renderedSpace.set(newSpace);
-        console.log('Updated root spaces');
     }
 
     let caret = getCaret();
