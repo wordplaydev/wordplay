@@ -91,13 +91,21 @@ export default class Projects {
         return this.projects.get(id)?.current;
     }
 
-    async load(projectID: string) {
+    async load(projectID: string): Promise<Project | undefined> {
         // If we don't have it, ask the database for it.
-        const projectDoc = await getDoc(doc(firestore, 'projects', projectID));
-        if (projectDoc.exists()) {
-            this.addProject(
-                Project.fromObject(projectDoc.data() as SerializedProject)
+        try {
+            const projectDoc = await getDoc(
+                doc(firestore, 'projects', projectID)
             );
+            if (projectDoc.exists()) {
+                const project = Project.fromObject(
+                    projectDoc.data() as SerializedProject
+                );
+                this.addProject(project);
+                return project;
+            }
+        } catch (err) {
+            return undefined;
         }
     }
 

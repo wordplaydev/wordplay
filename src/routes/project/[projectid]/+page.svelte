@@ -17,6 +17,7 @@
 
     /** True if we're async loading the project, as opposed to getting it from the browser cache. */
     let loading: boolean = false;
+    let error: boolean = false;
 
     /** The project store is derived from the projects and the page's project ID. */
     const project: Readable<Project | undefined> = derived(
@@ -31,7 +32,16 @@
                 projectID.length > 0
             ) {
                 loading = true;
-                $projects.load(projectID);
+                $projects
+                    .load(projectID)
+                    .then(() => {
+                        loading = false;
+                        error = false;
+                    })
+                    .catch(() => {
+                        loading = false;
+                        error = true;
+                    });
             } else return project;
         }
     );
@@ -47,6 +57,6 @@
     <ProjectView project={$project} />
 {:else if loading}
     <Loading />
-{:else if $page.params.projectid}
+{:else if $page.params.projectid || error}
     <Feedback>{$preferredTranslations[0].ui.feedback.unknownProject}</Feedback>
 {/if}
