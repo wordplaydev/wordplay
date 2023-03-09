@@ -51,28 +51,35 @@ export default function moveOutput(
                             PlaceType
                         ),
                         [
-                            MeasurementLiteral.make(
-                                relative
-                                    ? (x instanceof MeasurementLiteral
-                                          ? x.getValue().num
-                                          : new Decimal(0)
-                                      )
-                                          .add(horizontal)
-                                          .toNumber()
-                                    : horizontal,
-                                Unit.make(['m'])
-                            ),
-                            MeasurementLiteral.make(
-                                relative
-                                    ? (y instanceof MeasurementLiteral
-                                          ? y.getValue().num
-                                          : new Decimal(0)
-                                      )
-                                          .add(vertical)
-                                          .toNumber()
-                                    : vertical,
-                                Unit.make(['m'])
-                            ),
+                            // If coordinate is computed, and not a literal, don't change it.
+                            x instanceof Expression &&
+                            !(x instanceof MeasurementLiteral)
+                                ? x
+                                : MeasurementLiteral.make(
+                                      relative
+                                          ? (x instanceof MeasurementLiteral
+                                                ? x.getValue().num
+                                                : new Decimal(0)
+                                            )
+                                                .add(horizontal)
+                                                .toNumber()
+                                          : horizontal,
+                                      Unit.make(['m'])
+                                  ),
+                            y instanceof Expression &&
+                            !(y instanceof MeasurementLiteral)
+                                ? y
+                                : MeasurementLiteral.make(
+                                      relative
+                                          ? (y instanceof MeasurementLiteral
+                                                ? y.getValue().num
+                                                : new Decimal(0)
+                                            )
+                                                .add(vertical)
+                                                .toNumber()
+                                          : vertical,
+                                      Unit.make(['m'])
+                                  ),
                             z instanceof Expression
                                 ? z
                                 : MeasurementLiteral.make(0, Unit.make(['m'])),
