@@ -520,6 +520,23 @@
     function setMode(tile: Tile, mode: Mode) {
         if (layout.getTileWithID(tile.id)?.mode === mode) return;
 
+        // Special case selected output and the palette.
+        if (
+            tile === layout.getPalette() &&
+            $selectedOutput &&
+            selectedOutputPaths
+        ) {
+            if (tile.mode === Mode.Collapsed && $selectedOutput.length === 0) {
+                const output = project.getOutput();
+                if (output.length > 0)
+                    setSelectedOutput(selectedOutputPaths, project, [
+                        output[0],
+                    ]);
+            } else if (tile.mode === Mode.Expanded) {
+                setSelectedOutput(selectedOutputPaths, project, []);
+            }
+        }
+
         layout = layout
             .withTileLast(tile.withMode(mode))
             .resized(canvasWidth, canvasHeight);
@@ -746,22 +763,6 @@
     }
 
     function toggleTile(tile: Tile) {
-        if (
-            tile === layout.getPalette() &&
-            $selectedOutput &&
-            selectedOutputPaths
-        ) {
-            if (tile.mode === Mode.Collapsed && $selectedOutput.length === 0) {
-                const output = project.getOutput();
-                if (output.length > 0)
-                    setSelectedOutput(selectedOutputPaths, project, [
-                        output[0],
-                    ]);
-            } else if (tile.mode === Mode.Expanded) {
-                setSelectedOutput(selectedOutputPaths, project, []);
-            }
-        }
-
         setMode(
             tile,
             tile.mode === Mode.Expanded ? Mode.Collapsed : Mode.Expanded
