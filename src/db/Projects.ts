@@ -21,6 +21,9 @@ import { FirebaseError } from 'firebase/app';
 
 const LOCAL_STORAGE_KEY = 'projects';
 
+// Remember this many project edits.
+const HISTORY_LIMIT = 128;
+
 export enum Status {
     Saved = 'saved',
     Saving = 'saving',
@@ -32,7 +35,21 @@ export default class Projects {
     private store: ProjectsContext;
 
     /** The current list of projects. */
-    private projects: Project[];
+    private projects: Map<
+        string,
+        {
+            // The current version of the project
+            current: Project;
+            // Previous versions of the project.
+            // It always contains the current version of the project and is therefore never empty.
+            history: [Project, ...Project[]];
+            // The index of the current project in the history.
+            // The present is the last value in the history.
+            index: number;
+            // True if this was successfully saved in the remote database.
+            saved: boolean;
+        }
+    >;
 
     /** The status of persisting the projects. */
     private status: Status = Status.Saved;
@@ -44,7 +61,15 @@ export default class Projects {
     private unsubscribe: Unsubscribe | undefined = undefined;
 
     constructor(projects: Project[]) {
-        this.projects = projects;
+        this.projects = new Map();
+        for (const project of projects)
+            this.projects.set(project.id, {
+                current: project,
+                history: [project],
+                index: 0,
+                saved: false,
+            });
+
         this.store = writable(this);
     }
 
@@ -56,46 +81,23 @@ export default class Projects {
         return this.status;
     }
 
-    setProjects(projects: Project[]) {
-        // Note that we're saving.
-        this.setStatus(Status.Saving);
-
-        // Update the field.
-        this.projects = projects;
-
-        // Notify subscribers
-        this.store.set(this);
-
-        // Clear pending saves.
-        clearTimeout(this.timer);
-
-        // Initiate another.
-        this.timer = setTimeout(() => this.save(), 1000);
-    }
-
-    setStatus(status: Status) {
-        this.status = status;
-        this.store.set(this);
-    }
-
-    /** Returns a list of all projects */
+    /** Get a list of all current projects */
     all() {
-        return this.projects.slice();
+        return Array.from(this.projects.values()).map((p) => p.current);
     }
 
-    /** Returns the first project with the given name, if it exists. */
+    /** Returns the current version of the project with the given ID, if it exists. */
     get(id: string) {
-        const project = this.projects.find((project) => project.id === id);
-        if (project) return project;
+        return this.projects.get(id)?.current;
     }
 
     async load(projectID: string) {
         // If we don't have it, ask the database for it.
         const projectDoc = await getDoc(doc(firestore, 'projects', projectID));
         if (projectDoc.exists()) {
-            this.addUnique([
-                Project.fromObject(projectDoc.data() as SerializedProject),
-            ]);
+            this.addProject(
+                Project.fromObject(projectDoc.data() as SerializedProject)
+            );
         }
     }
 
@@ -107,20 +109,40 @@ export default class Projects {
             new Source(translation.ui.placeholders.name, ''),
             [],
             undefined,
-            [uid],
-            false
+            [uid]
         );
-        this.addUnique([newProject]);
+        this.addProject(newProject);
         return newProject.id;
+    }
+
+    /** Batch set projects */
+    setProjects(projects: Project[]) {
+        for (const project of projects) {
+            // See if there's an existing record for this project
+            // so we can preserve it's history.
+            const info = this.projects.get(project.id);
+
+            this.projects.set(project.id, {
+                current: project,
+                history: info ? info.history : [project],
+                index: info ? info.index : 0,
+                saved: false,
+            });
+        }
+        this.update();
+    }
+
+    /** Add a single project, overriding any project with it's ID. */
+    addProject(project: Project) {
+        this.setProjects([project]);
     }
 
     /** Delete the project with the given ID, if it exists */
     async delete(id: string) {
+        this.projects.delete(id);
+        this.update();
         try {
             await deleteDoc(doc(firestore, 'projects', id));
-            this.setProjects(
-                this.projects.filter((project) => project.id !== id)
-            );
         } catch (error) {
             if (error instanceof FirebaseError) {
                 console.error(error.code);
@@ -130,21 +152,99 @@ export default class Projects {
         }
     }
 
-    /** Replaces the project with the given project */
+    /** Replaces the project with the given project, adding the current version to the history, and erasing the future, if there is any. */
     revise(project: string | Project, revised: Project) {
-        this.setProjects(
-            this.projects.map((candidate) =>
-                (project instanceof Project && project === candidate) ||
-                candidate.id === project
-                    ? revised
-                    : candidate
-            )
-        );
+        // Find the ID we're revising.
+        const id = project instanceof Project ? project.id : project;
+
+        // Get the info for the project. Bail if we don't find it, since this should never happen.
+        const info = this.projects.get(id);
+        if (info === undefined) throw Error(`Couldn't find project ${id}`);
+
+        // Is the undo pointer before the end? Trim the future.
+        info.history.splice(info.index, info.history.length - info.index - 1);
+
+        // Is the length of the history great than the limit? Trim it.
+        if (info.history.length > HISTORY_LIMIT)
+            info.history.splice(0, HISTORY_LIMIT - info.history.length);
+
+        // Add the revised project to the history.
+        info.history.push(revised);
+
+        // Reset the pointer to the end of the history
+        info.index = info.history.length;
+
+        // Set the current project to the revised project.
+        info.current = revised;
+
+        // Mark unsaved
+        info.saved = false;
+
+        // Request a save.
+        this.update();
+    }
+
+    undo(id: string) {
+        this.travel(id, -1);
+    }
+
+    redo(id: string) {
+        this.travel(id, 1);
+    }
+
+    travel(id: string, direction: -1 | 1) {
+        const info = this.projects.get(id);
+        // No record of this project? Do nothing.
+        if (info === undefined) return;
+
+        // In the present? Do nothing.
+        if (direction > 0 && info.index === info.history.length - 1) return;
+        // No more history? Do nothing.
+        else if (direction < 0 && info.index === 0) return;
+
+        // Move the index back a step in time
+        info.index += direction;
+
+        // Change the current project to the historical project.
+        info.current = info.history[info.index];
+
+        this.update();
     }
 
     /** Shorthand for revising nodes in a project */
     reviseNodes(project: Project, revisions: [Node, Node | undefined][]) {
         this.revise(project, project.withRevisedNodes(revisions));
+    }
+
+    /**
+     * Trigger a save to local storage and the remote database at some point in the future.
+     * Should be called any time this.projects is modified.
+     */
+    update() {
+        // Note that we're saving.
+        this.setStatus(Status.Saving);
+
+        // Notify subscribers
+        this.store.set(this);
+
+        // Clear pending saves.
+        clearTimeout(this.timer);
+
+        // Initiate another.
+        this.timer = setTimeout(() => this.save(), 1000);
+    }
+
+    /** Update the saving status and broadcast via the store. */
+    setStatus(status: Status) {
+        this.status = status;
+        this.store.set(this);
+    }
+
+    /** Convert to an object suitable for JSON serialization */
+    toObject(): SerializedProject[] {
+        return Array.from(this.projects.values()).map((project) =>
+            project.current.toObject()
+        );
     }
 
     /** Persist in storage */
@@ -165,14 +265,14 @@ export default class Projects {
             this.projects.forEach((project) => {
                 if (!project.saved)
                     batch.set(
-                        doc(firestore, 'projects', project.id),
-                        project.toObject()
+                        doc(firestore, 'projects', project.current.id),
+                        project.current.toObject()
                     );
             });
 
             await batch.commit();
 
-            // Mark all projects saved.
+            // Mark all projects saved if successful.
             this.projects.forEach((project) => (project.saved = true));
         } catch (error) {
             if (error instanceof FirebaseError) {
@@ -183,17 +283,17 @@ export default class Projects {
         }
     }
 
-    /** Load from storage */
+    /** Load from local browser storage */
     loadLocal() {
         const data = getPersistedValue<SerializedProject[]>(LOCAL_STORAGE_KEY);
-        this.setProjects(
-            data === null
-                ? []
-                : data.map((project) => Project.fromObject(project))
-        );
+        if (data)
+            this.setProjects(
+                data.map((project) => Project.fromObject(project))
+            );
     }
 
-    async loadRemote(uid: string) {
+    /** Start a realtime database query on this user's projects, updating them whenever they change. */
+    async realtimeSyncRemote(uid: string) {
         if (this.unsubscribe) this.unsubscribe();
         // Any time the user projects changes, update projects.
         this.unsubscribe = onSnapshot(
@@ -218,26 +318,6 @@ export default class Projects {
                 this.setStatus(Status.Error);
             }
         );
-    }
-
-    /** Remove all projects from the store. Usually because of log out. */
-    reset() {
-        this.setProjects([]);
-    }
-
-    addUnique(projects: Project[]) {
-        this.setProjects([
-            ...this.projects,
-            ...projects.filter(
-                (project) =>
-                    !this.projects.some((proj) => proj.id === project.id)
-            ),
-        ]);
-    }
-
-    /** Convert to an object suitable for JSON serialization */
-    toObject(): SerializedProject[] {
-        return this.projects.map((project) => project.toObject());
     }
 
     /** Clean up listeners */

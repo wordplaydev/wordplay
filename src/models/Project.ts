@@ -75,9 +75,6 @@ export default class Project {
     /** Serialized caret positions for each source file */
     readonly carets: SerializedCarets;
 
-    /** True if the project is fresh data from the remote database, so it does not need to be persisted. */
-    saved: boolean;
-
     /** A list of uids that have write access to this project. */
     readonly uids: string[];
 
@@ -103,12 +100,10 @@ export default class Project {
         main: Source,
         supplements: Source[],
         carets: SerializedCarets | undefined = undefined,
-        uids: string[] = [],
-        saved: boolean = false
+        uids: string[] = []
     ) {
         this.id = id ?? uuidv4();
         this.uids = uids;
-        this.saved = saved;
 
         // Remember the source.
         this.name = name;

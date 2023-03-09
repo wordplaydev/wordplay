@@ -30,14 +30,14 @@
     function copyProject(project: Project) {
         if ($user) {
             const newProject = project.copy().withUser($user.uid);
-            $projects.addUnique([newProject]);
+            $projects.setProjects([newProject]);
             changeProject(newProject);
         }
     }
 
     // Load all projects from the database.
     onMount(() => {
-        if ($user) $projects.loadRemote($user.uid);
+        if ($user) $projects.realtimeSyncRemote($user.uid);
     });
 
     /** Create some example projects */

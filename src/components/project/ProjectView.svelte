@@ -661,6 +661,7 @@
         const key = event.key;
         const command = event.ctrlKey || event.metaKey;
         const alt = event.altKey;
+        const shift = event.shiftKey;
 
         if (key === 'Escape') {
             layout = layout.withoutFullscreen();
@@ -679,6 +680,13 @@
             if ($evaluator.isPlaying()) $evaluator.pause();
             else $evaluator.play();
             event.preventDefault();
+            return;
+        }
+        if (key === 'z' && command) {
+            if (shift) $projects.redo(project.id);
+            else $projects.undo(project.id);
+            event.preventDefault();
+            event.stopPropagation();
             return;
         }
 
