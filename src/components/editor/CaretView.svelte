@@ -120,7 +120,7 @@
             const tokenViewRect = tokenView.getBoundingClientRect();
 
             // ... and it's a placeholder, then position a caret in it's center
-            if ($caret.position.isPlaceholder()) {
+            if ($caret.isPlaceholder()) {
                 return {
                     left: `${
                         tokenViewRect.left +
@@ -367,9 +367,7 @@
 
 <span
     class="caret {blink ? 'blink' : ''} {ignored ? 'ignored' : ''}"
-    class:node={$caret &&
-        $caret.position instanceof Node &&
-        !$caret.position.isPlaceholder()}
+    class:node={$caret && $caret.isNode() && !$caret.isPlaceholder()}
     style={location === undefined
         ? 'display:none'
         : `left: ${location.left}; top: ${location.top}; height: ${location.height};`}

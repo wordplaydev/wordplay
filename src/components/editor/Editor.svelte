@@ -205,7 +205,7 @@
     $: {
         // Hide the menu, if there is one.
         hideMenu();
-        if ($caret.position instanceof Node) {
+        if ($caret.position instanceof Node && !$caret.isPlaceholder()) {
             // Clear the last input value
             lastKeyboardInputValue = undefined;
             if ($caret.position instanceof Node) {
@@ -1239,7 +1239,7 @@
         />
     {/if}
     <!-- If the caret is a position, render the invisible text field that allows us to capture inputs -->
-    {#if $caret.isIndex()}
+    {#if $caret.isIndex() || $caret.isPlaceholder()}
         <input
             type="text"
             class="keyboard-input"

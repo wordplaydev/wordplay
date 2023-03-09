@@ -488,7 +488,7 @@ export default class Caret {
                           this.position + (closed ? 1 : text.length)
                       ),
                   ];
-        } else if (this.position.isPlaceholder()) {
+        } else if (this.isPlaceholder()) {
             const edit = this.deleteNode(this.position);
             if (edit === undefined || edit[1].position instanceof Node) return;
             const newSource = edit[0].withGraphemesAt(text, edit[1].position);
@@ -499,6 +499,10 @@ export default class Caret {
                       new Caret(newSource, edit[1].position + text.length),
                   ];
         }
+    }
+
+    isPlaceholder() {
+        return this.position instanceof Node && this.position.isPlaceholder();
     }
 
     /** If the caret is a node, set the position to its first index */
