@@ -466,12 +466,12 @@ export default class Caret {
             // Otherwise, if the text to insert is an opening delimiter and this isn't an unclosed text delimiter, automatically insert its closing counterpart.
             else if (
                 text in DELIMITERS &&
-                this.tokenPrior &&
-                !(
-                    (this.tokenPrior.is(TokenType.TEXT) ||
-                        this.tokenPrior.is(TokenType.UNKNOWN)) &&
-                    text === DELIMITERS[this.tokenPrior.getText().charAt(0)]
-                )
+                (this.tokenPrior === undefined ||
+                    !(
+                        (this.tokenPrior.is(TokenType.TEXT) ||
+                            this.tokenPrior.is(TokenType.UNKNOWN)) &&
+                        text === DELIMITERS[this.tokenPrior.getText().charAt(0)]
+                    ))
             ) {
                 closed = true;
                 text += DELIMITERS[text];
