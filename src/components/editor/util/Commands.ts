@@ -378,6 +378,17 @@ const commands: Command[] = [
         },
     },
     {
+        description: 'Cut',
+        control: true,
+        key: 'KeyX',
+        mode: Mode.Play,
+        execute: (caret: Caret) => {
+            if (!(caret.position instanceof Node)) return undefined;
+            toClipboard(caret.position, caret.source.spaces);
+            return caret.backspace();
+        },
+    },
+    {
         description: 'Paste',
         control: true,
         key: 'KeyV',
