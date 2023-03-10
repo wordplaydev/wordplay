@@ -1759,8 +1759,13 @@ const en: Translation = {
         IncompatibleInput: {
             primary: (expected) =>
                 Explanation.as(`I think I'm supposed to be a `, expected, '?'),
-            secondary: (given) =>
-                Explanation.as(`I'm supposed to get a `, given, '!'),
+            secondary: (given, expected) =>
+                Explanation.as(
+                    `Umm, I got a `,
+                    given,
+                    ' instead of ',
+                    expected
+                ),
         },
         IncompatibleKey: {
             primary: (expected) =>

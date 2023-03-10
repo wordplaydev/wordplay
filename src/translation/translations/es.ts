@@ -1480,7 +1480,13 @@ const eng_wordplay: Translation = {
         IncompatibleInput: {
             primary: (expected) =>
                 Explanation.as('expected ', expected, ' input'),
-            secondary: (given) => Explanation.as('given ', given),
+            secondary: (given, expected) =>
+                Explanation.as(
+                    `Umm, I got a `,
+                    given,
+                    ' instead of ',
+                    expected
+                ),
         },
         IncompatibleKey: {
             primary: (expected) =>

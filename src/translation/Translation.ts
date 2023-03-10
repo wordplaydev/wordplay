@@ -631,7 +631,7 @@ type Translation = {
         >;
         IncompatibleInput: ConflictTranslation<
             (expected: NodeLink) => Description,
-            (given: NodeLink) => Description
+            (given: NodeLink, expected: NodeLink) => Description
         >;
         IncompatibleKey: ConflictTranslation<
             (expected: NodeLink) => Description,

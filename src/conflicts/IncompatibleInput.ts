@@ -46,7 +46,8 @@ export default class IncompatibleInput extends Conflict {
                 node: this.expectedType,
                 explanation: (translation: Translation, context: Context) =>
                     translation.conflict.IncompatibleInput.secondary(
-                        new NodeLink(this.givenType, translation, context)
+                        new NodeLink(this.givenType, translation, context),
+                        new NodeLink(this.expectedType, translation, context)
                     ),
             },
         };
