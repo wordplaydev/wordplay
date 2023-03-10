@@ -488,7 +488,7 @@ export default class Caret {
                           this.position + (closed ? 1 : text.length)
                       ),
                   ];
-        } else if (this.isPlaceholder()) {
+        } else {
             const edit = this.deleteNode(this.position);
             if (edit === undefined || edit[1].position instanceof Node) return;
             const newSource = edit[0].withGraphemesAt(text, edit[1].position);
