@@ -73,6 +73,9 @@ export default class Evaluator {
     /** True if stop() was called */
     #stopped = false;
 
+    /** The exception encountered */
+    exception: Exception | undefined;
+
     /**
      * The global step counter, one for each step evaluated. Only ever goes up,
      * representing the farthest point in the future. */
@@ -530,7 +533,10 @@ export default class Evaluator {
     stop() {
         this.#stopped = true;
         this.observers.length = 0;
+        this.stopStreams();
+    }
 
+    stopStreams() {
         // Stop all native streams.
         for (const streams of this.nativeStreams.values()) {
             for (const stream of streams) stream.stop();
@@ -586,6 +592,9 @@ export default class Evaluator {
                 }
             }
             if (next) this.start(next.changes.map((change) => change.stream));
+        } else if (exception) {
+            this.exception = exception;
+            this.stopStreams();
         }
 
         // Notify observers.
