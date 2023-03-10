@@ -84,6 +84,7 @@ export default class Block extends Expression {
                     translation.nodes.Block.statement,
                 space: true,
                 indent: true,
+                newline: this.root,
             },
             { name: 'close', types: [Token] },
         ];

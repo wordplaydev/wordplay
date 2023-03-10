@@ -34,6 +34,8 @@ export type Field = {
     space?: boolean | ((node: Node) => boolean);
     /** True if the field should be indented if on a new line */
     indent?: boolean;
+    /** True if the field should have newlines */
+    newline?: boolean;
     /** Generates a Token of the expected type, if a token is permitted on the field */
     getToken?: (text?: string, op?: string) => Token;
     /** Given a context and an optional index in a list, return a type required for this field. Used to filter autocomplete menus. */
@@ -589,14 +591,20 @@ export default abstract class Node {
             if (newline) return `\n${'\t'.repeat(depth)}`;
         }
 
+        let preferredSpace = '';
+        if (field.newline === true) {
+            preferredSpace += '\n';
+        }
+
         if (
             field.space === true ||
             (typeof field.space === 'function' && field.space(this))
         ) {
             const value = this.getField(field.name);
-            return !Array.isArray(value) || value[0] !== child ? ' ' : '';
+            preferredSpace +=
+                !Array.isArray(value) || value[0] !== child ? ' ' : '';
         }
-        return '';
+        return preferredSpace;
     }
 
     // EQUALITY
