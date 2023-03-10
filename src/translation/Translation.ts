@@ -623,7 +623,7 @@ type Translation = {
         IncompleteImplementation: InternalConflictTranslation<Description>;
         IncompatibleBind: ConflictTranslation<
             (expected: NodeLink) => Description,
-            (given: NodeLink) => Description
+            (given: NodeLink, expected: NodeLink) => Description
         >;
         IncompatibleCellType: ConflictTranslation<
             (expected: NodeLink) => Description,

@@ -1464,7 +1464,13 @@ const eng_wordplay: Translation = {
         },
         IncompatibleBind: {
             primary: (expected) => Explanation.as('expected ', expected),
-            secondary: (given) => Explanation.as('given ', given),
+            secondary: (given, expected) =>
+                Explanation.as(
+                    `Hey, I got a `,
+                    given,
+                    ` instead of a `,
+                    expected
+                ),
         },
         IncompatibleCellType: {
             primary: (expected) =>

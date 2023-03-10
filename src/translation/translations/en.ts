@@ -1740,11 +1740,16 @@ const en: Translation = {
         IncompatibleBind: {
             primary: (expected) =>
                 Explanation.as(
-                    WRITE_DOC + `Hey, I'm supposed to get a `,
+                    WRITE_DOC + `I think I'm supposed to be a `,
                     expected
                 ),
-            secondary: (given) =>
-                Explanation.as(`You're supposed to get a `, given),
+            secondary: (given, expected) =>
+                Explanation.as(
+                    `Hey, I got a `,
+                    given,
+                    ` instead of a `,
+                    expected
+                ),
         },
         IncompatibleCellType: {
             primary: (expected) =>

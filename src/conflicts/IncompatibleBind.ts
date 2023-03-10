@@ -31,7 +31,8 @@ export default class IncompatibleBind extends Conflict {
                 node: this.expectedType,
                 explanation: (translation: Translation, context: Context) =>
                     translation.conflict.IncompatibleBind.secondary(
-                        new NodeLink(this.givenType, translation, context)
+                        new NodeLink(this.givenType, translation, context),
+                        new NodeLink(this.expectedType, translation, context)
                     ),
             },
         };
