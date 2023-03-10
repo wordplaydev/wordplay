@@ -591,11 +591,9 @@ export default abstract class Node {
             if (newline) return `\n${'\t'.repeat(depth)}`;
         }
 
-        let preferredSpace = '';
         if (field.newline === true) {
             const value = this.getField(field.name);
-            if (Array.isArray(value) && child !== value[0])
-                preferredSpace += '\n';
+            if (Array.isArray(value) && child !== value[0]) return '\n';
         }
 
         if (
@@ -603,10 +601,9 @@ export default abstract class Node {
             (typeof field.space === 'function' && field.space(this))
         ) {
             const value = this.getField(field.name);
-            preferredSpace +=
-                !Array.isArray(value) || value[0] !== child ? ' ' : '';
+            return !Array.isArray(value) || value[0] !== child ? ' ' : '';
         }
-        return preferredSpace;
+        return '';
     }
 
     // EQUALITY
