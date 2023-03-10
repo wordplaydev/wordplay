@@ -168,7 +168,7 @@
             <span class="path">
                 <Button
                     tip={$preferredTranslations[0].ui.tooltip.home}
-                    action={back}>◁</Button
+                    action={back}>⏴</Button
                 >
                 {#each $path as concept, index}
                     {#if index > 0}&nbsp;&mdash;&nbsp;{/if}<DescriptionView
