@@ -49,24 +49,20 @@ export default class TextType extends NativeType {
             // If the possible type is not text, it is not acceptable.
             if (!(type instanceof TextType)) return false;
             // If:
-            // 1) this is any text, or its specific text that a possible type matches
+            // 1) this accepts any text, or its accepts specific text that matches the given type's text.
             // 2) this has no required format, or they have matching formats
-            if (
-                !(
-                    (this.getText() === '' ||
-                        this.text.getText() === type.text.getText()) &&
-                    (this.format === undefined ||
-                        (type.format !== undefined &&
-                            this.format.equals(type.format)))
-                )
-            )
-                return false;
-            return true;
+            return (
+                (this.getUnquotedText() === '' ||
+                    this.getUnquotedText() === type.getUnquotedText()) &&
+                (this.format === undefined ||
+                    (type.format !== undefined &&
+                        this.format.equals(type.format)))
+            );
         });
     }
 
     /** Strip the delimiters from the token to get the text literal that defines this type. */
-    getText() {
+    getUnquotedText() {
         const text = this.text.getText();
         return text.substring(1, text.length - 1);
     }
