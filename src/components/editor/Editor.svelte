@@ -270,32 +270,47 @@
                     conflictSelection = $caret.position;
 
                 // If not, what is the "nearest" conflicted node at the caret position?
-                if (
-                    conflictSelection === undefined &&
-                    typeof $caret.position === 'number'
-                ) {
-                    // Try the token we're at and the one prior if we're at it's beginning.
-                    let conflictsAtPosition = [
-                        source.getTokenAt($caret.position, false),
-                        $caret.atTokenEnd() ? $caret.tokenPrior : undefined,
-                    ].reduce((conflicted: Node[], token: Node | undefined) => {
-                        let nodesAtPosition =
-                            token === undefined
-                                ? []
-                                : project
-                                      .getRoot(token)
-                                      ?.getSelfAndAncestors(token) ?? [];
-                        let nodesInConflict = nodesAtPosition.find((node) =>
-                            project.nodeInvolvedInConflicts(node)
+                if (conflictSelection === undefined) {
+                    if (typeof $caret.position === 'number') {
+                        // Try the token we're at and the one prior if we're at it's beginning.
+                        let conflictsAtPosition = [
+                            source.getTokenAt($caret.position, false),
+                            $caret.atTokenEnd() ? $caret.tokenPrior : undefined,
+                        ].reduce(
+                            (conflicted: Node[], token: Node | undefined) => {
+                                let nodesAtPosition =
+                                    token === undefined
+                                        ? []
+                                        : project
+                                              .getRoot(token)
+                                              ?.getSelfAndAncestors(token) ??
+                                          [];
+                                let nodesInConflict = nodesAtPosition.find(
+                                    (node) =>
+                                        project.nodeInvolvedInConflicts(node)
+                                );
+                                return [
+                                    ...conflicted,
+                                    ...(nodesInConflict
+                                        ? [nodesInConflict]
+                                        : []),
+                                ];
+                            },
+                            []
                         );
-                        return [
-                            ...conflicted,
-                            ...(nodesInConflict ? [nodesInConflict] : []),
-                        ];
-                    }, []);
 
-                    if (conflictsAtPosition !== undefined)
-                        conflictSelection = conflictsAtPosition[0];
+                        if (conflictsAtPosition !== undefined)
+                            conflictSelection = conflictsAtPosition[0];
+                    }
+                    // If there's a node selection, see if it or any of it's ancestors are involved in conflicts
+                    else {
+                        const conflictedAncestor = [
+                            $caret.position,
+                            ...source.root.getAncestors($caret.position),
+                        ].find((node) => project.nodeInvolvedInConflicts(node));
+                        if (conflictedAncestor)
+                            conflictSelection = conflictedAncestor;
+                    }
                 }
 
                 // If we found a selection, get its conflicts.
