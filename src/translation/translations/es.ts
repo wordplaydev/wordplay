@@ -29,6 +29,7 @@ import Explanation from '../Explanation';
 import type NodeLink from '../NodeLink';
 import type StreamDefinitionType from '../../nodes/StreamDefinitionType';
 import Emotion from '../../lore/Emotion';
+import Unit from '../../nodes/Unit';
 
 const WRITE_DOC = 'pendiante';
 
@@ -708,7 +709,10 @@ const eng_wordplay: Translation = {
             doc: WRITE_DOC,
         },
         MeasurementType: {
-            description: () => 'number',
+            description: (node, translation, context) =>
+                node.unit instanceof Unit
+                    ? node.unit.getDescription(translation, context)
+                    : 'number',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
