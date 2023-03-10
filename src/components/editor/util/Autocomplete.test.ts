@@ -2,15 +2,15 @@ import { test, expect } from 'vitest';
 import Caret from './Caret';
 import Project from '../../../models/Project';
 import Source from '@nodes/Source';
-import Append from '../../../transforms/Append';
-import Replace from '../../../transforms/Replace';
+import Append from '@transforms/Append';
+import Replace from '@transforms/Replace';
 import { getEditsAt } from './Autocomplete';
 import type Node from '@nodes/Node';
 import MeasurementLiteral from '@nodes/MeasurementLiteral';
-import Add from '../../../transforms/Add';
+import Add from '@transforms/Add';
 
 test.each([
-    ['a: 1 a +**', undefined, Replace, 'a'],
+    ['a: 1\na +**', undefined, Replace, 'a'],
     ['a•?:**', undefined, Replace, '⊤'],
     [`ƒ sum(a•? b•?) a & b\nsum(**)`, undefined, Append, '⊤'],
     [`ƒ sum(a•? b•?) a & b\nsum()**`, undefined, Replace, '(sum()) = _'],
@@ -46,9 +46,10 @@ test.each([
                 ? insertionPoint
                 : source.nodes().find((node) => position(node));
         expect(resolvedPosition).toBeDefined();
-        if (resolvedPosition) {
+        if (resolvedPosition !== undefined) {
             const caret = new Caret(source, resolvedPosition);
             const transforms = getEditsAt(project, caret);
+
             const match = transforms.some(
                 (transform) =>
                     transform instanceof kind &&

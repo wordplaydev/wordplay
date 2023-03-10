@@ -593,7 +593,9 @@ export default abstract class Node {
 
         let preferredSpace = '';
         if (field.newline === true) {
-            preferredSpace += '\n';
+            const value = this.getField(field.name);
+            if (Array.isArray(value) && child !== value[0])
+                preferredSpace += '\n';
         }
 
         if (
