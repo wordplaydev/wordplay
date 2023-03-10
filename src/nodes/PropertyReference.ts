@@ -226,7 +226,7 @@ export default class PropertyReference extends Expression {
 
         const subject = evaluator.popValue(this);
         if (this.name === undefined)
-            return new NameException(this.dot, subject, evaluator);
+            return new NameException(undefined, subject, evaluator);
         const name = this.name.getName();
         return (
             subject.resolve(name, evaluator) ??

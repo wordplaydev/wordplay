@@ -576,7 +576,10 @@ type Translation = {
         cycle: (borrow: NodeLink) => Description;
         functionlimit: (fun: NodeLink) => Description;
         steplimit: Description;
-        name: (name: NodeLink, scope: ValueLink | undefined) => Description;
+        name: (
+            name: NodeLink | undefined,
+            scope: ValueLink | undefined
+        ) => Description;
         type: (expected: NodeLink, received: ValueLink) => Description;
         placeholder: (expression: NodeLink) => Description;
         unparsable: (expr: NodeLink) => Description;

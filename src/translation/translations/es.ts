@@ -1348,12 +1348,14 @@ const eng_wordplay: Translation = {
                 type === undefined ? ' scope' : type
             ),
         name: (node, scope) =>
-            Explanation.as(
-                'nothing named ',
-                node,
-                ' in ',
-                scope === undefined ? ' scope' : scope
-            ),
+            node
+                ? Explanation.as(
+                      'There is no value named ',
+                      node,
+                      ' in ',
+                      scope === undefined ? ' this @Block' : scope
+                  )
+                : Explanation.as('There was no name given'),
         cycle: (node) => Explanation.as(node, ' depends on itself'),
         functionlimit: (fun) =>
             Explanation.as('evaluated too many functions, especially ', fun),

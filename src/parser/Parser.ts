@@ -1079,6 +1079,7 @@ function parsePropertyReference(left: Expression, tokens: Tokens): Expression {
     do {
         const access = tokens.read(TokenType.ACCESS);
         // See if there's a name, operator, or placeholder next, all of which are valid property names.
+        // Note that we require it to be on the same line or the next line, but not later.
         let name;
         if (
             tokens.nextIsOneOf(
@@ -1086,7 +1087,8 @@ function parsePropertyReference(left: Expression, tokens: Tokens): Expression {
                 TokenType.PLACEHOLDER,
                 TokenType.UNARY_OP,
                 TokenType.BINARY_OP
-            )
+            ) &&
+            !tokens.nextHasMoreThanOneLineBreak()
         )
             name = tokens.nextIs(TokenType.NAME)
                 ? tokens.read(TokenType.NAME)

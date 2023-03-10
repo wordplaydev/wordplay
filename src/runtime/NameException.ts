@@ -7,10 +7,14 @@ import NodeLink from '@translation/NodeLink';
 import ValueLink from '@translation/ValueLink';
 
 export default class NameException extends Exception {
-    readonly name: Token;
+    readonly name: Token | undefined;
     readonly scope: Value | undefined;
 
-    constructor(name: Token, scope: Value | undefined, evaluator: Evaluator) {
+    constructor(
+        name: Token | undefined,
+        scope: Value | undefined,
+        evaluator: Evaluator
+    ) {
         super(evaluator);
 
         this.name = name;
@@ -19,12 +23,14 @@ export default class NameException extends Exception {
 
     getDescription(translation: Translation) {
         return translation.exceptions.name(
-            new NodeLink(
-                this.name,
-                translation,
-                this.getNodeContext(this.name),
-                this.name.getText()
-            ),
+            this.name
+                ? new NodeLink(
+                      this.name,
+                      translation,
+                      this.getNodeContext(this.name),
+                      this.name.getText()
+                  )
+                : undefined,
             this.scope instanceof Value
                 ? new ValueLink(
                       this.scope,
