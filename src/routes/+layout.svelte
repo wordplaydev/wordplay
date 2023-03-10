@@ -22,17 +22,19 @@
     /** Expose the translations as context, updating them as necessary */
     $: setContext(TranslationsSymbol, $preferredTranslations);
 
-    // Force Noto Sans to load
-    Fonts.loadFamily('Noto Sans');
-
     let loaded = false;
 
     /** Whenever the user changes, reset the project store. */
     onMount(() => {
+        // Force Noto Sans to load
+        Fonts.loadFamily('Noto Sans');
+
+        // Keep the user store in sync.
         onAuthStateChanged(auth, (newUser) => {
             user.set(newUser);
         });
 
+        // Show when fonts are loaded.
         document.fonts.ready.then(() => (loaded = true));
     });
 </script>

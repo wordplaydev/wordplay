@@ -13,7 +13,7 @@
     const user = getUser();
 
     /** Create a database of projects linked to the current user. */
-    const projects = new Projects([]);
+    const projects = new Projects();
 
     /** Load whatever is stored in local storage */
     projects.loadLocal();

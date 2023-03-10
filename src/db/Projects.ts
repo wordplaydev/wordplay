@@ -60,16 +60,8 @@ export default class Projects {
     /** Realtime query unsubscriber */
     private unsubscribe: Unsubscribe | undefined = undefined;
 
-    constructor(projects: Project[]) {
+    constructor() {
         this.projects = new Map();
-        for (const project of projects)
-            this.projects.set(project.id, {
-                current: project,
-                history: [project],
-                index: 0,
-                saved: false,
-            });
-
         this.store = writable(this);
     }
 
@@ -167,7 +159,7 @@ export default class Projects {
 
         // Get the info for the project. Bail if we don't find it, since this should never happen.
         const info = this.projects.get(id);
-        if (info === undefined) throw Error(`Couldn't find project ${id}`);
+        if (info === undefined) throw Error(`Couldn't find project ID ${id}`);
 
         // Is the undo pointer before the end? Trim the future.
         info.history.splice(info.index, info.history.length - info.index - 1);
