@@ -24,6 +24,7 @@ import type BooleanLiteral from '@nodes/BooleanLiteral';
 import type ListLiteral from '@nodes/ListLiteral';
 import type StreamDefinitionType from '../nodes/StreamDefinitionType';
 import type Emotion from '../lore/Emotion';
+import type TextType from '../nodes/TextType';
 
 export type Description = string | Explanation;
 export type DocString = string;
@@ -337,7 +338,7 @@ type Translation = {
         StreamType: DynamicNodeTranslation<StreamType>;
         StructureDefinitionType: StaticNodeTranslation;
         TableType: StaticNodeTranslation;
-        TextType: StaticNodeTranslation;
+        TextType: DynamicNodeTranslation<TextType>;
         TypePlaceholder: StaticNodeTranslation;
         UnknownType: DynamicNodeTranslation<UnknownType<any>>;
         UnionType: DynamicNodeTranslation<UnionType>;

@@ -8,6 +8,7 @@ import Token from './Token';
 import TokenType from './TokenType';
 import type TypeSet from './TypeSet';
 import Emotion from '../lore/Emotion';
+import { TEXT_DELIMITERS } from '../parser/Tokenizer';
 
 /** Any string or a specific string, depending on whether the given token is an empty text literal. */
 export default class TextType extends NativeType {
@@ -61,10 +62,22 @@ export default class TextType extends NativeType {
         });
     }
 
+    isLiteral() {
+        return this.getUnquotedText().length > 0;
+    }
+
     /** Strip the delimiters from the token to get the text literal that defines this type. */
     getUnquotedText() {
-        const text = this.text.getText();
-        return text.substring(1, text.length - 1);
+        let text = this.text.getText();
+        if (text.length === 0) return '';
+        const first = text.charAt(0);
+        if (first in TEXT_DELIMITERS) {
+            const close = TEXT_DELIMITERS[first];
+            text = text.substring(1);
+            if (text.charAt(text.length - 1) === close)
+                text = text.substring(0, text.length - 1);
+        }
+        return text;
     }
 
     getNativeTypeName(): NativeTypeName {

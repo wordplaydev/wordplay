@@ -1028,7 +1028,8 @@ const en: Translation = {
             doc: WRITE_DOC,
         },
         TextType: {
-            description: 'text',
+            description: (node) =>
+                node.isLiteral() ? node.text.getText() : 'text',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
