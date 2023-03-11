@@ -39,9 +39,9 @@
     },
     "type": "module",
     "dependencies": {
-        "colorjs.io": "^0.4.3",
-        "decimal.js": "^10.4.3",
-        "firebase": "^9.17.1",
+        "colorjs.io": "^0.4",
+        "decimal.js": "^10.0.0",
+        "firebase": "^9.0.0",
         "uuid": "^9.0.0"
     }
 }
