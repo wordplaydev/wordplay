@@ -16,8 +16,8 @@
         "release": "firebase use prod && firebase deploy"
     },
     "devDependencies": {
-        "@sveltejs/adapter-static": "^1.0.6",
-        "@sveltejs/kit": "1.8.6",
+        "@sveltejs/adapter-static": "^2.0.0",
+        "@sveltejs/kit": "^1.11.0",
         "@testing-library/jest-dom": "^5.16.5",
         "@testing-library/svelte": "^3.2.2",
         "@types/uuid": "^9.0.1",
@@ -27,8 +27,8 @@
         "eslint-plugin-svelte3": "^4.0.0",
         "prettier": "2.8.4",
         "prettier-plugin-svelte": "^2.9.0",
-        "svelte": "^3.55.1",
-        "svelte-check": "^3.0.4",
+        "svelte": "^3.56.0",
+        "svelte-check": "^3.1.0",
         "svelte-jester": "^2.3.2",
         "svelte-preprocess": "^5.0.1",
         "ts-jest": "^29.0.5",
