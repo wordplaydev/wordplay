@@ -11,7 +11,7 @@
     let evaluator: Evaluator;
     let value: Value | undefined;
     $: {
-        evaluator = new Evaluator(project);
+        evaluator = new Evaluator(project, undefined, false);
         value = evaluator.getInitialValue();
         evaluator.stop();
     }

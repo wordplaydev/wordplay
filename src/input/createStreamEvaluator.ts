@@ -4,6 +4,7 @@ import NativeExpression from '../native/NativeExpression';
 import StreamType from '../nodes/StreamType';
 import type Type from '../nodes/Type';
 import type Evaluation from '../runtime/Evaluation';
+import type Evaluator from '../runtime/Evaluator';
 import Exception from '../runtime/Exception';
 import type Stream from '../runtime/Stream';
 
@@ -14,7 +15,7 @@ export default function createStreamEvaluator<Kind extends Stream>(
     update: (stream: Kind, evaluation: Evaluation) => void
 ) {
     return new NativeExpression(StreamType.make(valueType), (_, evaluation) => {
-        const evaluator = evaluation.getEvaluator();
+        const evaluator: Evaluator = evaluation.getEvaluator();
 
         // Notify the evaluator that we're evaluating a native stream type so it can keep
         // track of the number of types the node has evaluated, identifying individual streams.

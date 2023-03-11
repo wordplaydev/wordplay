@@ -58,6 +58,9 @@ export default class Evaluator {
     /** The project that this is evaluating. */
     readonly project: Project;
 
+    /** True if the evaluator reacts to stream inputs. */
+    readonly reactive: boolean;
+
     /** This represents a stack of node evaluations. The first element of the stack is the currently evaluating node. */
     readonly evaluations: Evaluation[] = [];
 
@@ -174,8 +177,20 @@ export default class Evaluator {
         streams: Set<Stream>;
     }[] = [];
 
-    constructor(project: Project, prior: Evaluator | undefined = undefined) {
+    /**
+     * Create a new evalutor, given some project.
+     * @param project The project to evaluate.
+     * @param prior Inherits the settings and streams of the given Evaluator, if provided.
+     * @param reactive Reacts to stream input if true. False is useful for just getting a program's initial value without starting streams.
+     * */
+    constructor(
+        project: Project,
+        prior: Evaluator | undefined = undefined,
+        reactive: boolean = true
+    ) {
         this.project = project;
+
+        this.reactive = reactive;
 
         // Create a global random number stream for APIs to use.
         this.random = new Random(this, undefined, undefined);
@@ -905,8 +920,8 @@ export default class Evaluator {
         // Remember the mapping
         this.nativeStreams.set(evaluate, [...streams, stream]);
 
-        // Start the stream.
-        stream.start();
+        // Start the stream if this is reactive. Otherwise, we just take it's initial value.
+        if (this.reactive) stream.start();
 
         // Listen to it so we can react to changes.
         stream.listen((stream) => this.react(stream));
