@@ -3,6 +3,7 @@
     import type Glyph from '../../lore/Glyph';
     import { preferredTranslations } from '../../translation/translations';
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
+    import Eyes from './Eyes.svelte';
 
     export let glyph: Glyph;
     export let below: boolean = false;
@@ -27,6 +28,7 @@
             {:else}
                 {symbols}
             {/if}
+            <Eyes />
         </div>
     {/key}
     <div class="message {below ? 'below' : 'right'}">
@@ -37,20 +39,26 @@
 <style>
     .dialog {
         display: flex;
-        flex-direction: row;
         flex-wrap: nowrap;
         gap: var(--wordplay-spacing);
-        align-items: center;
     }
 
     .dialog.column {
         flex-direction: column;
+        align-items: left;
+    }
+
+    .dialog.row {
+        flex-direction: row;
+        align-items: center;
     }
 
     .glyphs {
         display: inline-block;
         line-height: 100%;
         font-family: var(--wordplay-code-font);
+        position: relative;
+        margin-right: auto;
     }
 
     .row .glyphs {
@@ -63,8 +71,6 @@
 
     .column .glyphs {
         font-size: 2em;
-        text-align: left;
-        width: 100%;
     }
 
     .message {
