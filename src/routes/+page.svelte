@@ -10,12 +10,12 @@
 </svelte:head>
 
 <Page>
+    <Lead>Wordplay</Lead>
     {#if PUBLIC_CONTEXT === 'prod'}
-        <h1><strong>Wordplay.dev</strong> is coming</h1>
+        <p><strong>Wordplay.dev</strong> is coming</p>
         <p>Curious? Write <a href="https://amyjko.com">Amy</a></p>
     {:else}
-        <Lead>Wordplay</Lead>
-        <a href="/project">projects</a>
-        <a href="/login">login</a>
+        <p><a href="/project">projects</a></p>
+        <p><a href="/login">login</a></p>
     {/if}
 </Page>
