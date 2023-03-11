@@ -2138,7 +2138,8 @@ const en: Translation = {
         login: {
             header: 'Login',
             prompt: 'Log in to access your projects.',
-            anonymousPrompt: "You're anonymous. Log in to keep your projects.",
+            anonymousPrompt:
+                "You're anonymous. Projects will be deleted after 30 days after your first visit. Log in to keep them.",
             submit: 'send a login email',
             enterEmail:
                 "It looks like you're logging in on a different device. Can you enter your email again?",
