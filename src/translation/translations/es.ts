@@ -1782,6 +1782,8 @@ const eng_wordplay: Translation = {
         },
         headers: {
             editing: 'edit me!',
+            projects: 'projects',
+            examples: 'examples',
         },
         section: {
             project: 'project',

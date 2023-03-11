@@ -44,6 +44,7 @@
     const exampleProjects = examples.map((example) => makeProject(example));
 </script>
 
+<Lead>{$preferredTranslations[0].ui.headers.projects}</Lead>
 <div class="projects">
     {#each $projects.all() as project (project.id)}
         <ProjectPreview {project} action={() => changeProject(project)}
@@ -61,7 +62,7 @@
         ><span style:font-size="xxx-large">+</span>
     </Button>
 </div>
-<Lead>examples</Lead>
+<Lead>{$preferredTranslations[0].ui.headers.examples}</Lead>
 <div class="projects">
     {#each exampleProjects as project (project.id)}
         <ProjectPreview {project} action={() => copyProject(project)} />

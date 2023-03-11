@@ -15,7 +15,7 @@
         <p><strong>Wordplay.dev</strong> is coming</p>
         <p>Curious? Write <a href="https://amyjko.com">Amy</a></p>
     {:else}
-        <p><a href="/project">projects</a></p>
+        <p><a href="/projects">projects</a></p>
         <p><a href="/login">login</a></p>
     {/if}
 </Page>

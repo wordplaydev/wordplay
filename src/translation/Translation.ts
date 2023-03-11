@@ -822,6 +822,8 @@ type Translation = {
         };
         headers: {
             editing: string;
+            projects: string;
+            examples: string;
         };
         section: {
             project: string;

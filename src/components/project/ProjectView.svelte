@@ -797,7 +797,7 @@
     }
 
     async function close() {
-        goto('/project');
+        goto('/projects');
     }
 </script>
 

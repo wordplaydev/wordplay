@@ -27,7 +27,7 @@
     function redirect() {
         window.localStorage.removeItem('email');
         success = true;
-        goto('/project');
+        goto('/projects');
     }
 
     function fail(err: any) {

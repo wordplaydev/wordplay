@@ -1,19 +1,29 @@
 <script lang="ts">
     import { animationsOn } from '@models/stores';
-    import { onMount, setContext } from 'svelte';
+    import { onDestroy, onMount, setContext } from 'svelte';
     import Loading from '@components/app/Loading.svelte';
     import {
         preferredLanguages,
         preferredTranslations,
     } from '@translation/translations';
     import { auth } from '@db/firebase';
-    import { onAuthStateChanged, type User } from 'firebase/auth';
     import {
+        onAuthStateChanged,
+        signInAnonymously,
+        type User,
+    } from 'firebase/auth';
+    import {
+        ProjectsSymbol,
         TranslationsSymbol,
         UserSymbol,
     } from '../components/project/Contexts';
     import { writable } from 'svelte/store';
     import Fonts from '../native/Fonts';
+    import Projects from '../db/Projects';
+    import { FirebaseError } from 'firebase/app';
+
+    //
+    let authenticated: boolean | null = false;
 
     /** Create a user store */
     const user = writable<User | null | undefined>(undefined);
@@ -36,6 +46,32 @@
 
         // Show when fonts are loaded.
         document.fonts.ready.then(() => (loaded = true));
+    });
+
+    /** Create a database of projects linked to the current user. */
+    const projects = new Projects();
+
+    setContext(ProjectsSymbol, projects.getStore());
+
+    // Sign in anonymously if no user.
+    onAuthStateChanged(auth, async (newUser) => {
+        if (newUser === null && !authenticated) {
+            try {
+                await signInAnonymously(auth);
+                authenticated = true;
+            } catch (err: any) {
+                if (err instanceof FirebaseError) {
+                    console.error(err.code);
+                    console.error(err.message);
+                    authenticated = null;
+                    user.set(undefined);
+                }
+            }
+        } else authenticated = true;
+    });
+
+    onDestroy(() => {
+        projects.clean();
     });
 </script>
 

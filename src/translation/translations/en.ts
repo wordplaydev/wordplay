@@ -2120,6 +2120,8 @@ const en: Translation = {
         },
         headers: {
             editing: 'edit me!',
+            projects: 'projects',
+            examples: 'examples',
         },
         section: {
             project: 'project',
