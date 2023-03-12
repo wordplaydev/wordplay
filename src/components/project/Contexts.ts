@@ -182,3 +182,8 @@ export const TranslationsSymbol = Symbol('translations');
 export function getTranslations(): Translation[] {
     return getContext(TranslationsSymbol);
 }
+
+export const DarkSymbol = Symbol('dark');
+export function isDark(): Writable<boolean | undefined> {
+    return getContext(DarkSymbol);
+}

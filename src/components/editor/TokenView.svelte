@@ -137,7 +137,7 @@
     }
 
     .token-category-delimiter {
-        color: var(--color-grey);
+        color: var(--color-dark-grey);
     }
     .token-category-relation {
         color: var(--wordplay-relation-color);
@@ -155,7 +155,7 @@
         color: var(--color-blue);
     }
     .token-category-name {
-        color: var(--color-black);
+        color: var(--wordplay-foreground);
     }
     .token-category-type {
         color: var(--wordplay-type-color);

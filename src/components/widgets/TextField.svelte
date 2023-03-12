@@ -89,4 +89,10 @@
     input.error {
         color: var(--wordplay-error);
     }
+
+    input::placeholder {
+        color: var(--wordplay-disabled-color);
+        font-style: italic;
+        opacity: 1;
+    }
 </style>

@@ -1,6 +1,6 @@
 <script lang="ts">
     import { animationsOn } from '@models/stores';
-    import { onDestroy, onMount, setContext } from 'svelte';
+    import { onMount, setContext } from 'svelte';
     import Loading from '@components/app/Loading.svelte';
     import {
         preferredLanguages,
@@ -13,6 +13,7 @@
         type User,
     } from 'firebase/auth';
     import {
+        DarkSymbol,
         ProjectsSymbol,
         TranslationsSymbol,
         UserSymbol,
@@ -62,8 +63,14 @@
             user.set(newUser);
         });
 
+        // Update dark mode, now that we're mounted.
+        dark.set(isDarkTheme());
+
         // Unusubscribe to auth listener on unmount.
-        return () => unsub();
+        return () => {
+            unsub();
+            projects.clean();
+        };
     });
 
     /** Create a database of projects linked to the current user. */
@@ -71,9 +78,40 @@
 
     setContext(ProjectsSymbol, projects.getStore());
 
-    onDestroy(() => {
-        projects.clean();
-    });
+    /** True if either local storage has dark set or the OS is set to dark. */
+    function isDarkTheme() {
+        return (
+            typeof window.localStorage !== 'undefined' &&
+            (window.localStorage.getItem('dark') === 'true' ||
+                (window.matchMedia &&
+                    window.matchMedia('(prefers-color-scheme:dark)').matches))
+        );
+    }
+
+    /** Share dark status globally */
+    const dark = writable<boolean | undefined | null>(null);
+    setContext(DarkSymbol, dark);
+
+    /** When dark mode changes, persist it */
+    $: {
+        if (
+            typeof window !== 'undefined' &&
+            typeof window.localStorage !== 'undefined'
+        ) {
+            if ($dark === true || $dark === false)
+                window.localStorage.setItem('dark', '' + $dark);
+            else if ($dark === undefined)
+                window.localStorage.removeItem('dark');
+        }
+    }
+
+    /** When dark mode changes, update the body's dark class */
+    $: {
+        if (typeof document !== 'undefined') {
+            if ($dark === true) document.body.classList.add('dark');
+            else document.body.classList.remove('dark');
+        }
+    }
 </script>
 
 <svelte:head>
@@ -122,7 +160,11 @@
     />
 </svelte:head>
 
-<div class:animated={$animationsOn} lang={$preferredLanguages[0]}>
+<div
+    class:animated={$animationsOn}
+    class:dark={$dark}
+    lang={$preferredLanguages[0]}
+>
     {#if loaded}
         <slot />
     {:else}
@@ -137,29 +179,34 @@
         --color-pink: #dc267f;
         --color-orange: #fe6100;
         --color-yellow: #ffb000;
-        --color-grey: #999999;
-        --color-lightgrey: #dddddd;
         --color-white: #ffffff;
         --color-black: #000000;
+        --color-light-grey: #cccccc;
+        --color-dark-grey: #888888;
 
-        --wordplay-editor-indent: 3em;
-        --wordplay-editor-radius: 3px;
+        /* Colors */
         --wordplay-foreground: var(--color-black);
         --wordplay-background: var(--color-white);
-        --wordplay-chrome: rgb(240, 240, 240);
-        --wordplay-border-color: rgb(200, 200, 200);
+        --wordplay-chrome: var(--color-light-grey);
+        --wordplay-border-color: var(--color-lightgrey);
         --wordplay-evaluation-color: var(--color-pink);
         --wordplay-highlight: var(--color-yellow);
         --wordplay-error: var(--color-orange);
         --wordplay-warning: var(--color-yellow);
-        --wordplay-disabled-color: rgb(180, 180, 180);
+        --wordplay-disabled-color: var(--color-dark-grey);
         --wordplay-doc-color: var(--color-purple);
         --wordplay-relation-color: var(--color-orange);
         --wordplay-operator-color: var(--color-orange);
         --wordplay-type-color: var(--color-orange);
-        --wordplay-spacing: 0.5em;
+
+        /* Fonts */
         --wordplay-app-font: 'Noto Sans', 'Noto Emoji';
         --wordplay-code-font: 'Noto Mono', 'Noto Emoji';
+
+        /* Spacing */
+        --wordplay-editor-indent: 3em;
+        --wordplay-editor-radius: 3px;
+        --wordplay-spacing: 0.5em;
         --wordplay-font-weight: 500;
         --wordplay-font-size: 12pt;
         --wordplay-border-width: 1px;
@@ -170,51 +217,33 @@
         --wordplay-palette-max-width: 15em;
 
         --bounce-height: 0.5em;
-
         --wobble-rotation: 2deg;
     }
 
     :root .dark {
-        --color-blue: #648fff;
-        --color-purple: #785ef0;
-        --color-pink: #dc267f;
-        --color-orange: #fe6100;
-        --color-yellow: #ffb000;
-        --color-grey: #999999;
-        --color-lightgrey: #dddddd;
+        --color-blue: #3a72fe;
+        --color-purple: #5b3ce6;
+        --color-pink: #fe2e93;
+        --color-orange: #ba4904;
+        --color-yellow: #cb8b00;
         --color-white: #ffffff;
         --color-black: #000000;
+        --color-light-grey: #cccccc;
+        --color-dark-grey: #888888;
 
-        --wordplay-editor-indent: 3em;
-        --wordplay-editor-radius: 3px;
         --wordplay-foreground: var(--color-white);
         --wordplay-background: var(--color-black);
-        --wordplay-chrome: rgb(240, 240, 240);
-        --wordplay-border-color: rgb(200, 200, 200);
+        --wordplay-chrome: var(--color-dark-grey);
+        --wordplay-border-color: var(--color-light-grey);
         --wordplay-evaluation-color: var(--color-pink);
         --wordplay-highlight: var(--color-yellow);
         --wordplay-error: var(--color-orange);
         --wordplay-warning: var(--color-yellow);
-        --wordplay-disabled-color: rgb(180, 180, 180);
+        --wordplay-disabled-color: var(--color-light-grey);
         --wordplay-doc-color: var(--color-purple);
         --wordplay-relation-color: var(--color-orange);
         --wordplay-operator-color: var(--color-orange);
         --wordplay-type-color: var(--color-orange);
-        --wordplay-spacing: 0.5em;
-        --wordplay-app-font: 'Noto Sans', 'Noto Emoji';
-        --wordplay-code-font: 'Noto Mono', 'Noto Emoji';
-        --wordplay-font-weight: 500;
-        --wordplay-font-size: 12pt;
-        --wordplay-border-width: 1px;
-        --wordplay-focus-width: 4px;
-        --wordplay-border-radius: 5px;
-        --wordplay-code-line-height: 1.6;
-        --wordplay-palette-min-width: 5em;
-        --wordplay-palette-max-width: 15em;
-
-        --bounce-height: 0.5em;
-
-        --wobble-rotation: 2deg;
     }
 
     @keyframes wobble {

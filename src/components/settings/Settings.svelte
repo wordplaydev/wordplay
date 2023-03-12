@@ -4,11 +4,13 @@
     import { animationsOn } from '@models/stores';
     import LayoutChooser from './LayoutChooser.svelte';
     import LanguageChooser from './LanguageChooser.svelte';
-    import { getUser } from '../project/Contexts';
+    import { getUser, isDark } from '../project/Contexts';
 
     let expanded = false;
 
     let user = getUser();
+    let dark = isDark();
+
     $: anonymous = $user && $user.isAnonymous;
     $: offline = $user === undefined;
 </script>
@@ -33,6 +35,20 @@
         >
         <LayoutChooser />
         <LanguageChooser />
+        <Button
+            tip={$preferredTranslations[0].ui.tooltip.dark}
+            action={() =>
+                dark.set(
+                    $dark === undefined
+                        ? true
+                        : $dark === true
+                        ? false
+                        : undefined
+                )}
+            ><div class="dark-mode"
+                >{$dark === true ? '☽' : $dark === false ? '☼' : '–'}</div
+            ></Button
+        >
     </div>
     <Button
         tip={$preferredTranslations[0].ui.tooltip.settings}
@@ -68,13 +84,18 @@
     }
 
     .settings.expanded .controls {
-        max-width: 10em;
+        max-width: 12em;
         opacity: 1;
         user-select: all;
     }
 
     :global(.animated) .gear {
         transition: transform 300ms ease-out;
+    }
+
+    .dark-mode {
+        display: inline-block;
+        width: 1em;
     }
 
     .gear.expanded {

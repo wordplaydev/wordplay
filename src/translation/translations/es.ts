@@ -1759,6 +1759,7 @@ const eng_wordplay: Translation = {
             deleteProject: 'delete this project',
             settings: 'show settings',
             newProject: 'new project',
+            dark: 'toggle dark mode on, off, and default',
         },
         prompt: {
             deleteSource: 'delete?',

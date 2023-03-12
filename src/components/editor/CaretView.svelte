@@ -378,7 +378,7 @@
     .caret {
         position: absolute;
         width: 2px;
-        background-color: var(--color-black);
+        background-color: var(--wordplay-foreground);
     }
 
     .node {
