@@ -22,7 +22,6 @@
     import Projects from '../db/Projects';
     import { FirebaseError } from 'firebase/app';
 
-    //
     let authenticated: boolean | null = false;
 
     /** Create a user store */
@@ -40,7 +39,23 @@
         Fonts.loadFamily('Noto Sans');
 
         // Keep the user store in sync.
-        onAuthStateChanged(auth, (newUser) => {
+        onAuthStateChanged(auth, async (newUser) => {
+            // Sign in anonymously if no user.
+            if (newUser === null && !authenticated) {
+                try {
+                    await signInAnonymously(auth);
+                    authenticated = true;
+                } catch (err: any) {
+                    if (err instanceof FirebaseError) {
+                        console.error(err.code);
+                        console.error(err.message);
+                        authenticated = null;
+                        user.set(undefined);
+                    }
+                }
+            } else authenticated = true;
+
+            // Set the store
             user.set(newUser);
         });
 
@@ -52,23 +67,6 @@
     const projects = new Projects();
 
     setContext(ProjectsSymbol, projects.getStore());
-
-    // Sign in anonymously if no user.
-    onAuthStateChanged(auth, async (newUser) => {
-        if (newUser === null && !authenticated) {
-            try {
-                await signInAnonymously(auth);
-                authenticated = true;
-            } catch (err: any) {
-                if (err instanceof FirebaseError) {
-                    console.error(err.code);
-                    console.error(err.message);
-                    authenticated = null;
-                    user.set(undefined);
-                }
-            }
-        } else authenticated = true;
-    });
 
     onDestroy(() => {
         projects.clean();

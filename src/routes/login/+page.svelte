@@ -15,7 +15,6 @@
     import { FirebaseError } from 'firebase/app';
     import { auth } from '@db/firebase';
     import { goto } from '$app/navigation';
-    import { onMount } from 'svelte';
 
     let user = getUser();
     let email: string;
@@ -106,15 +105,19 @@
         auth.signOut();
     }
 
-    // If it's a sign in, finish sighning in.
-    onMount(() => {
-        if (isSignInWithEmailLink(auth, window.location.href)) finish();
-    });
+    // If it's a sign in, finish signing in once authenticated.
+    $: if (
+        $user &&
+        $user.isAnonymous &&
+        isSignInWithEmailLink(auth, window.location.href)
+    )
+        finish();
 </script>
 
 <Page>
     <div class="login">
         {#if $user && !$user.isAnonymous}
+            <Lead>{$preferredTranslations[0].welcome} {$user.email}</Lead>
             <Button
                 tip={$preferredTranslations[0].ui.login.logout}
                 action={logout}
