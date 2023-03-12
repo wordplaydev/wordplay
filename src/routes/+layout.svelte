@@ -188,7 +188,7 @@
         --wordplay-foreground: var(--color-black);
         --wordplay-background: var(--color-white);
         --wordplay-chrome: var(--color-light-grey);
-        --wordplay-border-color: var(--color-lightgrey);
+        --wordplay-border-color: var(--color-light-grey);
         --wordplay-evaluation-color: var(--color-pink);
         --wordplay-highlight: var(--color-yellow);
         --wordplay-error: var(--color-orange);
