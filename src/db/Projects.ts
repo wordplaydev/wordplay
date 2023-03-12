@@ -116,7 +116,7 @@ export default class Projects {
     }
 
     /** Batch set projects */
-    setProjects(projects: Project[]) {
+    setProjects(projects: Project[], persist: boolean = true) {
         for (const project of projects) {
             // See if there's an existing record for this project
             // so we can preserve it's history.
@@ -129,7 +129,7 @@ export default class Projects {
                 saved: false,
             });
         }
-        this.update();
+        if (persist) this.update();
     }
 
     /** Add a single project, overriding any project with it's ID. */
@@ -307,7 +307,8 @@ export default class Projects {
                     projects.push(project.data() as SerializedProject);
                 });
                 this.setProjects(
-                    projects.map((project) => Project.fromObject(project))
+                    projects.map((project) => Project.fromObject(project)),
+                    false
                 );
             },
             (error) => {

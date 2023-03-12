@@ -30,7 +30,7 @@
     function copyProject(project: Project) {
         if ($user) {
             const newProject = project.copy().withUser($user.uid);
-            $projects.setProjects([newProject]);
+            $projects.addProject(newProject);
             changeProject(newProject);
         }
     }
