@@ -22,24 +22,27 @@
     import Projects from '../db/Projects';
     import { FirebaseError } from 'firebase/app';
 
-    let authenticated: boolean | null = false;
-
-    /** Create a user store */
-    const user = writable<User | null | undefined>(undefined);
-    setContext(UserSymbol, user);
-
     /** Expose the translations as context, updating them as necessary */
     $: setContext(TranslationsSymbol, $preferredTranslations);
 
     let loaded = false;
 
-    /** Whenever the user changes, reset the project store. */
+    /** Create a user store to share globally. */
+    const user = writable<User | null | undefined>(undefined);
+    setContext(UserSymbol, user);
+
+    /** Keep track of whether we've signed in anonymously so we only do it once. */
+    let authenticated: boolean | null = false;
+
     onMount(() => {
         // Force Noto Sans to load
         Fonts.loadFamily('Noto Sans');
 
+        // Show only after fonts are loaded, to prevent font jiggle.
+        document.fonts.ready.then(() => (loaded = true));
+
         // Keep the user store in sync.
-        onAuthStateChanged(auth, async (newUser) => {
+        const unsub = onAuthStateChanged(auth, async (newUser) => {
             // Sign in anonymously if no user.
             if (newUser === null && !authenticated) {
                 try {
@@ -55,12 +58,12 @@
                 }
             } else authenticated = true;
 
-            // Set the store
+            // Update the store.
             user.set(newUser);
         });
 
-        // Show when fonts are loaded.
-        document.fonts.ready.then(() => (loaded = true));
+        // Unusubscribe to auth listener on unmount.
+        return () => unsub();
     });
 
     /** Create a database of projects linked to the current user. */
@@ -143,6 +146,49 @@
         --wordplay-editor-radius: 3px;
         --wordplay-foreground: var(--color-black);
         --wordplay-background: var(--color-white);
+        --wordplay-chrome: rgb(240, 240, 240);
+        --wordplay-border-color: rgb(200, 200, 200);
+        --wordplay-evaluation-color: var(--color-pink);
+        --wordplay-highlight: var(--color-yellow);
+        --wordplay-error: var(--color-orange);
+        --wordplay-warning: var(--color-yellow);
+        --wordplay-disabled-color: rgb(180, 180, 180);
+        --wordplay-doc-color: var(--color-purple);
+        --wordplay-relation-color: var(--color-orange);
+        --wordplay-operator-color: var(--color-orange);
+        --wordplay-type-color: var(--color-orange);
+        --wordplay-spacing: 0.5em;
+        --wordplay-app-font: 'Noto Sans', 'Noto Emoji';
+        --wordplay-code-font: 'Noto Mono', 'Noto Emoji';
+        --wordplay-font-weight: 500;
+        --wordplay-font-size: 12pt;
+        --wordplay-border-width: 1px;
+        --wordplay-focus-width: 4px;
+        --wordplay-border-radius: 5px;
+        --wordplay-code-line-height: 1.6;
+        --wordplay-palette-min-width: 5em;
+        --wordplay-palette-max-width: 15em;
+
+        --bounce-height: 0.5em;
+
+        --wobble-rotation: 2deg;
+    }
+
+    :root .dark {
+        --color-blue: #648fff;
+        --color-purple: #785ef0;
+        --color-pink: #dc267f;
+        --color-orange: #fe6100;
+        --color-yellow: #ffb000;
+        --color-grey: #999999;
+        --color-lightgrey: #dddddd;
+        --color-white: #ffffff;
+        --color-black: #000000;
+
+        --wordplay-editor-indent: 3em;
+        --wordplay-editor-radius: 3px;
+        --wordplay-foreground: var(--color-white);
+        --wordplay-background: var(--color-black);
         --wordplay-chrome: rgb(240, 240, 240);
         --wordplay-border-color: rgb(200, 200, 200);
         --wordplay-evaluation-color: var(--color-pink);
