@@ -80,16 +80,12 @@
                         class="language"
                         class:supported
                         class:selected={$preferredLanguages.includes(lang)}
-                        tabIndex={supported ? 0 : null}
-                        on:click|stopPropagation={supported
-                            ? () => select(lang)
-                            : null}
-                        on:keydown={supported
-                            ? (event) =>
-                                  event.key === ' ' || event.key === 'Enter'
-                                      ? select(lang)
-                                      : undefined
-                            : null}>{getLanguageName(lang)}</span
+                        tabIndex={0}
+                        on:click|stopPropagation={() => select(lang)}
+                        on:keydown={(event) =>
+                            event.key === ' ' || event.key === 'Enter'
+                                ? select(lang)
+                                : undefined}>{getLanguageName(lang)}</span
                     >
                 {/each}
             </div>
