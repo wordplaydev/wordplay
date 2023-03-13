@@ -18,6 +18,7 @@
     } from './Contexts';
     import Root from '@nodes/Root';
     import Source from '@nodes/Source';
+    import Name from '../../nodes/Name';
 
     export let node: Node;
     /** Optional space; if not provided, all nodes are rendered with preferred space. */
@@ -71,6 +72,7 @@
         const newHidden = new Set<Node>();
 
         // Hide any language tagged nodes that 1) the caret isn't in, and 2) either have no language tag or aren't one of the selected tags.
+        // Also hide any name separators if the first visible name has one.
         for (const tag of node.nodes(
             (n) => n instanceof Docs || n instanceof Names
         ) as (Docs | Names)[]) {
@@ -82,6 +84,7 @@
                     nameOrDocs.some((l) => l.getLanguage() === lang)
                 )
             ) {
+                let first = false;
                 for (const nameOrDoc of nameOrDocs) {
                     if (
                         !$preferredLanguages.some(
@@ -90,6 +93,11 @@
                         !$caret?.isIn(nameOrDoc)
                     )
                         newHidden.add(nameOrDoc);
+                    else if (!first) {
+                        first = true;
+                        if (nameOrDoc instanceof Name && nameOrDoc.separator)
+                            newHidden.add(nameOrDoc.separator);
+                    }
                 }
             }
             // Otherwise, hide all but the first.
