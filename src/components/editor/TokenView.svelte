@@ -16,6 +16,8 @@
         TEXT_DELIMITERS,
     } from '@parser/Tokenizer';
     import Reference from '@nodes/Reference';
+    import Evaluate from '@nodes/Evaluate';
+    import type Definition from '@nodes/Definition';
 
     export let node: Token;
 
@@ -78,11 +80,32 @@
             const context = $project
                 ? $project.getContext($caret.source)
                 : undefined;
-            const reference = context ? node.getParent(context) : undefined;
-            if (reference instanceof Reference && !$caret.isIn(reference)) {
-                const definition = reference.resolve(context);
-                if (definition)
-                    text = definition.names.getTranslation($preferredLanguages);
+            const parent = context ? node.getParent(context) : undefined;
+            let def: Definition | undefined = undefined;
+            if (parent && context && !$caret.isIn(parent)) {
+                // Is this in a reference
+                if (parent instanceof Reference) {
+                    const definition = parent.resolve(context);
+                    if (definition) def = definition;
+                } else {
+                    // Is this an evaluation bind? Find the corresponding input to get its names.
+                    const evaluate = context.source.root
+                        .getAncestors(parent)
+                        .filter((n): n is Evaluate => n instanceof Evaluate)[0];
+                    if (evaluate) {
+                        const fun = evaluate.getFunction(context);
+                        if (fun)
+                            def = fun.inputs.find((input) =>
+                                input.hasName(text)
+                            );
+                    }
+                }
+            }
+
+            if (def) {
+                text =
+                    def.names.getEmojiName() ??
+                    def.names.getTranslation($preferredLanguages);
             }
         }
     }

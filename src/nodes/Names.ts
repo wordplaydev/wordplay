@@ -92,11 +92,17 @@ export default class Names extends Node {
         return this.getSharedName(names) !== undefined;
     }
 
-    getTranslation(language: string | string[]) {
+    /** Returns a single grapheme name if there is one. */
+    getEmojiName() {
+        return this.names.find((name) => name.isEmoji())?.getName();
+    }
+
+    getTranslation(language: LanguageCode | LanguageCode[]) {
         return this.getNameTranslation(language)?.getName() ?? '-';
     }
 
-    getNameTranslation(language: string | string[]) {
+    getNameTranslation(language: LanguageCode | LanguageCode[]) {
+        // Find the name with the most preferred language code.
         const preferredName = (Array.isArray(language) ? language : [language])
             .map((lang) =>
                 this.names.find((name) => name.getLanguage() === lang)

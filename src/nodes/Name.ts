@@ -68,6 +68,10 @@ export default class Name extends Node {
               );
     }
 
+    isEmoji() {
+        return this.name.text.getLength() === 1;
+    }
+
     getName(): string | undefined {
         return this.name instanceof Token
             ? this.name.text.toString()
