@@ -581,7 +581,7 @@ export default class Caret {
                       ];
             }
         }
-        // If it's a node, see if there's a removal transform.
+        // If it's a node, replace it with a placeholder, or delete it.
         else {
             // Get the parent of the node.
             const node = this.position;
@@ -599,9 +599,10 @@ export default class Caret {
                         this.withPosition(index),
                     ];
                 } else if (field.types.includes(Expression)) {
+                    const placeholder = ExpressionPlaceholder.make();
                     return [
-                        this.source.replace(node, ExpressionPlaceholder.make()),
-                        this.withPosition(index),
+                        this.source.replace(node, placeholder),
+                        this.withPosition(placeholder),
                     ];
                 } else if (field.types.includes(Program)) {
                     return [
@@ -615,12 +616,13 @@ export default class Caret {
                     node instanceof Token &&
                     parent.leaves().length === 1
                 ) {
+                    const placeholder = ExpressionPlaceholder.make();
                     return [
                         this.source.replace(
                             parent,
                             ExpressionPlaceholder.make()
                         ),
-                        this.withPosition(index),
+                        this.withPosition(placeholder),
                     ];
                 }
             }
