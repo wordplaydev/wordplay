@@ -4,6 +4,7 @@
     import {
         preferredLanguages,
         preferredTranslations,
+        writingDirection,
     } from '@translation/translations';
     import Button from '../widgets/Button.svelte';
     import type LanguageCode from '@translation/LanguageCode';
@@ -17,19 +18,25 @@
     let collapsed = true;
     let element: HTMLElement;
 
-    $: languageChoices = Array.from(
-        new Set([...(Object.keys(Languages) as LanguageCode[])])
-    );
-
     const supportedLanguages = SupportedTranslations.map((t) => t.language);
 
-    function select(language: LanguageCode) {
+    // The choices are all the languages, sorted in English alphabetical order, with supported languages first
+    $: languageChoices = [
+        ...supportedLanguages,
+        ...Array.from(
+            new Set([...(Object.keys(Languages) as LanguageCode[])])
+        ).filter((lang) => !supportedLanguages.includes(lang)),
+    ];
+
+    function select(language: LanguageCode, append: boolean) {
         const selected = $preferredLanguages.includes(language);
         preferredLanguages.set(
             selected
                 ? $preferredLanguages.length === 1
-                    ? $preferredLanguages
-                    : [
+                    ? // If it's already selected, and there's only one, keep it the same.
+                      $preferredLanguages
+                    : // Otherwise, remove it.
+                      [
                           // Remove
                           ...$preferredLanguages.slice(
                               0,
@@ -39,14 +46,19 @@
                               $preferredLanguages.indexOf(language) + 1
                           ),
                       ]
-                : // Add
-                  [...$preferredLanguages, language]
+                : // If replacing, just set to the given language. Otherwise add.
+                append
+                ? [...$preferredLanguages, language]
+                : [language]
         );
 
         // Set the layout and direction based on the preferred language.
         if ($preferredLanguages.length > 0) {
             writingLayout.set(
                 Languages[$preferredLanguages[0]].layout ?? 'horizontal-tb'
+            );
+            writingDirection.set(
+                Languages[$preferredLanguages[0]].direction ?? 'ltr'
             );
         }
 
@@ -81,10 +93,11 @@
                         class:supported
                         class:selected={$preferredLanguages.includes(lang)}
                         tabIndex={0}
-                        on:click|stopPropagation={() => select(lang)}
+                        on:click|stopPropagation={(event) =>
+                            select(lang, event.shiftKey)}
                         on:keydown={(event) =>
                             event.key === ' ' || event.key === 'Enter'
-                                ? select(lang)
+                                ? select(lang, event.shiftKey)
                                 : undefined}>{getLanguageName(lang)}</span
                     >
                 {/each}
@@ -121,6 +134,7 @@
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
         z-index: 3;
         padding: var(--wordplay-spacing);
+        pointer-events: none;
     }
 
     .language-preferences {
@@ -158,10 +172,7 @@
 
     .language.supported {
         cursor: pointer;
-    }
-
-    .language:not(.supported) {
-        color: var(--wordplay-disabled-color);
+        text-decoration: underline;
     }
 
     .language.selected {
