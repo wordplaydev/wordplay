@@ -13,6 +13,7 @@ import type Source from '@nodes/Source';
 import Expression from '@nodes/Expression';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import Program from '@nodes/Program';
+import UnicodeString from '../../../models/UnicodeString';
 
 export type InsertionContext = { before: Node[]; after: Node[] };
 export type CaretPosition = number | Node;
@@ -485,7 +486,8 @@ export default class Caret {
                       newSource,
                       new Caret(
                           newSource,
-                          this.position + (closed ? 1 : text.length)
+                          this.position +
+                              (closed ? 1 : new UnicodeString(text).getLength())
                       ),
                   ];
         } else {

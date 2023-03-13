@@ -3,6 +3,7 @@
 <script lang="ts">
     import TokenType from '@nodes/TokenType';
     import type Text from '@runtime/Text';
+    import UnicodeString from '../../models/UnicodeString';
     import Expandable from './Expandable.svelte';
     import SymbolView from './SymbolView.svelte';
 
@@ -15,7 +16,7 @@
         ><SymbolView symbol={text} type={TokenType.TEXT} /></svelte:fragment
     ><svelte:fragment slot="collapsed"
         ><SymbolView
-            symbol={text.substring(0, 10)}
+            symbol={new UnicodeString(text).substring(0, 10).toString()}
             type={TokenType.TEXT}
         />{#if text.length > 10}…{/if}</svelte:fragment
     ></Expandable
