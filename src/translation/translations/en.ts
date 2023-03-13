@@ -2320,7 +2320,6 @@ const en: Translation = {
             description: WRITE_DOC,
             content: { doc: WRITE_DOC, name: 'content' },
             background: { doc: WRITE_DOC, name: 'background' },
-            focus: { doc: WRITE_DOC, name: 'focus' },
         },
         easing: {
             straight: 'straight',

@@ -1,4 +1,4 @@
-=== WhatWord
+=== WhatWord/en,QuePalabra/es,ايكلمة/ar
 ↓ ⌨️
 ↓ words
 `a list of guesses and a secret word`/en
@@ -107,7 +107,7 @@ screen/en,cine/es,إظهار/ar:
 `اصنع عالمًا مع الشاشة بداخله`/ar
 Verse([screen] font: "Poor Story" background: 🌈(0% 0 0°) rest: Pose(color: 🌈(100% 0 0°)))
 
-=== words
+=== words/en,palabras/es,كلمات/ar
 `These are the secret words. Don't tell anyone!`/en
 `Estas son las palabras secretas. ¡No se lo digas a nadie!`/es
 `هذه هي الكلمات السرية. لا تخبر أحدا!`/ar

@@ -914,7 +914,6 @@ type Translation = {
             description: Description;
             content: NameAndDocTranslation;
             background: NameAndDocTranslation;
-            focus: NameAndDocTranslation;
         };
         layout: {
             definition: NameAndDocTranslation;
