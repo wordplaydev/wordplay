@@ -3,24 +3,22 @@
 ↓ words
 `a list of guesses and a secret word`/en
 `El estado del juego es una lista de conjeturas y una palabra secreta.`/es
-`🧩 = 🤔 + 🤫`/😀
-•Game/en, 🧩/😀, Juego/es(guesses/en,🤔/😀,suposiciones/es•[""] secret/en,🤫/😀,secreta/es•"") (
-  guessesRemaining/en,🔢/😀,conjeturasRestantes/es: (secret.📏() · 2) - guesses.📏()
-  status/en,🚨/😀,estado/es: 
+•Game/en, Juego/es(guesses/en,suposiciones/es•[""] secret/en,secreta/es•"") (
+  guessesRemaining/en,conjeturasRestantes/es: (secret.📏() · 2) - guesses.📏()
+  status/en,estado/es: 
     secret = "" ? "start"
     secret→[""].all(ƒ(letter•"") guesses.has(letter)) ? "won"
     guessesRemaining ≤ 0 ? "lost"
     "playing"
 )
 
-start/en,🟢/😀: Game([] "")
+start/en,primero/es: Game([] "")
 
-key: ⌨️()
+key/en,tecla/es: ⌨️()
 
 `When the keyboard state changes, the game state changes.`/en
 `Cuando cambia el estado del teclado, cambia el estado del juego.`/es
-`⌨️ + 🤔 + 🤫 → ⚽️`/😀
-state/en,🧠/😀•Game: ∆ key ? start … 
+state/en,estado/es•Game: ∆ key ? start … 
     key = "Escape" ? start
     (state.status ≠ "playing") & (key = " ") ? Game([] words.random())
     (state.status = "playing") & (key.length() = 1) & ~state.guesses.has(key) ? 
@@ -29,19 +27,18 @@ state/en,🧠/😀•Game: ∆ key ? start …
 
 `The board is a translation of the secret, accounting for guesses`/en
 `El tablero es una traducción del secreto, teniendo en cuenta las conjeturas.`/es
-`🤔 + 🤫 → 🔤`/😀
-board/en,🔤/😀: 💬(
+board/en,tabelro/es: 💬(
   state.secret→[""].translate(ƒ(letter•"") ((state.status = "lost") | state.guesses.has(letter)) ? letter ".").join(' ')
   2m
 )
 
-sway: { 
+sway/en,vaivén/es: { 
   0%: Pose(tilt: -2°)
   50%: Pose(tilt: 2°) 
   100%: Pose(tilt: -2°)
 } 
 
-bounce: {
+bounce/en,rebotar/es: {
   0%: Pose(scale: 1 offset: Place(y: 0m))
   10%: Pose(scale: 1.1 offset: Place(y: 2m))
   30%: Pose(scale: .9 offset: Place(y: 2m))
@@ -51,9 +48,11 @@ bounce: {
   100%: Pose(scale: 1 offset: Place(y: 0m))
 }
 
-fade: Pose(opacity: 0)
+fade/en,descolorar/es: Pose(opacity: 0)
 
-screen: 
+`Construct the game scene`/en
+`Construye la escena del juego`/es
+screen/en,cine/es: 
   state.status = "start" ? 
     Group(⬇() [
       💬(["What***Word***"/en "Que***Palabra***"/es "?_"/😀] 
@@ -69,29 +68,36 @@ screen:
   state.status = "lost" ? 
     Group(⬇() [
       board 
-      💬("You lost. Press **space** to play again." enter: Pose(tilt: 0°) rest: Pose(tilt: -5°))
+      💬(
+        [
+          "You lost. Press **space** to play again."/en 
+          "Perdiste. Presiona **espacio** para volver a jugar"/es
+        ] 
+        enter: Pose(tilt: 0°) 
+        rest: Pose(tilt: -5°)
+      )
     ] exit: fade)
   state.status = "won" ?
     Group(⬇() [
         board.rest:Sequence(bounce 1s) 
-        💬("You won, nice job! Press space to play again.")
+        💬(["You won, nice job! Press space to play again."/en "¡Ganaste, buen trabajo! Presiona la barra espaciadora para volver a jugar"/es])
     ] exit: fade)
     Group(⬇() [
       board 
-      💬(state.guesses.length() = 0 ? "Type a letter to guess" "Guesses: \state.guesses.join(' ')\")
+      💬(state.guesses.length() = 0 ? ["Type a letter to guess"/en "Escribe una carta a"/es] ["Guesses: \state.guesses.join(' ')\"/en "Suposiciones: \state.guesses.join(' ')\"/es])
       💬(
-        "\state.guessesRemaining→''\ remaining"
+        ["\state.guessesRemaining→''\ remaining"/en "\state.guessesRemaining→''\ restante"/es]
         rest: Sequence(sway (state.guessesRemaining ÷ 5) ·1s)
       )
     ])
 
 `Create a world with the screen in it`/en
+`Crea un mundo con la pantalla en él`/es
 Verse([screen] font: "Poor Story" background: 🌈(0% 0 0°) rest: Pose(color: 🌈(100% 0 0°)))
 
 === words
 `These are the secret words. Don't tell anyone!`/en
 `Estas son las palabras secretas. ¡No se lo digas a nadie!`/es
-`🤫`/😀
 [
   'kitty'
   'house'
