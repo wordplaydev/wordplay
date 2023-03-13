@@ -1,2 +1,2 @@
 === Timer/en
-Phrase("⏺".repeat(((time(1000ms) ÷ 1000ms) % 5).truncate() + 1))
+Phrase("⏺".repeat(((time(1000ms) → #s) % 5).truncate() + 1s))

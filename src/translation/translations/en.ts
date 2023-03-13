@@ -663,7 +663,7 @@ const en: Translation = {
                     : node.number.getText() === '∞'
                     ? 'infinity'
                     : node.unit.isUnitless()
-                    ? 'number'
+                    ? 'unitless number'
                     : 'number with a unit',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
