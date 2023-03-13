@@ -1712,7 +1712,7 @@ const eng_wordplay: Translation = {
             expression: 'value',
             type: 'type',
             percent: 'percent',
-            name: 'name',
+            name: 'nombre',
             project: 'untitled',
             email: 'email',
         },

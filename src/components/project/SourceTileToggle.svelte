@@ -6,6 +6,7 @@
     import { getConflicts, getCurrentStep } from './Contexts';
     import type Evaluator from '@runtime/Evaluator';
     import type Project from '../../models/Project';
+    import { preferredLanguages } from '@translation/translations';
 
     export let project: Project;
     export let evaluator: Evaluator;
@@ -57,7 +58,7 @@
                 event.stopPropagation();
             }
         }}
-        >{source.getNames()}
+        >{source.names.getTranslation($preferredLanguages)}
     </span>
     {#if primaryCount > 0}<span class="count primary">{primaryCount}</span>{/if}
     {#if secondaryCount > 0}<span class="count secondary">{secondaryCount}</span

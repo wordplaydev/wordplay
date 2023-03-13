@@ -15,15 +15,17 @@ import TextTransitions from './TextTransitions.wp?raw';
 import Physics from './Physics.wp?raw';
 import Video from './Video.wp?raw';
 import RainingLetters from './RainingLetters.wp?raw';
+import { parseNames, toTokens } from '../parser/Parser';
+import type Names from '../nodes/Names';
 
-export type Stuff = { name: string; sources: { name: string; code: string }[] };
+export type Stuff = { name: string; sources: { names: Names; code: string }[] };
 
 export function makeProject(stuff: Stuff) {
     return new Project(
         stuff.name,
         stuff.name,
-        new Source(stuff.sources[0].name, stuff.sources[0].code),
-        stuff.sources.slice(1).map((s) => new Source(s.name, s.code))
+        new Source(stuff.sources[0].names, stuff.sources[0].code),
+        stuff.sources.slice(1).map((s) => new Source(s.names, s.code))
     );
 }
 
@@ -37,12 +39,12 @@ function wpToStuff(text: string): Stuff {
         const header = file.substring(0, EOL);
         const name = header.replace('===', '').trim();
         const code = file.substring(EOL);
-        return { name: name, code: code };
+        return { names: parseNames(toTokens(name)), code: code };
     });
 
     // Return stuff for display
     return {
-        name: sources[0].name,
+        name: sources[0].names.getNames()[0],
         sources: sources,
     };
 }
