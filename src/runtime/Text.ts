@@ -35,6 +35,10 @@ export default class Text extends Primitive {
         return new Measurement(requestor, [...this.text].length);
     }
 
+    repeat(requestor: Expression, count: number) {
+        return new Text(requestor, this.text.repeat(count), this.format);
+    }
+
     toWordplay(): string {
         return `"${this.text}"${this.format ? `/${this.format}` : ''}`;
     }

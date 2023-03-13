@@ -962,6 +962,11 @@ const eng_wordplay: Translation = {
                     name: '≠',
                     inputs: [{ doc: WRITE_DOC, name: 'value' }],
                 },
+                repeat: {
+                    doc: WRITE_DOC,
+                    name: 'repetir',
+                    inputs: [{ doc: WRITE_DOC, name: 'contar' }],
+                },
             },
             conversion: {
                 text: WRITE_DOC,
@@ -995,6 +1000,11 @@ const eng_wordplay: Translation = {
                 remainder: {
                     doc: WRITE_DOC,
                     name: ['%', 'remainder'],
+                    inputs: [{ doc: WRITE_DOC, name: 'number' }],
+                },
+                truncate: {
+                    doc: WRITE_DOC,
+                    name: ['truncar'],
                     inputs: [{ doc: WRITE_DOC, name: 'number' }],
                 },
                 power: {
@@ -1478,7 +1488,7 @@ const eng_wordplay: Translation = {
             secondary: (given) => Explanation.as('given ', given),
         },
         IncompatibleInput: {
-            primary: (expected) =>
+            primary: (given, expected) =>
                 Explanation.as('expected ', expected, ' input'),
             secondary: (given, expected) =>
                 Explanation.as(

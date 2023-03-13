@@ -27,6 +27,10 @@ export default function bootstrapText() {
         (t) => t.native.text.function.notequals.inputs[0].name
     );
 
+    const countNames = getNameTranslations(
+        (t) => t.native.text.function.repeat.inputs[0].name
+    );
+
     function createTextFunction(
         translations: {
             docs: Docs;
@@ -76,6 +80,35 @@ export default function bootstrapText() {
                     [],
                     MeasurementType.make(),
                     (requestor, text) => text.length(requestor)
+                ),
+                createTextFunction(
+                    getFunctionTranslations(
+                        (t) => t.native.text.function.repeat
+                    ),
+                    [
+                        Bind.make(
+                            getDocTranslations(
+                                (t) =>
+                                    t.native.text.function.repeat.inputs[0].doc
+                            ),
+                            countNames,
+                            MeasurementType.make()
+                        ),
+                    ],
+                    TextType.make(),
+                    (requestor, text, evaluation) => {
+                        const count = evaluation.resolve(countNames);
+                        if (
+                            count === undefined ||
+                            !(count instanceof Measurement)
+                        )
+                            return evaluation.getValueOrTypeException(
+                                requestor,
+                                MeasurementType.make(),
+                                count
+                            );
+                        return text.repeat(requestor, count.num.toNumber());
+                    }
                 ),
                 createTextFunction(
                     getFunctionTranslations(

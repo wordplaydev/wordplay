@@ -390,6 +390,7 @@ type Translation = {
                 length: FunctionTranslation<[]>;
                 equals: FunctionTranslation<[NameAndDocTranslation]>;
                 notequals: FunctionTranslation<[NameAndDocTranslation]>;
+                repeat: FunctionTranslation<[NameAndDocTranslation]>;
             };
             conversion: {
                 text: DocTranslation;
@@ -405,6 +406,7 @@ type Translation = {
                 multiply: FunctionTranslation<[NameAndDocTranslation]>;
                 divide: FunctionTranslation<[NameAndDocTranslation]>;
                 remainder: FunctionTranslation<[NameAndDocTranslation]>;
+                truncate: FunctionTranslation<[NameAndDocTranslation]>;
                 power: FunctionTranslation<[NameAndDocTranslation]>;
                 root: FunctionTranslation<[NameAndDocTranslation]>;
                 lessThan: FunctionTranslation<[NameAndDocTranslation]>;
@@ -630,7 +632,7 @@ type Translation = {
             (given: NodeLink) => Description
         >;
         IncompatibleInput: ConflictTranslation<
-            (expected: NodeLink) => Description,
+            (given: NodeLink, expected: NodeLink) => Description,
             (given: NodeLink, expected: NodeLink) => Description
         >;
         IncompatibleKey: ConflictTranslation<

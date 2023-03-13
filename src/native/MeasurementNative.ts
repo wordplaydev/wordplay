@@ -240,6 +240,13 @@ export default function bootstrapMeasurement() {
                         left.remainder(requestor, right),
                     false
                 ),
+                createUnaryOp(
+                    getFunctionTranslations(
+                        (t) => t.native.measurement.function.truncate
+                    ),
+                    MeasurementType.wildcard(),
+                    (requestor, left) => left.floor(requestor)
+                ),
                 createBinaryOp(
                     getFunctionTranslations(
                         (t) => t.native.measurement.function.power

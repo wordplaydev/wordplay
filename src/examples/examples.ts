@@ -15,6 +15,7 @@ import TextTransitions from './TextTransitions.wp?raw';
 import Physics from './Physics.wp?raw';
 import Video from './Video.wp?raw';
 import RainingLetters from './RainingLetters.wp?raw';
+import Timer from './Timer.wp?raw';
 import { parseNames, toTokens } from '../parser/Parser';
 import type Names from '../nodes/Names';
 
@@ -64,4 +65,5 @@ export const examples: Stuff[] = [
     Physics,
     Video,
     RainingLetters,
+    Timer,
 ].map((source) => wpToStuff(source));

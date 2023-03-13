@@ -164,6 +164,10 @@ export default class Measurement extends Primitive {
               );
     }
 
+    floor(requestor: Expression): Measurement | None {
+        return new Measurement(requestor, this.num.floor(), this.unit);
+    }
+
     isEqualTo(operand: Value): boolean {
         return (
             operand instanceof Measurement &&

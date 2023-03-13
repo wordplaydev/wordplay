@@ -104,7 +104,7 @@ const en: Translation = {
                         oz: 'ounces',
                         lb: 'pounds',
                         pt: 'font size',
-                    }[dim] ?? 'dimension'
+                    }[dim] ?? dim
                 );
             },
             emotion: Emotion.Serious,
@@ -1221,6 +1221,11 @@ const en: Translation = {
                     name: '≠',
                     inputs: [{ doc: WRITE_DOC, name: 'value' }],
                 },
+                repeat: {
+                    doc: WRITE_DOC,
+                    name: 'repeat',
+                    inputs: [{ doc: WRITE_DOC, name: 'count' }],
+                },
             },
             conversion: {
                 text: WRITE_DOC,
@@ -1256,6 +1261,11 @@ const en: Translation = {
                 remainder: {
                     doc: WRITE_DOC,
                     name: ['%', 'remainder'],
+                    inputs: [{ doc: WRITE_DOC, name: 'number' }],
+                },
+                truncate: {
+                    doc: WRITE_DOC,
+                    name: ['truncate'],
                     inputs: [{ doc: WRITE_DOC, name: 'number' }],
                 },
                 power: {
@@ -1757,8 +1767,13 @@ const en: Translation = {
             secondary: (given) => Explanation.as('given ', given),
         },
         IncompatibleInput: {
-            primary: (expected) =>
-                Explanation.as(`I think I'm supposed to be a `, expected, '?'),
+            primary: (given, expected) =>
+                Explanation.as(
+                    `I think I'm supposed to be a `,
+                    expected,
+                    ", but I'm a ",
+                    given
+                ),
             secondary: (given, expected) =>
                 Explanation.as(
                     `Umm, I got a `,
