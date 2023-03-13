@@ -1,0 +1,62 @@
+===Raining Letters
+`This program has a set of raining letters that fall to the ground according 
+to the rules of physics, and once they hit, become eligible for dropping again.
+We always have the same number of letters dropping, but make visible a different number
+based on the amplitude of the microphone.`
+
+`The max number of letters `
+count: 100
+`The horizontal spread of the letters`
+size: 20m
+
+`The amplitude of the mic`
+amps: microphone()
+
+`The letter chosen and it's position, rotational velocity and whether it's visible.`
+•Letter(letter•"" x•#m y•#m angle•# speed•# visible•?) ()
+
+tick: time()
+
+`Initialize as a list of random letters in random positions`
+letters•[Letter]:  ∆ tick ? 
+    count → [].translate(
+        ƒ(_) Letter(
+           "abcdefghijklmnopqrstuvwxyz" → [].random() 
+            random(-size size) · 1m
+            random(0 size + 2m) · 1m
+            random(360)
+            random(-15 15)
+            ⊥
+        )
+    )
+    …
+		`If the letter is above the y-axes, move it down a bit and rotate it.
+     Otherwise, reset it above the threshold and randomly decide whether it's visible.`
+    letters.translate(
+        ƒ(letter•Letter)
+            letter.y > 0m ? (letter.y: letter.y - 0.5m).angle: letter.angle + letter.speed
+					(letter.y: size + 2m).visible: random(0 amps) > 50
+    )
+
+`Convert the letters into phrases`
+Verse(
+    [
+      Phrase("☁️" size: 3m place:Place(-8m 12m))
+      Phrase("☁️" size: 5m place: Place(8m 11m))
+      Phrase("🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩" place: Place(-3 · size -0.5m))
+    ].append(
+    letters.translate(
+        ƒ(letter•Letter) 
+            Phrase(
+                letter.letter 
+                size: 1m
+                place: Place(letter.x letter.y)
+                rotation: letter.angle · 1°
+                rest: Pose(
+                  opacity: letter.visible ? 1 0 
+                  color: 🌈(100% 0 0°)
+                )
+            )
+    ))
+    place: Place(0m -2 · size -5m) background: 🌈(63% 93 248°)
+)
