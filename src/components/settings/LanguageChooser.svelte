@@ -134,7 +134,7 @@
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
         z-index: 3;
         padding: var(--wordplay-spacing);
-        pointer-events: none;
+        user-select: none;
     }
 
     .language-preferences {
@@ -163,6 +163,7 @@
     .language {
         display: inline-block;
         border-radius: var(--wordplay-border-radius);
+        cursor: pointer;
     }
 
     :global(.animated) .language {
@@ -171,7 +172,6 @@
     }
 
     .language.supported {
-        cursor: pointer;
         text-decoration: underline;
     }
 
