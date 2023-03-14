@@ -111,6 +111,8 @@ type Translation = {
         input: string;
         output: string;
         type: string;
+        /** What to call the main source in a project. */
+        start: string;
     };
     data: {
         value: string;

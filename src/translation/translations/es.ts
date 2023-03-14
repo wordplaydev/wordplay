@@ -45,6 +45,7 @@ const eng_wordplay: Translation = {
         input: 'input',
         output: 'producción',
         type: 'género',
+        start: '**start',
     },
     data: {
         value: 'avaluar',

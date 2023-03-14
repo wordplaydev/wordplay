@@ -106,7 +106,7 @@ export default class Projects {
         const newProject = new Project(
             null,
             '',
-            new Source(translation.ui.placeholders.name, ''),
+            new Source(translation.terminology.start, ''),
             [],
             undefined,
             uid ? [uid] : []

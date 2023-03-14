@@ -46,6 +46,7 @@ const en: Translation = {
         input: 'input',
         output: 'output',
         type: 'type',
+        start: 'start',
     },
     data: {
         value: 'value',
