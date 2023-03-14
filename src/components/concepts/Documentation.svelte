@@ -163,7 +163,7 @@
     bind:this={palette}
 >
     <div class="header">
-        <TextField placeholder={'🔍'} bind:text={query} />
+        <TextField placeholder={'🔍'} bind:text={query} fill />
         {#if currentConcept}
             <span class="path">
                 <Button

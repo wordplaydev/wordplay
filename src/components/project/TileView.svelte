@@ -195,7 +195,6 @@
                     placeholder={$preferredTranslations[0].ui.placeholders.name}
                     validator={(text) => isName(text)}
                     changed={handleChange}
-                    fit
                     border={false}
                 />
             {:else}

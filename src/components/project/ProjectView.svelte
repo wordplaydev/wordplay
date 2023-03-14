@@ -930,7 +930,6 @@
             <Status />
             <TextField
                 placeholder={$preferredTranslations[0].ui.placeholders.project}
-                fit
                 text={project.name}
                 border={false}
                 changed={(name) =>

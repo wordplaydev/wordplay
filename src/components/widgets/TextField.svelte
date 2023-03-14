@@ -4,7 +4,7 @@
     export let validator: undefined | ((text: string) => boolean) = undefined;
     export let changed: undefined | ((text: string) => void) = undefined;
     export let done: undefined | (() => void) = undefined;
-    export let fit: boolean = false;
+    export let fill: boolean = false;
     export let input: HTMLInputElement | undefined = undefined;
     export let border: boolean = true;
     export let right: boolean = false;
@@ -20,12 +20,12 @@
 <div class="field">
     <input
         type="text"
-        class:fit
+        class:fill
         class:border
         class:right
         class:error={validator ? validator(text) === false : null}
         {placeholder}
-        style:width="{width + 5}px"
+        style:width={fill ? null : `${width + 5}px`}
         bind:this={input}
         bind:value={text}
         on:input={handleInput}
@@ -44,7 +44,7 @@
     }
 
     input {
-        width: 100%;
+        width: auto;
         height: 100%;
         background: none;
         font-size: inherit;
@@ -78,8 +78,8 @@
         text-align: right;
     }
 
-    input.fit {
-        width: auto;
+    input.fill {
+        width: 100%;
     }
 
     input:focus {
