@@ -705,20 +705,20 @@
         }
 
         // When in stepping mode, or when command is pressed
-        if (!$playing || command) {
-            if (key === 'Backspace') {
+        if (command) {
+            if (key === 'ArrowLeft') {
                 // To start
                 if (event.ctrlKey && event.shiftKey) $evaluator.stepTo(0);
                 // To previous input
-                else if (event.shiftKey) $evaluator.stepBackToInput();
+                else if (event.altKey) $evaluator.stepBackToInput();
                 // To previous step
                 else $evaluator.stepBackWithinProgram();
                 event.preventDefault();
-            } else if (key === ' ') {
+            } else if (key === 'ArrowRight') {
                 // To start
                 if (event.ctrlKey && event.shiftKey) $evaluator.stepToEnd();
                 // To next input
-                else if (event.shiftKey) $evaluator.stepToInput();
+                else if (event.altKey) $evaluator.stepToInput();
                 // To next step
                 else $evaluator.stepWithinProgram();
                 event.preventDefault();

@@ -67,6 +67,9 @@
         // Update dark mode, now that we're mounted.
         dark.set(isDarkTheme());
 
+        /** Load whatever is stored in local storage */
+        projects.loadLocal();
+
         // Unusubscribe to auth listener on unmount.
         return () => {
             unsub();

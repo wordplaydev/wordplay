@@ -123,13 +123,11 @@
 
     // A shorthand for the current evaluator
     let evaluatingNode: Node | undefined = undefined;
-    let stepping = false;
 
     /** When the current step, step index, or playing state changes, update the evaluation view of the editor */
     $: {
         $currentStepIndex;
         $currentStep;
-        stepping = !$playing;
         evalUpdate();
     }
 
@@ -1053,7 +1051,7 @@
             }
         }
 
-        if ($playing && event.key === 'Shift') {
+        if (event.key === 'Shift') {
             // If there's no menu showing, show one, then return.
             if (menu === undefined) {
                 showMenu();
@@ -1148,9 +1146,6 @@
     let lastKeyboardInputValue: undefined | UnicodeString = undefined;
 
     function handleTextInput(event: Event) {
-        // No text input in stepping mode.
-        if (!$playing) return;
-
         lastKeyDownIgnored = false;
 
         let edit: Edit | undefined = undefined;
@@ -1233,7 +1228,7 @@
 <svelte:window on:blur={handleRelease} />
 
 <section
-    class="editor {stepping ? 'stepping' : 'playing'}"
+    class="editor {$playing ? 'playing' : 'stepping'}"
     aria-label={`${
         $preferredTranslations[0].ui.section.editor
     } ${source.getTranslation($preferredLanguages)}`}
@@ -1257,7 +1252,7 @@
             {...outline}
             above={false}
             types={outline.types}
-            ignored={$playing && lastKeyDownIgnored}
+            ignored={$playing === true && lastKeyDownIgnored}
         />
     {/each}
     <!-- Render the program -->
