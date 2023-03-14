@@ -52,52 +52,60 @@
     }
 
     function finish() {
-        // If this is on the same device and browser, then the email should be in local storage.
-        let storedEmail = window.localStorage.getItem('email');
+        try {
+            // If this is on the same device and browser, then the email should be in local storage.
+            let storedEmail = window.localStorage.getItem('email');
 
-        // If there's no email, prompt for one.
-        if (storedEmail === null && email === '') {
-            missingEmail = true;
-        }
-        // If no user, create an account with the email.
-        else if ($user === null) {
-            signInWithEmailLink(
-                auth,
-                storedEmail ?? email,
-                window.location.href
-            )
-                .then(() => {
-                    redirect();
-                })
-                .catch((err) => fail(err));
-        }
-        // If there is a user and it's anonymous
-        else if ($user && $user.isAnonymous) {
-            linkWithCredential(
-                $user,
-                EmailAuthProvider.credentialWithLink(
+            // If there's no email, prompt for one.
+            if (storedEmail === null && email === '') {
+                missingEmail = true;
+            }
+            // If no user, create an account with the email.
+            else if ($user === null) {
+                signInWithEmailLink(
+                    auth,
                     storedEmail ?? email,
                     window.location.href
                 )
-            )
-                // On success, redirect to projects.
-                .then(() => redirect())
-                .catch((error) => fail(error));
+                    .then(() => {
+                        redirect();
+                    })
+                    .catch((err) => fail(err));
+            }
+            // If there is a user and it's anonymous
+            else if ($user && $user.isAnonymous) {
+                linkWithCredential(
+                    $user,
+                    EmailAuthProvider.credentialWithLink(
+                        storedEmail ?? email,
+                        window.location.href
+                    )
+                )
+                    // On success, redirect to projects.
+                    .then(() => redirect())
+                    .catch((error) => fail(error));
+            }
+        } catch (err) {
+            fail(err);
         }
     }
 
     async function login() {
-        if (isSignInWithEmailLink(auth, window.location.href)) finish();
-        else {
-            // Ask Firebase to send an email.
-            await sendSignInLinkToEmail(auth, email, {
-                url: `${location.origin}/login`,
-                handleCodeInApp: true,
-            });
-            // Remember the email in local storage so we don't have to ask for it again
-            // after returning to the link above.
-            window.localStorage.setItem('email', email);
-            sent = true;
+        try {
+            if (isSignInWithEmailLink(auth, window.location.href)) finish();
+            else {
+                // Ask Firebase to send an email.
+                await sendSignInLinkToEmail(auth, email, {
+                    url: `${location.origin}/login`,
+                    handleCodeInApp: true,
+                });
+                // Remember the email in local storage so we don't have to ask for it again
+                // after returning to the link above.
+                window.localStorage.setItem('email', email);
+                sent = true;
+            }
+        } catch (err) {
+            fail(err);
         }
     }
 
