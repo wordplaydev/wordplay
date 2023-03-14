@@ -102,14 +102,14 @@ export default class Projects {
     }
 
     /** Create a project and return it's ID */
-    create(translation: Translation, uid: string) {
+    create(translation: Translation, uid: string | undefined) {
         const newProject = new Project(
             null,
             '',
             new Source(translation.ui.placeholders.name, ''),
             [],
             undefined,
-            [uid]
+            uid ? [uid] : []
         );
         this.addProject(newProject);
         return newProject.id;

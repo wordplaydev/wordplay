@@ -18,21 +18,18 @@
     }
 
     function newProject() {
-        if ($user)
-            goto(
-                `/project/${$projects.create(
-                    $preferredTranslations[0],
-                    $user.uid
-                )}`
-            );
+        const newProjectID = $projects.create(
+            $preferredTranslations[0],
+            $user ? $user.uid : undefined
+        );
+        goto(`/project/${newProjectID}`);
     }
 
     function copyProject(project: Project) {
-        if ($user) {
-            const newProject = project.copy().withUser($user.uid);
-            $projects.addProject(newProject);
-            changeProject(newProject);
-        }
+        let newProject = project.copy();
+        if ($user) newProject = newProject.withUser($user.uid);
+        $projects.addProject(newProject);
+        changeProject(newProject);
     }
 
     // Load all projects from the database.
