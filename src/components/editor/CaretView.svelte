@@ -7,7 +7,7 @@
 
 <script lang="ts">
     import { afterUpdate, tick } from 'svelte';
-    import { getCaret, getPlaying } from '../project/Contexts';
+    import { getCaret } from '../project/Contexts';
     import Spaces, { SPACE_HTML, TAB_HTML } from '@parser/Spaces';
     import type Source from '@nodes/Source';
     import Node from '@nodes/Node';
@@ -28,7 +28,6 @@
 
     // The caret of the editor that contains this view.
     let caret = getCaret();
-    let playing = getPlaying();
 
     // The HTMLElement rendering this view.
     let element: HTMLElement;
@@ -53,8 +52,6 @@
                 spaceIndex !== undefined &&
                 lastIndex !== undefined &&
                 textIndex !== undefined &&
-                // Don't show the caret if the program is evaluating.
-                $playing &&
                 // Only show the caret if it's pointing to a number
                 typeof $caret.position === 'number' &&
                 // The position can be anywhere after after the first glyph of the token, up to and including after the token's last character,
@@ -77,7 +74,7 @@
         // Update the caret's location.
         location = computeLocation();
         // Now that we've rendered the caret, if it's out of the viewport and we're not evaluating, scroll to it.
-        if (element && $playing) scrollToCaret();
+        if (element) scrollToCaret();
     }
 
     async function scrollToCaret() {

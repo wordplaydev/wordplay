@@ -601,8 +601,9 @@
         // Prevent the OS from giving the document body focus.
         event.preventDefault();
 
-        if (evaluator.isPlaying()) placeCaretAt(event);
-        else stepToNodeAt(event);
+        placeCaretAt(event);
+
+        if (evaluator.isStepping()) stepToNodeAt(event);
 
         // After we handle the click, focus on keyboard input, in case it's not focused.
         focusHiddenTextField();
@@ -623,7 +624,7 @@
                   getCaretPositionAt(event);
 
         // If we found a position, set it.
-        if (!stepping && newPosition !== undefined)
+        if (newPosition !== undefined)
             caret.set($caret.withPosition(newPosition));
 
         // Mark that the creator might want to drag the node under the mouse and remember where the click started.
@@ -1256,14 +1257,12 @@
     {/each}
 
     <!-- Render the caret on top of the program -->
-    {#if !stepping}
-        <CaretView
-            {source}
-            blink={$KeyboardIdle}
-            ignored={$playing === true && lastKeyDownIgnored}
-            bind:location={caretLocation}
-        />
-    {/if}
+    <CaretView
+        {source}
+        blink={$KeyboardIdle && $playing === true}
+        ignored={$playing === true && lastKeyDownIgnored}
+        bind:location={caretLocation}
+    />
     <!-- If the caret is a position, render the invisible text field that allows us to capture inputs -->
     {#if $caret.isIndex() || $caret.isPlaceholder()}
         <input

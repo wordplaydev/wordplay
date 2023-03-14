@@ -62,7 +62,7 @@ const commands: Command[] = [
         alt: false,
         key: 'ArrowLeft',
         shift: false,
-        mode: Mode.Play,
+        mode: undefined,
         execute: (caret: Caret) => caret.left(false),
     },
     {
@@ -70,7 +70,7 @@ const commands: Command[] = [
         alt: false,
         key: 'ArrowRight',
         shift: false,
-        mode: Mode.Play,
+        mode: undefined,
         execute: (caret: Caret) => caret.right(false),
     },
     {
@@ -78,7 +78,7 @@ const commands: Command[] = [
         alt: false,
         key: 'ArrowLeft',
         shift: true,
-        mode: Mode.Play,
+        mode: undefined,
         execute: (caret: Caret) => caret.left(true),
     },
     {
@@ -86,21 +86,21 @@ const commands: Command[] = [
         alt: false,
         key: 'ArrowRight',
         shift: true,
-        mode: Mode.Play,
+        mode: undefined,
         execute: (caret: Caret) => caret.right(true),
     },
     {
         description: 'Move the caret one position left',
         alt: false,
         key: 'ArrowLeft',
-        mode: Mode.Step,
+        mode: undefined,
         execute: (caret: Caret) => caret.moveNodeHorizontal(-1),
     },
     {
         description: 'Move the caret one position right',
         alt: false,
         key: 'ArrowRight',
-        mode: Mode.Step,
+        mode: undefined,
         execute: (caret: Caret) => caret.moveNodeHorizontal(1),
     },
     {
