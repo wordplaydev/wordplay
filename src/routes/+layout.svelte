@@ -181,8 +181,8 @@
         --color-yellow: #ffb000;
         --color-white: #ffffff;
         --color-black: #000000;
-        --color-light-grey: #cccccc;
-        --color-dark-grey: #888888;
+        --color-light-grey: #efefef;
+        --color-dark-grey: #999999;
 
         /* Colors */
         --wordplay-foreground: var(--color-black);

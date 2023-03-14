@@ -841,6 +841,8 @@
                         arrangement={layout.arrangement}
                         background={tile.kind === Content.Output
                             ? outputBackground
+                            : tile.kind === Content.Source && !$playing
+                            ? `var(--wordplay-border-color)`
                             : null}
                         dragging={draggedTile?.id === tile.id}
                         fullscreenID={layout.fullscreenID}

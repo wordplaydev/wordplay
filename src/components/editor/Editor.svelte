@@ -1289,10 +1289,6 @@
         min-width: 100%;
     }
 
-    .stepping {
-        background: var(--wordplay-chrome);
-    }
-
     .keyboard-input {
         position: absolute;
         border: none;
