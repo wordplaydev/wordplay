@@ -214,19 +214,7 @@
                 // Clear the last input value
                 lastKeyboardInputValue = undefined;
                 // Focus the node that's selected.
-                tick().then(() => {
-                    if ($caret.position instanceof Node) {
-                        let current: Node | undefined = $caret.position;
-                        do {
-                            const view = getNodeView(current);
-                            if (view) {
-                                view.focus();
-                                break;
-                            }
-                            current = source.root.getParent(current);
-                        } while (current !== undefined);
-                    }
-                });
+                focusNodeCaret();
             } else {
                 focusHiddenTextField();
             }
@@ -599,11 +587,8 @@
             newProject.withCaret(newSource, newCaretPosition)
         );
 
-        // Wait for the DOM updates.
-        await tick();
-
-        // Focus the editor.
-        focusHiddenTextField();
+        // Focus the node caret selected.
+        focusNodeCaret();
     }
 
     function handleMouseDown(event: MouseEvent) {
@@ -1141,6 +1126,21 @@
 
     function focusHiddenTextField() {
         input?.focus();
+    }
+
+    async function focusNodeCaret() {
+        await tick();
+        if ($caret.position instanceof Node) {
+            let current: Node | undefined = $caret.position;
+            do {
+                const view = getNodeView(current);
+                if (view) {
+                    view.focus();
+                    break;
+                }
+                current = source.root.getParent(current);
+            } while (current !== undefined);
+        }
     }
 
     let lastKeyboardInputValue: undefined | UnicodeString = undefined;
