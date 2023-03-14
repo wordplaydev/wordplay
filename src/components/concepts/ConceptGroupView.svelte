@@ -3,7 +3,6 @@
     import type Concept from '@concepts/Concept';
     import CodeView from './CodeView.svelte';
     import Note from '../widgets/Note.svelte';
-    import NodeConcept from '../../concepts/NodeConcept';
     import { getAnimationDuration } from '@models/stores';
 
     export let concepts: Concept[];
@@ -24,7 +23,6 @@
                     {concept}
                     node={concept.getRepresentation()}
                     {selectable}
-                    docs={!(concept instanceof NodeConcept)}
                 />
             </span>
         {/if}

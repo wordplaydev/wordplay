@@ -301,7 +301,6 @@
 
     .result {
         font-style: italic;
-        margin-left: var(--wordplay-spacing);
     }
 
     .match {

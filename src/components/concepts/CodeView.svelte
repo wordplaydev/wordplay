@@ -15,7 +15,6 @@
     export let types: StructureConcept[] | undefined = undefined;
     export let describe: boolean = true;
     export let selectable: boolean = false;
-    export let docs: boolean = true;
 
     $: draggable = concept.getNodes().has(node);
 
@@ -38,14 +37,10 @@
     }
 
     $: selection = getConceptPath();
-    $: doc = docs
-        ? (concept.getDocs($preferredTranslations[0]) ?? [
-              undefined,
-          ])[0]?.getFirstParagraph()
-        : undefined;
-    $: description = docs
-        ? undefined
-        : node.getDescription($preferredTranslations[0], concept.context);
+    $: description = node.getDescription(
+        $preferredTranslations[0],
+        concept.context
+    );
 </script>
 
 <div class="view" class:draggable>
@@ -72,20 +67,7 @@
                     : undefined}
         >
             <Note>
-                {#if docs}
-                    {#if doc}
-                        {doc
-                            .toLocaleLowerCase(
-                                $preferredTranslations[0].language
-                            )
-                            .substring(
-                                0,
-                                doc.endsWith('.') ? doc.length - 1 : doc.length
-                            )}
-                    {:else}
-                        learn more…
-                    {/if}
-                {:else if description}
+                {#if description}
                     <DescriptionView {description} />
                 {/if}</Note
             >
