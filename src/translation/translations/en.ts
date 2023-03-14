@@ -2166,6 +2166,7 @@ const en: Translation = {
             invalidFailure: "This link isn't valid.",
             emailFailure: "This email wasn't valid.",
             logout: 'logout',
+            offline: 'You appear to be offline.',
         },
     },
     input: {

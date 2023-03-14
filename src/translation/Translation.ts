@@ -853,6 +853,7 @@ type Translation = {
             invalidFailure: string;
             emailFailure: string;
             logout: string;
+            offline: string;
         };
     };
     input: {

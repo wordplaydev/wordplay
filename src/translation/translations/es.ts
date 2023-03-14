@@ -1823,6 +1823,7 @@ const eng_wordplay: Translation = {
             invalidFailure: "This link isn't valid.",
             emailFailure: "This email wasn't valid.",
             logout: 'logout',
+            offline: 'You appear to be offline.',
         },
     },
     input: {

@@ -24,7 +24,10 @@
                     : $user.email}
             </a>
         {:else if offline}
-            ⚡️
+            <span
+                aria-label={$preferredTranslations[0].ui.login.offline}
+                title={$preferredTranslations[0].ui.login.offline}>⚡️</span
+            >
         {/if}
     </div>
     <div class="controls">

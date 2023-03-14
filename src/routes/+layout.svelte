@@ -57,10 +57,11 @@
                         user.set(undefined);
                     }
                 }
-            } else authenticated = true;
-
-            // Update the store.
-            user.set(newUser);
+            } else {
+                authenticated = true;
+                // Update the store.
+                user.set(newUser);
+            }
         });
 
         // Update dark mode, now that we're mounted.
