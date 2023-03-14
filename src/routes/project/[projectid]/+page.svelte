@@ -54,7 +54,9 @@
 </svelte:head>
 
 {#if $project}
-    <ProjectView project={$project} />
+    {#key $project.id}
+        <ProjectView project={$project} />
+    {/key}
 {:else if loading}
     <Loading />
 {:else if $page.params.projectid || error}

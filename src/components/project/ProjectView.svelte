@@ -406,9 +406,6 @@
         latestPath = $path;
     }
 
-    /** When the project changes, reset the conflicts map. */
-    $: if (project) conflictsOfInterest = new Map();
-
     /** Build a list of visible conflicts of interest based on what tiles are expanded. */
     $: visibleConflicts = Array.from(conflictsOfInterest.keys())
         // Get the list of sources that are expanded
