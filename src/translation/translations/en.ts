@@ -1223,7 +1223,7 @@ const en: Translation = {
                 },
                 repeat: {
                     doc: WRITE_DOC,
-                    name: 'repeat',
+                    name: [PRODUCT_SYMBOL, 'repeat'],
                     inputs: [{ doc: WRITE_DOC, name: 'count' }],
                 },
             },
