@@ -717,9 +717,9 @@
             } else if (key === ' ') {
                 // To start
                 if (event.ctrlKey && event.shiftKey) $evaluator.stepToEnd();
-                // To previous input
+                // To next input
                 else if (event.shiftKey) $evaluator.stepToInput();
-                // To previous step
+                // To next step
                 else $evaluator.stepWithinProgram();
                 event.preventDefault();
             }

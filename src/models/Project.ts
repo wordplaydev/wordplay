@@ -159,7 +159,7 @@ export default class Project {
 
     /** True if one of the project's contains the given node. */
     contains(node: Node) {
-        return this.getRoot(node) !== undefined;
+        return this.getSources().some((source) => source.root.has(node));
     }
 
     getSources() {

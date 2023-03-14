@@ -243,7 +243,7 @@
     // Determine the conflicts of interest based on caret and mouse position.
     export let conflictsOfInterest: Conflict[] = [];
     $: {
-        // The project and source can update at different times, so we only do this if the current souce is in the project.
+        // The project and source can update at different times, so we only do this if the current source is in the project.
         if (project.contains(source)) {
             conflictsOfInterest = [];
 
