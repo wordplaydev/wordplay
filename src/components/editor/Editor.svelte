@@ -147,7 +147,7 @@
     }
 
     // Focus the hidden text field on mount.
-    onMount(() => input?.focus());
+    onMount(() => focusHiddenTextField());
 
     async function evalUpdate() {
         if (evaluator === undefined || evaluator.isPlaying()) return;
@@ -205,15 +205,22 @@
     $: {
         // Hide the menu, if there is one.
         hideMenu();
-        if ($caret.position instanceof Node && !$caret.isPlaceholder()) {
-            // Clear the last input value
-            lastKeyboardInputValue = undefined;
-            if ($caret.position instanceof Node) {
-                const view = getNodeView($caret.position);
-                if (view) view.focus();
+
+        // If this editor contains the focus, choose an appropriate focus for the new caret.
+        if (
+            editor &&
+            typeof document !== 'undefined' &&
+            editor.contains(document.activeElement)
+        ) {
+            if ($caret.position instanceof Node && !$caret.isPlaceholder()) {
+                // Clear the last input value
+                lastKeyboardInputValue = undefined;
+                // Focus the node that's selected.
+                if ($caret.position instanceof Node)
+                    getNodeView($caret.position)?.focus();
+            } else {
+                focusHiddenTextField();
             }
-        } else {
-            input?.focus();
         }
     }
 
@@ -587,7 +594,7 @@
         await tick();
 
         // Focus the editor.
-        input?.focus();
+        focusHiddenTextField();
     }
 
     function handleMouseDown(event: MouseEvent) {
@@ -598,7 +605,7 @@
         else stepToNodeAt(event);
 
         // After we handle the click, focus on keyboard input, in case it's not focused.
-        input?.focus();
+        focusHiddenTextField();
     }
 
     function placeCaretAt(event: MouseEvent) {
@@ -1118,8 +1125,12 @@
 
         // After every edit and everything is updated, focus back on on text input
         await tick();
-        if (input && caretLocation && !unmodified && $caret.isIndex())
-            input.focus();
+        if (caretLocation && !unmodified && $caret.isIndex())
+            focusHiddenTextField();
+    }
+
+    function focusHiddenTextField() {
+        input?.focus();
     }
 
     let lastKeyboardInputValue: undefined | UnicodeString = undefined;
