@@ -36,8 +36,9 @@ const WRITE_DOC = 'TBD';
 
 const en: Translation = {
     language: 'en',
+    wordplay: 'Wordplay',
     welcome: 'hello',
-    motto: 'Where words come to life!',
+    motto: 'Where words come to life',
     terminology: {
         store: 'store',
         code: 'compute',

@@ -35,8 +35,9 @@ const WRITE_DOC = 'pendiante';
 
 const eng_wordplay: Translation = {
     language: 'es',
+    wordplay: 'PalabraJugar',
     welcome: 'hola',
-    motto: '¡Donde las palabras cobran vida!',
+    motto: 'Donde las palabras cobran vida',
     terminology: {
         store: 'datos',
         decide: 'decidir',

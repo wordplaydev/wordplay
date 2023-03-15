@@ -11,7 +11,7 @@
 </svelte:head>
 
 <Page>
-    <Lead>Wordplay</Lead>
+    <Lead>{$preferredTranslations[0].wordplay}</Lead>
     <p>{$preferredTranslations[0].motto}</p>
     {#if PUBLIC_CONTEXT === 'prod'}
         <p><strong>Wordplay.dev</strong> is coming</p>
