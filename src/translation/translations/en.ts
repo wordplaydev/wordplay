@@ -140,9 +140,22 @@ const en: Translation = {
         Language: {
             description: 'language tag',
             emotion: Emotion.TBD,
-            doc:
-                WRITE_DOC +
-                `applied to a name or documentation to indicate the language it is written in.`,
+            doc: `
+                Why hello! 
+                Have you ever wanted to make it *crystal clear* what lanugage something is? 
+                That's what I do. Just a little slash, and a couple letters, and no one will ever be confused about what language some text is in.
+                For example, let's say you wanted to say my name, but make it clear I'm in English:
+                
+                ("Language"/en)
+                
+                Or, suppose you wanted to do this for a @Name.
+
+                (sound/en: "meow")
+
+                Or even @Doc!
+
+                There are lots of different two letter language codes.
+                `,
         },
         Name: {
             description: 'name',
