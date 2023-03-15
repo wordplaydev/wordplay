@@ -19,6 +19,7 @@
     import Root from '@nodes/Root';
     import Source from '@nodes/Source';
     import Name from '../../nodes/Name';
+    import Program from '../../nodes/Program';
 
     export let node: Node;
     /** Optional space; if not provided, all nodes are rendered with preferred space. */
@@ -72,7 +73,7 @@
         const newHidden = new Set<Node>();
 
         // We only hide things in Source roots. All other root views show all their contents.
-        if (root instanceof Source) {
+        if (root.root instanceof Program) {
             // Hide any language tagged nodes that 1) the caret isn't in, and 2) either have no language tag or aren't one of the selected tags.
             // Also hide any name separators if the first visible name has one.
             for (const tag of node.nodes(
