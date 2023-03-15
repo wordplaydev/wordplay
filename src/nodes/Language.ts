@@ -67,7 +67,7 @@ export default class Language extends Node {
         return lang && lang in Languages ? lang : undefined;
     }
 
-    equals(lang: Node) {
+    isEqualTo(lang: Node) {
         return (
             lang instanceof Language &&
             this.getLanguage() === lang.getLanguage()

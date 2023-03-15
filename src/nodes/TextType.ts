@@ -57,7 +57,7 @@ export default class TextType extends NativeType {
                     this.getUnquotedText() === type.getUnquotedText()) &&
                 (this.format === undefined ||
                     (type.format !== undefined &&
-                        this.format.equals(type.format)))
+                        this.format.isEqualTo(type.format)))
             );
         });
     }

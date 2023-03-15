@@ -67,7 +67,7 @@ export default class NodeConcept extends Concept {
     equals(concept: Concept) {
         return (
             concept instanceof NodeConcept &&
-            concept.template.equals(this.template)
+            concept.template.isEqualTo(this.template)
         );
     }
 }

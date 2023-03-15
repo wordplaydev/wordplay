@@ -80,7 +80,7 @@ export default class Replace<NodeType extends Node> extends Transform {
             this.node === transform.node &&
             ((this.replacement instanceof Node &&
                 transform.replacement instanceof Node &&
-                this.replacement.equals(transform.replacement)) ||
+                this.replacement.isEqualTo(transform.replacement)) ||
                 (this.replacement instanceof Refer &&
                     transform.replacement instanceof Refer &&
                     this.replacement.equals(transform.replacement)))

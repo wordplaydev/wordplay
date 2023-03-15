@@ -79,7 +79,7 @@ export default class OutputPropertyValueSet {
         for (const candidate of this.values) {
             if (candidate.expression === undefined) return undefined;
             else if (expr === undefined) expr = candidate.expression;
-            else if (!candidate.expression.equals(expr)) return undefined;
+            else if (!candidate.expression.isEqualTo(expr)) return undefined;
         }
         return expr;
     }

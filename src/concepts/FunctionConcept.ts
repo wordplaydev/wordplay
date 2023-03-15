@@ -132,7 +132,7 @@ export default class FunctionConcept extends Concept {
     equals(concept: Concept) {
         return (
             concept instanceof FunctionConcept &&
-            concept.definition.equals(this.definition)
+            concept.definition.isEqualTo(this.definition)
         );
     }
 }

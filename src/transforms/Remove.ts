@@ -97,7 +97,7 @@ export default class Remove extends Transform {
             transform instanceof Remove &&
             this.node instanceof Node &&
             transform.node instanceof Node &&
-            this.node.equals(transform.node)
+            this.node.isEqualTo(transform.node)
         );
     }
 }

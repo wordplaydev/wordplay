@@ -609,13 +609,13 @@ export default abstract class Node {
     // EQUALITY
 
     /** A node equals another node if its of the same type and its children are equal */
-    equals(node: Node) {
+    isEqualTo(node: Node) {
         if (this.constructor !== node.constructor) return false;
         const thisChildren = this.getChildren();
         const thatChildren = node.getChildren();
         if (thisChildren.length !== thatChildren.length) return false;
         for (const [index, child] of thisChildren.entries())
-            if (!child.equals(thatChildren[index])) return false;
+            if (!child.isEqualTo(thatChildren[index])) return false;
         return true;
     }
 

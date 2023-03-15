@@ -140,7 +140,9 @@ export default class Project {
         return (
             this.name === project.name &&
             this.getSources().every((source1) =>
-                project.getSources().some((source2) => source1.equals(source2))
+                project
+                    .getSources()
+                    .some((source2) => source1.isEqualTo(source2))
             )
         );
     }

@@ -108,7 +108,7 @@ export default class Token extends Node {
         else return this;
     }
 
-    equals(node: Node) {
+    isEqualTo(node: Node) {
         return (
             node instanceof Token &&
             this.getText() === node.getText() &&

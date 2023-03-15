@@ -43,7 +43,7 @@ export function getInputTranslations(
                 bind.names.filter(
                     (name) =>
                         !bind.names.some(
-                            (name2) => name !== name2 && name.equals(name2)
+                            (name2) => name !== name2 && name.isEqualTo(name2)
                         )
                 )
             ),

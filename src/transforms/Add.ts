@@ -85,7 +85,7 @@ export default class Add<NodeType extends Node> extends Transform {
             this.parent === transform.parent &&
             ((this.child instanceof Node &&
                 transform.child instanceof Node &&
-                this.child.equals(transform.child)) ||
+                this.child.isEqualTo(transform.child)) ||
                 (this.child instanceof Refer &&
                     transform.child instanceof Refer &&
                     this.child.equals(transform.child)))

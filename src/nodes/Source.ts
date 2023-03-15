@@ -253,7 +253,7 @@ export default class Source extends Expression {
         for (let i = 0; i < newTokens.length; i++) {
             const newToken = newTokens[i];
             // Search the existing tokens for a match, and if we find one, discard everything prior
-            const index = oldTokens.findIndex((old) => old.equals(newToken));
+            const index = oldTokens.findIndex((old) => old.isEqualTo(newToken));
             if (index >= 0) {
                 const oldToken = oldTokens[index];
                 // Replace the new token with the old token

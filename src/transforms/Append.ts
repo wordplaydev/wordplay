@@ -110,7 +110,7 @@ export default class Append<NodeType extends Node> extends Transform {
             this.list === transform.list &&
             ((this.insertion instanceof Node &&
                 transform.insertion instanceof Node &&
-                this.insertion.equals(transform.insertion)) ||
+                this.insertion.isEqualTo(transform.insertion)) ||
                 (this.insertion instanceof Refer &&
                     transform.insertion instanceof Refer &&
                     this.insertion.equals(transform.insertion)))

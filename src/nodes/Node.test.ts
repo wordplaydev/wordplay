@@ -17,7 +17,7 @@ test.each([
     'fun(1 2 3)',
 ])('Clone %s', (code) => {
     const original = parseExpression(toTokens(code)).clone();
-    expect(original.clone().equals(original));
+    expect(original.clone().isEqualTo(original));
 });
 
 test.each([
@@ -58,6 +58,6 @@ test.each([
                 ? type
                 : expr.nodes((s) => s instanceof type)[number];
         const newExpr = expr.replace(oldNode, newNode);
-        expect(newExpr.equals(expected)).toBeTruthy();
+        expect(newExpr.isEqualTo(expected)).toBeTruthy();
     }
 );
