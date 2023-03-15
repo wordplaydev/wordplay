@@ -112,8 +112,8 @@
         if (node === undefined) return;
 
         // See if we can remove the node from it's root.
-        const source = project.getRoot(node);
-        if (!(source instanceof Source)) return;
+        const source = project.getRoot(node)?.root;
+        if (source === undefined || !(source instanceof Source)) return;
 
         // Figure out what to replace the dragged node with. By default, we remove it.
         const type =
