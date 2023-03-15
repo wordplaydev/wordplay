@@ -29,11 +29,12 @@
 
     $: placeholder = node.is(TokenType.PLACEHOLDER);
     $: active =
-        $caret?.getTokenExcludingSpace() === node ||
-        ($caret?.tokenPrior === node &&
-            $caret.atBeginningOfTokenSpace() &&
-            $caret.token &&
-            $caret.tokenAtHasPrecedingSpace());
+        node.getTextLength() > 0 &&
+        ($caret?.getTokenExcludingSpace() === node ||
+            ($caret?.tokenPrior === node &&
+                $caret.atBeginningOfTokenSpace() &&
+                $caret.token &&
+                $caret.tokenAtHasPrecedingSpace()));
 
     let text: string;
     $: {
