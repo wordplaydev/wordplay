@@ -437,6 +437,9 @@ export default class Caret {
     }
 
     insert(text: string): Edit | undefined {
+        // Normalize the mystery string, ensuring it follows Unicode normalization form.
+        text = text.normalize();
+
         if (typeof this.position === 'number') {
             // If the inserted string matches a single matched delimiter, complete it, unless:
             // 1) we’re immediately before an matched closing delimiter, in which case we insert nothing, but move the caret forward

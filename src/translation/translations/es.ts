@@ -29,7 +29,7 @@ import Explanation from '../Explanation';
 import type NodeLink from '../NodeLink';
 import type StreamDefinitionType from '../../nodes/StreamDefinitionType';
 import Emotion from '../../lore/Emotion';
-import Unit from '../../nodes/Unit';
+import Unit from '@nodes/Unit';
 
 const WRITE_DOC = 'pendiante';
 
@@ -169,27 +169,27 @@ const eng_wordplay: Translation = {
             doc: WRITE_DOC,
         },
         TypeInputs: {
-            description: 'a list of type inputs',
+            description: 'lista de variable de tipo',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         TypeVariable: {
-            description: 'a type variable',
+            description: 'variable de tipo',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         TypeVariables: {
-            description: 'a list of type variables',
+            description: 'lista de variable de tipo',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         Paragraph: {
-            description: 'paragraph',
+            description: 'párrafo',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         WebLink: {
-            description: 'link',
+            description: 'enlace',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
@@ -1796,7 +1796,7 @@ const eng_wordplay: Translation = {
         },
         headers: {
             editing: '¡edítame!',
-            projects: 'proyectos',
+            projects: 'Proyectos',
             examples: 'ejemplos',
         },
         section: {
@@ -1809,7 +1809,7 @@ const eng_wordplay: Translation = {
             editor: 'editora',
         },
         feedback: {
-            unknownProject: "There's no project with this ID.",
+            unknownProject: 'No hay ningún proyecto con este ID.',
         },
         login: {
             header: 'Login',
