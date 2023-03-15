@@ -1236,7 +1236,7 @@ const en: Translation = {
         measurement: {
             doc: `We are any number imaginable, even with units.
             
-            We can be integers, real numbers, negative, positive, fractional, decimal. We can be Arabic numers (123), Roman numerals (ⅩⅩⅩⅠⅩ), Japanese numerals (二十), and more.`,
+            We can be integers, real numbers, negative, positive, fractional, decimal. We can be Arabic numbers (123), Roman numerals (ⅩⅩⅩⅠⅩ), Japanese numerals (二十), and more.`,
             name: 'number',
             function: {
                 add: {
@@ -1644,12 +1644,12 @@ const en: Translation = {
             Explanation.as('evaluated too many functions, especially ', fun),
         steplimit: 'evaluated too many steps in this function',
         type: (expected, given) =>
-            Explanation.as('expected ', expected, ' but received ', given),
+            Explanation.as('I expected a ', expected, ' but received ', given),
         placeholder: (node) =>
             Explanation.as('this ', node, ' is not implemented'),
         unparsable: (node) => Explanation.as('this ', node, ' is not parsable'),
         value: (node) =>
-            Explanation.as(node, ' expected a value, but did not receive one'),
+            Explanation.as("I expected a value, but I didn't get one"),
     },
     conflict: {
         BorrowCycle: {
