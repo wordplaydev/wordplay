@@ -67,7 +67,7 @@
         });
 
         // Update dark mode, now that we're mounted.
-        dark.set(isDarkTheme());
+        dark.set(isDarkSet());
 
         /** Load whatever is stored in local storage */
         projects.loadLocal();
@@ -85,18 +85,24 @@
     setContext(ProjectsSymbol, projects.getStore());
 
     /** True if either local storage has dark set or the OS is set to dark. */
-    function isDarkTheme() {
+    function isDarkSet() {
         return (
             typeof window.localStorage !== 'undefined' &&
-            (window.localStorage.getItem('dark') === 'true' ||
-                (window.matchMedia &&
-                    window.matchMedia('(prefers-color-scheme:dark)').matches))
+            window.localStorage.getItem('dark') === 'true'
+        );
+    }
+
+    function prefersDark() {
+        return (
+            typeof window !== 'undefined' &&
+            window.matchMedia &&
+            window.matchMedia('(prefers-color-scheme:dark)').matches
         );
     }
 
     /** Share dark status globally */
     const dark = writable<boolean | undefined | null>(
-        browser ? isDarkTheme() : null
+        browser ? isDarkSet() : null
     );
     setContext(DarkSymbol, dark);
 
@@ -116,7 +122,8 @@
     /** When dark mode changes, update the body's dark class */
     $: {
         if (browser) {
-            if ($dark === true) document.body.classList.add('dark');
+            if ($dark === true || ($dark === undefined && prefersDark()))
+                document.body.classList.add('dark');
             else document.body.classList.remove('dark');
         }
     }

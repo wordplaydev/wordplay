@@ -49,7 +49,7 @@
                         : undefined
                 )}
             ><div class="dark-mode"
-                >{$dark === true ? '☽' : $dark === false ? '☼' : '–'}</div
+                >{$dark === true ? '☽' : $dark === false ? '☼' : '☼/☽'}</div
             ></Button
         >
     </div>
@@ -98,7 +98,7 @@
 
     .dark-mode {
         display: inline-block;
-        width: 1em;
+        width: 2em;
     }
 
     .gear.expanded {
