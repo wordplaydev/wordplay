@@ -47,7 +47,7 @@ const eng_wordplay: Translation = {
         input: 'input',
         output: 'producción',
         type: 'género',
-        start: '**start',
+        start: 'comenzar',
     },
     data: {
         value: 'avaluar',
@@ -113,7 +113,7 @@ const eng_wordplay: Translation = {
             doc: WRITE_DOC,
         },
         Doc: {
-            description: 'documentation',
+            description: 'documentación',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
@@ -128,17 +128,17 @@ const eng_wordplay: Translation = {
             doc: WRITE_DOC,
         },
         Language: {
-            description: 'language tag',
+            description: 'lengua',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         Name: {
-            description: 'name',
+            description: 'nombre',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         Names: {
-            description: 'list of names',
+            description: 'nombres',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
@@ -150,7 +150,7 @@ const eng_wordplay: Translation = {
         Token: {
             description: (token: Token) =>
                 token.is(TokenType.NAME)
-                    ? 'name'
+                    ? 'nombre'
                     : token.is(TokenType.BINARY_OP) ||
                       token.is(TokenType.UNARY_OP)
                     ? 'operator'
