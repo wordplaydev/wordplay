@@ -301,6 +301,10 @@
         text-decoration-thickness: var(--wordplay-focus-width);
     }
 
+    a:hover {
+        text-decoration: underline;
+    }
+
     *:focus {
         outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
     }

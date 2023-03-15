@@ -2152,8 +2152,8 @@ const en: Translation = {
         },
         headers: {
             editing: 'edit me!',
-            projects: 'projects',
-            examples: 'examples',
+            projects: 'Projects',
+            examples: 'Examples',
         },
         section: {
             project: 'project',

@@ -2,6 +2,7 @@
     import { PUBLIC_CONTEXT } from '$env/static/public';
     import Lead from '@components/app/Lead.svelte';
     import Page from '@components/app/Page.svelte';
+    import BigLink from '../components/app/BigLink.svelte';
     import { preferredTranslations } from '../translation/translations';
 </script>
 
@@ -17,11 +18,11 @@
         <p><strong>Wordplay.dev</strong> is coming</p>
         <p>Curious? Write <a href="https://amyjko.com">Amy</a></p>
     {:else}
-        <p
-            ><a href="/projects"
-                >{$preferredTranslations[0].ui.headers.projects}</a
-            ></p
+        <BigLink to="/projects"
+            >{$preferredTranslations[0].ui.headers.projects}</BigLink
         >
-        <p><a href="/login">{$preferredTranslations[0].ui.login.header}</a></p>
+        <BigLink to="/login"
+            >{$preferredTranslations[0].ui.login.header}</BigLink
+        >
     {/if}
 </Page>
