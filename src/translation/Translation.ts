@@ -101,7 +101,10 @@ export function getFirstName(name: NameTranslation) {
  **/
 type Translation = {
     language: LanguageCode;
+    /** Used to address someone or say hi, on the login screen. */
     welcome: string;
+    /** The motto for Wordplay on the landing page. */
+    motto: string;
     terminology: {
         store: string;
         code: string;
