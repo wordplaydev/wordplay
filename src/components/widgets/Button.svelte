@@ -50,14 +50,14 @@
         transition-duration: 200ms;
     }
 
-    button:disabled {
+    [aria-disabled='true'] {
         cursor: default;
         background: none;
         color: var(--wordplay-disabled-color);
     }
 
-    button:focus:not(:disabled),
-    button:hover:not(:disabled) {
+    button:focus[aria-disabled='false'],
+    button:hover[aria-disabled='false'] {
         transform: scale(1.1);
         outline: none;
         color: var(--wordplay-highlight);
