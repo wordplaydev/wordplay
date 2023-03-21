@@ -244,6 +244,11 @@ export default class FunctionDefinition extends Expression {
         return this.expression instanceof Expression ? [this.expression] : [];
     }
 
+    /** Functions are not constant because they encapsulate a closure each time they are evaluated. */
+    isConstant() {
+        return false;
+    }
+
     compile(): Step[] {
         return [new StartFinish(this)];
     }

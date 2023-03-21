@@ -81,6 +81,9 @@ export default class Project {
     /** A cache of source contexts */
     readonly sourceContext: Map<Source, Context> = new Map();
 
+    /** A cache of constants */
+    readonly constants: Map<Expression, boolean> = new Map();
+
     /** An index of each source in the project */
     readonly roots: Root[];
 
@@ -220,7 +223,7 @@ export default class Project {
 
     analyze() {
         if (this.analyzed === 'analyzed' || this.analyzed === 'analyzing')
-            return this.analyze;
+            return this.analysis;
 
         this.analyzed = 'analyzing';
 
@@ -301,8 +304,10 @@ export default class Project {
                 }
 
                 // Build the dependency graph by asking each expression node for its dependencies.
+                // Determine whether the node is constant.
                 if (node instanceof Expression) {
-                    for (const dependency of node.getDependencies(context)) {
+                    const dependencies = node.getDependencies(context);
+                    for (const dependency of dependencies) {
                         const set = this.analysis.dependencies.get(dependency);
                         if (set) set.add(node);
                         else
@@ -356,6 +361,21 @@ export default class Project {
 
     getExpressionsAffectedBy(expression: Expression): Set<Expression> {
         return this.getAnalysis().dependencies.get(expression) ?? new Set();
+    }
+
+    /** Return true if the given expression is in this project and depends only on contants. */
+    isConstant(expression: Expression): boolean {
+        let constant = this.constants.get(expression);
+        const context = this.getNodeContext(expression);
+        // If we haven't visited this expression yet, compute it.
+        if (constant === undefined) {
+            // Mark this as not constant, assuming (and preventing) cycles.
+            this.constants.set(expression, false);
+            constant = expression.isConstant(context);
+            // Now actually compute whether it's constant.
+            this.constants.set(expression, constant);
+        }
+        return constant;
     }
 
     /** Get supplements not referenced by main */

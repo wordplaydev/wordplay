@@ -94,16 +94,13 @@ export default class Evaluator {
     /**
      * The total number of steps evaluated since the last reaction.
      */
-    #latestStepCount: number = 0;
+    #totalStepCount: number = 0;
 
     /** True if the last step was triggered by a step to a particular node. */
     #steppedToNode: boolean = false;
 
     /** The streams changes that triggered this evaluation */
     reactions: StreamChange[] = [];
-
-    /** The expressions that need to be re-evaluated, if any. */
-    invalidatedExpressions: Set<Expression> | undefined = undefined;
 
     /**
      * All of the native streams created while evaluating the program.
@@ -361,30 +358,31 @@ export default class Evaluator {
     isStarted(): boolean {
         return this.#started;
     }
+
     isPlaying(): boolean {
         return this.mode === Mode.Play;
     }
+
     isStepping(): boolean {
         return this.mode === Mode.Step;
     }
+
     isDone() {
         return this.evaluations.length === 0;
     }
+
     getThis(requestor: Node): Value | undefined {
         return this.getCurrentEvaluation()?.getThis(requestor);
     }
-    isInvalidated(expression: Expression) {
-        return (
-            this.invalidatedExpressions === undefined ||
-            this.invalidatedExpressions.has(expression)
-        );
-    }
+
     steppedToNode(): boolean {
         return this.#steppedToNode;
     }
+
     isInPast(): boolean {
         return this.#stepIndex < this.#stepCount;
     }
+
     isAtBeginning(): boolean {
         return this.#stepIndex === 0;
     }
@@ -428,9 +426,15 @@ export default class Evaluator {
     }
 
     /** Reset everything necessary for a new evaluation. */
-    resetForEvaluation() {
-        // Reset the latest expression values and counts.
-        this.values.clear();
+    resetForEvaluation(keepConstants: boolean) {
+        // Reset the non-constant expression values.
+        if (keepConstants) {
+            for (const [expression] of this.values)
+                if (!this.project.isConstant(expression))
+                    this.values.delete(expression);
+        } else this.values.clear();
+
+        // Reset the latest expression counts to avoid leaking memory.
         this.counters.clear();
 
         // Reset the evluation stack.
@@ -456,7 +460,7 @@ export default class Evaluator {
         this.#started = false;
 
         // Reset per-evaluation state.
-        this.resetForEvaluation();
+        this.resetForEvaluation(false);
 
         // Reset the latest source values. (We keep them around for display after each reaction).
         this.sourceValues = new Map();
@@ -476,18 +480,15 @@ export default class Evaluator {
     }
 
     /** Evaluate until we're done */
-    start(
-        changedStreams?: Stream[],
-        invalidatedExpressions?: Set<Expression>
-    ): void {
+    start(changedStreams?: Stream[]): void {
         // Reset all state.
-        this.resetForEvaluation();
+        this.resetForEvaluation(true);
 
         // Mark as started.
         this.#started = true;
 
         // Reset the recent step count to zero.
-        this.#latestStepCount = 0;
+        this.#totalStepCount = 0;
 
         // If we're in the present, remember the stream change. (If we're in the past, we use the history.)
         if (!this.isInPast()) {
@@ -509,14 +510,6 @@ export default class Evaluator {
                 );
             }
         }
-
-        // Remember what expressions need to be reevaluated.
-        this.invalidatedExpressions = invalidatedExpressions;
-
-        // Erase the value history of all invalidated expressions.
-        if (this.invalidatedExpressions)
-            for (const expr of Array.from(this.invalidatedExpressions))
-                this.values.delete(expr);
 
         // Find all unused supplements and start evaluating them now, so they evaluate after main.
         for (const unused of this.project.getUnusedSupplements())
@@ -641,7 +634,7 @@ export default class Evaluator {
                       this.evaluations.map((e) => e.getDefinition())
                   )
                 : // If it seems like we're evaluating something very time consuming, halt.
-                this.#latestStepCount > MAX_STEP_COUNT
+                this.#totalStepCount > MAX_STEP_COUNT
                 ? new StepLimitException(this, evaluation.getCreator())
                 : // Otherwise, step the current evaluation and get it's value
                   evaluation.step(this);
@@ -656,10 +649,14 @@ export default class Evaluator {
             // If there's another Evaluation on the stack, pass the value to it by pushing it onto it's stack.
             if (this.evaluations.length > 0) {
                 this.evaluations[0].pushValue(value);
+                // If we're not in the past, remember the value that was evaluated. This usually happens in finishExpression, but happens here for evaluations,
+                // since there is no step that manages evaluation finishes.
                 const creator = evaluation.getCreator();
-                // Remember the value that was evaluated. This usually happens in finishExpression, but happens here for evaluations.
                 const list = this.values.get(creator) ?? [];
-                list.push({ value: value, stepNumber: this.getStepIndex() });
+                list.push({
+                    value: value,
+                    stepNumber: this.getStepIndex(),
+                });
                 this.values.set(creator, list);
             }
             // Otherwise, save the value and clean up this final evaluation; nothing left to do!
@@ -670,9 +667,11 @@ export default class Evaluator {
         // Finally, manage the step counter. Always increment the step index, and if we're in the present,
         // then also increment the step count.
         this.#stepIndex++;
-        this.#latestStepCount++;
 
-        if (!this.isInPast()) this.#stepCount = this.#stepIndex;
+        if (!this.isInPast()) {
+            this.#totalStepCount++;
+            this.#stepCount = this.#stepIndex;
+        }
     }
 
     /** Keep evaluating steps in this project, skipping over nodes in other programs. */
@@ -714,7 +713,7 @@ export default class Evaluator {
         this.#stepIndex = change ? change.stepIndex : 0;
 
         // Reset the project to the beginning of time (but preserve stream history, since that's stored in project).
-        this.resetForEvaluation();
+        this.resetForEvaluation(false);
 
         // Start the evaluation fresh.
         this.start();
@@ -742,7 +741,7 @@ export default class Evaluator {
     stepBackWithinProgram() {
         let nextStepNode = undefined;
         do {
-            // Step ahead
+            // Step back
             this.stepBack();
             // Get the current step node
             nextStepNode = this.getCurrentStep()?.node;
@@ -1033,10 +1032,8 @@ export default class Evaluator {
         for (const streamRef of streamReferences)
             affectedExpressions.delete(streamRef);
 
-        // STEP 4: Reevaluate all Programs affected by the change, sending the affected expressions and source files so that each Evaluator
-        //         can re-evaluate only the affected expressions.
-        // TODO Disabled affected sources analysis for now; it's not correct.
-        this.start(changed, undefined);
+        // STEP 4: Reevaluate the program
+        this.start(changed);
     }
 
     /**
@@ -1147,11 +1144,7 @@ export default class Evaluator {
         return this.getCount(expression);
     }
 
-    finishExpression(
-        expression: Expression,
-        recycled: boolean,
-        value?: Value | undefined
-    ) {
+    finishExpression(expression: Expression, value: Value) {
         const count = this.counters.get(expression);
         if (count === undefined)
             throw Error(
@@ -1163,7 +1156,7 @@ export default class Evaluator {
         this.counters.set(expression, count + 1);
 
         // Remember the value it computed in the value history.
-        if (!recycled) {
+        if (!this.isInPast()) {
             const list = this.values.get(expression) ?? [];
             list.push({ value: value, stepNumber: this.getStepIndex() });
             this.values.set(expression, list);

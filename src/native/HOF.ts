@@ -52,6 +52,10 @@ export default abstract class HOF extends Expression {
         return parent instanceof FunctionDefinition ? parent.inputs : [];
     }
 
+    isConstant() {
+        return false;
+    }
+
     getStart() {
         return this;
     }

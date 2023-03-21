@@ -132,7 +132,7 @@ export default class Reaction extends Expression {
     }
 
     getDependencies(): Expression[] {
-        return [this.initial, this.next];
+        return [this.condition, this.initial, this.next];
     }
 
     compile(context: Context): Step[] {

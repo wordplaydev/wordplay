@@ -206,6 +206,11 @@ export default class Reference extends AtomicExpression {
         return def instanceof Expression ? [def] : [];
     }
 
+    /** References are only constant if they don't refer to a stream */
+    isConstant() {
+        return false;
+    }
+
     compile(): Step[] {
         return [new StartFinish(this)];
     }

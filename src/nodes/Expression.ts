@@ -41,6 +41,17 @@ export default abstract class Expression extends Node {
 
     abstract getDependencies(_: Context): Expression[];
 
+    /** By default, an expression is constant if all of it's dependencies are constant. */
+    isConstant(context: Context): boolean {
+        // Get the expression's dependencies.
+        const dependencies = this.getDependencies(context);
+        // Ask the project if the dependency is constant. We ask the project since it's responsible
+        // for caching whether an expression is constant and preventing cycles.
+        return Array.from(dependencies).every((dependency) =>
+            context.project.isConstant(dependency)
+        );
+    }
+
     /**
      * Used to determine what types are possible for a given after evalutaing this expression/
      * Most expressions do not manipulate possible types at all; primarily is just logical operators and type checks.

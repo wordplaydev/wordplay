@@ -349,6 +349,14 @@ export default class Bind extends Expression {
         return this.value ? [this.value, ...evaluations] : [...evaluations];
     }
 
+    /** Binds are only eligible to be constant if they are in a block. */
+    isConstant(context: Context) {
+        return (
+            this.getParent(context) instanceof Block &&
+            super.isConstant(context)
+        );
+    }
+
     compile(context: Context): Step[] {
         // A bind evaluates its value expression, then pushes it on the stack.
         return this.value === undefined

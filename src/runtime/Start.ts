@@ -2,7 +2,6 @@ import Step from './Step';
 import type Evaluator from './Evaluator';
 import type Value from './Value';
 import type Expression from '@nodes/Expression';
-import HOF from '../native/HOF';
 import type Translation from '@translation/Translation';
 
 type Action = (evalutor: Evaluator) => Value | undefined;
@@ -33,11 +32,11 @@ export function start(evaluator: Evaluator, expr: Expression) {
     // Notify that evaluation is starting.
     const count = evaluator.startExpression(expr);
 
-    // If this node wasn't invalidated and there's a prior value for it, return the prevously evaluated value and jump over the evaluation steps.
+    // If this expression is constant and it has a latest value, don't evaluate.
+    // Finish.finish() will return the latest value.
     if (
-        !(expr instanceof HOF) &&
-        !evaluator.isInvalidated(expr) &&
-        count !== undefined &&
+        !evaluator.isInPast() &&
+        evaluator.project.isConstant(expr) &&
         evaluator.getLatestValueOf(expr, count)
     ) {
         // Ask the evaluator to jump past this start's corresponding finish.

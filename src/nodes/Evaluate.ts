@@ -561,6 +561,10 @@ export default class Evaluate extends Expression {
         ];
     }
 
+    isConstant() {
+        return false;
+    }
+
     compile(context: Context): Step[] {
         // To compile an evaluate, we need to compile all of the given and default values in
         // order of the function's declaration. This requires getting the function/structure definition

@@ -31,6 +31,7 @@ import StreamDefinition from '../nodes/StreamDefinition';
 import StreamDefinitionValue from './StreamDefinitionValue';
 import type PropertyBind from '../nodes/PropertyBind';
 import type Context from '../nodes/Context';
+import StartFinish from './StartFinish';
 
 export type EvaluatorNode =
     | UnaryOperation
@@ -224,13 +225,15 @@ export default class Evaluation {
         while (
             this.#stepIndex < this.#steps.length &&
             !(
-                this.#steps[this.#stepIndex] instanceof Finish &&
-                this.#steps[this.#stepIndex].node === expression
+                this.#steps[this.#stepIndex].node === expression &&
+                (this.#steps[this.#stepIndex] instanceof Finish ||
+                    this.#steps[this.#stepIndex] instanceof StartFinish)
             )
         )
             this.#stepIndex++;
         // Step to just before the Finish, so the next step is the Finish.
-        this.#stepIndex--;
+        // We don't do this for StartFinish since it is the same step.
+        if (this.#steps[this.#stepIndex] instanceof Finish) this.#stepIndex--;
     }
 
     hasValue(): boolean {

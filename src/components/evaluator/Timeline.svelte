@@ -23,11 +23,13 @@
     let timeline: HTMLElement | null;
 
     // Find the latest stream change before the current step index.
-    $: currentReaction = $currentStepIndex
-        ? evaluator.getReactionPriorTo($currentStepIndex)
-        : undefined;
+    $: currentReaction =
+        $currentStepIndex !== undefined
+            ? evaluator.getReactionPriorTo($currentStepIndex)
+            : undefined;
     $: historyTrimmed =
-        $currentStepIndex && evaluator.getEarliestStepIndexAvailable() > 0;
+        $currentStepIndex !== undefined &&
+        evaluator.getEarliestStepIndexAvailable() > 0;
     let dragging = false;
 
     /**
@@ -42,11 +44,12 @@
     /** When the current step index changes, update the scroll position to make sure it's in view. */
     $: {
         $currentStepIndex;
-        updateScrollPosition();
+        if (currentReaction !== undefined) updateScrollPosition();
     }
 
     /** When the step index changes, update the time slider position */
-    $: if ($currentStepIndex) updateTimePosition($currentStepIndex);
+    $: if ($currentStepIndex !== undefined)
+        updateTimePosition($currentStepIndex);
 
     function updateScrollPosition() {
         if (currentReaction === undefined || dragging) return;
@@ -201,11 +204,21 @@
                     {:else}
                         {change.stream.getName(['😀'])}
                     {/if}
-                    <!-- Show dots representing the steps after the reevaluation -->
+                </span>
+            {:else}
+                <!-- Represent the program start when there are no reactions-->
+                <span
+                    class={`event stream-input ${
+                        currentReaction === reaction ? 'current' : ''
+                    }`}
+                    data-inputindex={reaction.stepIndex}
+                >
+                    ◆
                 </span>
             {/each}
             <!-- If there were more than three, indicate the trimming -->
             {#if reaction.changes.length > 3}…{/if}
+            <!-- Show dots representing the steps after the reevaluation -->
             <span
                 class="event steps"
                 data-startindex={reaction.stepIndex}

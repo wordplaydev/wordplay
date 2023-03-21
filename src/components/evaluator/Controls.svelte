@@ -72,12 +72,12 @@
     <Button
         tip={$preferredTranslations[0].ui.tooltip.forwardInput}
         action={() => evaluator.stepToInput()}
-        enabled={evaluator.isInPast()}>⇢</Button
+        enabled={!evaluator.isInPast()}>⇢</Button
     >
     <Button
         tip={$preferredTranslations[0].ui.tooltip.present}
         action={() => evaluator.stepToEnd()}
-        enabled={evaluator.isInPast()}>⇥</Button
+        enabled={!evaluator.isInPast()}>⇥</Button
     >
 </div>
 

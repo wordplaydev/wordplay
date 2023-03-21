@@ -65,6 +65,11 @@ export default class Initial extends AtomicExpression {
         return [];
     }
 
+    /** Initial is stream dependent, so never constant. */
+    isConstant() {
+        return false;
+    }
+
     compile(): Step[] {
         return [new StartFinish(this)];
     }

@@ -46,6 +46,10 @@ export default class NativeExpression extends AtomicExpression {
         return [];
     }
 
+    isConstant() {
+        return false;
+    }
+
     compile(): Step[] {
         return [new StartFinish(this)];
     }

@@ -2,7 +2,6 @@ import type Evaluator from './Evaluator';
 import Step from './Step';
 import type Value from './Value';
 import type Expression from '@nodes/Expression';
-import HOF from '../native/HOF';
 import type Translation from '@translation/Translation';
 
 export default class Finish extends Step {
@@ -26,34 +25,36 @@ export default class Finish extends Step {
 export function finish(evaluator: Evaluator, expr: Expression) {
     // Find which execution this is.
     const count = evaluator.getCount(expr);
+
+    // Get the prior value computed for this expression.
     const priorValue =
         count === undefined
             ? undefined
             : evaluator.getLatestValueOf(expr, count);
 
-    // If this node is invalidated, just evaluate it, remember it's value, and return it's value.
+    // If there's a prior value and we're either in the past or this is constant, reuse the value.
     if (
-        expr instanceof HOF ||
-        evaluator.isInvalidated(expr) ||
-        priorValue === undefined
+        priorValue !== undefined &&
+        !evaluator.isInPast() &&
+        evaluator.project.isConstant(expr)
     ) {
+        // Evaluate any side effects
+        const value = expr.evaluate(evaluator, priorValue);
+
+        // Notify the evaluator that we finished this evaluation.
+        evaluator.finishExpression(expr, priorValue);
+
+        // Return the prior value.
+        return value;
+    }
+    // Otherwise, finish evaluating.
+    else {
         // Finish evaluating this node.
         const value = expr.evaluate(evaluator, undefined);
 
         // Notify the evaluator that we finished this evaluation.
-        evaluator.finishExpression(expr, false, value);
+        evaluator.finishExpression(expr, value);
 
         return value;
-    }
-    // Otherwise, get the value from the previous evaluation
-    else {
-        // Evaluate any side effects
-        const newValue = expr.evaluate(evaluator, priorValue);
-
-        // Notify the evaluator that we finished this evaluation.
-        evaluator.finishExpression(expr, true);
-
-        // Return the prior value.
-        return newValue;
     }
 }
