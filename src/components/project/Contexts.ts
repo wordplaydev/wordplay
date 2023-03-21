@@ -173,7 +173,7 @@ export function getConflicts(): ConflictsContext | undefined {
 }
 
 export const UserSymbol = Symbol('user');
-export type UserContext = Writable<User | null | undefined>;
+export type UserContext = Writable<User | null>;
 export function getUser(): UserContext {
     return getContext(UserSymbol);
 }

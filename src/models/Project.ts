@@ -578,16 +578,16 @@ export default class Project {
     }
 
     withUser(uid: string) {
-        return new Project(
-            this.id,
-            this.name,
-            this.main,
-            this.supplements,
-            this.carets,
-            this.uids.some((user) => user === uid)
-                ? this.uids
-                : [...this.uids, uid]
-        );
+        return this.uids.some((user) => user === uid)
+            ? this
+            : new Project(
+                  this.id,
+                  this.name,
+                  this.main,
+                  this.supplements,
+                  this.carets,
+                  [...this.uids, uid]
+              );
     }
 
     getBindReplacements(

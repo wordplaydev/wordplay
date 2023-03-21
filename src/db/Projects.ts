@@ -34,6 +34,9 @@ export default class Projects {
     /** A Svelte store for that contains this. */
     private store: ProjectsContext;
 
+    /** The current user ID */
+    private uid: string | null = null;
+
     /** The current list of projects. */
     private projects: Map<
         string,
@@ -258,28 +261,33 @@ export default class Projects {
             this.setStatus(Status.Error);
         }
 
-        // Then, try to save them in firebase.
-        try {
-            // Create a batch of all of the new and updated projects.
-            const batch = writeBatch(firestore);
-            this.projects.forEach((project) => {
-                if (!project.saved)
-                    batch.set(
-                        doc(firestore, 'projects', project.current.id),
-                        project.current.toObject()
-                    );
-            });
+        // Then, try to save them in Firebase if we have a user ID.
+        if (this.uid) {
+            try {
+                // Create a batch of all of the new and updated projects.
+                const batch = writeBatch(firestore);
+                this.projects.forEach((project) => {
+                    if (!project.saved)
+                        batch.set(
+                            doc(firestore, 'projects', project.current.id),
+                            (this.uid
+                                ? project.current.withUser(this.uid)
+                                : project.current
+                            ).toObject()
+                        );
+                });
 
-            await batch.commit();
+                await batch.commit();
 
-            // Mark all projects saved if successful.
-            this.projects.forEach((project) => (project.saved = true));
-        } catch (error) {
-            if (error instanceof FirebaseError) {
-                console.error(error.code);
-                console.error(error.message);
+                // Mark all projects saved if successful.
+                this.projects.forEach((project) => (project.saved = true));
+            } catch (error) {
+                if (error instanceof FirebaseError) {
+                    console.error(error.code);
+                    console.error(error.message);
+                }
+                this.setStatus(Status.Error);
             }
-            this.setStatus(Status.Error);
         }
     }
 
@@ -293,32 +301,47 @@ export default class Projects {
     }
 
     /** Start a realtime database query on this user's projects, updating them whenever they change. */
-    async realtimeSyncRemote(uid: string) {
+    async updateUser(uid: string | null) {
+        // Unsubscribe from the old user
         if (this.unsubscribe) this.unsubscribe();
+
+        // Update the user ID
+        this.uid = uid;
+
+        // Save whatever's in local storage.
+        this.save();
+
         // Any time the user projects changes, update projects.
-        this.unsubscribe = onSnapshot(
-            query(
-                collection(firestore, 'projects'),
-                where('uids', 'array-contains', uid)
-            ),
-            (snapshot) => {
-                const projects: SerializedProject[] = [];
-                snapshot.forEach((project) => {
-                    projects.push(project.data() as SerializedProject);
-                });
-                this.setProjects(
-                    projects.map((project) => Project.fromObject(project)),
-                    false
-                );
-            },
-            (error) => {
-                if (error instanceof FirebaseError) {
-                    console.error(error.code);
-                    console.error(error.message);
-                }
-                this.setStatus(Status.Error);
-            }
-        );
+        this.unsubscribe =
+            uid === null
+                ? undefined
+                : onSnapshot(
+                      query(
+                          collection(firestore, 'projects'),
+                          where('uids', 'array-contains', uid)
+                      ),
+                      (snapshot) => {
+                          const projects: SerializedProject[] = [];
+                          snapshot.forEach((project) => {
+                              projects.push(
+                                  project.data() as SerializedProject
+                              );
+                          });
+                          this.setProjects(
+                              projects.map((project) =>
+                                  Project.fromObject(project)
+                              ),
+                              false
+                          );
+                      },
+                      (error) => {
+                          if (error instanceof FirebaseError) {
+                              console.error(error.code);
+                              console.error(error.message);
+                          }
+                          this.setStatus(Status.Error);
+                      }
+                  );
     }
 
     /** Clean up listeners */

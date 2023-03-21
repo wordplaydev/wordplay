@@ -11,24 +11,16 @@
     let user = getUser();
     let dark = isDark();
 
-    $: anonymous = $user && $user.isAnonymous;
-    $: offline = $user === undefined;
+    $: anonymous = $user === null;
 </script>
 
 <div class="settings" class:expanded>
-    <div class="account" class:anonymous class:offline>
-        {#if $user}
-            <a href="/login">
-                {anonymous
-                    ? $preferredTranslations[0].ui.labels.anonymous
-                    : $user.email}
-            </a>
-        {:else if offline}
-            <span
-                aria-label={$preferredTranslations[0].ui.login.offline}
-                title={$preferredTranslations[0].ui.login.offline}>⚡️</span
-            >
-        {/if}
+    <div class="account" class:anonymous>
+        <a href="/login">
+            {$user
+                ? $user.email
+                : $preferredTranslations[0].ui.labels.anonymous}
+        </a>
     </div>
     <div class="controls">
         <Button
@@ -114,11 +106,5 @@
 
     .account.anonymous a {
         color: var(--wordplay-background);
-    }
-
-    .account.offline {
-        background: var(--wordplay-error);
-        color: var(--wordplay-background);
-        padding: calc(var(--wordplay-spacing) / 2) var(--wordplay-spacing);
     }
 </style>

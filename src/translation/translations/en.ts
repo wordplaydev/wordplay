@@ -2143,7 +2143,7 @@ const en: Translation = {
             inherited: 'inherited',
             notSequence: 'not a sequence',
             notContent: 'not a content list',
-            anonymous: 'login to save',
+            anonymous: 'anonymous',
         },
         tiles: {
             output: '💬',
@@ -2171,7 +2171,7 @@ const en: Translation = {
             header: 'Login',
             prompt: 'Log in to access your projects.',
             anonymousPrompt:
-                "You're anonymous. Projects will be deleted after 30 days after your first visit. Log in to keep them.",
+                'Your projects are saved on this device. Create an account to save them online.',
             submit: 'send a login email',
             enterEmail:
                 "It looks like you're logging in on a different device. Can you enter your email again?",

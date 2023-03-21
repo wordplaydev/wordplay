@@ -8,7 +8,6 @@
     import Lead from './Lead.svelte';
     import ProjectPreview from './ProjectPreview.svelte';
     import Button from '../widgets/Button.svelte';
-    import { onMount } from 'svelte';
 
     const projects = getProjects();
     const user = getUser();
@@ -31,11 +30,6 @@
         $projects.addProject(newProject);
         changeProject(newProject);
     }
-
-    // Load all projects from the database.
-    onMount(() => {
-        if ($user) $projects.realtimeSyncRemote($user.uid);
-    });
 
     /** Create some example projects */
     const exampleProjects = examples.map((example) => makeProject(example));

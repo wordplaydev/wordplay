@@ -6,15 +6,14 @@
     import Lead from '@components/app/Lead.svelte';
     import Button from '@components/widgets/Button.svelte';
     import {
-        EmailAuthProvider,
         isSignInWithEmailLink,
-        linkWithCredential,
         sendSignInLinkToEmail,
         signInWithEmailLink,
     } from 'firebase/auth';
     import { FirebaseError } from 'firebase/app';
     import { auth } from '@db/firebase';
     import { goto } from '$app/navigation';
+    import { onMount } from 'svelte';
 
     let user = getUser();
     let email: string;
@@ -72,19 +71,6 @@
                     })
                     .catch((err) => fail(err));
             }
-            // If there is a user and it's anonymous
-            else if ($user && $user.isAnonymous) {
-                linkWithCredential(
-                    $user,
-                    EmailAuthProvider.credentialWithLink(
-                        storedEmail ?? email,
-                        window.location.href
-                    )
-                )
-                    // On success, redirect to projects.
-                    .then(() => redirect())
-                    .catch((error) => fail(error));
-            }
         } catch (err) {
             fail(err);
         }
@@ -114,12 +100,9 @@
     }
 
     // If it's a sign in, finish signing in once authenticated.
-    $: if (
-        $user &&
-        $user.isAnonymous &&
-        isSignInWithEmailLink(auth, window.location.href)
-    )
-        finish();
+    onMount(() => {
+        if (isSignInWithEmailLink(auth, window.location.href)) finish();
+    });
 </script>
 
 <Page>
@@ -136,7 +119,7 @@
             <p>
                 {#if missingEmail}
                     {$preferredTranslations[0].ui.login.enterEmail}
-                {:else if $user && $user.isAnonymous}
+                {:else if $user === null}
                     {$preferredTranslations[0].ui.login.anonymousPrompt}
                 {:else}
                     {$preferredTranslations[0].ui.login.prompt}
