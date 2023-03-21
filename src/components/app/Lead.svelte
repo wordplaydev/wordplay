@@ -6,6 +6,6 @@
         font-family: var(--wordplay-app-font);
         font-weight: bold;
         margin-top: calc(2 * var(--wordplay-spacing));
-        margin-bottom: 0;
+        margin-bottom: calc(var(--wordplay-spacing) / 2);
     }
 </style>
