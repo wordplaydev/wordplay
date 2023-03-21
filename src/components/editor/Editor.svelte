@@ -1270,17 +1270,15 @@
         bind:location={caretLocation}
     />
     <!-- If the caret is a position, render the invisible text field that allows us to capture inputs -->
-    {#if $caret.isIndex() || $caret.isPlaceholder()}
-        <input
-            type="text"
-            class="keyboard-input"
-            style={`left: ${caretLocation?.left ?? 0}; top: ${
-                caretLocation?.top ?? 0
-            };`}
-            bind:this={input}
-            on:input={handleTextInput}
-        />
-    {/if}
+    <input
+        type="text"
+        class="keyboard-input"
+        style={`left: ${caretLocation?.left ?? 0}; top: ${
+            caretLocation?.top ?? 0
+        };`}
+        bind:this={input}
+        on:input={handleTextInput}
+    />
 </section>
 
 <style>
