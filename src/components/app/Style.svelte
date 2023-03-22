@@ -292,7 +292,7 @@
     }
 
     p:not(:last-of-type) {
-        margin-bottom: calc(2 * var(--wordplay-spacing));
+        margin-bottom: var(--wordplay-spacing);
     }
 
     a {
