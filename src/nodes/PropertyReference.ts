@@ -143,7 +143,7 @@ export default class PropertyReference extends Expression {
         // Get the type of the definition.
         let type = def.getType(context);
 
-        if (def instanceof Bind) {
+        if (def instanceof Bind && this.name) {
             if (type instanceof NameType) {
                 const bindType = type.resolve(context);
                 if (
@@ -205,8 +205,10 @@ export default class PropertyReference extends Expression {
                 }
             }
 
-            return context.getReferenceType(this) ?? type;
-        } else return type;
+            // Did we manage to capture a guard narrowed type? Use it instead.
+            type = context.getReferenceType(this) ?? type;
+        }
+        return type;
     }
 
     getDependencies(): Expression[] {
@@ -240,18 +242,18 @@ export default class PropertyReference extends Expression {
         current: TypeSet,
         context: Context
     ) {
-        if (this.structure instanceof Expression) {
-            const possibleTypes = this.structure.evaluateTypeSet(
-                bind,
-                original,
-                current,
-                context
-            );
+        // Filter the types of the structure.
+        const possibleTypes = this.structure.evaluateTypeSet(
+            bind,
+            original,
+            current,
+            context
+        );
+        if (this.resolve(context) === bind)
             context.setReferenceType(
                 this,
                 UnionType.getPossibleUnion(context, possibleTypes.list())
             );
-        }
         return current;
     }
 
