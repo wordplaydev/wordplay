@@ -1,8 +1,10 @@
 import BooleanLiteral from '../nodes/BooleanLiteral';
 import Evaluate from '../nodes/Evaluate';
 import MeasurementLiteral from '../nodes/MeasurementLiteral';
+import Reference from '../nodes/Reference';
 import Unit from '../nodes/Unit';
 import { ColorType, createColorLiteral } from '../output/Color';
+import { PlaceType } from '../output/Place';
 import { getFirstName } from '../translation/Translation';
 import en from '../translation/translations/en';
 import type OutputProperty from './OutputProperty';
@@ -41,6 +43,22 @@ const PoseProperties: OutputProperty[] = [
         inherited: false,
         editable: (expr) => expr instanceof MeasurementLiteral,
         create: () => MeasurementLiteral.make(0, Unit.make(['°'])),
+    },
+    {
+        name: getFirstName(en.output.pose.offset.name),
+        type: 'place',
+        required: false,
+        inherited: false,
+        editable: (expr, context) =>
+            expr instanceof Evaluate && expr.is(PlaceType, context),
+        create: (languages) =>
+            Evaluate.make(
+                Reference.make(
+                    PlaceType.names.getTranslation(languages),
+                    PlaceType
+                ),
+                []
+            ),
     },
     {
         name: getFirstName(en.output.pose.flipx.name),

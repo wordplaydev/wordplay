@@ -72,10 +72,10 @@ export default class UnionType extends Type {
     }
 
     /** Override the default and return all types in this union. */
-    getPossibleTypes(): Type[] {
+    getPossibleTypes(context: Context): Type[] {
         return [
-            ...this.left.getPossibleTypes(),
-            ...this.right.getPossibleTypes(),
+            ...this.left.getPossibleTypes(context),
+            ...this.right.getPossibleTypes(context),
         ];
     }
 
@@ -152,7 +152,8 @@ export default class UnionType extends Type {
 
         // Flatten the list of types.
         let all: Type[] = [];
-        for (const type of types) all = [...all, ...type.getPossibleTypes()];
+        for (const type of types)
+            all = [...all, ...type.getPossibleTypes(context)];
 
         // Find the unique types in the list.
         const uniqueTypes: Type[] = [];

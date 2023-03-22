@@ -139,9 +139,10 @@ export default class Reference extends AtomicExpression {
         if (definition === undefined || definition instanceof TypeVariable)
             return new UnknownNameType(this, this.name, undefined);
 
-        // Otherwise, do some type guard analyis on the definition.
+        // What is the type of the definition?
         const type = definition.getType(context);
 
+        // Otherwise, do some type guard analyis on the definition.
         // Is the type a union? Find the subset of types that are feasible, given any type checks in conditionals.
         if (
             definition instanceof Bind &&

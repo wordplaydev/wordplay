@@ -22,7 +22,7 @@ export default abstract class Type extends Node {
      */
     accepts(type: Type, context: Context, expression?: Expression): boolean {
         return this.acceptsAll(
-            new TypeSet(type.getPossibleTypes(), context),
+            new TypeSet(type.getPossibleTypes(context), context),
             context,
             expression
         );
@@ -45,12 +45,12 @@ export default abstract class Type extends Node {
      * We use this as a generic interface to ensure we're always accounting for the many types a type can be,
      * and to allow for extensions to the type system later.
      */
-    getPossibleTypes(): Type[] {
+    getPossibleTypes(_: Context): Type[] {
         return [this];
     }
 
     getTypeSet(context: Context): TypeSet {
-        return new TypeSet(this.getPossibleTypes(), context);
+        return new TypeSet(this.getPossibleTypes(context), context);
     }
 
     /** All types are concrete unless noted otherwise. */

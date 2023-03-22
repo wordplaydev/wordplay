@@ -4,7 +4,6 @@ import Token from './Token';
 import Type from './Type';
 import TypeVariable from './TypeVariable';
 import type Context from './Context';
-import Value from '@runtime/Value';
 import type Definition from './Definition';
 import StructureDefinition from './StructureDefinition';
 import VariableType from './VariableType';
@@ -14,6 +13,7 @@ import InvalidTypeInput from '@conflicts/InvalidTypeInput';
 import type TypeSet from './TypeSet';
 import type { NativeTypeName } from '../native/NativeConstants';
 import UnknownNameType from './UnknownNameType';
+import type Node from './Node';
 import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
 import { UnknownName } from '@conflicts/UnknownName';
@@ -60,6 +60,14 @@ export default class NameType extends Type {
         return this.name.getText();
     }
 
+    getDefinitions(node: Node, context: Context) {
+        // Get the definitions in the type this name refers to.
+        const def = this.resolve(context);
+        return def
+            ? def.getDefinitions(node, context)
+            : super.getDefinitions(node, context);
+    }
+
     computeConflicts(context: Context): Conflict[] {
         const conflicts = [];
 
@@ -99,6 +107,10 @@ export default class NameType extends Type {
         return types.list().every((type) => thisType.accepts(type, context));
     }
 
+    getPossibleTypes(context: Context): Type[] {
+        return [this.getType(context)];
+    }
+
     resolve(context?: Context): Definition | undefined {
         // Find the name in the binding scope.
         return (
@@ -120,10 +132,7 @@ export default class NameType extends Type {
             return new UnknownNameType(this, this.name, undefined);
         else if (definition instanceof TypeVariable)
             return new VariableType(definition);
-        else
-            return definition instanceof Value
-                ? definition.getType(context)
-                : definition.getType(context);
+        else return definition.getType(context);
     }
 
     getNativeTypeName(): NativeTypeName {

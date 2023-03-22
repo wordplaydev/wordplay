@@ -69,6 +69,7 @@ export default class Context {
     getReferenceType(ref: Reference | PropertyReference) {
         return this.referenceUnions.get(ref);
     }
+
     setReferenceType(ref: Reference | PropertyReference, type: Type) {
         return this.referenceUnions.set(ref, type);
     }
