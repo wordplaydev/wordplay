@@ -12,6 +12,7 @@
     import Feedback from '@components/app/Feedback.svelte';
     import Loading from '@components/app/Loading.svelte';
     import { setContext } from 'svelte';
+    import { browser } from '$app/environment';
 
     const projects = getProjects();
 
@@ -28,8 +29,8 @@
 
             if (project) return project;
 
-            // No matching project, but we have a project ID?
-            if (projectID && projectID.length > 0) {
+            // No matching project, but we have a project ID and we're in the browser?
+            if (projectID && projectID.length > 0 && browser) {
                 // Set loading feedback.
                 loading = true;
                 // Async load the project from the database.
