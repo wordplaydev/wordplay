@@ -25,13 +25,14 @@
         ([$page, $projects]) => {
             const projectID = $page.params.projectid;
             const project = $projects.get(projectID);
-            if (projectID === undefined) return undefined;
-            else if (
-                project === undefined &&
-                projectID &&
-                projectID.length > 0
-            ) {
+
+            if (project) return project;
+
+            // No matching project, but we have a project ID?
+            if (projectID && projectID.length > 0) {
+                // Set loading feedback.
                 loading = true;
+                // Async load the project from the database.
                 $projects
                     .load(projectID)
                     .then(() => {
@@ -42,7 +43,8 @@
                         loading = false;
                         error = true;
                     });
-            } else return project;
+            }
+            return undefined;
         }
     );
 
