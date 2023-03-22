@@ -184,14 +184,10 @@ export default class Reference extends AtomicExpression {
 
     evaluateTypeSet(
         bind: Bind,
-        original: TypeSet,
+        _: TypeSet,
         current: TypeSet,
         context: Context
     ) {
-        bind;
-        original;
-        context;
-
         // Cache the type of this name at this point in execution.
         if (this.resolve(context) === bind)
             context.setReferenceType(
