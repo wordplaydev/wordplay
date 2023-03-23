@@ -4,23 +4,23 @@
 •Cat(position•#m direction•#)
 
 key: keyboard()
-speed: 2m
+speed: 1m
 
-cat•Cat:  ∆ key ? Cat(0m 1) …
+cat•Cat:  ∆ key ? Cat(5m 1) …
     key = "ArrowLeft" ? Cat(cat.position - speed 1) 
     	key = "ArrowRight" ? Cat(cat.position + speed -1) 
     		cat
 
-ƒ close(ball•Place|ø x•#m) ball•ø ? ⊥ ((ball.x - x).absolute() < 1m) & (ball.y < 2m) 
+ƒ close(ball•Place|ø x•#m) ball•ø ? ⊥ (((ball.x - x).absolute() < 1m) | ((ball.x - (x + 2m)).absolute() < 1m)) & (ball.y < 1m) 
 
 ball: Motion(
     Phrase(
       "o"
       `Initial position is to the left of the cat, and controlled by motion otherwise`
-       place: ◆ ? Place(-10m 0m) ø
+       place: ◆ ? Place(-5m 0m) ø
      ) 
-     vx: ◆ ? 0m/s 
-         close(ball.place cat.position) ? (random(-5 5) · 1m/s) 
+     vx: ◆ ? 0m/s
+         close(ball.place cat.position) ? (random(1 5) · -1m/s ·cat.direction) 
           ø
      vy: ◆ ? 0m/s 
          close(ball.place cat.position) ? (random(2 10) · 1m/s) 
@@ -34,7 +34,7 @@ Verse([
 		Phrase(
     	"🐈"
     	name: "kitty"
-    	size: 5m
+    	size: 2m
     	place: Place(cat.position 0m)
     	rest: Pose(flipx: cat.direction < 0)
     	move: Sequence(
@@ -45,4 +45,4 @@ Verse([
         } 
         	0.25s "zippy"
     )
-) ball])
+) ball] place: Place(0m 0m -5m))
