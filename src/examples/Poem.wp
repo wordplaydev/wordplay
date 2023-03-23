@@ -1,38 +1,37 @@
 === Poem
-•Line(text•"" back:Color(100 100 100°) front: Color(0 0 0°))
+•Line(text•"" pose•Pose|Sequence back: Color(100 100 100°) front: Color(0 0 0°) )
 
 poem: [
-    Line("The computer file")
-    Line("of which")
-    Line("I have no recollection")
-    Line("I click it open")
-    Line("look")
-    Line("scroll down further")
-    Line("the screen")
-    Line("stays backlit and empty" Color(0 0 0°) Color(100 100 0°))
-    Line("thus I meet myself again")
-    Line("hopeful and useless")
-    Line("a mystery")
-    Line("precisely as I must")
-    Line("have done")
-    Line("on August 19, 2010, 11:08 a.m.")
+    Line("The computer file" Pose(opacity: 0% offset: Place(y: -5m)))
+    Line("of which"Pose(opacity: 0% offset: Place(y: -5m)))
+    Line("I have no recollection"Pose(tilt: 10°))
+    Line("I click it open"Sequence({0%:Pose(scale: 1) 50%: Pose(scale: 0.7) 100%: Pose(scale: 1)} 0.25s))
+    Line("look" Pose(opacity: 0% offset: Place(y: -5m)))
+    Line("scroll down further" Pose(opacity: 0% offset: Place(y: 5m)))
+    Line("the screen" Pose(opacity: 0% offset: Place(y: -5m)))
+    Line("stays backlit and empty" Pose(opacity: 0% offset: Place(y: -5m)) Color(0 0 0°) Color(100 100 0°))
+    Line("thus I meet myself again"Pose(opacity: 0% offset: Place(y: -5m)))
+    Line("hopeful and useless" Pose(opacity: 0% offset: Place(y: -5m)))
+    Line("a mystery" Pose(opacity: 0% offset: Place(y: -5m)))
+    Line("precisely as I must" Pose(opacity: 0% offset: Place(y: -5m)))
+    Line("have done" Pose(opacity: 0% offset: Place(y: -5m)))
+    Line("on August 19, 2010, 11:08 a.m." Pose())
 ]
 
-number•#: ∆ mousebutton() | ∆ keyboard() ? 
+number•#:  ∆ mousebutton() | ∆ keyboard() ? 
     1 … 
     number ≥ poem.length() ? 
         poem.length() + 1 
         number + 1
-
-line: number•# ? poem[number] ø
-
+line: number•# ? poem[number] ø 
+ 
 line•Line ?
 	Verse(
-		[ Phrase(line.text enter: 🤪(opacity: 0% offset: 📍(y: -5m)) ⏳: 1s name: number → "" place: 📍(0m 0m 0m) style: 'cautious') ]
+		[ Phrase(line.text enter: line.pose ⏳: 1s name: number → "" style: 'cautious') ]
         background: line.back rest: 🤪(color: line.front) 
     )
     Verse(
         [Group(Stack() [Phrase("ADVICE TO MYSELF") Phrase("Jane Hirshfield")] enter: 🤪(scale: 0.75))] 
         background: Color(0 0 0°) 
-        rest: Pose(color:Color(100 100 100°))
+        rest: Pose(color: Color(100 100 100°))
     )
