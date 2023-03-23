@@ -1036,7 +1036,7 @@
             }
         }
 
-        if (event.key === 'Shift') {
+        if (event.key === 'Enter') {
             // If there's no menu showing, show one, then return.
             if (menu === undefined) {
                 showMenu();
