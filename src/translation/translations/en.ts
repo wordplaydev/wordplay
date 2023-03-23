@@ -1668,8 +1668,8 @@ const en: Translation = {
         placeholder: (node) =>
             Explanation.as('this ', node, ' is not implemented'),
         unparsable: (node) => Explanation.as('this ', node, ' is not parsable'),
-        value: (node) =>
-            Explanation.as("I expected a value, but I didn't get one"),
+        value: () =>
+            Explanation.as("Oh no! I expected a value, but I didn't get one"),
     },
     conflict: {
         BorrowCycle: {
