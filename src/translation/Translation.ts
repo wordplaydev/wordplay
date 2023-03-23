@@ -414,6 +414,7 @@ type Translation = {
                 divide: FunctionTranslation<[NameAndDocTranslation]>;
                 remainder: FunctionTranslation<[NameAndDocTranslation]>;
                 truncate: FunctionTranslation<[NameAndDocTranslation]>;
+                absolute: FunctionTranslation<[NameAndDocTranslation]>;
                 power: FunctionTranslation<[NameAndDocTranslation]>;
                 root: FunctionTranslation<[NameAndDocTranslation]>;
                 lessThan: FunctionTranslation<[NameAndDocTranslation]>;

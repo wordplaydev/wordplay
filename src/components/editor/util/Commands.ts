@@ -282,6 +282,13 @@ const commands: Command[] = [
         execute: (caret: Caret) => caret.insert('≠'),
     },
     {
+        description: 'Insert product symbol (·)',
+        alt: true,
+        key: 'x',
+        mode: undefined,
+        execute: (caret: Caret) => caret.insert('·'),
+    },
+    {
         description: `Insert function symbol (${FUNCTION_SYMBOL})`,
         alt: true,
         key: 'KeyF',

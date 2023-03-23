@@ -247,6 +247,13 @@ export default function bootstrapMeasurement() {
                     MeasurementType.wildcard(),
                     (requestor, left) => left.floor(requestor)
                 ),
+                createUnaryOp(
+                    getFunctionTranslations(
+                        (t) => t.native.measurement.function.absolute
+                    ),
+                    MeasurementType.wildcard(),
+                    (requestor, left) => left.absolute(requestor)
+                ),
                 createBinaryOp(
                     getFunctionTranslations(
                         (t) => t.native.measurement.function.power

@@ -1007,7 +1007,12 @@ const eng_wordplay: Translation = {
                 },
                 truncate: {
                     doc: WRITE_DOC,
-                    name: ['truncar'],
+                    name: ['truncate'],
+                    inputs: [{ doc: WRITE_DOC, name: 'number' }],
+                },
+                absolute: {
+                    doc: WRITE_DOC,
+                    name: ['absolute'],
                     inputs: [{ doc: WRITE_DOC, name: 'number' }],
                 },
                 power: {

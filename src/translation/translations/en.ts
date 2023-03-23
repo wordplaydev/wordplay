@@ -1152,7 +1152,7 @@ const en: Translation = {
             description: (node: UnknownNameType) =>
                 node.name === undefined
                     ? "a name wasn't given"
-                    : `${node.name.getText()} isn't defined`,
+                    : `${node.name.getText()} isn't defined on ${node.why?.toWordplay()}`,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
@@ -1282,6 +1282,11 @@ const en: Translation = {
                 truncate: {
                     doc: WRITE_DOC,
                     name: ['truncate'],
+                    inputs: [{ doc: WRITE_DOC, name: 'number' }],
+                },
+                absolute: {
+                    doc: WRITE_DOC,
+                    name: ['absolute'],
                     inputs: [{ doc: WRITE_DOC, name: 'number' }],
                 },
                 power: {

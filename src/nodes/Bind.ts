@@ -40,6 +40,8 @@ import type Translation from '@translation/Translation';
 import NodeLink from '@translation/NodeLink';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
+import type { EvaluatorNode } from '../runtime/Evaluation';
+import type Reaction from './Reaction';
 
 export default class Bind extends Expression {
     readonly docs?: Docs;
@@ -367,7 +369,25 @@ export default class Bind extends Expression {
                   ),
               ]
             : [
-                  new Start(this),
+                  new Start(this, (evaluator) => {
+                      // Before evaluating the bind's value, see if the value expression previously evaluated to
+                      // a stream, and if so, bind this Bind's names to the previous value. This allows
+                      // for stream-based recurrence relations, where a stream or reaction's future values can be
+                      // affected by their past values.
+                      if (this.value) {
+                          let stream =
+                              evaluator.getNativeStreamFor(
+                                  this.value as EvaluatorNode,
+                                  true
+                              ) ??
+                              evaluator.reactionStreams.get(
+                                  this.value as Reaction
+                              );
+                          let latest = stream?.latest();
+                          if (latest) evaluator.bind(this.names, latest);
+                      }
+                      return undefined;
+                  }),
                   ...this.value.compile(context),
                   new Finish(this),
               ];

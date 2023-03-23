@@ -9,7 +9,7 @@ import type Step from '@runtime/Step';
 import Jump from '@runtime/Jump';
 import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
-import Bind from './Bind';
+import type Bind from './Bind';
 import type Context from './Context';
 import UnionType from './UnionType';
 import type TypeSet from './TypeSet';
@@ -143,17 +143,7 @@ export default class Reaction extends Expression {
         return [
             // Start by binding the previous value, if there is one.
             new Start(this, (evaluator) => {
-                // Get the latest value if this reaction
-                const latest = evaluator.getReactionStreamLatest(this);
-                if (latest) {
-                    // If this reaction is bound, bind the latest value to the bind's names
-                    // so we can access the previous value via those names.
-                    const parent = context.source.root.getParent(this);
-                    if (parent instanceof Bind)
-                        evaluator.bind(parent.names, latest);
-                }
-
-                // Start tracking dependencies.
+                // Start tracking dependencies so that we can decide which value to use.
                 evaluator.reactionDependencies.push({
                     reaction: this,
                     streams: new Set(),

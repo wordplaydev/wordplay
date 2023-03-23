@@ -904,9 +904,15 @@ export default class Evaluator {
         this.nativeStreamEvaluationCount.set(evaluate, count + 1);
     }
 
-    getNativeStreamFor(evaluate: EvaluatorNode): Stream | undefined {
+    /** Set before to true if this request is happening just before a stream is evaluated */
+    getNativeStreamFor(
+        evaluate: EvaluatorNode,
+        before: boolean = false
+    ): Stream | undefined {
         const streams = this.nativeStreams.get(evaluate);
-        const count = this.nativeStreamEvaluationCount.get(evaluate) ?? 0;
+        const count =
+            (this.nativeStreamEvaluationCount.get(evaluate) ?? 0) +
+            (before ? 1 : 0);
 
         return streams === undefined || count === 0
             ? undefined

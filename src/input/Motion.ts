@@ -23,6 +23,7 @@ import Reference from '../nodes/Reference';
 import ValueException from '../runtime/ValueException';
 import UnionType from '../nodes/UnionType';
 import NoneLiteral from '../nodes/NoneLiteral';
+import { PhraseType } from '../output/Phrase';
 
 const PlaceName =
     typeof en.output.type.place.name === 'string'
@@ -233,7 +234,7 @@ const GravityBind = Bind.make(
     MeasurementLiteral.make(15, Unit.make(['m'], ['s', 's']))
 );
 
-const type = new StructureDefinitionType(TypeType);
+const type = new StructureDefinitionType(PhraseType);
 
 export const MotionDefinition = StreamDefinition.make(
     getDocTranslations((t) => t.input.motion.doc),

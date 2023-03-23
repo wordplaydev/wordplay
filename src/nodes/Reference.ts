@@ -27,6 +27,8 @@ import AtomicExpression from './AtomicExpression';
 import NameException from '@runtime/NameException';
 import NodeLink from '@translation/NodeLink';
 import Emotion from '../lore/Emotion';
+import Evaluate from './Evaluate';
+import StreamDefinitionType from './StreamDefinitionType';
 
 /**
  * A reference to some Definition. Can optionally take the definition which it refers,
@@ -103,7 +105,13 @@ export default class Reference extends AtomicExpression {
             const reaction = context
                 .getRoot(this)
                 ?.getAncestors(this)
-                ?.find((n) => n instanceof Reaction);
+                ?.find(
+                    (n) =>
+                        n instanceof Reaction ||
+                        (n instanceof Evaluate &&
+                            n.func.getType(context) instanceof
+                                StreamDefinitionType)
+                );
             const validCircularReference =
                 reaction !== undefined &&
                 context

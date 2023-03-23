@@ -8,6 +8,7 @@ import type Names from '../nodes/Names';
 import Measurement from '../runtime/Measurement';
 import Evaluation from '../runtime/Evaluation';
 import Structure from '../runtime/Structure';
+import Unit from '../nodes/Unit';
 
 export const PlaceType = toStructure(`
     ${getBind((t) => t.output.place.definition, '•')}(
@@ -88,9 +89,18 @@ export function createPlaceStructure(
     const creator = evaluator.getMain();
 
     const place = new Map<Names, Value>();
-    place.set(PlaceType.inputs[0].names, new Measurement(creator, x));
-    place.set(PlaceType.inputs[1].names, new Measurement(creator, y));
-    place.set(PlaceType.inputs[2].names, new Measurement(creator, z));
+    place.set(
+        PlaceType.inputs[0].names,
+        new Measurement(creator, x, Unit.make(['m']))
+    );
+    place.set(
+        PlaceType.inputs[1].names,
+        new Measurement(creator, y, Unit.make(['m']))
+    );
+    place.set(
+        PlaceType.inputs[2].names,
+        new Measurement(creator, z, Unit.make(['m']))
+    );
 
     const evaluation = new Evaluation(
         evaluator,
