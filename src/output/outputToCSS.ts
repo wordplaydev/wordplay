@@ -155,8 +155,9 @@ export function toOutputTransform(
         // in the local coordinate system, scale according to distance from focus,
         // then translate back. Remember that this all happens after everything below.
 
-        // Undo the focus translation
-        translateXY(-focusX, -focusY),
+        // If the root, we don't undo the focus translation, because this is where we want it.
+        // Otherwise we undo it, since we've already done it for the root.
+        root ? '' : translateXY(-focusX, -focusY),
         // Scale around the focus
         scaleXY(perspectiveScale, perspectiveScale),
         // Translate to the focus

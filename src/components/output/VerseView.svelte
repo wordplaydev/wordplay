@@ -54,7 +54,7 @@
     const playing = getPlaying();
     const animatingNodes = getAnimatingNodes();
 
-    const GRID_PADDING = 2;
+    const GRID_PADDING = 10;
 
     let ignored = false;
     let view: HTMLElement | null = null;
