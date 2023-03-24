@@ -36,9 +36,12 @@ import type NameType from './NameType';
 import InternalException from '@runtime/InternalException';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
+import { SHARE_SYMBOL } from '../parser/Symbols';
+import TokenType from './TokenType';
 
 export default class StructureDefinition extends AtomicExpression {
     readonly docs: Docs | undefined;
+    readonly share: Token | undefined;
     readonly type: Token;
     readonly names: Names;
     readonly interfaces: Reference[];
@@ -53,6 +56,7 @@ export default class StructureDefinition extends AtomicExpression {
 
     constructor(
         docs: Docs | undefined,
+        share: Token | undefined,
         type: Token,
         names: Names,
         interfaces: Reference[],
@@ -65,6 +69,7 @@ export default class StructureDefinition extends AtomicExpression {
         super();
 
         this.docs = docs;
+        this.share = share;
         this.type = type;
         this.names = names;
         this.interfaces = interfaces;
@@ -87,6 +92,7 @@ export default class StructureDefinition extends AtomicExpression {
     ) {
         return new StructureDefinition(
             docs,
+            undefined,
             new TypeToken(),
             names instanceof Names ? names : Names.make(names),
             interfaces,
@@ -101,6 +107,11 @@ export default class StructureDefinition extends AtomicExpression {
     getGrammar() {
         return [
             { name: 'docs', types: [Docs, undefined] },
+            {
+                name: 'share',
+                types: [Token, undefined],
+                getToken: () => new Token(SHARE_SYMBOL, TokenType.SHARE),
+            },
             { name: 'type', types: [Token] },
             { name: 'names', types: [Names] },
             { name: 'interfaces', types: [[Reference]], space: true },
@@ -120,6 +131,7 @@ export default class StructureDefinition extends AtomicExpression {
     clone(replace?: Replacement) {
         return new StructureDefinition(
             this.replaceChild('docs', this.docs, replace),
+            this.replaceChild('share', this.share, replace),
             this.replaceChild('type', this.type, replace),
             this.replaceChild('names', this.names, replace),
             this.replaceChild('interfaces', this.interfaces, replace),
@@ -138,9 +150,15 @@ export default class StructureDefinition extends AtomicExpression {
     getNames() {
         return this.names.getNames();
     }
+
     hasName(name: string) {
         return this.names.hasName(name);
     }
+
+    isShared() {
+        return this.share !== undefined;
+    }
+
     getTranslation(lang: LanguageCode[]): string {
         return this.names.getTranslation(lang);
     }

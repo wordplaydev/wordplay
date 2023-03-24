@@ -345,7 +345,7 @@ export function parseBlock(
     return new Block(statements, root, creator, open, close, docs);
 }
 
-function nextAreOptionalDocsThen(tokens: Tokens, type: TokenType): boolean {
+function nextAreOptionalDocsThen(tokens: Tokens, types: TokenType[]): boolean {
     const rollbackToken = tokens.peek();
     if (rollbackToken === undefined) return false;
 
@@ -353,13 +353,19 @@ function nextAreOptionalDocsThen(tokens: Tokens, type: TokenType): boolean {
     parseDocs(tokens);
 
     // Is the next the type?
-    const nextIsType = tokens.nextIs(type);
+    let matches = true;
+    while (types.length > 0) {
+        const next = types.shift();
+        if (next) matches = tokens.nextIs(next);
+        if (matches === false) break;
+        tokens.read();
+    }
 
     // Rollback
     tokens.unreadTo(rollbackToken);
 
     // It's a bind if it has a name and a bind symbol.
-    return nextIsType;
+    return matches;
 }
 
 function nextIsEvaluate(tokens: Tokens): boolean {
@@ -566,16 +572,21 @@ function parseAtomicExpression(tokens: Tokens): Expression {
             tokens.nextIs(TokenType.TABLE_OPEN)
             ? parseTable(tokens)
             : // A block expression
-            nextAreOptionalDocsThen(tokens, TokenType.EVAL_OPEN)
+            nextAreOptionalDocsThen(tokens, [TokenType.EVAL_OPEN])
             ? parseBlock(tokens)
             : // A structure definition
-            nextAreOptionalDocsThen(tokens, TokenType.TYPE)
+            nextAreOptionalDocsThen(tokens, [TokenType.TYPE]) ||
+              nextAreOptionalDocsThen(tokens, [TokenType.SHARE, TokenType.TYPE])
             ? parseStructure(tokens)
             : // A function function
-            nextAreOptionalDocsThen(tokens, TokenType.FUNCTION)
+            nextAreOptionalDocsThen(tokens, [TokenType.FUNCTION]) ||
+              nextAreOptionalDocsThen(tokens, [
+                  TokenType.SHARE,
+                  TokenType.FUNCTION,
+              ])
             ? parseFunction(tokens)
             : // A conversion function.
-            nextAreOptionalDocsThen(tokens, TokenType.CONVERT)
+            nextAreOptionalDocsThen(tokens, [TokenType.CONVERT])
             ? parseConversion(tokens)
             : // A documented expression
             tokens.nextIs(TokenType.DOC)
@@ -956,9 +967,11 @@ function parseReaction(
 /** FUNCTION :: DOCS? (ƒ | ALIASES) TYPE_VARIABLES? ( BIND* ) (•TYPE)? EXPRESSION */
 export function parseFunction(tokens: Tokens): FunctionDefinition {
     const docs = parseDocs(tokens);
+    const share = tokens.nextIs(TokenType.SHARE)
+        ? tokens.read(TokenType.SHARE)
+        : undefined;
 
     const fun = tokens.read(TokenType.FUNCTION);
-
     const names = parseNames(tokens);
 
     const types = tokens.nextIs(TokenType.TYPE_OPEN)
@@ -992,6 +1005,7 @@ export function parseFunction(tokens: Tokens): FunctionDefinition {
 
     return new FunctionDefinition(
         docs,
+        share,
         fun,
         names,
         types,
@@ -1291,6 +1305,10 @@ function parseConversionType(left: Type, tokens: Tokens): ConversionType {
 /** CUSTOM_TYPE :: DOCS? •NAMES (•NAME)* TYPE_VARS ( BIND* ) BLOCK? */
 export function parseStructure(tokens: Tokens): StructureDefinition {
     const docs = parseDocs(tokens);
+    const share = tokens.nextIs(TokenType.SHARE)
+        ? tokens.read(TokenType.SHARE)
+        : undefined;
+
     const type = tokens.read(TokenType.TYPE);
     const names = parseNames(tokens);
 
@@ -1310,12 +1328,13 @@ export function parseStructure(tokens: Tokens): StructureDefinition {
     const close = tokens.nextIs(TokenType.EVAL_CLOSE)
         ? tokens.read(TokenType.EVAL_CLOSE)
         : undefined;
-    const block = nextAreOptionalDocsThen(tokens, TokenType.EVAL_OPEN)
+    const block = nextAreOptionalDocsThen(tokens, [TokenType.EVAL_OPEN])
         ? parseBlock(tokens, false, true)
         : undefined;
 
     return new StructureDefinition(
         docs,
+        share,
         type,
         names,
         interfaces,

@@ -170,8 +170,11 @@ export default class Source extends Expression {
         return this.expression.expression.statements.find(
             (n) =>
                 (n instanceof Bind && n.hasName(name) && n.isShared()) ||
-                ((n instanceof FunctionDefinition ||
-                    n instanceof StructureDefinition) &&
+                (n instanceof FunctionDefinition &&
+                    n.isShared() &&
+                    n.hasName(name)) ||
+                (n instanceof StructureDefinition &&
+                    n.isShared() &&
                     n.hasName(name))
         ) as SharedDefinition | undefined;
     }

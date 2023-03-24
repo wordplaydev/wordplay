@@ -1,0 +1,16 @@
+=== animations/en
+↑ ƒ bounce/en,rebotar/es,وثب،ارتداد/ar (height•#m: 2m) {
+  	0%: Pose(scale: 1 offset: Place(y: 0m))
+  	10%: Pose(scale: 1.1 offset: Place(y: height))
+  	30%: Pose(scale: .9 offset: Place(y: height))
+  	50%: Pose(scale: 1 offset: Place(y: 0m))
+  	57%: Pose(scale: 1 offset: Place(y: .1m))
+  	64%: Pose(scale: 1 offset: Place(y: 0m))
+  	100%: Pose(scale: 1 offset: Place(y: 0m))
+}
+
+↑ ƒ sway/en,vaivén/es,تمايل/ar (angle•#°: 2°) { 
+  	0%: Pose(tilt: -1 · angle)
+  	50%: Pose(tilt: angle) 
+  	100%: Pose(tilt: -1 · angle)
+}

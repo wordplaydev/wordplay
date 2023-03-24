@@ -12,7 +12,7 @@ import type Step from '@runtime/Step';
 import type Context from './Context';
 import type Definition from './Definition';
 import { BinaryOpRegEx, UnaryOpRegEx } from '@parser/Tokenizer';
-import { FUNCTION_SYMBOL } from '@parser/Symbols';
+import { FUNCTION_SYMBOL, SHARE_SYMBOL } from '@parser/Symbols';
 import type TypeSet from './TypeSet';
 import EvalCloseToken from './EvalCloseToken';
 import EvalOpenToken from './EvalOpenToken';
@@ -34,6 +34,7 @@ import Glyphs from '../lore/Glyphs';
 
 export default class FunctionDefinition extends Expression {
     readonly docs?: Docs;
+    readonly share: Token | undefined;
     readonly fun: Token;
     readonly names: Names;
     readonly types: TypeVariables | undefined;
@@ -46,6 +47,7 @@ export default class FunctionDefinition extends Expression {
 
     constructor(
         docs: Docs | undefined,
+        share: Token | undefined,
         fun: Token,
         names: Names,
         types: TypeVariables | undefined,
@@ -59,6 +61,7 @@ export default class FunctionDefinition extends Expression {
         super();
 
         this.docs = docs;
+        this.share = share;
         this.names = names;
         this.fun = fun;
         this.types = types;
@@ -83,6 +86,7 @@ export default class FunctionDefinition extends Expression {
     ) {
         return new FunctionDefinition(
             docs,
+            undefined,
             new Token(FUNCTION_SYMBOL, TokenType.FUNCTION),
             names instanceof Names ? names : Names.make(names),
             types,
@@ -98,6 +102,11 @@ export default class FunctionDefinition extends Expression {
     getGrammar() {
         return [
             { name: 'docs', types: [Docs, undefined] },
+            {
+                name: 'share',
+                types: [Token, undefined],
+                getToken: () => new Token(SHARE_SYMBOL, TokenType.SHARE),
+            },
             { name: 'fun', types: [Token] },
             { name: 'names', types: [Names] },
             { name: 'types', types: [TypeVariables, undefined] },
@@ -120,6 +129,7 @@ export default class FunctionDefinition extends Expression {
     clone(replace?: Replacement) {
         return new FunctionDefinition(
             this.replaceChild('docs', this.docs, replace),
+            this.replaceChild('share', this.share, replace),
             this.replaceChild('fun', this.fun, replace),
             this.replaceChild('names', this.names, replace),
             this.replaceChild('types', this.types, replace),
@@ -139,9 +149,15 @@ export default class FunctionDefinition extends Expression {
     hasName(name: string) {
         return this.names.hasName(name);
     }
+
     getNames() {
         return this.names.getNames();
     }
+
+    isShared() {
+        return this.share !== undefined;
+    }
+
     getTranslation(lang: LanguageCode[]) {
         return this.names.getTranslation(lang);
     }
