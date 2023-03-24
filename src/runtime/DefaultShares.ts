@@ -21,6 +21,7 @@ import { RandomDefinition } from '../input/Random';
 import { ArrangementType } from '../output/Layout';
 import { CameraDefinition } from '../input/Camera';
 import Root from '../nodes/Root';
+import { Animations } from '../output/Animations';
 
 export const AnimationTypes = [PoseType, SequenceType];
 
@@ -51,6 +52,7 @@ const DefaultShares: (
     ...ArrangementTypes,
     ...AnimationTypes,
     ...StreamDefinitions,
+    ...Animations,
 ];
 
 export default DefaultShares;

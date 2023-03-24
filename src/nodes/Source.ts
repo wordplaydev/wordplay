@@ -167,16 +167,16 @@ export default class Source extends Expression {
     }
 
     getShare(name: string): SharedDefinition | undefined {
-        return this.expression.expression.statements.find(
-            (n) =>
-                (n instanceof Bind && n.hasName(name) && n.isShared()) ||
-                (n instanceof FunctionDefinition &&
-                    n.isShared() &&
-                    n.hasName(name)) ||
-                (n instanceof StructureDefinition &&
-                    n.isShared() &&
-                    n.hasName(name))
-        ) as SharedDefinition | undefined;
+        return this.getShares().find((s) => s.hasName(name));
+    }
+
+    getShares(): SharedDefinition[] {
+        return this.expression.expression.statements.filter(
+            (n): n is Bind | FunctionDefinition | StructureDefinition =>
+                (n instanceof Bind && n.isShared()) ||
+                (n instanceof FunctionDefinition && n.isShared()) ||
+                (n instanceof StructureDefinition && n.isShared())
+        );
     }
 
     getMatchedDelimiter(delimiter: Token): Token | undefined {

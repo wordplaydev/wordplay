@@ -1,6 +1,4 @@
 === Move
-↓ keyboard
-
 •Cat(position•#m direction•#)
 
 key: keyboard()
@@ -20,7 +18,7 @@ ball: Motion(
        place: ◆ ? Place(-5m 0m) ø
      ) 
      vx: ◆ ? 0m/s
-         close(ball.place cat.position) ? (random(1 5) · -1m/s ·cat.direction) 
+         close(ball.place cat.position) ? (random(1 5) · -1m/s · cat.direction) 
           ø
      vy: ◆ ? 0m/s 
          close(ball.place cat.position) ? (random(2 10) · 1m/s) 
@@ -37,12 +35,5 @@ Verse([
     	size: 2m
     	place: Place(cat.position 0m)
     	rest: Pose(flipx: cat.direction < 0)
-    	move: Sequence(
-        	{ 
-            0%: Pose(tilt: 5°)
-            50%: Pose(tilt: -5°)
-            100%: Pose(tilt: 5°)
-        } 
-        	0.25s "zippy"
-    )
+    	move: Sequence(sway(5°)0.25s "zippy")
 ) ball] place: Place(0m 0m -5m))

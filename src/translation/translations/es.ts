@@ -2009,6 +2009,18 @@ const eng_wordplay: Translation = {
             zippy: 'enérgico',
         },
     },
+    animation: {
+        sway: {
+            doc: WRITE_DOC,
+            name: ['vaivén'],
+            angle: { doc: WRITE_DOC, name: ['ángulo'] },
+        },
+        bounce: {
+            doc: WRITE_DOC,
+            name: ['rebotar'],
+            height: { doc: WRITE_DOC, name: ['altura'] },
+        },
+    },
 };
 
 export default eng_wordplay;

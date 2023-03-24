@@ -22,6 +22,10 @@ import type Names from '../nodes/Names';
 
 export type Stuff = { name: string; sources: { names: Names; code: string }[] };
 
+export function projectFromText(project: string): Project {
+    return makeProject(wpToStuff(project));
+}
+
 export function makeProject(stuff: Stuff) {
     return new Project(
         stuff.name,

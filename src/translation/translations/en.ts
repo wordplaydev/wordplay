@@ -2365,6 +2365,18 @@ const en: Translation = {
             zippy: 'zippy',
         },
     },
+    animation: {
+        sway: {
+            doc: WRITE_DOC,
+            name: ['sway'],
+            angle: { doc: WRITE_DOC, name: ['angle'] },
+        },
+        bounce: {
+            doc: WRITE_DOC,
+            name: ['bounce'],
+            height: { doc: WRITE_DOC, name: ['height'] },
+        },
+    },
 };
 
 export default en;

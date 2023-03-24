@@ -980,5 +980,9 @@ type Translation = {
             zippy: NameTranslation;
         };
     };
+    animation: {
+        sway: NameAndDocTranslation & { angle: NameAndDocTranslation };
+        bounce: NameAndDocTranslation & { height: NameAndDocTranslation };
+    };
 };
 export default Translation;

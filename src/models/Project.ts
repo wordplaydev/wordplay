@@ -414,6 +414,16 @@ export default class Project {
             : [undefined, defaultMatch];
     }
 
+    // Get all bindings, functions, and structures shared in the project.
+    getShares(): SharedDefinition[] {
+        return this.getSources().reduce(
+            (definitions: SharedDefinition[], source) => {
+                return [...definitions, ...source.getShares()];
+            },
+            []
+        );
+    }
+
     getReferences(bind: Bind): (Reference | PropertyReference)[] {
         const refs: (Reference | PropertyReference)[] = [];
         for (const source of this.getSources()) {

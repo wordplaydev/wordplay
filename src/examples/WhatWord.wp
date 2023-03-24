@@ -4,12 +4,12 @@
 `El estado del juego es una lista de conjeturas y una palabra secreta.`/es
 `قائمة التخمينات وكلمة سرية`/ar
 •Game/en,Juego/es,لعبة/ar(guesses/en,suposiciones/es,التخمينات/ar•[""] secret/en,secreta/es,سر/ar•"") (
-  guessesRemaining/en,conjeturasRestantes/es,التخميناتالمتبقية/ar: (secret.📏() · 2) - guesses.📏()
-  status/en,estado/es,حالة/ar: 
-    secret = "" ? "start"
-    secret→[""].all(ƒ(letter•"") guesses.has(letter)) ? "won"
-    guessesRemaining ≤ 0 ? "lost"
-    "playing"
+  	guessesRemaining/en,conjeturasRestantes/es,التخميناتالمتبقية/ar: (secret.📏() · 2) - guesses.📏()
+  	status/en,estado/es,حالة/ar: 
+    	secret = "" ? "start"
+    		secret → [""].all(ƒ(letter•"") guesses.has(letter)) ? "won"
+    			guessesRemaining ≤ 0 ? "lost"
+    				"playing"
 )
 
 start/en,primero/es,أولي/ar: Game([] "")
@@ -19,36 +19,20 @@ key/en,tecla/es,مفتاح/ar: ⌨️()
 `When the keyboard state changes, the game state changes.`/en
 `Cuando cambia el estado del teclado, cambia el estado del juego.`/es
 `عندما تتغير حالة لوحة المفاتيح ، تتغير حالة اللعبة.`/ar
-state/en,estado/es,حالة/ar•Game: ∆ key ? start … 
+state/en,estado/es,حالة/ar•Game:  ∆ key ? start … 
     key = "Escape" ? start
-    (state.status ≠ "playing") & (key = " ") ? Game([] words.random())
-    (state.status = "playing") & (key.length() = 1) & ~state.guesses.has(key) ? 
-      Game(state.guesses.add(key) state.secret)
-      state
+    	(state.status ≠ "playing") & (key = " ") ? Game([] words.random())
+    		(state.status = "playing") & (key.length() = 1) & ~state.guesses.has(key) ? 
+      		Game(state.guesses.add(key) state.secret)
+      		state
 
 `The board is a translation of the secret, accounting for guesses`/en
 `El tablero es una traducción del secreto, teniendo en cuenta las conjeturas.`/es
 `اللوحة عبارة عن ترجمة للسرية ، مع مراعاة التخمينات`/ar
 board/en,tabelro/es,طاولة/ar: 💬(
-  state.secret→[""].translate(ƒ(letter•"") ((state.status = "lost") | state.guesses.has(letter)) ? letter ".").join(' ')
-  2m
+  	state.secret → [""].translate(ƒ(letter•"") ((state.status = "lost") | state.guesses.has(letter)) ? letter ".").join(' ')
+  	2m
 )
-
-sway/en,vaivén/es,تمايل/ar: { 
-  0%: Pose(tilt: -2°)
-  50%: Pose(tilt: 2°) 
-  100%: Pose(tilt: -2°)
-} 
-
-bounce/en,rebotar/es,وثب،ارتداد/ar: {
-  0%: Pose(scale: 1 offset: Place(y: 0m))
-  10%: Pose(scale: 1.1 offset: Place(y: 2m))
-  30%: Pose(scale: .9 offset: Place(y: 2m))
-  50%: Pose(scale: 1 offset: Place(y: 0m))
-  57%: Pose(scale: 1 offset: Place(y: .1m))
-  64%: Pose(scale: 1 offset: Place(y: 0m))
-  100%: Pose(scale: 1 offset: Place(y: 0m))
-}
 
 fade/en,descolorar/es,يختفي/ar: Pose(opacity: 0)
 
@@ -58,46 +42,46 @@ fade/en,descolorar/es,يختفي/ar: Pose(opacity: 0)
 screen/en,cine/es,إظهار/ar: 
   state.status = "start" ? 
     Group(⬇() [
-      💬(["What***Word***"/en "Que***Palabra***"/es "اي كلمة"/ar] 
-        3m 
-        place:📍(z: -1m) 
-        enter: Pose(opacity: 0%)
-        rest: Sequence(sway 1s)
+      	💬(["What***Word***"/en "Que***Palabra***"/es "اي كلمة"/ar] 
+        	3m 
+        	place: 📍(z: -1m) 
+        	enter: Pose(opacity: 0%)
+        	rest: Sequence(sway() 1s)
       )
-      💬(["press ***space*** to begin"/en "presiona espacio para comenzar"/es "اضغط على *** مسافة *** للبدء"/ar])
+      	💬(["press ***space*** to begin"/en "presiona espacio para comenzar"/es "اضغط على *** مسافة *** للبدء"/ar])
     ]
-    exit: fade
+    	exit: fade
   )
-  state.status = "lost" ? 
-    Group(⬇() [
-      board 
-      💬(
-        [
-          "You lost. Press **space** to play again."/en 
-          "Perdiste. Presiona **espacio** para volver a jugar"/es
-          "لقد خسرت. اضغط على ** مسافة ** للعب مرة أخرى."/ar
+  	state.status = "lost" ? 
+    	Group(⬇() [
+      		board 
+      		💬(
+        		[
+          		"You lost. Press **space** to play again."/en 
+          		"Perdiste. Presiona **espacio** para volver a jugar"/es
+          		"لقد خسرت. اضغط على ** مسافة ** للعب مرة أخرى."/ar
         ] 
-        enter: Pose(tilt: 0°) 
-        rest: Pose(tilt: -5°)
+        		enter: Pose(tilt: 0°) 
+        		rest: Pose(tilt: -5°)
       )
     ] exit: fade)
-  state.status = "won" ?
-    Group(⬇() [
-        board.rest:Sequence(bounce 1s) 
-        💬([
-          "You won, nice job! Press space to play again."/en 
-          "¡Ganaste, buen trabajo! Presiona la barra espaciadora para volver a jugar"/es
-          "لقد فزت ، عمل جيد! اضغط على الفضاء للعب مرة أخرى."/ar
+  		state.status = "won" ?
+    		Group(⬇() [
+        		board.rest:Sequence(bounce(3m) 1s) 
+        		💬([
+          			"You won, nice job! Press space to play again."/en 
+          			"¡Ganaste, buen trabajo! Presiona la barra espaciadora para volver a jugar"/es
+          			"لقد فزت ، عمل جيد! اضغط على الفضاء للعب مرة أخرى."/ar
           ])
     ] exit: fade)
-    Group(⬇() [
-      board 
-      💬(state.guesses.length() = 0 ? 
-        ["Type a letter to guess"/en "Escribe una carta a"/es "اكتب حرفًا للتخمين"/ar "اكتب حرفًا للتخمين"/ar] 
-        ["Guesses: \state.guesses.join(' ')\"/en "Suposiciones: \state.guesses.join(' ')\"/es "التخمينات \state.guesses.join(' ')\"/ar])
-      💬(
-        ["\state.guessesRemaining→''\ remaining"/en "\state.guessesRemaining→''\ restante"/es "متبقي \state.guessesRemaining→''\"/ar]
-        rest: Sequence(sway (state.guessesRemaining ÷ 5) ·1s)
+    		Group(⬇() [
+      			board 
+      			💬(state.guesses.length() = 0 ? 
+        				["Type a letter to guess"/en "Escribe una carta a"/es "اكتب حرفًا للتخمين"/ar "اكتب حرفًا للتخمين"/ar] 
+        				["Guesses: \state.guesses.join(' ')\"/en "Suposiciones: \state.guesses.join(' ')\"/es "التخمينات \state.guesses.join(' ')\"/ar])
+      			💬(
+        			["\state.guessesRemaining → ''\ remaining"/en "\state.guessesRemaining → ''\ restante"/es "متبقي \state.guessesRemaining → ''\"/ar]
+        			rest: Sequence(sway(2°) (state.guessesRemaining ÷ 5) · 1s)
       )
     ])
 
@@ -105,6 +89,7 @@ screen/en,cine/es,إظهار/ar:
 `Crea un mundo con la pantalla en él`/es
 `اصنع عالمًا مع الشاشة بداخله`/ar
 Verse([screen] font: "Poor Story" background: 🌈(0% 0 0°) rest: Pose(color: 🌈(100% 0 0°)))
+
 
 === words/en,palabras/es,كلمات/ar
 `These are the secret words. Don't tell anyone!`/en
