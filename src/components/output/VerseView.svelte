@@ -10,7 +10,7 @@
     import { centerTransform, PX_PER_METER, toCSS } from '@output/outputToCSS';
     import Place from '@output/Place';
     import Evaluate from '@nodes/Evaluate';
-    import { DefaultFont, DefaultSize } from '@output/Verse';
+    import { DefaultFont, DefaultSize, VerseType } from '@output/Verse';
     import Keyboard from '@input/Keyboard';
     import MousePosition from '@input/MousePosition';
     import MouseButton from '@input/MouseButton';
@@ -292,7 +292,11 @@
             } else if (
                 selectedOutput &&
                 $selectedOutput &&
-                $selectedOutput.length > 0
+                $selectedOutput.length > 0 &&
+                !$selectedOutput[0].is(
+                    VerseType,
+                    project.getNodeContext($selectedOutput[0])
+                )
             ) {
                 moveOutput(
                     $projects,
