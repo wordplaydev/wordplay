@@ -140,12 +140,12 @@
             <Button
                 tip={$preferredTranslations[0].ui.tooltip.addPhrase}
                 action={() => addContent(list?.values.length ?? 1 - 1, true)}
-                >+ {PhraseType.getNames()[0]}</Button
+                >+{PhraseType.getNames()[0]}</Button
             >
             <Button
                 tip={$preferredTranslations[0].ui.tooltip.addGroup}
                 action={() => addContent(list?.values.length ?? 1 - 1, false)}
-                >+ {GroupType.getNames()[0]}</Button
+                >+{GroupType.getNames()[0]}</Button
             ></div
         >
     {:else}
