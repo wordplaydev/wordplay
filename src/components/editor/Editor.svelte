@@ -1036,7 +1036,7 @@
             }
         }
 
-        if (event.key === 'Enter') {
+        if ($caret.isNode() && event.key === 'Enter') {
             // If there's no menu showing, show one, then return.
             if (menu === undefined) {
                 showMenu();
