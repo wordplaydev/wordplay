@@ -8,8 +8,9 @@
     import MeasurementLiteral from '@nodes/MeasurementLiteral';
     import Unit from '@nodes/Unit';
     import Note from '../widgets/Note.svelte';
-    import Bind from '../../nodes/Bind';
     import { getProjects } from '../project/Contexts';
+    import { getMeasurement } from './moveOutput';
+    import Expression from '../../nodes/Expression';
 
     export let project: Project;
     export let place: Evaluate | undefined;
@@ -45,20 +46,13 @@
             dimension,
             project.getNodeContext(place)
         )?.given}
-        {@const measurement =
-            given instanceof MeasurementLiteral
-                ? given
-                : given instanceof Bind &&
-                  given.value instanceof MeasurementLiteral
-                ? given.value
-                : undefined}
-        {@const value = measurement
-            ? measurement.getValue().num.toNumber()
-            : undefined}
+        <!-- Get the measurement literal, if there is one -->
+        {@const value =
+            given instanceof Expression ? getMeasurement(given) : undefined}
         <div class="dimension">
-            {#if measurement !== undefined || given === undefined}
+            {#if value}
                 <TextField
-                    text={`${value ?? ''}`}
+                    text={`${value}`}
                     validator={valid}
                     placeholder={getFirstName(dimension)}
                     changed={(value) => handleChange(dimension, value)}

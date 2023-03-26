@@ -8,7 +8,7 @@ import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
 import type Context from './Context';
 import type Bind from './Bind';
-import { NOT_SYMBOL } from '@parser/Symbols';
+import { NEGATE_SYMBOL, NOT_SYMBOL } from '@parser/Symbols';
 import type TypeSet from './TypeSet';
 import FunctionException from '@runtime/FunctionException';
 import FunctionDefinition from './FunctionDefinition';
@@ -53,6 +53,10 @@ export default class UnaryOperation extends Expression {
 
     getOperator() {
         return this.operator.text.toString();
+    }
+
+    isNegation() {
+        return this.getOperator() === NEGATE_SYMBOL;
     }
 
     getFunction(context: Context) {

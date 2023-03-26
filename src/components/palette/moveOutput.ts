@@ -1,5 +1,4 @@
 import Evaluate from '@nodes/Evaluate';
-import Decimal from 'decimal.js';
 import type Project from '@models/Project';
 import Bind from '@nodes/Bind';
 import Expression from '@nodes/Expression';
@@ -9,6 +8,24 @@ import Unit from '@nodes/Unit';
 import { PlaceType } from '@output/Place';
 import type LanguageCode from '@translation/LanguageCode';
 import type Projects from '../../db/Projects';
+import UnaryOperation from '../../nodes/UnaryOperation';
+
+export function getMeasurement(given: Expression): number | undefined {
+    const measurement =
+        given instanceof MeasurementLiteral
+            ? given
+            : given instanceof Bind && given.value instanceof MeasurementLiteral
+            ? given.value
+            : given instanceof UnaryOperation &&
+              given.isNegation() &&
+              given.operand instanceof MeasurementLiteral
+            ? given.operand
+            : undefined;
+    return measurement
+        ? (given instanceof UnaryOperation && given.isNegation() ? -1 : 1) *
+              measurement.getValue().num.toNumber()
+        : undefined;
+}
 
 export default function moveOutput(
     projects: Projects,
@@ -41,6 +58,13 @@ export default function moveOutput(
             const y = place?.getMappingFor('y', ctx)?.given;
             const z = place?.getMappingFor('z', ctx)?.given;
 
+            const xValue =
+                x instanceof Expression ? getMeasurement(x) : undefined;
+            const yValue =
+                y instanceof Expression ? getMeasurement(y) : undefined;
+            const zValue =
+                z instanceof Expression ? getMeasurement(z) : undefined;
+
             return [
                 evaluate,
                 evaluate.withBindAs(
@@ -52,35 +76,23 @@ export default function moveOutput(
                         ),
                         [
                             // If coordinate is computed, and not a literal, don't change it.
-                            x instanceof Expression &&
-                            !(x instanceof MeasurementLiteral)
+                            x instanceof Expression && xValue === undefined
                                 ? x
                                 : MeasurementLiteral.make(
                                       relative
-                                          ? (x instanceof MeasurementLiteral
-                                                ? x.getValue().num
-                                                : new Decimal(0)
-                                            )
-                                                .add(horizontal)
-                                                .toNumber()
+                                          ? (xValue ?? 0) + horizontal
                                           : horizontal,
                                       Unit.make(['m'])
                                   ),
-                            y instanceof Expression &&
-                            !(y instanceof MeasurementLiteral)
+                            y instanceof Expression && yValue === undefined
                                 ? y
                                 : MeasurementLiteral.make(
                                       relative
-                                          ? (y instanceof MeasurementLiteral
-                                                ? y.getValue().num
-                                                : new Decimal(0)
-                                            )
-                                                .add(vertical)
-                                                .toNumber()
+                                          ? (yValue ?? 0) + vertical
                                           : vertical,
                                       Unit.make(['m'])
                                   ),
-                            z instanceof Expression
+                            z instanceof Expression && zValue === undefined
                                 ? z
                                 : MeasurementLiteral.make(0, Unit.make(['m'])),
                         ]
