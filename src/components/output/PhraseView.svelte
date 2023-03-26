@@ -49,12 +49,13 @@
     // Selected if this phrase's value creator is selected
     $: selected =
         phrase.value.creator instanceof Evaluate &&
-        $selectedOutput?.includes(phrase.value.creator) &&
-        $selectedPhrase &&
-        (phrase.getName() === $selectedPhrase.name ||
-            (phrase.getName().includes('-') &&
-                phrase.getName().split('-')[1] ===
-                    $selectedPhrase.name.split('-')[1]));
+        $selectedOutput?.includes(phrase.value.creator);
+    // &&
+    // $selectedPhrase &&
+    // (phrase.getName() === $selectedPhrase.name ||
+    //     (phrase.getName().includes('-') &&
+    //         phrase.getName().split('-')[1] ===
+    //             $selectedPhrase.name.split('-')[1]));
 
     let editable = getContext<Writable<boolean>>('editable');
     $: entered =
