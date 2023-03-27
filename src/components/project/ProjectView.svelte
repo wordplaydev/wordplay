@@ -691,7 +691,8 @@
             return;
         }
         if (key === 'Enter' && command) {
-            if ($evaluator.isPlaying()) $evaluator.pause();
+            if (event.shiftKey) $projects.revise(project, project.clone());
+            else if ($evaluator.isPlaying()) $evaluator.pause();
             else $evaluator.play();
             event.preventDefault();
             return;
@@ -710,7 +711,7 @@
                 // To start
                 if (event.ctrlKey && event.shiftKey) $evaluator.stepTo(0);
                 // To previous input
-                else if (event.altKey) $evaluator.stepBackToInput();
+                else if (event.shiftKey) $evaluator.stepBackToInput();
                 // To previous step
                 else $evaluator.stepBackWithinProgram();
                 event.preventDefault();
@@ -718,7 +719,7 @@
                 // To start
                 if (event.ctrlKey && event.shiftKey) $evaluator.stepToEnd();
                 // To next input
-                else if (event.altKey) $evaluator.stepToInput();
+                else if (event.shiftKey) $evaluator.stepToInput();
                 // To next step
                 else $evaluator.stepWithinProgram();
                 event.preventDefault();
