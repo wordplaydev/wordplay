@@ -1643,13 +1643,7 @@ const en: Translation = {
         },
     },
     exceptions: {
-        function: (node, type) =>
-            Explanation.as(
-                'no function named ',
-                node,
-                ' in ',
-                type === undefined ? ' scope' : type
-            ),
+        function: (name) => Explanation.as("Oops, I don't know how to ", name),
         name: (node, scope) =>
             node
                 ? Explanation.as(

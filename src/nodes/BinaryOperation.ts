@@ -397,7 +397,7 @@ export default class BinaryOperation extends Expression {
 
     getGlyphs() {
         return {
-            symbols: this.operator.getText(),
+            symbols: this.left.getGlyphs().symbols,
             emotion: Emotion.Kind,
         };
     }
