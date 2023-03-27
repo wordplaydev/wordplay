@@ -5,7 +5,10 @@ gravity•#m/s^2:  ∆ mousebutton() ? 15m/s^2 … -gravity
 
 Verse(count → [].translate(
     ƒ(_) Motion(
-        Phrase(["a" "b" "c"].random() place: ◆ ? Place(y: 5m) ø) 
+        Phrase(
+            "ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんゔゕゖ"→[].random() 
+            place: ◆ ? Place(y: 10m) ø
+        ) 
         vx: ◆ ? random(-5 5) · 1m/s ø 
         vangle: ◆ ? random(0 360) · 1°/s ø
         bounciness: random()
