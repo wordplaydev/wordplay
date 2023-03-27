@@ -20,6 +20,7 @@
     import Space from './Space.svelte';
 
     export let node: Node | undefined;
+    export let small: boolean = false;
 
     let project = getProject();
     let evaluator = getEvaluator();
@@ -86,6 +87,7 @@
         />{/if}<div
         class="{node.constructor.name} node-view"
         class:hide
+        class:small
         tabIndex="0"
         aria-hidden={hide ? 'true' : null}
         aria-label={description}
@@ -123,5 +125,9 @@
         width: 0;
         height: 0;
         overflow: hidden;
+    }
+
+    .small {
+        font-size: 80%;
     }
 </style>

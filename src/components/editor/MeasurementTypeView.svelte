@@ -10,4 +10,5 @@
 
 <NodeView node={node.number} />{#if node.unit instanceof Node}<NodeView
         node={node.unit}
+        small
     />{/if}

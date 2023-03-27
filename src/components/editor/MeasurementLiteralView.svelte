@@ -7,4 +7,4 @@
     export let node: MeasurementLiteral;
 </script>
 
-<NodeView node={node.number} /><small><NodeView node={node.unit} /></small>
+<NodeView node={node.number} /><NodeView node={node.unit} small />
