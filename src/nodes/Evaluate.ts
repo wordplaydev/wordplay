@@ -725,8 +725,6 @@ export default class Evaluate extends Expression {
         // For streams, we don't evaluate anything. Instead, we check if this node has already created a
         // stream, and if so, just return it, and if not, create it.
         else if (definitionValue instanceof StreamDefinitionValue) {
-            // Evaluate the structure's block with the bindings, generating an evaluation context with the
-            // type's inputs and functions.
             evaluator.startEvaluation(
                 new Evaluation(
                     evaluator,

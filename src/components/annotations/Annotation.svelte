@@ -43,8 +43,8 @@
     <div
         class="annotations"
         class:measured={adjusted !== undefined}
-        style:left={`${adjusted ? adjusted.left : 0}px`}
-        style:top={`${adjusted ? adjusted.top : 0}px`}
+        style:left={`${adjusted ? adjusted.left : position.left}px`}
+        style:top={`${adjusted ? adjusted.top : position.top}px`}
         bind:this={view}
     >
         {#each annotations as annotation}
