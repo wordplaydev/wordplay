@@ -72,6 +72,8 @@
     export let project: Project;
     export let source: Source;
 
+    const SHOW_OUTPUT_IN_PALETTE = false;
+
     // A menu of potential transformations based on the caret position.
     // Managed here but displayed by the project to allow it to escape the editor view.
     export let menu: Menu | undefined = undefined;
@@ -225,6 +227,7 @@
     // palette appears.
     $: {
         if (
+            SHOW_OUTPUT_IN_PALETTE &&
             selectedOutputPaths &&
             $caret.position instanceof Evaluate &&
             $caret.position.isOneOf(
