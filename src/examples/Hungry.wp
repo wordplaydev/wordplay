@@ -1,0 +1,5 @@
+=== Hungry/en
+food: 10bananas
+hungry: food < 15bananas
+
+hungry ? "お腹がペコペコ" "おなかいっぱい"
