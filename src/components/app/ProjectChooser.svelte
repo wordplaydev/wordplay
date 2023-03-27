@@ -3,7 +3,10 @@
     import type Project from '../../models/Project';
     import { getProjects, getUser } from '../project/Contexts';
     import ConfirmButton from '../widgets/ConfirmButton.svelte';
-    import { preferredTranslations } from '@translation/translations';
+    import {
+        preferredLanguages,
+        preferredTranslations,
+    } from '@translation/translations';
     import { examples, makeProject } from '../../examples/examples';
     import Lead from './Lead.svelte';
     import ProjectPreview from './ProjectPreview.svelte';
@@ -37,7 +40,11 @@
 
 <Lead>{$preferredTranslations[0].ui.headers.projects}</Lead>
 <div class="projects">
-    {#each $projects.all() as project (project.id)}
+    {#each $projects
+        .all()
+        .sort((a, b) => a
+                .getName()
+                .localeCompare(b.getName(), $preferredLanguages)) as project (project.id)}
         <ProjectPreview {project} action={() => changeProject(project)}
             ><ConfirmButton
                 prompt={$preferredTranslations[0].ui.prompt.deleteProject}
