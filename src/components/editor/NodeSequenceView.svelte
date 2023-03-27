@@ -7,4 +7,4 @@
     export let nodes: Node[];
 </script>
 
-{#each nodes as node}<NodeView {node} />{/each}
+{#each nodes as node (node.id)}<NodeView {node} />{/each}
