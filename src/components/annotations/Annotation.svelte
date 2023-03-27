@@ -56,6 +56,7 @@
                 <Speech
                     glyph={annotation.node.getGlyphs()}
                     concept={$index?.getNodeConcept(annotation.node)}
+                    invert
                 >
                     {#each annotation.text as description}
                         <p>

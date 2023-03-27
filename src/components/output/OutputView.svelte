@@ -52,6 +52,7 @@
                         ><Speech
                             glyph={latest.creator.getGlyphs()}
                             concept={$index?.getNodeConcept(latest.creator)}
+                            invert
                             >{#each $preferredTranslations as translation}
                                 <DescriptionView
                                     description={latest.getDescription(

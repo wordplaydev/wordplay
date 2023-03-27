@@ -7,6 +7,8 @@
 
     export let glyph: Glyph;
     export let below: boolean = false;
+    /** If true, uses foreground color for background, and background for foreground. */
+    export let invert: boolean = false;
     export let concept: Concept | undefined = undefined;
 
     const Limit = 10;
@@ -28,7 +30,7 @@
             {:else}
                 {symbols}
             {/if}
-            <Eyes />
+            <Eyes {invert} />
         </div>
     {/key}
     <div class="message {below ? 'below' : 'right'}">

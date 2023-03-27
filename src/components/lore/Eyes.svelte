@@ -1,6 +1,8 @@
 <script lang="ts">
     import { animationsOn } from '@models/stores';
 
+    export let invert: boolean;
+
     let left: HTMLElement | null;
     let right: HTMLElement | null;
 
@@ -39,7 +41,7 @@
     }
 </script>
 
-<div class="eyes" style:--offset="{offset}px"
+<div class="eyes" class:invert style:--offset="{offset}px"
     ><div bind:this={left} class="eye left" /><div
         bind:this={right}
         class="eye right"
@@ -64,9 +66,14 @@
         height: var(--radius);
         left: 50%;
         top: 31%;
-        background: var(--wordplay-foreground);
-        border: 2px solid var(--wordplay-background);
+        background: var(--wordplay-background);
+        border: 2px solid var(--wordplay-foreground);
         border-radius: 50%;
+    }
+
+    .invert .eye {
+        background-color: var(--wordplay-foreground);
+        border-color: var(--wordplay-background);
     }
 
     :global(.animated) .eye {
