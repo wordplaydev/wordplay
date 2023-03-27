@@ -34,17 +34,19 @@
         changeProject(newProject);
     }
 
+    function sortProjects(projects: Project[]): Project[] {
+        return projects.sort((a, b) =>
+            a.getName().localeCompare(b.getName(), $preferredLanguages)
+        );
+    }
+
     /** Create some example projects */
     const exampleProjects = examples.map((example) => makeProject(example));
 </script>
 
 <Lead>{$preferredTranslations[0].ui.headers.projects}</Lead>
 <div class="projects">
-    {#each $projects
-        .all()
-        .sort((a, b) => a
-                .getName()
-                .localeCompare(b.getName(), $preferredLanguages)) as project (project.id)}
+    {#each sortProjects($projects.all()) as project (project.id)}
         <ProjectPreview {project} action={() => changeProject(project)}
             ><ConfirmButton
                 prompt={$preferredTranslations[0].ui.prompt.deleteProject}
@@ -62,7 +64,7 @@
 </div>
 <Lead>{$preferredTranslations[0].ui.headers.examples}</Lead>
 <div class="projects">
-    {#each exampleProjects as project (project.id)}
+    {#each sortProjects(exampleProjects) as project (project.id)}
         <ProjectPreview {project} action={() => copyProject(project)} />
     {/each}
 </div>
