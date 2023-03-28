@@ -19,16 +19,77 @@ import type { User } from 'firebase/auth';
 import type Evaluator from '@runtime/Evaluator';
 import type Translation from '@translation/Translation';
 
+// App related contexts
+
+export const UserSymbol = Symbol('user');
+export type UserContext = Writable<User | null>;
+export function getUser(): UserContext {
+    return getContext(UserSymbol);
+}
+
+export const TranslationsSymbol = Symbol('translations');
+export function getTranslations(): Translation[] {
+    return getContext(TranslationsSymbol);
+}
+
+export const DarkSymbol = Symbol('dark');
+export function isDark(): Writable<boolean | undefined> {
+    return getContext(DarkSymbol);
+}
+
+// Project related contexts
+
 export type ProjectsContext = Writable<Projects>;
 export const ProjectsSymbol = Symbol('projects');
 export function getProjects() {
     return getContext<ProjectsContext>(ProjectsSymbol);
 }
 
+export type ProjectContext = Readable<Project | undefined>;
+export const ProjectSymbol = Symbol('project');
+export function getProject() {
+    return getContext<ProjectContext>(ProjectSymbol);
+}
+
+// Evaluation related contexts
+
+export type EvaluatorContext = Readable<Evaluator>;
+export const EvaluatorSymbol = Symbol('evaluator');
+export function getEvaluator() {
+    return getContext<EvaluatorContext>(EvaluatorSymbol);
+}
+
+/** A collection of state that changes each time the evaluator updates. */
+export type EvaluationContext = {
+    evaluator: Evaluator;
+    playing: boolean;
+    step: Step | undefined;
+    stepIndex: number;
+    streams: StreamChange[];
+};
+export const EvaluationSymbol = Symbol('evaluation');
+export function getEvaluation(): Writable<EvaluationContext> | undefined {
+    return getContext(EvaluationSymbol);
+}
+
+export const AnimatingNodesSymbol = Symbol('animatingNodes');
+export type AnimatingNodesContext = Writable<Set<Node>>;
+export function getAnimatingNodes(): AnimatingNodesContext | undefined {
+    return getContext(AnimatingNodesSymbol);
+}
+
+// Editor related contexts
+
 export type CaretContext = Writable<Caret> | undefined;
 export const CaretSymbol = Symbol('caret');
 export function getCaret() {
     return getContext<CaretContext>(CaretSymbol);
+}
+
+export const ConflictsSymbol = Symbol('conflicts');
+export type ConflictsContext = Writable<Conflict[]>;
+export function getConflicts(): ConflictsContext | undefined {
+    return getContext(ConflictsSymbol);
 }
 
 export type HoveredContext = Writable<Node | undefined> | undefined;
@@ -49,18 +110,6 @@ export type DraggedContext = Writable<Node | undefined>;
 export const DraggedSymbol = Symbol('dragged');
 export function getDragged() {
     return getContext<DraggedContext>(DraggedSymbol);
-}
-
-export type ProjectContext = Readable<Project | undefined>;
-export const ProjectSymbol = Symbol('project');
-export function getProject() {
-    return getContext<ProjectContext>(ProjectSymbol);
-}
-
-export type EvaluatorContext = Readable<Evaluator>;
-export const EvaluatorSymbol = Symbol('evaluator');
-export function getEvaluator() {
-    return getContext<EvaluatorContext>(EvaluatorSymbol);
 }
 
 export type HighlightContext = Writable<Highlights> | undefined;
@@ -94,6 +143,8 @@ export type ConceptIndexContext = Writable<ConceptIndex | undefined>;
 export function getConceptIndex() {
     return getContext<ConceptIndexContext>(ConceptIndexSymbol);
 }
+
+// Output related contexts
 
 export const SelectedOutputPathsSymbol = Symbol('selected-output-paths');
 export type SelectedOutputPathsContext = Writable<
@@ -134,45 +185,4 @@ export type SelectedPhraseContext = Writable<{
 } | null>;
 export function getSelectedPhrase(): SelectedPhraseContext | undefined {
     return getContext(SelectedPhraseSymbol);
-}
-
-/** A collection of state that changes each time the evaluator updates. */
-export type EvaluationContext = {
-    evaluator: Evaluator;
-    playing: boolean;
-    step: Step | undefined;
-    stepIndex: number;
-    streams: StreamChange[];
-};
-export const EvaluationSymbol = Symbol('evaluation');
-export function getEvaluation(): Writable<EvaluationContext> | undefined {
-    return getContext(EvaluationSymbol);
-}
-
-export const AnimatingNodesSymbol = Symbol('animatingNodes');
-export type AnimatingNodesContext = Writable<Set<Node>>;
-export function getAnimatingNodes(): AnimatingNodesContext | undefined {
-    return getContext(AnimatingNodesSymbol);
-}
-
-export const ConflictsSymbol = Symbol('conflicts');
-export type ConflictsContext = Writable<Conflict[]>;
-export function getConflicts(): ConflictsContext | undefined {
-    return getContext(ConflictsSymbol);
-}
-
-export const UserSymbol = Symbol('user');
-export type UserContext = Writable<User | null>;
-export function getUser(): UserContext {
-    return getContext(UserSymbol);
-}
-
-export const TranslationsSymbol = Symbol('translations');
-export function getTranslations(): Translation[] {
-    return getContext(TranslationsSymbol);
-}
-
-export const DarkSymbol = Symbol('dark');
-export function isDark(): Writable<boolean | undefined> {
-    return getContext(DarkSymbol);
 }
