@@ -686,7 +686,16 @@
             return;
         }
         if (key === 'Enter' && command) {
+            // Shift also? Reset
             if (event.shiftKey) $projects.revise(project, project.clone());
+            // Alt also? Full screen.
+            else if (event.altKey) {
+                layout = layout.isFullscreen()
+                    ? layout.withoutFullscreen()
+                    : layout.withFullscreen(OutputID);
+                view?.focus();
+            }
+            // No shift? Toggle between playing and pausing.
             else if ($evaluator.isPlaying()) $evaluator.pause();
             else $evaluator.play();
             event.preventDefault();
