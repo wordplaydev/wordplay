@@ -19,6 +19,7 @@ import Timer from './Timer.wp?raw';
 import Poem from './Poem.wp?raw';
 import Garden from './Garden.wp?raw';
 import Cannon from './Cannon.wp?raw';
+import Between from './BetweenConflict.wp?raw';
 import { parseNames, toTokens } from '../parser/Parser';
 import type Names from '../nodes/Names';
 
@@ -76,4 +77,5 @@ export const examples: Stuff[] = [
     Poem,
     Garden,
     Cannon,
+    Between,
 ].map((source) => wpToStuff(source));
