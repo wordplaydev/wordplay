@@ -136,28 +136,17 @@ export function getSelectedPhrase(): SelectedPhraseContext | undefined {
     return getContext(SelectedPhraseSymbol);
 }
 
-export const PlayingSymbol = Symbol('playing');
-export type PlayingContext = Writable<boolean>;
-export function getPlaying(): PlayingContext | undefined {
-    return getContext(PlayingSymbol);
-}
-
-export const CurrentStepSymbol = Symbol('currentStep');
-export type CurrentStepContext = Writable<Step | undefined>;
-export function getCurrentStep(): CurrentStepContext | undefined {
-    return getContext(CurrentStepSymbol);
-}
-
-export const CurrentStepIndexSymbol = Symbol('currentStepIndex');
-export type CurrentStepIndexContext = Writable<number>;
-export function getCurrentStepIndex(): CurrentStepIndexContext | undefined {
-    return getContext(CurrentStepIndexSymbol);
-}
-
-export const StreamChangesSymbol = Symbol('streamChanges');
-export type StreamChangesContext = Writable<StreamChange[]>;
-export function getStreamChanges(): StreamChangesContext | undefined {
-    return getContext(StreamChangesSymbol);
+/** A collection of state that changes each time the evaluator updates. */
+export type EvaluationContext = {
+    evaluator: Evaluator;
+    playing: boolean;
+    step: Step | undefined;
+    stepIndex: number;
+    streams: StreamChange[];
+};
+export const EvaluationSymbol = Symbol('evaluation');
+export function getEvaluation(): Writable<EvaluationContext> | undefined {
+    return getContext(EvaluationSymbol);
 }
 
 export const AnimatingNodesSymbol = Symbol('animatingNodes');

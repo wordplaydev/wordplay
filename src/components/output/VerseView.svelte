@@ -29,7 +29,7 @@
     import moveOutput from '../palette/moveOutput';
     import {
         getAnimatingNodes,
-        getPlaying,
+        getEvaluation,
         getProjects,
         getSelectedOutput,
         getSelectedOutputPaths,
@@ -51,7 +51,7 @@
     const selectedOutput = getSelectedOutput();
     const selectedOutputPaths = getSelectedOutputPaths();
     const selectedPhrase = getSelectedPhrase();
-    const playing = getPlaying();
+    const evaluation = getEvaluation();
     const animatingNodes = getAnimatingNodes();
 
     const GRID_PADDING = 10;
@@ -129,7 +129,7 @@
      * then the adjusted focus if providedWhenever the verse focus, fit setting, or adjusted focus change, updated the rendered focus */
     $: renderedFocus = verse.place
         ? verse.place
-        : fit && fitFocus && $playing
+        : fit && fitFocus && $evaluation?.playing === true
         ? fitFocus
         : adjustedFocus;
 
@@ -495,7 +495,7 @@
 
 {#if mounted}
     <div
-        class="output verse {interactive && $playing
+        class="output verse {interactive && $evaluation?.playing === true
             ? 'live'
             : 'inert'} {project.main.names.getNames()[0]}"
         class:ignored
@@ -503,7 +503,7 @@
         class:selected={verse.value.creator instanceof Evaluate &&
             $selectedOutput &&
             $selectedOutput.includes(verse.value.creator)}
-        class:editing={!$playing}
+        class:editing={$evaluation?.playing === false}
         data-id={verse.getHTMLID()}
         data-node-id={verse.value.creator.id}
         tabIndex={interactive ? 0 : null}

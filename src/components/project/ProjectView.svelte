@@ -10,26 +10,20 @@
         type ConceptIndexContext,
         getProjects,
         setSelectedOutput,
-        type StreamChangesContext,
         type AnimatingNodesContext,
         type ConflictsContext,
         type SelectedOutputPathsContext,
         type SelectedPhraseContext,
         type EvaluatorContext,
         EvaluatorSymbol,
-        type CurrentStepIndexContext,
-        CurrentStepIndexSymbol,
         SelectedOutputSymbol,
         SelectedPhraseSymbol,
         type SelectedOutputContext,
-        type PlayingContext,
-        PlayingSymbol,
-        CurrentStepSymbol,
         ConflictsSymbol,
-        StreamChangesSymbol,
-        type CurrentStepContext,
         AnimatingNodesSymbol,
         SelectedOutputPathsSymbol,
+        type EvaluationContext,
+        EvaluationSymbol,
     } from './Contexts';
     import type Project from '@models/Project';
     import Documentation from '@components/concepts/Documentation.svelte';
@@ -79,7 +73,6 @@
     import TextField from '../widgets/TextField.svelte';
     import Status from '../app/Status.svelte';
     import Evaluator from '@runtime/Evaluator';
-    import type { StreamChange } from '@runtime/Evaluator';
     import Evaluate from '@nodes/Evaluate';
 
     export let project: Project;
@@ -187,11 +180,24 @@
         evaluator.set(newEvaluator);
     });
 
+    /** Create a store for all of the evaluation state, so that the editor nodes can update when it changes. */
+    const evaluation: Writable<EvaluationContext> = writable(
+        getEvaluationContext()
+    );
+    setContext<Writable<EvaluationContext>>(EvaluationSymbol, evaluation);
+
     function updateEvaluatorStores() {
-        currentStep.set($evaluator.getCurrentStep());
-        currentStepIndex.set($evaluator.getStepIndex());
-        playing.set($evaluator.isPlaying());
-        streams.set($evaluator.reactions);
+        evaluation.set(getEvaluationContext());
+    }
+
+    function getEvaluationContext() {
+        return {
+            evaluator: $evaluator,
+            step: $evaluator.getCurrentStep(),
+            stepIndex: $evaluator.getStepIndex(),
+            playing: $evaluator.isPlaying(),
+            streams: $evaluator.reactions,
+        };
     }
 
     /** Clean up the evaluator when unmounting. */
@@ -200,27 +206,16 @@
     });
 
     /** Several store contexts for tracking evaluator state. */
-    const currentStepIndex = writable<number>(0);
-    const playing: PlayingContext = writable(true);
-    const currentStep: CurrentStepContext = writable(undefined);
-    const streams: StreamChangesContext = writable<StreamChange[]>([]);
     const animatingNodes: AnimatingNodesContext = writable<Set<Node>>(
         new Set()
     );
 
-    setContext<CurrentStepIndexContext>(
-        CurrentStepIndexSymbol,
-        currentStepIndex
-    );
     setContext<AnimatingNodesContext>(AnimatingNodesSymbol, animatingNodes);
-    setContext<PlayingContext>(PlayingSymbol, playing);
-    setContext<CurrentStepContext>(CurrentStepSymbol, currentStep);
     setContext<ConflictsContext>(ConflictsSymbol, conflicts);
-    setContext<StreamChangesContext>(StreamChangesSymbol, streams);
 
     // Clear the selected output upon playing.
-    playing.subscribe((val) => {
-        if (val) selectedOutputPaths.set([]);
+    evaluation.subscribe((val) => {
+        if (val.playing) selectedOutputPaths.set([]);
     });
 
     function syncTiles(tiles: Tile[]): Tile[] {
@@ -436,8 +431,8 @@
 
     /** When stepping and the current step changes, change the active source. */
     $: {
-        if (!$playing && $currentStep) {
-            const source = project.getSourceOf($currentStep.node);
+        if ($evaluation.playing === false && $evaluation.step) {
+            const source = project.getSourceOf($evaluation.step.node);
             const tile = source
                 ? layout.getSource(project.getIndexOfSource(source))
                 : undefined;
@@ -476,7 +471,7 @@
 
     /** When the program steps language changes, get the latest value of the program's evaluation. */
     $: {
-        $currentStep;
+        $evaluation;
         $preferredLanguages;
         latest = $evaluator.getLatestSourceValue(project.main);
     }
@@ -805,7 +800,7 @@
         <section
             class="header"
             aria-label={$preferredTranslations[0].ui.section.timeline}
-            class:stepping={!$playing}
+            class:stepping={$evaluation.playing === false}
         >
             <Controls {project} evaluator={$evaluator} />
             <Timeline evaluator={$evaluator} />
@@ -842,7 +837,8 @@
                         arrangement={layout.arrangement}
                         background={tile.kind === Content.Output
                             ? outputBackground
-                            : tile.kind === Content.Source && !$playing
+                            : tile.kind === Content.Source &&
+                              $evaluation.playing === false
                             ? `var(--wordplay-border-color)`
                             : null}
                         dragging={draggedTile?.id === tile.id}
@@ -992,7 +988,7 @@
             {project}
             evaluator={$evaluator}
             conflicts={visibleConflicts}
-            stepping={!$playing}
+            stepping={$evaluation.playing === false}
         />
 
         <!-- Render the menu on top of the annotations -->

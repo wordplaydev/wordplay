@@ -20,14 +20,12 @@
         InsertionPointsSymbol,
         getDragged,
         getSelectedOutput,
-        getPlaying,
-        getCurrentStep,
-        getCurrentStepIndex,
         getAnimatingNodes,
         getConflicts,
         getProjects,
         setSelectedOutput,
         getSelectedOutputPaths,
+        getEvaluation,
     } from '../project/Contexts';
     import {
         preferredLanguages,
@@ -81,9 +79,7 @@
     const projects = getProjects();
     const selectedOutput = getSelectedOutput();
     const selectedOutputPaths = getSelectedOutputPaths();
-    const playing = getPlaying();
-    const currentStep = getCurrentStep();
-    const currentStepIndex = getCurrentStepIndex();
+    const evaluation = getEvaluation();
     const animatingNodes = getAnimatingNodes();
     const nodeConflicts = getConflicts();
 
@@ -128,8 +124,7 @@
 
     /** When the current step, step index, or playing state changes, update the evaluation view of the editor */
     $: {
-        $currentStepIndex;
-        $currentStep;
+        $evaluation;
         evalUpdate();
     }
 
@@ -1231,7 +1226,9 @@
 <svelte:window on:blur={handleRelease} />
 
 <section
-    class="editor {$playing ? 'playing' : 'stepping'}"
+    class="editor {$evaluation !== undefined && $evaluation.playing
+        ? 'playing'
+        : 'stepping'}"
     aria-label={`${
         $preferredTranslations[0].ui.section.editor
     } ${source.getTranslation($preferredLanguages)}`}
@@ -1255,7 +1252,9 @@
             {...outline}
             above={false}
             types={outline.types}
-            ignored={$playing === true && lastKeyDownIgnored}
+            ignored={$evaluation &&
+                $evaluation.playing === true &&
+                lastKeyDownIgnored}
         />
     {/each}
     <!-- Render the program -->
@@ -1268,8 +1267,12 @@
     <!-- Render the caret on top of the program -->
     <CaretView
         {source}
-        blink={$KeyboardIdle && $playing === true}
-        ignored={$playing === true && lastKeyDownIgnored}
+        blink={$KeyboardIdle &&
+            $evaluation !== undefined &&
+            $evaluation.playing === true}
+        ignored={$evaluation !== undefined &&
+            $evaluation.playing === true &&
+            lastKeyDownIgnored}
         bind:location={caretLocation}
     />
     <!-- If the caret is a position, render the invisible text field that allows us to capture inputs -->

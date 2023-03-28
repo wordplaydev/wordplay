@@ -3,23 +3,14 @@
     import Switch from '../widgets/Switch.svelte';
     import type Project from '@models/Project';
     import { preferredTranslations } from '@translation/translations';
-    import {
-        getCurrentStep,
-        getCurrentStepIndex,
-        getPlaying,
-        getProjects,
-        getStreamChanges,
-    } from '../project/Contexts';
+    import { getEvaluation, getProjects } from '../project/Contexts';
     import type Evaluator from '@runtime/Evaluator';
 
     export let project: Project;
     export let evaluator: Evaluator;
 
     const projects = getProjects();
-    let playing = getPlaying();
-    let currentStep = getCurrentStep();
-    let streams = getStreamChanges();
-    let currentStepIndex = getCurrentStepIndex();
+    const evaluation = getEvaluation();
 
     function reset() {
         $projects.revise(project, project.clone());
@@ -30,10 +21,11 @@
     <Button
         tip={$preferredTranslations[0].ui.tooltip.reset}
         action={reset}
-        enabled={$streams !== undefined && $streams.length > 1}>↻</Button
+        enabled={$evaluation?.streams !== undefined &&
+            $evaluation.streams.length > 1}>↻</Button
     >
     <Switch
-        on={$playing === true}
+        on={$evaluation?.playing === true}
         toggle={(play) => (play ? evaluator.play() : evaluator.pause())}
         offTip={$preferredTranslations[0].ui.tooltip.pause}
         onTip={$preferredTranslations[0].ui.tooltip.play}
@@ -58,16 +50,16 @@
     <Button
         tip={$preferredTranslations[0].ui.tooltip.out}
         action={() => evaluator.stepOut()}
-        enabled={!playing &&
-            $currentStep &&
+        enabled={$evaluation?.playing === false &&
+            $evaluation?.step !== undefined &&
             evaluator.getCurrentEvaluation() !== undefined}>↑</Button
     >
     <Button
         tip={$preferredTranslations[0].ui.tooltip.forward}
         action={() => evaluator.stepWithinProgram()}
         enabled={evaluator.isInPast() &&
-            $currentStepIndex !== undefined &&
-            $currentStepIndex < evaluator.getStepCount()}>→</Button
+            $evaluation?.stepIndex !== undefined &&
+            $evaluation.stepIndex < evaluator.getStepCount()}>→</Button
     >
     <Button
         tip={$preferredTranslations[0].ui.tooltip.forwardInput}

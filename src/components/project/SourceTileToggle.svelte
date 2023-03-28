@@ -3,7 +3,7 @@
     import type Source from '@nodes/Source';
     import type Value from '@runtime/Value';
     import OutputView from '../output/OutputView.svelte';
-    import { getConflicts, getCurrentStep } from './Contexts';
+    import { getConflicts, getEvaluation } from './Contexts';
     import type Evaluator from '@runtime/Evaluator';
     import type Project from '../../models/Project';
     import { preferredLanguages } from '@translation/translations';
@@ -14,14 +14,14 @@
     export let output: boolean;
     export let expanded: boolean;
 
-    let currentStep = getCurrentStep();
+    let evaluation = getEvaluation();
     let conflicts = getConflicts();
 
     const dispatch = createEventDispatcher();
 
     let latest: Value | undefined;
     $: {
-        $currentStep;
+        $evaluation;
         latest = evaluator.getLatestSourceValue(source);
     }
 

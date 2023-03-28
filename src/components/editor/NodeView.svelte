@@ -3,13 +3,9 @@
 <script lang="ts">
     import type Node from '@nodes/Node';
     import {
-        getCurrentStep,
-        getCurrentStepIndex,
-        getEvaluator,
+        getEvaluation,
         getHidden,
         getInsertionPoint,
-        getPlaying,
-        getProject,
         getSpace,
         getTranslations,
     } from '../project/Contexts';
@@ -22,43 +18,38 @@
     export let node: Node | undefined;
     export let small: boolean = false;
 
-    let project = getProject();
-    let evaluator = getEvaluator();
-    let playing = getPlaying();
-    let currentStep = getCurrentStep();
-    let currentStepIndex = getCurrentStepIndex();
-    let translations = getTranslations();
+    const evaluation = getEvaluation();
+    const translations = getTranslations();
 
     $: description =
-        node && $project && translations && translations.length > 0
+        node && $evaluation && translations && translations.length > 0
             ? node.getDescription(
                   translations[0],
-                  $project?.getNodeContext(node)
+                  $evaluation.evaluator.project.getNodeContext(node)
               )
             : null;
 
     let value: Value | undefined;
     $: {
-        $currentStep;
-        $currentStepIndex;
         // Show a value if 1) it's an expression, 2) the evaluator is stepping, 3) it's not involved in the evaluation stack
         // and 4) the node's evaluation is currently evaluating. Start by assuming there isn't a value.
         value = undefined;
         if (
-            $project &&
-            $evaluator &&
-            !$playing &&
+            $evaluation &&
+            !$evaluation.playing &&
             node instanceof Expression &&
             !node.isEvaluationInvolved()
         ) {
-            const root = $project.getRoot(node)?.getEvaluationRoot(node);
-            const evaluation = root
-                ? $evaluator.getEvaluationOf(root)
+            const root = $evaluation.evaluator.project
+                .getRoot(node)
+                ?.getEvaluationRoot(node);
+            const eva = root
+                ? $evaluation.evaluator.getEvaluationOf(root)
                 : undefined;
-            if (evaluation)
-                value = $evaluator.getLatestValueOf(
+            if (eva)
+                value = $evaluation.evaluator.getLatestValueOf(
                     node,
-                    evaluation.getStepNumber()
+                    eva.getStepNumber()
                 );
         }
     }

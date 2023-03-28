@@ -18,16 +18,16 @@
     import { tick } from 'svelte';
     import type { Description } from '@translation/Translation';
     import type Step from '@runtime/Step';
-    import { getCurrentStep } from '../project/Contexts';
     import type Evaluator from '@runtime/Evaluator';
     import type Project from '../../models/Project';
+    import { getEvaluation } from '../project/Contexts';
 
     export let project: Project;
     export let evaluator: Evaluator;
     export let stepping: boolean;
     export let conflicts: Conflict[];
 
-    let currentStep = getCurrentStep();
+    let evaluation = getEvaluation();
     let annotations: AnnotationInfo[] = [];
     let annotationsByNode: Map<Node, AnnotationInfo[]> = new Map();
 
@@ -50,9 +50,9 @@
                     {
                         node: node,
                         element: view,
-                        text: $currentStep
+                        text: $evaluation?.step
                             ? $preferredTranslations.map((trans) =>
-                                  ($currentStep as Step).getExplanations(
+                                  ($evaluation?.step as Step).getExplanations(
                                       trans,
                                       evaluator
                                   )

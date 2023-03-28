@@ -14,7 +14,7 @@
         writingLayout,
     } from '@translation/translations';
     import Speech from '../lore/Speech.svelte';
-    import { getConceptIndex, getPlaying } from '../project/Contexts';
+    import { getConceptIndex, getEvaluation } from '../project/Contexts';
     import type Evaluator from '@runtime/Evaluator';
 
     export let project: Project;
@@ -28,7 +28,7 @@
     export let background: string | null = null;
 
     let index = getConceptIndex();
-    let playing = getPlaying();
+    let evaluation = getEvaluation();
 
     $: verse = latest === undefined ? undefined : toVerse(latest);
     $: background = verse?.background.toCSS() ?? null;
@@ -67,7 +67,7 @@
             <!-- If there's no verse -->
         {:else if latest === undefined}
             <!-- If it's because the keyboard isn't idle, show the typing feedback.-->
-            {#if $playing && !$KeyboardIdle}
+            {#if $evaluation?.playing === true && !$KeyboardIdle}
                 <div class="fill editing"><div class="message">⌨️</div></div>
             {:else}
                 <div class="fill evaluating"><div class="message">◆</div></div>
@@ -101,7 +101,8 @@
                 bind:fit
                 bind:grid
                 interactive={mode !== 'mini' && source === project.main}
-                editable={mode === 'peripheral' && !$playing}
+                editable={mode === 'peripheral' &&
+                    $evaluation?.playing === false}
             />
         {/if}
     </div>

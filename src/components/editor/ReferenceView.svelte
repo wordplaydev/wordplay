@@ -4,9 +4,8 @@
     import type Reference from '@nodes/Reference';
     import NodeView from './NodeView.svelte';
     import {
-        getCurrentStep,
+        getEvaluation,
         getEvaluator,
-        getPlaying,
         getProject,
     } from '../project/Contexts';
     import Evaluate from '@nodes/Evaluate';
@@ -16,8 +15,7 @@
 
     let project = getProject();
     let evaluator = getEvaluator();
-    let playing = getPlaying();
-    let currentStep = getCurrentStep();
+    let evaluation = getEvaluation();
 
     let stream: Stream | undefined;
     $: {
@@ -33,13 +31,14 @@
     $: {
         // Evaluated if...
         if (
+            // There's evluation in this context
+            $evaluation &&
             // The evaluator is playing
-            $playing &&
+            $evaluation.playing &&
             // We're done evaluating
-            $currentStep === undefined &&
+            $evaluation.step === undefined &&
             // There's a project and evaluator
             $project !== undefined &&
-            $evaluator !== undefined &&
             // This is associated with a stream
             stream !== undefined &&
             // The stream caused the most recent reaction

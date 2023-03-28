@@ -8,27 +8,21 @@
     import { slide } from 'svelte/transition';
     import { tick } from 'svelte';
     import Exception from '@runtime/Exception';
-    import {
-        getCurrentStepIndex,
-        getPlaying,
-        getStreamChanges,
-    } from '../project/Contexts';
+    import { getEvaluation } from '../project/Contexts';
 
     export let evaluator: Evaluator;
 
-    let playing = getPlaying();
-    let currentStepIndex = getCurrentStepIndex();
-    let streams = getStreamChanges();
+    let evaluation = getEvaluation();
 
     let timeline: HTMLElement | null;
 
     // Find the latest stream change before the current step index.
     $: currentReaction =
-        $currentStepIndex !== undefined
-            ? evaluator.getReactionPriorTo($currentStepIndex)
+        $evaluation?.stepIndex !== undefined
+            ? evaluator.getReactionPriorTo($evaluation.stepIndex)
             : undefined;
     $: historyTrimmed =
-        $currentStepIndex !== undefined &&
+        $evaluation?.stepIndex !== undefined &&
         evaluator.getEarliestStepIndexAvailable() > 0;
     let dragging = false;
 
@@ -43,13 +37,13 @@
 
     /** When the current step index changes, update the scroll position to make sure it's in view. */
     $: {
-        $currentStepIndex;
+        $evaluation;
         if (currentReaction !== undefined) updateScrollPosition();
     }
 
     /** When the step index changes, update the time slider position */
-    $: if ($currentStepIndex !== undefined)
-        updateTimePosition($currentStepIndex);
+    $: if ($evaluation?.stepIndex !== undefined)
+        updateTimePosition($evaluation.stepIndex);
 
     function updateScrollPosition() {
         if (currentReaction === undefined || dragging) return;
@@ -116,7 +110,7 @@
     }
 
     function stepToMouse(event: MouseEvent) {
-        if ($streams === undefined) return;
+        if ($evaluation?.streams === undefined) return;
 
         // Map the mouse position onto a change.
         const view = document
@@ -126,7 +120,7 @@
             // Is this a stream input? Get it's index and step to it.
             if (view.dataset.inputindex !== undefined) {
                 const index = parseInt(view.dataset.inputindex);
-                const change = $streams.find(
+                const change = $evaluation.streams.find(
                     (change) => change.stepIndex === index
                 );
                 if (change) evaluator.stepTo(change.stepIndex);
@@ -168,7 +162,7 @@
 <header
     transition:slide|local={getAnimationDuration()}
     class="timeline"
-    class:stepping={!$playing}
+    class:stepping={$evaluation?.playing === false}
     on:mousedown={(event) => stepToMouse(event)}
     on:mousemove={(event) =>
         (event.buttons & 1) === 1 ? stepToMouse(event) : undefined}
@@ -177,12 +171,12 @@
     bind:this={timeline}
 >
     {#if historyTrimmed}<span class="stream-input">…</span>{/if}
-    {#if $streams}
-        {#each $streams as reaction, index}
+    {#if $evaluation?.streams !== undefined}
+        {#each $evaluation.streams as reaction, index}
             <!-- Compute the number of steps that occurred between this and the next input, or if there isn't one, the latest step. -->
             {@const stepCount =
-                (index < $streams.length - 1
-                    ? $streams[index + 1].stepIndex
+                (index < $evaluation.streams.length - 1
+                    ? $evaluation.streams[index + 1].stepIndex
                     : evaluator.getStepCount()) - reaction.stepIndex}
             <!-- Show up to three of the streams that changed -->
             {#each reaction.changes.slice(0, 3) as change}
@@ -235,7 +229,7 @@
     {/if}
     <!-- Render the time slider -->
     <div class="time" style:left="{timePosition}px"
-        ><span class="index">{$currentStepIndex}</span></div
+        ><span class="index">{$evaluation?.stepIndex}</span></div
     >
 </header>
 
