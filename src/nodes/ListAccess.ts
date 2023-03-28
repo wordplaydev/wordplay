@@ -30,6 +30,7 @@ import NodeLink from '@translation/NodeLink';
 import Glyphs from '../lore/Glyphs';
 import type { NativeTypeName } from '../native/NativeConstants';
 import Purpose from '../concepts/Purpose';
+import None from '../runtime/None';
 
 export default class ListAccess extends Expression {
     readonly list: Expression;
@@ -167,7 +168,7 @@ export default class ListAccess extends Expression {
 
         const index = evaluator.popValue(this, MeasurementType.make());
         if (!(index instanceof Measurement) || !index.num.isInteger())
-            return index;
+            return new None(this);
 
         const list = evaluator.popValue(this, ListType.make());
         if (!(list instanceof List)) return list;

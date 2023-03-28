@@ -22,6 +22,7 @@ import {
     PROPERTY_SYMBOL,
     TRUE_SYMBOL,
     FALSE_SYMBOL,
+    SUM_SYMBOL,
 } from '@parser/Symbols';
 import type { Description } from '../Translation';
 import type { CycleType } from '@nodes/CycleType';
@@ -1407,7 +1408,7 @@ const en: Translation = {
                 },
                 append: {
                     doc: WRITE_DOC,
-                    name: 'append',
+                    name: [SUM_SYMBOL, 'append'],
                     inputs: [{ doc: WRITE_DOC, name: 'list' }],
                 },
                 length: {
