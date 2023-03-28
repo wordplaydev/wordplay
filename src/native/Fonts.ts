@@ -51,6 +51,11 @@ const SupportedFontFamilies: FontFamily[] = [
         weights: [400],
         italic: false,
     },
+    {
+        name: 'Permanent Marker',
+        weights: [400],
+        italic: false,
+    },
 ];
 export { SupportedFontFamilies as SupportedFonts };
 
@@ -144,7 +149,7 @@ export class FontManager {
             return false;
         }
 
-        // Otherwise, try loading it.
+        // Otherwise, try loading it. Remove spaces.
         const spacelessFontName = font.name.replaceAll(' ', '');
         const fontFace = new FontFace(
             font.name,

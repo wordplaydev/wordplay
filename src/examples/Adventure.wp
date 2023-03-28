@@ -21,10 +21,14 @@ options: state.options.length() > 0 ?
     [ Phrase("**GAME OVER**") ]
 
 
-Verse([
+Verse(
+  [
 		Group(
 			Stack()
 			[Phrase(state.description duration: 0.5s name: state.action enter: Pose(offset: Place(0m 2m)))].append(options)
       )
-] background: Color(0 0 0%°) rest: Pose(color: Color(100% 0 0°))
+  ] 
+  background: Color(0 0 0%°) 
+  rest: Pose(color: Color(100% 0 0°)) 
+  font: "Permanent Marker"
 )
