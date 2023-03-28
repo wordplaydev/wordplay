@@ -17,7 +17,7 @@ state•State:  ∆ key ?
     )
 
 options: state.options.length() > 0 ? 
-    state.options.translate(ƒ(option•State) Phrase("***\option.action\***" name: option.action duration: 1s enter: Pose(opacity: 0%)))
+    state.options.translate(ƒ(option•State) Phrase("***\option.action\***" size: 2m name: option.action duration: 1s enter: Pose(opacity: 0%)))
     [ Phrase("**GAME OVER**") ]
 
 
