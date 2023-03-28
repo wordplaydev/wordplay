@@ -1,6 +1,0 @@
-=== Between/en
-`True if n is between min and max, exclusive`
-ƒ between(n•# min•# max•#) (n > min) & (n < max)
-
-`Let's test this!`
-between("1" 0 5)
