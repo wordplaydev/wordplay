@@ -575,7 +575,9 @@
         // Set the caret to the first placeholder or the dragged node, or the node itself if there isn't one.
         const newCaretPosition =
             droppedNode.getFirstPlaceholder() ?? droppedNode;
-        caret.set($caret.withPosition(newCaretPosition));
+        caret.set(
+            $caret.withPosition(newCaretPosition).withAddition(droppedNode)
+        );
 
         // Update the project with the new source files
         $projects.revise(
