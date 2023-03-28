@@ -20,6 +20,7 @@ import Poem from './Poem.wp?raw';
 import Garden from './Garden.wp?raw';
 import Cannon from './Cannon.wp?raw';
 import Between from './Between.wp?raw';
+import Adventure from './Adventure.wp?raw';
 import { parseNames, toTokens } from '../parser/Parser';
 import type Names from '../nodes/Names';
 
@@ -59,6 +60,7 @@ function wpToStuff(text: string): Stuff {
 }
 
 export const examples: Stuff[] = [
+    Adventure,
     WhatWord,
     Listen,
     Talk,

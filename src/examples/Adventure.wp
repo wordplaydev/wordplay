@@ -1,0 +1,30 @@
+=== Adventure/en
+•State(action•"" description•[""] options•[State])
+
+stand: State('stand up' ["You can't stand, you're tied down."] [])
+cut: State('cut yourself free' [ "You've cut yourself free."] [])
+throw: State('throw' [ "You threw the knife"] [stand])
+pickup: State('pickup' ['You have a knife.'] [ cut throw ])
+roll: State('roll over' ['There is a knife next to you.'] [ pickup stand ])
+start: State("start" ["You awaken in a dark, cold room that smells of mold."] [ roll stand ])
+
+key: keyboard()
+state•State:  ∆ key ? 
+  start …
+		(
+  		option: state.options[key → #]
+  		option•ø ? state option
+    )
+
+options: state.options.length() > 0 ? 
+    state.options.translate(ƒ(option•State) Phrase("***\option.action\***" name: option.action duration: 1s enter: Pose(opacity: 0%)))
+    [ Phrase("**GAME OVER**") ]
+
+
+Verse([
+		Group(
+			Stack()
+			[Phrase(state.description duration: 0.5s name: state.action enter: Pose(offset: Place(0m 2m)))].append(options)
+      )
+] background: Color(0 0 0%°) rest: Pose(color: Color(100% 0 0°))
+)
