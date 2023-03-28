@@ -91,15 +91,13 @@
 
     // A per-editor store that contains the current editor's cursor. We expose it as context to children.
     const caret = writable<Caret>(
-        new Caret(source, project.getCaretPosition(source) ?? 0)
+        new Caret(source, project.getCaretPosition(source) ?? 0, undefined)
     );
     setContext(CaretSymbol, caret);
 
     // Whenever the project or source changes, set the caret to the project's caret for the source.
-    $: {
-        const position = project.getCaretPosition(source);
-        if (position) caret.set(new Caret(source, position));
-    }
+    const position = project.getCaretPosition(source);
+    if (position) caret.set(new Caret(source, position, undefined));
 
     // A store of highlighted nodes, used by node views to highlight themselves.
     // We store centrally since the logic that determines what's highlighted is in the Editor.
@@ -851,7 +849,7 @@
         // Is the caret position between tokens? If so, are any of the token's parents inside a list in which we could insert something?
         const position = getCaretPositionAt(event);
         if (position !== undefined) {
-            const caret = new Caret(source, position);
+            const caret = new Caret(source, position, undefined);
             const token = caret.getToken();
             if (token === undefined) return [];
             // What is the space prior to this insertion point?
@@ -1187,7 +1185,11 @@
                         input.value = '';
                         edit = [
                             newSource,
-                            new Caret(newSource, newCaret.position),
+                            new Caret(
+                                newSource,
+                                newCaret.position,
+                                newSource.getTokenAt(newCaret.position)
+                            ),
                         ];
                     }
                 }

@@ -66,7 +66,7 @@ export default class Add<NodeType extends Node> extends Transform {
         // If we didn't find a caret position, bail. Otherwise, return the edit.
         return newCaretPosition === undefined
             ? undefined
-            : [newSource, new Caret(newSource, newCaretPosition)];
+            : [newSource, new Caret(newSource, newCaretPosition, newNode)];
     }
 
     getDescription(translation: Translation) {

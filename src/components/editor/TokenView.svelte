@@ -35,6 +35,7 @@
                 $caret.atBeginningOfTokenSpace() &&
                 $caret.token &&
                 $caret.tokenAtHasPrecedingSpace()));
+    $: added = $caret?.addition?.contains(node) ?? false;
 
     let text: string;
     $: {
@@ -135,8 +136,8 @@
     class:active
     class:editable={$caret !== undefined}
     class:placeholder
+    class:added
     data-id={node.id}
-    style:animation-delay="{Math.random() * 100}ms"
     ><span class="text"
         >{#if placeholder}{choosePlaceholder()}{:else if text.length === 0}&ZeroWidthSpace;{:else}{text.replaceAll(
                 ' ',
@@ -151,9 +152,10 @@
         position: relative;
     }
 
-    :global(.animated) .token-view {
+    :global(.animated) .token-view.added {
         animation: bounce;
         animation-duration: 500ms;
+        animation-delay: 100ms;
     }
 
     .token-view.editable {

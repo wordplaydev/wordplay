@@ -1,4 +1,4 @@
-import type { Edit } from './Commands';
+import type { Edit, Revision } from './Commands';
 import Block from '@nodes/Block';
 import Node from '@nodes/Node';
 import Token from '@nodes/Token';
@@ -22,6 +22,8 @@ export default class Caret {
     readonly time: number;
     readonly source: Source;
     readonly position: CaretPosition;
+    // The node recently added.
+    readonly addition: Node | undefined;
 
     // A cache of the token we're at, since we use it frequently.
     readonly token: Token | undefined;
@@ -29,10 +31,15 @@ export default class Caret {
     readonly tokenSpaceIndex: number | undefined;
     readonly tokenExcludingWhitespace: Token | undefined;
 
-    constructor(source: Source, position: CaretPosition) {
+    constructor(
+        source: Source,
+        position: CaretPosition,
+        addition: Node | undefined
+    ) {
         this.time = Date.now();
         this.source = source;
         this.position = position;
+        this.addition = addition;
 
         this.token =
             typeof this.position === 'number'
@@ -73,15 +80,19 @@ export default class Caret {
     getCode() {
         return this.source.getCode();
     }
+
     getProgram() {
         return this.source.expression;
     }
+
     getToken(): Token | undefined {
         return this.token;
     }
+
     getTokenExcludingSpace(): Token | undefined {
         return this.tokenExcludingWhitespace;
     }
+
     tokenAtHasPrecedingSpace(): boolean {
         return (
             this.token !== undefined &&
@@ -428,12 +439,17 @@ export default class Caret {
                       0,
                       Math.min(position, this.source.getCode().getLength())
                   )
-                : position
+                : position,
+            this.addition
         );
     }
 
     withSource(source: Source) {
-        return new Caret(source, this.position);
+        return new Caret(source, this.position, this.addition);
+    }
+
+    withAddition(addition: Node | undefined) {
+        return new Caret(this.source, this.position, addition);
     }
 
     insert(text: string): Edit | undefined {
@@ -466,7 +482,10 @@ export default class Caret {
                         this.source.getMatchedDelimiter(this.token) !==
                             undefined))
             )
-                return [this.source, new Caret(this.source, this.position + 1)];
+                return [
+                    this.source,
+                    new Caret(this.source, this.position + 1, undefined),
+                ];
             // Otherwise, if the text to insert is an opening delimiter and this isn't an unclosed text delimiter, automatically insert its closing counterpart.
             else if (
                 text in DELIMITERS &&
@@ -482,6 +501,9 @@ export default class Caret {
             }
 
             const newSource = this.source.withGraphemesAt(text, this.position);
+            const newPosition =
+                this.position +
+                (closed ? 1 : new UnicodeString(text).getLength());
 
             return newSource === undefined
                 ? undefined
@@ -489,19 +511,26 @@ export default class Caret {
                       newSource,
                       new Caret(
                           newSource,
-                          this.position +
-                              (closed ? 1 : new UnicodeString(text).getLength())
+                          newPosition,
+                          newSource.getTokenAt(this.position)
                       ),
                   ];
         } else {
             const edit = this.deleteNode(this.position);
-            if (edit === undefined || edit[1].position instanceof Node) return;
-            const newSource = edit[0].withGraphemesAt(text, edit[1].position);
+            if (edit === undefined) return;
+            const [source, caret] = edit;
+            if (caret.position instanceof Node) return;
+            const newSource = source.withGraphemesAt(text, caret.position);
+            const newPosition = caret.position + text.length;
             return newSource === undefined
                 ? undefined
                 : [
                       newSource,
-                      new Caret(newSource, edit[1].position + text.length),
+                      new Caret(
+                          newSource,
+                          newPosition,
+                          newSource.getTokenAt(newPosition - text.length)
+                      ),
                   ];
         }
     }
@@ -547,7 +576,16 @@ export default class Caret {
 
         if (newSource === undefined) return;
 
-        return [newSource, new Caret(newSource, range[0] + newCode.length)];
+        const newPosition = range[0] + newCode.length;
+
+        return [
+            newSource,
+            new Caret(
+                newSource,
+                newPosition,
+                newSource.getTokenAt(newPosition)
+            ),
+        ];
     }
 
     backspace(): Edit | undefined {
@@ -570,7 +608,11 @@ export default class Caret {
                     ? undefined
                     : [
                           newSource,
-                          new Caret(newSource, Math.max(0, this.position - 1)),
+                          new Caret(
+                              newSource,
+                              Math.max(0, this.position - 1),
+                              undefined
+                          ),
                       ];
             } else {
                 const newSource = this.source.withoutGraphemeAt(
@@ -580,7 +622,11 @@ export default class Caret {
                     ? undefined
                     : [
                           newSource,
-                          new Caret(newSource, Math.max(0, this.position - 1)),
+                          new Caret(
+                              newSource,
+                              Math.max(0, this.position - 1),
+                              undefined
+                          ),
                       ];
             }
         }
@@ -599,18 +645,18 @@ export default class Caret {
                 ) {
                     return [
                         this.source.replace(node, undefined),
-                        this.withPosition(index),
+                        this.withPosition(index).withAddition(undefined),
                     ];
                 } else if (field.types.includes(Expression)) {
                     const placeholder = ExpressionPlaceholder.make();
                     return [
                         this.source.replace(node, placeholder),
-                        this.withPosition(placeholder),
+                        this.withPosition(placeholder).withAddition(undefined),
                     ];
                 } else if (field.types.includes(Program)) {
                     return [
                         this.source.replace(node, Program.make()),
-                        this.withPosition(index),
+                        this.withPosition(index).withAddition(undefined),
                     ];
                 }
                 // Is the parent an expression with a single token? Replace the parent.
@@ -625,7 +671,7 @@ export default class Caret {
                             parent,
                             ExpressionPlaceholder.make()
                         ),
-                        this.withPosition(placeholder),
+                        this.withPosition(placeholder).withAddition(undefined),
                     ];
                 }
             }
@@ -633,7 +679,7 @@ export default class Caret {
         }
     }
 
-    deleteNode(node: Node): [Source, Caret] | undefined {
+    deleteNode(node: Node): Revision | undefined {
         const range = this.getRange(node);
         if (range === undefined) return;
         const newSource = this.source.withoutGraphemesBetween(
@@ -642,7 +688,7 @@ export default class Caret {
         );
         return newSource === undefined
             ? undefined
-            : [newSource, new Caret(newSource, range[0])];
+            : [newSource, new Caret(newSource, range[0], undefined)];
     }
 
     moveVertical(editor: HTMLElement, direction: 1 | -1): Edit | undefined {

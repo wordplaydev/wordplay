@@ -22,7 +22,8 @@ import { toClipboard } from './Clipboard';
 import type { Mode } from '@runtime/Evaluator';
 import type Evaluator from '@runtime/Evaluator';
 
-export type Edit = Caret | [Source, Caret];
+export type Edit = Caret | Revision;
+export type Revision = [Source, Caret];
 
 export type Command = {
     description: string;
