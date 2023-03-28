@@ -14,6 +14,7 @@ import Expression from '@nodes/Expression';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import Program from '@nodes/Program';
 import UnicodeString from '../../../models/UnicodeString';
+import ListLiteral from '../../../nodes/ListLiteral';
 
 export type InsertionContext = { before: Node[]; after: Node[] };
 export type CaretPosition = number | Node;
@@ -516,6 +517,9 @@ export default class Caret {
                       ),
                   ];
         } else {
+            const wrap = this.wrap(text);
+            if (wrap !== undefined) return wrap;
+
             const edit = this.deleteNode(this.position);
             if (edit === undefined) return;
             const [source, caret] = edit;
@@ -635,44 +639,65 @@ export default class Caret {
             // Get the parent of the node.
             const node = this.position;
             const parent = this.source.root.getParent(node);
-            const field = parent?.getFieldOfChild(node);
-            const index = this.source.getNodeFirstPosition(node);
-            if (field && index !== undefined) {
-                // If in a list or undefined is allowed, just remove it
-                if (
-                    Array.isArray(field.types[0]) ||
-                    field.types.includes(undefined)
-                ) {
-                    return [
-                        this.source.replace(node, undefined),
-                        this.withPosition(index).withAddition(undefined),
-                    ];
-                } else if (field.types.includes(Expression)) {
-                    const placeholder = ExpressionPlaceholder.make();
-                    return [
-                        this.source.replace(node, placeholder),
-                        this.withPosition(placeholder).withAddition(undefined),
-                    ];
-                } else if (field.types.includes(Program)) {
-                    return [
-                        this.source.replace(node, Program.make()),
-                        this.withPosition(index).withAddition(undefined),
-                    ];
-                }
-                // Is the parent an expression with a single token? Replace the parent.
-                else if (
-                    parent instanceof Expression &&
-                    node instanceof Token &&
-                    parent.leaves().length === 1
-                ) {
-                    const placeholder = ExpressionPlaceholder.make();
-                    return [
-                        this.source.replace(
-                            parent,
-                            ExpressionPlaceholder.make()
-                        ),
-                        this.withPosition(placeholder).withAddition(undefined),
-                    ];
+
+            // Is the parent a wrapper? Unwrap it.
+            if (parent instanceof Block && parent.statements.length === 1) {
+                return [
+                    this.source.replace(parent, parent.statements[0]),
+                    this.withPosition(parent.statements[0]),
+                ];
+            } else if (
+                parent instanceof ListLiteral &&
+                parent.values.length === 1
+            ) {
+                return [
+                    this.source.replace(parent, parent.values[0]),
+                    this.withPosition(parent.values[0]),
+                ];
+            } else {
+                const field = parent?.getFieldOfChild(node);
+                const index = this.source.getNodeFirstPosition(node);
+                if (field && index !== undefined) {
+                    // If in a list or undefined is allowed, just remove it
+                    if (
+                        Array.isArray(field.types[0]) ||
+                        field.types.includes(undefined)
+                    ) {
+                        return [
+                            this.source.replace(node, undefined),
+                            this.withPosition(index).withAddition(undefined),
+                        ];
+                    } else if (field.types.includes(Expression)) {
+                        const placeholder = ExpressionPlaceholder.make();
+                        return [
+                            this.source.replace(node, placeholder),
+                            this.withPosition(placeholder).withAddition(
+                                undefined
+                            ),
+                        ];
+                    } else if (field.types.includes(Program)) {
+                        return [
+                            this.source.replace(node, Program.make()),
+                            this.withPosition(index).withAddition(undefined),
+                        ];
+                    }
+                    // Is the parent an expression with a single token? Replace the parent.
+                    else if (
+                        parent instanceof Expression &&
+                        node instanceof Token &&
+                        parent.leaves().length === 1
+                    ) {
+                        const placeholder = ExpressionPlaceholder.make();
+                        return [
+                            this.source.replace(
+                                parent,
+                                ExpressionPlaceholder.make()
+                            ),
+                            this.withPosition(placeholder).withAddition(
+                                undefined
+                            ),
+                        ];
+                    }
                 }
             }
             // Otherwise, do nothing.
@@ -839,5 +864,25 @@ export default class Caret {
                 }
             }
         }
+    }
+
+    wrap(key: string): Edit | undefined {
+        let node = this.position instanceof Node ? this.position : undefined;
+        if (node instanceof Token && !node.is(TokenType.END))
+            node = this.source.root.getParent(node);
+        if (node === undefined || !(node instanceof Expression))
+            return undefined;
+        const wrapper =
+            node === undefined
+                ? undefined
+                : key === '('
+                ? Block.make([node])
+                : key === '['
+                ? ListLiteral.make([node])
+                : undefined;
+        if (wrapper === undefined) return undefined;
+
+        const newSource = this.source.replace(node, wrapper);
+        return [newSource, this.withSource(newSource).withAddition(wrapper)];
     }
 }

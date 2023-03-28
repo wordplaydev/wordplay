@@ -428,6 +428,18 @@ const commands: Command[] = [
             return undefined;
         },
     },
+    {
+        description: 'Parenthesize',
+        key: '(',
+        mode: undefined,
+        execute: (caret: Caret) => caret.wrap('('),
+    },
+    {
+        description: 'Listify',
+        key: '[',
+        mode: undefined,
+        execute: (caret: Caret) => caret.wrap('['),
+    },
 ];
 
 export default commands;

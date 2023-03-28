@@ -1060,7 +1060,9 @@
                 (command.shift === undefined ||
                     command.shift === event.shiftKey) &&
                 (command.alt === undefined || command.alt === event.altKey) &&
-                (command.key === undefined || command.key === event.code) &&
+                (command.key === undefined ||
+                    command.key === event.code ||
+                    command.key === event.key) &&
                 (command.mode === undefined ||
                     evaluator.getMode() === command.mode)
             ) {
