@@ -183,16 +183,6 @@ export default class UnaryOperation extends Expression {
         return this.operator;
     }
 
-    getDescription(translation: Translation, context: Context) {
-        // Find the function on the left's type.
-        return (
-            this.getFunction(context)
-                ?.docs?.getTranslation([translation.language])
-                ?.getFirstParagraph() ??
-            translation.nodes.UnaryOperation.description
-        );
-    }
-
     getNodeTranslation(translation: Translation) {
         return translation.nodes.UnaryOperation;
     }

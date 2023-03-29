@@ -132,6 +132,7 @@
 </script>
 
 <span
+    role="presentation"
     class="token-view token-category-{kind}"
     class:active
     class:editable={$caret !== undefined}
@@ -154,6 +155,11 @@
         animation: bounce;
         animation-duration: 500ms;
         animation-delay: 100ms;
+    }
+
+    :global(.hide) .token-view {
+        width: 0;
+        height: 0;
     }
 
     .token-view.editable {

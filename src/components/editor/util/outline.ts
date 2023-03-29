@@ -6,6 +6,7 @@ type Rect = {
     w: number;
     h: number;
 };
+
 export type Outline = {
     path: string;
     minx: number;
@@ -13,6 +14,8 @@ export type Outline = {
     maxx: number;
     maxy: number;
 };
+
+export const OutlinePadding = 5;
 
 function leftmost(rects: Rect[], at?: number) {
     return Math.min.apply(
@@ -118,7 +121,6 @@ function getTokenRects(nodeView: HTMLElement) {
 
 export function createRectangleOutlineOf(nodeView: HTMLElement): string {
     const rects: Rect[] = getTokenRects(nodeView);
-    const PADDING = 5;
 
     // Start on the top left
     const lm = leftmost(rects);
@@ -126,9 +128,11 @@ export function createRectangleOutlineOf(nodeView: HTMLElement): string {
     const rm = rightmost(rects);
     const bm = bottommost(rects);
 
-    return `M ${lm - PADDING} ${tm - PADDING} L ${rm + PADDING} ${
-        tm - PADDING
-    } L ${rm + PADDING} ${bm + PADDING} L ${lm - PADDING} ${bm + PADDING} Z`;
+    return `M ${lm - OutlinePadding} ${tm - OutlinePadding} L ${
+        rm + OutlinePadding
+    } ${tm - OutlinePadding} L ${rm + OutlinePadding} ${
+        bm + OutlinePadding
+    } L ${lm - OutlinePadding} ${bm + OutlinePadding} Z`;
 }
 
 function toRows(nodeView: HTMLElement): Rect[] {

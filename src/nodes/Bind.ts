@@ -418,15 +418,6 @@ export default class Bind extends Expression {
         return translation.nodes.Bind;
     }
 
-    getDescription(translation: Translation) {
-        return (
-            this.docs
-                ?.getTranslation(translation.language)
-                ?.getFirstParagraph() ??
-            this.getNodeTranslation(translation).description
-        );
-    }
-
     getStartExplanations(translation: Translation, context: Context) {
         return translation.nodes.Bind.start(
             this.value === undefined

@@ -13,10 +13,12 @@ export class CycleType extends UnknownType<Expression> {
     }
 
     getReason(translation: Translation, context: Context) {
-        return translation.nodes.CycleType.description(
-            this,
-            translation,
-            context
+        return (
+            translation.nodes.CycleType.description(
+                this,
+                translation,
+                context
+            ) ?? ''
         );
     }
 }

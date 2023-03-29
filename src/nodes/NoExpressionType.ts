@@ -8,6 +8,6 @@ export default class NoExpressionType extends UnknownType<Expression> {
     }
 
     getReason(translation: Translation) {
-        return translation.nodes.NoExpressionType.description;
+        return translation.nodes.NoExpressionType.description ?? '';
     }
 }

@@ -25,11 +25,25 @@ import type ListLiteral from '@nodes/ListLiteral';
 import type StreamDefinitionType from '../nodes/StreamDefinitionType';
 import type Emotion from '../lore/Emotion';
 import type TextType from '../nodes/TextType';
+import type Name from '../nodes/Name';
+import type Language from '../nodes/Language';
+import { Languages } from './LanguageCode';
+import type Names from '../nodes/Names';
+import type BinaryOperation from '../nodes/BinaryOperation';
+import type Bind from '../nodes/Bind';
+import type Block from '../nodes/Block';
+import type Evaluate from '../nodes/Evaluate';
+import type FunctionDefinition from '../nodes/FunctionDefinition';
+import type MapLiteral from '../nodes/MapLiteral';
+import type SetLiteral from '../nodes/SetLiteral';
+import type TextLiteral from '../nodes/TextLiteral';
+import type UnaryOperation from '../nodes/UnaryOperation';
 
 export type Description = string | Explanation;
 export type DocString = string;
 
 export interface NodeTranslation<Kind> {
+    label: string;
     description: Kind;
     doc: DocString;
     emotion: Emotion;
@@ -38,7 +52,11 @@ export interface NodeTranslation<Kind> {
 export type StaticNodeTranslation = NodeTranslation<string>;
 
 export type DynamicNodeTranslation<NodeType extends Node> = NodeTranslation<
-    (node: NodeType, translation: Translation, context: Context) => string
+    (
+        node: NodeType,
+        translation: Translation,
+        context: Context
+    ) => string | undefined
 >;
 
 export interface AtomicExpressionTranslation<
@@ -94,6 +112,67 @@ export function getFirstName(name: NameTranslation) {
     return typeof name === 'string' ? name : name[0];
 }
 
+export function getDimensionDescription(dimension: Dimension) {
+    const dim = dimension.getName();
+    return (
+        {
+            pm: 'picometers',
+            nm: 'nanometers',
+            µm: 'micrometers',
+            mm: 'millimeters',
+            m: 'meters',
+            cm: 'centimeters',
+            dm: 'decimeters',
+            km: 'kilometers',
+            Mm: 'megameters',
+            Gm: 'gigameters',
+            Tm: 'terameters',
+            mi: 'miles',
+            in: 'inches',
+            ft: 'feet',
+            ms: 'milliseconds',
+            s: 'seconds',
+            min: 'minutes',
+            hr: 'hours',
+            day: 'days',
+            wk: 'weeks',
+            yr: 'years',
+            g: 'grams',
+            mg: 'milligrams',
+            kg: 'kilograms',
+            oz: 'ounces',
+            lb: 'pounds',
+            pt: 'font size',
+        }[dim] ?? dim
+    );
+}
+
+export function getLanguageDescription(language: Language) {
+    return language.lang
+        ? Languages[language.lang.getText()]?.name ?? undefined
+        : undefined;
+}
+
+export function getEvaluateDescription(
+    evaluate: Evaluate,
+    translation: Translation,
+    context: Context
+) {
+    return evaluate
+        .getFunction(context)
+        ?.names.getTranslation(translation.language);
+}
+
+export function getPlaceholderDescription(
+    node: ExpressionPlaceholder,
+    translation: Translation,
+    context: Context
+) {
+    return node.type
+        ? node.type.getDescription(translation, context)
+        : undefined;
+}
+
 /**
  * Represents a complete translation for Wordplay,
  * including every user interface label, every description, etc.
@@ -119,6 +198,8 @@ type Translation = {
         /** What to call the main source in a project. */
         start: string;
     };
+    /** A way to say "before [description]" */
+    before: (description: string) => string;
     data: {
         value: string;
         boolean: string;
@@ -148,9 +229,9 @@ type Translation = {
         Doc: StaticNodeTranslation;
         Docs: StaticNodeTranslation;
         KeyValue: StaticNodeTranslation;
-        Language: StaticNodeTranslation;
-        Name: StaticNodeTranslation;
-        Names: StaticNodeTranslation;
+        Language: DynamicNodeTranslation<Language>;
+        Name: DynamicNodeTranslation<Name>;
+        Names: DynamicNodeTranslation<Names>;
         Row: StaticNodeTranslation;
         Token: DynamicNodeTranslation<Token>;
         TypeInputs: StaticNodeTranslation;
@@ -161,19 +242,19 @@ type Translation = {
         ConceptLink: StaticNodeTranslation;
         Words: StaticNodeTranslation;
         Example: StaticNodeTranslation;
-        BinaryOperation: StaticNodeTranslation &
+        BinaryOperation: DynamicNodeTranslation<BinaryOperation> &
             ExpressionTranslation<
                 (left: NodeLink) => Description,
                 (result: ValueLink | undefined) => Description
             > & {
                 right: Description;
             };
-        Bind: StaticNodeTranslation &
+        Bind: DynamicNodeTranslation<Bind> &
             ExpressionTranslation<
                 (value: NodeLink | undefined) => Description,
                 (value: ValueLink | undefined, names: NodeLink) => Description
             >;
-        Block: StaticNodeTranslation &
+        Block: DynamicNodeTranslation<Block> &
             ExpressionTranslation<Description, ValueOrUndefinedTranslation> & {
                 statement: Description;
             };
@@ -217,7 +298,7 @@ type Translation = {
             >;
         DocumentedExpression: StaticNodeTranslation &
             AtomicExpressionTranslation;
-        Evaluate: StaticNodeTranslation &
+        Evaluate: DynamicNodeTranslation<Evaluate> &
             ExpressionTranslation<
                 (inputs: boolean) => Description,
                 ValueOrUndefinedTranslation
@@ -229,7 +310,8 @@ type Translation = {
             AtomicExpressionTranslation & {
                 placeholder: Description;
             };
-        FunctionDefinition: StaticNodeTranslation & AtomicExpressionTranslation;
+        FunctionDefinition: DynamicNodeTranslation<FunctionDefinition> &
+            AtomicExpressionTranslation;
         HOF: StaticNodeTranslation &
             ExpressionTranslation<Description, ValueOrUndefinedTranslation>;
         Insert: StaticNodeTranslation &
@@ -252,7 +334,7 @@ type Translation = {
             ExpressionTranslation<Description, ValueOrUndefinedTranslation> & {
                 item: Description;
             };
-        MapLiteral: StaticNodeTranslation &
+        MapLiteral: DynamicNodeTranslation<MapLiteral> &
             ExpressionTranslation<Description, ValueOrUndefinedTranslation>;
         MeasurementLiteral: DynamicNodeTranslation<MeasurementLiteral> &
             AtomicExpressionTranslation<(value: NodeLink) => Description>;
@@ -297,7 +379,7 @@ type Translation = {
                 (table: NodeLink) => Description,
                 ValueOrUndefinedTranslation
             >;
-        SetLiteral: StaticNodeTranslation &
+        SetLiteral: DynamicNodeTranslation<SetLiteral> &
             ExpressionTranslation<Description, ValueOrUndefinedTranslation>;
         SetOrMapAccess: StaticNodeTranslation &
             ExpressionTranslation<
@@ -313,10 +395,11 @@ type Translation = {
                 item: Description;
             };
         Template: StaticNodeTranslation & ExpressionTranslation;
-        TextLiteral: StaticNodeTranslation & AtomicExpressionTranslation;
+        TextLiteral: DynamicNodeTranslation<TextLiteral> &
+            AtomicExpressionTranslation;
         This: StaticNodeTranslation &
             AtomicExpressionTranslation<ValueOrUndefinedTranslation>;
-        UnaryOperation: StaticNodeTranslation &
+        UnaryOperation: DynamicNodeTranslation<UnaryOperation> &
             ExpressionTranslation<
                 (value: NodeLink) => Description,
                 ValueOrUndefinedTranslation

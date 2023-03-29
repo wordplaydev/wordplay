@@ -132,16 +132,6 @@ export default class ExpressionPlaceholder extends AtomicExpression {
         return this.placeholder;
     }
 
-    getDescription(translation: Translation, context: Context) {
-        return this.type
-            ? this.type.getDescription(translation, context)
-            : translation.nodes.ExpressionPlaceholder.description(
-                  this,
-                  translation,
-                  context
-              );
-    }
-
     getNodeTranslation(translation: Translation) {
         return translation.nodes.ExpressionPlaceholder;
     }

@@ -358,16 +358,6 @@ export default class BinaryOperation extends Expression {
         }
     }
 
-    /** Override default description with function name. */
-    getDescription(translation: Translation, context: Context) {
-        return (
-            this.getFunction(context)
-                ?.docs?.getTranslation([translation.language])
-                ?.getFirstParagraph() ??
-            translation.nodes.BinaryOperation.description
-        );
-    }
-
     getNodeTranslation(translation: Translation) {
         return translation.nodes.BinaryOperation;
     }

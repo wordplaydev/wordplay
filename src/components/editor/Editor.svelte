@@ -51,7 +51,10 @@
     import type Conflict from '@conflicts/Conflict';
     import { tick } from 'svelte';
     import { getEditsAt } from './util/Autocomplete';
-    import getOutlineOf, { getUnderlineOf } from './util/outline';
+    import getOutlineOf, {
+        getUnderlineOf,
+        OutlinePadding,
+    } from './util/outline';
     import Highlight from './Highlight.svelte';
     import { afterUpdate } from 'svelte';
     import {
@@ -1237,18 +1240,28 @@
 <!-- Drop what's being dragged if the window loses focus. -->
 <svelte:window on:blur={handleRelease} />
 
-<!-- svelte-ignore a11y-aria-activedescendant-has-tabindex -->
+<!-- 
+    Has ARIA role text box to allow keyboard keys to go through 
+    All NodeViews are set to role="presentation"
+    We use the live region above 
+-->
 <div
     class="editor {$evaluation !== undefined && $evaluation.playing
         ? 'playing'
         : 'stepping'}"
     role="textbox"
     tabIndex="0"
+    tabindex="0"
+    aria-autocomplete="none"
+    aria-live="off"
     aria-multiline="true"
     aria-readonly="false"
     aria-label={`${
         $preferredTranslations[0].ui.section.editor
     } ${source.getTranslation($preferredLanguages)}`}
+    aria-activedescendant={$caret.position instanceof Node
+        ? `node-${$caret.position.id}`
+        : getInputID()}
     style:direction={$writingDirection}
     style:writing-mode={$writingLayout}
     data-id={source.id}
@@ -1296,6 +1309,8 @@
     <input
         type="text"
         id={getInputID()}
+        aria-autocomplete="none"
+        autocomplete="off"
         class="keyboard-input"
         style={`left: ${caretLocation?.left ?? 0}; top: ${
             caretLocation?.top ?? 0
@@ -1303,6 +1318,43 @@
         bind:this={input}
         on:input={handleTextInput}
     />
+    <!-- 
+        This is a localized description of the current caret position, a live region for screen readers
+        and a visual label for sighted folks.
+     -->
+    <div
+        class="caret-description"
+        class:node={$caret.isNode()}
+        style:left={caretLocation
+            ? `calc(${caretLocation.left} - ${OutlinePadding}px)`
+            : undefined}
+        style:top={caretLocation
+            ? `${caretLocation.bottom + OutlinePadding}px`
+            : undefined}
+        >{$caret.position instanceof Node
+            ? $caret.position.getLabel($preferredTranslations[0])
+            : ''}<div
+            class="screen-reader-description"
+            aria-live="assertive"
+            aria-atomic="true"
+            aria-relevant="all"
+            >{$caret.position instanceof Node
+                ? $caret.position.getLabel($preferredTranslations[0]) +
+                  ' ' +
+                  $caret.position.getDescription(
+                      $preferredTranslations[0],
+                      project.getNodeContext($caret.position)
+                  )
+                : $caret.token
+                ? $preferredTranslations[0].before(
+                      $caret.token.getDescription(
+                          $preferredTranslations[0],
+                          project.getNodeContext($caret.token)
+                      )
+                  )
+                : ''}</div
+        ></div
+    >
 </div>
 
 <style>
@@ -1328,5 +1380,24 @@
         /* outline: 1px solid red;
         opacity: 1;
         width: 10px; */
+    }
+
+    .caret-description {
+        position: absolute;
+        font-size: small;
+        color: var(--wordplay-background);
+        background: var(--wordplay-highlight);
+        padding-left: var(--wordplay-spacing);
+        padding-right: var(--wordplay-spacing);
+        border-radius: var(--wordplay-border-radius);
+        opacity: 0;
+    }
+
+    .caret-description.node {
+        opacity: 1;
+    }
+
+    .screen-reader-description {
+        font-size: 0;
     }
 </style>

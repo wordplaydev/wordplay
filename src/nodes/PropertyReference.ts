@@ -193,7 +193,10 @@ export default class PropertyReference extends Expression {
                     .reverse() as Conditional[];
 
                 // Grab the furthest ancestor and evaluate possible types from there.
-                const root = guards[0];
+                const root =
+                    guards !== undefined && guards.length > 0
+                        ? guards[0]
+                        : undefined;
                 if (root !== undefined) {
                     let possibleTypes = type.getTypeSet(context);
                     root.evaluateTypeSet(

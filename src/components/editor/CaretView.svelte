@@ -108,35 +108,49 @@
         const viewportXOffset = -viewportRect.left + viewport.scrollLeft;
         const viewportYOffset = -viewportRect.top + viewport.scrollTop;
 
-        // If the caret is a node...
+        // If the caret is a node, find the bottom left token view.
         if ($caret.position instanceof Node) {
-            const tokenView = editorView.querySelector(
+            const nodeView = editorView.querySelector(
                 `.node-view[data-id="${$caret.position.id}"]`
             );
-            if (tokenView === null) return;
-            const tokenViewRect = tokenView.getBoundingClientRect();
+            if (nodeView === null) return;
+
+            // Find the bottom left token view.
+            const tokenViews = Array.from(
+                nodeView.querySelectorAll('.token-view')
+            );
+            if (tokenViews.length === 0) return;
+            let tokenBounds = Array.from(
+                nodeView.querySelectorAll('.token-view')
+            ).map((view) => {
+                return { view, bounds: view.getBoundingClientRect() };
+            });
+            tokenBounds.sort((a, b) => a.bounds.left - b.bounds.left);
+            tokenBounds.sort((a, b) => b.bounds.bottom - a.bounds.bottom);
+
+            const nodeViewRect = tokenBounds[0].bounds;
 
             // ... and it's a placeholder, then position a caret in it's center
             if ($caret.isPlaceholder()) {
                 return {
                     left: `${
-                        tokenViewRect.left +
+                        nodeViewRect.left +
                         viewportXOffset +
-                        tokenViewRect.width / 2
+                        nodeViewRect.width / 2
                     }px`,
-                    top: `${tokenViewRect.top + viewportYOffset}px`,
-                    height: `${tokenViewRect.height}px`,
-                    bottom: tokenViewRect.bottom + viewportYOffset,
+                    top: `${nodeViewRect.top + viewportYOffset}px`,
+                    height: `${nodeViewRect.height}px`,
+                    bottom: nodeViewRect.bottom + viewportYOffset,
                 };
             }
             // ... and it's not a placeholder, position (invisible) caret at it's top left
             // This is for scrolling purposes.
             else
                 return {
-                    left: `${tokenViewRect.left + viewportXOffset}px`,
-                    top: `${tokenViewRect.top + viewportYOffset}px`,
-                    height: `${tokenViewRect.height}px`,
-                    bottom: tokenViewRect.bottom + viewportYOffset,
+                    left: `${nodeViewRect.left + viewportXOffset}px`,
+                    top: `${nodeViewRect.top + viewportYOffset}px`,
+                    height: `${nodeViewRect.height}px`,
+                    bottom: nodeViewRect.bottom + viewportYOffset,
                 };
         }
 

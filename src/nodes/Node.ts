@@ -625,6 +625,13 @@ export default abstract class Node {
     abstract getGlyphs(): Glyph;
 
     /**
+     * Given a translation and a context, get the node's
+     * */
+    getLabel(translation: Translation) {
+        return this.getNodeTranslation(translation).label;
+    }
+
+    /**
      * Given a translation and a context, generate a description of the node.
      * */
     getDescription(translation: Translation, context: Context) {

@@ -19,10 +19,12 @@ export default class UnknownNameType extends UnknownType<Node> {
     }
 
     getReason(translation: Translation, context: Context) {
-        return translation.nodes.UnknownNameType.description(
-            this,
-            translation,
-            context
+        return (
+            translation.nodes.UnknownNameType.description(
+                this,
+                translation,
+                context
+            ) ?? ''
         );
     }
 }

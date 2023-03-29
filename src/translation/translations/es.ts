@@ -1,6 +1,4 @@
 import type Context from '@nodes/Context';
-import type Dimension from '@nodes/Dimension';
-import type ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import type Token from '@nodes/Token';
 import TokenType from '@nodes/TokenType';
 import type UnknownType from '@nodes/UnknownType';
@@ -22,7 +20,13 @@ import {
     TRUE_SYMBOL,
     FALSE_SYMBOL,
 } from '@parser/Symbols';
-import type { Description } from '../Translation';
+import {
+    getDimensionDescription,
+    getEvaluateDescription,
+    getLanguageDescription,
+    getPlaceholderDescription,
+    type Description,
+} from '../Translation';
 import type { CycleType } from '@nodes/CycleType';
 import type UnknownNameType from '@nodes/UnknownNameType';
 import Explanation from '../Explanation';
@@ -49,6 +53,7 @@ const eng_wordplay: Translation = {
         type: 'género',
         start: 'comenzar',
     },
+    before: (description) => `antes de ${description}`,
     data: {
         value: 'avaluar',
         text: 'texto',
@@ -75,141 +80,126 @@ const eng_wordplay: Translation = {
     },
     nodes: {
         Dimension: {
-            description: (dimension: Dimension) => {
-                const dim = dimension.getName();
-                return (
-                    {
-                        pm: 'picometers',
-                        nm: 'nanometers',
-                        µm: 'micrometers',
-                        mm: 'millimeters',
-                        m: 'meters',
-                        cm: 'centimeters',
-                        dm: 'decimeters',
-                        km: 'kilometers',
-                        Mm: 'megameters',
-                        Gm: 'gigameters',
-                        Tm: 'terameters',
-                        mi: 'miles',
-                        in: 'inches',
-                        ft: 'feet',
-                        ms: 'milliseconds',
-                        s: 'seconds',
-                        min: 'minutes',
-                        hr: 'hours',
-                        day: 'days',
-                        wk: 'weeks',
-                        yr: 'years',
-                        g: 'grams',
-                        mg: 'milligrams',
-                        kg: 'kilograms',
-                        oz: 'ounces',
-                        lb: 'pounds',
-                        pt: 'font size',
-                    }[dim] ?? dim
-                );
-            },
+            label: 'dimensión',
+            description: getDimensionDescription,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         Doc: {
-            description: 'documentación',
+            label: 'documentación',
+            description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         Docs: {
-            description: 'set of documentation',
+            label: 'lista de documentación',
+            description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         KeyValue: {
-            description: 'key/value pair',
+            label: 'par clave/valor',
+            description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         Language: {
-            description: 'lengua',
+            label: 'lengua',
+            description: getLanguageDescription,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         Name: {
-            description: 'nombre',
+            label: 'nombre',
+            description: (name) => name.name.getText(),
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         Names: {
-            description: 'nombres',
+            label: 'lista de nombres',
+            description: (names) => `${names.names.length} nombres`,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         Row: {
-            description: 'row of values',
+            label: 'la hilera',
+            description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         Token: {
+            label: 'token',
             description: (token: Token) =>
                 token.is(TokenType.NAME)
                     ? 'nombre'
                     : token.is(TokenType.BINARY_OP) ||
                       token.is(TokenType.UNARY_OP)
-                    ? 'operator'
+                    ? 'operadora'
                     : token.is(TokenType.DOC)
-                    ? 'documentation'
+                    ? 'documentación'
                     : token.is(TokenType.JAPANESE) ||
                       token.is(TokenType.ROMAN) ||
                       token.is(TokenType.NUMBER) ||
                       token.is(TokenType.PI) ||
                       token.is(TokenType.INFINITY)
-                    ? 'number'
+                    ? 'número'
                     : token.is(TokenType.SHARE)
-                    ? 'share'
-                    : 'token',
+                    ? 'ofrecer'
+                    : 'simbólica',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         TypeInputs: {
-            description: 'lista de variable de tipo',
+            label: 'lista de variable de tipo',
+            description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         TypeVariable: {
-            description: 'variable de tipo',
+            label: 'variable de tipo',
+            description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         TypeVariables: {
-            description: 'lista de variable de tipo',
+            label: 'lista de variable de tipo',
+            description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         Paragraph: {
-            description: 'párrafo',
+            label: 'párrafo',
+            description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         WebLink: {
-            description: 'enlace',
+            label: 'enlace',
+            description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         ConceptLink: {
-            description: 'concept',
+            label: 'concepto',
+            description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         Words: {
-            description: 'words',
+            label: 'palabras',
+            description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         Example: {
-            description: 'example',
+            label: 'ejemplo',
+            description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         BinaryOperation: {
-            description: 'evaluate unknown function two inputs',
+            label: 'operación binaria',
+            description: (op) => op.operator.getText(),
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             right: 'input',
@@ -218,7 +208,8 @@ const eng_wordplay: Translation = {
                 Explanation.as('evaluated to ', result ?? ' nothing'),
         },
         Bind: {
-            description: 'name a value',
+            label: 'bind',
+            description: (bind) => bind.names.getNames().join(', '),
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: (value) =>
@@ -231,7 +222,8 @@ const eng_wordplay: Translation = {
                     : 'no value',
         },
         Block: {
-            description: 'block',
+            label: 'block',
+            description: (block) => `${block.statements.length} declaración`,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             statement: 'statement',
@@ -240,13 +232,15 @@ const eng_wordplay: Translation = {
                 Explanation.as('block evaluated to ', value ?? 'nothing'),
         },
         BooleanLiteral: {
-            description: (literal) => (literal.bool() ? 'true' : 'false'),
+            label: 'boolean',
+            description: (literal) => (literal.bool() ? 'verdadera' : 'falsa'),
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: (value) => Explanation.as('create a ', value),
         },
         Borrow: {
-            description: 'borrow a named value',
+            label: 'pedir prestado',
+            description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: (source, name) =>
@@ -265,7 +259,8 @@ const eng_wordplay: Translation = {
             version: 'version',
         },
         Changed: {
-            description: 'check if stream caused evaluation',
+            label: 'Cambiada',
+            description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: (stream: NodeLink) =>
@@ -277,8 +272,8 @@ const eng_wordplay: Translation = {
             stream: 'stream',
         },
         Conditional: {
-            description:
-                'evaluate to one of two expressions based on a boolean',
+            label: 'condicional',
+            description: '',
             emotion: Emotion.TBD,
             doc: `¿Alguna vez pensaste en cómo decidimos?
             Pienso mucho en eso.
@@ -304,13 +299,15 @@ const eng_wordplay: Translation = {
             no: 'no',
         },
         ConversionDefinition: {
-            description: 'define a conversion from one type to another',
+            label: 'conversión',
+            description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: 'define this conversion',
         },
         Convert: {
-            description: 'convert a value to a different type',
+            label: 'convertir',
+            description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: (expr) => Explanation.as('first evaluate ', expr),
@@ -318,7 +315,8 @@ const eng_wordplay: Translation = {
                 Explanation.as('converted to ', value ?? 'nothing'),
         },
         Delete: {
-            description: 'delete rows from a table',
+            label: 'delete row',
+            description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: (table) => Explanation.as('evaluate ', table, ' first'),
@@ -329,13 +327,15 @@ const eng_wordplay: Translation = {
                 ),
         },
         DocumentedExpression: {
-            description: 'a documented expression',
+            label: 'expresión documentada',
+            description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: 'evaluate the documented expression',
         },
         Evaluate: {
-            description: 'evaluate a function',
+            label: 'evaluar',
+            description: getEvaluateDescription,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: (inputs) =>
@@ -348,27 +348,24 @@ const eng_wordplay: Translation = {
             input: 'input',
         },
         ExpressionPlaceholder: {
-            description: (
-                node: ExpressionPlaceholder,
-                translation: Translation,
-                context: Context
-            ) =>
-                node.type
-                    ? node.type.getDescription(translation, context)
-                    : 'expression placeholder',
+            label: 'marcador de posición',
+            description: getPlaceholderDescription,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: 'cannot evaluate a placeholder',
             placeholder: 'expression',
         },
         FunctionDefinition: {
-            description: 'a function',
+            label: 'función',
+            description: (fun, translation) =>
+                fun.names.getTranslation(translation.language),
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: 'define this function',
         },
         HOF: {
-            description: 'a higher order function',
+            label: 'función de orden superior',
+            description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: 'evaluating the function given',
@@ -376,12 +373,14 @@ const eng_wordplay: Translation = {
                 Explanation.as('evaluated to ', value ?? 'nothing'),
         },
         Initial: {
-            description: 'is initial evaluation',
+            label: 'evaluación inicial',
+            description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         Insert: {
-            description: 'insert a row from a table',
+            label: 'insertar',
+            description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: (table) => Explanation.as('evaluate ', table, ' first'),
@@ -392,7 +391,8 @@ const eng_wordplay: Translation = {
                 ),
         },
         Is: {
-            description: 'true if a value is a specific type',
+            label: 'es',
+            description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: (value) => Explanation.as('evaluate ', value, ' first'),
@@ -406,7 +406,8 @@ const eng_wordplay: Translation = {
                       ),
         },
         ListAccess: {
-            description: 'get a value in a list',
+            label: 'acceso a la lista',
+            description: '',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: (list) => Explanation.as('evaluate ', list, ' first'),
@@ -414,8 +415,11 @@ const eng_wordplay: Translation = {
                 Explanation.as('item at index is ', value ?? 'nothing'),
         },
         ListLiteral: {
+            label: 'lista',
             description: (literal) =>
-                literal.values.length === 0 ? 'empty list' : 'list of values',
+                literal.values.length === 1
+                    ? '1 elemento'
+                    : `${literal.values.length} elementos`,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: 'evaluate items first',
@@ -424,7 +428,11 @@ const eng_wordplay: Translation = {
             item: 'item',
         },
         MapLiteral: {
-            description: 'a list of mappings from keys to values',
+            label: 'índice',
+            description: (literal) =>
+                literal.values.length === 1
+                    ? '1 elemento'
+                    : `${literal.values.length} elementos`,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: 'evaluate each key and value first',
@@ -432,32 +440,36 @@ const eng_wordplay: Translation = {
                 Explanation.as('evaluated to map ', value ?? 'nothing'),
         },
         MeasurementLiteral: {
+            label: 'number',
             description: (node: MeasurementLiteral) =>
                 node.number.is(TokenType.PI)
                     ? 'pi'
                     : node.number.is(TokenType.INFINITY)
-                    ? 'infinity'
+                    ? 'infinidad'
                     : node.unit.isUnitless()
-                    ? 'number'
-                    : 'number with a unit',
+                    ? node.number.getText()
+                    : `${node.number.getText()} ${node.unit.toWordplay()}`,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: (value) => Explanation.as('evaluate to ', value),
         },
         NativeExpression: {
-            description: 'a built-in expression',
+            label: 'expresión incorporada',
+            description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: 'evaluate the built-in expression',
         },
         NoneLiteral: {
-            description: 'nothing',
+            label: 'nada',
+            description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: 'create a nothing value',
         },
         Previous: {
-            description: 'a previous stream value',
+            label: 'previa',
+            description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: (stream) => Explanation.as('first get ', stream),
@@ -468,7 +480,8 @@ const eng_wordplay: Translation = {
                 ),
         },
         Program: {
-            description: 'a program',
+            label: 'programa',
+            description: '',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: (changes) =>
@@ -492,7 +505,8 @@ const eng_wordplay: Translation = {
                 Explanation.as('program evaluated to ', value ?? 'nothing'),
         },
         PropertyBind: {
-            description: 'duplicate a structure with a new property value',
+            label: 'refinar',
+            description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: 'get the structure',
@@ -502,7 +516,8 @@ const eng_wordplay: Translation = {
                     : 'no structure created',
         },
         PropertyReference: {
-            description: 'a property on a structure',
+            label: 'acceso a la propiedad',
+            description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: 'first get the value',
@@ -518,7 +533,8 @@ const eng_wordplay: Translation = {
             property: 'property',
         },
         Reaction: {
-            description: 'a reaction to a stream change',
+            label: 'reacción',
+            description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: 'first check if the stream has changed',
@@ -531,19 +547,15 @@ const eng_wordplay: Translation = {
             next: 'next',
         },
         Reference: {
-            description: (
-                node: Reference,
-                translation: Translation,
-                context: Context
-            ) =>
-                node.resolve(context)?.getDescription(translation, context) ??
-                node.getName(),
+            label: 'referencia',
+            description: (node: Reference) => node.getName(),
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: (name) => Explanation.as('get the value of ', name),
         },
         Select: {
-            description: 'select rows from a table',
+            label: 'seleccionar',
+            description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: (table) => Explanation.as('evaluate ', table, ' first'),
@@ -554,15 +566,20 @@ const eng_wordplay: Translation = {
                 ),
         },
         SetLiteral: {
-            description: 'a set of unique values',
+            label: 'recopilación',
+            description: (literal) =>
+                literal.values.length === 1
+                    ? '1 elemento'
+                    : `${literal.values.length} elementos`,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
-            start: 'evaluate each value first',
+            start: WRITE_DOC,
             finish: (value) =>
                 Explanation.as('evaluated to set ', value ?? 'nothing'),
         },
         SetOrMapAccess: {
-            description: 'get a value from a set or map',
+            label: 'acceso al conjunto/mapa',
+            description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: (set) => Explanation.as('evaluate ', set, ' first'),
@@ -570,35 +587,28 @@ const eng_wordplay: Translation = {
                 Explanation.as('item in  with key is ', value ?? 'nothing'),
         },
         Source: {
-            description: 'a named program',
-            emotion: Emotion.TBD,
-            doc: WRITE_DOC,
-        },
-        StreamDefinitionType: {
-            description: (
-                node: StreamDefinitionType,
-                translation: Translation
-            ) =>
-                `a ${node.definition.names.getTranslation(
-                    translation.language
-                )} stream`,
+            label: 'documento',
+            description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         StreamDefinition: {
-            description: 'a stream definition',
+            label: 'arroyo',
+            description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: `defines a stream of values.`,
             start: 'define this stream type',
         },
         StructureDefinition: {
-            description: 'a structure definition',
+            label: 'estructura',
+            description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: 'define this structure type',
         },
         TableLiteral: {
-            description: 'a table',
+            label: 'tabla',
+            description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             item: 'row',
@@ -607,27 +617,31 @@ const eng_wordplay: Translation = {
                 Explanation.as('evaluated to new table ', table ?? 'nothing'),
         },
         Template: {
-            description: 'a text template',
+            label: 'plantilla de texto',
+            description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
-            start: 'evaluate each expression in the template',
-            finish: 'constructing text from the values',
+            start: WRITE_DOC,
+            finish: WRITE_DOC,
         },
         TextLiteral: {
-            description: 'some text',
+            label: 'texto',
+            description: (text) => text.text.getText(),
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
-            start: 'create a text value',
+            start: WRITE_DOC,
         },
         This: {
-            description: 'get the structure evaluting this',
+            label: 'esta',
+            description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: (value) =>
                 Explanation.as('evaluated to ', value ?? 'nothing'),
         },
         UnaryOperation: {
-            description: 'evaluate function ',
+            label: 'operación unaria',
+            description: (op) => op.operator.getText(),
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: (value) => Explanation.as('evaluate the ', value),
@@ -635,13 +649,15 @@ const eng_wordplay: Translation = {
                 Explanation.as('evaluated to ', value ?? 'nothing'),
         },
         UnparsableExpression: {
+            label: 'no analizable',
+            description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
-            description: 'sequence of words',
             start: 'cannot evaluate unparsable code',
         },
         Update: {
-            description: 'update rows in a table',
+            label: 'update rows',
+            description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: (table) => Explanation.as('evaluate ', table, ' first'),
@@ -652,36 +668,43 @@ const eng_wordplay: Translation = {
                 ),
         },
         AnyType: {
-            description: 'anything',
+            label: 'tipo de cualquier',
+            description: '',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         BooleanType: {
-            description: 'boolean',
+            label: 'tipo de booleano',
+            description: '',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         ConversionType: {
-            description: 'conversion function',
+            label: 'tipo de conversión',
+            description: '',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         ExceptionType: {
-            description: 'exception',
+            label: 'tipo de excepción',
+            description: '',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         FunctionDefinitionType: {
-            description: 'function',
+            label: 'tipo de función',
+            description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         FunctionType: {
-            description: 'function',
+            label: 'tipo de función',
+            description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         ListType: {
+            label: 'tipo de lista',
             description: (
                 node: ListType,
                 translation: Translation,
@@ -697,6 +720,7 @@ const eng_wordplay: Translation = {
             doc: WRITE_DOC,
         },
         MapType: {
+            label: 'tipo de índice',
             description: (
                 node: MapType,
                 translation: Translation,
@@ -712,6 +736,7 @@ const eng_wordplay: Translation = {
             doc: WRITE_DOC,
         },
         MeasurementType: {
+            label: 'tipo de número',
             description: (node, translation, context) =>
                 node.unit instanceof Unit
                     ? node.unit.getDescription(translation, context)
@@ -720,36 +745,46 @@ const eng_wordplay: Translation = {
             doc: WRITE_DOC,
         },
         NameType: {
+            label: 'tipo de nombre',
             description: (node: NameType) => `a ${node.name.getText()}`,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         NeverType: {
-            description: 'impossible type',
+            label: 'tipo de nunca',
+            description: '',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         NoneType: {
-            description: 'nothing',
+            label: 'tipo de nada',
+            description: '',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         SetType: {
-            description: (
-                node: SetType,
-                translation: Translation,
-                context: Context
-            ) =>
+            label: 'tipo de recopilación',
+            description: (node: SetType, translation: Translation) =>
                 node.key === undefined
-                    ? 'set type'
-                    : `set of type ${node.key.getDescription(
-                          translation,
-                          context
-                      )}`,
+                    ? 'algo'
+                    : node.key.getLabel(translation),
+            emotion: Emotion.TBD,
+            doc: WRITE_DOC,
+        },
+        StreamDefinitionType: {
+            label: 'streamtipo de arroyo',
+            description: (
+                node: StreamDefinitionType,
+                translation: Translation
+            ) =>
+                `a ${node.definition.names.getTranslation(
+                    translation.language
+                )} stream`,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         StreamType: {
+            label: 'streamtipo de arroyo',
             description: (
                 node: StreamType,
                 translation: Translation,
@@ -759,11 +794,13 @@ const eng_wordplay: Translation = {
             doc: WRITE_DOC,
         },
         StructureDefinitionType: {
-            description: 'structure',
+            label: 'tipo de estructura',
+            description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         UnknownType: {
+            label: 'desconocida',
             description: (
                 node: UnknownType<any>,
                 translation: Translation,
@@ -778,22 +815,26 @@ const eng_wordplay: Translation = {
             doc: WRITE_DOC,
         },
         TableType: {
-            description: 'table',
+            label: 'tipo de tabla',
+            description: '',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         TextType: {
+            label: 'tipo de texto',
             description: (node) =>
                 node.isLiteral() ? node.text.getText() : 'text',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         TypePlaceholder: {
-            description: 'placeholder type',
+            label: 'tipo de marcador de posición',
+            description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         UnionType: {
+            label: 'tipo de opción',
             description: (
                 node: UnionType,
                 translation: Translation,
@@ -810,84 +851,98 @@ const eng_wordplay: Translation = {
             doc: WRITE_DOC,
         },
         Unit: {
+            label: 'unidad de medida',
             description: (node, translation, context) =>
                 node.exponents.size === 0
-                    ? 'number'
+                    ? 'numero'
                     : node.numerator.length === 1 &&
                       node.denominator.length === 0
                     ? node.numerator[0].getDescription(translation, context)
                     : node.toWordplay() === 'm/s'
-                    ? 'velocity'
-                    : 'number with unit',
+                    ? 'velocidad'
+                    : node.toWordplay(),
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         UnparsableType: {
-            description: 'unparsable type',
+            label: 'tipo no analizable',
+            description: '',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         VariableType: {
-            description: 'variable type',
+            label: 'tipo variable',
+            description: '',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         CycleType: {
+            label: 'tipo de ciclo',
             description: (node: CycleType) =>
-                `${node.expression.toWordplay()} depends on itself`,
+                `${node.expression.toWordplay()} depende de si mismo`,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         UnknownVariableType: {
-            description: "this type variable couldn't be inferred",
+            label: 'tipo de variable desconocido',
+            description: '',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         NotAListType: {
-            description: 'not a list',
+            label: 'tipo sin lista',
+            description: '',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         NoExpressionType: {
-            description: 'there was no expression given',
+            label: 'tipo sin expresión',
+            description: '',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         NotAFunctionType: {
-            description: 'not a function',
+            label: 'tipo sin función',
+            description: '',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         NotATableType: {
-            description: 'not a table',
+            label: 'tipo sin tabla',
+            description: '',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         NotAStreamType: {
-            description: 'not a stream',
+            label: 'tipo sin arroyo',
+            description: '',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         NotASetOrMapType: {
-            description: 'not a set or map',
+            label: 'tipo sin recopilación/índice',
+            description: '',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         NotEnclosedType: {
-            description: 'not in a structure, conversion, or reaction',
+            label: 'no en estructura, conversión o reacción',
+            description: '',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         NotImplementedType: {
-            description: 'not implemented',
+            label: 'typo sin implementado',
+            description: '',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
         UnknownNameType: {
+            label: 'tipo de nombre desconocido',
             description: (node: UnknownNameType) =>
                 node.name === undefined
-                    ? "a name wasn't given"
-                    : `${node.name.getText()} isn't defined`,
+                    ? 'no se dio nombre'
+                    : `${node.name.getText()} no está definido`,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
