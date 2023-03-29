@@ -1322,41 +1322,43 @@
         This is a localized description of the current caret position, a live region for screen readers
         and a visual label for sighted folks.
      -->
-    <div
-        class="caret-description"
-        class:node={$caret.isNode()}
-        style:left={caretLocation
-            ? `calc(${caretLocation.left} - ${OutlinePadding}px)`
-            : undefined}
-        style:top={caretLocation ? `${caretLocation.bottom}px` : undefined}
-        >{$caret.position instanceof Node
-            ? $caret.position.getLabel($preferredTranslations[0])
-            : ''}<div
-            class="screen-reader-description"
-            aria-live="assertive"
-            aria-atomic="true"
-            aria-relevant="all"
+    {#key $caret.position}
+        <div
+            class="caret-description"
+            class:node={$caret.isNode()}
+            style:left={caretLocation
+                ? `calc(${caretLocation.left} - ${OutlinePadding}px)`
+                : undefined}
+            style:top={caretLocation ? `${caretLocation.bottom}px` : undefined}
             >{$caret.position instanceof Node
-                ? $caret.position.getLabel($preferredTranslations[0]) +
-                  ', ' +
-                  $caret.position.getDescription(
-                      $preferredTranslations[0],
-                      project.getNodeContext($caret.position)
-                  )
-                : $caret.tokenExcludingSpace
-                ? $preferredTranslations[0].caret.before(
-                      source.code.at($caret.position) ?? ''
-                  )
-                : $caret.tokenIncludingSpace
-                ? $preferredTranslations[0].caret.before(
-                      $caret.tokenIncludingSpace.getDescription(
+                ? $caret.position.getLabel($preferredTranslations[0])
+                : ''}<div
+                class="screen-reader-description"
+                aria-live="assertive"
+                aria-atomic="true"
+                aria-relevant="all"
+                >{$caret.position instanceof Node
+                    ? $caret.position.getLabel($preferredTranslations[0]) +
+                      ', ' +
+                      $caret.position.getDescription(
                           $preferredTranslations[0],
-                          project.getNodeContext($caret.tokenIncludingSpace)
+                          project.getNodeContext($caret.position)
                       )
-                  )
-                : ''}</div
-        ></div
-    >
+                    : $caret.tokenExcludingSpace
+                    ? $preferredTranslations[0].caret.before(
+                          source.code.at($caret.position) ?? ''
+                      )
+                    : $caret.tokenIncludingSpace
+                    ? $preferredTranslations[0].caret.before(
+                          $caret.tokenIncludingSpace.getDescription(
+                              $preferredTranslations[0],
+                              project.getNodeContext($caret.tokenIncludingSpace)
+                          )
+                      )
+                    : ''}</div
+            ></div
+        >
+    {/key}
 </div>
 
 <style>
