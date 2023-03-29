@@ -1226,15 +1226,24 @@
     function hideMenu() {
         menu = undefined;
     }
+
+    function getInputID() {
+        return `${source.getNames()[0]}-input`;
+    }
 </script>
 
 <!-- Drop what's being dragged if the window loses focus. -->
 <svelte:window on:blur={handleRelease} />
 
-<section
+<!-- svelte-ignore a11y-aria-activedescendant-has-tabindex -->
+<div
     class="editor {$evaluation !== undefined && $evaluation.playing
         ? 'playing'
         : 'stepping'}"
+    role="textbox"
+    tabIndex="0"
+    aria-multiline="true"
+    aria-readonly="false"
     aria-label={`${
         $preferredTranslations[0].ui.section.editor
     } ${source.getTranslation($preferredLanguages)}`}
@@ -1284,6 +1293,7 @@
     <!-- If the caret is a position, render the invisible text field that allows us to capture inputs -->
     <input
         type="text"
+        id={getInputID()}
         class="keyboard-input"
         style={`left: ${caretLocation?.left ?? 0}; top: ${
             caretLocation?.top ?? 0
@@ -1291,7 +1301,7 @@
         bind:this={input}
         on:input={handleTextInput}
     />
-</section>
+</div>
 
 <style>
     .editor {
