@@ -79,7 +79,6 @@
         class="{node.constructor.name} node-view"
         class:hide
         class:small
-        tabIndex="0"
         aria-hidden={hide ? 'true' : null}
         aria-label={description}
         data-id={node.id}

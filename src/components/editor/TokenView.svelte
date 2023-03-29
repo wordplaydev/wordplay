@@ -138,12 +138,10 @@
     class:placeholder
     class:added
     data-id={node.id}
-    ><span class="text"
-        >{#if placeholder}{choosePlaceholder()}{:else if text.length === 0}&ZeroWidthSpace;{:else}{text.replaceAll(
-                ' ',
-                '\xa0'
-            )}{/if}</span
-    ></span
+    >{#if placeholder}{choosePlaceholder()}{:else if text.length === 0}&ZeroWidthSpace;{:else}{text.replaceAll(
+            ' ',
+            '\xa0'
+        )}{/if}</span
 >
 
 <style>
@@ -200,16 +198,12 @@
         display: block;
     }
 
-    .text {
-        display: inline-block;
-    }
-
-    .editable .text:hover,
-    .active .text {
+    .editable:hover,
+    .active {
         outline: 1px solid var(--wordplay-border-color);
     }
 
-    .placeholder .text {
+    .placeholder {
         font-family: var(--wordplay-app-font);
         font-style: italic;
     }

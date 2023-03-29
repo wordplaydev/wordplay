@@ -163,9 +163,7 @@
             let element = null;
             // Keep searching for a visible node, in case the step node is invisible.
             do {
-                element = document.querySelector(
-                    `[data-id="${highlight.id}"] .text`
-                );
+                element = document.querySelector(`[data-id="${highlight.id}"]`);
                 if (element !== null) break;
                 else highlight = source.root.getParent(highlight);
             } while (element === null && highlight !== undefined);
@@ -642,7 +640,7 @@
     function getNodeAt(event: MouseEvent, includeTokens: boolean) {
         const el = document.elementFromPoint(event.clientX, event.clientY);
         // Only return a node if hovering over its text. Space isn't eligible.
-        if (el instanceof HTMLElement && el.classList.contains('text')) {
+        if (el instanceof HTMLElement && el.classList.contains('token-view')) {
             const nodeView = el.closest(
                 `.node-view${includeTokens ? '' : ':not(.Token)'}`
             );
@@ -693,7 +691,7 @@
         if (editor === null) return undefined;
 
         // If there's text, figure out what position in the text to place the caret.
-        if (elementAtCursor.classList.contains('text')) {
+        if (elementAtCursor.classList.contains('token-view')) {
             // Find the token this corresponds to.
             const [token, tokenView] =
                 getTokenFromElement(elementAtCursor) ?? [];
@@ -732,8 +730,7 @@
         // Map the token text to a list of vertical and horizontal distances
         const closestToken = Array.from(editor.querySelectorAll('.token-view'))
             .map((tokenView) => {
-                const textView = tokenView.querySelector('.text');
-                const textRect = textView?.getBoundingClientRect();
+                const textRect = tokenView.getBoundingClientRect();
                 return {
                     view: tokenView,
                     textDistance:
@@ -767,7 +764,7 @@
                         textRect === undefined
                             ? Number.POSITIVE_INFINITY
                             : Math.abs(event.clientX - textRect.right),
-                    hidden: textView && textView.closest('.hide') !== null,
+                    hidden: tokenView.closest('.hide') !== null,
                 };
             })
             // Filter by tokens within the vertical boundaries of the token.

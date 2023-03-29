@@ -61,7 +61,7 @@
     :global(.animated) .changed {
         display: inline-block;
         animation: pop 1;
-        animation-duration: 200;
+        animation-duration: 200ms;
     }
 
     @keyframes pop {

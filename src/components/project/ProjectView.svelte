@@ -1113,7 +1113,7 @@
         pointer-events: none;
     }
 
-    .drag-container :global(.token-view .text) {
+    .drag-container :global(.token-view) {
         color: var(--wordplay-background);
     }
 </style>

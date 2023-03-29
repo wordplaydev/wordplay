@@ -137,8 +137,8 @@
         background-color: var(--wordplay-highlight);
     }
 
-    .item.option:hover :global(.token-view .text),
-    .selected :global(.token-view .text) {
+    .item.option:hover :global(.token-view),
+    .selected :global(.token-view) {
         color: var(--wordplay-background);
     }
 

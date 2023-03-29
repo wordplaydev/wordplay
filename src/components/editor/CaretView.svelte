@@ -151,11 +151,8 @@
         );
         if (tokenView === null) return;
 
-        const textElement = tokenView.querySelector('.text');
-        if (textElement === null) return;
-
         // Figure out where the token view is, so we can properly offset the caret position in the editor.
-        const tokenViewRect = textElement.getBoundingClientRect();
+        const tokenViewRect = tokenView.getBoundingClientRect();
 
         let tokenLeft = tokenViewRect.left + viewportXOffset;
         let tokenTop = tokenViewRect.top + viewportYOffset;
@@ -184,11 +181,11 @@
             lineHeight =
                 ((
                     firstTokenViewAfterLineBreak.querySelector(
-                        '.text'
+                        '.token-view'
                     ) as Element
                 ).getBoundingClientRect().top -
                     (
-                        firstTokenView.querySelector('.text') as Element
+                        firstTokenView.querySelector('.token-view') as Element
                     ).getBoundingClientRect().top) /
                 lineBreakCount;
         } else {
@@ -202,7 +199,7 @@
             // Trim the text to the position
             const trimmedText = token.text.substring(0, caretIndex).toString();
             // Get the text node of the token view
-            const textNode = textElement.childNodes[0];
+            const textNode = tokenView.childNodes[0];
             // Create a trimmed node, but replace spaces in the trimmed text with visible characters so that they are included in measurement.
             const tempNode = document.createTextNode(
                 trimmedText.replaceAll(' ', '·')
@@ -210,7 +207,7 @@
             // Temporarily replace the node
             textNode.replaceWith(tempNode);
             // Get the text element's new width
-            widthAtCaret = textElement.getBoundingClientRect().width;
+            widthAtCaret = tokenView.getBoundingClientRect().width;
             // Restore the text node
             tempNode.replaceWith(textNode);
 

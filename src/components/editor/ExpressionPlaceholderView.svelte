@@ -15,12 +15,12 @@
 >
 
 <style>
-    .placeholder :global(.text) {
+    .placeholder :global(.token-view) {
         color: var(--wordplay-disabled-color);
         font-style: italic;
     }
 
-    .hidden :global(.text) {
+    .hidden :global(.token-view) {
         display: inline-block;
         width: 0;
         opacity: 0;
