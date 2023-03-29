@@ -499,6 +499,7 @@ type Translation = {
                 equals: FunctionTranslation<[NameAndDocTranslation]>;
                 notequals: FunctionTranslation<[NameAndDocTranslation]>;
                 repeat: FunctionTranslation<[NameAndDocTranslation]>;
+                segment: FunctionTranslation<[NameAndDocTranslation]>;
             };
             conversion: {
                 text: DocTranslation;

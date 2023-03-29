@@ -1079,6 +1079,11 @@ const eng_wordplay: Translation = {
                     name: 'repetir',
                     inputs: [{ doc: WRITE_DOC, name: 'contar' }],
                 },
+                segment: {
+                    doc: WRITE_DOC,
+                    name: ['segmentar'],
+                    inputs: [{ doc: WRITE_DOC, name: 'delimitador' }],
+                },
             },
             conversion: {
                 text: WRITE_DOC,

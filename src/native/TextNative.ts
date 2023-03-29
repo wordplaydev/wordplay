@@ -18,6 +18,7 @@ import { getFunctionTranslations } from '@translation/getFunctionTranslations';
 import { getDocTranslations } from '@translation/getDocTranslations';
 import { getNameTranslations } from '@translation/getNameTranslations';
 import type Expression from '@nodes/Expression';
+import ListType from '../nodes/ListType';
 
 export default function bootstrapText() {
     const equalsNames = getNameTranslations(
@@ -29,6 +30,10 @@ export default function bootstrapText() {
 
     const countNames = getNameTranslations(
         (t) => t.native.text.function.repeat.inputs[0].name
+    );
+
+    const segmentDelimiterNames = getNameTranslations(
+        (t) => t.native.text.function.segment.inputs[0].name
     );
 
     function createTextFunction(
@@ -163,6 +168,37 @@ export default function bootstrapText() {
                                 TextType.make(),
                                 val
                             );
+                    }
+                ),
+                createTextFunction(
+                    getFunctionTranslations(
+                        (t) => t.native.text.function.segment
+                    ),
+                    [
+                        Bind.make(
+                            getDocTranslations(
+                                (t) =>
+                                    t.native.text.function.segment.inputs[0].doc
+                            ),
+                            segmentDelimiterNames,
+                            TextType.make()
+                        ),
+                    ],
+                    ListType.make(TextType.make()),
+                    (requestor, text, evaluation) => {
+                        const delimiter = evaluation.resolve(
+                            segmentDelimiterNames
+                        );
+                        if (
+                            delimiter === undefined ||
+                            !(delimiter instanceof Text)
+                        )
+                            return evaluation.getValueOrTypeException(
+                                requestor,
+                                TextType.make(),
+                                delimiter
+                            );
+                        return text.segment(requestor, delimiter);
                     }
                 ),
                 createNativeConversion(

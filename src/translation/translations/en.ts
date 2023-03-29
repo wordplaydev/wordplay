@@ -19,6 +19,7 @@ import {
     TRUE_SYMBOL,
     FALSE_SYMBOL,
     SUM_SYMBOL,
+    QUOTIENT_SYMBOL,
 } from '@parser/Symbols';
 import {
     getDimensionDescription,
@@ -1351,6 +1352,11 @@ const en: Translation = {
                     doc: WRITE_DOC,
                     name: [PRODUCT_SYMBOL, '🔁', 'repeat'],
                     inputs: [{ doc: WRITE_DOC, name: 'count' }],
+                },
+                segment: {
+                    doc: WRITE_DOC,
+                    name: [QUOTIENT_SYMBOL, 'segment'],
+                    inputs: [{ doc: WRITE_DOC, name: 'delimiter' }],
                 },
             },
             conversion: {

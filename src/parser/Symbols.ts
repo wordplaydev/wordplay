@@ -40,6 +40,7 @@ export const AND_SYMBOL = '&';
 export const OR_SYMBOL = '|';
 export const NOT_SYMBOL = '~';
 export const PRODUCT_SYMBOL = '·';
+export const QUOTIENT_SYMBOL = '÷';
 export const SUM_SYMBOL = '+';
 export const DIFFERENCE_SYMBOL = '-';
 export const LINK_SYMBOL = '@';

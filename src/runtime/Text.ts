@@ -6,6 +6,7 @@ import type Value from './Value';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type Translation from '@translation/Translation';
 import type Expression from '../nodes/Expression';
+import List from './List';
 
 export default class Text extends Primitive {
     readonly text: string;
@@ -37,6 +38,13 @@ export default class Text extends Primitive {
 
     repeat(requestor: Expression, count: number) {
         return new Text(requestor, this.text.repeat(count), this.format);
+    }
+
+    segment(requestor: Expression, delimiter: Text) {
+        return new List(
+            requestor,
+            this.text.split(delimiter.text).map((s) => new Text(requestor, s))
+        );
     }
 
     toWordplay(): string {
