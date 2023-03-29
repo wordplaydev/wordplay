@@ -199,7 +199,10 @@ type Translation = {
         start: string;
     };
     /** A way to say "before [description]" */
-    before: (description: string) => string;
+    caret: {
+        before: (description: string) => string;
+        inside: (description: string) => string;
+    };
     data: {
         value: string;
         boolean: string;

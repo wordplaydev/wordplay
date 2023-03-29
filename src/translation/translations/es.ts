@@ -53,7 +53,10 @@ const eng_wordplay: Translation = {
         type: 'género',
         start: 'comenzar',
     },
-    before: (description) => `antes de ${description}`,
+    caret: {
+        before: (description) => `antes de ${description}`,
+        inside: (description) => `dentro de ${description}`,
+    },
     data: {
         value: 'avaluar',
         text: 'texto',
@@ -145,6 +148,8 @@ const eng_wordplay: Translation = {
                     ? 'número'
                     : token.is(TokenType.SHARE)
                     ? 'ofrecer'
+                    : token.is(TokenType.END)
+                    ? 'final'
                     : 'simbólica',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,

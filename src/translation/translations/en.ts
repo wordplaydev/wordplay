@@ -55,7 +55,10 @@ const en: Translation = {
         type: 'type',
         start: 'start',
     },
-    before: (description) => `before ${description}`,
+    caret: {
+        before: (description) => `before ${description}`,
+        inside: (description) => `inside ${description}`,
+    },
     data: {
         value: 'value',
         text: 'text',
@@ -188,6 +191,8 @@ const en: Translation = {
                     ? `number ${token.getText()}`
                     : token.is(TokenType.SHARE)
                     ? 'share'
+                    : token.is(TokenType.END)
+                    ? 'end'
                     : token.getText(),
             emotion: Emotion.TBD,
             doc: WRITE_DOC + 'the smallest group of symbols in a performance',

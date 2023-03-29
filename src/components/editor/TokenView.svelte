@@ -33,7 +33,7 @@
         ($caret?.getTokenExcludingSpace() === node ||
             ($caret?.tokenPrior === node &&
                 $caret.atBeginningOfTokenSpace() &&
-                $caret.token &&
+                $caret.tokenIncludingSpace &&
                 $caret.tokenAtHasPrecedingSpace()));
     $: added = $caret?.addition?.contains(node) ?? false;
 

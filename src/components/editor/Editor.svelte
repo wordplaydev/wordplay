@@ -1328,9 +1328,7 @@
         style:left={caretLocation
             ? `calc(${caretLocation.left} - ${OutlinePadding}px)`
             : undefined}
-        style:top={caretLocation
-            ? `${caretLocation.bottom + OutlinePadding}px`
-            : undefined}
+        style:top={caretLocation ? `${caretLocation.bottom}px` : undefined}
         >{$caret.position instanceof Node
             ? $caret.position.getLabel($preferredTranslations[0])
             : ''}<div
@@ -1340,16 +1338,20 @@
             aria-relevant="all"
             >{$caret.position instanceof Node
                 ? $caret.position.getLabel($preferredTranslations[0]) +
-                  ' ' +
+                  ', ' +
                   $caret.position.getDescription(
                       $preferredTranslations[0],
                       project.getNodeContext($caret.position)
                   )
-                : $caret.token
-                ? $preferredTranslations[0].before(
-                      $caret.token.getDescription(
+                : $caret.tokenExcludingSpace
+                ? $preferredTranslations[0].caret.before(
+                      source.code.at($caret.position) ?? ''
+                  )
+                : $caret.tokenIncludingSpace
+                ? $preferredTranslations[0].caret.before(
+                      $caret.tokenIncludingSpace.getDescription(
                           $preferredTranslations[0],
-                          project.getNodeContext($caret.token)
+                          project.getNodeContext($caret.tokenIncludingSpace)
                       )
                   )
                 : ''}</div

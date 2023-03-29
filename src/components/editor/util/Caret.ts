@@ -27,10 +27,10 @@ export default class Caret {
     readonly addition: Node | undefined;
 
     // A cache of the token we're at, since we use it frequently.
-    readonly token: Token | undefined;
+    readonly tokenIncludingSpace: Token | undefined;
     readonly tokenPrior: Token | undefined;
     readonly tokenSpaceIndex: number | undefined;
-    readonly tokenExcludingWhitespace: Token | undefined;
+    readonly tokenExcludingSpace: Token | undefined;
 
     constructor(
         source: Source,
@@ -42,7 +42,7 @@ export default class Caret {
         this.position = position;
         this.addition = addition;
 
-        this.token =
+        this.tokenIncludingSpace =
             typeof this.position === 'number'
                 ? this.source.getTokenAt(this.position)
                 : undefined;
@@ -51,10 +51,10 @@ export default class Caret {
                 ? this.source.getTokenAt(this.position - 1)
                 : undefined;
         this.tokenSpaceIndex =
-            this.token === undefined
+            this.tokenIncludingSpace === undefined
                 ? undefined
-                : this.source.getTokenSpacePosition(this.token);
-        this.tokenExcludingWhitespace =
+                : this.source.getTokenSpacePosition(this.tokenIncludingSpace);
+        this.tokenExcludingSpace =
             typeof this.position === 'number'
                 ? this.source.getTokenAt(this.position, false)
                 : undefined;
@@ -66,8 +66,9 @@ export default class Caret {
 
     atTokenStart() {
         return (
-            this.token &&
-            this.source.getTokenTextPosition(this.token) === this.position
+            this.tokenIncludingSpace &&
+            this.source.getTokenTextPosition(this.tokenIncludingSpace) ===
+                this.position
         );
     }
 
@@ -87,26 +88,28 @@ export default class Caret {
     }
 
     getToken(): Token | undefined {
-        return this.token;
+        return this.tokenIncludingSpace;
     }
 
     getTokenExcludingSpace(): Token | undefined {
-        return this.tokenExcludingWhitespace;
+        return this.tokenExcludingSpace;
     }
 
     tokenAtHasPrecedingSpace(): boolean {
         return (
-            this.token !== undefined &&
-            this.source.spaces.getSpace(this.token).length > 0
+            this.tokenIncludingSpace !== undefined &&
+            this.source.spaces.getSpace(this.tokenIncludingSpace).length > 0
         );
     }
 
     hasSpaceAfter(): boolean {
-        if (this.token === undefined) return false;
+        if (this.tokenIncludingSpace === undefined) return false;
         const next = this.atTokenEnd()
-            ? this.token
+            ? this.tokenIncludingSpace
             : this.source.getTokenAfterNode(
-                  this.position instanceof Node ? this.position : this.token
+                  this.position instanceof Node
+                      ? this.position
+                      : this.tokenIncludingSpace
               );
         if (next === undefined) return false;
         return this.source.spaces.getSpace(next).length > 0;
@@ -116,7 +119,10 @@ export default class Caret {
         const empty = { before: [], after: [] };
 
         // If the caret is a node, there is no notion of between.
-        if (this.position instanceof Node || this.token === undefined)
+        if (
+            this.position instanceof Node ||
+            this.tokenIncludingSpace === undefined
+        )
             return empty;
 
         // Get the line number of the position.
@@ -469,19 +475,21 @@ export default class Caret {
             // If the character we're inserting is already immediately after the caret and is a matched closing deimiter, don't insert, just move the caret forward.
             // We handle two cases: discrete matched tokens ([], {}, ()) text tokens that have internal matched delimiters.
             if (
-                this.token &&
+                this.tokenIncludingSpace &&
                 // Is what's being typed a closing delimiter?
                 text in REVERSE_DELIMITERS &&
                 // Is the text being typed what's already there?
                 text === this.source.code.at(this.position) &&
                 // Is what's being typed a closing delimiter of a text literal?
-                ((this.token.is(TokenType.TEXT) &&
-                    REVERSE_TEXT_DELIMITERS[this.token.getText().charAt(0)] ===
-                        text) ||
+                ((this.tokenIncludingSpace.is(TokenType.TEXT) &&
+                    REVERSE_TEXT_DELIMITERS[
+                        this.tokenIncludingSpace.getText().charAt(0)
+                    ] === text) ||
                     // Is what's being typed a closing delimiter of an open delimiter?
-                    (this.token.getText() in REVERSE_DELIMITERS &&
-                        this.source.getMatchedDelimiter(this.token) !==
-                            undefined))
+                    (this.tokenIncludingSpace.getText() in REVERSE_DELIMITERS &&
+                        this.source.getMatchedDelimiter(
+                            this.tokenIncludingSpace
+                        ) !== undefined))
             )
                 return [
                     this.source,
