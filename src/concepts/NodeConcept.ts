@@ -45,7 +45,7 @@ export default class NodeConcept extends Concept {
     }
 
     getName(translation: Translation) {
-        return this.template.getDescription(translation, this.context);
+        return this.template.getLabel(translation);
     }
 
     getRepresentation() {

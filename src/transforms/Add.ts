@@ -74,9 +74,7 @@ export default class Add<NodeType extends Node> extends Transform {
             this.child instanceof Refer
                 ? this.child.getNode([translation.language])
                 : this.getNewNode([translation.language]);
-        return translation.transform.add(
-            node.getDescription(translation, this.context)
-        );
+        return translation.transform.add(node.getLabel(translation));
     }
 
     equals(transform: Transform) {

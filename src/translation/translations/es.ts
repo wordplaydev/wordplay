@@ -1354,12 +1354,12 @@ const eng_wordplay: Translation = {
                     doc: WRITE_DOC,
                     name: 'combinar',
                     inputs: [
-                        { doc: WRITE_DOC, name: 'initial' },
-                        { doc: WRITE_DOC, name: 'combined' },
+                        { doc: WRITE_DOC, name: 'inicial' },
+                        { doc: WRITE_DOC, name: 'combinador' },
                     ],
-                    combination: { doc: WRITE_DOC, name: 'combination' },
-                    next: { doc: WRITE_DOC, name: 'next' },
-                    index: { doc: WRITE_DOC, name: 'index' },
+                    combination: { doc: WRITE_DOC, name: 'combinación' },
+                    next: { doc: WRITE_DOC, name: 'próxima' },
+                    index: { doc: WRITE_DOC, name: 'índice' },
                 },
             },
             conversion: {

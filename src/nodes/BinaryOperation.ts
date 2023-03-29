@@ -60,9 +60,7 @@ export default class BinaryOperation extends Expression {
                     _: Node,
                     context: Context
                 ): Description =>
-                    this.left
-                        .getType(context)
-                        .getDescription(translation, context),
+                    this.left.getType(context).getLabel(translation),
             },
             {
                 name: 'operator',

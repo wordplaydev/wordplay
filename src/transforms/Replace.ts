@@ -72,9 +72,7 @@ export default class Replace<NodeType extends Node> extends Transform {
             this.replacement instanceof Refer
                 ? this.replacement.getNode([translation.language])
                 : this.getNewNode([translation.language]);
-        return translation.transform.replace(
-            node?.getDescription(translation, this.context)
-        );
+        return translation.transform.replace(node?.getLabel(translation));
     }
 
     equals(transform: Transform) {

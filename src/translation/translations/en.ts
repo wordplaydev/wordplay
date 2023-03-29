@@ -1632,7 +1632,7 @@ const en: Translation = {
                     name: 'combine',
                     inputs: [
                         { doc: WRITE_DOC, name: 'initial' },
-                        { doc: WRITE_DOC, name: 'combined' },
+                        { doc: WRITE_DOC, name: 'combiner' },
                     ],
                     combination: { doc: WRITE_DOC, name: 'combination' },
                     next: { doc: WRITE_DOC, name: 'next' },

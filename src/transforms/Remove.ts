@@ -88,7 +88,7 @@ export default class Remove extends Transform {
 
     getDescription(translation: Translation) {
         return translation.transform.remove(
-            this.getNewNode().getDescription(translation, this.context)
+            this.getNewNode().getLabel(translation)
         );
     }
 
