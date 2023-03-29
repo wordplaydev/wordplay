@@ -1334,7 +1334,7 @@
                 ? $caret.position.getLabel($preferredTranslations[0])
                 : ''}<div
                 class="screen-reader-description"
-                aria-live="assertive"
+                aria-live="polite"
                 aria-atomic="true"
                 aria-relevant="all"
                 >{$caret.position instanceof Node
