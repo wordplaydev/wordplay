@@ -2162,7 +2162,7 @@ const en: Translation = {
             toolbar: 'toolbar',
             output: 'output',
             palette: 'palette',
-            editor: 'editor',
+            editor: 'code editor',
         },
         feedback: {
             unknownProject: "There's no project with this ID.",
