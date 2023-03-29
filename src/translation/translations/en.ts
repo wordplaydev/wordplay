@@ -1358,6 +1358,11 @@ const en: Translation = {
                     name: [QUOTIENT_SYMBOL, 'segment'],
                     inputs: [{ doc: WRITE_DOC, name: 'delimiter' }],
                 },
+                combine: {
+                    doc: WRITE_DOC,
+                    name: [SUM_SYMBOL, 'combine'],
+                    inputs: [{ doc: WRITE_DOC, name: 'text' }],
+                },
             },
             conversion: {
                 text: WRITE_DOC,

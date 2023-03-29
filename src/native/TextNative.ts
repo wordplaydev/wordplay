@@ -36,6 +36,10 @@ export default function bootstrapText() {
         (t) => t.native.text.function.segment.inputs[0].name
     );
 
+    const combineNames = getNameTranslations(
+        (t) => t.native.text.function.combine.inputs[0].name
+    );
+
     function createTextFunction(
         translations: {
             docs: Docs;
@@ -199,6 +203,32 @@ export default function bootstrapText() {
                                 delimiter
                             );
                         return text.segment(requestor, delimiter);
+                    }
+                ),
+                createTextFunction(
+                    getFunctionTranslations(
+                        (t) => t.native.text.function.combine
+                    ),
+                    [
+                        Bind.make(
+                            getDocTranslations(
+                                (t) =>
+                                    t.native.text.function.combine.inputs[0].doc
+                            ),
+                            combineNames,
+                            TextType.make()
+                        ),
+                    ],
+                    TextType.make(),
+                    (requestor, text, evaluation) => {
+                        const other = evaluation.resolve(combineNames);
+                        if (other === undefined || !(other instanceof Text))
+                            return evaluation.getValueOrTypeException(
+                                requestor,
+                                TextType.make(),
+                                other
+                            );
+                        return text.combine(requestor, other);
                     }
                 ),
                 createNativeConversion(

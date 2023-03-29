@@ -500,6 +500,7 @@ type Translation = {
                 notequals: FunctionTranslation<[NameAndDocTranslation]>;
                 repeat: FunctionTranslation<[NameAndDocTranslation]>;
                 segment: FunctionTranslation<[NameAndDocTranslation]>;
+                combine: FunctionTranslation<[NameAndDocTranslation]>;
             };
             conversion: {
                 text: DocTranslation;

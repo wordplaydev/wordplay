@@ -18,6 +18,7 @@ import {
     PROPERTY_SYMBOL,
     TRUE_SYMBOL,
     FALSE_SYMBOL,
+    SUM_SYMBOL,
 } from '@parser/Symbols';
 import {
     getDimensionDescription,
@@ -1083,6 +1084,11 @@ const eng_wordplay: Translation = {
                     doc: WRITE_DOC,
                     name: ['segmentar'],
                     inputs: [{ doc: WRITE_DOC, name: 'delimitador' }],
+                },
+                combine: {
+                    doc: WRITE_DOC,
+                    name: [SUM_SYMBOL, 'combinar'],
+                    inputs: [{ doc: WRITE_DOC, name: 'texto' }],
                 },
             },
             conversion: {

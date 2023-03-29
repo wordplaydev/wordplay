@@ -47,6 +47,9 @@ export default class Text extends Primitive {
         );
     }
 
+    combine(requestor: Expression, text: Text) {
+        return new Text(requestor, this.text + text.text);
+    }
     toWordplay(): string {
         return `"${this.text}"${this.format ? `/${this.format}` : ''}`;
     }
