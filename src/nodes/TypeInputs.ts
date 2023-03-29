@@ -24,9 +24,9 @@ export default class TypeInputs extends Node {
 
     static make(types: Type[]) {
         return new TypeInputs(
-            new Token(TYPE_OPEN_SYMBOL, TokenType.TYPE_OPEN),
+            new Token(TYPE_OPEN_SYMBOL, TokenType.TypeOpen),
             types,
-            new Token(TYPE_CLOSE_SYMBOL, TokenType.TYPE_CLOSE)
+            new Token(TYPE_CLOSE_SYMBOL, TokenType.TypeClose)
         );
     }
 

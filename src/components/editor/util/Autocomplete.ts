@@ -673,7 +673,7 @@ function getPostfixEdits(context: Context, expr: Expression): Transform[] {
                           parent,
                           expr,
                           new UnaryOperation(
-                              new Token(NOT_SYMBOL, TokenType.UNARY_OP),
+                              new Token(NOT_SYMBOL, TokenType.UnaryOperator),
                               expr
                           )
                       ),
@@ -686,7 +686,7 @@ function getPostfixEdits(context: Context, expr: Expression): Transform[] {
                           parent,
                           expr,
                           new UnaryOperation(
-                              new Token(NEGATE_SYMBOL, TokenType.UNARY_OP),
+                              new Token(NEGATE_SYMBOL, TokenType.UnaryOperator),
                               expr
                           )
                       ),
@@ -772,7 +772,7 @@ function getPostfixEdits(context: Context, expr: Expression): Transform[] {
                                               new Token(
                                                   def.getBinaryOperatorName() ??
                                                       '',
-                                                  TokenType.BINARY_OP
+                                                  TokenType.BinaryOperator
                                               ),
                                               ExpressionPlaceholder.make()
                                           ),

@@ -4,6 +4,6 @@ import TokenType from './TokenType';
 
 export default class LanguageToken extends Token {
     constructor() {
-        super(LANGUAGE_SYMBOL, TokenType.LANGUAGE);
+        super(LANGUAGE_SYMBOL, TokenType.Language);
     }
 }

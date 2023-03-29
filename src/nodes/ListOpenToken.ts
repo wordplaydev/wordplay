@@ -4,6 +4,6 @@ import TokenType from './TokenType';
 
 export default class ListOpenToken extends Token {
     constructor() {
-        super(LIST_OPEN_SYMBOL, TokenType.LIST_OPEN);
+        super(LIST_OPEN_SYMBOL, TokenType.ListOpen);
     }
 }

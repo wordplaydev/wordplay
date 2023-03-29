@@ -52,15 +52,15 @@ export default class Words extends Node {
     }
 
     isItalic() {
-        return this.open?.is(TokenType.ITALIC);
+        return this.open?.is(TokenType.Italic);
     }
 
     isBold() {
-        return this.open?.is(TokenType.BOLD);
+        return this.open?.is(TokenType.Bold);
     }
 
     isExtra() {
-        return this.open?.is(TokenType.EXTRA);
+        return this.open?.is(TokenType.Extra);
     }
 
     getText() {

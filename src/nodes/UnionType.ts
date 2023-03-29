@@ -32,7 +32,7 @@ export default class UnionType extends Type {
     static make(left: Type, right: Type) {
         return new UnionType(
             left,
-            new Token(OR_SYMBOL, TokenType.UNION),
+            new Token(OR_SYMBOL, TokenType.Union),
             right
         );
     }

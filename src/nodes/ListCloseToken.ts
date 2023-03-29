@@ -4,6 +4,6 @@ import TokenType from './TokenType';
 
 export default class ListCloseToken extends Token {
     constructor() {
-        super(LIST_CLOSE_SYMBOL, TokenType.LIST_CLOSE);
+        super(LIST_CLOSE_SYMBOL, TokenType.ListClose);
     }
 }

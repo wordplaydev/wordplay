@@ -25,7 +25,7 @@ export default class TextType extends NativeType {
     }
 
     static make(format?: Language) {
-        return new TextType(new Token(TEXT_SYMBOL, TokenType.TEXT), format);
+        return new TextType(new Token(TEXT_SYMBOL, TokenType.Text), format);
     }
 
     getGrammar() {

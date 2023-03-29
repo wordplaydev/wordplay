@@ -20,15 +20,15 @@
 
 <SymbolView
     symbol={value.type.names.getTranslation($preferredLanguages)}
-    type={TokenType.NAME}
-/><SymbolView symbol={EVAL_OPEN_SYMBOL} type={TokenType.EVAL_OPEN} /><Expandable
+    type={TokenType.Name}
+/><SymbolView symbol={EVAL_OPEN_SYMBOL} type={TokenType.EvalOpen} /><Expandable
     ><svelte:fragment slot="expanded">
         {#each value.type.inputs as input, index}<SymbolView
                 symbol={input.names.getTranslation($preferredLanguages)}
-                type={TokenType.NAME}
+                type={TokenType.Name}
             /><SymbolView
                 symbol={BIND_SYMBOL}
-                type={TokenType.BIND}
+                type={TokenType.Bind}
             /><ValueView
                 value={value.resolve(input.getNames()[0]) ??
                     new None(value.type)}
@@ -40,7 +40,7 @@
                 >&ZeroWidthSpace;</span
             >{:else}…{/if}</svelte:fragment
     ></Expandable
-><SymbolView symbol={EVAL_CLOSE_SYMBOL} type={TokenType.EVAL_CLOSE} />
+><SymbolView symbol={EVAL_CLOSE_SYMBOL} type={TokenType.EvalClose} />
 
 <style>
     .color {

@@ -1,6 +1,4 @@
 import type Context from '@nodes/Context';
-import type Token from '@nodes/Token';
-import TokenType from '@nodes/TokenType';
 import type UnknownType from '@nodes/UnknownType';
 import type Translation from '../Translation';
 import type ListType from '@nodes/ListType';
@@ -27,6 +25,7 @@ import {
     getEvaluateDescription,
     getLanguageDescription,
     getPlaceholderDescription,
+    getTokenDescription,
     type Description,
 } from '../Translation';
 import type { CycleType } from '@nodes/CycleType';
@@ -82,6 +81,72 @@ const en: Translation = {
     evaluation: {
         unevaluated: 'the selected node did not evaluate',
         done: 'done evaluating',
+    },
+    tokens: {
+        EvalOpen: 'evaluation open',
+        EvalClose: 'evaluation close',
+        SetOpen: 'set/map open',
+        SetClose: 'set/map close',
+        ListOpen: 'list open',
+        ListClose: 'list close',
+        TagOpen: 'tag open',
+        TagClose: 'tag close',
+        Bind: 'bind',
+        Access: 'property access',
+        Function: 'function',
+        Borrow: 'borrow',
+        Share: 'share',
+        Convert: 'convert',
+        Doc: 'documentation',
+        Words: 'words',
+        Link: 'web link',
+        Italic: 'italic',
+        Bold: 'bold',
+        Extra: 'extra',
+        Concept: 'concept link',
+        URL: 'URL',
+        None: 'nothing',
+        Type: 'type',
+        TypeOperator: 'is',
+        TypeOpen: 'type input open',
+        TypeClose: 'type input close',
+        Separator: 'name separator',
+        Language: 'language tag',
+        BooleanType: 'boolean type',
+        NumberType: 'number type',
+        JapaneseNumeral: 'japanese numeral',
+        RomanNumeral: 'roman numeral',
+        Pi: 'pi',
+        Infinity: 'infinity',
+        NoneType: 'none type',
+        TableOpen: 'table open',
+        TableClose: 'table close',
+        Select: 'select',
+        Insert: 'insert',
+        Update: 'update',
+        Delete: 'delete',
+        Union: 'union',
+        Stream: 'next',
+        Change: 'change',
+        Initial: 'first evaluation',
+        Previous: 'previous',
+        Placeholder: 'placeholder',
+        Etc: 'et cetera',
+        This: 'this',
+        UnaryOperator: 'unary operator',
+        BinaryOperator: 'binary operator',
+        Conditional: 'conditional',
+        Text: 'text',
+        TemplateOpen: 'text open',
+        TemplateBetween: 'text between',
+        TemplateClose: 'text close',
+        Number: 'number',
+        Decimal: 'decimal numeral',
+        Base: 'base numeral',
+        Boolean: 'boolean',
+        Name: 'name',
+        Unknown: 'unknown',
+        End: 'end',
     },
     nodes: {
         Dimension: {
@@ -175,25 +240,7 @@ const en: Translation = {
         },
         Token: {
             label: 'token',
-            description: (token: Token) =>
-                token.is(TokenType.NAME)
-                    ? `name ${token.getText()}`
-                    : token.is(TokenType.BINARY_OP) ||
-                      token.is(TokenType.UNARY_OP)
-                    ? `operator ${token.getText()}`
-                    : token.is(TokenType.DOC)
-                    ? 'docs'
-                    : token.is(TokenType.JAPANESE) ||
-                      token.is(TokenType.ROMAN) ||
-                      token.is(TokenType.NUMBER) ||
-                      token.is(TokenType.PI) ||
-                      token.is(TokenType.INFINITY)
-                    ? `number ${token.getText()}`
-                    : token.is(TokenType.SHARE)
-                    ? 'share'
-                    : token.is(TokenType.END)
-                    ? 'end'
-                    : token.getText(),
+            description: getTokenDescription,
             emotion: Emotion.TBD,
             doc: WRITE_DOC + 'the smallest group of symbols in a performance',
         },

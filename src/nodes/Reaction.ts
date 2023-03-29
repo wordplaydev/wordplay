@@ -56,9 +56,9 @@ export default class Reaction extends Expression {
     static make(initial: Expression, condition: Expression, next: Expression) {
         return new Reaction(
             initial,
-            new Token(QUESTION_SYMBOL, TokenType.CONDITIONAL),
+            new Token(QUESTION_SYMBOL, TokenType.Conditional),
             condition,
-            new Token(COMMA_SYMBOL, TokenType.STREAM),
+            new Token(COMMA_SYMBOL, TokenType.Stream),
             next
         );
     }

@@ -1,5 +1,4 @@
 import type Context from '@nodes/Context';
-import type Token from '@nodes/Token';
 import TokenType from '@nodes/TokenType';
 import type UnknownType from '@nodes/UnknownType';
 import type Translation from '../Translation';
@@ -25,6 +24,7 @@ import {
     getEvaluateDescription,
     getLanguageDescription,
     getPlaceholderDescription,
+    getTokenDescription,
     type Description,
 } from '../Translation';
 import type { CycleType } from '@nodes/CycleType';
@@ -81,6 +81,72 @@ const eng_wordplay: Translation = {
         unevaluated: 'el nodo seleccionado no evaluó',
         done: 'terminado de evaluar',
     },
+    tokens: {
+        EvalOpen: 'evaluación abierta',
+        EvalClose: 'evaluación cerrar',
+        SetOpen: 'recopilación/índice abierta',
+        SetClose: 'recopilación/índice cerrar',
+        ListOpen: 'lista abierta',
+        ListClose: 'lista cerrar',
+        TagOpen: 'etiqueta abierta',
+        TagClose: 'cerrar etiqueta',
+        Bind: 'nombrar',
+        Access: 'acceso a la propiedad',
+        Function: 'función',
+        Borrow: 'pedir prestado',
+        Share: 'compartir',
+        Convert: 'convertir',
+        Doc: 'documentación',
+        Words: 'palabras',
+        Link: 'enlace web',
+        Italic: 'itálica',
+        Bold: 'negrita',
+        Extra: 'extra',
+        Concept: 'enlace de concepto',
+        URL: 'URL',
+        None: 'nada',
+        Type: 'tipo',
+        TypeOperator: 'es',
+        TypeOpen: 'tipo entrada abierta',
+        TypeClose: 'escribir entrada cerrar',
+        Separator: 'separadora de nombres',
+        Language: 'etiqueta de idioma',
+        BooleanType: 'tipo booleano',
+        NumberType: 'tipo de número',
+        JapaneseNumeral: 'número japonés',
+        RomanNumeral: 'número romana',
+        Pi: 'pi',
+        Infinity: 'infinidad',
+        NoneType: 'ninguno tipo',
+        TableOpen: 'table abierta',
+        TableClose: 'tabla cerrada',
+        Select: 'seleccionar',
+        Insert: 'insertar',
+        Update: 'actualizar',
+        Delete: 'borrar',
+        Union: 'unión',
+        Stream: 'próxima',
+        Change: 'cambiar',
+        Initial: 'primera evaluacion',
+        Previous: 'previa',
+        Placeholder: 'marcador de posición',
+        Etc: 'etcétera',
+        This: 'esta',
+        UnaryOperator: 'operador unario',
+        BinaryOperator: 'operadora binaria',
+        Conditional: 'condicional',
+        Text: 'texto',
+        TemplateOpen: 'texto abierta',
+        TemplateBetween: 'texto entre',
+        TemplateClose: 'texto cerrada',
+        Number: 'número',
+        Decimal: 'número decimal',
+        Base: 'numeral base',
+        Boolean: 'booleano',
+        Name: 'nombre',
+        Unknown: 'desconocida',
+        End: 'final',
+    },
     nodes: {
         Dimension: {
             label: 'dimensión',
@@ -132,25 +198,7 @@ const eng_wordplay: Translation = {
         },
         Token: {
             label: 'token',
-            description: (token: Token) =>
-                token.is(TokenType.NAME)
-                    ? 'nombre'
-                    : token.is(TokenType.BINARY_OP) ||
-                      token.is(TokenType.UNARY_OP)
-                    ? 'operadora'
-                    : token.is(TokenType.DOC)
-                    ? 'documentación'
-                    : token.is(TokenType.JAPANESE) ||
-                      token.is(TokenType.ROMAN) ||
-                      token.is(TokenType.NUMBER) ||
-                      token.is(TokenType.PI) ||
-                      token.is(TokenType.INFINITY)
-                    ? 'número'
-                    : token.is(TokenType.SHARE)
-                    ? 'ofrecer'
-                    : token.is(TokenType.END)
-                    ? 'final'
-                    : 'simbólica',
+            description: getTokenDescription,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
@@ -213,7 +261,7 @@ const eng_wordplay: Translation = {
                 Explanation.as('evaluated to ', result ?? ' nothing'),
         },
         Bind: {
-            label: 'bind',
+            label: 'nombrar',
             description: (bind) => bind.names.getNames().join(', '),
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
@@ -447,9 +495,9 @@ const eng_wordplay: Translation = {
         MeasurementLiteral: {
             label: 'number',
             description: (node: MeasurementLiteral) =>
-                node.number.is(TokenType.PI)
+                node.number.is(TokenType.Pi)
                     ? 'pi'
-                    : node.number.is(TokenType.INFINITY)
+                    : node.number.is(TokenType.Infinity)
                     ? 'infinidad'
                     : node.unit.isUnitless()
                     ? node.number.getText()

@@ -48,7 +48,7 @@ export default class Conditional extends Expression {
     static make(condition: Expression, yes: Expression, no: Expression) {
         return new Conditional(
             condition,
-            new Token(QUESTION_SYMBOL, TokenType.BOOLEAN_TYPE),
+            new Token(QUESTION_SYMBOL, TokenType.BooleanType),
             yes,
             no
         );

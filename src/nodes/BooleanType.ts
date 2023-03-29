@@ -21,7 +21,7 @@ export default class BooleanType extends NativeType {
 
     static make() {
         return new BooleanType(
-            new Token(QUESTION_SYMBOL, TokenType.BOOLEAN_TYPE)
+            new Token(QUESTION_SYMBOL, TokenType.BooleanType)
         );
     }
 

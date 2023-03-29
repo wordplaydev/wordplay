@@ -56,7 +56,7 @@ export default class FunctionConcept extends Concept {
                 ? new UnaryOperation(
                       new Token(
                           this.definition.getUnaryOperatorName() ?? '_',
-                          TokenType.UNARY_OP
+                          TokenType.UnaryOperator
                       ),
                       ExpressionPlaceholder.make(this.structure.type)
                   )
@@ -65,7 +65,7 @@ export default class FunctionConcept extends Concept {
                       ExpressionPlaceholder.make(this.structure.type),
                       new Token(
                           this.definition.getBinaryOperatorName() ?? '_',
-                          TokenType.BINARY_OP
+                          TokenType.BinaryOperator
                       ),
                       ExpressionPlaceholder.make(
                           this.definition.inputs[0]?.type

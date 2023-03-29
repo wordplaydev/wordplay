@@ -52,7 +52,7 @@ export default class Program extends Expression {
             undefined,
             [],
             new Block([], true, false),
-            new Token('', TokenType.END)
+            new Token('', TokenType.End)
         );
     }
 

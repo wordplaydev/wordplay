@@ -481,7 +481,7 @@ export default class Caret {
                 // Is the text being typed what's already there?
                 text === this.source.code.at(this.position) &&
                 // Is what's being typed a closing delimiter of a text literal?
-                ((this.tokenIncludingSpace.is(TokenType.TEXT) &&
+                ((this.tokenIncludingSpace.is(TokenType.Text) &&
                     REVERSE_TEXT_DELIMITERS[
                         this.tokenIncludingSpace.getText().charAt(0)
                     ] === text) ||
@@ -500,8 +500,8 @@ export default class Caret {
                 text in DELIMITERS &&
                 (this.tokenPrior === undefined ||
                     !(
-                        (this.tokenPrior.is(TokenType.TEXT) ||
-                            this.tokenPrior.is(TokenType.UNKNOWN)) &&
+                        (this.tokenPrior.is(TokenType.Text) ||
+                            this.tokenPrior.is(TokenType.Unknown)) &&
                         text === DELIMITERS[this.tokenPrior.getText().charAt(0)]
                     ))
             ) {
@@ -876,7 +876,7 @@ export default class Caret {
 
     wrap(key: string): Edit | undefined {
         let node = this.position instanceof Node ? this.position : undefined;
-        if (node instanceof Token && !node.is(TokenType.END))
+        if (node instanceof Token && !node.is(TokenType.End))
             node = this.source.root.getParent(node);
         if (node === undefined || !(node instanceof Expression))
             return undefined;

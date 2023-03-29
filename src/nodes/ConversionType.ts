@@ -27,7 +27,7 @@ export default class ConversionType extends Type {
     static make(input: Type, output: Type) {
         return new ConversionType(
             input,
-            new Token(CONVERT_SYMBOL, TokenType.CONVERT),
+            new Token(CONVERT_SYMBOL, TokenType.Convert),
             output
         );
     }

@@ -47,7 +47,7 @@ export default class MeasurementType extends NativeType {
         op?: BinaryOperation | UnaryOperation | Evaluate
     ) {
         return new MeasurementType(
-            new Token(MEASUREMENT_SYMBOL, TokenType.NUMBER_TYPE),
+            new Token(MEASUREMENT_SYMBOL, TokenType.NumberType),
             unit ?? Unit.Empty,
             op
         );
@@ -110,7 +110,7 @@ export default class MeasurementType extends NativeType {
 
             // If this is a specific number, then all other possible type must be the same specific number.
             if (
-                this.number.is(TokenType.NUMBER) &&
+                this.number.is(TokenType.Number) &&
                 this.number.getText() !== possibleType.number.getText()
             )
                 return false;

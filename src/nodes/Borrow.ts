@@ -56,7 +56,7 @@ export default class Borrow extends AtomicExpression {
     ) {
         super();
 
-        this.borrow = borrow ?? new Token(BORROW_SYMBOL, TokenType.BORROW);
+        this.borrow = borrow ?? new Token(BORROW_SYMBOL, TokenType.Borrow);
         this.source = source;
         this.dot = dot;
         this.name = name;

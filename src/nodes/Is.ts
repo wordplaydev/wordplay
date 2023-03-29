@@ -40,7 +40,11 @@ export default class Is extends Expression {
     }
 
     static make(left: Expression, right: Type) {
-        return new Is(left, new Token(TYPE_SYMBOL, TokenType.TYPE_OP), right);
+        return new Is(
+            left,
+            new Token(TYPE_SYMBOL, TokenType.TypeOperator),
+            right
+        );
     }
 
     getGrammar() {

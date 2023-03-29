@@ -48,7 +48,7 @@ export default class PropertyReference extends Expression {
     static make(subject: Expression, name: Reference) {
         return new PropertyReference(
             subject,
-            new Token(PROPERTY_SYMBOL, TokenType.ACCESS),
+            new Token(PROPERTY_SYMBOL, TokenType.Access),
             name
         );
     }

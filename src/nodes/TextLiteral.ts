@@ -28,7 +28,7 @@ export default class TextLiteral extends Literal {
 
     static make(text?: string, format?: Language) {
         return new TextLiteral(
-            new Token(`'${text ?? ''}'`, TokenType.TEXT),
+            new Token(`'${text ?? ''}'`, TokenType.Text),
             format
         );
     }

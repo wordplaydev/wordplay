@@ -32,9 +32,9 @@ export default class Template extends Expression {
 
         this.open = open;
         this.expressions = expressions ?? [
-            new Token("'\\", TokenType.TEXT_OPEN),
+            new Token("'\\", TokenType.TemplateOpen),
             ExpressionPlaceholder.make(TextType.make()),
-            new Token("\\'", TokenType.TEXT_CLOSE),
+            new Token("\\'", TokenType.TemplateClose),
         ];
         this.format = format;
 
@@ -42,8 +42,8 @@ export default class Template extends Expression {
     }
 
     static make() {
-        return new Template(new Token('"\\', TokenType.TEXT_OPEN), [
-            new Token('\\"', TokenType.TEXT_CLOSE),
+        return new Template(new Token('"\\', TokenType.TemplateOpen), [
+            new Token('\\"', TokenType.TemplateClose),
         ]);
     }
 

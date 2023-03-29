@@ -8,4 +8,4 @@
     export let value: None;
 </script>
 
-<SymbolView symbol={value.toWordplay()} type={TokenType.NONE} />
+<SymbolView symbol={value.toWordplay()} type={TokenType.None} />

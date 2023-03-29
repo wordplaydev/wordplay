@@ -45,7 +45,7 @@ export default class Convert extends Expression {
     static make(expression: Expression, type: Type) {
         return new Convert(
             expression,
-            new Token(CONVERT_SYMBOL, TokenType.CONVERT),
+            new Token(CONVERT_SYMBOL, TokenType.Convert),
             type
         );
     }

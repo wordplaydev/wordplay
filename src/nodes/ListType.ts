@@ -35,9 +35,9 @@ export default class ListType extends NativeType {
 
     static make(type?: Type, length?: number) {
         return new ListType(
-            new Token(LIST_OPEN_SYMBOL, TokenType.LIST_OPEN),
+            new Token(LIST_OPEN_SYMBOL, TokenType.ListOpen),
             type,
-            new Token(LIST_CLOSE_SYMBOL, TokenType.LIST_CLOSE),
+            new Token(LIST_CLOSE_SYMBOL, TokenType.ListClose),
             length
         );
     }

@@ -27,9 +27,9 @@ export default class TypeVariables extends Node {
 
     static make(variables: TypeVariable[]) {
         return new TypeVariables(
-            new Token(TYPE_OPEN_SYMBOL, TokenType.TYPE_OPEN),
+            new Token(TYPE_OPEN_SYMBOL, TokenType.TypeOpen),
             variables,
-            new Token(TYPE_CLOSE_SYMBOL, TokenType.TYPE_CLOSE)
+            new Token(TYPE_CLOSE_SYMBOL, TokenType.TypeClose)
         );
     }
 

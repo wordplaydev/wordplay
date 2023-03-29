@@ -35,7 +35,7 @@ export default class Names extends Node {
                     new Name(
                         first
                             ? undefined
-                            : new Token(COMMA_SYMBOL, TokenType.NAME_SEPARATOR),
+                            : new Token(COMMA_SYMBOL, TokenType.Separator),
                         new NameToken(name)
                     )
                 );
@@ -49,13 +49,10 @@ export default class Names extends Node {
                         new Name(
                             index === 0
                                 ? undefined
-                                : new Token(
-                                      COMMA_SYMBOL,
-                                      TokenType.NAME_SEPARATOR
-                                  ),
+                                : new Token(COMMA_SYMBOL, TokenType.Separator),
                             new Token(
                                 names[lang as LanguageCode],
-                                TokenType.NAME
+                                TokenType.Name
                             ),
                             Language.make(lang)
                         )

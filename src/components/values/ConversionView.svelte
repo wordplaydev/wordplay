@@ -11,8 +11,8 @@
 
 <SymbolView
     symbol={value.definition.input.toWordplay()}
-    type={TokenType.TYPE}
-/><SymbolView symbol={CONVERT_SYMBOL} type={TokenType.CONVERT} /><SymbolView
+    type={TokenType.Type}
+/><SymbolView symbol={CONVERT_SYMBOL} type={TokenType.Convert} /><SymbolView
     symbol={value.definition.output.toWordplay()}
-    type={TokenType.TYPE}
+    type={TokenType.Type}
 />

@@ -100,7 +100,7 @@ const template: Node[] = [
         ExpressionPlaceholder.make()
     ),
     new UnaryOperation(
-        new Token('-', TokenType.UNARY_OP),
+        new Token('-', TokenType.UnaryOperator),
         ExpressionPlaceholder.make()
     ),
     Block.make([]),
@@ -212,7 +212,7 @@ const template: Node[] = [
     // Documentation
     Doc.make([
         new Paragraph([
-            new Words(undefined, new Token('TBD', TokenType.WORDS), undefined),
+            new Words(undefined, new Token('TBD', TokenType.Words), undefined),
         ]),
     ]),
     ConceptLink.make(PLACEHOLDER_SYMBOL),

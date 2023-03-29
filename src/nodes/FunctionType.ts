@@ -49,7 +49,7 @@ export default class FunctionType extends Type {
         output: Type
     ) {
         return new FunctionType(
-            new Token(FUNCTION_SYMBOL, TokenType.FUNCTION),
+            new Token(FUNCTION_SYMBOL, TokenType.Function),
             typeVars,
             new EvalOpenToken(),
             inputs,

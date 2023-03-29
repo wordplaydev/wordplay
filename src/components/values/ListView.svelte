@@ -11,7 +11,7 @@
     export let value: List;
 </script>
 
-<SymbolView symbol={LIST_OPEN_SYMBOL} type={TokenType.LIST_OPEN} /><Expandable
+<SymbolView symbol={LIST_OPEN_SYMBOL} type={TokenType.ListOpen} /><Expandable
     ><svelte:fragment slot="expanded"
         >{#each value.values as item, index}<ValueView
                 value={item}
@@ -21,4 +21,4 @@
                 value={item}
             />{#if index < value.values.length - 1}{' '}{/if}{/each}{#if value.values.length > 3}…{/if}</svelte:fragment
     ></Expandable
-><SymbolView symbol={LIST_CLOSE_SYMBOL} type={TokenType.LIST_CLOSE} />
+><SymbolView symbol={LIST_CLOSE_SYMBOL} type={TokenType.ListClose} />

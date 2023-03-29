@@ -38,6 +38,7 @@ import type MapLiteral from '../nodes/MapLiteral';
 import type SetLiteral from '../nodes/SetLiteral';
 import type TextLiteral from '../nodes/TextLiteral';
 import type UnaryOperation from '../nodes/UnaryOperation';
+import TokenType from '../nodes/TokenType';
 
 export type Description = string | Explanation;
 export type DocString = string;
@@ -173,6 +174,18 @@ export function getPlaceholderDescription(
         : undefined;
 }
 
+export function getTokenDescription(token: Token, translation: Translation) {
+    const tokenType = Object.entries(TokenType).find(
+        ([, val]) => val === token.types[0]
+    );
+    const tokenDescription = tokenType
+        ? translation.tokens[tokenType[0] as keyof typeof TokenType]
+        : undefined;
+    return tokenDescription
+        ? `${tokenDescription} ${token.getText()}`
+        : token.getText();
+}
+
 /**
  * Represents a complete translation for Wordplay,
  * including every user interface label, every description, etc.
@@ -227,6 +240,7 @@ type Translation = {
         done: Description;
         unevaluated: Description;
     };
+    tokens: Record<keyof typeof TokenType, string>;
     nodes: {
         Dimension: DynamicNodeTranslation<Dimension>;
         Doc: StaticNodeTranslation;

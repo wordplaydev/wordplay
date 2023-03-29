@@ -41,7 +41,7 @@ export default class Changed extends AtomicExpression {
     }
 
     static make(stream: Expression) {
-        return new Changed(new Token(CHANGE_SYMBOL, TokenType.CHANGE), stream);
+        return new Changed(new Token(CHANGE_SYMBOL, TokenType.Change), stream);
     }
 
     getGrammar() {

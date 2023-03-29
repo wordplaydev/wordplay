@@ -208,7 +208,7 @@ export function getInsertionPoint(
     if (parent === undefined) return;
 
     // Special case the end token of the Program, since it's block has no delimters.
-    if (node instanceof Token && node.is(TokenType.END)) {
+    if (node instanceof Token && node.is(TokenType.End)) {
         if (parent instanceof Program && parent.expression instanceof Block) {
             return new InsertionPoint(
                 parent.expression,

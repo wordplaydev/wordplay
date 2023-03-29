@@ -38,9 +38,9 @@ export default class SetLiteral extends Expression {
 
     static make(values: Expression[]) {
         return new SetLiteral(
-            new Token(SET_OPEN_SYMBOL, TokenType.SET_OPEN),
+            new Token(SET_OPEN_SYMBOL, TokenType.SetOpen),
             values,
-            new Token(SET_CLOSE_SYMBOL, TokenType.SET_CLOSE)
+            new Token(SET_CLOSE_SYMBOL, TokenType.SetClose)
         );
     }
 

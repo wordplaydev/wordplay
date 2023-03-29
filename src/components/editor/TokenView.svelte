@@ -27,7 +27,7 @@
     let caret = getCaret();
     let project = getProject();
 
-    $: placeholder = node.is(TokenType.PLACEHOLDER);
+    $: placeholder = node.is(TokenType.Placeholder);
     $: active =
         node.getTextLength() > 0 &&
         ($caret?.getTokenExcludingSpace() === node ||
@@ -43,9 +43,9 @@
         text = node.text.toString();
 
         // Unless it's text, in which case we localize it's delimiters.
-        const isText = node.is(TokenType.TEXT);
-        const isTextOpen = node.is(TokenType.TEXT_OPEN);
-        const isTextClose = node.is(TokenType.TEXT_CLOSE);
+        const isText = node.is(TokenType.Text);
+        const isTextOpen = node.is(TokenType.TemplateOpen);
+        const isTextClose = node.is(TokenType.TemplateClose);
         if (
             (isText || isTextOpen || isTextClose) &&
             $preferredLanguages.length > 0
@@ -75,7 +75,7 @@
         // If's a name, localize the name.
         // If the caret is in the node, we choose the name that it is in the source, so that it's editable.
         // Otherwise we choose the best name from of the preferred languages.
-        if (node.is(TokenType.NAME) && $caret) {
+        if (node.is(TokenType.Name) && $caret) {
             // The text is text.
             text = node.text.toString();
 

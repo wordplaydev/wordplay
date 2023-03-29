@@ -15,13 +15,13 @@
     export let value: Map;
 </script>
 
-<SymbolView symbol={SET_OPEN_SYMBOL} type={TokenType.SET_OPEN} /><Expandable
+<SymbolView symbol={SET_OPEN_SYMBOL} type={TokenType.SetOpen} /><Expandable
     ><svelte:fragment slot="expanded"
         >{#each value.values as [key, val], index}<ValueView
                 value={key}
             /><SymbolView
                 symbol={BIND_SYMBOL}
-                type={TokenType.BIND}
+                type={TokenType.Bind}
             /><ValueView
                 value={val}
             />{#if index < value.values.length - 1}{' '}{/if}{/each}</svelte:fragment
@@ -30,9 +30,9 @@
                 value={key}
             /><SymbolView
                 symbol={BIND_SYMBOL}
-                type={TokenType.BIND}
+                type={TokenType.Bind}
             /><ValueView
                 value={val}
             />{#if index < value.values.length - 1}{' '}{/if}{/each}{#if value.values.length > 3}…{/if}</svelte:fragment
     ></Expandable
-><SymbolView symbol={SET_CLOSE_SYMBOL} type={TokenType.SET_CLOSE} />
+><SymbolView symbol={SET_CLOSE_SYMBOL} type={TokenType.SetClose} />

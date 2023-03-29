@@ -30,7 +30,7 @@ export default class BooleanLiteral extends Literal {
         return new BooleanLiteral(
             new Token(
                 value === true ? TRUE_SYMBOL : FALSE_SYMBOL,
-                TokenType.BOOLEAN
+                TokenType.Boolean
             )
         );
     }

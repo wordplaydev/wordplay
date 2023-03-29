@@ -47,7 +47,7 @@ export default class Previous extends Expression {
     static make(stream: Expression, index: Expression) {
         return new Previous(
             stream,
-            new Token(PREVIOUS_SYMBOL, TokenType.PREVIOUS),
+            new Token(PREVIOUS_SYMBOL, TokenType.Previous),
             index
         );
     }

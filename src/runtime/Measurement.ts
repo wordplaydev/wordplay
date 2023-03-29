@@ -54,11 +54,11 @@ export default class Measurement extends Primitive {
 
     static fromToken(number: Token): Decimal {
         // Infinity
-        if (number.is(TokenType.INFINITY)) {
+        if (number.is(TokenType.Infinity)) {
             return new Decimal(Infinity);
         }
         // If it matches the decimal pattern, randomize requested digits, then convert to a Decimal.
-        else if (number.is(TokenType.DECIMAL)) {
+        else if (number.is(TokenType.Decimal)) {
             let text = number.text.toString();
 
             // Is there a trailing %? Strip it.
@@ -70,15 +70,15 @@ export default class Measurement extends Primitive {
                 : new Decimal(text);
         }
         // If it matches a number with a different base, convert it to a Decimal.
-        else if (number.is(TokenType.BASE)) {
+        else if (number.is(TokenType.Base)) {
             return convertBase(number.text.toString());
-        } else if (number.is(TokenType.ROMAN)) {
+        } else if (number.is(TokenType.RomanNumeral)) {
             return convertRoman(number.text.toString());
-        } else if (number.is(TokenType.JAPANESE)) {
+        } else if (number.is(TokenType.JapaneseNumeral)) {
             return convertJapanese(number.text.toString());
         }
         // If it matches the Pi token, convert to Pi.
-        else if (number.is(TokenType.PI)) {
+        else if (number.is(TokenType.Pi)) {
             return Decimal.acos(-1);
         } else {
             return new Decimal(NaN);

@@ -62,7 +62,7 @@ export default class Name extends Node {
         return this.separator !== undefined
             ? this
             : new Name(
-                  new Token(COMMA_SYMBOL, TokenType.NAME_SEPARATOR),
+                  new Token(COMMA_SYMBOL, TokenType.Separator),
                   this.name,
                   this.lang
               );

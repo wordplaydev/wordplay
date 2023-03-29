@@ -33,9 +33,9 @@ export default class Doc extends Node {
 
     static make(content: Paragraph[]) {
         return new Doc(
-            new Token(DOCS_SYMBOL, TokenType.DOC),
+            new Token(DOCS_SYMBOL, TokenType.Doc),
             content,
-            new Token(DOCS_SYMBOL, TokenType.DOC),
+            new Token(DOCS_SYMBOL, TokenType.Doc),
             undefined
         );
     }

@@ -611,7 +611,7 @@
                 ? nonTokenNodeUnderMouse
                 : // If the node is a placeholder token, select it
                 tokenUnderMouse instanceof Token &&
-                  tokenUnderMouse.is(TokenType.PLACEHOLDER)
+                  tokenUnderMouse.is(TokenType.Placeholder)
                 ? tokenUnderMouse
                 : // Otherwise choose an index position under the mouse
                   getCaretPositionAt(event);

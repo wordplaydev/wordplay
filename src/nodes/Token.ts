@@ -23,7 +23,7 @@ export default class Token extends Node {
             text instanceof UnicodeString ? text : new UnicodeString(text);
 
         // No token is allowed to be empty except the end token.
-        if (this.text.isEmpty() && !this.is(TokenType.END))
+        if (this.text.isEmpty() && !this.is(TokenType.End))
             throw Error('This token has no text');
     }
 
@@ -54,7 +54,7 @@ export default class Token extends Node {
         return this.getTypes().includes(type);
     }
     isName() {
-        return this.is(TokenType.NAME);
+        return this.is(TokenType.Name);
     }
     getTypes() {
         return this.types;

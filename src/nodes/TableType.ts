@@ -30,9 +30,9 @@ export default class TableType extends Type {
 
     static make(columns: Bind[]) {
         return new TableType(
-            new Token(TABLE_OPEN_SYMBOL, [TokenType.TABLE_OPEN]),
+            new Token(TABLE_OPEN_SYMBOL, [TokenType.TableOpen]),
             columns,
-            new Token(TABLE_CLOSE_SYMBOL, [TokenType.TABLE_CLOSE])
+            new Token(TABLE_CLOSE_SYMBOL, [TokenType.TableClose])
         );
     }
 

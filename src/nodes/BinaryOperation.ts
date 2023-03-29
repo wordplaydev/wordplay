@@ -71,7 +71,7 @@ export default class BinaryOperation extends Expression {
                 indent: true,
                 // The operators should be all those that exist on the type on the left.
                 getToken: (text?: string, op?: string): Token =>
-                    new Token(op ?? text ?? '_', TokenType.BINARY_OP),
+                    new Token(op ?? text ?? '_', TokenType.BinaryOperator),
                 getDefinitions: (context: Context): Definition[] => {
                     const leftType =
                         this.left instanceof Expression

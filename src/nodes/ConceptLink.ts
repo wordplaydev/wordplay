@@ -18,7 +18,7 @@ export default class ConceptLink extends Node {
 
     static make(concept: string) {
         return new ConceptLink(
-            new Token(`${LINK_SYMBOL}${concept}`, TokenType.CONCEPT)
+            new Token(`${LINK_SYMBOL}${concept}`, TokenType.Concept)
         );
     }
 

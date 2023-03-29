@@ -13,11 +13,11 @@
 
 <Expandable
     ><svelte:fragment slot="expanded"
-        ><SymbolView symbol={text} type={TokenType.TEXT} /></svelte:fragment
+        ><SymbolView symbol={text} type={TokenType.Text} /></svelte:fragment
     ><svelte:fragment slot="collapsed"
         ><SymbolView
             symbol={new UnicodeString(text).substring(0, 10).toString()}
-            type={TokenType.TEXT}
+            type={TokenType.Text}
         />{#if text.length > 10}…{/if}</svelte:fragment
     ></Expandable
 >

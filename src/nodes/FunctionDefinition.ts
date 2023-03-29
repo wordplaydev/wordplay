@@ -87,7 +87,7 @@ export default class FunctionDefinition extends Expression {
         return new FunctionDefinition(
             docs,
             undefined,
-            new Token(FUNCTION_SYMBOL, TokenType.FUNCTION),
+            new Token(FUNCTION_SYMBOL, TokenType.Function),
             names instanceof Names ? names : Names.make(names),
             types,
             new EvalOpenToken(),
@@ -105,7 +105,7 @@ export default class FunctionDefinition extends Expression {
             {
                 name: 'share',
                 types: [Token, undefined],
-                getToken: () => new Token(SHARE_SYMBOL, TokenType.SHARE),
+                getToken: () => new Token(SHARE_SYMBOL, TokenType.Share),
             },
             { name: 'fun', types: [Token] },
             { name: 'names', types: [Names] },
@@ -299,7 +299,7 @@ export default class FunctionDefinition extends Expression {
     isAbstract() {
         return (
             this.expression instanceof Token &&
-            this.expression.is(TokenType.PLACEHOLDER)
+            this.expression.is(TokenType.Placeholder)
         );
     }
 

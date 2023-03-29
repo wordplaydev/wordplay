@@ -100,7 +100,7 @@ export default class Unit extends Type {
                             if (this.slash === undefined)
                                 this.slash = new Token(
                                     LANGUAGE_SYMBOL,
-                                    TokenType.LANGUAGE
+                                    TokenType.Language
                                 );
                         }
                     }

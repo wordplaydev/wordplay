@@ -39,7 +39,7 @@ export default class This extends AtomicExpression {
     }
 
     static make() {
-        return new This(new Token(PROPERTY_SYMBOL, TokenType.ACCESS));
+        return new This(new Token(PROPERTY_SYMBOL, TokenType.Access));
     }
 
     getGrammar() {

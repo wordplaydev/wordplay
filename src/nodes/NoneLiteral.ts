@@ -26,7 +26,7 @@ export default class NoneLiteral extends Literal {
     }
 
     static make() {
-        return new NoneLiteral(new Token(NONE_SYMBOL, TokenType.NONE));
+        return new NoneLiteral(new Token(NONE_SYMBOL, TokenType.None));
     }
 
     getGrammar() {

@@ -36,11 +36,11 @@ export default class WebLink extends Node {
 
     static make(description: string, url: string) {
         return new WebLink(
-            new Token(TAG_OPEN_SYMBOL, TokenType.TAG_OPEN),
-            new Token(description, TokenType.WORDS),
-            new Token(LINK_SYMBOL, TokenType.LINK),
+            new Token(TAG_OPEN_SYMBOL, TokenType.TagOpen),
+            new Token(description, TokenType.Words),
+            new Token(LINK_SYMBOL, TokenType.Link),
             new Token(url, TokenType.URL),
-            new Token(TAG_CLOSE_SYMBOL, TokenType.TAG_CLOSE)
+            new Token(TAG_CLOSE_SYMBOL, TokenType.TagClose)
         );
     }
 

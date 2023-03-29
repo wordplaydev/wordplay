@@ -13,6 +13,6 @@
 {#each value.literal.type.columns as col}
     <SymbolView
         symbol={col ? col.names.getTranslation($preferredLanguages) : ''}
-        type={TokenType.NAME}
-    /><SymbolView symbol={TABLE_OPEN_SYMBOL} type={TokenType.TABLE_OPEN} />
+        type={TokenType.Name}
+    /><SymbolView symbol={TABLE_OPEN_SYMBOL} type={TokenType.TableOpen} />
 {/each}

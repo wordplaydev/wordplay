@@ -4,6 +4,6 @@ import TokenType from './TokenType';
 
 export default class EvalCloseToken extends Token {
     constructor() {
-        super(EVAL_CLOSE_SYMBOL, TokenType.EVAL_CLOSE);
+        super(EVAL_CLOSE_SYMBOL, TokenType.EvalClose);
     }
 }

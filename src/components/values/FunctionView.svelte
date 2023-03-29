@@ -10,8 +10,8 @@
     export let value: FunctionValue;
 </script>
 
-<SymbolView symbol={FUNCTION_SYMBOL} type={TokenType.FUNCTION} />
+<SymbolView symbol={FUNCTION_SYMBOL} type={TokenType.Function} />
 <SymbolView
     symbol={value.definition.names.getTranslation($preferredLanguages)}
-    type={TokenType.NAME}
+    type={TokenType.Name}
 />

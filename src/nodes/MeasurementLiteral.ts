@@ -40,7 +40,7 @@ export default class MeasurementLiteral extends Literal {
                 ? new PlaceholderToken()
                 : new Token(
                       typeof number === 'number' ? '' + number : number,
-                      TokenType.DECIMAL
+                      TokenType.Decimal
                   ),
             unit === undefined ? Unit.Empty : unit
         );

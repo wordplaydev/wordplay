@@ -19,10 +19,10 @@ export default class NoneType extends NativeType {
         this.computeChildren();
     }
 
-    static None = new NoneType(new Token(NONE_SYMBOL, TokenType.NONE));
+    static None = new NoneType(new Token(NONE_SYMBOL, TokenType.None));
 
     static make() {
-        return new NoneType(new Token(NONE_SYMBOL, TokenType.NONE));
+        return new NoneType(new Token(NONE_SYMBOL, TokenType.None));
     }
 
     getGrammar() {

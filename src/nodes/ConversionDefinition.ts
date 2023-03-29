@@ -57,7 +57,7 @@ export default class ConversionDefinition extends AtomicExpression {
     ) {
         return new ConversionDefinition(
             docs,
-            new Token(CONVERT_SYMBOL, TokenType.CONVERT),
+            new Token(CONVERT_SYMBOL, TokenType.Convert),
             input instanceof Type ? input : parseType(toTokens(input)),
             output instanceof Type ? output : parseType(toTokens(output)),
             expression

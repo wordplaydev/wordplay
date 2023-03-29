@@ -4,6 +4,6 @@ import TokenType from './TokenType';
 
 export default class TypeToken extends Token {
     constructor() {
-        super(TYPE_SYMBOL, TokenType.TYPE);
+        super(TYPE_SYMBOL, TokenType.Type);
     }
 }

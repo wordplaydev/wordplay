@@ -32,7 +32,7 @@ export default class Initial extends AtomicExpression {
     }
 
     static make() {
-        return new Initial(new Token(INITIAL_SYMBOL, TokenType.INITIAL));
+        return new Initial(new Token(INITIAL_SYMBOL, TokenType.Initial));
     }
 
     getGrammar() {

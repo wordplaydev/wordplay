@@ -10,7 +10,7 @@
     export let value: StructureDefinitionValue;
 </script>
 
-<SymbolView symbol={TYPE_SYMBOL} type={TokenType.TYPE} /><SymbolView
+<SymbolView symbol={TYPE_SYMBOL} type={TokenType.Type} /><SymbolView
     symbol={value.definition.names.getTranslation($preferredLanguages)}
-    type={TokenType.NAME}
+    type={TokenType.Name}
 />

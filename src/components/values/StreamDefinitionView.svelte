@@ -10,8 +10,8 @@
     export let value: StreamDefinitionValue;
 </script>
 
-<SymbolView symbol={STREAM_SYMBOL} type={TokenType.STREAM} />
+<SymbolView symbol={STREAM_SYMBOL} type={TokenType.Stream} />
 <SymbolView
     symbol={value.definition.names.getTranslation($preferredLanguages)}
-    type={TokenType.NAME}
+    type={TokenType.Name}
 />

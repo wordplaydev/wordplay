@@ -110,7 +110,7 @@ export default class StructureDefinition extends AtomicExpression {
             {
                 name: 'share',
                 types: [Token, undefined],
-                getToken: () => new Token(SHARE_SYMBOL, TokenType.SHARE),
+                getToken: () => new Token(SHARE_SYMBOL, TokenType.Share),
             },
             { name: 'type', types: [Token] },
             { name: 'names', types: [Names] },

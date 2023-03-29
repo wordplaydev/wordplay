@@ -73,7 +73,7 @@ export default class StreamDefinition extends Expression {
     ) {
         return new StreamDefinition(
             docs,
-            new Token(STREAM_SYMBOL, TokenType.STREAM),
+            new Token(STREAM_SYMBOL, TokenType.Stream),
             names instanceof Names ? names : Names.make(names),
             new EvalOpenToken(),
             inputs,

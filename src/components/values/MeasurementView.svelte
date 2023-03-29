@@ -8,4 +8,4 @@
     export let value: Measurement;
 </script>
 
-<SymbolView symbol={value.toWordplay()} type={TokenType.NUMBER} />
+<SymbolView symbol={value.toWordplay()} type={TokenType.Number} />

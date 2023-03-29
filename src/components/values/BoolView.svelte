@@ -8,4 +8,4 @@
     export let value: Bool;
 </script>
 
-<SymbolView symbol={value.toWordplay()} type={TokenType.BOOLEAN} />
+<SymbolView symbol={value.toWordplay()} type={TokenType.Boolean} />

@@ -4,6 +4,6 @@ import TokenType from './TokenType';
 
 export default class PlaceholderToken extends Token {
     constructor() {
-        super(PLACEHOLDER_SYMBOL, TokenType.PLACEHOLDER);
+        super(PLACEHOLDER_SYMBOL, TokenType.Placeholder);
     }
 }
