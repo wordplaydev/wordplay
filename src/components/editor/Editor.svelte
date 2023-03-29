@@ -1399,6 +1399,7 @@
 
     .caret-description.node {
         opacity: 1;
+        font-style: italic;
     }
 
     .screen-reader-description {
