@@ -7,6 +7,7 @@ import type { NativeTypeName } from '../native/NativeConstants';
 import type Translation from '@translation/Translation';
 import type Expression from '../nodes/Expression';
 import List from './List';
+import Bool from './Bool';
 
 export default class Text extends Primitive {
     readonly text: string;
@@ -50,6 +51,11 @@ export default class Text extends Primitive {
     combine(requestor: Expression, text: Text) {
         return new Text(requestor, this.text + text.text);
     }
+
+    has(requestor: Expression, text: Text) {
+        return new Bool(requestor, this.text.includes(text.text));
+    }
+
     toWordplay(): string {
         return `"${this.text}"${this.format ? `/${this.format}` : ''}`;
     }

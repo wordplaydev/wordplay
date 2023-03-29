@@ -1090,6 +1090,11 @@ const eng_wordplay: Translation = {
                     name: [SUM_SYMBOL, 'combinar'],
                     inputs: [{ doc: WRITE_DOC, name: 'texto' }],
                 },
+                has: {
+                    doc: WRITE_DOC,
+                    name: ['tiene'],
+                    inputs: [{ doc: WRITE_DOC, name: 'texto' }],
+                },
             },
             conversion: {
                 text: WRITE_DOC,

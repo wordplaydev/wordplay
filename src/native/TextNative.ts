@@ -40,6 +40,10 @@ export default function bootstrapText() {
         (t) => t.native.text.function.combine.inputs[0].name
     );
 
+    const hasNames = getNameTranslations(
+        (t) => t.native.text.function.has.inputs[0].name
+    );
+
     function createTextFunction(
         translations: {
             docs: Docs;
@@ -135,7 +139,8 @@ export default function bootstrapText() {
                     ],
                     BooleanType.make(),
                     (requestor, text, evaluation) => {
-                        const val = evaluation.resolve(equalsNames);
+                        const val: Value | undefined =
+                            evaluation.resolve(equalsNames);
                         if (val instanceof Text)
                             return new Bool(requestor, text.isEqualTo(val));
                         else
@@ -229,6 +234,29 @@ export default function bootstrapText() {
                                 other
                             );
                         return text.combine(requestor, other);
+                    }
+                ),
+                createTextFunction(
+                    getFunctionTranslations((t) => t.native.text.function.has),
+                    [
+                        Bind.make(
+                            getDocTranslations(
+                                (t) => t.native.text.function.has.inputs[0].doc
+                            ),
+                            hasNames,
+                            TextType.make()
+                        ),
+                    ],
+                    BooleanType.make(),
+                    (requestor, text, evaluation) => {
+                        const other = evaluation.resolve(hasNames);
+                        if (other === undefined || !(other instanceof Text))
+                            return evaluation.getValueOrTypeException(
+                                requestor,
+                                TextType.make(),
+                                other
+                            );
+                        return text.has(requestor, other);
                     }
                 ),
                 createNativeConversion(

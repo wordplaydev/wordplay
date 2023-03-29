@@ -501,6 +501,7 @@ type Translation = {
                 repeat: FunctionTranslation<[NameAndDocTranslation]>;
                 segment: FunctionTranslation<[NameAndDocTranslation]>;
                 combine: FunctionTranslation<[NameAndDocTranslation]>;
+                has: FunctionTranslation<[NameAndDocTranslation]>;
             };
             conversion: {
                 text: DocTranslation;

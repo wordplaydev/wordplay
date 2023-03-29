@@ -1363,6 +1363,11 @@ const en: Translation = {
                     name: [SUM_SYMBOL, 'combine'],
                     inputs: [{ doc: WRITE_DOC, name: 'text' }],
                 },
+                has: {
+                    doc: WRITE_DOC,
+                    name: ['has'],
+                    inputs: [{ doc: WRITE_DOC, name: 'text' }],
+                },
             },
             conversion: {
                 text: WRITE_DOC,
