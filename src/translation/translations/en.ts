@@ -896,7 +896,8 @@ const en: Translation = {
         },
         StructureDefinition: {
             label: 'structure',
-            description: WRITE_DOC,
+            description: (structure, translation) =>
+                structure.names.getTranslation(translation.language),
             emotion: Emotion.TBD,
             doc: `define a data structure that stores values and functions on those values.`,
             start: 'define this structure type',

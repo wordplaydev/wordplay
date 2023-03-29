@@ -39,6 +39,7 @@ import type SetLiteral from '../nodes/SetLiteral';
 import type TextLiteral from '../nodes/TextLiteral';
 import type UnaryOperation from '../nodes/UnaryOperation';
 import TokenType from '../nodes/TokenType';
+import type StructureDefinition from '../nodes/StructureDefinition';
 
 export type Description = string | Explanation;
 export type DocString = string;
@@ -405,7 +406,7 @@ type Translation = {
             >;
         Source: StaticNodeTranslation;
         StreamDefinition: StaticNodeTranslation & AtomicExpressionTranslation;
-        StructureDefinition: StaticNodeTranslation &
+        StructureDefinition: DynamicNodeTranslation<StructureDefinition> &
             AtomicExpressionTranslation;
         TableLiteral: StaticNodeTranslation &
             ExpressionTranslation<Description, ValueOrUndefinedTranslation> & {

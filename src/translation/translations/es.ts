@@ -654,7 +654,8 @@ const eng_wordplay: Translation = {
         },
         StructureDefinition: {
             label: 'estructura',
-            description: WRITE_DOC,
+            description: (structure, translation) =>
+                structure.names.getTranslation(translation.language),
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: 'define this structure type',
