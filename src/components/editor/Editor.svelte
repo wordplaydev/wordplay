@@ -526,8 +526,26 @@
         if ($dragged === undefined) return false;
 
         // Allow expressions to be dropped on expressions.
-        if ($dragged instanceof Expression && $hovered instanceof Expression)
-            return true;
+        if ($hovered !== undefined) {
+            // Find the field the hovered node corresponds to.
+            const field = project
+                .getRoot($hovered)
+                ?.getParent($hovered)
+                ?.getFieldOfChild($hovered);
+
+            // If we found a field and the dragged node is an instanceof one of the allowed types, it's a valid drop target.
+            if (
+                field &&
+                field.types.some((type) =>
+                    Array.isArray(type)
+                        ? type.some((t) => $dragged instanceof t)
+                        : type instanceof Function
+                        ? $dragged instanceof type
+                        : false
+                )
+            )
+                return true;
+        }
 
         // Allow binds to be dropped on children of blocks.
         if ($dragged instanceof Bind && $hovered) {
