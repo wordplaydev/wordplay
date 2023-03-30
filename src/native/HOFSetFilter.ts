@@ -1,7 +1,6 @@
 import Bind from '@nodes/Bind';
 import BooleanType from '@nodes/BooleanType';
 import type Context from '@nodes/Context';
-import Expression from '@nodes/Expression';
 import type FunctionType from '@nodes/FunctionType';
 import MeasurementType from '@nodes/MeasurementType';
 import Names from '@nodes/Names';
@@ -79,8 +78,7 @@ export default class HOFSetFilter extends HOF {
                         const setValue = set.values[index.num.toNumber() - 1];
                         if (
                             checker instanceof FunctionValue &&
-                            checker.definition.expression instanceof
-                                Expression &&
+                            checker.definition.expression !== undefined &&
                             checker.definition.inputs[0] instanceof Bind
                         ) {
                             const bindings = new Map<Names, Value>();

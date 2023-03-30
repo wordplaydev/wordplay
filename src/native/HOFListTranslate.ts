@@ -1,6 +1,5 @@
 import Bind from '@nodes/Bind';
 import type Context from '@nodes/Context';
-import Expression from '@nodes/Expression';
 import type FunctionType from '@nodes/FunctionType';
 import ListType from '@nodes/ListType';
 import MeasurementType from '@nodes/MeasurementType';
@@ -71,8 +70,7 @@ export default class HOFListTranslate extends HOF {
                         const listValue = list.get(index);
                         if (
                             translator instanceof FunctionValue &&
-                            translator.definition.expression instanceof
-                                Expression &&
+                            translator.definition.expression !== undefined &&
                             translator.definition.inputs[0] instanceof Bind
                         ) {
                             const bindings = new Map<Names, Value>();

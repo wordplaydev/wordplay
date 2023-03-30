@@ -1001,11 +1001,10 @@ export function parseFunction(tokens: Tokens): FunctionDefinition {
         output = parseType(tokens);
     }
 
-    const expression = tokens.nextIs(TokenType.Placeholder)
-        ? tokens.read(TokenType.Placeholder)
-        : !tokens.hasNext() || tokens.nextHasMoreThanOneLineBreak()
-        ? undefined
-        : parseExpression(tokens);
+    const expression =
+        !tokens.hasNext() || tokens.nextHasMoreThanOneLineBreak()
+            ? undefined
+            : parseExpression(tokens);
 
     return new FunctionDefinition(
         docs,

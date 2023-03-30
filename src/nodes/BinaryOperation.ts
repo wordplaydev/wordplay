@@ -217,7 +217,7 @@ export default class BinaryOperation extends Expression {
         return [
             this.left,
             this.right,
-            ...(fun === undefined || !(fun.expression instanceof Expression)
+            ...(fun === undefined || fun.expression === undefined
                 ? []
                 : [fun.expression]),
         ];
@@ -273,7 +273,7 @@ export default class BinaryOperation extends Expression {
         // Verify that it's a function.
         if (
             !(functionValue instanceof FunctionValue) ||
-            !(functionValue.definition.expression instanceof Expression)
+            !(functionValue.definition.expression !== undefined)
         )
             return new FunctionException(
                 evaluator,

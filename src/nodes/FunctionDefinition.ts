@@ -31,6 +31,7 @@ import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
 import InternalException from '@runtime/InternalException';
 import Glyphs from '../lore/Glyphs';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
 
 export default class FunctionDefinition extends Expression {
     readonly docs?: Docs;
@@ -43,7 +44,7 @@ export default class FunctionDefinition extends Expression {
     readonly close: Token | undefined;
     readonly dot: Token | undefined;
     readonly output: Type | undefined;
-    readonly expression: Expression | Token | undefined;
+    readonly expression: Expression | undefined;
 
     constructor(
         docs: Docs | undefined,
@@ -56,7 +57,7 @@ export default class FunctionDefinition extends Expression {
         close: Token | undefined,
         dot: Token | undefined,
         output: Type | undefined,
-        expression: Expression | Token | undefined
+        expression: Expression | undefined
     ) {
         super();
 
@@ -81,7 +82,7 @@ export default class FunctionDefinition extends Expression {
         names: Names,
         types: TypeVariables | undefined,
         inputs: Bind[],
-        expression: Expression | Token,
+        expression: Expression,
         output?: Type
     ) {
         return new FunctionDefinition(
@@ -250,14 +251,14 @@ export default class FunctionDefinition extends Expression {
     getOutputType(context: Context) {
         return this.output instanceof Type
             ? this.output
-            : !(this.expression instanceof Expression)
+            : this.expression === undefined
             ? new UnimplementedType(this)
             : this.expression.getType(context);
     }
 
     /** Functions have no dependencies; once they are defined, they cannot change what they evaluate to. */
     getDependencies(): Expression[] {
-        return this.expression instanceof Expression ? [this.expression] : [];
+        return this.expression !== undefined ? [this.expression] : [];
     }
 
     /** Functions are not constant because they encapsulate a closure each time they are evaluated. */
@@ -298,8 +299,8 @@ export default class FunctionDefinition extends Expression {
 
     isAbstract() {
         return (
-            this.expression instanceof Token &&
-            this.expression.is(TokenType.Placeholder)
+            this.expression instanceof ExpressionPlaceholder ||
+            this.expression === undefined
         );
     }
 
@@ -309,7 +310,7 @@ export default class FunctionDefinition extends Expression {
         current: TypeSet,
         context: Context
     ) {
-        if (this.expression instanceof Expression)
+        if (this.expression !== undefined)
             this.expression.evaluateTypeSet(bind, original, current, context);
         return current;
     }

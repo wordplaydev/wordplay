@@ -1,7 +1,6 @@
 import Bind from '@nodes/Bind';
 import BooleanType from '@nodes/BooleanType';
 import type Context from '@nodes/Context';
-import Expression from '@nodes/Expression';
 import type FunctionType from '@nodes/FunctionType';
 import MapType from '@nodes/MapType';
 import Names from '@nodes/Names';
@@ -58,7 +57,7 @@ export default class HOFMapFilter extends HOF {
                     index instanceof Measurement &&
                     map instanceof MapValue &&
                     checker instanceof FunctionValue &&
-                    checker.definition.expression instanceof Expression &&
+                    checker.definition.expression !== undefined &&
                     checker.definition.inputs[0] instanceof Bind &&
                     checker.definition.inputs[1] instanceof Bind
                 ) {

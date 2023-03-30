@@ -547,7 +547,7 @@ export default class Evaluate extends Expression {
             fun === undefined
                 ? undefined
                 : fun instanceof FunctionDefinition &&
-                  fun.expression instanceof Expression
+                  fun.expression !== undefined
                 ? fun.expression
                 : fun instanceof StructureDefinition
                 ? fun.expression
@@ -692,7 +692,7 @@ export default class Evaluate extends Expression {
             const body = definitionValue.definition.expression;
 
             // Bail if the function's body isn't an expression.
-            if (!(body instanceof Expression))
+            if (body === undefined)
                 return new UnimplementedException(
                     evaluator,
                     body ?? definitionValue.definition

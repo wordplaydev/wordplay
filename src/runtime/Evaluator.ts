@@ -17,7 +17,6 @@ import Expression from '@nodes/Expression';
 import Project from '../models/Project';
 import type Step from './Step';
 import StructureDefinition from '@nodes/StructureDefinition';
-import Token from '@nodes/Token';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import ConversionDefinition from '@nodes/ConversionDefinition';
 import Context from '@nodes/Context';
@@ -290,8 +289,7 @@ export default class Evaluator {
         if (steps === undefined) {
             // Get the expression of the given node and compile it.
             const expression = evaluation.expression;
-            if (expression instanceof Token || expression === undefined)
-                steps = [];
+            if (expression === undefined) steps = [];
             else {
                 const context =
                     this.project.getNodeContext(expression) ??

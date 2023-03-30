@@ -1,6 +1,5 @@
 import Bind from '@nodes/Bind';
 import BooleanType from '@nodes/BooleanType';
-import Expression from '@nodes/Expression';
 import type FunctionType from '@nodes/FunctionType';
 import ListType from '@nodes/ListType';
 import MeasurementType from '@nodes/MeasurementType';
@@ -71,8 +70,7 @@ export default class HOFListFind extends HOF {
                         const listValue = list.get(index);
                         if (
                             include instanceof FunctionValue &&
-                            include.definition.expression instanceof
-                                Expression &&
+                            include.definition.expression !== undefined &&
                             include.definition.inputs[0] instanceof Bind
                         ) {
                             const bindings = new Map<Names, Value>();

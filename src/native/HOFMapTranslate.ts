@@ -1,5 +1,4 @@
 import Bind from '@nodes/Bind';
-import Expression from '@nodes/Expression';
 import type FunctionType from '@nodes/FunctionType';
 import ListType from '@nodes/ListType';
 import MapType from '@nodes/MapType';
@@ -78,8 +77,7 @@ export default class HOFMapTranslate extends HOF {
                             map.values[index.num.toNumber() - 1][1];
                         if (
                             translator instanceof FunctionValue &&
-                            translator.definition.expression instanceof
-                                Expression &&
+                            translator.definition.expression !== undefined &&
                             translator.definition.inputs[0] instanceof Bind &&
                             translator.definition.inputs[1] instanceof Bind
                         ) {

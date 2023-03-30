@@ -106,7 +106,7 @@ export default class UnaryOperation extends Expression {
         const fun = this.getFunction(context);
         return [
             this.operand,
-            ...(fun === undefined || !(fun.expression instanceof Expression)
+            ...(fun === undefined || fun.expression === undefined
                 ? []
                 : [fun.expression]),
         ];
@@ -130,7 +130,7 @@ export default class UnaryOperation extends Expression {
 
         if (
             !(fun instanceof FunctionValue) ||
-            !(fun.definition.expression instanceof Expression)
+            fun.definition.expression === undefined
         )
             return new FunctionException(
                 evaluator,
