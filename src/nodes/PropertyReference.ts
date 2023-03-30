@@ -60,6 +60,9 @@ export default class PropertyReference extends Expression {
             {
                 name: 'name',
                 types: [Reference],
+                // The label is
+                label: (translation: Translation) =>
+                    translation.nodes.PropertyReference.property,
                 // The valid definitions of the name are based on the referenced structure type, prefix filtered by whatever name is already provided.
                 getDefinitions: (context: Context) => {
                     let defs = this.getDefinitions(this, context);

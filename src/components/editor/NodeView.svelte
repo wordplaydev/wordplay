@@ -76,14 +76,14 @@
                 ? $insertion
                 : undefined}
         />{/if}<div
-        role="presentation"
         class="{node.constructor.name} node-view"
         class:hide
         class:small
-        aria-hidden={hide ? 'true' : null}
-        aria-label={description}
         data-id={node.id}
         id={`node-${node.id}`}
+        role="presentation"
+        aria-hidden={hide ? 'true' : null}
+        aria-label={description}
         >{#if value}<ValueView {value} />{:else}<svelte:component
                 this={getNodeView(node)}
                 {node}

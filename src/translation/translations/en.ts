@@ -848,6 +848,7 @@ const en: Translation = {
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: (name) => Explanation.as('get the value of ', name),
+            name: 'name',
         },
         Select: {
             label: 'select',

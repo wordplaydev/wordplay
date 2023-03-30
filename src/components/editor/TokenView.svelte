@@ -49,7 +49,6 @@
 </script>
 
 <span
-    role="presentation"
     class="token-view token-category-{TokenCategories.get(
         Array.isArray(node.types) ? node.types[0] ?? 'default' : node.types
     )}"
@@ -58,6 +57,7 @@
     class:placeholder={placeholder !== undefined}
     class:added
     data-id={node.id}
+    role="presentation"
     >{#if typeof placeholder === 'string'}{placeholder}{:else if text.length === 0}&ZeroWidthSpace;{:else}{text.replaceAll(
             ' ',
             '\xa0'

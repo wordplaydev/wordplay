@@ -391,7 +391,9 @@ type Translation = {
                 next: Description;
             };
         Reference: DynamicNodeTranslation<Reference> &
-            AtomicExpressionTranslation<(name: NodeLink) => Description>;
+            AtomicExpressionTranslation<(name: NodeLink) => Description> & {
+                name: Description;
+            };
         Select: StaticNodeTranslation &
             ExpressionTranslation<
                 (table: NodeLink) => Description,

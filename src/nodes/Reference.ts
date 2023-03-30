@@ -29,6 +29,7 @@ import NodeLink from '@translation/NodeLink';
 import Emotion from '../lore/Emotion';
 import Evaluate from './Evaluate';
 import StreamDefinitionType from './StreamDefinitionType';
+import TokenType from './TokenType';
 
 /**
  * A reference to some Definition. Can optionally take the definition which it refers,
@@ -58,6 +59,8 @@ export default class Reference extends AtomicExpression {
             {
                 name: 'name',
                 types: [Token],
+                label: (translation: Translation) =>
+                    translation.nodes.Reference.name,
                 // The valid definitions of the name are anything in scope, except for the current name.
                 getDefinitions: (context: Context) =>
                     this.getDefinitionsInScope(context).filter(
@@ -71,6 +74,10 @@ export default class Reference extends AtomicExpression {
         return new Reference(
             this.replaceChild('name', this.name, replace)
         ) as this;
+    }
+
+    isPlaceholder() {
+        return this.name.is(TokenType.Placeholder);
     }
 
     getName() {

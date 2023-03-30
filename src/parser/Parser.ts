@@ -1107,13 +1107,7 @@ function parsePropertyReference(left: Expression, tokens: Tokens): Expression {
             ) &&
             !tokens.nextHasMoreThanOneLineBreak()
         )
-            name = tokens.nextIs(TokenType.Name)
-                ? tokens.read(TokenType.Name)
-                : tokens.nextIs(TokenType.Placeholder)
-                ? tokens.read(TokenType.Placeholder)
-                : tokens.nextIs(TokenType.UnaryOperator)
-                ? tokens.read(TokenType.UnaryOperator)
-                : tokens.read(TokenType.BinaryOperator);
+            name = tokens.read();
 
         left = new PropertyReference(
             left,

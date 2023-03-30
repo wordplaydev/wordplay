@@ -584,7 +584,7 @@ const eng_wordplay: Translation = {
                           value ?? 'nothing'
                       )
                     : 'no property name given, no value',
-            property: 'property',
+            property: 'propiedad',
         },
         Reaction: {
             label: 'reacción',
@@ -606,6 +606,7 @@ const eng_wordplay: Translation = {
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: (name) => Explanation.as('get the value of ', name),
+            name: 'nombre',
         },
         Select: {
             label: 'seleccionar',
