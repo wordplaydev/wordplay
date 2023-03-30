@@ -14,7 +14,7 @@ import Expression from '@nodes/Expression';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import Program from '@nodes/Program';
 import UnicodeString from '../../../models/UnicodeString';
-import ListLiteral from '../../../nodes/ListLiteral';
+import ListLiteral from '@nodes/ListLiteral';
 
 export type InsertionContext = { before: Node[]; after: Node[] };
 export type CaretPosition = number | Node;
@@ -307,10 +307,10 @@ export default class Caret {
     }
 
     left(sibling: boolean): Caret {
-        return this.moveHorizontal(sibling, -1);
+        return this.moveInline(sibling, -1);
     }
     right(sibling: boolean): Caret {
-        return this.moveHorizontal(sibling, 1);
+        return this.moveInline(sibling, 1);
     }
 
     nextNewline(direction: -1 | 1): Caret | undefined {
@@ -325,7 +325,7 @@ export default class Caret {
         );
     }
 
-    moveHorizontal(sibling: boolean, direction: -1 | 1): Caret {
+    moveInline(sibling: boolean, direction: -1 | 1): Caret {
         if (this.position instanceof Node) {
             // If sibling, then find the parent of the current node and choose it's sibling.
             // If there's no sibling in this direction, then do nothing.

@@ -55,7 +55,7 @@
     )}"
     class:active
     class:editable={$caret !== undefined}
-    class:placeholder
+    class:placeholder={placeholder !== undefined}
     class:added
     data-id={node.id}
     >{#if typeof placeholder === 'string'}{placeholder}{:else if text.length === 0}&ZeroWidthSpace;{:else}{text.replaceAll(

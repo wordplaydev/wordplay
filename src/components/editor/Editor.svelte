@@ -610,10 +610,12 @@
             // If shift is down, select the non-token node at the position.
             event.shiftKey && nonTokenNodeUnderMouse !== undefined
                 ? nonTokenNodeUnderMouse
-                : // If the node is a placeholder token, select it
+                : // If the node is a placeholder token, select it's placeholder ancestor
                 tokenUnderMouse instanceof Token &&
                   tokenUnderMouse.is(TokenType.Placeholder)
-                ? tokenUnderMouse
+                ? source.root
+                      .getAncestors(tokenUnderMouse)
+                      .find((a) => a.isPlaceholder())
                 : // Otherwise choose an index position under the mouse
                   getCaretPositionAt(event);
 

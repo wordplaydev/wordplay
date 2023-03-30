@@ -369,7 +369,7 @@ const commands: Command[] = [
         shift: false,
         mode: undefined,
         execute: (caret: Caret) =>
-            caret.isNode() ? caret.moveHorizontal(false, 1) : undefined,
+            caret.isNode() ? caret.moveInline(false, 1) : undefined,
     },
     {
         description: 'Move to previous',
@@ -377,7 +377,7 @@ const commands: Command[] = [
         shift: true,
         mode: undefined,
         execute: (caret: Caret) =>
-            caret.isNode() ? caret.moveHorizontal(false, -1) : undefined,
+            caret.isNode() ? caret.moveInline(false, -1) : undefined,
     },
     {
         description: 'Delete previous character',
