@@ -969,8 +969,12 @@
             dragPoint = undefined;
         }
 
-        // Update insertion points if there's nothing hovered.
-        if ($dragged) {
+        // Update insertion points if something is dragged and hovered isn't a placeholder.
+        if (
+            $dragged &&
+            !($hovered instanceof ExpressionPlaceholder) &&
+            !($hovered instanceof TypePlaceholder)
+        ) {
             // Get the insertion points at the current mouse position
             // And filter them by kinds that match, getting the field's allowed types,
             // and seeing if the dragged node is an instance of any of the dragged types.
