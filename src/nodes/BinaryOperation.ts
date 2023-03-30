@@ -86,10 +86,14 @@ export default class BinaryOperation extends Expression {
                     translation: Translation,
                     _: Node,
                     context: Context
-                ): Description =>
-                    this.getFunction(context)?.names.getTranslation(
-                        translation.language
-                    ) ?? translation.nodes.BinaryOperation.right,
+                ): Description => {
+                    const fun = this.getFunction(context);
+                    return (
+                        fun?.inputs[0].names.getTranslation(
+                            translation.language
+                        ) ?? translation.nodes.BinaryOperation.right
+                    );
+                },
                 space: true,
                 indent: true,
                 // The type of the right should be the type of the single input to the function corresponding to the operator.

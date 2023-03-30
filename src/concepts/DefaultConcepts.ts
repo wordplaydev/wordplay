@@ -53,8 +53,7 @@ import { PoseType } from '../output/Pose';
 import type Node from '../nodes/Node';
 import AnyType from '../nodes/AnyType';
 import BinaryOperation from '../nodes/BinaryOperation';
-import PlaceholderToken from '../nodes/PlaceholderToken';
-import { PLACEHOLDER_SYMBOL } from '../parser/Symbols';
+import { PLACEHOLDER_SYMBOL, SUM_SYMBOL } from '../parser/Symbols';
 import ConceptLink from '../nodes/ConceptLink';
 import ConversionType from '../nodes/ConversionType';
 import Dimension from '../nodes/Dimension';
@@ -96,7 +95,7 @@ const template: Node[] = [
     ),
     new BinaryOperation(
         ExpressionPlaceholder.make(),
-        new PlaceholderToken(),
+        new Token(SUM_SYMBOL, TokenType.BinaryOperator),
         ExpressionPlaceholder.make()
     ),
     new UnaryOperation(
