@@ -5,6 +5,9 @@ import Node, { type Replacement } from './Node';
 import TokenType from './TokenType';
 import Emotion from '../lore/Emotion';
 import Purpose from '../concepts/Purpose';
+import type Project from '../models/Project';
+import type { Description } from '@translation/Translation';
+import type Root from './Root';
 
 export default class Token extends Node {
     /** The one or more types of token this might represent. This is narrowed during parsing to one.*/
@@ -60,6 +63,18 @@ export default class Token extends Node {
         return this.types;
     }
 
+    isEqualTo(node: Node) {
+        return (
+            node instanceof Token &&
+            this.getText() === node.getText() &&
+            JSON.stringify(this.types) === JSON.stringify(node.types)
+        );
+    }
+
+    toWordplay(spaces?: Spaces): string {
+        return `${spaces?.getSpace(this) ?? ''}${this.text.toString()}`;
+    }
+
     // TEXT UTILITIES
 
     /** Get the grapheme length of the text (as opposed to the codepoint length) */
@@ -86,12 +101,18 @@ export default class Token extends Node {
         return this.text.contains(text);
     }
 
-    toWordplay(spaces?: Spaces): string {
-        return `${spaces?.getSpace(this) ?? ''}${this.text.toString()}`;
-    }
-
-    withText(text: string) {
-        return new Token(text, this.types);
+    /** If this is a placeholder, determine a label for it. */
+    getPlaceholder(
+        root: Root,
+        project: Project,
+        translation: Translation
+    ): Description | undefined {
+        if (!this.is(TokenType.Placeholder)) return undefined;
+        const context = project.getNodeContext(root.root);
+        const parent = root.getParent(this);
+        return parent === undefined
+            ? undefined
+            : parent.getChildPlaceholderLabel(this, translation, context);
     }
 
     // TRANSFORMATIONS
@@ -108,12 +129,8 @@ export default class Token extends Node {
         else return this;
     }
 
-    isEqualTo(node: Node) {
-        return (
-            node instanceof Token &&
-            this.getText() === node.getText() &&
-            JSON.stringify(this.types) === JSON.stringify(node.types)
-        );
+    withText(text: string) {
+        return new Token(text, this.types);
     }
 
     // DEBUGGING

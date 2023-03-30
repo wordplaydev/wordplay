@@ -3,8 +3,7 @@
 <script lang="ts">
     import type Token from '@nodes/Token';
     import TokenType from '@nodes/TokenType';
-    import { PLACEHOLDER_SYMBOL } from '@parser/Symbols';
-    import { getProject, getCaret } from '../project/Contexts';
+    import { getProject, getCaret, getRoot } from '../project/Contexts';
     import TokenCategories from './TokenCategories';
     import { preferredTranslations } from '@translation/translations';
     import { Languages } from '@translation/LanguageCode';
@@ -23,8 +22,12 @@
     );
     let caret = getCaret();
     let project = getProject();
+    let root = getRoot();
 
-    $: placeholder = node.is(TokenType.Placeholder);
+    $: placeholder =
+        $project && $root
+            ? node.getPlaceholder($root, $project, $preferredTranslations[0])
+            : undefined;
     $: active =
         node.getTextLength() > 0 &&
         ($caret?.getTokenExcludingSpace() === node ||
@@ -111,24 +114,6 @@
             }
         }
     }
-
-    function choosePlaceholder() {
-        const context =
-            $project !== undefined
-                ? $project.getContext($caret?.source ?? $project.main)
-                : undefined;
-        const labels =
-            context !== undefined
-                ? $caret?.source.root
-                      .getParent(node)
-                      ?.getChildPlaceholderLabel(
-                          node,
-                          $preferredTranslations[0],
-                          context
-                      )
-                : undefined;
-        return labels ?? PLACEHOLDER_SYMBOL;
-    }
 </script>
 
 <span
@@ -139,7 +124,7 @@
     class:placeholder
     class:added
     data-id={node.id}
-    >{#if placeholder}{choosePlaceholder()}{:else if text.length === 0}&ZeroWidthSpace;{:else}{text.replaceAll(
+    >{#if typeof placeholder === 'string'}{placeholder}{:else if text.length === 0}&ZeroWidthSpace;{:else}{text.replaceAll(
             ' ',
             '\xa0'
         )}{/if}</span

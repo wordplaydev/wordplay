@@ -18,6 +18,7 @@ import type Source from '@nodes/Source';
 import type { User } from 'firebase/auth';
 import type Evaluator from '@runtime/Evaluator';
 import type Translation from '@translation/Translation';
+import type Root from '@nodes/Root';
 
 // App related contexts
 
@@ -142,6 +143,12 @@ export const ConceptIndexSymbol = Symbol('palette-index');
 export type ConceptIndexContext = Writable<ConceptIndex | undefined>;
 export function getConceptIndex() {
     return getContext<ConceptIndexContext>(ConceptIndexSymbol);
+}
+
+export const RootSymbol = Symbol('root');
+export type RootContext = Writable<Root | undefined>;
+export function getRoot() {
+    return getContext<RootContext>(RootSymbol);
 }
 
 // Output related contexts

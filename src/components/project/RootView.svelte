@@ -13,13 +13,14 @@
     import {
         getCaret,
         HiddenSymbol,
+        RootSymbol,
         SpaceSymbol,
         type SpaceContext,
     } from './Contexts';
     import Root from '@nodes/Root';
     import Source from '@nodes/Source';
-    import Name from '../../nodes/Name';
-    import Program from '../../nodes/Program';
+    import Name from '@nodes/Name';
+    import Program from '@nodes/Program';
 
     export let node: Node;
     /** Optional space; if not provided, all nodes are rendered with preferred space. */
@@ -28,6 +29,11 @@
 
     /** Get the root, or make one if it's not a source. */
     $: root = node instanceof Source ? node.root : new Root(node);
+
+    // Expose the root in a store context for quick access to it.
+    let rootStore = writable(root);
+    $: rootStore.set(root);
+    setContext(RootSymbol, rootStore);
 
     // When the spaces change, update the rendered spaces
     let renderedSpace: SpaceContext = writable(new Map());
