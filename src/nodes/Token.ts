@@ -5,9 +5,12 @@ import Node, { type Replacement } from './Node';
 import TokenType from './TokenType';
 import Emotion from '../lore/Emotion';
 import Purpose from '../concepts/Purpose';
-import type Project from '../models/Project';
 import type { Description } from '@translation/Translation';
 import type Root from './Root';
+import { REVERSE_TEXT_DELIMITERS, TEXT_DELIMITERS } from '../parser/Tokenizer';
+import { Languages } from '../translation/LanguageCode';
+import type Definition from './Definition';
+import type Context from './Context';
 
 export default class Token extends Node {
     /** The one or more types of token this might represent. This is narrowed during parsing to one.*/
@@ -104,15 +107,68 @@ export default class Token extends Node {
     /** If this is a placeholder, determine a label for it. */
     getPlaceholder(
         root: Root,
-        project: Project,
+        context: Context,
         translation: Translation
     ): Description | undefined {
         if (!this.is(TokenType.Placeholder)) return undefined;
-        const context = project.getNodeContext(root.root);
         const parent = root.getParent(this);
         return parent === undefined
             ? undefined
             : parent.getChildPlaceholderLabel(this, translation, context);
+    }
+
+    localized(
+        name: boolean,
+        translations: Translation[],
+        root: Root,
+        context: Context
+    ) {
+        // Get this token's text
+        let text = this.getText();
+
+        // Is this text? Localize delimiters.
+        const isText = this.is(TokenType.Text);
+        const isTextOpen = this.is(TokenType.TemplateOpen);
+        const isTextClose = this.is(TokenType.TemplateClose);
+        if (isText || isTextOpen || isTextClose) {
+            // Is there a closing delimiter? If not, we don't replace it.
+            const lastChar = text.at(-1);
+            const last =
+                text.length > 1 &&
+                lastChar !== undefined &&
+                lastChar in REVERSE_TEXT_DELIMITERS;
+            const preferredQuote = Languages[translations[0].language].quote;
+            if (preferredQuote) {
+                const preferredClosing = TEXT_DELIMITERS[preferredQuote];
+                text = isText
+                    ? preferredQuote +
+                      text.substring(1, text.length - (last ? 1 : 0)) +
+                      (last ? preferredClosing : '')
+                    : isTextOpen
+                    ? preferredQuote + text.substring(1)
+                    : text.substring(0, text.length - (last ? 1 : 0)) +
+                      (last ? preferredClosing : '');
+            }
+        }
+
+        // Is this a name? Choose the most appropriate name.
+        if (this.is(TokenType.Name) && name) {
+            const parent = root.getParent(this);
+            let def: Definition | undefined = undefined;
+            if (parent) {
+                def = parent.getCorrespondingDefinition(context);
+                if (def) {
+                    text =
+                        def.names.getEmojiName() ??
+                        def.names.getTranslation(
+                            translations.map((t) => t.language)
+                        );
+                }
+            }
+        }
+
+        // Return the localized text.
+        return text;
     }
 
     // TRANSFORMATIONS

@@ -77,6 +77,10 @@ export default class Reference extends AtomicExpression {
         return this.name.getText();
     }
 
+    getCorrespondingDefinition(context: Context): Definition | undefined {
+        return this.resolve(context);
+    }
+
     computeConflicts(context: Context): Conflict[] {
         const bindOrTypeVar = this.resolve(context);
 

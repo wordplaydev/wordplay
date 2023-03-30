@@ -10,6 +10,9 @@ import { COMMA_SYMBOL } from '@parser/Symbols';
 import TokenType from './TokenType';
 import Emotion from '../lore/Emotion';
 import Purpose from '../concepts/Purpose';
+import type Context from './Context';
+import type Definition from './Definition';
+import Evaluate from './Evaluate';
 
 export default class Name extends Node {
     readonly separator?: Token;
@@ -48,6 +51,20 @@ export default class Name extends Node {
             this.replaceChild('name', this.name, replace),
             this.replaceChild('lang', this.lang, replace)
         ) as this;
+    }
+
+    getCorrespondingDefinition(context: Context): Definition | undefined {
+        const name = this.getName();
+        if (name === undefined) return undefined;
+        // Does this name correspond to an evaluation bind? Find the corresponding input to get its names.
+        const evaluate = context.source.root
+            .getAncestors(this)
+            .filter((n): n is Evaluate => n instanceof Evaluate)[0];
+        if (evaluate) {
+            const fun = evaluate.getFunction(context);
+            if (fun) return fun.inputs.find((input) => input.hasName(name));
+        }
+        return undefined;
     }
 
     getPurpose() {

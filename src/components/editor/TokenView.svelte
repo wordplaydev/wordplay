@@ -2,32 +2,28 @@
 
 <script lang="ts">
     import type Token from '@nodes/Token';
-    import TokenType from '@nodes/TokenType';
     import { getProject, getCaret, getRoot } from '../project/Contexts';
     import TokenCategories from './TokenCategories';
     import { preferredTranslations } from '@translation/translations';
-    import { Languages } from '@translation/LanguageCode';
-    import {
-        REVERSE_TEXT_DELIMITERS,
-        TEXT_DELIMITERS,
-    } from '@parser/Tokenizer';
-    import Reference from '@nodes/Reference';
-    import Evaluate from '@nodes/Evaluate';
-    import type Definition from '@nodes/Definition';
 
     export let node: Token;
 
-    $: kind = TokenCategories.get(
-        Array.isArray(node.types) ? node.types[0] ?? 'default' : node.types
-    );
     let caret = getCaret();
     let project = getProject();
     let root = getRoot();
 
+    $: context =
+        $root === undefined || $project === undefined
+            ? undefined
+            : $project.getNodeContext($root.root);
+
+    // See if this is a placeholder that should be rendered differently.
     $: placeholder =
-        $project && $root
-            ? node.getPlaceholder($root, $project, $preferredTranslations[0])
+        $project && $root && context
+            ? node.getPlaceholder($root, context, $preferredTranslations[0])
             : undefined;
+
+    // True if the caret is "on" this token.
     $: active =
         node.getTextLength() > 0 &&
         ($caret?.getTokenExcludingSpace() === node ||
@@ -35,90 +31,28 @@
                 $caret.atBeginningOfTokenSpace() &&
                 $caret.tokenIncludingSpace &&
                 $caret.tokenAtHasPrecedingSpace()));
+
+    // True if this is the recently added token.
     $: added = $caret?.addition?.contains(node) ?? false;
 
-    let text: string;
-    $: {
-        // The text is text.
-        text = node.text.toString();
-
-        // Unless it's text, in which case we localize it's delimiters.
-        const isText = node.is(TokenType.Text);
-        const isTextOpen = node.is(TokenType.TemplateOpen);
-        const isTextClose = node.is(TokenType.TemplateClose);
-        if (
-            (isText || isTextOpen || isTextClose) &&
-            $preferredTranslations.length > 0
-        ) {
-            // Is there a closing delimiter? If not, we don't replace it.
-            const lastChar = text.at(-1);
-            const last =
-                text.length > 1 &&
-                lastChar !== undefined &&
-                lastChar in REVERSE_TEXT_DELIMITERS;
-            const preferredQuote =
-                Languages[$preferredTranslations[0].language].quote;
-            if (preferredQuote) {
-                const preferredClosing = TEXT_DELIMITERS[preferredQuote];
-                text = isText
-                    ? preferredQuote +
-                      text.substring(1, text.length - (last ? 1 : 0)) +
-                      (last ? preferredClosing : '')
-                    : isTextOpen
-                    ? preferredQuote + text.substring(1)
-                    : text.substring(0, text.length - (last ? 1 : 0)) +
-                      (last ? preferredClosing : '');
-            }
-        }
-    }
-
-    // If this token is a name, localize the name.
-    // If the caret is in the node, we choose the name that it is in the source, so that it's editable.
-    // Otherwise we choose the best name from of the preferred languages.
-    $: {
-        if (node.is(TokenType.Name) && $caret) {
-            // The text is text.
-            text = node.text.toString();
-
-            const context = $project
-                ? $project.getContext($caret.source)
-                : undefined;
-            const parent = context ? node.getParent(context) : undefined;
-            let def: Definition | undefined = undefined;
-            if (parent && context && !$caret.isIn(parent)) {
-                // Is this in a reference
-                if (parent instanceof Reference) {
-                    const definition = parent.resolve(context);
-                    if (definition) def = definition;
-                } else {
-                    // Is this an evaluation bind? Find the corresponding input to get its names.
-                    const evaluate = context.source.root
-                        .getAncestors(parent)
-                        .filter((n): n is Evaluate => n instanceof Evaluate)[0];
-                    if (evaluate) {
-                        const fun = evaluate.getFunction(context);
-                        if (fun)
-                            def = fun.inputs.find((input) =>
-                                input.hasName(text)
-                            );
-                    }
-                }
-            }
-
-            if (def) {
-                text =
-                    def.names.getEmojiName() ??
-                    def.names.getTranslation(
-                        $preferredTranslations.map((t) => t.language)
-                    );
-            }
-        }
-    }
+    // Localize the token's text using the preferred translation.
+    // Don't localize the name if the caret is in the name.
+    $: text =
+        context === undefined || $root === undefined
+            ? node.getText()
+            : node.localized(
+                  $caret === undefined || !$caret.isIn(node),
+                  $preferredTranslations,
+                  $root,
+                  context
+              );
 </script>
 
 <span
     role="presentation"
-    class="token-view token-category-{kind}"
+    class="token-view token-category-{TokenCategories.get(
+        Array.isArray(node.types) ? node.types[0] ?? 'default' : node.types
+    )}"
     class:active
     class:editable={$caret !== undefined}
     class:placeholder

@@ -407,7 +407,7 @@ const eng_wordplay: Translation = {
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: 'cannot evaluate a placeholder',
-            placeholder: 'expression',
+            placeholder: 'expresión',
         },
         FunctionDefinition: {
             label: 'función',

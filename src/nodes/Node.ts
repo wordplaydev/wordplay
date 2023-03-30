@@ -350,6 +350,14 @@ export default abstract class Node {
         );
     }
 
+    /**
+     * Return the Definition that this node corresponds to. By default, nothing,
+     * but subclasses can override to resolve the definition they correspond to.
+     */
+    getCorrespondingDefinition(_: Context): Definition | undefined {
+        return undefined;
+    }
+
     // MODIFICATION
 
     /**
