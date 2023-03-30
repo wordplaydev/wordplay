@@ -3,7 +3,12 @@
 <script lang="ts">
     import Node from '@nodes/Node';
     import Caret from './util/Caret';
-    import { createEventDispatcher, onMount, setContext } from 'svelte';
+    import {
+        createEventDispatcher,
+        onDestroy,
+        onMount,
+        setContext,
+    } from 'svelte';
     import UnicodeString from '@models/UnicodeString';
     import commands, { type Edit } from './util/Commands';
     import type Source from '@nodes/Source';
@@ -26,6 +31,7 @@
         setSelectedOutput,
         getSelectedOutputPaths,
         getEvaluation,
+        MenuNodeSymbol,
     } from '../project/Contexts';
     import {
         preferredLanguages,
@@ -115,8 +121,22 @@
     // A store of what node is hovered over, including tokens.
     const hoveredAny = writable<Node | undefined>(undefined);
 
+    // A store of current insertion points in a drag.
     const insertion = writable<InsertionPoint | undefined>(undefined);
     setContext(InsertionPointsSymbol, insertion);
+
+    // A store of the currently requested node for which to show a menu.
+    const menuNode = writable<Node | undefined>(undefined);
+    setContext(MenuNodeSymbol, menuNode);
+
+    // When the menu node changes, show the menu.
+    const unsubscribe = menuNode.subscribe((node) => {
+        if (node !== undefined) {
+            showMenu(node);
+            caret.set($caret.withPosition(node));
+        }
+    });
+    onDestroy(unsubscribe);
 
     // A shorthand for the current program.
     $: program = source.expression;
@@ -1040,18 +1060,20 @@
         insertion.set(undefined);
     }
 
-    async function showMenu() {
+    async function showMenu(node: Node | undefined = undefined) {
         if (evaluator === undefined) return;
 
         // Is the caret on a specific token or node?
-        const node =
-            $caret.position instanceof Node
+        node =
+            node ??
+            ($caret.position instanceof Node
                 ? $caret.position
-                : $caret.getToken() ?? undefined;
+                : $caret.getToken() ?? undefined);
+
         if (node === undefined) return;
 
         // Get the unique valid edits at the caret.
-        const transforms = getEditsAt(project, $caret);
+        const transforms = getEditsAt(project, $caret.withPosition(node));
 
         // Wait for everything to be rendered so we can get the position of things.
         await tick();

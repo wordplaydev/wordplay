@@ -5,6 +5,7 @@
     import { getProject, getCaret, getRoot } from '../project/Contexts';
     import TokenCategories from './TokenCategories';
     import { preferredTranslations } from '@translation/translations';
+    import PlaceholderView from './PlaceholderView.svelte';
 
     export let node: Token;
 
@@ -58,7 +59,10 @@
     class:added
     data-id={node.id}
     role="presentation"
-    >{#if typeof placeholder === 'string'}{placeholder}{:else if text.length === 0}&ZeroWidthSpace;{:else}{text.replaceAll(
+    >{#if typeof placeholder === 'string'}{placeholder}
+        <PlaceholderView
+            {node}
+        />{:else if text.length === 0}&ZeroWidthSpace;{:else}{text.replaceAll(
             ' ',
             '\xa0'
         )}{/if}</span

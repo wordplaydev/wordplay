@@ -151,6 +151,12 @@ export function getRoot() {
     return getContext<RootContext>(RootSymbol);
 }
 
+export const MenuNodeSymbol = Symbol('menu');
+export type MenuNodeContext = Writable<Node | undefined>;
+export function getMenuNode() {
+    return getContext<MenuNodeContext | undefined>(MenuNodeSymbol);
+}
+
 // Output related contexts
 
 export const SelectedOutputPathsSymbol = Symbol('selected-output-paths');
