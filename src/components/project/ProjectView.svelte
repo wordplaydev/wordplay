@@ -332,7 +332,7 @@
           }
         | undefined = undefined;
 
-    /** The furthest boundary of a dragged tile, defining the dimensions of the canvas. */
+    /** The furthest boundary of a dragged tile, defining the dimensions of the canvas while in freeform layout mode. */
     let maxRight: number = 0;
     let maxBottom: number = 0;
 
@@ -354,6 +354,7 @@
         new ConceptIndex([], $preferredTranslations)
     );
     setContext(ConceptIndexSymbol, index);
+
     let path: ConceptPathContext = writable([]);
     setContext(ConceptPathSymbol, path);
 

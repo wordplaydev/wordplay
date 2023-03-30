@@ -6,10 +6,7 @@
     import { PLACEHOLDER_SYMBOL } from '@parser/Symbols';
     import { getProject, getCaret } from '../project/Contexts';
     import TokenCategories from './TokenCategories';
-    import {
-        preferredLanguages,
-        preferredTranslations,
-    } from '@translation/translations';
+    import { preferredTranslations } from '@translation/translations';
     import { Languages } from '@translation/LanguageCode';
     import {
         REVERSE_TEXT_DELIMITERS,
@@ -48,7 +45,7 @@
         const isTextClose = node.is(TokenType.TemplateClose);
         if (
             (isText || isTextOpen || isTextClose) &&
-            $preferredLanguages.length > 0
+            $preferredTranslations.length > 0
         ) {
             // Is there a closing delimiter? If not, we don't replace it.
             const lastChar = text.at(-1);
@@ -56,7 +53,8 @@
                 text.length > 1 &&
                 lastChar !== undefined &&
                 lastChar in REVERSE_TEXT_DELIMITERS;
-            const preferredQuote = Languages[$preferredLanguages[0]].quote;
+            const preferredQuote =
+                Languages[$preferredTranslations[0].language].quote;
             if (preferredQuote) {
                 const preferredClosing = TEXT_DELIMITERS[preferredQuote];
                 text = isText
@@ -71,10 +69,10 @@
         }
     }
 
+    // If this token is a name, localize the name.
+    // If the caret is in the node, we choose the name that it is in the source, so that it's editable.
+    // Otherwise we choose the best name from of the preferred languages.
     $: {
-        // If's a name, localize the name.
-        // If the caret is in the node, we choose the name that it is in the source, so that it's editable.
-        // Otherwise we choose the best name from of the preferred languages.
         if (node.is(TokenType.Name) && $caret) {
             // The text is text.
             text = node.text.toString();
@@ -107,7 +105,9 @@
             if (def) {
                 text =
                     def.names.getEmojiName() ??
-                    def.names.getTranslation($preferredLanguages);
+                    def.names.getTranslation(
+                        $preferredTranslations.map((t) => t.language)
+                    );
             }
         }
     }

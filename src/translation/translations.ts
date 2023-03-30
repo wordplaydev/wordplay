@@ -55,9 +55,7 @@ export type MissingTranslation = LanguageCode;
 export const preferredTranslations: Readable<Translation[]> = derived(
     [preferredLanguages],
     () => {
-        // Map preferrred languages into translations,
-        // filtering out missing translations, and
-        // choosing preferred style of translations of the same language.
+        // Map preferred languages into translations, filtering out missing translations.
         const languages = get(preferredLanguages);
 
         const translations: Translation[] = languages
