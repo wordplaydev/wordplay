@@ -66,7 +66,7 @@ export default class PropertyReference extends Expression {
                 // The valid definitions of the name are based on the referenced structure type, prefix filtered by whatever name is already provided.
                 getDefinitions: (context: Context) => {
                     let defs = this.getDefinitions(this, context);
-                    if (this.name)
+                    if (this.name && !this.name.isPlaceholder())
                         defs = defs.filter((def) =>
                             def
                                 .getNames()
