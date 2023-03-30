@@ -68,6 +68,7 @@
     import { GroupType } from '@output/Group';
     import { VerseType } from '@output/Verse';
     import type Evaluator from '@runtime/Evaluator';
+    import { TAB_WIDTH } from '../../parser/Spaces';
 
     export let evaluator: Evaluator;
     export let project: Project;
@@ -693,7 +694,7 @@
         if (elementAtCursor === null) return undefined;
         if (editor === null) return undefined;
 
-        // If there's text, figure out what position in the text to place the caret.
+        // If we've selected a token view, figure out what position in the text to place the caret.
         if (elementAtCursor.classList.contains('token-view')) {
             // Find the token this corresponds to.
             const [token, tokenView] =
@@ -729,6 +730,42 @@
                 }
             }
         }
+
+        // If the element at the cursor is inside space, choose the space.
+        const spaceView = elementAtCursor.closest('.space');
+        if (spaceView instanceof HTMLElement) {
+            const tokenID = spaceView.dataset.id
+                ? parseInt(spaceView.dataset.id)
+                : null;
+            const token =
+                tokenID !== null && !isNaN(tokenID)
+                    ? source.getNodeByID(tokenID)
+                    : null;
+            if (token instanceof Token) {
+                const space = source.spaces.getSpace(token);
+                // We only choose this position if doesn't contain newlines (we handle those below).
+                if (!space.includes('\n')) {
+                    const tokenView = getNodeView(token);
+                    const spacePosition = source.getTokenSpacePosition(token);
+                    if (tokenView && spacePosition) {
+                        const spaceRect = spaceView.getBoundingClientRect();
+                        const percent =
+                            (spaceRect.width -
+                                (tokenView.getBoundingClientRect().left -
+                                    event.clientX)) /
+                            spaceRect.width;
+
+                        return Math.round(
+                            spacePosition +
+                                percent *
+                                    space.replace('\t', ' '.repeat(TAB_WIDTH))
+                                        .length
+                        );
+                    }
+                }
+            }
+        }
+
         // If its the editor, find the closest token and choose either it's right or left side.
         // Map the token text to a list of vertical and horizontal distances
         const closestToken = Array.from(editor.querySelectorAll('.token-view'))
