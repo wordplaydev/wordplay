@@ -53,7 +53,7 @@
         {/if}
     </div>
     {#if describe}
-        <p
+        <div
             class="description"
             class:selectable
             tabIndex={selectable ? 0 : null}
@@ -68,7 +68,7 @@
                     <DescriptionView {description} />
                 {/if}</Note
             >
-        </p>
+        </div>
     {/if}
 </div>
 

@@ -2,7 +2,7 @@
     import { writingDirection } from '@translation/translations';
 </script>
 
-<div style:direction={$writingDirection}><slot /></div>
+<div class="note" style:direction={$writingDirection}><slot /></div>
 
 <style>
     div {
