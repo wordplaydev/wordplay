@@ -103,7 +103,7 @@ const template: Node[] = [
         new Token('-', TokenType.UnaryOperator),
         ExpressionPlaceholder.make()
     ),
-    Block.make([]),
+    Block.make([ExpressionPlaceholder.make()]),
     ConversionDefinition.make(
         undefined,
         new TypePlaceholder(),
