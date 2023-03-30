@@ -63,10 +63,17 @@ export function getEditsAt(project: Project, caret: Caret): Transform[] {
     const context = project.getContext(source);
 
     // Is the caret on a specific token or node?
-    const node =
+    let node =
         caret.position instanceof Node
             ? caret.position
             : caret.getToken() ?? undefined;
+
+    // See if the node is inside a placeholder, and if so, choose the placeholder instead.
+    // See if the node has a placeholder ancestor, and if so, choose it.
+    if (node)
+        node =
+            source.root.getAncestors(node).find((a) => a.isPlaceholder()) ??
+            node;
 
     // Initialize a list of transforms
     let transforms: Transform[] = [];
