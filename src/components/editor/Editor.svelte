@@ -887,13 +887,17 @@
     function getInsertionPointsAt(event: MouseEvent) {
         // Is the caret position between tokens? If so, are any of the token's parents inside a list in which we could insert something?
         const position = getCaretPositionAt(event);
+
         if (position !== undefined) {
             const caret = new Caret(source, position, undefined);
             const token = caret.getToken();
             if (token === undefined) return [];
+
             // What is the space prior to this insertion point?
             const index = source.getTokenSpacePosition(token);
             if (index === undefined) return [];
+
+            // Find what space is prior.
             const spacePrior = source.spaces
                 .getSpace(token)
                 .substring(0, position - index);
@@ -972,21 +976,25 @@
             // and seeing if the dragged node is an instance of any of the dragged types.
             // This only works if the types list contains a single item that is a list of types.
 
-            insertion.set(
-                $hovered
-                    ? undefined
-                    : getInsertionPointsAt(event).filter((insertion) => {
-                          const types = insertion.node.getAllowedFieldNodeTypes(
-                              insertion.field
-                          );
-                          return (
-                              $dragged &&
-                              Array.isArray(types) &&
-                              Array.isArray(types[0]) &&
-                              types[0].some((kind) => $dragged instanceof kind)
-                          );
-                      })[0]
-            );
+            const insertionPoint = getInsertionPointsAt(event).filter(
+                (insertion) => {
+                    const types = insertion.node.getAllowedFieldNodeTypes(
+                        insertion.field
+                    );
+                    return (
+                        $dragged &&
+                        Array.isArray(types) &&
+                        Array.isArray(types[0]) &&
+                        types[0].some((kind) => $dragged instanceof kind)
+                    );
+                }
+            )[0];
+
+            // Set the insertion, whatever we found.
+            insertion.set(insertionPoint);
+
+            // If we found one, unset the hovered. We don't do both at the same time.
+            if (insertionPoint) hovered.set(undefined);
         }
     }
 
