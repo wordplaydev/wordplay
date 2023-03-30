@@ -1787,7 +1787,8 @@ const en: Translation = {
             Explanation.as('I expected a ', expected, ' but received ', given),
         placeholder: (node) =>
             Explanation.as('this ', node, ' is not implemented'),
-        unparsable: (node) => Explanation.as('this ', node, ' is not parsable'),
+        unparsable: (node) =>
+            Explanation.as('this is ', node, ' is not parsable'),
         value: () =>
             Explanation.as("Oh no! I expected a value, but I didn't get one"),
     },
