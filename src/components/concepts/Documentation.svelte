@@ -80,13 +80,16 @@
 
         if (event.buttons !== 1) return;
 
-        // Map the element to the coresponding node in the palette.
-        const nodes = document
+        // Find code views
+        const code = document
             .elementFromPoint(event.clientX, event.clientY)
-            ?.closest('.root:not(.inert)')
-            ?.querySelectorAll('.node-view');
-        if (nodes) {
-            for (const root of nodes) {
+            ?.closest('.code');
+
+        // Find non-inert roots inside
+        const roots = code?.querySelectorAll('.root:not(.inert) .node-view');
+
+        if (roots) {
+            for (const root of roots) {
                 if (root instanceof HTMLElement) {
                     let node: Node | undefined = $index?.getNode(
                         parseInt(root.dataset.id ?? '')

@@ -123,6 +123,7 @@
 
 <style>
     .root {
+        display: block;
         font-family: var(--wordplay-code-font);
         font-weight: 400;
     }
