@@ -59,8 +59,9 @@
     class:added
     data-id={node.id}
     role="presentation"
-    >{#if typeof placeholder === 'string'}{placeholder}
-        <PlaceholderView
+    >{#if typeof placeholder === 'string'}<span class="placeholder"
+            >{placeholder}</span
+        ><PlaceholderView
             {node}
         />{:else if text.length === 0}&ZeroWidthSpace;{:else}{text.replaceAll(
             ' ',

@@ -132,16 +132,23 @@
 
             // ... and it's a placeholder, then position a caret in it's center
             if ($caret.isPlaceholder()) {
-                return {
-                    left: `${
-                        nodeViewRect.left +
-                        viewportXOffset +
-                        nodeViewRect.width / 2
-                    }px`,
-                    top: `${nodeViewRect.top + viewportYOffset}px`,
-                    height: `${nodeViewRect.height}px`,
-                    bottom: nodeViewRect.bottom + viewportYOffset,
-                };
+                const placeholderView = nodeView.querySelector(
+                    '.token-view > .placeholder'
+                );
+                const placeholderViewRect =
+                    placeholderView?.getBoundingClientRect();
+                if (placeholderViewRect) {
+                    return {
+                        left: `${
+                            placeholderViewRect.left +
+                            viewportXOffset +
+                            placeholderViewRect.width / 2
+                        }px`,
+                        top: `${placeholderViewRect.top + viewportYOffset}px`,
+                        height: `${placeholderViewRect.height}px`,
+                        bottom: placeholderViewRect.bottom + viewportYOffset,
+                    };
+                }
             }
             // ... and it's not a placeholder, position (invisible) caret at it's top left
             // This is for scrolling purposes.
