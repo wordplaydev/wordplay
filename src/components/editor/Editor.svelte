@@ -686,7 +686,7 @@
         // Only return a node if hovering over its text. Space isn't eligible.
         if (el instanceof HTMLElement && el.classList.contains('token-view')) {
             const nodeView = el.closest(
-                `.node-view${includeTokens ? '' : ':not(.Token)'}`
+                `.node-view${includeTokens ? '' : `:not(${Token.name}`}`
             );
             if (nodeView instanceof HTMLElement && nodeView.dataset.id) {
                 return source.expression.getNodeByID(
@@ -700,7 +700,7 @@
     function getTokenFromElement(
         textOrSpace: Element
     ): [Token, Element] | undefined {
-        const tokenView = textOrSpace.closest('.Token');
+        const tokenView = textOrSpace.closest(`.${Token.name}`);
         const token =
             tokenView === null
                 ? undefined

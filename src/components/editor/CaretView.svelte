@@ -11,6 +11,7 @@
     import Spaces, { SPACE_HTML, TAB_HTML } from '@parser/Spaces';
     import type Source from '@nodes/Source';
     import Node from '@nodes/Node';
+    import Token from '../../nodes/Token';
 
     type CaretPosition = {
         top: string;
@@ -179,7 +180,7 @@
         let tokenTop = tokenViewRect.top + viewportYOffset;
 
         // To compute line height, find two tokens on adjacent lines and difference their tops.
-        const tokenViews = editorView.querySelectorAll('.Token');
+        const tokenViews = editorView.querySelectorAll(`.${Token.name}`);
         let firstTokenView: Element | undefined = undefined;
         let firstTokenViewAfterLineBreak: Element | undefined = undefined;
         let lineBreakCount: number | undefined = undefined;
