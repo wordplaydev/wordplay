@@ -3,6 +3,7 @@
     import OutputView from '@components/output/OutputView.svelte';
     import Evaluator from '@runtime/Evaluator';
     import type Value from '@runtime/Value';
+    import { preferredTranslations } from '../../translation/translations';
 
     export let project: Project;
     export let action: () => void;
@@ -36,7 +37,12 @@
             mode="mini"
         />
     </div>
-    <div class="name">{project.name}<slot /></div>
+    <div class="name"
+        >{#if project.name.length === 0}<em class="untitled"
+                >{$preferredTranslations[0].ui.placeholders.project}</em
+            >{:else}
+            {project.name}{/if}<slot /></div
+    >
 </div>
 
 <style>
@@ -53,6 +59,10 @@
     .name {
         display: flex;
         flex-direction: column;
+    }
+
+    .untitled {
+        color: var(--wordplay-disabled-color);
     }
 
     :global(.animated) .preview {
