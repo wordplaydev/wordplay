@@ -5,7 +5,7 @@
         font-size: 300%;
         font-family: var(--wordplay-app-font);
         font-weight: bold;
-        margin-top: calc(2 * var(--wordplay-spacing));
+        margin-top: 25vh;
         margin-bottom: calc(var(--wordplay-spacing) / 2);
     }
 </style>
