@@ -99,6 +99,9 @@
 
     let editor: HTMLElement | null;
 
+    /** True if something in the editor is focused. */
+    let focused: boolean;
+
     // A per-editor store that contains the current editor's cursor. We expose it as context to children.
     const caret = writable<Caret>(
         new Caret(source, project.getCaretPosition(source) ?? 0, undefined)
@@ -1366,6 +1369,8 @@
     on:mousemove={handleMouseMove}
     on:mouseleave={handleMouseLeave}
     on:keydown={handleKeyDown}
+    on:focusin={() => (focused = true)}
+    on:focusout={() => (focused = false)}
 >
     <!-- Render highlights below the code -->
     {#each outlines as outline}
@@ -1388,9 +1393,7 @@
     <!-- Render the caret on top of the program -->
     <CaretView
         {source}
-        blink={$KeyboardIdle &&
-            $evaluation !== undefined &&
-            $evaluation.playing === true}
+        blink={$KeyboardIdle && focused}
         ignored={$evaluation !== undefined &&
             $evaluation.playing === true &&
             lastKeyDownIgnored}
