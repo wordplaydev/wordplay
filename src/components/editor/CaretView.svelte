@@ -89,6 +89,14 @@
         location = computeLocation();
     });
 
+    function getTokenView(token: Token) {
+        return (
+            element?.parentElement?.querySelector(
+                `.token-view[data-id="${token.id}"]`
+            ) ?? null
+        );
+    }
+
     function computeLocation() {
         if ($caret === undefined) return;
 
@@ -168,9 +176,7 @@
         // No index to render? No caret.
         if (caretIndex === undefined) return;
 
-        const tokenView = editorView.querySelector(
-            `.token-view[data-id="${token.id}"]`
-        );
+        const tokenView = getTokenView(token);
         if (tokenView === null) return;
 
         // Figure out where the token view is, so we can properly offset the caret position in the editor.
@@ -184,12 +190,12 @@
         let firstTokenView: Element | undefined = undefined;
         let firstTokenViewAfterLineBreak: Element | undefined = undefined;
         let lineBreakCount: number | undefined = undefined;
-        for (const tokenView of tokenViews) {
-            if (firstTokenView === undefined) firstTokenView = tokenView;
+        for (const nextView of tokenViews) {
+            if (firstTokenView === undefined) firstTokenView = nextView;
             else {
-                const lineBreaks = tokenView.querySelectorAll('br');
+                const lineBreaks = nextView.querySelectorAll('br');
                 if (lineBreaks.length > 0) {
-                    firstTokenViewAfterLineBreak = tokenView;
+                    firstTokenViewAfterLineBreak = nextView;
                     lineBreakCount = lineBreaks.length;
                     break;
                 }
@@ -197,6 +203,13 @@
         }
 
         let tokenHeight = tokenViewRect.height;
+
+        if (tokenHeight === 0) {
+            const before = source.getTokenBefore(token);
+            const beforeView = before ? getTokenView(before) : undefined;
+            tokenHeight = beforeView?.getBoundingClientRect().height ?? 0;
+        }
+
         let lineHeight;
 
         if (firstTokenView && firstTokenViewAfterLineBreak && lineBreakCount) {
