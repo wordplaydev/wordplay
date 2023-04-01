@@ -1,41 +1,31 @@
 import Node, { type Field } from '@nodes/Node';
 import type Caret from './Caret';
 import type Project from '../../../models/Project';
-import type Transform from '../../../transforms/Transform';
-import Append from '../../../transforms/Append';
-import Replace from '../../../transforms/Replace';
+import type Transform from '@transforms/Transform';
+import Append from '@transforms/Append';
+import Replace from '@transforms/Replace';
 import type Context from '@nodes/Context';
-import Add from '../../../transforms/Add';
+import Add from '@transforms/Add';
 import Bind from '@nodes/Bind';
 import Names from '@nodes/Names';
 import Expression from '@nodes/Expression';
 import Block from '@nodes/Block';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import BooleanLiteral from '@nodes/BooleanLiteral';
-import TextLiteral from '@nodes/TextLiteral';
-import Template from '@nodes/Template';
 import Conditional from '@nodes/Conditional';
-import ListLiteral from '@nodes/ListLiteral';
-import SetLiteral from '@nodes/SetLiteral';
-import MapLiteral from '@nodes/MapLiteral';
-import KeyValue from '@nodes/KeyValue';
 import FunctionDefinition from '@nodes/FunctionDefinition';
-import Name from '@nodes/Name';
 import StructureDefinition from '@nodes/StructureDefinition';
-import ConversionDefinition from '@nodes/ConversionDefinition';
 import TypePlaceholder from '@nodes/TypePlaceholder';
-import Reaction from '@nodes/Reaction';
 import Language from '@nodes/Language';
-import { getPossibleLanguages } from '../../../transforms/getPossibleLanguages';
+import { getPossibleLanguages } from '@transforms/getPossibleLanguages';
 import Unit from '@nodes/Unit';
 import {
     getPossibleDimensions,
     getPossibleUnits,
-} from '../../../transforms/getPossibleUnits';
+} from '@transforms/getPossibleUnits';
 import Docs from '@nodes/Docs';
 import Doc from '@nodes/Doc';
 import Reference from '@nodes/Reference';
-import Refer from '../../../transforms/Refer';
+import Refer from '@transforms/Refer';
 import Token from '@nodes/Token';
 import Dimension from '@nodes/Dimension';
 import Type from '@nodes/Type';
@@ -121,10 +111,14 @@ export function getEditsAt(project: Project, caret: Caret): Transform[] {
 
         // Then, for each after, see if it's parent allows the node to be an arbitrary expression, and if so,
         // generate edits that postfix the node.
-        for (const node of nodesBefore) {
-            if (node instanceof Expression)
-                transforms = [...transforms, ...getPostfixEdits(context, node)];
-        }
+        if (!caret.isEmptyLine())
+            for (const node of nodesBefore) {
+                if (node instanceof Expression)
+                    transforms = [
+                        ...transforms,
+                        ...getPostfixEdits(context, node),
+                    ];
+            }
     }
     // If the node is a selection, offer replacements.
     else if (position instanceof Node) {
@@ -244,7 +238,7 @@ function getReplacements(context: Context, selection: Node): Transform[] {
         parent.getChildrenAsGrammar(),
         (field, node, kinds, list) => {
             if (node === selection) {
-                for (const kind of kinds)
+                for (const kind of kinds) {
                     if (kind === undefined)
                         transforms.push(
                             new Replace(context, parent, selection, undefined)
@@ -274,6 +268,37 @@ function getReplacements(context: Context, selection: Node): Transform[] {
                                     )
                             );
                     }
+
+                    if (
+                        kind === Expression &&
+                        selection instanceof Expression
+                    ) {
+                        transforms.push(
+                            new Replace(
+                                context,
+                                parent,
+                                selection,
+                                Block.make([selection])
+                            )
+                        );
+                        if (
+                            parent instanceof Block &&
+                            parent.statements.length === 1 &&
+                            parent.statements[0] === selection
+                        ) {
+                            const parentParent = parent.getParent(context);
+                            if (parentParent)
+                                transforms.push(
+                                    new Replace(
+                                        context,
+                                        parentParent,
+                                        parent,
+                                        selection
+                                    )
+                                );
+                        }
+                    }
+                }
                 // Stop iterating.
                 return true;
             }
@@ -595,13 +620,21 @@ function getPossibleNodes(
 
     switch (kind) {
         case Bind:
-            return [Bind.make(undefined, Names.make(['_']))];
+            return [
+                Bind.make(
+                    undefined,
+                    Names.make(['_']),
+                    undefined,
+                    ExpressionPlaceholder.make()
+                ),
+            ];
         case Expression:
             const possibilities = [
                 ...definitions.map(
                     (def) =>
                         new Refer((name: string) => Reference.make(name), def)
                 ),
+                /*
                 Block.make([ExpressionPlaceholder.make()]),
                 BooleanLiteral.make(true),
                 BooleanLiteral.make(false),
@@ -645,6 +678,7 @@ function getPossibleNodes(
                     ExpressionPlaceholder.make(BooleanType.make()),
                     ExpressionPlaceholder.make()
                 ),
+                */
             ];
             // Filter by type if we have one.
             return expectedType
@@ -812,18 +846,18 @@ function getPostfixEdits(context: Context, expr: Expression): Transform[] {
                   ]
                 : []),
             // Reactions
-            ...[
-                new Replace(
-                    context,
-                    parent,
-                    expr,
-                    Reaction.make(
-                        expr,
-                        ExpressionPlaceholder.make(BooleanType.make()),
-                        ExpressionPlaceholder.make()
-                    )
-                ),
-            ],
+            // ...[
+            //     new Replace(
+            //         context,
+            //         parent,
+            //         expr,
+            //         Reaction.make(
+            //             expr,
+            //             ExpressionPlaceholder.make(BooleanType.make()),
+            //             ExpressionPlaceholder.make()
+            //         )
+            //     ),
+            // ],
             // If given a type, any binary operations that are available on the type. Wrap in a block if a BinaryOperation or Conditional
             ...(type === undefined
                 ? []
