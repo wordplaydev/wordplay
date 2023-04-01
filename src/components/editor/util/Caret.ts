@@ -464,21 +464,30 @@ export default class Caret {
     }
 
     insertNode(node: Node, offset: number): Edit | undefined {
-        if (this.position instanceof Node) return undefined;
-        const newSource = this.source.withGraphemesAt(
-            node.toWordplay(),
-            this.position
-        );
-        if (newSource === undefined) return undefined;
+        if (this.position instanceof Node) {
+            const position = this.source.getNodeFirstPosition(this.position);
+            if (position === undefined) return undefined;
 
-        return [
-            newSource,
-            new Caret(
+            const newSource = this.source.replace(this.position, node);
+            return [newSource, new Caret(newSource, position + offset, node)];
+        } else {
+            const position = this.position;
+            if (position === undefined) return;
+            const newSource = this.source.withGraphemesAt(
+                node.toWordplay(),
+                position
+            );
+            if (newSource === undefined) return undefined;
+
+            return [
                 newSource,
-                this.position + offset,
-                newSource.getTokenAt(this.position)
-            ),
-        ];
+                new Caret(
+                    newSource,
+                    position + offset,
+                    newSource.getTokenAt(position)
+                ),
+            ];
+        }
     }
 
     insert(text: string): Edit | undefined {
