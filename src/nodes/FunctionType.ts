@@ -17,6 +17,7 @@ import Glyphs from '../lore/Glyphs';
 import FunctionDefinition from './FunctionDefinition';
 import Names from './Names';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
+import Name from './Name';
 
 export default class FunctionType extends Type {
     readonly fun: Token;
@@ -137,7 +138,10 @@ export default class FunctionType extends Type {
             new Names([]),
             undefined,
             this.inputs.map((i) =>
-                Bind.make(undefined, new Names([i.names.names[0].clone()]))
+                Bind.make(
+                    undefined,
+                    new Names([Name.make(i.names.names[0].getName())])
+                )
             ),
             ExpressionPlaceholder.make(this.output)
         );

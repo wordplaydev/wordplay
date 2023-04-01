@@ -58,8 +58,8 @@ import UnaryOperation from '@nodes/UnaryOperation';
 import { NOT_SYMBOL, NEGATE_SYMBOL } from '@parser/Symbols';
 import Evaluate from '@nodes/Evaluate';
 import PropertyReference from '@nodes/PropertyReference';
-import NameToken from '../../../nodes/NameToken';
-import FunctionType from '../../../nodes/FunctionType';
+import NameToken from '@nodes/NameToken';
+import FunctionType from '@nodes/FunctionType';
 
 /** Given a project and a caret in it, generate a set of valid transformations at that caret. */
 export function getEditsAt(project: Project, caret: Caret): Transform[] {
