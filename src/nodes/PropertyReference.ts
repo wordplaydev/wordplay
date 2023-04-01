@@ -31,6 +31,7 @@ import NodeLink from '@translation/NodeLink';
 import Glyphs from '../lore/Glyphs';
 import UnimplementedException from '../runtime/UnimplementedException';
 import Purpose from '../concepts/Purpose';
+import { UnknownName } from '../conflicts/UnknownName';
 
 export default class PropertyReference extends Expression {
     readonly structure: Expression;
@@ -97,8 +98,10 @@ export default class PropertyReference extends Expression {
         return Purpose.Store;
     }
 
-    computeConflicts(): Conflict[] {
-        return [];
+    computeConflicts(context: Context): Conflict[] {
+        return this.name !== undefined
+            ? []
+            : [new UnknownName(this.dot, this.getSubjectType(context))];
     }
 
     getScopeOfChild(child: Node, context: Context): Node | undefined {

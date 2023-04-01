@@ -1779,7 +1779,7 @@ const en: Translation = {
                       ' in ',
                       scope === undefined ? ' this @Block' : scope
                   )
-                : Explanation.as('There was no name given'),
+                : Explanation.as("Ack, I didn't get a name!"),
         cycle: (node) => Explanation.as(node, ' depends on itself'),
         functionlimit: (fun) =>
             Explanation.as('evaluated too many functions, especially ', fun),
@@ -2156,8 +2156,7 @@ const en: Translation = {
         UnknownName: {
             primary: (name, type) =>
                 Explanation.as(
-                    WRITE_DOC,
-                    `We aren't bound to anything in `,
+                    `No one has this name in `,
                     type ? type : ' this @Block'
                 ),
         },
