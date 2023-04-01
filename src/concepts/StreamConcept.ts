@@ -53,7 +53,10 @@ export default class StreamConcept extends Concept {
     }
 
     getName(translation: Translation) {
-        return this.definition.names.getTranslation(translation.language);
+        return this.definition.names.getTranslation(
+            translation.language,
+            false
+        );
     }
 
     getTypeConcept(index: ConceptIndex): Concept | undefined {

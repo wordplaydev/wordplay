@@ -94,17 +94,27 @@ export default class Names extends Node {
         return this.names.find((name) => name.isEmoji())?.getName();
     }
 
-    getTranslation(language: LanguageCode | LanguageCode[]) {
-        return this.getNameTranslation(language)?.getName() ?? '-';
+    getTranslation(
+        language: LanguageCode | LanguageCode[],
+        symbolic: boolean = true
+    ) {
+        return this.getNameTranslation(language, symbolic)?.getName() ?? '-';
     }
 
-    getNameTranslation(language: LanguageCode | LanguageCode[]) {
+    getNameTranslation(
+        language: LanguageCode | LanguageCode[],
+        symbolic: boolean = true
+    ) {
         // Find the name with the most preferred language code.
-        const preferredName = (Array.isArray(language) ? language : [language])
-            .map((lang) =>
-                this.names.find((name) => name.getLanguage() === lang)
-            )
-            .find((name) => name !== undefined && name.getName() !== undefined);
+        const languages = Array.isArray(language) ? language : [language];
+        const preferredName = this.names.find((name) => {
+            const lang = name.getLanguage();
+            return (
+                lang !== undefined &&
+                languages.includes(lang) &&
+                (symbolic || !name.isEmoji())
+            );
+        });
         return (
             preferredName ?? (this.names.length > 0 ? this.names[0] : undefined)
         );

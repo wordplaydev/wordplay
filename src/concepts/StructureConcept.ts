@@ -144,7 +144,10 @@ export default class StructureConcept extends Concept {
     }
 
     getName(translation: Translation) {
-        return this.definition.names.getTranslation(translation.language);
+        return this.definition.names.getTranslation(
+            translation.language,
+            false
+        );
     }
 
     getRepresentation() {

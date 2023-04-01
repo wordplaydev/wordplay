@@ -37,7 +37,7 @@
     }
 
     $: selection = getConceptPath();
-    $: description = node.getLabel($preferredTranslations[0]);
+    $: description = concept.getName($preferredTranslations[0]);
 </script>
 
 <div class="view" class:draggable>
