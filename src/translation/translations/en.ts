@@ -2305,6 +2305,10 @@ const en: Translation = {
             logout: 'logout',
             offline: 'You appear to be offline.',
         },
+        edit: {
+            wrap: 'parentheize',
+            unwrap: 'unwrap',
+        },
     },
     input: {
         random: {

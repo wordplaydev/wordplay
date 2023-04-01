@@ -970,6 +970,10 @@ type Translation = {
             logout: string;
             offline: string;
         };
+        edit: {
+            wrap: string;
+            unwrap: string;
+        };
     };
     input: {
         random: NameAndDocTranslation & {

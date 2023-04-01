@@ -11,18 +11,23 @@ export default class Replace<NodeType extends Node> extends Transform {
     readonly parent: Node;
     readonly node: Node;
     readonly replacement: NodeType | Refer | undefined;
+    readonly description: ((translation: Translation) => string) | undefined;
 
     constructor(
         context: Context,
         parent: Node,
         node: Node,
-        replacement: NodeType | Refer | undefined
+        replacement: NodeType | Refer | undefined,
+        description:
+            | ((translation: Translation) => string)
+            | undefined = undefined
     ) {
         super(context);
 
         this.parent = parent;
         this.node = node;
         this.replacement = replacement;
+        this.description = description;
     }
 
     getEdit(lang: LanguageCode[]): Edit | undefined {
@@ -68,6 +73,7 @@ export default class Replace<NodeType extends Node> extends Transform {
     }
 
     getDescription(translation: Translation) {
+        if (this.description) return this.description(translation);
         let node =
             this.replacement instanceof Refer
                 ? this.replacement.getNode([translation.language])

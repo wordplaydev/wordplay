@@ -1960,6 +1960,10 @@ const eng_wordplay: Translation = {
             logout: 'logout',
             offline: 'You appear to be offline.',
         },
+        edit: {
+            wrap: 'envolver',
+            unwrap: 'desenvolver',
+        },
     },
     input: {
         random: {

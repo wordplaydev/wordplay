@@ -278,7 +278,8 @@ function getReplacements(context: Context, selection: Node): Transform[] {
                                 context,
                                 parent,
                                 selection,
-                                Block.make([selection])
+                                Block.make([selection]),
+                                (translation) => translation.ui.edit.wrap
                             )
                         );
                         if (
@@ -293,7 +294,9 @@ function getReplacements(context: Context, selection: Node): Transform[] {
                                         context,
                                         parentParent,
                                         parent,
-                                        selection
+                                        selection,
+                                        (translation) =>
+                                            translation.ui.edit.unwrap
                                     )
                                 );
                         }
