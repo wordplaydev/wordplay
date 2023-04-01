@@ -130,7 +130,7 @@ export function getSpace() {
 export const HiddenSymbol = Symbol('hidden');
 export type HiddenContext = Writable<Set<Node>>;
 export function getHidden() {
-    return getContext<HiddenContext>(HiddenSymbol);
+    return getContext<HiddenContext | undefined>(HiddenSymbol);
 }
 
 export const ConceptPathSymbol = Symbol('palette-path');

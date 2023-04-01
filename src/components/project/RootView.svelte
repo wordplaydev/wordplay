@@ -78,46 +78,43 @@
     $: {
         const newHidden = new Set<Node>();
 
-        // We only hide things in Source roots. All other root views show all their contents.
-        if (root.root instanceof Program) {
-            // Hide any language tagged nodes that 1) the caret isn't in, and 2) either have no language tag or aren't one of the selected tags.
-            // Also hide any name separators if the first visible name has one.
-            for (const tag of node.nodes(
-                (n) => n instanceof Docs || n instanceof Names
-            ) as (Docs | Names)[]) {
-                // Get all the names or docs
-                const nameOrDocs = tag instanceof Docs ? tag.docs : tag.names;
-                // If at least one is visible, hide all those not in a preferred language.
-                if (
-                    $preferredLanguages.some((lang) =>
-                        nameOrDocs.some((l) => l.getLanguage() === lang)
+        // Hide any language tagged nodes that 1) the caret isn't in, and 2) either have no language tag or aren't one of the selected tags.
+        // Also hide any name separators if the first visible name has one.
+        for (const tag of node.nodes(
+            (n) => n instanceof Docs || n instanceof Names
+        ) as (Docs | Names)[]) {
+            // Get all the names or docs
+            const nameOrDocs = tag instanceof Docs ? tag.docs : tag.names;
+            // If at least one is visible, hide all those not in a preferred language.
+            if (
+                $preferredLanguages.some((lang) =>
+                    nameOrDocs.some((l) => l.getLanguage() === lang)
+                )
+            ) {
+                let first = false;
+                for (const nameOrDoc of nameOrDocs) {
+                    if (
+                        !$preferredLanguages.some(
+                            (t) => t === nameOrDoc.getLanguage()
+                        ) &&
+                        !$caret?.isIn(nameOrDoc)
                     )
-                ) {
-                    let first = false;
-                    for (const nameOrDoc of nameOrDocs) {
-                        if (
-                            !$preferredLanguages.some(
-                                (t) => t === nameOrDoc.getLanguage()
-                            ) &&
-                            !$caret?.isIn(nameOrDoc)
-                        )
-                            newHidden.add(nameOrDoc);
-                        else if (!first) {
-                            first = true;
-                            if (
-                                nameOrDoc instanceof Name &&
-                                nameOrDoc.separator
-                            )
-                                newHidden.add(nameOrDoc.separator);
-                        }
+                        newHidden.add(nameOrDoc);
+                    else if (!first) {
+                        first = true;
+                        if (nameOrDoc instanceof Name && nameOrDoc.separator)
+                            newHidden.add(nameOrDoc.separator);
                     }
                 }
-                // Otherwise, hide all but the first.
-                else {
-                    for (const nameOrDoc of nameOrDocs.slice(1))
-                        newHidden.add(nameOrDoc);
-                }
             }
+            // Otherwise, hide all but the first.
+            else {
+                for (const nameOrDoc of nameOrDocs.slice(1))
+                    newHidden.add(nameOrDoc);
+            }
+            // If this is a doc and we're not in a program, hide it.
+            if (tag instanceof Docs && !(root.root instanceof Program))
+                newHidden.add(tag);
         }
 
         // Update hidden nodes.
