@@ -76,8 +76,7 @@ export default class PropertyReference extends Expression {
                                 .some(
                                     (name) =>
                                         this.name &&
-                                        name.startsWith(this.name.getName()) &&
-                                        name !== this.name.getName()
+                                        name.startsWith(this.name.getName())
                                 )
                         );
                     return defs;

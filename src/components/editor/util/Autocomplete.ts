@@ -565,9 +565,11 @@ function getPossibleNodes(
         ? node.getDefinitionsInScope(context)
         : [];
 
-    // Special case references; no need to reference them if already referencing them.
+    // Special case references; no need to reference binds if already referencing them.
     if (node instanceof Reference)
-        definitions = definitions.filter((def) => !def.hasName(node.getName()));
+        definitions = definitions.filter(
+            (def) => !(def instanceof Bind) || !def.hasName(node.getName())
+        );
 
     switch (kind) {
         case Bind:
