@@ -19,9 +19,10 @@
         font-style: italic;
     }
 
-    .hidden :global(.token-view) {
+    /* Decided not to hide type. */
+    /* .hidden :global(.token-view) {
         display: inline-block;
         width: 0;
         opacity: 0;
-    }
+    } */
 </style>
