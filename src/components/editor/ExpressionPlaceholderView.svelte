@@ -7,7 +7,6 @@
     export let node: ExpressionPlaceholder;
 </script>
 
-<!-- We have to show all the tokens to make caret navigation work, so we just hide the unnecessary ones. -->
 <span class="placeholder"
     ><span class={node.dot && node.type ? 'hidden' : ''}
         ><NodeView node={node.placeholder} /><NodeView node={node.dot} /></span

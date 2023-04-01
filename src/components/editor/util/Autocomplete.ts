@@ -56,6 +56,9 @@ import TokenType from '@nodes/TokenType';
 import Convert from '@nodes/Convert';
 import UnaryOperation from '@nodes/UnaryOperation';
 import { NOT_SYMBOL, NEGATE_SYMBOL } from '@parser/Symbols';
+import Evaluate from '@nodes/Evaluate';
+import PropertyReference from '@nodes/PropertyReference';
+import NameToken from '../../../nodes/NameToken';
 
 /** Given a project and a caret in it, generate a set of valid transformations at that caret. */
 export function getEditsAt(project: Project, caret: Caret): Transform[] {
@@ -406,8 +409,7 @@ function getEditsAfter(
                                 context,
                                 node,
                                 kind,
-                                field,
-                                index
+                                field
                             ))
                                 transforms.push(
                                     new Append(
@@ -438,15 +440,39 @@ function getEditsAfter(
                                     node,
                                     kind,
                                     field
-                                ))
-                                    transforms.push(
-                                        new Replace(
-                                            context,
-                                            parent,
-                                            node,
-                                            possible
-                                        )
-                                    );
+                                )) {
+                                    // Replace property reference names with full Evaluate expressions, not just the name.
+                                    if (
+                                        possible instanceof Refer &&
+                                        (possible.definition instanceof
+                                            FunctionDefinition ||
+                                            possible.definition instanceof
+                                                StructureDefinition)
+                                    ) {
+                                        const evaluateReplacement =
+                                            toEvaluateReplacement(
+                                                parent instanceof
+                                                    PropertyReference
+                                                    ? parent
+                                                    : node,
+                                                possible.definition,
+                                                context
+                                            );
+                                        if (evaluateReplacement)
+                                            transforms.push(
+                                                evaluateReplacement
+                                            );
+                                    } else {
+                                        transforms.push(
+                                            new Replace(
+                                                context,
+                                                parent,
+                                                node,
+                                                possible
+                                            )
+                                        );
+                                    }
+                                }
                         }
                     }
                 }
@@ -482,16 +508,36 @@ function getEditsAfter(
                                 node,
                                 type,
                                 field
-                            ))
-                                transforms.push(
-                                    new Add(
-                                        context,
-                                        position,
-                                        parent,
-                                        field.name,
-                                        possible
-                                    )
-                                );
+                            )) {
+                                // Replace property references with no name with full Evaluate expressions, not just the name.
+                                if (
+                                    parent instanceof PropertyReference &&
+                                    possible instanceof Refer &&
+                                    (possible.definition instanceof
+                                        FunctionDefinition ||
+                                        possible.definition instanceof
+                                            StructureDefinition)
+                                ) {
+                                    const evaluateReplacement =
+                                        toEvaluateReplacement(
+                                            parent,
+                                            possible.definition,
+                                            context
+                                        );
+                                    if (evaluateReplacement)
+                                        transforms.push(evaluateReplacement);
+                                } else {
+                                    transforms.push(
+                                        new Add(
+                                            context,
+                                            position,
+                                            parent,
+                                            field.name,
+                                            possible
+                                        )
+                                    );
+                                }
+                            }
                 }
             }
             return false;
@@ -625,7 +671,7 @@ function getPossibleNodes(
         case Docs:
             return [new Docs([Doc.make([])])];
         case Reference:
-            // We can get possible references depend on the binding scope for the insertion point
+            // Add references to all of the valid definitions for this reference.
             return definitions.map(
                 (def) => new Refer((name) => Reference.make(name), def)
             );
@@ -807,4 +853,36 @@ function getPostfixEdits(context: Context, expr: Expression): Transform[] {
         ];
     }
     return [];
+}
+
+function toEvaluateReplacement(
+    ref: PropertyReference | Reference,
+    fun: FunctionDefinition | StructureDefinition,
+    context: Context
+): Replace<Evaluate | BinaryOperation> | undefined {
+    const parent = context.getRoot(ref)?.getParent(ref);
+    if (parent === undefined) return;
+    const reference = Reference.make(fun.getNames()[0], fun);
+
+    // Use a binary op if it's binary.
+    const op = fun.names.getEmojiName();
+    const evaluate =
+        fun.inputs.length === 1 && op !== undefined
+            ? new BinaryOperation(
+                  ref instanceof PropertyReference ? ref.structure : ref,
+                  new NameToken(op),
+                  ExpressionPlaceholder.make(fun.inputs[0].getType(context))
+              )
+            : Evaluate.make(
+                  ref instanceof PropertyReference
+                      ? PropertyReference.make(ref.structure, reference)
+                      : reference,
+                  fun.inputs
+                      .filter((b) => b.isRequired())
+                      .map((b) =>
+                          ExpressionPlaceholder.make(b.getType(context))
+                      )
+              );
+
+    return new Replace(context, parent, ref, evaluate);
 }
