@@ -29,6 +29,7 @@ import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
 import NodeLink from '@translation/NodeLink';
 import Glyphs from '../lore/Glyphs';
+import UnimplementedException from '../runtime/UnimplementedException';
 
 export default class PropertyReference extends Expression {
     readonly structure: Expression;
@@ -235,6 +236,9 @@ export default class PropertyReference extends Expression {
         const subject = evaluator.popValue(this);
         if (this.name === undefined)
             return new NameException(undefined, subject, evaluator);
+        else if (this.name.isPlaceholder())
+            return new UnimplementedException(evaluator, this.name);
+
         const name = this.name.getName();
         return (
             subject.resolve(name, evaluator) ??
