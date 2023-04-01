@@ -26,6 +26,7 @@
 <style>
     .trigger {
         color: var(--wordplay-disabled-color);
+        font-size: var(--wordplay-font-size);
     }
 
     .trigger:hover,

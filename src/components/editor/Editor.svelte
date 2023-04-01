@@ -75,6 +75,7 @@
     import { VerseType } from '@output/Verse';
     import type Evaluator from '@runtime/Evaluator';
     import { TAB_WIDTH } from '../../parser/Spaces';
+    import PlaceholderView from './PlaceholderView.svelte';
 
     export let evaluator: Evaluator;
     export let project: Project;
@@ -689,7 +690,7 @@
         // Only return a node if hovering over its text. Space isn't eligible.
         if (el instanceof HTMLElement && el.classList.contains('token-view')) {
             const nodeView = el.closest(
-                `.node-view${includeTokens ? '' : `:not(${Token.name}`}`
+                `.node-view${includeTokens ? '' : `:not(.${Token.name}`}`
             );
             if (nodeView instanceof HTMLElement && nodeView.dataset.id) {
                 return source.expression.getNodeByID(
@@ -1427,9 +1428,9 @@
                 ? `calc(${caretLocation.left} - ${OutlinePadding}px)`
                 : undefined}
             style:top={caretLocation ? `${caretLocation.bottom}px` : undefined}
-            >{$caret.position instanceof Node
-                ? $caret.position.getLabel($preferredTranslations[0])
-                : ''}<div
+            >{#if $caret.position instanceof Node}
+                {$caret.position.getLabel($preferredTranslations[0])}
+                <PlaceholderView node={$caret.position} />{/if}<div
                 class="screen-reader-description"
                 aria-live="polite"
                 aria-atomic="true"
