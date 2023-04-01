@@ -690,7 +690,7 @@
         // Only return a node if hovering over its text. Space isn't eligible.
         if (el instanceof HTMLElement) {
             const nodeView = el.closest(
-                `.node-view${includeTokens ? '' : `:not(.${Token.name}`}`
+                `.node-view${includeTokens ? '' : `:not(.${Token.name})`}`
             );
             if (nodeView instanceof HTMLElement && nodeView.dataset.id) {
                 return source.expression.getNodeByID(

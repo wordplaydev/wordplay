@@ -14,6 +14,7 @@
     import ValueView from '@components/values/ValueView.svelte';
     import type Value from '@runtime/Value';
     import Space from './Space.svelte';
+    import Token from '../../nodes/Token';
 
     export let node: Node | undefined;
     export let small: boolean = false;
@@ -76,7 +77,9 @@
                 ? $insertion
                 : undefined}
         />{/if}<div
-        class="{node.constructor.name} node-view"
+        class="{node.constructor.name} ${node instanceof Token
+            ? 'Token'
+            : ''} node-view"
         class:hide
         class:small
         data-id={node.id}
