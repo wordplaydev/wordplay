@@ -76,6 +76,7 @@
     .view {
         display: inline-block;
         vertical-align: middle;
+        margin-bottom: var(--wordplay-spacing);
         margin-right: var(--wordplay-spacing);
     }
 
