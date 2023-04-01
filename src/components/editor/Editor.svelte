@@ -688,7 +688,7 @@
     function getNodeAt(event: MouseEvent, includeTokens: boolean) {
         const el = document.elementFromPoint(event.clientX, event.clientY);
         // Only return a node if hovering over its text. Space isn't eligible.
-        if (el instanceof HTMLElement && el.classList.contains('token-view')) {
+        if (el instanceof HTMLElement) {
             const nodeView = el.closest(
                 `.node-view${includeTokens ? '' : `:not(.${Token.name}`}`
             );
