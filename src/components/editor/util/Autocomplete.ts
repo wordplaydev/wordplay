@@ -242,12 +242,19 @@ function getReplacements(context: Context, selection: Node): Transform[] {
                             list?.index
                         ))
                             transforms.push(
-                                new Replace(
+                                toPossibleEvaluation(
                                     context,
-                                    parent,
-                                    selection,
+                                    parent instanceof PropertyReference
+                                        ? parent
+                                        : node,
                                     possibility
-                                )
+                                ) ??
+                                    new Replace(
+                                        context,
+                                        parent,
+                                        selection,
+                                        possibility
+                                    )
                             );
                     }
                 // Stop iterating.
@@ -440,39 +447,23 @@ function getEditsAfter(
                                     node,
                                     kind,
                                     field
-                                )) {
-                                    // Replace property reference names with full Evaluate expressions, not just the name.
-                                    if (
-                                        possible instanceof Refer &&
-                                        (possible.definition instanceof
-                                            FunctionDefinition ||
-                                            possible.definition instanceof
-                                                StructureDefinition)
-                                    ) {
-                                        const evaluateReplacement =
-                                            toEvaluateReplacement(
-                                                parent instanceof
-                                                    PropertyReference
-                                                    ? parent
-                                                    : node,
-                                                possible.definition,
-                                                context
-                                            );
-                                        if (evaluateReplacement)
-                                            transforms.push(
-                                                evaluateReplacement
-                                            );
-                                    } else {
-                                        transforms.push(
-                                            new Replace(
+                                ))
+                                    transforms.push(
+                                        toPossibleEvaluation(
+                                            context,
+                                            parent instanceof PropertyReference
+                                                ? parent
+                                                : node,
+                                            possible
+                                        ) ??
+                                            new Add(
                                                 context,
+                                                position,
                                                 parent,
-                                                node,
+                                                field.name,
                                                 possible
                                             )
-                                        );
-                                    }
-                                }
+                                    );
                         }
                     }
                 }
@@ -508,26 +499,13 @@ function getEditsAfter(
                                 node,
                                 type,
                                 field
-                            )) {
-                                // Replace property references with no name with full Evaluate expressions, not just the name.
-                                if (
-                                    parent instanceof PropertyReference &&
-                                    possible instanceof Refer &&
-                                    (possible.definition instanceof
-                                        FunctionDefinition ||
-                                        possible.definition instanceof
-                                            StructureDefinition)
-                                ) {
-                                    const evaluateReplacement =
-                                        toEvaluateReplacement(
-                                            parent,
-                                            possible.definition,
-                                            context
-                                        );
-                                    if (evaluateReplacement)
-                                        transforms.push(evaluateReplacement);
-                                } else {
-                                    transforms.push(
+                            ))
+                                transforms.push(
+                                    toPossibleEvaluation(
+                                        context,
+                                        parent,
+                                        possible
+                                    ) ??
                                         new Add(
                                             context,
                                             position,
@@ -535,9 +513,7 @@ function getEditsAfter(
                                             field.name,
                                             possible
                                         )
-                                    );
-                                }
-                            }
+                                );
                 }
             }
             return false;
@@ -855,6 +831,22 @@ function getPostfixEdits(context: Context, expr: Expression): Transform[] {
         ];
     }
     return [];
+}
+
+function toPossibleEvaluation(
+    context: Context,
+    ref: Node,
+    possible: Node | Refer
+) {
+    // Replace property references with no name with full Evaluate expressions, not just the name.
+    if (
+        (ref instanceof Reference || ref instanceof PropertyReference) &&
+        possible instanceof Refer &&
+        (possible.definition instanceof FunctionDefinition ||
+            possible.definition instanceof StructureDefinition)
+    ) {
+        return toEvaluateReplacement(ref, possible.definition, context);
+    } else return undefined;
 }
 
 function toEvaluateReplacement(
