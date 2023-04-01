@@ -1085,13 +1085,7 @@
         if (
             $caret.addition instanceof Token &&
             ($caret.addition.is(TokenType.Access) ||
-                $caret.addition.is(TokenType.Name)) &&
-            ($caret.tokenPrior?.is(TokenType.Access) ||
-                ($caret.tokenPrior !== undefined &&
-                    $caret.tokenPrior.is(TokenType.Name) &&
-                    source
-                        .getTokenBefore($caret.tokenPrior)
-                        ?.is(TokenType.Access)))
+                $caret.addition.is(TokenType.Name))
         ) {
             showMenu();
         } else hideMenu();

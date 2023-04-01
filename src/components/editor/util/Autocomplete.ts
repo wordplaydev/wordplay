@@ -79,9 +79,6 @@ export function getEditsAt(project: Project, caret: Caret): Transform[] {
     if (typeof caret.position === 'number') {
         let { before, after } = caret.getNodesBetween();
 
-        console.log(before);
-        console.log(after);
-
         // Get a list of transforms before and after this position.
         transforms = [
             // // Get all of the replacements possible immediately before the position.
@@ -379,9 +376,6 @@ function getEditsAfter(
 ): Transform[] {
     // Find the parent of the node.
     const parent = anchor.getParent(context);
-    console.log('After');
-    console.log(anchor);
-    console.log(parent);
 
     if (parent === undefined) return [];
 
