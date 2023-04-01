@@ -459,6 +459,10 @@ export default class Caret {
         return new Caret(this.source, this.position, addition);
     }
 
+    withoutAddition() {
+        return new Caret(this.source, this.position, undefined);
+    }
+
     insert(text: string): Edit | undefined {
         // Normalize the mystery string, ensuring it follows Unicode normalization form.
         text = text.normalize();

@@ -63,17 +63,14 @@ export function getEditsAt(project: Project, caret: Caret): Transform[] {
     const context = project.getContext(source);
 
     // Is the caret on a specific token or node?
-    let node =
-        caret.position instanceof Node
-            ? caret.position
-            : caret.getToken() ?? undefined;
+    let position = caret.position;
 
     // See if the node is inside a placeholder, and if so, choose the placeholder instead.
     // See if the node has a placeholder ancestor, and if so, choose it.
-    if (node)
-        node =
-            source.root.getAncestors(node).find((a) => a.isPlaceholder()) ??
-            node;
+    if (position instanceof Node)
+        position =
+            source.root.getAncestors(position).find((a) => a.isPlaceholder()) ??
+            position;
 
     // Initialize a list of transforms
     let transforms: Transform[] = [];
@@ -81,6 +78,9 @@ export function getEditsAt(project: Project, caret: Caret): Transform[] {
     // If the caret is a position, find out what can go before or after
     if (typeof caret.position === 'number') {
         let { before, after } = caret.getNodesBetween();
+
+        console.log(before);
+        console.log(after);
 
         // Get a list of transforms before and after this position.
         transforms = [
@@ -110,12 +110,12 @@ export function getEditsAt(project: Project, caret: Caret): Transform[] {
         }
     }
     // If the node is a selection, offer replacements.
-    else if (node !== undefined) {
+    else if (position instanceof Node) {
         // What can this be replaced with?
         transforms = [
-            ...getReplacements(context, node),
-            ...(node instanceof Expression
-                ? getPostfixEdits(context, node)
+            ...getReplacements(context, position),
+            ...(position instanceof Expression
+                ? getPostfixEdits(context, position)
                 : []),
         ];
     }
@@ -379,6 +379,10 @@ function getEditsAfter(
 ): Transform[] {
     // Find the parent of the node.
     const parent = anchor.getParent(context);
+    console.log('After');
+    console.log(anchor);
+    console.log(parent);
+
     if (parent === undefined) return [];
 
     // Walk the grammar, consuming matching children finding the node, finding everything that can follow the node.

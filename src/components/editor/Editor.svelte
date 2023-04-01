@@ -1065,40 +1065,37 @@
     }
 
     async function showMenu(node: Node | undefined = undefined) {
-        // Is the caret on a specific token or node?
-        node =
-            node ??
-            ($caret.position instanceof Node
-                ? $caret.position
-                : $caret.getToken() ?? undefined);
-
-        if (node === undefined) return false;
-
-        // Get the unique valid edits at the caret.
-        const transforms = getEditsAt(project, $caret.withPosition(node));
-
-        // Wait for everything to be rendered so we can get the position of things.
+        // Wait for everything to be updated so we have a fresh context
         await tick();
 
-        // Make a menu, but without a location, so other things know there's a menu while we're waiting.
+        // Is the caret on a specific token or node?
+        const position = node ?? $caret.position;
+
+        // Get the unique valid edits at the caret.
+        const transforms = getEditsAt(project, $caret.withPosition(position));
+
+        // Set the meniu.
         menu = new Menu($caret, transforms, 0, handleEdit);
     }
 
-    // Always show the menu if the caret is after a property reference.
+    // Always show the menu if the caret is after a property reference
+    // and the dot was just typed or text after the dot was typed.
     // This is annoying; disabling it.
-    // $: {
-    //     if (
-    //         $playing &&
-    //         ($caret.tokenPrior?.is(TokenType.ACCESS) ||
-    //             ($caret.tokenPrior !== undefined &&
-    //                 $caret.tokenPrior.is(TokenType.NAME) &&
-    //                 source
-    //                     .getTokenBefore($caret.tokenPrior)
-    //                     ?.is(TokenType.ACCESS)))
-    //     )
-    //         showMenu();
-    //     else hideMenu();
-    // }
+    $: {
+        if (
+            $caret.addition instanceof Token &&
+            ($caret.addition.is(TokenType.Access) ||
+                $caret.addition.is(TokenType.Name)) &&
+            ($caret.tokenPrior?.is(TokenType.Access) ||
+                ($caret.tokenPrior !== undefined &&
+                    $caret.tokenPrior.is(TokenType.Name) &&
+                    source
+                        .getTokenBefore($caret.tokenPrior)
+                        ?.is(TokenType.Access)))
+        ) {
+            showMenu();
+        } else hideMenu();
+    }
 
     function handleKeyDown(event: KeyboardEvent) {
         if (evaluator === undefined) return;
@@ -1130,7 +1127,10 @@
             }
         }
 
-        if ($caret.isNode() && event.key === ' ') {
+        if (
+            event.key === ' ' &&
+            ($caret.isNode() || ($caret.isIndex() && event.shiftKey))
+        ) {
             // Don't allow the keystroke to travel to the text input.
             event.preventDefault();
             // If there's no menu showing, show one, then return.
@@ -1213,7 +1213,8 @@
             );
             caret.set(newCaret.withSource(newSource));
         } else {
-            caret.set(newCaret);
+            // Remove the addition, since the caret moved since being added.
+            caret.set(newCaret.withoutAddition());
         }
 
         // After every edit and everything is updated, focus back on on text input
