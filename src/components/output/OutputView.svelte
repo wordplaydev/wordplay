@@ -141,6 +141,7 @@
         position: static;
         box-shadow: none;
         background-color: var(--wordplay-background);
+        pointer-events: none;
     }
 
     .fill {
