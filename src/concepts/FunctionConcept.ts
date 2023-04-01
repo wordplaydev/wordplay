@@ -19,6 +19,7 @@ import type StructureDefinition from '@nodes/StructureDefinition';
 import Emotion from '../lore/Emotion';
 import type Doc from '../nodes/Doc';
 import type Spaces from '../parser/Spaces';
+import FunctionType from '../nodes/FunctionType';
 
 export default class FunctionConcept extends Concept {
     /** The function this concept represents. */
@@ -80,9 +81,12 @@ export default class FunctionConcept extends Concept {
                           : reference,
                       this.definition.inputs
                           .filter((input) => !input.hasDefault())
-                          .map((input) =>
-                              ExpressionPlaceholder.make(input.type)
-                          )
+                          .map((input) => {
+                              if (input.type instanceof FunctionType)
+                                  return input.type.getFunctionPlaceholder();
+                              else
+                                  return ExpressionPlaceholder.make(input.type);
+                          })
                   );
 
         this.inputs = this.definition.inputs.map(
