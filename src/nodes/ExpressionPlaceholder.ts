@@ -20,6 +20,7 @@ import type Translation from '@translation/Translation';
 import AtomicExpression from './AtomicExpression';
 import type { Description } from '@translation/Translation';
 import Glyphs from '../lore/Glyphs';
+import type Root from './Root';
 
 export default class ExpressionPlaceholder extends AtomicExpression {
     readonly placeholder: Token;
@@ -57,15 +58,17 @@ export default class ExpressionPlaceholder extends AtomicExpression {
                 label: (
                     translation: Translation,
                     _: Node,
-                    context: Context
+                    context: Context,
+                    root: Root
                 ): Description => {
-                    const parent: Node | undefined = this.getParent(context);
+                    const parent: Node | undefined = root.getParent(this);
                     // See if the parent has a label.
                     return (
                         parent?.getChildPlaceholderLabel(
                             this,
                             translation,
-                            context
+                            context,
+                            root
                         ) ?? translation.nodes.ExpressionPlaceholder.placeholder
                     );
                 },

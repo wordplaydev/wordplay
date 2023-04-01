@@ -13,6 +13,7 @@ import type {
 import type Glyph from '../lore/Glyph';
 import type Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';
+import type Root from './Root';
 
 /* A global ID for nodes, for helping index them */
 let NODE_ID_COUNTER = 0;
@@ -28,7 +29,8 @@ export type Field = {
     label?: (
         translation: Translation,
         child: Node,
-        context: Context
+        context: Context,
+        root: Root
     ) => Description;
     /** True if a preceding space is preferred the node */
     space?: boolean | ((node: Node) => boolean);
@@ -668,10 +670,11 @@ export default abstract class Node {
     getChildPlaceholderLabel(
         child: Node,
         translation: Translation,
-        context: Context
+        context: Context,
+        root: Root
     ): Description | undefined {
         const label = this.getFieldOfChild(child)?.label;
-        return label ? label(translation, child, context) : undefined;
+        return label ? label(translation, child, context, root) : undefined;
     }
 
     /** Translates the node back into Wordplay text, using spaces if provided and . */

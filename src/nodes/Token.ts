@@ -114,7 +114,7 @@ export default class Token extends Node {
         const parent = root.getParent(this);
         return parent === undefined
             ? undefined
-            : parent.getChildPlaceholderLabel(this, translation, context);
+            : parent.getChildPlaceholderLabel(this, translation, context, root);
     }
 
     localized(
