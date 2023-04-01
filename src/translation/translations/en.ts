@@ -1787,7 +1787,7 @@ const en: Translation = {
         type: (expected, given) =>
             Explanation.as('I expected a ', expected, ' but received ', given),
         placeholder: (node) =>
-            Explanation.as(`Eep, I can't be on stage, I'm a `, node, `!`),
+            Explanation.as(`Eek, I don't know what to do, I'm a `, node, `!`),
         unparsable: (node) =>
             Explanation.as('this is ', node, ' is not parsable'),
         value: () =>
