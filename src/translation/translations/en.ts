@@ -1274,7 +1274,7 @@ const en: Translation = {
             doc: `We are single true or false value.
             
             We are the simplest value type, since we can only be one of two values, (⊤) and (⊥).`,
-            name: 'bool',
+            name: 'boolean type',
             function: {
                 and: {
                     doc: WRITE_DOC,
@@ -1311,7 +1311,7 @@ const en: Translation = {
             
             I am special because I am only equal to me.
             I can only ever be me and only ever want to be me!`,
-            name: 'none',
+            name: 'none type',
             function: {
                 equals: {
                     doc: WRITE_DOC,
@@ -1332,7 +1332,7 @@ const en: Translation = {
             doc: `We are any words imaginable.
             
             We can represent ideas, stories, words, and more, and even represent other types of values, but as text.`,
-            name: 'text',
+            name: 'text type',
             function: {
                 length: {
                     doc: WRITE_DOC,
@@ -1379,7 +1379,7 @@ const en: Translation = {
             doc: `We are any number imaginable, even with units.
             
             We can be integers, real numbers, negative, positive, fractional, decimal. We can be Arabic numbers (123), Roman numerals (ⅩⅩⅩⅠⅩ), Japanese numerals (二十), and more.`,
-            name: 'number',
+            name: 'number type',
             function: {
                 add: {
                     doc: WRITE_DOC,
@@ -1522,7 +1522,7 @@ const en: Translation = {
             doc: `We group values in sequence.
             
             Keeping this in order is our mission; but we can only do that if we stay together ([]).`,
-            name: 'list',
+            name: 'list type',
             kind: 'Kind',
             out: 'Result',
             outofbounds: 'outofbounds',
@@ -1654,7 +1654,7 @@ const en: Translation = {
             doc: `We group unique values in no particular order.
             
             We don't like it when there's more than one value of a particular kind! Everything must be unique.`,
-            name: 'set',
+            name: 'set type',
             kind: 'Kind',
             function: {
                 equals: {
@@ -1714,7 +1714,7 @@ const en: Translation = {
             doc: `We map one set of values to another set of values.
             
             Everything inside us must be connected, but to only one thing.`,
-            name: 'map',
+            name: 'map type',
             key: 'Key',
             value: 'Value',
             result: 'Result',
