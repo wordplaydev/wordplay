@@ -430,9 +430,12 @@ function getEditsAfter(
                                     )
                                 );
                         }
+                    // If the node is before the last item in the list, then nothing else can be inserted, so we stop.
+                    return (
+                        list.index === undefined || list.index < list.length - 1
+                    );
                 }
-                // If the node is before the last item in the list, then nothing else can be inserted, so we stop.
-                return list.index === undefined || list.index < list.length - 1;
+                return false;
             }
             // If a standalone node, either mark found or add possible types and stop.
             else if (node !== undefined) {

@@ -93,7 +93,7 @@ export default class Append<NodeType extends Node> extends Transform {
             this.insertion instanceof Refer
                 ? this.insertion.getNode([translation.language])
                 : this.getNewNode([translation.language]);
-        return translation.transform.remove(node.getLabel(translation));
+        return translation.transform.append(node.getLabel(translation));
     }
 
     getNewNode(languages: LanguageCode[]): Node {
