@@ -418,17 +418,39 @@ function getEditsAfter(
                                 node,
                                 kind,
                                 field
-                            ))
-                                transforms.push(
-                                    new Append(
-                                        context,
-                                        position,
-                                        parent,
-                                        list.list,
-                                        index,
-                                        possible
-                                    )
-                                );
+                            )) {
+                                if (
+                                    anchor instanceof Reference &&
+                                    possible instanceof Refer
+                                ) {
+                                    transforms.push(
+                                        toPossibleEvaluation(
+                                            context,
+                                            parent instanceof PropertyReference
+                                                ? parent
+                                                : anchor,
+                                            possible
+                                        ) ??
+                                            new Replace(
+                                                context,
+                                                parent,
+                                                anchor,
+                                                possible
+                                            )
+                                    );
+                                } else {
+                                    transforms.push(
+                                        new Append(
+                                            context,
+                                            position,
+                                            parent,
+                                            list.list,
+                                            index,
+                                            possible
+                                        )
+                                    );
+                                }
+                            }
                         }
                     // If the node is before the last item in the list, then nothing else can be inserted, so we stop.
                     return (
