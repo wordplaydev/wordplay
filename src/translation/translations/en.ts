@@ -2308,6 +2308,7 @@ const en: Translation = {
         edit: {
             wrap: 'parentheize',
             unwrap: 'unwrap',
+            bind: 'name this expression',
         },
     },
     input: {

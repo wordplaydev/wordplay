@@ -1963,6 +1963,7 @@ const eng_wordplay: Translation = {
         edit: {
             wrap: 'envolver',
             unwrap: 'desenvolver',
+            bind: 'nombra esta expresión',
         },
     },
     input: {

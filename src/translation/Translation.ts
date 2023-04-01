@@ -973,6 +973,7 @@ type Translation = {
         edit: {
             wrap: string;
             unwrap: string;
+            bind: string;
         };
     };
     input: {

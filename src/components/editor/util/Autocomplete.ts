@@ -273,7 +273,7 @@ function getReplacements(context: Context, selection: Node): Transform[] {
                         kind === Expression &&
                         selection instanceof Expression
                     ) {
-                        transforms.push(
+                        transforms.unshift(
                             new Replace(
                                 context,
                                 parent,
@@ -282,23 +282,38 @@ function getReplacements(context: Context, selection: Node): Transform[] {
                                 (translation) => translation.ui.edit.wrap
                             )
                         );
-                        if (
-                            parent instanceof Block &&
-                            parent.statements.length === 1 &&
-                            parent.statements[0] === selection
-                        ) {
-                            const parentParent = parent.getParent(context);
-                            if (parentParent)
-                                transforms.push(
-                                    new Replace(
-                                        context,
-                                        parentParent,
-                                        parent,
-                                        selection,
-                                        (translation) =>
-                                            translation.ui.edit.unwrap
-                                    )
-                                );
+                        if (parent instanceof Block) {
+                            if (
+                                parent.statements.length === 1 &&
+                                parent.statements[0] === selection
+                            ) {
+                                const parentParent = parent.getParent(context);
+                                if (parentParent)
+                                    transforms.unshift(
+                                        new Replace(
+                                            context,
+                                            parentParent,
+                                            parent,
+                                            selection,
+                                            (translation) =>
+                                                translation.ui.edit.unwrap
+                                        )
+                                    );
+                            }
+                            transforms.unshift(
+                                new Replace(
+                                    context,
+                                    parent,
+                                    selection,
+                                    Bind.make(
+                                        undefined,
+                                        Names.make(['_']),
+                                        undefined,
+                                        selection
+                                    ),
+                                    (translation) => translation.ui.edit.bind
+                                )
+                            );
                         }
                     }
                 }
@@ -623,14 +638,7 @@ function getPossibleNodes(
 
     switch (kind) {
         case Bind:
-            return [
-                Bind.make(
-                    undefined,
-                    Names.make(['_']),
-                    undefined,
-                    ExpressionPlaceholder.make()
-                ),
-            ];
+            break;
         case Expression:
             const possibilities = [
                 ...definitions.map(
