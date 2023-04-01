@@ -36,7 +36,14 @@ export default class MissingInput extends Conflict {
                 node: this.last,
                 explanation: (translation: Translation, context: Context) =>
                     translation.conflict.MissingInput.primary(
-                        new NodeLink(this.input, translation, context)
+                        new NodeLink(
+                            this.input,
+                            translation,
+                            context,
+                            this.input.names.getTranslation(
+                                translation.language
+                            )
+                        )
                     ),
             },
             secondary: {

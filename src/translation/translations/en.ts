@@ -1979,11 +1979,7 @@ const en: Translation = {
         },
         MissingInput: {
             primary: (input) =>
-                Explanation.as(
-                    WRITE_DOC + 'expected input ',
-                    input,
-                    ' but did not receive it'
-                ),
+                Explanation.as('I need ', input, ', can you add one?'),
             secondary: (evaluate) =>
                 Explanation.as(
                     `this input is required, but `,
