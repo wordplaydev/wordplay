@@ -64,7 +64,7 @@ export default class Is extends Expression {
     }
 
     getPurpose(): Purpose {
-        return Purpose.DECIDE;
+        return Purpose.Decide;
     }
 
     computeType() {

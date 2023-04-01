@@ -70,7 +70,7 @@ export default class MapType extends NativeType {
     }
 
     getPurpose() {
-        return Purpose.STORE;
+        return Purpose.Store;
     }
 
     computeConflicts(): Conflict[] {

@@ -30,6 +30,7 @@ import type Translation from '@translation/Translation';
 import NodeLink from '@translation/NodeLink';
 import Glyphs from '../lore/Glyphs';
 import UnimplementedException from '../runtime/UnimplementedException';
+import Purpose from '../concepts/Purpose';
 
 export default class PropertyReference extends Expression {
     readonly structure: Expression;
@@ -90,6 +91,10 @@ export default class PropertyReference extends Expression {
             this.replaceChild('dot', this.dot, replace),
             this.replaceChild('name', this.name, replace)
         ) as this;
+    }
+
+    getPurpose() {
+        return Purpose.Store;
     }
 
     computeConflicts(): Conflict[] {

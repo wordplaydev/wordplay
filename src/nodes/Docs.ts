@@ -27,7 +27,7 @@ export default class Docs extends Node {
     }
 
     getPurpose() {
-        return Purpose.DOCUMENT;
+        return Purpose.Document;
     }
 
     computeConflicts() {

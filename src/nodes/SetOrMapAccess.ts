@@ -90,7 +90,7 @@ export default class SetOrMapAccess extends Expression {
     }
 
     getPurpose(): Purpose {
-        return Purpose.STORE;
+        return Purpose.Store;
     }
 
     getAffiliatedType(): NativeTypeName | undefined {

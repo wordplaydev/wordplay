@@ -69,7 +69,7 @@ export default class ListLiteral extends Expression {
     }
 
     getPurpose() {
-        return Purpose.STORE;
+        return Purpose.Store;
     }
 
     getAffiliatedType(): NativeTypeName | undefined {

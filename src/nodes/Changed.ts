@@ -65,7 +65,7 @@ export default class Changed extends AtomicExpression {
     }
 
     getPurpose() {
-        return Purpose.DECIDE;
+        return Purpose.Decide;
     }
 
     getAffiliatedType(): NativeTypeName | undefined {

@@ -1065,8 +1065,6 @@
     }
 
     async function showMenu(node: Node | undefined = undefined) {
-        if (evaluator === undefined) return;
-
         // Is the caret on a specific token or node?
         node =
             node ??
@@ -1074,7 +1072,7 @@
                 ? $caret.position
                 : $caret.getToken() ?? undefined);
 
-        if (node === undefined) return;
+        if (node === undefined) return false;
 
         // Get the unique valid edits at the caret.
         const transforms = getEditsAt(project, $caret.withPosition(node));
@@ -1133,10 +1131,12 @@
         }
 
         if ($caret.isNode() && event.key === ' ') {
+            // Don't allow the keystroke to travel to the text input.
+            event.preventDefault();
             // If there's no menu showing, show one, then return.
             if (menu === undefined) {
                 showMenu();
-                if (menu !== undefined) return;
+                return;
             }
             // Rid of the menu.
             else {

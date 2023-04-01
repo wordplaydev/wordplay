@@ -40,7 +40,7 @@ export default class NoneLiteral extends Literal {
     }
 
     getPurpose() {
-        return Purpose.STORE;
+        return Purpose.Store;
     }
 
     getAffiliatedType(): NativeTypeName | undefined {

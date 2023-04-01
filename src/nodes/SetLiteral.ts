@@ -66,7 +66,7 @@ export default class SetLiteral extends Expression {
     }
 
     getPurpose(): Purpose {
-        return Purpose.STORE;
+        return Purpose.Store;
     }
 
     getAffiliatedType(): NativeTypeName | undefined {

@@ -33,7 +33,7 @@ export default class ConceptLink extends Node {
     }
 
     getPurpose() {
-        return Purpose.DOCUMENT;
+        return Purpose.Document;
     }
 
     computeConflicts(): void | Conflict[] {

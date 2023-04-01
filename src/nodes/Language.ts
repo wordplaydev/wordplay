@@ -42,7 +42,7 @@ export default class Language extends Node {
     }
 
     getPurpose() {
-        return Purpose.DOCUMENT;
+        return Purpose.Document;
     }
 
     computeConflicts(): Conflict[] {

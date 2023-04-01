@@ -31,7 +31,7 @@ export default class TypeInputs extends Node {
     }
 
     getPurpose() {
-        return Purpose.TYPE;
+        return Purpose.Type;
     }
 
     getGrammar() {

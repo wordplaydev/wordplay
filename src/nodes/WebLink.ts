@@ -69,7 +69,7 @@ export default class WebLink extends Node {
     }
 
     getPurpose() {
-        return Purpose.DOCUMENT;
+        return Purpose.Document;
     }
 
     getNodeTranslation(translation: Translation) {

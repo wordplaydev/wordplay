@@ -48,7 +48,7 @@ export default class Token extends Node {
     }
 
     getPurpose() {
-        return Purpose.REPRESENT;
+        return Purpose.Represent;
     }
 
     // TOKEN TYPES

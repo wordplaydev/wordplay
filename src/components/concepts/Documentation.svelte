@@ -232,29 +232,29 @@
         {:else if $index}
             <ConceptsView
                 category={$preferredTranslations[0].terminology.project}
-                concepts={$index.getPrimaryConceptsWithPurpose(Purpose.PROJECT)}
+                concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Project)}
             />
             <ConceptsView
                 category={$preferredTranslations[0].terminology.code}
-                concepts={$index.getPrimaryConceptsWithPurpose(Purpose.COMPUTE)}
+                concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Compute)}
                 selectable={true}
             />
             <ConceptsView
                 category={$preferredTranslations[0].terminology.store}
-                concepts={$index.getPrimaryConceptsWithPurpose(Purpose.STORE)}
+                concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Store)}
             />
             <ConceptsView
                 category={$preferredTranslations[0].terminology.decide}
-                concepts={$index.getPrimaryConceptsWithPurpose(Purpose.DECIDE)}
+                concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Decide)}
                 selectable={true}
             />
             <ConceptsView
                 category={$preferredTranslations[0].terminology.input}
-                concepts={$index.getPrimaryConceptsWithPurpose(Purpose.INPUT)}
+                concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Input)}
             />
             <ConceptsView
                 category={$preferredTranslations[0].terminology.output}
-                concepts={$index.getPrimaryConceptsWithPurpose(Purpose.OUTPUT)}
+                concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Output)}
             />
         {/if}
     </div>

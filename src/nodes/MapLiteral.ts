@@ -76,7 +76,7 @@ export default class MapLiteral extends Expression {
     }
 
     getPurpose() {
-        return Purpose.STORE;
+        return Purpose.Store;
     }
 
     getAffiliatedType(): NativeTypeName | undefined {

@@ -27,7 +27,7 @@ export default class ConversionConcept extends Concept {
         context: Context,
         structure?: StructureConcept
     ) {
-        super(Purpose.CONVERT, structure?.definition, context);
+        super(Purpose.Convert, structure?.definition, context);
 
         this.definition = definition;
         this.structure = structure;

@@ -24,7 +24,7 @@ export default class StreamConcept extends Concept {
         languages: LanguageCode[],
         context: Context
     ) {
-        super(Purpose.INPUT, undefined, context);
+        super(Purpose.Input, undefined, context);
 
         this.definition = stream;
         this.reference = Reference.make(

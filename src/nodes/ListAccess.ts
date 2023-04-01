@@ -94,7 +94,7 @@ export default class ListAccess extends Expression {
     }
 
     getPurpose(): Purpose {
-        return Purpose.STORE;
+        return Purpose.Store;
     }
 
     getAffiliatedType(): NativeTypeName | undefined {

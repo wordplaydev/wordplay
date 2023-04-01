@@ -59,7 +59,7 @@ export default class Doc extends Node {
     }
 
     getPurpose() {
-        return Purpose.DOCUMENT;
+        return Purpose.Document;
     }
 
     withLanguage(language: Language) {

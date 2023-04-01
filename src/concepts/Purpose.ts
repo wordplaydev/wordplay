@@ -1,14 +1,14 @@
 enum Purpose {
-    STORE = 'store',
-    COMPUTE = 'compute',
-    INPUT = 'input',
-    OUTPUT = 'output',
-    DECIDE = 'decide',
-    CONVERT = 'convert',
-    PROJECT = 'project',
-    TYPE = 'type',
-    DOCUMENT = 'document',
-    REPRESENT = 'represent',
+    Store = 'store',
+    Compute = 'compute',
+    Input = 'input',
+    Output = 'output',
+    Decide = 'decide',
+    Convert = 'convert',
+    Project = 'project',
+    Type = 'type',
+    Document = 'document',
+    Represent = 'represent',
 }
 
 export default Purpose;

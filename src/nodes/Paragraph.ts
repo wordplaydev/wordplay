@@ -34,7 +34,7 @@ export default class Paragraph extends Node {
     }
 
     getPurpose() {
-        return Purpose.DOCUMENT;
+        return Purpose.Document;
     }
 
     getNodeTranslation(translation: Translation) {

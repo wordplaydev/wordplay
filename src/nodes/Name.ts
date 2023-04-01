@@ -68,7 +68,7 @@ export default class Name extends Node {
     }
 
     getPurpose() {
-        return Purpose.REPRESENT;
+        return Purpose.Represent;
     }
 
     computeConflicts(): Conflict[] {

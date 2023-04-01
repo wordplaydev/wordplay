@@ -236,7 +236,7 @@ export function getNativeConcepts(
 ): StructureConcept[] {
     return [
         new StructureConcept(
-            Purpose.STORE,
+            Purpose.Store,
             BoolDefinition,
             BoolDefinition,
             BooleanType.make(),
@@ -245,7 +245,7 @@ export function getNativeConcepts(
             context
         ),
         new StructureConcept(
-            Purpose.STORE,
+            Purpose.Store,
             TextDefinition,
             TextDefinition,
             TextType.make(),
@@ -254,7 +254,7 @@ export function getNativeConcepts(
             context
         ),
         new StructureConcept(
-            Purpose.STORE,
+            Purpose.Store,
             MeasurementDefinition,
             MeasurementDefinition,
             MeasurementType.make(),
@@ -267,7 +267,7 @@ export function getNativeConcepts(
             context
         ),
         new StructureConcept(
-            Purpose.STORE,
+            Purpose.Store,
             ListDefinition,
             ListDefinition,
             ListType.make(),
@@ -276,7 +276,7 @@ export function getNativeConcepts(
             context
         ),
         new StructureConcept(
-            Purpose.STORE,
+            Purpose.Store,
             SetDefinition,
             SetDefinition,
             SetType.make(),
@@ -285,7 +285,7 @@ export function getNativeConcepts(
             context
         ),
         new StructureConcept(
-            Purpose.STORE,
+            Purpose.Store,
             MapDefinition,
             MapDefinition,
             MapType.make(),
@@ -294,7 +294,7 @@ export function getNativeConcepts(
             context
         ),
         new StructureConcept(
-            Purpose.STORE,
+            Purpose.Store,
             NoneDefinition,
             NoneDefinition,
             NoneType.make(),
@@ -340,7 +340,7 @@ export function getOutputConcepts(
         ...AppearanceTypes.map((def) =>
             getStructureOrFunctionConcept(
                 def,
-                Purpose.OUTPUT,
+                Purpose.Output,
                 PhraseType,
                 languages,
                 context
@@ -349,7 +349,7 @@ export function getOutputConcepts(
         ...GroupTypes.map((def) =>
             getStructureOrFunctionConcept(
                 def,
-                Purpose.OUTPUT,
+                Purpose.Output,
                 GroupType,
                 languages,
                 context
@@ -358,7 +358,7 @@ export function getOutputConcepts(
         ...AnimationTypes.map((def) =>
             getStructureOrFunctionConcept(
                 def,
-                Purpose.OUTPUT,
+                Purpose.Output,
                 PoseType,
                 languages,
                 context

@@ -342,7 +342,7 @@
         // Update the URL, removing = for keys with no values
         const url = `${searchParams.toString().replace(/=(?=&|$)/gm, '')}`;
         // If the search params haven't changed, don't navigate.
-        if (url !== $page.url.search) goto(`?${url}`);
+        if (url !== $page.url.search) goto(`?${url}`, { replaceState: true });
     }
 
     /** Persist the layout when it changes */

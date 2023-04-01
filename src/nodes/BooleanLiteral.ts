@@ -46,7 +46,7 @@ export default class BooleanLiteral extends Literal {
     }
 
     getPurpose() {
-        return Purpose.STORE;
+        return Purpose.Store;
     }
 
     getAffiliatedType(): NativeTypeName | undefined {

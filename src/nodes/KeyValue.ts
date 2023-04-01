@@ -51,7 +51,7 @@ export default class KeyValue extends Node {
     }
 
     getPurpose(): Purpose {
-        return Purpose.STORE;
+        return Purpose.Store;
     }
 
     getAffiliatedType(): NativeTypeName | undefined {

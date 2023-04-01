@@ -57,7 +57,7 @@ export default class PropertyBind extends Expression {
     }
 
     getPurpose() {
-        return Purpose.STORE;
+        return Purpose.Store;
     }
 
     computeConflicts(context: Context): Conflict[] {

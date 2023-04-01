@@ -82,7 +82,7 @@ export default class ConversionDefinition extends AtomicExpression {
     }
 
     getPurpose() {
-        return Purpose.CONVERT;
+        return Purpose.Convert;
     }
 
     clone(replace?: Replacement) {

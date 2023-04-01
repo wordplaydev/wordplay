@@ -44,7 +44,7 @@ export default class Words extends Node {
     }
 
     getPurpose() {
-        return Purpose.DOCUMENT;
+        return Purpose.Document;
     }
 
     getNodeTranslation(translation: Translation) {

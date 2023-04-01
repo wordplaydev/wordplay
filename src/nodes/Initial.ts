@@ -46,7 +46,7 @@ export default class Initial extends AtomicExpression {
     }
 
     getPurpose() {
-        return Purpose.DECIDE;
+        return Purpose.Decide;
     }
 
     getAffiliatedType(): NativeTypeName | undefined {

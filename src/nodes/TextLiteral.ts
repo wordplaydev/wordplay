@@ -48,7 +48,7 @@ export default class TextLiteral extends Literal {
     }
 
     getPurpose() {
-        return Purpose.STORE;
+        return Purpose.Store;
     }
 
     getAffiliatedType(): NativeTypeName {

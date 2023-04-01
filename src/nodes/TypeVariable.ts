@@ -28,7 +28,7 @@ export default class TypeVariable extends Node {
     }
 
     getPurpose() {
-        return Purpose.TYPE;
+        return Purpose.Type;
     }
 
     getReference(): NameType {

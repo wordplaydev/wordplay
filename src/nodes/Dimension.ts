@@ -67,7 +67,7 @@ export default class Dimension extends Node {
     }
 
     getPurpose() {
-        return Purpose.TYPE;
+        return Purpose.Type;
     }
 
     getName() {

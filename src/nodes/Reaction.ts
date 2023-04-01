@@ -96,7 +96,7 @@ export default class Reaction extends Expression {
     }
 
     getPurpose() {
-        return Purpose.DECIDE;
+        return Purpose.Decide;
     }
 
     getAffiliatedType(): NativeTypeName | undefined {

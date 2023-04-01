@@ -144,7 +144,7 @@ export default class StructureDefinition extends AtomicExpression {
     }
 
     getPurpose() {
-        return Purpose.STORE;
+        return Purpose.Store;
     }
 
     getNames() {

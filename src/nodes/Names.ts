@@ -72,7 +72,7 @@ export default class Names extends Node {
     }
 
     getPurpose() {
-        return Purpose.REPRESENT;
+        return Purpose.Represent;
     }
 
     computeConflicts() {

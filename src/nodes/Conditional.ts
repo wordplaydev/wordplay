@@ -94,7 +94,7 @@ export default class Conditional extends Expression {
     }
 
     getPurpose() {
-        return Purpose.DECIDE;
+        return Purpose.Decide;
     }
 
     computeConflicts(context: Context): Conflict[] {
