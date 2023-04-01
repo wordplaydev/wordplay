@@ -59,6 +59,7 @@ import { NOT_SYMBOL, NEGATE_SYMBOL } from '@parser/Symbols';
 import Evaluate from '@nodes/Evaluate';
 import PropertyReference from '@nodes/PropertyReference';
 import NameToken from '../../../nodes/NameToken';
+import FunctionType from '../../../nodes/FunctionType';
 
 /** Given a project and a caret in it, generate a set of valid transformations at that caret. */
 export function getEditsAt(project: Project, caret: Caret): Transform[] {
@@ -872,10 +873,13 @@ function toEvaluateReplacement(
                       ? PropertyReference.make(ref.structure, reference)
                       : reference,
                   fun.inputs
-                      .filter((b) => b.isRequired())
-                      .map((b) =>
-                          ExpressionPlaceholder.make(b.getType(context))
-                      )
+                      .filter((bind) => bind.isRequired())
+                      .map((bind) => {
+                          const type = bind.getType(context);
+                          if (type instanceof FunctionType)
+                              return type.getFunctionPlaceholder();
+                          else return ExpressionPlaceholder.make(type);
+                      })
               );
 
     return new Replace(context, parent, ref, evaluate);
