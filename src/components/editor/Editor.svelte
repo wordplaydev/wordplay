@@ -1083,9 +1083,17 @@
     // This is annoying; disabling it.
     $: {
         if (
+            // Recent addition needs to be an access or name token
             $caret.addition instanceof Token &&
             ($caret.addition.is(TokenType.Access) ||
-                $caret.addition.is(TokenType.Name))
+                $caret.addition.is(TokenType.Name)) &&
+            // If it's a name, the token prior to the name needs to be an access token
+            $caret.tokenPrior !== undefined &&
+            ($caret.tokenPrior.is(TokenType.Access) ||
+                ($caret.tokenPrior.is(TokenType.Name) &&
+                    source
+                        .getTokenBefore($caret.tokenPrior)
+                        ?.is(TokenType.Access)))
         ) {
             showMenu();
         } else hideMenu();
