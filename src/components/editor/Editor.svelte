@@ -1117,6 +1117,9 @@
                 menu = menu.up();
                 event.stopPropagation();
                 return;
+            } else if (event.key === 'Escape') {
+                hideMenu();
+                return;
             } else if (
                 event.key === 'Enter' &&
                 menu.selection !== undefined &&
@@ -1128,7 +1131,7 @@
             }
         }
 
-        if ($caret.isNode() && event.key === 'Enter') {
+        if ($caret.isNode() && event.key === ' ') {
             // If there's no menu showing, show one, then return.
             if (menu === undefined) {
                 showMenu();
