@@ -42,6 +42,8 @@ import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import type { EvaluatorNode } from '../runtime/Evaluation';
 import type Reaction from './Reaction';
+import Evaluate from './Evaluate';
+import FunctionType from './FunctionType';
 
 export default class Bind extends Expression {
     readonly docs?: Docs;
@@ -329,6 +331,32 @@ export default class Bind extends Expression {
             const nameType = type.getType(context);
             if (nameType instanceof StructureDefinitionType) return nameType;
         }
+
+        // If the bind is in a function definition that is part of a function evaluation that takes a function input,
+        // get the type from the function input.
+        if (type instanceof AnyType) {
+            const func = this.getParent(context);
+            if (func instanceof FunctionDefinition) {
+                const bindIndex = func.inputs.indexOf(this);
+                const evaluate = func.getParent(context);
+                if (evaluate instanceof Evaluate) {
+                    const funcIndex = evaluate.inputs.indexOf(func);
+                    const evalFunc = evaluate.getFunction(context);
+                    if (
+                        evalFunc instanceof FunctionDefinition &&
+                        funcIndex < evalFunc.inputs.length
+                    ) {
+                        const bind = evalFunc.inputs[funcIndex];
+                        const bindType = bind.getType(context);
+                        if (bindType instanceof FunctionType) {
+                            const funcBind = bindType.inputs[bindIndex];
+                            if (funcBind) type = funcBind.getType(context);
+                        }
+                    }
+                }
+            }
+        }
+
         return type;
     }
 

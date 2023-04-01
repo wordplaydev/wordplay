@@ -85,6 +85,19 @@ test.each([
         NotAFunction,
         1,
     ],
+    // Infer bind types from function inputs
+    [
+        `
+        ƒ x(a•ƒ(num•'') '') a(1)
+        x(ƒ(c•#) c + 1)
+        `,
+        `
+        ƒ x(a•ƒ(num•#) #) a(1)
+        x(ƒ(c) c + 1)
+        `,
+        Evaluate,
+        IncompatibleInput,
+    ],
 ])(
     '%s => none, %s => conflict',
     (
