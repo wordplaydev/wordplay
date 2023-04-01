@@ -1787,7 +1787,7 @@ const en: Translation = {
         type: (expected, given) =>
             Explanation.as('I expected a ', expected, ' but received ', given),
         placeholder: (node) =>
-            Explanation.as('this ', node, ' is not implemented'),
+            Explanation.as(`Eep, I can't be on stage, I'm a `, node, `!`),
         unparsable: (node) =>
             Explanation.as('this is ', node, ' is not parsable'),
         value: () =>
@@ -2084,9 +2084,7 @@ const en: Translation = {
                 'operators evalute left to right, unlike math; use parentheses to specify order of evaluation',
         },
         Placeholder: {
-            primary:
-                WRITE_DOC +
-                'this is unimplemented, so the program will stop if evaluated',
+            primary: `I'm a placeholder. Can you please find someone to replace me for the performance?`,
         },
         RequiredAfterOptional: {
             primary:
