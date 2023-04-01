@@ -14,11 +14,10 @@ import UnionType from './UnionType';
 import type TypeSet from './TypeSet';
 import Conditional from './Conditional';
 import Is from './Is';
-import { PROPERTY_SYMBOL, PLACEHOLDER_SYMBOL } from '@parser/Symbols';
+import { PROPERTY_SYMBOL } from '@parser/Symbols';
 import TokenType from './TokenType';
 import TypeVariable from './TypeVariable';
 import NameException from '@runtime/NameException';
-import NativeType from './NativeType';
 import type Definition from './Definition';
 import type Value from '@runtime/Value';
 import StreamType from './StreamType';
@@ -272,28 +271,6 @@ export default class PropertyReference extends Expression {
                 UnionType.getPossibleUnion(context, possibleTypes.list())
             );
         return current;
-    }
-
-    getNameTransforms(context: Context) {
-        const subjectType = this.getSubjectType(context);
-        // For the name, what names exist on the subject that match the current name?
-        const definitions =
-            subjectType instanceof StructureDefinitionType
-                ? subjectType.structure.getDefinitions(this)
-                : subjectType instanceof NativeType
-                ? subjectType?.getDefinitions(this, context)
-                : [];
-        return definitions.filter(
-            (def) =>
-                def
-                    .getNames()
-                    .find(
-                        (n: string) =>
-                            this.name === undefined ||
-                            this.name.getName() === PLACEHOLDER_SYMBOL ||
-                            n.startsWith(this.name.getName())
-                    ) !== undefined
-        );
     }
 
     getStart() {

@@ -81,31 +81,47 @@ export function getEditsAt(project: Project, caret: Caret): Transform[] {
 
     // If the caret is a position, find out what can go before or after
     if (typeof caret.position === 'number') {
-        let { before, after } = caret.getNodesBetween();
+        // Naming here is funny: "before" means "the caret is before these nodes"
+        let { before: nodesAfter, after: nodesBefore } =
+            caret.getNodesBetween();
+
+        // Special case references before position
+        const reference = nodesBefore.find((n) => n instanceof Reference);
 
         // Get a list of transforms before and after this position.
-        transforms = [
-            // // Get all of the replacements possible immediately before the position.
-            ...before.reduce(
-                (transforms: Transform[], child) => [
-                    ...transforms,
-                    ...getEditsBefore(context, child, caret.position as number),
-                ],
-                []
-            ),
-            // Get all of the replacements possible and the ends of the nodes just before the position.
-            ...after.reduce(
-                (transforms: Transform[], child) => [
-                    ...transforms,
-                    ...getEditsAfter(context, child, caret.position as number),
-                ],
-                []
-            ),
-        ];
+        transforms =
+            reference instanceof Reference && !caret.isEmptyLine()
+                ? getReplacements(context, reference)
+                : [
+                      // // Get all of the replacements possible immediately before the position.
+                      ...nodesAfter.reduce(
+                          (transforms: Transform[], child) => [
+                              ...transforms,
+                              ...getEditsBefore(
+                                  context,
+                                  child,
+                                  caret.position as number
+                              ),
+                          ],
+                          []
+                      ),
+                      // Get all of the replacements possible and the ends of the nodes just before the position.
+                      ...nodesBefore.reduce(
+                          (transforms: Transform[], child) => [
+                              ...transforms,
+                              ...getEditsAfter(
+                                  context,
+                                  child,
+                                  caret.position as number
+                              ),
+                          ],
+                          []
+                      ),
+                  ];
 
         // Then, for each after, see if it's parent allows the node to be an arbitrary expression, and if so,
         // generate edits that postfix the node.
-        for (const node of after) {
+        for (const node of nodesBefore) {
             if (node instanceof Expression)
                 transforms = [...transforms, ...getPostfixEdits(context, node)];
         }
@@ -567,10 +583,14 @@ function getPossibleNodes(
         ? node.getDefinitionsInScope(context)
         : [];
 
-    // Special case references; no need to reference binds if already referencing them.
+    // Special case references; no need to reference binds if already referencing them, and filter by matching prefixes.
     if (node instanceof Reference)
         definitions = definitions.filter(
-            (def) => !(def instanceof Bind) || !def.hasName(node.getName())
+            (def) =>
+                (node.name === undefined ||
+                    def.names.getNameStartingWith(node.name.getText()) !==
+                        undefined) &&
+                (!(def instanceof Bind) || !def.hasName(node.getName()))
         );
 
     switch (kind) {

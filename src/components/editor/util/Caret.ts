@@ -115,6 +115,13 @@ export default class Caret {
         return this.source.spaces.getSpace(next).length > 0;
     }
 
+    isEmptyLine() {
+        return (
+            typeof this.position === 'number' &&
+            this.source.isEmptyLine(this.position)
+        );
+    }
+
     getNodesBetween() {
         const empty = { before: [], after: [] };
 
@@ -129,7 +136,7 @@ export default class Caret {
         const lineNumber = this.source.getLine(this.position);
         if (lineNumber === undefined) return empty;
 
-        const emptyLine = this.source.isEmptyLine(this.position);
+        const emptyLine = this.isEmptyLine();
 
         // If it's an index, then we want to find all of the nodes that could insert something at this position,
         // so we can make suggestions about what to put there. For example, consider this code and caret position.
@@ -184,8 +191,6 @@ export default class Caret {
             tokens[0] === tokenAfter
                 ? undefined
                 : tokens[tokens.indexOf(tokenAfter) - 1];
-
-        // Find the line that
 
         // Make a list of parent/child nodes that are adjacent to the caret.
         const pairs: InsertionContext = {

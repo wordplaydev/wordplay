@@ -1136,10 +1136,11 @@
             // If it's a name, the token prior to the name needs to be an access token
             $caret.tokenPrior !== undefined &&
             ($caret.tokenPrior.is(TokenType.Access) ||
-                ($caret.tokenPrior.is(TokenType.Name) &&
-                    source
-                        .getTokenBefore($caret.tokenPrior)
-                        ?.is(TokenType.Access)))
+                $caret.tokenPrior.is(TokenType.Name))
+            //  &&
+            //     source
+            //         .getTokenBefore($caret.tokenPrior)
+            //         ?.is(TokenType.Access)*/)
         ) {
             showMenu();
         } else hideMenu();
