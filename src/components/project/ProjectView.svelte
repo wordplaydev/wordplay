@@ -1021,13 +1021,15 @@
             </div>
         </nav>
 
-        <!-- Render annotations on top of the tiles and the footer -->
-        <Annotations
-            {project}
-            evaluator={$evaluator}
-            conflicts={visibleConflicts}
-            stepping={$evaluation.playing === false}
-        />
+        <!-- Render annotations on top of the tiles and the footer, unless dragging -->
+        {#if $dragged === undefined}
+            <Annotations
+                {project}
+                evaluator={$evaluator}
+                conflicts={visibleConflicts}
+                stepping={$evaluation.playing === false}
+            />
+        {/if}
 
         <!-- Render the menu on top of the annotations -->
         {#if menu && menuPosition}
