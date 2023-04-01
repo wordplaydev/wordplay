@@ -487,14 +487,60 @@
 
     function updateOutlines() {
         outlines = [];
+        const nodeViews = new Map<HighlightSpec, HTMLElement>();
+        // Convert all of the highlighted views into outlines of the nodes.
         for (const [node, types] of $highlights.entries()) {
             const nodeView = getNodeView(node);
-            if (nodeView)
-                outlines.push({
+            if (nodeView) {
+                const outline = {
                     types: Array.from(types),
                     outline: getOutlineOf(nodeView),
                     underline: getUnderlineOf(nodeView),
-                });
+                };
+                outlines.push(outline);
+                nodeViews.set(outline, nodeView);
+            }
+        }
+
+        // Look for underline collisions.
+        // 1) Sort by width, so we put widest underlines first.
+        outlines.sort(
+            (a, b) =>
+                b.underline.maxx -
+                b.underline.minx -
+                (a.underline.maxx - a.underline.minx)
+        );
+
+        // 2) Iterate through outlines, searching for any previous outlines in the list and offseting the y position accordingly.
+        for (let index = 0; index < outlines.length; index++) {
+            const outline = outlines[index];
+            let offset = 0;
+            for (let check = 0; check < index; check++) {
+                const other = outlines[check];
+                // Do they intersect verticall and horizontally?
+                if (
+                    Math.round(outline.underline.miny) ===
+                        Math.round(other.underline.miny) &&
+                    Math.max(
+                        0,
+                        Math.min(outline.underline.maxx, other.underline.maxx) -
+                            Math.max(
+                                outline.underline.minx,
+                                other.underline.minx
+                            )
+                    ) > 0
+                ) {
+                    offset += 4;
+                }
+            }
+
+            // If the offset is more than zero, update the underline positioning.
+            if (offset !== 0) {
+                const index = outlines.indexOf(outline);
+                const view = nodeViews.get(outline);
+                if (index >= 0 && view)
+                    outlines[index].underline = getUnderlineOf(view, offset);
+            }
         }
     }
 

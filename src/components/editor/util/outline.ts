@@ -168,7 +168,7 @@ function toRows(nodeView: HTMLElement): Rect[] {
     });
 }
 
-export function getUnderlineOf(nodeView: HTMLElement) {
+export function getUnderlineOf(nodeView: HTMLElement, offset: number = 0) {
     const rows = toRows(nodeView);
 
     // If the rows are empty, draw an arrow where the element is
@@ -187,7 +187,12 @@ export function getUnderlineOf(nodeView: HTMLElement) {
     }
     // Generate a path from the bottom edge of each line's rectangle.
     // Each line starts with a move to, and then a single line to to the edge of the rectangle.
-    else
+    else {
+        rows.forEach((row) => {
+            row.t += offset;
+            row.b += offset;
+        });
+
         return {
             path: rows
                 .map((row) => `M ${row.l} ${row.b} L ${row.r} ${row.b}`)
@@ -209,6 +214,7 @@ export function getUnderlineOf(nodeView: HTMLElement) {
                 rows.map((row) => row.b)
             ),
         };
+    }
 }
 
 export default function getOutlineOf(nodeView: HTMLElement): Outline {
