@@ -517,9 +517,9 @@
             let offset = 0;
             for (let check = 0; check < index; check++) {
                 const other = outlines[check];
-                // Do they intersect verticall and horizontally?
+                // Do they intersect vertically and horizontally?
                 if (
-                    Math.round(outline.underline.miny) ===
+                    Math.round(outline.underline.miny + offset) ===
                         Math.round(other.underline.miny) &&
                     Math.max(
                         0,
