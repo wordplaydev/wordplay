@@ -77,7 +77,7 @@
                 ? $insertion
                 : undefined}
         />{/if}<div
-        class="{node.constructor.name} ${node instanceof Token
+        class="{node.constructor.name} {node instanceof Token
             ? 'Token'
             : ''} node-view"
         class:hide
