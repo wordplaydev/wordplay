@@ -463,6 +463,24 @@ export default class Caret {
         return new Caret(this.source, this.position, undefined);
     }
 
+    insertNode(node: Node, offset: number): Edit | undefined {
+        if (this.position instanceof Node) return undefined;
+        const newSource = this.source.withGraphemesAt(
+            node.toWordplay(),
+            this.position
+        );
+        if (newSource === undefined) return undefined;
+
+        return [
+            newSource,
+            new Caret(
+                newSource,
+                this.position + offset,
+                newSource.getTokenAt(this.position)
+            ),
+        ];
+    }
+
     insert(text: string): Edit | undefined {
         // Normalize the mystery string, ensuring it follows Unicode normalization form.
         text = text.normalize();

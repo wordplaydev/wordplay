@@ -21,6 +21,9 @@ import type Source from '@nodes/Source';
 import { toClipboard } from './Clipboard';
 import type { Mode } from '@runtime/Evaluator';
 import type Evaluator from '@runtime/Evaluator';
+import FunctionDefinition from '@nodes/FunctionDefinition';
+import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
+import Names from '@nodes/Names';
 
 export type Edit = Caret | Revision;
 export type Revision = [Source, Caret];
@@ -294,7 +297,17 @@ const commands: Command[] = [
         alt: true,
         key: 'KeyF',
         mode: undefined,
-        execute: (caret: Caret) => caret.insert(FUNCTION_SYMBOL),
+        execute: (caret: Caret) =>
+            caret.insertNode(
+                FunctionDefinition.make(
+                    undefined,
+                    Names.make([]),
+                    undefined,
+                    [],
+                    ExpressionPlaceholder.make()
+                ),
+                2
+            ),
     },
     {
         description: `Insert Boolean NOT symbol (${NOT_SYMBOL})`,
