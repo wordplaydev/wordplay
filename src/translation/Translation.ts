@@ -906,6 +906,7 @@ type Translation = {
             addSource: string;
             deleteSource: string;
             deleteProject: string;
+            editProject: string;
             settings: string;
             newProject: string;
             dark: string;

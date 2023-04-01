@@ -1,3 +1,7 @@
+<script context="module" lang="ts">
+    export const PROJECT_PARAM_PLAY = 'play';
+</script>
+
 <script lang="ts">
     import { onDestroy, setContext, tick } from 'svelte';
     import { derived, writable, type Writable } from 'svelte/store';
@@ -74,6 +78,7 @@
     import Status from '../app/Status.svelte';
     import Evaluator from '@runtime/Evaluator';
     import Evaluate from '@nodes/Evaluate';
+    import { page } from '$app/stores';
 
     export let project: Project;
 
@@ -316,7 +321,26 @@
                 layout ? layout.arrangement : Arrangement.vertical,
                 layout ? layout.fullscreenID : undefined
             );
+
+        if (
+            !layoutInitialized &&
+            $page.url.searchParams.get(PROJECT_PARAM_PLAY) !== null
+        ) {
+            const output = layout.getOutput();
+            if (output) setFullscreen(output, true);
+        }
+
         layoutInitialized = true;
+    }
+
+    /** When the layout changes, add or remove query params based on state */
+    $: {
+        const searchParams = new URLSearchParams($page.url.searchParams);
+        if (layout.fullscreenID === Content.Output)
+            searchParams.set(PROJECT_PARAM_PLAY, '');
+        else searchParams.delete(PROJECT_PARAM_PLAY);
+        // Update the URL, removing = for keys with no values
+        goto(`?${searchParams.toString().replace(/=(?=&|$)/gm, '')}`);
     }
 
     /** Persist the layout when it changes */

@@ -11,12 +11,17 @@
     import Lead from './Lead.svelte';
     import ProjectPreview from './ProjectPreview.svelte';
     import Button from '../widgets/Button.svelte';
+    import { PROJECT_PARAM_PLAY } from '../project/ProjectView.svelte';
 
     const projects = getProjects();
     const user = getUser();
 
-    function changeProject(example: Project) {
-        goto(`/project/${example.id}`);
+    function changeProject(example: Project, fullscreen: boolean = false) {
+        goto(
+            `/project/${example.id}${
+                fullscreen ? `?${PROJECT_PARAM_PLAY}` : ''
+            }`
+        );
     }
 
     function newProject() {
@@ -47,11 +52,16 @@
 <Lead>{$preferredTranslations[0].ui.headers.projects}</Lead>
 <div class="projects">
     {#each sortProjects($projects.all()) as project (project.id)}
-        <ProjectPreview {project} action={() => changeProject(project)}
-            ><ConfirmButton
-                prompt={$preferredTranslations[0].ui.prompt.deleteProject}
-                tip={$preferredTranslations[0].ui.tooltip.deleteProject}
-                action={() => $projects.delete(project.id)}>⨉</ConfirmButton
+        <ProjectPreview {project} action={() => changeProject(project, true)}
+            ><div class="controls"
+                ><Button
+                    tip={$preferredTranslations[0].ui.tooltip.editProject}
+                    action={() => changeProject(project)}>✎</Button
+                ><ConfirmButton
+                    prompt={$preferredTranslations[0].ui.prompt.deleteProject}
+                    tip={$preferredTranslations[0].ui.tooltip.deleteProject}
+                    action={() => $projects.delete(project.id)}>⨉</ConfirmButton
+                ></div
             ></ProjectPreview
         >
     {/each}
@@ -79,6 +89,12 @@
         gap: calc(2 * var(--wordplay-spacing));
         row-gap: calc(2 * var(--wordplay-spacing));
         justify-content: center;
+    }
+
+    .controls {
+        display: flex;
+        flex-direction: row;
+        gap: var(--wordplay-spacing);
     }
 
     .break {

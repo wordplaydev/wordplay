@@ -76,7 +76,7 @@
         --wordplay-type-color: var(--color-orange);
 
         /* Fonts */
-        --wordplay-app-font: 'Noto Sans', 'Noto Emoji';
+        --wordplay-app-font: 'Noto Emoji', 'Noto Sans';
         --wordplay-code-font: 'Noto Mono', 'Noto Emoji';
 
         /* Spacing */

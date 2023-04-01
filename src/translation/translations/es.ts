@@ -1901,6 +1901,7 @@ const eng_wordplay: Translation = {
             addSource: 'create a new source',
             deleteSource: 'remove this source',
             deleteProject: 'delete this project',
+            editProject: 'edit this project',
             settings: 'show settings',
             newProject: 'new project',
             dark: 'toggle dark mode on, off, and default',
