@@ -135,6 +135,10 @@
         keyboardIdleTimeout = setTimeout(() => keyboardIdle.set(true));
     }
 
+    onDestroy(() => {
+        if (keyboardIdleTimeout) clearTimeout(keyboardIdleTimeout);
+    });
+
     /**
      * Create a project global context that stores the current selected value (and if not in an editing mode, nothing).
      * This enables output views like phrases and groups know what mode the output view is in and whether they are selected.
