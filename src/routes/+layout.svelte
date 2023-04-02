@@ -49,7 +49,7 @@
         /** Load whatever is stored in local storage */
         projects.loadLocal();
 
-        // Unusubscribe to auth listener on unmount.
+        // Unusubscribe to auth listener on unmount and clean the project listeners.
         return () => {
             unsub();
             projects.clean();
