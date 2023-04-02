@@ -726,8 +726,9 @@ export default class Caret {
                             this.withPosition(index).withAddition(undefined),
                         ];
                     }
-                    // Is the parent an expression with a single token? Replace the parent.
+                    // Is the parent an expression with a single token and its field accepts expressions? Replace the parent.
                     else if (
+                        field.types.includes(Expression) &&
                         parent instanceof Expression &&
                         node instanceof Token &&
                         parent.leaves().length === 1
