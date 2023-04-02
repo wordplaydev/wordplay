@@ -545,6 +545,7 @@ export default class Caret {
                 text += DELIMITERS[text];
             }
 
+            const originalPosition = this.position;
             const newSource = this.source.withGraphemesAt(text, this.position);
             const newPosition =
                 this.position +
@@ -557,7 +558,7 @@ export default class Caret {
                       new Caret(
                           newSource,
                           newPosition,
-                          newSource.getTokenAt(this.position)
+                          newSource.getTokenAt(originalPosition, false)
                       ),
                   ];
         } else {
