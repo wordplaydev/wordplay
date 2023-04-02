@@ -64,7 +64,7 @@ export { SupportedFontFamilies as SupportedFonts };
  * responds to requests to load more fonts, and provides notificiations of when they are loaded
  * */
 export class FontManager {
-    // Default fonts to load from Google Fonts.
+    // Default fonts to load.
     readonly fonts: Font[] = [
         { name: 'Noto Sans', weight: 400, italic: false },
         { name: 'Noto Sans', weight: 700, italic: false },
