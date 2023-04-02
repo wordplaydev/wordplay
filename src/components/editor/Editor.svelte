@@ -396,6 +396,8 @@
             // If we're hovered over a valid drop target, highlight the hovered node.
             if ($hovered && isValidDropTarget($hovered)) {
                 addHighlight(newHighlights, $hovered, 'match');
+                const parent = project.getRoot($hovered)?.getParent($hovered);
+                if (parent) addHighlight(newHighlights, parent, 'hovered');
             }
             // Otherwise, highlight targets.
             else {
@@ -426,6 +428,14 @@
         // Otherwise, is a node hovered over? Highlight it.
         else if ($hovered instanceof Node)
             addHighlight(newHighlights, $hovered, 'hovered');
+
+        // Inserting? Highlight the parent we're inserting into.
+        if ($insertion) {
+            const parent = project
+                .getRoot($insertion.node)
+                ?.getParent($insertion.node);
+            if (parent) addHighlight(newHighlights, parent, 'hovered');
+        }
 
         // Tag all nodes with primary conflicts as primary
         for (const [primary, conflicts] of project.getPrimaryConflicts())
@@ -469,6 +479,7 @@
         $hovered;
         $dragged;
         $caret;
+        $insertion;
         $animatingNodes;
         $nodeConflicts;
         $selectedOutput;
