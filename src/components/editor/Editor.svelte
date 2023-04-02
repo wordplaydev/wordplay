@@ -145,9 +145,6 @@
     // A shorthand for the current program.
     $: program = source.expression;
 
-    // A shorthand for the current evaluator
-    let evaluatingNode: Node | undefined = undefined;
-
     /** When the current step, step index, or playing state changes, update the evaluation view of the editor */
     $: {
         $evaluation;
@@ -172,8 +169,6 @@
 
     async function evalUpdate() {
         if (evaluator === undefined || evaluator.isPlaying()) return;
-
-        evaluatingNode = evaluator.getCurrentStep()?.node;
 
         // If the program contains this node, scroll it's first token into view.
         const stepNode = evaluator.getStepNode();
@@ -399,18 +394,21 @@
 
             // If there's something hovered or an insertion point, show targets and matches.
             // If we're hovered over a valid drop target, highlight the hovered node.
-            if ($hovered && isValidDropTarget()) {
+            if ($hovered && isValidDropTarget($hovered)) {
                 addHighlight(newHighlights, $hovered, 'match');
             }
             // Otherwise, highlight targets.
-            else if ($insertion === undefined) {
+            else {
                 // Find all of the expression placeholders and highlight them as drop targets,
                 // unless they are dragged or contained in the dragged node
                 if ($dragged instanceof Expression)
                     for (const placeholder of source.expression.nodes(
                         (n) => n instanceof ExpressionPlaceholder
                     ))
-                        if (!$dragged.contains(placeholder))
+                        if (
+                            !$dragged.contains(placeholder) &&
+                            isValidDropTarget(placeholder)
+                        )
                             addHighlight(newHighlights, placeholder, 'target');
 
                 // Find all of the type placeholders and highlight them sa drop target
@@ -418,7 +416,10 @@
                     for (const placeholder of source.expression.nodes(
                         (n) => n instanceof TypePlaceholder
                     ))
-                        if (!$dragged.contains(placeholder))
+                        if (
+                            !$dragged.contains(placeholder) &&
+                            isValidDropTarget(placeholder)
+                        )
                             addHighlight(newHighlights, placeholder, 'target');
             }
         }
@@ -465,17 +466,13 @@
 
     // Update the highlights when any of these stores values change
     $: {
-        if (
-            $dragged ||
-            $caret ||
-            $hovered ||
-            evaluatingNode ||
-            $animatingNodes ||
-            $nodeConflicts ||
-            source ||
-            $selectedOutput
-        )
-            updateHighlights();
+        $hovered;
+        $dragged;
+        $caret;
+        $animatingNodes;
+        $nodeConflicts;
+        $selectedOutput;
+        updateHighlights();
     }
 
     // Update the outline positions any time the highlights.
@@ -602,43 +599,42 @@
         });
     }
 
-    function isValidDropTarget(): boolean {
+    function isValidDropTarget(hovered: Node | undefined): boolean {
         if ($dragged === undefined) return false;
+        if (hovered === undefined) return false;
 
         // Allow expressions to be dropped on expressions.
-        if ($hovered !== undefined) {
-            // Find the field the hovered node corresponds to.
-            const field = project
-                .getRoot($hovered)
-                ?.getParent($hovered)
-                ?.getFieldOfChild($hovered);
+        // Find the field the hovered node corresponds to.
+        const field = project
+            .getRoot(hovered)
+            ?.getParent(hovered)
+            ?.getFieldOfChild(hovered);
 
-            // If we found a field and the dragged node is an instanceof one of the allowed types, it's a valid drop target.
-            if (
-                field &&
-                field.types.some((type) =>
-                    Array.isArray(type)
-                        ? type.some((t) => $dragged instanceof t)
-                        : type instanceof Function
-                        ? $dragged instanceof type
-                        : false
-                )
+        // If we found a field and the dragged node is an instanceof one of the allowed types, it's a valid drop target.
+        if (
+            field &&
+            field.types.some((type) =>
+                Array.isArray(type)
+                    ? type.some((t) => $dragged instanceof t)
+                    : type instanceof Function
+                    ? $dragged instanceof type
+                    : false
             )
-                return true;
-        }
+        )
+            return true;
 
         // Allow binds to be dropped on children of blocks.
-        if ($dragged instanceof Bind && $hovered) {
-            const hoverParent = $caret.source.root.getParent($hovered);
+        if ($dragged instanceof Bind) {
+            const hoverParent = $caret.source.root.getParent(hovered);
             if (
                 hoverParent instanceof Block &&
-                hoverParent.statements.includes($hovered as Expression)
+                hoverParent.statements.includes(hovered as Expression)
             )
                 return true;
         }
 
         // Allow types to be dropped on types.
-        if ($dragged instanceof Type && $hovered instanceof Type) return true;
+        if ($dragged instanceof Type && hovered instanceof Type) return true;
 
         // Allow inserts to be inserted.
         if ($insertion) return true;
@@ -648,7 +644,7 @@
 
     function handleRelease() {
         // Is the creator hovering over a valid drop target? If so, execute the edit.
-        if (isValidDropTarget()) drop();
+        if (isValidDropTarget($hovered)) drop();
 
         // Release the dragged node.
         dragged.set(undefined);
