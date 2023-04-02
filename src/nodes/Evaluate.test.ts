@@ -88,15 +88,16 @@ test.each([
     // Infer bind types from function inputs
     [
         `
-        ƒ x(a•ƒ(num•'') '') a(1)
-        x(ƒ(c•#) c + 1)
+        ƒ x(a•ƒ(num•'') '') a('')
+        x(ƒ(c•'') c)
         `,
         `
         ƒ x(a•ƒ(num•#) #) a(1)
-        x(ƒ(c) c + 1)
+        x(ƒ(c•'') 1)
         `,
         Evaluate,
         IncompatibleInput,
+        1,
     ],
 ])(
     '%s => none, %s => conflict',
