@@ -515,22 +515,32 @@
         for (let index = 0; index < outlines.length; index++) {
             const outline = outlines[index];
             let offset = 0;
-            for (let check = 0; check < index; check++) {
-                const other = outlines[check];
-                // Do they intersect vertically and horizontally?
-                if (
-                    Math.round(outline.underline.miny + offset) ===
-                        Math.round(other.underline.miny) &&
-                    Math.max(
-                        0,
-                        Math.min(outline.underline.maxx, other.underline.maxx) -
-                            Math.max(
-                                outline.underline.minx,
-                                other.underline.minx
-                            )
-                    ) > 0
-                ) {
-                    offset += 4;
+            if (
+                outline.types.includes('primary') ||
+                outline.types.includes('secondary')
+            ) {
+                for (let check = 0; check < index; check++) {
+                    const other = outlines[check];
+                    // Do they intersect vertically and horizontally?
+                    if (
+                        (other.types.includes('primary') ||
+                            other.types.includes('secondary')) &&
+                        Math.round(outline.underline.miny + offset) ===
+                            Math.round(other.underline.miny) &&
+                        Math.max(
+                            0,
+                            Math.min(
+                                outline.underline.maxx,
+                                other.underline.maxx
+                            ) -
+                                Math.max(
+                                    outline.underline.minx,
+                                    other.underline.minx
+                                )
+                        ) > 0
+                    ) {
+                        offset += 4;
+                    }
                 }
             }
 
