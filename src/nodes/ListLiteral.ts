@@ -56,7 +56,7 @@ export default class ListLiteral extends Expression {
                 space: true,
                 indent: true,
             },
-            { name: 'close', types: [Token] },
+            { name: 'close', types: [Token], sapce: true },
         ];
     }
 

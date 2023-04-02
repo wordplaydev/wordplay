@@ -137,6 +137,30 @@
         }
     }
 
+    @keyframes ybounce {
+        0% {
+            transform: scaleY(1) translateY(0);
+        }
+        10% {
+            transform: scaleY(0.9) translateY(0);
+        }
+        30% {
+            transform: scaleY(1.1) translateY(calc(-1 * var(--bounce-height)));
+        }
+        50% {
+            transform: scaleY(0.95) translateY(0);
+        }
+        57% {
+            transform: scaleY(1) translateY(-7px);
+        }
+        64% {
+            transform: scaleY(1) translateY(0);
+        }
+        100% {
+            transform: scaleY(1) translateY(0);
+        }
+    }
+
     @keyframes pulse {
         0% {
             stroke-width: calc(var(--wordplay-border-width) * 2);

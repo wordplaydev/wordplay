@@ -76,7 +76,7 @@
     }
 
     :global(.animated) .token-view.added {
-        animation: bounce;
+        animation: ybounce;
         animation-duration: 500ms;
         animation-delay: 100ms;
     }
