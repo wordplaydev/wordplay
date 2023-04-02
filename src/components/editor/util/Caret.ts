@@ -408,16 +408,26 @@ export default class Caret {
                 direction > 0 &&
                 this.source.getTokenTextPosition(token) === this.position
             )
-                return this.withPosition(token);
+                return this.withPosition(this.getParentOfOnlyChild(token));
             else if (
                 tokenBefore &&
                 direction < 0 &&
                 this.source.getTokenLastPosition(tokenBefore) === this.position
             )
-                return this.withPosition(tokenBefore);
+                return this.withPosition(
+                    this.getParentOfOnlyChild(tokenBefore)
+                );
 
             return this.withPosition(this.position + direction);
         }
+    }
+
+    getParentOfOnlyChild(token: Token): Node {
+        const parent = this.source.root.getParent(token);
+        const tokens = parent?.leaves();
+        return parent && tokens && tokens.length === 1 && tokens[0] === token
+            ? parent
+            : token;
     }
 
     getTextPosition(start: boolean): number | undefined {
