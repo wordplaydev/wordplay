@@ -379,10 +379,13 @@ export default class Bind extends Expression {
         return this.value ? [this.value, ...evaluations] : [...evaluations];
     }
 
-    /** Binds are only eligible to be constant if they are in a block. */
+    /** Binds are only eligible to be constant if they are in a non-root, non-creator block. */
     isConstant(context: Context) {
+        const parent = this.getParent(context);
         return (
-            this.getParent(context) instanceof Block &&
+            parent instanceof Block &&
+            !parent.root &&
+            !parent.creator &&
             super.isConstant(context)
         );
     }
@@ -424,6 +427,7 @@ export default class Bind extends Expression {
     getStart() {
         return this.colon ?? this.names;
     }
+
     getFinish() {
         return this.names;
     }

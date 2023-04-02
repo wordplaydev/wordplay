@@ -234,6 +234,11 @@ export default class Block extends Expression {
         ];
     }
 
+    /** Blocks are constant if they're dependencies are constant, and only if they aren't creators or roots. */
+    isConstant(context: Context) {
+        return !this.root && !this.creator && super.isConstant(context);
+    }
+
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
         if (prior) return prior;
 
