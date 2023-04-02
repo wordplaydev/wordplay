@@ -79,6 +79,24 @@ export default class Caret {
         );
     }
 
+    betweenDelimiters() {
+        const start =
+            this.tokenExcludingSpace === undefined
+                ? undefined
+                : this.source.getTokenTextPosition(this.tokenExcludingSpace);
+        const end =
+            this.tokenExcludingSpace === undefined
+                ? undefined
+                : this.source.getTokenLastPosition(this.tokenExcludingSpace);
+        return (
+            start !== undefined &&
+            end !== undefined &&
+            typeof this.position === 'number' &&
+            this.position > start &&
+            this.position < end
+        );
+    }
+
     getCode() {
         return this.source.getCode();
     }
@@ -534,11 +552,17 @@ export default class Caret {
             // Otherwise, if the text to insert is an opening delimiter and this isn't an unclosed text delimiter, automatically insert its closing counterpart.
             else if (
                 text in DELIMITERS &&
+                !this.isInsideText() &&
                 (this.tokenPrior === undefined ||
                     !(
-                        (this.tokenPrior.is(TokenType.Text) ||
-                            this.tokenPrior.is(TokenType.Unknown)) &&
-                        text === DELIMITERS[this.tokenPrior.getText().charAt(0)]
+                        // The token prior is text or unknown
+                        (
+                            (this.tokenPrior.is(TokenType.Text) ||
+                                this.tokenPrior.is(TokenType.Unknown)) &&
+                            // The text typed closes a matching delimiter
+                            text ===
+                                DELIMITERS[this.tokenPrior.getText().charAt(0)]
+                        )
                     ))
             ) {
                 closed = true;
@@ -582,6 +606,22 @@ export default class Caret {
                       ),
                   ];
         }
+    }
+
+    isInsideText() {
+        const isText =
+            this.tokenExcludingSpace !== undefined &&
+            (this.tokenExcludingSpace.is(TokenType.Text) ||
+                this.tokenExcludingSpace.is(TokenType.TemplateBetween) ||
+                this.tokenExcludingSpace.is(TokenType.TemplateOpen) ||
+                this.tokenExcludingSpace.is(TokenType.TemplateClose));
+        const isAfterText =
+            this.tokenPrior &&
+            (this.tokenPrior.is(TokenType.Text) ||
+                this.tokenPrior.is(TokenType.TemplateBetween) ||
+                this.tokenPrior.is(TokenType.TemplateOpen) ||
+                this.tokenPrior.is(TokenType.TemplateClose));
+        return (isText && !this.betweenDelimiters()) || isAfterText;
     }
 
     isPlaceholder() {
