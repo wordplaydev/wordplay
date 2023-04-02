@@ -737,8 +737,9 @@
                     : layout.withFullscreen(OutputID);
                 view?.focus();
             }
-            // No shift? Toggle between playing and pausing.
-            else if ($evaluator.isPlaying()) $evaluator.pause();
+            // No shift or alt, and not full screen? Toggle between playing and pausing.
+            else if ($evaluator.isPlaying() && !layout.isFullscreen())
+                $evaluator.pause();
             else $evaluator.play();
             event.preventDefault();
             return;
