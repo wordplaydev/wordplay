@@ -2,7 +2,6 @@ import { test, expect } from 'vitest';
 import Caret from './Caret';
 import Project from '../../../models/Project';
 import Source from '@nodes/Source';
-import Append from '@transforms/Append';
 import Replace from '@transforms/Replace';
 import { getEditsAt } from './Autocomplete';
 import type Node from '@nodes/Node';
@@ -11,10 +10,10 @@ import Add from '@transforms/Add';
 
 test.each([
     ['a: 1\na +**', undefined, Replace, 'a'],
-    ['a•?:**', undefined, Replace, '⊤'],
-    [`ƒ sum(a•? b•?) a & b\nsum(**)`, undefined, Append, '⊤'],
+    ['a•?:**', undefined, Replace, 'a'],
+    [`ƒ sum(a•? b•?) a & b\ns**`, undefined, Replace, 'sum(_•? _•?)'],
     [`ƒ sum(a•? b•?) a & b\nsum()**`, undefined, Replace, '(sum()) = _'],
-    [`"hi".**`, undefined, Add, '📏'],
+    [`"hi".**`, undefined, Replace, '"hi".📏()'],
     [`•Cat(hat•"")\nboomy: Cat("none")\nboomy.**`, undefined, Add, 'hat'],
     // Selecting 2 should offer to replace with c
     [
