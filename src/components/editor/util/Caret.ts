@@ -646,15 +646,29 @@ export default class Caret {
     /** If the caret is a node, set the position to its first index */
     enter() {
         if (this.position instanceof Node) {
+            // Token? Set a position.
             if (this.position instanceof Token) {
                 const index = this.source.getTokenTextPosition(this.position);
                 return index !== undefined
                     ? this.withPosition(index + 1)
                     : this;
             }
-            return this.withPosition(
-                this.position.getChildren()[0] ?? this.position
-            );
+            // Not a token? Choose the first, child, unless there's only one child and it's a token.
+            else {
+                const children = this.position.getChildren();
+                const leaves = this.position.leaves();
+                const first = children[0];
+                if (first === undefined) return this;
+                if (first instanceof Token && leaves.length === 1) {
+                    const index = this.source.getTokenTextPosition(first);
+                    return index !== undefined
+                        ? this.withPosition(index + 1)
+                        : this;
+                } else
+                    return this.withPosition(
+                        this.position.getChildren()[0] ?? this.position
+                    );
+            }
         } else return this;
     }
 
