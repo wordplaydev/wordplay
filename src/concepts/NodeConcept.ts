@@ -33,7 +33,7 @@ export default class NodeConcept extends Concept {
 
     hasName(name: string, translation: Translation): boolean {
         const nodeTranslation = this.template.getNodeTranslation(translation);
-        const match = Object.entries(translation.nodes).find(
+        const match = Object.entries(translation.node).find(
             ([, value]) => value === nodeTranslation
         );
         return match ? match[0] === name : false;

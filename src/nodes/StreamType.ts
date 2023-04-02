@@ -63,7 +63,7 @@ export default class StreamType extends Type {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.StreamType;
+        return translation.node.StreamType;
     }
 
     getGlyphs() {

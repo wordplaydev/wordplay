@@ -117,7 +117,7 @@ export default class MapType extends NativeType {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.MapType;
+        return translation.node.MapType;
     }
 
     getGlyphs() {

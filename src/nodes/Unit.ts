@@ -303,7 +303,7 @@ export default class Unit extends Type {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.Unit;
+        return translation.node.Unit;
     }
 
     getGlyphs() {

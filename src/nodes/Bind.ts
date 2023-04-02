@@ -443,11 +443,11 @@ export default class Bind extends Expression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.Bind;
+        return translation.node.Bind;
     }
 
     getStartExplanations(translation: Translation, context: Context) {
-        return translation.nodes.Bind.start(
+        return translation.node.Bind.start(
             this.value === undefined
                 ? undefined
                 : new NodeLink(this.value, translation, context)
@@ -459,7 +459,7 @@ export default class Bind extends Expression {
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.nodes.Bind.finish(
+        return translation.node.Bind.finish(
             this.getValueIfDefined(translation, context, evaluator),
             new NodeLink(
                 this.names,

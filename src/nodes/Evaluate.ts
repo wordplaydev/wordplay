@@ -103,7 +103,7 @@ export default class Evaluate extends Expression {
                 name: 'func',
                 types: [Expression],
                 label: (translation: Translation) =>
-                    translation.nodes.Evaluate.function,
+                    translation.node.Evaluate.function,
             },
             { name: 'types', types: [TypeInputs, undefined] },
             { name: 'open', types: [Token] },
@@ -119,7 +119,7 @@ export default class Evaluate extends Expression {
                     const fun = this.getFunction(context);
                     // Didn't find it? Default label.
                     if (fun === undefined || !(child instanceof Expression))
-                        return translation.nodes.Evaluate.input;
+                        return translation.node.Evaluate.input;
                     // Get the mapping from inputs to binds
                     const mapping = this.getInputMapping(fun);
                     // Find the bind to which this child was mapped and get its translation of this language.
@@ -131,7 +131,7 @@ export default class Evaluate extends Expression {
                                     m.given.includes(child)))
                     );
                     return bind === undefined
-                        ? translation.nodes.Evaluate.input
+                        ? translation.node.Evaluate.input
                         : bind.expected.names.getTranslation(
                               translation.language
                           );
@@ -794,11 +794,11 @@ export default class Evaluate extends Expression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.Evaluate;
+        return translation.node.Evaluate;
     }
 
     getStartExplanations(translation: Translation) {
-        return translation.nodes.Evaluate.start(this.inputs.length > 0);
+        return translation.node.Evaluate.start(this.inputs.length > 0);
     }
 
     getFinishExplanations(
@@ -806,7 +806,7 @@ export default class Evaluate extends Expression {
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.nodes.Evaluate.finish(
+        return translation.node.Evaluate.finish(
             this.getValueIfDefined(translation, context, evaluator)
         );
     }

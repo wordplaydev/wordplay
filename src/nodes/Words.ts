@@ -48,7 +48,7 @@ export default class Words extends Node {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.Words;
+        return translation.node.Words;
     }
 
     isItalic() {

@@ -10,6 +10,6 @@ export class NotAStreamType extends UnknownType<Previous | Changed> {
     }
 
     getReason(translation: Translation) {
-        return translation.nodes.NotAStreamType.description;
+        return translation.node.NotAStreamType.description;
     }
 }

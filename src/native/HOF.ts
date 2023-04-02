@@ -65,11 +65,11 @@ export default abstract class HOF extends Expression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.HOF;
+        return translation.node.HOF;
     }
 
     getStartExplanations(translation: Translation) {
-        return translation.nodes.HOF.start;
+        return translation.node.HOF.start;
     }
 
     getFinishExplanations(
@@ -77,7 +77,7 @@ export default abstract class HOF extends Expression {
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.nodes.HOF.finish(
+        return translation.node.HOF.finish(
             this.getValueIfDefined(translation, context, evaluator)
         );
     }

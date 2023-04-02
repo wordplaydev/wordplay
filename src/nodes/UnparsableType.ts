@@ -38,7 +38,7 @@ export default class UnparsableType extends Type {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.UnparsableType;
+        return translation.node.UnparsableType;
     }
 
     getGlyphs() {

@@ -77,11 +77,11 @@ export default class NoneLiteral extends Literal {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.NoneLiteral;
+        return translation.node.NoneLiteral;
     }
 
     getStartExplanations(translation: Translation) {
-        return translation.nodes.NoneLiteral.start;
+        return translation.node.NoneLiteral.start;
     }
 
     getGlyphs() {

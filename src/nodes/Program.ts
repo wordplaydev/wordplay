@@ -174,7 +174,7 @@ export default class Program extends Expression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.Program;
+        return translation.node.Program;
     }
 
     getStartExplanations(
@@ -184,7 +184,7 @@ export default class Program extends Expression {
     ) {
         const reaction = evaluator.getReactionPriorTo(evaluator.getStepIndex());
 
-        return translation.nodes.Program.start(
+        return translation.node.Program.start(
             reaction
                 ? reaction.changes.map((change) => {
                       return {
@@ -209,7 +209,7 @@ export default class Program extends Expression {
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.nodes.Program.finish(
+        return translation.node.Program.finish(
             this.getValueIfDefined(translation, context, evaluator)
         );
     }

@@ -141,7 +141,7 @@ export default class This extends AtomicExpression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.This;
+        return translation.node.This;
     }
 
     getStartExplanations(
@@ -149,7 +149,7 @@ export default class This extends AtomicExpression {
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.nodes.This.start(
+        return translation.node.This.start(
             this.getValueIfDefined(translation, context, evaluator)
         );
     }

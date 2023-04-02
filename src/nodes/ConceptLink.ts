@@ -41,7 +41,7 @@ export default class ConceptLink extends Node {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.ConceptLink;
+        return translation.node.ConceptLink;
     }
 
     getGlyphs() {

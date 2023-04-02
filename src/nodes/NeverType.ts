@@ -30,7 +30,7 @@ export default class NeverType extends Type {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.NeverType;
+        return translation.node.NeverType;
     }
 
     getGlyphs() {

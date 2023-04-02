@@ -184,7 +184,7 @@ export function getTokenLabel(token: Node, translation: Translation): string {
         ([, val]) => val === token.types[0]
     );
     const tokenLabel = tokenType
-        ? translation.tokens[tokenType[0] as keyof typeof TokenType]
+        ? translation.token[tokenType[0] as keyof typeof TokenType]
         : '';
     return tokenLabel;
 }
@@ -247,8 +247,8 @@ type Translation = {
         done: Description;
         unevaluated: Description;
     };
-    tokens: Record<keyof typeof TokenType, string>;
-    nodes: {
+    token: Record<keyof typeof TokenType, string>;
+    node: {
         Dimension: DynamicNodeTranslation<Dimension>;
         Doc: StaticNodeTranslation;
         Docs: StaticNodeTranslation;

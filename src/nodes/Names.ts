@@ -149,7 +149,7 @@ export default class Names extends Node {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.Names;
+        return translation.node.Names;
     }
 
     withName(name: string, language: LanguageCode) {

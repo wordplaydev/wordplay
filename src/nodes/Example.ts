@@ -50,7 +50,7 @@ export default class Example extends Node {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.Example;
+        return translation.node.Example;
     }
 
     getGlyphs() {

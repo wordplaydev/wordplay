@@ -125,7 +125,7 @@ export default class Name extends Node {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.Name;
+        return translation.node.Name;
     }
 
     getGlyphs() {

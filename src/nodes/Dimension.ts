@@ -77,7 +77,7 @@ export default class Dimension extends Node {
     computeConflicts() {}
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.Dimension;
+        return translation.node.Dimension;
     }
 
     getGlyphs() {

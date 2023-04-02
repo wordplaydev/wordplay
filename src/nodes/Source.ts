@@ -627,7 +627,7 @@ export default class Source extends Expression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.Source;
+        return translation.node.Source;
     }
 
     getStartExplanations() {

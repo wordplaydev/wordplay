@@ -416,11 +416,11 @@ export default class StructureDefinition extends AtomicExpression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.StructureDefinition;
+        return translation.node.StructureDefinition;
     }
 
     getStartExplanations(translation: Translation) {
-        return translation.nodes.StructureDefinition.start;
+        return translation.node.StructureDefinition.start;
     }
 
     getGlyphs() {

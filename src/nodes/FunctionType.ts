@@ -157,7 +157,7 @@ export default class FunctionType extends Type {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.FunctionType;
+        return translation.node.FunctionType;
     }
 
     getGlyphs() {

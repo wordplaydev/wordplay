@@ -48,7 +48,7 @@ export default class Docs extends Node {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.Docs;
+        return translation.node.Docs;
     }
 
     getWordsWithText(text: string) {

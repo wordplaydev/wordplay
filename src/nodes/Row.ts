@@ -56,7 +56,7 @@ export default class Row extends Node {
     computeConflicts() {}
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.Row;
+        return translation.node.Row;
     }
 
     getGlyphs() {

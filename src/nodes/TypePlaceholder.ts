@@ -57,7 +57,7 @@ export default class TypePlaceholder extends Type {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.TypePlaceholder;
+        return translation.node.TypePlaceholder;
     }
 
     getGlyphs() {

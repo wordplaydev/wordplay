@@ -71,14 +71,14 @@ export default class Reaction extends Expression {
                 name: 'initial',
                 types: [Expression],
                 label: (translation: Translation) =>
-                    translation.nodes.Reaction.initial,
+                    translation.node.Reaction.initial,
             },
             { name: 'dots', types: [Token], space: true, indent: true },
             {
                 name: 'next',
                 types: [Expression],
                 label: (translation: Translation) =>
-                    translation.nodes.Reaction.next,
+                    translation.node.Reaction.next,
                 space: true,
                 indent: true,
             },
@@ -245,11 +245,11 @@ export default class Reaction extends Expression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.Reaction;
+        return translation.node.Reaction;
     }
 
     getStartExplanations(translation: Translation) {
-        return translation.nodes.Reaction.start;
+        return translation.node.Reaction.start;
     }
 
     getFinishExplanations(
@@ -257,7 +257,7 @@ export default class Reaction extends Expression {
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.nodes.Reaction.finish(
+        return translation.node.Reaction.finish(
             this.getValueIfDefined(translation, context, evaluator)
         );
     }

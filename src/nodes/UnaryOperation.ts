@@ -184,11 +184,11 @@ export default class UnaryOperation extends Expression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.UnaryOperation;
+        return translation.node.UnaryOperation;
     }
 
     getStartExplanations(translation: Translation, context: Context) {
-        return translation.nodes.UnaryOperation.start(
+        return translation.node.UnaryOperation.start(
             new NodeLink(this.operand, translation, context)
         );
     }
@@ -198,7 +198,7 @@ export default class UnaryOperation extends Expression {
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.nodes.UnaryOperation.finish(
+        return translation.node.UnaryOperation.finish(
             this.getValueIfDefined(translation, context, evaluator)
         );
     }

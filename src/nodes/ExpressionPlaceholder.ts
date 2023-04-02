@@ -69,7 +69,7 @@ export default class ExpressionPlaceholder extends AtomicExpression {
                             translation,
                             context,
                             root
-                        ) ?? translation.nodes.ExpressionPlaceholder.placeholder
+                        ) ?? translation.node.ExpressionPlaceholder.placeholder
                     );
                 },
             },
@@ -136,11 +136,11 @@ export default class ExpressionPlaceholder extends AtomicExpression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.ExpressionPlaceholder;
+        return translation.node.ExpressionPlaceholder;
     }
 
     getStartExplanations(translation: Translation) {
-        return translation.nodes.ExpressionPlaceholder.start;
+        return translation.node.ExpressionPlaceholder.start;
     }
 
     getGlyphs() {

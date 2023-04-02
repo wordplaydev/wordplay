@@ -73,20 +73,20 @@ export default class Borrow extends AtomicExpression {
                 types: [Token, undefined],
                 space: true,
                 label: (translation: Translation) =>
-                    translation.nodes.Borrow.source,
+                    translation.node.Borrow.source,
             },
             { name: 'dot', types: [Token, undefined] },
             {
                 name: 'name',
                 types: [Token, undefined],
                 label: (translation: Translation) =>
-                    translation.nodes.Borrow.description,
+                    translation.node.Borrow.description,
             },
             {
                 name: 'version',
                 types: [Token, undefined],
                 label: (translation: Translation) =>
-                    translation.nodes.Borrow.version,
+                    translation.node.Borrow.version,
             },
         ];
     }
@@ -240,11 +240,11 @@ export default class Borrow extends AtomicExpression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.Borrow;
+        return translation.node.Borrow;
     }
 
     getStartExplanations(translation: Translation, context: Context) {
-        return translation.nodes.Borrow.start(
+        return translation.node.Borrow.start(
             this.source
                 ? new NodeLink(
                       this.source,

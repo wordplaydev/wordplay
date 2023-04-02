@@ -90,11 +90,11 @@ export default class NativeExpression extends AtomicExpression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.NativeExpression;
+        return translation.node.NativeExpression;
     }
 
     getStartExplanations(translation: Translation) {
-        return translation.nodes.NativeExpression.start;
+        return translation.node.NativeExpression.start;
     }
 
     getGlyphs() {

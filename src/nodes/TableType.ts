@@ -88,7 +88,7 @@ export default class TableType extends Type {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.TableType;
+        return translation.node.TableType;
     }
 
     getGlyphs() {

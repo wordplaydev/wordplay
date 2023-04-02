@@ -61,7 +61,7 @@ export default class KeyValue extends Node {
     computeConflicts() {}
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.KeyValue;
+        return translation.node.KeyValue;
     }
 
     getGlyphs() {

@@ -83,7 +83,7 @@ const eng_wordplay: Translation = {
         unevaluated: 'el nodo seleccionado no evaluó',
         done: 'terminado de evaluar',
     },
-    tokens: {
+    token: {
         EvalOpen: 'evaluación abierta',
         EvalClose: 'evaluación cerrar',
         SetOpen: 'recopilación/índice abierta',
@@ -149,7 +149,7 @@ const eng_wordplay: Translation = {
         Unknown: 'desconocida',
         End: 'final',
     },
-    nodes: {
+    node: {
         Dimension: {
             label: 'dimensión',
             description: getDimensionDescription,

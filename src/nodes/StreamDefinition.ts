@@ -192,15 +192,15 @@ export default class StreamDefinition extends Expression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.StreamDefinition;
+        return translation.node.StreamDefinition;
     }
 
     getStartExplanations(translation: Translation) {
-        return translation.nodes.StreamDefinition.start;
+        return translation.node.StreamDefinition.start;
     }
 
     getFinishExplanations(translation: Translation) {
-        return translation.nodes.StreamDefinition.start;
+        return translation.node.StreamDefinition.start;
     }
 
     getGlyphs() {

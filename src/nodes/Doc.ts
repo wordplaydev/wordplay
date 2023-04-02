@@ -111,7 +111,7 @@ export default class Doc extends Node {
     computeConflicts() {}
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.Doc;
+        return translation.node.Doc;
     }
 
     getGlyphs() {

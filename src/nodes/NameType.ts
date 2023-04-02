@@ -140,7 +140,7 @@ export default class NameType extends Type {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.NameType;
+        return translation.node.NameType;
     }
 
     getGlyphs() {

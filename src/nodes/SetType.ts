@@ -82,7 +82,7 @@ export default class SetType extends NativeType {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.SetType;
+        return translation.node.SetType;
     }
 
     getGlyphs() {

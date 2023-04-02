@@ -64,7 +64,7 @@ export default class PropertyReference extends Expression {
                 types: [Reference],
                 // The label is
                 label: (translation: Translation) =>
-                    translation.nodes.PropertyReference.property,
+                    translation.node.PropertyReference.property,
                 // The valid definitions of the name are based on the referenced structure type, prefix filtered by whatever name is already provided.
                 getDefinitions: (context: Context) => {
                     let defs = this.getDefinitions(this, context);
@@ -281,11 +281,11 @@ export default class PropertyReference extends Expression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.PropertyReference;
+        return translation.node.PropertyReference;
     }
 
     getStartExplanations(translation: Translation) {
-        return translation.nodes.PropertyReference.start;
+        return translation.node.PropertyReference.start;
     }
 
     getFinishExplanations(
@@ -293,7 +293,7 @@ export default class PropertyReference extends Expression {
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.nodes.PropertyReference.finish(
+        return translation.node.PropertyReference.finish(
             this.name
                 ? new NodeLink(
                       this.name,

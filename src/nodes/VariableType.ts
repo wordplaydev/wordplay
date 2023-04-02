@@ -52,7 +52,7 @@ export default class VariableType extends Type {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.VariableType;
+        return translation.node.VariableType;
     }
 
     getGlyphs() {

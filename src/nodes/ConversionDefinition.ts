@@ -173,11 +173,11 @@ export default class ConversionDefinition extends AtomicExpression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.ConversionDefinition;
+        return translation.node.ConversionDefinition;
     }
 
     getStartExplanations(translation: Translation) {
-        return translation.nodes.ConversionDefinition.start;
+        return translation.node.ConversionDefinition.start;
     }
 
     getGlyphs() {

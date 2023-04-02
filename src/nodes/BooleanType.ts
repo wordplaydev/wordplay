@@ -46,7 +46,7 @@ export default class BooleanType extends NativeType {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.BooleanType;
+        return translation.node.BooleanType;
     }
 
     getGlyphs() {

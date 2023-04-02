@@ -152,11 +152,11 @@ export default class Is extends Expression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.Is;
+        return translation.node.Is;
     }
 
     getStartExplanations(translation: Translation, context: Context) {
-        return translation.nodes.Is.start(
+        return translation.node.Is.start(
             new NodeLink(this.expression, translation, context)
         );
     }
@@ -167,7 +167,7 @@ export default class Is extends Expression {
         evaluator: Evaluator
     ) {
         const result = evaluator.peekValue();
-        return translation.nodes.Is.finish(
+        return translation.node.Is.finish(
             result instanceof Bool && result.bool,
             new NodeLink(this.type, translation, context)
         );

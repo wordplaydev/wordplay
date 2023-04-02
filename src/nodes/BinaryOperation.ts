@@ -91,7 +91,7 @@ export default class BinaryOperation extends Expression {
                     return (
                         fun?.inputs[0].names.getTranslation(
                             translation.language
-                        ) ?? translation.nodes.BinaryOperation.right
+                        ) ?? translation.node.BinaryOperation.right
                     );
                 },
                 space: true,
@@ -361,7 +361,7 @@ export default class BinaryOperation extends Expression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.BinaryOperation;
+        return translation.node.BinaryOperation;
     }
 
     getStart() {
@@ -372,7 +372,7 @@ export default class BinaryOperation extends Expression {
     }
 
     getStartExplanations(translation: Translation, context: Context) {
-        return translation.nodes.BinaryOperation.start(
+        return translation.node.BinaryOperation.start(
             new NodeLink(this.left, translation, context)
         );
     }
@@ -382,7 +382,7 @@ export default class BinaryOperation extends Expression {
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.nodes.BinaryOperation.finish(
+        return translation.node.BinaryOperation.finish(
             this.getValueIfDefined(translation, context, evaluator)
         );
     }

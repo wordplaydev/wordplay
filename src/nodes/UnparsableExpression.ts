@@ -72,11 +72,11 @@ export default class UnparsableExpression extends AtomicExpression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.UnparsableExpression;
+        return translation.node.UnparsableExpression;
     }
 
     getStartExplanations(translation: Translation) {
-        return translation.nodes.UnparsableExpression.start;
+        return translation.node.UnparsableExpression.start;
     }
 
     getGlyphs() {

@@ -110,11 +110,11 @@ export default class MeasurementLiteral extends Literal {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.MeasurementLiteral;
+        return translation.node.MeasurementLiteral;
     }
 
     getStartExplanations(translation: Translation, context: Context) {
-        return translation.nodes.MeasurementLiteral.start(
+        return translation.node.MeasurementLiteral.start(
             new NodeLink(this.number, translation, context)
         );
     }

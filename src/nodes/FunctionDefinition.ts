@@ -316,15 +316,15 @@ export default class FunctionDefinition extends Expression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.FunctionDefinition;
+        return translation.node.FunctionDefinition;
     }
 
     getStartExplanations(translation: Translation) {
-        return translation.nodes.FunctionDefinition.start;
+        return translation.node.FunctionDefinition.start;
     }
 
     getFinishExplanations(translation: Translation) {
-        return translation.nodes.FunctionDefinition.start;
+        return translation.node.FunctionDefinition.start;
     }
 
     getGlyphs() {

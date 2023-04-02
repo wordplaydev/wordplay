@@ -190,11 +190,11 @@ export default class MapLiteral extends Expression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.MapLiteral;
+        return translation.node.MapLiteral;
     }
 
     getStartExplanations(translation: Translation) {
-        return translation.nodes.MapLiteral.start;
+        return translation.node.MapLiteral.start;
     }
 
     getFinishExplanations(
@@ -202,7 +202,7 @@ export default class MapLiteral extends Expression {
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.nodes.MapLiteral.finish(
+        return translation.node.MapLiteral.finish(
             this.getValueIfDefined(translation, context, evaluator)
         );
     }

@@ -155,15 +155,15 @@ export default class Template extends Expression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.Template;
+        return translation.node.Template;
     }
 
     getStartExplanations(translation: Translation) {
-        return translation.nodes.Template.start;
+        return translation.node.Template.start;
     }
 
     getFinishExplanations(translation: Translation) {
-        return translation.nodes.Template.finish;
+        return translation.node.Template.finish;
     }
 
     getGlyphs() {

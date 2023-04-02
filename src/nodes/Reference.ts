@@ -60,7 +60,7 @@ export default class Reference extends AtomicExpression {
                 name: 'name',
                 types: [Token],
                 label: (translation: Translation) =>
-                    translation.nodes.Reference.name,
+                    translation.node.Reference.name,
                 // The valid definitions of the name are anything in scope, except for the current name.
                 getDefinitions: (context: Context) =>
                     this.getDefinitionsInScope(context).filter(
@@ -250,11 +250,11 @@ export default class Reference extends AtomicExpression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.Reference;
+        return translation.node.Reference;
     }
 
     getStartExplanations(translation: Translation, context: Context) {
-        return translation.nodes.Reference.start(
+        return translation.node.Reference.start(
             new NodeLink(this.name, translation, context, this.name.getText())
         );
     }

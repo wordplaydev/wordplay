@@ -38,7 +38,7 @@ export default class Paragraph extends Node {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.Paragraph;
+        return translation.node.Paragraph;
     }
 
     getGlyphs() {

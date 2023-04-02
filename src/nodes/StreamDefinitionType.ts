@@ -45,7 +45,7 @@ export default class StreamDefinitionType extends Type {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.StreamDefinitionType;
+        return translation.node.StreamDefinitionType;
     }
 
     getGlyphs() {

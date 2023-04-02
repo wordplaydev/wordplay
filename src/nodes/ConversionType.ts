@@ -68,7 +68,7 @@ export default class ConversionType extends Type {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.ConversionType;
+        return translation.node.ConversionType;
     }
 
     getGlyphs() {

@@ -87,11 +87,11 @@ export default class BooleanLiteral extends Literal {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.BooleanLiteral;
+        return translation.node.BooleanLiteral;
     }
 
     getStartExplanations(translation: Translation, context: Context) {
-        return translation.nodes.BooleanLiteral.start(
+        return translation.node.BooleanLiteral.start(
             new NodeLink(this.value, translation, context, this.value.getText())
         );
     }

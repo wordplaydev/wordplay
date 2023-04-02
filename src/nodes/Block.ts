@@ -79,7 +79,7 @@ export default class Block extends Expression {
                 name: 'statements',
                 types: [[Expression, Bind]],
                 label: (translation: Translation) =>
-                    translation.nodes.Block.statement,
+                    translation.node.Block.statement,
                 space: true,
                 indent: true,
                 newline: this.root,
@@ -261,11 +261,11 @@ export default class Block extends Expression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.Block;
+        return translation.node.Block;
     }
 
     getStartExplanations(translation: Translation) {
-        return translation.nodes.Block.start;
+        return translation.node.Block.start;
     }
 
     getFinishExplanations(
@@ -273,7 +273,7 @@ export default class Block extends Expression {
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.nodes.Block.finish(
+        return translation.node.Block.finish(
             this.getValueIfDefined(translation, context, evaluator)
         );
     }

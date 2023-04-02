@@ -135,11 +135,11 @@ export default class PropertyBind extends Expression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.PropertyBind;
+        return translation.node.PropertyBind;
     }
 
     getStartExplanations(translation: Translation) {
-        return translation.nodes.PropertyBind.start;
+        return translation.node.PropertyBind.start;
     }
 
     getFinishExplanations(
@@ -147,7 +147,7 @@ export default class PropertyBind extends Expression {
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.nodes.PropertyBind.finish(
+        return translation.node.PropertyBind.finish(
             this.getValueIfDefined(translation, context, evaluator)
         );
     }

@@ -46,7 +46,7 @@ export default class NoneType extends NativeType {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.NoneType;
+        return translation.node.NoneType;
     }
 
     getGlyphs() {

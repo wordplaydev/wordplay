@@ -93,11 +93,11 @@ export default class Initial extends AtomicExpression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.Initial;
+        return translation.node.Initial;
     }
 
     getStartExplanations(translation: Translation) {
-        return translation.nodes.Initial.description;
+        return translation.node.Initial.description;
     }
 
     getGlyphs() {

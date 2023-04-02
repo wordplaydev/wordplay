@@ -28,7 +28,7 @@ export default class ReactionStream extends Stream {
 
 /** This isn't ever actually used, it's just here to meet the requirements of the Stream interface. */
 const ReactionDefinition = StreamDefinition.make(
-    getDocTranslations((t) => t.nodes.Reaction.doc),
+    getDocTranslations((t) => t.node.Reaction.doc),
     getNameTranslations((t) => STREAM_SYMBOL),
     [],
     ExpressionPlaceholder.make(),

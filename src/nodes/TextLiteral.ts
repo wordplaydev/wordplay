@@ -106,11 +106,11 @@ export default class TextLiteral extends Literal {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.TextLiteral;
+        return translation.node.TextLiteral;
     }
 
     getStartExplanations(translation: Translation) {
-        return translation.nodes.TextLiteral.start;
+        return translation.node.TextLiteral.start;
     }
 
     getGlyphs() {

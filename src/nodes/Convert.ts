@@ -211,11 +211,11 @@ export default class Convert extends Expression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.Convert;
+        return translation.node.Convert;
     }
 
     getStartExplanations(translation: Translation, context: Context) {
-        return translation.nodes.Convert.start(
+        return translation.node.Convert.start(
             new NodeLink(this.expression, translation, context)
         );
     }
@@ -225,7 +225,7 @@ export default class Convert extends Expression {
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.nodes.Convert.finish(
+        return translation.node.Convert.finish(
             this.getValueIfDefined(translation, context, evaluator)
         );
     }

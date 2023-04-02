@@ -44,7 +44,7 @@ export default class Token extends Node {
     computeConflicts() {}
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.Token;
+        return translation.node.Token;
     }
 
     getPurpose() {

@@ -84,7 +84,7 @@ const en: Translation = {
         unevaluated: 'the selected node did not evaluate',
         done: 'done evaluating',
     },
-    tokens: {
+    token: {
         EvalOpen: 'evaluation open',
         EvalClose: 'evaluation close',
         SetOpen: 'set/map open',
@@ -150,7 +150,7 @@ const en: Translation = {
         Unknown: 'unknown',
         End: 'end',
     },
-    nodes: {
+    node: {
         Dimension: {
             label: 'dimension',
             description: getDimensionDescription,

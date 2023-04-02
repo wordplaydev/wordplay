@@ -10,6 +10,6 @@ export default class NotAFunctionType extends UnknownType<Evaluate | Convert> {
     }
 
     getReason(translation: Translation) {
-        return translation.nodes.NotAFunctionType.description;
+        return translation.node.NotAFunctionType.description;
     }
 }

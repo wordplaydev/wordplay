@@ -138,11 +138,11 @@ export default class Changed extends AtomicExpression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.Changed;
+        return translation.node.Changed;
     }
 
     getStartExplanations(translation: Translation, context: Context) {
-        return translation.nodes.Changed.start(
+        return translation.node.Changed.start(
             new NodeLink(this.stream, translation, context)
         );
     }

@@ -190,11 +190,11 @@ export default class ListAccess extends Expression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.ListAccess;
+        return translation.node.ListAccess;
     }
 
     getStartExplanations(translation: Translation, context: Context) {
-        return translation.nodes.ListAccess.start(
+        return translation.node.ListAccess.start(
             new NodeLink(this.list, translation, context)
         );
     }
@@ -204,7 +204,7 @@ export default class ListAccess extends Expression {
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.nodes.ListAccess.finish(
+        return translation.node.ListAccess.finish(
             this.getValueIfDefined(translation, context, evaluator)
         );
     }

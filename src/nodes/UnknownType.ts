@@ -51,7 +51,7 @@ export default abstract class UnknownType<
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.UnknownType;
+        return translation.node.UnknownType;
     }
 
     abstract getReason(translation: Translation, context: Context): Description;

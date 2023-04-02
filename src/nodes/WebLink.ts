@@ -73,7 +73,7 @@ export default class WebLink extends Node {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.WebLink;
+        return translation.node.WebLink;
     }
 
     getGlyphs() {

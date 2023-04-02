@@ -113,7 +113,7 @@ export default class StructureDefinitionType extends Type {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.StructureDefinitionType;
+        return translation.node.StructureDefinitionType;
     }
 
     getGlyphs() {

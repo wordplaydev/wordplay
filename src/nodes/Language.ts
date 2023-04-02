@@ -75,7 +75,7 @@ export default class Language extends Node {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.Language;
+        return translation.node.Language;
     }
 
     getGlyphs() {

@@ -52,7 +52,7 @@ export default class TypeVariable extends Node {
     computeConflicts() {}
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.TypeVariable;
+        return translation.node.TypeVariable;
     }
 
     getGlyphs() {

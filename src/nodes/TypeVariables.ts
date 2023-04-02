@@ -72,7 +72,7 @@ export default class TypeVariables extends Node {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.TypeVariables;
+        return translation.node.TypeVariables;
     }
 
     getGlyphs() {

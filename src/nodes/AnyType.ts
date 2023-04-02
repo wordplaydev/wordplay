@@ -24,7 +24,7 @@ export default class AnyType extends Type {
     computeConflicts() {}
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.AnyType;
+        return translation.node.AnyType;
     }
 
     toWordplay() {

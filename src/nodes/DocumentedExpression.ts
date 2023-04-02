@@ -78,11 +78,11 @@ export default class DocumentedExpression extends AtomicExpression {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.DocumentedExpression;
+        return translation.node.DocumentedExpression;
     }
 
     getStartExplanations(translation: Translation) {
-        return translation.nodes.DocumentedExpression.start;
+        return translation.node.DocumentedExpression.start;
     }
 
     getGlyphs() {

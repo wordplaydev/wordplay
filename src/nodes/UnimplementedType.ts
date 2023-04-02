@@ -8,6 +8,6 @@ export default class UnimplementedType extends UnknownType<Expression> {
     }
 
     getReason(translation: Translation) {
-        return translation.nodes.NotImplementedType.description;
+        return translation.node.NotImplementedType.description;
     }
 }

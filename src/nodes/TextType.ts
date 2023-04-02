@@ -85,7 +85,7 @@ export default class TextType extends NativeType {
     }
 
     getNodeTranslation(translation: Translation) {
-        return translation.nodes.TextType;
+        return translation.node.TextType;
     }
 
     getGlyphs() {
