@@ -8,6 +8,7 @@
     export let node: SetLiteral;
 </script>
 
-<NodeView node={node.open} /><NodeSequenceView nodes={node.values} /><NodeView
-    node={node.close}
-/>
+<NodeView node={node.open} /><NodeSequenceView
+    nodes={node.values}
+    elide
+/><NodeView node={node.close} />

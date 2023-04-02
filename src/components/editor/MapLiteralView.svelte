@@ -10,4 +10,5 @@
 
 <NodeView node={node.open} /><NodeView node={node.bind} /><NodeSequenceView
     nodes={node.values}
+    elide
 /><NodeView node={node.close} />

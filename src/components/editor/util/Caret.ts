@@ -267,9 +267,11 @@ export default class Caret {
             this.position === this.source.getCode().getLength()
         );
     }
+
     isIndex() {
         return typeof this.position === 'number';
     }
+
     getIndex() {
         return this.isIndex() ? (this.position as number) : undefined;
     }
@@ -277,12 +279,15 @@ export default class Caret {
     isSpace(c: string) {
         return /[\t\n ]/.test(c);
     }
+
     isTab(c: string) {
         return /[\t]/.test(c);
     }
+
     isNode() {
         return this.position instanceof Node;
     }
+
     isAtPropertyReference() {
         if (this.position instanceof Node) return false;
         return this.source.getCode().at(this.position - 1) === PROPERTY_SYMBOL;
@@ -910,6 +915,7 @@ export default class Caret {
                 rect: DOMRect;
                 distance: number;
             }[] = [];
+            const firstTokenOnLine = currentToken;
             while (currentToken !== undefined) {
                 const view = editor.querySelector(
                     `.token-view[data-id="${currentToken.id}"]`
@@ -958,6 +964,12 @@ export default class Caret {
                               );
                     return this.withPosition(startPosition + offset);
                 }
+            }
+            // If there were no candidates (e.g., the line is hidden), just choose the first token in the line.
+            else {
+                const startPosition =
+                    this.source.getTokenTextPosition(firstTokenOnLine);
+                return startPosition ? this.withPosition(startPosition) : this;
             }
         }
     }
