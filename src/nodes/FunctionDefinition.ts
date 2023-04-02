@@ -109,7 +109,7 @@ export default class FunctionDefinition extends Expression {
                 getToken: () => new Token(SHARE_SYMBOL, TokenType.Share),
             },
             { name: 'fun', types: [Token] },
-            { name: 'names', types: [Names] },
+            { name: 'names', types: [Names], space: true },
             { name: 'types', types: [TypeVariables, undefined] },
             { name: 'open', types: [Token] },
             { name: 'inputs', types: [[Bind]], space: true, indent: true },
