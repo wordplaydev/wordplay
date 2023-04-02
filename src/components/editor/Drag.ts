@@ -9,6 +9,7 @@ import Token from '@nodes/Token';
 import TokenType from '@nodes/TokenType';
 import Program from '@nodes/Program';
 import Block from '@nodes/Block';
+import Bind from '../../nodes/Bind';
 
 /**
  * Represents a node, list on the node, and index in the list at which to insert a node.
@@ -239,4 +240,53 @@ export function getInsertionPoint(
         // Account for empty lists
         index + (before ? 0 : 1)
     );
+}
+
+export function isValidDropTarget(
+    project: Project,
+    dragged: Node | undefined,
+    target: Node | undefined,
+    insertion: InsertionPoint | undefined
+): boolean {
+    if (dragged === undefined) return false;
+
+    // Allow expressions to be dropped on expressions.
+    // Find the field the hovered node corresponds to.
+    if (target) {
+        const field = project
+            .getRoot(target)
+            ?.getParent(target)
+            ?.getFieldOfChild(target);
+
+        // If we found a field and the dragged node is an instanceof one of the allowed types, it's a valid drop target.
+        if (
+            field &&
+            field.types.some((type) =>
+                Array.isArray(type)
+                    ? type.some((t) => dragged instanceof t)
+                    : type instanceof Function
+                    ? dragged instanceof type
+                    : false
+            )
+        )
+            return true;
+    }
+
+    // Allow binds to be dropped on children of blocks.
+    if (target && dragged instanceof Bind) {
+        const hoverParent = project.getRoot(target)?.getParent(target);
+        if (
+            hoverParent instanceof Block &&
+            hoverParent.statements.includes(target as Expression)
+        )
+            return true;
+    }
+
+    // Allow types to be dropped on types.
+    if (dragged instanceof Type && target instanceof Type) return true;
+
+    // Allow inserts to be inserted.
+    if (insertion) return true;
+
+    return false;
 }
