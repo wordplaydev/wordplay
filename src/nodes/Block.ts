@@ -10,13 +10,11 @@ import type Evaluator from '@runtime/Evaluator';
 import Start from '@runtime/Start';
 import Finish from '@runtime/Finish';
 import type Step from '@runtime/Step';
-import Halt from '@runtime/Halt';
 import type Context from './Context';
 import type Definition from './Definition';
 import StructureDefinition from './StructureDefinition';
 import FunctionDefinition from './FunctionDefinition';
 import type TypeSet from './TypeSet';
-import ValueException from '@runtime/ValueException';
 import None from '@runtime/None';
 import ConversionDefinition from './ConversionDefinition';
 import Docs from './Docs';
@@ -133,7 +131,7 @@ export default class Block extends Expression {
     computeConflicts(): Conflict[] {
         const conflicts = [];
 
-        // Blocks can't be empty. And if they aren't empty, the last statement must be an expression.
+        // Non-root blocks can't be empty. And if they aren't empty, the last statement must be an expression.
         if (
             !this.root &&
             !this.creator &&
@@ -223,24 +221,17 @@ export default class Block extends Expression {
 
     compile(context: Context): Step[] {
         // If there are no statements, halt on exception.
-        return !this.creator && this.statements.length === 0
-            ? [
-                  new Halt(
-                      (evaluator) => new ValueException(evaluator, this),
-                      this
-                  ),
-              ]
-            : [
-                  new Start(this),
-                  ...this.statements.reduce(
-                      (prev: Step[], current) => [
-                          ...prev,
-                          ...current.compile(context),
-                      ],
-                      []
-                  ),
-                  new Finish(this),
-              ];
+        return [
+            new Start(this),
+            ...this.statements.reduce(
+                (prev: Step[], current) => [
+                    ...prev,
+                    ...current.compile(context),
+                ],
+                []
+            ),
+            new Finish(this),
+        ];
     }
 
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {

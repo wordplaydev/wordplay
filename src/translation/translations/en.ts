@@ -1771,6 +1771,8 @@ const en: Translation = {
         },
     },
     exceptions: {
+        blank: () =>
+            "I'm so excited to put on a show with you! Where should we start?",
         function: (name) => Explanation.as("Oops, I don't know how to ", name),
         name: (node, scope) =>
             node

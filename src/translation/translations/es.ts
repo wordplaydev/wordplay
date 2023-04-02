@@ -1490,6 +1490,8 @@ const eng_wordplay: Translation = {
         },
     },
     exceptions: {
+        blank: () =>
+            '¡Estoy tan emocionada de montar un espectáculo contigo! ¿Por dónde deberíamos empezar?',
         function: (node, type) =>
             Explanation.as(
                 'no function named ',

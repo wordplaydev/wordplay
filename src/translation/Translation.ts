@@ -695,6 +695,7 @@ type Translation = {
         };
     };
     exceptions: {
+        blank: () => Description;
         function: (name: NodeLink, type: NodeLink | undefined) => Description;
         cycle: (borrow: NodeLink) => Description;
         functionlimit: (fun: NodeLink) => Description;

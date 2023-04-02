@@ -24,6 +24,7 @@ import type LanguageCode from '@translation/LanguageCode';
 import TokenType from './TokenType';
 import ValueLink from '@translation/ValueLink';
 import Glyphs from '../lore/Glyphs';
+import BlankException from '../runtime/BlankException';
 
 export default class Program extends Expression {
     readonly docs?: Docs;
@@ -156,8 +157,12 @@ export default class Program extends Expression {
         // Get whatever the block computed.
         const value = evaluator.popValue(this);
 
-        // Return the value.
-        return value;
+        // If the block is empty, than rather than return an expected value expression,
+        // return a more helpful "emtpy program" exception, then provides some guidance.
+        // Otherwise, return whatever the block computed.
+        return this.expression.statements.length === 0
+            ? new BlankException(evaluator, this)
+            : value;
     }
 
     getStart() {
