@@ -10,7 +10,8 @@ import TypePlaceholder from '@nodes/TypePlaceholder';
 import Exception from '@runtime/Exception';
 import { isValidDropTarget, type InsertionPoint } from '../Drag';
 import type Caret from './Caret';
-import type { Outline } from './outline';
+import { getUnderlineOf, type Outline } from './outline';
+import getOutlineOf from './outline';
 
 /** Highlight types and whether they are rendered above or below the code. True for above. */
 export const HighlightTypes = {
@@ -190,4 +191,75 @@ export function getHighlights(
 
     // Update the store, broadcasting the highlights to all node views for rendering.
     return newHighlights;
+}
+
+export function updateOutlines(
+    highlights: Highlights,
+    getNodeView: (node: Node) => HTMLElement | undefined
+) {
+    const outlines = [];
+    const nodeViews = new Map<HighlightSpec, HTMLElement>();
+    // Convert all of the highlighted views into outlines of the nodes.
+    for (const [node, types] of highlights.entries()) {
+        const nodeView = getNodeView(node);
+        if (nodeView) {
+            const outline = {
+                types: Array.from(types),
+                outline: getOutlineOf(nodeView),
+                underline: getUnderlineOf(nodeView),
+            };
+            outlines.push(outline);
+            nodeViews.set(outline, nodeView);
+        }
+    }
+
+    // Look for underline collisions.
+    // 1) Sort by width, so we put widest underlines first.
+    outlines.sort(
+        (a, b) =>
+            b.underline.maxx -
+            b.underline.minx -
+            (a.underline.maxx - a.underline.minx)
+    );
+
+    // 2) Iterate through outlines, searching for any previous outlines in the list and offseting the y position accordingly.
+    for (let index = 0; index < outlines.length; index++) {
+        const outline = outlines[index];
+        let offset = 0;
+        if (
+            outline.types.includes('primary') ||
+            outline.types.includes('secondary')
+        ) {
+            for (let check = 0; check < index; check++) {
+                const other = outlines[check];
+                // Do they intersect vertically and horizontally?
+                if (
+                    (other.types.includes('primary') ||
+                        other.types.includes('secondary')) &&
+                    Math.round(outline.underline.miny + offset) ===
+                        Math.round(other.underline.miny) &&
+                    Math.max(
+                        0,
+                        Math.min(outline.underline.maxx, other.underline.maxx) -
+                            Math.max(
+                                outline.underline.minx,
+                                other.underline.minx
+                            )
+                    ) > 0
+                ) {
+                    offset += 4;
+                }
+            }
+        }
+
+        // If the offset is more than zero, update the underline positioning.
+        if (offset !== 0) {
+            const index = outlines.indexOf(outline);
+            const view = nodeViews.get(outline);
+            if (index >= 0 && view)
+                outlines[index].underline = getUnderlineOf(view, offset);
+        }
+    }
+
+    return outlines;
 }
