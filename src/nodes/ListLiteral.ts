@@ -87,6 +87,27 @@ export default class ListLiteral extends Expression {
                       context,
                       expressions.map((v) => v.getType(context))
                   );
+
+        // Are all of the types in the union list types? If so, collapse them into a single list type.
+        if (itemType instanceof UnionType) {
+            const types = itemType.getPossibleTypes(context);
+            const listTypes = types.filter(
+                (type): type is ListType => type instanceof ListType
+            );
+            if (listTypes.length === types.length) {
+                itemType = ListType.make(
+                    UnionType.getPossibleUnion(
+                        context,
+                        listTypes.reduce(
+                            (all: Type[], type) =>
+                                type.type ? [...all, type.type] : all,
+                            []
+                        )
+                    )
+                );
+            }
+        }
+
         return ListType.make(itemType, this.values.length);
     }
 
