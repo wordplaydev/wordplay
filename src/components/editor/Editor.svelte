@@ -353,18 +353,19 @@
     }
 
     // Update the highlights when any of these stores values change
-    $: highlights.set(
-        getHighlights(
-            source,
-            evaluator,
-            $caret,
-            $dragged,
-            $hovered,
-            $insertion,
-            $animatingNodes,
-            $selectedOutput
-        )
-    );
+    $: if ($nodeConflicts)
+        highlights.set(
+            getHighlights(
+                source,
+                evaluator,
+                $caret,
+                $dragged,
+                $hovered,
+                $insertion,
+                $animatingNodes,
+                $selectedOutput
+            )
+        );
 
     // Update the outline positions any time the highlights change;
     $: outlines = updateOutlines($highlights, getNodeView);
