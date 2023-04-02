@@ -273,21 +273,6 @@ export default class Source extends Expression {
             }
         }
 
-        // If only space changed, return a new source with the old program for maximum zippiness.
-        // NOTE: Parsing is space dependent, so we can't really do this.
-        // if(added.length === 0 && removed.length === 0)
-        //     return new Source(this.names, [ this.expression, spaces ]);
-        // If only one token was added and removed and they're the same type, replace the token in the existing program
-        if (
-            added.length === 1 &&
-            removed.length === 1 &&
-            added[0].getTypes().some((type) => removed[0].is(type))
-        )
-            return new Source(this.names, [
-                this.expression.replace(removed[0], added[0]),
-                spaces,
-            ]);
-
         // Try to reuse as many Nodes as possible by parsing the program with revised tokens, then identifying
         // subtrees that are equivalent in the old and new tree, then recycling them in the new tree. Equivalence is defined as any node
         // that has an referentially identical sequence of Tokens and is of the same type.
