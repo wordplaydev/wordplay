@@ -638,7 +638,8 @@ export default abstract class Node {
      * Given a translation and a context, get the node's
      * */
     getLabel(translation: Translation) {
-        return this.getNodeTranslation(translation).label;
+        const label = this.getNodeTranslation(translation).label;
+        return label instanceof Function ? label(this, translation) : label;
     }
 
     /**

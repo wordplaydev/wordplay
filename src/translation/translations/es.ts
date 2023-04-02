@@ -26,6 +26,7 @@ import {
     getLanguageDescription,
     getPlaceholderDescription,
     getTokenDescription,
+    getTokenLabel,
     type Description,
 } from '../Translation';
 import type { CycleType } from '@nodes/CycleType';
@@ -198,7 +199,7 @@ const eng_wordplay: Translation = {
             doc: WRITE_DOC,
         },
         Token: {
-            label: 'token',
+            label: getTokenLabel,
             description: getTokenDescription,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,

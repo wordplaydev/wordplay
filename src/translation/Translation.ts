@@ -1,5 +1,5 @@
 import type LanguageCode from './LanguageCode';
-import type Token from '@nodes/Token';
+import Token from '@nodes/Token';
 import type UnknownType from '@nodes/UnknownType';
 import type Node from '@nodes/Node';
 import type Dimension from '@nodes/Dimension';
@@ -44,8 +44,10 @@ import type StructureDefinition from '../nodes/StructureDefinition';
 export type Description = string | Explanation;
 export type DocString = string;
 
+type LabelTranslator = (node: Node, translation: Translation) => string;
+
 export interface NodeTranslation<Kind> {
-    label: string;
+    label: string | LabelTranslator;
     description: Kind;
     doc: DocString;
     emotion: Emotion;
@@ -175,16 +177,20 @@ export function getPlaceholderDescription(
         : undefined;
 }
 
-export function getTokenDescription(token: Token, translation: Translation) {
+export function getTokenLabel(token: Node, translation: Translation): string {
+    if (!(token instanceof Token)) return token.getLabel(translation);
+
     const tokenType = Object.entries(TokenType).find(
         ([, val]) => val === token.types[0]
     );
-    const tokenDescription = tokenType
+    const tokenLabel = tokenType
         ? translation.tokens[tokenType[0] as keyof typeof TokenType]
-        : undefined;
-    return tokenDescription
-        ? `${tokenDescription} ${token.getText()}`
-        : token.getText();
+        : '';
+    return tokenLabel;
+}
+
+export function getTokenDescription(token: Token, translation: Translation) {
+    return `${getTokenLabel(token, translation)} ${token.getText()}`;
 }
 
 /**

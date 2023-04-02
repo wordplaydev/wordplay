@@ -27,6 +27,7 @@ import {
     getLanguageDescription,
     getPlaceholderDescription,
     getTokenDescription,
+    getTokenLabel,
     type Description,
 } from '../Translation';
 import type { CycleType } from '@nodes/CycleType';
@@ -138,9 +139,9 @@ const en: Translation = {
         BinaryOperator: 'binary operator',
         Conditional: 'conditional',
         Text: 'text',
-        TemplateOpen: 'text open',
-        TemplateBetween: 'text between',
-        TemplateClose: 'text close',
+        TemplateOpen: 'template open',
+        TemplateBetween: 'template between',
+        TemplateClose: 'template close',
         Number: 'number',
         Decimal: 'decimal numeral',
         Base: 'base numeral',
@@ -240,7 +241,7 @@ const en: Translation = {
             doc: WRITE_DOC + `a row of values, matching a table definition`,
         },
         Token: {
-            label: 'token',
+            label: getTokenLabel,
             description: getTokenDescription,
             emotion: Emotion.TBD,
             doc: WRITE_DOC + 'the smallest group of symbols in a performance',
