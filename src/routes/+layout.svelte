@@ -17,7 +17,6 @@
     import { writable } from 'svelte/store';
     import Fonts from '../native/Fonts';
     import Projects from '../db/Projects';
-    import Style from '../components/app/Style.svelte';
     import { browser } from '$app/environment';
 
     /** Expose the translations as context, updating them as necessary */
@@ -106,8 +105,6 @@
         }
     }
 </script>
-
-<Style />
 
 <div
     class:animated={$animationsOn}
