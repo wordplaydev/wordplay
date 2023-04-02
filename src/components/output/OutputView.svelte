@@ -2,7 +2,6 @@
     import { toVerse } from '../../output/Verse';
     import Exception from '@runtime/Exception';
     import type Value from '@runtime/Value';
-    import KeyboardIdle from '../editor/util/KeyboardIdle';
     import type Project from '@models/Project';
     import ValueView from '../values/ValueView.svelte';
     import type Source from '@nodes/Source';
@@ -14,7 +13,11 @@
         writingLayout,
     } from '@translation/translations';
     import Speech from '../lore/Speech.svelte';
-    import { getConceptIndex, getEvaluation } from '../project/Contexts';
+    import {
+        getConceptIndex,
+        getEvaluation,
+        getKeyboardIdle,
+    } from '../project/Contexts';
     import type Evaluator from '@runtime/Evaluator';
 
     export let project: Project;
@@ -29,6 +32,7 @@
 
     let index = getConceptIndex();
     let evaluation = getEvaluation();
+    let keyboardIdle = getKeyboardIdle();
 
     $: verse = latest === undefined ? undefined : toVerse(latest);
     $: background = verse?.background.toCSS() ?? null;
@@ -67,7 +71,7 @@
             <!-- If there's no verse -->
         {:else if latest === undefined}
             <!-- If it's because the keyboard isn't idle, show the typing feedback.-->
-            {#if $evaluation?.playing === true && !$KeyboardIdle}
+            {#if $evaluation?.playing === true && !$keyboardIdle}
                 <div class="fill editing"><div class="message">⌨️</div></div>
             {:else}
                 <div class="fill evaluating"><div class="message">◆</div></div>

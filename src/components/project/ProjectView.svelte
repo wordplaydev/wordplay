@@ -28,6 +28,7 @@
         SelectedOutputPathsSymbol,
         type EvaluationContext,
         EvaluationSymbol,
+        KeyboardIdleSymbol,
     } from './Contexts';
     import type Project from '@models/Project';
     import Documentation from '@components/concepts/Documentation.svelte';
@@ -67,7 +68,6 @@
     import Node from '@nodes/Node';
     import Controls from '../evaluator/Controls.svelte';
     import ConceptIndex from '../../concepts/ConceptIndex';
-    import KeyboardIdle from '../editor/util/KeyboardIdle';
     import type Concept from '../../concepts/Concept';
     import Settings from '../settings/Settings.svelte';
     import { getPersistedValue, setPersistedValue } from '@db/persist';
@@ -123,6 +123,17 @@
     /** Keep the project in a store so we can derive other stores from it. */
     let projectStore = writable<Project>(project);
     $: if ($projectStore !== project) projectStore.set(project);
+
+    /** Keep a project view global store indicating whether the creator is idle. */
+    const keyboardIdle = writable<boolean>(true);
+    setContext(KeyboardIdleSymbol, keyboardIdle);
+    let keyboardIdleTimeout: NodeJS.Timer | undefined = undefined;
+
+    function updateKeyboardIdle() {
+        keyboardIdle.set(false);
+        if (keyboardIdleTimeout) clearTimeout(keyboardIdleTimeout);
+        keyboardIdleTimeout = setTimeout(() => keyboardIdle.set(true));
+    }
 
     /**
      * Create a project global context that stores the current selected value (and if not in an editing mode, nothing).
@@ -388,7 +399,7 @@
 
     // When the project changes, languages change, and the keyboard is idle, recompute the concept index.
     $: {
-        if ($KeyboardIdle && latestProject !== project) {
+        if ($keyboardIdle && latestProject !== project) {
             latestProject = project;
 
             // Make a new concept index with the new project and translations, but the old examples.
@@ -833,7 +844,13 @@
 <svelte:head><title>Wordplay - {project.name}</title></svelte:head>
 
 <!-- Render the app header and the current project, if there is one. -->
-<main class="project" tabIndex="0" on:keydown={handleKey} bind:this={view}>
+<main
+    class="project"
+    tabIndex="0"
+    on:keydown={handleKey}
+    on:keyup={updateKeyboardIdle}
+    bind:this={view}
+>
     {#if !layout.isFullscreen()}
         <section
             class="header"

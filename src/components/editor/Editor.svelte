@@ -15,7 +15,6 @@
     import { writable } from 'svelte/store';
     import type Program from '@nodes/Program';
     import Token from '@nodes/Token';
-    import KeyboardIdle from './util/KeyboardIdle';
     import CaretView from './CaretView.svelte';
     import {
         CaretSymbol,
@@ -31,6 +30,7 @@
         getSelectedOutputPaths,
         getEvaluation,
         MenuNodeSymbol,
+        getKeyboardIdle,
     } from '../project/Contexts';
     import {
         preferredLanguages,
@@ -86,6 +86,7 @@
     const evaluation = getEvaluation();
     const animatingNodes = getAnimatingNodes();
     const nodeConflicts = getConflicts();
+    const keyboardIdle = getKeyboardIdle();
 
     const dispatch = createEventDispatcher();
 
@@ -1229,7 +1230,7 @@
     <!-- Render the caret on top of the program -->
     <CaretView
         {source}
-        blink={$KeyboardIdle && focused}
+        blink={$keyboardIdle && focused}
         ignored={$evaluation !== undefined &&
             $evaluation.playing === true &&
             lastKeyDownIgnored}

@@ -894,7 +894,7 @@ const en: Translation = {
             label: 'stream',
             description: WRITE_DOC,
             emotion: Emotion.TBD,
-            doc: `defines a stream of values.`,
+            doc: WRITE_DOC + `defines a stream of values.`,
             start: 'define this stream type',
         },
         StructureDefinition: {
@@ -1777,10 +1777,9 @@ const en: Translation = {
         name: (node, scope) =>
             node
                 ? Explanation.as(
-                      'There is no value named ',
-                      node,
-                      ' in ',
-                      scope === undefined ? ' this @Block' : scope
+                      'I feel... unbound, with no value. Am I supposed to have a value in ',
+                      scope === undefined ? ' this @Block' : scope,
+                      '?'
                   )
                 : Explanation.as("Ack, I didn't get a name!"),
         cycle: (node) => Explanation.as(node, ' depends on itself'),
