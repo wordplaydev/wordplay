@@ -1,0 +1,84 @@
+=== Maze/en
+`
+A maze is a 2D grid of emoji, with some functions for checking the state at particular grid postions.
+Mazes are generated randomly.
+`/en
+•Maze() (
+	grid: 
+		[
+			[ '🎬' '❤️' '❌'   ø    ø]
+			[ '❤️'   ø    ø    ø    ø]
+			[ '🐈' '😀' '💬' '🫥' '😞']
+			[   ø  '👍'  ø    ø   '😕']
+			[ '🛑' '🥹'  ø   '😫' '😡']
+    	]
+ 
+	ƒ cell(row•# column •#) (
+		cells: grid[row]
+		cells•ø ? ø cells[column] 
+    ) 
+
+	ƒ allowed(row•# column•#) cell(row column)•''
+)
+
+maze: Maze()
+
+•State(row•# column•# steps•#) (
+    ƒ down() State(row + 1 column steps + 1)
+		ƒ up() State(row - 1 column steps + 1)
+		ƒ left() State(row column - 1 steps + 1)
+		ƒ right() State(row column + 1 steps + 1)
+)
+
+key: keyboard()
+state•State:  ∆ key ? State(1 1 0) …
+		((key = "ArrowLeft") & maze.allowed(state.row state.column - 1)) ? state.left()
+			((key = "ArrowRight") & maze.allowed(state.row state.column + 1)) ? state.right()
+				((key = "ArrowUp") & maze.allowed(state.row - 1 state.column)) ? state.up()
+					((key = "ArrowDown") & maze.allowed(state.row + 1 state.column)) ? state.down()
+						state
+
+current: ( cell: maze.cell(state.row state.column) cell•ø ? ' ' cell)
+up: ( cell: maze.cell(state.row - 1 state.column) cell•ø ? ' ' '↑')
+down: ( cell: maze.cell(state.row + 1 state.column) cell•ø ? ' ' '↓')
+left: ( cell: maze.cell(state.row state.column - 1) cell•ø ? ' ' '←')
+right: ( cell: maze.cell(state.row state.column + 1) cell•ø ? ' ' '→')
+
+Verse(
+	[
+		Group(
+			Row() 
+			[
+				Group(
+					Stack() 
+					[
+						💬(' ')
+						Phrase(left)
+						💬(' ')
+						💬(' ')
+					]
+				)				 
+				Group(
+					Stack() 
+					[
+						Phrase(up)
+						Phrase(current)
+						Phrase(down)
+						Phrase(current = '🛑' ? 'Yay!' state.steps → '' font: "Poor Story")
+					]
+				)
+				Group(
+					Stack() 
+					[
+						💬(' ')
+						Phrase(right )
+						💬(' ')
+						💬(' ')
+					]
+				)
+			]
+	  )
+	]
+  	place: Place(0m 0m -3m)
+	font: 'Noto Emoji'
+)
