@@ -13,7 +13,7 @@
         role="button"
         aria-disabled={!on}
         aria-label={onTip}
-        tabIndex="0"
+        tabindex="0"
         title={offTip}
         on:click={() => toggle(false)}
         on:keydown={(event) =>
@@ -25,7 +25,7 @@
         role="button"
         aria-disabled={on}
         aria-label={offTip}
-        tabIndex="0"
+        tabindex="0"
         title={onTip}
         on:click={() => toggle(true)}
         on:keydown={(event) =>

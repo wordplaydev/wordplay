@@ -5,6 +5,7 @@ import Conditional from './Conditional';
 import BinaryOperation from './BinaryOperation';
 import NotAFunction from '@conflicts/NotAFunction';
 import { test, expect } from 'vitest';
+import IncompatibleInput from '../conflicts/IncompatibleInput';
 
 test.each([
     ['⊥ ? 2 3"', '1 ? 2 3', Conditional, ExpectedBooleanCondition],
@@ -31,7 +32,7 @@ test.each([
         ~((a•#) & (a > 1)) ? a + 1 a
         `,
         BinaryOperation,
-        NotAFunction,
+        IncompatibleInput,
         3,
     ],
     [
@@ -46,7 +47,7 @@ test.each([
         a.name•"" ? a.name + 1 a
         `,
         BinaryOperation,
-        NotAFunction,
+        IncompatibleInput,
         0,
     ],
     [
@@ -59,7 +60,7 @@ test.each([
         ~(a•#) ? a + 1 a
         `,
         BinaryOperation,
-        NotAFunction,
+        IncompatibleInput,
     ],
     [
         `
@@ -70,7 +71,7 @@ test.each([
         ~~(a•#) ? a a + 1
         `,
         BinaryOperation,
-        NotAFunction,
+        IncompatibleInput,
     ],
 ])(
     '%s => no conflict, %s => conflict',
