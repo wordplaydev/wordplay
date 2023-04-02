@@ -508,7 +508,7 @@
         data-node-id={verse.value.creator.id}
         tabIndex={interactive ? 0 : null}
         style={toCSS({
-            'font-family': verse.font ?? DefaultFont,
+            'font-family': `"${verse.font}", "${DefaultFont}"`,
             background: verse.background.toCSS(),
             color:
                 (verse.rest instanceof Pose
