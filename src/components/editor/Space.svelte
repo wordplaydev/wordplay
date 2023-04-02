@@ -31,7 +31,7 @@
     function render(text: string, explicit: boolean): string[] {
         return (
             explicit
-                ? text.replaceAll(' ', '·').replaceAll('\t', '\xa0→')
+                ? text.replaceAll(' ', '·').replaceAll('\t', '→\xa0')
                 : text.replaceAll(' ', '\xa0').replaceAll('\t', '\xa0\xa0')
         ).split('\n');
     }
