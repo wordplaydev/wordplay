@@ -242,10 +242,13 @@ export default class Block extends Expression {
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
         if (prior) return prior;
 
+        // Pop all the values computed.
+        const values = [];
+        for (let i = 0; i < this.statements.length; i++)
+            values.push(evaluator.popValue(this));
+
         // Root blocks are allowed to have no value, but all others must have one.
-        return (this.creator || this.root) && !evaluator.hasValue()
-            ? new None(this)
-            : evaluator.popValue(this);
+        return this.creator ? new None(this) : values[0];
     }
 
     /**
