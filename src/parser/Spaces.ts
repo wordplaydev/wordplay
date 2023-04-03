@@ -128,20 +128,31 @@ export default class Spaces {
         let parent = root.getParent(leaf);
         let preferredSpace = '';
         while (parent) {
-            // If the current child's first token is still this, prepend some more space.
+            const field = parent.getFieldOfChild(child);
+
+            // Add a tab if there's a newline and the parent wishes the child indented.
+            if (
+                field &&
+                (field.indent === true ||
+                    (field.indent instanceof Function &&
+                        field.indent(parent, child) === true)) &&
+                currentPrecedingSpace.indexOf('\n') >= 0
+            )
+                preferredSpace = '\t' + preferredSpace;
+
+            // Prepend more space if the child's first leaf is the leaf we're analyzing.
             if (child.getFirstLeaf() === leaf) {
-                // See what space the parent would prefer based on the current space in place.
                 preferredSpace =
                     parent.getPreferredPrecedingSpace(
                         child,
                         currentPrecedingSpace,
                         depth
                     ) + preferredSpace;
-                child = parent;
-                parent = root.getParent(parent);
             }
-            // Otherwise, the child was the last parent that could influence space.
-            else break;
+
+            // Move to the next parent.
+            child = parent;
+            parent = root.getParent(parent);
         }
         return preferredSpace;
     }

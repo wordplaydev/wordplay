@@ -32,6 +32,7 @@ import type Translation from '@translation/Translation';
 import InternalException from '@runtime/InternalException';
 import Glyphs from '../lore/Glyphs';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
+import Block from './Block';
 
 export default class FunctionDefinition extends Expression {
     readonly docs?: Docs;
@@ -120,7 +121,7 @@ export default class FunctionDefinition extends Expression {
                 name: 'expression',
                 types: [Expression, Token, undefined],
                 space: true,
-                indent: true,
+                indent: (_: Node, child: Node) => !(child instanceof Block),
                 // Must match output type if provided
                 getType: () => this.output ?? new AnyType(),
             },

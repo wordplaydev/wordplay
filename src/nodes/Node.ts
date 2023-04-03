@@ -35,7 +35,7 @@ export type Field = {
     /** True if a preceding space is preferred the node */
     space?: boolean | ((node: Node) => boolean);
     /** True if the field should be indented if on a new line */
-    indent?: boolean;
+    indent?: boolean | ((parent: Node, child: Node) => boolean);
     /** True if the field should have newlines */
     newline?: boolean;
     /** Generates a Token of the expected type, if a token is permitted on the field */
@@ -596,19 +596,15 @@ export default abstract class Node {
 
         if (field === undefined) return '';
 
-        if (field.indent === true) {
-            const newline = space.indexOf('\n') >= 0;
-            if (newline) return `\n${'\t'.repeat(depth)}`;
-        }
-
         if (field.newline === true) {
             const value = this.getField(field.name);
             if (Array.isArray(value) && child !== value[0]) return '\n';
         }
 
         if (
-            field.space === true ||
-            (typeof field.space === 'function' && field.space(this))
+            space.indexOf('\n') < 0 &&
+            (field.space === true ||
+                (typeof field.space === 'function' && field.space(this)))
         ) {
             const value = this.getField(field.name);
             return !Array.isArray(value) || value[0] !== child ? ' ' : '';

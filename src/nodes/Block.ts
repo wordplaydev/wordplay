@@ -81,7 +81,8 @@ export default class Block extends Expression {
                 label: (translation: Translation) =>
                     translation.node.Block.statement,
                 space: true,
-                indent: true,
+                indent: (parent: Node) =>
+                    parent instanceof Block && !parent.root,
                 newline: this.root,
             },
             { name: 'close', types: [Token] },

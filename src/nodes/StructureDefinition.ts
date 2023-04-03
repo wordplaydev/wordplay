@@ -123,7 +123,7 @@ export default class StructureDefinition extends AtomicExpression {
                 name: 'expression',
                 types: [Block, undefined],
                 space: true,
-                indent: true,
+                indent: (_: Node, child: Node) => !(child instanceof Block),
             },
         ];
     }
