@@ -2320,6 +2320,10 @@ const en: Translation = {
             min: { name: 'min', doc: WRITE_DOC },
             max: { name: 'max', doc: WRITE_DOC },
         },
+        choice: {
+            doc: WRITE_DOC,
+            name: ['🔘', 'choice', 'selection'],
+        },
         mousebutton: {
             doc: WRITE_DOC,
             name: ['🖱️', 'mousebutton'],
@@ -2416,6 +2420,7 @@ const en: Translation = {
             place: { doc: WRITE_DOC, name: 'place' },
             rotation: { doc: WRITE_DOC, name: 'rotation' },
             name: { doc: WRITE_DOC, name: 'name' },
+            selectable: { doc: WRITE_DOC, name: 'selectable' },
             enter: { doc: WRITE_DOC, name: 'enter' },
             rest: { doc: WRITE_DOC, name: 'rest' },
             move: { doc: WRITE_DOC, name: 'move' },

@@ -16,26 +16,27 @@ Mazes are generated randomly.
 	ƒ cell(row•# column •#) (
 		cells: grid[row]
 		cells•ø ? ø cells[column] 
-    ) 
+	)
 
 	ƒ allowed(row•# column•#) cell(row column)•''
 )
 
 maze: Maze()
 
-•State(row•# column•# steps•#) (
-    ƒ down() State(row + 1 column steps + 1)
-		ƒ up() State(row - 1 column steps + 1)
-		ƒ left() State(row column - 1 steps + 1)
-		ƒ right() State(row column + 1 steps + 1)
+•State(row•# column•# steps•#) 
+(
+	ƒ down() State(row + 1 column steps + 1)
+	ƒ up() State(row - 1 column steps + 1)
+	ƒ left() State(row column - 1 steps + 1)
+	ƒ right() State(row column + 1 steps + 1)
 )
 
-key: keyboard()
-state•State:  ∆ key ? State(1 1 0) …
-		((key = "ArrowLeft") & maze.allowed(state.row state.column - 1)) ? state.left()
-			((key = "ArrowRight") & maze.allowed(state.row state.column + 1)) ? state.right()
-				((key = "ArrowUp") & maze.allowed(state.row - 1 state.column)) ? state.up()
-					((key = "ArrowDown") & maze.allowed(state.row + 1 state.column)) ? state.down()
+direction: choice()
+state•State:  ∆ direction ? State(1 1 0) …
+		((direction = "left") & maze.allowed(state.row state.column - 1)) ? state.left()
+			((direction = "right") & maze.allowed(state.row state.column + 1)) ? state.right()
+				((direction = "up") & maze.allowed(state.row - 1 state.column)) ? state.up()
+					((direction = "down") & maze.allowed(state.row + 1 state.column)) ? state.down()
 						state
 
 current: ( cell: maze.cell(state.row state.column) cell•ø ? ' ' cell)
@@ -47,31 +48,31 @@ right: ( cell: maze.cell(state.row state.column + 1) cell•ø ? ' ' '→')
 Verse(
 	[
 		Group(
-			Row() 
+			Row(0m) 
 			[
 				Group(
-					Stack() 
+					Stack(0m) 
 					[
 						💬(' ')
-						Phrase(left)
+						💬(left name: 'left')
 						💬(' ')
 						💬(' ')
 					]
 				)				 
 				Group(
-					Stack() 
+					Stack(0m) 
 					[
-						Phrase(up)
-						Phrase(current)
-						Phrase(down)
-						Phrase(current = '🛑' ? 'Yay!' state.steps → '' font: "Poor Story")
+						💬(up name: 'up')
+						💬(current)
+						💬(down name: 'down')
+						💬(current = '🛑' ? 'Yay!' state.steps → '' font: "Poor Story")
 					]
 				)
 				Group(
-					Stack() 
+					Stack(0m) 
 					[
 						💬(' ')
-						Phrase(right )
+						💬(right name: 'right')
 						💬(' ')
 						💬(' ')
 					]

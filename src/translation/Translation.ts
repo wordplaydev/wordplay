@@ -988,6 +988,7 @@ type Translation = {
             min: NameAndDocTranslation;
             max: NameAndDocTranslation;
         };
+        choice: NameAndDocTranslation;
         mousebutton: NameAndDocTranslation & { down: NameAndDocTranslation };
         mouseposition: NameAndDocTranslation;
         keyboard: NameAndDocTranslation & {
@@ -1023,6 +1024,7 @@ type Translation = {
             place: NameAndDocTranslation;
             rotation: NameAndDocTranslation;
             name: NameAndDocTranslation;
+            selectable: NameAndDocTranslation;
             enter: NameAndDocTranslation;
             rest: NameAndDocTranslation;
             move: NameAndDocTranslation;

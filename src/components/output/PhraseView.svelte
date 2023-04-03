@@ -28,9 +28,9 @@
     export let parentAscent: number;
     export let context: RenderContext;
 
-    let selectedOutput = getSelectedOutput();
-    let selectedPhrase = getSelectedPhrase();
-    let project = getProject();
+    const selectedOutput = getSelectedOutput();
+    const selectedPhrase = getSelectedPhrase();
+    const project = getProject();
     const projects = getProjects();
 
     // Compute a local context based on size and font.
@@ -50,12 +50,6 @@
     $: selected =
         phrase.value.creator instanceof Evaluate &&
         $selectedOutput?.includes(phrase.value.creator);
-    // &&
-    // $selectedPhrase &&
-    // (phrase.getName() === $selectedPhrase.name ||
-    //     (phrase.getName().includes('-') &&
-    //         phrase.getName().split('-')[1] ===
-    //             $selectedPhrase.name.split('-')[1]));
 
     let editable = getContext<Writable<boolean>>('editable');
     $: entered =
@@ -158,6 +152,8 @@
         tabIndex={interactive ? 0 : null}
         data-id={phrase.getHTMLID()}
         data-node-id={phrase.value.creator.id}
+        data-name={phrase.getName()}
+        data-selectable={phrase.selectable}
         on:dblclick={$editable && interactive ? enter : null}
         on:keydown={$editable && interactive ? move : null}
         bind:this={view}
@@ -205,6 +201,10 @@
         white-space: nowrap;
         width: auto;
         right: auto;
+    }
+
+    .phrase[data-selectable='true'] {
+        cursor: pointer;
     }
 
     .phrase > :global(.light) {

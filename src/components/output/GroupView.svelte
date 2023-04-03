@@ -49,6 +49,8 @@
     tabIndex={!root && interactive ? 0 : null}
     data-id={group.getHTMLID()}
     data-node-id={group.value.creator.id}
+    data-name={group.getName()}
+    data-selectable={group.selectable}
     style={outputToCSS(
         context.font,
         context.size,
@@ -97,6 +99,10 @@
         position: absolute;
         left: 0;
         top: 0;
+    }
+
+    .group[data-selectable='true'] {
+        cursor: pointer;
     }
 
     .content {

@@ -1,10 +1,10 @@
 === Text Transitions
 
 text: [ "boomy" "boom boom" "boooooomy" "boomymcboomface" "moooey" ]
-choice: ∆ keyboard() ? text.random() … text.random()
+next: ∆ keyboard() ? text.random() … text.random()
 
 Phrase(
-    choice
+    next
     name: "word"
     size: 4m
 )

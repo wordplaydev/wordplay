@@ -37,6 +37,7 @@
         setSelectedOutput,
     } from '../project/Contexts';
     import type Evaluator from '@runtime/Evaluator';
+    import Selection from '../../input/Choice';
 
     export let project: Project;
     export let evaluator: Evaluator;
@@ -250,14 +251,35 @@
             };
         }
 
-        if (evaluator.isPlaying())
+        if (evaluator.isPlaying()) {
             evaluator
                 .getNativeStreamsOfType(MouseButton)
-                .map((stream) => stream.record(true));
+                .forEach((stream) => stream.record(true));
+
+            // Was the target clicked on output with a name? Add it to choice streams.
+            if (event.target instanceof HTMLElement)
+                recordSelection(event.target);
+        }
 
         if (editable) {
             if (!selectPointerOutput(event)) ignore();
         }
+    }
+
+    function recordSelection(target: HTMLElement) {
+        // Was the target clicked on output with a name? Add it to choice streams.
+        const name = target.dataset.name;
+        const selectable = target.dataset.selectable === 'true';
+        const selection =
+            selectable && name
+                ? name
+                : verse.selectable
+                ? verse.getName()
+                : undefined;
+        if (selection)
+            evaluator
+                .getNativeStreamsOfType(Selection)
+                .forEach((stream) => stream.record(selection));
     }
 
     function handleMouseUp() {
@@ -375,6 +397,10 @@
             evaluator
                 .getNativeStreamsOfType(Keyboard)
                 .map((stream) => stream.record(event.key, true));
+
+            // Was the target clicked on output with a name? Add it to choice streams.
+            if (event.target instanceof HTMLElement)
+                recordSelection(event.target);
         }
         // else ignore();
 
@@ -506,6 +532,7 @@
         class:editing={$evaluation?.playing === false}
         data-id={verse.getHTMLID()}
         data-node-id={verse.value.creator.id}
+        data-selectable={verse.selectable}
         tabIndex={interactive ? 0 : null}
         style={toCSS({
             'font-family': `"${verse.font}", "${DefaultFont}"`,
@@ -618,6 +645,10 @@
         width: 100%;
         height: 100%;
         position: relative;
+    }
+
+    .verse[data-selectable='true'] {
+        cursor: pointer;
     }
 
     .verse:focus:not(.verse.selected) {

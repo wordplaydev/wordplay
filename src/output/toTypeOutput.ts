@@ -12,7 +12,13 @@ import type TextLang from './TextLang';
 import type Place from './Place';
 import type Pose from './Pose';
 import type Sequence from './Sequence';
-import { NameGenerator, toDecimal, toVerse, VerseType } from './Verse';
+import {
+    NameGenerator,
+    toBoolean,
+    toDecimal,
+    toVerse,
+    VerseType,
+} from './Verse';
 import { toPlace } from './Place';
 import { toPose } from './Pose';
 import { toSequence } from './Sequence';
@@ -69,6 +75,7 @@ export function getStyle(value: Value): {
     size: number | undefined;
     font: string | undefined;
     name: TextLang | undefined;
+    selectable: boolean;
     place: Place | undefined;
     rotation: number | undefined;
     rest: Pose | Sequence | undefined;
@@ -83,6 +90,7 @@ export function getStyle(value: Value): {
     const place = toPlace(value.resolve('place'));
     const rotation = toDecimal(value.resolve('rotation'))?.toNumber();
     const name = toText(value.resolve('name'));
+    const selectable = toBoolean(value.resolve('selectable')) ?? false;
     const rest =
         toPose(value.resolve('rest')) ?? toSequence(value.resolve('rest'));
     const enter =
@@ -98,6 +106,7 @@ export function getStyle(value: Value): {
         size,
         font,
         name,
+        selectable,
         place,
         rotation,
         rest,

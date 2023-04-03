@@ -1976,6 +1976,10 @@ const eng_wordplay: Translation = {
             min: { name: 'mínima', doc: WRITE_DOC },
             max: { name: 'maximo', doc: WRITE_DOC },
         },
+        choice: {
+            doc: WRITE_DOC,
+            name: ['selección', 'elección'],
+        },
         mousebutton: {
             doc: WRITE_DOC,
             name: ['mousebutton', '🖱️'],
@@ -2072,6 +2076,7 @@ const eng_wordplay: Translation = {
             place: { doc: WRITE_DOC, name: 'place' },
             rotation: { doc: WRITE_DOC, name: 'rotación' },
             name: { doc: WRITE_DOC, name: 'nombre' },
+            selectable: { doc: WRITE_DOC, name: 'seleccionable' },
             enter: { doc: WRITE_DOC, name: 'ingresar' },
             rest: { doc: WRITE_DOC, name: 'descansar' },
             move: { doc: WRITE_DOC, name: 'mover' },

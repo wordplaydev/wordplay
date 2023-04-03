@@ -26,6 +26,7 @@ ${getBind((t) => t.output.type.family)}•${SupportedFontsFamiliesType}|ø: ø
 ${getBind((t) => t.output.type.place)}•ø|Place: ø
 ${getBind((t) => t.output.type.rotation)}•#°|ø: ø
 ${getBind((t) => t.output.type.name)}•""|ø: ø
+${getBind((t) => t.output.type.selectable)}•?: ⊥
 ${getBind((t) => t.output.type.enter)}•ø|Pose|Sequence: ø
 ${getBind((t) => t.output.type.rest)}•ø|Pose|Sequence: Pose()
 ${getBind((t) => t.output.type.move)}•ø|Pose|Sequence: ø
@@ -43,6 +44,7 @@ export default abstract class TypeOutput extends Output {
     readonly place: Place | undefined;
     readonly rotation: number | undefined;
     readonly name: TextLang;
+    readonly selectable: boolean;
     readonly enter: Pose | Sequence | undefined;
     readonly rest: Pose | Sequence;
     readonly move: Pose | Sequence | undefined;
@@ -57,6 +59,7 @@ export default abstract class TypeOutput extends Output {
         place: Place | undefined = undefined,
         rotation: number | undefined = undefined,
         name: TextLang | string,
+        selectable: boolean,
         entry: Pose | Sequence | undefined = undefined,
         resting: Pose | Sequence,
         move: Pose | Sequence | undefined = undefined,
@@ -71,6 +74,7 @@ export default abstract class TypeOutput extends Output {
         this.place = place;
         this.rotation = rotation;
         this.name = name instanceof TextLang ? name : new TextLang(value, name);
+        this.selectable = selectable;
         this.enter = entry;
         this.rest = resting;
         this.move = move;
