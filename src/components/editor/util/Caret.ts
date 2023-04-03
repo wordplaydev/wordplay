@@ -930,6 +930,10 @@ export default class Caret {
                 distance: number;
             }[] = [];
             const firstTokenOnLine = currentToken;
+
+            // Get a list of all tokens after the current token, in order.
+            const tokensAfter = this.source.getTokensAfter(currentToken);
+
             while (currentToken !== undefined) {
                 const view = editor.querySelector(
                     `.token-view[data-id="${currentToken.id}"]`
@@ -945,7 +949,7 @@ export default class Caret {
                         ),
                     });
                 }
-                currentToken = this.source.getNextToken(currentToken, 1);
+                currentToken = tokensAfter.shift();
                 // If we reached a token with newlines, then we're done adding tokens for consideration.
                 if (
                     currentToken &&

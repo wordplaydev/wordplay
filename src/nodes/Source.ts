@@ -472,7 +472,8 @@ export default class Source extends Expression {
     getTokenBefore(token: Token) {
         return this.getNextToken(token, -1);
     }
-    getTokenafter(token: Token) {
+
+    getTokenAfter(token: Token) {
         return this.getNextToken(token, 1);
     }
 
@@ -546,6 +547,14 @@ export default class Source extends Expression {
 
     getTokens() {
         return this.tokens;
+    }
+
+    getTokensAfter(token: Token) {
+        let tokensAfter = this.getTokens();
+        const indexOfCurrentToken = tokensAfter.indexOf(token);
+        return indexOfCurrentToken < 0
+            ? []
+            : tokensAfter.slice(indexOfCurrentToken + 1);
     }
 
     isEmptyLine(position: number) {
