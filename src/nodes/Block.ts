@@ -121,7 +121,7 @@ export default class Block extends Expression {
     }
 
     isEvaluationInvolved() {
-        return true;
+        return this.root || this.creator;
     }
 
     getScopeOfChild(): Node | undefined {
