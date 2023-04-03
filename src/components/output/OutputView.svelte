@@ -112,7 +112,7 @@
             />
         {/if}
     </div>
-    {#if !fullscreen}
+    {#if !fullscreen && mode === 'peripheral'}
         <section
             class="evaluation"
             aria-label={$preferredTranslations[0].ui.section.timeline}
