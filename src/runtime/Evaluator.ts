@@ -711,7 +711,7 @@ export default class Evaluator {
         this.#stepIndex = change ? change.stepIndex : 0;
 
         // Reset the project to the beginning of time (but preserve stream history, since that's stored in project).
-        this.resetForEvaluation(false);
+        this.resetForEvaluation(true);
 
         // Start the evaluation fresh.
         this.start();
@@ -1160,11 +1160,9 @@ export default class Evaluator {
         this.counters.set(expression, count + 1);
 
         // Remember the value it computed in the value history.
-        if (!this.isInPast()) {
-            const list = this.values.get(expression) ?? [];
-            list.push({ value: value, stepNumber: this.getStepIndex() });
-            this.values.set(expression, list);
-        }
+        const list = this.values.get(expression) ?? [];
+        list.push({ value: value, stepNumber: this.getStepIndex() });
+        this.values.set(expression, list);
     }
 
     /** Bind the given value to the given name in the context of the current evaluation. */
