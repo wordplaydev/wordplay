@@ -760,7 +760,11 @@ export default class Evaluator {
             (change) => change.stepIndex > this.getStepIndex()
         );
 
-        if (change === undefined) return false;
+        // If there's no change after the current step, step to the end.
+        if (change === undefined) {
+            this.stepToEnd();
+            return true;
+        }
 
         // Run all of the steps until we get a value or we're stopped.
         while (!this.isDone() && this.getStepIndex() < change.stepIndex)

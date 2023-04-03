@@ -19,6 +19,8 @@
         getKeyboardIdle,
     } from '../project/Contexts';
     import type Evaluator from '@runtime/Evaluator';
+    import Controls from '../evaluator/Controls.svelte';
+    import Timeline from '../evaluator/Timeline.svelte';
 
     export let project: Project;
     export let evaluator: Evaluator;
@@ -110,6 +112,16 @@
             />
         {/if}
     </div>
+    {#if !fullscreen}
+        <section
+            class="evaluation"
+            aria-label={$preferredTranslations[0].ui.section.timeline}
+            class:stepping={$evaluation?.playing === false}
+        >
+            <Controls {project} {evaluator} />
+            <Timeline {evaluator} />
+        </section>
+    {/if}
 </section>
 
 <style>
@@ -139,6 +151,7 @@
         flex: 1;
         width: 100%;
         height: 100%;
+        overflow: hidden;
     }
 
     .mini {
@@ -196,5 +209,23 @@
 
     .exception :global(.value) {
         color: var(--wordplay-evaluation-color);
+    }
+
+    .evaluation {
+        background: var(--wordplay-background);
+        border-bottom: var(--wordplay-border-color) solid
+            var(--wordplay-border-width);
+        padding: var(--wordplay-spacing);
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: var(--wordplay-spacing);
+        width: 100%;
+    }
+
+    .evaluation.stepping {
+        background-color: var(--wordplay-evaluation-color);
+        color: var(--wordplay-background);
+        border-bottom: none;
     }
 </style>

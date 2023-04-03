@@ -290,6 +290,7 @@
         display: flex;
         flex-direction: column;
         flex-wrap: nowrap;
+        pointer-events: none;
     }
 
     .index {

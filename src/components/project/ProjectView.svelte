@@ -61,12 +61,10 @@
     import type Bounds from './Bounds';
     import type Source from '@nodes/Source';
     import SourceTileToggle from './SourceTileToggle.svelte';
-    import Timeline from '../evaluator/Timeline.svelte';
     import type MenuInfo from '../editor/util/Menu';
     import Menu from '../editor/Menu.svelte';
     import type Caret from '../editor/util/Caret';
     import Node from '@nodes/Node';
-    import Controls from '../evaluator/Controls.svelte';
     import ConceptIndex from '../../concepts/ConceptIndex';
     import type Concept from '../../concepts/Concept';
     import Settings from '../settings/Settings.svelte';
@@ -856,17 +854,6 @@
     on:keyup={updateKeyboardIdle}
     bind:this={view}
 >
-    {#if !layout.isFullscreen()}
-        <section
-            class="header"
-            aria-label={$preferredTranslations[0].ui.section.timeline}
-            class:stepping={$evaluation.playing === false}
-        >
-            <Controls {project} evaluator={$evaluator} />
-            <Timeline evaluator={$evaluator} />
-        </section>
-    {/if}
-
     <div
         class="canvas"
         on:mousedown={handleMouseDown}
@@ -1107,22 +1094,6 @@
     .canvas {
         flex: 1;
         overflow: scroll;
-    }
-
-    .header {
-        border-bottom: var(--wordplay-border-color) solid
-            var(--wordplay-border-width);
-        padding: var(--wordplay-spacing);
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        gap: var(--wordplay-spacing);
-    }
-
-    .header.stepping {
-        background-color: var(--wordplay-evaluation-color);
-        color: var(--wordplay-background);
-        border-bottom: none;
     }
 
     nav {
