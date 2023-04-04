@@ -386,6 +386,8 @@
             } else if (event.key === 'ArrowRight') {
                 return adjustFocus(increment, 0, 0);
             } else if (event.key === 'ArrowUp') {
+                return adjustFocus(0, 1 * increment, 0);
+            } else if (event.key === 'ArrowDown') {
                 return adjustFocus(0, -1 * increment, 0);
             } else if (event.key === '+') {
                 return adjustFocus(0, 0, 1);
