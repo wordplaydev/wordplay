@@ -122,7 +122,7 @@ export default class Sequence extends Output {
     }
 
     getFirstPose(): Pose | undefined {
-        return this.poses[0].pose;
+        return this.poses[0]?.pose;
     }
 }
 
