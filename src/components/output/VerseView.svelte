@@ -1,7 +1,7 @@
 <svelte:options immutable={true} />
 
 <script lang="ts">
-    import { onDestroy, onMount } from 'svelte';
+    import { afterUpdate, beforeUpdate, onDestroy, onMount } from 'svelte';
     import type Project from '@models/Project';
     import type Verse from '@output/Verse';
     import { animationsOn } from '@models/stores';
@@ -38,6 +38,7 @@
     } from '../project/Contexts';
     import type Evaluator from '@runtime/Evaluator';
     import Selection from '../../input/Choice';
+    import { DOMRectCenter, DOMRectDistance } from './utilities';
 
     export let project: Project;
     export let evaluator: Evaluator;
@@ -218,6 +219,37 @@
         }
     }
 
+    let priorFocusRect: DOMRect | undefined = undefined;
+
+    beforeUpdate(() => {
+        const focus = document.activeElement;
+        if (focus && view && (view === focus || view.contains(focus)))
+            priorFocusRect = focus.getBoundingClientRect();
+    });
+
+    afterUpdate(() => {
+        // Did the body get focus after the update? Focus on the nearest view in output.
+        if (
+            document.activeElement === document.body &&
+            priorFocusRect &&
+            view
+        ) {
+            const focusable = getMeasuredFocusableOutput(
+                DOMRectCenter(priorFocusRect)
+            );
+            // Pick the closest view to focus
+            let output: HTMLElement | undefined = undefined;
+            if (focusable.length > 0) {
+                const candidate = focusable.sort(
+                    (a, b) => a.distance - b.distance
+                )[0].view;
+                if (candidate instanceof HTMLElement) output = candidate;
+            }
+            if (output) output.focus();
+            else view?.focus();
+        }
+    });
+
     function adjustFocus(dx: number, dy: number, dz: number) {
         setFocus(
             renderedFocus.x + dx,
@@ -374,6 +406,24 @@
         }
     }
 
+    function getFocusableOutput() {
+        return view
+            ? Array.from(view.querySelectorAll('.output[tabindex="0"'))
+            : [];
+    }
+
+    function getMeasuredFocusableOutput(center: [number, number]) {
+        return getFocusableOutput().map((focusable) => {
+            const rect = focusable.getBoundingClientRect();
+            const distance = DOMRectDistance(center, rect);
+            return {
+                view: focusable,
+                rect,
+                distance,
+            };
+        });
+    }
+
     function handleKeyDown(event: KeyboardEvent) {
         // Never handle tab; that's for focus navigation.
         if (event.key === 'Tab') return;
@@ -415,43 +465,24 @@
                 const focusRect =
                     document.activeElement.getBoundingClientRect();
 
-                const focusCenter = center(focusRect);
-                function center(rect: DOMRect): [number, number] {
-                    return [rect.left + rect.width / 2, rect.top + rect.height];
-                }
-                function distance(rect: DOMRect): number {
-                    const rectCenter = center(rect);
-                    return Math.sqrt(
-                        Math.pow(focusCenter[0] - rectCenter[0], 2) +
-                            Math.pow(focusCenter[1] - rectCenter[1], 2)
-                    );
-                }
+                const focusCenter = DOMRectCenter(focusRect);
 
-                const focusable =
-                    // Find the bounds all the focusable output
-                    Array.from(view.querySelectorAll('.output[tabindex="0"'))
-                        // Convert it to an element and rectangle
-                        .map((focusable) => {
-                            return {
-                                view: focusable,
-                                rect: focusable.getBoundingClientRect(),
-                            };
-                        })
-                        // Exclude
-                        .filter(
-                            (focusable) =>
-                                (focusable.view !== document.activeElement &&
-                                    direction[0] > 0 &&
-                                    focusRect.left < focusable.rect.left) ||
-                                (direction[0] < 0 &&
-                                    focusRect.right > focusable.rect.right) ||
-                                (direction[1] > 0 &&
-                                    focusRect.top < focusable.rect.top) ||
-                                (direction[1] < 0 &&
-                                    focusRect.bottom > focusable.rect.bottom)
-                        )
-                        // Sort by distance to center
-                        .sort((a, b) => distance(a.rect) - distance(b.rect));
+                const focusable = getMeasuredFocusableOutput(focusCenter)
+                    // Exclude
+                    .filter(
+                        (focusable) =>
+                            (focusable.view !== document.activeElement &&
+                                direction[0] > 0 &&
+                                focusRect.left < focusable.rect.left) ||
+                            (direction[0] < 0 &&
+                                focusRect.right > focusable.rect.right) ||
+                            (direction[1] > 0 &&
+                                focusRect.top < focusable.rect.top) ||
+                            (direction[1] < 0 &&
+                                focusRect.bottom > focusable.rect.bottom)
+                    )
+                    // Sort by distance to center
+                    .sort((a, b) => a.distance - b.distance);
 
                 const nearest = focusable[0];
                 if (nearest && nearest.view instanceof HTMLElement) {
