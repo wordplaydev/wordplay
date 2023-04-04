@@ -378,7 +378,7 @@
         // Never handle tab; that's for focus navigation.
         if (event.key === 'Tab') return;
 
-        // Adjust focus
+        // Adjust verse focus
         if (event.shiftKey) {
             const increment = 1;
             if (event.key === 'ArrowLeft') {
@@ -394,6 +394,73 @@
             } else if (event.key === '_') {
                 return adjustFocus(0, 0, -1);
             }
+        }
+
+        // Adjust keyboard focus
+        if (
+            event.altKey &&
+            event.key.startsWith('Arrow') &&
+            view &&
+            document.activeElement?.classList.contains('output')
+        ) {
+            // Which way are we moving?
+            const direction = {
+                ArrowRight: [1, 0],
+                ArrowLeft: [-1, 0],
+                ArrowUp: [0, -1],
+                ArrowDown: [0, 1],
+            }[event.key];
+
+            if (direction) {
+                const focusRect =
+                    document.activeElement.getBoundingClientRect();
+
+                const focusCenter = center(focusRect);
+                function center(rect: DOMRect): [number, number] {
+                    return [rect.left + rect.width / 2, rect.top + rect.height];
+                }
+                function distance(rect: DOMRect): number {
+                    const rectCenter = center(rect);
+                    return Math.sqrt(
+                        Math.pow(focusCenter[0] - rectCenter[0], 2) +
+                            Math.pow(focusCenter[1] - rectCenter[1], 2)
+                    );
+                }
+
+                const focusable =
+                    // Find the bounds all the focusable output
+                    Array.from(view.querySelectorAll('.output[tabindex="0"'))
+                        // Convert it to an element and rectangle
+                        .map((focusable) => {
+                            return {
+                                view: focusable,
+                                rect: focusable.getBoundingClientRect(),
+                            };
+                        })
+                        // Exclude
+                        .filter(
+                            (focusable) =>
+                                (focusable.view !== document.activeElement &&
+                                    direction[0] > 0 &&
+                                    focusRect.left < focusable.rect.left) ||
+                                (direction[0] < 0 &&
+                                    focusRect.right > focusable.rect.right) ||
+                                (direction[1] > 0 &&
+                                    focusRect.top < focusable.rect.top) ||
+                                (direction[1] < 0 &&
+                                    focusRect.bottom > focusable.rect.bottom)
+                        )
+                        // Sort by distance to center
+                        .sort((a, b) => distance(a.rect) - distance(b.rect));
+
+                const nearest = focusable[0];
+                if (nearest && nearest.view instanceof HTMLElement) {
+                    nearest.view.focus();
+                    return;
+                }
+            }
+
+            // Find the nearest focusable
         }
 
         // Record the key event on all keyboard streams if it wasn't handled above.
