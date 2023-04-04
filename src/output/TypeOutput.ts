@@ -100,6 +100,8 @@ export default abstract class TypeOutput extends Output {
         return `output-${this.getName()}`;
     }
 
+    abstract isEmpty(): boolean;
+
     /**
      * By default, a group's name for the purpose of animations is the ID of the node that created it.
      * */

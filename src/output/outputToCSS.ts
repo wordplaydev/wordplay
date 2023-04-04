@@ -150,7 +150,7 @@ export function toOutputTransform(
     let focusY = -focus.y * PX_PER_METER;
 
     // These are applied in reverse.
-    return [
+    const transform = [
         // If we're perspective scaling this output, translate around the focus center
         // in the local coordinate system, scale according to distance from focus,
         // then translate back. Remember that this all happens after everything below.
@@ -174,5 +174,7 @@ export function toOutputTransform(
         rotateDeg((rotation ?? 0) + rotationOffset),
         // 1. Translate to the center of the output.
         translateXY(-centerXOffset, -centerYOffset),
-    ].join(' ');
+    ];
+
+    return transform.join(' ');
 }

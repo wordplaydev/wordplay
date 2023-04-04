@@ -31,12 +31,14 @@ maze: Maze()
 	ƒ right() State(row column + 1 steps + 1)
 )
 
+ƒ  allowed(state•State row•# col•#) maze.allowed(state.row + row state.column + col)
+
 direction: choice()
 state•State:  ∆ direction ? State(1 1 0) …
-		((direction = "left") & maze.allowed(state.row state.column - 1)) ? state.left()
-			((direction = "right") & maze.allowed(state.row state.column + 1)) ? state.right()
-				((direction = "up") & maze.allowed(state.row - 1 state.column)) ? state.up()
-					((direction = "down") & maze.allowed(state.row + 1 state.column)) ? state.down()
+		((direction = "left") & allowed(state 0 -1)) ? state.left()
+			((direction = "right") & allowed(state 0 1)) ? state.right()
+				((direction = "up") & allowed(state -1 0)) ? state.up()
+					((direction = "down") & allowed(state 1 0)) ? state.down()
 						state
 
 current: ( cell: maze.cell(state.row state.column) cell•ø ? ' ' cell)
@@ -44,7 +46,7 @@ up: ( cell: maze.cell(state.row - 1 state.column) cell•ø ? ' ' '↑')
 down: ( cell: maze.cell(state.row + 1 state.column) cell•ø ? ' ' '↓')
 left: ( cell: maze.cell(state.row state.column - 1) cell•ø ? ' ' '←')
 right: ( cell: maze.cell(state.row state.column + 1) cell•ø ? ' ' '→')
-
+won: current = '🛑'
 Verse(
 	[
 		Group(
@@ -54,7 +56,7 @@ Verse(
 					Stack(0m) 
 					[
 						💬(' ')
-						💬(left name: 'left')
+						Phrase(left name: 'left' selectable: left.length() > 0)
 						💬(' ')
 						💬(' ')
 					]
@@ -62,17 +64,17 @@ Verse(
 				Group(
 					Stack(0m) 
 					[
-						💬(up name: 'up')
-						💬(current)
-						💬(down name: 'down')
-						💬(current = '🛑' ? 'Yay!' state.steps → '' font: "Poor Story")
+						Phrase(up name: 'up' selectable: up.length() > 0)
+						Phrase(current place: 📍(0m 0.0625m 0m))
+						Phrase(down name: 'down' selectable: down.length() > 0)
+						Phrase(won ? '🤩' state.steps → '' rest: won ? Sequence({ 0%: Pose(tilt: 359°) 100%:🤪(tilt: 0°)} ⏳: 1s style: 'straight') Pose() font: 'Noto Sans')
 					]
 				)
 				Group(
 					Stack(0m) 
 					[
 						💬(' ')
-						💬(right name: 'right')
+						Phrase(right name: 'right' selectable: right.length() > 0)
 						💬(' ')
 						💬(' ')
 					]
@@ -80,6 +82,8 @@ Verse(
 			]
 	  )
 	]
-  	place: Place(0m 0m -3m)
+  place: Place(0m 0m -3m)
 	font: 'Noto Emoji'
+  background: Color(0 0 0°)
+	rest: Pose(Color(100 100 0°))
 )

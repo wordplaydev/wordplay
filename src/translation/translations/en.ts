@@ -53,6 +53,9 @@ const en: Translation = {
         source: 'source',
         input: 'input',
         output: 'output',
+        phrase: 'phrase',
+        group: 'group',
+        verse: 'verse',
         type: 'type',
         start: 'start',
     },
@@ -2472,17 +2475,38 @@ const en: Translation = {
         },
         row: {
             definition: { doc: WRITE_DOC, name: ['➡', 'Row'] },
-            description: WRITE_DOC,
+            description: (count, phrases, groups) =>
+                `row of ${count} ${
+                    count === phrases
+                        ? 'phrases'
+                        : count === groups
+                        ? 'groups'
+                        : 'phrases and groups'
+                }`,
             padding: { doc: WRITE_DOC, name: 'padding' },
         },
         stack: {
             definition: { doc: WRITE_DOC, name: ['⬇', 'Stack'] },
-            description: WRITE_DOC,
+            description: (count, phrases, groups) =>
+                `stack of ${count} ${
+                    count === phrases
+                        ? 'phrases'
+                        : count === groups
+                        ? 'groups'
+                        : 'phrases and groups'
+                }`,
             padding: { doc: WRITE_DOC, name: 'padding' },
         },
         verse: {
             definition: { doc: WRITE_DOC, name: ['🌎', '🌍', '🌏', 'Verse'] },
-            description: WRITE_DOC,
+            description: (count, phrases, groups) =>
+                `verse of ${count} ${
+                    count === phrases
+                        ? 'phrases'
+                        : count === groups
+                        ? 'groups'
+                        : 'phrases and groups'
+                }`,
             content: { doc: WRITE_DOC, name: 'content' },
             background: { doc: WRITE_DOC, name: 'background' },
         },

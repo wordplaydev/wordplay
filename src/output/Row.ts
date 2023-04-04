@@ -9,6 +9,8 @@ import { getPreferredTranslation } from '@translation/getPreferredTranslation';
 import { getBind } from '@translation/getBind';
 import Measurement from '../runtime/Measurement';
 import Layout from './Layout';
+import Group from './Group';
+import Phrase from './Phrase';
 
 export const RowType = toStructure(`
     ${getBind((t) => t.output.row.definition, '•')} Layout(
@@ -81,8 +83,12 @@ export class Row extends Layout {
         return undefined;
     }
 
-    getDescription(_: TypeOutput[], languages: LanguageCode[]) {
-        return getPreferredTranslation(languages).output.row.description;
+    getDescription(output: TypeOutput[], languages: LanguageCode[]) {
+        return getPreferredTranslation(languages).output.row.description(
+            output.length,
+            output.filter((o) => o instanceof Phrase).length,
+            output.filter((o) => o instanceof Group).length
+        );
     }
 }
 

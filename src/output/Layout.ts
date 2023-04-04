@@ -7,7 +7,6 @@ import type RenderContext from './RenderContext';
 import type Place from './Place';
 import type TypeOutput from './TypeOutput';
 import type LanguageCode from '@translation/LanguageCode';
-import type { Description } from '@translation/Translation';
 
 export const ArrangementType = toStructure(`
     ${getBind((t) => t.output.layout.definition, TYPE_SYMBOL)}()
@@ -33,5 +32,5 @@ export default abstract class Layout extends Output {
     abstract getDescription(
         output: TypeOutput[],
         languages: LanguageCode[]
-    ): Description;
+    ): string;
 }

@@ -52,6 +52,9 @@ const eng_wordplay: Translation = {
         source: 'fuente',
         input: 'input',
         output: 'producción',
+        phrase: 'frase',
+        group: 'grupo',
+        verse: 'verso',
         type: 'género',
         start: 'comenzar',
     },
@@ -2086,7 +2089,7 @@ const eng_wordplay: Translation = {
         },
         verse: {
             definition: { doc: WRITE_DOC, name: ['Verso'] },
-            description: WRITE_DOC,
+            description: () => WRITE_DOC,
             content: { doc: WRITE_DOC, name: 'contenido' },
             background: { doc: WRITE_DOC, name: 'fondo' },
         },
@@ -2134,12 +2137,12 @@ const eng_wordplay: Translation = {
         },
         row: {
             definition: { doc: WRITE_DOC, name: ['Fila'] },
-            description: WRITE_DOC,
+            description: () => WRITE_DOC,
             padding: { doc: WRITE_DOC, name: 'relleno' },
         },
         stack: {
             definition: { doc: WRITE_DOC, name: 'Pila' },
-            description: WRITE_DOC,
+            description: () => WRITE_DOC,
             padding: { doc: WRITE_DOC, name: 'relleno' },
         },
         easing: {

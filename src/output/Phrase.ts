@@ -168,6 +168,10 @@ export default class Phrase extends TypeOutput {
         );
     }
 
+    isEmpty() {
+        return this.text.every((t) => t.text.trim().length === 0);
+    }
+
     toString() {
         return this.text[0].text ?? '';
     }

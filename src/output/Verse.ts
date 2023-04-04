@@ -18,6 +18,7 @@ import { getStyle, toTypeOutput, toTypeOutputList } from './toTypeOutput';
 import type TextLang from './TextLang';
 import Pose from './Pose';
 import type Sequence from './Sequence';
+import Group from './Group';
 
 export const DefaultFont = 'Noto Sans';
 export const DefaultSize = 1;
@@ -135,7 +136,15 @@ export default class Verse extends TypeOutput {
     }
 
     getDescription(languages: LanguageCode[]) {
-        return getPreferredTranslation(languages).output.verse.description;
+        return getPreferredTranslation(languages).output.verse.description(
+            this.content.length,
+            this.content.filter((o) => o instanceof Phrase).length,
+            this.content.filter((o) => o instanceof Group).length
+        );
+    }
+
+    isEmpty() {
+        return this.content.every((c) => c.isEmpty());
     }
 }
 

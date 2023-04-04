@@ -81,4 +81,11 @@ export const missingTranslations: Readable<LanguageCode[]> = derived(
     }
 );
 
+export function getTranslation() {
+    return get(preferredTranslations)[0];
+}
+
+export function getLanguages() {
+    return get(preferredTranslations).map((t) => t.language);
+}
 export default SupportedTranslations;

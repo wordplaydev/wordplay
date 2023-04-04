@@ -7,10 +7,11 @@
     import Pose from '@output/Pose';
     import Phrase from '@output/Phrase';
     import PhraseView from './PhraseView.svelte';
-    import type Group from '@output/Group';
+    import Group from '@output/Group';
     import type Verse from '@output/Verse';
     import Evaluate from '@nodes/Evaluate';
     import { getSelectedOutput } from '../project/Contexts';
+    import { preferredTranslations } from '@translation/translations';
 
     export let group: Group | Verse;
     export let place: Place;
@@ -19,11 +20,14 @@
     export let interactive: boolean;
     export let parentAscent: number;
     export let context: RenderContext;
+    export let editing: boolean;
 
     let selectedOutput = getSelectedOutput();
 
     // Compute a local context based on size and font.
     $: context = group.getRenderContext(context);
+
+    $: empty = group.isEmpty();
 
     $: width = group.getWidth(context);
     $: height = group.getHeight(context);
@@ -43,10 +47,18 @@
 </script>
 
 <div
+    role={!group.selectable ? 'presentation' : 'group'}
+    aria-label={group.getDescription(
+        $preferredTranslations.map((t) => t.language)
+    )}
+    aria-roledescription={group instanceof Group
+        ? $preferredTranslations[0].terminology.group
+        : $preferredTranslations[0].terminology.verse}
+    aria-hidden={empty ? 'true' : null}
     class="output group {group.constructor.name}"
     class:selected={selected && !root}
     class:root
-    tabIndex={!root && interactive ? 0 : null}
+    tabIndex={!root && interactive && (group.selectable || editing) ? 0 : null}
     data-id={group.getHTMLID()}
     data-node-id={group.value.creator.id}
     data-name={group.getName()}
@@ -68,30 +80,30 @@
         { width: width * PX_PER_METER, ascent: height * PX_PER_METER }
     )}
 >
-    <div class="content">
-        <slot />
-        {#each ordered as [child, childPlace] (child.getName())}
-            {#if child instanceof Phrase}
-                <PhraseView
-                    phrase={child}
-                    place={childPlace}
-                    focus={offsetFocus}
-                    {interactive}
-                    parentAscent={root ? 0 : height}
-                    {context}
-                />
-            {:else}
-                <svelte:self
-                    group={child}
-                    place={childPlace}
-                    focus={offsetFocus}
-                    parentAscent={root ? 0 : height}
-                    {interactive}
-                    {context}
-                />
-            {/if}
-        {/each}
-    </div>
+    <slot />
+    {#each ordered as [child, childPlace] (child.getName())}
+        {#if child instanceof Phrase}
+            <PhraseView
+                phrase={child}
+                place={childPlace}
+                focus={offsetFocus}
+                {interactive}
+                parentAscent={root ? 0 : height}
+                {context}
+                {editing}
+            />
+        {:else}
+            <svelte:self
+                group={child}
+                place={childPlace}
+                focus={offsetFocus}
+                parentAscent={root ? 0 : height}
+                {interactive}
+                {context}
+                {editing}
+            />
+        {/if}
+    {/each}
 </div>
 
 <style>

@@ -9,6 +9,8 @@ import { getPreferredTranslation } from '@translation/getPreferredTranslation';
 import { getBind } from '@translation/getBind';
 import Layout from './Layout';
 import Measurement from '../runtime/Measurement';
+import Phrase from './Phrase';
+import Group from './Group';
 
 export const StackType = toStructure(`
     ${getBind((t) => t.output.stack.definition, '•')} Layout(
@@ -83,8 +85,12 @@ export class Stack extends Layout {
         return undefined;
     }
 
-    getDescription(_: TypeOutput[], languages: LanguageCode[]) {
-        return getPreferredTranslation(languages).output.stack.description;
+    getDescription(output: TypeOutput[], languages: LanguageCode[]) {
+        return getPreferredTranslation(languages).output.stack.description(
+            output.length,
+            output.filter((o) => o instanceof Phrase).length,
+            output.filter((o) => o instanceof Group).length
+        );
     }
 }
 

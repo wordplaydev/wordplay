@@ -5,7 +5,10 @@
     import type Place from '@output/Place';
     import parseRichText from '@output/parseRichText';
     import outputToCSS from '@output/outputToCSS';
-    import { preferredLanguages } from '@translation/translations';
+    import {
+        preferredLanguages,
+        preferredTranslations,
+    } from '@translation/translations';
     import type RenderContext from '@output/RenderContext';
     import Pose from '@output/Pose';
     import Evaluate from '@nodes/Evaluate';
@@ -27,6 +30,7 @@
     export let interactive: boolean;
     export let parentAscent: number;
     export let context: RenderContext;
+    export let editing: boolean;
 
     const selectedOutput = getSelectedOutput();
     const selectedPhrase = getSelectedPhrase();
@@ -41,6 +45,8 @@
 
     // Get the phrase's text in the preferred language
     $: text = phrase.getDescription($preferredLanguages);
+    $: empty = phrase.isEmpty();
+    $: selectable = phrase.selectable && !empty;
 
     // The text field, if being edited.
     let view: HTMLDivElement | undefined;
@@ -147,13 +153,17 @@
 
 {#if visible}
     <div
+        role="button"
+        aria-hidden={empty ? 'true' : null}
+        aria-disabled={!selectable}
+        aria-roledescription={$preferredTranslations[0].terminology.phrase}
         class="output phrase"
         class:selected
-        tabIndex={interactive ? 0 : null}
+        tabIndex={interactive && ((!empty && selectable) || editing) ? 0 : null}
         data-id={phrase.getHTMLID()}
         data-node-id={phrase.value.creator.id}
         data-name={phrase.getName()}
-        data-selectable={phrase.selectable}
+        data-selectable={selectable}
         on:dblclick={$editable && interactive ? enter : null}
         on:keydown={$editable && interactive ? move : null}
         bind:this={view}

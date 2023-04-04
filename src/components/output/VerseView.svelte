@@ -57,6 +57,8 @@
 
     const GRID_PADDING = 10;
 
+    $: editing = $evaluation?.playing === false;
+
     let ignored = false;
     let view: HTMLElement | null = null;
 
@@ -399,7 +401,10 @@
                 .map((stream) => stream.record(event.key, true));
 
             // Was the target clicked on output with a name? Add it to choice streams.
-            if (event.target instanceof HTMLElement)
+            if (
+                (event.key === 'Enter' || event.key === ' ') &&
+                event.target instanceof HTMLElement
+            )
                 recordSelection(event.target);
         }
         // else ignore();
@@ -521,7 +526,7 @@
 
 {#if mounted}
     <div
-        class="output verse {interactive && $evaluation?.playing === true
+        class="output verse {interactive && !editing
             ? 'live'
             : 'inert'} {project.main.names.getNames()[0]}"
         class:ignored
@@ -565,6 +570,7 @@
                 parentAscent={0}
                 {context}
                 {interactive}
+                {editing}
             >
                 {#if grid}
                     {@const left = Math.min(
@@ -622,6 +628,7 @@
                             {interactive}
                             parentAscent={0}
                             {context}
+                            {editing}
                         />
                     {:else if info.output instanceof Group}
                         <GroupView
@@ -631,6 +638,7 @@
                             parentAscent={0}
                             {interactive}
                             {context}
+                            {editing}
                         />
                     {/if}
                 {/each}

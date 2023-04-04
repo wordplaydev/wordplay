@@ -85,6 +85,10 @@ export default class Group extends TypeOutput {
     getDescription(languages: LanguageCode[]) {
         return this.layout.getDescription(this.content, languages);
     }
+
+    isEmpty() {
+        return this.content.every((c) => c.isEmpty());
+    }
 }
 
 export function toGroup(

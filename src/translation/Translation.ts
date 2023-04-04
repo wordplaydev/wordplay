@@ -214,6 +214,9 @@ type Translation = {
         source: string;
         input: string;
         output: string;
+        phrase: string;
+        group: string;
+        verse: string;
         type: string;
         /** What to call the main source in a project. */
         start: string;
@@ -1043,7 +1046,11 @@ type Translation = {
         };
         verse: {
             definition: NameAndDocTranslation;
-            description: Description;
+            description: (
+                total: number,
+                phrases: number,
+                groups: number
+            ) => string;
             content: NameAndDocTranslation;
             background: NameAndDocTranslation;
         };
@@ -1082,12 +1089,20 @@ type Translation = {
         };
         row: {
             definition: NameAndDocTranslation;
-            description: Description;
+            description: (
+                total: number,
+                phrases: number,
+                groups: number
+            ) => string;
             padding: NameAndDocTranslation;
         };
         stack: {
             definition: NameAndDocTranslation;
-            description: Description;
+            description: (
+                total: number,
+                phrases: number,
+                groups: number
+            ) => string;
             padding: NameAndDocTranslation;
         };
         easing: {
