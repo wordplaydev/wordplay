@@ -163,10 +163,14 @@
     aria-label={$preferredTranslations[0].ui.section.palette}
     on:mousedown={handleMouseDown}
     on:mouseup={handleDrop}
+    on:keydown={(event) =>
+        event.key === 'Escape' || event.key === 'Backspace'
+            ? back()
+            : undefined}
     bind:this={palette}
 >
     <div class="header">
-        <TextField placeholder={'🔍'} bind:text={query} fill />
+        <TextField placeholder={'🔍'} bind:text={query} fill defaultFocus />
         {#if currentConcept}
             <span class="path">
                 <Button
@@ -181,14 +185,7 @@
             </span>
         {/if}
     </div>
-    <div
-        class="content"
-        tabIndex="0"
-        on:keydown={(event) =>
-            event.key === 'Escape' || event.key === 'Backspace'
-                ? back()
-                : undefined}
-    >
+    <div class="content">
         <!-- Search results are prioritized over a selected concept -->
         {#if results}
             {#each results as [concept, text]}

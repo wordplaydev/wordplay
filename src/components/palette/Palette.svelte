@@ -51,7 +51,6 @@
 
 <section
     class="palette"
-    tabIndex="0"
     aria-label={$preferredTranslations[0].ui.section.palette}
 >
     <Speech

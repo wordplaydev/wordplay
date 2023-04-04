@@ -8,6 +8,7 @@
     export let input: HTMLInputElement | undefined = undefined;
     export let border: boolean = true;
     export let right: boolean = false;
+    export let defaultFocus: boolean = false;
 
     let width: number = 0;
 
@@ -23,6 +24,7 @@
         class:fill
         class:border
         class:right
+        data-defaultfocus={defaultFocus ? '' : null}
         class:error={validator ? validator(text) === false : null}
         {placeholder}
         style:width={fill ? null : `${width + 5}px`}

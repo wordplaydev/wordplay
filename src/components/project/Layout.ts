@@ -215,7 +215,9 @@ export default class Layout {
 
         let top = 0;
         let tileHeight =
-            height / ((output || palette ? 1 : 0) + sources.length);
+            height /
+            ((output || palette ? 1 : 0) +
+                (sources.length + (sources.length === 0 && docs ? 1 : 0)));
 
         // If the output is expanded, give it a portion.
         if (output) {
@@ -259,8 +261,11 @@ export default class Layout {
             newLayout = newLayout.withTileBounds(docs, {
                 left: 0,
                 top: top,
-                width: (width * 1) / 3,
-                height: tileHeight * sources.length,
+                width: sources.length > 0 ? (width * 1) / 3 : width,
+                height:
+                    sources.length > 0
+                        ? tileHeight * sources.length
+                        : tileHeight,
             });
 
         for (const tile of sources) {

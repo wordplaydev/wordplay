@@ -3,7 +3,7 @@
 </script>
 
 <script lang="ts">
-    import { onDestroy, setContext, tick } from 'svelte';
+    import { beforeUpdate, onDestroy, setContext, tick } from 'svelte';
     import { derived, writable, type Writable } from 'svelte/store';
     import {
         type DraggedContext,
@@ -538,8 +538,20 @@
     /** When the menu changes, compute a menu position. */
     $: menuPosition = menu ? getMenuPosition(menu.caret) : undefined;
 
-    /** After each update, measure an outline of the node view in the drag container. */
+    /** Before each update, note which tile has focus */
+    let focusedTileID: string | undefined = undefined;
+    beforeUpdate(() => {
+        focusedTileID = undefined;
+        const focus = document.activeElement;
+        if (focus && view && view.contains(focus)) {
+            const tile = focus.closest('.tile');
+            if (tile instanceof HTMLElement && tile.dataset.id)
+                focusedTileID = tile.dataset.id;
+        }
+    });
+
     afterUpdate(() => {
+        /** After each update, measure an outline of the node view in the drag container. */
         const nodeView = dragContainer?.querySelector('.node-view');
         if (nodeView instanceof HTMLElement)
             outline = {
@@ -547,7 +559,41 @@
                 outline: getOutlineOf(nodeView),
                 underline: getUnderlineOf(nodeView),
             };
+
+        /** Restore focus if on body */
+        if (document.activeElement === document.body) focusTile(focusedTileID);
     });
+
+    function focusTile(focusedTileID: string | undefined) {
+        if (view === undefined) return;
+
+        const firstTileID = layout.tiles.find(
+            (tile) => !tile.isCollapsed()
+        )?.id;
+        const focusedTileView = focusedTileID
+            ? view.querySelector(`.tile[data-id="${focusedTileID}"]`)
+            : undefined;
+        const firstTileView = firstTileID
+            ? view.querySelector(`.tile[data-id="${firstTileID}"]`)
+            : undefined;
+        const tileView = focusedTileView ?? firstTileView;
+
+        let viewToFocus: HTMLElement | undefined = undefined;
+        if (tileView) {
+            const defaultFocus = tileView.querySelectorAll(
+                '[data-defaultfocus]'
+            )[0];
+            if (defaultFocus instanceof HTMLElement) viewToFocus = defaultFocus;
+            else {
+                const focusable = tileView.querySelectorAll(
+                    'input, button, [tabindex="0"]'
+                )[0];
+                if (focusable instanceof HTMLElement) viewToFocus = focusable;
+            }
+        }
+        // No tiles visible? Just focus on the project view.
+        (viewToFocus ?? view).focus();
+    }
 
     function setMode(tile: Tile, mode: Mode) {
         if (layout.getTileWithID(tile.id)?.mode === mode) return;
@@ -572,8 +618,6 @@
         layout = layout
             .withTileLast(tile.withMode(mode))
             .resized(canvasWidth, canvasHeight);
-
-        if (mode === Mode.Collapsed) view?.focus();
     }
 
     function setFullscreen(tile: Tile, fullscreen: boolean) {

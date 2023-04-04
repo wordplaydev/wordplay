@@ -1244,6 +1244,7 @@
     <input
         type="text"
         id={getInputID()}
+        data-focusdefault
         aria-autocomplete="none"
         autocomplete="off"
         class="keyboard-input"

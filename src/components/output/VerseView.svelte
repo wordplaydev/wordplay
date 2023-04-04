@@ -639,6 +639,7 @@
         data-node-id={verse.value.creator.id}
         data-selectable={verse.selectable}
         tabIndex={interactive ? 0 : null}
+        data-defaultfocus
         style={toCSS({
             'font-family': `"${verse.font}", "${DefaultFont}"`,
             background: verse.background.toCSS(),
