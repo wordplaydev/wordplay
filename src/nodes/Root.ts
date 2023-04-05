@@ -167,7 +167,8 @@ export default class Root {
         if (path.length === 0) return node;
 
         const { type, index } = path[0];
-        const child = node && index ? node.getChildren()[index] : undefined;
+        const child =
+            node && index !== undefined ? node.getChildren()[index] : undefined;
 
         // If the type of node doesn't match, this path doesn't resolve.
         return node.constructor.name !== type || child === undefined

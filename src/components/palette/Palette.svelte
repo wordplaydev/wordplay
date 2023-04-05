@@ -13,6 +13,8 @@
     let index = getConceptIndex();
     let selectedOutput = getSelectedOutput();
 
+    $: console.log($selectedOutput);
+
     /** Transform the selected Evaluate nodes into Output wrappers, filtering out anything that's not valid output. */
     $: outputs = $selectedOutput
         ? $selectedOutput
