@@ -43,6 +43,8 @@
     import Selection from '../../input/Choice';
     import { DOMRectCenter, DOMRectDistance } from './utilities';
     import type TypeOutput from '../../output/TypeOutput';
+    import Sequence from '../../output/Sequence';
+    import Reference from '../../nodes/Reference';
 
     export let project: Project;
     export let evaluator: Evaluator;
@@ -107,8 +109,27 @@
                     if (
                         previousText !== currentText &&
                         typeof currentText === 'string'
-                    )
-                        changed.push(currentText);
+                    ) {
+                        const sequence =
+                            output.rest instanceof Sequence
+                                ? output.rest
+                                : undefined;
+                        const sequenceDescription = sequence
+                            ? sequence.value.creator instanceof Evaluate &&
+                              sequence.value.creator.inputs[0] instanceof
+                                  Evaluate &&
+                              sequence.value.creator.inputs[0].func instanceof
+                                  Reference
+                                ? sequence.value.creator.inputs[0].func.getName()
+                                : ''
+                            : undefined;
+                        changed.push(
+                            currentText +
+                                (sequenceDescription
+                                    ? ` ${sequenceDescription} animation`
+                                    : '')
+                        );
+                    }
                 }
             }
         }
