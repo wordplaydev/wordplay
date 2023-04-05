@@ -353,9 +353,12 @@
             searchParams.set(PROJECT_PARAM_PLAY, '');
         else searchParams.delete(PROJECT_PARAM_PLAY);
         // Update the URL, removing = for keys with no values
-        const url = `${searchParams.toString().replace(/=(?=&|$)/gm, '')}`;
+        const url = `?${searchParams.toString().replace(/=(?=&|$)/gm, '')}`;
         // If the search params haven't changed, don't navigate.
-        if (url !== $page.url.search) goto(`?${url}`, { replaceState: true });
+        if (url !== '?' && url !== $page.url.search) {
+            goto(url, { replaceState: true });
+            console.log('Going to ' + url + ', ' + $page.url.search);
+        }
     }
 
     /** Persist the layout when it changes */

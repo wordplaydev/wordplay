@@ -167,13 +167,14 @@ export default class Root {
         if (path.length === 0) return node;
 
         const { type, index } = path[0];
+        const child = node && index ? node.getChildren()[index] : undefined;
 
         // If the type of node doesn't match, this path doesn't resolve.
-        return node.constructor.name !== type
+        return node.constructor.name !== type || child === undefined
             ? undefined
             : // Otherwise, ask the corresponding child to continue resolving the path, unless there isn't one,
               // in which case the path doesn't resolve.
-              this.resolvePath(node.getChildren()[index], path.slice(1));
+              this.resolvePath(child, path.slice(1));
     }
 
     // resolvePath(path: Path): Node | undefined {
