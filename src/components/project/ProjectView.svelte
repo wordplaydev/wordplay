@@ -989,7 +989,6 @@
                                     fullscreen={layout.fullscreenID === tile.id}
                                     bind:fit
                                     bind:grid
-                                    mode={'peripheral'}
                                     bind:background={outputBackground}
                                 />
                             {:else}

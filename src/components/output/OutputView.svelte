@@ -29,7 +29,7 @@
     export let fullscreen: boolean;
     export let fit: boolean = true;
     export let grid: boolean = false;
-    export let mode: 'mini' | 'peripheral';
+    export let mini: boolean = false;
     export let background: string | null = null;
 
     let index = getConceptIndex();
@@ -44,10 +44,10 @@
 </script>
 
 <section
-    class={`output ${mode}`}
+    class="output"
+    class:mini
     aria-label={$preferredTranslations[0].ui.section.output}
-    class:mode
-    tabIndex={mode === 'peripheral' ? 0 : null}
+    tabIndex={!mini ? 0 : null}
     style:direction={$writingDirection}
     style:writing-mode={$writingLayout}
 >
@@ -102,11 +102,11 @@
             {fullscreen}
             bind:fit
             bind:grid
-            interactive={mode !== 'mini' && source === project.main}
-            editable={mode === 'peripheral' && $evaluation?.playing === false}
+            interactive={!mini && source === project.main}
+            editable={!mini && $evaluation?.playing === false}
         />
     {/if}
-    {#if !fullscreen && mode === 'peripheral'}
+    {#if !fullscreen && !mini}
         <section
             class="evaluation"
             aria-label={$preferredTranslations[0].ui.section.timeline}

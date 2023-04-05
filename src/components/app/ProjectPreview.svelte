@@ -34,7 +34,7 @@
             fullscreen={false}
             fit={true}
             grid={false}
-            mode="mini"
+            mini
         />
     </div>
     <div class="name"

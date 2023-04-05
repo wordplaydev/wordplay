@@ -71,7 +71,7 @@
                 {source}
                 {latest}
                 fullscreen={false}
-                mode="mini"
+                mini
             />
         </div>
     {/if}
