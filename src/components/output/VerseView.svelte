@@ -359,8 +359,10 @@
                 .forEach((stream) => stream.record(true));
 
             // Was the target clicked on output with a name? Add it to choice streams.
-            if (event.target instanceof HTMLElement)
-                recordSelection(event.target);
+            if (event.target instanceof HTMLElement) {
+                const output = event.target.closest('.output');
+                if (output instanceof HTMLElement) recordSelection(output);
+            }
         }
 
         if (editable) {
