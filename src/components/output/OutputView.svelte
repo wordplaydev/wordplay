@@ -198,7 +198,7 @@
 
     .evaluation {
         background: var(--wordplay-background);
-        border-bottom: var(--wordplay-border-color) solid
+        border-top: var(--wordplay-border-color) solid
             var(--wordplay-border-width);
         padding: var(--wordplay-spacing);
         display: flex;
