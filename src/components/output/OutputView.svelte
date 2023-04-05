@@ -56,16 +56,16 @@
     {#if latest instanceof Exception}
         {#key latest}
             <div class="message exception"
-                ><Speech
-                    glyph={latest.creator.getGlyphs()}
-                    concept={$index?.getNodeConcept(latest.creator)}
-                    invert
-                    >{#each $preferredTranslations as translation}
-                        <DescriptionView
-                            description={latest.getDescription(translation)}
-                        />
-                    {/each}</Speech
-                >
+                >{#if mini}!{:else}<Speech
+                        glyph={latest.creator.getGlyphs()}
+                        concept={$index?.getNodeConcept(latest.creator)}
+                        invert
+                        >{#each $preferredTranslations as translation}
+                            <DescriptionView
+                                description={latest.getDescription(translation)}
+                            />
+                        {/each}</Speech
+                    >{/if}
             </div>
         {/key}
         <!-- If there's no verse -->
@@ -79,19 +79,23 @@
         <!-- If there's a value, but it's not a verse, show that -->
     {:else if verse === undefined}
         <div class="message">
-            <h2
-                >{$preferredTranslations.map((translation) =>
-                    latest === undefined
-                        ? undefined
-                        : latest
-                              .getType(project.getContext(source))
-                              .getDescription(
-                                  translation,
-                                  project.getContext(source)
-                              )
-                )}</h2
-            >
-            <p><ValueView value={latest} /></p>
+            {#if mini}
+                <ValueView value={latest} />
+            {:else}
+                <h2
+                    >{$preferredTranslations.map((translation) =>
+                        latest === undefined
+                            ? undefined
+                            : latest
+                                  .getType(project.getContext(source))
+                                  .getDescription(
+                                      translation,
+                                      project.getContext(source)
+                                  )
+                    )}</h2
+                >
+                <p><ValueView value={latest} /></p>
+            {/if}
         </div>
         <!-- Otherwise, show the Verse -->
     {:else}
@@ -157,6 +161,7 @@
         transform-origin: center;
         flex-grow: 1;
         justify-content: center;
+        align-items: center;
     }
 
     :global(.animated) .editing {
