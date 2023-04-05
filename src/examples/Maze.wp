@@ -47,41 +47,36 @@ down: ( cell: maze.cell(state.row + 1 state.column) cell•ø ? ' ' '↓')
 left: ( cell: maze.cell(state.row state.column - 1) cell•ø ? ' ' '←')
 right: ( cell: maze.cell(state.row state.column + 1) cell•ø ? ' ' '→')
 won: current = '🛑'
+
 Verse(
 	[
 		Group(
 			Row(0m) 
 			[
-				Group(
-					Stack(0m) 
-					[
-						💬(' ')
-						Phrase(left name: 'left' selectable: left.length() > 0)
-						💬(' ')
-						💬(' ')
-					]
-				)				 
+				Phrase(left name: 'left' selectable: left.length() > 0 place: Place(-1m 1m))				 
 				Group(
 					Stack(0m) 
 					[
 						Phrase(up name: 'up' selectable: up.length() > 0)
-						Phrase(current place: 📍(0m 0.0625m 0m))
+						Phrase(current)
 						Phrase(down name: 'down' selectable: down.length() > 0)
-						Phrase(won ? '🤩' state.steps → '' rest: won ? Sequence({ 0%: Pose(tilt: 359°) 100%:🤪(tilt: 0°)} ⏳: 1s style: 'straight') Pose() font: 'Noto Sans')
 					]
 				)
-				Group(
-					Stack(0m) 
-					[
-						💬(' ')
-						Phrase(right name: 'right' selectable: right.length() > 0)
-						💬(' ')
-						💬(' ')
-					]
-				)
+				Phrase(right name: 'right' selectable: right.length() > 0 place: Place(1m 1m))
 			]
-	  )
-	]
+		)
+	Phrase(
+		won ? '🤩' state.steps → '' 
+		rest: won ? 
+			Sequence({ 
+				0%: Pose(tilt: 359°) 
+				100%:🤪(tilt: 0°)
+			} ⏳: 1s style: 'straight') 
+			Pose() 
+		font: 'Noto Sans'
+      	place:Place(0m-3m)
+	)
+]
   place: Place(0m 0m -3m)
 	font: 'Noto Emoji'
   background: Color(0 0 0°)
