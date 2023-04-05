@@ -208,6 +208,8 @@ export default class Stage {
 
         // Return the layout for rendering.
         return {
+            entered,
+            present,
             exiting,
             // We pass back an animation function so that the view can start animating once it's refreshed
             // DOM elements. This way the animation handlers can assume DOM elements are ready for animation.

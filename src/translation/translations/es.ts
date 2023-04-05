@@ -57,6 +57,8 @@ const eng_wordplay: Translation = {
         verse: 'verso',
         type: 'género',
         start: 'comenzar',
+        entered: 'ingresó',
+        changed: 'cambiada',
     },
     caret: {
         before: (description) => `antes de ${description}`,

@@ -220,6 +220,10 @@ type Translation = {
         type: string;
         /** What to call the main source in a project. */
         start: string;
+        /** How to describe output that has entered for the first time */
+        entered: string;
+        /** How to describe output that has changed */
+        changed: string;
     };
     /** A way to say "before [description]" */
     caret: {

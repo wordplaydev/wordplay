@@ -5,7 +5,10 @@
     import type Project from '@models/Project';
     import type Verse from '@output/Verse';
     import { animationsOn } from '@models/stores';
-    import { preferredLanguages } from '@translation/translations';
+    import {
+        preferredLanguages,
+        preferredTranslations,
+    } from '@translation/translations';
     import { loadedFonts } from '@native/Fonts';
     import { PX_PER_METER, toCSS } from '@output/outputToCSS';
     import Place from '@output/Place';
@@ -39,6 +42,7 @@
     import type Evaluator from '@runtime/Evaluator';
     import Selection from '../../input/Choice';
     import { DOMRectCenter, DOMRectDistance } from './utilities';
+    import type TypeOutput from '../../output/TypeOutput';
 
     export let project: Project;
     export let evaluator: Evaluator;
@@ -68,6 +72,45 @@
 
     /** The list of visible phrases */
     let exiting: OutputInfoSet;
+
+    /** The list of entered phrases */
+    let entered: Map<string, TypeOutput> = new Map();
+    let present: Map<string, TypeOutput> = new Map();
+    let previouslyPresent: Map<string, TypeOutput> | undefined = undefined;
+
+    /** A description of phrases that have entered the scene */
+    $: enteredDescription =
+        entered.size > 0
+            ? Array.from(entered.values())
+                  .filter(
+                      (output): output is Phrase => output instanceof Phrase
+                  )
+                  .map((output) => output.getDescription($preferredLanguages))
+                  .join(', ')
+            : '';
+
+    /** A description of non-entering phrases that changed text */
+    let changedDescription = '';
+    $: {
+        const changed: string[] = [];
+        for (const [name, output] of present.entries()) {
+            const previous =
+                previouslyPresent === undefined
+                    ? undefined
+                    : previouslyPresent.get(name);
+            if (!entered.has(name)) {
+                const previousText =
+                    previous?.getDescription($preferredLanguages);
+                const currentText = output.getDescription($preferredLanguages);
+                if (
+                    previousText !== currentText &&
+                    typeof currentText === 'string'
+                )
+                    changed.push(currentText);
+            }
+        }
+        changedDescription = changed.length > 0 ? changed.join(', ') : '';
+    }
 
     /** The verse focus that fits the content to the view*/
     let fitFocus: Place | undefined = undefined;
@@ -121,7 +164,8 @@
             context
         );
 
-        exiting = results.exiting;
+        previouslyPresent = present;
+        ({ exiting, present, entered } = results);
 
         // Defer rendering until we have a view so that animations can be bound to DOM elements.
         tick().then(() => {
@@ -734,6 +778,29 @@
                     />
                 {/if}
             {/each}
+            <!-- Render screen reader live region when in full screen -->
+            {#if fullscreen}
+                <div
+                    role="region"
+                    class="output-changes"
+                    aria-live="polite"
+                    aria-atomic="true"
+                    aria-relevant="all"
+                >
+                    {#if enteredDescription.length > 0}
+                        <p
+                            >{$preferredTranslations[0].terminology.entered}
+                            {enteredDescription}</p
+                        >
+                    {/if}
+                    {#if changedDescription.length > 0}
+                        <p
+                            >{$preferredTranslations[0].terminology.changed}
+                            {changedDescription}</p
+                        >
+                    {/if}
+                </div>
+            {/if}
         </GroupView>
     </div>
 {/if}
@@ -799,5 +866,9 @@
 
     .axis {
         border-color: currentColor;
+    }
+
+    .output-changes {
+        font-size: 0;
     }
 </style>
