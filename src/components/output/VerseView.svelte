@@ -174,7 +174,7 @@
         $loadedFonts,
         $animationsOn
     );
-    $: contentBounds = verse.getBounds(context);
+    $: contentBounds = verse.getLayout(context);
 
     /** When verse or viewport changes, update the autofit focus. */
     $: {

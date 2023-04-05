@@ -24,6 +24,8 @@ import { toPose } from './Pose';
 import { toSequence } from './Sequence';
 import Measurement from '../runtime/Measurement';
 import Text from '../runtime/Text';
+import { GridType, toGrid } from './Grid';
+import None from '../runtime/None';
 
 export function toTypeOutput(
     value: Value | undefined,
@@ -47,13 +49,14 @@ export function toTypeOutput(
 export function toTypeOutputList(
     value: Value | undefined,
     namer?: NameGenerator
-): TypeOutput[] | undefined {
+): (TypeOutput | null)[] | undefined {
     if (value === undefined || !(value instanceof List)) return undefined;
 
-    const phrases: TypeOutput[] = [];
+    const phrases: (TypeOutput | null)[] = [];
     for (const val of value.values) {
-        if (!(val instanceof Structure)) return undefined;
-        const phrase = toTypeOutput(val, namer);
+        if (!(val instanceof Structure || val instanceof None))
+            return undefined;
+        const phrase = val instanceof None ? null : toTypeOutput(val, namer);
         if (phrase === undefined) return undefined;
         phrases.push(phrase);
     }
@@ -67,6 +70,8 @@ export function toArrangement(value: Value | undefined): Layout | undefined {
             return toRow(value);
         case StackType:
             return toStack(value);
+        case GridType:
+            return toGrid(value);
     }
     return undefined;
 }

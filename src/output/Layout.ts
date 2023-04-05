@@ -17,20 +17,22 @@ export default abstract class Layout extends Output {
         super(value);
     }
 
-    /** Compute the width in meters. */
-    abstract getWidth(output: TypeOutput[], context: RenderContext): number;
-
-    /** Compute the height in meters */
-    abstract getHeight(output: TypeOutput[], context: RenderContext): number;
-
     /** Compute positions for all subgroups in the group. */
-    abstract getPlaces(
-        output: TypeOutput[],
+    abstract getLayout(
+        output: (TypeOutput | null)[],
         context: RenderContext
-    ): [TypeOutput, Place][];
+    ): {
+        left: number;
+        top: number;
+        right: number;
+        bottom: number;
+        width: number;
+        height: number;
+        places: [TypeOutput, Place][];
+    };
 
     abstract getDescription(
-        output: TypeOutput[],
+        output: (TypeOutput | null)[],
         languages: LanguageCode[]
     ): string;
 }

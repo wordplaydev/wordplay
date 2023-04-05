@@ -85,10 +85,18 @@ export default abstract class TypeOutput extends Output {
         if (this.font) Fonts.loadFamily(this.font);
     }
 
-    abstract getWidth(context: RenderContext): number;
-    abstract getHeight(context: RenderContext): number;
-    abstract getPlaces(context: RenderContext): [TypeOutput, Place][];
-    abstract getGroups(): TypeOutput[];
+    abstract getLayout(context: RenderContext): {
+        output: TypeOutput;
+        left: number;
+        right: number;
+        top: number;
+        bottom: number;
+        width: number;
+        height: number;
+        places: [TypeOutput, Place][];
+    };
+
+    abstract getOutput(): (TypeOutput | null)[];
     abstract getBackground(): Color | undefined;
     abstract getDescription(lang: LanguageCode[]): Description;
 

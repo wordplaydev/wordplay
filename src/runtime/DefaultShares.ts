@@ -23,12 +23,13 @@ import { CameraDefinition } from '../input/Camera';
 import Root from '../nodes/Root';
 import { Animations } from '../output/Animations';
 import { SelectionDefinition } from '../input/Choice';
+import { GridType } from '../output/Grid';
 
 export const AnimationTypes = [PoseType, SequenceType];
 
 export const GroupTypes = [TypeType, VerseType, GroupType, PhraseType];
 
-export const ArrangementTypes = [ArrangementType, StackType, RowType];
+export const ArrangementTypes = [ArrangementType, StackType, RowType, GridType];
 
 export const AppearanceTypes = [ColorType, PlaceType];
 

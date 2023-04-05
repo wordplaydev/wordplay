@@ -321,7 +321,7 @@ export default class Stage {
         // Get this output's place, so we can offset its subgroups.
         const parentPlace = info?.global;
         // Get the places of each of this group's subgroups.
-        for (const [subgroup, place] of output.getPlaces(context)) {
+        for (const [subgroup, place] of output.getLayout(context).places) {
             // Set the place of this subgroup, offseting it by the parent's position to keep it in global coordinates.
             outputInfo.set(subgroup.getName(), {
                 output: subgroup,

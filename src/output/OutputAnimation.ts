@@ -466,6 +466,8 @@ export default class OutputAnimation {
             // Convert the rest to a transform that respects the rendering rules.
             // All of this logic should mirror what GroupView and PhraseView do.
             if (localPlace && offsetFocus) {
+                const layout = this.output.getLayout(this.context);
+
                 keyframe.transform = toOutputTransform(
                     transition.pose,
                     localPlace,
@@ -477,12 +479,10 @@ export default class OutputAnimation {
                     // we do in GroupView.
                     this.state === State.Exiting || parents[0] instanceof Verse
                         ? 0
-                        : parents[0].getHeight(this.context),
+                        : parents[0].getLayout(this.context).height,
                     {
-                        width:
-                            this.output.getWidth(this.context) * PX_PER_METER,
-                        ascent:
-                            this.output.getHeight(this.context) * PX_PER_METER,
+                        width: layout.width * PX_PER_METER,
+                        ascent: layout.height * PX_PER_METER,
                     }
                 );
             }

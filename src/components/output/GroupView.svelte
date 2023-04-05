@@ -29,13 +29,11 @@
 
     $: empty = group.isEmpty();
 
-    $: width = group.getWidth(context);
-    $: height = group.getHeight(context);
-    $: places = group.getPlaces(context);
+    $: layout = group.getLayout(context);
 
     // Filter out groups that are behind the focus
     // Sort by z to preserve rendering order
-    $: ordered = places.sort(([, a], [, b]) => b.z - a.z);
+    $: ordered = layout.places.sort(([, a], [, b]) => b.z - a.z);
 
     // When rendering the children, we need to convert the focus coordinate we were given
     // into this view's coordinate system so that the perspective rendering is in the right coordinates.
@@ -72,12 +70,15 @@
             ? group.rest
             : group.rest.getFirstPose() ?? new Pose(group.value),
         place,
-        width,
-        height,
+        layout.width,
+        layout.height,
         focus,
         root,
         parentAscent,
-        { width: width * PX_PER_METER, ascent: height * PX_PER_METER }
+        {
+            width: layout.width * PX_PER_METER,
+            ascent: layout.height * PX_PER_METER,
+        }
     )}
 >
     <slot />
@@ -88,7 +89,7 @@
                 place={childPlace}
                 focus={offsetFocus}
                 {interactive}
-                parentAscent={root ? 0 : height}
+                parentAscent={root ? 0 : layout.height}
                 {context}
                 {editing}
             />
@@ -97,7 +98,7 @@
                 group={child}
                 place={childPlace}
                 focus={offsetFocus}
-                parentAscent={root ? 0 : height}
+                parentAscent={root ? 0 : layout.height}
                 {interactive}
                 {context}
                 {editing}

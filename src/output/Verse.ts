@@ -32,12 +32,12 @@ export const VerseType = toStructure(`
 `);
 
 export default class Verse extends TypeOutput {
-    readonly content: TypeOutput[];
+    readonly content: (TypeOutput | null)[];
     readonly background: Color;
 
     constructor(
         value: Value,
-        content: TypeOutput[],
+        content: (TypeOutput | null)[],
         background: Color,
         size: number,
         font: string,
@@ -72,63 +72,52 @@ export default class Verse extends TypeOutput {
         this.background = background;
     }
 
-    getBounds(context: RenderContext) {
-        const places = this.getPlaces(context);
-        const left = Math.min.apply(
-            Math,
-            places.map(([, place]) => place.x)
-        );
-        const right = Math.max.apply(
-            Math,
-            places.map(([group, place]) => place.x + group.getWidth(context))
-        );
-        const bottom = Math.min.apply(
-            Math,
-            places.map(([, place]) => place.y)
-        );
-        const top = Math.max.apply(
-            Math,
-            places.map(([group, place]) => place.y + group.getHeight(context))
-        );
-        return {
-            left: Math.min(left, right),
-            right: Math.max(left, right),
-            top: Math.max(bottom, top),
-            bottom: Math.min(bottom, bottom),
-            width: Math.abs(right - left),
-            height: Math.abs(top - bottom),
-        };
-    }
-
-    /** A verse's width is the difference between it's left and right extents. */
-    getWidth(context: RenderContext): number {
-        return this.getBounds(context).width;
-    }
-
-    /** A verse's height is the difference between it's highest and lowest extents. */
-    getHeight(context: RenderContext): number {
-        return this.getBounds(context).height;
-    }
-
-    getGroups(): TypeOutput[] {
+    getOutput() {
         return this.content;
     }
 
-    getPlaces(context: RenderContext): [TypeOutput, Place][] {
-        return this.content.map((child) => [
-            child,
-            child instanceof Phrase && child.place
-                ? child.place
-                : new Place(
-                      this.value,
-                      // Place everything in the center
-                      -child.getWidth(context) / 2,
-                      // We would normally not t negate the y because its in math coordinates, but we want to move it
-                      // down the y-axis by half, so we subtract.
-                      -child.getHeight(context) / 2,
-                      0
-                  ),
-        ]);
+    getLayout(context: RenderContext) {
+        const places: [TypeOutput, Place][] = [];
+        let left = 0,
+            right = 0,
+            bottom = 0,
+            top = 0;
+        for (const child of this.content) {
+            if (child) {
+                const layout = child.getLayout(context);
+                const place =
+                    child instanceof Phrase && child.place
+                        ? child.place
+                        : new Place(
+                              this.value,
+                              // Place everything in the center
+                              -layout.width / 2,
+                              // We would normally not t negate the y because its in math coordinates, but we want to move it
+                              // down the y-axis by half, so we subtract.
+                              -layout.height / 2,
+                              0
+                          );
+                places.push([child, place]);
+
+                if (place.x < left) left = place.x;
+                if (place.x + layout.width > right)
+                    right = place.x + layout.width;
+                if (place.y < bottom) bottom = place.y;
+                if (place.y + layout.height > top)
+                    top = place.y + layout.height;
+            }
+        }
+
+        return {
+            output: this,
+            left,
+            right,
+            top,
+            bottom,
+            width: right - left,
+            height: top - bottom,
+            places,
+        };
     }
 
     getBackground(): Color | undefined {
@@ -144,7 +133,7 @@ export default class Verse extends TypeOutput {
     }
 
     isEmpty() {
-        return this.content.every((c) => c.isEmpty());
+        return this.content.every((c) => c === null || c.isEmpty());
     }
 }
 

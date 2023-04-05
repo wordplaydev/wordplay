@@ -1105,6 +1105,13 @@ type Translation = {
             ) => string;
             padding: NameAndDocTranslation;
         };
+        grid: {
+            definition: NameAndDocTranslation;
+            description: (rows: number, columns: number) => string;
+            rows: NameAndDocTranslation;
+            columns: NameAndDocTranslation;
+            padding: NameAndDocTranslation;
+        };
         easing: {
             // CSS linear
             straight: NameTranslation;
@@ -1119,6 +1126,7 @@ type Translation = {
     animation: {
         sway: NameAndDocTranslation & { angle: NameAndDocTranslation };
         bounce: NameAndDocTranslation & { height: NameAndDocTranslation };
+        spin: NameAndDocTranslation;
     };
 };
 export default Translation;

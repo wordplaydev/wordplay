@@ -26,59 +26,73 @@ export class Stack extends Layout {
         this.padding = padding.toNumber();
     }
 
-    // Width is the max width
-    getWidth(output: TypeOutput[], context: RenderContext): number {
-        return output.reduce(
-            (max, group) => Math.max(max, group.getWidth(context)),
+    getLayout(children: (TypeOutput | null)[], context: RenderContext) {
+        // Get the layouts of the children
+        const layouts = children.map((child) =>
+            child ? child.getLayout(context) : null
+        );
+
+        // The width is the maximum child width
+        const width = layouts.reduce(
+            (max, layout) => Math.max(max, layout ? layout.width : 0),
             0
         );
-    }
 
-    // Height is the sum of heights plus padding
-    getHeight(output: TypeOutput[], context: RenderContext): number {
-        return (
-            output.reduce(
-                (height, group) => height + group.getHeight(context),
+        // The height is the sum of all of the child heights plus padding between them
+        const height =
+            layouts.reduce(
+                (height, layout) => height + (layout ? layout.height : 0),
                 0
             ) +
-            this.padding * (output.length - 1)
-        );
-    }
-
-    getPlaces(
-        children: TypeOutput[],
-        context: RenderContext
-    ): [TypeOutput, Place][] {
-        // Get the width of the container so we can center each phrase.
-        const width = this.getWidth(children, context);
+            this.padding * (layouts.length - 1);
 
         // Start at the top and work our way down.
-        let y = this.getHeight(children, context);
+        let y = height;
 
-        const positions: [TypeOutput, Place][] = [];
-        for (const child of children) {
-            // Subtract the child's height to y to get it to its baseline.
-            y = y - child.getHeight(context);
-            positions.push([
-                child,
-                new Place(
+        const places: [TypeOutput, Place][] = [];
+        let left = 0,
+            bottom = 0,
+            right = 0,
+            top = 0;
+        for (const child of layouts) {
+            if (child) {
+                // Subtract the child's height to y to get it to its baseline.
+                y = y - child.height;
+                const place = new Place(
                     this.value,
                     // Place the x in the center of the stack, or if it has a place, use that
-                    child.place && child.place.x !== undefined
-                        ? child.place.x
-                        : (width - child.getWidth(context)) / 2,
+                    child.output.place && child.output.place.x !== undefined
+                        ? child.output.place.x
+                        : (width - child.width) / 2,
                     y,
                     // If the phrase has a place, use it's z, otherwise default to the 0 plane.
-                    child.place && child.place.z !== undefined
-                        ? child.place.z
+                    child.output.place && child.output.place.z !== undefined
+                        ? child.output.place.z
                         : 0
-                ),
-            ]);
-            // Subtract the padding.
-            y = y - this.padding;
+                );
+                places.push([child.output, place]);
+
+                // Subtract the padding.
+                y = y - this.padding;
+
+                // Update bounds.
+                if (place.x < left) left = place.x;
+                if (place.y < bottom) bottom = place.y;
+                if (place.x + child.width > right)
+                    right = place.x + child.width;
+                if (place.y + child.height > top) top = place.y + child.height;
+            }
         }
 
-        return positions;
+        return {
+            left,
+            top: bottom,
+            right,
+            bottom,
+            width,
+            height,
+            places,
+        };
     }
 
     getBackground(): Color | undefined {

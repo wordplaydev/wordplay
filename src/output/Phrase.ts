@@ -134,20 +134,22 @@ export default class Phrase extends TypeOutput {
         return dimensions;
     }
 
-    getWidth(context: RenderContext): number {
-        // Metrics is in pixels; convert to meters.
-        return this.getMetrics(context).width / PX_PER_METER;
-    }
-
-    getHeight(context: RenderContext): number {
-        return this.getMetrics(context).ascent / PX_PER_METER;
-    }
-
-    getGroups(): TypeOutput[] {
+    getOutput(): TypeOutput[] {
         return [];
     }
-    getPlaces(): [TypeOutput, Place][] {
-        return [];
+
+    getLayout(context: RenderContext) {
+        const metrics = this.getMetrics(context);
+        return {
+            output: this,
+            left: 0,
+            right: 0,
+            top: 0,
+            bottom: 0,
+            width: metrics.width / PX_PER_METER,
+            height: metrics.ascent / PX_PER_METER,
+            places: [],
+        };
     }
 
     getBackground(): Color | undefined {

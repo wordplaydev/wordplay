@@ -27,56 +27,67 @@ export class Row extends Layout {
         this.padding = padding.toNumber();
     }
 
-    // Width is the sum of widths plus padding
-    getWidth(output: TypeOutput[], context: RenderContext): number {
-        return (
-            output.reduce(
-                (height, group) => height + group.getWidth(context),
+    getLayout(children: (TypeOutput | null)[], context: RenderContext) {
+        // Layout the children.
+        const layouts = children.map((child) =>
+            child === null ? null : child.getLayout(context)
+        );
+
+        // Width is the some of the child widths plus padding between
+        const width =
+            layouts.reduce(
+                (width, layout) => width + (layout === null ? 0 : layout.width),
                 0
             ) +
-            this.padding * (output.length - 1)
-        );
-    }
-
-    // Height is the max height
-    getHeight(output: TypeOutput[], context: RenderContext): number {
-        return output.reduce(
-            (max, group) => Math.max(max, group.getHeight(context)),
-            0
-        );
-    }
-
-    getPlaces(
-        children: TypeOutput[],
-        context: RenderContext
-    ): [TypeOutput, Place][] {
-        let position = 0;
+            this.padding * (layouts.length - 1);
 
         // Get the height of the container so we can center each phrase vertically.
-        let height = this.getHeight(children, context);
+        const height = layouts.reduce(
+            (max, layout) => Math.max(max, layout === null ? 0 : layout.height),
+            0
+        );
 
+        let x = 0;
+        let left = 0,
+            top = 0,
+            right = 0,
+            bottom = 0;
         const positions: [TypeOutput, Place][] = [];
-        for (const child of children) {
-            positions.push([
-                child,
-                new Place(
+        for (const child of layouts) {
+            if (child) {
+                const place = new Place(
                     this.value,
-                    position,
+                    x,
 
-                    child.place && child.place.y !== undefined
-                        ? child.place.y
-                        : (height - child.getHeight(context)) / 2,
+                    child.output.place && child.output.place.y !== undefined
+                        ? child.output.place.y
+                        : (height - child.height) / 2,
                     // If the phrase a place, use it's z, otherwise default to the 0 plane.
-                    child.place && child.place.z !== undefined
-                        ? child.place.z
+                    child.output.place && child.output.place.z !== undefined
+                        ? child.output.place.z
                         : 0
-                ),
-            ]);
-            position = position + child.getWidth(context);
-            position = position + this.padding;
+                );
+                positions.push([child.output, place]);
+                x = x + child.width;
+                x = x + this.padding;
+
+                if (place.x < left) left = place.x;
+                if (place.y < bottom) bottom = place.y;
+                if (place.x + child.width > right)
+                    right = place.x + child.width;
+                if (place.y + child.height > top) top = place.y + child.height;
+            }
         }
 
-        return positions;
+        return {
+            left,
+            right,
+            top,
+            bottom,
+            width,
+            height,
+            places: positions,
+        };
     }
 
     getBackground(): Color | undefined {

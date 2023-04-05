@@ -2497,6 +2497,14 @@ const en: Translation = {
                 }`,
             padding: { doc: WRITE_DOC, name: 'padding' },
         },
+        grid: {
+            definition: { doc: WRITE_DOC, name: ['▦', 'Grid'] },
+            description: (rows: number, columns: number) =>
+                `${rows} row ${columns} column grid`,
+            rows: { doc: WRITE_DOC, name: 'rows' },
+            columns: { doc: WRITE_DOC, name: 'columns' },
+            padding: { doc: WRITE_DOC, name: 'padding' },
+        },
         verse: {
             definition: { doc: WRITE_DOC, name: ['🌎', '🌍', '🌏', 'Verse'] },
             description: (count, phrases, groups) =>
@@ -2527,6 +2535,10 @@ const en: Translation = {
             doc: WRITE_DOC,
             name: ['bounce'],
             height: { doc: WRITE_DOC, name: ['height'] },
+        },
+        spin: {
+            doc: WRITE_DOC,
+            name: ['spin'],
         },
     },
 };

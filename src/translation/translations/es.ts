@@ -2145,6 +2145,14 @@ const eng_wordplay: Translation = {
             description: () => WRITE_DOC,
             padding: { doc: WRITE_DOC, name: 'relleno' },
         },
+        grid: {
+            definition: { doc: WRITE_DOC, name: 'cuadrícula' },
+            description: (rows: number, columns: number) =>
+                `cuadrícula de ${rows} fila, ${columns} columnas${rows}`,
+            rows: { doc: WRITE_DOC, name: 'fila' },
+            columns: { doc: WRITE_DOC, name: 'columnas' },
+            padding: { doc: WRITE_DOC, name: 'relleno' },
+        },
         easing: {
             straight: 'lineal',
             cautious: 'precavida',
@@ -2162,6 +2170,10 @@ const eng_wordplay: Translation = {
             doc: WRITE_DOC,
             name: ['rebotar'],
             height: { doc: WRITE_DOC, name: ['altura'] },
+        },
+        spin: {
+            doc: WRITE_DOC,
+            name: ['girar'],
         },
     },
 };

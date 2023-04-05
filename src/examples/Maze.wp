@@ -42,37 +42,29 @@ state•State:  ∆ direction ? State(1 1 0) …
 						state
 
 current: ( cell: maze.cell(state.row state.column) cell•ø ? ' ' cell)
-up: ( cell: maze.cell(state.row - 1 state.column) cell•ø ? ' ' '↑')
-down: ( cell: maze.cell(state.row + 1 state.column) cell•ø ? ' ' '↓')
-left: ( cell: maze.cell(state.row state.column - 1) cell•ø ? ' ' '←')
-right: ( cell: maze.cell(state.row state.column + 1) cell•ø ? ' ' '→')
+up: maze.cell(state.row - 1 state.column)•''
+down: maze.cell(state.row + 1 state.column)•''
+left: maze.cell(state.row state.column - 1)•''
+right: maze.cell(state.row state.column + 1)•''
 won: current = '🤩'
 
 Verse(
 	[
 		Group(
-			Row(0m) 
+			Grid(3 3 0.25m)
 			[
-				Phrase(left name: 'left' selectable: left.length() > 0 place: Place(-1m 1m))				 
-				Group(
-					Stack(0m) 
-					[
-						Phrase(up name: 'up' selectable: up.length() > 0)
-						Phrase(current rest: won ? 
-Sequence({ 
-0%: Pose(tilt: 359°) 
-100%:🤪(tilt: 0°)
-} ⏳: 1s style: 'straight') 
-Pose())
-						Phrase(down name: 'down' selectable: down.length() > 0)
-					]
-				)
-				Phrase(right name: 'right' selectable: right.length() > 0 place: Place(1m 1m))
+				ø Phrase('↑' name: 'up' selectable: up rest: Pose(opacity: up ? 1 0.2)) ø
+				Phrase('←' name: 'left' selectable: left rest: Pose(opacity: left ? 1 0.2))
+				Phrase(current rest: won ? 
+									Sequence(spin() ⏳: 1s style: 'straight') 
+									Pose())
+				Phrase('→' name: 'right' selectable: right rest: Pose(opacity: right ? 1 0.2))
+				ø Phrase('↓' name: 'down' selectable: down rest: Pose(opacity: down ? 1 0.2)) ø
 			]
 	  )
 	]
-  place: Place(0m 0m -3m)
+  	place: Place(0m 0m -3m)
 	font: 'Noto Emoji'
-  background: Color(0 0 0°)
+  	background: Color(0 0 0°)
 	rest: Pose(Color(100 100 0°))
 )

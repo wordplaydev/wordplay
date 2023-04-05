@@ -17,18 +17,18 @@ import type { NameGenerator } from './Verse';
 export const GroupType = toStructure(`
     ${getBind((t) => t.output.group.definition, TYPE_SYMBOL)} Type(
         ${getBind((t) => t.output.group.layout)}•Arrangement
-        ${getBind((t) => t.output.group.content)}•[Type]
+        ${getBind((t) => t.output.group.content)}•[Type|ø]
         ${TypeOutputInputs}
     )`);
 
 export default class Group extends TypeOutput {
-    readonly content: TypeOutput[];
+    readonly content: (TypeOutput | null)[];
     readonly layout: Layout;
 
     constructor(
         value: Value,
         layout: Layout,
-        content: TypeOutput[],
+        content: (TypeOutput | null)[],
         size: number | undefined = undefined,
         font: string | undefined = undefined,
         place: Place | undefined = undefined,
@@ -62,19 +62,21 @@ export default class Group extends TypeOutput {
         this.layout = layout;
     }
 
-    getWidth(context: RenderContext): number {
-        return this.layout.getWidth(this.content, context);
+    getLayout(context: RenderContext) {
+        const layout = this.layout.getLayout(this.content, context);
+        return {
+            output: this,
+            left: layout.left,
+            top: layout.top,
+            right: layout.right,
+            bottom: layout.bottom,
+            width: layout.width,
+            height: layout.height,
+            places: layout.places,
+        };
     }
 
-    getHeight(context: RenderContext): number {
-        return this.layout.getHeight(this.content, context);
-    }
-
-    getPlaces(context: RenderContext): [TypeOutput, Place][] {
-        return this.layout.getPlaces(this.content, context);
-    }
-
-    getGroups(): TypeOutput[] {
+    getOutput() {
         return this.content;
     }
 
@@ -87,7 +89,7 @@ export default class Group extends TypeOutput {
     }
 
     isEmpty() {
-        return this.content.every((c) => c.isEmpty());
+        return this.content.every((c) => c === null || c.isEmpty());
     }
 }
 

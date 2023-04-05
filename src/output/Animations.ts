@@ -52,4 +52,16 @@ export const Animations = [
 			}`)
         )
     ),
+    FunctionDefinition.make(
+        getDocTranslations((t) => t.animation.spin.doc),
+        getNameTranslations((t) => t.animation.spin.name),
+        undefined,
+        [],
+        parseExpression(
+            toTokens(`{ 
+				  	0%: Pose(tilt: 360°)
+				  	100%: Pose(tilt: 0°)
+			}`)
+        )
+    ),
 ];
