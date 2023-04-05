@@ -94,19 +94,22 @@
     $: {
         const changed: string[] = [];
         for (const [name, output] of present.entries()) {
-            const previous =
-                previouslyPresent === undefined
-                    ? undefined
-                    : previouslyPresent.get(name);
-            if (!entered.has(name)) {
-                const previousText =
-                    previous?.getDescription($preferredLanguages);
-                const currentText = output.getDescription($preferredLanguages);
-                if (
-                    previousText !== currentText &&
-                    typeof currentText === 'string'
-                )
-                    changed.push(currentText);
+            if (output instanceof Phrase) {
+                const previous =
+                    previouslyPresent === undefined
+                        ? undefined
+                        : previouslyPresent.get(name);
+                if (!entered.has(name)) {
+                    const previousText =
+                        previous?.getDescription($preferredLanguages);
+                    const currentText =
+                        output.getDescription($preferredLanguages);
+                    if (
+                        previousText !== currentText &&
+                        typeof currentText === 'string'
+                    )
+                        changed.push(currentText);
+                }
             }
         }
         changedDescription = changed.length > 0 ? changed.join(', ') : '';

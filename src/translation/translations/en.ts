@@ -58,7 +58,7 @@ const en: Translation = {
         verse: 'verse',
         type: 'type',
         start: 'start',
-        entered: 'entered',
+        entered: 'new',
         changed: 'changed',
     },
     caret: {
