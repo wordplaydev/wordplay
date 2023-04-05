@@ -169,6 +169,7 @@
         ? `resize-${resizeDirection}`
         : ''} {arrangement} {tile.id}"
     class:fullscreen
+    class:focus
     class:dragging
     data-id={tile.id}
     style:background
@@ -240,6 +241,7 @@
         display: flex;
         flex-direction: column-reverse;
         align-items: flex-start;
+        padding: var(--wordplay-focus-width);
     }
 
     :global(.animated) .tile {
@@ -322,16 +324,9 @@
         height: 100%;
     }
 
-    .tile:focus-within:after {
-        width: 100%;
-        height: 100%;
-        content: '';
+    .tile:focus-within {
         outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
         outline-offset: calc(-1 * var(--wordplay-focus-width));
-        position: absolute;
-        top: 0;
-        left: 0;
-        pointer-events: none;
     }
 
     .fullscreen {
