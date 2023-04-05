@@ -37,7 +37,10 @@
     let keyboardIdle = getKeyboardIdle();
 
     $: verse = latest === undefined ? undefined : toVerse(latest);
-    $: background = verse?.background.toCSS() ?? null;
+    $: background =
+        latest instanceof Exception
+            ? 'var(--wordplay-error)'
+            : verse?.background.toCSS() ?? null;
 </script>
 
 <section
@@ -49,69 +52,60 @@
     style:writing-mode={$writingLayout}
 >
     <!-- Render the verse, or whatever value we get -->
-    <div class="value">
-        <!-- If there's an exception, show that. -->
-        {#if latest instanceof Exception}
-            {#key latest}
-                <div class="fill exception"
-                    ><div class="message"
-                        ><Speech
-                            glyph={latest.creator.getGlyphs()}
-                            concept={$index?.getNodeConcept(latest.creator)}
-                            invert
-                            >{#each $preferredTranslations as translation}
-                                <DescriptionView
-                                    description={latest.getDescription(
-                                        translation
-                                    )}
-                                />
-                            {/each}</Speech
-                        >
-                    </div></div
+    <!-- If there's an exception, show that. -->
+    {#if latest instanceof Exception}
+        {#key latest}
+            <div class="message exception"
+                ><Speech
+                    glyph={latest.creator.getGlyphs()}
+                    concept={$index?.getNodeConcept(latest.creator)}
+                    invert
+                    >{#each $preferredTranslations as translation}
+                        <DescriptionView
+                            description={latest.getDescription(translation)}
+                        />
+                    {/each}</Speech
                 >
-            {/key}
-            <!-- If there's no verse -->
-        {:else if latest === undefined}
-            <!-- If it's because the keyboard isn't idle, show the typing feedback.-->
-            {#if $evaluation?.playing === true && !$keyboardIdle}
-                <div class="fill editing"><div class="message">⌨️</div></div>
-            {:else}
-                <div class="fill evaluating"><div class="message">◆</div></div>
-            {/if}
-            <!-- If there's a value, but it's not a verse, show that -->
-        {:else if verse === undefined}
-            <div class="fill value">
-                <div class="message">
-                    <h2
-                        >{$preferredTranslations.map((translation) =>
-                            latest === undefined
-                                ? undefined
-                                : latest
-                                      .getType(project.getContext(source))
-                                      .getDescription(
-                                          translation,
-                                          project.getContext(source)
-                                      )
-                        )}</h2
-                    >
-                    <p><ValueView value={latest} /></p>
-                </div>
             </div>
-            <!-- Otherwise, show the Verse -->
+        {/key}
+        <!-- If there's no verse -->
+    {:else if latest === undefined}
+        <!-- If it's because the keyboard isn't idle, show the typing feedback.-->
+        {#if $evaluation?.playing === true && !$keyboardIdle}
+            <div class="message editing">⌨️</div>
         {:else}
-            <VerseView
-                {project}
-                {evaluator}
-                {verse}
-                {fullscreen}
-                bind:fit
-                bind:grid
-                interactive={mode !== 'mini' && source === project.main}
-                editable={mode === 'peripheral' &&
-                    $evaluation?.playing === false}
-            />
+            <div class="message evaluating">◆</div>
         {/if}
-    </div>
+        <!-- If there's a value, but it's not a verse, show that -->
+    {:else if verse === undefined}
+        <div class="message">
+            <h2
+                >{$preferredTranslations.map((translation) =>
+                    latest === undefined
+                        ? undefined
+                        : latest
+                              .getType(project.getContext(source))
+                              .getDescription(
+                                  translation,
+                                  project.getContext(source)
+                              )
+                )}</h2
+            >
+            <p><ValueView value={latest} /></p>
+        </div>
+        <!-- Otherwise, show the Verse -->
+    {:else}
+        <VerseView
+            {project}
+            {evaluator}
+            {verse}
+            {fullscreen}
+            bind:fit
+            bind:grid
+            interactive={mode !== 'mini' && source === project.main}
+            editable={mode === 'peripheral' && $evaluation?.playing === false}
+        />
+    {/if}
     {#if !fullscreen && mode === 'peripheral'}
         <section
             class="evaluation"
@@ -144,16 +138,6 @@
         transition-duration: 200ms;
     }
 
-    .value {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex: 1;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-    }
-
     .mini {
         position: static;
         box-shadow: none;
@@ -161,15 +145,9 @@
         pointer-events: none;
     }
 
-    .fill {
-        width: 100%;
-        height: 100%;
+    .message {
         display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .fill .message {
+        flex-direction: column;
         width: 100%;
         height: auto;
         padding: var(--wordplay-spacing);
@@ -177,9 +155,11 @@
         line-height: 100%;
         font-size: 48pt;
         transform-origin: center;
+        flex-grow: 1;
+        justify-content: center;
     }
 
-    :global(.animated) .editing .message {
+    :global(.animated) .editing {
         animation: jiggle ease-out infinite;
         animation-duration: 0.2s;
     }
