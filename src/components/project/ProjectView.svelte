@@ -583,6 +583,10 @@
             : undefined;
         const tileView = focusedTileView ?? firstTileView;
 
+        // The output view handles its own focus management, so if we're focusing on it,
+        // and it's still in view, don't mess with it.
+        if (focusedTileID === OutputID && focusedTileView !== undefined) return;
+
         let viewToFocus: HTMLElement | undefined = undefined;
         if (tileView) {
             const defaultFocus = tileView.querySelectorAll(
