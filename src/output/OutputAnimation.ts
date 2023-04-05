@@ -473,7 +473,6 @@ export default class OutputAnimation {
                     localPlace,
                     transition.rotation,
                     offsetFocus,
-                    false,
                     // Anything rooted in the verse has no height.
                     // Otherwise, pass the height of the parent, just like
                     // we do in GroupView.

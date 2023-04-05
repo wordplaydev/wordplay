@@ -7,7 +7,7 @@
     import { animationsOn } from '@models/stores';
     import { preferredLanguages } from '@translation/translations';
     import { loadedFonts } from '@native/Fonts';
-    import { centerTransform, PX_PER_METER, toCSS } from '@output/outputToCSS';
+    import { PX_PER_METER, toCSS } from '@output/outputToCSS';
     import Place from '@output/Place';
     import Evaluate from '@nodes/Evaluate';
     import { DefaultFont, DefaultSize, VerseType } from '@output/Verse';
@@ -631,6 +631,7 @@
             : 'inert'} {project.main.names.getNames()[0]}"
         class:ignored
         class:interactive
+        class:changed
         class:selected={verse.value.creator instanceof Evaluate &&
             $selectedOutput &&
             $selectedOutput.includes(verse.value.creator)}
@@ -657,94 +658,83 @@
         on:wheel={interactive ? handleWheel : null}
         bind:this={view}
     >
-        <div
-            class="viewport"
-            class:changed
-            style:transform={centerTransform(viewportWidth, viewportHeight)}
+        <!-- Render the verse -->
+        <GroupView
+            group={verse}
+            place={center}
+            focus={renderedFocus}
+            viewport={{ width: viewportWidth, height: viewportHeight }}
+            parentAscent={0}
+            {context}
+            {interactive}
+            {editing}
         >
-            <!-- Render the verse -->
-            <GroupView
-                group={verse}
-                place={center}
-                focus={renderedFocus}
-                root
-                parentAscent={0}
-                {context}
-                {interactive}
-                {editing}
-            >
-                {#if grid}
-                    {@const left = Math.min(
-                        0,
-                        Math.floor(contentBounds.left - GRID_PADDING)
-                    )}
-                    {@const right = Math.max(
-                        0,
-                        contentBounds.right + GRID_PADDING
-                    )}
-                    {@const bottom = Math.min(
-                        0,
-                        Math.floor(contentBounds.bottom - GRID_PADDING)
-                    )}
-                    {@const top = Math.max(0, contentBounds.top + GRID_PADDING)}
-                    <!-- Render a grid if this is the root and the grid is on. Apply the same transform that we do the the verse. -->
-                    {#each range(left, right) as number}
-                        <div
-                            class="gridline vertical"
-                            style:left="{number * PX_PER_METER}px"
-                            style:top="{-top * PX_PER_METER}px"
-                            style:height="{Math.abs(top - bottom) *
-                                PX_PER_METER}px"
-                        />
-                    {/each}
-                    {#each range(bottom, top) as number}
-                        <div
-                            class="gridline horizontal"
-                            style:top="{-number * PX_PER_METER}px"
-                            style:left="{left * PX_PER_METER}px"
-                            style:width="{Math.abs(left - right) *
-                                PX_PER_METER}px"
-                        />
-                    {/each}
+            {#if grid}
+                {@const left = Math.min(
+                    0,
+                    Math.floor(contentBounds.left - GRID_PADDING)
+                )}
+                {@const right = Math.max(0, contentBounds.right + GRID_PADDING)}
+                {@const bottom = Math.min(
+                    0,
+                    Math.floor(contentBounds.bottom - GRID_PADDING)
+                )}
+                {@const top = Math.max(0, contentBounds.top + GRID_PADDING)}
+                <!-- Render a grid if this is the root and the grid is on. Apply the same transform that we do the the verse. -->
+                {#each range(left, right) as number}
                     <div
-                        class="gridline horizontal axis"
-                        style:top="0px"
-                        style:left="{left * PX_PER_METER}px"
-                        style:width="{Math.abs(left - right) * PX_PER_METER}px"
-                    />
-                    <div
-                        class="gridline vertical axis"
-                        style:left="0px"
+                        class="gridline vertical"
+                        style:left="{number * PX_PER_METER}px"
                         style:top="{-top * PX_PER_METER}px"
                         style:height="{Math.abs(top - bottom) * PX_PER_METER}px"
                     />
-                {/if}
-                <!-- Render exiting nodes -->
-                {#each Array.from(exiting.entries()) as [name, info] (name)}
-                    {#if info.output instanceof Phrase}
-                        <PhraseView
-                            phrase={info.output}
-                            place={info.global}
-                            focus={offsetFocus}
-                            {interactive}
-                            parentAscent={0}
-                            {context}
-                            {editing}
-                        />
-                    {:else if info.output instanceof Group}
-                        <GroupView
-                            group={info.output}
-                            place={info.global}
-                            focus={offsetFocus}
-                            parentAscent={0}
-                            {interactive}
-                            {context}
-                            {editing}
-                        />
-                    {/if}
                 {/each}
-            </GroupView>
-        </div>
+                {#each range(bottom, top) as number}
+                    <div
+                        class="gridline horizontal"
+                        style:top="{-number * PX_PER_METER}px"
+                        style:left="{left * PX_PER_METER}px"
+                        style:width="{Math.abs(left - right) * PX_PER_METER}px"
+                    />
+                {/each}
+                <div
+                    class="gridline horizontal axis"
+                    style:top="0px"
+                    style:left="{left * PX_PER_METER}px"
+                    style:width="{Math.abs(left - right) * PX_PER_METER}px"
+                />
+                <div
+                    class="gridline vertical axis"
+                    style:left="0px"
+                    style:top="{-top * PX_PER_METER}px"
+                    style:height="{Math.abs(top - bottom) * PX_PER_METER}px"
+                />
+            {/if}
+            <!-- Render exiting nodes -->
+            {#each Array.from(exiting.entries()) as [name, info] (name)}
+                {#if info.output instanceof Phrase}
+                    <PhraseView
+                        phrase={info.output}
+                        place={info.global}
+                        focus={offsetFocus}
+                        {interactive}
+                        parentAscent={0}
+                        {context}
+                        {editing}
+                    />
+                {:else if info.output instanceof Group}
+                    <GroupView
+                        group={info.output}
+                        place={info.global}
+                        focus={offsetFocus}
+                        parentAscent={0}
+                        {interactive}
+                        {context}
+                        {editing}
+                    />
+                {/if}
+            {/each}
+        </GroupView>
     </div>
 {/if}
 
@@ -769,17 +759,12 @@
         outline-offset: calc(-3 * var(--wordplay-focus-width));
     }
 
-    .viewport {
-        width: 100%;
-        height: 100%;
-    }
-
-    :global(.animated) .viewport {
+    :global(.animated) .verse {
         transition: transform ease-out;
         transition-duration: 200ms;
     }
 
-    .viewport.changed {
+    .verse.changed {
         transition: none;
     }
 

@@ -60,9 +60,9 @@ export default function outputToCSS(
     width: number | undefined,
     height: number | undefined,
     focus: Place,
-    root: boolean,
     parentAscent: number,
-    metrics: { width: number; ascent: number }
+    metrics: { width: number; ascent: number },
+    viewport: { width: number; height: number } | undefined = undefined
 ) {
     return toCSS({
         // left: sizeToPx(place.x.toNumber()),
@@ -74,9 +74,9 @@ export default function outputToCSS(
             place,
             rotation,
             focus,
-            root,
             parentAscent,
-            metrics
+            metrics,
+            viewport
         ),
         // This disables translation around the center; we want to translate around the focus.
         'transform-origin': '0 0',
@@ -93,10 +93,12 @@ export function toOutputTransform(
     place: Place,
     rotation: number | undefined,
     focus: Place,
-    root: boolean,
     parentAscent: number,
-    metrics: { width: number; ascent: number }
+    metrics: { width: number; ascent: number },
+    viewport: { width: number; height: number } | undefined = undefined
 ) {
+    const root = viewport !== undefined;
+
     // Compute rendered scale based on scale and and flip
     let xScale = 1;
     let yScale = 1;
@@ -157,7 +159,9 @@ export function toOutputTransform(
 
         // If the root, we don't undo the focus translation, because this is where we want it.
         // Otherwise we undo it, since we've already done it for the root.
-        root ? '' : translateXY(-focusX, -focusY),
+        viewport
+            ? translateXY(viewport.width / 2, viewport.height / 2)
+            : translateXY(-focusX, -focusY),
         // Scale around the focus
         scaleXY(perspectiveScale, perspectiveScale),
         // Translate to the focus

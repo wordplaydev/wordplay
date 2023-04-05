@@ -16,11 +16,14 @@
     export let group: Group | Verse;
     export let place: Place;
     export let focus: Place;
-    export let root: boolean = false;
+    export let viewport: { width: number; height: number } | undefined =
+        undefined;
     export let interactive: boolean;
     export let parentAscent: number;
     export let context: RenderContext;
     export let editing: boolean;
+
+    $: root = viewport !== undefined;
 
     let selectedOutput = getSelectedOutput();
 
@@ -73,12 +76,12 @@
         layout.width,
         layout.height,
         focus,
-        root,
         parentAscent,
         {
             width: layout.width * PX_PER_METER,
             ascent: layout.height * PX_PER_METER,
-        }
+        },
+        viewport
     )}
 >
     <slot />

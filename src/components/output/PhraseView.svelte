@@ -26,7 +26,6 @@
     export let phrase: Phrase;
     export let place: Place;
     export let focus: Place;
-    export let root: boolean = false;
     export let interactive: boolean;
     export let parentAscent: number;
     export let context: RenderContext;
@@ -179,7 +178,6 @@
             undefined,
             undefined,
             focus,
-            root,
             parentAscent,
             phrase.getMetrics(context)
         )}
