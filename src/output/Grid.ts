@@ -99,7 +99,7 @@ export class Grid extends Layout {
                     const cellTop =
                         height -
                         (rowHeights
-                            .slice(0, row)
+                            .slice(0, row + 1)
                             .reduce((sum, height) => sum + height, 0) +
                             row * this.padding);
                     const rowHeight = rowHeights[row];
