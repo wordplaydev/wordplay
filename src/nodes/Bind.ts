@@ -254,7 +254,8 @@ export default class Bind extends Expression {
             !this.isShared() &&
             (parent instanceof Block ||
                 parent instanceof FunctionDefinition ||
-                parent instanceof StructureDefinition)
+                (parent instanceof StructureDefinition &&
+                    parent.expression !== undefined))
         ) {
             const references = context.project.getReferences(this);
             // Don't warn on placeholder symbols.
