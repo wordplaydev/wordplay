@@ -9,16 +9,26 @@
     import Expandable from './Expandable.svelte';
 
     export let value: List;
+
+    const limit = 3;
 </script>
 
-<SymbolView symbol={LIST_OPEN_SYMBOL} type={TokenType.ListOpen} /><Expandable
-    ><svelte:fragment slot="expanded"
-        >{#each value.values as item, index}<ValueView
-                value={item}
-            />{#if index < value.values.length - 1}{' '}{/if}{/each}</svelte:fragment
-    ><svelte:fragment slot="collapsed"
-        >{#each value.values.slice(0, 3) as item, index}<ValueView
-                value={item}
-            />{#if index < value.values.length - 1}{' '}{/if}{/each}{#if value.values.length > 3}…{/if}</svelte:fragment
-    ></Expandable
-><SymbolView symbol={LIST_CLOSE_SYMBOL} type={TokenType.ListClose} />
+<SymbolView
+    symbol={LIST_OPEN_SYMBOL}
+    type={TokenType.ListOpen}
+/>{#if value.values.length > limit}<Expandable
+        ><svelte:fragment slot="expanded"
+            >{#each value.values as item, index}<ValueView
+                    value={item}
+                />{#if index < value.values.length - 1}{' '}{/if}{/each}</svelte:fragment
+        ><svelte:fragment slot="collapsed"
+            >{#each value.values.slice(0, limit) as item, index}<ValueView
+                    value={item}
+                />{#if index < value.values.length - 1}{' '}{/if}{/each}…</svelte:fragment
+        ></Expandable
+    >{:else}{#each value.values as item, index}<ValueView
+            value={item}
+        />{#if index < value.values.length - 1}{' '}{/if}{/each}{/if}<SymbolView
+    symbol={LIST_CLOSE_SYMBOL}
+    type={TokenType.ListClose}
+/>

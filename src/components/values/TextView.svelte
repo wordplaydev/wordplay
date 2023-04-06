@@ -9,15 +9,18 @@
 
     export let value: Text;
     $: text = value.toWordplay();
+
+    const limit = 10;
 </script>
 
-<Expandable
-    ><svelte:fragment slot="expanded"
-        ><SymbolView symbol={text} type={TokenType.Text} /></svelte:fragment
-    ><svelte:fragment slot="collapsed"
-        ><SymbolView
-            symbol={new UnicodeString(text).substring(0, 10).toString()}
-            type={TokenType.Text}
-        />{#if text.length > 10}…{/if}</svelte:fragment
-    ></Expandable
->
+{#if text.length > limit}
+    <Expandable
+        ><svelte:fragment slot="expanded"
+            ><SymbolView symbol={text} type={TokenType.Text} /></svelte:fragment
+        ><svelte:fragment slot="collapsed"
+            ><SymbolView
+                symbol={new UnicodeString(text).substring(0, limit).toString()}
+                type={TokenType.Text}
+            />…</svelte:fragment
+        ></Expandable
+    >{:else}<SymbolView symbol={text} type={TokenType.Text} />{/if}

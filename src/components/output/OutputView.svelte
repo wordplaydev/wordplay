@@ -80,7 +80,7 @@
     {:else if verse === undefined}
         <div class="message">
             {#if mini}
-                <ValueView value={latest} />
+                <ValueView value={latest} interactive={false} />
             {:else}
                 <h2
                     >{$preferredTranslations.map((translation) =>
