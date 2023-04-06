@@ -86,6 +86,7 @@ const commands: Command[] = [
         description: 'Move the caret one sibling left',
         alt: false,
         shift: true,
+        control: false,
         key: 'ArrowLeft',
         mode: undefined,
         execute: (caret: Caret) => caret.left(true),
@@ -362,18 +363,31 @@ const commands: Command[] = [
             caret.isNode() ? caret.enter() : caret.insert('\n'),
     },
     {
-        description: 'Step to node',
-        key: 'Enter',
+        description: 'Step to next evaluation of node',
+        key: 'ArrowRight',
         shift: false,
         alt: false,
         control: true,
         mode: undefined,
         execute: (caret: Caret, _, evaluator) => {
             if (caret.position instanceof Node) {
-                const evaluable = evaluator.getEvaluableNode(caret.position);
-                if (evaluable) evaluator.stepToNode(evaluable);
+                evaluator.stepToNode(caret.position);
+                return caret;
             }
-            return undefined;
+        },
+    },
+    {
+        description: 'Step to previous evaluation of node',
+        key: 'ArrowLeft',
+        shift: false,
+        alt: false,
+        control: true,
+        mode: undefined,
+        execute: (caret: Caret, _, evaluator) => {
+            if (caret.position instanceof Node) {
+                evaluator.stepBackToNode(caret.position);
+                return caret;
+            }
         },
     },
     {

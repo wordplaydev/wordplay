@@ -63,7 +63,6 @@
     import SourceTileToggle from './SourceTileToggle.svelte';
     import type MenuInfo from '../editor/util/Menu';
     import Menu from '../editor/Menu.svelte';
-    import type Caret from '../editor/util/Caret';
     import Node from '@nodes/Node';
     import ConceptIndex from '../../concepts/ConceptIndex';
     import type Concept from '../../concepts/Concept';
@@ -77,6 +76,7 @@
     import Evaluator from '@runtime/Evaluator';
     import Evaluate from '@nodes/Evaluate';
     import { page } from '$app/stores';
+    import type Caret from '../editor/util/Caret';
 
     export let project: Project;
 

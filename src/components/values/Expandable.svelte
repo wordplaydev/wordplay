@@ -15,7 +15,7 @@
     role="button"
     class="expandable"
     tabindex={interactive ? 0 : null}
-    on:click={(event) => toggle(event)}
+    on:mousedown={(event) => toggle(event)}
     on:keydown={(event) =>
         event.key === 'Enter' || event.key === ' ' ? toggle(event) : undefined}
     >{#if expanded}<slot name="expanded" />{:else}<slot

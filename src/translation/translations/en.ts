@@ -828,7 +828,7 @@ const en: Translation = {
                     ? Explanation.as(
                           'property ',
                           property,
-                          'is ',
+                          ' is ',
                           value ?? 'nothing'
                       )
                     : 'no property name given, no value',

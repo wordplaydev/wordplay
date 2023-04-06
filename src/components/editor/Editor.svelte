@@ -167,13 +167,6 @@
         // If the program contains this node, scroll it's first token into view.
         const stepNode = evaluator.getStepNode();
         if (stepNode && source.has(stepNode)) {
-            // Set the caret to the current step node if stepping.
-            caret.set(
-                $caret.withPosition(
-                    evaluator.isDone() ? source.expression.end : stepNode
-                )
-            );
-
             // Wait for everything to render, then find the node to scroll to.
             await tick();
             let highlight: Node | undefined = stepNode;
@@ -472,8 +465,6 @@
 
         placeCaretAt(event);
 
-        if (evaluator.isStepping()) stepToNodeAt(event);
-
         // After we handle the click, focus on keyboard input, in case it's not focused.
         focusHiddenTextField();
     }
@@ -505,16 +496,6 @@
             // We only start dragging if the cursor has moved more than a certain amount since last click.
             if (dragCandidate && event.buttons === 1)
                 dragPoint = { x: event.clientX, y: event.clientY };
-        }
-    }
-
-    function stepToNodeAt(event: MouseEvent) {
-        if (evaluator === undefined) return;
-
-        const nodeUnderMouse = getNodeAt(event, false);
-        if (nodeUnderMouse) {
-            const evaluable = evaluator.getEvaluableNode(nodeUnderMouse);
-            if (evaluable) evaluator.stepToNode(evaluable);
         }
     }
 
@@ -1018,6 +999,7 @@
 
                     // Prevent default keyboard commands from being otherwise handled.
                     event.preventDefault();
+                    event.stopPropagation();
 
                     // Stop looking for commands, we found one and tried it!
                     return;

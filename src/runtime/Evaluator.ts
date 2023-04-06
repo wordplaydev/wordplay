@@ -31,6 +31,7 @@ import StepLimitException from './StepLimitException';
 import TypeException from './TypeException';
 import Random from '../input/Random';
 import TemporalStream from './TemporalStream';
+import StartFinish from './StartFinish';
 
 /** Anything that wants to listen to changes in the state of this evaluator */
 export type EvaluationObserver = () => void;
@@ -424,7 +425,7 @@ export default class Evaluator {
     }
 
     /** Reset everything necessary for a new evaluation. */
-    resetForEvaluation(keepConstants: boolean) {
+    resetForEvaluation(keepConstants: boolean, broadcast: boolean = true) {
         // Reset the non-constant expression values.
         if (keepConstants) {
             for (const [expression] of this.values)
@@ -449,7 +450,7 @@ export default class Evaluator {
         this.nativeStreamEvaluationCount.clear();
 
         // Notify listeners.
-        this.broadcast();
+        if (broadcast) this.broadcast();
     }
 
     /** Reset all of the state, preparing for evaluation from the start of time. */
@@ -550,18 +551,73 @@ export default class Evaluator {
     }
 
     /**
-     * Evaluates the porgram until reaching a step on the specified node.
+     * Evaluates until reaching a step on the specified node.
      * Evaluates to the end if there is no such step.
      */
     stepToNode(node: Node) {
-        const previousMode = this.mode;
-        this.mode = Mode.Play;
-        while (!this.isDone() && this.getCurrentStep()?.node !== node)
+        while (this.isInPast() && !this.isDone()) {
             this.step();
-        this.mode = previousMode;
+            const step = this.getCurrentStep();
+            if (
+                step &&
+                step.node === node &&
+                (step instanceof StartFinish || step instanceof Finish)
+            ) {
+                this.stepWithinProgram();
+                break;
+            }
+        }
         this.#steppedToNode = true;
 
         // Notify listeners that we tried to step to the node.
+        this.broadcast();
+    }
+
+    /**
+     * Step backwards to the end of the most recent evaluation of the given node
+     **/
+    stepBackToNode(node: Node) {
+        // Keep searching backwards for a more recent value.
+        while (!this.isAtBeginning()) {
+            // See if there's a value we have cached, and if so, just step just past it's index to make it visible.
+            if (node instanceof Expression && this.values.has(node)) {
+                const values = this.values.get(node);
+                if (values) {
+                    // Find values computed one step before the current.
+                    const previousStepIndex = values
+                        .filter((val) => val.stepNumber < this.#stepIndex - 1)
+                        .at(-1)?.stepNumber;
+                    if (previousStepIndex !== undefined) {
+                        // Step the value step, then one step past it.
+                        this.stepTo(previousStepIndex);
+                        this.stepWithinProgram();
+                        this.broadcast();
+                        return;
+                    }
+                }
+            }
+
+            // If we didn't find one, step to the end of the previous input and check again.
+            this.stepBackToInput();
+            this.stepBack(-1, false);
+        }
+
+        // // If there wasn't, keep stepping back (without broadcasting)
+        // // until reaching the beginning or a finish of the node.
+        // this.stepBack(-1, false);
+        // do {
+        //     this.stepBack(-1, false);
+        //     const step = this.getCurrentStep();
+        //     if (
+        //         step &&
+        //         step.node === node &&
+        //         (step instanceof Finish || step instanceof StartFinish)
+        //     ) {
+        //         this.stepWithinProgram();
+        //         break;
+        //     }
+        // } while (!this.isAtBeginning());
+
         this.broadcast();
     }
 
@@ -695,7 +751,7 @@ export default class Evaluator {
      * Step backwards. This involves moving the stepIndex back, then reevaluating the project --
      * from the beginning -- until reaching the stepIndex. This relies on memoization of non-deterministic inputs.
      */
-    stepBack(offset: number = -1) {
+    stepBack(offset: number = -1, broadcast: boolean = true) {
         if (this.isPlaying()) this.pause();
 
         // Compute our our target step
@@ -711,7 +767,7 @@ export default class Evaluator {
         this.#stepIndex = change ? change.stepIndex : 0;
 
         // Reset the project to the beginning of time (but preserve stream history, since that's stored in project).
-        this.resetForEvaluation(true);
+        this.resetForEvaluation(true, broadcast);
 
         // Start the evaluation fresh.
         this.start();
@@ -730,7 +786,7 @@ export default class Evaluator {
         }
 
         // Notify listeners that we made it.
-        this.broadcast();
+        if (broadcast) this.broadcast();
 
         return true;
     }

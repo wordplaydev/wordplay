@@ -44,7 +44,7 @@
         if (stepping) {
             const [node, view] = getStepView();
 
-            // Return a singl annotation for the step.
+            // Return a single annotation for the step.
             if (node)
                 annotations = [
                     {
