@@ -169,7 +169,6 @@
         ? `resize-${resizeDirection}`
         : ''} {arrangement} {tile.id}"
     class:fullscreen
-    class:focus
     class:dragging
     data-id={tile.id}
     style:background

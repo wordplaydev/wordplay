@@ -1185,7 +1185,6 @@
         ? 'playing'
         : 'stepping'}"
     role="textbox"
-    tabIndex="0"
     tabindex="0"
     aria-autocomplete="none"
     aria-live="off"
@@ -1306,6 +1305,10 @@
         padding: calc(2 * var(--wordplay-spacing));
         min-height: 100%;
         min-width: 100%;
+    }
+
+    .editor:focus {
+        outline: none;
     }
 
     .keyboard-input {

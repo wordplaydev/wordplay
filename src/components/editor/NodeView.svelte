@@ -102,10 +102,6 @@
         border-bottom-right-radius: var(--wordplay-editor-radius);
     }
 
-    .node-view:focus {
-        outline: none;
-    }
-
     .node-view.hovered {
         cursor: pointer;
     }
