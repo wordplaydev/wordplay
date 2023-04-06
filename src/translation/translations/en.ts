@@ -2514,6 +2514,8 @@ const en: Translation = {
             rows: { doc: WRITE_DOC, name: 'rows' },
             columns: { doc: WRITE_DOC, name: 'columns' },
             padding: { doc: WRITE_DOC, name: 'padding' },
+            cellWidth: { doc: WRITE_DOC, name: 'cellwidth' },
+            cellHeight: { doc: WRITE_DOC, name: 'cellpadding' },
         },
         verse: {
             definition: { doc: WRITE_DOC, name: ['🌎', '🌍', '🌏', 'Verse'] },

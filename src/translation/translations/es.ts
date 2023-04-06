@@ -2162,6 +2162,8 @@ const eng_wordplay: Translation = {
             rows: { doc: WRITE_DOC, name: 'fila' },
             columns: { doc: WRITE_DOC, name: 'columnas' },
             padding: { doc: WRITE_DOC, name: 'relleno' },
+            cellWidth: { doc: WRITE_DOC, name: 'anchodecelda' },
+            cellHeight: { doc: WRITE_DOC, name: 'alturadecelda' },
         },
         easing: {
             straight: 'lineal',

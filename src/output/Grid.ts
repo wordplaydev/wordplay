@@ -9,12 +9,15 @@ import { getBind } from '@translation/getBind';
 import Layout from './Layout';
 import Measurement from '../runtime/Measurement';
 import Place from './Place';
+import None from '../runtime/None';
 
 export const GridType = toStructure(`
     ${getBind((t) => t.output.grid.definition, '•')} Layout(
         ${getBind((t) => t.output.grid.rows)}•#
         ${getBind((t) => t.output.grid.columns)}•#
         ${getBind((t) => t.output.grid.padding)}•#m: 1m
+        ${getBind((t) => t.output.grid.cellWidth)}•#m|ø: ø
+        ${getBind((t) => t.output.grid.cellHeight)}•#m|ø: ø
     )
 `);
 
@@ -22,17 +25,27 @@ export class Grid extends Layout {
     readonly rows: number;
     readonly columns: number;
     readonly padding: number;
+    readonly cellWidth: number | undefined;
+    readonly cellHeight: number | undefined;
 
     constructor(
         value: Value,
         rows: Measurement,
         columns: Measurement,
-        padding: Measurement
+        padding: Measurement,
+        cellWidth: Measurement | None,
+        cellHeight: Measurement | None
     ) {
         super(value);
         this.rows = Math.max(1, rows.toNumber());
         this.columns = Math.max(1, columns.toNumber());
         this.padding = padding.toNumber();
+        this.cellWidth =
+            cellWidth instanceof Measurement ? cellWidth.toNumber() : undefined;
+        this.cellHeight =
+            cellHeight instanceof Measurement
+                ? cellHeight.toNumber()
+                : undefined;
     }
 
     getLayout(outputs: (TypeOutput | null)[], context: RenderContext) {
@@ -52,27 +65,35 @@ export class Grid extends Layout {
         // This prepares us to position each output within the grid.
         const rowHeights: number[] = [];
         for (let row = 0; row < this.rows; row++) {
-            // Find the outputs in this row.
-            const rowOutputs = layouts.slice(
-                row * this.columns,
-                (row + 1) * this.columns
-            );
-            rowHeights[row] = Math.max.apply(
-                Math,
-                rowOutputs.map((out) => (out ? out.height : 0))
-            );
+            if (this.cellHeight) {
+                rowHeights[row] = this.cellHeight;
+            } else {
+                // Find the outputs in this row.
+                const rowOutputs = layouts.slice(
+                    row * this.columns,
+                    (row + 1) * this.columns
+                );
+                rowHeights[row] = Math.max.apply(
+                    Math,
+                    rowOutputs.map((out) => (out ? out.height : 0))
+                );
+            }
         }
 
         const columnWidths: number[] = [];
         for (let column = 0; column < this.columns; column++) {
-            // Find the outputs in this column.
-            const columnOutputs = layouts.filter(
-                (_, index) => index % this.rows === column
-            );
-            columnWidths[column] = Math.max.apply(
-                Math,
-                columnOutputs.map((out) => (out ? out.width : 0))
-            );
+            if (this.cellWidth) {
+                columnWidths[column] = this.cellWidth;
+            } else {
+                // Find the outputs in this column.
+                const columnOutputs = layouts.filter(
+                    (_, index) => index % this.rows === column
+                );
+                columnWidths[column] = Math.max.apply(
+                    Math,
+                    columnOutputs.map((out) => (out ? out.width : 0))
+                );
+            }
         }
 
         const width =
@@ -142,9 +163,13 @@ export function toGrid(value: Value | undefined): Grid | undefined {
     const rows = value.resolve(GridType.inputs[0].names.getNames()[0]);
     const columns = value.resolve(GridType.inputs[1].names.getNames()[0]);
     const padding = value.resolve(GridType.inputs[2].names.getNames()[0]);
+    const cellWidth = value.resolve(GridType.inputs[3].names.getNames()[0]);
+    const cellHeight = value.resolve(GridType.inputs[4].names.getNames()[0]);
     return rows instanceof Measurement &&
         columns instanceof Measurement &&
-        padding instanceof Measurement
-        ? new Grid(value, rows, columns, padding)
+        padding instanceof Measurement &&
+        (cellWidth instanceof Measurement || cellWidth instanceof None) &&
+        (cellHeight instanceof Measurement || cellHeight instanceof None)
+        ? new Grid(value, rows, columns, padding, cellWidth, cellHeight)
         : undefined;
 }

@@ -1118,6 +1118,8 @@ type Translation = {
             rows: NameAndDocTranslation;
             columns: NameAndDocTranslation;
             padding: NameAndDocTranslation;
+            cellWidth: NameAndDocTranslation;
+            cellHeight: NameAndDocTranslation;
         };
         easing: {
             // CSS linear
