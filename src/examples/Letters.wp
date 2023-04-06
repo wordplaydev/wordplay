@@ -1,0 +1,20 @@
+=== Letters/en
+letters: "മAあ韓नेئبअขማঅবাংབོދިεفગુע中رšՀꆈᓄქ" ÷ ""
+
+seconds: time(1000ms)
+
+latest•['']:  ∆ seconds ? letters … latest.replace(random(1 25) letters.random())
+
+Group(
+	Grid(5 5 0.25m 1m 1m) 
+	latest.translate(
+		ƒ (letter•"" index•#) 
+			Phrase(
+				letter 
+				name: "\letter → ''\-\index → '' 
+				enter: Pose(opacity: 0 scale: 2)
+                rest:Sequence(sway() duration:0.25s)
+				duration: 0.5s
+			)
+	)
+)

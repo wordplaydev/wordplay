@@ -22,6 +22,7 @@ import Cannon from './Cannon.wp?raw';
 import Between from './Between.wp?raw';
 import Maze from './Maze.wp?raw';
 import Adventure from './Adventure.wp?raw';
+import Letters from './Letters.wp?raw';
 import { parseNames, toTokens } from '../parser/Parser';
 import type Names from '../nodes/Names';
 
@@ -82,4 +83,5 @@ export const examples: Stuff[] = [
     Cannon,
     Between,
     Maze,
+    Letters,
 ].map((source) => wpToStuff(source));
