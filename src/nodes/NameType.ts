@@ -68,6 +68,14 @@ export default class NameType extends Type {
             : super.getDefinitions(node, context);
     }
 
+    /**
+     * Return the Definition that this node corresponds to. By default, nothing,
+     * but subclasses can override to resolve the definition they correspond to.
+     */
+    getCorrespondingDefinition(context: Context): Definition | undefined {
+        return this.resolve(context);
+    }
+
     computeConflicts(context: Context): Conflict[] {
         const conflicts = [];
 
