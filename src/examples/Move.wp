@@ -9,7 +9,13 @@ cat•Cat:  ∆ key ? Cat(5m 1) …
     	key = "ArrowRight" ? Cat(cat.position + speed -1) 
     		cat
 
-ƒ close(ball•Place|ø x•#m) ball•ø ? ⊥ (((ball.x - x).absolute() < 1m) | ((ball.x - (x + 2m)).absolute() < 1m)) & (ball.y < 1m) 
+ƒ close(ball•Place|ø x•#m) 
+    ball•ø ? ⊥ 
+    (ball.y < 1m) &
+    (
+        ((ball.x - x).absolute() < 1m) | 
+        ((ball.x - (x + 2m)).absolute() < 1m)
+    )
 
 ball: Motion(
     Phrase(
