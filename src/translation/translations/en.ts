@@ -1543,6 +1543,14 @@ const en: Translation = {
                     name: [SUM_SYMBOL, 'append'],
                     inputs: [{ doc: WRITE_DOC, name: 'list' }],
                 },
+                replace: {
+                    doc: WRITE_DOC,
+                    name: ['replace'],
+                    inputs: [
+                        { doc: WRITE_DOC, name: 'index' },
+                        { doc: WRITE_DOC, name: 'value' },
+                    ],
+                },
                 length: {
                     doc: WRITE_DOC,
                     name: ['📏', 'length'],

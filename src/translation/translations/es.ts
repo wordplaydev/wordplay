@@ -1266,6 +1266,14 @@ const eng_wordplay: Translation = {
                     name: 'adjuntar',
                     inputs: [{ doc: WRITE_DOC, name: 'list' }],
                 },
+                replace: {
+                    doc: WRITE_DOC,
+                    name: ['reemplazar'],
+                    inputs: [
+                        { doc: WRITE_DOC, name: 'index' },
+                        { doc: WRITE_DOC, name: 'value' },
+                    ],
+                },
                 length: {
                     doc: WRITE_DOC,
                     name: 'longitud',

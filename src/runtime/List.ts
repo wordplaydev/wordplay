@@ -65,6 +65,14 @@ export default class List extends Primitive {
         return new List(requestor, [...this.values, value]);
     }
 
+    replace(requestor: Expression, index: Measurement, value: Value) {
+        const copy = this.values.slice();
+        const num = index.toNumber();
+        if (!isNaN(num) && num >= 1 && num <= copy.length)
+            copy[num - 1] = value;
+        return new List(requestor, copy);
+    }
+
     first() {
         return this.values.length === 0
             ? new None(this.creator)

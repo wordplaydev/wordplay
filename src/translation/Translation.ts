@@ -605,6 +605,9 @@ type Translation = {
             function: {
                 add: FunctionTranslation<[NameAndDocTranslation]>;
                 append: FunctionTranslation<[NameAndDocTranslation]>;
+                replace: FunctionTranslation<
+                    [NameAndDocTranslation, NameAndDocTranslation]
+                >;
                 length: FunctionTranslation<[]>;
                 random: FunctionTranslation<[]>;
                 first: FunctionTranslation<[]>;

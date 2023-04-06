@@ -207,6 +207,13 @@ export default function bootstrapList() {
         (t) => t.native.list.function.notequals.inputs[0].name
     );
 
+    const replaceIndexNames = getNameTranslations(
+        (t) => t.native.list.function.replace.inputs[0].name
+    );
+    const replaceValueNames = getNameTranslations(
+        (t) => t.native.list.function.replace.inputs[1].name
+    );
+
     return StructureDefinition.make(
         getDocTranslations((t) => t.native.list.doc),
         getNameTranslations((t) => t.native.list.name),
@@ -235,6 +242,51 @@ export default function bootstrapList() {
                         const value = evaluation.resolve(addInputNames);
                         if (list instanceof List && value !== undefined)
                             return list.add(requestor, value);
+                        else
+                            return evaluation.getValueOrTypeException(
+                                requestor,
+                                ListType.make(),
+                                list
+                            );
+                    }
+                ),
+                createNativeFunction(
+                    getDocTranslations(
+                        (t) => t.native.list.function.replace.doc
+                    ),
+                    getNameTranslations(
+                        (t) => t.native.list.function.replace.name
+                    ),
+                    undefined,
+                    [
+                        Bind.make(
+                            getDocTranslations(
+                                (t) =>
+                                    t.native.list.function.replace.inputs[0].doc
+                            ),
+                            replaceIndexNames,
+                            MeasurementType.make()
+                        ),
+                        Bind.make(
+                            getDocTranslations(
+                                (t) =>
+                                    t.native.list.function.replace.inputs[1].doc
+                            ),
+                            replaceValueNames,
+                            getListTypeVariableReference()
+                        ),
+                    ],
+                    ListType.make(getListTypeVariableReference()),
+                    (requestor, evaluation) => {
+                        const list = evaluation.getClosure();
+                        const index = evaluation.resolve(replaceIndexNames);
+                        const value = evaluation.resolve(replaceValueNames);
+                        if (
+                            list instanceof List &&
+                            index instanceof Measurement &&
+                            value !== undefined
+                        )
+                            return list.replace(requestor, index, value);
                         else
                             return evaluation.getValueOrTypeException(
                                 requestor,
