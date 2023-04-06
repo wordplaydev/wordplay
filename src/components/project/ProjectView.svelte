@@ -566,7 +566,8 @@
             };
 
         /** Restore focus if on body */
-        if (document.activeElement === document.body) focusTile(focusedTileID);
+        if (document.activeElement === document.body)
+            tick().then(() => focusTile(focusedTileID));
     });
 
     function focusTile(focusedTileID: string | undefined) {

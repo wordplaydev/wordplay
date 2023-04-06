@@ -47,7 +47,6 @@
     class="output"
     class:mini
     aria-label={$preferredTranslations[0].ui.section.output}
-    tabIndex={!mini ? 0 : null}
     style:direction={$writingDirection}
     style:writing-mode={$writingLayout}
 >
