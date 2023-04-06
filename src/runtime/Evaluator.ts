@@ -602,22 +602,6 @@ export default class Evaluator {
             this.stepBack(-1, false);
         }
 
-        // // If there wasn't, keep stepping back (without broadcasting)
-        // // until reaching the beginning or a finish of the node.
-        // this.stepBack(-1, false);
-        // do {
-        //     this.stepBack(-1, false);
-        //     const step = this.getCurrentStep();
-        //     if (
-        //         step &&
-        //         step.node === node &&
-        //         (step instanceof Finish || step instanceof StartFinish)
-        //     ) {
-        //         this.stepWithinProgram();
-        //         break;
-        //     }
-        // } while (!this.isAtBeginning());
-
         this.broadcast();
     }
 
@@ -844,7 +828,11 @@ export default class Evaluator {
             this.stepTo(latestChange.stepIndex);
             this.broadcast();
             return true;
-        } else return false;
+        }
+        // Otherwise, step to beginning.
+        else {
+            this.stepTo(0);
+        }
     }
 
     stepTo(stepIndex: StepNumber) {
