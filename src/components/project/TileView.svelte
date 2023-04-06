@@ -241,7 +241,6 @@
         display: flex;
         flex-direction: column-reverse;
         align-items: flex-start;
-        padding: var(--wordplay-focus-width);
     }
 
     :global(.animated) .tile {
@@ -324,9 +323,16 @@
         height: 100%;
     }
 
-    .tile:focus-within {
+    .tile:focus-within:after {
+        width: 100%;
+        height: 100%;
+        content: '';
         outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
         outline-offset: calc(-1 * var(--wordplay-focus-width));
+        position: absolute;
+        top: 0;
+        left: 0;
+        pointer-events: none;
     }
 
     .fullscreen {
