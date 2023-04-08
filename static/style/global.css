@@ -278,7 +278,7 @@ a:hover {
     text-decoration: underline;
 }
 
-*:focus {
+*:not(body):focus {
     outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
 }
 
