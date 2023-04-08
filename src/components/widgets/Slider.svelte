@@ -7,8 +7,10 @@
     export let change: (value: number) => void;
     export let precision: number = 0;
 
+    $: percent = unit === '%';
+
     function handleChange() {
-        if (value !== undefined) change(value);
+        if (value !== undefined) change(value * (percent ? 100 : 1));
     }
 </script>
 
@@ -34,7 +36,9 @@
         {#if value === undefined}
             ø
         {:else}
-            {value.toFixed(precision) + unit}
+            {(percent ? value * 100 : value).toFixed(
+                percent ? precision - 2 : precision
+            ) + unit}
         {/if}
     </div>
 </div>
