@@ -16,7 +16,6 @@
     import MapLiteral from '@nodes/MapLiteral';
     import KeyValue from '@nodes/KeyValue';
     import MeasurementLiteral from '@nodes/MeasurementLiteral';
-    import Unit from '@nodes/Unit';
     import { getProjects } from '../project/Contexts';
 
     export let project: Project;
@@ -52,7 +51,7 @@
                     [
                         MapLiteral.make([
                             KeyValue.make(
-                                MeasurementLiteral.make(0, Unit.make(['%'])),
+                                MeasurementLiteral.make('0%'),
                                 output.node
                             ),
                         ]),

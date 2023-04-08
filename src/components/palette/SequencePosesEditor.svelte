@@ -51,8 +51,7 @@
                     kv instanceof KeyValue &&
                         kv.key instanceof MeasurementLiteral
                         ? kv.key.number.getText().replace('%', '')
-                        : 0,
-                    Unit.make(['%'])
+                        : 0
                 ),
                 createPoseLiteral($preferredLanguages)
             ),

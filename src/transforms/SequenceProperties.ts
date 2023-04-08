@@ -23,11 +23,11 @@ const SequenceProperties: OutputProperty[] = [
         create: (languages) =>
             MapLiteral.make([
                 KeyValue.make(
-                    MeasurementLiteral.make(0, Unit.make(['%'])),
+                    MeasurementLiteral.make('0%'),
                     createPoseLiteral(languages)
                 ),
                 KeyValue.make(
-                    MeasurementLiteral.make(100, Unit.make(['%'])),
+                    MeasurementLiteral.make('100%'),
                     createPoseLiteral(languages)
                 ),
             ]),

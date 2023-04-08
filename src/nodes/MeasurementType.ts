@@ -76,6 +76,7 @@ export default class MeasurementType extends NativeType {
     hasDerivedUnit() {
         return this.unit instanceof Function;
     }
+
     isPercent() {
         return this.number.getText() === '%';
     }
