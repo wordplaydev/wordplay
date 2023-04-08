@@ -92,7 +92,7 @@ export default function moveOutput(
                                           : vertical,
                                       Unit.make(['m'])
                                   ),
-                            z instanceof Expression && zValue === undefined
+                            z instanceof Expression && zValue !== undefined
                                 ? z
                                 : MeasurementLiteral.make(0, Unit.make(['m'])),
                         ]
