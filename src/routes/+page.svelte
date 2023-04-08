@@ -4,6 +4,7 @@
     import Page from '@components/app/Page.svelte';
     import BigLink from '../components/app/BigLink.svelte';
     import { preferredTranslations } from '../translation/translations';
+    import Background from '../components/app/Background.svelte';
 </script>
 
 <svelte:head>
@@ -13,6 +14,7 @@
 </svelte:head>
 
 <Page>
+    <Background />
     <Lead>{$preferredTranslations[0].wordplay}</Lead>
     <p>{$preferredTranslations[0].motto}</p>
     {#if PUBLIC_CONTEXT === 'prod'}

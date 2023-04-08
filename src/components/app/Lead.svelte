@@ -2,7 +2,7 @@
 
 <style>
     h1 {
-        font-size: 300%;
+        font-size: 400%;
         font-family: var(--wordplay-app-font);
         font-weight: bold;
         margin-top: 25vh;
