@@ -3,6 +3,7 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import Eyes from '../lore/Eyes.svelte';
+    import UnicodeString from '../../models/UnicodeString';
 
     type Glyph = {
         glyph: string;
@@ -21,7 +22,9 @@
     let windowWidth: number, windowHeight: number;
 
     const bounds = 0.2;
-    const glyphs = 'മAあ韓नेئبअขማঅবাংབོދިεفગુע中رšՀꆈᓄქ'.split('');
+    const glyphs = new UnicodeString(
+        '😀മAあ韓नेئبअขማঅবাংབོދިεفગુע中رšՀꆈᓄქ'
+    ).getSegments();
 
     onMount(() => {
         const random: string[] = [];
@@ -91,6 +94,7 @@
 <div class="background" role="presentation">
     {#each state as glyph}
         <div
+            role="presentation"
             class="glyph"
             data-id={glyph.index}
             style:font-size="{glyph.size}pt"
@@ -105,11 +109,13 @@
         width: 100%;
         height: 100%;
         z-index: -1;
+        overflow: hidden;
     }
 
     .glyph {
         font-size: 48pt;
         position: absolute;
         opacity: 0.05;
+        user-select: none;
     }
 </style>

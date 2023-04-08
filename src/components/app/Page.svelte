@@ -32,4 +32,8 @@
         align-items: center;
         gap: var(--wordplay-spacing);
     }
+
+    main:focus {
+        outline: none !important;
+    }
 </style>

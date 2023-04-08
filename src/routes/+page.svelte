@@ -13,8 +13,8 @@
     <title>Wordplay</title>
 </svelte:head>
 
+<Background />
 <Page>
-    <Background />
     <Lead>{$preferredTranslations[0].wordplay}</Lead>
     <p>{$preferredTranslations[0].motto}</p>
     {#if PUBLIC_CONTEXT === 'prod'}

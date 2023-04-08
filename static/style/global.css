@@ -278,8 +278,12 @@ a:hover {
     text-decoration: underline;
 }
 
-*:not(body):focus {
+*:focus {
     outline: var(--wordplay-highlight) solid var(--wordplay-focus-width);
+}
+
+body:focus {
+    outline: none;
 }
 
 .firebase-emulator-warning {
