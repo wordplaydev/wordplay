@@ -39,7 +39,7 @@ test('Tokenize numbers', () => {
         tokens('-1')
             .map((t) => t.toWordplay())
             .join(' ')
-    ).toBe('- 1 ');
+    ).toBe('-1 ');
     expect(
         tokens('1.0')
             .map((t) => t.toWordplay())
@@ -49,7 +49,7 @@ test('Tokenize numbers', () => {
         tokens('-1.0')
             .map((t) => t.toWordplay())
             .join(' ')
-    ).toBe('- 1.0 ');
+    ).toBe('-1.0 ');
     expect(
         tokens('1,0')
             .map((t) => t.toWordplay())
@@ -59,7 +59,7 @@ test('Tokenize numbers', () => {
         tokens('-1,0')
             .map((t) => t.toWordplay())
             .join(' ')
-    ).toBe('- 1,0 ');
+    ).toBe('-1,0 ');
     expect(
         tokens('0.5')
             .map((t) => t.toWordplay())

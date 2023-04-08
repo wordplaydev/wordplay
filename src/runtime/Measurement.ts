@@ -53,33 +53,39 @@ export default class Measurement extends Primitive {
     }
 
     static fromToken(number: Token): Decimal {
+        let text = number.text.toString();
+
+        // All number formats can be negated. Check for it, then remove it.
+        const negated = text.charAt(0) === '-';
+        if (negated) text = text.substring(1);
+
         // Infinity
         if (number.is(TokenType.Infinity)) {
-            return new Decimal(Infinity);
+            return new Decimal(Infinity * (negated ? -1 : 1));
         }
         // If it matches the decimal pattern, randomize requested digits, then convert to a Decimal.
         else if (number.is(TokenType.Decimal)) {
-            let text = number.text.toString();
-
             // Is there a trailing %? Strip it.
             const isPercent = text.endsWith('%');
 
             // Set the number, accounting for percent.
             return isPercent
-                ? new Decimal(text.substring(0, text.length - 1)).mul(0.01)
-                : new Decimal(text);
+                ? new Decimal(text.substring(0, text.length - 1))
+                      .mul(0.01)
+                      .times(negated ? -1 : 1)
+                : new Decimal(text).times(negated ? -1 : 1);
         }
         // If it matches a number with a different base, convert it to a Decimal.
         else if (number.is(TokenType.Base)) {
-            return convertBase(number.text.toString());
+            return convertBase(text).times(negated ? -1 : 1);
         } else if (number.is(TokenType.RomanNumeral)) {
-            return convertRoman(number.text.toString());
+            return convertRoman(text).times(negated ? -1 : 1);
         } else if (number.is(TokenType.JapaneseNumeral)) {
-            return convertJapanese(number.text.toString());
+            return convertJapanese(text).times(negated ? -1 : 1);
         }
         // If it matches the Pi token, convert to Pi.
         else if (number.is(TokenType.Pi)) {
-            return Decimal.acos(-1);
+            return Decimal.acos(-1).times(negated ? -1 : 1);
         } else {
             return new Decimal(NaN);
         }

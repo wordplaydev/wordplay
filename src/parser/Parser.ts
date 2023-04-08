@@ -206,6 +206,23 @@ export class Tokens {
         return this.hasNext() && !this.#spaces.hasSpace(this.#unread[0]);
     }
 
+    /** Returns true if and only if the next token is the specified type. */
+    afterLacksPrecedingSpace(): boolean {
+        const after = this.#unread[1];
+        return (
+            after !== undefined &&
+            !after.is(TokenType.End) &&
+            !this.#spaces.hasSpace(after)
+        );
+    }
+
+    nextIsUnary(): boolean {
+        return (
+            this.nextIs(TokenType.UnaryOperator) &&
+            this.afterLacksPrecedingSpace()
+        );
+    }
+
     /** Returns true if and only if the next token has a preceding line break. */
     nextHasPrecedingLineBreak(): boolean | undefined {
         return !this.hasNext()
@@ -496,6 +513,7 @@ export function parseBinaryOperation(tokens: Tokens): Expression {
 
     while (
         tokens.hasNext() &&
+        !tokens.nextIsUnary() &&
         (tokens.nextIs(TokenType.BinaryOperator) ||
             (tokens.nextIs(TokenType.TypeOperator) &&
                 !tokens.nextHasPrecedingLineBreak()))
@@ -596,7 +614,7 @@ function parseAtomicExpression(tokens: Tokens): Expression {
             tokens.nextIs(TokenType.Doc)
             ? parseDocumentedExpression(tokens)
             : // Unary expressions!
-            tokens.nextIs(TokenType.UnaryOperator)
+            tokens.nextIsUnary()
             ? new UnaryOperation(
                   tokens.read(TokenType.UnaryOperator),
                   parseAtomicExpression(tokens)

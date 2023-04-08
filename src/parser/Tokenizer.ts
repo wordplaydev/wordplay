@@ -158,28 +158,31 @@ const patterns = [
     { pattern: PLACEHOLDER_SYMBOL, types: [TokenType.Placeholder] },
     // Roman numerals
     {
-        pattern: /^[ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫⅬⅭⅮⅯ]+/,
+        pattern: /^-?[ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫⅬⅭⅮⅯ]+/,
         types: [TokenType.Number, TokenType.RomanNumeral],
     },
     // Japanese numbers
     {
         pattern:
-            /^[0-9]*[一二三四五六七八九十百千万]+(・[一二三四五六七八九分厘毛糸忽]+)?/u,
+            /^-?[0-9]*[一二三四五六七八九十百千万]+(・[一二三四五六七八九分厘毛糸忽]+)?/u,
         types: [TokenType.Number, TokenType.JapaneseNumeral],
     },
     // Numbers with bases between base 2 and 16
     {
-        pattern: /^([2-9]|1[0-6]);[0-9A-F]+([.,][0-9A-F]+)?%?/,
+        pattern: /^-?([2-9]|1[0-6]);[0-9A-F]+([.,][0-9A-F]+)?%?/,
         types: [TokenType.Number, TokenType.Base],
     },
     // Tokenize numbers before - gets slurped up, to allow for negative numbers.
     {
-        pattern: /^[0-9]+([.,][0-9]+)?%?/,
+        pattern: /^-?[0-9]+([.,][0-9]+)?%?/,
         types: [TokenType.Number, TokenType.Decimal],
     },
-    { pattern: /^[.,][0-9]+%?/, types: [TokenType.Number, TokenType.Decimal] },
-    { pattern: 'π', types: [TokenType.Number, TokenType.Pi] },
-    { pattern: '∞', types: [TokenType.Number, TokenType.Infinity] },
+    {
+        pattern: /^-?[.,][0-9]+%?/,
+        types: [TokenType.Number, TokenType.Decimal],
+    },
+    { pattern: /^-?π/, types: [TokenType.Number, TokenType.Pi] },
+    { pattern: /^-?∞/, types: [TokenType.Number, TokenType.Infinity] },
     // Must be after numbers, which can have a leading period.
     { pattern: PROPERTY_SYMBOL, types: [TokenType.Access, TokenType.This] },
     { pattern: TRUE_SYMBOL, types: [TokenType.Boolean] },
@@ -228,7 +231,10 @@ const patterns = [
     // - Supplementary operators: U+2A00–U+2AFF
     // - Arrows: U+2190–U+21FF, U+27F0–U+27FF, U+2900–U+297F
     // - Basic latin operators: +-×·÷%^<≤=≠≥>&|
-    { pattern: UnaryOpRegEx, types: [TokenType.UnaryOperator] },
+    {
+        pattern: UnaryOpRegEx,
+        types: [TokenType.UnaryOperator, TokenType.BinaryOperator],
+    },
     { pattern: BinaryOpRegEx, types: [TokenType.BinaryOperator] },
     { pattern: DOCS_SYMBOL, types: [TokenType.Doc] },
     {
