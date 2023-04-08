@@ -18,8 +18,9 @@
     <Lead>{$preferredTranslations[0].wordplay}</Lead>
     <p>{$preferredTranslations[0].motto}</p>
     {#if PUBLIC_CONTEXT === 'prod'}
-        <p><strong>Wordplay.dev</strong> is coming</p>
-        <p>Curious? Write <a href="https://amyjko.com">Amy</a></p>
+        <p
+            >Coming Fall 2023. Write <a href="https://amyjko.com">Amy</a> for details.</p
+        >
     {:else}
         <BigLink to="/projects"
             >{$preferredTranslations[0].ui.headers.projects}</BigLink

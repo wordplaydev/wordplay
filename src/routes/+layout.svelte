@@ -18,6 +18,9 @@
     import Fonts from '../native/Fonts';
     import Projects from '../db/Projects';
     import { browser } from '$app/environment';
+    import { goto } from '$app/navigation';
+    import { PUBLIC_CONTEXT } from '$env/static/public';
+    import { page } from '$app/stores';
 
     /** Expose the translations as context, updating them as necessary */
     $: setContext(TranslationsSymbol, $preferredTranslations);
@@ -29,6 +32,8 @@
     setContext(UserSymbol, user);
 
     onMount(() => {
+        if (PUBLIC_CONTEXT === 'prod') goto('/');
+
         // Force Noto Sans to load
         Fonts.loadFamily('Noto Sans');
 
@@ -106,14 +111,16 @@
     }
 </script>
 
-<div
-    class:animated={$animationsOn}
-    class:dark={$dark}
-    lang={$preferredLanguages[0]}
->
-    {#if loaded}
-        <slot />
-    {:else}
-        <Loading />
-    {/if}
-</div>
+{#if PUBLIC_CONTEXT !== 'prod' || $page.route.id === '/'}
+    <div
+        class:animated={$animationsOn}
+        class:dark={$dark}
+        lang={$preferredLanguages[0]}
+    >
+        {#if loaded}
+            <slot />
+        {:else}
+            <Loading />
+        {/if}
+    </div>
+{/if}
