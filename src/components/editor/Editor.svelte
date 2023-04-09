@@ -69,6 +69,8 @@
     import type Evaluator from '@runtime/Evaluator';
     import { TAB_WIDTH } from '../../parser/Spaces';
     import PlaceholderView from './PlaceholderView.svelte';
+    import Expression from '../../nodes/Expression';
+    import { TYPE_SYMBOL } from '../../parser/Symbols';
 
     export let evaluator: Evaluator;
     export let project: Project;
@@ -201,6 +203,12 @@
 
     // When source changes, update various nested state from the source.
     $: caret.set($caret.withSource(source));
+
+    $: caretExpressionType =
+        $caret.position instanceof Expression
+            ? TYPE_SYMBOL +
+              $caret.position.getType(project.getContext(source)).toWordplay()
+            : undefined;
 
     // When the caret changes, if it's a node, focus on the node, and if it's an index, focus on the hidden text field.
     $: {
@@ -1250,7 +1258,10 @@
                 : undefined}
             style:top={caretLocation ? `${caretLocation.bottom}px` : undefined}
             >{#if $caret.position instanceof Node}
-                {$caret.position.getLabel($preferredTranslations[0])}
+                <!-- Show the node's label and type, if an expression -->
+                {$caret.position.getLabel(
+                    $preferredTranslations[0]
+                )}{#if caretExpressionType}{caretExpressionType}{/if}
                 <PlaceholderView node={$caret.position} />{/if}<div
                 class="screen-reader-description"
                 aria-live="polite"
@@ -1262,7 +1273,8 @@
                       $caret.position.getDescription(
                           $preferredTranslations[0],
                           project.getNodeContext($caret.position)
-                      )
+                      ) +
+                      (caretExpressionType ? `, ${caretExpressionType}` : '')
                     : $caret.tokenExcludingSpace
                     ? $preferredTranslations[0].caret.before(
                           source.code.at($caret.position) ?? ''
