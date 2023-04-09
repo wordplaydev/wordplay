@@ -38,9 +38,11 @@
 
     $: verse = latest === undefined ? undefined : toVerse(latest);
     $: background =
-        latest instanceof Exception
+        $keyboardIdle && latest instanceof Exception
             ? 'var(--wordplay-error)'
             : verse?.background.toCSS() ?? null;
+
+    $: console.log($keyboardIdle);
 </script>
 
 <section
@@ -52,7 +54,10 @@
 >
     <!-- Render the verse, or whatever value we get -->
     <!-- If there's an exception, show that. -->
-    {#if latest instanceof Exception}
+    <!-- If it's because the keyboard isn't idle, show the typing feedback.-->
+    {#if !mini && $evaluation?.playing === true && !$keyboardIdle}
+        <div class="message editing">⌨️</div>
+    {:else if latest instanceof Exception}
         {#key latest}
             <div class="message exception"
                 >{#if mini}!{:else}<Speech
@@ -69,12 +74,7 @@
         {/key}
         <!-- If there's no verse -->
     {:else if latest === undefined}
-        <!-- If it's because the keyboard isn't idle, show the typing feedback.-->
-        {#if $evaluation?.playing === true && !$keyboardIdle}
-            <div class="message editing">⌨️</div>
-        {:else}
-            <div class="message evaluating">◆</div>
-        {/if}
+        <div class="message evaluating">◆</div>
         <!-- If there's a value, but it's not a verse, show that -->
     {:else if verse === undefined}
         <div class="message">
@@ -170,19 +170,19 @@
 
     @keyframes jiggle {
         0% {
-            transform: rotate(-4deg) translate(0, 0);
+            transform: rotate(-1deg) translate(0, 0);
         }
         25% {
-            transform: rotate(6deg) translate(0, -1px);
+            transform: rotate(2deg) translate(0, -1px);
         }
         50% {
-            transform: rotate(-8deg) translate(0, 2px);
+            transform: rotate(-3deg) translate(0, 2px);
         }
         75% {
-            transform: rotate(-2deg) translate(0, -4px);
+            transform: rotate(-1deg) translate(0, -1px);
         }
         100% {
-            transform: rotate(4deg) translate(0, 1px);
+            transform: rotate(2deg) translate(0, 1px);
         }
     }
 

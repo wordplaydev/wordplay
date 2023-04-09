@@ -130,7 +130,7 @@
     function updateKeyboardIdle() {
         keyboardIdle.set(false);
         if (keyboardIdleTimeout) clearTimeout(keyboardIdleTimeout);
-        keyboardIdleTimeout = setTimeout(() => keyboardIdle.set(true));
+        keyboardIdleTimeout = setTimeout(() => keyboardIdle.set(true), 1000);
     }
 
     onDestroy(() => {
