@@ -217,7 +217,7 @@
                 class="event steps"
                 data-startindex={reaction.stepIndex}
                 data-endindex={reaction.stepIndex + stepCount}
-                style:width="{Math.min(5, stepCount / 10)}em"
+                style:width="{Math.min(2, stepCount / 10)}em"
                 >&ZeroWidthSpace;</span
             >
             <!-- If the value was an exception, show that it ended that way -->
