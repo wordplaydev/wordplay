@@ -450,7 +450,7 @@
     }
 
     function handleDoubleclick(event: MouseEvent) {
-        if (selectedOutputPaths && selectedPhrase) {
+        if (selectedOutputPaths && selectedPhrase && !fullscreen) {
             if (evaluator.isPlaying()) {
                 evaluator.pause();
                 selectPointerOutput(event);
