@@ -26,7 +26,9 @@
         '😀മAあ韓नेئبअขማঅবাংབོދިεفગુע中رšՀꆈᓄქ'
     ).getSegments();
 
+    let mounted = false;
     onMount(() => {
+        mounted = true;
         const random: string[] = [];
         for (
             let i = 0;
@@ -82,10 +84,12 @@
 
                 previousTime = time;
             }
-            window.requestAnimationFrame(step);
+            if (mounted) window.requestAnimationFrame(step);
         }
 
         window.requestAnimationFrame(step);
+
+        return () => (mounted = false);
     });
 </script>
 
