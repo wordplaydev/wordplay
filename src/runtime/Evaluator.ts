@@ -578,7 +578,7 @@ export default class Evaluator {
      **/
     stepBackToNode(node: Node) {
         // Keep searching backwards for a more recent value.
-        while (!this.isAtBeginning()) {
+        while (this.getStepIndex() !== this.getEarliestStepIndexAvailable()) {
             // See if there's a value we have cached, and if so, just step just past it's index to make it visible.
             if (node instanceof Expression && this.values.has(node)) {
                 const values = this.values.get(node);
