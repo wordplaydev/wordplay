@@ -728,8 +728,10 @@
             const index = $caret.source.getTokenSpacePosition(
                 closestLine.token
             );
-            return index
-                ? index +
+            return index !== undefined
+                ? index === 0 && closestLine.index === 0
+                    ? 0
+                    : index +
                       source.spaces
                           .getSpace(closestLine.token)
                           .split('\n', closestLine.index)
