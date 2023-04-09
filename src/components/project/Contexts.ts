@@ -52,10 +52,10 @@ export function getProject() {
     return getContext<ProjectContext>(ProjectSymbol);
 }
 
-export type KeyboardIdleContext = Readable<boolean>;
-export const KeyboardIdleSymbol = Symbol('idle');
-export function getKeyboardIdle() {
-    return getContext<KeyboardIdleContext>(KeyboardIdleSymbol);
+export type KeyboardEditIdleContext = Writable<boolean>;
+export const KeyboardEditIdleSymbol = Symbol('idle');
+export function getKeyboardEditIdle() {
+    return getContext<KeyboardEditIdleContext>(KeyboardEditIdleSymbol);
 }
 
 // Evaluation related contexts

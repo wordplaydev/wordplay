@@ -30,7 +30,7 @@
         getSelectedOutputPaths,
         getEvaluation,
         MenuNodeSymbol,
-        getKeyboardIdle,
+        getKeyboardEditIdle,
     } from '../project/Contexts';
     import {
         preferredLanguages,
@@ -88,7 +88,7 @@
     const evaluation = getEvaluation();
     const animatingNodes = getAnimatingNodes();
     const nodeConflicts = getConflicts();
-    const keyboardIdle = getKeyboardIdle();
+    const keyboardEditIdle = getKeyboardEditIdle();
 
     const dispatch = createEventDispatcher();
 
@@ -901,7 +901,7 @@
         // Get the unique valid edits at the caret.
         const transforms = getEditsAt(project, $caret.withPosition(position));
 
-        // Set the meniu.
+        // Set the menu.
         menu = new Menu($caret, transforms, 0, handleEdit);
     }
 
@@ -1007,8 +1007,8 @@
                     if (typeof result === 'boolean') {
                         if (result === false) lastKeyDownIgnored = true;
                     } else if (result instanceof Promise)
-                        result.then((edit) => handleEdit(edit));
-                    else handleEdit(result);
+                        result.then((edit) => handleEdit(edit, true));
+                    else handleEdit(result, true);
 
                     // Prevent default keyboard commands from being otherwise handled.
                     event.preventDefault();
@@ -1025,7 +1025,10 @@
             lastKeyDownIgnored = true;
     }
 
-    async function handleEdit(edit: Edit | undefined) {
+    async function handleEdit(
+        edit: Edit | undefined,
+        keyboard: boolean = false
+    ) {
         if (edit === undefined) return;
 
         const unmodified = edit instanceof Caret;
@@ -1036,6 +1039,9 @@
 
         // Update the caret and project.
         if (newSource) {
+            // Set the keyboard edit idle to false.
+            if (keyboard) keyboardEditIdle.set(false);
+
             $projects.revise(
                 project,
                 project
@@ -1228,7 +1234,7 @@
     <!-- Render the caret on top of the program -->
     <CaretView
         {source}
-        blink={$keyboardIdle && focused}
+        blink={$keyboardEditIdle && focused}
         ignored={$evaluation !== undefined &&
             $evaluation.playing === true &&
             lastKeyDownIgnored}

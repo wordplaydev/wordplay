@@ -28,7 +28,7 @@
         SelectedOutputPathsSymbol,
         type EvaluationContext,
         EvaluationSymbol,
-        KeyboardIdleSymbol,
+        KeyboardEditIdleSymbol,
     } from './Contexts';
     import type Project from '@models/Project';
     import Documentation from '@components/concepts/Documentation.svelte';
@@ -123,21 +123,20 @@
     $: if ($projectStore !== project) projectStore.set(project);
 
     /** Keep a project view global store indicating whether the creator is idle. */
-    const keyboardIdle = writable<boolean>(true);
-    setContext(KeyboardIdleSymbol, keyboardIdle);
+    const keyboardEditIdle = writable<boolean>(true);
+    setContext(KeyboardEditIdleSymbol, keyboardEditIdle);
     let keyboardIdleTimeout: NodeJS.Timer | undefined = undefined;
 
-    function updateKeyboardIdle(event: KeyboardEvent) {
-        // Ignore output keyboard events.
-        if (
-            event.target instanceof HTMLElement &&
-            event.target.closest('.output') !== null
-        )
-            return;
-
-        keyboardIdle.set(false);
-        if (keyboardIdleTimeout) clearTimeout(keyboardIdleTimeout);
-        keyboardIdleTimeout = setTimeout(() => keyboardIdle.set(true), 1000);
+    // When keyboard edit idle changes to true, set a timeout
+    // to reset it to false after a delay.
+    $: {
+        if (!$keyboardEditIdle) {
+            if (keyboardIdleTimeout) clearTimeout(keyboardIdleTimeout);
+            keyboardIdleTimeout = setTimeout(
+                () => keyboardEditIdle.set(true),
+                1000
+            );
+        }
     }
 
     onDestroy(() => {
@@ -413,7 +412,7 @@
 
     // When the project changes, languages change, and the keyboard is idle, recompute the concept index.
     $: {
-        if ($keyboardIdle && latestProject !== project) {
+        if ($keyboardEditIdle && latestProject !== project) {
             latestProject = project;
 
             // Make a new concept index with the new project and translations, but the old examples.
@@ -908,13 +907,7 @@
 <svelte:head><title>Wordplay - {project.name}</title></svelte:head>
 
 <!-- Render the app header and the current project, if there is one. -->
-<main
-    class="project"
-    tabIndex="0"
-    on:keydown={handleKey}
-    on:keyup={updateKeyboardIdle}
-    bind:this={view}
->
+<main class="project" tabIndex="0" on:keydown={handleKey} bind:this={view}>
     <div
         class="canvas"
         on:mousedown={handleMouseDown}

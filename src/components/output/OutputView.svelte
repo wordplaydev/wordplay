@@ -16,7 +16,7 @@
     import {
         getConceptIndex,
         getEvaluation,
-        getKeyboardIdle,
+        getKeyboardEditIdle,
     } from '../project/Contexts';
     import type Evaluator from '@runtime/Evaluator';
     import Controls from '../evaluator/Controls.svelte';
@@ -34,11 +34,11 @@
 
     let index = getConceptIndex();
     let evaluation = getEvaluation();
-    let keyboardIdle = getKeyboardIdle();
+    let keyboardEditIdle = getKeyboardEditIdle();
 
     $: verse = latest === undefined ? undefined : toVerse(latest);
     $: background =
-        $keyboardIdle && latest instanceof Exception
+        $keyboardEditIdle && latest instanceof Exception
             ? 'var(--wordplay-error)'
             : verse?.background.toCSS() ?? null;
 </script>
@@ -53,7 +53,7 @@
     <!-- Render the verse, or whatever value we get -->
     <!-- If there's an exception, show that. -->
     <!-- If it's because the keyboard isn't idle, show the typing feedback.-->
-    {#if !mini && $evaluation?.playing === true && !$keyboardIdle}
+    {#if !mini && $evaluation?.playing === true && !$keyboardEditIdle}
         <div class="message editing">⌨️</div>
     {:else if latest instanceof Exception}
         {#key latest}
