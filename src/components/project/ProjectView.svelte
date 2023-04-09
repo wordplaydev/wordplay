@@ -127,7 +127,14 @@
     setContext(KeyboardIdleSymbol, keyboardIdle);
     let keyboardIdleTimeout: NodeJS.Timer | undefined = undefined;
 
-    function updateKeyboardIdle() {
+    function updateKeyboardIdle(event: KeyboardEvent) {
+        // Ignore output keyboard events.
+        if (
+            event.target instanceof HTMLElement &&
+            event.target.closest('.output') !== null
+        )
+            return;
+
         keyboardIdle.set(false);
         if (keyboardIdleTimeout) clearTimeout(keyboardIdleTimeout);
         keyboardIdleTimeout = setTimeout(() => keyboardIdle.set(true), 1000);
