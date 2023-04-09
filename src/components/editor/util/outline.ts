@@ -109,8 +109,8 @@ function getTokenRects(nodeView: HTMLElement) {
     // We do this instead of getBoundingClientRect() because the node view's position
     const nodeViewportOffset = getEditorOffset(nodeView);
 
-    // Get the rectangles of all of the tokens's text
-    const tokenViews = nodeView.querySelectorAll('.token-view');
+    // Get the rectangles of all of the tokens's text (or if a value, it's symbols).
+    const tokenViews = nodeView.querySelectorAll('.token-view, .symbol');
     for (const view of tokenViews) {
         if (view.closest('.hide') === null)
             rects.push(getViewRect(nodeViewportOffset, view as HTMLElement));

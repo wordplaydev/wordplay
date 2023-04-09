@@ -87,7 +87,11 @@
         role="presentation"
         aria-hidden={hide ? 'true' : null}
         aria-label={description}
-        >{#if value}<ValueView {value} interactive />{:else}<svelte:component
+        >{#if value}<ValueView
+                {value}
+                {node}
+                interactive
+            />{:else}<svelte:component
                 this={getNodeView(node)}
                 {node}
             />{/if}</div

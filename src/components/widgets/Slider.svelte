@@ -37,7 +37,7 @@
             ø
         {:else}
             {(percent ? value * 100 : value).toFixed(
-                percent ? precision - 2 : precision
+                Math.max(0, percent ? precision - 2 : precision)
             ) + unit}
         {/if}
     </div>

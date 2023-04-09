@@ -398,7 +398,10 @@
     });
 
     function getNodeView(node: Node): HTMLElement | undefined {
-        const view = editor?.querySelector(`.node-view[data-id="${node.id}"]`);
+        // See if there's a node or value view that corresponds to this node.
+        const view =
+            editor?.querySelector(`.node-view[data-id="${node.id}"]`) ??
+            editor?.querySelector(`.value[data-node-id="${node.id}"]`);
         return view instanceof HTMLElement ? view : undefined;
     }
 
