@@ -140,14 +140,28 @@ export default class Verse extends TypeOutput {
 export class NameGenerator {
     /** Number visible phrases, giving them unique IDs to key off of. */
     readonly counter = new Map<number, number>();
+    readonly names = new Map<string, number>();
 
     constructor() {}
 
-    getName(value: Value) {
-        const nodeID = value.creator.id;
-        const count = (this.counter.get(nodeID) ?? 0) + 1;
-        this.counter.set(nodeID, count);
-        return `${nodeID}-${count}`;
+    getName(name: string | undefined, value: Value) {
+        // If given a name, make sure it's not a duplicate,
+        // and if it is, make it unique by appending a number.
+        let newName: string;
+        if (name) {
+            const existingNameCount = this.names.get(name);
+            if (existingNameCount !== undefined)
+                name = name + (existingNameCount + 1);
+            newName = name;
+            // Remember this name to prevent duplicates.
+            this.names.set(newName, (existingNameCount ?? 0) + 1);
+        } else {
+            const nodeID = value.creator.id;
+            const count = (this.counter.get(nodeID) ?? 0) + 1;
+            this.counter.set(nodeID, count);
+            newName = `${nodeID}-${count}`;
+        }
+        return newName;
     }
 }
 
@@ -192,7 +206,7 @@ export function toVerse(value: Value): Verse | undefined {
                   font ?? DefaultFont,
                   place,
                   rotation,
-                  name ?? namer.getName(value),
+                  namer.getName(name?.text, value),
                   selectable,
                   enter,
                   rest ?? new Pose(value),
@@ -221,7 +235,7 @@ export function toVerse(value: Value): Verse | undefined {
                   DefaultFont,
                   undefined,
                   0,
-                  namer.getName(value),
+                  namer.getName(undefined, value),
                   type.selectable,
                   undefined,
                   new Pose(value),

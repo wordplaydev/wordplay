@@ -16,6 +16,7 @@ import { PX_PER_METER, sizeToPx } from './outputToCSS';
 import type LanguageCode from '@translation/LanguageCode';
 import { getBind } from '@translation/getBind';
 import { getStyle } from './toTypeOutput';
+import type { NameGenerator } from './Verse';
 
 export const PhraseType = toStructure(`
     ${getBind((t) => t.output.phrase.definition, '•')} Type(
@@ -185,7 +186,7 @@ export function toFont(value: Value | undefined): string | undefined {
 
 export function toPhrase(
     value: Value | undefined,
-    defaultName: string
+    namer: NameGenerator | undefined
 ): Phrase | undefined {
     if (value === undefined) return undefined;
 
@@ -217,7 +218,7 @@ export function toPhrase(
               font,
               place,
               rotation,
-              name ?? defaultName,
+              namer?.getName(name?.text, value) ?? `${value.creator.id}`,
               selectable,
               enter,
               rest,

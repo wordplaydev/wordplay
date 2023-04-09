@@ -130,7 +130,7 @@ export function toGroup(
               font,
               place,
               rotation,
-              name ?? namer?.getName(value) ?? `${value.creator.id}`,
+              namer?.getName(name?.text, value) ?? `${value.creator.id}`,
               selectable,
               enter,
               rest,

@@ -34,10 +34,7 @@ export function toTypeOutput(
     if (!(value instanceof Structure)) return undefined;
     switch (value.type) {
         case PhraseType:
-            return toPhrase(
-                value,
-                namer?.getName(value) ?? `${value.creator.id}`
-            );
+            return toPhrase(value, namer);
         case GroupType:
             return toGroup(value, namer);
         case VerseType:
