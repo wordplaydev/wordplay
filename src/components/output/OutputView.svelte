@@ -41,8 +41,6 @@
         $keyboardIdle && latest instanceof Exception
             ? 'var(--wordplay-error)'
             : verse?.background.toCSS() ?? null;
-
-    $: console.log($keyboardIdle);
 </script>
 
 <section
