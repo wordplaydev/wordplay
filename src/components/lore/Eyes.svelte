@@ -9,11 +9,11 @@
     function animateEye(eye: HTMLElement, delay: number) {
         return eye.animate(
             [
-                { height: 'var(--radius)' },
-                { height: 'var(--radius)' },
-                { height: 'var(--radius)' },
-                { height: '.1em' },
-                { height: 'var(--radius)' },
+                { transform: 'scaleY(1)' },
+                { transform: 'scaleY(1)' },
+                { transform: 'scaleY(1)' },
+                { transform: 'scaleY(0.1)' },
+                { transform: 'scaleY(1)' },
             ],
             { duration: 500, iterations: 1, delay }
         );
@@ -24,8 +24,9 @@
     }
 
     function animateEyes() {
-        if (left && right) {
+        if (left && right && $animationsOn) {
             offset = Math.round(Math.random() * 4 - 2);
+            gaze = Math.round(Math.random() * 50);
             const delay = getRandomDelay();
             const animation = animateEye(left, delay);
             animateEye(right, delay);
@@ -34,6 +35,7 @@
     }
 
     let offset = 0;
+    let gaze = 25;
     $: {
         if (left && right && $animationsOn) {
             animateEyes();
@@ -41,11 +43,16 @@
     }
 </script>
 
-<div class="eyes" class:invert style:--offset="{offset}px"
-    ><div bind:this={left} class="eye left" /><div
+<div
+    role="presentation"
+    class="eyes"
+    class:invert
+    style:--offset="{offset}px"
+    style:--gaze="{gaze}%"
+    ><div bind:this={left} class="eye left"><div class="pupil" /></div><div
         bind:this={right}
-        class="eye right"
-    /></div
+        class="eye right"><div class="pupil" /></div
+    ></div
 >
 
 <style>
@@ -53,22 +60,23 @@
         position: absolute;
         left: 0;
         top: 0;
-        display: inline-block;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.05em;
         width: 100%;
         height: 100%;
         --radius: 0.2em;
     }
 
     .eye {
-        position: absolute;
-        display: inline-block;
+        position: relative;
         width: var(--radius);
         height: var(--radius);
-        left: 50%;
-        top: 31%;
         background: var(--wordplay-background);
-        border: 2px solid var(--wordplay-foreground);
+        border: 1px solid var(--wordplay-foreground);
         border-radius: 50%;
+        display: flex;
     }
 
     .invert .eye {
@@ -80,17 +88,29 @@
         transition: transform 100ms;
     }
 
+    :global(.animated) .pupil {
+        transition: left 100ms, top 100ms;
+    }
+
+    .pupil {
+        border-radius: 50%;
+        position: relative;
+        left: var(--gaze);
+        top: var(--gaze);
+        width: calc(var(--radius) / 3);
+        height: calc(var(--radius) / 3);
+        background-color: var(--wordplay-foreground);
+    }
+
+    .invert .pupil {
+        background-color: var(--wordplay-background);
+    }
+
     .left {
-        transform: translateX(
-                calc(-1 * var(--radius) / 2 - 0.75 * var(--radius))
-            )
-            translateY(var(--offset));
+        top: var(--offset);
     }
 
     .right {
-        transform: translateX(
-                calc(-1 * var(--radius) / 2 + 0.75 * var(--radius))
-            )
-            translateY(calc(-1 * var(--offset)));
+        top: calc(-1 * var(--offset));
     }
 </style>
