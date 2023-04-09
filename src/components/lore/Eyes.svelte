@@ -63,10 +63,10 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 0.05em;
+        gap: 10%;
         width: 100%;
         height: 100%;
-        --radius: 0.2em;
+        --radius: 0.25em;
     }
 
     .eye {
@@ -107,10 +107,10 @@
     }
 
     .left {
-        top: var(--offset);
+        top: calc(-7% + var(--offset));
     }
 
     .right {
-        top: calc(-1 * var(--offset));
+        top: calc(-7% + -1 * var(--offset));
     }
 </style>
