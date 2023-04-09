@@ -282,13 +282,22 @@ function getReplacements(context: Context, selection: Node): Transform[] {
                                 (translation) => translation.ui.edit.wrap
                             )
                         );
+                        // If the parent is a block with a single statement and the
+                        // block would accepted the wrapped statement, offer to unwrap.
                         if (parent instanceof Block) {
                             if (
+                                !parent.root &&
+                                !parent.creator &&
                                 parent.statements.length === 1 &&
                                 parent.statements[0] === selection
                             ) {
                                 const parentParent = parent.getParent(context);
-                                if (parentParent)
+                                if (
+                                    parentParent &&
+                                    parent
+                                        .getFieldOfChild(parent)
+                                        ?.types.includes(Expression)
+                                )
                                     transforms.unshift(
                                         new Replace(
                                             context,
