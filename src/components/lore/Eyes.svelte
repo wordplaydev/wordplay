@@ -7,16 +7,18 @@
     let right: HTMLElement | null;
 
     function animateEye(eye: HTMLElement, delay: number) {
-        return eye.animate(
-            [
-                { transform: 'scaleY(1)' },
-                { transform: 'scaleY(1)' },
-                { transform: 'scaleY(1)' },
-                { transform: 'scaleY(0.1)' },
-                { transform: 'scaleY(1)' },
-            ],
-            { duration: 500, iterations: 1, delay }
-        );
+        if ($animationsOn)
+            return eye.animate(
+                [
+                    { transform: 'scaleY(1)' },
+                    { transform: 'scaleY(1)' },
+                    { transform: 'scaleY(1)' },
+                    { transform: 'scaleY(0.1)' },
+                    { transform: 'scaleY(1)' },
+                ],
+                { duration: 500, iterations: 1, delay }
+            );
+        else return undefined;
     }
 
     function getRandomDelay() {
@@ -30,7 +32,7 @@
             const delay = getRandomDelay();
             const animation = animateEye(left, delay);
             animateEye(right, delay);
-            animation.onfinish = () => animateEyes();
+            if (animation) animation.onfinish = () => animateEyes();
         }
     }
 

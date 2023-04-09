@@ -4,6 +4,7 @@
     import { onMount } from 'svelte';
     import Eyes from '../lore/Eyes.svelte';
     import UnicodeString from '../../models/UnicodeString';
+    import { animationsOn } from '../../models/stores';
 
     type Glyph = {
         glyph: string;
@@ -27,6 +28,41 @@
     ).getSegments();
 
     let mounted = false;
+    let previousTime: DOMHighResTimeStamp | undefined = undefined;
+
+    function step(time: DOMHighResTimeStamp) {
+        if (previousTime === undefined) previousTime = time;
+
+        const elapsed = time - previousTime;
+        if (previousTime) {
+            for (const glyph of state) {
+                glyph.x += glyph.vx * (elapsed / 1000);
+                if (glyph.x > windowWidth * (1 + bounds))
+                    glyph.x = -windowWidth * bounds;
+                if (glyph.x < -windowWidth * bounds)
+                    glyph.x = windowWidth * (1 + bounds);
+                if (glyph.y > windowHeight * (1 + bounds))
+                    glyph.y = -windowHeight * bounds;
+                if (glyph.y < -windowHeight * bounds)
+                    glyph.y = windowHeight * (1 + bounds);
+                glyph.y += glyph.vy * (elapsed / 1000);
+                glyph.angle += (glyph.va * (elapsed / 1000)) % 360;
+
+                const element = document.querySelector(
+                    `[data-id="${glyph.index}"]`
+                );
+                if (element instanceof HTMLElement) {
+                    element.style.left = `${glyph.x}px`;
+                    element.style.top = `${glyph.y}px`;
+                    element.style.transform = `rotate(${glyph.angle}deg)`;
+                }
+            }
+        }
+
+        previousTime = time;
+        if (mounted && $animationsOn) window.requestAnimationFrame(step);
+    }
+
     onMount(() => {
         mounted = true;
         const random: string[] = [];
@@ -51,46 +87,12 @@
             };
         });
 
-        let previousTime: DOMHighResTimeStamp | undefined = undefined;
-        function step(time: DOMHighResTimeStamp) {
-            if (previousTime === undefined) {
-                previousTime = time;
-            } else {
-                const elapsed = time - previousTime;
-                if (previousTime) {
-                    for (const glyph of state) {
-                        glyph.x += glyph.vx * (elapsed / 1000);
-                        if (glyph.x > windowWidth * (1 + bounds))
-                            glyph.x = -windowWidth * bounds;
-                        if (glyph.x < -windowWidth * bounds)
-                            glyph.x = windowWidth * (1 + bounds);
-                        if (glyph.y > windowHeight * (1 + bounds))
-                            glyph.y = -windowHeight * bounds;
-                        if (glyph.y < -windowHeight * bounds)
-                            glyph.y = windowHeight * (1 + bounds);
-                        glyph.y += glyph.vy * (elapsed / 1000);
-                        glyph.angle += (glyph.va * (elapsed / 1000)) % 360;
-
-                        const element = document.querySelector(
-                            `[data-id="${glyph.index}"]`
-                        );
-                        if (element instanceof HTMLElement) {
-                            element.style.left = `${glyph.x}px`;
-                            element.style.top = `${glyph.y}px`;
-                            element.style.transform = `rotate(${glyph.angle}deg)`;
-                        }
-                    }
-                }
-
-                previousTime = time;
-            }
-            if (mounted) window.requestAnimationFrame(step);
-        }
-
         window.requestAnimationFrame(step);
 
         return () => (mounted = false);
     });
+
+    $: if ($animationsOn) window.requestAnimationFrame(step);
 </script>
 
 <svelte:window bind:innerWidth={windowWidth} bind:innerHeight={windowHeight} />
