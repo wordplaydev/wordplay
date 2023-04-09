@@ -74,7 +74,7 @@
         width: var(--radius);
         height: var(--radius);
         background: var(--wordplay-background);
-        border: 1px solid var(--wordplay-foreground);
+        border: 0.02em solid var(--wordplay-foreground);
         border-radius: 50%;
         display: flex;
     }
