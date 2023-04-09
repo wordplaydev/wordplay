@@ -180,7 +180,6 @@ export function setSelectedOutput(
     project: Project,
     evaluates: Evaluate[]
 ) {
-    console.log(evaluates);
     // Map each selected output to its replacement, then set the selected output to the replacements.
     paths.set(
         evaluates.map((output) => {
