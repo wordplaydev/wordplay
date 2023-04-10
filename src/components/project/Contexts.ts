@@ -163,6 +163,12 @@ export function getMenuNode() {
     return getContext<MenuNodeContext | undefined>(MenuNodeSymbol);
 }
 
+export const InsertionsSymbol = Symbol('insertions');
+export type InsertionsContext = Writable<Map<Source, string>>;
+export function getInsertions() {
+    return getContext<InsertionsContext | undefined>(InsertionsSymbol);
+}
+
 // Output related contexts
 
 export const SelectedOutputPathsSymbol = Symbol('selected-output-paths');

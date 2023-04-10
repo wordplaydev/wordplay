@@ -31,6 +31,7 @@
         getEvaluation,
         MenuNodeSymbol,
         getKeyboardEditIdle,
+        getInsertions,
     } from '../project/Contexts';
     import {
         preferredLanguages,
@@ -89,6 +90,7 @@
     const animatingNodes = getAnimatingNodes();
     const nodeConflicts = getConflicts();
     const keyboardEditIdle = getKeyboardEditIdle();
+    const insertions = getInsertions();
 
     const dispatch = createEventDispatcher();
 
@@ -156,6 +158,17 @@
                     const view = getNodeView(node);
                     if (view) ensureElementIsVisible(view, true);
                 });
+            }
+        }
+    }
+
+    // When insertions change, see if one was inserted for this editor.
+    $: {
+        if ($insertions) {
+            const insertion = $insertions.get(source);
+            if (insertion) {
+                $insertions.delete(source);
+                handleEdit($caret.insert(insertion));
             }
         }
     }

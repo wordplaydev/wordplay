@@ -29,6 +29,8 @@
         type EvaluationContext,
         EvaluationSymbol,
         KeyboardEditIdleSymbol,
+        InsertionsSymbol,
+        type InsertionsContext,
     } from './Contexts';
     import type Project from '@models/Project';
     import Documentation from '@components/concepts/Documentation.svelte';
@@ -77,6 +79,7 @@
     import Evaluate from '@nodes/Evaluate';
     import { page } from '$app/stores';
     import type Caret from '../editor/util/Caret';
+    import GlyphChooser from '../editor/GlyphChooser.svelte';
 
     export let project: Project;
 
@@ -236,6 +239,10 @@
 
     setContext<AnimatingNodesContext>(AnimatingNodesSymbol, animatingNodes);
     setContext<ConflictsContext>(ConflictsSymbol, conflicts);
+
+    /** A store for tracking insertions from non-Editor components in the project */
+    const insertions = writable(new Map<Source, string>());
+    setContext<InsertionsContext>(InsertionsSymbol, insertions);
 
     // Clear the selected output upon playing.
     evaluation.subscribe((val) => {
@@ -1012,6 +1019,10 @@
                                             ))}
                                 />
                             {/if}</svelte:fragment
+                        ><svelte:fragment slot="footer"
+                            >{#if tile.kind === Content.Source}<GlyphChooser
+                                    source={getSourceByID(tile.id)}
+                                />{/if}</svelte:fragment
                         ></TileView
                     >
                 {/if}

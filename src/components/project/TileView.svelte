@@ -182,10 +182,6 @@
     on:keydown={handleKeyDown}
     bind:this={view}
 >
-    <!-- Render the content -->
-    <div class="content" on:scroll={() => dispatch('scroll')}>
-        <slot name="content" />
-    </div>
     <!-- Render the toolbar -->
     <div class="controls">
         <div class="name">
@@ -230,6 +226,11 @@
             >
         </Button>
     </div>
+    <!-- Render the content -->
+    <div class="content" on:scroll={() => dispatch('scroll')}>
+        <slot name="content" />
+    </div>
+    <div class="footer"><slot name="footer" /></div>
 </div>
 
 <style>
@@ -238,7 +239,7 @@
         background: var(--wordplay-background);
         overflow: hidden;
         display: flex;
-        flex-direction: column-reverse;
+        flex-direction: column;
         align-items: flex-start;
     }
 
@@ -297,7 +298,7 @@
 
     .controls {
         position: relative;
-        align-self: end;
+        align-self: start;
         display: flex;
         width: 100%;
         flex-direction: row;
@@ -313,13 +314,19 @@
         gap: var(--wordplay-spacing);
     }
 
+    .footer {
+        width: 100%;
+        min-height: max-content;
+        flex-shrink: 0;
+    }
+
     .content {
         overflow: scroll;
         /* This doesn't work in Chrome :( It prevents scrolling altogether */
         /* scroll-behavior: smooth; */
         position: relative;
         width: 100%;
-        height: 100%;
+        flex-grow: 1;
     }
 
     .tile:focus-within:after {

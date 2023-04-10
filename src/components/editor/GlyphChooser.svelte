@@ -1,0 +1,84 @@
+<script lang="ts">
+    import type Source from '../../nodes/Source';
+    import {
+        CONVERT_SYMBOL,
+        ETC_SYMBOL,
+        FALSE_SYMBOL,
+        FUNCTION_SYMBOL,
+        NONE_SYMBOL,
+        PRODUCT_SYMBOL,
+        QUOTIENT_SYMBOL,
+        TRUE_SYMBOL,
+        TYPE_SYMBOL,
+    } from '../../parser/Symbols';
+    import { tokenize } from '../../parser/Tokenizer';
+    import { getInsertions } from '../project/Contexts';
+    import TextField from '../widgets/TextField.svelte';
+    import TokenView from './TokenView.svelte';
+
+    export let source: Source;
+
+    const defaults = [
+        FUNCTION_SYMBOL,
+        TYPE_SYMBOL,
+        TRUE_SYMBOL,
+        FALSE_SYMBOL,
+        NONE_SYMBOL,
+        PRODUCT_SYMBOL,
+        QUOTIENT_SYMBOL,
+        CONVERT_SYMBOL,
+        ETC_SYMBOL,
+    ];
+
+    const insertions = getInsertions();
+
+    let expanded = false;
+    let query = '';
+    let results: string[] = [];
+
+    function insert(glyph: string) {
+        const map = $insertions;
+        if (map && insertions) {
+            const newMap = new Map(map);
+            newMap.set(source, glyph);
+            insertions.set(newMap);
+        }
+    }
+</script>
+
+<section class:expanded>
+    <TextField placeholder="🔍" bind:text={query} />
+    {#each query === '' ? defaults : results as glyph}<span
+            class="glyph"
+            tabIndex="0"
+            on:keydown={(event) =>
+                event.key === ' ' || event.key === 'Enter'
+                    ? insert(glyph)
+                    : undefined}
+            on:mousedown|preventDefault|stopPropagation={(event) =>
+                insert(glyph)}
+            ><TokenView node={tokenize(glyph).getTokens()[0]} /></span
+        >{/each}
+</section>
+
+<style>
+    section {
+        padding: var(--wordplay-spacing);
+        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: var(--wordplay-spacing);
+        overflow-x: scroll;
+        background-color: var(--wordplay-background);
+    }
+
+    section.expanded {
+        height: 30%;
+    }
+
+    .glyph {
+        display: inline-block;
+        cursor: pointer;
+    }
+</style>
