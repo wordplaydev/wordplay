@@ -75,9 +75,9 @@
         position: relative;
     }
 
-    :global(.animated) .token-view.added {
+    .token-view.added {
         animation: ybounce;
-        animation-duration: 500ms;
+        animation-duration: calc(var(--animation-factor) * 500ms);
         animation-delay: 100ms;
     }
 

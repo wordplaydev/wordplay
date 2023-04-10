@@ -10,9 +10,9 @@
         align-items: center;
     }
 
-    :global(.animated) div {
+    div {
         animation: wobble infinite linear;
-        animation-duration: 1s;
+        animation-duration: calc(var(--animation-factor) * 1s);
     }
 
     @keyframes wobble {

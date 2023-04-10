@@ -243,9 +243,9 @@
         align-items: flex-start;
     }
 
-    :global(.animated) .tile {
+    .tile {
         transition: left ease-out, top ease-out, width ease-out, height ease-out;
-        transition-duration: 200ms;
+        transition-duration: calc(var(--animation-factor) * 200ms);
     }
 
     .tile.free {

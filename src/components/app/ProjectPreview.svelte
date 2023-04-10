@@ -65,9 +65,9 @@
         color: var(--wordplay-disabled-color);
     }
 
-    :global(.animated) .preview {
+    .preview {
         transition: transform ease-out;
-        transition-duration: 200ms;
+        transition-duration: calc(var(--animation-factor) * 200ms);
     }
 
     .project:hover,

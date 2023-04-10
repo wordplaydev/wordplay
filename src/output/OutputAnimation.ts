@@ -386,12 +386,12 @@ export default class OutputAnimation {
 
         // Compute the total duration so we can generate offsets for the Web Animation API
         // (and decide whether to animate at all)
-        const totalDuration = this.context.animated
-            ? transitions.reduce(
-                  (total, transition) => total + transition.duration,
-                  0
-              )
-            : 0;
+        const totalDuration =
+            this.context.animationFactor *
+            transitions.reduce(
+                (total, transition) => total + transition.duration,
+                0
+            );
 
         // No duration? End immediately (unless resting, since
         // that would cause an infinite loop).
@@ -491,7 +491,9 @@ export default class OutputAnimation {
                 keyframe.fontSize = sizeToPx(transition.size);
 
             // Eep, side effect in a higher order function!
-            currentOffset += transition.duration / totalDuration;
+            currentOffset +=
+                (transition.duration * this.context.animationFactor) /
+                totalDuration;
 
             keyframe.offset = Math.max(0, Math.min(1, currentOffset));
             keyframe.easing = styleToCSSEasing(transition.style);

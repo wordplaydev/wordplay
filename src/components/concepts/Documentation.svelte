@@ -266,9 +266,9 @@
         height: 100%;
     }
 
-    :global(.animated) .palette {
+    .palette {
         transition: width ease-out, visibility ease-out, opacity ease-out;
-        transition-duration: 200ms;
+        transition-duration: calc(var(--animation-factor) * 200ms);
     }
 
     .content {

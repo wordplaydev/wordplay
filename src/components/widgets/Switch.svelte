@@ -54,9 +54,9 @@
         cursor: pointer;
     }
 
-    :global(.animated) .button {
+    .button {
         transition: transform;
-        transition-duration: 200ms;
+        transition-duration: calc(var(--animation-factor) * 200ms);
     }
 
     .off {

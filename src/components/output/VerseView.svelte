@@ -4,7 +4,7 @@
     import { afterUpdate, beforeUpdate, onDestroy, onMount } from 'svelte';
     import type Project from '@models/Project';
     import type Verse from '@output/Verse';
-    import { animationsOn } from '@models/stores';
+    import { animationFactor } from '@models/stores';
     import {
         preferredLanguages,
         preferredTranslations,
@@ -240,7 +240,7 @@
         verse.size ?? DefaultSize,
         $preferredLanguages,
         $loadedFonts,
-        $animationsOn
+        $animationFactor
     );
     $: contentBounds = verse.getLayout(context);
 
@@ -852,18 +852,18 @@
         outline-offset: calc(-3 * var(--wordplay-focus-width));
     }
 
-    :global(.animated) .verse {
+    .verse {
         transition: transform ease-out;
-        transition-duration: 200ms;
+        transition-duration: calc(var(--animation-factor) * 200ms);
     }
 
     .verse.changed {
         transition: none;
     }
 
-    :global(.animated) .ignored {
+    .ignored {
         animation: shake 1;
-        animation-duration: 100ms;
+        animation-duration: calc(var(--animation-factor) * 100ms);
     }
 
     .grid {

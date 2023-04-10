@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { animationsOn } from '@models/stores';
+    import { animationFactor } from '@models/stores';
     import { onMount, setContext } from 'svelte';
     import Loading from '@components/app/Loading.svelte';
     import {
@@ -113,8 +113,8 @@
 
 {#if PUBLIC_CONTEXT !== 'prod' || $page.route.id === '/'}
     <div
-        class:animated={$animationsOn}
         class:dark={$dark}
+        style="--animation-factor: {$animationFactor}"
         lang={$preferredLanguages[0]}
     >
         {#if loaded}

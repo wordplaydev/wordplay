@@ -166,9 +166,9 @@
         cursor: pointer;
     }
 
-    :global(.animated) .language {
+    .language {
         transition-property: transform;
-        transition-duration: 200ms;
+        transition-duration: calc(var(--animation-factor) * 200ms);
     }
 
     .language.supported {

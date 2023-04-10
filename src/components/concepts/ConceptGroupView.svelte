@@ -57,9 +57,9 @@
         color: var(--wordplay-disabled-color);
     }
 
-    :global(.animated) .expander {
+    .expander {
         transition: transform ease-out;
-        transition-duration: 200ms;
+        transition-duration: calc(var(--animation-factor) * 200ms);
     }
 
     .expander:focus {

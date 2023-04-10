@@ -58,10 +58,10 @@
 {/if}
 
 <style>
-    :global(.animated) .changed {
+    .changed {
         display: inline-block;
         animation: pop 1;
-        animation-duration: 200ms;
+        animation-duration: calc(var(--animation-factor) * 200ms);
     }
 
     @keyframes pop {

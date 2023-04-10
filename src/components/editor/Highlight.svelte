@@ -104,9 +104,9 @@
         stroke: var(--wordplay-evaluation-color);
     }
 
-    :global(.animated) .outline.animating path {
+    .outline.animating path {
         animation: shift ease-in-out infinite;
-        animation-duration: 1s;
+        animation-duration: calc(var(--animation-factor) * 1s);
     }
 
     :global(
@@ -124,18 +124,18 @@
         opacity: 1;
     }
 
-    :global(.animated) .outline.target path {
+    .outline.target path {
         animation: pulse infinite;
-        animation-duration: 2s;
+        animation-duration: calc(var(--animation-factor) * 2s);
     }
 
     .outline.match path {
         stroke: var(--wordplay-highlight);
     }
 
-    :global(.animated) .outline.target path {
+    .outline.target path {
         animation: pulse infinite;
-        animation-duration: 1s;
+        animation-duration: calc(var(--animation-factor) * 1s);
     }
 
     /* Conflicts layer on top of everything else */
@@ -155,9 +155,9 @@
         stroke-dasharray: calc(2 * var(--wordplay-border-width));
     }
 
-    :global(.animated) .underline.exception path {
+    .underline.exception path {
         animation: exception linear infinite;
-        animation-duration: 0.5s;
+        animation-duration: calc(var(--animation-factor) * 0.5s);
     }
 
     @keyframes exception {
@@ -169,8 +169,10 @@
         }
     }
 
-    :global(.animated) .ignored {
-        animation: shake 0.25s 1;
+    .ignored {
+        animation-name: shake;
+        animation-duration: calc(var(--animation-factor) * 0.25s);
+        animation-iteration-count: 1;
     }
 
     .outline.output path {

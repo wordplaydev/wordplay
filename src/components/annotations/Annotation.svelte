@@ -91,9 +91,9 @@
         visibility: visible;
     }
 
-    :global(.animated) .measured {
+    .measured {
         transition: left, ease-out right, ease-out;
-        transition-duration: 200ms;
+        transition-duration: calc(var(--animation-factor) * 200ms);
     }
 
     .annotation.step {

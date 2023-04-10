@@ -132,11 +132,8 @@
         width: 100%;
         height: 100%;
         overflow: hidden;
-    }
-
-    :global(.animated) .output {
         transition: ease-in, width ease-in, height ease-in;
-        transition-duration: 200ms;
+        transition-duration: calc(var(--animation-factor) * 200ms);
     }
 
     .mini {
@@ -161,9 +158,9 @@
         align-items: center;
     }
 
-    :global(.animated) .editing {
+    .editing {
         animation: jiggle ease-out infinite;
-        animation-duration: 0.2s;
+        animation-duration: calc(var(--animation-factor) * 0.2s);
     }
 
     @keyframes jiggle {

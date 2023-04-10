@@ -38,16 +38,12 @@
         cursor: pointer;
         width: fit-content;
         white-space: nowrap;
+        transition: transform calc(var(--animation-factor) * 200ms);
     }
 
     button.stretch {
         width: inherit;
         height: inherit;
-    }
-
-    :global(.animated) button {
-        transition: transform;
-        transition-duration: 200ms;
     }
 
     [aria-disabled='true'] {

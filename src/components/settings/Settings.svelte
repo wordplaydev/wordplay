@@ -1,7 +1,7 @@
 <script lang="ts">
     import { preferredTranslations } from '@translation/translations';
     import Button from '../widgets/Button.svelte';
-    import { animationsOn } from '@models/stores';
+    import { animationFactor } from '@models/stores';
     import LayoutChooser from './LayoutChooser.svelte';
     import LanguageChooser from './LanguageChooser.svelte';
     import { getUser, isDark } from '../project/Contexts';
@@ -12,6 +12,9 @@
     let dark = isDark();
 
     $: anonymous = $user === null;
+    $: animationSymbol = { 0: '🧘🏽‍♀️', 1: '🏃‍♀️', 2: '½', 3: '⅓', 4: '¼' }[
+        $animationFactor
+    ];
 </script>
 
 <div class="settings" class:expanded>
@@ -25,8 +28,10 @@
     <div class="controls">
         <Button
             tip={$preferredTranslations[0].ui.tooltip.animate}
-            action={() => animationsOn.set(!$animationsOn)}
-            >{#if $animationsOn}🏃‍♀️{:else}🧘🏽‍♀️{/if}</Button
+            action={() =>
+                animationFactor.set(
+                    $animationFactor < 4 ? $animationFactor + 1 : 0
+                )}>{animationSymbol}</Button
         >
         <LayoutChooser />
         <LanguageChooser />
@@ -72,9 +77,9 @@
         user-select: none;
     }
 
-    :global(.animated) .controls {
+    .controls {
         transition: max-width, opacity;
-        transition-duration: 300ms;
+        transition-duration: calc(var(--animation-factor) * 200ms);
         transition-timing-function: ease-out;
     }
 
@@ -84,8 +89,8 @@
         user-select: all;
     }
 
-    :global(.animated) .gear {
-        transition: transform 300ms ease-out;
+    .gear {
+        transition: transform calc(var(--animation-factor) * 200ms) ease-out;
     }
 
     .dark-mode {

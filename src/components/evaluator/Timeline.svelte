@@ -255,9 +255,9 @@
         display: inline-block;
     }
 
-    :global(.animated) .stream-input {
+    .stream-input {
         transition-property: font-size;
-        transition-duration: 200ms;
+        transition-duration: calc(var(--animation-factor) * 200ms);
     }
 
     .stream-input.down {
