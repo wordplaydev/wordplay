@@ -26,7 +26,7 @@
 
     /* Fonts */
     --wordplay-app-font: 'Noto Sans', 'Noto Emoji';
-    --wordplay-code-font: 'Noto Mono', 'Noto Emoji';
+    --wordplay-code-font: 'Noto Mono', 'Noto Emoji', 'Noto Sans';
 
     /* Spacing */
     --wordplay-editor-indent: 3em;

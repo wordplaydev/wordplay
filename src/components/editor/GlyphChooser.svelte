@@ -12,6 +12,7 @@
         TYPE_SYMBOL,
     } from '../../parser/Symbols';
     import { tokenize } from '../../parser/Tokenizer';
+    import { getUnicodeNamed as getUnicodeWithNameText } from '../../unicode/Unicode';
     import { getInsertions } from '../project/Contexts';
     import TextField from '../widgets/TextField.svelte';
     import TokenView from './TokenView.svelte';
@@ -34,7 +35,12 @@
 
     let expanded = false;
     let query = '';
-    let results: string[] = [];
+    $: results =
+        query.length < 3
+            ? []
+            : getUnicodeWithNameText(query).map((entry) =>
+                  String.fromCodePoint(entry.hex)
+              );
 
     function insert(glyph: string) {
         const map = $insertions;
@@ -80,5 +86,6 @@
     .glyph {
         display: inline-block;
         cursor: pointer;
+        height: 1em;
     }
 </style>
