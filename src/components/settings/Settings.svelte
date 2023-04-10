@@ -5,6 +5,7 @@
     import LayoutChooser from './LayoutChooser.svelte';
     import LanguageChooser from './LanguageChooser.svelte';
     import { getUser, isDark } from '../project/Contexts';
+    import { PUBLIC_CONTEXT } from '$env/static/public';
 
     let expanded = false;
 
@@ -18,13 +19,15 @@
 </script>
 
 <div class="settings" class:expanded>
-    <div class="account" class:anonymous>
-        <a href="/login">
-            {$user
-                ? $user.email
-                : $preferredTranslations[0].ui.labels.anonymous}
-        </a>
-    </div>
+    {#if PUBLIC_CONTEXT !== 'prod'}
+        <div class="account" class:anonymous>
+            <a href="/login">
+                {$user
+                    ? $user.email
+                    : $preferredTranslations[0].ui.labels.anonymous}
+            </a>
+        </div>
+    {/if}
     <div class="controls">
         <Button
             tip={$preferredTranslations[0].ui.tooltip.animate}

@@ -8,9 +8,13 @@ export const ANIMATED_KEY = 'animated';
 const persistedAnimationFactor = getPersistedValue(ANIMATED_KEY);
 
 export const animationFactor: Writable<number> = writable(
-    persistedAnimationFactor === true || persistedAnimationFactor === null
+    persistedAnimationFactor === true
         ? 1
-        : 0
+        : persistedAnimationFactor === null
+        ? 1
+        : typeof persistedAnimationFactor === 'number'
+        ? Math.min(4, Math.max(0, persistedAnimationFactor))
+        : 1
 );
 // Animation duration.
 export const animationDuration: Writable<number> = writable(200);
