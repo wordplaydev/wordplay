@@ -54,17 +54,19 @@
 
 <section class:expanded>
     <TextField placeholder="🔍" bind:text={query} />
-    {#each query === '' ? defaults : results as glyph}<span
-            class="glyph"
-            tabIndex="0"
-            on:keydown={(event) =>
-                event.key === ' ' || event.key === 'Enter'
-                    ? insert(glyph)
-                    : undefined}
-            on:mousedown|preventDefault|stopPropagation={(event) =>
-                insert(glyph)}
-            ><TokenView node={tokenize(glyph).getTokens()[0]} /></span
-        >{/each}
+    <div class="matches">
+        {#each query === '' ? defaults : results as glyph}<span
+                class="glyph"
+                tabIndex="0"
+                on:keydown={(event) =>
+                    event.key === ' ' || event.key === 'Enter'
+                        ? insert(glyph)
+                        : undefined}
+                on:mousedown|preventDefault|stopPropagation={(event) =>
+                    insert(glyph)}
+                ><TokenView node={tokenize(glyph).getTokens()[0]} /></span
+            >{:else}&mdash;{/each}
+    </div>
 </section>
 
 <style>
@@ -73,10 +75,16 @@
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         display: flex;
         flex-direction: row;
+        background-color: var(--wordplay-background);
+    }
+
+    .matches {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: row;
         flex-wrap: nowrap;
         gap: var(--wordplay-spacing);
         overflow-x: scroll;
-        background-color: var(--wordplay-background);
     }
 
     section.expanded {
