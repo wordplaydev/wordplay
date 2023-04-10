@@ -927,6 +927,7 @@ type Translation = {
             settings: string;
             newProject: string;
             dark: string;
+            chooserExpand: string;
         };
         prompt: {
             deleteSource: string;

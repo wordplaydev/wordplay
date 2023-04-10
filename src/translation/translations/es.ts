@@ -1921,6 +1921,7 @@ const eng_wordplay: Translation = {
             settings: 'show settings',
             newProject: 'new project',
             dark: 'toggle dark mode on, off, and default',
+            chooserExpand: 'expandir/colapsar',
         },
         prompt: {
             deleteSource: 'delete?',

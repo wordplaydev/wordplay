@@ -12,8 +12,10 @@
         TYPE_SYMBOL,
     } from '../../parser/Symbols';
     import { tokenize } from '../../parser/Tokenizer';
+    import { preferredTranslations } from '../../translation/translations';
     import { getUnicodeNamed as getUnicodeWithNameText } from '../../unicode/Unicode';
     import { getInsertions } from '../project/Contexts';
+    import Button from '../widgets/Button.svelte';
     import TextField from '../widgets/TextField.svelte';
     import TokenView from './TokenView.svelte';
 
@@ -67,6 +69,10 @@
                 ><TokenView node={tokenize(glyph).getTokens()[0]} /></span
             >{:else}&mdash;{/each}
     </div>
+    <Button
+        tip={$preferredTranslations[0].ui.tooltip.chooserExpand}
+        action={() => (expanded = !expanded)}>{expanded ? '–' : '+'}</Button
+    >
 </section>
 
 <style>
@@ -75,7 +81,9 @@
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         display: flex;
         flex-direction: row;
+        gap: var(--wordplay-spacing);
         background-color: var(--wordplay-background);
+        align-items: baseline;
     }
 
     .matches {
@@ -85,15 +93,23 @@
         flex-wrap: nowrap;
         gap: var(--wordplay-spacing);
         overflow-x: scroll;
+        align-content: baseline;
     }
 
     section.expanded {
-        height: 30%;
+        height: 10em;
+    }
+
+    .expanded .matches {
+        overflow-x: none;
+        overflow-y: scroll;
+        flex-wrap: wrap;
+        height: 100%;
     }
 
     .glyph {
         display: inline-block;
         cursor: pointer;
-        height: 1em;
+        height: 1.5em;
     }
 </style>

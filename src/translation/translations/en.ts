@@ -2265,6 +2265,7 @@ const en: Translation = {
             settings: 'show settings',
             newProject: 'new project',
             dark: 'toggle dark mode on, off, and default',
+            chooserExpand: 'expand/collapse',
         },
         prompt: {
             deleteSource: 'delete',
