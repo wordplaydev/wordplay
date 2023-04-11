@@ -92,7 +92,7 @@ export default class Verse extends TypeOutput {
                               this.value,
                               // Place everything in the center
                               -layout.width / 2,
-                              // We would normally not t negate the y because its in math coordinates, but we want to move it
+                              // We would normally not negate the y because its in math coordinates, but we want to move it
                               // down the y-axis by half, so we subtract.
                               -layout.height / 2,
                               0

@@ -80,6 +80,7 @@
     import { page } from '$app/stores';
     import type Caret from '../editor/util/Caret';
     import GlyphChooser from '../editor/GlyphChooser.svelte';
+    import Timeline from '../evaluator/Timeline.svelte';
 
     export let project: Project;
 
@@ -1022,6 +1023,9 @@
                         ><svelte:fragment slot="footer"
                             >{#if tile.kind === Content.Source}<GlyphChooser
                                     source={getSourceByID(tile.id)}
+                                />{:else if tile.kind === Content.Output && layout.fullscreenID !== tile.id}
+                                <Timeline
+                                    evaluator={$evaluator}
                                 />{/if}</svelte:fragment
                         ></TileView
                     >

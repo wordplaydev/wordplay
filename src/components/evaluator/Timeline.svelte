@@ -9,6 +9,8 @@
     import { tick } from 'svelte';
     import Exception from '@runtime/Exception';
     import { getEvaluation } from '../project/Contexts';
+    import Controls from './Controls.svelte';
+    import { preferredTranslations } from '../../translation/translations';
 
     export let evaluator: Evaluator;
 
@@ -159,81 +161,106 @@
     }
 </script>
 
-<header
-    transition:slide|local={getAnimationDuration()}
-    class="timeline"
+<section
+    class="evaluation"
+    aria-label={$preferredTranslations[0].ui.section.timeline}
     class:stepping={$evaluation?.playing === false}
-    on:mousedown={(event) => stepToMouse(event)}
-    on:mousemove={(event) =>
-        (event.buttons & 1) === 1 ? stepToMouse(event) : undefined}
-    on:mouseleave={() => (dragging = false)}
-    on:mouseup={() => (dragging = false)}
-    bind:this={timeline}
 >
-    {#if historyTrimmed}<span class="stream-input">…</span>{/if}
-    {#if $evaluation?.streams !== undefined}
-        {#each $evaluation.streams as reaction, index}
-            <!-- Compute the number of steps that occurred between this and the next input, or if there isn't one, the latest step. -->
-            {@const stepCount =
-                (index < $evaluation.streams.length - 1
-                    ? $evaluation.streams[index + 1].stepIndex
-                    : evaluator.getStepCount()) - reaction.stepIndex}
-            <!-- Show up to three of the streams that changed -->
-            {#each reaction.changes.slice(0, 3) as change}
-                {@const down =
-                    change.stream instanceof Keyboard
-                        ? change.value?.resolve('down')
-                        : change.stream instanceof MouseButton
-                        ? change.value
-                        : undefined}
-                <!-- Show an emoji representing the cause of the reevaluation -->
-                <span
-                    class={`event stream-input ${
-                        currentReaction === reaction ? 'current' : ''
-                    } ${down instanceof Bool && down.bool ? 'down' : ''}`}
-                    data-inputindex={reaction.stepIndex}
-                >
-                    {#if change.stream === undefined}
-                        ◆
-                    {:else}
-                        {change.stream.getName(['😀'])}
-                    {/if}
-                </span>
-            {:else}
-                <!-- Represent the program start when there are no reactions-->
-                <span
-                    class={`event stream-input ${
-                        currentReaction === reaction ? 'current' : ''
-                    }`}
-                    data-inputindex={reaction.stepIndex}
-                >
-                    ◆
-                </span>
-            {/each}
-            <!-- If there were more than three, indicate the trimming -->
-            {#if reaction.changes.length > 3}…{/if}
-            <!-- Show dots representing the steps after the reevaluation -->
-            <span
-                class="event steps"
-                data-startindex={reaction.stepIndex}
-                data-endindex={reaction.stepIndex + stepCount}
-                style:width="{Math.min(2, stepCount / 10)}em"
-                >&ZeroWidthSpace;</span
-            >
-            <!-- If the value was an exception, show that it ended that way -->
-            {#if evaluator.getSourceValueBefore(evaluator.getMain(), reaction.stepIndex + stepCount) instanceof Exception}<span
-                    data-exceptionindex={reaction.stepIndex + stepCount}
-                    class="event exception">!</span
-                >{/if}
-        {/each}
-    {/if}
-    <!-- Render the time slider -->
-    <div class="time" style:left="{timePosition}px"
-        ><span class="index">{$evaluation?.stepIndex}</span></div
+    <Controls project={evaluator.project} {evaluator} />
+    <header
+        transition:slide|local={getAnimationDuration()}
+        class="timeline"
+        class:stepping={$evaluation?.playing === false}
+        on:mousedown={(event) => stepToMouse(event)}
+        on:mousemove={(event) =>
+            (event.buttons & 1) === 1 ? stepToMouse(event) : undefined}
+        on:mouseleave={() => (dragging = false)}
+        on:mouseup={() => (dragging = false)}
+        bind:this={timeline}
     >
-</header>
+        {#if historyTrimmed}<span class="stream-input">…</span>{/if}
+        {#if $evaluation?.streams !== undefined}
+            {#each $evaluation.streams as reaction, index}
+                <!-- Compute the number of steps that occurred between this and the next input, or if there isn't one, the latest step. -->
+                {@const stepCount =
+                    (index < $evaluation.streams.length - 1
+                        ? $evaluation.streams[index + 1].stepIndex
+                        : evaluator.getStepCount()) - reaction.stepIndex}
+                <!-- Show up to three of the streams that changed -->
+                {#each reaction.changes.slice(0, 3) as change}
+                    {@const down =
+                        change.stream instanceof Keyboard
+                            ? change.value?.resolve('down')
+                            : change.stream instanceof MouseButton
+                            ? change.value
+                            : undefined}
+                    <!-- Show an emoji representing the cause of the reevaluation -->
+                    <span
+                        class={`event stream-input ${
+                            currentReaction === reaction ? 'current' : ''
+                        } ${down instanceof Bool && down.bool ? 'down' : ''}`}
+                        data-inputindex={reaction.stepIndex}
+                    >
+                        {#if change.stream === undefined}
+                            ◆
+                        {:else}
+                            {change.stream.getName(['😀'])}
+                        {/if}
+                    </span>
+                {:else}
+                    <!-- Represent the program start when there are no reactions-->
+                    <span
+                        class={`event stream-input ${
+                            currentReaction === reaction ? 'current' : ''
+                        }`}
+                        data-inputindex={reaction.stepIndex}
+                    >
+                        ◆
+                    </span>
+                {/each}
+                <!-- If there were more than three, indicate the trimming -->
+                {#if reaction.changes.length > 3}…{/if}
+                <!-- Show dots representing the steps after the reevaluation -->
+                <span
+                    class="event steps"
+                    data-startindex={reaction.stepIndex}
+                    data-endindex={reaction.stepIndex + stepCount}
+                    style:width="{Math.min(2, stepCount / 10)}em"
+                    >&ZeroWidthSpace;</span
+                >
+                <!-- If the value was an exception, show that it ended that way -->
+                {#if evaluator.getSourceValueBefore(evaluator.getMain(), reaction.stepIndex + stepCount) instanceof Exception}<span
+                        data-exceptionindex={reaction.stepIndex + stepCount}
+                        class="event exception">!</span
+                    >{/if}
+            {/each}
+        {/if}
+        <!-- Render the time slider -->
+        <div class="time" style:left="{timePosition}px"
+            ><span class="index">{$evaluation?.stepIndex}</span></div
+        >
+    </header>
+</section>
 
 <style>
+    .evaluation {
+        background: var(--wordplay-background);
+        border-top: var(--wordplay-border-color) solid
+            var(--wordplay-border-width);
+        padding: var(--wordplay-spacing);
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: var(--wordplay-spacing);
+        width: 100%;
+    }
+
+    .evaluation.stepping {
+        background-color: var(--wordplay-evaluation-color);
+        color: var(--wordplay-background);
+        border-bottom: none;
+    }
+
     .timeline {
         flex: 1;
         overflow-x: hidden;
