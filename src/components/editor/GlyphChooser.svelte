@@ -1,6 +1,7 @@
 <script lang="ts">
     import type Source from '../../nodes/Source';
     import {
+        CHANGE_SYMBOL,
         CONVERT_SYMBOL,
         ETC_SYMBOL,
         FALSE_SYMBOL,
@@ -31,6 +32,7 @@
         QUOTIENT_SYMBOL,
         CONVERT_SYMBOL,
         ETC_SYMBOL,
+        CHANGE_SYMBOL,
     ];
 
     const insertions = getInsertions();
