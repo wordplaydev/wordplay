@@ -3,6 +3,7 @@
     import {
         CHANGE_SYMBOL,
         CONVERT_SYMBOL,
+        DEGREE_SYMBOL,
         ETC_SYMBOL,
         FALSE_SYMBOL,
         FUNCTION_SYMBOL,
@@ -33,6 +34,7 @@
         CONVERT_SYMBOL,
         ETC_SYMBOL,
         CHANGE_SYMBOL,
+        DEGREE_SYMBOL,
     ];
 
     const insertions = getInsertions();
