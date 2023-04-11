@@ -119,9 +119,7 @@ export default class Phrase extends TypeOutput {
 
             if (metrics) {
                 width += metrics.width;
-                ascent =
-                    metrics.actualBoundingBoxAscent +
-                    metrics.actualBoundingBoxDescent;
+                ascent = metrics.fontBoundingBoxAscent;
             }
         }
 
