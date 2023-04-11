@@ -22,7 +22,7 @@ import { ArrangementType } from '../output/Layout';
 import { CameraDefinition } from '../input/Camera';
 import Root from '../nodes/Root';
 import { Animations } from '../output/Animations';
-import { SelectionDefinition } from '../input/Choice';
+import { ChoiceDefinition } from '../input/Choice';
 import { GridType } from '../output/Grid';
 
 export const AnimationTypes = [PoseType, SequenceType];
@@ -35,7 +35,7 @@ export const AppearanceTypes = [ColorType, PlaceType];
 
 export const StreamDefinitions = [
     TimeDefinition,
-    SelectionDefinition,
+    ChoiceDefinition,
     KeyboardDefinition,
     MousePositionDefinition,
     MouseButtonDefinition,

@@ -9,17 +9,13 @@ import StreamType from '../nodes/StreamType';
 import createStreamEvaluator from './createStreamEvaluator';
 
 /** A series of selected output, chosen by mouse or keyboard, allowing for programs that work for both mouse and keyboard. */
-export default class Selection extends Stream<Text> {
+export default class Choice extends Stream<Text> {
     readonly evaluator: Evaluator;
 
     on: boolean = true;
 
     constructor(evaluator: Evaluator) {
-        super(
-            evaluator,
-            SelectionDefinition,
-            new Text(evaluator.getMain(), '')
-        );
+        super(evaluator, ChoiceDefinition, new Text(evaluator.getMain(), ''));
 
         this.evaluator = evaluator;
     }
@@ -43,14 +39,14 @@ export default class Selection extends Stream<Text> {
     }
 }
 
-export const SelectionDefinition = StreamDefinition.make(
+export const ChoiceDefinition = StreamDefinition.make(
     getDocTranslations((t) => t.input.choice.doc),
     getNameTranslations((t) => t.input.choice.name),
     [],
     createStreamEvaluator(
         TextType.make(),
-        Selection,
-        (evaluation) => new Selection(evaluation.getEvaluator()),
+        Choice,
+        (evaluation) => new Choice(evaluation.getEvaluator()),
         (stream) => stream.configure()
     ),
     TextType.make()

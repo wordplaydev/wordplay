@@ -40,7 +40,7 @@
         setSelectedOutput,
     } from '../project/Contexts';
     import type Evaluator from '@runtime/Evaluator';
-    import Selection from '../../input/Choice';
+    import Choice from '../../input/Choice';
     import { DOMRectCenter, DOMRectDistance } from './utilities';
     import type TypeOutput from '../../output/TypeOutput';
     import Sequence from '../../output/Sequence';
@@ -382,7 +382,7 @@
                 : undefined;
         if (selection)
             evaluator
-                .getNativeStreamsOfType(Selection)
+                .getNativeStreamsOfType(Choice)
                 .forEach((stream) => stream.record(selection));
     }
 
