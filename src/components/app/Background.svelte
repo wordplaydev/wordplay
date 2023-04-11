@@ -66,18 +66,19 @@
     onMount(() => {
         mounted = true;
         const random: string[] = [];
-        for (
-            let i = 0;
-            i < Math.min(100, Math.round(windowWidth * windowHeight) / 20000);
-            i++
-        )
+        // Compute a number of glyphs roughly proportional to the window size.
+        const count = Math.min(
+            100,
+            Math.round(windowWidth * windowHeight) / 40000
+        );
+        for (let i = 0; i < count; i++)
             random.push(glyphs[Math.floor(Math.random() * glyphs.length)]);
 
         state = random.map((glyph, index) => {
             return {
                 glyph,
                 index,
-                size: Math.round(Math.random() * 256 + 16),
+                size: Math.round(Math.random() * 128 + 16),
                 x: Math.random() * windowWidth,
                 y: Math.random() * windowHeight,
                 angle: Math.round(Math.random() * 360),
