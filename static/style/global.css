@@ -59,7 +59,7 @@
     --wordplay-foreground: var(--color-white);
     --wordplay-background: var(--color-black);
     --wordplay-chrome: var(--color-dark-grey);
-    --wordplay-border-color: var(--color-light-grey);
+    --wordplay-border-color: var(--color-dark-grey);
     --wordplay-evaluation-color: var(--color-pink);
     --wordplay-highlight: var(--color-yellow);
     --wordplay-error: var(--color-orange);
