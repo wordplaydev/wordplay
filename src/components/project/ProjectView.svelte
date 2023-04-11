@@ -1192,7 +1192,7 @@
         font-size: 2rem;
         top: -1.5rem;
         left: -1.5rem;
-        font-family: 'Noto Sans';
+        font-family: 'Noto Sans', 'Noto Emoji';
         pointer-events: none;
     }
 

@@ -692,6 +692,8 @@
         //         )
         //     );
     }
+
+    const halfGridlineThickness = 0.1;
 </script>
 
 {#if mounted}
@@ -712,7 +714,7 @@
         tabIndex={interactive ? 0 : null}
         data-defaultfocus
         style={toCSS({
-            'font-family': `"${verse.font}", "${DefaultFont}"`,
+            'font-family': `"${verse.font}", ${DefaultFont}`,
             background: verse.background.toCSS(),
             color:
                 (verse.rest instanceof Pose
@@ -754,29 +756,33 @@
                 {#each range(left, right) as number}
                     <div
                         class="gridline vertical"
-                        style:left="{number * PX_PER_METER}px"
-                        style:top="{-top * PX_PER_METER}px"
+                        style:left="{number * PX_PER_METER -
+                            halfGridlineThickness}px"
+                        style:top="{-top * PX_PER_METER -
+                            halfGridlineThickness}px"
                         style:height="{Math.abs(top - bottom) * PX_PER_METER}px"
                     />
                 {/each}
                 {#each range(bottom, top) as number}
                     <div
                         class="gridline horizontal"
-                        style:top="{-number * PX_PER_METER}px"
-                        style:left="{left * PX_PER_METER}px"
+                        style:top="{-number * PX_PER_METER -
+                            halfGridlineThickness}px"
+                        style:left="{left * PX_PER_METER -
+                            halfGridlineThickness}px"
                         style:width="{Math.abs(left - right) * PX_PER_METER}px"
                     />
                 {/each}
                 <div
                     class="gridline horizontal axis"
                     style:top="0px"
-                    style:left="{left * PX_PER_METER}px"
+                    style:left="{left * PX_PER_METER - halfGridlineThickness}px"
                     style:width="{Math.abs(left - right) * PX_PER_METER}px"
                 />
                 <div
                     class="gridline vertical axis"
                     style:left="0px"
-                    style:top="{-top * PX_PER_METER}px"
+                    style:top="{-top * PX_PER_METER - halfGridlineThickness}px"
                     style:height="{Math.abs(top - bottom) * PX_PER_METER}px"
                 />
             {/if}
@@ -878,6 +884,8 @@
         position: absolute;
         border-style: solid;
         border-color: var(--wordplay-disabled-color);
+        border: none;
+        background: var(--wordplay-disabled-color);
     }
 
     .horizontal {
@@ -892,6 +900,7 @@
 
     .axis {
         border-color: currentColor;
+        background: currentColor;
     }
 
     .output-changes {

@@ -20,7 +20,7 @@ import Pose from './Pose';
 import type Sequence from './Sequence';
 import Group from './Group';
 
-export const DefaultFont = 'Noto Sans';
+export const DefaultFont = `'Noto Emoji', 'Noto Sans'`;
 export const DefaultSize = 1;
 
 export const VerseType = toStructure(`
