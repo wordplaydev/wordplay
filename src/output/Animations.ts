@@ -64,4 +64,30 @@ export const Animations = [
 			}`)
         )
     ),
+    FunctionDefinition.make(
+        getDocTranslations((t) => t.animation.fadein.doc),
+        getNameTranslations((t) => t.animation.fadein.name),
+        undefined,
+        [],
+        parseExpression(
+            toTokens(`{ 
+				  	0%: Pose(opacity: 0)
+				  	100%: Pose(opacity: 1)
+			}`)
+        )
+    ),
+    FunctionDefinition.make(
+        getDocTranslations((t) => t.animation.popup.doc),
+        getNameTranslations((t) => t.animation.popup.name),
+        undefined,
+        [],
+        parseExpression(
+            toTokens(`{ 
+				  	0%: Pose(scale: 0)
+				  	80%: Pose(scale: 1.1)
+                    90%: Pose(scale: 0.9)
+                    100%: Pose(scale: 1)
+			}`)
+        )
+    ),
 ];

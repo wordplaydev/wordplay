@@ -51,3 +51,4 @@ export const NEVER_SYMBOL = '🚫';
 export const UNPARSABLE_SYMBOL = '🤷🏻‍♀️';
 export const SOURCE_SYMBOL = '📄';
 export const NATIVE_SYMBOL = '🤫';
+export const DEGREE_SYMBOL = '°';

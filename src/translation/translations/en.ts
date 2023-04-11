@@ -2553,6 +2553,14 @@ const en: Translation = {
             doc: WRITE_DOC,
             name: ['spin'],
         },
+        fadein: {
+            doc: WRITE_DOC,
+            name: ['fadein'],
+        },
+        popup: {
+            doc: WRITE_DOC,
+            name: ['popup'],
+        },
     },
 };
 

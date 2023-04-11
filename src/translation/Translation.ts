@@ -1137,6 +1137,8 @@ type Translation = {
         sway: NameAndDocTranslation & { angle: NameAndDocTranslation };
         bounce: NameAndDocTranslation & { height: NameAndDocTranslation };
         spin: NameAndDocTranslation;
+        fadein: NameAndDocTranslation;
+        popup: NameAndDocTranslation;
     };
 };
 export default Translation;

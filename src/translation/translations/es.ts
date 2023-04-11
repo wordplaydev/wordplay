@@ -2188,6 +2188,14 @@ const eng_wordplay: Translation = {
             doc: WRITE_DOC,
             name: ['girar'],
         },
+        fadein: {
+            doc: WRITE_DOC,
+            name: ['revelar'],
+        },
+        popup: {
+            doc: WRITE_DOC,
+            name: ['surgir'],
+        },
     },
 };
 
