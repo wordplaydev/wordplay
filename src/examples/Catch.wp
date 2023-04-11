@@ -1,0 +1,20 @@
+===Catch/en
+`If the selected phrase is mouse, toggle whether the mouse is caught.`
+name: choice()
+caught: ∆ (name)? ⊥ … (name = 'mouse') & ~caught
+`Every second, move the mouse`
+place:  ∆ time(1000ms) ? Place(0m 0m 0m) … caught ?Place(0m 0m)Place(random(-2 2) · 1m random(-2 2) · 1m)
+
+Verse([
+		💬(
+			"🐭" 
+			selectable: ⊤
+			place: place
+rest:caught?Pose(tilt:180°)Pose()
+			move: caught ? Pose() Sequence({0%: Pose(tilt: 0°) 100%:Pose(tilt: 360°)})
+			duration: 1s
+			name: 'mouse'
+		)
+	] 
+	place: Place(0m 0m -2m)
+)
