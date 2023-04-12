@@ -993,25 +993,25 @@ const en: Translation = {
         },
         AnyType: {
             label: 'any type',
-            description: '',
+            description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: `represents any possible type`,
         },
         BooleanType: {
             label: 'boolean type',
-            description: '',
+            description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: `a true or false value`,
         },
         ConversionType: {
             label: 'conversion type',
-            description: '',
+            description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: `a type of function that converts values of one type to another `,
         },
         ExceptionType: {
             label: 'exception type',
-            description: '',
+            description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },
@@ -2454,36 +2454,6 @@ const en: Translation = {
         layout: {
             definition: { doc: WRITE_DOC, name: ['⠿', 'Layout'] },
         },
-        pose: {
-            definition: { doc: WRITE_DOC, name: ['🤪', 'Pose'] },
-            duration: { doc: WRITE_DOC, name: 'duration' },
-            style: { doc: WRITE_DOC, name: 'style' },
-            color: { doc: WRITE_DOC, name: 'color' },
-            opacity: { doc: WRITE_DOC, name: 'opacity' },
-            offset: { doc: WRITE_DOC, name: 'offset' },
-            tilt: { doc: WRITE_DOC, name: 'tilt' },
-            scale: { doc: WRITE_DOC, name: 'scale' },
-            flipx: { doc: WRITE_DOC, name: 'flipx' },
-            flipy: { doc: WRITE_DOC, name: 'flipy' },
-        },
-        color: {
-            definition: { doc: WRITE_DOC, name: ['🌈', 'Color'] },
-            lightness: { doc: WRITE_DOC, name: ['lightness', 'l'] },
-            chroma: { doc: WRITE_DOC, name: ['chroma', 'c'] },
-            hue: { doc: WRITE_DOC, name: ['hue', 'h'] },
-        },
-        sequence: {
-            definition: { doc: WRITE_DOC, name: ['┅', 'Sequence'] },
-            count: { doc: WRITE_DOC, name: 'count' },
-            timing: { doc: WRITE_DOC, name: 'timing' },
-            poses: { doc: WRITE_DOC, name: 'poses' },
-        },
-        place: {
-            definition: { doc: WRITE_DOC, name: ['📍', 'Place'] },
-            x: { doc: WRITE_DOC, name: 'x' },
-            y: { doc: WRITE_DOC, name: 'y' },
-            z: { doc: WRITE_DOC, name: 'z' },
-        },
         row: {
             definition: { doc: WRITE_DOC, name: ['➡', 'Row'] },
             description: (count, phrases, groups) =>
@@ -2518,6 +2488,46 @@ const en: Translation = {
             cellWidth: { doc: WRITE_DOC, name: 'cellwidth' },
             cellHeight: { doc: WRITE_DOC, name: 'cellpadding' },
         },
+        shape: {
+            definition: { doc: WRITE_DOC, name: 'Shape' },
+        },
+        rectangle: {
+            definition: { doc: WRITE_DOC, name: ['Rectangle'] },
+            left: { doc: WRITE_DOC, name: 'left' },
+            top: { doc: WRITE_DOC, name: 'top' },
+            right: { doc: WRITE_DOC, name: 'right' },
+            bottom: { doc: WRITE_DOC, name: 'bottom' },
+        },
+        pose: {
+            definition: { doc: WRITE_DOC, name: ['🤪', 'Pose'] },
+            duration: { doc: WRITE_DOC, name: 'duration' },
+            style: { doc: WRITE_DOC, name: 'style' },
+            color: { doc: WRITE_DOC, name: 'color' },
+            opacity: { doc: WRITE_DOC, name: 'opacity' },
+            offset: { doc: WRITE_DOC, name: 'offset' },
+            tilt: { doc: WRITE_DOC, name: 'tilt' },
+            scale: { doc: WRITE_DOC, name: 'scale' },
+            flipx: { doc: WRITE_DOC, name: 'flipx' },
+            flipy: { doc: WRITE_DOC, name: 'flipy' },
+        },
+        color: {
+            definition: { doc: WRITE_DOC, name: ['🌈', 'Color'] },
+            lightness: { doc: WRITE_DOC, name: ['lightness', 'l'] },
+            chroma: { doc: WRITE_DOC, name: ['chroma', 'c'] },
+            hue: { doc: WRITE_DOC, name: ['hue', 'h'] },
+        },
+        sequence: {
+            definition: { doc: WRITE_DOC, name: ['┅', 'Sequence'] },
+            count: { doc: WRITE_DOC, name: 'count' },
+            timing: { doc: WRITE_DOC, name: 'timing' },
+            poses: { doc: WRITE_DOC, name: 'poses' },
+        },
+        place: {
+            definition: { doc: WRITE_DOC, name: ['📍', 'Place'] },
+            x: { doc: WRITE_DOC, name: 'x' },
+            y: { doc: WRITE_DOC, name: 'y' },
+            z: { doc: WRITE_DOC, name: 'z' },
+        },
         verse: {
             definition: { doc: WRITE_DOC, name: ['🌎', '🌍', '🌏', 'Verse'] },
             description: (count, phrases, groups) =>
@@ -2530,6 +2540,7 @@ const en: Translation = {
                 }`,
             content: { doc: WRITE_DOC, name: 'content' },
             background: { doc: WRITE_DOC, name: 'background' },
+            frame: { doc: WRITE_DOC, name: 'frame' },
         },
         easing: {
             straight: 'straight',

@@ -2103,6 +2103,7 @@ const eng_wordplay: Translation = {
             description: () => WRITE_DOC,
             content: { doc: WRITE_DOC, name: 'contenido' },
             background: { doc: WRITE_DOC, name: 'fondo' },
+            frame: { doc: WRITE_DOC, name: 'marco' },
         },
         group: {
             definition: { doc: WRITE_DOC, name: 'Group' },
@@ -2115,6 +2116,36 @@ const eng_wordplay: Translation = {
         },
         layout: {
             definition: { doc: WRITE_DOC, name: ['Arrangement'] },
+        },
+        row: {
+            definition: { doc: WRITE_DOC, name: ['Fila'] },
+            description: () => WRITE_DOC,
+            padding: { doc: WRITE_DOC, name: 'relleno' },
+        },
+        stack: {
+            definition: { doc: WRITE_DOC, name: 'Pila' },
+            description: () => WRITE_DOC,
+            padding: { doc: WRITE_DOC, name: 'relleno' },
+        },
+        grid: {
+            definition: { doc: WRITE_DOC, name: 'cuadrícula' },
+            description: (rows: number, columns: number) =>
+                `cuadrícula de ${rows} fila, ${columns} columnas${rows}`,
+            rows: { doc: WRITE_DOC, name: 'fila' },
+            columns: { doc: WRITE_DOC, name: 'columnas' },
+            padding: { doc: WRITE_DOC, name: 'relleno' },
+            cellWidth: { doc: WRITE_DOC, name: 'anchodecelda' },
+            cellHeight: { doc: WRITE_DOC, name: 'alturadecelda' },
+        },
+        shape: {
+            definition: { doc: WRITE_DOC, name: ['forma'] },
+        },
+        rectangle: {
+            definition: { doc: WRITE_DOC, name: ['Rectángulo'] },
+            left: { doc: WRITE_DOC, name: 'izquierda' },
+            top: { doc: WRITE_DOC, name: 'masalta' },
+            right: { doc: WRITE_DOC, name: 'derecha' },
+            bottom: { doc: WRITE_DOC, name: 'abajo' },
         },
         pose: {
             definition: { doc: WRITE_DOC, name: 'Pose' },
@@ -2145,26 +2176,6 @@ const eng_wordplay: Translation = {
             x: { doc: WRITE_DOC, name: 'x' },
             y: { doc: WRITE_DOC, name: 'y' },
             z: { doc: WRITE_DOC, name: 'z' },
-        },
-        row: {
-            definition: { doc: WRITE_DOC, name: ['Fila'] },
-            description: () => WRITE_DOC,
-            padding: { doc: WRITE_DOC, name: 'relleno' },
-        },
-        stack: {
-            definition: { doc: WRITE_DOC, name: 'Pila' },
-            description: () => WRITE_DOC,
-            padding: { doc: WRITE_DOC, name: 'relleno' },
-        },
-        grid: {
-            definition: { doc: WRITE_DOC, name: 'cuadrícula' },
-            description: (rows: number, columns: number) =>
-                `cuadrícula de ${rows} fila, ${columns} columnas${rows}`,
-            rows: { doc: WRITE_DOC, name: 'fila' },
-            columns: { doc: WRITE_DOC, name: 'columnas' },
-            padding: { doc: WRITE_DOC, name: 'relleno' },
-            cellWidth: { doc: WRITE_DOC, name: 'anchodecelda' },
-            cellHeight: { doc: WRITE_DOC, name: 'alturadecelda' },
         },
         easing: {
             straight: 'lineal',

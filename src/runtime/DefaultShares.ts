@@ -24,6 +24,7 @@ import Root from '../nodes/Root';
 import { Animations } from '../output/Animations';
 import { ChoiceDefinition } from '../input/Choice';
 import { GridType } from '../output/Grid';
+import { Shapes } from '../output/Shapes';
 
 export const AnimationTypes = [PoseType, SequenceType];
 
@@ -56,6 +57,7 @@ const DefaultShares: (
     ...AnimationTypes,
     ...StreamDefinitions,
     ...Animations,
+    ...Shapes,
 ];
 
 export default DefaultShares;

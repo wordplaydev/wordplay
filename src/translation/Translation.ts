@@ -1061,9 +1061,20 @@ type Translation = {
             ) => string;
             content: NameAndDocTranslation;
             background: NameAndDocTranslation;
+            frame: NameAndDocTranslation;
         };
         layout: {
             definition: NameAndDocTranslation;
+        };
+        shape: {
+            definition: NameAndDocTranslation;
+        };
+        rectangle: {
+            definition: NameAndDocTranslation;
+            left: NameAndDocTranslation;
+            top: NameAndDocTranslation;
+            right: NameAndDocTranslation;
+            bottom: NameAndDocTranslation;
         };
         pose: {
             definition: NameAndDocTranslation;

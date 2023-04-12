@@ -736,6 +736,7 @@
             place={center}
             focus={renderedFocus}
             viewport={{ width: viewportWidth, height: viewportHeight }}
+            clip={verse.frame}
             parentAscent={0}
             {context}
             {interactive}

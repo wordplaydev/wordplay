@@ -8,16 +8,18 @@
     import Phrase from '@output/Phrase';
     import PhraseView from './PhraseView.svelte';
     import Group from '@output/Group';
-    import type Verse from '@output/Verse';
     import Evaluate from '@nodes/Evaluate';
     import { getSelectedOutput } from '../project/Contexts';
     import { preferredTranslations } from '@translation/translations';
+    import type { Shape } from '../../output/Shapes';
+    import type Verse from '../../output/Verse';
 
     export let group: Group | Verse;
     export let place: Place;
     export let focus: Place;
     export let viewport: { width: number; height: number } | undefined =
         undefined;
+    export let clip: Shape | undefined = undefined;
     export let interactive: boolean;
     export let parentAscent: number;
     export let context: RenderContext;
@@ -83,6 +85,7 @@
         },
         viewport
     )}
+    style:clip-path={clip ? clip.toCSSClip() : null}
 >
     <slot />
     {#each ordered as [child, childPlace] (child.getName())}
@@ -108,6 +111,18 @@
             />
         {/if}
     {/each}
+    {#if clip}
+        <svg
+            class="frame"
+            role="presentation"
+            width={clip.getWidth()}
+            height={clip.getHeight()}
+            xmlns="http://www.w3.org/2000/svg"
+            style="transform: translate({clip.getLeft()}px, {clip.getTop()}px)"
+        >
+            <path class="border" d={clip.toSVGPath()} />
+        </svg>
+    {/if}
 </div>
 
 <style>
@@ -115,6 +130,16 @@
         position: absolute;
         left: 0;
         top: 0;
+    }
+
+    .frame {
+        pointer-events: none;
+    }
+
+    path.border {
+        fill: none;
+        stroke: var(--wordplay-border-color);
+        stroke-width: calc(2 * var(--wordplay-border-width));
     }
 
     .group[data-selectable='true'] {

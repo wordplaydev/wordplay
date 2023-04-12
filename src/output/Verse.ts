@@ -19,6 +19,7 @@ import type TextLang from './TextLang';
 import Pose from './Pose';
 import type Sequence from './Sequence';
 import Group from './Group';
+import { toShape, type Shape } from './Shapes';
 
 export const DefaultFont = `'Noto Emoji', 'Noto Sans'`;
 export const DefaultSize = 1;
@@ -27,6 +28,7 @@ export const VerseType = toStructure(`
     ${getBind((t) => t.output.verse.definition, '•')} Type(
         ${getBind((t) => t.output.verse.content)}•[Type]
         ${getBind((t) => t.output.verse.background)}•Color: Color(100 0 0°)
+        ${getBind((t) => t.output.verse.frame)}•Shape|ø: ø
         ${TypeOutputInputs}
     )
 `);
@@ -34,11 +36,13 @@ export const VerseType = toStructure(`
 export default class Verse extends TypeOutput {
     readonly content: (TypeOutput | null)[];
     readonly background: Color;
+    readonly frame: Shape | undefined;
 
     constructor(
         value: Value,
         content: (TypeOutput | null)[],
         background: Color,
+        frame: Shape | undefined = undefined,
         size: number,
         font: string,
         place: Place | undefined = undefined,
@@ -70,6 +74,7 @@ export default class Verse extends TypeOutput {
 
         this.content = content;
         this.background = background;
+        this.frame = frame;
     }
 
     getOutput() {
@@ -178,6 +183,7 @@ export function toVerse(value: Value): Verse | undefined {
                 ? toTypeOutputList(possibleGroups, namer)
                 : toTypeOutput(possibleGroups, namer);
         const background = toColor(value.resolve('background'));
+        const frame = toShape(value.resolve('frame'));
 
         const {
             size,
@@ -202,6 +208,7 @@ export function toVerse(value: Value): Verse | undefined {
                   value,
                   Array.isArray(content) ? content : [content],
                   background,
+                  frame,
                   size ?? DefaultSize,
                   font ?? DefaultFont,
                   place,
@@ -231,6 +238,7 @@ export function toVerse(value: Value): Verse | undefined {
                       new Decimal(0),
                       new Decimal(0)
                   ),
+                  undefined,
                   DefaultSize,
                   DefaultFont,
                   undefined,
