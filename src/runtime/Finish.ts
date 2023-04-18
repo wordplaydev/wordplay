@@ -32,17 +32,18 @@ export function finish(evaluator: Evaluator, expr: Expression) {
             ? undefined
             : evaluator.getLatestValueOf(expr, count);
 
+    const past = evaluator.isInPast();
+
     // If there's a prior value and we're either in the past or this is constant, reuse the value.
     if (
         priorValue !== undefined &&
-        !evaluator.isInPast() &&
-        evaluator.project.isConstant(expr)
+        (past || evaluator.project.isConstant(expr))
     ) {
         // Evaluate any side effects
         const value = expr.evaluate(evaluator, priorValue);
 
         // Notify the evaluator that we finished this evaluation.
-        evaluator.finishExpression(expr, priorValue);
+        evaluator.finishExpression(expr, priorValue, false);
 
         // Return the prior value.
         return value;
@@ -53,7 +54,7 @@ export function finish(evaluator: Evaluator, expr: Expression) {
         const value = expr.evaluate(evaluator, undefined);
 
         // Notify the evaluator that we finished this evaluation.
-        evaluator.finishExpression(expr, value);
+        evaluator.finishExpression(expr, value, true);
 
         return value;
     }

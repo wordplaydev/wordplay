@@ -687,7 +687,7 @@ export default class Evaluator {
             // If there's another Evaluation on the stack, pass the value to it by pushing it onto it's stack.
             if (this.evaluations.length > 0) {
                 this.evaluations[0].pushValue(value);
-                // If we're not in the past, remember the value that was evaluated. This usually happens in finishExpression, but happens here for evaluations,
+                // Remember the value that was evaluated. This usually happens in finishExpression, but happens here for evaluations,
                 // since there is no step that manages evaluation finishes.
                 const creator = evaluation.getCreator();
                 const list = this.values.get(creator) ?? [];
@@ -1196,7 +1196,7 @@ export default class Evaluator {
         return this.getCount(expression);
     }
 
-    finishExpression(expression: Expression, value: Value) {
+    finishExpression(expression: Expression, value: Value, record: boolean) {
         const count = this.counters.get(expression);
         if (count === undefined)
             throw Error(
@@ -1207,10 +1207,12 @@ export default class Evaluator {
             );
         this.counters.set(expression, count + 1);
 
-        // Remember the value it computed in the value history.
+        // Remember the value it computed in the value history, if we haven't already recorded it.
         const list = this.values.get(expression) ?? [];
-        list.push({ value: value, stepNumber: this.getStepIndex() });
-        this.values.set(expression, list);
+        if (record) {
+            list.push({ value: value, stepNumber: this.getStepIndex() });
+            this.values.set(expression, list);
+        }
     }
 
     /** Bind the given value to the given name in the context of the current evaluation. */
