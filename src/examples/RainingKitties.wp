@@ -1,5 +1,5 @@
 === RainingKitties/en
-count: 100
+count: 50
 size: 30
 
 •Kitty(x•# y•# z•# angle•# speed•#) ()
@@ -11,17 +11,17 @@ kitties•[Kitty]:  ∆ time() ?
         ƒ(_) Kitty(
             random(-size size)
             random(-size size)
-            random(0 size)
-            random(360)
-            random(-30 30)
-        )
-    )
-    …
-    kitties.translate(
-        ƒ(kitty•Kitty)
+            	random(0 size ÷ 2)
+            	random(360)
+            	random(-30 30)
+        		)
+    			)
+    			…
+    			kitties.translate(
+        		ƒ(kitty•Kitty)
             (kitty.y: kitty.y < -size ? size kitty.y - 2)
                 .angle: kitty.angle + kitty.speed
-    )
+    				)
 
 `Convert the kitties into phrases`
 Verse(
@@ -35,7 +35,7 @@ Verse(
                     kitty.y · 1m
                     kitty.z · 1m
                 )
-                rotation: kitty.angle ·1°
+                rotation: kitty.angle · 1°
             )
     )
     place: Place(0m 0m -5m)
