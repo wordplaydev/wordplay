@@ -38,9 +38,7 @@
             // This is associated with a stream
             stream !== undefined &&
             // The stream caused the most recent reaction
-            $evaluation.evaluator.didStreamCauseReaction(stream) &&
-            // This node was evaluated
-            $evaluation.evaluator.getLatestValueOf(node) !== undefined
+            $evaluation.evaluator.didStreamCauseReaction(stream)
         ) {
             animating = true;
             // Reset after the animation is done.

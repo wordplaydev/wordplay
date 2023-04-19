@@ -167,7 +167,10 @@
                                       a instanceof Expression
                               );
                 if (firstExpression) {
-                    const value = evaluator.getLatestValueOf(firstExpression);
+                    const value =
+                        evaluator.getLatestExpressionValueInEvaluation(
+                            firstExpression
+                        );
                     if (value)
                         nodeView = document.querySelector(
                             `.value[data-id="${value.id}"]`

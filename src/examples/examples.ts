@@ -24,6 +24,7 @@ import Maze from './Maze.wp?raw';
 import Adventure from './Adventure.wp?raw';
 import Letters from './Letters.wp?raw';
 import RotatingBinary from './RotatingBinary.wp?raw';
+import Greeting from './Greeting.wp?raw';
 import Catch from './Catch.wp?raw';
 import { parseNames, toTokens } from '../parser/Parser';
 import type Names from '../nodes/Names';
@@ -88,4 +89,5 @@ export const examples: Stuff[] = [
     Letters,
     RotatingBinary,
     Catch,
+    Greeting,
 ].map((source) => wpToStuff(source));

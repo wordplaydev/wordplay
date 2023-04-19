@@ -37,7 +37,7 @@ export function start(evaluator: Evaluator, expr: Expression) {
     if (
         !evaluator.isInPast() &&
         evaluator.project.isConstant(expr) &&
-        evaluator.getLatestValueOf(expr, evaluator.getStepIndex())
+        evaluator.getLatestExpressionValue(expr)
     ) {
         // Ask the evaluator to jump past this start's corresponding finish.
         evaluator.jumpPast(expr);

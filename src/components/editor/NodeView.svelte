@@ -40,20 +40,11 @@
             !$evaluation.playing &&
             node instanceof Expression &&
             !node.isEvaluationInvolved()
-        ) {
-            const root = $evaluation.evaluator.project
-                .getRoot(node)
-                ?.getEvaluationRoot(node);
-            const eva = root
-                ? $evaluation.evaluator.getEvaluationOf(root)
-                : undefined;
-            if (eva)
-                value = $evaluation.evaluator.getLatestValueOf(
-                    node,
-                    $evaluation.evaluator.getStepIndex(),
-                    eva.getStepNumber()
+        )
+            value =
+                $evaluation.evaluator.getLatestExpressionValueInEvaluation(
+                    node
                 );
-        }
     }
 
     // Get the root's computed spaces store

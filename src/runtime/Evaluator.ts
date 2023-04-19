@@ -321,7 +321,29 @@ export default class Evaluator {
             : step.node.getStart();
     }
 
-    getLatestValueOf(
+    getLatestExpressionValueInEvaluation(expression: Expression) {
+        const root = this.project
+            .getRoot(expression)
+            ?.getEvaluationRoot(expression);
+        const eva = root ? this.getEvaluationOf(root) : undefined;
+        return eva
+            ? this.getLatestExpressionValue(
+                  expression,
+                  this.getStepIndex(),
+                  eva.getStepNumber()
+              )
+            : undefined;
+    }
+
+    getExpressionValueAtIndex(
+        expression: Expression,
+        index: number
+    ): Value | undefined {
+        return this.values.get(expression)?.find((v) => v.stepNumber === index)
+            ?.value;
+    }
+
+    getLatestExpressionValue(
         expression: Expression,
         beforeStepNumber?: number,
         afterStepNumber?: number
@@ -681,15 +703,8 @@ export default class Evaluator {
             // If there's another Evaluation on the stack, pass the value to it by pushing it onto it's stack.
             if (this.evaluations.length > 0) {
                 this.evaluations[0].pushValue(value);
-                // Remember the value that was evaluated. This usually happens in finishExpression, but happens here for evaluations,
-                // since there is no step that manages evaluation finishes.
-                const creator = evaluation.getCreator();
-                const list = this.values.get(creator) ?? [];
-                list.push({
-                    value: value,
-                    stepNumber: this.getStepIndex(),
-                });
-                this.values.set(creator, list);
+                // Remember the value that was evaluated.
+                this.saveExpressionValue(evaluation.getCreator(), value);
             }
             // Otherwise, save the value and clean up this final evaluation; nothing left to do!
             else this.end();
@@ -1187,11 +1202,15 @@ export default class Evaluator {
 
     startExpression(_: Expression) {}
 
-    finishExpression(expression: Expression, value: Value) {
-        // Remember the value it computed in the value history, if we haven't already recorded it.
+    saveExpressionValue(expression: Expression, value: Value) {
+        // Remember the value it computed in the value history, if we haven't already recorded a value for this step index.
         const list = this.values.get(expression) ?? [];
-        list.push({ value: value, stepNumber: this.getStepIndex() });
-        this.values.set(expression, list);
+        const index = this.getStepIndex();
+        // If the list doesn't have a value for this index, save it.
+        if (!list.some((v) => v.stepNumber === index)) {
+            list.push({ value: value, stepNumber: index });
+            this.values.set(expression, list);
+        }
     }
 
     /** Bind the given value to the given name in the context of the current evaluation. */
