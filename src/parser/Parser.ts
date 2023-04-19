@@ -7,7 +7,7 @@ import type Expression from '@nodes/Expression';
 import type Type from '@nodes/Type';
 import Program from '@nodes/Program';
 import Borrow from '@nodes/Borrow';
-import Block from '@nodes/Block';
+import Block, { BlockKind } from '@nodes/Block';
 import ListLiteral from '@nodes/ListLiteral';
 import Bind from '@nodes/Bind';
 import Evaluate from '@nodes/Evaluate';
@@ -298,7 +298,7 @@ export function parseProgram(tokens: Tokens, doc: boolean = false): Program {
     while (tokens.hasNext() && tokens.nextIs(TokenType.Borrow))
         borrows.push(parseBorrow(tokens));
 
-    const block = parseBlock(tokens, true, false, doc);
+    const block = parseBlock(tokens, BlockKind.Root, doc);
 
     // If the next token is the end, we're done! Otherwise, read all of the remaining
     // tokens and bundle them into an unparsable.
@@ -329,10 +329,11 @@ export function parseBorrow(tokens: Tokens): Borrow {
 /** BLOCK :: DOCS ? ( [BIND|EXPRESSION]+ )  */
 export function parseBlock(
     tokens: Tokens,
-    root: boolean = false,
-    creator: boolean = false,
+    kind: BlockKind = BlockKind.Block,
     doc: boolean = false
 ): Block {
+    const root = kind === BlockKind.Root;
+
     // Grab any documentation if this isn't a root.
     let docs = root ? undefined : parseDocs(tokens);
 
@@ -359,7 +360,7 @@ export function parseBlock(
         ? tokens.read(TokenType.EvalClose)
         : undefined;
 
-    return new Block(statements, root, creator, open, close, docs);
+    return new Block(statements, kind, open, close, docs);
 }
 
 function nextAreOptionalDocsThen(tokens: Tokens, types: TokenType[]): boolean {
@@ -595,7 +596,7 @@ function parseAtomicExpression(tokens: Tokens): Expression {
             ? parseTable(tokens)
             : // A block expression
             nextAreOptionalDocsThen(tokens, [TokenType.EvalOpen])
-            ? parseBlock(tokens)
+            ? parseBlock(tokens, BlockKind.Block)
             : // A structure definition
             nextAreOptionalDocsThen(tokens, [TokenType.Type]) ||
               nextAreOptionalDocsThen(tokens, [TokenType.Share, TokenType.Type])
@@ -1019,10 +1020,12 @@ export function parseFunction(tokens: Tokens): FunctionDefinition {
         output = parseType(tokens);
     }
 
-    const expression =
+    let expression =
         !tokens.hasNext() || tokens.nextHasMoreThanOneLineBreak()
             ? undefined
             : parseExpression(tokens);
+
+    if (expression instanceof Block) expression = expression.asFunctionBlock();
 
     return new FunctionDefinition(
         docs,
@@ -1344,7 +1347,7 @@ export function parseStructure(tokens: Tokens): StructureDefinition {
         ? tokens.read(TokenType.EvalClose)
         : undefined;
     const block = nextAreOptionalDocsThen(tokens, [TokenType.EvalOpen])
-        ? parseBlock(tokens, false, true)
+        ? parseBlock(tokens, BlockKind.Creator)
         : undefined;
 
     return new StructureDefinition(

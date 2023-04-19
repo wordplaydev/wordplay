@@ -385,8 +385,8 @@ export default class Bind extends Expression {
         const parent = this.getParent(context);
         return (
             parent instanceof Block &&
-            !parent.root &&
-            !parent.creator &&
+            !parent.isRoot() &&
+            !parent.isCreator() &&
             super.isConstant(context)
         );
     }

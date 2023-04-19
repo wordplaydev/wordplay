@@ -27,19 +27,24 @@ import type { Replacement } from './Node';
 import type Translation from '@translation/Translation';
 import Glyphs from '../lore/Glyphs';
 
+export enum BlockKind {
+    Root = 'root',
+    Creator = 'creator',
+    Function = 'function',
+    Block = 'block',
+}
+
 export default class Block extends Expression {
     readonly docs?: Docs;
     readonly open?: Token;
     readonly statements: Expression[];
     readonly close?: Token;
 
-    readonly root: boolean;
-    readonly creator: boolean;
+    readonly kind: BlockKind;
 
     constructor(
         statements: Expression[],
-        root: boolean,
-        creator: boolean,
+        kind: BlockKind,
         open?: Token,
         close?: Token,
         docs?: Docs
@@ -55,8 +60,7 @@ export default class Block extends Expression {
                 : docs instanceof Docs
                 ? docs
                 : new Docs(docs);
-        this.root = root;
-        this.creator = creator;
+        this.kind = kind;
 
         this.computeChildren();
     }
@@ -64,8 +68,7 @@ export default class Block extends Expression {
     static make(statements: Expression[]) {
         return new Block(
             statements,
-            false,
-            false,
+            BlockKind.Block,
             new EvalOpenToken(),
             new EvalCloseToken()
         );
@@ -82,22 +85,39 @@ export default class Block extends Expression {
                     translation.node.Block.statement,
                 space: true,
                 indent: (parent: Node) =>
-                    parent instanceof Block && !parent.root,
-                newline: this.root,
+                    parent instanceof Block && parent.kind !== BlockKind.Root,
+                newline: this.isRoot(),
             },
             { name: 'close', types: [Token] },
         ];
     }
 
+    isRoot() {
+        return this.kind === BlockKind.Root;
+    }
+
+    isCreator() {
+        return this.kind === BlockKind.Creator;
+    }
+
     isBlockFor(child: Node) {
-        return !this.root && this.statements.includes(child as Expression);
+        return !this.isRoot() && this.statements.includes(child as Expression);
+    }
+
+    asFunctionBlock() {
+        return new Block(
+            this.statements,
+            BlockKind.Function,
+            this.open,
+            this.close,
+            this.docs
+        );
     }
 
     clone(replace?: Replacement) {
         return new Block(
             this.replaceChild('statements', this.statements, replace),
-            this.root,
-            this.creator,
+            this.kind,
             this.replaceChild('open', this.open, replace),
             this.replaceChild('close', this.close, replace),
             this.replaceChild('docs', this.docs, replace)
@@ -107,8 +127,7 @@ export default class Block extends Expression {
     withStatement(statement: Expression) {
         return new Block(
             [...this.statements, statement],
-            this.root,
-            this.creator,
+            this.kind,
             this.open,
             this.close,
             this.docs
@@ -122,7 +141,7 @@ export default class Block extends Expression {
     }
 
     isEvaluationInvolved() {
-        return this.root || this.creator;
+        return this.kind !== BlockKind.Block;
     }
 
     getScopeOfChild(): Node | undefined {
@@ -134,8 +153,8 @@ export default class Block extends Expression {
 
         // Non-root blocks can't be empty. And if they aren't empty, the last statement must be an expression.
         if (
-            !this.root &&
-            !this.creator &&
+            !this.isRoot() &&
+            !this.isCreator() &&
             (this.statements.length === 0 ||
                 !(
                     this.statements[this.statements.length - 1] instanceof
@@ -212,7 +231,7 @@ export default class Block extends Expression {
         const parent = this.getParent(context);
 
         // If the block is in a structure definition, then it depends on the parent's inputs
-        if (this.creator && parent instanceof StructureDefinition)
+        if (this.isCreator() && parent instanceof StructureDefinition)
             return [...parent.inputs];
 
         // Otherwise, a block's value depends on it's last statement.
@@ -237,7 +256,7 @@ export default class Block extends Expression {
 
     /** Blocks are constant if they're dependencies are constant, and only if they aren't creators or roots. */
     isConstant(context: Context) {
-        return !this.root && !this.creator && super.isConstant(context);
+        return !this.isRoot() && !this.isCreator() && super.isConstant(context);
     }
 
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
@@ -249,7 +268,7 @@ export default class Block extends Expression {
             values.push(evaluator.popValue(this));
 
         // Root blocks are allowed to have no value, but all others must have one.
-        return this.creator ? new None(this) : values[0];
+        return this.isCreator() ? new None(this) : values[0];
     }
 
     /**

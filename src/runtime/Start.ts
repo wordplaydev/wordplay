@@ -30,14 +30,14 @@ export default class Start extends Step {
 
 export function start(evaluator: Evaluator, expr: Expression) {
     // Notify that evaluation is starting.
-    const count = evaluator.startExpression(expr);
+    evaluator.startExpression(expr);
 
     // If this expression is constant and it has a latest value, don't evaluate.
     // Finish.finish() will return the latest value.
     if (
         !evaluator.isInPast() &&
         evaluator.project.isConstant(expr) &&
-        evaluator.getLatestValueOf(expr, count)
+        evaluator.getLatestValueOf(expr, evaluator.getStepIndex())
     ) {
         // Ask the evaluator to jump past this start's corresponding finish.
         evaluator.jumpPast(expr);

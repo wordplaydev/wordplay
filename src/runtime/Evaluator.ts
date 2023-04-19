@@ -329,17 +329,24 @@ export default class Evaluator {
 
     getLatestValueOf(
         expression: Expression,
-        stepNumber?: number
+        beforeStepNumber?: number,
+        afterStepNumber?: number
     ): Value | undefined {
         const values = this.values.get(expression);
         // No values? Return nothing.
         if (values === undefined || values.length === 0) return undefined;
         // No step number? Return the latest.
-        if (stepNumber === undefined) return values[values.length - 1].value;
-        // Step number? Find a value that occurred after the given step number.
-        for (let index = values.length - 1; index >= 0; index--)
-            if (values[index].stepNumber > stepNumber)
+        if (beforeStepNumber === undefined)
+            return values[values.length - 1].value;
+        // Was a step index given that the value should be computed after? Find the first value with a step index after.
+        for (let index = values.length - 1; index >= 0; index--) {
+            const step = values[index].stepNumber;
+            if (
+                step < beforeStepNumber &&
+                (afterStepNumber === undefined || step > afterStepNumber)
+            )
                 return values[index].value;
+        }
         return undefined;
     }
 
@@ -1196,7 +1203,7 @@ export default class Evaluator {
         return this.getCount(expression);
     }
 
-    finishExpression(expression: Expression, value: Value, record: boolean) {
+    finishExpression(expression: Expression, value: Value) {
         const count = this.counters.get(expression);
         if (count === undefined)
             throw Error(
@@ -1209,10 +1216,8 @@ export default class Evaluator {
 
         // Remember the value it computed in the value history, if we haven't already recorded it.
         const list = this.values.get(expression) ?? [];
-        if (record) {
-            list.push({ value: value, stepNumber: this.getStepIndex() });
-            this.values.set(expression, list);
-        }
+        list.push({ value: value, stepNumber: this.getStepIndex() });
+        this.values.set(expression, list);
     }
 
     /** Bind the given value to the given name in the context of the current evaluation. */

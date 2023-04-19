@@ -11,7 +11,7 @@ import Text from '@runtime/Text';
 import StructureDefinition from '@nodes/StructureDefinition';
 import Measurement from '@runtime/Measurement';
 import List from '@runtime/List';
-import Block from '@nodes/Block';
+import Block, { BlockKind } from '@nodes/Block';
 import type Docs from '@nodes/Docs';
 import type Names from '@nodes/Names';
 import { getFunctionTranslations } from '@translation/getFunctionTranslations';
@@ -279,8 +279,7 @@ export default function bootstrapText() {
                         new Measurement(requestor, val.text)
                 ),
             ],
-            false,
-            true
+            BlockKind.Creator
         )
     );
 }

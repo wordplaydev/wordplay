@@ -1,5 +1,5 @@
 import Bind from '@nodes/Bind';
-import Block from '@nodes/Block';
+import Block, { BlockKind } from '@nodes/Block';
 import BooleanType from '@nodes/BooleanType';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import FunctionType from '@nodes/FunctionType';
@@ -358,8 +358,7 @@ export default function bootstrapMap() {
                         new List(requestor, val.getValues())
                 ),
             ],
-            false,
-            true
+            BlockKind.Creator
         )
     );
 }

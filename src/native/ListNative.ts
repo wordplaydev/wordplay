@@ -22,7 +22,7 @@ import HOFListTranslate from './HOFListTranslate';
 import NativeHOFListUntil from './HOFListUntil';
 import Set from '@runtime/Set';
 import StructureDefinition from '@nodes/StructureDefinition';
-import Block from '@nodes/Block';
+import Block, { BlockKind } from '@nodes/Block';
 import Measurement from '@runtime/Measurement';
 import type Evaluation from '@runtime/Evaluation';
 import TypeVariables from '@nodes/TypeVariables';
@@ -861,8 +861,7 @@ export default function bootstrapList() {
                         new Set(requestor, val.getValues())
                 ),
             ],
-            false,
-            true
+            BlockKind.Creator
         )
     );
 }

@@ -3,7 +3,7 @@ import StructureDefinition from '@nodes/StructureDefinition';
 import Text from '@runtime/Text';
 import Bool from '@runtime/Bool';
 import None from '@runtime/None';
-import Block from '@nodes/Block';
+import Block, { BlockKind } from '@nodes/Block';
 import Bind from '@nodes/Bind';
 import NativeExpression from './NativeExpression';
 import BooleanType from '@nodes/BooleanType';
@@ -96,8 +96,7 @@ export default function bootstrapNone() {
                         new Bool(requestor, !left.isEqualTo(right))
                 ),
             ],
-            false,
-            true
+            BlockKind.Creator
         )
     );
 }

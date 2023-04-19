@@ -50,6 +50,7 @@
             if (eva)
                 value = $evaluation.evaluator.getLatestValueOf(
                     node,
+                    $evaluation.evaluator.getStepIndex(),
                     eva.getStepNumber()
                 );
         }

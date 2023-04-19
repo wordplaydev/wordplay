@@ -10,7 +10,7 @@
     export let value: Text;
     $: text = value.toWordplay();
 
-    const limit = 10;
+    const limit = 32;
 </script>
 
 {#if text.length > limit}

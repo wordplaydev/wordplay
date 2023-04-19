@@ -23,27 +23,22 @@ export default class Finish extends Step {
 }
 
 export function finish(evaluator: Evaluator, expr: Expression) {
-    // Find which execution this is.
-    const count = evaluator.getCount(expr);
-
     // Get the prior value computed for this expression.
-    const priorValue =
-        count === undefined
-            ? undefined
-            : evaluator.getLatestValueOf(expr, count);
-
-    const past = evaluator.isInPast();
+    const priorValue = evaluator.getLatestValueOf(
+        expr,
+        evaluator.getStepIndex()
+    );
 
     // If there's a prior value and we're either in the past or this is constant, reuse the value.
     if (
         priorValue !== undefined &&
-        (past || evaluator.project.isConstant(expr))
+        (evaluator.isInPast() || evaluator.project.isConstant(expr))
     ) {
         // Evaluate any side effects
         const value = expr.evaluate(evaluator, priorValue);
 
         // Notify the evaluator that we finished this evaluation.
-        evaluator.finishExpression(expr, priorValue, false);
+        evaluator.finishExpression(expr, priorValue);
 
         // Return the prior value.
         return value;
@@ -54,7 +49,7 @@ export function finish(evaluator: Evaluator, expr: Expression) {
         const value = expr.evaluate(evaluator, undefined);
 
         // Notify the evaluator that we finished this evaluation.
-        evaluator.finishExpression(expr, value, true);
+        evaluator.finishExpression(expr, value);
 
         return value;
     }

@@ -1,6 +1,6 @@
 import type Definition from './Definition';
 import Borrow from './Borrow';
-import Block from '@nodes/Block';
+import Block, { BlockKind } from '@nodes/Block';
 import type Evaluator from '@runtime/Evaluator';
 import type Step from '@runtime/Step';
 import Finish from '@runtime/Finish';
@@ -52,7 +52,7 @@ export default class Program extends Expression {
         return new Program(
             undefined,
             [],
-            new Block([], true, false),
+            new Block([], BlockKind.Root),
             new Token('', TokenType.End)
         );
     }
