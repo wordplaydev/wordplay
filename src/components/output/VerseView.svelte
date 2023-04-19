@@ -369,6 +369,7 @@
                 : undefined;
 
             if (place) {
+                fit = false;
                 drag = {
                     startPlace: place,
                     left: event.clientX - rect.left,
