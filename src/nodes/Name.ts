@@ -75,6 +75,10 @@ export default class Name extends Node {
         return [];
     }
 
+    hasLanguage() {
+        return this.lang !== undefined && this.lang.slash !== undefined;
+    }
+
     withSeparator(): Name {
         return this.separator !== undefined
             ? this

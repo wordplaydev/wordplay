@@ -410,8 +410,11 @@ function nextIsBind(tokens: Tokens, expectValue: boolean): boolean {
     // Rollback
     tokens.unreadTo(rollbackToken);
 
-    // It's a bind if it has a name and a bind symbol.
-    return bind.names.names.length > 0 && (!expectValue || bind.hasValue());
+    // It's a bind if it has a name and either doesn't expect a value, or has one, or has a name with a language tag
+    return (
+        bind.names.names.length > 0 &&
+        (!expectValue || bind.hasValue() || bind.names.hasLanguage())
+    );
 }
 
 /** BIND :: NAMES TYPE? (: EXPRESSION)? */

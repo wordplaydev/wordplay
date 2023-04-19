@@ -79,6 +79,10 @@ export default class Names extends Node {
         return [];
     }
 
+    hasLanguage() {
+        return this.names.some((name) => name.hasLanguage());
+    }
+
     getSharedName(names: Names) {
         return this.names.find(
             (name) => name.name && names.hasName(name.name.getText())
