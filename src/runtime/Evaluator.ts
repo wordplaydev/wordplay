@@ -134,12 +134,6 @@ export default class Evaluator {
     values: Map<Expression, IndexedValue[]> = new Map();
 
     /**
-     * A counter for each expression, tracking how many times it has executed. Used to retrieve
-     * the correct prior Value from values/
-     */
-    counters: Map<Expression, number> = new Map();
-
-    /**
      * A cache of steps by node, to avoid recompilation.
      */
     steps: Map<EvaluationNode, Step[]> = new Map();
@@ -350,10 +344,6 @@ export default class Evaluator {
         return undefined;
     }
 
-    getCount(expression: Expression) {
-        return this.counters.get(expression);
-    }
-
     /** Finds the evaluation on the stack evaluating the given expression, if there is one. */
     getEvaluationOf(expression: Expression) {
         return this.evaluations.find((e) => e.getDefinition() === expression);
@@ -439,9 +429,6 @@ export default class Evaluator {
                 if (!this.project.isConstant(expression))
                     this.values.delete(expression);
         } else this.values.clear();
-
-        // Reset the latest expression counts to avoid leaking memory.
-        this.counters.clear();
 
         // Reset the evluation stack.
         this.evaluations.length = 0;
@@ -1198,22 +1185,9 @@ export default class Evaluator {
         }
     }
 
-    startExpression(expression: Expression) {
-        if (!this.counters.has(expression)) this.counters.set(expression, 0);
-        return this.getCount(expression);
-    }
+    startExpression(_: Expression) {}
 
     finishExpression(expression: Expression, value: Value) {
-        const count = this.counters.get(expression);
-        if (count === undefined)
-            throw Error(
-                `It should never be possible than an expression hasn't started, but has finished, but this happened on ${expression
-                    .toWordplay()
-                    .trim()
-                    .substring(0, 50)}...`
-            );
-        this.counters.set(expression, count + 1);
-
         // Remember the value it computed in the value history, if we haven't already recorded it.
         const list = this.values.get(expression) ?? [];
         list.push({ value: value, stepNumber: this.getStepIndex() });
