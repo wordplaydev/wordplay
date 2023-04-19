@@ -10,7 +10,7 @@
         preferredTranslations,
     } from '@translation/translations';
     import { loadedFonts } from '@native/Fonts';
-    import { PX_PER_METER, toCSS } from '@output/outputToCSS';
+    import { PX_PER_METER, rootScale, toCSS } from '@output/outputToCSS';
     import Place from '@output/Place';
     import Evaluate from '@nodes/Evaluate';
     import { DefaultFont, DefaultSize, VerseType } from '@output/Verse';
@@ -410,16 +410,17 @@
             const rect = view.getBoundingClientRect();
             const deltaX = event.clientX - rect.left - drag.left;
             const deltaY = event.clientY - rect.top - drag.top;
-            const scale = PX_PER_METER;
-            const scaleDeltaX = deltaX / scale;
-            const scaleDeltaY = deltaY / scale;
+            const scale = rootScale(drag.startPlace.z, renderedFocus.z);
+            const renderedDeltaX = deltaX / PX_PER_METER / scale;
+            const renderedDeltaY = deltaY / PX_PER_METER / scale;
+
+            const newX =
+                Math.round(100 * (drag.startPlace.x + renderedDeltaX)) / 100;
+            const newY =
+                Math.round(100 * (drag.startPlace.y - renderedDeltaY)) / 100;
 
             if (event.shiftKey) {
-                setFocus(
-                    drag.startPlace.x + scaleDeltaX,
-                    drag.startPlace.y - scaleDeltaY,
-                    drag.startPlace.z
-                );
+                setFocus(newX, newY, drag.startPlace.z);
                 event.stopPropagation();
             } else if (
                 selectedOutput &&
@@ -435,8 +436,8 @@
                     project,
                     $selectedOutput,
                     $preferredLanguages,
-                    drag.startPlace.x + scaleDeltaX,
-                    drag.startPlace.y - scaleDeltaY,
+                    newX,
+                    newY,
                     false
                 );
                 event.stopPropagation();
