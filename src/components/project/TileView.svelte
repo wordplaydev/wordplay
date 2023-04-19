@@ -38,14 +38,14 @@
 
     function handleKeyDown(event: KeyboardEvent) {
         // Collapse on escape
-        if (
-            (event.ctrlKey || event.metaKey) &&
-            event.key === 'Escape' &&
-            tile.mode === Mode.Expanded
-        )
-            dispatch('mode', { mode: Mode.Collapsed });
+        // if (
+        //     (event.ctrlKey || event.metaKey) &&
+        //     event.key === 'Escape' &&
+        //     tile.mode === Mode.Expanded
+        // )
+        //     dispatch('mode', { mode: Mode.Collapsed });
         // Move or resize on command-arrow
-        else if (
+        if (
             arrangement &&
             (event.metaKey || event.ctrlKey) &&
             event.key.startsWith('Arrow')
