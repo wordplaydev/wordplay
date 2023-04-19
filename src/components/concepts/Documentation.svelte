@@ -163,10 +163,7 @@
     aria-label={$preferredTranslations[0].ui.section.palette}
     on:mousedown={handleMouseDown}
     on:mouseup={handleDrop}
-    on:keydown={(event) =>
-        event.key === 'Escape' || event.key === 'Backspace'
-            ? back()
-            : undefined}
+    on:keydown={(event) => (event.key === 'Backspace' ? back() : undefined)}
     bind:this={palette}
 >
     <div class="header">

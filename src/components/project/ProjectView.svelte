@@ -781,7 +781,8 @@
         const shift = event.shiftKey;
 
         if (key === 'Escape') {
-            layout = layout.withoutFullscreen();
+            if (command) closeProject();
+            else layout = layout.withoutFullscreen();
             return;
         }
         if (key === 'Tab' && alt) {
@@ -907,7 +908,7 @@
         );
     }
 
-    async function close() {
+    async function closeProject() {
         goto('/projects');
     }
 </script>
@@ -1090,7 +1091,7 @@
                 <Settings />
                 <Button
                     tip={$preferredTranslations[0].ui.tooltip.close}
-                    action={close}>❌</Button
+                    action={closeProject}>❌</Button
                 >
             </div>
         </nav>
