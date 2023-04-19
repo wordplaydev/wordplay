@@ -74,8 +74,7 @@ export function createPlace(
     evaluator: Evaluator,
     x: number,
     y: number,
-    z: number,
-    angle: number
+    z: number
 ): Place {
     return new Place(createPlaceStructure(evaluator, x, y, z), x, y, z);
 }

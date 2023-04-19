@@ -45,6 +45,7 @@
     import type TypeOutput from '../../output/TypeOutput';
     import Sequence from '../../output/Sequence';
     import Reference from '../../nodes/Reference';
+    import { getPlace } from '../../output/getPlace';
 
     export let project: Project;
     export let evaluator: Evaluator;
@@ -140,12 +141,11 @@
     let fitFocus: Place | undefined = undefined;
 
     /** The creator or audience adjusted focus. */
-    let adjustedFocus: Place = createPlace(evaluator, 0, 0, -12, 0);
+    let adjustedFocus: Place = createPlace(evaluator, 0, 0, -12);
 
     /** The state of dragging the adjusted focus. A location or nothing. */
-    let focusDrag:
-        | { startFocus: Place; left: number; top: number }
-        | undefined = undefined;
+    let drag: { startPlace: Place; left: number; top: number } | undefined =
+        undefined;
 
     /** A stage to manage entries, exits, animations. A new one for each project. */
     let stage: Stage;
@@ -278,8 +278,7 @@
                 evaluator,
                 -(contentBounds.left + contentBounds.width / 2),
                 -contentBounds.top + contentBounds.height / 2,
-                z,
-                0
+                z
             );
             // If we're currently fitting to content, just make the adjusted focus the same in case the setting is disabled.
             // This ensures we start from where we left off.
@@ -328,7 +327,7 @@
 
     function setFocus(x: number, y: number, z: number) {
         // Set the new adjusted focus (updating the rendered focus, and thus the animator focus)
-        adjustedFocus = createPlace(evaluator, x, y, z, 0);
+        adjustedFocus = createPlace(evaluator, x, y, z);
         // Stop fitting
         fit = false;
     }
@@ -342,17 +341,6 @@
         // Focus the view if not focused.
         view?.focus();
 
-        // Start dragging to move the focus
-        if (view) {
-            const rect = view.getBoundingClientRect();
-
-            focusDrag = {
-                startFocus: renderedFocus,
-                left: event.clientX - rect.left,
-                top: event.clientY - rect.top,
-            };
-        }
-
         if (evaluator.isPlaying()) {
             evaluator
                 .getNativeStreamsOfType(MouseButton)
@@ -365,8 +353,28 @@
             }
         }
 
-        if (editable) {
+        if (editable && view) {
             if (!selectPointerOutput(event)) ignore();
+
+            // Start dragging.
+            const focus = event.shiftKey;
+            const rect = view.getBoundingClientRect();
+            const place = focus
+                ? renderedFocus
+                : $selectedOutput && $selectedOutput.length > 0
+                ? getPlace(
+                      $selectedOutput[0],
+                      evaluator.project.getNodeContext($selectedOutput[0])
+                  )
+                : undefined;
+
+            if (place) {
+                drag = {
+                    startPlace: place,
+                    left: event.clientX - rect.left,
+                    top: event.clientY - rect.top,
+                };
+            }
         }
     }
 
@@ -388,9 +396,7 @@
 
     function handleMouseUp() {
         // If dragging, stop
-        if (focusDrag) {
-            focusDrag = undefined;
-        }
+        drag = undefined;
 
         if (evaluator.isPlaying())
             evaluator
@@ -400,19 +406,19 @@
 
     function handleMouseMove(event: MouseEvent) {
         // If dragging the focus, adjust it accordingly.
-        if (event.buttons === 1 && focusDrag && view) {
+        if (event.buttons === 1 && drag && view) {
             const rect = view.getBoundingClientRect();
-            const deltaX = event.clientX - rect.left - focusDrag.left;
-            const deltaY = event.clientY - rect.top - focusDrag.top;
+            const deltaX = event.clientX - rect.left - drag.left;
+            const deltaY = event.clientY - rect.top - drag.top;
             const scale = PX_PER_METER;
             const scaleDeltaX = deltaX / scale;
             const scaleDeltaY = deltaY / scale;
 
             if (event.shiftKey) {
                 setFocus(
-                    focusDrag.startFocus.x + scaleDeltaX,
-                    focusDrag.startFocus.y - scaleDeltaY,
-                    focusDrag.startFocus.z
+                    drag.startPlace.x + scaleDeltaX,
+                    drag.startPlace.y - scaleDeltaY,
+                    drag.startPlace.z
                 );
                 event.stopPropagation();
             } else if (
@@ -429,8 +435,8 @@
                     project,
                     $selectedOutput,
                     $preferredLanguages,
-                    scaleDeltaX,
-                    -scaleDeltaY,
+                    drag.startPlace.x + scaleDeltaX,
+                    drag.startPlace.y - scaleDeltaY,
                     false
                 );
                 event.stopPropagation();
@@ -467,7 +473,7 @@
         if (event.key === 'Tab') return;
 
         // If dragging the focus, stop
-        if (focusDrag) focusDrag = undefined;
+        if (drag) drag = undefined;
 
         if (evaluator.isPlaying()) {
             evaluator
