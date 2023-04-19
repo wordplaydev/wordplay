@@ -214,7 +214,7 @@ const en: Translation = {
         },
         Name: {
             label: 'name',
-            description: (name) => name.name.getText(),
+            description: (name) => name.name?.getText(),
             emotion: Emotion.TBD,
             doc:
                 WRITE_DOC +

@@ -464,7 +464,8 @@ export function parseNames(tokens: Tokens): Names {
         const lang = tokens.nextIs(TokenType.Language)
             ? parseLanguage(tokens)
             : undefined;
-        if (name !== undefined) names.push(new Name(comma, name, lang));
+        if (comma !== undefined || name !== undefined)
+            names.push(new Name(comma, name, lang));
         else break;
     }
 

@@ -187,7 +187,7 @@ const eng_wordplay: Translation = {
         },
         Name: {
             label: 'nombre',
-            description: (name) => name.name.getText(),
+            description: (name) => name.name?.getText(),
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
         },

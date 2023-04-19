@@ -15,11 +15,15 @@ import type Definition from './Definition';
 import Evaluate from './Evaluate';
 
 export default class Name extends Node {
-    readonly separator?: Token;
-    readonly name: Token;
+    readonly separator: Token | undefined;
+    readonly name: Token | undefined;
     readonly lang?: Language;
 
-    constructor(separator: Token | undefined, name: Token, lang?: Language) {
+    constructor(
+        separator: Token | undefined,
+        name: Token | undefined,
+        lang?: Language
+    ) {
         super();
 
         this.separator = separator;
@@ -40,7 +44,7 @@ export default class Name extends Node {
     getGrammar() {
         return [
             { name: 'separator', types: [Token, undefined] },
-            { name: 'name', types: [Token] },
+            { name: 'name', types: [Token, undefined] },
             { name: 'lang', types: [Language, undefined] },
         ];
     }
@@ -90,7 +94,7 @@ export default class Name extends Node {
     }
 
     isEmoji() {
-        return this.name.text.getLength() === 1;
+        return this.name && this.name.text.getLength() === 1;
     }
 
     getName(): string | undefined {
@@ -100,13 +104,15 @@ export default class Name extends Node {
     }
 
     startsWith(prefix: string) {
-        return this.name.startsWith(prefix);
+        return this.name && this.name.startsWith(prefix);
     }
 
     getLowerCaseName(): string | undefined {
-        return this.name
-            .getText()
-            .toLocaleLowerCase(this.lang?.getLanguageCode());
+        return this.name === undefined
+            ? undefined
+            : this.name
+                  .getText()
+                  .toLocaleLowerCase(this.lang?.getLanguageCode());
     }
     getLanguage() {
         return this.lang === undefined ? undefined : this.lang.getLanguage();
@@ -134,7 +140,7 @@ export default class Name extends Node {
 
     getGlyphs() {
         return {
-            symbols: this.name.getText(),
+            symbols: this.name?.getText() ?? '',
             emotion: Emotion.Kind,
         };
     }
