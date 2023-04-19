@@ -510,16 +510,22 @@
         if (event.shiftKey) {
             const increment = 1;
             if (event.key === 'ArrowLeft') {
+                event.stopPropagation();
                 return adjustFocus(-1 * increment, 0, 0);
             } else if (event.key === 'ArrowRight') {
+                event.stopPropagation();
                 return adjustFocus(increment, 0, 0);
             } else if (event.key === 'ArrowUp') {
+                event.stopPropagation();
                 return adjustFocus(0, 1 * increment, 0);
             } else if (event.key === 'ArrowDown') {
+                event.stopPropagation();
                 return adjustFocus(0, -1 * increment, 0);
             } else if (event.key === '+') {
+                event.stopPropagation();
                 return adjustFocus(0, 0, 1);
             } else if (event.key === '_') {
+                event.stopPropagation();
                 return adjustFocus(0, 0, -1);
             }
         }

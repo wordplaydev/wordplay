@@ -9,6 +9,7 @@ import { PlaceType } from '@output/Place';
 import type LanguageCode from '@translation/LanguageCode';
 import type Projects from '../../db/Projects';
 import UnaryOperation from '../../nodes/UnaryOperation';
+import Decimal from 'decimal.js';
 
 export function getMeasurement(given: Expression): number | undefined {
     const measurement =
@@ -80,7 +81,9 @@ export default function moveOutput(
                                 ? x
                                 : MeasurementLiteral.make(
                                       relative
-                                          ? (xValue ?? 0) + horizontal
+                                          ? new Decimal(xValue ?? 0)
+                                                .add(horizontal)
+                                                .toNumber()
                                           : horizontal,
                                       Unit.make(['m'])
                                   ),
@@ -88,7 +91,9 @@ export default function moveOutput(
                                 ? y
                                 : MeasurementLiteral.make(
                                       relative
-                                          ? (yValue ?? 0) + vertical
+                                          ? new Decimal(yValue ?? 0)
+                                                .add(vertical)
+                                                .toNumber()
                                           : vertical,
                                       Unit.make(['m'])
                                   ),
