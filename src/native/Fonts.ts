@@ -42,6 +42,11 @@ const SupportedFontFamilies: FontFamily[] = [
         italic: false,
     },
     {
+        name: 'Noto Color Emoji',
+        weights: { min: 300, max: 700 },
+        italic: false,
+    },
+    {
         name: 'Noto Mono',
         weights: { min: 100, max: 900 },
         italic: false,
@@ -70,7 +75,7 @@ export class FontManager {
         { name: 'Noto Sans', weight: 700, italic: false },
         { name: 'Noto Sans', weight: 400, italic: true },
         { name: 'Noto Sans', weight: 700, italic: true },
-        { name: 'Noto Emoji', weight: 400, italic: false },
+        { name: 'Noto Color Emoji', weight: 400, italic: false },
         { name: 'Noto Mono', weight: 400, italic: false },
     ];
 

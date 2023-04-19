@@ -21,7 +21,7 @@ import type Sequence from './Sequence';
 import Group from './Group';
 import { toShape, type Shape } from './Shapes';
 
-export const DefaultFont = `'Noto Sans', 'Noto Emoji'`;
+export const DefaultFont = `'Noto Sans', 'Noto Color Emoji'`;
 export const DefaultSize = 1;
 
 export const VerseType = toStructure(`
