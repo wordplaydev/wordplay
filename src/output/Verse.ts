@@ -106,9 +106,9 @@ export default class Verse extends TypeOutput {
                 if (place.x < left) left = place.x;
                 if (place.x + layout.width > right)
                     right = place.x + layout.width;
-                if (place.y - layout.height < bottom)
-                    bottom = place.y - layout.height;
-                if (place.y > top) top = place.y;
+                if (place.y < bottom) bottom = place.y;
+                if (place.y + layout.height > top)
+                    top = place.y + layout.height;
             }
         }
 
