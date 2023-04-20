@@ -13,21 +13,21 @@
         role="button"
         aria-disabled={!on}
         aria-label={onTip}
-        tabindex="0"
+        tabindex={on ? 0 : null}
         title={offTip}
-        on:click={() => toggle(false)}
+        on:mousedown|stopPropagation={() => toggle(false)}
         on:keydown={(event) =>
             event.key === 'Enter' || event.key === ' '
                 ? toggle(false)
                 : undefined}>{offLabel}</span
-    ><span
+    ><span class="divider" role="presentation" /><span
         class={`button on ${on ? 'active' : 'inactive'}`}
         role="button"
         aria-disabled={on}
         aria-label={offTip}
-        tabindex="0"
+        tabindex={on ? null : 0}
         title={onTip}
-        on:click={() => toggle(true)}
+        on:mousedown|stopPropagation={() => toggle(true)}
         on:keydown={(event) =>
             event.key === 'Enter' || event.key === ' '
                 ? toggle(true)
@@ -39,7 +39,9 @@
 
 <style>
     .switch {
-        display: inline-block;
+        display: flex;
+        flex-direction: row;
+        gap: calc(var(--wordplay-spacing) / 4);
         user-select: none;
         font-family: var(--wordplay-app-font);
         font-size: var(--wordplay-font-size);
@@ -59,29 +61,32 @@
         transition-duration: calc(var(--animation-factor) * 200ms);
     }
 
-    .off {
-        margin-right: calc(var(--wordplay-spacing) / 2);
-    }
-
-    .on {
-        margin-left: calc(var(--wordplay-spacing) / 2);
+    .divider {
+        width: var(--wordplay-border-width);
+        border-right: var(--wordplay-border-width) solid
+            var(--wordplay-border-color);
     }
 
     .button.inactive:focus,
     .button.inactive:hover {
-        cursor: pointer;
+        outline: none;
         border-color: var(--wordplay-highlight);
-        transform: scale(1.3);
+        transform: scale(1);
         transform-origin: center;
         z-index: 1;
     }
 
+    .button:focus {
+        outline: none;
+        color: var(--wordplay-highlight);
+    }
+
     .button.inactive {
-        transform: scale(1.2);
+        transform: scale(1);
     }
 
     .button.active {
-        transform: scale(1);
+        transform: scale(0.75);
         color: var(--wordplay-disabled-color);
     }
 </style>

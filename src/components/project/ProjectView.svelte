@@ -81,6 +81,8 @@
     import type Caret from '../editor/util/Caret';
     import GlyphChooser from '../editor/GlyphChooser.svelte';
     import Timeline from '../evaluator/Timeline.svelte';
+    import Painting from '../output/Painting.svelte';
+    import type PaintingConfiguration from '../output/PaintingConfiguration';
 
     export let project: Project;
 
@@ -406,6 +408,14 @@
 
     /** True if the output should show a grid */
     let grid: boolean = false;
+
+    /** Undefined or an object defining painting configuration */
+    let painting: boolean = false;
+    let paintingConfig: PaintingConfiguration = {
+        characters: 'a',
+        size: 1,
+        font: 'Noto Sans',
+    };
 
     /** Set up project wide concept index and path context */
     let index: ConceptIndexContext = writable(
@@ -967,7 +977,10 @@
                             setFullscreen(tile, event.detail.fullscreen)}
                     >
                         <svelte:fragment slot="extra">
-                            {#if tile.kind === Content.Output}<Button
+                            {#if tile.kind === Content.Output}
+                                {#if !$evaluation.evaluator.isPlaying()}<Painting
+                                        bind:painting
+                                    />{/if}<Button
                                     tip={$preferredTranslations[0].ui.tooltip
                                         .grid}
                                     action={() => (grid = !grid)}>▦</Button
@@ -1005,6 +1018,8 @@
                                     fullscreen={layout.fullscreenID === tile.id}
                                     bind:fit
                                     bind:grid
+                                    bind:painting
+                                    {paintingConfig}
                                     bind:background={outputBackground}
                                 />
                             {:else}

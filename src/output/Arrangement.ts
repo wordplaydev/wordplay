@@ -12,7 +12,7 @@ export const ArrangementType = toStructure(`
     ${getBind((t) => t.output.layout.definition, TYPE_SYMBOL)}()
 `);
 
-export default abstract class Layout extends Output {
+export default abstract class Arrangement extends Output {
     constructor(value: Value) {
         super(value);
     }

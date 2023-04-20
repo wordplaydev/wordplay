@@ -289,6 +289,10 @@ export function toTokens(code: string): Tokens {
     return new Tokens(tokens.getTokens(), tokens.getSpaces());
 }
 
+export function toExpression(code: string): Expression {
+    return parseExpression(toTokens(code));
+}
+
 // PROGRAM :: BORROW* BLOCK
 export function parseProgram(tokens: Tokens, doc: boolean = false): Program {
     // If a borrow is next or there's no whitespace, parse a docs.

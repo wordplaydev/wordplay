@@ -9,7 +9,7 @@
     import Unit from '@nodes/Unit';
     import Note from '../widgets/Note.svelte';
     import { getProjects } from '../project/Contexts';
-    import { getMeasurement } from './moveOutput';
+    import { getMeasurement } from './editOutput';
     import Expression from '../../nodes/Expression';
 
     export let project: Project;

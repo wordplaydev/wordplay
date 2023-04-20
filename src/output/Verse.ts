@@ -90,26 +90,25 @@ export default class Verse extends TypeOutput {
         for (const child of this.content) {
             if (child) {
                 const layout = child.getLayout(context);
-                const place =
-                    child instanceof Phrase && child.place
-                        ? child.place
-                        : new Place(
-                              this.value,
-                              // Place everything in the center
-                              -layout.width / 2,
-                              // We would normally not negate the y because its in math coordinates, but we want to move it
-                              // down the y-axis by half, so we subtract.
-                              -layout.height / 2,
-                              0
-                          );
+                const place = child.place
+                    ? child.place
+                    : new Place(
+                          this.value,
+                          // Place everything in the center
+                          -layout.width / 2,
+                          // We would normally not negate the y because its in math coordinates, but we want to move it
+                          // down the y-axis by half, so we subtract.
+                          -layout.height / 2,
+                          0
+                      );
                 places.push([child, place]);
 
                 if (place.x < left) left = place.x;
                 if (place.x + layout.width > right)
                     right = place.x + layout.width;
-                if (place.y < bottom) bottom = place.y;
-                if (place.y + layout.height > top)
-                    top = place.y + layout.height;
+                if (place.y - layout.height < bottom)
+                    bottom = place.y - layout.height;
+                if (place.y > top) top = place.y;
             }
         }
 

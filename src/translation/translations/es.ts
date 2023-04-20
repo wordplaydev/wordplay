@@ -1922,6 +1922,8 @@ const eng_wordplay: Translation = {
             newProject: 'new project',
             dark: 'toggle dark mode on, off, and default',
             chooserExpand: 'expandir/colapsar',
+            place: 'mover salida',
+            paint: 'salida de pintura',
         },
         prompt: {
             deleteSource: 'delete?',
@@ -2136,6 +2138,10 @@ const eng_wordplay: Translation = {
             padding: { doc: WRITE_DOC, name: 'relleno' },
             cellWidth: { doc: WRITE_DOC, name: 'anchodecelda' },
             cellHeight: { doc: WRITE_DOC, name: 'alturadecelda' },
+        },
+        free: {
+            definition: { doc: WRITE_DOC, name: ['Suelto'] },
+            description: (count: number) => `forma libre, ${count} outputs`,
         },
         shape: {
             definition: { doc: WRITE_DOC, name: ['forma'] },

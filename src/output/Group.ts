@@ -1,7 +1,7 @@
 import toStructure from '../native/toStructure';
 import type Value from '../runtime/Value';
 import { getBind } from '../translation/getBind';
-import type Layout from './Layout';
+import type Arrangement from './Arrangement';
 import type Color from './Color';
 import type Place from './Place';
 import type Pose from './Pose';
@@ -23,11 +23,11 @@ export const GroupType = toStructure(`
 
 export default class Group extends TypeOutput {
     readonly content: (TypeOutput | null)[];
-    readonly layout: Layout;
+    readonly layout: Arrangement;
 
     constructor(
         value: Value,
-        layout: Layout,
+        layout: Arrangement,
         content: (TypeOutput | null)[],
         size: number | undefined = undefined,
         font: string | undefined = undefined,

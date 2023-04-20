@@ -19,6 +19,7 @@
         getKeyboardEditIdle,
     } from '../project/Contexts';
     import type Evaluator from '@runtime/Evaluator';
+    import type PaintingConfiguration from './PaintingConfiguration';
 
     export let project: Project;
     export let evaluator: Evaluator;
@@ -27,6 +28,8 @@
     export let fullscreen: boolean;
     export let fit: boolean = true;
     export let grid: boolean = false;
+    export let painting: boolean = false;
+    export let paintingConfig: PaintingConfiguration | undefined = undefined;
     export let mini: boolean = false;
     export let background: string | null = null;
 
@@ -101,6 +104,8 @@
             {fullscreen}
             bind:fit
             bind:grid
+            bind:painting
+            {paintingConfig}
             interactive={!mini && source === project.main}
             editable={!mini && $evaluation?.playing === false}
         />

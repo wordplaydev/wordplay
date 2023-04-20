@@ -8,17 +8,17 @@ import type LanguageCode from '@translation/LanguageCode';
 import { getPreferredTranslation } from '@translation/getPreferredTranslation';
 import { getBind } from '@translation/getBind';
 import Measurement from '../runtime/Measurement';
-import Layout from './Layout';
+import Arrangement from './Arrangement';
 import Group from './Group';
 import Phrase from './Phrase';
 
 export const RowType = toStructure(`
-    ${getBind((t) => t.output.row.definition, '•')} Layout(
+    ${getBind((t) => t.output.row.definition, '•')} Arrangement(
         ${getBind((t) => t.output.row.padding)}•#m: 1m
     )
 `);
 
-export class Row extends Layout {
+export class Row extends Arrangement {
     readonly padding: number;
 
     constructor(value: Value, padding: Measurement) {

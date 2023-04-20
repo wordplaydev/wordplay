@@ -18,19 +18,26 @@ import { MotionDefinition } from '../input/Motion';
 import { MousePositionDefinition } from '../input/MousePosition';
 import { MouseButtonDefinition } from '../input/MouseButton';
 import { RandomDefinition } from '../input/Random';
-import { ArrangementType } from '../output/Layout';
+import { ArrangementType } from '../output/Arrangement';
 import { CameraDefinition } from '../input/Camera';
 import Root from '../nodes/Root';
 import { Animations } from '../output/Animations';
 import { ChoiceDefinition } from '../input/Choice';
 import { GridType } from '../output/Grid';
 import { Shapes } from '../output/Shapes';
+import { FreeType } from '../output/Free';
 
 export const AnimationTypes = [PoseType, SequenceType];
 
 export const GroupTypes = [TypeType, VerseType, GroupType, PhraseType];
 
-export const ArrangementTypes = [ArrangementType, StackType, RowType, GridType];
+export const ArrangementTypes = [
+    ArrangementType,
+    StackType,
+    RowType,
+    GridType,
+    FreeType,
+];
 
 export const AppearanceTypes = [ColorType, PlaceType];
 

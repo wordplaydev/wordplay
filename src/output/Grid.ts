@@ -6,13 +6,13 @@ import type RenderContext from './RenderContext';
 import type LanguageCode from '@translation/LanguageCode';
 import { getPreferredTranslation } from '@translation/getPreferredTranslation';
 import { getBind } from '@translation/getBind';
-import Layout from './Layout';
+import Arrangement from './Arrangement';
 import Measurement from '../runtime/Measurement';
 import Place from './Place';
 import None from '../runtime/None';
 
 export const GridType = toStructure(`
-    ${getBind((t) => t.output.grid.definition, '•')} Layout(
+    ${getBind((t) => t.output.grid.definition, '•')} Arrangement(
         ${getBind((t) => t.output.grid.rows)}•#
         ${getBind((t) => t.output.grid.columns)}•#
         ${getBind((t) => t.output.grid.padding)}•#m: 1m
@@ -21,7 +21,7 @@ export const GridType = toStructure(`
     )
 `);
 
-export class Grid extends Layout {
+export class Grid extends Arrangement {
     readonly rows: number;
     readonly columns: number;
     readonly padding: number;

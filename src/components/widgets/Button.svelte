@@ -15,7 +15,7 @@
     type={submit ? 'submit' : null}
     title={tip}
     aria-label={tip}
-    tabIndex="0"
+    tabindex={enabled ? 0 : null}
     on:click={() => (enabled ? action() : undefined)}
     aria-disabled={!enabled}
 >

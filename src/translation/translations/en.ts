@@ -2266,6 +2266,8 @@ const en: Translation = {
             newProject: 'new project',
             dark: 'toggle dark mode on, off, and default',
             chooserExpand: 'expand/collapse',
+            place: 'place output',
+            paint: 'paint output',
         },
         prompt: {
             deleteSource: 'delete',
@@ -2452,7 +2454,7 @@ const en: Translation = {
             text: { doc: WRITE_DOC, name: 'text' },
         },
         layout: {
-            definition: { doc: WRITE_DOC, name: ['⠿', 'Layout'] },
+            definition: { doc: WRITE_DOC, name: ['⠿', 'Arrangement'] },
         },
         row: {
             definition: { doc: WRITE_DOC, name: ['➡', 'Row'] },
@@ -2487,6 +2489,10 @@ const en: Translation = {
             padding: { doc: WRITE_DOC, name: 'padding' },
             cellWidth: { doc: WRITE_DOC, name: 'cellwidth' },
             cellHeight: { doc: WRITE_DOC, name: 'cellpadding' },
+        },
+        free: {
+            definition: { doc: WRITE_DOC, name: ['Free'] },
+            description: (count: number) => `free-form, ${count} outputs`,
         },
         shape: {
             definition: { doc: WRITE_DOC, name: 'Shape' },

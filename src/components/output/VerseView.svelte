@@ -29,7 +29,7 @@
     import RenderContext from '@output/RenderContext';
     import { setContext } from 'svelte';
     import { writable } from 'svelte/store';
-    import moveOutput from '../palette/moveOutput';
+    import moveOutput, { addVerseContent } from '../palette/editOutput';
     import {
         getAnimatingNodes,
         getEvaluation,
@@ -46,6 +46,8 @@
     import Sequence from '../../output/Sequence';
     import Reference from '../../nodes/Reference';
     import { getPlace } from '../../output/getPlace';
+    import type PaintingConfiguration from './PaintingConfiguration';
+    import { toExpression } from '../../parser/Parser';
 
     export let project: Project;
     export let evaluator: Evaluator;
@@ -55,6 +57,8 @@
     export let editable: boolean;
     export let fit: boolean;
     export let grid: boolean;
+    export let painting: boolean;
+    export let paintingConfig: PaintingConfiguration | undefined = undefined;
 
     const projects = getProjects();
     const selectedOutput = getSelectedOutput();
@@ -80,6 +84,10 @@
     let entered: Map<string, TypeOutput> = new Map();
     let present: Map<string, TypeOutput> = new Map();
     let previouslyPresent: Map<string, TypeOutput> | undefined = undefined;
+
+    /** A list of points gathered during a painting drag */
+    let paintingPlaces: { x: number; y: number }[] = [];
+    let strokeNodeID: number | undefined;
 
     /** A description of phrases that have entered the scene */
     $: enteredDescription =
@@ -354,27 +362,53 @@
         }
 
         if (editable && view) {
-            if (!selectPointerOutput(event)) ignore();
+            if (painting) {
+                if (selectedOutputPaths)
+                    setSelectedOutput(selectedOutputPaths, project, []);
+            } else if (!selectPointerOutput(event)) ignore();
 
             // Start dragging.
-            const focus = event.shiftKey;
             const rect = view.getBoundingClientRect();
-            const place = focus
-                ? renderedFocus
-                : $selectedOutput && $selectedOutput.length > 0
-                ? getPlace(
-                      $selectedOutput[0],
-                      evaluator.project.getNodeContext($selectedOutput[0])
-                  )
-                : undefined;
+            const dx = event.clientX - rect.left;
+            const dy = event.clientY - rect.top;
+            const { x: mx, y: my } = mouseToMeters(
+                dx - rect.width / 2,
+                -(dy - rect.height / 2),
+                0,
+                renderedFocus.z
+            );
+            const focus = event.shiftKey;
+            const place =
+                // If painting, the start place is where the click was
+                painting
+                    ? new Place(
+                          renderedFocus.value,
+                          mx - renderedFocus.x,
+                          my + renderedFocus.y,
+                          0
+                      )
+                    : // If moving focus, the start place is the rendered focus
+                    focus
+                    ? renderedFocus
+                    : // If there's selected output, it's the first output selected
+                    $selectedOutput && $selectedOutput.length > 0
+                    ? getPlace(
+                          $selectedOutput[0],
+                          evaluator.project.getNodeContext($selectedOutput[0])
+                      )
+                    : // Otherwise, there's no place the click started.
+                      undefined;
 
             if (place) {
                 fit = false;
                 drag = {
                     startPlace: place,
-                    left: event.clientX - rect.left,
-                    top: event.clientY - rect.top,
+                    left: dx,
+                    top: dy,
                 };
+                // Reset the painting places
+                paintingPlaces = [];
+                strokeNodeID = undefined;
             }
         }
     }
@@ -396,8 +430,9 @@
     }
 
     function handleMouseUp() {
-        // If dragging, stop
         drag = undefined;
+        paintingPlaces = [];
+        strokeNodeID = undefined;
 
         if (evaluator.isPlaying())
             evaluator
@@ -405,43 +440,104 @@
                 .map((stream) => stream.record(false));
     }
 
+    function mouseToMeters(mx: number, my: number, z: number, focusZ: number) {
+        const scale = rootScale(z, focusZ);
+        return { x: mx / PX_PER_METER / scale, y: my / PX_PER_METER / scale };
+    }
+
+    function twoDigits(num: number): number {
+        return Math.round(100 * num) / 100;
+    }
+
     function handleMouseMove(event: MouseEvent) {
-        // If dragging the focus, adjust it accordingly.
+        // Handle focus or output moves..
         if (event.buttons === 1 && drag && view) {
             const rect = view.getBoundingClientRect();
-            const deltaX = event.clientX - rect.left - drag.left;
-            const deltaY = event.clientY - rect.top - drag.top;
-            const scale = rootScale(drag.startPlace.z, renderedFocus.z);
-            const renderedDeltaX = deltaX / PX_PER_METER / scale;
-            const renderedDeltaY = deltaY / PX_PER_METER / scale;
+            const { x: renderedDeltaX, y: renderedDeltaY } = mouseToMeters(
+                event.clientX - rect.left - drag.left,
+                event.clientY - rect.top - drag.top,
+                drag.startPlace.z,
+                renderedFocus.z
+            );
 
-            const newX =
-                Math.round(100 * (drag.startPlace.x + renderedDeltaX)) / 100;
-            const newY =
-                Math.round(100 * (drag.startPlace.y - renderedDeltaY)) / 100;
+            const newX = twoDigits(drag.startPlace.x + renderedDeltaX);
+            const newY = twoDigits(drag.startPlace.y - renderedDeltaY);
 
-            if (event.shiftKey) {
-                setFocus(newX, newY, drag.startPlace.z);
-                event.stopPropagation();
-            } else if (
-                selectedOutput &&
-                $selectedOutput &&
-                $selectedOutput.length > 0 &&
-                !$selectedOutput[0].is(
-                    VerseType,
-                    project.getNodeContext($selectedOutput[0])
-                )
-            ) {
-                moveOutput(
-                    $projects,
-                    project,
-                    $selectedOutput,
-                    $preferredLanguages,
-                    newX,
-                    newY,
-                    false
-                );
-                event.stopPropagation();
+            // If painting, gather points
+            if (painting && paintingConfig) {
+                // Is the new position a certain Euclidian distance from the most recent position? Add a point to the stroke.
+                const prior = paintingPlaces.at(-1);
+                if (
+                    prior === undefined ||
+                    Math.sqrt(
+                        Math.pow(prior.x - newX, 2) +
+                            Math.pow(prior.y - newY, 2)
+                    ) > 0.5
+                ) {
+                    // Add the point
+                    paintingPlaces.push({ x: newX, y: newY });
+
+                    const minX = twoDigits(
+                        Math.min.apply(
+                            null,
+                            paintingPlaces.map((p) => p.x)
+                        )
+                    );
+                    const minY = twoDigits(
+                        Math.min.apply(
+                            null,
+                            paintingPlaces.map((p) => p.y)
+                        )
+                    );
+
+                    // Create a stroke. represented as freeform group of phrases with explicit positions.
+                    const group = toExpression(
+                        `Group(Free() [${paintingPlaces
+                            .map(
+                                (p) =>
+                                    `Place(${twoDigits(
+                                        p.x - minX
+                                    )}m ${twoDigits(p.y - minY)}m)`
+                            )
+                            .join(
+                                ' '
+                            )}].translate(ƒ(place•Place) Phrase('a' place: place)) place: Place(${minX}m ${minY}m))`
+                    );
+
+                    // Add the stroke to the project's verse
+                    if (strokeNodeID === undefined) {
+                        addVerseContent($projects, project, group);
+                    } else {
+                        const node = project.getNodeByID(strokeNodeID);
+                        if (node)
+                            $projects.reviseNodes(project, [[node, group]]);
+                    }
+                    strokeNodeID = group.id;
+                }
+            } else {
+                if (event.shiftKey) {
+                    setFocus(newX, newY, drag.startPlace.z);
+                    event.stopPropagation();
+                } else if (
+                    selectedOutput &&
+                    $selectedOutput &&
+                    $selectedOutput.length > 0 &&
+                    !$selectedOutput[0].is(
+                        VerseType,
+                        project.getNodeContext($selectedOutput[0])
+                    )
+                ) {
+                    moveOutput(
+                        $projects,
+                        project,
+                        $selectedOutput,
+                        $preferredLanguages,
+                        newX,
+                        newY,
+                        false
+                    );
+                    event.stopPropagation();
+                }
             }
         }
 
@@ -721,7 +817,7 @@
         class:selected={verse.value.creator instanceof Evaluate &&
             $selectedOutput &&
             $selectedOutput.includes(verse.value.creator)}
-        class:editing={$evaluation?.playing === false}
+        class:editing={$evaluation?.playing === false && !painting}
         data-id={verse.getHTMLID()}
         data-node-id={verse.value.creator.id}
         data-selectable={verse.selectable}

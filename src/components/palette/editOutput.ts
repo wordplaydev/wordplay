@@ -10,6 +10,15 @@ import type LanguageCode from '@translation/LanguageCode';
 import type Projects from '../../db/Projects';
 import UnaryOperation from '../../nodes/UnaryOperation';
 import Decimal from 'decimal.js';
+import { PhraseType } from '../../output/Phrase';
+import TextLiteral from '../../nodes/TextLiteral';
+import ListLiteral from '../../nodes/ListLiteral';
+import { GroupType } from '../../output/Group';
+import { RowType } from '../../output/Row';
+import { getLanguages } from '../../translation/translations';
+import { getTranslation } from '../../translation/translations';
+import { VerseType } from '../../output/Verse';
+import { toExpression } from '../../parser/Parser';
 
 export function getMeasurement(given: Expression): number | undefined {
     const measurement =
@@ -107,4 +116,122 @@ export default function moveOutput(
             ];
         })
     );
+}
+
+export function addContent(
+    projects: Projects,
+    project: Project,
+    list: ListLiteral,
+    index: number,
+    phrase: boolean
+) {
+    const languages = getLanguages();
+    const newPhrase = Evaluate.make(
+        Reference.make(PhraseType.names.getTranslation(getLanguages())),
+        [TextLiteral.make(getTranslation().welcome)]
+    );
+    reviseContent(projects, project, list, [
+        ...list.values.slice(0, index + 1),
+        phrase
+            ? newPhrase
+            : // Create a group with a Row layout and a single phrase
+              Evaluate.make(
+                  Reference.make(GroupType.names.getTranslation(languages)),
+                  [
+                      Evaluate.make(
+                          Reference.make(
+                              RowType.names.getTranslation(languages)
+                          ),
+                          []
+                      ),
+                      ListLiteral.make([newPhrase]),
+                  ]
+              ),
+        ...list.values.slice(index + 1),
+    ]);
+}
+
+export function reviseContent(
+    projects: Projects,
+    project: Project,
+    list: ListLiteral,
+    newValues: Expression[]
+) {
+    projects.reviseNodes(project, [[list, ListLiteral.make(newValues)]]);
+}
+
+export function removeContent(
+    projects: Projects,
+    project: Project,
+    list: ListLiteral,
+    index: number
+) {
+    if (list === undefined) return;
+    reviseContent(projects, project, list, [
+        ...list.values.slice(0, index),
+        ...list.values.slice(index + 1),
+    ]);
+}
+
+export function moveContent(
+    projects: Projects,
+    project: Project,
+    list: ListLiteral,
+    index: number,
+    direction: 1 | -1
+) {
+    if (list === undefined) return;
+    const content = list.values[index];
+    if (content === undefined) return;
+    const newValues = list.values.slice();
+    if (direction < 0) {
+        const previous = newValues[index - 1];
+        newValues[index - 1] = content;
+        newValues[index] = previous;
+    } else {
+        const next = newValues[index + 1];
+        newValues[index + 1] = content;
+        newValues[index] = next;
+    }
+    reviseContent(projects, project, list, newValues);
+}
+
+export function addVerseContent(
+    projects: Projects,
+    project: Project,
+    content: Expression
+) {
+    // Find the verse in the project.
+    let verse: Evaluate | undefined = getVerse(project);
+
+    // If there is no verse, add an empty one.
+    if (verse === undefined) {
+        const newVerse = toExpression(`Verse([])`);
+        if (newVerse instanceof Evaluate) verse = newVerse;
+    }
+
+    if (verse) {
+        const context = project.getNodeContext(verse);
+        const list = verse.getExpressionFor(
+            VerseType.inputs[0].getNames()[0],
+            context
+        );
+        if (list instanceof ListLiteral) {
+            reviseContent(projects, project, list, [...list.values, content]);
+        }
+    }
+}
+
+export function getVerse(project: Project): Evaluate | undefined {
+    for (const source of project.getSources()) {
+        const context = project.getContext(source);
+        const verse = source.expression
+            .nodes()
+            .find(
+                (n): n is Evaluate =>
+                    n instanceof Evaluate && n.is(VerseType, context)
+            );
+        if (verse) return verse;
+    }
+    return undefined;
 }

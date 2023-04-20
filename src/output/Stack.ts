@@ -7,18 +7,18 @@ import Place from './Place';
 import type LanguageCode from '@translation/LanguageCode';
 import { getPreferredTranslation } from '@translation/getPreferredTranslation';
 import { getBind } from '@translation/getBind';
-import Layout from './Layout';
+import Arrangement from './Arrangement';
 import Measurement from '../runtime/Measurement';
 import Phrase from './Phrase';
 import Group from './Group';
 
 export const StackType = toStructure(`
-    ${getBind((t) => t.output.stack.definition, '•')} Layout(
+    ${getBind((t) => t.output.stack.definition, '•')} Arrangement(
         ${getBind((t) => t.output.stack.padding)}•#m: 1m
     )
 `);
 
-export class Stack extends Layout {
+export class Stack extends Arrangement {
     readonly padding: number;
 
     constructor(value: Value, padding: Measurement) {

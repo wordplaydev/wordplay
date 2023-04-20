@@ -15,7 +15,7 @@
     import TextLiteral from '@nodes/TextLiteral';
     import { getContext, onMount } from 'svelte';
     import type { Writable } from 'svelte/store';
-    import moveOutput from '../palette/moveOutput';
+    import moveOutput from '../palette/editOutput';
     import {
         getProject,
         getProjects,

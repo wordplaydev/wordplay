@@ -928,6 +928,8 @@ type Translation = {
             newProject: string;
             dark: string;
             chooserExpand: string;
+            place: string;
+            paint: string;
         };
         prompt: {
             deleteSource: string;
@@ -1132,6 +1134,10 @@ type Translation = {
             padding: NameAndDocTranslation;
             cellWidth: NameAndDocTranslation;
             cellHeight: NameAndDocTranslation;
+        };
+        free: {
+            definition: NameAndDocTranslation;
+            description: (count: number) => string;
         };
         easing: {
             // CSS linear

@@ -1,7 +1,7 @@
 import List from '../runtime/List';
 import Structure from '../runtime/Structure';
 import type Value from '../runtime/Value';
-import type Layout from './Layout';
+import type Arrangement from './Arrangement';
 import { toGroup } from './Group';
 import { PhraseType, toFont, toPhrase, toText } from './Phrase';
 import { RowType, toRow } from './Row';
@@ -26,6 +26,7 @@ import Measurement from '../runtime/Measurement';
 import Text from '../runtime/Text';
 import { GridType, toGrid } from './Grid';
 import None from '../runtime/None';
+import { FreeType, toFree } from './Free';
 
 export function toTypeOutput(
     value: Value | undefined,
@@ -60,7 +61,9 @@ export function toTypeOutputList(
     return phrases;
 }
 
-export function toArrangement(value: Value | undefined): Layout | undefined {
+export function toArrangement(
+    value: Value | undefined
+): Arrangement | undefined {
     if (!(value instanceof Structure)) return undefined;
     switch (value.type) {
         case RowType:
@@ -69,6 +72,8 @@ export function toArrangement(value: Value | undefined): Layout | undefined {
             return toStack(value);
         case GridType:
             return toGrid(value);
+        case FreeType:
+            return toFree(value);
     }
     return undefined;
 }
