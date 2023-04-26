@@ -144,14 +144,16 @@ export default class Projects {
     async delete(id: string) {
         this.projects.delete(id);
         this.update();
-        try {
-            await deleteDoc(doc(firestore, 'projects', id));
-        } catch (error) {
-            if (error instanceof FirebaseError) {
-                console.error(error.code);
-                console.error(error.message);
+        if (this.uid) {
+            try {
+                await deleteDoc(doc(firestore, 'projects', id));
+            } catch (error) {
+                if (error instanceof FirebaseError) {
+                    console.error(error.code);
+                    console.error(error.message);
+                }
+                this.setStatus(Status.Error);
             }
-            this.setStatus(Status.Error);
         }
     }
 
