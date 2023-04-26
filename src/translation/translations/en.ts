@@ -2340,16 +2340,16 @@ const en: Translation = {
             doc: WRITE_DOC,
             name: ['🔘', 'Choice', 'selection'],
         },
-        mousebutton: {
+        button: {
             doc: WRITE_DOC,
             name: ['🖱️', 'Button'],
             down: { name: 'down', doc: WRITE_DOC },
         },
-        mouseposition: {
+        pointer: {
             doc: WRITE_DOC,
             name: ['👆🏻', 'Pointer'],
         },
-        keyboard: {
+        key: {
             doc: WRITE_DOC,
             name: ['⌨️', 'Key'],
             key: { name: 'key', doc: WRITE_DOC },
@@ -2363,7 +2363,7 @@ const en: Translation = {
                 doc: WRITE_DOC,
             },
         },
-        microphone: {
+        mic: {
             doc: WRITE_DOC,
             name: ['🎤', 'Mic'],
             frequency: {

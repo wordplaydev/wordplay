@@ -53,8 +53,8 @@ export default class Pointer extends Stream<Structure> {
 }
 
 export const PointerDefinition = StreamDefinition.make(
-    getDocTranslations((t) => t.input.mouseposition.doc),
-    getNameTranslations((t) => t.input.mouseposition.name),
+    getDocTranslations((t) => t.input.pointer.doc),
+    getNameTranslations((t) => t.input.pointer.name),
     [],
     createStreamEvaluator(
         new StructureDefinitionType(PlaceType),

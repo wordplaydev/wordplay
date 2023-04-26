@@ -1002,14 +1002,14 @@ type Translation = {
             max: NameAndDocTranslation;
         };
         choice: NameAndDocTranslation;
-        mousebutton: NameAndDocTranslation & { down: NameAndDocTranslation };
-        mouseposition: NameAndDocTranslation;
-        keyboard: NameAndDocTranslation & {
+        button: NameAndDocTranslation & { down: NameAndDocTranslation };
+        pointer: NameAndDocTranslation;
+        key: NameAndDocTranslation & {
             key: NameAndDocTranslation;
             down: NameAndDocTranslation;
         };
         time: NameAndDocTranslation & { frequency: NameAndDocTranslation };
-        microphone: NameAndDocTranslation & {
+        mic: NameAndDocTranslation & {
             frequency: NameAndDocTranslation;
         };
         camera: NameAndDocTranslation & {

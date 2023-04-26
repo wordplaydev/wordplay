@@ -1996,16 +1996,16 @@ const eng_wordplay: Translation = {
             doc: WRITE_DOC,
             name: ['Selección', 'Elección'],
         },
-        mousebutton: {
+        button: {
             doc: WRITE_DOC,
             name: ['Botón', '🖱️'],
             down: { name: 'abajo', doc: WRITE_DOC },
         },
-        mouseposition: {
+        pointer: {
             doc: WRITE_DOC,
             name: ['Puntero', '👆🏻'],
         },
-        keyboard: {
+        key: {
             doc: WRITE_DOC,
             name: ['Teclado'],
             key: { name: 'tecla', doc: WRITE_DOC },
@@ -2019,7 +2019,7 @@ const eng_wordplay: Translation = {
                 doc: WRITE_DOC,
             },
         },
-        microphone: {
+        mic: {
             doc: WRITE_DOC,
             name: ['Micrófono', '🎤'],
             frequency: {
