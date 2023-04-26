@@ -13,7 +13,6 @@ export const PaletteID = 'palette';
 export const DocsID = 'docs';
 
 export type LayoutObject = {
-    project: string;
     fullscreen: string | null;
     tiles: {
         id: string;
@@ -41,9 +40,8 @@ export default class Layout {
         this.tiles = tiles;
     }
 
-    toObject(project: string): LayoutObject {
+    toObject(): LayoutObject {
         return {
-            project,
             fullscreen: this.fullscreenID ?? null,
             tiles: this.tiles.map((tile) => {
                 return {
@@ -59,8 +57,8 @@ export default class Layout {
         };
     }
 
-    static fromObject(project: string, layout: LayoutObject | null) {
-        return layout === null || layout.project !== project
+    static fromObject(layout: LayoutObject | null) {
+        return layout === null
             ? null
             : new Layout(
                   layout.tiles.map(

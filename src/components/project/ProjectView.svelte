@@ -114,6 +114,15 @@
     let canvasWidth: number = 1024;
     let canvasHeight: number = 768;
 
+    /** The bound window dimensions */
+    let windowWidth: number = 1;
+    let windowHeight: number = 1;
+    $: windowAspect =
+        typeof window === 'undefined'
+            ? windowWidth / windowHeight
+            : window.innerWidth / window.innerHeight;
+    $: console.log(windowAspect);
+
     /** The background color of the output, so we can make the tile match. */
     let outputBackground: string | null;
 
@@ -299,13 +308,13 @@
     }
 
     function initializedLayout() {
-        const persistedLayout = Layout.fromObject(
-            project.name,
-            getPersistedValue<LayoutObject>(LAYOUT_KEY)
-        );
-        if (persistedLayout === null) return null;
-
-        return persistedLayout.withTiles(syncTiles(persistedLayout.tiles));
+        const layouts =
+            getPersistedValue<Record<string, LayoutObject>>(LAYOUT_KEY);
+        const layout = layouts ? layouts[project.id] : null;
+        const persistedLayout = layout ? Layout.fromObject(layout) : null;
+        return persistedLayout === null
+            ? null
+            : persistedLayout.withTiles(syncTiles(persistedLayout.tiles));
     }
 
     /** Compute a default layout, or a new layout when the languages change. */
@@ -347,7 +356,12 @@
                               Tile.randomPosition(1024, 768)
                           ),
                       ],
-                layout ? layout.arrangement : Arrangement.vertical,
+                // Choose a default layout appropriate for the aspect ratio
+                layout
+                    ? layout.arrangement
+                    : windowAspect > 1
+                    ? Arrangement.horizontal
+                    : Arrangement.vertical,
                 layout ? layout.fullscreenID : undefined
             );
 
@@ -380,7 +394,12 @@
     }
 
     /** Persist the layout when it changes */
-    $: setPersistedValue(LAYOUT_KEY, layout.toObject(project.name));
+    $: {
+        const layouts =
+            getPersistedValue<Record<string, LayoutObject>>(LAYOUT_KEY) ?? {};
+        layouts[project.id] = layout.toObject();
+        setPersistedValue(LAYOUT_KEY, layouts);
+    }
 
     /** The tile being dragged */
     let draggedTile:
@@ -924,6 +943,8 @@
 </script>
 
 <svelte:head><title>Wordplay - {project.name}</title></svelte:head>
+
+<svelte:window bind:innerWidth={windowWidth} bind:innerHeight={windowHeight} />
 
 <!-- Render the app header and the current project, if there is one. -->
 <main class="project" tabIndex="0" on:keydown={handleKey} bind:this={view}>
