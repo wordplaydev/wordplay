@@ -171,11 +171,11 @@
         transition:slide|local={getAnimationDuration()}
         class="timeline"
         class:stepping={$evaluation?.playing === false}
-        on:mousedown={(event) => stepToMouse(event)}
-        on:mousemove={(event) =>
+        on:pointerdown={(event) => stepToMouse(event)}
+        on:pointermove={(event) =>
             (event.buttons & 1) === 1 ? stepToMouse(event) : undefined}
-        on:mouseleave={() => (dragging = false)}
-        on:mouseup={() => (dragging = false)}
+        on:pointerleave={() => (dragging = false)}
+        on:pointerup={() => (dragging = false)}
         bind:this={timeline}
     >
         {#if historyTrimmed}<span class="stream-input">…</span>{/if}

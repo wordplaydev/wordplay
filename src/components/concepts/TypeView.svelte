@@ -19,7 +19,7 @@
         <span
             class="type"
             tabIndex="0"
-            on:click={() => navigate(type)}
+            on:pointerdown={() => navigate(type)}
             on:keydown={(event) =>
                 event.key === 'Enter' || event.key === ' '
                     ? navigate(type)

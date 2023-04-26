@@ -29,7 +29,7 @@
         {max}
         step={increment}
         bind:value
-        on:mousedown|stopPropagation
+        on:pointerdown|stopPropagation
         on:input={handleChange}
     />
     <div class="text">

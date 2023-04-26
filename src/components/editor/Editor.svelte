@@ -483,9 +483,9 @@
         focusNodeCaret();
     }
 
-    function handleMouseDown(event: MouseEvent) {
+    function handlePointerDown(event: PointerEvent) {
         // Prevent the OS from giving the document body focus.
-        event.preventDefault();
+        event.stopPropagation();
 
         placeCaretAt(event);
 
@@ -493,18 +493,18 @@
         focusHiddenTextField();
     }
 
-    function placeCaretAt(event: MouseEvent) {
-        const tokenUnderMouse = getNodeAt(event, true);
-        const nonTokenNodeUnderMouse = getNodeAt(event, false);
+    function placeCaretAt(event: PointerEvent) {
+        const tokenUnderPointer = getNodeAt(event, true);
+        const nonTokenNodeUnderPointer = getNodeAt(event, false);
         const newPosition =
             // If shift is down, select the non-token node at the position.
-            event.shiftKey && nonTokenNodeUnderMouse !== undefined
-                ? nonTokenNodeUnderMouse
+            event.shiftKey && nonTokenNodeUnderPointer !== undefined
+                ? nonTokenNodeUnderPointer
                 : // If the node is a placeholder token, select it's placeholder ancestor
-                tokenUnderMouse instanceof Token &&
-                  tokenUnderMouse.is(TokenType.Placeholder)
+                tokenUnderPointer instanceof Token &&
+                  tokenUnderPointer.is(TokenType.Placeholder)
                 ? source.root
-                      .getAncestors(tokenUnderMouse)
+                      .getAncestors(tokenUnderPointer)
                       .find((a) => a.isPlaceholder())
                 : // Otherwise choose an index position under the mouse
                   getCaretPositionAt(event);
@@ -514,8 +514,8 @@
             caret.set($caret.withPosition(newPosition));
 
         // Mark that the creator might want to drag the node under the mouse and remember where the click started.
-        if (nonTokenNodeUnderMouse) {
-            dragCandidate = nonTokenNodeUnderMouse;
+        if (nonTokenNodeUnderPointer) {
+            dragCandidate = nonTokenNodeUnderPointer;
             // If the primary mouse button is down, start dragging and set insertion.
             // We only start dragging if the cursor has moved more than a certain amount since last click.
             if (dragCandidate && event.buttons === 1)
@@ -523,7 +523,10 @@
         }
     }
 
-    function getNodeAt(event: MouseEvent, includeTokens: boolean) {
+    function getNodeAt(
+        event: PointerEvent | MouseEvent,
+        includeTokens: boolean
+    ) {
         const el = document.elementFromPoint(event.clientX, event.clientY);
         // Only return a node if hovering over its text. Space isn't eligible.
         if (el instanceof HTMLElement) {
@@ -565,7 +568,7 @@
             : undefined;
     }
 
-    function getCaretPositionAt(event: MouseEvent): number | undefined {
+    function getCaretPositionAt(event: PointerEvent): number | undefined {
         // What element is under the mouse?
         const elementAtCursor = document.elementFromPoint(
             event.clientX,
@@ -768,7 +771,7 @@
         return source.getTokenLastPosition(source.expression.end);
     }
 
-    function getInsertionPointsAt(event: MouseEvent) {
+    function getInsertionPointsAt(event: PointerEvent) {
         // Is the caret position between tokens? If so, are any of the token's parents inside a list in which we could insert something?
         const position = getCaretPositionAt(event);
 
@@ -824,7 +827,7 @@
         return [];
     }
 
-    function exceededDragThreshold(event: MouseEvent) {
+    function exceededDragThreshold(event: PointerEvent) {
         return (
             dragPoint === undefined ||
             Math.sqrt(
@@ -834,14 +837,14 @@
         );
     }
 
-    function handleMouseMove(event: MouseEvent) {
+    function handlePointerMove(event: PointerEvent) {
         if (evaluator === undefined) return;
 
         if (evaluator.isPlaying()) handleEditHover(event);
         else handleDebugHover(event);
     }
 
-    function handleEditHover(event: MouseEvent) {
+    function handleEditHover(event: PointerEvent) {
         // By default, set the hovered state to whatever node is under the mouse.
         hovered.set(getNodeAt(event, false));
         hoveredAny.set(getNodeAt(event, true));
@@ -886,7 +889,7 @@
         } else insertion.set(undefined);
     }
 
-    function handleDebugHover(event: MouseEvent) {
+    function handleDebugHover(event: PointerEvent) {
         if (evaluator === undefined) return;
 
         const node = getNodeAt(event, false);
@@ -899,7 +902,7 @@
         );
     }
 
-    function handleMouseLeave() {
+    function handlePointerLeave() {
         hovered.set(undefined);
         insertion.set(undefined);
     }
@@ -1214,14 +1217,14 @@
     style:writing-mode={$writingLayout}
     data-id={source.id}
     bind:this={editor}
-    on:mousedown={(event) => handleMouseDown(event)}
+    on:pointerdown={(event) => handlePointerDown(event)}
     on:dblclick={(event) => {
         let node = getNodeAt(event, false);
         if (node) caret.set($caret.withPosition(node));
     }}
-    on:mouseup={handleRelease}
-    on:mousemove={handleMouseMove}
-    on:mouseleave={handleMouseLeave}
+    on:pointerup={handleRelease}
+    on:pointermove={handlePointerMove}
+    on:pointerleave={handlePointerLeave}
     on:keydown={handleKeyDown}
     on:focusin={() => (focused = true)}
     on:focusout={() => (focused = false)}
@@ -1336,6 +1339,7 @@
         opacity: 0;
         width: 1px;
         pointer-events: none;
+        touch-action: none;
 
         /* Helpful for debugging */
         /* outline: 1px solid red;

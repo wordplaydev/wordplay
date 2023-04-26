@@ -345,7 +345,7 @@
         setTimeout(() => (ignored = false), 250);
     }
 
-    function handleMouseDown(event: MouseEvent) {
+    function handlePointerDown(event: PointerEvent) {
         // Focus the view if not focused.
         view?.focus();
 
@@ -449,7 +449,7 @@
         return Math.round(100 * num) / 100;
     }
 
-    function handleMouseMove(event: MouseEvent) {
+    function handlePointerMove(event: PointerEvent) {
         // Handle focus or output moves..
         if (event.buttons === 1 && drag && view) {
             const rect = view.getBoundingClientRect();
@@ -703,7 +703,9 @@
         return nodeID;
     }
 
-    function getOutputNodeIDUnderMouse(event: MouseEvent): number | undefined {
+    function getOutputNodeIDUnderMouse(
+        event: PointerEvent | MouseEvent
+    ): number | undefined {
         // Find the nearest .output element and get its node-id data attribute.
         const element = document.elementFromPoint(event.clientX, event.clientY);
         if (!(element instanceof HTMLElement)) return;
@@ -730,7 +732,7 @@
      * Given a mouse event, finds the nearest output under the mouse and adds it to the project selection
      * if so.
      */
-    function selectPointerOutput(event: MouseEvent): boolean {
+    function selectPointerOutput(event: PointerEvent | MouseEvent): boolean {
         if (
             selectedOutputPaths === undefined ||
             $selectedOutput === undefined ||
@@ -831,9 +833,10 @@
                     ? verse.rest.color?.toCSS()
                     : undefined) ?? 'var(--wordplay-foreground)',
         })}
-        on:mousedown={(event) => (interactive ? handleMouseDown(event) : null)}
-        on:mouseup={interactive ? handleMouseUp : null}
-        on:mousemove={interactive ? handleMouseMove : null}
+        on:pointerdown={(event) =>
+            interactive ? handlePointerDown(event) : null}
+        on:pointerup={interactive ? handleMouseUp : null}
+        on:pointermove={interactive ? handlePointerMove : null}
         on:dblclick={interactive && !fullscreen ? handleDoubleclick : null}
         on:keydown={interactive ? handleKeyDown : null}
         on:keyup={interactive ? handleKeyUp : null}

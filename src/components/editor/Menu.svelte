@@ -66,7 +66,7 @@
                     class={`item option ${
                         index === menu.selection ? 'selected' : ''
                     }`}
-                    on:mousedown|preventDefault|stopPropagation={() =>
+                    on:pointerdown|preventDefault|stopPropagation={() =>
                         handleItemClick(transform)}
                 >
                     <td class="col">

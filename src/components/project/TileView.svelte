@@ -112,7 +112,7 @@
         }
     }
 
-    function handleMouseDown(event: MouseEvent) {
+    function handlePointerDown(event: PointerEvent) {
         if (resizeDirection !== null && view) {
             const rect = view.getBoundingClientRect();
             dispatch('resize', {
@@ -125,7 +125,7 @@
         }
     }
 
-    function handleMouseMove(event: MouseEvent) {
+    function handlePointerMove(event: PointerEvent) {
         if (view === undefined) return;
 
         if (event.buttons === 0) {
@@ -176,9 +176,9 @@
     style:top={fullscreen ? null : `${tile.bounds?.top ?? 0}px`}
     style:width={fullscreen ? null : `${tile.bounds?.width ?? 0}px`}
     style:height={fullscreen ? null : `${tile.bounds?.height ?? 0}px`}
-    on:mousemove={handleMouseMove}
-    on:mouseleave={() => (resizeDirection = null)}
-    on:mousedown={handleMouseDown}
+    on:pointermove={handlePointerMove}
+    on:pointerleave={() => (resizeDirection = null)}
+    on:pointerdown={handlePointerDown}
     on:keydown={handleKeyDown}
     bind:this={view}
 >

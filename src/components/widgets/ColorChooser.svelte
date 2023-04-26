@@ -75,8 +75,8 @@
 <div class="component">
     <div
         class="hue"
-        on:mousedown={handleMouseMove}
-        on:mousemove={handleMouseMove}
+        on:pointerdown={handleMouseMove}
+        on:pointermove={handleMouseMove}
         bind:clientWidth={hueWidth}
         bind:clientHeight={hueHeight}
     >
@@ -138,6 +138,7 @@
     .band {
         width: 100%;
         pointer-events: none;
+        touch-action: none;
     }
 
     .selection {
@@ -147,6 +148,7 @@
         transform: translate(-2px, -2px);
         background: var(--wordplay-background);
         pointer-events: none;
+        touch-action: none;
     }
 
     .color {

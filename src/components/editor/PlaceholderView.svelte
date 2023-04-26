@@ -16,7 +16,7 @@
         class="trigger"
         role="button"
         tabindex="0"
-        on:mousedown|stopPropagation={show}
+        on:pointerdown|stopPropagation={show}
         on:keydown={(event) =>
             event.key === 'Enter' || event.key === ' ' ? show() : undefined}
         >▾</span

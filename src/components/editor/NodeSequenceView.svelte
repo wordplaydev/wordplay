@@ -75,7 +75,7 @@
 {#if hiddenBefore > 0}
     <span
         class="count"
-        on:mousedown={() => (elide = false)}
+        on:pointerdown={() => (elide = false)}
         on:keydown={(event) =>
             event.key === ' ' || event.key === 'Enter'
                 ? (elide = false)
@@ -84,7 +84,7 @@
         {node}
     />{/each}{#if hiddenAfter > 0}<span
         class="count"
-        on:mousedown={() => (elide = false)}
+        on:pointerdown={() => (elide = false)}
         on:keydown={(event) =>
             event.key === ' ' || event.key === 'Enter'
                 ? (elide = false)

@@ -134,6 +134,7 @@
         box-shadow: none;
         background-color: var(--wordplay-background);
         pointer-events: none;
+        touch-action: none;
     }
 
     .message {

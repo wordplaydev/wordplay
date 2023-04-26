@@ -51,7 +51,7 @@
     <span
         class="name"
         tabIndex="0"
-        on:click={() => dispatch('toggle')}
+        on:pointerdown={() => dispatch('toggle')}
         on:keydown={(event) => {
             if (event.key === 'Enter' || event.key === ' ') {
                 dispatch('toggle');

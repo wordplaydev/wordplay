@@ -16,7 +16,7 @@
     title={tip}
     aria-label={tip}
     tabindex={enabled ? 0 : null}
-    on:click={() => (enabled ? action() : undefined)}
+    on:pointerdown={() => (enabled ? action() : undefined)}
     aria-disabled={!enabled}
 >
     <slot />

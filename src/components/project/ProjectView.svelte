@@ -98,8 +98,8 @@
     let menu: MenuInfo | undefined;
 
     /** The latest mouse position */
-    let mouseX = 0;
-    let mouseY = 0;
+    let pointerX = 0;
+    let pointerY = 0;
 
     /** The view that contains the dragged node */
     let dragContainer: HTMLElement | undefined;
@@ -121,7 +121,6 @@
         typeof window === 'undefined'
             ? windowWidth / windowHeight
             : window.innerWidth / window.innerHeight;
-    $: console.log(windowAspect);
 
     /** The background color of the output, so we can make the tile match. */
     let outputBackground: string | null;
@@ -687,7 +686,7 @@
         if (draggedTile) scrollToTileView(tile.id);
     }
 
-    function handleMouseDown(event: MouseEvent) {
+    function handlePointerDown(event: PointerEvent) {
         if (layout.arrangement !== Arrangement.free) return;
 
         const tileView = document
@@ -710,9 +709,9 @@
         }
     }
 
-    async function handleMouseMove(event: MouseEvent) {
-        mouseX = event.clientX + canvas.scrollLeft;
-        mouseY = event.clientY + canvas.scrollTop;
+    async function handlePointerMove(event: PointerEvent) {
+        pointerX = event.clientX + canvas.scrollLeft;
+        pointerY = event.clientY + canvas.scrollTop;
 
         if (draggedTile) {
             const tile = layout.getTileWithID(draggedTile.id);
@@ -720,8 +719,8 @@
                 let newBounds;
                 if (draggedTile.direction === null) {
                     newBounds = {
-                        left: mouseX - draggedTile.left,
-                        top: mouseY - draggedTile.top,
+                        left: pointerX - draggedTile.left,
+                        top: pointerY - draggedTile.top,
                         width: tile.position.width,
                         height: tile.position.height,
                     };
@@ -731,19 +730,19 @@
                     const right = draggedTile.direction.includes('right');
                     const bottom = draggedTile.direction.includes('bottom');
                     newBounds = {
-                        left: left ? mouseX : tile.position.left,
-                        top: top ? mouseY : tile.position.top,
+                        left: left ? pointerX : tile.position.left,
+                        top: top ? pointerY : tile.position.top,
                         width: left
                             ? tile.position.width +
-                              (tile.position.left - mouseX)
+                              (tile.position.left - pointerX)
                             : right
-                            ? mouseX - tile.position.left
+                            ? pointerX - tile.position.left
                             : tile.position.width,
                         height: top
                             ? tile.position.height +
-                              (tile.position.top - mouseY)
+                              (tile.position.top - pointerY)
                             : bottom
-                            ? mouseY - tile.position.top
+                            ? pointerY - tile.position.top
                             : tile.position.height,
                     };
                 }
@@ -775,7 +774,7 @@
         }
     }
 
-    function handleMouseUp() {
+    function handlePointerUp() {
         dragged.set(undefined);
         draggedTile = undefined;
     }
@@ -950,9 +949,9 @@
 <main class="project" tabIndex="0" on:keydown={handleKey} bind:this={view}>
     <div
         class="canvas"
-        on:mousedown={handleMouseDown}
-        on:mouseup={handleMouseUp}
-        on:mousemove={handleMouseMove}
+        on:pointerdown={handlePointerDown}
+        on:pointerup={handlePointerUp}
+        on:pointermove={handlePointerMove}
         on:transitionend={repositionFloaters}
         on:scroll={repositionFloaters}
         bind:clientWidth={canvasWidth}
@@ -1164,7 +1163,7 @@
             </div>
             <div
                 class="drag-container dragging"
-                style="left: {mouseX}px; top:{mouseY}px;"
+                style="left: {pointerX}px; top:{pointerY}px;"
                 bind:this={dragContainer}
             >
                 <RootView
@@ -1229,6 +1228,7 @@
     .drag-outline {
         z-index: 2;
     }
+
     .drag-container {
         position: absolute;
         cursor: none;

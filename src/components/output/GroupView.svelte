@@ -134,6 +134,7 @@
 
     .frame {
         pointer-events: none;
+        touch-action: none;
     }
 
     path.border {

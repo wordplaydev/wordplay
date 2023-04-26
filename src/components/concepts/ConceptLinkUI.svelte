@@ -32,7 +32,7 @@
     <span
         class="interactive"
         class:salient
-        on:click={navigate}
+        on:pointerdown={navigate}
         on:keydown={(event) =>
             event.key == ' ' || event.key === 'Enter' ? navigate() : undefined}
         >{#if label}{label}{:else}{concept.getName(

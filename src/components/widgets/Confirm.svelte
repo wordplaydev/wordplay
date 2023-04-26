@@ -6,7 +6,7 @@
     export let decide: (yes: boolean) => void;
 </script>
 
-<div class="overlay" on:mousedown|stopPropagation>
+<div class="overlay" on:pointerdown|stopPropagation>
     <h1 class="prompt">{prompt}</h1>
     <div class="decisions"
         ><Button

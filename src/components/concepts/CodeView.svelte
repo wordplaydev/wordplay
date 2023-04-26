@@ -57,7 +57,7 @@
             class="description"
             class:selectable
             tabIndex={selectable ? 0 : null}
-            on:mousedown={select}
+            on:pointerdown={select}
             on:keydown={(event) =>
                 event.key === 'Enter' || event.key === ' '
                     ? select(event)
@@ -78,6 +78,7 @@
         vertical-align: middle;
         margin-bottom: var(--wordplay-spacing);
         margin-right: var(--wordplay-spacing);
+        touch-action: none;
     }
 
     .node {

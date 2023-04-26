@@ -75,7 +75,7 @@
         }
     }
 
-    function handleMouseDown(event: MouseEvent) {
+    function handlePointerDown(event: PointerEvent) {
         palette?.focus();
 
         if (event.buttons !== 1) return;
@@ -97,6 +97,13 @@
                     if (node !== undefined) {
                         // Set the dragged node to a deep clone of the (it may contain nodes from declarations that we don't want leaking into the program);
                         dragged.set(node.clone());
+
+                        // Release implicit pointer capture so editor can receive move events.
+                        if (
+                            event.target instanceof Element &&
+                            event.target.hasPointerCapture(event.pointerId)
+                        )
+                            event.target.releasePointerCapture(event.pointerId);
                         break;
                     }
                 }
@@ -161,8 +168,8 @@
 <section
     class="palette"
     aria-label={$preferredTranslations[0].ui.section.palette}
-    on:mousedown={handleMouseDown}
-    on:mouseup={handleDrop}
+    on:pointerdown={handlePointerDown}
+    on:pointerup={handleDrop}
     on:keydown={(event) => (event.key === 'Backspace' ? back() : undefined)}
     bind:this={palette}
 >

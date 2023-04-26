@@ -39,7 +39,7 @@
 
 <span
     tabIndex="0"
-    on:click={toggle}
+    on:pointerdown={toggle}
     on:keydown={(event) =>
         event.key === ' ' || event.key === 'Enter' ? toggle() : undefined}
 >

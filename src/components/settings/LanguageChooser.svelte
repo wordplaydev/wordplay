@@ -93,7 +93,7 @@
                         class:supported
                         class:selected={$preferredLanguages.includes(lang)}
                         tabIndex={0}
-                        on:click|stopPropagation={(event) =>
+                        on:pointerdown|stopPropagation={(event) =>
                             select(lang, event.shiftKey)}
                         on:keydown={(event) =>
                             event.key === ' ' || event.key === 'Enter'

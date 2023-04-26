@@ -190,7 +190,7 @@
                 bind:this={input}
                 on:input={handleInput}
                 on:keydown|stopPropagation
-                on:mousedown|stopPropagation
+                on:pointerdown|stopPropagation
                 style:width="{phrase.getMetrics(context, false).width}px"
                 autofocus
             />

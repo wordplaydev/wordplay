@@ -22,7 +22,7 @@
     <div
         class="preview"
         tabIndex="0"
-        on:click={action}
+        on:pointerdown={action}
         on:keydown={(event) =>
             event.key === '' || event.key === 'Enter' ? action() : undefined}
     >

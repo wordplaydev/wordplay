@@ -68,7 +68,7 @@
                     event.key === ' ' || event.key === 'Enter'
                         ? insert(glyph)
                         : undefined}
-                on:mousedown|preventDefault|stopPropagation={(event) =>
+                on:pointerdown|preventDefault|stopPropagation={(event) =>
                     insert(glyph)}
                 ><TokenView node={tokenize(glyph).getTokens()[0]} /></span
             >{:else}&mdash;{/each}
