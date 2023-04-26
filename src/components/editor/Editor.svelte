@@ -486,6 +486,7 @@
     function handlePointerDown(event: PointerEvent) {
         // Prevent the OS from giving the document body focus.
         event.stopPropagation();
+        event.preventDefault();
 
         placeCaretAt(event);
 
