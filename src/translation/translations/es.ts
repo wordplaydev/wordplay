@@ -1988,32 +1988,32 @@ const eng_wordplay: Translation = {
     input: {
         random: {
             doc: WRITE_DOC,
-            name: ['azar', '🎲'],
+            name: ['Azar'],
             min: { name: 'mínima', doc: WRITE_DOC },
             max: { name: 'maximo', doc: WRITE_DOC },
         },
         choice: {
             doc: WRITE_DOC,
-            name: ['selección', 'elección'],
+            name: ['Selección', 'Elección'],
         },
         mousebutton: {
             doc: WRITE_DOC,
-            name: ['mousebutton', '🖱️'],
+            name: ['Botón', '🖱️'],
             down: { name: 'abajo', doc: WRITE_DOC },
         },
         mouseposition: {
             doc: WRITE_DOC,
-            name: ['mouseposition', '👆🏻'],
+            name: ['Puntero', '👆🏻'],
         },
         keyboard: {
             doc: WRITE_DOC,
-            name: ['teclado'],
+            name: ['Teclado'],
             key: { name: 'tecla', doc: WRITE_DOC },
             down: { name: 'abajo', doc: WRITE_DOC },
         },
         time: {
             doc: WRITE_DOC,
-            name: ['tiempo'],
+            name: ['Tiempo'],
             frequency: {
                 name: ['frecuencia'],
                 doc: WRITE_DOC,
@@ -2021,7 +2021,7 @@ const eng_wordplay: Translation = {
         },
         microphone: {
             doc: WRITE_DOC,
-            name: ['micrófono', '🎤'],
+            name: ['Micrófono', '🎤'],
             frequency: {
                 name: ['frecuencia'],
                 doc: WRITE_DOC,
@@ -2029,7 +2029,7 @@ const eng_wordplay: Translation = {
         },
         camera: {
             doc: WRITE_DOC,
-            name: ['cámara'],
+            name: ['Cámara'],
             width: {
                 name: ['ancho'],
                 doc: WRITE_DOC,
