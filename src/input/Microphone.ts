@@ -17,7 +17,7 @@ const DEFAULT_FREQUENCY = 33;
 
 // A helpful article on getting raw data streams:
 // https://stackoverflow.com/questions/69237143/how-do-i-get-the-audio-frequency-from-my-mic-using-javascript
-export default class Microphone extends TemporalStream<Measurement> {
+export default class Mic extends TemporalStream<Measurement> {
     stream: MediaStream | undefined;
     source: MediaStreamAudioSourceNode | undefined;
     context: AudioContext | undefined;
@@ -31,7 +31,7 @@ export default class Microphone extends TemporalStream<Measurement> {
     constructor(evaluator: Evaluator, frequency: number | undefined) {
         super(
             evaluator,
-            MicrophoneDefinition,
+            MicDefinition,
             new Measurement(evaluator.getMain(), 100)
         );
         this.frequency = frequency ?? DEFAULT_FREQUENCY;
@@ -121,15 +121,15 @@ const FrequencyBind = Bind.make(
     MeasurementLiteral.make(33, Unit.make(['ms']))
 );
 
-export const MicrophoneDefinition = StreamDefinition.make(
+export const MicDefinition = StreamDefinition.make(
     getDocTranslations((t) => t.input.microphone.doc),
     getNameTranslations((t) => t.input.microphone.name),
     [FrequencyBind],
     createStreamEvaluator(
         MeasurementType.make(),
-        Microphone,
+        Mic,
         (evaluation) =>
-            new Microphone(
+            new Mic(
                 evaluation.getEvaluator(),
                 evaluation.get(FrequencyBind.names, Measurement)?.toNumber()
             ),

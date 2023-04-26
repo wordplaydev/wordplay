@@ -2,9 +2,9 @@
     import { afterUpdate } from 'svelte';
     import { getAnimationDuration } from '@models/stores';
     import type Evaluator from '@runtime/Evaluator';
-    import Keyboard from '../../input/Keyboard';
+    import Key from '../../input/Keyboard';
     import Bool from '@runtime/Bool';
-    import MouseButton from '../../input/MouseButton';
+    import Button from '../../input/MouseButton';
     import { slide } from 'svelte/transition';
     import { tick } from 'svelte';
     import Exception from '@runtime/Exception';
@@ -189,9 +189,9 @@
                 <!-- Show up to three of the streams that changed -->
                 {#each reaction.changes.slice(0, 3) as change}
                     {@const down =
-                        change.stream instanceof Keyboard
+                        change.stream instanceof Key
                             ? change.value?.resolve('down')
-                            : change.stream instanceof MouseButton
+                            : change.stream instanceof Button
                             ? change.value
                             : undefined}
                     <!-- Show an emoji representing the cause of the reevaluation -->

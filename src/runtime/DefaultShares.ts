@@ -12,11 +12,11 @@ import { SequenceType } from '../output/Sequence';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
 import type StreamDefinition from '../nodes/StreamDefinition';
 import { TimeDefinition } from '../input/Time';
-import { KeyboardDefinition } from '../input/Keyboard';
-import { MicrophoneDefinition } from '../input/Microphone';
+import { KeyDefinition as KeyDefinition } from '../input/Keyboard';
+import { MicDefinition as MicDefinition } from '../input/Microphone';
 import { MotionDefinition } from '../input/Motion';
-import { MousePositionDefinition } from '../input/MousePosition';
-import { MouseButtonDefinition } from '../input/MouseButton';
+import { PointerDefinition as PointerDefinition } from '../input/MousePosition';
+import { ButtonDefinition as ButtonDefinition } from '../input/MouseButton';
 import { RandomDefinition } from '../input/Random';
 import { ArrangementType } from '../output/Arrangement';
 import { CameraDefinition } from '../input/Camera';
@@ -44,11 +44,11 @@ export const AppearanceTypes = [ColorType, PlaceType];
 export const StreamDefinitions = [
     TimeDefinition,
     ChoiceDefinition,
-    KeyboardDefinition,
-    MousePositionDefinition,
-    MouseButtonDefinition,
+    KeyDefinition,
+    PointerDefinition,
+    ButtonDefinition,
     RandomDefinition,
-    MicrophoneDefinition,
+    MicDefinition,
     CameraDefinition,
     MotionDefinition,
 ];

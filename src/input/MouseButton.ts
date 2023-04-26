@@ -12,16 +12,12 @@ import Bool from '@runtime/Bool';
 import StreamType from '@nodes/StreamType';
 import createStreamEvaluator from './createStreamEvaluator';
 
-export default class MouseButton extends Stream<Bool> {
+export default class Button extends Stream<Bool> {
     on: boolean = false;
     down: boolean | undefined;
 
     constructor(evaluator: Evaluator, down: boolean | undefined) {
-        super(
-            evaluator,
-            MouseButtonDefinition,
-            new Bool(evaluator.getMain(), true)
-        );
+        super(evaluator, ButtonDefinition, new Bool(evaluator.getMain(), true));
 
         this.down = down;
     }
@@ -55,15 +51,15 @@ const DownBind = Bind.make(
     BooleanLiteral.make(true)
 );
 
-export const MouseButtonDefinition = StreamDefinition.make(
+export const ButtonDefinition = StreamDefinition.make(
     getDocTranslations((t) => t.input.mousebutton.doc),
     getNameTranslations((t) => t.input.mousebutton.name),
     [DownBind],
     createStreamEvaluator(
         BooleanType.make(),
-        MouseButton,
+        Button,
         (evaluation) =>
-            new MouseButton(
+            new Button(
                 evaluation.getEvaluator(),
                 evaluation.get(DownBind.names, Bool)?.bool
             ),

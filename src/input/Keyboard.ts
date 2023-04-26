@@ -14,7 +14,7 @@ import Bool from '../runtime/Bool';
 import StreamType from '../nodes/StreamType';
 import createStreamEvaluator from './createStreamEvaluator';
 
-export default class Keyboard extends Stream<Text> {
+export default class Key extends Stream<Text> {
     readonly evaluator: Evaluator;
     on: boolean = false;
 
@@ -22,7 +22,7 @@ export default class Keyboard extends Stream<Text> {
     down: boolean | undefined;
 
     constructor(evaluator: Evaluator, key: string | undefined, down: boolean) {
-        super(evaluator, KeyboardDefinition, new Text(evaluator.getMain(), ''));
+        super(evaluator, KeyDefinition, new Text(evaluator.getMain(), ''));
 
         this.evaluator = evaluator;
         this.key = key;
@@ -72,15 +72,15 @@ const downBind = Bind.make(
     NoneLiteral.make()
 );
 
-export const KeyboardDefinition = StreamDefinition.make(
+export const KeyDefinition = StreamDefinition.make(
     getDocTranslations((t) => t.input.keyboard.doc),
     getNameTranslations((t) => t.input.keyboard.name),
     [keyBind, downBind],
     createStreamEvaluator(
         TextType.make(),
-        Keyboard,
+        Key,
         (evaluation) =>
-            new Keyboard(
+            new Key(
                 evaluation.getEvaluator(),
                 evaluation.get(keyBind.names, Text)?.text,
                 evaluation.get(downBind.names, Bool)?.bool ?? true

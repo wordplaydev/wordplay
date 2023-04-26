@@ -14,9 +14,9 @@
     import Place from '@output/Place';
     import Evaluate from '@nodes/Evaluate';
     import { DefaultFont, DefaultSize, VerseType } from '@output/Verse';
-    import Keyboard from '@input/Keyboard';
-    import MousePosition from '@input/MousePosition';
-    import MouseButton from '@input/MouseButton';
+    import Key from '@input/Keyboard';
+    import Pointer from '@input/MousePosition';
+    import Button from '@input/MouseButton';
     import { createPlace } from '@output/Place';
     import Stage, { type OutputInfoSet } from '@output/Stage';
     import Pose from '@output/Pose';
@@ -351,7 +351,7 @@
 
         if (evaluator.isPlaying()) {
             evaluator
-                .getNativeStreamsOfType(MouseButton)
+                .getNativeStreamsOfType(Button)
                 .forEach((stream) => stream.record(true));
 
             // Was the target clicked on output with a name? Add it to choice streams.
@@ -436,7 +436,7 @@
 
         if (evaluator.isPlaying())
             evaluator
-                .getNativeStreamsOfType(MouseButton)
+                .getNativeStreamsOfType(Button)
                 .map((stream) => stream.record(false));
     }
 
@@ -543,7 +543,7 @@
 
         if (evaluator.isPlaying())
             evaluator
-                .getNativeStreamsOfType(MousePosition)
+                .getNativeStreamsOfType(Pointer)
                 .map((stream) => stream.record(event.offsetX, event.offsetY));
         // Don't give feedback on this; it's not expected.
     }
@@ -575,7 +575,7 @@
 
         if (evaluator.isPlaying()) {
             evaluator
-                .getNativeStreamsOfType(Keyboard)
+                .getNativeStreamsOfType(Key)
                 .map((stream) => stream.record(event.key, false));
         }
     }
@@ -677,7 +677,7 @@
         // Record the key event on all keyboard streams if it wasn't handled above.
         if (evaluator.isPlaying()) {
             evaluator
-                .getNativeStreamsOfType(Keyboard)
+                .getNativeStreamsOfType(Key)
                 .map((stream) => stream.record(event.key, true));
 
             // Was the target clicked on output with a name? Add it to choice streams.

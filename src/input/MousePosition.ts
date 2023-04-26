@@ -26,12 +26,12 @@ function position(evaluator: Evaluator, x: number, y: number) {
     return createStructure(evaluator, PlaceType, bindings);
 }
 
-export default class MousePosition extends Stream<Structure> {
+export default class Pointer extends Stream<Structure> {
     readonly evaluator: Evaluator;
     on: boolean = false;
 
     constructor(evaluator: Evaluator) {
-        super(evaluator, MousePositionDefinition, position(evaluator, 0, 0));
+        super(evaluator, PointerDefinition, position(evaluator, 0, 0));
 
         this.evaluator = evaluator;
     }
@@ -52,14 +52,14 @@ export default class MousePosition extends Stream<Structure> {
     }
 }
 
-export const MousePositionDefinition = StreamDefinition.make(
+export const PointerDefinition = StreamDefinition.make(
     getDocTranslations((t) => t.input.mouseposition.doc),
     getNameTranslations((t) => t.input.mouseposition.name),
     [],
     createStreamEvaluator(
         new StructureDefinitionType(PlaceType),
-        MousePosition,
-        (evaluation) => new MousePosition(evaluation.getEvaluator()),
+        Pointer,
+        (evaluation) => new Pointer(evaluation.getEvaluator()),
         () => {}
     ),
     new StructureDefinitionType(PlaceType)

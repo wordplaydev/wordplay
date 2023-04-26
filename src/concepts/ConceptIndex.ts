@@ -19,11 +19,11 @@ import {
 import type TypeSet from '@nodes/TypeSet';
 import type StreamDefinition from '../nodes/StreamDefinition';
 import { TimeDefinition } from '../input/Time';
-import { KeyboardDefinition } from '../input/Keyboard';
-import { MousePositionDefinition } from '../input/MousePosition';
-import { MouseButtonDefinition } from '../input/MouseButton';
+import { KeyDefinition } from '../input/Keyboard';
+import { PointerDefinition } from '../input/MousePosition';
+import { ButtonDefinition } from '../input/MouseButton';
 import { RandomDefinition } from '../input/Random';
-import { MicrophoneDefinition } from '../input/Microphone';
+import { MicDefinition } from '../input/Microphone';
 import NodeConcept from './NodeConcept';
 import { CameraDefinition } from '../input/Camera';
 
@@ -127,10 +127,10 @@ export default class ConceptIndex {
 
         const streams = [
             makeStreamConcept(TimeDefinition),
-            makeStreamConcept(MouseButtonDefinition),
-            makeStreamConcept(MousePositionDefinition),
-            makeStreamConcept(KeyboardDefinition),
-            makeStreamConcept(MicrophoneDefinition),
+            makeStreamConcept(ButtonDefinition),
+            makeStreamConcept(PointerDefinition),
+            makeStreamConcept(KeyDefinition),
+            makeStreamConcept(MicDefinition),
             makeStreamConcept(CameraDefinition),
             makeStreamConcept(RandomDefinition),
         ];
