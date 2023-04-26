@@ -970,104 +970,113 @@
         {/if}
 
         {#key tileIDSequence}
-            {#each layout.tiles as tile (tile.id)}
-                {#if tile.mode === Mode.Expanded && (layout.fullscreenID === undefined || layout.fullscreenID === tile.id)}
-                    <TileView
-                        {tile}
-                        {layout}
-                        arrangement={layout.arrangement}
-                        background={tile.kind === Content.Output
-                            ? outputBackground
-                            : null}
-                        dragging={draggedTile?.id === tile.id}
-                        fullscreenID={layout.fullscreenID}
-                        on:mode={(event) => setMode(tile, event.detail.mode)}
-                        on:position={(event) =>
-                            positionTile(tile, event.detail.position)}
-                        on:resize={(event) =>
-                            resizeTile(
-                                event.detail.id,
-                                event.detail.direction,
-                                event.detail.left,
-                                event.detail.top
-                            )}
-                        on:scroll={repositionFloaters}
-                        on:rename={(event) =>
-                            renameSource(event.detail.id, event.detail.name)}
-                        on:fullscreen={(event) =>
-                            setFullscreen(tile, event.detail.fullscreen)}
-                    >
-                        <svelte:fragment slot="extra">
-                            {#if tile.kind === Content.Output}
-                                {#if !$evaluation.evaluator.isPlaying()}<Painting
-                                        bind:painting
-                                    />{/if}<Button
-                                    tip={$preferredTranslations[0].ui.tooltip
-                                        .grid}
-                                    action={() => (grid = !grid)}>▦</Button
-                                ><Button
-                                    tip={$preferredTranslations[0].ui.tooltip
-                                        .fit}
-                                    action={() => (fit = !fit)}
-                                    >{#if fit}🔒{:else}🔓{/if}</Button
-                                >
-                            {:else if tile.isSource()}
-                                {@const source = getSourceByID(tile.id)}
-                                {#if source !== project.main}
-                                    <ConfirmButton
+            {#if layout.tiles.every((tile) => tile.isCollapsed())}
+                <div class="empty">⬇️</div>
+            {:else}
+                {#each layout.tiles as tile (tile.id)}
+                    {#if tile.isExpanded() && (layout.fullscreenID === undefined || layout.fullscreenID === tile.id)}
+                        <TileView
+                            {tile}
+                            {layout}
+                            arrangement={layout.arrangement}
+                            background={tile.kind === Content.Output
+                                ? outputBackground
+                                : null}
+                            dragging={draggedTile?.id === tile.id}
+                            fullscreenID={layout.fullscreenID}
+                            on:mode={(event) =>
+                                setMode(tile, event.detail.mode)}
+                            on:position={(event) =>
+                                positionTile(tile, event.detail.position)}
+                            on:resize={(event) =>
+                                resizeTile(
+                                    event.detail.id,
+                                    event.detail.direction,
+                                    event.detail.left,
+                                    event.detail.top
+                                )}
+                            on:scroll={repositionFloaters}
+                            on:rename={(event) =>
+                                renameSource(
+                                    event.detail.id,
+                                    event.detail.name
+                                )}
+                            on:fullscreen={(event) =>
+                                setFullscreen(tile, event.detail.fullscreen)}
+                        >
+                            <svelte:fragment slot="extra">
+                                {#if tile.kind === Content.Output}
+                                    {#if !$evaluation.evaluator.isPlaying()}<Painting
+                                            bind:painting
+                                        />{/if}<Button
                                         tip={$preferredTranslations[0].ui
-                                            .tooltip.deleteSource}
-                                        action={() => removeSource(source)}
-                                        prompt={$preferredTranslations[0].ui
-                                            .prompt.deleteSource}
-                                        >⨉</ConfirmButton
+                                            .tooltip.grid}
+                                        action={() => (grid = !grid)}>▦</Button
+                                    ><Button
+                                        tip={$preferredTranslations[0].ui
+                                            .tooltip.fit}
+                                        action={() => (fit = !fit)}
+                                        >{#if fit}🔒{:else}🔓{/if}</Button
                                     >
+                                {:else if tile.isSource()}
+                                    {@const source = getSourceByID(tile.id)}
+                                    {#if source !== project.main}
+                                        <ConfirmButton
+                                            tip={$preferredTranslations[0].ui
+                                                .tooltip.deleteSource}
+                                            action={() => removeSource(source)}
+                                            prompt={$preferredTranslations[0].ui
+                                                .prompt.deleteSource}
+                                            >⨉</ConfirmButton
+                                        >
+                                    {/if}
                                 {/if}
-                            {/if}
-                        </svelte:fragment>
-                        <svelte:fragment slot="content">
-                            {#if tile.kind === Content.Documentation}
-                                <Documentation {project} />
-                            {:else if tile.kind === Content.Palette}
-                                <Palette {project} />
-                            {:else if tile.kind === Content.Output}
-                                <OutputView
-                                    {project}
-                                    evaluator={$evaluator}
-                                    source={project.main}
-                                    {latest}
-                                    fullscreen={layout.fullscreenID === tile.id}
-                                    bind:fit
-                                    bind:grid
-                                    bind:painting
-                                    {paintingConfig}
-                                    bind:background={outputBackground}
-                                />
-                            {:else}
-                                <Editor
-                                    {project}
-                                    evaluator={$evaluator}
-                                    source={getSourceByID(tile.id)}
-                                    bind:menu
-                                    on:conflicts={(event) =>
-                                        (conflictsOfInterest =
-                                            conflictsOfInterest.set(
-                                                event.detail.source,
-                                                event.detail.conflicts
-                                            ))}
-                                />
-                            {/if}</svelte:fragment
-                        ><svelte:fragment slot="footer"
-                            >{#if tile.kind === Content.Source}<GlyphChooser
-                                    source={getSourceByID(tile.id)}
-                                />{:else if tile.kind === Content.Output && layout.fullscreenID !== tile.id}
-                                <Timeline
-                                    evaluator={$evaluator}
-                                />{/if}</svelte:fragment
-                        ></TileView
-                    >
-                {/if}
-            {/each}
+                            </svelte:fragment>
+                            <svelte:fragment slot="content">
+                                {#if tile.kind === Content.Documentation}
+                                    <Documentation {project} />
+                                {:else if tile.kind === Content.Palette}
+                                    <Palette {project} />
+                                {:else if tile.kind === Content.Output}
+                                    <OutputView
+                                        {project}
+                                        evaluator={$evaluator}
+                                        source={project.main}
+                                        {latest}
+                                        fullscreen={layout.fullscreenID ===
+                                            tile.id}
+                                        bind:fit
+                                        bind:grid
+                                        bind:painting
+                                        {paintingConfig}
+                                        bind:background={outputBackground}
+                                    />
+                                {:else}
+                                    <Editor
+                                        {project}
+                                        evaluator={$evaluator}
+                                        source={getSourceByID(tile.id)}
+                                        bind:menu
+                                        on:conflicts={(event) =>
+                                            (conflictsOfInterest =
+                                                conflictsOfInterest.set(
+                                                    event.detail.source,
+                                                    event.detail.conflicts
+                                                ))}
+                                    />
+                                {/if}</svelte:fragment
+                            ><svelte:fragment slot="footer"
+                                >{#if tile.kind === Content.Source}<GlyphChooser
+                                        source={getSourceByID(tile.id)}
+                                    />{:else if tile.kind === Content.Output && layout.fullscreenID !== tile.id}
+                                    <Timeline
+                                        evaluator={$evaluator}
+                                    />{/if}</svelte:fragment
+                            ></TileView
+                        >
+                    {/if}
+                {/each}
+            {/if}
         {/key}
     </div>
 
@@ -1239,5 +1248,16 @@
 
     .drag-container :global(.token-view) {
         color: var(--wordplay-background);
+    }
+
+    .empty {
+        width: 100%;
+        height: 100%;
+        color: var(--wordplay-border-color);
+        font-size: 1000%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
     }
 </style>

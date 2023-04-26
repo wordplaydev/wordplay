@@ -46,6 +46,10 @@ export default class Tile {
         return this.mode == Mode.Collapsed;
     }
 
+    isExpanded() {
+        return this.mode === Mode.Expanded;
+    }
+
     isSource() {
         return this.kind === Content.Source;
     }
