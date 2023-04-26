@@ -6,14 +6,14 @@ size: 30
 
 `Initially, make a list of 20 kitties, each placed somewhere random.
 When the the clock ticks, move them all down a bit.`
-kitties•[Kitty]:  ∆ time() ? 
+kitties•[Kitty]:  ∆ Time() ? 
     count → [].translate(
         ƒ(_) Kitty(
-            random(-size size)
-            random(-size size)
-            	random(0 size ÷ 2)
-            	random(360)
-            	random(-30 30)
+            Random(-size size)
+            Random(-size size)
+            	Random(0 size ÷ 2)
+            	Random(360)
+            	Random(-30 30)
         		)
     			)
     			…

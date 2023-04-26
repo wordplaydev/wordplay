@@ -245,7 +245,7 @@ test('Parse expressions', () => {
     expect((update as Update).row.cells).toHaveLength(1);
     expect((update as Update).query).toBeInstanceOf(BinaryOperation);
 
-    const stream = parseExpression(toTokens('mousebutton() ? 0 … a + 1'));
+    const stream = parseExpression(toTokens('Button() ? 0 … a + 1'));
     expect(stream).toBeInstanceOf(Reaction);
     expect((stream as Reaction).next).toBeInstanceOf(BinaryOperation);
 

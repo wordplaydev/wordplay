@@ -33,7 +33,7 @@ maze: Maze()
 
 ƒ  allowed(state•State row•# col•#) maze.allowed(state.row + row state.column + col)
 
-direction: choice()
+direction: Choice()
 state•State:  ∆ direction ? State(1 1 0) …
 		((direction = "left") & allowed(state 0 -1)) ? state.left()
 			((direction = "right") & allowed(state 0 1)) ? state.right()

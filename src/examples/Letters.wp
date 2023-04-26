@@ -1,9 +1,9 @@
 === Letters/en
 letters: "മAあ韓नेئبअขማঅবাংབོދިεفગુע中رšՀꆈᓄქ" ÷ ""
 
-seconds: time(1000ms)
+seconds: Time(1000ms)
 
-latest•['']:  ∆ seconds ? letters … latest.replace(random(1 25) letters.random())
+latest•['']:  ∆ seconds ? letters … latest.replace(Random(1 25) letters.random())
 
 Group(
 	Grid(5 5 0.25m 1m 1m) 

@@ -10,22 +10,22 @@ count: 100
 size: 20m
 
 `The amplitude of the mic`
-amps: microphone()
+amps: Mic()
 
 `The letter chosen and it's position, rotational velocity and whether it's visible.`
 •Letter(letter•"" x•#m y•#m angle•# speed•# visible•?) ()
 
-tick: time()
+tick: Time()
 
 `Initialize as a list of random letters in random positions`
 letters•[Letter]:  ∆ tick ? 
     count → [].translate(
         ƒ(_) Letter(
            "abcdefghijklmnopqrstuvwxyz" → [].random() 
-            random(-size size) · 1m
-            random(0 size + 2m) · 1m
-            random(360)
-            random(-15 15)
+            Random(-size size) · 1m
+            Random(0 size + 2m) · 1m
+            Random(360)
+            Random(-15 15)
             ⊥
         )
     )
@@ -35,7 +35,7 @@ letters•[Letter]:  ∆ tick ?
     letters.translate(
         ƒ(letter•Letter)
             letter.y > 0m ? (letter.y: letter.y - 0.5m).angle: letter.angle + letter.speed
-					(letter.y: size + 2m).visible: random(0 amps) > 50
+					(letter.y: size + 2m).visible: Random(0 amps) > 50
     )
 
 `Convert the letters into phrases`

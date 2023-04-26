@@ -1,7 +1,7 @@
 === Physics
 count: 32
 
-gravity•#m/s^2:  ∆ mousebutton() ? 15m/s^2 … -gravity
+gravity•#m/s^2:  ∆ Button() ? 15m/s^2 … -gravity
 
 Verse(count → [].translate(
     ƒ(_) Motion(
@@ -9,9 +9,9 @@ Verse(count → [].translate(
             "ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんゔゕゖ"→[].random() 
             place: ◆ ? Place(y: 10m) ø
         ) 
-        vx: ◆ ? random(-5 5) · 1m/s ø 
-        vangle: ◆ ? random(0 360) · 1°/s ø
-        bounciness: random()
+        vx: ◆ ? Random(-5 5) · 1m/s ø 
+        vangle: ◆ ? Random(0 360) · 1°/s ø
+        bounciness: Random()
         gravity: gravity
     )
 ))

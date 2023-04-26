@@ -2332,32 +2332,32 @@ const en: Translation = {
     input: {
         random: {
             doc: WRITE_DOC,
-            name: ['🎲', 'random'],
+            name: ['🎲', 'Random'],
             min: { name: 'min', doc: WRITE_DOC },
             max: { name: 'max', doc: WRITE_DOC },
         },
         choice: {
             doc: WRITE_DOC,
-            name: ['🔘', 'choice', 'selection'],
+            name: ['🔘', 'Choice', 'selection'],
         },
         mousebutton: {
             doc: WRITE_DOC,
-            name: ['🖱️', 'mousebutton'],
+            name: ['🖱️', 'Button'],
             down: { name: 'down', doc: WRITE_DOC },
         },
         mouseposition: {
             doc: WRITE_DOC,
-            name: ['👆🏻', 'mouseposition'],
+            name: ['👆🏻', 'Pointer'],
         },
         keyboard: {
             doc: WRITE_DOC,
-            name: ['⌨️', 'keyboard'],
+            name: ['⌨️', 'Key'],
             key: { name: 'key', doc: WRITE_DOC },
             down: { name: 'down', doc: WRITE_DOC },
         },
         time: {
             doc: WRITE_DOC,
-            name: ['🕕', 'time'],
+            name: ['🕕', 'Time'],
             frequency: {
                 name: ['frequency'],
                 doc: WRITE_DOC,
@@ -2365,7 +2365,7 @@ const en: Translation = {
         },
         microphone: {
             doc: WRITE_DOC,
-            name: ['🎤', 'microphone'],
+            name: ['🎤', 'Mic'],
             frequency: {
                 name: ['frequency'],
                 doc: WRITE_DOC,
@@ -2373,7 +2373,7 @@ const en: Translation = {
         },
         camera: {
             doc: WRITE_DOC,
-            name: ['🎥', 'camera'],
+            name: ['🎥', 'Camera'],
             width: {
                 name: ['width'],
                 doc: WRITE_DOC,

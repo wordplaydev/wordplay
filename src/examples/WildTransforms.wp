@@ -1,2 +1,2 @@
 === Wild Transforms
-Phrase("🐈" size: 10m rest: Pose(scale: 2 offset: Place(1m 1m 5m) tilt: (time(500ms) % 360) · 1°/ms) duration: 0.25s)
+Phrase("🐈" size: 10m rest: Pose(scale: 2 offset: Place(1m 1m 5m) tilt: (Time(500ms) % 360) · 1°/ms) duration: 0.25s)

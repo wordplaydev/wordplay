@@ -2,9 +2,9 @@
 •Question(id•"" vx•# vy•# va•#)
 
 magnitude: 5
-pressed: ∆ keyboard()
-count•#: ∆ keyboard() ? 0 … count + 1
-questions•[Question]:  ∆ keyboard() ? [] … questions.add(Question(count→"" random(magnitude magnitude·2) random(magnitude·2 magnitude·4) random(0 360)))
+pressed: ∆ Key()
+count•#: ∆ Key() ? 0 … count + 1
+questions•[Question]:  ∆ Key() ? [] … questions.add(Question(count→"" Random(magnitude magnitude·2) Random(magnitude·2 magnitude·4) Random(0 360)))
 
 Verse(
     [ Phrase('👨‍👨‍👧‍👦' font: "Noto Emoji" place: 📍(0m 0m 0m)) ].append(

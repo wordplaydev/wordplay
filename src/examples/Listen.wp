@@ -1,2 +1,2 @@
 === Listen
-Phrase("🔈" rest: Pose(scale: microphone()÷100))
+Phrase("🔈" rest: Pose(scale: Mic()÷100))

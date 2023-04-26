@@ -4,8 +4,7 @@ import { test, expect } from 'vitest';
 test.each([
     [
         `
-↓ time
-time()
+Time()
 `,
         [],
         '0ms',

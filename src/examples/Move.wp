@@ -1,7 +1,7 @@
 === Move
 •Cat(position•#m direction•#)
 
-key: keyboard()
+key: Key()
 speed: 1m
 
 cat•Cat:  ∆ key ? Cat(5m 1) …
@@ -24,10 +24,10 @@ ball: Motion(
        place: ◆ ? Place(-5m 0m) ø
      ) 
      vx: ◆ ? 0m/s
-         close(ball.place cat.position) ? (random(1 5) · -1m/s · cat.direction) 
+         close(ball.place cat.position) ? (Random(1 5) · -1m/s · cat.direction) 
           ø
      vy: ◆ ? 0m/s 
-         close(ball.place cat.position) ? (random(2 10) · 1m/s) 
+         close(ball.place cat.position) ? (Random(2 10) · 1m/s) 
           ø
      vangle: ◆ ? 0°/s 
          close(ball.place cat.position) ? (cat.direction · 120°/s) 

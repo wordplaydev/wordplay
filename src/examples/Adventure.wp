@@ -8,7 +8,7 @@ pickup: State('pickup' ['You have a knife.'] [ cut throw ])
 roll: State('roll over' ['There is a knife next to you.'] [ pickup stand ])
 start: State("start" ["You awaken in a dark, cold room that smells of mold."] [ roll stand ])
 
-key: keyboard()
+key: Key()
 state•State:  ∆ key ? 
   start …
 		(

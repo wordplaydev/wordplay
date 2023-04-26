@@ -11,16 +11,16 @@ const makeOne = (creator: Expression) => Time.make(creator, 1);
 
 test.each([
     // Check stream resolution.
-    [`time() > 0ms`, makeOne, FALSE_SYMBOL, TRUE_SYMBOL],
+    [`Time() > 0ms`, makeOne, FALSE_SYMBOL, TRUE_SYMBOL],
     // Check stream references.
-    [`time() + 500ms`, makeOne, '500ms', '501ms'],
+    [`Time() + 500ms`, makeOne, '500ms', '501ms'],
     // Check reaction binding.
-    [`a: ∆ time() ? 1 … a + 1\na`, makeOne, '1', '2'],
+    [`a: ∆ Time() ? 1 … a + 1\na`, makeOne, '1', '2'],
     // Check reactions in evaluations.
     [
         `
         ƒ mult(a•# b•#) a · b
-        b: mult(2 ∆ time() ? 1 … 2)
+        b: mult(2 ∆ Time() ? 1 … 2)
         b
         `,
         makeOne,
