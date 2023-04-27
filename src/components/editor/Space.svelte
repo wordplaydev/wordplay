@@ -4,6 +4,7 @@
     import type Token from '@nodes/Token';
     import InsertionPointView from './InsertionPointView.svelte';
     import type { InsertionPoint } from './Drag';
+    import { EXPLICIT_TAB_TEXT, TAB_TEXT } from '../../parser/Spaces';
 
     export let token: Token;
     export let space: string;
@@ -31,8 +32,8 @@
     function render(text: string, explicit: boolean): string[] {
         return (
             explicit
-                ? text.replaceAll(' ', '·').replaceAll('\t', '→\xa0')
-                : text.replaceAll(' ', '\xa0').replaceAll('\t', '\xa0\xa0')
+                ? text.replaceAll(' ', '·').replaceAll('\t', EXPLICIT_TAB_TEXT)
+                : text.replaceAll(' ', '\xa0').replaceAll('\t', TAB_TEXT)
         ).split('\n');
     }
 </script>

@@ -7,6 +7,9 @@ import type Root from '@nodes/Root';
 export const TAB_WIDTH = 2;
 export const SPACE_HTML = '&middot;';
 export const TAB_HTML = '&nbsp;'.repeat(TAB_WIDTH - 1) + '→';
+export const SPACE_TEXT = '\xa0';
+export const TAB_TEXT = SPACE_TEXT.repeat(TAB_WIDTH);
+export const EXPLICIT_TAB_TEXT = TAB_TEXT.replace(SPACE_TEXT, '→');
 
 type Spacer = TokenList | Source;
 
