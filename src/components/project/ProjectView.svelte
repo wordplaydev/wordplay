@@ -1178,15 +1178,13 @@
 
 <style>
     .project {
-        position: absolute;
-        left: 0;
-        top: 0;
-        right: 0;
-        bottom: 0;
+        flex-grow: 1;
+        justify-self: center;
         background-color: var(--wordplay-background);
         display: flex;
         flex-direction: column;
         overflow: hidden;
+        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
     }
 
     .project:focus:after {

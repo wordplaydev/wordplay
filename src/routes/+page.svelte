@@ -22,6 +22,9 @@
             >Coming Fall 2023. Write <a href="https://amyjko.com">Amy</a> for details.</p
         >
     {:else}
+        <BigLink to="/learn"
+            >{$preferredTranslations[0].ui.headers.learn}</BigLink
+        >
         <BigLink to="/projects"
             >{$preferredTranslations[0].ui.headers.projects}</BigLink
         >

@@ -47,7 +47,7 @@
 
     .dialog.column {
         flex-direction: column;
-        align-items: left;
+        align-items: start;
     }
 
     .dialog.row {

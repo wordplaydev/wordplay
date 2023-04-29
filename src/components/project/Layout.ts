@@ -8,6 +8,8 @@ export enum Arrangement {
     free = 'free',
 }
 
+export type TileID = string;
+
 export const OutputID = 'output';
 export const PaletteID = 'palette';
 export const DocsID = 'docs';
@@ -15,7 +17,7 @@ export const DocsID = 'docs';
 export type LayoutObject = {
     fullscreen: string | null;
     tiles: {
-        id: string;
+        id: TileID;
         expanded: boolean;
         bounds: Bounds | null;
         position: Bounds;
