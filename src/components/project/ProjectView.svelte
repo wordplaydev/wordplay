@@ -620,7 +620,7 @@
         )?.id;
         const focusedTileView = focusedTileID
             ? view.querySelector(`.tile[data-id="${focusedTileID}"]`)
-            : undefined;
+            : null;
         const firstTileView = firstTileID
             ? view.querySelector(`.tile[data-id="${firstTileID}"]`)
             : undefined;
@@ -628,7 +628,12 @@
 
         // The output view handles its own focus management, so if we're focusing on it,
         // and it's still in view, don't mess with it.
-        if (focusedTileID === OutputID && focusedTileView !== undefined) return;
+        if (
+            focusedTileID === OutputID &&
+            focusedTileView !== null &&
+            focusedTileView.contains(document.activeElement)
+        )
+            return;
 
         let viewToFocus: HTMLElement | undefined = undefined;
         if (tileView) {
@@ -687,25 +692,32 @@
     }
 
     function handlePointerDown(event: PointerEvent) {
-        if (layout.arrangement !== Arrangement.free) return;
+        if (layout.arrangement === Arrangement.free) {
+            const tileView = document
+                .elementFromPoint(event.clientX, event.clientY)
+                ?.closest('.tile');
 
-        const tileView = document
-            .elementFromPoint(event.clientX, event.clientY)
-            ?.closest('.tile');
+            if (tileView instanceof HTMLElement && tileView.dataset.id) {
+                const rect = tileView.getBoundingClientRect();
+                const id = tileView.dataset.id;
 
-        if (tileView instanceof HTMLElement && tileView.dataset.id) {
-            const rect = tileView.getBoundingClientRect();
-            const id = tileView.dataset.id;
+                draggedTile = {
+                    id: id,
+                    left: event.clientX - rect.left,
+                    top: event.clientY - rect.top,
+                    direction: null,
+                };
 
-            draggedTile = {
-                id: id,
-                left: event.clientX - rect.left,
-                top: event.clientY - rect.top,
-                direction: null,
-            };
+                const tile = layout.getTileWithID(id);
+                if (tile) layout = layout.withTileLast(tile);
+            }
+        }
 
-            const tile = layout.getTileWithID(id);
-            if (tile) layout = layout.withTileLast(tile);
+        // Find the tile clicked and focus it.
+        const el = document.elementFromPoint(event.clientX, event.clientY);
+        if (el) {
+            const tile = el.closest('.tile');
+            if (tile instanceof HTMLElement) focusTile(tile.dataset.id);
         }
     }
 
@@ -946,7 +958,7 @@
 <svelte:window bind:innerWidth={windowWidth} bind:innerHeight={windowHeight} />
 
 <!-- Render the app header and the current project, if there is one. -->
-<main class="project" tabIndex="0" on:keydown={handleKey} bind:this={view}>
+<main class="project" on:keydown={handleKey} bind:this={view}>
     <div
         class="canvas"
         on:pointerdown={handlePointerDown}
