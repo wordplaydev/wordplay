@@ -57,20 +57,18 @@
     {#if !mini && $evaluation?.playing === true && !$keyboardEditIdle}
         <div class="message editing">⌨️</div>
     {:else if latest instanceof Exception}
-        {#key latest}
-            <div class="message exception"
-                >{#if mini}!{:else}<Speech
-                        glyph={latest.creator.getGlyphs()}
-                        concept={$index?.getNodeConcept(latest.creator)}
-                        invert
-                        >{#each $preferredTranslations as translation}
-                            <DescriptionView
-                                description={latest.getDescription(translation)}
-                            />
-                        {/each}</Speech
-                    >{/if}
-            </div>
-        {/key}
+        <div class="message exception"
+            >{#if mini}!{:else}<Speech
+                    glyph={latest.creator.getGlyphs()}
+                    concept={$index?.getNodeConcept(latest.creator)}
+                    invert
+                    >{#each $preferredTranslations as translation}
+                        <DescriptionView
+                            description={latest.getDescription(translation)}
+                        />
+                    {/each}</Speech
+                >{/if}
+        </div>
         <!-- If there's no verse -->
     {:else if latest === undefined}
         <div class="message evaluating">◆</div>
