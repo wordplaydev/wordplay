@@ -34,7 +34,7 @@
         </div>
     {/key}
     <div class="message {below ? 'below' : 'right'}">
-        <slot />
+        <div class="scroller"><slot /></div>
     </div>
 </div>
 
@@ -78,10 +78,16 @@
         font-size: 2em;
     }
 
+    .scroller {
+        overflow: scroll;
+        width: 100%;
+        height: 100%;
+        padding: var(--wordplay-spacing);
+    }
+
     .message {
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         border-radius: calc(2 * var(--wordplay-border-radius));
-        padding: var(--wordplay-spacing);
         align-self: stretch;
         word-break: break-word;
         position: relative;
@@ -91,7 +97,6 @@
         flex-grow: 1;
         position: relative;
         --tail-width: 0.25em;
-        overflow-y: scroll;
         max-height: 100%;
     }
 
