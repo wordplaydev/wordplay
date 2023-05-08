@@ -36,6 +36,7 @@ export type SerializedProject = {
     name: string;
     sources: SerializedSource[];
     uids: string[];
+    listed: boolean;
 };
 
 type Analysis = {
@@ -78,6 +79,9 @@ export default class Project {
     /** A list of uids that have write access to this project. */
     readonly uids: string[];
 
+    /** True if it should be listed in the projects list. Allows tutorial projects not to be listed. */
+    readonly listed: boolean;
+
     /** A cache of source contexts */
     readonly sourceContext: Map<Source, Context> = new Map();
 
@@ -103,10 +107,12 @@ export default class Project {
         main: Source,
         supplements: Source[],
         carets: SerializedCarets | undefined = undefined,
-        uids: string[] = []
+        uids: string[] = [],
+        listed: boolean = true
     ) {
         this.id = id ?? uuidv4();
         this.uids = uids;
+        this.listed = listed;
 
         // Remember the source.
         this.name = name;
@@ -135,7 +141,8 @@ export default class Project {
             this.main,
             this.supplements,
             this.carets,
-            this.uids
+            this.uids,
+            this.listed
         );
     }
 
@@ -444,7 +451,8 @@ export default class Project {
             this.main,
             this.supplements,
             this.carets,
-            this.uids
+            this.uids,
+            this.listed
         );
     }
 
@@ -455,7 +463,8 @@ export default class Project {
             this.main,
             this.supplements,
             this.carets,
-            this.uids
+            this.uids,
+            this.listed
         );
     }
 
@@ -480,7 +489,8 @@ export default class Project {
                       }
                     : c
             ),
-            this.uids
+            this.uids,
+            this.listed
         );
     }
 
@@ -491,7 +501,8 @@ export default class Project {
             this.main,
             this.supplements.filter((s) => s !== source),
             this.carets.filter((c) => c.source !== source),
-            this.uids
+            this.uids,
+            this.listed
         );
     }
 
@@ -522,7 +533,8 @@ export default class Project {
                     ? { source: replacement[1], caret: caret.caret }
                     : caret;
             }),
-            this.uids
+            this.uids,
+            this.listed
         );
     }
 
@@ -596,7 +608,8 @@ export default class Project {
                   this.main,
                   this.supplements,
                   this.carets,
-                  [...this.uids, uid]
+                  [...this.uids, uid],
+                  this.listed
               );
     }
 
@@ -674,7 +687,8 @@ export default class Project {
             project.sources.map((s, index) => {
                 return { source: sources[index], caret: s.caret };
             }),
-            project.uids
+            project.uids,
+            project.listed
         );
     }
 
@@ -692,6 +706,7 @@ export default class Project {
                 };
             }),
             uids: this.uids,
+            listed: this.listed,
         };
     }
 }

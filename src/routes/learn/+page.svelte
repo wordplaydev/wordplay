@@ -10,6 +10,10 @@
     import DescriptionView from '../../components/concepts/DescriptionView.svelte';
     import Explanation from '../../translation/Explanation';
     import { goto } from '$app/navigation';
+    import { getProjects, getUser } from '../../components/project/Contexts';
+
+    const projects = getProjects();
+    const user = getUser();
 
     /** The current place in the tutorial */
     let spot: Progress = new Progress(Tutorial);
@@ -23,11 +27,26 @@
         ];
 
     $: project = new Project(
-        null,
+        spot.getID(),
         lesson.concept,
         segment.sources[0],
-        segment.sources.slice(1)
+        segment.sources.slice(1),
+        undefined,
+        $user ? [$user.uid] : [],
+        false
     );
+
+    // Any time the project changes, add/update it in projects.
+    // This persists the project state for later.
+    $: $projects.addProject(project);
+
+    // Any time the project database changes for the current ID, update the project
+    $: {
+        if ($projects) {
+            const proj = $projects.get(spot.getID());
+            if (proj) project = proj;
+        }
+    }
 </script>
 
 <div class="tutorial">

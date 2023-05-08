@@ -51,7 +51,9 @@
 
 <Lead>{$preferredTranslations[0].ui.headers.projects}</Lead>
 <div class="projects">
-    {#each sortProjects($projects.all()) as project (project.id)}
+    {#each sortProjects($projects
+            .all()
+            .filter((p) => p.listed)) as project (project.id)}
         <ProjectPreview {project} action={() => changeProject(project, true)}
             ><div class="controls"
                 ><Button

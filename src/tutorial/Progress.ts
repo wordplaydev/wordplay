@@ -42,4 +42,9 @@ export default class Progress {
         const lesson = this.getLesson();
         return lesson.segments[this.segment] ?? lesson.segments[0];
     }
+
+    /** Generate a project ID suitable for this point in the tutorial */
+    getID() {
+        return `${this.unit}-${this.concept}`;
+    }
 }
