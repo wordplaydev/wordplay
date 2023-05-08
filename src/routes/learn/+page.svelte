@@ -27,7 +27,7 @@
         ];
 
     $: project = new Project(
-        spot.getID(),
+        spot.getProjectID(),
         lesson.concept,
         segment.sources[0],
         segment.sources.slice(1),
@@ -38,12 +38,16 @@
 
     // Any time the project changes, add/update it in projects.
     // This persists the project state for later.
-    $: $projects.addProject(project);
+    $: {
+        const existing = $projects.get(project.id);
+        if (existing !== undefined && !existing.equals(project))
+            $projects.addProject(project);
+    }
 
     // Any time the project database changes for the current ID, update the project
     $: {
         if ($projects) {
-            const proj = $projects.get(spot.getID());
+            const proj = $projects.get(spot.getProjectID());
             if (proj) project = proj;
         }
     }

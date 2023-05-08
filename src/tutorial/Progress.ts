@@ -44,7 +44,7 @@ export default class Progress {
     }
 
     /** Generate a project ID suitable for this point in the tutorial */
-    getID() {
+    getProjectID() {
         return `${this.unit}-${this.concept}`;
     }
 }

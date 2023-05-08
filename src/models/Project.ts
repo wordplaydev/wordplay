@@ -148,6 +148,7 @@ export default class Project {
 
     equals(project: Project) {
         return (
+            this.id === project.id &&
             this.name === project.name &&
             this.getSources().every((source1) =>
                 project
