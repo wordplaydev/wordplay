@@ -25,7 +25,7 @@
     const project: Writable<Project | undefined> = writable(undefined);
     setContext<ProjectContext>(ProjectSymbol, project);
 
-    // Whenever the page or projects change,
+    // Whenever the page or projects change, update the project store.
     $: {
         if ($page && $projects) {
             const projectID = $page.params.projectid;
