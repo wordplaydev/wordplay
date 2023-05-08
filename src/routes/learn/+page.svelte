@@ -91,8 +91,8 @@
         display: flex;
         flex-direction: column;
         gap: var(--wordplay-spacing);
-        overflow-y: scroll;
         font-size: 125%;
+        flex: 1;
     }
 
     .project {

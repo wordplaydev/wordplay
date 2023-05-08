@@ -43,16 +43,19 @@
         display: flex;
         flex-wrap: nowrap;
         gap: var(--wordplay-spacing);
+        max-height: 100%;
     }
 
     .dialog.column {
         flex-direction: column;
         align-items: start;
+        max-height: 100%;
     }
 
     .dialog.row {
         flex-direction: row;
         align-items: center;
+        max-width: 100%;
     }
 
     .glyphs {
@@ -88,6 +91,8 @@
         flex-grow: 1;
         position: relative;
         --tail-width: 0.25em;
+        overflow-y: scroll;
+        max-height: 100%;
     }
 
     .message.right {

@@ -140,14 +140,13 @@
     .message {
         display: flex;
         flex-direction: column;
-        width: 100%;
-        height: auto;
+        flex-grow: 1;
+        max-height: 100%;
         padding: var(--wordplay-spacing);
         text-align: center;
         line-height: 100%;
         font-size: 48pt;
         transform-origin: center;
-        flex-grow: 1;
         justify-content: center;
         align-items: center;
     }
