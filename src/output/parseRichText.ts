@@ -1,5 +1,14 @@
 export default function parseRichText(text: string): RichNode {
-    return new RichNode(parseNodes(text.split('')));
+    const paragraphs = text.split(/\s*\n\n\s*/);
+    // First, split into paragraphs.
+    return paragraphs.length > 1
+        ? new RichNode(
+              paragraphs.map(
+                  (content) =>
+                      new ParagraphNode(parseNodes(content.trim().split('')))
+              )
+          )
+        : new RichNode(parseNodes(text.split('')));
 }
 
 type CSSFormat = { italic: boolean; weight: undefined | number };
@@ -56,6 +65,21 @@ export class RichNode extends Node {
     }
     getHTMLCloseMarker() {
         return '';
+    }
+}
+
+export class ParagraphNode extends Node {
+    constructor(children: Node[]) {
+        super(children);
+    }
+    getRichTextMarker() {
+        return '';
+    }
+    getHTMLOpenMarker() {
+        return '<p>';
+    }
+    getHTMLCloseMarker() {
+        return '</p>';
     }
 }
 

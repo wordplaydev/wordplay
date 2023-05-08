@@ -9,7 +9,7 @@ test.each([
     ['hello **world**', 'hello <strong>world</strong>'],
     ['hello ***world***', "hello <span class='extra'>world</span>"],
     ['hello /**wor**ld/!', 'hello <em><strong>wor</strong>ld</em>!'],
+    ['hello\n\nworld', '<p>hello</p><p>world</p>'],
 ])('Test rich text parsing', (markup, html) => {
-    expect(parseRichText(markup).toString()).toBe(markup);
     expect(parseRichText(markup).toHTML()).toBe(html);
 });

@@ -265,7 +265,7 @@ p {
 }
 
 p:not(:last-of-type) {
-    margin-bottom: var(--wordplay-spacing);
+    margin-bottom: 1em;
 }
 
 a {
