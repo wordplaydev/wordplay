@@ -9,6 +9,7 @@
     import { preferredTranslations } from '../../translation/translations';
     import DescriptionView from '../../components/concepts/DescriptionView.svelte';
     import Explanation from '../../translation/Explanation';
+    import { goto } from '$app/navigation';
 
     /** The current place in the tutorial */
     let spot: Progress = new Progress(Tutorial);
@@ -43,7 +44,13 @@
             /></Speech
         ></div
     >
-    <div class="project"><ProjectView {project} /></div>
+    <div class="project"
+        ><ProjectView
+            {project}
+            close={() => goto('/')}
+            tip={$preferredTranslations[0].ui.tooltip.home}
+        /></div
+    >
 </div>
 
 <style>

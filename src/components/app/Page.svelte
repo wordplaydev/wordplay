@@ -8,8 +8,7 @@
 </main>
 <footer>
     <div class="footer"
-        ><Settings />{#if $page.route.id !== '/'}<a href="/">🏠</a
-            >{:else}🏠{/if}</div
+        ><Settings />{#if $page.route.id !== '/'}<a href="/">❌</a>{/if}</div
     >
 </footer>
 

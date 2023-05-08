@@ -85,6 +85,8 @@
     import type PaintingConfiguration from '../output/PaintingConfiguration';
 
     export let project: Project;
+    export let close: () => void;
+    export let tip: string;
 
     const projects = getProjects();
 
@@ -821,7 +823,7 @@
         const shift = event.shiftKey;
 
         if (key === 'Escape') {
-            if (command) closeProject();
+            if (command) close();
             else layout = layout.withoutFullscreen();
             return;
         }
@@ -948,9 +950,6 @@
         );
     }
 
-    async function closeProject() {
-        goto('/projects');
-    }
 </script>
 
 <svelte:head><title>Wordplay - {project.name}</title></svelte:head>
@@ -1146,8 +1145,8 @@
             <div class="settings">
                 <Settings />
                 <Button
-                    tip={$preferredTranslations[0].ui.tooltip.close}
-                    action={closeProject}>❌</Button
+                    {tip}
+                    action={close}>❌</Button
                 >
             </div>
         </nav>

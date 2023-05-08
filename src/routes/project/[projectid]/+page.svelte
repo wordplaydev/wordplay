@@ -13,6 +13,7 @@
     import Loading from '@components/app/Loading.svelte';
     import { setContext } from 'svelte';
     import { browser } from '$app/environment';
+    import { goto } from '$app/navigation';
 
     const projects = getProjects();
 
@@ -59,7 +60,11 @@
 
 {#if $project}
     {#key $project.id}
-        <ProjectView project={$project} />
+        <ProjectView
+            project={$project}
+            close={() => goto('/projects')}
+            tip={$preferredTranslations[0].ui.tooltip.close}
+        />
     {/key}
 {:else if loading}
     <Loading />
