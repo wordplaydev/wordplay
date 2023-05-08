@@ -610,7 +610,7 @@
             };
 
         /** Restore focus if on body */
-        if (document.activeElement === document.body)
+        if (document.activeElement === document.body && focusedTileID)
             tick().then(() => focusTile(focusedTileID));
     });
 
@@ -949,7 +949,6 @@
             )
         );
     }
-
 </script>
 
 <svelte:head><title>Wordplay - {project.name}</title></svelte:head>
@@ -1144,10 +1143,7 @@
 
             <div class="settings">
                 <Settings />
-                <Button
-                    {tip}
-                    action={close}>❌</Button
-                >
+                <Button {tip} action={close}>❌</Button>
             </div>
         </nav>
 
