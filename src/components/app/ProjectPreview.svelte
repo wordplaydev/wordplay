@@ -6,7 +6,7 @@
     import { preferredTranslations } from '../../translation/translations';
 
     export let project: Project;
-    export let action: () => void;
+    export let action: (() => void) | undefined = undefined;
 
     // Clone the project and get its initial value, then stop the project's evaluator.
     let evaluator: Evaluator;
@@ -24,7 +24,9 @@
         tabIndex="0"
         on:pointerdown={action}
         on:keydown={(event) =>
-            event.key === '' || event.key === 'Enter' ? action() : undefined}
+            action && (event.key === '' || event.key === 'Enter')
+                ? action()
+                : undefined}
     >
         <OutputView
             {project}

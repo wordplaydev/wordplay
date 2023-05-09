@@ -2582,7 +2582,10 @@ const en: Translation = {
     },
     tutorial: {
         units: {
-            welcome: 'Welcome',
+            welcome: {
+                name: 'Welcome',
+                overview: "Hi! Let's learn Wordplay.",
+            },
         },
         concepts: {
             Program: [

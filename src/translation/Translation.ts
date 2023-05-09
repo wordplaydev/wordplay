@@ -1161,7 +1161,10 @@ export type InputTranslations = {
 };
 
 export type UnitNames = {
-    welcome: string;
+    welcome: {
+        name: string;
+        overview: string;
+    };
 };
 
 export default Translation;

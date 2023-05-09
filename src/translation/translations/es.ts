@@ -2217,7 +2217,7 @@ const eng_wordplay: Translation = {
     },
     tutorial: {
         units: {
-            welcome: 'Weclome',
+            welcome: { name: WRITE_DOC, overview: WRITE_DOC },
         },
         concepts: {
             Program: [],
