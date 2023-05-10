@@ -3,7 +3,7 @@ import type {
     NodeTranslations,
     OutputTranslations,
 } from '../translation/Translation';
-import type Segment from './Segment';
+import type Step from './Step';
 
 type Lesson = {
     /** The name of the concept being taught, following the ConceptLink syntax (name.name.name...) */
@@ -12,7 +12,7 @@ type Lesson = {
         | keyof InputTranslations
         | keyof OutputTranslations;
     /** The sequence of */
-    segments: Segment[];
+    steps: Step[];
 };
 
 export default Lesson;

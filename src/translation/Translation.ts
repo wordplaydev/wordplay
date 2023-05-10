@@ -708,6 +708,10 @@ type Translation = {
             chooserExpand: string;
             place: string;
             paint: string;
+            nextLesson: string;
+            previousLesson: string;
+            nextLessonStep: string;
+            previousLessonStep: string;
         };
         prompt: {
             deleteSource: string;
@@ -1160,11 +1164,14 @@ export type InputTranslations = {
     };
 };
 
+export type UnitTranslation = {
+    name: string;
+    overview: string;
+};
+
 export type UnitNames = {
-    welcome: {
-        name: string;
-        overview: string;
-    };
+    welcome: UnitTranslation;
+    numbers: UnitTranslation;
 };
 
 export default Translation;

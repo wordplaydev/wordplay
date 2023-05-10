@@ -1,13 +1,20 @@
 <script lang="ts">
     import { writingDirection } from '@translation/translations';
+
+    export let center: boolean = false;
 </script>
 
-<div class="note" style:direction={$writingDirection}><slot /></div>
+<div class="note" class:center style:direction={$writingDirection}><slot /></div
+>
 
 <style>
     div {
         font-style: italic;
         font-size: small;
         color: var(--wordplay-disabled-color);
+    }
+
+    .center {
+        text-align: center;
     }
 </style>

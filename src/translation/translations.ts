@@ -71,6 +71,11 @@ export const preferredTranslations: Readable<Translation[]> = derived(
     }
 );
 
+export const preferredTranslation = derived(
+    preferredTranslations,
+    ($preferredTranslations) => $preferredTranslations[0]
+);
+
 export const missingTranslations: Readable<LanguageCode[]> = derived(
     [preferredLanguages],
     () => {

@@ -14,9 +14,37 @@ const Tutorial: Unit[] = [
         lessons: [
             {
                 concept: 'Program',
-                segments: [
+                steps: [
                     {
                         sources: [new Source('main', '')],
+                        checks: [],
+                    },
+                    {
+                        sources: [new Source('main', '"hello world"')],
+                        checks: [],
+                    },
+                ],
+            },
+            {
+                concept: 'Evaluate',
+                steps: [
+                    {
+                        sources: [new Source('main', 'Phrase("hi")')],
+                        checks: [],
+                    },
+                ],
+            },
+        ],
+    },
+    {
+        id: 'numbers',
+        sources: [new Source('numbers', '1')],
+        lessons: [
+            {
+                concept: 'MeasurementLiteral',
+                steps: [
+                    {
+                        sources: [new Source('main', '1')],
                         checks: [],
                     },
                 ],

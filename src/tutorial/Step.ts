@@ -2,7 +2,7 @@ import type { TileID } from '../components/project/Layout';
 import type Source from '../nodes/Source';
 import type Check from './Check';
 
-type Segment = {
+type Step = {
     /** The project to show */
     sources: Source[];
     /** Optional list of tile IDs to hide upon display */
@@ -11,4 +11,4 @@ type Segment = {
     checks: Check[];
 };
 
-export default Segment;
+export default Step;

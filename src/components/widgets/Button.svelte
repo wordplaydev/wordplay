@@ -52,11 +52,14 @@
         color: var(--wordplay-disabled-color);
     }
 
-    button:focus[aria-disabled='false'],
-    button:hover[aria-disabled='false'] {
-        transform: scale(1.1);
+    button:focus {
         outline: none;
         color: var(--wordplay-highlight);
         fill: var(--wordplay-highlight);
+    }
+
+    button:focus[aria-disabled='false'],
+    button:hover[aria-disabled='false'] {
+        transform: scale(1.1);
     }
 </style>

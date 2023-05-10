@@ -2268,6 +2268,10 @@ const en: Translation = {
             chooserExpand: 'expand/collapse',
             place: 'place output',
             paint: 'paint output',
+            nextLesson: 'next lesson',
+            previousLesson: 'previous lesson',
+            nextLessonStep: 'next step',
+            previousLessonStep: 'previous step',
         },
         prompt: {
             deleteSource: 'delete',
@@ -2586,6 +2590,10 @@ const en: Translation = {
                 name: 'Welcome',
                 overview: "Hi! Let's learn Wordplay.",
             },
+            numbers: {
+                name: 'Numbers',
+                overview: "Hi! Let's learn numbers.",
+            },
         },
         concepts: {
             Program: [
@@ -2609,7 +2617,7 @@ const en: Translation = {
                     `,
                     `Let me show you around!`,
                 ],
-                [``, ``],
+                [`Step 2`, `hmmm`],
             ],
             Dimension: [],
             DocumentedExpression: [],

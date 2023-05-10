@@ -1924,6 +1924,10 @@ const eng_wordplay: Translation = {
             chooserExpand: 'expandir/colapsar',
             place: 'mover salida',
             paint: 'salida de pintura',
+            nextLesson: WRITE_DOC,
+            previousLesson: WRITE_DOC,
+            nextLessonStep: WRITE_DOC,
+            previousLessonStep: WRITE_DOC,
         },
         prompt: {
             deleteSource: 'delete?',
@@ -2218,6 +2222,7 @@ const eng_wordplay: Translation = {
     tutorial: {
         units: {
             welcome: { name: WRITE_DOC, overview: WRITE_DOC },
+            numbers: { name: WRITE_DOC, overview: WRITE_DOC },
         },
         concepts: {
             Program: [],
