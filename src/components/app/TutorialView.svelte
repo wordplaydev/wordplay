@@ -22,14 +22,10 @@
     const projects = getProjects();
     const user = getUser();
 
-    function getName(lesson: Lesson | undefined) {
-        return lesson
-            ? typeof lesson.concept.names === 'string'
-                ? lesson.concept.names
-                : Array.isArray(lesson.concept.names)
-                ? lesson.concept.names[0]
-                : '—'
-            : '—';
+    function getName(lesson: Lesson) {
+        return typeof lesson.concept.names === 'string'
+            ? lesson.concept.names
+            : lesson.concept.names[0];
     }
 
     const placeholderRegEx = new RegExp('^\\$[0-9]+');
@@ -68,7 +64,7 @@
     $: progress = new Progress(tutorial, 'welcome', 0, 0);
     $: unit = progress.getUnit();
     $: lesson = progress.getLesson();
-    $: names = getName(lesson);
+    $: names = lesson ? getName(lesson) : '–';
     $: step = progress.getStep();
 
     $: project =

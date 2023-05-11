@@ -27,7 +27,6 @@ import {
     getLanguageDescription,
     getPlaceholderDescription,
     getTokenDescription,
-    getTokenLabel,
     type Description,
 } from '../Translation';
 import type { CycleType } from '@nodes/CycleType';
@@ -255,7 +254,7 @@ const en: Translation = {
             tutorial: WRITE_TUTORIAL,
         },
         Token: {
-            names: getTokenLabel,
+            names: 'token',
             description: getTokenDescription,
             emotion: Emotion.TBD,
             doc: WRITE_DOC + 'the smallest group of symbols in a performance',

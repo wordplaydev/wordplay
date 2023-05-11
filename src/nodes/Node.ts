@@ -631,11 +631,10 @@ export default abstract class Node {
     abstract getGlyphs(): Glyph;
 
     /**
-     * Given a translation and a context, get the node's
+     * Given a translation and a context, get the node's static label
      * */
-    getLabel(translation: Translation) {
-        const label = this.getNodeTranslation(translation).names;
-        return label instanceof Function ? label(this, translation) : label;
+    getLabel(translation: Translation): string {
+        return this.getNodeTranslation(translation).names;
     }
 
     /**

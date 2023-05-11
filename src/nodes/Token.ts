@@ -5,7 +5,7 @@ import Node, { type Replacement } from './Node';
 import TokenType from './TokenType';
 import Emotion from '../lore/Emotion';
 import Purpose from '../concepts/Purpose';
-import type { Description } from '@translation/Translation';
+import { getTokenLabel, type Description } from '@translation/Translation';
 import type Root from './Root';
 import { REVERSE_TEXT_DELIMITERS, TEXT_DELIMITERS } from '../parser/Tokenizer';
 import { Languages } from '../translation/LanguageCode';
@@ -102,6 +102,13 @@ export default class Token extends Node {
 
     containsText(text: string) {
         return this.text.contains(text);
+    }
+
+    /**
+     * Override node's
+     * */
+    getLabel(translation: Translation): string {
+        return getTokenLabel(this, translation);
     }
 
     /** If this is a placeholder, determine a label for it. */

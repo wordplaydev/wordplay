@@ -75,7 +75,7 @@ export type NodeTranslation<
     Steps extends number,
     Names extends number
 > = {
-    names: string | LabelTranslator;
+    names: string;
     description: Kind;
     doc: DocString;
     emotion: Emotion;
