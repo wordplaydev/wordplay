@@ -40,40 +40,64 @@ import type TextLiteral from '../nodes/TextLiteral';
 import type UnaryOperation from '../nodes/UnaryOperation';
 import TokenType from '../nodes/TokenType';
 import type StructureDefinition from '../nodes/StructureDefinition';
-import type Step from '../tutorial/Step';
 
 export type Description = string | Explanation;
 export type DocString = string;
 
 export type LabelTranslator = (node: Node, translation: Translation) => string;
 
-export type StepTranslation = [Description, Description];
-
 export type NameAndDocTranslation = {
     names: NameTranslation;
     doc: DocTranslation;
 };
 
-export type ConceptTranslation = NameAndDocTranslation & {
-    tutorial: Step[];
+export type FixedArray<N extends number, T> = N extends 0
+    ? never[]
+    : {
+          0: T;
+          length: N;
+      } & ReadonlyArray<T>;
+
+export type LessonTranslation<Steps extends number, Names extends number> = {
+    tutorial: {
+        instructions: FixedArray<Steps, string>;
+        text: FixedArray<Names, string>;
+    };
 };
 
-export type NodeTranslation<Kind> = {
+export type ConceptTranslation<
+    Steps extends number,
+    Names extends number
+> = NameAndDocTranslation & LessonTranslation<Steps, Names>;
+
+export type NodeTranslation<
+    Kind,
+    Steps extends number,
+    Names extends number
+> = {
     names: string | LabelTranslator;
     description: Kind;
     doc: DocString;
     emotion: Emotion;
-    tutorial: Step[];
-};
+} & LessonTranslation<Steps, Names>;
 
-export type StaticNodeTranslation = NodeTranslation<string>;
+export type StaticNodeTranslation<
+    Steps extends number,
+    Names extends number
+> = NodeTranslation<string, Steps, Names>;
 
-export type DynamicNodeTranslation<NodeType extends Node> = NodeTranslation<
+export type DynamicNodeTranslation<
+    NodeType extends Node,
+    Steps extends number,
+    Names extends number
+> = NodeTranslation<
     (
         node: NodeType,
         translation: Translation,
         context: Context
-    ) => string | undefined
+    ) => string | undefined,
+    Steps,
+    Names
 >;
 
 export interface AtomicExpressionTranslation<
@@ -800,42 +824,42 @@ type Translation = {
 };
 
 export type NodeTranslations = {
-    Dimension: DynamicNodeTranslation<Dimension>;
-    Doc: StaticNodeTranslation;
-    Docs: StaticNodeTranslation;
-    KeyValue: StaticNodeTranslation;
-    Language: DynamicNodeTranslation<Language>;
-    Name: DynamicNodeTranslation<Name>;
-    Names: DynamicNodeTranslation<Names>;
-    Row: StaticNodeTranslation;
-    Token: DynamicNodeTranslation<Token>;
-    TypeInputs: StaticNodeTranslation;
-    TypeVariable: StaticNodeTranslation;
-    TypeVariables: StaticNodeTranslation;
-    Paragraph: StaticNodeTranslation;
-    WebLink: StaticNodeTranslation;
-    ConceptLink: StaticNodeTranslation;
-    Words: StaticNodeTranslation;
-    Example: StaticNodeTranslation;
-    BinaryOperation: DynamicNodeTranslation<BinaryOperation> &
+    Dimension: DynamicNodeTranslation<Dimension, 1, 0>;
+    Doc: StaticNodeTranslation<1, 0>;
+    Docs: StaticNodeTranslation<1, 0>;
+    KeyValue: StaticNodeTranslation<1, 0>;
+    Language: DynamicNodeTranslation<Language, 1, 0>;
+    Name: DynamicNodeTranslation<Name, 1, 0>;
+    Names: DynamicNodeTranslation<Names, 1, 0>;
+    Row: StaticNodeTranslation<1, 0>;
+    Token: DynamicNodeTranslation<Token, 1, 0>;
+    TypeInputs: StaticNodeTranslation<1, 0>;
+    TypeVariable: StaticNodeTranslation<1, 0>;
+    TypeVariables: StaticNodeTranslation<1, 0>;
+    Paragraph: StaticNodeTranslation<1, 0>;
+    WebLink: StaticNodeTranslation<1, 0>;
+    ConceptLink: StaticNodeTranslation<1, 0>;
+    Words: StaticNodeTranslation<1, 0>;
+    Example: StaticNodeTranslation<1, 0>;
+    BinaryOperation: DynamicNodeTranslation<BinaryOperation, 1, 0> &
         ExpressionTranslation<
             (left: NodeLink) => Description,
             (result: ValueLink | undefined) => Description
         > & {
             right: Description;
         };
-    Bind: DynamicNodeTranslation<Bind> &
+    Bind: DynamicNodeTranslation<Bind, 1, 0> &
         ExpressionTranslation<
             (value: NodeLink | undefined) => Description,
             (value: ValueLink | undefined, names: NodeLink) => Description
         >;
-    Block: DynamicNodeTranslation<Block> &
+    Block: DynamicNodeTranslation<Block, 1, 0> &
         ExpressionTranslation<Description, ValueOrUndefinedTranslation> & {
             statement: Description;
         };
-    BooleanLiteral: DynamicNodeTranslation<BooleanLiteral> &
+    BooleanLiteral: DynamicNodeTranslation<BooleanLiteral, 1, 0> &
         AtomicExpressionTranslation<(value: NodeLink) => Description>;
-    Borrow: StaticNodeTranslation &
+    Borrow: StaticNodeTranslation<1, 0> &
         AtomicExpressionTranslation<
             (
                 source: NodeLink | undefined,
@@ -846,11 +870,11 @@ export type NodeTranslations = {
             bind: Description;
             version: Description;
         };
-    Changed: StaticNodeTranslation &
+    Changed: StaticNodeTranslation<1, 0> &
         AtomicExpressionTranslation<(stream: NodeLink) => Description> & {
             stream: Description;
         };
-    Conditional: StaticNodeTranslation &
+    Conditional: StaticNodeTranslation<1, 0> &
         ExpressionTranslation<
             (condition: NodeLink) => Description,
             ValueOrUndefinedTranslation
@@ -859,19 +883,21 @@ export type NodeTranslations = {
             yes: Description;
             no: Description;
         };
-    ConversionDefinition: StaticNodeTranslation & AtomicExpressionTranslation;
-    Convert: StaticNodeTranslation &
+    ConversionDefinition: StaticNodeTranslation<1, 0> &
+        AtomicExpressionTranslation;
+    Convert: StaticNodeTranslation<1, 0> &
         ExpressionTranslation<
             (input: NodeLink) => Description,
             ValueOrUndefinedTranslation
         >;
-    Delete: StaticNodeTranslation &
+    Delete: StaticNodeTranslation<1, 0> &
         ExpressionTranslation<
             (table: NodeLink) => Description,
             ValueOrUndefinedTranslation
         >;
-    DocumentedExpression: StaticNodeTranslation & AtomicExpressionTranslation;
-    Evaluate: DynamicNodeTranslation<Evaluate> &
+    DocumentedExpression: StaticNodeTranslation<1, 0> &
+        AtomicExpressionTranslation;
+    Evaluate: DynamicNodeTranslation<Evaluate, 1, 0> &
         ExpressionTranslation<
             (inputs: boolean) => Description,
             ValueOrUndefinedTranslation
@@ -879,56 +905,56 @@ export type NodeTranslations = {
             function: Description;
             input: Description;
         };
-    ExpressionPlaceholder: DynamicNodeTranslation<ExpressionPlaceholder> &
+    ExpressionPlaceholder: DynamicNodeTranslation<ExpressionPlaceholder, 1, 0> &
         AtomicExpressionTranslation & {
             placeholder: Description;
         };
-    FunctionDefinition: DynamicNodeTranslation<FunctionDefinition> &
+    FunctionDefinition: DynamicNodeTranslation<FunctionDefinition, 1, 0> &
         AtomicExpressionTranslation;
-    HOF: StaticNodeTranslation &
+    HOF: StaticNodeTranslation<1, 0> &
         ExpressionTranslation<Description, ValueOrUndefinedTranslation>;
-    Insert: StaticNodeTranslation &
+    Insert: StaticNodeTranslation<1, 0> &
         ExpressionTranslation<
             (table: NodeLink) => Description,
             ValueOrUndefinedTranslation
         >;
-    Initial: StaticNodeTranslation;
-    Is: StaticNodeTranslation &
+    Initial: StaticNodeTranslation<1, 0>;
+    Is: StaticNodeTranslation<1, 0> &
         ExpressionTranslation<
             (expr: NodeLink) => Description,
             (is: boolean, type: NodeLink) => Description
         >;
-    ListAccess: StaticNodeTranslation &
+    ListAccess: StaticNodeTranslation<1, 0> &
         ExpressionTranslation<
             (list: NodeLink) => Description,
             ValueOrUndefinedTranslation
         >;
-    ListLiteral: DynamicNodeTranslation<ListLiteral> &
+    ListLiteral: DynamicNodeTranslation<ListLiteral, 1, 0> &
         ExpressionTranslation<Description, ValueOrUndefinedTranslation> & {
             item: Description;
         };
-    MapLiteral: DynamicNodeTranslation<MapLiteral> &
+    MapLiteral: DynamicNodeTranslation<MapLiteral, 1, 0> &
         ExpressionTranslation<Description, ValueOrUndefinedTranslation>;
-    MeasurementLiteral: DynamicNodeTranslation<MeasurementLiteral> &
+    MeasurementLiteral: DynamicNodeTranslation<MeasurementLiteral, 1, 0> &
         AtomicExpressionTranslation<(value: NodeLink) => Description>;
-    NativeExpression: StaticNodeTranslation & AtomicExpressionTranslation;
-    NoneLiteral: StaticNodeTranslation & AtomicExpressionTranslation;
-    Previous: StaticNodeTranslation &
+    NativeExpression: StaticNodeTranslation<1, 0> & AtomicExpressionTranslation;
+    NoneLiteral: StaticNodeTranslation<1, 0> & AtomicExpressionTranslation;
+    Previous: StaticNodeTranslation<1, 0> &
         ExpressionTranslation<
             (stream: NodeLink) => Description,
             ValueOrUndefinedTranslation
         >;
-    Program: StaticNodeTranslation &
+    Program: StaticNodeTranslation<1, 2> &
         ExpressionTranslation<
             (changes: { stream: ValueLink; value: ValueLink }[]) => Description,
             ValueOrUndefinedTranslation
         >;
-    PropertyBind: StaticNodeTranslation &
+    PropertyBind: StaticNodeTranslation<1, 0> &
         ExpressionTranslation<
             Description,
             (structure: ValueLink | undefined) => Description
         >;
-    PropertyReference: StaticNodeTranslation &
+    PropertyReference: StaticNodeTranslation<1, 0> &
         ExpressionTranslation<
             Description,
             (
@@ -938,90 +964,91 @@ export type NodeTranslations = {
         > & {
             property: Description;
         };
-    Reaction: StaticNodeTranslation &
+    Reaction: StaticNodeTranslation<1, 0> &
         ExpressionTranslation<Description, ValueOrUndefinedTranslation> & {
             initial: Description;
             next: Description;
         };
-    Reference: DynamicNodeTranslation<Reference> &
+    Reference: DynamicNodeTranslation<Reference, 1, 0> &
         AtomicExpressionTranslation<(name: NodeLink) => Description> & {
             name: Description;
         };
-    Select: StaticNodeTranslation &
+    Select: StaticNodeTranslation<1, 0> &
         ExpressionTranslation<
             (table: NodeLink) => Description,
             ValueOrUndefinedTranslation
         >;
-    SetLiteral: DynamicNodeTranslation<SetLiteral> &
+    SetLiteral: DynamicNodeTranslation<SetLiteral, 1, 0> &
         ExpressionTranslation<Description, ValueOrUndefinedTranslation>;
-    SetOrMapAccess: StaticNodeTranslation &
+    SetOrMapAccess: StaticNodeTranslation<1, 0> &
         ExpressionTranslation<
             (set: NodeLink) => Description,
             ValueOrUndefinedTranslation
         >;
-    Source: StaticNodeTranslation;
-    StreamDefinition: StaticNodeTranslation & AtomicExpressionTranslation;
-    StructureDefinition: DynamicNodeTranslation<StructureDefinition> &
+    Source: StaticNodeTranslation<1, 0>;
+    StreamDefinition: StaticNodeTranslation<1, 0> & AtomicExpressionTranslation;
+    StructureDefinition: DynamicNodeTranslation<StructureDefinition, 1, 0> &
         AtomicExpressionTranslation;
-    TableLiteral: StaticNodeTranslation &
+    TableLiteral: StaticNodeTranslation<1, 0> &
         ExpressionTranslation<Description, ValueOrUndefinedTranslation> & {
             item: Description;
         };
-    Template: StaticNodeTranslation & ExpressionTranslation;
-    TextLiteral: DynamicNodeTranslation<TextLiteral> &
+    Template: StaticNodeTranslation<1, 0> & ExpressionTranslation;
+    TextLiteral: DynamicNodeTranslation<TextLiteral, 1, 0> &
         AtomicExpressionTranslation;
-    This: StaticNodeTranslation &
+    This: StaticNodeTranslation<1, 0> &
         AtomicExpressionTranslation<ValueOrUndefinedTranslation>;
-    UnaryOperation: DynamicNodeTranslation<UnaryOperation> &
+    UnaryOperation: DynamicNodeTranslation<UnaryOperation, 1, 0> &
         ExpressionTranslation<
             (value: NodeLink) => Description,
             ValueOrUndefinedTranslation
         >;
-    UnparsableExpression: StaticNodeTranslation & AtomicExpressionTranslation;
-    Update: StaticNodeTranslation &
+    UnparsableExpression: StaticNodeTranslation<1, 0> &
+        AtomicExpressionTranslation;
+    Update: StaticNodeTranslation<1, 0> &
         ExpressionTranslation<
             (table: NodeLink) => Description,
             ValueOrUndefinedTranslation
         >;
-    AnyType: StaticNodeTranslation;
-    BooleanType: StaticNodeTranslation;
-    ConversionType: StaticNodeTranslation;
-    ExceptionType: StaticNodeTranslation;
-    FunctionDefinitionType: StaticNodeTranslation;
-    FunctionType: StaticNodeTranslation;
-    ListType: DynamicNodeTranslation<ListType>;
-    MapType: DynamicNodeTranslation<MapType>;
-    MeasurementType: DynamicNodeTranslation<MeasurementType>;
-    NameType: DynamicNodeTranslation<NameType>;
-    NeverType: StaticNodeTranslation;
-    NoneType: StaticNodeTranslation;
-    SetType: DynamicNodeTranslation<SetType>;
-    StreamDefinitionType: DynamicNodeTranslation<StreamDefinitionType>;
-    StreamType: DynamicNodeTranslation<StreamType>;
-    StructureDefinitionType: StaticNodeTranslation;
-    TableType: StaticNodeTranslation;
-    TextType: DynamicNodeTranslation<TextType>;
-    TypePlaceholder: StaticNodeTranslation;
-    UnknownType: DynamicNodeTranslation<UnknownType<any>>;
-    UnionType: DynamicNodeTranslation<UnionType>;
-    UnparsableType: StaticNodeTranslation;
-    Unit: DynamicNodeTranslation<Unit>;
-    VariableType: StaticNodeTranslation;
-    CycleType: DynamicNodeTranslation<CycleType>;
-    UnknownVariableType: StaticNodeTranslation;
-    NotAListType: StaticNodeTranslation;
-    NoExpressionType: StaticNodeTranslation;
-    NotAFunctionType: StaticNodeTranslation;
-    NotATableType: StaticNodeTranslation;
-    NotAStreamType: StaticNodeTranslation;
-    NotASetOrMapType: StaticNodeTranslation;
-    NotEnclosedType: StaticNodeTranslation;
-    NotImplementedType: StaticNodeTranslation;
-    UnknownNameType: DynamicNodeTranslation<UnknownNameType>;
+    AnyType: StaticNodeTranslation<1, 0>;
+    BooleanType: StaticNodeTranslation<1, 0>;
+    ConversionType: StaticNodeTranslation<1, 0>;
+    ExceptionType: StaticNodeTranslation<1, 0>;
+    FunctionDefinitionType: StaticNodeTranslation<1, 0>;
+    FunctionType: StaticNodeTranslation<1, 0>;
+    ListType: DynamicNodeTranslation<ListType, 1, 0>;
+    MapType: DynamicNodeTranslation<MapType, 1, 0>;
+    MeasurementType: DynamicNodeTranslation<MeasurementType, 1, 0>;
+    NameType: DynamicNodeTranslation<NameType, 1, 0>;
+    NeverType: StaticNodeTranslation<1, 0>;
+    NoneType: StaticNodeTranslation<1, 0>;
+    SetType: DynamicNodeTranslation<SetType, 1, 0>;
+    StreamDefinitionType: DynamicNodeTranslation<StreamDefinitionType, 1, 0>;
+    StreamType: DynamicNodeTranslation<StreamType, 1, 0>;
+    StructureDefinitionType: StaticNodeTranslation<1, 0>;
+    TableType: StaticNodeTranslation<1, 0>;
+    TextType: DynamicNodeTranslation<TextType, 1, 0>;
+    TypePlaceholder: StaticNodeTranslation<1, 0>;
+    UnknownType: DynamicNodeTranslation<UnknownType<any>, 1, 0>;
+    UnionType: DynamicNodeTranslation<UnionType, 1, 0>;
+    UnparsableType: StaticNodeTranslation<1, 0>;
+    Unit: DynamicNodeTranslation<Unit, 1, 0>;
+    VariableType: StaticNodeTranslation<1, 0>;
+    CycleType: DynamicNodeTranslation<CycleType, 1, 0>;
+    UnknownVariableType: StaticNodeTranslation<1, 0>;
+    NotAListType: StaticNodeTranslation<1, 0>;
+    NoExpressionType: StaticNodeTranslation<1, 0>;
+    NotAFunctionType: StaticNodeTranslation<1, 0>;
+    NotATableType: StaticNodeTranslation<1, 0>;
+    NotAStreamType: StaticNodeTranslation<1, 0>;
+    NotASetOrMapType: StaticNodeTranslation<1, 0>;
+    NotEnclosedType: StaticNodeTranslation<1, 0>;
+    NotImplementedType: StaticNodeTranslation<1, 0>;
+    UnknownNameType: DynamicNodeTranslation<UnknownNameType, 1, 0>;
 };
 
 export type OutputTranslations = {
-    type: ConceptTranslation & {
+    type: ConceptTranslation<1, 0> & {
         size: NameAndDocTranslation;
         family: NameAndDocTranslation;
         place: NameAndDocTranslation;
@@ -1035,28 +1062,28 @@ export type OutputTranslations = {
         duration: NameAndDocTranslation;
         style: NameAndDocTranslation;
     };
-    group: ConceptTranslation & {
+    group: ConceptTranslation<1, 0> & {
         content: NameAndDocTranslation;
         layout: NameAndDocTranslation;
     };
-    phrase: ConceptTranslation & {
+    phrase: ConceptTranslation<1, 0> & {
         text: NameAndDocTranslation;
     };
-    verse: ConceptTranslation & {
+    verse: ConceptTranslation<1, 0> & {
         description: (total: number, phrases: number, groups: number) => string;
         content: NameAndDocTranslation;
         background: NameAndDocTranslation;
         frame: NameAndDocTranslation;
     };
-    layout: ConceptTranslation;
-    shape: ConceptTranslation;
-    rectangle: ConceptTranslation & {
+    layout: ConceptTranslation<1, 0>;
+    shape: ConceptTranslation<1, 0>;
+    rectangle: ConceptTranslation<1, 0> & {
         left: NameAndDocTranslation;
         top: NameAndDocTranslation;
         right: NameAndDocTranslation;
         bottom: NameAndDocTranslation;
     };
-    pose: ConceptTranslation & {
+    pose: ConceptTranslation<1, 0> & {
         duration: NameAndDocTranslation;
         style: NameAndDocTranslation;
         color: NameAndDocTranslation;
@@ -1067,30 +1094,30 @@ export type OutputTranslations = {
         flipx: NameAndDocTranslation;
         flipy: NameAndDocTranslation;
     };
-    sequence: ConceptTranslation & {
+    sequence: ConceptTranslation<1, 0> & {
         count: NameAndDocTranslation;
         timing: NameAndDocTranslation;
         poses: NameAndDocTranslation;
     };
-    color: ConceptTranslation & {
+    color: ConceptTranslation<1, 0> & {
         lightness: NameAndDocTranslation;
         chroma: NameAndDocTranslation;
         hue: NameAndDocTranslation;
     };
-    place: ConceptTranslation & {
+    place: ConceptTranslation<1, 0> & {
         x: NameAndDocTranslation;
         y: NameAndDocTranslation;
         z: NameAndDocTranslation;
     };
-    row: ConceptTranslation & {
+    row: ConceptTranslation<1, 0> & {
         description: (total: number, phrases: number, groups: number) => string;
         padding: NameAndDocTranslation;
     };
-    stack: ConceptTranslation & {
+    stack: ConceptTranslation<1, 0> & {
         description: (total: number, phrases: number, groups: number) => string;
         padding: NameAndDocTranslation;
     };
-    grid: ConceptTranslation & {
+    grid: ConceptTranslation<1, 0> & {
         description: (rows: number, columns: number) => string;
         rows: NameAndDocTranslation;
         columns: NameAndDocTranslation;
@@ -1098,7 +1125,7 @@ export type OutputTranslations = {
         cellWidth: NameAndDocTranslation;
         cellHeight: NameAndDocTranslation;
     };
-    free: ConceptTranslation & {
+    free: ConceptTranslation<1, 0> & {
         description: (count: number) => string;
     };
     easing: {
@@ -1114,28 +1141,28 @@ export type OutputTranslations = {
 };
 
 export type InputTranslations = {
-    random: ConceptTranslation & {
+    random: ConceptTranslation<1, 0> & {
         min: NameAndDocTranslation;
         max: NameAndDocTranslation;
     };
-    choice: ConceptTranslation;
-    button: ConceptTranslation & { down: NameAndDocTranslation };
-    pointer: ConceptTranslation;
-    key: ConceptTranslation & {
+    choice: ConceptTranslation<1, 0>;
+    button: ConceptTranslation<1, 0> & { down: NameAndDocTranslation };
+    pointer: ConceptTranslation<1, 0>;
+    key: ConceptTranslation<1, 0> & {
         key: NameAndDocTranslation;
         down: NameAndDocTranslation;
     };
-    time: ConceptTranslation & { frequency: NameAndDocTranslation };
-    mic: ConceptTranslation & {
+    time: ConceptTranslation<1, 0> & { frequency: NameAndDocTranslation };
+    mic: ConceptTranslation<1, 0> & {
         frequency: NameAndDocTranslation;
     };
-    camera: ConceptTranslation & {
+    camera: ConceptTranslation<1, 0> & {
         width: NameAndDocTranslation;
         height: NameAndDocTranslation;
         frequency: NameAndDocTranslation;
     };
-    reaction: ConceptTranslation;
-    motion: ConceptTranslation & {
+    reaction: ConceptTranslation<1, 0>;
+    motion: ConceptTranslation<1, 0> & {
         type: NameAndDocTranslation;
         vx: NameAndDocTranslation;
         vy: NameAndDocTranslation;

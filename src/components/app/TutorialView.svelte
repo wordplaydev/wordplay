@@ -17,18 +17,50 @@
     import { getTutorial } from '../../tutorial/Tutorial';
     import Source from '../../nodes/Source';
     import type Lesson from '../../tutorial/Lesson';
+    import type { FixedArray } from '../../translation/Translation';
 
     const projects = getProjects();
     const user = getUser();
 
     function getName(lesson: Lesson | undefined) {
         return lesson
-            ? typeof lesson.names === 'string'
-                ? lesson.names
-                : Array.isArray(lesson.names)
-                ? lesson.names[0]
+            ? typeof lesson.concept.names === 'string'
+                ? lesson.concept.names
+                : Array.isArray(lesson.concept.names)
+                ? lesson.concept.names[0]
                 : '—'
             : '—';
+    }
+
+    const placeholderRegEx = new RegExp('^\\$[0-9]+');
+
+    /** Given some text, replace all $[0-9]+ with the text in the texts array corresponding to the index indicated. */
+    function localize(text: string, texts: FixedArray<any, string>) {
+        let localized = '';
+        let remaining = text;
+        while (remaining.length > 0) {
+            if (placeholderRegEx.test(remaining)) {
+                remaining = remaining.substring(1);
+                let numberText = '';
+                while (isFinite(parseInt(remaining.charAt(0)))) {
+                    numberText = numberText + remaining.charAt(0);
+                    remaining = remaining.substring(1);
+                }
+                let number = parseInt(numberText);
+                if (isFinite(number) && texts[number] !== undefined) {
+                    localized += texts[number];
+                }
+                // Otherwise fail.
+                else {
+                    return text;
+                }
+            } else {
+                localized = localized + remaining.charAt(0);
+                remaining = remaining.substring(1);
+            }
+        }
+
+        return localized;
     }
 
     /** The current place in the tutorial */
@@ -40,14 +72,31 @@
     $: step = progress.getStep();
 
     $: project =
-        unit && step && step.sources.length > 0
+        unit && step && step.sources.length > 0 && lesson
             ? new Project(
                   progress.getProjectID(),
                   lesson ? names : unit.id,
-                  new Source('main', step ? step.sources[0] : unit.sources[0]),
+                  new Source(
+                      'main',
+                      localize(
+                          step ? step.sources[0] : unit.sources[0],
+                          lesson.concept.tutorial.text
+                      )
+                  ),
                   unit.sources
                       .slice(1)
-                      .map((source, index) => new Source(`${index}`, source)),
+                      .map(
+                          (source, index) =>
+                              new Source(
+                                  `${index}`,
+                                  lesson
+                                      ? localize(
+                                            source,
+                                            lesson.concept.tutorial.text
+                                        )
+                                      : source
+                              )
+                      ),
                   undefined,
                   $user ? [$user.uid] : [],
                   false
@@ -123,8 +172,13 @@
             <DescriptionView
                 description={step === undefined && unit
                     ? $preferredTranslation.tutorial.units[unit.id].overview
-                    : step !== undefined
-                    ? step.instruction
+                    : lesson !== undefined &&
+                      lesson.concept.tutorial.instructions[progress.step] !==
+                          undefined
+                    ? localize(
+                          lesson.concept.tutorial.instructions[progress.step],
+                          lesson.concept.tutorial.text
+                      )
                     : '—'}
             />
             <div class="controls">
@@ -138,7 +192,7 @@
                     ><Note center
                         >{#if lesson && progress.step !== undefined}{progress.step +
                                 1} /
-                            {lesson.tutorial.length}{:else}◆{/if}</Note
+                            {lesson.steps.length}{:else}◆{/if}</Note
                     ></div
                 >
                 <Button

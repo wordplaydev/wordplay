@@ -38,10 +38,8 @@ import type StreamDefinitionType from '@nodes/StreamDefinitionType';
 import Emotion from '../../lore/Emotion';
 import Unit from '../../nodes/Unit';
 
-const WRITE_DOC = 'TBD';
-const WRITE_TUTORIAL = [
-    { instruction: WRITE_DOC, sources: [WRITE_DOC], checks: [] },
-];
+export const WRITE_DOC = 'TBD';
+export const WRITE_TUTORIAL = { instructions: [WRITE_DOC] as const, text: [] };
 
 const en: Translation = {
     language: 'en',
@@ -850,9 +848,9 @@ const en: Translation = {
                       ),
             finish: (value) =>
                 Explanation.as('program evaluated to ', value ?? 'nothing'),
-            tutorial: [
-                {
-                    instruction: `
+            tutorial: {
+                instructions: [
+                    `
                     Hi! I'm **ƒ**. 
 
                     Is this your first time here? 
@@ -869,10 +867,9 @@ const en: Translation = {
                     But we just run out of ideas.
                     We love collaborating with people because they bring new ideas from their own worlds!
                     `,
-                    sources: [],
-                    checks: [],
-                },
-            ],
+                ],
+                text: ['hello', 'hi'],
+            },
         },
         PropertyBind: {
             names: 'refine',

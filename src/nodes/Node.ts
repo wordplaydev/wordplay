@@ -661,7 +661,9 @@ export default abstract class Node {
         return undefined;
     }
 
-    abstract getNodeTranslation(translation: Translation): NodeTranslation<any>;
+    abstract getNodeTranslation(
+        translation: Translation
+    ): NodeTranslation<any, any, any>;
 
     /** Provide localized labels for any child that can be a placeholder. */
     getChildPlaceholderLabel(

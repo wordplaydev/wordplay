@@ -29,7 +29,7 @@ export default class Progress {
 
     getStep(): Step | undefined {
         const lesson = this.getLesson();
-        return lesson ? lesson.tutorial[this.step] : undefined;
+        return lesson ? lesson.steps[this.step] : undefined;
     }
 
     /** Generate a project ID suitable for this point in the tutorial */
@@ -65,7 +65,7 @@ export default class Progress {
             unit = this.getNextUnit(direction);
             if (unit) {
                 lesson = unit.lessons.length - 1;
-                step = unit.lessons[lesson].tutorial.length;
+                step = unit.lessons[lesson].steps.length;
             } else return undefined;
         } else if (lesson === unit.lessons.length && direction > 0) {
             unit = this.getNextUnit(direction);
@@ -79,7 +79,7 @@ export default class Progress {
                 step = start
                     ? 0
                     : direction < 0
-                    ? unit.lessons[lesson].tutorial.length - 1
+                    ? unit.lessons[lesson].steps.length - 1
                     : 0;
             } else {
                 step = 0;
@@ -105,7 +105,7 @@ export default class Progress {
         const lesson = this.getLesson();
         return lesson === undefined ||
             (this.step ?? -1) + direction < 0 ||
-            (this.step ?? -1) + direction >= lesson.tutorial.length - 1
+            (this.step ?? -1) + direction >= lesson.steps.length - 1
             ? undefined
             : new Progress(
                   this.tutorial,

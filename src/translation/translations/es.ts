@@ -38,9 +38,7 @@ import Emotion from '../../lore/Emotion';
 import Unit from '@nodes/Unit';
 
 const WRITE_DOC = 'pendiante';
-const WRITE_TUTORIAL = [
-    { instruction: WRITE_DOC, sources: [WRITE_DOC], checks: [] },
-];
+export const WRITE_TUTORIAL = { instructions: [WRITE_DOC] as const, text: [] };
 
 const eng_wordplay: Translation = {
     language: 'es',
@@ -608,7 +606,10 @@ const eng_wordplay: Translation = {
                       ),
             finish: (value) =>
                 Explanation.as('program evaluated to ', value ?? 'nothing'),
-            tutorial: WRITE_TUTORIAL,
+            tutorial: {
+                instructions: [WRITE_DOC],
+                text: ['hola', 'hola'],
+            },
         },
         PropertyBind: {
             names: 'refinar',

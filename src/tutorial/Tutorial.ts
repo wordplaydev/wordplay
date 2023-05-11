@@ -9,12 +9,38 @@ export function getTutorial(translation: Translation): Unit[] {
             sources: [
                 "Phrase('👋🏻' rest: Sequence({0%: Pose(tilt: -5°) 50%: Pose(tilt: 5°) 100%: Pose(tilt: -5°)} duration: 1s))",
             ],
-            lessons: [translation.node.Program, translation.node.Evaluate],
+            lessons: [
+                {
+                    concept: translation.node.Program,
+                    steps: [
+                        {
+                            sources: ['"$1"'],
+                        },
+                    ],
+                },
+                {
+                    concept: translation.node.Evaluate,
+                    steps: [
+                        {
+                            sources: [''],
+                        },
+                    ],
+                },
+            ],
         },
         {
             id: 'numbers',
             sources: ['1'],
-            lessons: [translation.node.MeasurementLiteral],
+            lessons: [
+                {
+                    concept: translation.node.MeasurementLiteral,
+                    steps: [
+                        {
+                            sources: [''],
+                        },
+                    ],
+                },
+            ],
         },
     ];
 }
