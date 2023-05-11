@@ -11,10 +11,12 @@
     import { getProjects, getUser } from '../../components/project/Contexts';
     import PlayView from './PlayView.svelte';
     import Button from '../widgets/Button.svelte';
-    import { getTutorial } from '../../tutorial/Tutorial';
     import Source from '../../nodes/Source';
     import type Lesson from '../../tutorial/Lesson';
     import type { FixedArray } from '../../locale/Locale';
+
+    export let progress: Progress;
+    export let navigate: (progress: Progress) => void;
 
     const projects = getProjects();
     const user = getUser();
@@ -57,8 +59,6 @@
     }
 
     /** The current place in the tutorial */
-    $: tutorial = getTutorial($preferredLocale);
-    $: progress = new Progress(tutorial, 'welcome', 0, 0);
     $: unit = progress.getUnit();
     $: lesson = progress.getLesson();
     $: names = lesson ? getName(lesson) : '–';
@@ -116,7 +116,7 @@
 
     let selection: Progress | undefined = undefined;
     function handleSelect() {
-        if (selection) progress = selection;
+        if (selection) navigate(selection);
     }
 </script>
 
@@ -125,13 +125,12 @@
         <nav>
             <Button
                 tip={$preferredLocale.ui.tooltip.previousLesson}
-                action={() =>
-                    (progress = progress.previousLesson() ?? progress)}
+                action={() => navigate(progress.previousLesson() ?? progress)}
                 enabled={progress.previousLesson() !== undefined}>←</Button
             >
             <!-- A hierarchical select of tutorial units and lessons  -->
             <select bind:value={selection} on:change={handleSelect}>
-                {#each tutorial as unit}
+                {#each progress.tutorial as unit}
                     <optgroup
                         label={$preferredLocale.tutorial.units[unit.id].name}
                     >
@@ -154,7 +153,7 @@
             >
             <Button
                 tip={$preferredLocale.ui.tooltip.nextLesson}
-                action={() => (progress = progress.nextLesson() ?? progress)}
+                action={() => navigate(progress.nextLesson() ?? progress)}
                 enabled={progress.nextLesson() !== undefined}>→</Button
             >
         </nav>
@@ -174,8 +173,7 @@
             <div class="controls">
                 <Button
                     tip={$preferredLocale.ui.tooltip.previousLessonStep}
-                    action={() =>
-                        (progress = progress.previousStep() ?? progress)}
+                    action={() => navigate(progress.previousStep() ?? progress)}
                     enabled={progress.previousStep() !== undefined}>&lt;</Button
                 >
                 <div class="progress"
@@ -187,7 +185,7 @@
                 >
                 <Button
                     tip={$preferredLocale.ui.tooltip.nextLessonStep}
-                    action={() => (progress = progress.nextStep() ?? progress)}
+                    action={() => navigate(progress.nextStep() ?? progress)}
                     enabled={progress.nextStep() !== undefined}>&gt;</Button
                 >
             </div>
