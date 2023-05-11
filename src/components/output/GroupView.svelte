@@ -10,7 +10,7 @@
     import Group from '@output/Group';
     import Evaluate from '@nodes/Evaluate';
     import { getSelectedOutput } from '../project/Contexts';
-    import { preferredLocales } from '@translation/locales';
+    import { preferredLocales } from '@locale/locales';
     import type { Shape } from '../../output/Shapes';
     import type Verse from '../../output/Verse';
 

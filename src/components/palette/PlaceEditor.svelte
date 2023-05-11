@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { preferredLocales } from '@translation/locales';
-    import { getFirstName } from '@translation/Locale';
+    import { preferredLocales } from '@locale/locales';
+    import { getFirstName } from '@locale/Locale';
     import TextField from '../widgets/TextField.svelte';
     import type Evaluate from '../../nodes/Evaluate';
     import type Project from '@models/Project';

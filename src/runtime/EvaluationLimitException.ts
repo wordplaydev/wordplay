@@ -1,9 +1,9 @@
 import Exception from './Exception';
 import type Evaluator from './Evaluator';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import type Node from '@nodes/Node';
 import type { EvaluationNode } from './Evaluation';
-import NodeLink from '@translation/NodeLink';
+import NodeLink from '@locale/NodeLink';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import StructureDefinition from '@nodes/StructureDefinition';
 

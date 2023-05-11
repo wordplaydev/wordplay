@@ -38,7 +38,7 @@
         preferredLocales,
         writingDirection,
         writingLayout,
-    } from '@translation/locales';
+    } from '@locale/locales';
     import {
         type Highlights,
         HighlightTypes,

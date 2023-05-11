@@ -1,8 +1,8 @@
 import type Context from '@nodes/Context';
 import type SetOrMapAccess from '@nodes/SetOrMapAccess';
 import type Type from '@nodes/Type';
-import NodeLink from '@translation/NodeLink';
-import type Locale from '@translation/Locale';
+import NodeLink from '@locale/NodeLink';
+import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 
 export class NotASetOrMap extends Conflict {

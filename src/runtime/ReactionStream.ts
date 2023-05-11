@@ -1,7 +1,7 @@
 import type Context from '@nodes/Context';
 import type Reaction from '@nodes/Reaction';
-import { getDocLocales } from '@translation/getDocLocales';
-import { getNameLocales } from '@translation/getNameLocales';
+import { getDocLocales } from '@locale/getDocLocales';
+import { getNameLocales } from '@locale/getNameLocales';
 import AnyType from '../nodes/AnyType';
 import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
 import StreamDefinition from '../nodes/StreamDefinition';

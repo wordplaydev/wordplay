@@ -3,7 +3,7 @@ import Conflict from './Conflict';
 import type Bind from '@nodes/Bind';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
 import type StructureDefinition from '@nodes/StructureDefinition';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import type StreamDefinition from '../nodes/StreamDefinition';
 
 export default class MisplacedInput extends Conflict {

@@ -7,7 +7,7 @@
     import type OutputExpression from '@transforms/OutputExpression';
     import Button from '../widgets/Button.svelte';
     import { SequenceType } from '@output/Sequence';
-    import { preferredLanguages, preferredLocales } from '@translation/locales';
+    import { preferredLanguages, preferredLocales } from '@locale/locales';
     import Evaluate from '@nodes/Evaluate';
     import Reference from '@nodes/Reference';
     import MapLiteral from '@nodes/MapLiteral';

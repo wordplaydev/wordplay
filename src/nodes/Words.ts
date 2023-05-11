@@ -1,5 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import Purpose from '../concepts/Purpose';
 import Glyphs from '../lore/Glyphs';
 import Node, { type Field, type Replacement } from './Node';

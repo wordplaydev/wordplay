@@ -1,7 +1,7 @@
 import type Conflict from '@conflicts/Conflict';
 import { UnparsableConflict } from '@conflicts/UnparsableConflict';
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import Node, { type Replacement } from './Node';
 import Type from './Type';
 import Glyphs from '../lore/Glyphs';

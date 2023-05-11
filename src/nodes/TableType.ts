@@ -10,7 +10,7 @@ import AnyType from './AnyType';
 import type Conflict from '@conflicts/Conflict';
 import ExpectedColumnType from '@conflicts/ExpectedColumnType';
 import type { Replacement } from './Node';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 
 export default class TableType extends Type {

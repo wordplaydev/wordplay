@@ -1,5 +1,5 @@
 import type BinaryOperation from '@nodes/BinaryOperation';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 
 export default class OrderOfOperations extends Conflict {

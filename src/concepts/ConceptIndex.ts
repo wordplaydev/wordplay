@@ -2,7 +2,7 @@ import type Concept from './Concept';
 import type Node from '@nodes/Node';
 import type Type from '@nodes/Type';
 import StructureConcept from './StructureConcept';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import Purpose from './Purpose';
 import type Project from '../models/Project';
 import StructureDefinition from '@nodes/StructureDefinition';

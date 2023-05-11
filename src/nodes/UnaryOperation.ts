@@ -18,9 +18,9 @@ import getConcreteExpectedType from './Generics';
 import type Value from '@runtime/Value';
 import UnknownNameType from './UnknownNameType';
 import type { Replacement } from './Node';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import StartEvaluation from '@runtime/StartEvaluation';
-import NodeLink from '@translation/NodeLink';
+import NodeLink from '@locale/NodeLink';
 import Emotion from '../lore/Emotion';
 import FunctionValue from '../runtime/FunctionValue';
 

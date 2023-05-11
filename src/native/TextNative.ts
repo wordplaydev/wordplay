@@ -14,9 +14,9 @@ import List from '@runtime/List';
 import Block, { BlockKind } from '@nodes/Block';
 import type Docs from '@nodes/Docs';
 import type Names from '@nodes/Names';
-import { getFunctionLocales } from '@translation/getFunctionLocales';
-import { getDocLocales } from '@translation/getDocLocales';
-import { getNameLocales } from '@translation/getNameLocales';
+import { getFunctionLocales } from '@locale/getFunctionLocales';
+import { getDocLocales } from '@locale/getDocLocales';
+import { getNameLocales } from '@locale/getNameLocales';
 import type Expression from '@nodes/Expression';
 import ListType from '../nodes/ListType';
 

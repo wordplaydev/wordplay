@@ -1,11 +1,11 @@
 import type Context from '@nodes/Context';
-import type LanguageCode from '@translation/LanguageCode';
+import type LanguageCode from '@locale/LanguageCode';
 import type Node from '@nodes/Node';
 import Reference from '@nodes/Reference';
 import StreamType from '@nodes/StreamType';
 import Concept from './Concept';
 import type ConceptIndex from './ConceptIndex';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import Purpose from './Purpose';
 import type StreamDefinition from '../nodes/StreamDefinition';
 import Emotion from '../lore/Emotion';

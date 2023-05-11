@@ -13,7 +13,7 @@
 <!-- A component that renders an arbitrary component and whose size is set by the project. -->
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
-    import { preferredLocales } from '@translation/locales';
+    import { preferredLocales } from '@locale/locales';
     import Button from '../widgets/Button.svelte';
     import type { Arrangement } from './Layout';
     import type Tile from './Tile';

@@ -4,7 +4,7 @@ import Expression from '@nodes/Expression';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import type TypeSet from '@nodes/TypeSet';
 import type Evaluator from '@runtime/Evaluator';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 
 export default abstract class HOF extends Expression {

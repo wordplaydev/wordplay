@@ -1,6 +1,6 @@
 import type Expression from '@nodes/Expression';
 import type TableType from '@nodes/TableType';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 
 export default class UnknownColumn extends Conflict {

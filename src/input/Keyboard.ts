@@ -1,8 +1,8 @@
 import Stream from '@runtime/Stream';
 import type Evaluator from '@runtime/Evaluator';
 import StreamDefinition from '../nodes/StreamDefinition';
-import { getDocLocales } from '../translation/getDocLocales';
-import { getNameLocales } from '../translation/getNameLocales';
+import { getDocLocales } from '../locale/getDocLocales';
+import { getNameLocales } from '../locale/getNameLocales';
 import Bind from '../nodes/Bind';
 import UnionType from '../nodes/UnionType';
 import NoneType from '../nodes/NoneType';

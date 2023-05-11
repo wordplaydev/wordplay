@@ -20,7 +20,7 @@ import Reaction from './Reaction';
 import ValueException from '@runtime/ValueException';
 import type { Replacement } from './Node';
 import AtomicExpression from './AtomicExpression';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import { UnenclosedType } from './UnenclosedType';
 import Glyphs from '../lore/Glyphs';
 import { PROPERTY_SYMBOL } from '../parser/Symbols';

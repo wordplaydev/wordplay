@@ -6,9 +6,9 @@ import type Type from './Type';
 import type Step from '@runtime/Step';
 import type Bind from './Bind';
 import type TypeSet from './TypeSet';
-import type Locale from '@translation/Locale';
-import type { Description } from '@translation/Locale';
-import ValueLink from '@translation/ValueLink';
+import type Locale from '@locale/Locale';
+import type { Description } from '@locale/Locale';
+import ValueLink from '@locale/ValueLink';
 import Purpose from '../concepts/Purpose';
 
 export default abstract class Expression extends Node {

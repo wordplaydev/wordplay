@@ -3,7 +3,7 @@ import SupportedLocales from './locales';
 import type Doc from '@nodes/Doc';
 import Names from '@nodes/Names';
 import Docs from '@nodes/Docs';
-import { translationToLanguage } from './translationToLanguage';
+import { localeToLanguage } from './localeToLanguage';
 import type { NameAndDoc } from './Locale';
 import type Locale from './Locale';
 import { parseLocaleDoc } from '@parser/Parser';
@@ -23,14 +23,14 @@ export function getInputLocales(
                 binds[index] = { docs: [], names: [] };
             binds[index].docs.push(
                 parseLocaleDoc(input.doc).withLanguage(
-                    translationToLanguage(translation)
+                    localeToLanguage(translation)
                 )
             );
             for (const name of Array.isArray(input.names)
                 ? input.names
                 : [input.names])
                 binds[index].names.push(
-                    Name.make(name, translationToLanguage(translation))
+                    Name.make(name, localeToLanguage(translation))
                 );
         });
     }
@@ -54,5 +54,5 @@ export function getInputLocales(
 export function getInputNames(nameAndDoc: NameAndDoc, translation: Locale) {
     return (
         Array.isArray(nameAndDoc.names) ? nameAndDoc.names : [nameAndDoc.names]
-    ).map((name) => Name.make(name, translationToLanguage(translation)));
+    ).map((name) => Name.make(name, localeToLanguage(translation)));
 }

@@ -13,8 +13,8 @@ import getTextMetrics from './getTextMetrics';
 import parseRichText, { RichNode, TextNode } from './parseRichText';
 import type Sequence from './Sequence';
 import { PX_PER_METER, sizeToPx } from './outputToCSS';
-import type LanguageCode from '@translation/LanguageCode';
-import { getBind } from '@translation/getBind';
+import type LanguageCode from '@locale/LanguageCode';
+import { getBind } from '@locale/getBind';
 import { getStyle } from './toTypeOutput';
 import type { NameGenerator } from './Verse';
 

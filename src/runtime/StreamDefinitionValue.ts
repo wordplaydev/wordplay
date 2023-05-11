@@ -1,9 +1,9 @@
 import Primitive from './Primitive';
 import type Value from './Value';
 import { STREAM_SYMBOL } from '@parser/Symbols';
-import type LanguageCode from '@translation/LanguageCode';
+import type LanguageCode from '@locale/LanguageCode';
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import type StreamDefinition from '../nodes/StreamDefinition';
 import StreamType from '../nodes/StreamType';
 

@@ -1,8 +1,8 @@
 import type Context from '@nodes/Context';
 import type Expression from '@nodes/Expression';
 import type MapLiteral from '@nodes/MapLiteral';
-import NodeLink from '@translation/NodeLink';
-import type Locale from '@translation/Locale';
+import NodeLink from '@locale/NodeLink';
+import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 
 export class NotAKeyValue extends Conflict {

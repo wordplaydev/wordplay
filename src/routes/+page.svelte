@@ -3,7 +3,7 @@
     import Lead from '@components/app/Lead.svelte';
     import Page from '@components/app/Page.svelte';
     import BigLink from '../components/app/BigLink.svelte';
-    import { preferredLocales } from '../translation/locales';
+    import { preferredLocales } from '../locale/locales';
     import Background from '../components/app/Background.svelte';
 </script>
 

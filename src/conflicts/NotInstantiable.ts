@@ -1,7 +1,7 @@
 import type Evaluate from '@nodes/Evaluate';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
 import type StructureDefinition from '@nodes/StructureDefinition';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 
 export default class NotInstantiable extends Conflict {

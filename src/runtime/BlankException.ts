@@ -1,4 +1,4 @@
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import type Program from '../nodes/Program';
 import type Evaluator from './Evaluator';
 import Exception from './Exception';

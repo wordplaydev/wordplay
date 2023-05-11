@@ -5,7 +5,7 @@ import Bool from '@runtime/Bool';
 import Measurement from '../runtime/Measurement';
 import Text from '@runtime/Text';
 import type Value from '@runtime/Value';
-import type LanguageCode from '@translation/LanguageCode';
+import type LanguageCode from '@locale/LanguageCode';
 import OutputExpression from './OutputExpression';
 import type { OutputPropertyValue } from './OutputExpression';
 import type OutputProperty from './OutputProperty';

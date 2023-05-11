@@ -44,7 +44,7 @@
     import TileView, { type ResizeDirection } from './TileView.svelte';
     import Tile, { Content, Mode } from './Tile';
     import OutputView from '../output/OutputView.svelte';
-    import { preferredLanguages, preferredLocales } from '@translation/locales';
+    import { preferredLanguages, preferredLocales } from '@locale/locales';
     import type Value from '@runtime/Value';
     import Editor from '../editor/Editor.svelte';
     import Layout, {

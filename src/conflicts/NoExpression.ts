@@ -1,6 +1,6 @@
 import Conflict from './Conflict';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 
 export default class NoExpression extends Conflict {
     readonly def: FunctionDefinition;

@@ -25,7 +25,7 @@
     import StreamConceptView from './StreamConceptView.svelte';
     import NodeConcept from '@concepts/NodeConcept';
     import type Node from '@nodes/Node';
-    import { preferredLocales } from '@translation/locales';
+    import { preferredLocales } from '@locale/locales';
     import NodeConceptView from './NodeConceptView.svelte';
     import Purpose from '@concepts/Purpose';
     import DescriptionView from './DescriptionView.svelte';

@@ -16,9 +16,9 @@ import PlaceholderToken from './PlaceholderToken';
 import UnimplementedType from './UnimplementedType';
 import TypeToken from './TypeToken';
 import type { Replacement } from './Node';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import AtomicExpression from './AtomicExpression';
-import type { Description } from '@translation/Locale';
+import type { Description } from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import type Root from './Root';
 

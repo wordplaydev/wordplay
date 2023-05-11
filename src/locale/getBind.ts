@@ -2,7 +2,7 @@ import type Name from '@nodes/Name';
 import SupportedLocales from './locales';
 import Names from '@nodes/Names';
 import Docs from '@nodes/Docs';
-import { translationToLanguage } from './translationToLanguage';
+import { localeToLanguage } from './localeToLanguage';
 import type { NameAndDoc } from './Locale';
 import type Locale from './Locale';
 import { getInputNames } from './getInputLocales';
@@ -19,7 +19,7 @@ export function getBind(
         new Docs(
             inputs.map(([translation, input]) =>
                 parseLocaleDoc(input.doc).withLanguage(
-                    translationToLanguage(translation)
+                    localeToLanguage(translation)
                 )
             )
         ).toWordplay() +

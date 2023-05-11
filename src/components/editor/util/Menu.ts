@@ -1,5 +1,5 @@
 import type Transform from '../../../transforms/Transform';
-import type LanguageCode from '@translation/LanguageCode';
+import type LanguageCode from '@locale/LanguageCode';
 import type Caret from './Caret';
 import type { Edit } from './Commands';
 

@@ -5,7 +5,7 @@ import { TYPE_CLOSE_SYMBOL, TYPE_OPEN_SYMBOL } from '@parser/Symbols';
 import Names from './Names';
 import type TypeVariable from './TypeVariable';
 import type Conflict from '@conflicts/Conflict';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import DuplicateTypeVariable from '@conflicts/DuplicateTypeVariable';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';

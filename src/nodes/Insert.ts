@@ -21,9 +21,9 @@ import Halt from '@runtime/Halt';
 import Exception from '@runtime/Exception';
 import TypeException from '@runtime/TypeException';
 import type { Replacement } from './Node';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import UnimplementedException from '@runtime/UnimplementedException';
-import NodeLink from '@translation/NodeLink';
+import NodeLink from '@locale/NodeLink';
 import Glyphs from '../lore/Glyphs';
 
 export default class Insert extends Expression {

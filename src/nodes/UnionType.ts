@@ -10,7 +10,7 @@ import type TypeSet from './TypeSet';
 import NeverType from './NeverType';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type { Replacement } from './Node';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import NoneType from './NoneType';
 import Glyphs from '../lore/Glyphs';
 

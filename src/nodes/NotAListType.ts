@@ -1,6 +1,6 @@
 import type Type from './Type';
 import UnknownType from './UnknownType';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import type ListAccess from './ListAccess';
 
 export class NotAListType extends UnknownType<ListAccess> {

@@ -1,8 +1,8 @@
 import type Context from '@nodes/Context';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
 import type StructureDefinition from '@nodes/StructureDefinition';
-import NodeLink from '@translation/NodeLink';
-import type Locale from '@translation/Locale';
+import NodeLink from '@locale/NodeLink';
+import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 
 export class UnimplementedInterface extends Conflict {

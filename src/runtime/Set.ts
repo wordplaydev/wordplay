@@ -5,10 +5,10 @@ import Bool from './Bool';
 import Measurement from './Measurement';
 import Primitive from './Primitive';
 import type Value from './Value';
-import type LanguageCode from '@translation/LanguageCode';
+import type LanguageCode from '@locale/LanguageCode';
 import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '@parser/Symbols';
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import type Expression from '../nodes/Expression';
 
 export default class Set extends Primitive {

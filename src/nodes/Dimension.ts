@@ -4,7 +4,7 @@ import { EXPONENT_SYMBOL } from '@parser/Symbols';
 import { PRODUCT_SYMBOL } from '@parser/Symbols';
 import TokenType from './TokenType';
 import NameToken from './NameToken';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 

@@ -1,4 +1,4 @@
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import type Expression from './Expression';
 import UnknownType from './UnknownType';
 

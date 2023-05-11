@@ -1,5 +1,5 @@
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import Type from './Type';
 import Glyphs from '../lore/Glyphs';
 import { NEVER_SYMBOL } from '@parser/Symbols';

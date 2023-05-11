@@ -8,7 +8,7 @@
     import { page } from '$app/stores';
     import ProjectView from '@components/project/ProjectView.svelte';
     import type Project from '@models/Project';
-    import { preferredLocales } from '@translation/locales';
+    import { preferredLocales } from '@locale/locales';
     import Feedback from '@components/app/Feedback.svelte';
     import Loading from '@components/app/Loading.svelte';
     import { setContext } from 'svelte';

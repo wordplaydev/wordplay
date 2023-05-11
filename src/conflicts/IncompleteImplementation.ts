@@ -1,5 +1,5 @@
 import type StructureDefinition from '@nodes/StructureDefinition';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 
 export class IncompleteImplementation extends Conflict {

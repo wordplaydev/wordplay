@@ -1,7 +1,7 @@
 <script lang="ts">
     import TextField from '@components/widgets/TextField.svelte';
     import Page from '@components/app/Page.svelte';
-    import { preferredLocales } from '@translation/locales';
+    import { preferredLocales } from '@locale/locales';
     import { getUser } from '@components/project/Contexts';
     import Lead from '@components/app/Lead.svelte';
     import Button from '@components/widgets/Button.svelte';

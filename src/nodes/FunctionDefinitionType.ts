@@ -9,7 +9,7 @@ import {
     EVAL_OPEN_SYMBOL,
     FUNCTION_SYMBOL,
 } from '@parser/Symbols';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 
 export default class FunctionDefinitionType extends Type {

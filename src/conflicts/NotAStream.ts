@@ -2,8 +2,8 @@ import type Changed from '@nodes/Changed';
 import type Context from '@nodes/Context';
 import type Previous from '@nodes/Previous';
 import type Type from '@nodes/Type';
-import NodeLink from '@translation/NodeLink';
-import type Locale from '@translation/Locale';
+import NodeLink from '@locale/NodeLink';
+import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 
 export class NotAStream extends Conflict {

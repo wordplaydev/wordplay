@@ -12,7 +12,7 @@ import type TypeSet from './TypeSet';
 import NameException from '@runtime/NameException';
 import type Value from '@runtime/Value';
 import type { Replacement } from './Node';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import BindToken from './BindToken';
 import Structure from '../runtime/Structure';
 import ValueException from '../runtime/ValueException';

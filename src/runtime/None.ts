@@ -3,7 +3,7 @@ import { NONE_SYMBOL } from '@parser/Symbols';
 import type Value from './Value';
 import type { NativeTypeName } from '../native/NativeConstants';
 import Primitive from './Primitive';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import type Expression from '../nodes/Expression';
 
 export default class None extends Primitive {

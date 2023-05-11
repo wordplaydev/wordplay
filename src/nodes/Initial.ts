@@ -11,7 +11,7 @@ import TokenType from './TokenType';
 import { INITIAL_SYMBOL } from '@parser/Symbols';
 import Bool from '@runtime/Bool';
 import type { Replacement } from './Node';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import AtomicExpression from './AtomicExpression';
 import BooleanType from './BooleanType';
 import StartFinish from '../runtime/StartFinish';

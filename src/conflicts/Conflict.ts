@@ -1,7 +1,7 @@
 import type Node from '@nodes/Node';
 import type Context from '@nodes/Context';
-import type Locale from '@translation/Locale';
-import type { Description } from '@translation/Locale';
+import type Locale from '@locale/Locale';
+import type { Description } from '@locale/Locale';
 
 type ConflictingNode = {
     node: Node;

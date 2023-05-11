@@ -5,11 +5,11 @@ import Output from './Output';
 import { toDecimal } from './Verse';
 import ColorJS from 'colorjs.io';
 import { TYPE_SYMBOL } from '@parser/Symbols';
-import { getBind } from '@translation/getBind';
+import { getBind } from '@locale/getBind';
 import Evaluate from '../nodes/Evaluate';
 import MeasurementLiteral from '../nodes/MeasurementLiteral';
 import Reference from '../nodes/Reference';
-import type LanguageCode from '../translation/LanguageCode';
+import type LanguageCode from '../locale/LanguageCode';
 import Unit from '../nodes/Unit';
 
 export const ColorType = toStructure(`

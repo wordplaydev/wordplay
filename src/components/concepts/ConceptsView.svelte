@@ -1,6 +1,6 @@
 <script lang="ts">
     import type Concept from '@concepts/Concept';
-    import { preferredLanguages } from '@translation/locales';
+    import { preferredLanguages } from '@locale/locales';
     import type StructureDefinition from '@nodes/StructureDefinition';
     import ConceptGroupView from './ConceptGroupView.svelte';
 

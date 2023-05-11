@@ -1,7 +1,7 @@
 import Type from './Type';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type TypeSet from './TypeSet';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import type StreamDefinition from './StreamDefinition';
 import Glyphs from '../lore/Glyphs';
 

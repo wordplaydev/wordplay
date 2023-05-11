@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { getLanguageName } from '@translation/LanguageCode';
-    import { missingLocales } from '@translation/locales';
+    import { getLanguageName } from '@locale/LanguageCode';
+    import { missingLocales } from '@locale/locales';
 </script>
 
 {#each $missingLocales as missing}

@@ -1,12 +1,12 @@
 import toStructure from '../native/toStructure';
 import { TYPE_SYMBOL } from '@parser/Symbols';
 import type Value from '@runtime/Value';
-import { getBind } from '@translation/getBind';
+import { getBind } from '@locale/getBind';
 import Output from './Output';
 import type RenderContext from './RenderContext';
 import type Place from './Place';
 import type TypeOutput from './TypeOutput';
-import type LanguageCode from '@translation/LanguageCode';
+import type LanguageCode from '@locale/LanguageCode';
 
 export const ArrangementType = toStructure(`
     ${getBind((t) => t.output.layout, TYPE_SYMBOL)}()

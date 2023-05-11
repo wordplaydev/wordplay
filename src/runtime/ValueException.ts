@@ -1,8 +1,8 @@
 import Exception from './Exception';
 import type Evaluator from './Evaluator';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import type Expression from '@nodes/Node';
-import NodeLink from '@translation/NodeLink';
+import NodeLink from '@locale/NodeLink';
 
 export default class ValueException extends Exception {
     readonly expression: Expression;

@@ -2,7 +2,7 @@ import toStructure from '../native/toStructure';
 import { TYPE_SYMBOL } from '@parser/Symbols';
 import Structure from '@runtime/Structure';
 import type Value from '@runtime/Value';
-import { getBind } from '@translation/getBind';
+import { getBind } from '@locale/getBind';
 import Output from './Output';
 import type Pose from './Pose';
 import { toPose } from './Pose';
@@ -13,7 +13,7 @@ import Measurement from '../runtime/Measurement';
 import Transition from './Transition';
 import type Place from './Place';
 import type { TransitionSequence } from './OutputAnimation';
-import en from '@translation/translations/en';
+import en from '@locale/locales/en';
 
 export const SequenceType = toStructure(`
     ${getBind((t) => t.output.sequence, TYPE_SYMBOL)}(

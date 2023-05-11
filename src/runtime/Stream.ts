@@ -1,11 +1,11 @@
 import None from './None';
 import Primitive from './Primitive';
 import type Value from './Value';
-import type LanguageCode from '@translation/LanguageCode';
+import type LanguageCode from '@locale/LanguageCode';
 import type Evaluator from './Evaluator';
 import type { StepNumber } from './Evaluator';
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import type StreamDefinition from '../nodes/StreamDefinition';
 import type Expression from '../nodes/Expression';
 

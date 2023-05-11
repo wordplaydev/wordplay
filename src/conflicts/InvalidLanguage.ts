@@ -1,6 +1,6 @@
 import type Language from '@nodes/Language';
 import type Token from '@nodes/Token';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 
 export default class InvalidLanguage extends Conflict {

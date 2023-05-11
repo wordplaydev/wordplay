@@ -1,5 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import Node, { type Field, type Replacement } from './Node';
 import Token from './Token';
 import Glyphs from '../lore/Glyphs';

@@ -1,5 +1,5 @@
 import type Borrow from '@nodes/Borrow';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 
 export class UnknownBorrow extends Conflict {

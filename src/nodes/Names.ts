@@ -1,12 +1,12 @@
 import Node, { type Replacement } from './Node';
-import type LanguageCode from '@translation/LanguageCode';
+import type LanguageCode from '@locale/LanguageCode';
 import Name from './Name';
 import Token from './Token';
 import { COMMA_SYMBOL } from '@parser/Symbols';
 import TokenType from './TokenType';
 import NameToken from './NameToken';
 import Language from './Language';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import Purpose from '../concepts/Purpose';
 import Emotion from '../lore/Emotion';
 

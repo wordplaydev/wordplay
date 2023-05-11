@@ -20,9 +20,9 @@ import type Evaluation from '@runtime/Evaluation';
 import List from '@runtime/List';
 import type Docs from '@nodes/Docs';
 import type Names from '@nodes/Names';
-import { getFunctionLocales as getFunctionLocales } from '@translation/getFunctionLocales';
-import { getDocLocales } from '@translation/getDocLocales';
-import { getNameLocales } from '@translation/getNameLocales';
+import { getFunctionLocales as getFunctionLocales } from '@locale/getFunctionLocales';
+import { getDocLocales } from '@locale/getDocLocales';
+import { getNameLocales } from '@locale/getNameLocales';
 import type Expression from '../nodes/Expression';
 
 export default function bootstrapMeasurement() {

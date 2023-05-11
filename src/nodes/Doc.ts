@@ -1,7 +1,7 @@
 import Language from './Language';
 import Node, { type Replacement } from './Node';
 import Token from './Token';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import { DOCS_SYMBOL } from '@parser/Symbols';
 import TokenType from './TokenType';
 import Paragraph from './Paragraph';

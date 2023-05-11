@@ -1,5 +1,5 @@
 import type Block from '@nodes/Block';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 
 export class ExpectedEndingExpression extends Conflict {

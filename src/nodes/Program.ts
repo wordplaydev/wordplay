@@ -19,10 +19,10 @@ import type Type from './Type';
 import type TypeSet from './TypeSet';
 import type Value from '@runtime/Value';
 import type { Replacement } from './Node';
-import type Locale from '@translation/Locale';
-import type LanguageCode from '@translation/LanguageCode';
+import type Locale from '@locale/Locale';
+import type LanguageCode from '@locale/LanguageCode';
 import TokenType from './TokenType';
-import ValueLink from '@translation/ValueLink';
+import ValueLink from '@locale/ValueLink';
 import Glyphs from '../lore/Glyphs';
 import BlankException from '../runtime/BlankException';
 

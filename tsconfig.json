@@ -16,7 +16,7 @@
             "@nodes/*": ["nodes/*"],
             "@runtime/*": ["runtime/*"],
             "@conflicts/*": ["conflicts/*"],
-            "@translation/*": ["translation/*"],
+            "@locale/*": ["locale/*"],
             "@input/*": ["input/*"],
             "@output/*": ["output/*"],
             "@concepts/*": ["concepts/*"],

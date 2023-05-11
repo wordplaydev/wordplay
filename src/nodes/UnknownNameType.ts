@@ -2,7 +2,7 @@ import UnknownType from './UnknownType';
 import type Token from './Token';
 import type Node from './Node';
 import type Type from './Type';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import type Context from './Context';
 
 export default class UnknownNameType extends UnknownType<Node> {

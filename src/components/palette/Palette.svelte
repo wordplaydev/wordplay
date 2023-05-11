@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { preferredLocales } from '@translation/locales';
+    import { preferredLocales } from '@locale/locales';
     import type Project from '@models/Project';
     import OutputPropertyValueSet from '@transforms/OutputPropertyValueSet';
     import PaletteProperty from './PaletteProperty.svelte';

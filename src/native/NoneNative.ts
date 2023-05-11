@@ -13,9 +13,9 @@ import { createNativeConversion } from './NativeBindings';
 import { NONE_SYMBOL } from '@parser/Symbols';
 import type Names from '@nodes/Names';
 import type Docs from '@nodes/Docs';
-import { getFunctionLocales } from '@translation/getFunctionLocales';
-import { getDocLocales } from '@translation/getDocLocales';
-import { getNameLocales } from '@translation/getNameLocales';
+import { getFunctionLocales } from '@locale/getFunctionLocales';
+import { getDocLocales } from '@locale/getDocLocales';
+import { getNameLocales } from '@locale/getNameLocales';
 import type Expression from '../nodes/Expression';
 
 export default function bootstrapNone() {

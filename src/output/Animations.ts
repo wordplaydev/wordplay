@@ -4,8 +4,8 @@ import MeasurementLiteral from '../nodes/MeasurementLiteral';
 import MeasurementType from '../nodes/MeasurementType';
 import Unit from '../nodes/Unit';
 import { parseExpression, toTokens } from '../parser/Parser';
-import { getDocLocales } from '../translation/getDocLocales';
-import { getNameLocales } from '../translation/getNameLocales';
+import { getDocLocales } from '../locale/getDocLocales';
+import { getNameLocales } from '../locale/getNameLocales';
 
 export const Animations = [
     FunctionDefinition.make(

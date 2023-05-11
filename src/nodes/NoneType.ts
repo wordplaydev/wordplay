@@ -1,6 +1,6 @@
 import type { NativeTypeName } from '../native/NativeConstants';
 import { NONE_SYMBOL } from '@parser/Symbols';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import NativeType from './NativeType';
 import type { Replacement } from './Node';
 import Token from './Token';

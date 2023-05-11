@@ -24,7 +24,7 @@ import EvalOpenToken from './EvalOpenToken';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import NoExpressionType from './NoExpressionType';
 import type { Replacement } from './Node';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 
 export enum BlockKind {

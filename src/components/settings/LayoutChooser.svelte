@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { writingDirection, writingLayout } from '@translation/locales';
+    import { writingDirection, writingLayout } from '@locale/locales';
 
     function toggleLayout() {
         writingLayout.set(

@@ -16,7 +16,7 @@ import {
 } from 'firebase/firestore';
 import { firestore } from './firebase';
 import type { Unsubscribe } from 'firebase/auth';
-import type Locale from '../translation/Locale';
+import type Locale from '../locale/Locale';
 import { FirebaseError } from 'firebase/app';
 
 const LOCAL_STORAGE_KEY = 'projects';

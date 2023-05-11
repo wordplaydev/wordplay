@@ -2,7 +2,7 @@ import toStructure from '../native/toStructure';
 import { TYPE_SYMBOL } from '../parser/Symbols';
 import Structure from '../runtime/Structure';
 import type Value from '../runtime/Value';
-import { getBind } from '../translation/getBind';
+import { getBind } from '../locale/getBind';
 import { toDecimal } from './Verse';
 import { PX_PER_METER } from './outputToCSS';
 

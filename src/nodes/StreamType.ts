@@ -1,6 +1,6 @@
 import type { NativeTypeName } from '../native/NativeConstants';
 import { STREAM_SYMBOL } from '@parser/Symbols';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import AnyType from './AnyType';
 import type Context from './Context';
 import type { Replacement } from './Node';

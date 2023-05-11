@@ -1,4 +1,4 @@
-import type LanguageCode from '@translation/LanguageCode';
+import type LanguageCode from '@locale/LanguageCode';
 
 export default class RenderContext {
     readonly font: string;

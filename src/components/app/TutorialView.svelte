@@ -5,10 +5,7 @@
     import Glyphs from '../../lore/Glyphs';
     import Progress from '../../tutorial/Progress';
     import Note from '../../components/widgets/Note.svelte';
-    import {
-        preferredLocale,
-        preferredLocales,
-    } from '../../translation/locales';
+    import { preferredLocale, preferredLocales } from '../../locale/locales';
     import DescriptionView from '../../components/concepts/DescriptionView.svelte';
     import { goto } from '$app/navigation';
     import { getProjects, getUser } from '../../components/project/Contexts';
@@ -17,7 +14,7 @@
     import { getTutorial } from '../../tutorial/Tutorial';
     import Source from '../../nodes/Source';
     import type Lesson from '../../tutorial/Lesson';
-    import type { FixedArray } from '../../translation/Locale';
+    import type { FixedArray } from '../../locale/Locale';
 
     const projects = getProjects();
     const user = getUser();

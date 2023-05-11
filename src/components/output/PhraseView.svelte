@@ -5,7 +5,7 @@
     import type Place from '@output/Place';
     import parseRichText from '@output/parseRichText';
     import outputToCSS from '@output/outputToCSS';
-    import { preferredLanguages, preferredLocales } from '@translation/locales';
+    import { preferredLanguages, preferredLocales } from '@locale/locales';
     import type RenderContext from '@output/RenderContext';
     import Pose from '@output/Pose';
     import Evaluate from '@nodes/Evaluate';

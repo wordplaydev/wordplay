@@ -1,11 +1,11 @@
 import type { Edit } from '../components/editor/util/Commands';
 import type Node from '@nodes/Node';
-import type LanguageCode from '@translation/LanguageCode';
+import type LanguageCode from '@locale/LanguageCode';
 import type Context from '@nodes/Context';
 import type Source from '@nodes/Source';
 import type Spaces from '@parser/Spaces';
-import type Locale from '@translation/Locale';
-import type { Description } from '@translation/Locale';
+import type Locale from '@locale/Locale';
+import type { Description } from '@locale/Locale';
 
 export default abstract class Transform {
     readonly context: Context;

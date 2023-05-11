@@ -1,11 +1,11 @@
 import Node from '@nodes/Node';
 import Transform from './Transform';
-import type LanguageCode from '@translation/LanguageCode';
+import type LanguageCode from '@locale/LanguageCode';
 import type { Edit } from '../components/editor/util/Commands';
 import Refer from './Refer';
 import Caret from '../components/editor/util/Caret';
 import type Context from '@nodes/Context';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 
 export default class Append<NodeType extends Node> extends Transform {
     readonly parent: Node;

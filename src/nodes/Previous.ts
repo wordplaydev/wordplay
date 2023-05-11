@@ -24,9 +24,9 @@ import Start from '@runtime/Start';
 import UnionType from './UnionType';
 import NoneType from './NoneType';
 import type { Replacement } from './Node';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import { NotAStreamType } from './NotAStreamType';
-import NodeLink from '@translation/NodeLink';
+import NodeLink from '@locale/NodeLink';
 import Glyphs from '../lore/Glyphs';
 
 export default class Previous extends Expression {

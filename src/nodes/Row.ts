@@ -2,7 +2,7 @@ import Node, { type Replacement } from './Node';
 import Token from './Token';
 import Bind from './Bind';
 import Expression from './Expression';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 

@@ -10,7 +10,7 @@
     import Exception from '@runtime/Exception';
     import { getEvaluation } from '../project/Contexts';
     import Controls from './Controls.svelte';
-    import { preferredLocales } from '../../translation/locales';
+    import { preferredLocales } from '../../locale/locales';
 
     export let evaluator: Evaluator;
 

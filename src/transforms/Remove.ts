@@ -3,7 +3,7 @@ import Transform from './Transform';
 import Node from '@nodes/Node';
 import Caret from '../components/editor/util/Caret';
 import type Context from '@nodes/Context';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 
 /**
  * Remove a node from sequence of nodes in a parent.

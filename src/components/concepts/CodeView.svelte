@@ -2,7 +2,7 @@
     import type Concept from '@concepts/Concept';
     import RootView from '../project/RootView.svelte';
     import { getConceptPath } from '../project/Contexts';
-    import { preferredLocales } from '@translation/locales';
+    import { preferredLocales } from '@locale/locales';
     import type Node from '@nodes/Node';
     import Note from '../widgets/Note.svelte';
     import type StructureConcept from '@concepts/StructureConcept';

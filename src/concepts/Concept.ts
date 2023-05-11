@@ -1,12 +1,12 @@
 import type Doc from '@nodes/Doc';
 import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
-import type { Description } from '@translation/Locale';
-import type Locale from '@translation/Locale';
+import type { Description } from '@locale/Locale';
+import type Locale from '@locale/Locale';
 import type Purpose from './Purpose';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import type Glyph from '../lore/Glyph';
-import type LanguageCode from '../translation/LanguageCode';
+import type LanguageCode from '../locale/LanguageCode';
 import type Spaces from '../parser/Spaces';
 import type Emotion from '../lore/Emotion';
 

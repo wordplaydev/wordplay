@@ -3,7 +3,7 @@ import SupportedLocales from './locales';
 import Names from '@nodes/Names';
 import type { NameText } from './Locale';
 import type Locale from './Locale';
-import { translationToLanguage } from './translationToLanguage';
+import { localeToLanguage } from './localeToLanguage';
 
 export function getNameLocales(
     select: (translation: Locale) => NameText
@@ -13,7 +13,7 @@ export function getNameLocales(
             const name = select(translation);
             return names.concat(
                 (Array.isArray(name) ? name : [name]).map((n) =>
-                    Name.make(n, translationToLanguage(translation))
+                    Name.make(n, localeToLanguage(translation))
                 )
             );
         }, [])

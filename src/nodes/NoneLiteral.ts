@@ -8,7 +8,7 @@ import type TypeSet from './TypeSet';
 import { NONE_SYMBOL } from '@parser/Symbols';
 import TokenType from './TokenType';
 import type { Replacement } from './Node';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import Literal from './Literal';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';

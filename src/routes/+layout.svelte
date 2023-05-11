@@ -2,7 +2,7 @@
     import { animationFactor } from '@models/stores';
     import { onMount, setContext } from 'svelte';
     import Loading from '@components/app/Loading.svelte';
-    import { preferredLanguages, preferredLocales } from '@translation/locales';
+    import { preferredLanguages, preferredLocales } from '@locale/locales';
     import { auth } from '@db/firebase';
     import { onAuthStateChanged, type User } from 'firebase/auth';
     import {

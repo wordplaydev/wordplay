@@ -1,5 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import ConceptLink from './ConceptLink';
 import type Example from './Example';
 import WebLink from './WebLink';

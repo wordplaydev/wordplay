@@ -3,7 +3,7 @@
     import OutputView from '@components/output/OutputView.svelte';
     import Evaluator from '@runtime/Evaluator';
     import type Value from '@runtime/Value';
-    import { preferredLocales } from '../../translation/locales';
+    import { preferredLocales } from '../../locale/locales';
 
     export let project: Project;
     export let action: (() => void) | undefined = undefined;

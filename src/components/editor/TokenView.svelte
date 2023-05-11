@@ -4,7 +4,7 @@
     import type Token from '@nodes/Token';
     import { getProject, getCaret, getRoot } from '../project/Contexts';
     import TokenCategories from './TokenCategories';
-    import { preferredLocales } from '@translation/locales';
+    import { preferredLocales } from '@locale/locales';
     import PlaceholderView from './PlaceholderView.svelte';
 
     export let node: Token;

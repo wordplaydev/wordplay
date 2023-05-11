@@ -13,7 +13,7 @@ import type { NativeTypeName } from '../native/NativeConstants';
 import LanguageToken from './LanguageToken';
 import TokenType from './TokenType';
 import type { Replacement } from './Node';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import Emotion from '../lore/Emotion';
 
 export default class Unit extends Type {

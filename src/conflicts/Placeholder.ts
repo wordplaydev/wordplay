@@ -1,6 +1,6 @@
 import type ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import type TypePlaceholder from '@nodes/TypePlaceholder';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 
 export default class Placeholder extends Conflict {

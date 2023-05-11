@@ -1,6 +1,6 @@
 import Exception from './Exception';
 import type Evaluator from './Evaluator';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import type Node from '@nodes/Node';
 
 export default class StepLimitException extends Exception {

@@ -3,7 +3,7 @@ import type ConversionDefinition from '@nodes/ConversionDefinition';
 import Convert from '@nodes/Convert';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import type Node from '@nodes/Node';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import Emotion from '../lore/Emotion';
 import Glyphs from '../lore/Glyphs';
 import type Doc from '../nodes/Doc';

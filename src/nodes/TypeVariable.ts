@@ -1,7 +1,7 @@
 import Node, { type Replacement } from './Node';
 import Names from './Names';
-import type LanguageCode from '@translation/LanguageCode';
-import type Locale from '@translation/Locale';
+import type LanguageCode from '@locale/LanguageCode';
+import type Locale from '@locale/Locale';
 import NameType from './NameType';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';

@@ -9,7 +9,7 @@ import type Value from '@runtime/Value';
 import type Context from './Context';
 import Names from './Names';
 import type Borrow from './Borrow';
-import type LanguageCode from '@translation/LanguageCode';
+import type LanguageCode from '@locale/LanguageCode';
 import Expression from './Expression';
 import Bind from './Bind';
 import type Type from './Type';
@@ -21,7 +21,7 @@ import StructureDefinition from './StructureDefinition';
 import type Spaces from '@parser/Spaces';
 import None from '@runtime/None';
 import type SetOpenToken from './SetOpenToken';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Root from './Root';
 

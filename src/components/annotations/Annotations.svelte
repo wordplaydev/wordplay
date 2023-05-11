@@ -10,13 +10,13 @@
 
 <script lang="ts">
     import type Conflict from '@conflicts/Conflict';
-    import { preferredLocales } from '@translation/locales';
+    import { preferredLocales } from '@locale/locales';
     import Expression from '@nodes/Expression';
     import type Node from '@nodes/Node';
     import Annotation from './Annotation.svelte';
     import type Position from './Position';
     import { tick } from 'svelte';
-    import type { Description } from '@translation/Locale';
+    import type { Description } from '@locale/Locale';
     import type Step from '@runtime/Step';
     import type Evaluator from '@runtime/Evaluator';
     import type Project from '../../models/Project';

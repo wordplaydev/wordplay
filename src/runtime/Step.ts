@@ -2,8 +2,8 @@ import Node from '@nodes/Node';
 import type Evaluator from './Evaluator';
 import type Value from './Value';
 import type Expression from '@nodes/Expression';
-import type Locale from '@translation/Locale';
-import type { Description } from '@translation/Locale';
+import type Locale from '@locale/Locale';
+import type { Description } from '@locale/Locale';
 
 /** Represents one step a compiled program's execution. */
 export default abstract class Step {

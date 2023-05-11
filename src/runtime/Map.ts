@@ -5,14 +5,14 @@ import Measurement from './Measurement';
 import None from './None';
 import Primitive from './Primitive';
 import type Value from './Value';
-import type LanguageCode from '@translation/LanguageCode';
+import type LanguageCode from '@locale/LanguageCode';
 import {
     BIND_SYMBOL,
     SET_CLOSE_SYMBOL,
     SET_OPEN_SYMBOL,
 } from '@parser/Symbols';
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import type Expression from '../nodes/Expression';
 
 export default class Map extends Primitive {

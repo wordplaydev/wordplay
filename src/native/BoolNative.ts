@@ -10,9 +10,9 @@ import NativeExpression from './NativeExpression';
 import type Value from '@runtime/Value';
 import type Docs from '@nodes/Docs';
 import type Names from '@nodes/Names';
-import { getInputLocales as getInputLocales } from '@translation/getInputLocales';
-import { getDocLocales } from '@translation/getDocLocales';
-import { getNameLocales } from '@translation/getNameLocales';
+import { getInputLocales as getInputLocales } from '@locale/getInputLocales';
+import { getDocLocales } from '@locale/getDocLocales';
+import { getNameLocales } from '@locale/getNameLocales';
 import Evaluation from '@runtime/Evaluation';
 import type Expression from '../nodes/Expression';
 

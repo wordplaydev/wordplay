@@ -1,5 +1,5 @@
 /** The tutorial for learning the programming language. */
-import type Locale from '../translation/Locale';
+import type Locale from '../locale/Locale';
 import type Unit from './Unit';
 
 export function getTutorial(translation: Locale): Unit[] {

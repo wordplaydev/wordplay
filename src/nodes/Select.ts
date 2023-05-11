@@ -24,8 +24,8 @@ import type Evaluator from '@runtime/Evaluator';
 import NotATableType from './NotATableType';
 import UnknownNameType from './UnknownNameType';
 import type { Replacement } from './Node';
-import type Locale from '@translation/Locale';
-import NodeLink from '@translation/NodeLink';
+import type Locale from '@locale/Locale';
+import NodeLink from '@locale/NodeLink';
 import Glyphs from '../lore/Glyphs';
 
 export default class Select extends Expression {

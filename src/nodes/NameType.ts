@@ -15,7 +15,7 @@ import type { NativeTypeName } from '../native/NativeConstants';
 import UnknownNameType from './UnknownNameType';
 import type Node from './Node';
 import type { Replacement } from './Node';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import { UnknownName } from '@conflicts/UnknownName';
 import Emotion from '../lore/Emotion';
 

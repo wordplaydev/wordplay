@@ -3,16 +3,16 @@ import type Value from '@runtime/Value';
 import type Color from './Color';
 import Output from './Output';
 import type Place from './Place';
-import { getBind } from '@translation/getBind';
+import { getBind } from '@locale/getBind';
 import { TYPE_SYMBOL } from '@parser/Symbols';
 import Sequence from './Sequence';
 import TextLang from './TextLang';
 import type Pose from './Pose';
 import type RenderContext from './RenderContext';
 import Fonts, { SupportedFontsFamiliesType } from '../native/Fonts';
-import en from '@translation/translations/en';
-import type LanguageCode from '@translation/LanguageCode';
-import type { Description } from '@translation/Locale';
+import en from '@locale/locales/en';
+import type LanguageCode from '@locale/LanguageCode';
+import type { Description } from '@locale/Locale';
 
 export const TypeType = toStructure(`
     ${getBind((t) => t.output.type, TYPE_SYMBOL)}()

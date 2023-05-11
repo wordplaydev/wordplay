@@ -1,6 +1,6 @@
 import UnknownType from './UnknownType';
 import type Expression from './Expression';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 
 export default class UnimplementedType extends UnknownType<Expression> {
     constructor(expression: Expression) {

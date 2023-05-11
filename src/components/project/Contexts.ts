@@ -17,7 +17,7 @@ import type { Path } from '@nodes/Root';
 import type Source from '@nodes/Source';
 import type { User } from 'firebase/auth';
 import type Evaluator from '@runtime/Evaluator';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import type Root from '@nodes/Root';
 
 // App related contexts

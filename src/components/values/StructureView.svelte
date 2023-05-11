@@ -1,7 +1,7 @@
 <svelte:options immutable={true} />
 
 <script lang="ts">
-    import { preferredLanguages } from '@translation/locales';
+    import { preferredLanguages } from '@locale/locales';
     import TokenType from '@nodes/TokenType';
     import {
         BIND_SYMBOL,

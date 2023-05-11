@@ -4,9 +4,9 @@ import type Evaluation from './Evaluation';
 import Primitive from './Primitive';
 import type Value from './Value';
 import { TYPE_SYMBOL } from '@parser/Symbols';
-import type LanguageCode from '@translation/LanguageCode';
+import type LanguageCode from '@locale/LanguageCode';
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 
 export default class StructureDefinitionValue extends Primitive {
     /** The definition from the AST. */

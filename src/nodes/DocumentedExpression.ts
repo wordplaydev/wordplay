@@ -8,7 +8,7 @@ import type TypeSet from './TypeSet';
 import type Evaluator from '@runtime/Evaluator';
 import Docs from './Docs';
 import type { Replacement } from './Node';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import AtomicExpression from './AtomicExpression';
 import Glyphs from '../lore/Glyphs';
 

@@ -1,10 +1,10 @@
 import Exception from './Exception';
 import type Evaluator from './Evaluator';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import type Token from '@nodes/Token';
 import Value from './Value';
-import NodeLink from '@translation/NodeLink';
-import ValueLink from '@translation/ValueLink';
+import NodeLink from '@locale/NodeLink';
+import ValueLink from '@locale/ValueLink';
 
 export default class NameException extends Exception {
     readonly name: Token | undefined;

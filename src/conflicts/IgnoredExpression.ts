@@ -1,6 +1,6 @@
 import type Expression from '@nodes/Expression';
 import Conflict from './Conflict';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 
 export class IgnoredExpression extends Conflict {
     readonly expr: Expression;

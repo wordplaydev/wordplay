@@ -15,7 +15,7 @@ import Start from '@runtime/Start';
 import TokenType from './TokenType';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import type { Replacement } from './Node';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';

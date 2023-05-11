@@ -1,14 +1,14 @@
 import UnicodeString from '../models/UnicodeString';
 import type Spaces from '@parser/Spaces';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import Node, { type Replacement } from './Node';
 import TokenType from './TokenType';
 import Emotion from '../lore/Emotion';
 import Purpose from '../concepts/Purpose';
-import { getTokenLabel, type Description } from '@translation/Locale';
+import { getTokenLabel, type Description } from '@locale/Locale';
 import type Root from './Root';
 import { REVERSE_TEXT_DELIMITERS, TEXT_DELIMITERS } from '../parser/Tokenizer';
-import { Languages } from '../translation/LanguageCode';
+import { Languages } from '../locale/LanguageCode';
 import type Definition from './Definition';
 import type Context from './Context';
 

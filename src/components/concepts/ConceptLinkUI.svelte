@@ -1,7 +1,7 @@
 <script lang="ts">
     import { getConceptIndex, getConceptPath } from '../project/Contexts';
     import type ConceptLink from '@nodes/ConceptLink';
-    import { preferredLocales } from '@translation/locales';
+    import { preferredLocales } from '@locale/locales';
     import Concept from '@concepts/Concept';
 
     export let link: ConceptLink | Concept;

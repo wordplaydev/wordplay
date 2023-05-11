@@ -1,7 +1,7 @@
 import type Definition from '@nodes/Definition';
 import TypeVariable from '@nodes/TypeVariable';
 import type Context from '@nodes/Context';
-import type LanguageCode from '@translation/LanguageCode';
+import type LanguageCode from '@locale/LanguageCode';
 import type Node from '@nodes/Node';
 
 export default class Refer {

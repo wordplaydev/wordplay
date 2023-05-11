@@ -2,7 +2,7 @@ import Step from './Step';
 import type Evaluator from './Evaluator';
 import type Value from './Value';
 import type Expression from '@nodes/Expression';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 
 export default class Next extends Step {
     action?: (evaluator: Evaluator) => Value | undefined;

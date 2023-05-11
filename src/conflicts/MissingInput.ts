@@ -4,11 +4,11 @@ import type Bind from '@nodes/Bind';
 import type BinaryOperation from '@nodes/BinaryOperation';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
 import type StructureDefinition from '@nodes/StructureDefinition';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import type Expression from '@nodes/Expression';
 import type Token from '@nodes/Token';
 import type Context from '@nodes/Context';
-import NodeLink from '@translation/NodeLink';
+import NodeLink from '@locale/NodeLink';
 import type StreamDefinition from '../nodes/StreamDefinition';
 
 export default class MissingInput extends Conflict {

@@ -6,8 +6,8 @@ import type Type from '@nodes/Type';
 import type BinaryOperation from '@nodes/BinaryOperation';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
-import type Locale from '@translation/Locale';
-import NodeLink from '@translation/NodeLink';
+import type Locale from '@locale/Locale';
+import NodeLink from '@locale/NodeLink';
 import type Context from '@nodes/Context';
 import type StreamDefinition from '../nodes/StreamDefinition';
 

@@ -7,7 +7,7 @@ import type Evaluator from './Evaluator';
 import FunctionException from './FunctionException';
 import Primitive from './Primitive';
 import type Value from './Value';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import type Expression from '../nodes/Expression';
 
 export default class Bool extends Primitive {

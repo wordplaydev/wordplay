@@ -1,11 +1,11 @@
 import type { NativeTypeName } from '../native/NativeConstants';
 import type Context from '@nodes/Context';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
-import type LanguageCode from '@translation/LanguageCode';
+import type LanguageCode from '@locale/LanguageCode';
 import { FUNCTION_SYMBOL } from '@parser/Symbols';
 import type Evaluation from './Evaluation';
 import Value from './Value';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 
 // We could have just called this Function, but Javascript claims that globally.
 export default class FunctionValue extends Value {

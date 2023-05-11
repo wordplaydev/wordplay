@@ -1,5 +1,5 @@
 import type This from '@nodes/This';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 
 export class MisplacedThis extends Conflict {

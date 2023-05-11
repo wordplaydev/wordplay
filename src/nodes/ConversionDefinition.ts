@@ -18,7 +18,7 @@ import type TypeSet from './TypeSet';
 import Docs from './Docs';
 import StartFinish from '@runtime/StartFinish';
 import type { Replacement } from './Node';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import AtomicExpression from './AtomicExpression';
 import InternalException from '@runtime/InternalException';
 import Glyphs from '../lore/Glyphs';

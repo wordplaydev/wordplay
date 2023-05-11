@@ -5,7 +5,7 @@
     import type Project from '@models/Project';
     import type Verse from '@output/Verse';
     import { animationFactor } from '@models/stores';
-    import { preferredLanguages, preferredLocales } from '@translation/locales';
+    import { preferredLanguages, preferredLocales } from '@locale/locales';
     import { loadedFonts } from '@native/Fonts';
     import { PX_PER_METER, rootScale, toCSS } from '@output/outputToCSS';
     import Place from '@output/Place';

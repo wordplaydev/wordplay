@@ -7,8 +7,8 @@ import type Place from './Place';
 import { toPlace } from './Place';
 import { toBoolean, toDecimal } from './Verse';
 import { toColor } from './Color';
-import { getBind } from '@translation/getBind';
-import type LanguageCode from '@translation/LanguageCode';
+import { getBind } from '@locale/getBind';
+import type LanguageCode from '@locale/LanguageCode';
 import Evaluate from '@nodes/Evaluate';
 import Reference from '@nodes/Reference';
 

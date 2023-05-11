@@ -18,8 +18,8 @@ import Finish from '@runtime/Finish';
 import type Evaluator from '@runtime/Evaluator';
 import type Value from '@runtime/Value';
 import type { Replacement } from './Node';
-import type Locale from '@translation/Locale';
-import NodeLink from '@translation/NodeLink';
+import type Locale from '@locale/Locale';
+import NodeLink from '@locale/NodeLink';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 

@@ -1,5 +1,5 @@
 import type Evaluator from '@runtime/Evaluator';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import type Context from './Context';
 import Expression from './Expression';
 

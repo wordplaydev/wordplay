@@ -5,8 +5,8 @@ import {
     type Readable,
     type Writable,
 } from 'svelte/store';
-import eng from './translations/en';
-import spa from './translations/es';
+import eng from './locales/en';
+import spa from './locales/es';
 import type LanguageCode from './LanguageCode';
 import type Locale from './Locale';
 import type { WritingDirection, WritingLayout } from './LanguageCode';

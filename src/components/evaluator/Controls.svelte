@@ -2,7 +2,7 @@
     import Button from '../widgets/Button.svelte';
     import Switch from '../widgets/Switch.svelte';
     import type Project from '@models/Project';
-    import { preferredLocales } from '@translation/locales';
+    import { preferredLocales } from '@locale/locales';
     import { getEvaluation, getProjects } from '../project/Contexts';
     import type Evaluator from '@runtime/Evaluator';
 

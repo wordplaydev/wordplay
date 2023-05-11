@@ -1,7 +1,7 @@
 <script lang="ts">
     import type OutputPropertyValues from '@transforms/OutputPropertyValueSet';
     import TextLiteral from '@nodes/TextLiteral';
-    import { preferredLanguages } from '@translation/locales';
+    import { preferredLanguages } from '@locale/locales';
     import TextField from '../widgets/TextField.svelte';
     import type OutputProperty from '@transforms/OutputProperty';
     import { getProject, getProjects } from '../project/Contexts';

@@ -1,5 +1,5 @@
 import type Reference from '@nodes/Reference';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 
 export class UnexpectedTypeVariable extends Conflict {

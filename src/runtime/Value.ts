@@ -1,10 +1,10 @@
 import type Context from '@nodes/Context';
 import type Type from '@nodes/Type';
 import type Evaluator from './Evaluator';
-import type LanguageCode from '@translation/LanguageCode';
+import type LanguageCode from '@locale/LanguageCode';
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Locale from '@translation/Locale';
-import type { Description } from '@translation/Locale';
+import type Locale from '@locale/Locale';
+import type { Description } from '@locale/Locale';
 import type Expression from '../nodes/Expression';
 
 /** Used to uniquely distinguish values. */

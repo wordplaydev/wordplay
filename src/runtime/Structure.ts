@@ -10,14 +10,14 @@ import Measurement from './Measurement';
 import Text from './Text';
 import Bool from './Bool';
 import type Names from '@nodes/Names';
-import type LanguageCode from '@translation/LanguageCode';
+import type LanguageCode from '@locale/LanguageCode';
 import {
     BIND_SYMBOL,
     EVAL_CLOSE_SYMBOL,
     EVAL_OPEN_SYMBOL,
 } from '@parser/Symbols';
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import type Expression from '../nodes/Expression';
 
 export default class Structure extends Value {

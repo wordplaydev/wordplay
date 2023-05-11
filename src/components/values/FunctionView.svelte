@@ -5,7 +5,7 @@
     import SymbolView from './SymbolView.svelte';
     import { FUNCTION_SYMBOL } from '@parser/Symbols';
     import TokenType from '@nodes/TokenType';
-    import { preferredLanguages } from '@translation/locales';
+    import { preferredLanguages } from '@locale/locales';
 
     export let value: FunctionValue;
 </script>

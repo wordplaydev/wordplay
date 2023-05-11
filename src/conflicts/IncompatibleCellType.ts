@@ -2,8 +2,8 @@ import type Context from '@nodes/Context';
 import type Expression from '@nodes/Expression';
 import type TableType from '@nodes/TableType';
 import type Type from '@nodes/Type';
-import NodeLink from '@translation/NodeLink';
-import type Locale from '@translation/Locale';
+import NodeLink from '@locale/NodeLink';
+import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 
 export default class IncompatibleCellType extends Conflict {

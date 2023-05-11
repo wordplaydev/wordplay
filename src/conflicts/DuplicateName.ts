@@ -1,7 +1,7 @@
 import Conflict from './Conflict';
 import type Name from '@nodes/Name';
-import type Locale from '@translation/Locale';
-import NodeLink from '@translation/NodeLink';
+import type Locale from '@locale/Locale';
+import NodeLink from '@locale/NodeLink';
 import type Context from '@nodes/Context';
 
 export default class DuplicateName extends Conflict {

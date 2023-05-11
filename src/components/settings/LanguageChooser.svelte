@@ -5,11 +5,11 @@
         preferredLanguages,
         preferredLocales,
         writingDirection,
-    } from '@translation/locales';
+    } from '@locale/locales';
     import Button from '../widgets/Button.svelte';
-    import type LanguageCode from '@translation/LanguageCode';
-    import { getLanguageName, Languages } from '@translation/LanguageCode';
-    import SupportedLocales, { writingLayout } from '@translation/locales';
+    import type LanguageCode from '@locale/LanguageCode';
+    import { getLanguageName, Languages } from '@locale/LanguageCode';
+    import SupportedLocales, { writingLayout } from '@locale/locales';
     import { tick } from 'svelte';
     import { clickOutside } from '../app/clickOutside';
 

@@ -8,7 +8,7 @@ import Primitive from './Primitive';
 import MeasurementType from '@nodes/MeasurementType';
 import type Value from './Value';
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import type Expression from '../nodes/Expression';
 
 /** A decimal number with a unit.

@@ -1,6 +1,6 @@
 import toStructure from '../native/toStructure';
 import type Value from '@runtime/Value';
-import { getBind } from '@translation/getBind';
+import { getBind } from '@locale/getBind';
 import Output from './Output';
 import { toDecimal } from './Verse';
 import type Evaluator from '../runtime/Evaluator';

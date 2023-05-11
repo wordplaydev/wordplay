@@ -2,7 +2,7 @@
     import type Project from '@models/Project';
     import Evaluate from '@nodes/Evaluate';
     import Button from '../widgets/Button.svelte';
-    import { preferredLocales } from '@translation/locales';
+    import { preferredLocales } from '@locale/locales';
     import Note from '../widgets/Note.svelte';
     import { GroupType } from '@output/Group';
     import { PhraseType } from '@output/Phrase';

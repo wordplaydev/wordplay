@@ -27,10 +27,10 @@ import type Definition from './Definition';
 import TokenType from './TokenType';
 import MeasurementType from './MeasurementType';
 import type { Replacement } from './Node';
-import type Locale from '@translation/Locale';
-import type { Description } from '@translation/Locale';
+import type Locale from '@locale/Locale';
+import type { Description } from '@locale/Locale';
 import StartEvaluation from '@runtime/StartEvaluation';
-import NodeLink from '@translation/NodeLink';
+import NodeLink from '@locale/NodeLink';
 import Emotion from '../lore/Emotion';
 import FunctionValue from '../runtime/FunctionValue';
 

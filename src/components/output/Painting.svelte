@@ -1,6 +1,6 @@
 <script lang="ts">
     import Switch from '@components/widgets/Switch.svelte';
-    import { preferredLocales } from '@translation/locales';
+    import { preferredLocales } from '@locale/locales';
 
     export let painting: boolean;
 </script>

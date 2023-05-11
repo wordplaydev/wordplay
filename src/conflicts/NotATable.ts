@@ -4,8 +4,8 @@ import type Insert from '@nodes/Insert';
 import type Select from '@nodes/Select';
 import type Type from '@nodes/Type';
 import type Update from '@nodes/Update';
-import NodeLink from '@translation/NodeLink';
-import type Locale from '@translation/Locale';
+import NodeLink from '@locale/NodeLink';
+import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 
 export default class NotATable extends Conflict {

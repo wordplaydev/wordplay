@@ -1,4 +1,4 @@
-import type LanguageCode from '../translation/LanguageCode';
+import type LanguageCode from '../locale/LanguageCode';
 import type TypeOutput from './TypeOutput';
 import Place from './Place';
 import { createPlace } from './Place';

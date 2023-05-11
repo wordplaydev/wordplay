@@ -26,8 +26,8 @@ import Block, { BlockKind } from '@nodes/Block';
 import Measurement from '@runtime/Measurement';
 import type Evaluation from '@runtime/Evaluation';
 import TypeVariables from '@nodes/TypeVariables';
-import { getDocLocales } from '@translation/getDocLocales';
-import { getNameLocales } from '@translation/getNameLocales';
+import { getDocLocales } from '@locale/getDocLocales';
+import { getNameLocales } from '@locale/getNameLocales';
 import TypeVariable from '@nodes/TypeVariable';
 import type Expression from '../nodes/Expression';
 

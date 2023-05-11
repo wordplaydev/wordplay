@@ -2,10 +2,10 @@
 
 <script lang="ts">
     import parseRichText from '@output/parseRichText';
-    import Explanation from '@translation/Explanation';
-    import NodeLink from '@translation/NodeLink';
-    import type { Description } from '@translation/Locale';
-    import ValueLink from '@translation/ValueLink';
+    import Explanation from '@locale/Explanation';
+    import NodeLink from '@locale/NodeLink';
+    import type { Description } from '@locale/Locale';
+    import ValueLink from '@locale/ValueLink';
     import ValueView from '../values/ValueView.svelte';
     import ConceptLink from '@nodes/ConceptLink';
     import ConceptLinkUI from './ConceptLinkUI.svelte';

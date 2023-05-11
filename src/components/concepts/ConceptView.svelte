@@ -2,7 +2,7 @@
     import { slide } from 'svelte/transition';
     import type Concept from '@concepts/Concept';
     import CodeView from './CodeView.svelte';
-    import { preferredLanguages, preferredLocales } from '@translation/locales';
+    import { preferredLanguages, preferredLocales } from '@locale/locales';
     import MissingLocalesView from './MissingLocalesView.svelte';
     import DocHTMLView from './DocHTMLView.svelte';
     import type StructureConcept from '@concepts/StructureConcept';

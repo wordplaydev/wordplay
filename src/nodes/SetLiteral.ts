@@ -16,7 +16,7 @@ import type Bind from './Bind';
 import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '@parser/Symbols';
 import TokenType from './TokenType';
 import type { Replacement } from './Node';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import type { NativeTypeName } from '../native/NativeConstants';
 import Purpose from '../concepts/Purpose';

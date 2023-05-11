@@ -3,7 +3,7 @@
     import type Project from '../../models/Project';
     import { getProjects, getUser } from '../project/Contexts';
     import ConfirmButton from '../widgets/ConfirmButton.svelte';
-    import { preferredLanguages, preferredLocales } from '@translation/locales';
+    import { preferredLanguages, preferredLocales } from '@locale/locales';
     import { examples, makeProject } from '../../examples/examples';
     import Lead from './Lead.svelte';
     import ProjectPreview from './ProjectPreview.svelte';

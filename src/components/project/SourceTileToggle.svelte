@@ -6,7 +6,7 @@
     import { getConflicts, getEvaluation } from './Contexts';
     import type Evaluator from '@runtime/Evaluator';
     import type Project from '../../models/Project';
-    import { preferredLanguages } from '@translation/locales';
+    import { preferredLanguages } from '@locale/locales';
 
     export let project: Project;
     export let evaluator: Evaluator;

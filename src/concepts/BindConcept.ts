@@ -1,10 +1,10 @@
 import type Bind from '@nodes/Bind';
 import type Context from '@nodes/Context';
-import type LanguageCode from '@translation/LanguageCode';
+import type LanguageCode from '@locale/LanguageCode';
 import type Node from '@nodes/Node';
 import Reference from '@nodes/Reference';
 import Concept from './Concept';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import type Purpose from './Purpose';
 import Emotion from '../lore/Emotion';
 import type Doc from '../nodes/Doc';

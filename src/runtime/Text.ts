@@ -4,7 +4,7 @@ import Measurement from './Measurement';
 import Primitive from './Primitive';
 import type Value from './Value';
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import type Expression from '../nodes/Expression';
 import List from './List';
 import Bool from './Bool';

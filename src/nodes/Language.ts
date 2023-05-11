@@ -4,9 +4,9 @@ import Token from './Token';
 import NameToken from './NameToken';
 import LanguageToken from './LanguageToken';
 import type Conflict from '@conflicts/Conflict';
-import { Languages } from '@translation/LanguageCode';
+import { Languages } from '@locale/LanguageCode';
 import InvalidLanguage from '@conflicts/InvalidLanguage';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 

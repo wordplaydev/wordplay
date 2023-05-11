@@ -14,7 +14,7 @@
         TYPE_SYMBOL,
     } from '../../parser/Symbols';
     import { tokenize } from '../../parser/Tokenizer';
-    import { preferredLocales } from '../../translation/locales';
+    import { preferredLocales } from '../../locale/locales';
     import { getUnicodeNamed as getUnicodeWithNameText } from '../../unicode/Unicode';
     import { getInsertions } from '../project/Contexts';
     import Button from '../widgets/Button.svelte';

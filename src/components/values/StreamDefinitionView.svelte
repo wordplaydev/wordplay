@@ -3,7 +3,7 @@
 <script lang="ts">
     import SymbolView from './SymbolView.svelte';
     import TokenType from '@nodes/TokenType';
-    import { preferredLanguages } from '@translation/locales';
+    import { preferredLanguages } from '@locale/locales';
     import type StreamDefinitionValue from '../../runtime/StreamDefinitionValue';
     import { STREAM_SYMBOL } from '../../parser/Symbols';
 

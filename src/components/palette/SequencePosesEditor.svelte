@@ -11,7 +11,7 @@
     import Unit from '@nodes/Unit';
     import type Expression from '@nodes/Expression';
     import Button from '../widgets/Button.svelte';
-    import { preferredLanguages, preferredLocales } from '@translation/locales';
+    import { preferredLanguages, preferredLocales } from '@locale/locales';
     import Note from '../widgets/Note.svelte';
     import { getProjects } from '../project/Contexts';
 

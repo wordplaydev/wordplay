@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { preferredLocales } from '../../translation/locales';
+    import { preferredLocales } from '../../locale/locales';
     import Button from './Button.svelte';
 
     export let tip: string;

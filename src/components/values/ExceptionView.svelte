@@ -2,7 +2,7 @@
 
 <script lang="ts">
     import type Exception from '@runtime/Exception';
-    import { preferredLocales } from '@translation/locales';
+    import { preferredLocales } from '@locale/locales';
     import DescriptionView from '@components/concepts/DescriptionView.svelte';
 
     export let value: Exception;

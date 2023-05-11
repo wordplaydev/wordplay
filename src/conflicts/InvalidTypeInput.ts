@@ -4,8 +4,8 @@ import type FunctionDefinition from '@nodes/FunctionDefinition';
 import type NameType from '@nodes/NameType';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import type Type from '@nodes/Type';
-import NodeLink from '@translation/NodeLink';
-import type Locale from '@translation/Locale';
+import NodeLink from '@locale/NodeLink';
+import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 
 export default class InvalidTypeInput extends Conflict {

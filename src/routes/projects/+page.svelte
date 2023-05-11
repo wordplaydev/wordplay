@@ -1,7 +1,7 @@
 <script>
     import ProjectChooser from '@components/app/ProjectChooser.svelte';
     import Page from '@components/app/Page.svelte';
-    import { preferredLocales } from '@translation/locales';
+    import { preferredLocales } from '@locale/locales';
 </script>
 
 <svelte:head>

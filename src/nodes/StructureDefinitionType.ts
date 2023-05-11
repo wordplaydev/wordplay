@@ -7,7 +7,7 @@ import type TypeSet from './TypeSet';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type Definition from './Definition';
 import type Node from './Node';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 
 export const STRUCTURE_NATIVE_TYPE_NAME = 'structure';

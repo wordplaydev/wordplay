@@ -21,7 +21,7 @@ import SetOpenToken from './SetOpenToken';
 import SetCloseToken from './SetCloseToken';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import type { Replacement } from './Node';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';

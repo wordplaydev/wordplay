@@ -1,8 +1,8 @@
 import type Conditional from '@nodes/Conditional';
 import type Context from '@nodes/Context';
 import type Type from '@nodes/Type';
-import NodeLink from '@translation/NodeLink';
-import type Locale from '@translation/Locale';
+import NodeLink from '@locale/NodeLink';
+import type Locale from '@locale/Locale';
 import type Reaction from '../nodes/Reaction';
 import Conflict from './Conflict';
 

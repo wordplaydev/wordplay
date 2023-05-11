@@ -3,7 +3,7 @@ import type OutputPropertyOptions from './OutputPropertyOptions';
 import type OutputPropertyText from './OutputPropertyText';
 import type Expression from '@nodes/Expression';
 import type Context from '@nodes/Context';
-import type LanguageCode from '@translation/LanguageCode';
+import type LanguageCode from '@locale/LanguageCode';
 
 /** Represents an editable property on the output expression, with some optional information about valid property values */
 

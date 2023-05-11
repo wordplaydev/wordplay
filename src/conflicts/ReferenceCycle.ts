@@ -1,7 +1,7 @@
 import type Context from '@nodes/Context';
 import type Reference from '@nodes/Reference';
-import NodeLink from '@translation/NodeLink';
-import type Locale from '@translation/Locale';
+import NodeLink from '@locale/NodeLink';
+import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 
 export default class ReferenceCycle extends Conflict {

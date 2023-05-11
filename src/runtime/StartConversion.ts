@@ -1,7 +1,7 @@
 import Step from './Step';
 import type Evaluator from './Evaluator';
 import type Value from './Value';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import type ConversionDefinition from '@nodes/ConversionDefinition';
 import type Convert from '@nodes/Convert';
 

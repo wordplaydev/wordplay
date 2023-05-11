@@ -1,4 +1,4 @@
-import type { LessonText, NameText } from '../translation/Locale';
+import type { LessonText, NameText } from '../locale/Locale';
 import type Step from './Step';
 
 type Lesson = {

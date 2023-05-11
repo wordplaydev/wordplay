@@ -15,7 +15,7 @@ import type { SharedDefinition } from '@nodes/Borrow';
 import PropertyReference from '@nodes/PropertyReference';
 import type Bind from '@nodes/Bind';
 import Reference from '@nodes/Reference';
-import type LanguageCode from '@translation/LanguageCode';
+import type LanguageCode from '@locale/LanguageCode';
 import type StreamDefinition from '@nodes/StreamDefinition';
 import { VerseType } from '../output/Verse';
 import { GroupType } from '../output/Group';

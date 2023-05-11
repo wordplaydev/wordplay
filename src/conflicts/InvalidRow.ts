@@ -1,5 +1,5 @@
 import type Row from '@nodes/Row';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 
 export default class InvalidRow extends Conflict {

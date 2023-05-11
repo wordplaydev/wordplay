@@ -10,7 +10,7 @@ import type Expression from './Expression';
 import Node, { type Replacement } from './Node';
 import type TypeSet from './TypeSet';
 import UnparsableType from './UnparsableType';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import AtomicExpression from './AtomicExpression';
 import Glyphs from '../lore/Glyphs';
 

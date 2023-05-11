@@ -14,8 +14,8 @@ import Bool from '@runtime/Bool';
 import type Value from '@runtime/Value';
 import type Evaluation from '@runtime/Evaluation';
 import TypeVariables from '@nodes/TypeVariables';
-import { getDocLocales } from '@translation/getDocLocales';
-import { getNameLocales } from '@translation/getNameLocales';
+import { getDocLocales } from '@locale/getDocLocales';
+import { getNameLocales } from '@locale/getNameLocales';
 import TypeVariable from '@nodes/TypeVariable';
 import type Expression from '../nodes/Expression';
 

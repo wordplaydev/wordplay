@@ -1,5 +1,5 @@
 import type Name from '@nodes/Name';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 
 export default class Unnamed extends Conflict {

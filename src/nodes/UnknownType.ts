@@ -1,6 +1,6 @@
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Locale from '@translation/Locale';
-import type { Description } from '@translation/Locale';
+import type Locale from '@locale/Locale';
+import type { Description } from '@locale/Locale';
 import type Context from './Context';
 import type Node from './Node';
 import Type from './Type';

@@ -1,7 +1,7 @@
 <script lang="ts">
     import type Concept from '../../concepts/Concept';
     import type Glyph from '../../lore/Glyph';
-    import { preferredLocales } from '../../translation/locales';
+    import { preferredLocales } from '../../locale/locales';
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
     import Eyes from './Eyes.svelte';
 

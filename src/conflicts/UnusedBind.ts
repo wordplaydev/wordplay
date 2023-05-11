@@ -1,6 +1,6 @@
 import type Bind from '@nodes/Bind';
 import Conflict from './Conflict';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 
 export default class UnusedBind extends Conflict {
     readonly bind: Bind;

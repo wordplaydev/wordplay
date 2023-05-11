@@ -1,7 +1,7 @@
 import type Node from './Node';
 import UnknownType from './UnknownType';
 import type Expression from './Expression';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import type Context from './Context';
 
 export class CycleType extends UnknownType<Expression> {

@@ -1,6 +1,6 @@
 import type { NativeTypeName } from '../native/NativeConstants';
 import type Exception from '@runtime/Exception';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import Type from './Type';
 import type TypeSet from './TypeSet';
 import { EXCEPTION_SYMBOL } from '../parser/Symbols';

@@ -8,7 +8,7 @@
     import type Node from '@nodes/Node';
     import type Token from '@nodes/Token';
     import Spaces from '@parser/Spaces';
-    import { preferredLanguages } from '@translation/locales';
+    import { preferredLanguages } from '@locale/locales';
     import NodeView from '@components/editor/NodeView.svelte';
     import {
         getCaret,

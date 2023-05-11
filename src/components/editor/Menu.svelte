@@ -1,6 +1,6 @@
 <script lang="ts">
     import type Transform from '@transforms/Transform';
-    import { preferredLanguages, preferredLocales } from '@translation/locales';
+    import { preferredLanguages, preferredLocales } from '@locale/locales';
     import RootView from '../project/RootView.svelte';
     import Block from '@nodes/Block';
     import type Menu from './util/Menu';

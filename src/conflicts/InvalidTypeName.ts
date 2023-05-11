@@ -1,8 +1,8 @@
 import type Context from '@nodes/Context';
 import type Definition from '@nodes/Definition';
 import type NameType from '@nodes/NameType';
-import NodeLink from '@translation/NodeLink';
-import type Locale from '@translation/Locale';
+import NodeLink from '@locale/NodeLink';
+import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 
 export class UnknownTypeName extends Conflict {

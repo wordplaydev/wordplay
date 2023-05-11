@@ -7,7 +7,7 @@
     import BindOptions from './BindOptions.svelte';
     import BindSlider from './BindSlider.svelte';
     import BindText from './BindText.svelte';
-    import { preferredLocales, preferredLanguages } from '@translation/locales';
+    import { preferredLocales, preferredLanguages } from '@locale/locales';
     import type Project from '@models/Project';
     import OutputPropertyOptions from '@transforms/OutputPropertyOptions';
     import OutputPropertyText from '@transforms/OutputPropertyText';

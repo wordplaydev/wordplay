@@ -11,7 +11,7 @@
         preferredLocales,
         writingDirection,
         writingLayout,
-    } from '@translation/locales';
+    } from '@locale/locales';
     import Speech from '../lore/Speech.svelte';
     import {
         getConceptIndex,

@@ -17,7 +17,7 @@ import Exception from '@runtime/Exception';
 import { QUESTION_SYMBOL, COMMA_SYMBOL } from '@parser/Symbols';
 import TokenType from './TokenType';
 import type { Replacement } from './Node';
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import BooleanType from './BooleanType';
 import ExpectedBooleanCondition from '../conflicts/ExpectedBooleanCondition';
 import Check from '../runtime/Check';

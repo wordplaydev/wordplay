@@ -1,4 +1,4 @@
-import type Locale from '@translation/Locale';
+import type Locale from '@locale/Locale';
 import Purpose from '../concepts/Purpose';
 import Glyphs from '../lore/Glyphs';
 import { TYPE_CLOSE_SYMBOL, TYPE_OPEN_SYMBOL } from '../parser/Symbols';
