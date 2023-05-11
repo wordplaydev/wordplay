@@ -22,26 +22,26 @@ import ListType from '../nodes/ListType';
 
 export default function bootstrapText() {
     const equalsNames = getNameTranslations(
-        (t) => t.native.text.function.equals.inputs[0].name
+        (t) => t.native.text.function.equals.inputs[0].names
     );
     const notEqualsNames = getNameTranslations(
-        (t) => t.native.text.function.notequals.inputs[0].name
+        (t) => t.native.text.function.notequals.inputs[0].names
     );
 
     const countNames = getNameTranslations(
-        (t) => t.native.text.function.repeat.inputs[0].name
+        (t) => t.native.text.function.repeat.inputs[0].names
     );
 
     const segmentDelimiterNames = getNameTranslations(
-        (t) => t.native.text.function.segment.inputs[0].name
+        (t) => t.native.text.function.segment.inputs[0].names
     );
 
     const combineNames = getNameTranslations(
-        (t) => t.native.text.function.combine.inputs[0].name
+        (t) => t.native.text.function.combine.inputs[0].names
     );
 
     const hasNames = getNameTranslations(
-        (t) => t.native.text.function.has.inputs[0].name
+        (t) => t.native.text.function.has.inputs[0].names
     );
 
     function createTextFunction(

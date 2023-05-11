@@ -7,11 +7,11 @@ import { toDecimal } from './Verse';
 import { PX_PER_METER } from './outputToCSS';
 
 export const ShapeType = toStructure(`
-    ${getBind((t) => t.output.shape.definition, TYPE_SYMBOL)}()
+    ${getBind((t) => t.output.shape, TYPE_SYMBOL)}()
 `);
 
 export const RectangleType = toStructure(`
-    ${getBind((t) => t.output.rectangle.definition, '•')} Shape(
+    ${getBind((t) => t.output.rectangle, '•')} Shape(
         ${getBind((t) => t.output.rectangle.left)}•#m
         ${getBind((t) => t.output.rectangle.top)}•#m
         ${getBind((t) => t.output.rectangle.right)}•#m

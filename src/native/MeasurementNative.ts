@@ -27,7 +27,7 @@ import type Expression from '../nodes/Expression';
 
 export default function bootstrapMeasurement() {
     const subtractNames = getNameTranslations(
-        (t) => t.native.measurement.function.subtract.inputs[0].name
+        (t) => t.native.measurement.function.subtract.inputs[0].names
     );
 
     function createBinaryOp(

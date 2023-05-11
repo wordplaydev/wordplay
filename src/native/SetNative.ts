@@ -31,7 +31,7 @@ export default function bootstrapSet() {
                     (t) => t.native.set.function.filter.value.doc
                 ),
                 getNameTranslations(
-                    (t) => t.native.set.function.filter.value.name
+                    (t) => t.native.set.function.filter.value.names
                 ),
                 SetTypeVariable.getReference()
             ),
@@ -40,31 +40,31 @@ export default function bootstrapSet() {
     );
 
     const equalsFunctionNames = getNameTranslations(
-        (t) => t.native.set.function.equals.inputs[0].name
+        (t) => t.native.set.function.equals.inputs[0].names
     );
 
     const notEqualFunctionNames = getNameTranslations(
-        (t) => t.native.set.function.notequals.inputs[0].name
+        (t) => t.native.set.function.notequals.inputs[0].names
     );
 
     const addFunctionNames = getNameTranslations(
-        (t) => t.native.set.function.add.inputs[0].name
+        (t) => t.native.set.function.add.inputs[0].names
     );
 
     const removeFunctionNames = getNameTranslations(
-        (t) => t.native.set.function.remove.inputs[0].name
+        (t) => t.native.set.function.remove.inputs[0].names
     );
 
     const unionFunctionNames = getNameTranslations(
-        (t) => t.native.set.function.union.inputs[0].name
+        (t) => t.native.set.function.union.inputs[0].names
     );
 
     const intersectionFunctionNames = getNameTranslations(
-        (t) => t.native.set.function.intersection.inputs[0].name
+        (t) => t.native.set.function.intersection.inputs[0].names
     );
 
     const differenceFunctionNames = getNameTranslations(
-        (t) => t.native.set.function.difference.inputs[0].name
+        (t) => t.native.set.function.difference.inputs[0].names
     );
 
     return StructureDefinition.make(
@@ -310,7 +310,7 @@ export default function bootstrapSet() {
                             ),
                             getNameTranslations(
                                 (t) =>
-                                    t.native.set.function.filter.inputs[0].name
+                                    t.native.set.function.filter.inputs[0].names
                             ),
                             setFilterHOFType
                         ),

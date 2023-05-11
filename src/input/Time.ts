@@ -75,7 +75,7 @@ const TimeType = MeasurementType.make(Unit.make(['ms']));
 
 const FrequencyBind = Bind.make(
     getDocTranslations((t) => t.input.time.frequency.doc),
-    getNameTranslations((t) => t.input.time.frequency.name),
+    getNameTranslations((t) => t.input.time.frequency.names),
     UnionType.make(MeasurementType.make(Unit.make(['ms'])), NoneType.make()),
     // Default to nothing
     NoneLiteral.make()
@@ -83,7 +83,7 @@ const FrequencyBind = Bind.make(
 
 export const TimeDefinition = StreamDefinition.make(
     getDocTranslations((t) => t.input.time.doc),
-    getNameTranslations((t) => t.input.time.name),
+    getNameTranslations((t) => t.input.time.names),
     [FrequencyBind],
     createStreamEvaluator(
         TimeType.clone(),

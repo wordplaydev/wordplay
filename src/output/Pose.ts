@@ -13,7 +13,7 @@ import Evaluate from '@nodes/Evaluate';
 import Reference from '@nodes/Reference';
 
 export const PoseType = toStructure(`
-    ${getBind((t) => t.output.pose.definition, '•')}(
+    ${getBind((t) => t.output.pose, '•')}(
         ${getBind((t) => t.output.pose.color)}•Color|ø: ø
         ${getBind((t) => t.output.pose.opacity)}•%|ø: ø
         ${getBind((t) => t.output.pose.offset)}•Place|ø: ø

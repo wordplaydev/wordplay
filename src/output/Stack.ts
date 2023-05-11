@@ -13,7 +13,7 @@ import Phrase from './Phrase';
 import Group from './Group';
 
 export const StackType = toStructure(`
-    ${getBind((t) => t.output.stack.definition, '•')} Arrangement(
+    ${getBind((t) => t.output.stack, '•')} Arrangement(
         ${getBind((t) => t.output.stack.padding)}•#m: 1m
     )
 `);

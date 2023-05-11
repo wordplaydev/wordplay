@@ -35,7 +35,7 @@ export default function bootstrapMap() {
             Bind.make(
                 getDocTranslations((t) => t.native.map.function.filter.key.doc),
                 getNameTranslations(
-                    (t) => t.native.map.function.filter.key.name
+                    (t) => t.native.map.function.filter.key.names
                 ),
                 KeyTypeVariable.getReference()
             ),
@@ -44,7 +44,7 @@ export default function bootstrapMap() {
                     (t) => t.native.map.function.filter.value.doc
                 ),
                 getNameTranslations(
-                    (t) => t.native.map.function.filter.value.name
+                    (t) => t.native.map.function.filter.value.names
                 ),
                 ValueTypeVariable.getReference()
             ),
@@ -64,7 +64,7 @@ export default function bootstrapMap() {
                     (t) => t.native.map.function.translate.key.doc
                 ),
                 getNameTranslations(
-                    (t) => t.native.map.function.translate.key.name
+                    (t) => t.native.map.function.translate.key.names
                 ),
                 KeyTypeVariable.getReference()
             ),
@@ -73,7 +73,7 @@ export default function bootstrapMap() {
                     (t) => t.native.map.function.translate.value.doc
                 ),
                 getNameTranslations(
-                    (t) => t.native.map.function.translate.value.name
+                    (t) => t.native.map.function.translate.value.names
                 ),
                 ValueTypeVariable.getReference()
             ),
@@ -82,26 +82,26 @@ export default function bootstrapMap() {
     );
 
     const equalsFunctionValueNames = getNameTranslations(
-        (t) => t.native.map.function.equals.inputs[0].name
+        (t) => t.native.map.function.equals.inputs[0].names
     );
     const notEqualsFunctionValueNames = getNameTranslations(
-        (t) => t.native.map.function.notequals.inputs[0].name
+        (t) => t.native.map.function.notequals.inputs[0].names
     );
 
     const setFunctionKeyNames = getNameTranslations(
-        (t) => t.native.map.function.set.inputs[0].name
+        (t) => t.native.map.function.set.inputs[0].names
     );
 
     const setFunctionValueNames = getNameTranslations(
-        (t) => t.native.map.function.set.inputs[1].name
+        (t) => t.native.map.function.set.inputs[1].names
     );
 
     const unsetFunctionKeyNames = getNameTranslations(
-        (t) => t.native.map.function.unset.inputs[0].name
+        (t) => t.native.map.function.unset.inputs[0].names
     );
 
     const removeFunctionValueNames = getNameTranslations(
-        (t) => t.native.map.function.remove.inputs[0].name
+        (t) => t.native.map.function.remove.inputs[0].names
     );
 
     return StructureDefinition.make(
@@ -296,7 +296,7 @@ export default function bootstrapMap() {
                             ),
                             getNameTranslations(
                                 (t) =>
-                                    t.native.map.function.filter.inputs[0].name
+                                    t.native.map.function.filter.inputs[0].names
                             ),
                             mapFilterHOFType
                         ),
@@ -325,7 +325,7 @@ export default function bootstrapMap() {
                             getNameTranslations(
                                 (t) =>
                                     t.native.map.function.translate.inputs[0]
-                                        .name
+                                        .names
                             ),
                             mapTranslateHOFType
                         ),

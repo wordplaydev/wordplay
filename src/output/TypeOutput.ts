@@ -15,7 +15,7 @@ import type LanguageCode from '@translation/LanguageCode';
 import type { Description } from '@translation/Translation';
 
 export const TypeType = toStructure(`
-    ${getBind((t) => t.output.type.definition, TYPE_SYMBOL)}()
+    ${getBind((t) => t.output.type, TYPE_SYMBOL)}()
 `);
 
 export const DefaultStyle = 'zippy';

@@ -13,7 +13,7 @@ import type LanguageCode from '../translation/LanguageCode';
 import Unit from '../nodes/Unit';
 
 export const ColorType = toStructure(`
-    ${getBind((t) => t.output.color.definition, TYPE_SYMBOL)}(
+    ${getBind((t) => t.output.color, TYPE_SYMBOL)}(
         ${getBind((t) => t.output.color.lightness)}•%
         ${getBind((t) => t.output.color.chroma)}•#
         ${getBind((t) => t.output.color.hue)}•#°

@@ -41,7 +41,7 @@ export default class Choice extends Stream<Text> {
 
 export const ChoiceDefinition = StreamDefinition.make(
     getDocTranslations((t) => t.input.choice.doc),
-    getNameTranslations((t) => t.input.choice.name),
+    getNameTranslations((t) => t.input.choice.names),
     [],
     createStreamEvaluator(
         TextType.make(),

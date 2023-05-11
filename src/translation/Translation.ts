@@ -40,20 +40,31 @@ import type TextLiteral from '../nodes/TextLiteral';
 import type UnaryOperation from '../nodes/UnaryOperation';
 import TokenType from '../nodes/TokenType';
 import type StructureDefinition from '../nodes/StructureDefinition';
+import type Step from '../tutorial/Step';
 
 export type Description = string | Explanation;
 export type DocString = string;
 
-type LabelTranslator = (node: Node, translation: Translation) => string;
+export type LabelTranslator = (node: Node, translation: Translation) => string;
 
-export type SegmentTranslation = [Description, Description];
+export type StepTranslation = [Description, Description];
 
-export interface NodeTranslation<Kind> {
-    label: string | LabelTranslator;
+export type NameAndDocTranslation = {
+    names: NameTranslation;
+    doc: DocTranslation;
+};
+
+export type ConceptTranslation = NameAndDocTranslation & {
+    tutorial: Step[];
+};
+
+export type NodeTranslation<Kind> = {
+    names: string | LabelTranslator;
     description: Kind;
     doc: DocString;
     emotion: Emotion;
-}
+    tutorial: Step[];
+};
 
 export type StaticNodeTranslation = NodeTranslation<string>;
 
@@ -99,11 +110,6 @@ export type FunctionTranslation<Inputs> = {
     name: NameTranslation;
     doc: DocTranslation;
     inputs: Inputs;
-};
-
-export type NameAndDocTranslation = {
-    name: NameTranslation;
-    doc: DocTranslation;
 };
 
 export type NameTranslation = string | string[];
@@ -790,12 +796,6 @@ type Translation = {
     };
     tutorial: {
         units: UnitNames;
-        concepts: Record<
-            | keyof NodeTranslations
-            | keyof InputTranslations
-            | keyof OutputTranslations,
-            SegmentTranslation[]
-        >;
     };
 };
 
@@ -1021,8 +1021,7 @@ export type NodeTranslations = {
 };
 
 export type OutputTranslations = {
-    type: {
-        definition: NameAndDocTranslation;
+    type: ConceptTranslation & {
         size: NameAndDocTranslation;
         family: NameAndDocTranslation;
         place: NameAndDocTranslation;
@@ -1036,37 +1035,28 @@ export type OutputTranslations = {
         duration: NameAndDocTranslation;
         style: NameAndDocTranslation;
     };
-    group: {
-        definition: NameAndDocTranslation;
+    group: ConceptTranslation & {
         content: NameAndDocTranslation;
         layout: NameAndDocTranslation;
     };
-    phrase: {
-        definition: NameAndDocTranslation;
+    phrase: ConceptTranslation & {
         text: NameAndDocTranslation;
     };
-    verse: {
-        definition: NameAndDocTranslation;
+    verse: ConceptTranslation & {
         description: (total: number, phrases: number, groups: number) => string;
         content: NameAndDocTranslation;
         background: NameAndDocTranslation;
         frame: NameAndDocTranslation;
     };
-    layout: {
-        definition: NameAndDocTranslation;
-    };
-    shape: {
-        definition: NameAndDocTranslation;
-    };
-    rectangle: {
-        definition: NameAndDocTranslation;
+    layout: ConceptTranslation;
+    shape: ConceptTranslation;
+    rectangle: ConceptTranslation & {
         left: NameAndDocTranslation;
         top: NameAndDocTranslation;
         right: NameAndDocTranslation;
         bottom: NameAndDocTranslation;
     };
-    pose: {
-        definition: NameAndDocTranslation;
+    pose: ConceptTranslation & {
         duration: NameAndDocTranslation;
         style: NameAndDocTranslation;
         color: NameAndDocTranslation;
@@ -1077,36 +1067,30 @@ export type OutputTranslations = {
         flipx: NameAndDocTranslation;
         flipy: NameAndDocTranslation;
     };
-    sequence: {
-        definition: NameAndDocTranslation;
+    sequence: ConceptTranslation & {
         count: NameAndDocTranslation;
         timing: NameAndDocTranslation;
         poses: NameAndDocTranslation;
     };
-    color: {
-        definition: NameAndDocTranslation;
+    color: ConceptTranslation & {
         lightness: NameAndDocTranslation;
         chroma: NameAndDocTranslation;
         hue: NameAndDocTranslation;
     };
-    place: {
-        definition: NameAndDocTranslation;
+    place: ConceptTranslation & {
         x: NameAndDocTranslation;
         y: NameAndDocTranslation;
         z: NameAndDocTranslation;
     };
-    row: {
-        definition: NameAndDocTranslation;
+    row: ConceptTranslation & {
         description: (total: number, phrases: number, groups: number) => string;
         padding: NameAndDocTranslation;
     };
-    stack: {
-        definition: NameAndDocTranslation;
+    stack: ConceptTranslation & {
         description: (total: number, phrases: number, groups: number) => string;
         padding: NameAndDocTranslation;
     };
-    grid: {
-        definition: NameAndDocTranslation;
+    grid: ConceptTranslation & {
         description: (rows: number, columns: number) => string;
         rows: NameAndDocTranslation;
         columns: NameAndDocTranslation;
@@ -1114,8 +1098,7 @@ export type OutputTranslations = {
         cellWidth: NameAndDocTranslation;
         cellHeight: NameAndDocTranslation;
     };
-    free: {
-        definition: NameAndDocTranslation;
+    free: ConceptTranslation & {
         description: (count: number) => string;
     };
     easing: {
@@ -1131,28 +1114,28 @@ export type OutputTranslations = {
 };
 
 export type InputTranslations = {
-    random: NameAndDocTranslation & {
+    random: ConceptTranslation & {
         min: NameAndDocTranslation;
         max: NameAndDocTranslation;
     };
-    choice: NameAndDocTranslation;
-    button: NameAndDocTranslation & { down: NameAndDocTranslation };
-    pointer: NameAndDocTranslation;
-    key: NameAndDocTranslation & {
+    choice: ConceptTranslation;
+    button: ConceptTranslation & { down: NameAndDocTranslation };
+    pointer: ConceptTranslation;
+    key: ConceptTranslation & {
         key: NameAndDocTranslation;
         down: NameAndDocTranslation;
     };
-    time: NameAndDocTranslation & { frequency: NameAndDocTranslation };
-    mic: NameAndDocTranslation & {
+    time: ConceptTranslation & { frequency: NameAndDocTranslation };
+    mic: ConceptTranslation & {
         frequency: NameAndDocTranslation;
     };
-    camera: NameAndDocTranslation & {
+    camera: ConceptTranslation & {
         width: NameAndDocTranslation;
         height: NameAndDocTranslation;
         frequency: NameAndDocTranslation;
     };
-    reaction: NameAndDocTranslation;
-    motion: NameAndDocTranslation & {
+    reaction: ConceptTranslation;
+    motion: ConceptTranslation & {
         type: NameAndDocTranslation;
         vx: NameAndDocTranslation;
         vy: NameAndDocTranslation;

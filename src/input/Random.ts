@@ -84,7 +84,7 @@ export default class Random extends Stream<Measurement> {
 
 const MinBind = Bind.make(
     getDocTranslations((t) => t.input.random.min.doc),
-    getNameTranslations((t) => t.input.random.min.name),
+    getNameTranslations((t) => t.input.random.min.names),
     UnionType.make(MeasurementType.make(Unit.Wildcard), NoneType.make()),
     // Default to nothing
     NoneLiteral.make()
@@ -92,7 +92,7 @@ const MinBind = Bind.make(
 
 const MaxBind = Bind.make(
     getDocTranslations((t) => t.input.random.max.doc),
-    getNameTranslations((t) => t.input.random.max.name),
+    getNameTranslations((t) => t.input.random.max.names),
     UnionType.make(MeasurementType.make(Unit.Wildcard), NoneType.make()),
     // Default to nothing
     NoneLiteral.make()
@@ -100,7 +100,7 @@ const MaxBind = Bind.make(
 
 export const RandomDefinition = StreamDefinition.make(
     getDocTranslations((t) => t.input.random.doc),
-    getNameTranslations((t) => t.input.random.name),
+    getNameTranslations((t) => t.input.random.names),
     [MinBind, MaxBind],
     createStreamEvaluator(
         MeasurementType.make(),

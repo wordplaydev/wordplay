@@ -11,7 +11,7 @@ import Arrangement from './Arrangement';
 import Phrase from './Phrase';
 
 export const FreeType = toStructure(`
-    ${getBind((t) => t.output.free.definition, '•')} Arrangement()
+    ${getBind((t) => t.output.free, '•')} Arrangement()
 `);
 
 export class Free extends Arrangement {

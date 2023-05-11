@@ -3,7 +3,6 @@
     import Project from '@models/Project';
     import Speech from '@components/lore/Speech.svelte';
     import Glyphs from '../../lore/Glyphs';
-    import Tutorial from '../../tutorial/Tutorial';
     import Progress from '../../tutorial/Progress';
     import Note from '../../components/widgets/Note.svelte';
     import {
@@ -15,35 +14,45 @@
     import { getProjects, getUser } from '../../components/project/Contexts';
     import PlayView from './PlayView.svelte';
     import Button from '../widgets/Button.svelte';
+    import { getTutorial } from '../../tutorial/Tutorial';
+    import Source from '../../nodes/Source';
+    import type Lesson from '../../tutorial/Lesson';
 
     const projects = getProjects();
     const user = getUser();
 
+    function getName(lesson: Lesson | undefined) {
+        return lesson
+            ? typeof lesson.names === 'string'
+                ? lesson.names
+                : Array.isArray(lesson.names)
+                ? lesson.names[0]
+                : '—'
+            : '—';
+    }
+
     /** The current place in the tutorial */
-    let progress: Progress = new Progress(Tutorial, 'welcome', undefined, 0);
+    $: tutorial = getTutorial($preferredTranslation);
+    $: progress = new Progress(tutorial, 'welcome', 0, 0);
     $: unit = progress.getUnit();
     $: lesson = progress.getLesson();
-    $: segment = progress.getStep();
-    $: tutorial = $preferredTranslation.tutorial;
+    $: names = getName(lesson);
+    $: step = progress.getStep();
 
-    $: [step] =
-        lesson && progress.step
-            ? $preferredTranslation.tutorial.concepts[lesson.concept][
-                  progress.step
-              ]
-            : [undefined];
-
-    $: project = unit
-        ? new Project(
-              progress.getProjectID(),
-              lesson ? lesson.concept : unit.id,
-              segment ? segment.sources[0] : unit.sources[0],
-              segment ? segment.sources.slice(1) : unit.sources.slice(1),
-              undefined,
-              $user ? [$user.uid] : [],
-              false
-          )
-        : undefined;
+    $: project =
+        unit && step && step.sources.length > 0
+            ? new Project(
+                  progress.getProjectID(),
+                  lesson ? names : unit.id,
+                  new Source('main', step ? step.sources[0] : unit.sources[0]),
+                  unit.sources
+                      .slice(1)
+                      .map((source, index) => new Source(`${index}`, source)),
+                  undefined,
+                  $user ? [$user.uid] : [],
+                  false
+              )
+            : undefined;
 
     // Any time the project changes, add/update it in projects.
     // This persists the project state for later.
@@ -62,6 +71,11 @@
             if (proj) project = proj;
         }
     }
+
+    let selection: Progress | undefined = undefined;
+    function handleSelect() {
+        if (selection) progress = selection;
+    }
 </script>
 
 <div class="tutorial">
@@ -71,24 +85,47 @@
                 tip={$preferredTranslation.ui.tooltip.previousLesson}
                 action={() =>
                     (progress = progress.previousLesson() ?? progress)}
-                enabled={progress.previousLesson() !== undefined}>⇦</Button
-            ><Note
-                >{unit ? tutorial.units[unit.id].name : '—'}
-                {#if lesson}&gt; {lesson.concept}{/if}</Note
+                enabled={progress.previousLesson() !== undefined}>←</Button
+            >
+            <!-- A hierarchical select of tutorial units and lessons  -->
+            <select bind:value={selection} on:change={handleSelect}>
+                {#each tutorial as unit}
+                    <optgroup
+                        label={$preferredTranslation.tutorial.units[unit.id]
+                            .name}
+                    >
+                        {#each unit.lessons as lesson, index}
+                            <option
+                                value={new Progress(
+                                    progress.tutorial,
+                                    unit.id,
+                                    index + 1,
+                                    0
+                                )}>{getName(lesson)}</option
+                            >
+                        {/each}
+                    </optgroup>
+                {/each}
+            </select>
+            <Note
+                >{unit
+                    ? $preferredTranslation.tutorial.units[unit.id].name
+                    : '—'}
+                {#if lesson !== undefined}&gt; {names}{/if}</Note
             >
             <Button
                 tip={$preferredTranslation.ui.tooltip.nextLesson}
                 action={() => (progress = progress.nextLesson() ?? progress)}
-                enabled={progress.nextLesson() !== undefined}>⇨</Button
+                enabled={progress.nextLesson() !== undefined}>→</Button
             >
         </nav>
         <Speech glyph={Glyphs.Function} below>
             <DescriptionView
                 description={step === undefined && unit
-                    ? tutorial.units[unit.id].overview
+                    ? $preferredTranslation.tutorial.units[unit.id].overview
                     : step !== undefined
-                    ? step
-                    : ''}
+                    ? step.instruction
+                    : '—'}
             />
             <div class="controls">
                 <Button
@@ -101,7 +138,7 @@
                     ><Note center
                         >{#if lesson && progress.step !== undefined}{progress.step +
                                 1} /
-                            {lesson.steps.length}{/if}</Note
+                            {lesson.tutorial.length}{:else}◆{/if}</Note
                     ></div
                 >
                 <Button
@@ -178,5 +215,15 @@
     .progress {
         flex-grow: 1;
         justify-self: center;
+    }
+
+    select {
+        width: 1em;
+        border: none;
+        cursor: pointer;
+    }
+
+    select::after {
+        content: 'a';
     }
 </style>

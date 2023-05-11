@@ -26,9 +26,9 @@ export function getInputTranslations(
                     translationToLanguage(translation)
                 )
             );
-            for (const name of Array.isArray(input.name)
-                ? input.name
-                : [input.name])
+            for (const name of Array.isArray(input.names)
+                ? input.names
+                : [input.names])
                 binds[index].names.push(
                     Name.make(name, translationToLanguage(translation))
                 );
@@ -56,6 +56,6 @@ export function getInputNames(
     translation: Translation
 ) {
     return (
-        Array.isArray(nameAndDoc.name) ? nameAndDoc.name : [nameAndDoc.name]
+        Array.isArray(nameAndDoc.names) ? nameAndDoc.names : [nameAndDoc.names]
     ).map((name) => Name.make(name, translationToLanguage(translation)));
 }

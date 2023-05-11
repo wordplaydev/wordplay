@@ -6,20 +6,15 @@ export default class Progress {
     readonly tutorial: Unit[];
     /** The description ID of the unit */
     readonly unit: string;
-    /** The concept ID of the lesson, or undefined if the unit hasn't been started */
-    readonly concept: string | undefined;
-    /** The instruction number of the lesson, or undefined if the lesson hasn't been started */
-    readonly step: number | undefined;
+    /** The number of lesson in the unit's list of lessons. 1 is the first lesson, 0 represents the unit start page */
+    readonly lesson: number;
+    /** The number of the step int ehinstruction number of the lesson, or undefined if the lesson hasn't been started */
+    readonly step: number;
 
-    constructor(
-        tutorial: Unit[],
-        unit: string,
-        concept: string | undefined,
-        step: number | undefined
-    ) {
+    constructor(tutorial: Unit[], unit: string, lesson: number, step: number) {
         this.tutorial = tutorial;
         this.unit = unit;
-        this.concept = concept;
+        this.lesson = lesson;
         this.step = step;
     }
 
@@ -29,89 +24,69 @@ export default class Progress {
 
     getLesson(): Lesson | undefined {
         const unit = this.getUnit();
-        return unit === undefined
-            ? undefined
-            : unit.lessons.find((lesson) => lesson.concept === this.concept);
+        return unit?.lessons[this.lesson - 1];
     }
 
     getStep(): Step | undefined {
         const lesson = this.getLesson();
-        return lesson && this.step ? lesson.steps[this.step] : undefined;
+        return lesson ? lesson.tutorial[this.step] : undefined;
     }
 
     /** Generate a project ID suitable for this point in the tutorial */
     getProjectID() {
-        return `${this.unit}${this.concept ? `-${this.concept}` : ''}`;
+        return `${this.unit}${this.lesson ? `-${this.lesson}` : ''}`;
     }
 
     previousLesson(): Progress | undefined {
-        return this.moveConcept(-1, true) ?? this.moveUnit(-1);
+        return this.moveLesson(-1, true) ?? this.moveUnit(-1);
     }
 
     nextLesson(): Progress | undefined {
-        return this.moveConcept(1, true) ?? this.moveUnit(1);
+        return this.moveLesson(1, true) ?? this.moveUnit(1);
     }
 
     previousStep(): Progress | undefined {
         return (
-            this.moveStep(-1) ??
-            this.moveConcept(-1, false) ??
-            this.moveUnit(-1)
+            this.moveStep(-1) ?? this.moveLesson(-1, false) ?? this.moveUnit(-1)
         );
     }
 
     nextStep(): Progress | undefined {
-        return (
-            this.moveStep(1) ?? this.moveConcept(1, true) ?? this.moveUnit(1)
-        );
+        return this.moveStep(1) ?? this.moveLesson(1, true) ?? this.moveUnit(1);
     }
 
-    moveConcept(direction: -1 | 1, start: boolean) {
+    moveLesson(direction: -1 | 1, start: boolean) {
         let unit = this.getUnit();
         if (unit === undefined) return undefined;
 
-        let concept = this.concept;
+        let lesson = this.lesson;
         let step = this.step;
-        if (direction < 0 && concept === undefined) {
+        if (direction < 0 && lesson === 0) {
             unit = this.getNextUnit(direction);
             if (unit) {
-                const lesson = unit.lessons.at(-1);
-                if (lesson) {
-                    concept = lesson.concept;
-                    step = lesson.steps.length - 1;
-                }
+                lesson = unit.lessons.length - 1;
+                step = unit.lessons[lesson].tutorial.length;
             } else return undefined;
-        } else if (
-            concept !== undefined &&
-            direction > 0 &&
-            unit.lessons.findIndex((lesson) => lesson.concept === concept) ===
-                unit.lessons.length - 1
-        ) {
+        } else if (lesson === unit.lessons.length && direction > 0) {
             unit = this.getNextUnit(direction);
             if (unit) {
-                const lesson = unit.lessons.at(0);
-                if (lesson) {
-                    concept = lesson.concept;
-                    step = 0;
-                }
+                lesson = 0;
+                step = 0;
             } else return undefined;
         } else {
-            const lesson =
-                unit.lessons[
-                    unit.lessons.findIndex(
-                        (lesson) => lesson.concept === concept
-                    ) + direction
-                ];
-            if (lesson) {
-                concept = lesson.concept;
-                step = start ? 0 : direction < 0 ? lesson.steps.length - 1 : 0;
+            lesson = lesson + direction;
+            if (unit.lessons[lesson] !== undefined) {
+                step = start
+                    ? 0
+                    : direction < 0
+                    ? unit.lessons[lesson].tutorial.length - 1
+                    : 0;
             } else {
-                concept = undefined;
-                step = undefined;
+                step = 0;
             }
         }
 
-        return new Progress(this.tutorial, unit.id, concept, step);
+        return new Progress(this.tutorial, unit.id, lesson, step);
     }
 
     getNextUnit(direction: -1 | 1): Unit | undefined {
@@ -123,19 +98,19 @@ export default class Progress {
         const unit = this.getNextUnit(direction);
         return unit === undefined
             ? undefined
-            : new Progress(this.tutorial, unit.id, undefined, 0);
+            : new Progress(this.tutorial, unit.id, 0, 0);
     }
 
     moveStep(direction: -1 | 1): Progress | undefined {
         const lesson = this.getLesson();
         return lesson === undefined ||
             (this.step ?? -1) + direction < 0 ||
-            (this.step ?? -1) + direction >= lesson.steps.length
+            (this.step ?? -1) + direction >= lesson.tutorial.length - 1
             ? undefined
             : new Progress(
                   this.tutorial,
                   this.unit,
-                  this.concept,
+                  this.lesson,
                   (this.step ?? 0) + direction
               );
     }

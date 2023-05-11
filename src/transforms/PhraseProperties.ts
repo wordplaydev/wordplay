@@ -6,7 +6,7 @@ import OutputPropertyText from './OutputPropertyText';
 
 const PhraseProperties: OutputProperty[] = [
     {
-        name: getFirstName(en.output.phrase.text.name),
+        name: getFirstName(en.output.phrase.text.names),
         type: new OutputPropertyText(() => true),
         required: true,
         inherited: false,

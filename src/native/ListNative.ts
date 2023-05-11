@@ -57,7 +57,7 @@ export default function bootstrapList() {
                     (t) => t.native.list.function.translate.value.doc
                 ),
                 getNameTranslations(
-                    (t) => t.native.list.function.translate.value.name
+                    (t) => t.native.list.function.translate.value.names
                 ),
                 // The type is a type variable, so we refer to it.
                 new NameType(
@@ -71,7 +71,7 @@ export default function bootstrapList() {
                     (t) => t.native.list.function.translate.index.doc
                 ),
                 getNameTranslations(
-                    (t) => t.native.list.function.translate.index.name
+                    (t) => t.native.list.function.translate.index.names
                 ),
                 MeasurementType.make()
             ),
@@ -87,7 +87,7 @@ export default function bootstrapList() {
                     (t) => t.native.list.function.filter.value.doc
                 ),
                 getNameTranslations(
-                    (t) => t.native.list.function.filter.value.name
+                    (t) => t.native.list.function.filter.value.names
                 ),
                 getListTypeVariableReference()
             ),
@@ -101,7 +101,7 @@ export default function bootstrapList() {
             Bind.make(
                 getDocTranslations((t) => t.native.list.function.all.value.doc),
                 getNameTranslations(
-                    (t) => t.native.list.function.all.value.name
+                    (t) => t.native.list.function.all.value.names
                 ),
                 getListTypeVariableReference()
             ),
@@ -117,7 +117,7 @@ export default function bootstrapList() {
                     (t) => t.native.list.function.until.value.doc
                 ),
                 getNameTranslations(
-                    (t) => t.native.list.function.until.value.name
+                    (t) => t.native.list.function.until.value.names
                 ),
                 BooleanType.make()
             ),
@@ -133,7 +133,7 @@ export default function bootstrapList() {
                     (t) => t.native.list.function.find.value.doc
                 ),
                 getNameTranslations(
-                    (t) => t.native.list.function.find.value.name
+                    (t) => t.native.list.function.find.value.names
                 ),
                 BooleanType.make()
             ),
@@ -153,7 +153,7 @@ export default function bootstrapList() {
                     (t) => t.native.list.function.combine.combination.doc
                 ),
                 getNameTranslations(
-                    (t) => t.native.list.function.combine.combination.name
+                    (t) => t.native.list.function.combine.combination.names
                 ),
                 combineTypeVariable.getReference()
             ),
@@ -162,7 +162,7 @@ export default function bootstrapList() {
                     (t) => t.native.list.function.combine.next.doc
                 ),
                 getNameTranslations(
-                    (t) => t.native.list.function.combine.next.name
+                    (t) => t.native.list.function.combine.next.names
                 ),
                 getListTypeVariableReference()
             ),
@@ -171,7 +171,7 @@ export default function bootstrapList() {
                     (t) => t.native.list.function.combine.index.doc
                 ),
                 getNameTranslations(
-                    (t) => t.native.list.function.combine.index.name
+                    (t) => t.native.list.function.combine.index.names
                 ),
                 MeasurementType.make()
             ),
@@ -180,38 +180,38 @@ export default function bootstrapList() {
     );
 
     const addInputNames = getNameTranslations(
-        (t) => t.native.list.function.add.inputs[0].name
+        (t) => t.native.list.function.add.inputs[0].names
     );
 
     const hasInputNames = getNameTranslations(
-        (t) => t.native.list.function.has.inputs[0].name
+        (t) => t.native.list.function.has.inputs[0].names
     );
 
     const joinInputNames = getNameTranslations(
-        (t) => t.native.list.function.join.inputs[0].name
+        (t) => t.native.list.function.join.inputs[0].names
     );
 
     const sansInputNames = getNameTranslations(
-        (t) => t.native.list.function.sans.inputs[0].name
+        (t) => t.native.list.function.sans.inputs[0].names
     );
 
     const sansAllInputNames = getNameTranslations(
-        (t) => t.native.list.function.sansAll.inputs[0].name
+        (t) => t.native.list.function.sansAll.inputs[0].names
     );
 
     const equalsInputNames = getNameTranslations(
-        (t) => t.native.list.function.equals.inputs[0].name
+        (t) => t.native.list.function.equals.inputs[0].names
     );
 
     const notequalsInputNames = getNameTranslations(
-        (t) => t.native.list.function.notequals.inputs[0].name
+        (t) => t.native.list.function.notequals.inputs[0].names
     );
 
     const replaceIndexNames = getNameTranslations(
-        (t) => t.native.list.function.replace.inputs[0].name
+        (t) => t.native.list.function.replace.inputs[0].names
     );
     const replaceValueNames = getNameTranslations(
-        (t) => t.native.list.function.replace.inputs[1].name
+        (t) => t.native.list.function.replace.inputs[1].names
     );
 
     return StructureDefinition.make(
@@ -714,7 +714,7 @@ export default function bootstrapList() {
                             getNameTranslations(
                                 (t) =>
                                     t.native.list.function.translate.inputs[0]
-                                        .name
+                                        .names
                             ),
                             listTranslateHOFType
                         ),
@@ -738,7 +738,8 @@ export default function bootstrapList() {
                             ),
                             getNameTranslations(
                                 (t) =>
-                                    t.native.list.function.filter.inputs[0].name
+                                    t.native.list.function.filter.inputs[0]
+                                        .names
                             ),
                             listFilterHOFType
                         ),
@@ -756,7 +757,8 @@ export default function bootstrapList() {
                                 (t) => t.native.list.function.all.inputs[0].doc
                             ),
                             getNameTranslations(
-                                (t) => t.native.list.function.all.inputs[0].name
+                                (t) =>
+                                    t.native.list.function.all.inputs[0].names
                             ),
                             listAllHOFType
                         ),
@@ -778,7 +780,7 @@ export default function bootstrapList() {
                             ),
                             getNameTranslations(
                                 (t) =>
-                                    t.native.list.function.until.inputs[0].name
+                                    t.native.list.function.until.inputs[0].names
                             ),
                             listUntilHOFType
                         ),
@@ -799,7 +801,7 @@ export default function bootstrapList() {
                             ),
                             getNameTranslations(
                                 (t) =>
-                                    t.native.list.function.find.inputs[0].name
+                                    t.native.list.function.find.inputs[0].names
                             ),
                             listFindHOFType
                         ),
@@ -827,7 +829,7 @@ export default function bootstrapList() {
                             getNameTranslations(
                                 (t) =>
                                     t.native.list.function.combine.inputs[0]
-                                        .name
+                                        .names
                             )
                         ),
                         Bind.make(
@@ -838,7 +840,7 @@ export default function bootstrapList() {
                             getNameTranslations(
                                 (t) =>
                                     t.native.list.function.combine.inputs[1]
-                                        .name
+                                        .names
                             ),
                             listCombineHOFType
                         ),

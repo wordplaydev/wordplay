@@ -9,7 +9,7 @@ import type TypeOutput from './TypeOutput';
 import type LanguageCode from '@translation/LanguageCode';
 
 export const ArrangementType = toStructure(`
-    ${getBind((t) => t.output.layout.definition, TYPE_SYMBOL)}()
+    ${getBind((t) => t.output.layout, TYPE_SYMBOL)}()
 `);
 
 export default abstract class Arrangement extends Output {

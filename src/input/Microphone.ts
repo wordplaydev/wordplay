@@ -115,7 +115,7 @@ export default class Mic extends TemporalStream<Measurement> {
 
 const FrequencyBind = Bind.make(
     getDocTranslations((t) => t.input.mic.frequency.doc),
-    getNameTranslations((t) => t.input.mic.frequency.name),
+    getNameTranslations((t) => t.input.mic.frequency.names),
     UnionType.make(MeasurementType.make(Unit.make(['ms'])), NoneType.make()),
     // Default to nothing
     MeasurementLiteral.make(33, Unit.make(['ms']))
@@ -123,7 +123,7 @@ const FrequencyBind = Bind.make(
 
 export const MicDefinition = StreamDefinition.make(
     getDocTranslations((t) => t.input.mic.doc),
-    getNameTranslations((t) => t.input.mic.name),
+    getNameTranslations((t) => t.input.mic.names),
     [FrequencyBind],
     createStreamEvaluator(
         MeasurementType.make(),

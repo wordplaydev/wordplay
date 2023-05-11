@@ -1,18 +1,9 @@
 import type {
-    InputTranslations,
-    NodeTranslations,
-    OutputTranslations,
+    LabelTranslator,
+    NameTranslation,
 } from '../translation/Translation';
 import type Step from './Step';
 
-type Lesson = {
-    /** The name of the concept being taught, following the ConceptLink syntax (name.name.name...) */
-    concept:
-        | keyof NodeTranslations
-        | keyof InputTranslations
-        | keyof OutputTranslations;
-    /** The sequence of */
-    steps: Step[];
-};
+type Lesson = { names: NameTranslation | LabelTranslator; tutorial: Step[] };
 
 export default Lesson;

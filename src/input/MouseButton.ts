@@ -45,7 +45,7 @@ export default class Button extends Stream<Bool> {
 
 const DownBind = Bind.make(
     getDocTranslations((t) => t.input.button.down.doc),
-    getNameTranslations((t) => t.input.button.down.name),
+    getNameTranslations((t) => t.input.button.down.names),
     UnionType.make(BooleanType.make(), NoneType.make()),
     // Default to true
     BooleanLiteral.make(true)
@@ -53,7 +53,7 @@ const DownBind = Bind.make(
 
 export const ButtonDefinition = StreamDefinition.make(
     getDocTranslations((t) => t.input.button.doc),
-    getNameTranslations((t) => t.input.button.name),
+    getNameTranslations((t) => t.input.button.names),
     [DownBind],
     createStreamEvaluator(
         BooleanType.make(),

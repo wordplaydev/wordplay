@@ -12,7 +12,7 @@ import Place from './Place';
 import None from '../runtime/None';
 
 export const GridType = toStructure(`
-    ${getBind((t) => t.output.grid.definition, '•')} Arrangement(
+    ${getBind((t) => t.output.grid, '•')} Arrangement(
         ${getBind((t) => t.output.grid.rows)}•#
         ${getBind((t) => t.output.grid.columns)}•#
         ${getBind((t) => t.output.grid.padding)}•#m: 1m

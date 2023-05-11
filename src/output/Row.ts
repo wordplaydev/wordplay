@@ -13,7 +13,7 @@ import Group from './Group';
 import Phrase from './Phrase';
 
 export const RowType = toStructure(`
-    ${getBind((t) => t.output.row.definition, '•')} Arrangement(
+    ${getBind((t) => t.output.row, '•')} Arrangement(
         ${getBind((t) => t.output.row.padding)}•#m: 1m
     )
 `);

@@ -12,7 +12,7 @@ import OutputPropertyRange from './OutputPropertyRange';
 
 const PoseProperties: OutputProperty[] = [
     {
-        name: getFirstName(en.output.pose.color.name),
+        name: getFirstName(en.output.pose.color.names),
         type: 'color',
         required: false,
         inherited: true,
@@ -21,7 +21,7 @@ const PoseProperties: OutputProperty[] = [
         create: (languages) => createColorLiteral(languages, 0.5, 100, 180),
     },
     {
-        name: getFirstName(en.output.pose.opacity.name),
+        name: getFirstName(en.output.pose.opacity.names),
         type: new OutputPropertyRange(0, 1, 0.05, '%', 2),
         required: false,
         inherited: false,
@@ -29,7 +29,7 @@ const PoseProperties: OutputProperty[] = [
         create: () => MeasurementLiteral.make(1),
     },
     {
-        name: getFirstName(en.output.pose.scale.name),
+        name: getFirstName(en.output.pose.scale.names),
         type: new OutputPropertyRange(0, 10, 0.25, '', 2),
         required: false,
         inherited: false,
@@ -37,7 +37,7 @@ const PoseProperties: OutputProperty[] = [
         create: () => MeasurementLiteral.make(1),
     },
     {
-        name: getFirstName(en.output.pose.tilt.name),
+        name: getFirstName(en.output.pose.tilt.names),
         type: new OutputPropertyRange(0, 360, 1, '°'),
         required: false,
         inherited: false,
@@ -45,7 +45,7 @@ const PoseProperties: OutputProperty[] = [
         create: () => MeasurementLiteral.make(0, Unit.make(['°'])),
     },
     {
-        name: getFirstName(en.output.pose.offset.name),
+        name: getFirstName(en.output.pose.offset.names),
         type: 'place',
         required: false,
         inherited: false,
@@ -61,7 +61,7 @@ const PoseProperties: OutputProperty[] = [
             ),
     },
     {
-        name: getFirstName(en.output.pose.flipx.name),
+        name: getFirstName(en.output.pose.flipx.names),
         type: 'bool',
         required: false,
         inherited: false,
@@ -69,7 +69,7 @@ const PoseProperties: OutputProperty[] = [
         create: () => BooleanLiteral.make(false),
     },
     {
-        name: getFirstName(en.output.pose.flipy.name),
+        name: getFirstName(en.output.pose.flipy.names),
         type: 'bool',
         required: false,
         inherited: false,

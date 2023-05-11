@@ -39,6 +39,9 @@ import Emotion from '../../lore/Emotion';
 import Unit from '../../nodes/Unit';
 
 const WRITE_DOC = 'TBD';
+const WRITE_TUTORIAL = [
+    { instruction: WRITE_DOC, sources: [WRITE_DOC], checks: [] },
+];
 
 const en: Translation = {
     language: 'en',
@@ -157,7 +160,7 @@ const en: Translation = {
     },
     node: {
         Dimension: {
-            label: 'dimension',
+            names: 'dimension',
             description: getDimensionDescription,
             emotion: Emotion.Serious,
             doc: `I am a *unit of measurement*, like (1m), (10s), (100g), or any other scientific unit. I'm happy to be any unit want to make up too, like (17apple).
@@ -165,9 +168,10 @@ const en: Translation = {
                 I can be combined with other symbols to make compound units like (9.8m/s^2) or (17apple/day).
                 
                 I must always follow a number. If I don't, I might be mistaken for a name, which would be quite embarassing, because I name units, not values.`,
+            tutorial: WRITE_TUTORIAL,
         },
         Doc: {
-            label: 'documentation',
+            names: 'documentation',
             description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc:
@@ -176,23 +180,26 @@ const en: Translation = {
                 
                 It can precede any expression, but is most useful before definitions to explain how to use them. 
                 Documentation can be tagged with a language`,
+            tutorial: WRITE_TUTORIAL,
         },
         Docs: {
-            label: 'documentation list',
+            names: 'documentation list',
             description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC + `a list of documentation`,
+            tutorial: WRITE_TUTORIAL,
         },
         KeyValue: {
-            label: 'key/value pair',
+            names: 'key/value pair',
             description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc:
                 WRITE_DOC +
                 `represents a single mapping in a map between a key and a value.`,
+            tutorial: WRITE_TUTORIAL,
         },
         Language: {
-            label: 'language tag',
+            names: 'language tag',
             description: getLanguageDescription,
             emotion: Emotion.TBD,
             doc: `
@@ -211,9 +218,10 @@ const en: Translation = {
 
                 There are lots of different two letter language codes.
                 `,
+            tutorial: WRITE_TUTORIAL,
         },
         Name: {
-            label: 'name',
+            names: 'name',
             description: (name) => name.name?.getText(),
             emotion: Emotion.TBD,
             doc:
@@ -225,9 +233,10 @@ const en: Translation = {
                 They're a helpful way of giving a shorthand label to some value or way of computing or storing values. 
                 Names can be optionally tagged with a language; this is helpful when sharing code, since the language might use to name a function might not be known to people who want to use it. 
                 Translating names makes shared code more globally useful.`,
+            tutorial: WRITE_TUTORIAL,
         },
         Names: {
-            label: 'name list',
+            names: 'name list',
             description: (names) => `${names.names.length} names`,
             emotion: Emotion.TBD,
             doc:
@@ -238,75 +247,86 @@ const en: Translation = {
                 Names are separated by ${COMMA_SYMBOL} symbols. 
                 Having multiple names is most helpful when you want to use multiple languages.
                 `,
+            tutorial: WRITE_TUTORIAL,
         },
         Row: {
-            label: 'row',
+            names: 'row',
             description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC + `a row of values, matching a table definition`,
+            tutorial: WRITE_TUTORIAL,
         },
         Token: {
-            label: getTokenLabel,
+            names: getTokenLabel,
             description: getTokenDescription,
             emotion: Emotion.TBD,
             doc: WRITE_DOC + 'the smallest group of symbols in a performance',
+            tutorial: WRITE_TUTORIAL,
         },
         TypeInputs: {
-            label: 'type inputs',
+            names: 'type inputs',
             description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc:
                 WRITE_DOC +
                 `a list of types given to a @FunctionDefinition or @StructureDefinition`,
+            tutorial: WRITE_TUTORIAL,
         },
         TypeVariable: {
-            label: 'type variable',
+            names: 'type variable',
             description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc:
                 WRITE_DOC +
                 `a placeholder for a type used in a @FunctionDefinition or @StructureDefinition`,
+            tutorial: WRITE_TUTORIAL,
         },
         TypeVariables: {
-            label: 'type variables',
+            names: 'type variables',
             description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC + `a list of @TypeVariable`,
+            tutorial: WRITE_TUTORIAL,
         },
         Paragraph: {
-            label: 'paragraph',
+            names: 'paragraph',
             description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc:
                 WRITE_DOC +
                 `a formatted list of words, links, and example code`,
+            tutorial: WRITE_TUTORIAL,
         },
         WebLink: {
-            label: 'link',
+            names: 'link',
             description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC + `a link to something on the web`,
+            tutorial: WRITE_TUTORIAL,
         },
         ConceptLink: {
-            label: 'concept',
+            names: 'concept',
             description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC + `a link to a concept in Wordplay`,
+            tutorial: WRITE_TUTORIAL,
         },
         Words: {
-            label: 'words',
+            names: 'words',
             description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC + `words that are part of @Doc`,
+            tutorial: WRITE_TUTORIAL,
         },
         Example: {
-            label: 'example',
+            names: 'example',
             description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC + `a program that illustrates how to use some code`,
+            tutorial: WRITE_TUTORIAL,
         },
         BinaryOperation: {
-            label: 'binary operation',
+            names: 'binary operation',
             description: (op) => op.operator.getText(),
             emotion: Emotion.Arrogant,
             doc: `Yo. You need me?
@@ -345,9 +365,10 @@ const en: Translation = {
                     result ?? ' nothing',
                     ', *slick*'
                 ),
+            tutorial: WRITE_TUTORIAL,
         },
         Bind: {
-            label: 'bind',
+            names: 'bind',
             description: (bind) => bind.names.getNames().join(', '),
             emotion: Emotion.Restless,
             doc: `Hello!
@@ -410,9 +431,10 @@ const en: Translation = {
                           names
                       )
                     : 'Uh oh, no value. How am I suppose to name nothing?',
+            tutorial: WRITE_TUTORIAL,
         },
         Block: {
-            label: 'block',
+            names: 'block',
             description: (block) => `${block.statements.length} statements`,
             emotion: Emotion.Grumpy,
             doc: `Have you met my friend @Bind?
@@ -481,9 +503,10 @@ const en: Translation = {
                     `Finally done. The last thing I got was `,
                     value ?? 'nothing'
                 ),
+            tutorial: WRITE_TUTORIAL,
         },
         BooleanLiteral: {
-            label: 'boolean',
+            names: 'boolean',
             description: (literal) => (literal.bool() ? 'true' : 'false'),
             emotion: Emotion.Obsessed,
             doc: `
@@ -500,9 +523,10 @@ const en: Translation = {
                 Perhaps @Conditional knows.
                 `,
             start: (value) => Explanation.as(value, '!'),
+            tutorial: WRITE_TUTORIAL,
         },
         Borrow: {
-            label: 'borrow',
+            names: 'borrow',
             description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc:
@@ -522,9 +546,10 @@ const en: Translation = {
             source: 'source',
             bind: 'name',
             version: 'version',
+            tutorial: WRITE_TUTORIAL,
         },
         Changed: {
-            label: 'changed',
+            names: 'changed',
             description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC + `true if a stream caused a program to re-evaluate`,
@@ -535,9 +560,10 @@ const en: Translation = {
                     ' caused this program to reevaluate'
                 ),
             stream: 'stream',
+            tutorial: WRITE_TUTORIAL,
         },
         Conditional: {
-            label: 'conditional',
+            names: 'conditional',
             description: '',
             emotion: Emotion.Curious,
             doc: `
@@ -566,27 +592,30 @@ const en: Translation = {
             condition: 'condition',
             yes: 'yes',
             no: 'no',
+            tutorial: WRITE_TUTORIAL,
         },
         ConversionDefinition: {
-            label: 'conversion',
+            names: 'conversion',
             description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc:
                 WRITE_DOC +
                 `define a conversion from one value type to another`,
             start: 'define this conversion',
+            tutorial: WRITE_TUTORIAL,
         },
         Convert: {
-            label: 'convert',
+            names: 'convert',
             description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC + `convert one type of value to another`,
             start: (expr) => Explanation.as('first evaluate ', expr),
             finish: (value) =>
                 Explanation.as('converted to ', value ?? 'nothing'),
+            tutorial: WRITE_TUTORIAL,
         },
         Delete: {
-            label: 'delete',
+            names: 'delete',
             description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC + `delete rows from a table`,
@@ -596,16 +625,18 @@ const en: Translation = {
                     'evaluated to table without rows, ',
                     value ?? 'nothing'
                 ),
+            tutorial: WRITE_TUTORIAL,
         },
         DocumentedExpression: {
-            label: 'documented expression',
+            names: 'documented expression',
             description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: 'evaluate the documented expression',
+            tutorial: WRITE_TUTORIAL,
         },
         Evaluate: {
-            label: 'evaluate',
+            names: 'evaluate',
             description: getEvaluateDescription,
             emotion: Emotion.Cheerful,
             doc: `
@@ -636,9 +667,10 @@ const en: Translation = {
                 Explanation.as('function evaluated to ', result ?? 'nothing'),
             function: 'function',
             input: 'input',
+            tutorial: WRITE_TUTORIAL,
         },
         ExpressionPlaceholder: {
-            label: 'expression placeholder',
+            names: 'expression placeholder',
             description: getPlaceholderDescription,
             emotion: Emotion.Sad,
             doc: `
@@ -654,9 +686,10 @@ const en: Translation = {
             `,
             start: "Stop the performance, I don't know what I am!",
             placeholder: 'expression',
+            tutorial: WRITE_TUTORIAL,
         },
         FunctionDefinition: {
-            label: 'function',
+            names: 'function',
             description: (fun, translation) =>
                 fun.names.getTranslation(translation.language),
             emotion: Emotion.TBD,
@@ -664,24 +697,27 @@ const en: Translation = {
                 WRITE_DOC +
                 `define a function that maps input values to an output value`,
             start: 'define this function',
+            tutorial: WRITE_TUTORIAL,
         },
         HOF: {
-            label: 'higher order function',
+            names: 'higher order function',
             description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: 'evaluating the function given',
             finish: (value) =>
                 Explanation.as('evaluated to ', value ?? 'nothing'),
+            tutorial: WRITE_TUTORIAL,
         },
         Initial: {
-            label: 'initial evaluation',
+            names: 'initial evaluation',
             description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
+            tutorial: WRITE_TUTORIAL,
         },
         Insert: {
-            label: 'insert',
+            names: 'insert',
             description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
@@ -691,9 +727,10 @@ const en: Translation = {
                     'evaluated to table new rows, ',
                     value ?? 'nothing'
                 ),
+            tutorial: WRITE_TUTORIAL,
         },
         Is: {
-            label: 'is',
+            names: 'is',
             description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
@@ -706,18 +743,20 @@ const en: Translation = {
                           type,
                           ' evaluating to false'
                       ),
+            tutorial: WRITE_TUTORIAL,
         },
         ListAccess: {
-            label: 'list access',
+            names: 'list access',
             description: '',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: (list) => Explanation.as('evaluate ', list, ' first'),
             finish: (value) =>
                 Explanation.as('item at index is ', value ?? 'nothing'),
+            tutorial: WRITE_TUTORIAL,
         },
         ListLiteral: {
-            label: 'list',
+            names: 'list',
             description: (literal) =>
                 literal.values.length === 1
                     ? '1 item'
@@ -728,9 +767,10 @@ const en: Translation = {
             finish: (value) =>
                 Explanation.as('evaluated to list ', value ?? 'nothing'),
             item: 'item',
+            tutorial: WRITE_TUTORIAL,
         },
         MapLiteral: {
-            label: 'map',
+            names: 'map',
             description: (literal) =>
                 literal.values.length === 1
                     ? '1 item'
@@ -740,9 +780,10 @@ const en: Translation = {
             start: 'evaluate each key and value first',
             finish: (value) =>
                 Explanation.as('evaluated to map ', value ?? 'nothing'),
+            tutorial: WRITE_TUTORIAL,
         },
         MeasurementLiteral: {
-            label: 'number',
+            names: 'number',
             description: (node: MeasurementLiteral) =>
                 node.number.getText() === 'π'
                     ? 'pi'
@@ -754,23 +795,26 @@ const en: Translation = {
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: (value) => Explanation.as('evaluate to ', value),
+            tutorial: WRITE_TUTORIAL,
         },
         NativeExpression: {
-            label: 'built-in expression',
+            names: 'built-in expression',
             description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: 'evaluate the built-in expression',
+            tutorial: WRITE_TUTORIAL,
         },
         NoneLiteral: {
-            label: 'nothing',
+            names: 'nothing',
             description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: 'create a nothing value',
+            tutorial: WRITE_TUTORIAL,
         },
         Previous: {
-            label: 'previous',
+            names: 'previous',
             description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
@@ -780,9 +824,10 @@ const en: Translation = {
                     'evaluated to stream value ',
                     value ?? 'nothing'
                 ),
+            tutorial: WRITE_TUTORIAL,
         },
         Program: {
-            label: 'program',
+            names: 'program',
             description: '',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
@@ -805,9 +850,32 @@ const en: Translation = {
                       ),
             finish: (value) =>
                 Explanation.as('program evaluated to ', value ?? 'nothing'),
+            tutorial: [
+                {
+                    instruction: `
+                    Hi! I'm **ƒ**. 
+
+                    Is this your first time here? 
+                    We call this place the **verse**.
+                    We do many things here -- the food is amazing -- but we particularly like to put on **shows**.
+
+                    Shows can be a lot of things, like dances, stories, images, and games.
+                    But we're most excited to put on shows with people like you!
+
+                    I'll let you in a little secret why: we're really not that creative.
+                    I mean, we have a lot going for us.
+                    Every one of us is unique and we come from all over the world.
+
+                    But we just run out of ideas.
+                    We love collaborating with people because they bring new ideas from their own worlds!
+                    `,
+                    sources: [],
+                    checks: [],
+                },
+            ],
         },
         PropertyBind: {
-            label: 'refine',
+            names: 'refine',
             description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
@@ -816,9 +884,10 @@ const en: Translation = {
                 structure
                     ? Explanation.as('created new structure ', structure)
                     : 'no structure created',
+            tutorial: WRITE_TUTORIAL,
         },
         PropertyReference: {
-            label: 'property access',
+            names: 'property access',
             description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
@@ -833,9 +902,10 @@ const en: Translation = {
                       )
                     : 'no property name given, no value',
             property: 'property',
+            tutorial: WRITE_TUTORIAL,
         },
         Reaction: {
-            label: 'reaction',
+            names: 'reaction',
             description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: `A reaction to a stream change.`,
@@ -847,17 +917,19 @@ const en: Translation = {
                 ),
             initial: 'initial',
             next: 'next',
+            tutorial: WRITE_TUTORIAL,
         },
         Reference: {
-            label: 'reference',
+            names: 'reference',
             description: (node: Reference) => node.getName(),
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: (name) => Explanation.as('get the value of ', name),
             name: 'name',
+            tutorial: WRITE_TUTORIAL,
         },
         Select: {
-            label: 'select',
+            names: 'select',
             description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
@@ -867,9 +939,10 @@ const en: Translation = {
                     'evaluated to a new table with the selected rows, ',
                     value ?? 'nothing'
                 ),
+            tutorial: WRITE_TUTORIAL,
         },
         SetLiteral: {
-            label: 'set',
+            names: 'set',
             description: (literal) =>
                 literal.values.length === 1
                     ? '1 item'
@@ -879,39 +952,44 @@ const en: Translation = {
             start: 'evaluate each value first',
             finish: (value) =>
                 Explanation.as('evaluated to set ', value ?? 'nothing'),
+            tutorial: WRITE_TUTORIAL,
         },
         SetOrMapAccess: {
-            label: 'set/map access',
+            names: 'set/map access',
             description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: (set) => Explanation.as('evaluate ', set, ' first'),
             finish: (value) =>
                 Explanation.as('item in  with key is ', value ?? 'nothing'),
+            tutorial: WRITE_TUTORIAL,
         },
         Source: {
-            label: 'document',
+            names: 'document',
             description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
+            tutorial: WRITE_TUTORIAL,
         },
         StreamDefinition: {
-            label: 'stream',
+            names: 'stream',
             description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC + `defines a stream of values.`,
             start: 'define this stream type',
+            tutorial: WRITE_TUTORIAL,
         },
         StructureDefinition: {
-            label: 'structure',
+            names: 'structure',
             description: (structure, translation) =>
                 structure.names.getTranslation(translation.language),
             emotion: Emotion.TBD,
             doc: `define a data structure that stores values and functions on those values.`,
             start: 'define this structure type',
+            tutorial: WRITE_TUTORIAL,
         },
         TableLiteral: {
-            label: 'table',
+            names: 'table',
             description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
@@ -919,32 +997,36 @@ const en: Translation = {
             start: 'first evaluate the rows',
             finish: (table) =>
                 Explanation.as('evaluated to new table ', table ?? 'nothing'),
+            tutorial: WRITE_TUTORIAL,
         },
         Template: {
-            label: 'text template',
+            names: 'text template',
             description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: 'evaluate each expression in the template',
             finish: 'constructing text from the values',
+            tutorial: WRITE_TUTORIAL,
         },
         TextLiteral: {
-            label: 'text',
+            names: 'text',
             description: (text) => text.text.getText(),
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: 'create a text value',
+            tutorial: WRITE_TUTORIAL,
         },
         This: {
-            label: 'this',
+            names: 'this',
             description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: (value) =>
                 Explanation.as('evaluated to ', value ?? 'nothing'),
+            tutorial: WRITE_TUTORIAL,
         },
         UnaryOperation: {
-            label: 'unary operation',
+            names: 'unary operation',
             description: (op) => op.operator.getText(),
             emotion: Emotion.Insecure,
             doc: `
@@ -971,16 +1053,18 @@ const en: Translation = {
             `,
             start: (value) => Explanation.as('what are you ', value),
             finish: (value) => Explanation.as('I made it ', value ?? 'nothing'),
+            tutorial: WRITE_TUTORIAL,
         },
         UnparsableExpression: {
-            label: 'unparsable',
+            names: 'unparsable',
             description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: `a list of unparsable @Token`,
             start: 'cannot evaluate unparsable code',
+            tutorial: WRITE_TUTORIAL,
         },
         Update: {
-            label: 'update rows',
+            names: 'update rows',
             description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
@@ -990,45 +1074,52 @@ const en: Translation = {
                     'evaluated to a new table with revised rows, ',
                     value ?? 'nothing'
                 ),
+            tutorial: WRITE_TUTORIAL,
         },
         AnyType: {
-            label: 'any type',
+            names: 'any type',
             description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: `represents any possible type`,
+            tutorial: WRITE_TUTORIAL,
         },
         BooleanType: {
-            label: 'boolean type',
+            names: 'boolean type',
             description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: `a true or false value`,
+            tutorial: WRITE_TUTORIAL,
         },
         ConversionType: {
-            label: 'conversion type',
+            names: 'conversion type',
             description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: `a type of function that converts values of one type to another `,
+            tutorial: WRITE_TUTORIAL,
         },
         ExceptionType: {
-            label: 'exception type',
+            names: 'exception type',
             description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
+            tutorial: WRITE_TUTORIAL,
         },
         FunctionDefinitionType: {
-            label: 'function type',
+            names: 'function type',
             description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
+            tutorial: WRITE_TUTORIAL,
         },
         FunctionType: {
-            label: 'function type',
+            names: 'function type',
             description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
+            tutorial: WRITE_TUTORIAL,
         },
         ListType: {
-            label: 'list type',
+            names: 'list type',
             description: (
                 node: ListType,
                 translation: Translation,
@@ -1042,9 +1133,10 @@ const en: Translation = {
                       )}`,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
+            tutorial: WRITE_TUTORIAL,
         },
         MapType: {
-            label: 'map type',
+            names: 'map type',
             description: (
                 node: MapType,
                 translation: Translation,
@@ -1058,45 +1150,51 @@ const en: Translation = {
                       )} to ${node.value.getDescription(translation, context)}`,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
+            tutorial: WRITE_TUTORIAL,
         },
         MeasurementType: {
-            label: 'number type',
+            names: 'number type',
             description: (node, translation, context) =>
                 node.unit instanceof Unit
                     ? node.unit.getDescription(translation, context)
                     : 'number',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
+            tutorial: WRITE_TUTORIAL,
         },
         NameType: {
-            label: 'name type',
+            names: 'name type',
             description: (node: NameType) => `${node.name.getText()}`,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
+            tutorial: WRITE_TUTORIAL,
         },
         NeverType: {
-            label: 'never type',
+            names: 'never type',
             description: '',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
+            tutorial: WRITE_TUTORIAL,
         },
         NoneType: {
-            label: 'nothing type',
+            names: 'nothing type',
             description: '',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
+            tutorial: WRITE_TUTORIAL,
         },
         SetType: {
-            label: 'set type',
+            names: 'set type',
             description: (node: SetType, translation: Translation) =>
                 node.key === undefined
                     ? 'anything'
                     : node.key.getLabel(translation),
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
+            tutorial: WRITE_TUTORIAL,
         },
         StreamDefinitionType: {
-            label: 'stream type',
+            names: 'stream type',
             description: (
                 node: StreamDefinitionType,
                 translation: Translation
@@ -1106,9 +1204,10 @@ const en: Translation = {
                 )} stream`,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
+            tutorial: WRITE_TUTORIAL,
         },
         StreamType: {
-            label: 'stream type',
+            names: 'stream type',
             description: (
                 node: StreamType,
                 translation: Translation,
@@ -1120,15 +1219,17 @@ const en: Translation = {
                 )}`,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
+            tutorial: WRITE_TUTORIAL,
         },
         StructureDefinitionType: {
-            label: 'structure type',
+            names: 'structure type',
             description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
+            tutorial: WRITE_TUTORIAL,
         },
         UnknownType: {
-            label: 'unknown type',
+            names: 'unknown type',
             description: (
                 node: UnknownType<any>,
                 translation: Translation,
@@ -1141,28 +1242,32 @@ const en: Translation = {
             },
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
+            tutorial: WRITE_TUTORIAL,
         },
         TableType: {
-            label: 'table type',
+            names: 'table type',
             description: '',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
+            tutorial: WRITE_TUTORIAL,
         },
         TextType: {
-            label: 'text type',
+            names: 'text type',
             description: (node) =>
                 node.isLiteral() ? node.text.getText() : 'text',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
+            tutorial: WRITE_TUTORIAL,
         },
         TypePlaceholder: {
-            label: 'placeholder type',
+            names: 'placeholder type',
             description: WRITE_DOC,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
+            tutorial: WRITE_TUTORIAL,
         },
         UnionType: {
-            label: 'option type',
+            names: 'option type',
             description: (
                 node: UnionType,
                 translation: Translation,
@@ -1177,9 +1282,10 @@ const en: Translation = {
                 )}`,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
+            tutorial: WRITE_TUTORIAL,
         },
         Unit: {
-            label: 'unit',
+            names: 'unit',
             description: (node, translation, context) =>
                 node.exponents.size === 0
                     ? 'number'
@@ -1191,88 +1297,102 @@ const en: Translation = {
                     : node.toWordplay(),
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
+            tutorial: WRITE_TUTORIAL,
         },
         UnparsableType: {
-            label: 'unparsable type',
+            names: 'unparsable type',
             description: '',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
+            tutorial: WRITE_TUTORIAL,
         },
         VariableType: {
-            label: 'variable type',
+            names: 'variable type',
             description: '',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
+            tutorial: WRITE_TUTORIAL,
         },
         CycleType: {
-            label: 'cycle type',
+            names: 'cycle type',
             description: (node: CycleType) =>
                 `${node.expression.toWordplay()} depends on itself`,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
+            tutorial: WRITE_TUTORIAL,
         },
         UnknownVariableType: {
-            label: 'unknown variable type',
+            names: 'unknown variable type',
             description: '',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
+            tutorial: WRITE_TUTORIAL,
         },
         NotAListType: {
-            label: 'non-list type',
+            names: 'non-list type',
             description: '',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
+            tutorial: WRITE_TUTORIAL,
         },
         NoExpressionType: {
-            label: 'non-expression type',
+            names: 'non-expression type',
             description: '',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
+            tutorial: WRITE_TUTORIAL,
         },
         NotAFunctionType: {
-            label: 'non-function type',
+            names: 'non-function type',
             description: '',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
+            tutorial: WRITE_TUTORIAL,
         },
         NotATableType: {
-            label: 'non-table type',
+            names: 'non-table type',
             description: '',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
+            tutorial: WRITE_TUTORIAL,
         },
         NotAStreamType: {
-            label: 'non-stream type',
+            names: 'non-stream type',
             description: '',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
+            tutorial: WRITE_TUTORIAL,
         },
         NotASetOrMapType: {
-            label: 'non-set/map type',
+            names: 'non-set/map type',
             description: '',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
+            tutorial: WRITE_TUTORIAL,
         },
         NotEnclosedType: {
-            label: 'not in structure, conversion, or reaction',
+            names: 'not in structure, conversion, or reaction',
             description: '',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
+            tutorial: WRITE_TUTORIAL,
         },
         NotImplementedType: {
-            label: 'unimplemented type',
+            names: 'unimplemented type',
             description: '',
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
+            tutorial: WRITE_TUTORIAL,
         },
         UnknownNameType: {
-            label: 'unknown name type',
+            names: 'unknown name type',
             description: (node: UnknownNameType) =>
                 node.name === undefined
                     ? "a name wasn't given"
                     : `${node.name.getText()} isn't defined on ${node.why?.toWordplay()}`,
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
+            tutorial: WRITE_TUTORIAL,
         },
     },
     native: {
@@ -1285,12 +1405,12 @@ const en: Translation = {
                 and: {
                     doc: WRITE_DOC,
                     name: [AND_SYMBOL, 'and'],
-                    inputs: [{ doc: WRITE_DOC, name: 'value' }],
+                    inputs: [{ doc: WRITE_DOC, names: 'value' }],
                 },
                 or: {
                     doc: WRITE_DOC,
                     name: [OR_SYMBOL, 'or'],
-                    inputs: [{ doc: WRITE_DOC, name: 'value' }],
+                    inputs: [{ doc: WRITE_DOC, names: 'value' }],
                 },
                 not: {
                     doc: WRITE_DOC,
@@ -1300,12 +1420,12 @@ const en: Translation = {
                 equals: {
                     doc: WRITE_DOC,
                     name: ['=', 'equals'],
-                    inputs: [{ doc: WRITE_DOC, name: 'value' }],
+                    inputs: [{ doc: WRITE_DOC, names: 'value' }],
                 },
                 notequal: {
                     doc: WRITE_DOC,
                     name: ['≠'],
-                    inputs: [{ doc: WRITE_DOC, name: 'value' }],
+                    inputs: [{ doc: WRITE_DOC, names: 'value' }],
                 },
             },
             conversion: {
@@ -1322,12 +1442,12 @@ const en: Translation = {
                 equals: {
                     doc: WRITE_DOC,
                     name: ['=', 'equals'],
-                    inputs: [{ doc: WRITE_DOC, name: 'value' }],
+                    inputs: [{ doc: WRITE_DOC, names: 'value' }],
                 },
                 notequals: {
                     doc: WRITE_DOC,
                     name: '≠',
-                    inputs: [{ doc: WRITE_DOC, name: 'value' }],
+                    inputs: [{ doc: WRITE_DOC, names: 'value' }],
                 },
             },
             conversion: {
@@ -1348,32 +1468,32 @@ const en: Translation = {
                 equals: {
                     doc: WRITE_DOC,
                     name: ['=', 'equals'],
-                    inputs: [{ doc: WRITE_DOC, name: 'value' }],
+                    inputs: [{ doc: WRITE_DOC, names: 'value' }],
                 },
                 notequals: {
                     doc: WRITE_DOC,
                     name: '≠',
-                    inputs: [{ doc: WRITE_DOC, name: 'value' }],
+                    inputs: [{ doc: WRITE_DOC, names: 'value' }],
                 },
                 repeat: {
                     doc: WRITE_DOC,
                     name: [PRODUCT_SYMBOL, '🔁', 'repeat'],
-                    inputs: [{ doc: WRITE_DOC, name: 'count' }],
+                    inputs: [{ doc: WRITE_DOC, names: 'count' }],
                 },
                 segment: {
                     doc: WRITE_DOC,
                     name: [QUOTIENT_SYMBOL, 'segment'],
-                    inputs: [{ doc: WRITE_DOC, name: 'delimiter' }],
+                    inputs: [{ doc: WRITE_DOC, names: 'delimiter' }],
                 },
                 combine: {
                     doc: WRITE_DOC,
                     name: [SUM_SYMBOL, 'combine'],
-                    inputs: [{ doc: WRITE_DOC, name: 'text' }],
+                    inputs: [{ doc: WRITE_DOC, names: 'text' }],
                 },
                 has: {
                     doc: WRITE_DOC,
                     name: ['has'],
-                    inputs: [{ doc: WRITE_DOC, name: 'text' }],
+                    inputs: [{ doc: WRITE_DOC, names: 'text' }],
                 },
             },
             conversion: {
@@ -1390,77 +1510,77 @@ const en: Translation = {
                 add: {
                     doc: WRITE_DOC,
                     name: ['+', 'add'],
-                    inputs: [{ doc: WRITE_DOC, name: 'number' }],
+                    inputs: [{ doc: WRITE_DOC, names: 'number' }],
                 },
                 subtract: {
                     doc: WRITE_DOC,
                     name: ['-', 'subtract'],
-                    inputs: [{ doc: WRITE_DOC, name: 'number' }],
+                    inputs: [{ doc: WRITE_DOC, names: 'number' }],
                 },
                 multiply: {
                     doc: WRITE_DOC,
                     name: [PRODUCT_SYMBOL, 'multiply'],
-                    inputs: [{ doc: WRITE_DOC, name: 'number' }],
+                    inputs: [{ doc: WRITE_DOC, names: 'number' }],
                 },
                 divide: {
                     doc: WRITE_DOC,
                     name: ['÷', 'divide'],
-                    inputs: [{ doc: WRITE_DOC, name: 'number' }],
+                    inputs: [{ doc: WRITE_DOC, names: 'number' }],
                 },
                 remainder: {
                     doc: WRITE_DOC,
                     name: ['%', 'remainder'],
-                    inputs: [{ doc: WRITE_DOC, name: 'number' }],
+                    inputs: [{ doc: WRITE_DOC, names: 'number' }],
                 },
                 truncate: {
                     doc: WRITE_DOC,
                     name: ['truncate'],
-                    inputs: [{ doc: WRITE_DOC, name: 'number' }],
+                    inputs: [{ doc: WRITE_DOC, names: 'number' }],
                 },
                 absolute: {
                     doc: WRITE_DOC,
                     name: ['absolute'],
-                    inputs: [{ doc: WRITE_DOC, name: 'number' }],
+                    inputs: [{ doc: WRITE_DOC, names: 'number' }],
                 },
                 power: {
                     doc: WRITE_DOC,
                     name: ['^', 'power'],
-                    inputs: [{ doc: WRITE_DOC, name: 'number' }],
+                    inputs: [{ doc: WRITE_DOC, names: 'number' }],
                 },
                 root: {
                     doc: WRITE_DOC,
                     name: ['√', 'root'],
-                    inputs: [{ doc: WRITE_DOC, name: 'number' }],
+                    inputs: [{ doc: WRITE_DOC, names: 'number' }],
                 },
                 lessThan: {
                     doc: WRITE_DOC,
                     name: ['<', 'lessthan'],
-                    inputs: [{ doc: WRITE_DOC, name: 'number' }],
+                    inputs: [{ doc: WRITE_DOC, names: 'number' }],
                 },
                 lessOrEqual: {
                     doc: WRITE_DOC,
                     name: ['≤', 'lessorequal'],
-                    inputs: [{ doc: WRITE_DOC, name: 'number' }],
+                    inputs: [{ doc: WRITE_DOC, names: 'number' }],
                 },
                 greaterThan: {
                     doc: WRITE_DOC,
                     name: ['>', 'greaterthan'],
-                    inputs: [{ doc: WRITE_DOC, name: 'number' }],
+                    inputs: [{ doc: WRITE_DOC, names: 'number' }],
                 },
                 greaterOrEqual: {
                     doc: WRITE_DOC,
                     name: ['≥', 'greaterorequal'],
-                    inputs: [{ doc: WRITE_DOC, name: 'number' }],
+                    inputs: [{ doc: WRITE_DOC, names: 'number' }],
                 },
                 equal: {
                     doc: WRITE_DOC,
                     name: ['=', 'equal'],
-                    inputs: [{ doc: WRITE_DOC, name: 'number' }],
+                    inputs: [{ doc: WRITE_DOC, names: 'number' }],
                 },
                 notequal: {
                     doc: WRITE_DOC,
                     name: '≠',
-                    inputs: [{ doc: WRITE_DOC, name: 'number' }],
+                    inputs: [{ doc: WRITE_DOC, names: 'number' }],
                 },
                 cos: {
                     doc: WRITE_DOC,
@@ -1536,19 +1656,19 @@ const en: Translation = {
                 add: {
                     doc: WRITE_DOC,
                     name: 'add',
-                    inputs: [{ doc: WRITE_DOC, name: 'item' }],
+                    inputs: [{ doc: WRITE_DOC, names: 'item' }],
                 },
                 append: {
                     doc: WRITE_DOC,
                     name: [SUM_SYMBOL, 'append'],
-                    inputs: [{ doc: WRITE_DOC, name: 'list' }],
+                    inputs: [{ doc: WRITE_DOC, names: 'list' }],
                 },
                 replace: {
                     doc: WRITE_DOC,
                     name: ['replace'],
                     inputs: [
-                        { doc: WRITE_DOC, name: 'index' },
-                        { doc: WRITE_DOC, name: 'value' },
+                        { doc: WRITE_DOC, names: 'index' },
+                        { doc: WRITE_DOC, names: 'value' },
                     ],
                 },
                 length: {
@@ -1574,12 +1694,12 @@ const en: Translation = {
                 has: {
                     doc: WRITE_DOC,
                     name: 'has',
-                    inputs: [{ doc: WRITE_DOC, name: 'item' }],
+                    inputs: [{ doc: WRITE_DOC, names: 'item' }],
                 },
                 join: {
                     doc: WRITE_DOC,
                     name: 'join',
-                    inputs: [{ doc: WRITE_DOC, name: 'separator' }],
+                    inputs: [{ doc: WRITE_DOC, names: 'separator' }],
                 },
                 sansFirst: {
                     doc: WRITE_DOC,
@@ -1594,12 +1714,12 @@ const en: Translation = {
                 sans: {
                     doc: WRITE_DOC,
                     name: 'sans',
-                    inputs: [{ doc: WRITE_DOC, name: 'value' }],
+                    inputs: [{ doc: WRITE_DOC, names: 'value' }],
                 },
                 sansAll: {
                     doc: WRITE_DOC,
                     name: 'sansAll',
-                    inputs: [{ doc: WRITE_DOC, name: 'value' }],
+                    inputs: [{ doc: WRITE_DOC, names: 'value' }],
                 },
                 reverse: {
                     doc: WRITE_DOC,
@@ -1609,54 +1729,54 @@ const en: Translation = {
                 equals: {
                     doc: WRITE_DOC,
                     name: ['=', 'equals'],
-                    inputs: [{ doc: WRITE_DOC, name: 'list' }],
+                    inputs: [{ doc: WRITE_DOC, names: 'list' }],
                 },
                 notequals: {
                     doc: WRITE_DOC,
                     name: '≠',
-                    inputs: [{ doc: WRITE_DOC, name: 'list' }],
+                    inputs: [{ doc: WRITE_DOC, names: 'list' }],
                 },
                 translate: {
                     doc: WRITE_DOC,
                     name: 'translate',
-                    inputs: [{ doc: WRITE_DOC, name: 'translator' }],
-                    value: { doc: WRITE_DOC, name: 'item' },
-                    index: { doc: WRITE_DOC, name: 'index' },
+                    inputs: [{ doc: WRITE_DOC, names: 'translator' }],
+                    value: { doc: WRITE_DOC, names: 'item' },
+                    index: { doc: WRITE_DOC, names: 'index' },
                 },
                 filter: {
                     doc: WRITE_DOC,
                     name: 'filter',
-                    inputs: [{ doc: WRITE_DOC, name: 'checker' }],
-                    value: { doc: WRITE_DOC, name: 'item' },
+                    inputs: [{ doc: WRITE_DOC, names: 'checker' }],
+                    value: { doc: WRITE_DOC, names: 'item' },
                 },
                 all: {
                     doc: WRITE_DOC,
                     name: 'all',
-                    inputs: [{ doc: WRITE_DOC, name: 'checker' }],
-                    value: { doc: WRITE_DOC, name: 'item' },
+                    inputs: [{ doc: WRITE_DOC, names: 'checker' }],
+                    value: { doc: WRITE_DOC, names: 'item' },
                 },
                 until: {
                     doc: WRITE_DOC,
                     name: 'until',
-                    inputs: [{ doc: WRITE_DOC, name: 'checker' }],
-                    value: { doc: WRITE_DOC, name: 'item' },
+                    inputs: [{ doc: WRITE_DOC, names: 'checker' }],
+                    value: { doc: WRITE_DOC, names: 'item' },
                 },
                 find: {
                     doc: WRITE_DOC,
                     name: 'find',
-                    inputs: [{ doc: WRITE_DOC, name: 'checker' }],
-                    value: { doc: WRITE_DOC, name: 'item' },
+                    inputs: [{ doc: WRITE_DOC, names: 'checker' }],
+                    value: { doc: WRITE_DOC, names: 'item' },
                 },
                 combine: {
                     doc: WRITE_DOC,
                     name: 'combine',
                     inputs: [
-                        { doc: WRITE_DOC, name: 'initial' },
-                        { doc: WRITE_DOC, name: 'combiner' },
+                        { doc: WRITE_DOC, names: 'initial' },
+                        { doc: WRITE_DOC, names: 'combiner' },
                     ],
-                    combination: { doc: WRITE_DOC, name: 'combination' },
-                    next: { doc: WRITE_DOC, name: 'next' },
-                    index: { doc: WRITE_DOC, name: 'index' },
+                    combination: { doc: WRITE_DOC, names: 'combination' },
+                    next: { doc: WRITE_DOC, names: 'next' },
+                    index: { doc: WRITE_DOC, names: 'index' },
                 },
             },
             conversion: {
@@ -1674,49 +1794,49 @@ const en: Translation = {
                 equals: {
                     doc: WRITE_DOC,
                     name: ['=', 'equals'],
-                    inputs: [{ doc: WRITE_DOC, name: 'set' }],
+                    inputs: [{ doc: WRITE_DOC, names: 'set' }],
                 },
                 notequals: {
                     doc: WRITE_DOC,
                     name: '≠',
-                    inputs: [{ doc: WRITE_DOC, name: 'set' }],
+                    inputs: [{ doc: WRITE_DOC, names: 'set' }],
                 },
                 add: {
                     doc: WRITE_DOC,
                     name: ['add', '+'],
-                    inputs: [{ doc: WRITE_DOC, name: 'set' }],
+                    inputs: [{ doc: WRITE_DOC, names: 'set' }],
                 },
                 remove: {
                     doc: WRITE_DOC,
                     name: ['remove', '-'],
-                    inputs: [{ doc: WRITE_DOC, name: 'set' }],
+                    inputs: [{ doc: WRITE_DOC, names: 'set' }],
                 },
                 union: {
                     doc: WRITE_DOC,
                     name: ['union', '∪'],
-                    inputs: [{ doc: WRITE_DOC, name: 'set' }],
+                    inputs: [{ doc: WRITE_DOC, names: 'set' }],
                 },
                 intersection: {
                     doc: WRITE_DOC,
                     name: ['intersection', '∩'],
-                    inputs: [{ doc: WRITE_DOC, name: 'set' }],
+                    inputs: [{ doc: WRITE_DOC, names: 'set' }],
                 },
                 difference: {
                     doc: WRITE_DOC,
                     name: 'difference',
-                    inputs: [{ doc: WRITE_DOC, name: 'set' }],
+                    inputs: [{ doc: WRITE_DOC, names: 'set' }],
                 },
                 filter: {
                     doc: WRITE_DOC,
                     name: 'filter',
-                    inputs: [{ doc: WRITE_DOC, name: 'checker' }],
-                    value: { doc: WRITE_DOC, name: 'value' },
+                    inputs: [{ doc: WRITE_DOC, names: 'checker' }],
+                    value: { doc: WRITE_DOC, names: 'value' },
                 },
                 translate: {
                     doc: WRITE_DOC,
                     name: 'translate',
-                    inputs: [{ doc: WRITE_DOC, name: 'lisetst' }],
-                    value: { doc: WRITE_DOC, name: 'value' },
+                    inputs: [{ doc: WRITE_DOC, names: 'lisetst' }],
+                    value: { doc: WRITE_DOC, names: 'value' },
                 },
             },
             conversion: {
@@ -1736,44 +1856,44 @@ const en: Translation = {
                 equals: {
                     doc: WRITE_DOC,
                     name: ['=', 'equals'],
-                    inputs: [{ doc: WRITE_DOC, name: 'value' }],
+                    inputs: [{ doc: WRITE_DOC, names: 'value' }],
                 },
                 notequals: {
                     doc: WRITE_DOC,
                     name: '≠',
-                    inputs: [{ doc: WRITE_DOC, name: 'value' }],
+                    inputs: [{ doc: WRITE_DOC, names: 'value' }],
                 },
                 set: {
                     doc: WRITE_DOC,
                     name: 'set',
                     inputs: [
-                        { doc: WRITE_DOC, name: 'key' },
-                        { doc: WRITE_DOC, name: 'value' },
+                        { doc: WRITE_DOC, names: 'key' },
+                        { doc: WRITE_DOC, names: 'value' },
                     ],
                 },
                 unset: {
                     doc: WRITE_DOC,
                     name: 'unset',
-                    inputs: [{ doc: WRITE_DOC, name: 'key' }],
+                    inputs: [{ doc: WRITE_DOC, names: 'key' }],
                 },
                 remove: {
                     doc: WRITE_DOC,
                     name: 'remove',
-                    inputs: [{ doc: WRITE_DOC, name: 'value' }],
+                    inputs: [{ doc: WRITE_DOC, names: 'value' }],
                 },
                 filter: {
                     doc: WRITE_DOC,
                     name: 'filter',
-                    inputs: [{ doc: WRITE_DOC, name: 'checker' }],
-                    key: { doc: WRITE_DOC, name: 'key' },
-                    value: { doc: WRITE_DOC, name: 'value' },
+                    inputs: [{ doc: WRITE_DOC, names: 'checker' }],
+                    key: { doc: WRITE_DOC, names: 'key' },
+                    value: { doc: WRITE_DOC, names: 'value' },
                 },
                 translate: {
                     doc: WRITE_DOC,
                     name: 'translate',
-                    inputs: [{ doc: WRITE_DOC, name: 'translator' }],
-                    key: { doc: WRITE_DOC, name: 'key' },
-                    value: { doc: WRITE_DOC, name: 'value' },
+                    inputs: [{ doc: WRITE_DOC, names: 'translator' }],
+                    key: { doc: WRITE_DOC, names: 'key' },
+                    value: { doc: WRITE_DOC, names: 'value' },
                 },
             },
             conversion: {
@@ -2337,132 +2457,151 @@ const en: Translation = {
     input: {
         random: {
             doc: WRITE_DOC,
-            name: ['🎲', 'Random'],
-            min: { name: 'min', doc: WRITE_DOC },
-            max: { name: 'max', doc: WRITE_DOC },
+            names: ['🎲', 'Random'],
+            min: { names: 'min', doc: WRITE_DOC },
+            max: { names: 'max', doc: WRITE_DOC },
+            tutorial: WRITE_TUTORIAL,
         },
         choice: {
             doc: WRITE_DOC,
-            name: ['🔘', 'Choice', 'selection'],
+            names: ['🔘', 'Choice', 'selection'],
+            tutorial: WRITE_TUTORIAL,
         },
         button: {
             doc: WRITE_DOC,
-            name: ['🖱️', 'Button'],
-            down: { name: 'down', doc: WRITE_DOC },
+            names: ['🖱️', 'Button'],
+            down: { names: 'down', doc: WRITE_DOC },
+            tutorial: WRITE_TUTORIAL,
         },
         pointer: {
             doc: WRITE_DOC,
-            name: ['👆🏻', 'Pointer'],
+            names: ['👆🏻', 'Pointer'],
+            tutorial: WRITE_TUTORIAL,
         },
         key: {
             doc: WRITE_DOC,
-            name: ['⌨️', 'Key'],
-            key: { name: 'key', doc: WRITE_DOC },
-            down: { name: 'down', doc: WRITE_DOC },
+            names: ['⌨️', 'Key'],
+            key: { names: 'key', doc: WRITE_DOC },
+            down: { names: 'down', doc: WRITE_DOC },
+            tutorial: WRITE_TUTORIAL,
         },
         time: {
             doc: WRITE_DOC,
-            name: ['🕕', 'Time'],
+            names: ['🕕', 'Time'],
             frequency: {
-                name: ['frequency'],
+                names: ['frequency'],
                 doc: WRITE_DOC,
             },
+            tutorial: WRITE_TUTORIAL,
         },
         mic: {
             doc: WRITE_DOC,
-            name: ['🎤', 'Mic'],
+            names: ['🎤', 'Mic'],
             frequency: {
-                name: ['frequency'],
+                names: ['frequency'],
                 doc: WRITE_DOC,
             },
+            tutorial: WRITE_TUTORIAL,
         },
         camera: {
             doc: WRITE_DOC,
-            name: ['🎥', 'Camera'],
+            names: ['🎥', 'Camera'],
             width: {
-                name: ['width'],
+                names: ['width'],
                 doc: WRITE_DOC,
             },
             height: {
-                name: ['height'],
+                names: ['height'],
                 doc: WRITE_DOC,
             },
             frequency: {
-                name: ['frequency'],
+                names: ['frequency'],
                 doc: WRITE_DOC,
             },
+            tutorial: WRITE_TUTORIAL,
         },
         reaction: {
             doc: WRITE_DOC,
-            name: 'reaction',
+            names: 'reaction',
+            tutorial: WRITE_TUTORIAL,
         },
         motion: {
             doc: WRITE_DOC,
-            name: ['⚽️', 'Motion'],
+            names: ['⚽️', 'Motion'],
             type: {
                 doc: WRITE_DOC,
-                name: 'type',
+                names: 'type',
             },
             vx: {
                 doc: WRITE_DOC,
-                name: 'vx',
+                names: 'vx',
             },
             vy: {
                 doc: WRITE_DOC,
-                name: 'vy',
+                names: 'vy',
             },
             vz: {
                 doc: WRITE_DOC,
-                name: 'vz',
+                names: 'vz',
             },
             vangle: {
                 doc: WRITE_DOC,
-                name: 'vangle',
+                names: 'vangle',
             },
             mass: {
                 doc: WRITE_DOC,
-                name: 'mass',
+                names: 'mass',
             },
             bounciness: {
                 doc: WRITE_DOC,
-                name: 'bounciness',
+                names: 'bounciness',
             },
             gravity: {
                 doc: WRITE_DOC,
-                name: 'gravity',
+                names: 'gravity',
             },
+            tutorial: WRITE_TUTORIAL,
         },
     },
     output: {
         type: {
-            definition: { doc: WRITE_DOC, name: 'Type' },
-            size: { doc: WRITE_DOC, name: 'size' },
-            family: { doc: WRITE_DOC, name: 'font' },
-            place: { doc: WRITE_DOC, name: 'place' },
-            rotation: { doc: WRITE_DOC, name: 'rotation' },
-            name: { doc: WRITE_DOC, name: 'name' },
-            selectable: { doc: WRITE_DOC, name: 'selectable' },
-            enter: { doc: WRITE_DOC, name: 'enter' },
-            rest: { doc: WRITE_DOC, name: 'rest' },
-            move: { doc: WRITE_DOC, name: 'move' },
-            exit: { doc: WRITE_DOC, name: 'exit' },
-            duration: { doc: WRITE_DOC, name: ['⏳', 'duration'] },
-            style: { doc: WRITE_DOC, name: 'style' },
+            names: 'Type',
+            doc: WRITE_DOC,
+            size: { doc: WRITE_DOC, names: 'size' },
+            family: { doc: WRITE_DOC, names: 'font' },
+            place: { doc: WRITE_DOC, names: 'place' },
+            rotation: { doc: WRITE_DOC, names: 'rotation' },
+            name: { doc: WRITE_DOC, names: 'name' },
+            selectable: { doc: WRITE_DOC, names: 'selectable' },
+            enter: { doc: WRITE_DOC, names: 'enter' },
+            rest: { doc: WRITE_DOC, names: 'rest' },
+            move: { doc: WRITE_DOC, names: 'move' },
+            exit: { doc: WRITE_DOC, names: 'exit' },
+            duration: { doc: WRITE_DOC, names: ['⏳', 'duration'] },
+            style: { doc: WRITE_DOC, names: 'style' },
+            tutorial: WRITE_TUTORIAL,
         },
         group: {
-            definition: { doc: WRITE_DOC, name: ['🔳', 'Group'] },
-            content: { doc: WRITE_DOC, name: 'content' },
-            layout: { doc: WRITE_DOC, name: 'layout' },
+            names: ['🔳', 'Group'],
+            doc: WRITE_DOC,
+            content: { doc: WRITE_DOC, names: 'content' },
+            layout: { doc: WRITE_DOC, names: 'layout' },
+            tutorial: WRITE_TUTORIAL,
         },
         phrase: {
-            definition: { doc: WRITE_DOC, name: ['💬', 'Phrase'] },
-            text: { doc: WRITE_DOC, name: 'text' },
+            doc: WRITE_DOC,
+            names: ['💬', 'Phrase'],
+            text: { doc: WRITE_DOC, names: 'text' },
+            tutorial: WRITE_TUTORIAL,
         },
         layout: {
-            definition: { doc: WRITE_DOC, name: ['⠿', 'Arrangement'] },
+            doc: WRITE_DOC,
+            names: ['⠿', 'Arrangement'],
+            tutorial: WRITE_TUTORIAL,
         },
         row: {
-            definition: { doc: WRITE_DOC, name: ['➡', 'Row'] },
+            doc: WRITE_DOC,
+            names: ['➡', 'Row'],
             description: (count, phrases, groups) =>
                 `row of ${count} ${
                     count === phrases
@@ -2471,10 +2610,12 @@ const en: Translation = {
                         ? 'groups'
                         : 'phrases and groups'
                 }`,
-            padding: { doc: WRITE_DOC, name: 'padding' },
+            padding: { doc: WRITE_DOC, names: 'padding' },
+            tutorial: WRITE_TUTORIAL,
         },
         stack: {
-            definition: { doc: WRITE_DOC, name: ['⬇', 'Stack'] },
+            doc: WRITE_DOC,
+            names: ['⬇', 'Stack'],
             description: (count, phrases, groups) =>
                 `stack of ${count} ${
                     count === phrases
@@ -2483,64 +2624,82 @@ const en: Translation = {
                         ? 'groups'
                         : 'phrases and groups'
                 }`,
-            padding: { doc: WRITE_DOC, name: 'padding' },
+            padding: { doc: WRITE_DOC, names: 'padding' },
+            tutorial: WRITE_TUTORIAL,
         },
         grid: {
-            definition: { doc: WRITE_DOC, name: ['▦', 'Grid'] },
+            doc: WRITE_DOC,
+            names: ['▦', 'Grid'],
             description: (rows: number, columns: number) =>
                 `${rows} row ${columns} column grid`,
-            rows: { doc: WRITE_DOC, name: 'rows' },
-            columns: { doc: WRITE_DOC, name: 'columns' },
-            padding: { doc: WRITE_DOC, name: 'padding' },
-            cellWidth: { doc: WRITE_DOC, name: 'cellwidth' },
-            cellHeight: { doc: WRITE_DOC, name: 'cellpadding' },
+            rows: { doc: WRITE_DOC, names: 'rows' },
+            columns: { doc: WRITE_DOC, names: 'columns' },
+            padding: { doc: WRITE_DOC, names: 'padding' },
+            cellWidth: { doc: WRITE_DOC, names: 'cellwidth' },
+            cellHeight: { doc: WRITE_DOC, names: 'cellpadding' },
+            tutorial: WRITE_TUTORIAL,
         },
         free: {
-            definition: { doc: WRITE_DOC, name: ['Free'] },
+            doc: WRITE_DOC,
+            names: ['Free'],
             description: (count: number) => `free-form, ${count} outputs`,
+            tutorial: WRITE_TUTORIAL,
         },
         shape: {
-            definition: { doc: WRITE_DOC, name: 'Shape' },
+            doc: WRITE_DOC,
+            names: 'Shape',
+            tutorial: WRITE_TUTORIAL,
         },
         rectangle: {
-            definition: { doc: WRITE_DOC, name: ['Rectangle'] },
-            left: { doc: WRITE_DOC, name: 'left' },
-            top: { doc: WRITE_DOC, name: 'top' },
-            right: { doc: WRITE_DOC, name: 'right' },
-            bottom: { doc: WRITE_DOC, name: 'bottom' },
+            doc: WRITE_DOC,
+            names: ['Rectangle'],
+            left: { doc: WRITE_DOC, names: 'left' },
+            top: { doc: WRITE_DOC, names: 'top' },
+            right: { doc: WRITE_DOC, names: 'right' },
+            bottom: { doc: WRITE_DOC, names: 'bottom' },
+            tutorial: WRITE_TUTORIAL,
         },
         pose: {
-            definition: { doc: WRITE_DOC, name: ['🤪', 'Pose'] },
-            duration: { doc: WRITE_DOC, name: 'duration' },
-            style: { doc: WRITE_DOC, name: 'style' },
-            color: { doc: WRITE_DOC, name: 'color' },
-            opacity: { doc: WRITE_DOC, name: 'opacity' },
-            offset: { doc: WRITE_DOC, name: 'offset' },
-            tilt: { doc: WRITE_DOC, name: 'tilt' },
-            scale: { doc: WRITE_DOC, name: 'scale' },
-            flipx: { doc: WRITE_DOC, name: 'flipx' },
-            flipy: { doc: WRITE_DOC, name: 'flipy' },
+            doc: WRITE_DOC,
+            names: ['🤪', 'Pose'],
+            duration: { doc: WRITE_DOC, names: 'duration' },
+            style: { doc: WRITE_DOC, names: 'style' },
+            color: { doc: WRITE_DOC, names: 'color' },
+            opacity: { doc: WRITE_DOC, names: 'opacity' },
+            offset: { doc: WRITE_DOC, names: 'offset' },
+            tilt: { doc: WRITE_DOC, names: 'tilt' },
+            scale: { doc: WRITE_DOC, names: 'scale' },
+            flipx: { doc: WRITE_DOC, names: 'flipx' },
+            flipy: { doc: WRITE_DOC, names: 'flipy' },
+            tutorial: WRITE_TUTORIAL,
         },
         color: {
-            definition: { doc: WRITE_DOC, name: ['🌈', 'Color'] },
-            lightness: { doc: WRITE_DOC, name: ['lightness', 'l'] },
-            chroma: { doc: WRITE_DOC, name: ['chroma', 'c'] },
-            hue: { doc: WRITE_DOC, name: ['hue', 'h'] },
+            doc: WRITE_DOC,
+            names: ['🌈', 'Color'],
+            lightness: { doc: WRITE_DOC, names: ['lightness', 'l'] },
+            chroma: { doc: WRITE_DOC, names: ['chroma', 'c'] },
+            hue: { doc: WRITE_DOC, names: ['hue', 'h'] },
+            tutorial: WRITE_TUTORIAL,
         },
         sequence: {
-            definition: { doc: WRITE_DOC, name: ['┅', 'Sequence'] },
-            count: { doc: WRITE_DOC, name: 'count' },
-            timing: { doc: WRITE_DOC, name: 'timing' },
-            poses: { doc: WRITE_DOC, name: 'poses' },
+            doc: WRITE_DOC,
+            names: ['┅', 'Sequence'],
+            count: { doc: WRITE_DOC, names: 'count' },
+            timing: { doc: WRITE_DOC, names: 'timing' },
+            poses: { doc: WRITE_DOC, names: 'poses' },
+            tutorial: WRITE_TUTORIAL,
         },
         place: {
-            definition: { doc: WRITE_DOC, name: ['📍', 'Place'] },
-            x: { doc: WRITE_DOC, name: 'x' },
-            y: { doc: WRITE_DOC, name: 'y' },
-            z: { doc: WRITE_DOC, name: 'z' },
+            doc: WRITE_DOC,
+            names: ['📍', 'Place'],
+            x: { doc: WRITE_DOC, names: 'x' },
+            y: { doc: WRITE_DOC, names: 'y' },
+            z: { doc: WRITE_DOC, names: 'z' },
+            tutorial: WRITE_TUTORIAL,
         },
         verse: {
-            definition: { doc: WRITE_DOC, name: ['🌎', '🌍', '🌏', 'Verse'] },
+            doc: WRITE_DOC,
+            names: ['🌎', '🌍', '🌏', 'Verse'],
             description: (count, phrases, groups) =>
                 `verse of ${count} ${
                     count === phrases
@@ -2549,9 +2708,10 @@ const en: Translation = {
                         ? 'groups'
                         : 'phrases and groups'
                 }`,
-            content: { doc: WRITE_DOC, name: 'content' },
-            background: { doc: WRITE_DOC, name: 'background' },
-            frame: { doc: WRITE_DOC, name: 'frame' },
+            content: { doc: WRITE_DOC, names: 'content' },
+            background: { doc: WRITE_DOC, names: 'background' },
+            frame: { doc: WRITE_DOC, names: 'frame' },
+            tutorial: WRITE_TUTORIAL,
         },
         easing: {
             straight: 'straight',
@@ -2563,25 +2723,25 @@ const en: Translation = {
     animation: {
         sway: {
             doc: WRITE_DOC,
-            name: ['sway'],
-            angle: { doc: WRITE_DOC, name: ['angle'] },
+            names: ['sway'],
+            angle: { doc: WRITE_DOC, names: ['angle'] },
         },
         bounce: {
             doc: WRITE_DOC,
-            name: ['bounce'],
-            height: { doc: WRITE_DOC, name: ['height'] },
+            names: ['bounce'],
+            height: { doc: WRITE_DOC, names: ['height'] },
         },
         spin: {
             doc: WRITE_DOC,
-            name: ['spin'],
+            names: ['spin'],
         },
         fadein: {
             doc: WRITE_DOC,
-            name: ['fadein'],
+            names: ['fadein'],
         },
         popup: {
             doc: WRITE_DOC,
-            name: ['popup'],
+            names: ['popup'],
         },
     },
     tutorial: {
@@ -2594,153 +2754,6 @@ const en: Translation = {
                 name: 'Numbers',
                 overview: "Hi! Let's learn numbers.",
             },
-        },
-        concepts: {
-            Program: [
-                [
-                    `
-                    Hi! I'm **ƒ**. 
-
-                    Is this your first time here? 
-                    We call this place the **verse**.
-                    We do many things here -- the food is amazing -- but we particularly like to put on **shows**.
-
-                    Shows can be a lot of things, like dances, stories, images, and games.
-                    But we're most excited to put on shows with people like you!
-
-                    I'll let you in a little secret why: we're really not that creative.
-                    I mean, we have a lot going for us.
-                    Every one of us is unique and we come from all over the world.
-
-                    But we just run out of ideas.
-                    We love collaborating with people because they bring new ideas from their own worlds!
-                    `,
-                    `Let me show you around!`,
-                ],
-                [`Step 2`, `hmmm`],
-            ],
-            Dimension: [],
-            DocumentedExpression: [],
-            Doc: [],
-            Docs: [],
-            Evaluate: [],
-            KeyValue: [],
-            Language: [],
-            Name: [],
-            Names: [],
-            Row: [],
-            Token: [],
-            TypeInputs: [],
-            TypeVariable: [],
-            TypeVariables: [],
-            Paragraph: [],
-            WebLink: [],
-            ConceptLink: [],
-            Words: [],
-            Example: [],
-            BinaryOperation: [],
-            Bind: [],
-            Block: [],
-            BooleanLiteral: [],
-            Borrow: [],
-            Changed: [],
-            Conditional: [],
-            ConversionDefinition: [],
-            Convert: [],
-            Delete: [],
-            ExpressionPlaceholder: [],
-            FunctionDefinition: [],
-            HOF: [],
-            Insert: [],
-            Initial: [],
-            Is: [],
-            ListAccess: [],
-            ListLiteral: [],
-            MapLiteral: [],
-            MeasurementLiteral: [],
-            NativeExpression: [],
-            NoneLiteral: [],
-            Previous: [],
-            PropertyBind: [],
-            PropertyReference: [],
-            Reaction: [],
-            Reference: [],
-            Select: [],
-            SetLiteral: [],
-            SetOrMapAccess: [],
-            Source: [],
-            StreamDefinition: [],
-            StructureDefinition: [],
-            TableLiteral: [],
-            Template: [],
-            TextLiteral: [],
-            This: [],
-            UnaryOperation: [],
-            UnparsableExpression: [],
-            Update: [],
-            AnyType: [],
-            BooleanType: [],
-            ConversionType: [],
-            ExceptionType: [],
-            FunctionDefinitionType: [],
-            FunctionType: [],
-            ListType: [],
-            MapType: [],
-            MeasurementType: [],
-            NameType: [],
-            NeverType: [],
-            NoneType: [],
-            SetType: [],
-            StreamDefinitionType: [],
-            StreamType: [],
-            StructureDefinitionType: [],
-            TableType: [],
-            TextType: [],
-            TypePlaceholder: [],
-            UnknownType: [],
-            UnionType: [],
-            UnparsableType: [],
-            Unit: [],
-            VariableType: [],
-            CycleType: [],
-            UnknownVariableType: [],
-            NotAListType: [],
-            NoExpressionType: [],
-            NotAFunctionType: [],
-            NotATableType: [],
-            NotAStreamType: [],
-            NotASetOrMapType: [],
-            NotEnclosedType: [],
-            NotImplementedType: [],
-            UnknownNameType: [],
-
-            type: [],
-            group: [],
-            phrase: [],
-            verse: [],
-            layout: [],
-            shape: [],
-            rectangle: [],
-            pose: [],
-            sequence: [],
-            color: [],
-            place: [],
-            row: [],
-            stack: [],
-            grid: [],
-            free: [],
-            easing: [],
-
-            random: [],
-            choice: [],
-            button: [],
-            pointer: [],
-            key: [],
-            time: [],
-            mic: [],
-            camera: [],
-            reaction: [],
-            motion: [],
         },
     },
 };

@@ -11,7 +11,7 @@ import Structure from '../runtime/Structure';
 import Unit from '../nodes/Unit';
 
 export const PlaceType = toStructure(`
-    ${getBind((t) => t.output.place.definition, '•')}(
+    ${getBind((t) => t.output.place, '•')}(
         ${getBind((t) => t.output.place.x)}•#m: 0m
         ${getBind((t) => t.output.place.y)}•#m: 0m
         ${getBind((t) => t.output.place.z)}•#m: 0m

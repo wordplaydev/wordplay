@@ -25,7 +25,7 @@ export const DefaultFont = `'Noto Sans', 'Noto Color Emoji'`;
 export const DefaultSize = 1;
 
 export const VerseType = toStructure(`
-    ${getBind((t) => t.output.verse.definition, '•')} Type(
+    ${getBind((t) => t.output.verse, '•')} Type(
         ${getBind((t) => t.output.verse.content)}•[Type]
         ${getBind((t) => t.output.verse.background)}•Color: Color(100 0 0°)
         ${getBind((t) => t.output.verse.frame)}•Shape|ø: ø

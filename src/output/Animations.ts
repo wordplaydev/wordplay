@@ -10,12 +10,12 @@ import { getNameTranslations } from '../translation/getNameTranslations';
 export const Animations = [
     FunctionDefinition.make(
         getDocTranslations((t) => t.animation.sway.doc),
-        getNameTranslations((t) => t.animation.sway.name),
+        getNameTranslations((t) => t.animation.sway.names),
         undefined,
         [
             Bind.make(
                 getDocTranslations((t) => t.animation.sway.angle.doc),
-                getNameTranslations((t) => t.animation.sway.angle.name),
+                getNameTranslations((t) => t.animation.sway.angle.names),
                 MeasurementType.make(Unit.make(['°'])),
                 MeasurementLiteral.make(2, Unit.make(['°']))
             ),
@@ -30,12 +30,12 @@ export const Animations = [
     ),
     FunctionDefinition.make(
         getDocTranslations((t) => t.animation.bounce.doc),
-        getNameTranslations((t) => t.animation.bounce.name),
+        getNameTranslations((t) => t.animation.bounce.names),
         undefined,
         [
             Bind.make(
                 getDocTranslations((t) => t.animation.bounce.height.doc),
-                getNameTranslations((t) => t.animation.bounce.height.name),
+                getNameTranslations((t) => t.animation.bounce.height.names),
                 MeasurementType.make(Unit.make(['m'])),
                 MeasurementLiteral.make(2, Unit.make(['m']))
             ),
@@ -54,7 +54,7 @@ export const Animations = [
     ),
     FunctionDefinition.make(
         getDocTranslations((t) => t.animation.spin.doc),
-        getNameTranslations((t) => t.animation.spin.name),
+        getNameTranslations((t) => t.animation.spin.names),
         undefined,
         [],
         parseExpression(
@@ -66,7 +66,7 @@ export const Animations = [
     ),
     FunctionDefinition.make(
         getDocTranslations((t) => t.animation.fadein.doc),
-        getNameTranslations((t) => t.animation.fadein.name),
+        getNameTranslations((t) => t.animation.fadein.names),
         undefined,
         [],
         parseExpression(
@@ -78,7 +78,7 @@ export const Animations = [
     ),
     FunctionDefinition.make(
         getDocTranslations((t) => t.animation.popup.doc),
-        getNameTranslations((t) => t.animation.popup.name),
+        getNameTranslations((t) => t.animation.popup.names),
         undefined,
         [],
         parseExpression(

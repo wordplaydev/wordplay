@@ -23,5 +23,5 @@
             />{:else}{@html parseRichText(part).toHTML()}{/if}
     {/each}
 {:else}
-    {description}
+    {@html parseRichText(description).toHTML()}
 {/if}

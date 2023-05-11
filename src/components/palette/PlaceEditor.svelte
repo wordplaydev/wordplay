@@ -41,7 +41,7 @@
 </script>
 
 <div class="place">
-    {#each [getFirstName($preferredTranslations[0].output.place.x.name), getFirstName($preferredTranslations[0].output.place.y.name), getFirstName($preferredTranslations[0].output.place.z.name)] as dimension}
+    {#each [getFirstName($preferredTranslations[0].output.place.x.names), getFirstName($preferredTranslations[0].output.place.y.names), getFirstName($preferredTranslations[0].output.place.z.names)] as dimension}
         {@const given = place?.getMappingFor(
             dimension,
             project.getNodeContext(place)

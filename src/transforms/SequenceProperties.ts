@@ -15,7 +15,7 @@ function getTranslation(name: NameTranslation) {
 
 const SequenceProperties: OutputProperty[] = [
     {
-        name: getTranslation(en.output.sequence.poses.name),
+        name: getTranslation(en.output.sequence.poses.names),
         type: 'poses',
         required: true,
         inherited: false,
@@ -35,7 +35,7 @@ const SequenceProperties: OutputProperty[] = [
     DurationProperty,
     StyleProperty,
     {
-        name: getTranslation(en.output.sequence.count.name),
+        name: getTranslation(en.output.sequence.count.names),
         type: new OutputPropertyRange(1, 5, 1, 'x', 0),
         required: false,
         inherited: false,

@@ -16,7 +16,7 @@ import type { TransitionSequence } from './OutputAnimation';
 import en from '@translation/translations/en';
 
 export const SequenceType = toStructure(`
-    ${getBind((t) => t.output.sequence.definition, TYPE_SYMBOL)}(
+    ${getBind((t) => t.output.sequence, TYPE_SYMBOL)}(
         ${getBind((t) => t.output.sequence.poses)}•{ % : Pose }
         ${getBind((t) => t.output.type.duration)}•#s: 0.25s
         ${getBind((t) => t.output.type.style)}•${Object.values(en.output.easing)
