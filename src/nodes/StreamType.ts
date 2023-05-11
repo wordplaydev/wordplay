@@ -1,6 +1,6 @@
 import type { NativeTypeName } from '../native/NativeConstants';
 import { STREAM_SYMBOL } from '@parser/Symbols';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import AnyType from './AnyType';
 import type Context from './Context';
 import type { Replacement } from './Node';
@@ -62,7 +62,7 @@ export default class StreamType extends Type {
         ) as this;
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.StreamType;
     }
 

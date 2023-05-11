@@ -1,6 +1,6 @@
 import type Expression from '@nodes/Expression';
 import Conflict from './Conflict';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 
 export class IgnoredExpression extends Conflict {
     readonly expr: Expression;
@@ -14,7 +14,7 @@ export class IgnoredExpression extends Conflict {
         return {
             primary: {
                 node: this.expr,
-                explanation: (translation: Translation) =>
+                explanation: (translation: Locale) =>
                     translation.conflict.IgnoredExpression.primary,
             },
         };

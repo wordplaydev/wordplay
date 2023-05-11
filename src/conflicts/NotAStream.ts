@@ -3,7 +3,7 @@ import type Context from '@nodes/Context';
 import type Previous from '@nodes/Previous';
 import type Type from '@nodes/Type';
 import NodeLink from '@translation/NodeLink';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Conflict from './Conflict';
 
 export class NotAStream extends Conflict {
@@ -21,7 +21,7 @@ export class NotAStream extends Conflict {
         return {
             primary: {
                 node: this.stream.stream,
-                explanation: (translation: Translation, context: Context) =>
+                explanation: (translation: Locale, context: Context) =>
                     translation.conflict.NotAStream.primary(
                         new NodeLink(this.received, translation, context)
                     ),

@@ -1,6 +1,6 @@
 import Conflict from './Conflict';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 
 export default class NoExpression extends Conflict {
     readonly def: FunctionDefinition;
@@ -15,7 +15,7 @@ export default class NoExpression extends Conflict {
         return {
             primary: {
                 node: this.def.names,
-                explanation: (translation: Translation) =>
+                explanation: (translation: Locale) =>
                     translation.conflict.NoExpression.primary,
             },
         };

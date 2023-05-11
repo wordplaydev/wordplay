@@ -16,9 +16,9 @@ import PlaceholderToken from './PlaceholderToken';
 import UnimplementedType from './UnimplementedType';
 import TypeToken from './TypeToken';
 import type { Replacement } from './Node';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import AtomicExpression from './AtomicExpression';
-import type { Description } from '@translation/Translation';
+import type { Description } from '@translation/Locale';
 import Glyphs from '../lore/Glyphs';
 import type Root from './Root';
 
@@ -56,7 +56,7 @@ export default class ExpressionPlaceholder extends AtomicExpression {
                 name: 'placeholder',
                 types: [Token],
                 label: (
-                    translation: Translation,
+                    translation: Locale,
                     _: Node,
                     context: Context,
                     root: Root
@@ -135,11 +135,11 @@ export default class ExpressionPlaceholder extends AtomicExpression {
         return this.placeholder;
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.ExpressionPlaceholder;
     }
 
-    getStartExplanations(translation: Translation) {
+    getStartExplanations(translation: Locale) {
         return translation.node.ExpressionPlaceholder.start;
     }
 

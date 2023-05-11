@@ -4,7 +4,7 @@ import type LanguageCode from '@translation/LanguageCode';
 import type Node from '@nodes/Node';
 import Reference from '@nodes/Reference';
 import Concept from './Concept';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import type Purpose from './Purpose';
 import Emotion from '../lore/Emotion';
 import type Doc from '../nodes/Doc';
@@ -27,14 +27,14 @@ export default class BindConcept extends Concept {
 
         this.bind = bind;
         this.reference = Reference.make(
-            this.bind.names.getTranslation(languages),
+            this.bind.names.getLocaleText(languages),
             this.bind
         );
     }
 
     getGlyphs(languages: LanguageCode[]) {
         return {
-            symbols: this.bind.names.getTranslation(languages),
+            symbols: this.bind.names.getLocaleText(languages),
         };
     }
 
@@ -50,13 +50,13 @@ export default class BindConcept extends Concept {
         return this.bind.hasName(name);
     }
 
-    getDocs(translation: Translation): [Doc, Spaces] | undefined {
-        const doc = this.bind.docs?.getTranslation(translation.language);
+    getDocs(translation: Locale): [Doc, Spaces] | undefined {
+        const doc = this.bind.docs?.getLocale(translation.language);
         return doc ? [doc, this.context.source.spaces] : undefined;
     }
 
-    getName(translation: Translation) {
-        return this.bind.names.getTranslation(translation.language);
+    getName(translation: Locale) {
+        return this.bind.names.getLocaleText(translation.language);
     }
 
     getRepresentation() {

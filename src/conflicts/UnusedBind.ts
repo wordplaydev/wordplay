@@ -1,6 +1,6 @@
 import type Bind from '@nodes/Bind';
 import Conflict from './Conflict';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 
 export default class UnusedBind extends Conflict {
     readonly bind: Bind;
@@ -15,7 +15,7 @@ export default class UnusedBind extends Conflict {
         return {
             primary: {
                 node: this.bind.names,
-                explanation: (translation: Translation) =>
+                explanation: (translation: Locale) =>
                     translation.conflict.UnusedBind.primary,
             },
         };

@@ -1,11 +1,8 @@
-import type {
-    LessonTranslation,
-    NameTranslation,
-} from '../translation/Translation';
+import type { LessonText, NameText } from '../translation/Locale';
 import type Step from './Step';
 
 type Lesson = {
-    concept: { names: NameTranslation } & LessonTranslation<any, any>;
+    concept: { names: NameText } & LessonText<any, any>;
     steps: Step[];
 };
 

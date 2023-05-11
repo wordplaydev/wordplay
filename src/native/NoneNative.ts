@@ -13,9 +13,9 @@ import { createNativeConversion } from './NativeBindings';
 import { NONE_SYMBOL } from '@parser/Symbols';
 import type Names from '@nodes/Names';
 import type Docs from '@nodes/Docs';
-import { getFunctionTranslations } from '@translation/getFunctionTranslations';
-import { getDocTranslations } from '@translation/getDocTranslations';
-import { getNameTranslations } from '@translation/getNameTranslations';
+import { getFunctionLocales } from '@translation/getFunctionLocales';
+import { getDocLocales } from '@translation/getDocLocales';
+import { getNameLocales } from '@translation/getNameLocales';
 import type Expression from '../nodes/Expression';
 
 export default function bootstrapNone() {
@@ -67,31 +67,27 @@ export default function bootstrapNone() {
     }
 
     return StructureDefinition.make(
-        getDocTranslations((t) => t.native.none.doc),
-        getNameTranslations((t) => t.native.none.name),
+        getDocLocales((t) => t.native.none.doc),
+        getNameLocales((t) => t.native.none.name),
         [],
         undefined,
         [],
         new Block(
             [
                 createNativeConversion(
-                    getDocTranslations((t) => t.native.none.conversion.text),
+                    getDocLocales((t) => t.native.none.conversion.text),
                     NONE_SYMBOL,
                     "''",
                     (requestor, val: None) =>
                         new Text(requestor, val.toString())
                 ),
                 createNativeNoneFunction(
-                    getFunctionTranslations(
-                        (t) => t.native.none.function.equals
-                    ),
+                    getFunctionLocales((t) => t.native.none.function.equals),
                     (requestor: Expression, left: None, right: None) =>
                         new Bool(requestor, left.isEqualTo(right))
                 ),
                 createNativeNoneFunction(
-                    getFunctionTranslations(
-                        (t) => t.native.none.function.notequals
-                    ),
+                    getFunctionLocales((t) => t.native.none.function.notequals),
                     (requestor: Expression, left: None, right: None) =>
                         new Bool(requestor, !left.isEqualTo(right))
                 ),

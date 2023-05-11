@@ -3,8 +3,8 @@ import type Type from '@nodes/Type';
 import type Evaluator from './Evaluator';
 import type LanguageCode from '@translation/LanguageCode';
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Translation from '@translation/Translation';
-import type { Description } from '@translation/Translation';
+import type Locale from '@translation/Locale';
+import type { Description } from '@translation/Locale';
 import type Expression from '../nodes/Expression';
 
 /** Used to uniquely distinguish values. */
@@ -35,7 +35,7 @@ export default abstract class Value {
 
     abstract isEqualTo(value: Value): boolean;
 
-    abstract getDescription(translation: Translation): Description;
+    abstract getDescription(translation: Locale): Description;
 
     /**
      * Should returns a rough estimate of how much memory this value uses.

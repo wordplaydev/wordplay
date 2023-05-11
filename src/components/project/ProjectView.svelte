@@ -44,10 +44,7 @@
     import TileView, { type ResizeDirection } from './TileView.svelte';
     import Tile, { Content, Mode } from './Tile';
     import OutputView from '../output/OutputView.svelte';
-    import {
-        preferredLanguages,
-        preferredTranslations,
-    } from '@translation/translations';
+    import { preferredLanguages, preferredLocales } from '@translation/locales';
     import type Value from '@runtime/Value';
     import Editor from '../editor/Editor.svelte';
     import Layout, {
@@ -277,7 +274,7 @@
                 if (source)
                     newTiles.push(
                         tile.withName(
-                            source.names.getTranslation($preferredLanguages)
+                            source.names.getLocaleText($preferredLanguages)
                         )
                     );
             }
@@ -300,7 +297,7 @@
     function createSourceTile(source: Source, index: number) {
         return new Tile(
             Layout.getSourceID(index),
-            source.names.getTranslation($preferredLanguages),
+            source.names.getLocaleText($preferredLanguages),
             Content.Source,
             index === 0 ? Mode.Expanded : Mode.Collapsed,
             undefined,
@@ -329,7 +326,7 @@
                     : [
                           new Tile(
                               OutputID,
-                              $preferredTranslations[0].ui.tiles.output,
+                              $preferredLocales[0].ui.tiles.output,
                               Content.Output,
                               Mode.Expanded,
                               undefined,
@@ -342,7 +339,7 @@
                               ),
                           new Tile(
                               PaletteID,
-                              $preferredTranslations[0].ui.tiles.palette,
+                              $preferredLocales[0].ui.tiles.palette,
                               Content.Palette,
                               Mode.Collapsed,
                               undefined,
@@ -350,7 +347,7 @@
                           ),
                           new Tile(
                               DocsID,
-                              $preferredTranslations[0].ui.tiles.docs,
+                              $preferredLocales[0].ui.tiles.docs,
                               Content.Documentation,
                               Mode.Collapsed,
                               undefined,
@@ -439,7 +436,7 @@
 
     /** Set up project wide concept index and path context */
     let index: ConceptIndexContext = writable(
-        new ConceptIndex([], $preferredTranslations)
+        new ConceptIndex([], $preferredLocales)
     );
     setContext(ConceptIndexSymbol, index);
 
@@ -458,7 +455,7 @@
                 project && $index
                     ? ConceptIndex.make(
                           project,
-                          $preferredTranslations
+                          $preferredLocales
                       ).withExamples($index.examples)
                     : undefined;
 
@@ -927,7 +924,7 @@
         $projects.revise(
             project,
             project.withNewSource(
-                `${$preferredTranslations[0].terminology.source}${
+                `${$preferredLocales[0].terminology.source}${
                     project.supplements.length + 1
                 }`
             )
@@ -1018,12 +1015,12 @@
                                     {#if !$evaluation.evaluator.isPlaying()}<Painting
                                             bind:painting
                                         />{/if}<Button
-                                        tip={$preferredTranslations[0].ui
-                                            .tooltip.grid}
+                                        tip={$preferredLocales[0].ui.tooltip
+                                            .grid}
                                         action={() => (grid = !grid)}>▦</Button
                                     ><Button
-                                        tip={$preferredTranslations[0].ui
-                                            .tooltip.fit}
+                                        tip={$preferredLocales[0].ui.tooltip
+                                            .fit}
                                         action={() => (fit = !fit)}
                                         >{#if fit}🔒{:else}🔓{/if}</Button
                                     >
@@ -1031,10 +1028,10 @@
                                     {@const source = getSourceByID(tile.id)}
                                     {#if source !== project.main}
                                         <ConfirmButton
-                                            tip={$preferredTranslations[0].ui
-                                                .tooltip.deleteSource}
+                                            tip={$preferredLocales[0].ui.tooltip
+                                                .deleteSource}
                                             action={() => removeSource(source)}
-                                            prompt={$preferredTranslations[0].ui
+                                            prompt={$preferredLocales[0].ui
                                                 .prompt.deleteSource}
                                             >⨉</ConfirmButton
                                         >
@@ -1093,7 +1090,7 @@
         <nav class="footer">
             <Status />
             <TextField
-                placeholder={$preferredTranslations[0].ui.placeholders.project}
+                placeholder={$preferredLocales[0].ui.placeholders.project}
                 text={project.name}
                 border={false}
                 changed={(name) =>
@@ -1101,10 +1098,10 @@
             />
             <Button
                 tip={layout.arrangement === Arrangement.free
-                    ? $preferredTranslations[0].ui.tooltip.vertical
+                    ? $preferredLocales[0].ui.tooltip.vertical
                     : layout.arrangement === Arrangement.vertical
-                    ? $preferredTranslations[0].ui.tooltip.horizontal
-                    : $preferredTranslations[0].ui.tooltip.freeform}
+                    ? $preferredLocales[0].ui.tooltip.horizontal
+                    : $preferredLocales[0].ui.tooltip.freeform}
                 action={() =>
                     (layout = layout.withNextArrangement(
                         canvasWidth,
@@ -1137,7 +1134,7 @@
                 {/if}
             {/each}
             <Button
-                tip={$preferredTranslations[0].ui.tooltip.addSource}
+                tip={$preferredLocales[0].ui.tooltip.addSource}
                 action={addSource}>+</Button
             >
 

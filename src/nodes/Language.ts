@@ -6,7 +6,7 @@ import LanguageToken from './LanguageToken';
 import type Conflict from '@conflicts/Conflict';
 import { Languages } from '@translation/LanguageCode';
 import InvalidLanguage from '@conflicts/InvalidLanguage';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 
@@ -74,7 +74,7 @@ export default class Language extends Node {
         );
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.Language;
     }
 

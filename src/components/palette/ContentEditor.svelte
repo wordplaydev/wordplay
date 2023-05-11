@@ -2,7 +2,7 @@
     import type Project from '@models/Project';
     import Evaluate from '@nodes/Evaluate';
     import Button from '../widgets/Button.svelte';
-    import { preferredTranslations } from '@translation/translations';
+    import { preferredLocales } from '@translation/locales';
     import Note from '../widgets/Note.svelte';
     import { GroupType } from '@output/Group';
     import { PhraseType } from '@output/Phrase';
@@ -45,7 +45,7 @@
         {#each list.values as content, index}
             <div class="content">
                 <Button
-                    tip={$preferredTranslations[0].ui.tooltip.removeContent}
+                    tip={$preferredLocales[0].ui.tooltip.removeContent}
                     action={() =>
                         list
                             ? removeContent($projects, project, list, index)
@@ -53,7 +53,7 @@
                     enabled={list.values.length > 0}>⨉</Button
                 >
                 <Button
-                    tip={$preferredTranslations[0].ui.tooltip.moveContentUp}
+                    tip={$preferredLocales[0].ui.tooltip.moveContentUp}
                     action={() =>
                         list
                             ? moveContent($projects, project, list, index, -1)
@@ -61,7 +61,7 @@
                     enabled={index > 0}>↑</Button
                 >
                 <Button
-                    tip={$preferredTranslations[0].ui.tooltip.moveContentDown}
+                    tip={$preferredLocales[0].ui.tooltip.moveContentDown}
                     action={() =>
                         list
                             ? moveContent($projects, project, list, index, 1)
@@ -69,7 +69,7 @@
                     enabled={index < list.values.length - 1}>↓</Button
                 >
                 <Button
-                    tip={$preferredTranslations[0].ui.tooltip.editContent}
+                    tip={$preferredLocales[0].ui.tooltip.editContent}
                     action={() => editContent(index)}>✎</Button
                 >
                 <RootView node={content} />
@@ -77,7 +77,7 @@
         {/each}
         <div class="add">
             <Button
-                tip={$preferredTranslations[0].ui.tooltip.addPhrase}
+                tip={$preferredLocales[0].ui.tooltip.addPhrase}
                 action={() =>
                     list
                         ? addContent(
@@ -90,7 +90,7 @@
                         : undefined}>+{PhraseType.getNames()[0]}</Button
             >
             <Button
-                tip={$preferredTranslations[0].ui.tooltip.addGroup}
+                tip={$preferredLocales[0].ui.tooltip.addGroup}
                 action={() =>
                     list
                         ? addContent(
@@ -104,7 +104,7 @@
             ></div
         >
     {:else}
-        <Note>{$preferredTranslations[0].ui.labels.computed}</Note>
+        <Note>{$preferredLocales[0].ui.labels.computed}</Note>
     {/if}
 </div>
 

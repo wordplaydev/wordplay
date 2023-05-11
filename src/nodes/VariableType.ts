@@ -1,5 +1,5 @@
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Type from './Type';
 import type TypeSet from './TypeSet';
 import type TypeVariable from './TypeVariable';
@@ -51,7 +51,7 @@ export default class VariableType extends Type {
         return this.definition.toWordplay();
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.VariableType;
     }
 

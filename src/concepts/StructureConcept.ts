@@ -12,7 +12,7 @@ import Evaluate from '@nodes/Evaluate';
 import Reference from '@nodes/Reference';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import type LanguageCode from '@translation/LanguageCode';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import type Purpose from './Purpose';
 import Emotion from '../lore/Emotion';
 import type Doc from '../nodes/Doc';
@@ -58,7 +58,7 @@ export default class StructureConcept extends Concept {
         this.type =
             type ??
             NameType.make(
-                this.definition.names.getTranslation(languages),
+                this.definition.names.getLocaleText(languages),
                 this.definition
             );
         this.examples =
@@ -66,7 +66,7 @@ export default class StructureConcept extends Concept {
                 ? [
                       Evaluate.make(
                           Reference.make(
-                              this.definition.names.getTranslation(languages),
+                              this.definition.names.getLocaleText(languages),
                               this.definition
                           ),
                           this.definition.inputs
@@ -114,7 +114,7 @@ export default class StructureConcept extends Concept {
                         this.definition,
                         inter,
                         NameType.make(
-                            inter.names.getTranslation(languages),
+                            inter.names.getLocaleText(languages),
                             inter
                         ),
                         [],
@@ -126,7 +126,7 @@ export default class StructureConcept extends Concept {
 
     getGlyphs(languages: LanguageCode[]) {
         return {
-            symbols: this.definition.names.getTranslation(languages),
+            symbols: this.definition.names.getLocaleText(languages),
         };
     }
 
@@ -138,16 +138,13 @@ export default class StructureConcept extends Concept {
         return this.definition.names.hasName(name);
     }
 
-    getDocs(translation: Translation): [Doc, Spaces] | undefined {
-        const doc = this.definition.docs?.getTranslation(translation.language);
+    getDocs(translation: Locale): [Doc, Spaces] | undefined {
+        const doc = this.definition.docs?.getLocale(translation.language);
         return doc ? [doc, this.context.source.spaces] : undefined;
     }
 
-    getName(translation: Translation) {
-        return this.definition.names.getTranslation(
-            translation.language,
-            false
-        );
+    getName(translation: Locale) {
+        return this.definition.names.getLocaleText(translation.language, false);
     }
 
     getRepresentation() {

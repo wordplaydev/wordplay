@@ -8,7 +8,7 @@ import type Context from './Context';
 import type TypeSet from './TypeSet';
 import TokenType from './TokenType';
 import type { Replacement } from './Node';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import NodeLink from '@translation/NodeLink';
 import Literal from './Literal';
 import Glyphs from '../lore/Glyphs';
@@ -86,11 +86,11 @@ export default class BooleanLiteral extends Literal {
         return this.value;
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.BooleanLiteral;
     }
 
-    getStartExplanations(translation: Translation, context: Context) {
+    getStartExplanations(translation: Locale, context: Context) {
         return translation.node.BooleanLiteral.start(
             new NodeLink(this.value, translation, context, this.value.getText())
         );

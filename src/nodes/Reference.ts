@@ -22,7 +22,7 @@ import NameToken from './NameToken';
 import StartFinish from '@runtime/StartFinish';
 import UnknownNameType from './UnknownNameType';
 import type { Replacement } from './Node';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import AtomicExpression from './AtomicExpression';
 import NameException from '@runtime/NameException';
 import NodeLink from '@translation/NodeLink';
@@ -59,8 +59,7 @@ export default class Reference extends AtomicExpression {
             {
                 name: 'name',
                 types: [Token],
-                label: (translation: Translation) =>
-                    translation.node.Reference.name,
+                label: (translation: Locale) => translation.node.Reference.name,
                 // The valid definitions of the name are anything in scope, except for the current name.
                 getDefinitions: (context: Context) =>
                     this.getDefinitionsInScope(context).filter(
@@ -249,11 +248,11 @@ export default class Reference extends AtomicExpression {
         return this.name;
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.Reference;
     }
 
-    getStartExplanations(translation: Translation, context: Context) {
+    getStartExplanations(translation: Locale, context: Context) {
         return translation.node.Reference.start(
             new NodeLink(this.name, translation, context, this.name.getText())
         );

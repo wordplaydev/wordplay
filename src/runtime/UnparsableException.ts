@@ -1,6 +1,6 @@
 import type Evaluator from './Evaluator';
 import Exception from './Exception';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import type Expression from '@nodes/Expression';
 import NodeLink from '@translation/NodeLink';
 
@@ -13,7 +13,7 @@ export default class UnparsableException extends Exception {
         this.unparsable = unparsable;
     }
 
-    getDescription(translation: Translation) {
+    getDescription(translation: Locale) {
         return translation.exceptions.unparsable(
             new NodeLink(
                 this.unparsable,

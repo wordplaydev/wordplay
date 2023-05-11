@@ -4,18 +4,18 @@ import MeasurementLiteral from '../nodes/MeasurementLiteral';
 import MeasurementType from '../nodes/MeasurementType';
 import Unit from '../nodes/Unit';
 import { parseExpression, toTokens } from '../parser/Parser';
-import { getDocTranslations } from '../translation/getDocTranslations';
-import { getNameTranslations } from '../translation/getNameTranslations';
+import { getDocLocales } from '../translation/getDocLocales';
+import { getNameLocales } from '../translation/getNameLocales';
 
 export const Animations = [
     FunctionDefinition.make(
-        getDocTranslations((t) => t.animation.sway.doc),
-        getNameTranslations((t) => t.animation.sway.names),
+        getDocLocales((t) => t.animation.sway.doc),
+        getNameLocales((t) => t.animation.sway.names),
         undefined,
         [
             Bind.make(
-                getDocTranslations((t) => t.animation.sway.angle.doc),
-                getNameTranslations((t) => t.animation.sway.angle.names),
+                getDocLocales((t) => t.animation.sway.angle.doc),
+                getNameLocales((t) => t.animation.sway.angle.names),
                 MeasurementType.make(Unit.make(['°'])),
                 MeasurementLiteral.make(2, Unit.make(['°']))
             ),
@@ -29,13 +29,13 @@ export const Animations = [
         )
     ),
     FunctionDefinition.make(
-        getDocTranslations((t) => t.animation.bounce.doc),
-        getNameTranslations((t) => t.animation.bounce.names),
+        getDocLocales((t) => t.animation.bounce.doc),
+        getNameLocales((t) => t.animation.bounce.names),
         undefined,
         [
             Bind.make(
-                getDocTranslations((t) => t.animation.bounce.height.doc),
-                getNameTranslations((t) => t.animation.bounce.height.names),
+                getDocLocales((t) => t.animation.bounce.height.doc),
+                getNameLocales((t) => t.animation.bounce.height.names),
                 MeasurementType.make(Unit.make(['m'])),
                 MeasurementLiteral.make(2, Unit.make(['m']))
             ),
@@ -53,8 +53,8 @@ export const Animations = [
         )
     ),
     FunctionDefinition.make(
-        getDocTranslations((t) => t.animation.spin.doc),
-        getNameTranslations((t) => t.animation.spin.names),
+        getDocLocales((t) => t.animation.spin.doc),
+        getNameLocales((t) => t.animation.spin.names),
         undefined,
         [],
         parseExpression(
@@ -65,8 +65,8 @@ export const Animations = [
         )
     ),
     FunctionDefinition.make(
-        getDocTranslations((t) => t.animation.fadein.doc),
-        getNameTranslations((t) => t.animation.fadein.names),
+        getDocLocales((t) => t.animation.fadein.doc),
+        getNameLocales((t) => t.animation.fadein.names),
         undefined,
         [],
         parseExpression(
@@ -77,8 +77,8 @@ export const Animations = [
         )
     ),
     FunctionDefinition.make(
-        getDocTranslations((t) => t.animation.popup.doc),
-        getNameTranslations((t) => t.animation.popup.names),
+        getDocLocales((t) => t.animation.popup.doc),
+        getNameLocales((t) => t.animation.popup.names),
         undefined,
         [],
         parseExpression(

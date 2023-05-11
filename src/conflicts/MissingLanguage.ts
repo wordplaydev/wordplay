@@ -1,6 +1,6 @@
 import type Language from '@nodes/Language';
 import type Token from '@nodes/Token';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Conflict from './Conflict';
 
 export default class MissingLanguage extends Conflict {
@@ -17,7 +17,7 @@ export default class MissingLanguage extends Conflict {
         return {
             primary: {
                 node: this.slash,
-                explanation: (translation: Translation) =>
+                explanation: (translation: Locale) =>
                     translation.conflict.MissingLanguage.primary,
             },
         };

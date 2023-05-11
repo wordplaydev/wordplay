@@ -1,6 +1,6 @@
 import Conflict from './Conflict';
 import type TypeVariable from '@nodes/TypeVariable';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import NodeLink from '@translation/NodeLink';
 import type Context from '@nodes/Context';
 
@@ -19,25 +19,25 @@ export default class DuplicateTypeVariable extends Conflict {
         return {
             primary: {
                 node: this.typeVar,
-                explanation: (translation: Translation, context: Context) =>
+                explanation: (translation: Locale, context: Context) =>
                     translation.conflict.DuplicateTypeVariable.primary(
                         new NodeLink(
                             this.duplicate,
                             translation,
                             context,
-                            this.duplicate.getTranslation(translation.language)
+                            this.duplicate.getLocale(translation.language)
                         )
                     ),
             },
             secondary: {
                 node: this.duplicate,
-                explanation: (translation: Translation, context: Context) =>
+                explanation: (translation: Locale, context: Context) =>
                     translation.conflict.DuplicateTypeVariable.secondary(
                         new NodeLink(
                             this.typeVar,
                             translation,
                             context,
-                            this.typeVar.getTranslation(translation.language)
+                            this.typeVar.getLocale(translation.language)
                         )
                     ),
             },

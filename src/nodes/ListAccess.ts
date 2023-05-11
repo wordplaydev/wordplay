@@ -24,7 +24,7 @@ import ListOpenToken from './ListOpenToken';
 import ListCloseToken from './ListCloseToken';
 import MeasurementLiteral from './MeasurementLiteral';
 import type { Replacement } from './Node';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import { NotAListType } from './NotAListType';
 import NodeLink from '@translation/NodeLink';
 import Glyphs from '../lore/Glyphs';
@@ -68,7 +68,7 @@ export default class ListAccess extends Expression {
             {
                 name: 'list',
                 types: [Expression],
-                label: (translation: Translation) => translation.data.list,
+                label: (translation: Locale) => translation.data.list,
                 // Must be a list
                 getType: () => ListType.make(),
             },
@@ -76,7 +76,7 @@ export default class ListAccess extends Expression {
             {
                 name: 'index',
                 types: [Expression],
-                label: (translation: Translation) => translation.data.index,
+                label: (translation: Locale) => translation.data.index,
                 // Must be a number
                 getType: () => MeasurementType.make(),
             },
@@ -189,18 +189,18 @@ export default class ListAccess extends Expression {
         return current;
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.ListAccess;
     }
 
-    getStartExplanations(translation: Translation, context: Context) {
+    getStartExplanations(translation: Locale, context: Context) {
         return translation.node.ListAccess.start(
             new NodeLink(this.list, translation, context)
         );
     }
 
     getFinishExplanations(
-        translation: Translation,
+        translation: Locale,
         context: Context,
         evaluator: Evaluator
     ) {

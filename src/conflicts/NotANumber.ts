@@ -1,5 +1,5 @@
 import type MeasurementLiteral from '@nodes/MeasurementLiteral';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Conflict from './Conflict';
 
 export class NotANumber extends Conflict {
@@ -14,7 +14,7 @@ export class NotANumber extends Conflict {
         return {
             primary: {
                 node: this.measurement,
-                explanation: (translation: Translation) =>
+                explanation: (translation: Locale) =>
                     translation.conflict.NotANumber.primary,
             },
         };

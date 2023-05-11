@@ -4,8 +4,8 @@ import type LanguageCode from '@translation/LanguageCode';
 import type Context from '@nodes/Context';
 import type Source from '@nodes/Source';
 import type Spaces from '@parser/Spaces';
-import type Translation from '@translation/Translation';
-import type { Description } from '@translation/Translation';
+import type Locale from '@translation/Locale';
+import type { Description } from '@translation/Locale';
 
 export default abstract class Transform {
     readonly context: Context;
@@ -15,7 +15,7 @@ export default abstract class Transform {
     }
 
     abstract getEdit(lang: LanguageCode[]): Edit | undefined;
-    abstract getDescription(translation: Translation): Description;
+    abstract getDescription(translation: Locale): Description;
 
     /** Gets the node to be added, removed, inserted, etc. */
     abstract getNewNode(lang: LanguageCode[]): Node | undefined;

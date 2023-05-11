@@ -6,7 +6,7 @@ import { COMMA_SYMBOL } from '@parser/Symbols';
 import TokenType from './TokenType';
 import NameToken from './NameToken';
 import Language from './Language';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Purpose from '../concepts/Purpose';
 import Emotion from '../lore/Emotion';
 
@@ -98,14 +98,14 @@ export default class Names extends Node {
         return this.names.find((name) => name.isEmoji())?.getName();
     }
 
-    getTranslation(
+    getLocaleText(
         language: LanguageCode | LanguageCode[],
         symbolic: boolean = true
     ) {
-        return this.getNameTranslation(language, symbolic)?.getName() ?? '-';
+        return this.getLocaleName(language, symbolic)?.getName() ?? '-';
     }
 
-    getNameTranslation(
+    getLocaleName(
         language: LanguageCode | LanguageCode[],
         symbolic: boolean = true
     ) {
@@ -124,7 +124,7 @@ export default class Names extends Node {
         );
     }
 
-    hasTranslation(lang: LanguageCode) {
+    hasLocale(lang: LanguageCode) {
         return (
             this.names.find((name) => name.getLanguage() === lang) !== undefined
         );
@@ -152,7 +152,7 @@ export default class Names extends Node {
         return this.names.find((name) => name.startsWith(prefix));
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.Names;
     }
 

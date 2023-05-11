@@ -5,7 +5,7 @@ import Primitive from './Primitive';
 import Value from './Value';
 import { CONVERT_SYMBOL } from '@parser/Symbols';
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 
 export default class Conversion extends Primitive {
     /** The definition from the AST. */
@@ -43,7 +43,7 @@ export default class Conversion extends Primitive {
         );
     }
 
-    getDescription(translation: Translation) {
+    getDescription(translation: Locale) {
         return translation.data.function;
     }
 

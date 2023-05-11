@@ -6,7 +6,7 @@ import type Value from './Value';
 import { TYPE_SYMBOL } from '@parser/Symbols';
 import type LanguageCode from '@translation/LanguageCode';
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 
 export default class StructureDefinitionValue extends Primitive {
     /** The definition from the AST. */
@@ -31,7 +31,7 @@ export default class StructureDefinitionValue extends Primitive {
     }
 
     toWordplay(languages: LanguageCode[]) {
-        return `${TYPE_SYMBOL}${this.definition.names.getTranslation(
+        return `${TYPE_SYMBOL}${this.definition.names.getLocaleText(
             languages
         )}`;
     }
@@ -44,7 +44,7 @@ export default class StructureDefinitionValue extends Primitive {
         );
     }
 
-    getDescription(translation: Translation) {
+    getDescription(translation: Locale) {
         return translation.data.function;
     }
 

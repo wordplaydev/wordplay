@@ -1,16 +1,16 @@
 import type Context from '@nodes/Context';
-import type Translation from './Translation';
+import type Locale from './Locale';
 import type Node from '@nodes/Node';
 
 export default class NodeLink {
     readonly node: Node;
-    readonly translation: Translation;
+    readonly translation: Locale;
     readonly context: Context;
     readonly description: string | undefined;
 
     constructor(
         node: Node,
-        translation: Translation,
+        translation: Locale,
         context: Context,
         description?: string
     ) {

@@ -8,7 +8,7 @@ import Primitive from './Primitive';
 import MeasurementType from '@nodes/MeasurementType';
 import type Value from './Value';
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import type Expression from '../nodes/Expression';
 
 /** A decimal number with a unit.
@@ -227,7 +227,7 @@ export default class Measurement extends Primitive {
         return `${this.num.toString()}${this.unit.toString()}`;
     }
 
-    getDescription(translation: Translation) {
+    getDescription(translation: Locale) {
         return translation.data.measurement;
     }
 

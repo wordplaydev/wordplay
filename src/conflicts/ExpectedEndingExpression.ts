@@ -1,5 +1,5 @@
 import type Block from '@nodes/Block';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Conflict from './Conflict';
 
 export class ExpectedEndingExpression extends Conflict {
@@ -14,7 +14,7 @@ export class ExpectedEndingExpression extends Conflict {
         return {
             primary: {
                 node: this.block,
-                explanation: (translation: Translation) =>
+                explanation: (translation: Locale) =>
                     translation.conflict.ExpectedEndingExpression.primary,
             },
         };

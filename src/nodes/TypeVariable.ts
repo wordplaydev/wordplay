@@ -1,7 +1,7 @@
 import Node, { type Replacement } from './Node';
 import Names from './Names';
 import type LanguageCode from '@translation/LanguageCode';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import NameType from './NameType';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
@@ -43,15 +43,15 @@ export default class TypeVariable extends Node {
         return this.names.hasName(name);
     }
 
-    getTranslation(languages: LanguageCode | LanguageCode[]) {
-        return this.names.getTranslation(
+    getLocale(languages: LanguageCode | LanguageCode[]) {
+        return this.names.getLocaleText(
             Array.isArray(languages) ? languages : [languages]
         );
     }
 
     computeConflicts() {}
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.TypeVariable;
     }
 

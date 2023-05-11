@@ -1,6 +1,6 @@
 import Exception from './Exception';
 import type Evaluator from './Evaluator';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import type Token from '@nodes/Token';
 import Value from './Value';
 import NodeLink from '@translation/NodeLink';
@@ -21,7 +21,7 @@ export default class NameException extends Exception {
         this.scope = scope;
     }
 
-    getDescription(translation: Translation) {
+    getDescription(translation: Locale) {
         return translation.exceptions.name(
             this.name
                 ? new NodeLink(

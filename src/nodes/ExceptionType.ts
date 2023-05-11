@@ -1,6 +1,6 @@
 import type { NativeTypeName } from '../native/NativeConstants';
 import type Exception from '@runtime/Exception';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Type from './Type';
 import type TypeSet from './TypeSet';
 import { EXCEPTION_SYMBOL } from '../parser/Symbols';
@@ -47,7 +47,7 @@ export default class ExceptionType extends Type {
         return new ExceptionType(this.exception) as this;
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.ExceptionType;
     }
 

@@ -5,7 +5,7 @@ import Reference from '../nodes/Reference';
 import Unit from '../nodes/Unit';
 import { ColorType, createColorLiteral } from '../output/Color';
 import { PlaceType } from '../output/Place';
-import { getFirstName } from '../translation/Translation';
+import { getFirstName } from '../translation/Locale';
 import en from '../translation/translations/en';
 import type OutputProperty from './OutputProperty';
 import OutputPropertyRange from './OutputPropertyRange';
@@ -54,7 +54,7 @@ const PoseProperties: OutputProperty[] = [
         create: (languages) =>
             Evaluate.make(
                 Reference.make(
-                    PlaceType.names.getTranslation(languages),
+                    PlaceType.names.getLocaleText(languages),
                     PlaceType
                 ),
                 []

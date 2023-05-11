@@ -39,8 +39,8 @@ export default class OutputPropertyValueSet {
         return this.values[0]?.bind;
     }
 
-    getTranslation(languages: LanguageCode[]): string | undefined {
-        return this.getBind()?.getTranslation(languages);
+    getLocale(languages: LanguageCode[]): string | undefined {
+        return this.getBind()?.getLocale(languages);
     }
 
     /** If all the values are equivalent, returns the value, otherwise undefined */
@@ -149,7 +149,7 @@ export default class OutputPropertyValueSet {
     }
 
     getDocs(languages: LanguageCode[]) {
-        return this.values[0]?.bind.docs?.getTranslation(languages);
+        return this.values[0]?.bind.docs?.getLocale(languages);
     }
 
     /** Given a project, unsets this property on expressions on which it is set. */

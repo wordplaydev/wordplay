@@ -3,7 +3,7 @@ import Transform from './Transform';
 import Node from '@nodes/Node';
 import Caret from '../components/editor/util/Caret';
 import type Context from '@nodes/Context';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 
 /**
  * Remove a node from sequence of nodes in a parent.
@@ -86,7 +86,7 @@ export default class Remove extends Transform {
         return parent;
     }
 
-    getDescription(translation: Translation) {
+    getDescription(translation: Locale) {
         return translation.transform.remove(
             this.getNewNode().getLabel(translation)
         );

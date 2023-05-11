@@ -1,4 +1,4 @@
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import type Expression from './Expression';
 import UnknownType from './UnknownType';
 
@@ -7,7 +7,7 @@ export default class NoExpressionType extends UnknownType<Expression> {
         super(expression, undefined);
     }
 
-    getReason(translation: Translation) {
+    getReason(translation: Locale) {
         return translation.node.NoExpressionType.description ?? '';
     }
 }

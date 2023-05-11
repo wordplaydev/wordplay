@@ -1,5 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Node, { type Field, type Replacement } from './Node';
 import Token from './Token';
 import Glyphs from '../lore/Glyphs';
@@ -40,7 +40,7 @@ export default class ConceptLink extends Node {
         return [];
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.ConceptLink;
     }
 

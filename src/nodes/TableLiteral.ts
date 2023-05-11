@@ -15,7 +15,7 @@ import type TypeSet from './TypeSet';
 import { analyzeRow } from './util';
 import Exception from '@runtime/Exception';
 import type { Replacement } from './Node';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 
@@ -37,7 +37,7 @@ export default class TableLiteral extends Expression {
             {
                 name: 'type',
                 types: [TableType],
-                label: (translation: Translation) => translation.data.table,
+                label: (translation: Locale) => translation.data.table,
             },
             { name: 'rows', types: [[Row]] },
         ];
@@ -146,16 +146,16 @@ export default class TableLiteral extends Expression {
         return this.rows[this.rows.length - 1] ?? this.type;
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.TableLiteral;
     }
 
-    getStartExplanations(translation: Translation) {
+    getStartExplanations(translation: Locale) {
         return translation.node.TableLiteral.start;
     }
 
     getFinishExplanations(
-        translation: Translation,
+        translation: Locale,
         context: Context,
         evaluator: Evaluator
     ) {

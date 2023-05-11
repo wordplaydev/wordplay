@@ -1,6 +1,6 @@
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Translation from '@translation/Translation';
-import type { Description } from '@translation/Translation';
+import type Locale from '@translation/Locale';
+import type { Description } from '@translation/Locale';
 import type Context from './Context';
 import type Node from './Node';
 import Type from './Type';
@@ -50,11 +50,11 @@ export default abstract class UnknownType<
         ];
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.UnknownType;
     }
 
-    abstract getReason(translation: Translation, context: Context): Description;
+    abstract getReason(translation: Locale, context: Context): Description;
 
     getGlyphs() {
         return Glyphs.Unknown;

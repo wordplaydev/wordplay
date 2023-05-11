@@ -1,5 +1,5 @@
 import type Expression from '@nodes/Expression';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import type Evaluator from './Evaluator';
 import Step from './Step';
 import type Value from './Value';
@@ -22,7 +22,7 @@ export default class Jump extends Step {
         return super.toString() + ' ' + this.count;
     }
 
-    getExplanations(translation: Translation) {
+    getExplanations(translation: Locale) {
         return translation.step.jump;
     }
 }

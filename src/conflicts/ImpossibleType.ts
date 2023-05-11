@@ -1,7 +1,7 @@
 import Conflict from './Conflict';
 import type Type from '@nodes/Type';
 import type Is from '@nodes/Is';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 
 export class ImpossibleType extends Conflict {
     readonly is: Is;
@@ -17,7 +17,7 @@ export class ImpossibleType extends Conflict {
         return {
             primary: {
                 node: this.is.expression,
-                explanation: (translation: Translation) =>
+                explanation: (translation: Locale) =>
                     translation.conflict.ImpossibleType.primary,
             },
         };

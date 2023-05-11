@@ -24,7 +24,7 @@ import Start from '@runtime/Start';
 import UnionType from './UnionType';
 import NoneType from './NoneType';
 import type { Replacement } from './Node';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import { NotAStreamType } from './NotAStreamType';
 import NodeLink from '@translation/NodeLink';
 import Glyphs from '../lore/Glyphs';
@@ -57,7 +57,7 @@ export default class Previous extends Expression {
             {
                 name: 'stream',
                 types: [Expression],
-                label: (translation: Translation) => translation.data.stream,
+                label: (translation: Locale) => translation.data.stream,
                 // Must be a stream
                 getType: () => StreamType.make(new AnyType()),
             },
@@ -65,7 +65,7 @@ export default class Previous extends Expression {
             {
                 name: 'index',
                 types: [Expression],
-                label: (translation: Translation) => translation.data.index,
+                label: (translation: Locale) => translation.data.index,
                 // Must be a number
                 getType: () => MeasurementType.make(),
             },
@@ -159,18 +159,18 @@ export default class Previous extends Expression {
         return this.previous;
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.Previous;
     }
 
-    getStartExplanations(translation: Translation, context: Context) {
+    getStartExplanations(translation: Locale, context: Context) {
         return translation.node.Previous.start(
             new NodeLink(this.stream, translation, context)
         );
     }
 
     getFinishExplanations(
-        translation: Translation,
+        translation: Locale,
         context: Context,
         evaluator: Evaluator
     ) {

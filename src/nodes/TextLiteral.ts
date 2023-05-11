@@ -8,7 +8,7 @@ import type Context from './Context';
 import type TypeSet from './TypeSet';
 import TokenType from './TokenType';
 import type { Replacement } from './Node';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Literal from './Literal';
 import Emotion from '../lore/Emotion';
 import Purpose from '../concepts/Purpose';
@@ -105,11 +105,11 @@ export default class TextLiteral extends Literal {
         return this.text;
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.TextLiteral;
     }
 
-    getStartExplanations(translation: Translation) {
+    getStartExplanations(translation: Locale) {
         return translation.node.TextLiteral.start;
     }
 

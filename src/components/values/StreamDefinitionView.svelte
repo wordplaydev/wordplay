@@ -3,7 +3,7 @@
 <script lang="ts">
     import SymbolView from './SymbolView.svelte';
     import TokenType from '@nodes/TokenType';
-    import { preferredLanguages } from '@translation/translations';
+    import { preferredLanguages } from '@translation/locales';
     import type StreamDefinitionValue from '../../runtime/StreamDefinitionValue';
     import { STREAM_SYMBOL } from '../../parser/Symbols';
 
@@ -12,6 +12,6 @@
 
 <SymbolView symbol={STREAM_SYMBOL} type={TokenType.Stream} />
 <SymbolView
-    symbol={value.definition.names.getTranslation($preferredLanguages)}
+    symbol={value.definition.names.getLocaleText($preferredLanguages)}
     type={TokenType.Name}
 />

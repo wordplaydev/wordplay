@@ -10,7 +10,7 @@
     import Exception from '@runtime/Exception';
     import { getEvaluation } from '../project/Contexts';
     import Controls from './Controls.svelte';
-    import { preferredTranslations } from '../../translation/translations';
+    import { preferredLocales } from '../../translation/locales';
 
     export let evaluator: Evaluator;
 
@@ -163,7 +163,7 @@
 
 <section
     class="evaluation"
-    aria-label={$preferredTranslations[0].ui.section.timeline}
+    aria-label={$preferredLocales[0].ui.section.timeline}
     class:stepping={$evaluation?.playing === false}
 >
     <Controls project={evaluator.project} {evaluator} />

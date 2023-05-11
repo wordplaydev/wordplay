@@ -2,7 +2,7 @@
     import type Concept from '@concepts/Concept';
     import RootView from '../project/RootView.svelte';
     import { getConceptPath } from '../project/Contexts';
-    import { preferredTranslations } from '@translation/translations';
+    import { preferredLocales } from '@translation/locales';
     import type Node from '@nodes/Node';
     import Note from '../widgets/Note.svelte';
     import type StructureConcept from '@concepts/StructureConcept';
@@ -37,7 +37,7 @@
     }
 
     $: selection = getConceptPath();
-    $: description = concept.getName($preferredTranslations[0]);
+    $: description = concept.getName($preferredLocales[0]);
 </script>
 
 <div class="view" class:draggable>

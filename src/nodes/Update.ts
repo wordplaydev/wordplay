@@ -22,7 +22,7 @@ import type TypeSet from './TypeSet';
 import UnimplementedException from '@runtime/UnimplementedException';
 import type Evaluator from '@runtime/Evaluator';
 import type { Replacement } from './Node';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import NodeLink from '@translation/NodeLink';
 import Glyphs from '../lore/Glyphs';
 
@@ -48,18 +48,18 @@ export default class Update extends Expression {
             {
                 name: 'table',
                 types: [Expression],
-                label: (translation: Translation) => translation.data.table,
+                label: (translation: Locale) => translation.data.table,
             },
             { name: 'update', types: [Token] },
             {
                 name: 'row',
                 types: [Row],
-                label: (translation: Translation) => translation.data.row,
+                label: (translation: Locale) => translation.data.row,
             },
             {
                 name: 'query',
                 types: [Expression],
-                label: (translation: Translation) => translation.data.query,
+                label: (translation: Locale) => translation.data.query,
             },
         ];
     }
@@ -197,18 +197,18 @@ export default class Update extends Expression {
         return this.update;
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.Update;
     }
 
-    getStartExplanations(translation: Translation, context: Context) {
+    getStartExplanations(translation: Locale, context: Context) {
         return translation.node.Update.start(
             new NodeLink(this.table, translation, context)
         );
     }
 
     getFinishExplanations(
-        translation: Translation,
+        translation: Locale,
         context: Context,
         evaluator: Evaluator
     ) {

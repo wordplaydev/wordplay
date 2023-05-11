@@ -1,5 +1,5 @@
 import type BinaryOperation from '@nodes/BinaryOperation';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Conflict from './Conflict';
 
 export default class OrderOfOperations extends Conflict {
@@ -17,7 +17,7 @@ export default class OrderOfOperations extends Conflict {
         return {
             primary: {
                 node: this.operation.operator,
-                explanation: (translation: Translation) =>
+                explanation: (translation: Locale) =>
                     translation.conflict.OrderOfOperations.primary,
             },
         };

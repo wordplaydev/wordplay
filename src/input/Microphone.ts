@@ -1,8 +1,8 @@
 import type Evaluator from '@runtime/Evaluator';
 import TemporalStream from '../runtime/TemporalStream';
 import StreamDefinition from '../nodes/StreamDefinition';
-import { getDocTranslations } from '../translation/getDocTranslations';
-import { getNameTranslations } from '../translation/getNameTranslations';
+import { getDocLocales } from '../translation/getDocLocales';
+import { getNameLocales } from '../translation/getNameLocales';
 import MeasurementType from '../nodes/MeasurementType';
 import Bind from '../nodes/Bind';
 import UnionType from '../nodes/UnionType';
@@ -114,16 +114,16 @@ export default class Mic extends TemporalStream<Measurement> {
 }
 
 const FrequencyBind = Bind.make(
-    getDocTranslations((t) => t.input.mic.frequency.doc),
-    getNameTranslations((t) => t.input.mic.frequency.names),
+    getDocLocales((t) => t.input.mic.frequency.doc),
+    getNameLocales((t) => t.input.mic.frequency.names),
     UnionType.make(MeasurementType.make(Unit.make(['ms'])), NoneType.make()),
     // Default to nothing
     MeasurementLiteral.make(33, Unit.make(['ms']))
 );
 
 export const MicDefinition = StreamDefinition.make(
-    getDocTranslations((t) => t.input.mic.doc),
-    getNameTranslations((t) => t.input.mic.names),
+    getDocLocales((t) => t.input.mic.doc),
+    getNameLocales((t) => t.input.mic.names),
     [FrequencyBind],
     createStreamEvaluator(
         MeasurementType.make(),

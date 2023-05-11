@@ -24,7 +24,7 @@ import type Evaluator from '@runtime/Evaluator';
 import NotATableType from './NotATableType';
 import UnknownNameType from './UnknownNameType';
 import type { Replacement } from './Node';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import NodeLink from '@translation/NodeLink';
 import Glyphs from '../lore/Glyphs';
 
@@ -50,18 +50,18 @@ export default class Select extends Expression {
             {
                 name: 'table',
                 types: [Expression],
-                label: (translation: Translation) => translation.data.table,
+                label: (translation: Locale) => translation.data.table,
             },
             { name: 'select', types: [Token] },
             {
                 name: 'row',
                 types: [Row],
-                label: (translation: Translation) => translation.data.row,
+                label: (translation: Locale) => translation.data.row,
             },
             {
                 name: 'query',
                 types: [Expression],
-                label: (translation: Translation) => translation.data.query,
+                label: (translation: Locale) => translation.data.query,
             },
         ];
     }
@@ -195,18 +195,18 @@ export default class Select extends Expression {
         return this.select;
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.Select;
     }
 
-    getStartExplanations(translation: Translation, context: Context) {
+    getStartExplanations(translation: Locale, context: Context) {
         return translation.node.Select.start(
             new NodeLink(this.table, translation, context)
         );
     }
 
     getFinishExplanations(
-        translation: Translation,
+        translation: Locale,
         context: Context,
         evaluator: Evaluator
     ) {

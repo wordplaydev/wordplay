@@ -5,7 +5,7 @@ import type LanguageCode from '@translation/LanguageCode';
 import Refer from './Refer';
 import Caret from '../components/editor/util/Caret';
 import type Context from '@nodes/Context';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 
 export default class Add<NodeType extends Node> extends Transform {
     readonly parent: Node;
@@ -69,7 +69,7 @@ export default class Add<NodeType extends Node> extends Transform {
             : [newSource, new Caret(newSource, newCaretPosition, newNode)];
     }
 
-    getDescription(translation: Translation) {
+    getDescription(translation: Locale) {
         let node =
             this.child instanceof Refer
                 ? this.child.getNode([translation.language])

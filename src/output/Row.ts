@@ -5,7 +5,7 @@ import type TypeOutput from './TypeOutput';
 import type RenderContext from './RenderContext';
 import Place from './Place';
 import type LanguageCode from '@translation/LanguageCode';
-import { getPreferredTranslation } from '@translation/getPreferredTranslation';
+import { getPreferredLocale } from '@translation/getPreferredLocales';
 import { getBind } from '@translation/getBind';
 import Measurement from '../runtime/Measurement';
 import Arrangement from './Arrangement';
@@ -95,7 +95,7 @@ export class Row extends Arrangement {
     }
 
     getDescription(output: TypeOutput[], languages: LanguageCode[]) {
-        return getPreferredTranslation(languages).output.row.description(
+        return getPreferredLocale(languages).output.row.description(
             output.length,
             output.filter((o) => o instanceof Phrase).length,
             output.filter((o) => o instanceof Group).length

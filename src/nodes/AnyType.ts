@@ -1,5 +1,5 @@
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Type from './Type';
 import Glyphs from '../lore/Glyphs';
 import { PLACEHOLDER_SYMBOL } from '../parser/Symbols';
@@ -23,7 +23,7 @@ export default class AnyType extends Type {
 
     computeConflicts() {}
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.AnyType;
     }
 

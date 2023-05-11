@@ -2,8 +2,8 @@ import Node from '@nodes/Node';
 import type Evaluator from './Evaluator';
 import type Value from './Value';
 import type Expression from '@nodes/Expression';
-import type Translation from '@translation/Translation';
-import type { Description } from '@translation/Translation';
+import type Locale from '@translation/Locale';
+import type { Description } from '@translation/Locale';
 
 /** Represents one step a compiled program's execution. */
 export default abstract class Step {
@@ -17,7 +17,7 @@ export default abstract class Step {
     abstract evaluate(evaluator: Evaluator): Value | undefined;
 
     abstract getExplanations(
-        translation: Translation,
+        translation: Locale,
         evaluator: Evaluator
     ): Description;
 

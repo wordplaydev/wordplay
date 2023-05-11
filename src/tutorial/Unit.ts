@@ -1,4 +1,4 @@
-import type { UnitNames } from '../translation/Translation';
+import type { UnitNames } from '../translation/Locale';
 import type Lesson from './Lesson';
 
 type Unit = {

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { preferredTranslations } from '@translation/translations';
+    import { preferredLocales } from '@translation/locales';
     import Button from '../widgets/Button.svelte';
     import { animationFactor } from '@models/stores';
     import LayoutChooser from './LayoutChooser.svelte';
@@ -22,15 +22,13 @@
     {#if PUBLIC_CONTEXT !== 'prod'}
         <div class="account" class:anonymous>
             <a href="/login">
-                {$user
-                    ? $user.email
-                    : $preferredTranslations[0].ui.labels.anonymous}
+                {$user ? $user.email : $preferredLocales[0].ui.labels.anonymous}
             </a>
         </div>
     {/if}
     <div class="controls">
         <Button
-            tip={$preferredTranslations[0].ui.tooltip.animate}
+            tip={$preferredLocales[0].ui.tooltip.animate}
             action={() =>
                 animationFactor.set(
                     $animationFactor < 4 ? $animationFactor + 1 : 0
@@ -39,7 +37,7 @@
         <LayoutChooser />
         <LanguageChooser />
         <Button
-            tip={$preferredTranslations[0].ui.tooltip.dark}
+            tip={$preferredLocales[0].ui.tooltip.dark}
             action={() =>
                 dark.set(
                     $dark === undefined
@@ -54,7 +52,7 @@
         >
     </div>
     <Button
-        tip={$preferredTranslations[0].ui.tooltip.settings}
+        tip={$preferredLocales[0].ui.tooltip.settings}
         action={() => (expanded = !expanded)}
         ><div class="gear" class:expanded>⚙</div></Button
     >

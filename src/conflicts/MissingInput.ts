@@ -4,7 +4,7 @@ import type Bind from '@nodes/Bind';
 import type BinaryOperation from '@nodes/BinaryOperation';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
 import type StructureDefinition from '@nodes/StructureDefinition';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import type Expression from '@nodes/Expression';
 import type Token from '@nodes/Token';
 import type Context from '@nodes/Context';
@@ -34,21 +34,19 @@ export default class MissingInput extends Conflict {
         return {
             primary: {
                 node: this.last,
-                explanation: (translation: Translation, context: Context) =>
+                explanation: (translation: Locale, context: Context) =>
                     translation.conflict.MissingInput.primary(
                         new NodeLink(
                             this.input,
                             translation,
                             context,
-                            this.input.names.getTranslation(
-                                translation.language
-                            )
+                            this.input.names.getLocaleText(translation.language)
                         )
                     ),
             },
             secondary: {
                 node: this.input.names,
-                explanation: (translation: Translation, context: Context) =>
+                explanation: (translation: Locale, context: Context) =>
                     translation.conflict.MissingInput.secondary(
                         new NodeLink(this.evaluate, translation, context)
                     ),

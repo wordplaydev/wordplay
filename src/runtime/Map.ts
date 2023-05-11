@@ -12,7 +12,7 @@ import {
     SET_OPEN_SYMBOL,
 } from '@parser/Symbols';
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import type Expression from '../nodes/Expression';
 
 export default class Map extends Primitive {
@@ -122,7 +122,7 @@ export default class Map extends Primitive {
             .join(' ')}${SET_CLOSE_SYMBOL}`;
     }
 
-    getDescription(translation: Translation) {
+    getDescription(translation: Locale) {
         return translation.data.map;
     }
 

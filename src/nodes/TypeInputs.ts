@@ -1,4 +1,4 @@
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Purpose from '../concepts/Purpose';
 import Glyphs from '../lore/Glyphs';
 import { TYPE_CLOSE_SYMBOL, TYPE_OPEN_SYMBOL } from '../parser/Symbols';
@@ -52,7 +52,7 @@ export default class TypeInputs extends Node {
 
     computeConflicts() {}
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.TypeInputs;
     }
 

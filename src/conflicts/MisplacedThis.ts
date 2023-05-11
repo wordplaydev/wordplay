@@ -1,5 +1,5 @@
 import type This from '@nodes/This';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Conflict from './Conflict';
 
 export class MisplacedThis extends Conflict {
@@ -13,7 +13,7 @@ export class MisplacedThis extends Conflict {
         return {
             primary: {
                 node: this.dis,
-                explanation: (translation: Translation) =>
+                explanation: (translation: Locale) =>
                     translation.conflict.MisplacedThis.primary,
             },
         };

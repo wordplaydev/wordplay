@@ -8,7 +8,7 @@ import type TypeSet from './TypeSet';
 import { NONE_SYMBOL } from '@parser/Symbols';
 import TokenType from './TokenType';
 import type { Replacement } from './Node';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Literal from './Literal';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
@@ -76,11 +76,11 @@ export default class NoneLiteral extends Literal {
         return current;
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.NoneLiteral;
     }
 
-    getStartExplanations(translation: Translation) {
+    getStartExplanations(translation: Locale) {
         return translation.node.NoneLiteral.start;
     }
 

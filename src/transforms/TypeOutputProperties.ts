@@ -7,7 +7,7 @@ import Unit from '@nodes/Unit';
 import { createPoseLiteral, PoseType } from '@output/Pose';
 import { SequenceType } from '@output/Sequence';
 import { DefaultStyle } from '@output/TypeOutput';
-import { getFirstName, type NameTranslation } from '@translation/Translation';
+import { getFirstName, type NameText } from '@translation/Locale';
 import en from '@translation/translations/en';
 import type OutputProperty from './OutputProperty';
 import OutputPropertyText from './OutputPropertyText';
@@ -42,7 +42,7 @@ export const StyleProperty: OutputProperty = {
     name: getFirstName(en.output.type.style.names),
     type: new OutputPropertyOptions(
         Object.values(en.output.easing).reduce(
-            (all: string[], next: NameTranslation) => [
+            (all: string[], next: NameText) => [
                 ...all,
                 ...(Array.isArray(next) ? next : [next]),
             ],
@@ -97,7 +97,7 @@ const TypeOutputProperties: OutputProperty[] = [
         create: (languages) =>
             Evaluate.make(
                 Reference.make(
-                    PlaceType.names.getTranslation(languages),
+                    PlaceType.names.getLocaleText(languages),
                     PlaceType
                 ),
                 []

@@ -1,8 +1,8 @@
 import type Evaluator from '@runtime/Evaluator';
 import TemporalStream from '../runtime/TemporalStream';
 import StreamDefinition from '../nodes/StreamDefinition';
-import { getDocTranslations } from '../translation/getDocTranslations';
-import { getNameTranslations } from '../translation/getNameTranslations';
+import { getDocLocales as getDocLocales } from '../translation/getDocLocales';
+import { getNameLocales as getNameLocales } from '../translation/getNameLocales';
 import MeasurementType from '../nodes/MeasurementType';
 import Bind from '../nodes/Bind';
 import UnionType from '../nodes/UnionType';
@@ -280,29 +280,29 @@ export const frameType = ListType.make(
 );
 
 const WidthBind = Bind.make(
-    getDocTranslations((t) => t.input.camera.width.doc),
-    getNameTranslations((t) => t.input.camera.width.names),
+    getDocLocales((t) => t.input.camera.width.doc),
+    getNameLocales((t) => t.input.camera.width.names),
     UnionType.make(MeasurementType.make(Unit.make(['px'])), NoneType.make()),
     MeasurementLiteral.make(DEFAULT_WIDTH, Unit.make(['px']))
 );
 
 const HeightBind = Bind.make(
-    getDocTranslations((t) => t.input.camera.height.doc),
-    getNameTranslations((t) => t.input.camera.height.names),
+    getDocLocales((t) => t.input.camera.height.doc),
+    getNameLocales((t) => t.input.camera.height.names),
     UnionType.make(MeasurementType.make(Unit.make(['px'])), NoneType.make()),
     MeasurementLiteral.make(DEFAULT_HEIGHT, Unit.make(['px']))
 );
 
 const FrequencyBind = Bind.make(
-    getDocTranslations((t) => t.input.camera.frequency.doc),
-    getNameTranslations((t) => t.input.camera.frequency.names),
+    getDocLocales((t) => t.input.camera.frequency.doc),
+    getNameLocales((t) => t.input.camera.frequency.names),
     UnionType.make(MeasurementType.make(Unit.make(['ms'])), NoneType.make()),
     MeasurementLiteral.make(DEFAULT_FREQUENCY, Unit.make(['ms']))
 );
 
 export const CameraDefinition = StreamDefinition.make(
-    getDocTranslations((t) => t.input.camera.doc),
-    getNameTranslations((t) => t.input.camera.names),
+    getDocLocales((t) => t.input.camera.doc),
+    getNameLocales((t) => t.input.camera.names),
     [WidthBind, HeightBind, FrequencyBind],
     createStreamEvaluator(
         frameType.clone(),

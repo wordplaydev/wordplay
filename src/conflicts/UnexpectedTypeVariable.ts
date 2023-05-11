@@ -1,5 +1,5 @@
 import type Reference from '@nodes/Reference';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Conflict from './Conflict';
 
 export class UnexpectedTypeVariable extends Conflict {
@@ -14,7 +14,7 @@ export class UnexpectedTypeVariable extends Conflict {
         return {
             primary: {
                 node: this.name,
-                explanation: (translation: Translation) =>
+                explanation: (translation: Locale) =>
                     translation.conflict.UnexpectedTypeVariable.primary,
             },
         };

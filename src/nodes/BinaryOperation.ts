@@ -27,8 +27,8 @@ import type Definition from './Definition';
 import TokenType from './TokenType';
 import MeasurementType from './MeasurementType';
 import type { Replacement } from './Node';
-import type Translation from '@translation/Translation';
-import type { Description } from '@translation/Translation';
+import type Locale from '@translation/Locale';
+import type { Description } from '@translation/Locale';
 import StartEvaluation from '@runtime/StartEvaluation';
 import NodeLink from '@translation/NodeLink';
 import Emotion from '../lore/Emotion';
@@ -56,7 +56,7 @@ export default class BinaryOperation extends Expression {
                 types: [Expression],
                 // The label comes from the type of left, or the default label from the translation.
                 label: (
-                    translation: Translation,
+                    translation: Locale,
                     _: Node,
                     context: Context
                 ): Description =>
@@ -83,13 +83,13 @@ export default class BinaryOperation extends Expression {
                 types: [Expression],
                 // The name of the input from the function, or the translation default
                 label: (
-                    translation: Translation,
+                    translation: Locale,
                     _: Node,
                     context: Context
                 ): Description => {
                     const fun = this.getFunction(context);
                     return (
-                        fun?.inputs[0].names.getTranslation(
+                        fun?.inputs[0].names.getLocaleText(
                             translation.language
                         ) ?? translation.node.BinaryOperation.right
                     );
@@ -360,7 +360,7 @@ export default class BinaryOperation extends Expression {
         }
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.BinaryOperation;
     }
 
@@ -371,14 +371,14 @@ export default class BinaryOperation extends Expression {
         return this.operator;
     }
 
-    getStartExplanations(translation: Translation, context: Context) {
+    getStartExplanations(translation: Locale, context: Context) {
         return translation.node.BinaryOperation.start(
             new NodeLink(this.left, translation, context)
         );
     }
 
     getFinishExplanations(
-        translation: Translation,
+        translation: Locale,
         context: Context,
         evaluator: Evaluator
     ) {

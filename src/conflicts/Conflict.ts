@@ -1,11 +1,11 @@
 import type Node from '@nodes/Node';
 import type Context from '@nodes/Context';
-import type Translation from '@translation/Translation';
-import type { Description } from '@translation/Translation';
+import type Locale from '@translation/Locale';
+import type { Description } from '@translation/Locale';
 
 type ConflictingNode = {
     node: Node;
-    explanation: (translation: Translation, context: Context) => Description;
+    explanation: (translation: Locale, context: Context) => Description;
 };
 
 export default abstract class Conflict {

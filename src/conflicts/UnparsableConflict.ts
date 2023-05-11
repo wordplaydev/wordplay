@@ -1,7 +1,7 @@
 import Conflict from './Conflict';
 import type UnparsableType from '@nodes/UnparsableType';
 import UnparsableExpression from '@nodes/UnparsableExpression';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 
 export class UnparsableConflict extends Conflict {
     readonly unparsable: UnparsableType | UnparsableExpression;
@@ -15,7 +15,7 @@ export class UnparsableConflict extends Conflict {
         return {
             primary: {
                 node: this.unparsable,
-                explanation: (translation: Translation) =>
+                explanation: (translation: Locale) =>
                     translation.conflict.UnparsableConflict.primary(
                         this.unparsable instanceof UnparsableExpression
                     ),

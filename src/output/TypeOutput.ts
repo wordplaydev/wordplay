@@ -12,7 +12,7 @@ import type RenderContext from './RenderContext';
 import Fonts, { SupportedFontsFamiliesType } from '../native/Fonts';
 import en from '@translation/translations/en';
 import type LanguageCode from '@translation/LanguageCode';
-import type { Description } from '@translation/Translation';
+import type { Description } from '@translation/Locale';
 
 export const TypeType = toStructure(`
     ${getBind((t) => t.output.type, TYPE_SYMBOL)}()

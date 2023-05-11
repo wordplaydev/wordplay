@@ -35,10 +35,10 @@
     } from '../project/Contexts';
     import {
         preferredLanguages,
-        preferredTranslations,
+        preferredLocales,
         writingDirection,
         writingLayout,
-    } from '@translation/translations';
+    } from '@translation/locales';
     import {
         type Highlights,
         HighlightTypes,
@@ -1208,9 +1208,9 @@
     aria-live="off"
     aria-multiline="true"
     aria-readonly="false"
-    aria-label={`${
-        $preferredTranslations[0].ui.section.editor
-    } ${source.getTranslation($preferredLanguages)}`}
+    aria-label={`${$preferredLocales[0].ui.section.editor} ${source.getLocale(
+        $preferredLanguages
+    )}`}
     aria-activedescendant={$caret.position instanceof Node
         ? `node-${$caret.position.id}`
         : getInputID()}
@@ -1286,7 +1286,7 @@
             >{#if $caret.position instanceof Node}
                 <!-- Show the node's label and type, if an expression -->
                 {$caret.position.getLabel(
-                    $preferredTranslations[0]
+                    $preferredLocales[0]
                 )}{#if caretExpressionType}{caretExpressionType}{/if}
                 <PlaceholderView node={$caret.position} />{/if}<div
                 class="screen-reader-description"
@@ -1294,21 +1294,21 @@
                 aria-atomic="true"
                 aria-relevant="all"
                 >{$caret.position instanceof Node
-                    ? $caret.position.getLabel($preferredTranslations[0]) +
+                    ? $caret.position.getLabel($preferredLocales[0]) +
                       ', ' +
                       $caret.position.getDescription(
-                          $preferredTranslations[0],
+                          $preferredLocales[0],
                           project.getNodeContext($caret.position)
                       ) +
                       (caretExpressionType ? `, ${caretExpressionType}` : '')
                     : $caret.tokenExcludingSpace
-                    ? $preferredTranslations[0].caret.before(
+                    ? $preferredLocales[0].caret.before(
                           source.code.at($caret.position) ?? ''
                       )
                     : $caret.tokenIncludingSpace
-                    ? $preferredTranslations[0].caret.before(
+                    ? $preferredLocales[0].caret.before(
                           $caret.tokenIncludingSpace.getDescription(
-                              $preferredTranslations[0],
+                              $preferredLocales[0],
                               project.getNodeContext($caret.tokenIncludingSpace)
                           )
                       )

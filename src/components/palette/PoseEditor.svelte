@@ -7,10 +7,7 @@
     import type OutputExpression from '@transforms/OutputExpression';
     import Button from '../widgets/Button.svelte';
     import { SequenceType } from '@output/Sequence';
-    import {
-        preferredLanguages,
-        preferredTranslations,
-    } from '@translation/translations';
+    import { preferredLanguages, preferredLocales } from '@translation/locales';
     import Evaluate from '@nodes/Evaluate';
     import Reference from '@nodes/Reference';
     import MapLiteral from '@nodes/MapLiteral';
@@ -45,7 +42,7 @@
                 output.node,
                 Evaluate.make(
                     Reference.make(
-                        SequenceType.names.getTranslation($preferredLanguages),
+                        SequenceType.names.getLocaleText($preferredLanguages),
                         SequenceType
                     ),
                     [
@@ -67,9 +64,8 @@
         <PaletteProperty {project} {property} {values} />
     {/each}
     {#if !sequence}
-        <Button
-            tip={$preferredTranslations[0].ui.tooltip.sequence}
-            action={convert}>{SequenceType.getNames()[0]}</Button
+        <Button tip={$preferredLocales[0].ui.tooltip.sequence} action={convert}
+            >{SequenceType.getNames()[0]}</Button
         >
     {/if}
 </div>

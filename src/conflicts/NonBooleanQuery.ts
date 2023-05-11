@@ -4,7 +4,7 @@ import type Select from '@nodes/Select';
 import type Type from '@nodes/Type';
 import type Update from '@nodes/Update';
 import NodeLink from '@translation/NodeLink';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Conflict from './Conflict';
 
 export default class NonBooleanQuery extends Conflict {
@@ -22,7 +22,7 @@ export default class NonBooleanQuery extends Conflict {
         return {
             primary: {
                 node: this.op.query,
-                explanation: (translation: Translation, context: Context) =>
+                explanation: (translation: Locale, context: Context) =>
                     translation.conflict.NonBooleanQuery.primary(
                         new NodeLink(this.type, translation, context)
                     ),

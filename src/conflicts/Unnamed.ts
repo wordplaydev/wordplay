@@ -1,5 +1,5 @@
 import type Name from '@nodes/Name';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Conflict from './Conflict';
 
 export default class Unnamed extends Conflict {
@@ -13,7 +13,7 @@ export default class Unnamed extends Conflict {
         return {
             primary: {
                 node: this.alias,
-                explanation: (translation: Translation) =>
+                explanation: (translation: Locale) =>
                     translation.conflict.Unnamed.primary,
             },
         };

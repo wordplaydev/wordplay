@@ -15,7 +15,7 @@ import Start from '@runtime/Start';
 import TokenType from './TokenType';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import type { Replacement } from './Node';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';
@@ -53,7 +53,7 @@ export default class Template extends Expression {
             {
                 name: 'expressions',
                 types: [[Expression, Token]],
-                label: (translation: Translation) => translation.data.text,
+                label: (translation: Locale) => translation.data.text,
             },
             { name: 'format', types: [Language, undefined] },
         ];
@@ -154,15 +154,15 @@ export default class Template extends Expression {
         return this.expressions[this.expressions.length - 1] ?? this.open;
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.Template;
     }
 
-    getStartExplanations(translation: Translation) {
+    getStartExplanations(translation: Locale) {
         return translation.node.Template.start;
     }
 
-    getFinishExplanations(translation: Translation) {
+    getFinishExplanations(translation: Locale) {
         return translation.node.Template.finish;
     }
 

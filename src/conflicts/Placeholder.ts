@@ -1,6 +1,6 @@
 import type ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import type TypePlaceholder from '@nodes/TypePlaceholder';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Conflict from './Conflict';
 
 export default class Placeholder extends Conflict {
@@ -15,7 +15,7 @@ export default class Placeholder extends Conflict {
         return {
             primary: {
                 node: this.placeholder,
-                explanation: (translation: Translation) =>
+                explanation: (translation: Locale) =>
                     translation.conflict.Placeholder.primary,
             },
         };

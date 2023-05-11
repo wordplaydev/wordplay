@@ -21,7 +21,7 @@ import Halt from '@runtime/Halt';
 import Exception from '@runtime/Exception';
 import TypeException from '@runtime/TypeException';
 import type { Replacement } from './Node';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import UnimplementedException from '@runtime/UnimplementedException';
 import NodeLink from '@translation/NodeLink';
 import Glyphs from '../lore/Glyphs';
@@ -46,13 +46,13 @@ export default class Insert extends Expression {
             {
                 name: 'table',
                 types: [Expression],
-                label: (translation: Translation) => translation.data.table,
+                label: (translation: Locale) => translation.data.table,
             },
             { name: 'insert', types: [Token] },
             {
                 name: 'row',
                 types: [Row],
-                label: (translation: Translation) => translation.data.row,
+                label: (translation: Locale) => translation.data.row,
             },
         ];
     }
@@ -202,18 +202,18 @@ export default class Insert extends Expression {
         return this.insert;
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.Insert;
     }
 
-    getStartExplanations(translation: Translation, context: Context) {
+    getStartExplanations(translation: Locale, context: Context) {
         return translation.node.Insert.start(
             new NodeLink(this.table, translation, context)
         );
     }
 
     getFinishExplanations(
-        translation: Translation,
+        translation: Locale,
         context: Context,
         evaluator: Evaluator
     ) {

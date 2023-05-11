@@ -1,6 +1,6 @@
 import type Context from '@nodes/Context';
 import type UnknownType from '@nodes/UnknownType';
-import type Translation from '../Translation';
+import type Locale from '../Locale';
 import type ListType from '@nodes/ListType';
 import type MapType from '@nodes/MapType';
 import type MeasurementLiteral from '@nodes/MeasurementLiteral';
@@ -28,7 +28,7 @@ import {
     getPlaceholderDescription,
     getTokenDescription,
     type Description,
-} from '../Translation';
+} from '../Locale';
 import type { CycleType } from '@nodes/CycleType';
 import type UnknownNameType from '@nodes/UnknownNameType';
 import Explanation from '../Explanation';
@@ -40,7 +40,7 @@ import Unit from '../../nodes/Unit';
 export const WRITE_DOC = 'TBD';
 export const WRITE_TUTORIAL = { instructions: [WRITE_DOC] as const, text: [] };
 
-const en: Translation = {
+const en: Locale = {
     language: 'en',
     wordplay: 'Wordplay',
     welcome: 'hello',
@@ -688,7 +688,7 @@ const en: Translation = {
         FunctionDefinition: {
             names: 'function',
             description: (fun, translation) =>
-                fun.names.getTranslation(translation.language),
+                fun.names.getLocaleText(translation.language),
             emotion: Emotion.TBD,
             doc:
                 WRITE_DOC +
@@ -978,7 +978,7 @@ const en: Translation = {
         StructureDefinition: {
             names: 'structure',
             description: (structure, translation) =>
-                structure.names.getTranslation(translation.language),
+                structure.names.getLocaleText(translation.language),
             emotion: Emotion.TBD,
             doc: `define a data structure that stores values and functions on those values.`,
             start: 'define this structure type',
@@ -1118,7 +1118,7 @@ const en: Translation = {
             names: 'list type',
             description: (
                 node: ListType,
-                translation: Translation,
+                translation: Locale,
                 context: Context
             ) =>
                 node.type === undefined
@@ -1135,7 +1135,7 @@ const en: Translation = {
             names: 'map type',
             description: (
                 node: MapType,
-                translation: Translation,
+                translation: Locale,
                 context: Context
             ) =>
                 node.key === undefined || node.value === undefined
@@ -1181,7 +1181,7 @@ const en: Translation = {
         },
         SetType: {
             names: 'set type',
-            description: (node: SetType, translation: Translation) =>
+            description: (node: SetType, translation: Locale) =>
                 node.key === undefined
                     ? 'anything'
                     : node.key.getLabel(translation),
@@ -1191,11 +1191,8 @@ const en: Translation = {
         },
         StreamDefinitionType: {
             names: 'stream type',
-            description: (
-                node: StreamDefinitionType,
-                translation: Translation
-            ) =>
-                `a ${node.definition.names.getTranslation(
+            description: (node: StreamDefinitionType, translation: Locale) =>
+                `a ${node.definition.names.getLocaleText(
                     translation.language
                 )} stream`,
             emotion: Emotion.TBD,
@@ -1206,7 +1203,7 @@ const en: Translation = {
             names: 'stream type',
             description: (
                 node: StreamType,
-                translation: Translation,
+                translation: Locale,
                 context: Context
             ) =>
                 `a type of stream of ${node.type.getDescription(
@@ -1228,7 +1225,7 @@ const en: Translation = {
             names: 'unknown type',
             description: (
                 node: UnknownType<any>,
-                translation: Translation,
+                translation: Locale,
                 context: Context
             ) => {
                 return `unknown, because ${node
@@ -1266,7 +1263,7 @@ const en: Translation = {
             names: 'option type',
             description: (
                 node: UnionType,
-                translation: Translation,
+                translation: Locale,
                 context: Context
             ) =>
                 `${node.left.getDescription(

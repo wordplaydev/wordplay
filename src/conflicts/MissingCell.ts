@@ -3,7 +3,7 @@ import type Context from '@nodes/Context';
 import type Row from '@nodes/Row';
 import type TableType from '@nodes/TableType';
 import NodeLink from '@translation/NodeLink';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Conflict from './Conflict';
 
 export default class MissingCell extends Conflict {
@@ -23,13 +23,13 @@ export default class MissingCell extends Conflict {
         return {
             primary: {
                 node: this.row,
-                explanation: (translation: Translation, context: Context) =>
+                explanation: (translation: Locale, context: Context) =>
                     translation.conflict.MissingCell.primary(
                         new NodeLink(
                             this.column,
                             translation,
                             context,
-                            this.column.names.getTranslation(
+                            this.column.names.getLocaleText(
                                 translation.language
                             )
                         )
@@ -37,7 +37,7 @@ export default class MissingCell extends Conflict {
             },
             secondary: {
                 node: this.column,
-                explanation: (translation: Translation, context: Context) =>
+                explanation: (translation: Locale, context: Context) =>
                     translation.conflict.MissingCell.secondary(
                         new NodeLink(this.row, translation, context)
                     ),

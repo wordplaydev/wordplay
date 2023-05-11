@@ -6,7 +6,7 @@ import TokenType from './TokenType';
 import Type from './Type';
 import type TypeSet from './TypeSet';
 import type { Replacement } from './Node';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Glyphs from '../lore/Glyphs';
 
 export default class ConversionType extends Type {
@@ -67,7 +67,7 @@ export default class ConversionType extends Type {
         return 'conversion';
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.ConversionType;
     }
 

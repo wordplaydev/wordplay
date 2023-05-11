@@ -11,10 +11,7 @@
     import Unit from '@nodes/Unit';
     import type Expression from '@nodes/Expression';
     import Button from '../widgets/Button.svelte';
-    import {
-        preferredLanguages,
-        preferredTranslations,
-    } from '@translation/translations';
+    import { preferredLanguages, preferredLocales } from '@translation/locales';
     import Note from '../widgets/Note.svelte';
     import { getProjects } from '../project/Contexts';
 
@@ -97,8 +94,8 @@
                     <div class="percent"
                         ><TextField
                             text={pair.key.toWordplay()}
-                            placeholder={$preferredTranslations[0].ui
-                                .placeholders.percent}
+                            placeholder={$preferredLocales[0].ui.placeholders
+                                .percent}
                             validator={(value) => {
                                 const number = parseInt(value.replace('%', ''));
                                 if (isNaN(number)) return false;
@@ -128,25 +125,22 @@
                             changed={(value) => revisePercent(pair, value)}
                         />
                         <Button
-                            tip={$preferredTranslations[0].ui.tooltip.addPose}
+                            tip={$preferredLocales[0].ui.tooltip.addPose}
                             action={() => addPose(index)}>+</Button
                         >
                         <Button
-                            tip={$preferredTranslations[0].ui.tooltip
-                                .removePose}
+                            tip={$preferredLocales[0].ui.tooltip.removePose}
                             action={() => removePose(index)}
                             enabled={map !== undefined && map.values.length > 1}
                             >⨉</Button
                         >
                         <Button
-                            tip={$preferredTranslations[0].ui.tooltip
-                                .movePoseUp}
+                            tip={$preferredLocales[0].ui.tooltip.movePoseUp}
                             action={() => movePose(index, -1)}
                             enabled={index > 0}>↑</Button
                         >
                         <Button
-                            tip={$preferredTranslations[0].ui.tooltip
-                                .movePoseDown}
+                            tip={$preferredLocales[0].ui.tooltip.movePoseDown}
                             action={() => movePose(index, 1)}
                             enabled={index < map.values.length - 1}>↓</Button
                         >
@@ -164,7 +158,7 @@
             {/if}
         {/each}
     {:else}
-        <Note>{$preferredTranslations[0].ui.labels.notSequence}</Note>
+        <Note>{$preferredLocales[0].ui.labels.notSequence}</Note>
     {/if}
 </div>
 

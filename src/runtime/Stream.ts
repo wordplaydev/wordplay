@@ -5,7 +5,7 @@ import type LanguageCode from '@translation/LanguageCode';
 import type Evaluator from './Evaluator';
 import type { StepNumber } from './Evaluator';
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import type StreamDefinition from '../nodes/StreamDefinition';
 import type Expression from '../nodes/Expression';
 
@@ -39,10 +39,10 @@ export default abstract class Stream<
         this.add(initalValue);
     }
 
-    getDescription(translation: Translation) {
+    getDescription(translation: Locale) {
         return (
             this.definition.docs
-                ?.getTranslation(translation.language)
+                ?.getLocale(translation.language)
                 ?.getFirstParagraph() ?? translation.data.stream
         );
     }
@@ -126,7 +126,7 @@ export default abstract class Stream<
     }
 
     getName(languages: LanguageCode[]) {
-        return this.definition.names.getTranslation(languages);
+        return this.definition.names.getLocaleText(languages);
     }
 
     /** Should return named values on the stream. */

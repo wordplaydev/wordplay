@@ -3,7 +3,7 @@ import type Expression from '@nodes/Expression';
 import type TableType from '@nodes/TableType';
 import type Type from '@nodes/Type';
 import NodeLink from '@translation/NodeLink';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Conflict from './Conflict';
 
 export default class IncompatibleCellType extends Conflict {
@@ -30,14 +30,14 @@ export default class IncompatibleCellType extends Conflict {
         return {
             primary: {
                 node: this.cell,
-                explanation: (translation: Translation, context: Context) =>
+                explanation: (translation: Locale, context: Context) =>
                     translation.conflict.IncompatibleCellType.primary(
                         new NodeLink(this.expected, translation, context)
                     ),
             },
             secondary: {
                 node: this.type,
-                explanation: (translation: Translation, context: Context) =>
+                explanation: (translation: Locale, context: Context) =>
                     translation.conflict.IncompatibleCellType.secondary(
                         new NodeLink(this.received, translation, context)
                     ),

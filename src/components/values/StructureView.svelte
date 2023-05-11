@@ -1,7 +1,7 @@
 <svelte:options immutable={true} />
 
 <script lang="ts">
-    import { preferredLanguages } from '@translation/translations';
+    import { preferredLanguages } from '@translation/locales';
     import TokenType from '@nodes/TokenType';
     import {
         BIND_SYMBOL,
@@ -19,12 +19,12 @@
 </script>
 
 <SymbolView
-    symbol={value.type.names.getTranslation($preferredLanguages)}
+    symbol={value.type.names.getLocaleText($preferredLanguages)}
     type={TokenType.Name}
 /><SymbolView symbol={EVAL_OPEN_SYMBOL} type={TokenType.EvalOpen} /><Expandable
     ><svelte:fragment slot="expanded">
         {#each value.type.inputs as input, index}<SymbolView
-                symbol={input.names.getTranslation($preferredLanguages)}
+                symbol={input.names.getLocaleText($preferredLanguages)}
                 type={TokenType.Name}
             /><SymbolView
                 symbol={BIND_SYMBOL}

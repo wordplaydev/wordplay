@@ -3,7 +3,7 @@ import Conflict from './Conflict';
 import type Bind from '@nodes/Bind';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
 import type StructureDefinition from '@nodes/StructureDefinition';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import type StreamDefinition from '../nodes/StreamDefinition';
 
 export default class MisplacedInput extends Conflict {
@@ -30,7 +30,7 @@ export default class MisplacedInput extends Conflict {
         return {
             primary: {
                 node: this.given.names,
-                explanation: (translation: Translation) =>
+                explanation: (translation: Locale) =>
                     translation.conflict.MisplacedInput.primary,
             },
         };

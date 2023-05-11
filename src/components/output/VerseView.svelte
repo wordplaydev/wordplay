@@ -5,10 +5,7 @@
     import type Project from '@models/Project';
     import type Verse from '@output/Verse';
     import { animationFactor } from '@models/stores';
-    import {
-        preferredLanguages,
-        preferredTranslations,
-    } from '@translation/translations';
+    import { preferredLanguages, preferredLocales } from '@translation/locales';
     import { loadedFonts } from '@native/Fonts';
     import { PX_PER_METER, rootScale, toCSS } from '@output/outputToCSS';
     import Place from '@output/Place';
@@ -935,13 +932,13 @@
                 >
                     {#if enteredDescription.length > 0}
                         <p
-                            >{$preferredTranslations[0].terminology.entered}
+                            >{$preferredLocales[0].terminology.entered}
                             {enteredDescription}</p
                         >
                     {/if}
                     {#if changedDescription.length > 0}
                         <p
-                            >{$preferredTranslations[0].terminology.changed}
+                            >{$preferredLocales[0].terminology.changed}
                             {changedDescription}</p
                         >
                     {/if}

@@ -725,7 +725,7 @@ function getPossibleNodes(
                         (def): def is StructureDefinition =>
                             def instanceof StructureDefinition
                     )
-                    .map((s) => new NameType(s.names.getTranslation('eng'))),
+                    .map((s) => new NameType(s.names.getLocaleText('eng'))),
             ];
         case Language:
             return getPossibleLanguages(context.project).map((lang) =>

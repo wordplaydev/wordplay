@@ -1,5 +1,5 @@
 import type Row from '@nodes/Row';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Conflict from './Conflict';
 
 export default class InvalidRow extends Conflict {
@@ -14,7 +14,7 @@ export default class InvalidRow extends Conflict {
         return {
             primary: {
                 node: this.row,
-                explanation: (translation: Translation) =>
+                explanation: (translation: Locale) =>
                     translation.conflict.InvalidRow.primary,
             },
         };

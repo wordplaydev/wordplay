@@ -10,7 +10,7 @@ import type TypeSet from './TypeSet';
 import NeverType from './NeverType';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type { Replacement } from './Node';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import NoneType from './NoneType';
 import Glyphs from '../lore/Glyphs';
 
@@ -139,7 +139,7 @@ export default class UnionType extends Type {
         return leftScope === rightScope ? leftScope : undefined;
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.UnionType;
     }
 

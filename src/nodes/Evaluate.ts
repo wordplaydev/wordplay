@@ -42,7 +42,7 @@ import NotAFunctionType from './NotAFunctionType';
 import PropertyReference from './PropertyReference';
 import NeverType from './NeverType';
 import type { Replacement } from './Node';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import type Node from './Node';
 import StartEvaluation from '@runtime/StartEvaluation';
 import UnimplementedException from '@runtime/UnimplementedException';
@@ -102,7 +102,7 @@ export default class Evaluate extends Expression {
             {
                 name: 'func',
                 types: [Expression],
-                label: (translation: Translation) =>
+                label: (translation: Locale) =>
                     translation.node.Evaluate.function,
             },
             { name: 'types', types: [TypeInputs, undefined] },
@@ -110,11 +110,7 @@ export default class Evaluate extends Expression {
             {
                 name: 'inputs',
                 types: [[Expression]],
-                label: (
-                    translation: Translation,
-                    child: Node,
-                    context: Context
-                ) => {
+                label: (translation: Locale, child: Node, context: Context) => {
                     // Get the function called
                     const fun = this.getFunction(context);
                     // Didn't find it? Default label.
@@ -132,7 +128,7 @@ export default class Evaluate extends Expression {
                     );
                     return bind === undefined
                         ? translation.node.Evaluate.input
-                        : bind.expected.names.getTranslation(
+                        : bind.expected.names.getLocaleText(
                               translation.language
                           );
                 },
@@ -793,16 +789,16 @@ export default class Evaluate extends Expression {
         return this.close ?? this.func;
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.Evaluate;
     }
 
-    getStartExplanations(translation: Translation) {
+    getStartExplanations(translation: Locale) {
         return translation.node.Evaluate.start(this.inputs.length > 0);
     }
 
     getFinishExplanations(
-        translation: Translation,
+        translation: Locale,
         context: Context,
         evaluator: Evaluator
     ) {

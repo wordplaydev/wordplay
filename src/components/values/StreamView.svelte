@@ -3,7 +3,7 @@
 <script lang="ts">
     import TokenType from '@nodes/TokenType';
     import type Stream from '@runtime/Stream';
-    import { preferredLanguages } from '@translation/translations';
+    import { preferredLanguages } from '@translation/locales';
     import SymbolView from './SymbolView.svelte';
 
     export let value: Stream;

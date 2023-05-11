@@ -1,7 +1,7 @@
 import Conflict from './Conflict';
 import type Reference from '@nodes/Reference';
 import type Definition from '@nodes/Definition';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 
 export default class NotAnInterface extends Conflict {
     readonly def: Definition;
@@ -17,7 +17,7 @@ export default class NotAnInterface extends Conflict {
         return {
             primary: {
                 node: this.ref,
-                explanation: (translation: Translation) =>
+                explanation: (translation: Locale) =>
                     translation.conflict.NotAnInterface.primary,
             },
         };

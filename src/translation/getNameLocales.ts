@@ -1,15 +1,15 @@
 import Name from '@nodes/Name';
-import SupportedTranslations from './translations';
+import SupportedLocales from './locales';
 import Names from '@nodes/Names';
-import type { NameTranslation } from './Translation';
-import type Translation from './Translation';
+import type { NameText } from './Locale';
+import type Locale from './Locale';
 import { translationToLanguage } from './translationToLanguage';
 
-export function getNameTranslations(
-    select: (translation: Translation) => NameTranslation
+export function getNameLocales(
+    select: (translation: Locale) => NameText
 ): Names {
     return new Names(
-        SupportedTranslations.reduce((names: Name[], translation) => {
+        SupportedLocales.reduce((names: Name[], translation) => {
             const name = select(translation);
             return names.concat(
                 (Array.isArray(name) ? name : [name]).map((n) =>

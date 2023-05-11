@@ -1,8 +1,8 @@
 import type Evaluator from '@runtime/Evaluator';
 import Stream from '@runtime/Stream';
 import StreamDefinition from '@nodes/StreamDefinition';
-import { getDocTranslations } from '@translation/getDocTranslations';
-import { getNameTranslations } from '@translation/getNameTranslations';
+import { getDocLocales } from '@translation/getDocLocales';
+import { getNameLocales } from '@translation/getNameLocales';
 import MeasurementType from '@nodes/MeasurementType';
 import Bind from '@nodes/Bind';
 import UnionType from '@nodes/UnionType';
@@ -83,24 +83,24 @@ export default class Random extends Stream<Measurement> {
 }
 
 const MinBind = Bind.make(
-    getDocTranslations((t) => t.input.random.min.doc),
-    getNameTranslations((t) => t.input.random.min.names),
+    getDocLocales((t) => t.input.random.min.doc),
+    getNameLocales((t) => t.input.random.min.names),
     UnionType.make(MeasurementType.make(Unit.Wildcard), NoneType.make()),
     // Default to nothing
     NoneLiteral.make()
 );
 
 const MaxBind = Bind.make(
-    getDocTranslations((t) => t.input.random.max.doc),
-    getNameTranslations((t) => t.input.random.max.names),
+    getDocLocales((t) => t.input.random.max.doc),
+    getNameLocales((t) => t.input.random.max.names),
     UnionType.make(MeasurementType.make(Unit.Wildcard), NoneType.make()),
     // Default to nothing
     NoneLiteral.make()
 );
 
 export const RandomDefinition = StreamDefinition.make(
-    getDocTranslations((t) => t.input.random.doc),
-    getNameTranslations((t) => t.input.random.names),
+    getDocLocales((t) => t.input.random.doc),
+    getNameLocales((t) => t.input.random.names),
     [MinBind, MaxBind],
     createStreamEvaluator(
         MeasurementType.make(),

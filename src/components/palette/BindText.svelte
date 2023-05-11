@@ -1,7 +1,7 @@
 <script lang="ts">
     import type OutputPropertyValues from '@transforms/OutputPropertyValueSet';
     import TextLiteral from '@nodes/TextLiteral';
-    import { preferredLanguages } from '@translation/translations';
+    import { preferredLanguages } from '@translation/locales';
     import TextField from '../widgets/TextField.svelte';
     import type OutputProperty from '@transforms/OutputProperty';
     import { getProject, getProjects } from '../project/Contexts';
@@ -31,7 +31,7 @@
     text={values.getText()}
     placeholder={values.isEmpty()
         ? ''
-        : values.values[0].bind.names.getTranslation($preferredLanguages)}
+        : values.values[0].bind.names.getLocaleText($preferredLanguages)}
     {validator}
     changed={handleChange}
 />

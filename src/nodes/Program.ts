@@ -19,7 +19,7 @@ import type Type from './Type';
 import type TypeSet from './TypeSet';
 import type Value from '@runtime/Value';
 import type { Replacement } from './Node';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import type LanguageCode from '@translation/LanguageCode';
 import TokenType from './TokenType';
 import ValueLink from '@translation/ValueLink';
@@ -173,12 +173,12 @@ export default class Program extends Expression {
         return this.end;
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.Program;
     }
 
     getStartExplanations(
-        translation: Translation,
+        translation: Locale,
         context: Context,
         evaluator: Evaluator
     ) {
@@ -205,7 +205,7 @@ export default class Program extends Expression {
     }
 
     getFinishExplanations(
-        translation: Translation,
+        translation: Locale,
         context: Context,
         evaluator: Evaluator
     ) {

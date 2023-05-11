@@ -6,8 +6,8 @@ import type Type from './Type';
 import type Step from '@runtime/Step';
 import type Bind from './Bind';
 import type TypeSet from './TypeSet';
-import type Translation from '@translation/Translation';
-import type { Description } from '@translation/Translation';
+import type Locale from '@translation/Locale';
+import type { Description } from '@translation/Locale';
 import ValueLink from '@translation/ValueLink';
 import Purpose from '../concepts/Purpose';
 
@@ -70,20 +70,20 @@ export default abstract class Expression extends Node {
     abstract getFinish(): Node;
 
     abstract getStartExplanations(
-        translation: Translation,
+        translation: Locale,
         context: Context,
         evaluator: Evaluator
     ): Description;
 
     abstract getFinishExplanations(
-        translation: Translation,
+        translation: Locale,
         context: Context,
         evaluator: Evaluator
     ): Description;
 
     /** Utility function for getting an optional result   */
     getValueIfDefined(
-        translation: Translation,
+        translation: Locale,
         context: Context,
         evaluator: Evaluator
     ) {

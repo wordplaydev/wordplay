@@ -19,7 +19,7 @@ import { CHANGE_SYMBOL } from '@parser/Symbols';
 import Start from '@runtime/Start';
 import Bool from '@runtime/Bool';
 import type { Replacement } from './Node';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import AtomicExpression from './AtomicExpression';
 import NodeLink from '@translation/NodeLink';
 import BooleanType from './BooleanType';
@@ -137,11 +137,11 @@ export default class Changed extends AtomicExpression {
         return this.change;
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.Changed;
     }
 
-    getStartExplanations(translation: Translation, context: Context) {
+    getStartExplanations(translation: Locale, context: Context) {
         return translation.node.Changed.start(
             new NodeLink(this.stream, translation, context)
         );

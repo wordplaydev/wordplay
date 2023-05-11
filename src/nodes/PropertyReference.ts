@@ -25,7 +25,7 @@ import Reference from './Reference';
 import NameType from './NameType';
 import UnknownNameType from './UnknownNameType';
 import type { Replacement } from './Node';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import NodeLink from '@translation/NodeLink';
 import Glyphs from '../lore/Glyphs';
 import UnimplementedException from '../runtime/UnimplementedException';
@@ -63,7 +63,7 @@ export default class PropertyReference extends Expression {
                 name: 'name',
                 types: [Reference],
                 // The label is
-                label: (translation: Translation) =>
+                label: (translation: Locale) =>
                     translation.node.PropertyReference.property,
                 // The valid definitions of the name are based on the referenced structure type, prefix filtered by whatever name is already provided.
                 getDefinitions: (context: Context) => {
@@ -280,16 +280,16 @@ export default class PropertyReference extends Expression {
         return this.name ?? this.dot;
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.PropertyReference;
     }
 
-    getStartExplanations(translation: Translation) {
+    getStartExplanations(translation: Locale) {
         return translation.node.PropertyReference.start;
     }
 
     getFinishExplanations(
-        translation: Translation,
+        translation: Locale,
         context: Context,
         evaluator: Evaluator
     ) {

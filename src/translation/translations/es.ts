@@ -1,7 +1,7 @@
 import type Context from '@nodes/Context';
 import TokenType from '@nodes/TokenType';
 import type UnknownType from '@nodes/UnknownType';
-import type Translation from '../Translation';
+import type Locale from '../Locale';
 import type ListType from '@nodes/ListType';
 import type MapType from '@nodes/MapType';
 import type MeasurementLiteral from '@nodes/MeasurementLiteral';
@@ -27,7 +27,7 @@ import {
     getPlaceholderDescription,
     getTokenDescription,
     type Description,
-} from '../Translation';
+} from '../Locale';
 import type { CycleType } from '@nodes/CycleType';
 import type UnknownNameType from '@nodes/UnknownNameType';
 import Explanation from '../Explanation';
@@ -39,7 +39,7 @@ import Unit from '@nodes/Unit';
 const WRITE_DOC = 'pendiante';
 export const WRITE_TUTORIAL = { instructions: [WRITE_DOC] as const, text: [] };
 
-const eng_wordplay: Translation = {
+const eng_wordplay: Locale = {
     language: 'es',
     wordplay: 'PalabraJugar',
     welcome: 'hola',
@@ -448,7 +448,7 @@ const eng_wordplay: Translation = {
         FunctionDefinition: {
             names: 'función',
             description: (fun, translation) =>
-                fun.names.getTranslation(translation.language),
+                fun.names.getLocaleText(translation.language),
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: 'define this function',
@@ -718,7 +718,7 @@ const eng_wordplay: Translation = {
         StructureDefinition: {
             names: 'estructura',
             description: (structure, translation) =>
-                structure.names.getTranslation(translation.language),
+                structure.names.getLocaleText(translation.language),
             emotion: Emotion.TBD,
             doc: WRITE_DOC,
             start: 'define this structure type',
@@ -838,7 +838,7 @@ const eng_wordplay: Translation = {
             names: 'tipo de lista',
             description: (
                 node: ListType,
-                translation: Translation,
+                translation: Locale,
                 context: Context
             ) =>
                 node.type === undefined
@@ -855,7 +855,7 @@ const eng_wordplay: Translation = {
             names: 'tipo de índice',
             description: (
                 node: MapType,
-                translation: Translation,
+                translation: Locale,
                 context: Context
             ) =>
                 node.key === undefined || node.value === undefined
@@ -901,7 +901,7 @@ const eng_wordplay: Translation = {
         },
         SetType: {
             names: 'tipo de recopilación',
-            description: (node: SetType, translation: Translation) =>
+            description: (node: SetType, translation: Locale) =>
                 node.key === undefined
                     ? 'algo'
                     : node.key.getLabel(translation),
@@ -911,11 +911,8 @@ const eng_wordplay: Translation = {
         },
         StreamDefinitionType: {
             names: 'streamtipo de arroyo',
-            description: (
-                node: StreamDefinitionType,
-                translation: Translation
-            ) =>
-                `a ${node.definition.names.getTranslation(
+            description: (node: StreamDefinitionType, translation: Locale) =>
+                `a ${node.definition.names.getLocaleText(
                     translation.language
                 )} stream`,
             emotion: Emotion.TBD,
@@ -926,7 +923,7 @@ const eng_wordplay: Translation = {
             names: 'streamtipo de arroyo',
             description: (
                 node: StreamType,
-                translation: Translation,
+                translation: Locale,
                 context: Context
             ) => `stream of ${node.type.getDescription(translation, context)}`,
             emotion: Emotion.TBD,
@@ -944,7 +941,7 @@ const eng_wordplay: Translation = {
             names: 'desconocida',
             description: (
                 node: UnknownType<any>,
-                translation: Translation,
+                translation: Locale,
                 context: Context
             ) => {
                 return `unknown, because ${node
@@ -982,7 +979,7 @@ const eng_wordplay: Translation = {
             names: 'tipo de opción',
             description: (
                 node: UnionType,
-                translation: Translation,
+                translation: Locale,
                 context: Context
             ) =>
                 `${node.left.getDescription(

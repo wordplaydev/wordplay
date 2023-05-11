@@ -1,8 +1,8 @@
 import type Doc from '@nodes/Doc';
 import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
-import type { Description } from '@translation/Translation';
-import type Translation from '@translation/Translation';
+import type { Description } from '@translation/Locale';
+import type Locale from '@translation/Locale';
 import type Purpose from './Purpose';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import type Glyph from '../lore/Glyph';
@@ -45,12 +45,12 @@ export default abstract class Concept {
     abstract getGlyphs(languages: LanguageCode[]): Glyph;
 
     /** Returns the emotions for the glyphs */
-    abstract getEmotion(translation: Translation): Emotion;
+    abstract getEmotion(translation: Locale): Emotion;
 
     /**
      * Returns true if the concept has the given name or id.
      */
-    abstract hasName(name: string, translation: Translation): boolean;
+    abstract hasName(name: string, translation: Locale): boolean;
 
     /**
      * Return a node to represent the concept. Usually an example or template.
@@ -60,12 +60,12 @@ export default abstract class Concept {
     /**
      * Returns a localized creator-facing name or description to represent the concept.
      */
-    abstract getName(translation: Translation): Description;
+    abstract getName(translation: Locale): Description;
 
     /**
      * Returns, if available, documentation for the concept.
      */
-    abstract getDocs(translation: Translation): [Doc, Spaces] | undefined;
+    abstract getDocs(translation: Locale): [Doc, Spaces] | undefined;
 
     /**
      * Provides a set of Nodes that could be rendered in the UI.
@@ -91,7 +91,7 @@ export default abstract class Concept {
      * Should return true if anything about the concept matches the query text.
      */
     getTextMatching(
-        translation: Translation,
+        translation: Locale,
         query: string
     ): [string, number] | undefined {
         const description = this.getName(translation);

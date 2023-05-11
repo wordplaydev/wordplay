@@ -25,7 +25,7 @@
     import StreamConceptView from './StreamConceptView.svelte';
     import NodeConcept from '@concepts/NodeConcept';
     import type Node from '@nodes/Node';
-    import { preferredTranslations } from '@translation/translations';
+    import { preferredLocales } from '@translation/locales';
     import NodeConceptView from './NodeConceptView.svelte';
     import Purpose from '@concepts/Purpose';
     import DescriptionView from './DescriptionView.svelte';
@@ -157,7 +157,7 @@
     $: {
         if (query === '') results = undefined;
         else {
-            results = $index?.getQuery($preferredTranslations, query);
+            results = $index?.getQuery($preferredLocales, query);
         }
     }
 </script>
@@ -167,7 +167,7 @@
 
 <section
     class="palette"
-    aria-label={$preferredTranslations[0].ui.section.palette}
+    aria-label={$preferredLocales[0].ui.section.palette}
     on:pointerdown={handlePointerDown}
     on:pointerup={handleDrop}
     on:keydown={(event) => (event.key === 'Backspace' ? back() : undefined)}
@@ -177,13 +177,12 @@
         <TextField placeholder={'🔍'} bind:text={query} fill defaultFocus />
         {#if currentConcept}
             <span class="path">
-                <Button
-                    tip={$preferredTranslations[0].ui.tooltip.home}
-                    action={back}>⏴</Button
+                <Button tip={$preferredLocales[0].ui.tooltip.home} action={back}
+                    >⏴</Button
                 >
                 {#each $path as concept, index}
                     {#if index > 0}&nbsp;&mdash;&nbsp;{/if}<DescriptionView
-                        description={concept.getName($preferredTranslations[0])}
+                        description={concept.getName($preferredLocales[0])}
                     />
                 {/each}
             </span>
@@ -232,29 +231,29 @@
             <!-- Home page is default. -->
         {:else if $index}
             <ConceptsView
-                category={$preferredTranslations[0].terminology.project}
+                category={$preferredLocales[0].terminology.project}
                 concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Project)}
             />
             <ConceptsView
-                category={$preferredTranslations[0].terminology.code}
+                category={$preferredLocales[0].terminology.code}
                 concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Compute)}
                 selectable={true}
             />
             <ConceptsView
-                category={$preferredTranslations[0].terminology.store}
+                category={$preferredLocales[0].terminology.store}
                 concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Store)}
             />
             <ConceptsView
-                category={$preferredTranslations[0].terminology.decide}
+                category={$preferredLocales[0].terminology.decide}
                 concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Decide)}
                 selectable={true}
             />
             <ConceptsView
-                category={$preferredTranslations[0].terminology.input}
+                category={$preferredLocales[0].terminology.input}
                 concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Input)}
             />
             <ConceptsView
-                category={$preferredTranslations[0].terminology.output}
+                category={$preferredLocales[0].terminology.output}
                 concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Output)}
             />
         {/if}

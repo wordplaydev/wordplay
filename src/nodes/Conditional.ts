@@ -18,7 +18,7 @@ import Finish from '@runtime/Finish';
 import type Evaluator from '@runtime/Evaluator';
 import type Value from '@runtime/Value';
 import type { Replacement } from './Node';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import NodeLink from '@translation/NodeLink';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
@@ -59,7 +59,7 @@ export default class Conditional extends Expression {
             {
                 name: 'condition',
                 types: [Expression],
-                label: (translation: Translation) =>
+                label: (translation: Locale) =>
                     translation.node.Conditional.condition,
                 // Must be boolean typed
                 getType: () => BooleanType.make(),
@@ -68,7 +68,7 @@ export default class Conditional extends Expression {
             {
                 name: 'yes',
                 types: [Expression],
-                label: (translation: Translation) =>
+                label: (translation: Locale) =>
                     translation.node.Conditional.yes,
                 space: true,
                 indent: true,
@@ -76,8 +76,7 @@ export default class Conditional extends Expression {
             {
                 name: 'no',
                 types: [Expression],
-                label: (translation: Translation) =>
-                    translation.node.Conditional.no,
+                label: (translation: Locale) => translation.node.Conditional.no,
                 space: true,
                 indent: true,
             },
@@ -183,18 +182,18 @@ export default class Conditional extends Expression {
         return this.question;
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.Conditional;
     }
 
-    getStartExplanations(translation: Translation, context: Context) {
+    getStartExplanations(translation: Locale, context: Context) {
         return translation.node.Conditional.start(
             new NodeLink(this.condition, translation, context)
         );
     }
 
     getFinishExplanations(
-        translation: Translation,
+        translation: Locale,
         context: Context,
         evaluator: Evaluator
     ) {

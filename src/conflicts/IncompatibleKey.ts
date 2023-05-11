@@ -2,7 +2,7 @@ import type Context from '@nodes/Context';
 import type SetOrMapAccess from '@nodes/SetOrMapAccess';
 import type Type from '@nodes/Type';
 import NodeLink from '@translation/NodeLink';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Conflict from './Conflict';
 
 export class IncompatibleKey extends Conflict {
@@ -21,14 +21,14 @@ export class IncompatibleKey extends Conflict {
         return {
             primary: {
                 node: this.access.key,
-                explanation: (translation: Translation, context: Context) =>
+                explanation: (translation: Locale, context: Context) =>
                     translation.conflict.IncompatibleKey.primary(
                         new NodeLink(this.expected, translation, context)
                     ),
             },
             secondary: {
                 node: this.expected,
-                explanation: (translation: Translation, context: Context) =>
+                explanation: (translation: Locale, context: Context) =>
                     translation.conflict.IncompatibleKey.secondary(
                         new NodeLink(this.received, translation, context)
                     ),

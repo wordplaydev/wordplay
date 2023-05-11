@@ -4,7 +4,7 @@
     import parseRichText from '@output/parseRichText';
     import Explanation from '@translation/Explanation';
     import NodeLink from '@translation/NodeLink';
-    import type { Description } from '@translation/Translation';
+    import type { Description } from '@translation/Locale';
     import ValueLink from '@translation/ValueLink';
     import ValueView from '../values/ValueView.svelte';
     import ConceptLink from '@nodes/ConceptLink';

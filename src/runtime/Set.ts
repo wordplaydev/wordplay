@@ -8,7 +8,7 @@ import type Value from './Value';
 import type LanguageCode from '@translation/LanguageCode';
 import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '@parser/Symbols';
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import type Expression from '../nodes/Expression';
 
 export default class Set extends Primitive {
@@ -104,7 +104,7 @@ export default class Set extends Primitive {
             .join(' ')}${SET_CLOSE_SYMBOL}`;
     }
 
-    getDescription(translation: Translation) {
+    getDescription(translation: Locale) {
         return translation.data.set;
     }
 

@@ -10,7 +10,7 @@ import type Expression from './Expression';
 import Node, { type Replacement } from './Node';
 import type TypeSet from './TypeSet';
 import UnparsableType from './UnparsableType';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import AtomicExpression from './AtomicExpression';
 import Glyphs from '../lore/Glyphs';
 
@@ -71,11 +71,11 @@ export default class UnparsableExpression extends AtomicExpression {
         return this;
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.UnparsableExpression;
     }
 
-    getStartExplanations(translation: Translation) {
+    getStartExplanations(translation: Locale) {
         return translation.node.UnparsableExpression.start;
     }
 

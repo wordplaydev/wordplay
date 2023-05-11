@@ -2,7 +2,7 @@ import Step from './Step';
 import type Evaluator from './Evaluator';
 import type Value from './Value';
 import type Expression from '@nodes/Expression';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 
 export default class Initialize extends Step {
     action?: (evaluator: Evaluator) => Value | undefined;
@@ -19,7 +19,7 @@ export default class Initialize extends Step {
         return this.action?.call(undefined, evaluator);
     }
 
-    getExplanations(translation: Translation) {
+    getExplanations(translation: Locale) {
         return translation.step.initialize;
     }
 }

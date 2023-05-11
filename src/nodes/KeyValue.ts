@@ -2,7 +2,7 @@ import Expression from './Expression';
 import Node, { type Replacement } from './Node';
 import Token from './Token';
 import BindToken from './BindToken';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';
@@ -31,13 +31,13 @@ export default class KeyValue extends Node {
             {
                 name: 'key',
                 types: [Expression],
-                label: (translation: Translation) => translation.data.key,
+                label: (translation: Locale) => translation.data.key,
             },
             { name: 'bind', types: [Token] },
             {
                 name: 'value',
                 types: [Expression],
-                label: (translation: Translation) => translation.data.value,
+                label: (translation: Locale) => translation.data.value,
             },
         ];
     }
@@ -60,7 +60,7 @@ export default class KeyValue extends Node {
 
     computeConflicts() {}
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.KeyValue;
     }
 

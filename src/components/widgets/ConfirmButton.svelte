@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { preferredTranslations } from '../../translation/translations';
+    import { preferredLocales } from '../../translation/locales';
     import Button from './Button.svelte';
 
     export let tip: string;
@@ -17,7 +17,7 @@
     {#if confirming}
         <Button
             stretch
-            tip={$preferredTranslations[0].ui.tooltip.yes}
+            tip={$preferredLocales[0].ui.tooltip.yes}
             action={() => action()}>{prompt}</Button
         >
     {/if}

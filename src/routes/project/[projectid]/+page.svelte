@@ -8,7 +8,7 @@
     import { page } from '$app/stores';
     import ProjectView from '@components/project/ProjectView.svelte';
     import type Project from '@models/Project';
-    import { preferredTranslations } from '@translation/translations';
+    import { preferredLocales } from '@translation/locales';
     import Feedback from '@components/app/Feedback.svelte';
     import Loading from '@components/app/Loading.svelte';
     import { setContext } from 'svelte';
@@ -63,11 +63,11 @@
         <ProjectView
             project={$project}
             close={() => goto('/projects')}
-            tip={$preferredTranslations[0].ui.tooltip.close}
+            tip={$preferredLocales[0].ui.tooltip.close}
         />
     {/key}
 {:else if loading}
     <Loading />
 {:else if $page.params.projectid || error}
-    <Feedback>{$preferredTranslations[0].ui.feedback.unknownProject}</Feedback>
+    <Feedback>{$preferredLocales[0].ui.feedback.unknownProject}</Feedback>
 {/if}

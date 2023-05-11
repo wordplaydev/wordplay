@@ -17,7 +17,7 @@ import type Conflict from '@conflicts/Conflict';
 import ListOpenToken from './ListOpenToken';
 import ListCloseToken from './ListCloseToken';
 import type { Replacement } from './Node';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';
@@ -51,7 +51,7 @@ export default class ListLiteral extends Expression {
             {
                 name: 'values',
                 types: [[Expression]],
-                label: (translation: Translation) =>
+                label: (translation: Locale) =>
                     translation.node.ListLiteral.item,
                 space: true,
                 indent: true,
@@ -167,16 +167,16 @@ export default class ListLiteral extends Expression {
         return this.close ?? this.values[this.values.length - 1] ?? this.open;
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.ListLiteral;
     }
 
-    getStartExplanations(translation: Translation) {
+    getStartExplanations(translation: Locale) {
         return translation.node.ListLiteral.start;
     }
 
     getFinishExplanations(
-        translation: Translation,
+        translation: Locale,
         context: Context,
         evaluator: Evaluator
     ) {

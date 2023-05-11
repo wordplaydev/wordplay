@@ -3,7 +3,7 @@ import type Exception from './Exception';
 import Step from './Step';
 import type Value from './Value';
 import type Expression from '@nodes/Expression';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 
 export default class Halt extends Step {
     readonly exception: (evaluator: Evaluator) => Exception;
@@ -21,7 +21,7 @@ export default class Halt extends Step {
         return this.exception(evaluator);
     }
 
-    getExplanations(translation: Translation) {
+    getExplanations(translation: Locale) {
         return translation.step.halt;
     }
 }

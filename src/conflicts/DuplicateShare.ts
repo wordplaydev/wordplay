@@ -1,7 +1,7 @@
 import type Bind from '@nodes/Bind';
 import type Context from '@nodes/Context';
 import NodeLink from '@translation/NodeLink';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Conflict from './Conflict';
 
 export class DuplicateShare extends Conflict {
@@ -17,14 +17,14 @@ export class DuplicateShare extends Conflict {
         return {
             primary: {
                 node: this.share.names,
-                explanation: (translation: Translation, context: Context) =>
+                explanation: (translation: Locale, context: Context) =>
                     translation.conflict.DuplicateShare.primary(
                         new NodeLink(this.other, translation, context)
                     ),
             },
             secondary: {
                 node: this.other.names,
-                explanation: (translation: Translation, context: Context) =>
+                explanation: (translation: Locale, context: Context) =>
                     translation.conflict.DuplicateShare.secondary(
                         new NodeLink(this.other, translation, context)
                     ),

@@ -63,7 +63,7 @@ export function createColorLiteral(
     hue: number
 ) {
     return Evaluate.make(
-        Reference.make(ColorType.names.getTranslation(languages), ColorType),
+        Reference.make(ColorType.names.getLocaleText(languages), ColorType),
         [
             MeasurementLiteral.make(lightness),
             MeasurementLiteral.make(chroma),

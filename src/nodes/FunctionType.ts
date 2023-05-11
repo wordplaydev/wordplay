@@ -12,7 +12,7 @@ import TypeVariables from './TypeVariables';
 import type TypeSet from './TypeSet';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type { Replacement } from './Node';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Glyphs from '../lore/Glyphs';
 import FunctionDefinition from './FunctionDefinition';
 import Names from './Names';
@@ -156,7 +156,7 @@ export default class FunctionType extends Type {
         return getEvaluationInputConflicts(this.inputs);
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.FunctionType;
     }
 

@@ -11,7 +11,7 @@ import type TypeSet from './TypeSet';
 import PlaceholderToken from './PlaceholderToken';
 import TokenType from './TokenType';
 import type { Replacement } from './Node';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import NodeLink from '@translation/NodeLink';
 import Literal from './Literal';
 import Glyphs from '../lore/Glyphs';
@@ -109,11 +109,11 @@ export default class MeasurementLiteral extends Literal {
         return this.number;
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.MeasurementLiteral;
     }
 
-    getStartExplanations(translation: Translation, context: Context) {
+    getStartExplanations(translation: Locale, context: Context) {
         return translation.node.MeasurementLiteral.start(
             new NodeLink(this.number, translation, context)
         );

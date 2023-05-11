@@ -24,7 +24,7 @@ import EvalOpenToken from './EvalOpenToken';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import NoExpressionType from './NoExpressionType';
 import type { Replacement } from './Node';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Glyphs from '../lore/Glyphs';
 
 export enum BlockKind {
@@ -81,7 +81,7 @@ export default class Block extends Expression {
             {
                 name: 'statements',
                 types: [[Expression, Bind]],
-                label: (translation: Translation) =>
+                label: (translation: Locale) =>
                     translation.node.Block.statement,
                 space: true,
                 indent: (parent: Node) =>
@@ -288,16 +288,16 @@ export default class Block extends Expression {
             : current;
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.Block;
     }
 
-    getStartExplanations(translation: Translation) {
+    getStartExplanations(translation: Locale) {
         return translation.node.Block.start;
     }
 
     getFinishExplanations(
-        translation: Translation,
+        translation: Locale,
         context: Context,
         evaluator: Evaluator
     ) {

@@ -17,7 +17,7 @@ import Exception from '@runtime/Exception';
 import { QUESTION_SYMBOL, COMMA_SYMBOL } from '@parser/Symbols';
 import TokenType from './TokenType';
 import type { Replacement } from './Node';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import BooleanType from './BooleanType';
 import ExpectedBooleanCondition from '../conflicts/ExpectedBooleanCondition';
 import Check from '../runtime/Check';
@@ -70,15 +70,14 @@ export default class Reaction extends Expression {
             {
                 name: 'initial',
                 types: [Expression],
-                label: (translation: Translation) =>
+                label: (translation: Locale) =>
                     translation.node.Reaction.initial,
             },
             { name: 'dots', types: [Token], space: true, indent: true },
             {
                 name: 'next',
                 types: [Expression],
-                label: (translation: Translation) =>
-                    translation.node.Reaction.next,
+                label: (translation: Locale) => translation.node.Reaction.next,
                 space: true,
                 indent: true,
             },
@@ -244,16 +243,16 @@ export default class Reaction extends Expression {
         return this.dots;
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.Reaction;
     }
 
-    getStartExplanations(translation: Translation) {
+    getStartExplanations(translation: Locale) {
         return translation.node.Reaction.start;
     }
 
     getFinishExplanations(
-        translation: Translation,
+        translation: Locale,
         context: Context,
         evaluator: Evaluator
     ) {

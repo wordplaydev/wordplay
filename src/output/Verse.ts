@@ -11,7 +11,7 @@ import Decimal from 'decimal.js';
 import { toColor } from './Color';
 import List from '@runtime/List';
 import type LanguageCode from '@translation/LanguageCode';
-import { getPreferredTranslation } from '@translation/getPreferredTranslation';
+import { getPreferredLocale } from '@translation/getPreferredLocales';
 import { getBind } from '@translation/getBind';
 import Bool from '../runtime/Bool';
 import { getStyle, toTypeOutput, toTypeOutputList } from './toTypeOutput';
@@ -129,7 +129,7 @@ export default class Verse extends TypeOutput {
     }
 
     getDescription(languages: LanguageCode[]) {
-        return getPreferredTranslation(languages).output.verse.description(
+        return getPreferredLocale(languages).output.verse.description(
             this.content.length,
             this.content.filter((o) => o instanceof Phrase).length,
             this.content.filter((o) => o instanceof Group).length

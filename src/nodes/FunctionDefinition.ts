@@ -28,7 +28,7 @@ import UnimplementedType from './UnimplementedType';
 import AnyType from './AnyType';
 import TypeToken from './TypeToken';
 import type { Replacement } from './Node';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import InternalException from '@runtime/InternalException';
 import Glyphs from '../lore/Glyphs';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
@@ -160,8 +160,8 @@ export default class FunctionDefinition extends Expression {
         return this.share !== undefined;
     }
 
-    getTranslation(lang: LanguageCode[]) {
-        return this.names.getTranslation(lang);
+    getLocale(lang: LanguageCode[]) {
+        return this.names.getLocaleText(lang);
     }
 
     isBinaryOperator() {
@@ -316,15 +316,15 @@ export default class FunctionDefinition extends Expression {
         return current;
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.FunctionDefinition;
     }
 
-    getStartExplanations(translation: Translation) {
+    getStartExplanations(translation: Locale) {
         return translation.node.FunctionDefinition.start;
     }
 
-    getFinishExplanations(translation: Translation) {
+    getFinishExplanations(translation: Locale) {
         return translation.node.FunctionDefinition.start;
     }
 

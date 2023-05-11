@@ -11,7 +11,7 @@ import TokenType from './TokenType';
 import { INITIAL_SYMBOL } from '@parser/Symbols';
 import Bool from '@runtime/Bool';
 import type { Replacement } from './Node';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import AtomicExpression from './AtomicExpression';
 import BooleanType from './BooleanType';
 import StartFinish from '../runtime/StartFinish';
@@ -92,11 +92,11 @@ export default class Initial extends AtomicExpression {
         return this.diamond;
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.Initial;
     }
 
-    getStartExplanations(translation: Translation) {
+    getStartExplanations(translation: Locale) {
         return translation.node.Initial.description;
     }
 

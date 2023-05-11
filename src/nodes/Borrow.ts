@@ -25,7 +25,7 @@ import Start from '@runtime/Start';
 import Finish from '@runtime/Finish';
 import UnknownNameType from './UnknownNameType';
 import type { Replacement } from './Node';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import AtomicExpression from './AtomicExpression';
 import UnimplementedException from '@runtime/UnimplementedException';
 import NodeLink from '@translation/NodeLink';
@@ -72,21 +72,19 @@ export default class Borrow extends AtomicExpression {
                 name: 'source',
                 types: [Token, undefined],
                 space: true,
-                label: (translation: Translation) =>
-                    translation.node.Borrow.source,
+                label: (translation: Locale) => translation.node.Borrow.source,
             },
             { name: 'dot', types: [Token, undefined] },
             {
                 name: 'name',
                 types: [Token, undefined],
-                label: (translation: Translation) =>
+                label: (translation: Locale) =>
                     translation.node.Borrow.description,
             },
             {
                 name: 'version',
                 types: [Token, undefined],
-                label: (translation: Translation) =>
-                    translation.node.Borrow.version,
+                label: (translation: Locale) => translation.node.Borrow.version,
             },
         ];
     }
@@ -239,11 +237,11 @@ export default class Borrow extends AtomicExpression {
         return this.source ?? this.borrow;
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.Borrow;
     }
 
-    getStartExplanations(translation: Translation, context: Context) {
+    getStartExplanations(translation: Locale, context: Context) {
         return translation.node.Borrow.start(
             this.source
                 ? new NodeLink(

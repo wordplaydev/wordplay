@@ -1,24 +1,24 @@
 import type Name from '@nodes/Name';
-import SupportedTranslations from './translations';
+import SupportedLocales from './locales';
 import Names from '@nodes/Names';
 import Docs from '@nodes/Docs';
 import { translationToLanguage } from './translationToLanguage';
-import type { NameAndDocTranslation } from './Translation';
-import type Translation from './Translation';
-import { getInputNames } from './getInputTranslations';
-import { parseTranslationDoc } from '@parser/Parser';
+import type { NameAndDoc } from './Locale';
+import type Locale from './Locale';
+import { getInputNames } from './getInputLocales';
+import { parseLocaleDoc } from '@parser/Parser';
 
 export function getBind(
-    select: (translation: Translation) => NameAndDocTranslation,
+    select: (translation: Locale) => NameAndDoc,
     separator: string = ' '
 ): string {
-    const inputs = SupportedTranslations.map(
+    const inputs = SupportedLocales.map(
         (translation) => [translation, select(translation)] as const
     );
     return (
         new Docs(
             inputs.map(([translation, input]) =>
-                parseTranslationDoc(input.doc).withLanguage(
+                parseLocaleDoc(input.doc).withLanguage(
                     translationToLanguage(translation)
                 )
             )

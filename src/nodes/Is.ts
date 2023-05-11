@@ -17,7 +17,7 @@ import UnionType from './UnionType';
 import TypeSet from './TypeSet';
 import Start from '@runtime/Start';
 import type { Replacement } from './Node';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import NodeLink from '@translation/NodeLink';
 import Glyphs from '../lore/Glyphs';
 import TokenType from './TokenType';
@@ -151,18 +151,18 @@ export default class Is extends Expression {
         return this.type;
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.Is;
     }
 
-    getStartExplanations(translation: Translation, context: Context) {
+    getStartExplanations(translation: Locale, context: Context) {
         return translation.node.Is.start(
             new NodeLink(this.expression, translation, context)
         );
     }
 
     getFinishExplanations(
-        translation: Translation,
+        translation: Locale,
         context: Context,
         evaluator: Evaluator
     ) {

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { preferredTranslations } from '@translation/translations';
+    import { preferredLocales } from '@translation/locales';
     import type Project from '@models/Project';
     import OutputPropertyValueSet from '@transforms/OutputPropertyValueSet';
     import PaletteProperty from './PaletteProperty.svelte';
@@ -49,10 +49,7 @@
     }
 </script>
 
-<section
-    class="palette"
-    aria-label={$preferredTranslations[0].ui.section.palette}
->
+<section class="palette" aria-label={$preferredLocales[0].ui.section.palette}>
     <Speech
         glyph={{
             symbols: outputs
@@ -63,7 +60,7 @@
             ? undefined
             : $index?.getStructureConcept(definition)}
     >
-        {$preferredTranslations.map((t) => t.ui.headers.editing).join(' ')}
+        {$preferredLocales.map((t) => t.ui.headers.editing).join(' ')}
     </Speech>
 
     {#each Array.from(propertyValues.entries()) as [property, values]}

@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { preferredTranslations } from '@translation/translations';
-    import { getFirstName } from '@translation/Translation';
+    import { preferredLocales } from '@translation/locales';
+    import { getFirstName } from '@translation/Locale';
     import TextField from '../widgets/TextField.svelte';
     import type Evaluate from '../../nodes/Evaluate';
     import type Project from '@models/Project';
@@ -41,7 +41,7 @@
 </script>
 
 <div class="place">
-    {#each [getFirstName($preferredTranslations[0].output.place.x.names), getFirstName($preferredTranslations[0].output.place.y.names), getFirstName($preferredTranslations[0].output.place.z.names)] as dimension}
+    {#each [getFirstName($preferredLocales[0].output.place.x.names), getFirstName($preferredLocales[0].output.place.y.names), getFirstName($preferredLocales[0].output.place.z.names)] as dimension}
         {@const given = place?.getMappingFor(
             dimension,
             project.getNodeContext(place)
@@ -59,10 +59,7 @@
                 />
                 <Note>m</Note>
             {:else}
-                <Note
-                    >{$preferredTranslations.map(
-                        (t) => t.ui.labels.computed
-                    )}</Note
+                <Note>{$preferredLocales.map((t) => t.ui.labels.computed)}</Note
                 >
             {/if}
         </div>

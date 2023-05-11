@@ -10,7 +10,7 @@
 
 <ConceptView {concept}>
     <!-- {#if concept.definition.types}
-        <h2>{$preferredTranslations[0].nodes.TypeVariable.description}</h2>
+        <h2>{$preferredLocales[0].nodes.TypeVariable.description}</h2>
         {#each concept.definition.types.variables as type}
         {/each}
     {/if} -->

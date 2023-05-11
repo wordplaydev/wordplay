@@ -1,6 +1,6 @@
 import type Type from '@nodes/Type';
 import NodeLink from '@translation/NodeLink';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import ValueLink from '@translation/ValueLink';
 import type Evaluator from './Evaluator';
 import Exception from './Exception';
@@ -17,7 +17,7 @@ export default class TypeException extends Exception {
         this.received = received;
     }
 
-    getDescription(translation: Translation) {
+    getDescription(translation: Locale) {
         return translation.exceptions.type(
             new NodeLink(
                 this.expected,

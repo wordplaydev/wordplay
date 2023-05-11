@@ -4,7 +4,7 @@ import type Color from './Color';
 import type TypeOutput from './TypeOutput';
 import type RenderContext from './RenderContext';
 import type LanguageCode from '@translation/LanguageCode';
-import { getPreferredTranslation } from '@translation/getPreferredTranslation';
+import { getPreferredLocale } from '@translation/getPreferredLocales';
 import { getBind } from '@translation/getBind';
 import Arrangement from './Arrangement';
 import Measurement from '../runtime/Measurement';
@@ -151,7 +151,7 @@ export class Grid extends Arrangement {
     }
 
     getDescription(output: TypeOutput[], languages: LanguageCode[]) {
-        return getPreferredTranslation(languages).output.grid.description(
+        return getPreferredLocale(languages).output.grid.description(
             this.rows,
             this.columns
         );

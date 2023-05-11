@@ -4,7 +4,7 @@ import Measurement from './Measurement';
 import Primitive from './Primitive';
 import type Value from './Value';
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import type Expression from '../nodes/Expression';
 import List from './List';
 import Bool from './Bool';
@@ -68,7 +68,7 @@ export default class Text extends Primitive {
         );
     }
 
-    getDescription(translation: Translation) {
+    getDescription(translation: Locale) {
         return translation.data.text;
     }
 

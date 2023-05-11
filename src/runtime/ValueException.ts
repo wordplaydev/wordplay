@@ -1,6 +1,6 @@
 import Exception from './Exception';
 import type Evaluator from './Evaluator';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import type Expression from '@nodes/Node';
 import NodeLink from '@translation/NodeLink';
 
@@ -11,7 +11,7 @@ export default class ValueException extends Exception {
         this.expression = expression;
     }
 
-    getDescription(translation: Translation) {
+    getDescription(translation: Locale) {
         return translation.exceptions.value(
             new NodeLink(
                 this.expression,

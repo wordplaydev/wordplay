@@ -1,7 +1,7 @@
 import type BinaryOperation from '@nodes/BinaryOperation';
 import BooleanType from '@nodes/BooleanType';
 import type Conditional from '@nodes/Conditional';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Bool from './Bool';
 import type Evaluator from './Evaluator';
 import Step from './Step';
@@ -36,7 +36,7 @@ export default class JumpIf extends Step {
         return undefined;
     }
 
-    getExplanations(translation: Translation, evaluator: Evaluator) {
+    getExplanations(translation: Locale, evaluator: Evaluator) {
         const val = evaluator.peekValue();
         return translation.step.jumpif(
             val instanceof Bool && val.bool === this.yes

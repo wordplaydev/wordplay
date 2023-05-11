@@ -25,7 +25,7 @@ const GroupProperties: OutputProperty[] = [
         create: (languages) =>
             Evaluate.make(
                 Reference.make(
-                    StackType.names.getTranslation(languages),
+                    StackType.names.getLocaleText(languages),
                     StackType
                 ),
                 []

@@ -1,28 +1,28 @@
 import Name from '@nodes/Name';
-import SupportedTranslations from './translations';
+import SupportedLocales from './locales';
 import type Doc from '@nodes/Doc';
 import Names from '@nodes/Names';
 import Docs from '@nodes/Docs';
 import { translationToLanguage } from './translationToLanguage';
-import type { NameAndDocTranslation } from './Translation';
-import type Translation from './Translation';
-import { parseTranslationDoc } from '@parser/Parser';
+import type { NameAndDoc } from './Locale';
+import type Locale from './Locale';
+import { parseLocaleDoc } from '@parser/Parser';
 
-export function getInputTranslations(
-    select: (translation: Translation) => NameAndDocTranslation[]
+export function getInputLocales(
+    select: (translation: Locale) => NameAndDoc[]
 ): { docs: Docs; names: Names }[] {
     // Make a list of docs and names by bind index.
     const binds: { docs: Doc[]; names: Name[] }[] = [];
 
     // Convert each translation into names and docs for each input.
-    for (const [translation, inputs] of SupportedTranslations.map(
+    for (const [translation, inputs] of SupportedLocales.map(
         (translation) => [translation, select(translation)] as const
     )) {
         inputs.forEach((input, index) => {
             if (binds[index] === undefined)
                 binds[index] = { docs: [], names: [] };
             binds[index].docs.push(
-                parseTranslationDoc(input.doc).withLanguage(
+                parseLocaleDoc(input.doc).withLanguage(
                     translationToLanguage(translation)
                 )
             );
@@ -51,10 +51,7 @@ export function getInputTranslations(
     });
 }
 
-export function getInputNames(
-    nameAndDoc: NameAndDocTranslation,
-    translation: Translation
-) {
+export function getInputNames(nameAndDoc: NameAndDoc, translation: Locale) {
     return (
         Array.isArray(nameAndDoc.names) ? nameAndDoc.names : [nameAndDoc.names]
     ).map((name) => Name.make(name, translationToLanguage(translation)));

@@ -1,6 +1,6 @@
 import Conflict from './Conflict';
 import type Bind from '@nodes/Bind';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 
 export default class RequiredAfterOptional extends Conflict {
     readonly bind: Bind;
@@ -15,7 +15,7 @@ export default class RequiredAfterOptional extends Conflict {
         return {
             primary: {
                 node: this.bind,
-                explanation: (translation: Translation) =>
+                explanation: (translation: Locale) =>
                     translation.conflict.RequiredAfterOptional.primary,
             },
         };

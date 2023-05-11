@@ -18,7 +18,7 @@ import type TypeSet from './TypeSet';
 import Docs from './Docs';
 import StartFinish from '@runtime/StartFinish';
 import type { Replacement } from './Node';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import AtomicExpression from './AtomicExpression';
 import InternalException from '@runtime/InternalException';
 import Glyphs from '../lore/Glyphs';
@@ -172,11 +172,11 @@ export default class ConversionDefinition extends AtomicExpression {
         return this.arrow;
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.ConversionDefinition;
     }
 
-    getStartExplanations(translation: Translation) {
+    getStartExplanations(translation: Locale) {
         return translation.node.ConversionDefinition.start;
     }
 

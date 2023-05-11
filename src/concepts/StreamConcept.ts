@@ -5,7 +5,7 @@ import Reference from '@nodes/Reference';
 import StreamType from '@nodes/StreamType';
 import Concept from './Concept';
 import type ConceptIndex from './ConceptIndex';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Purpose from './Purpose';
 import type StreamDefinition from '../nodes/StreamDefinition';
 import Emotion from '../lore/Emotion';
@@ -28,14 +28,14 @@ export default class StreamConcept extends Concept {
 
         this.definition = stream;
         this.reference = Reference.make(
-            stream.names.getTranslation(languages),
+            stream.names.getLocaleText(languages),
             this.definition
         );
     }
 
     getGlyphs(languages: LanguageCode[]) {
         return {
-            symbols: this.definition.names.getTranslation(languages),
+            symbols: this.definition.names.getLocaleText(languages),
         };
     }
 
@@ -47,16 +47,13 @@ export default class StreamConcept extends Concept {
         return this.definition.names.hasName(name);
     }
 
-    getDocs(translation: Translation): [Doc, Spaces] | undefined {
-        const doc = this.definition.docs?.getTranslation(translation.language);
+    getDocs(translation: Locale): [Doc, Spaces] | undefined {
+        const doc = this.definition.docs?.getLocale(translation.language);
         return doc ? [doc, this.context.source.spaces] : undefined;
     }
 
-    getName(translation: Translation) {
-        return this.definition.names.getTranslation(
-            translation.language,
-            false
-        );
+    getName(translation: Locale) {
+        return this.definition.names.getLocaleText(translation.language, false);
     }
 
     getTypeConcept(index: ConceptIndex): Concept | undefined {

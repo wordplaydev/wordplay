@@ -7,7 +7,7 @@
         getHidden,
         getInsertionPoint,
         getSpace,
-        getTranslations,
+        getLocales,
     } from '../project/Contexts';
     import getNodeView from './util/nodeToView';
     import Expression from '@nodes/Expression';
@@ -20,7 +20,7 @@
     export let small: boolean = false;
 
     const evaluation = getEvaluation();
-    const translations = getTranslations();
+    const translations = getLocales();
 
     $: description =
         node && $evaluation && translations && translations.length > 0

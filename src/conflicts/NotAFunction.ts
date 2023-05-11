@@ -4,7 +4,7 @@ import Conflict from './Conflict';
 import type UnaryOperation from '@nodes/UnaryOperation';
 import type Token from '@nodes/Token';
 import type Type from '@nodes/Type';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import type Context from '@nodes/Context';
 import NodeLink from '@translation/NodeLink';
 import Reference from '@nodes/Reference';
@@ -33,7 +33,7 @@ export default class NotAFunction extends Conflict {
                     this.evaluate instanceof Evaluate
                         ? this.evaluate.func
                         : this.evaluate.operator,
-                explanation: (translation: Translation, context: Context) =>
+                explanation: (translation: Locale, context: Context) =>
                     translation.conflict.NotAFunction.primary(
                         this.name
                             ? new NodeLink(

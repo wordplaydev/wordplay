@@ -18,7 +18,7 @@ import getConcreteExpectedType from './Generics';
 import type Value from '@runtime/Value';
 import UnknownNameType from './UnknownNameType';
 import type { Replacement } from './Node';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import StartEvaluation from '@runtime/StartEvaluation';
 import NodeLink from '@translation/NodeLink';
 import Emotion from '../lore/Emotion';
@@ -183,18 +183,18 @@ export default class UnaryOperation extends Expression {
         return this.operator;
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.UnaryOperation;
     }
 
-    getStartExplanations(translation: Translation, context: Context) {
+    getStartExplanations(translation: Locale, context: Context) {
         return translation.node.UnaryOperation.start(
             new NodeLink(this.operand, translation, context)
         );
     }
 
     getFinishExplanations(
-        translation: Translation,
+        translation: Locale,
         context: Context,
         evaluator: Evaluator
     ) {

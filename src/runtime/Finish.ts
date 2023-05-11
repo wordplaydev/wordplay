@@ -2,7 +2,7 @@ import type Evaluator from './Evaluator';
 import Step from './Step';
 import type Value from './Value';
 import type Expression from '@nodes/Expression';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 
 export default class Finish extends Step {
     constructor(node: Expression) {
@@ -13,7 +13,7 @@ export default class Finish extends Step {
         return finish(evaluator, this.node);
     }
 
-    getExplanations(translation: Translation, evaluator: Evaluator) {
+    getExplanations(translation: Locale, evaluator: Evaluator) {
         return this.node.getFinishExplanations(
             translation,
             evaluator.project.getNodeContext(this.node),

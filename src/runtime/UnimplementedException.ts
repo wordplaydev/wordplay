@@ -1,4 +1,4 @@
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import type Evaluator from './Evaluator';
 import Exception from './Exception';
 import type Expression from '@nodes/Expression';
@@ -12,7 +12,7 @@ export default class UnimplementedException extends Exception {
         this.placeholder = placeholder;
     }
 
-    getDescription(translation: Translation) {
+    getDescription(translation: Locale) {
         return translation.exceptions.placeholder(
             new NodeLink(
                 this.placeholder,

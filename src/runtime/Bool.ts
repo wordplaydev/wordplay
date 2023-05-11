@@ -7,7 +7,7 @@ import type Evaluator from './Evaluator';
 import FunctionException from './FunctionException';
 import Primitive from './Primitive';
 import type Value from './Value';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import type Expression from '../nodes/Expression';
 
 export default class Bool extends Primitive {
@@ -64,7 +64,7 @@ export default class Bool extends Primitive {
         return val instanceof Bool && this.bool === val.bool;
     }
 
-    getDescription(translation: Translation) {
+    getDescription(translation: Locale) {
         return translation.data.boolean;
     }
 

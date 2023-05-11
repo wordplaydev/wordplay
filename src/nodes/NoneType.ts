@@ -1,6 +1,6 @@
 import type { NativeTypeName } from '../native/NativeConstants';
 import { NONE_SYMBOL } from '@parser/Symbols';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import NativeType from './NativeType';
 import type { Replacement } from './Node';
 import Token from './Token';
@@ -45,7 +45,7 @@ export default class NoneType extends NativeType {
         return 'none';
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.NoneType;
     }
 

@@ -2,7 +2,7 @@ import type Source from '@nodes/Source';
 import type Borrow from '@nodes/Borrow';
 import type Program from '@nodes/Program';
 import Conflict from './Conflict';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import type Context from '@nodes/Context';
 import NodeLink from '@translation/NodeLink';
 
@@ -22,13 +22,13 @@ export class BorrowCycle extends Conflict {
         return {
             primary: {
                 node: this.borrow,
-                explanation: (translation: Translation, context: Context) =>
+                explanation: (translation: Locale, context: Context) =>
                     translation.conflict.BorrowCycle.primary(
                         new NodeLink(
                             this.borrow,
                             translation,
                             context,
-                            this.cycle[0].names.getTranslation(
+                            this.cycle[0].names.getLocaleText(
                                 translation.language
                             )
                         )

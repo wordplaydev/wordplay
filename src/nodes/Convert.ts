@@ -22,7 +22,7 @@ import type Evaluator from '@runtime/Evaluator';
 import type Value from '@runtime/Value';
 import NotAFunctionType from './NotAFunctionType';
 import type { Replacement } from './Node';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import StartConversion from '@runtime/StartConversion';
 import NodeLink from '@translation/NodeLink';
 import Glyphs from '../lore/Glyphs';
@@ -210,18 +210,18 @@ export default class Convert extends Expression {
         return this.convert;
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.Convert;
     }
 
-    getStartExplanations(translation: Translation, context: Context) {
+    getStartExplanations(translation: Locale, context: Context) {
         return translation.node.Convert.start(
             new NodeLink(this.expression, translation, context)
         );
     }
 
     getFinishExplanations(
-        translation: Translation,
+        translation: Locale,
         context: Context,
         evaluator: Evaluator
     ) {

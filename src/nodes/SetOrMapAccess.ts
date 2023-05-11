@@ -23,7 +23,7 @@ import SetCloseToken from './SetCloseToken';
 import { NotASetOrMap } from '@conflicts/NotASetOrMap';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import type { Replacement } from './Node';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import { NotASetOrMapType } from './NotASetOrMapType';
 import NodeLink from '@translation/NodeLink';
 import Glyphs from '../lore/Glyphs';
@@ -66,7 +66,7 @@ export default class SetOrMapAccess extends Expression {
             {
                 name: 'setOrMap',
                 types: [Expression],
-                label: (translation: Translation) => translation.data.set,
+                label: (translation: Locale) => translation.data.set,
                 // Must be a number
                 getType: () => UnionType.make(SetType.make(), MapType.make()),
             },
@@ -74,7 +74,7 @@ export default class SetOrMapAccess extends Expression {
             {
                 name: 'key',
                 types: [Expression],
-                label: (translation: Translation) => translation.data.key,
+                label: (translation: Locale) => translation.data.key,
             },
             { name: 'close', types: [Token] },
         ];
@@ -182,18 +182,18 @@ export default class SetOrMapAccess extends Expression {
         return this.close ?? this.key;
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.SetOrMapAccess;
     }
 
-    getStartExplanations(translation: Translation, context: Context) {
+    getStartExplanations(translation: Locale, context: Context) {
         return translation.node.SetOrMapAccess.start(
             new NodeLink(this.setOrMap, translation, context)
         );
     }
 
     getFinishExplanations(
-        translation: Translation,
+        translation: Locale,
         context: Context,
         evaluator: Evaluator
     ) {

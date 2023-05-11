@@ -1,7 +1,7 @@
 import type Node from './Node';
 import UnknownType from './UnknownType';
 import type Expression from './Expression';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import type Context from './Context';
 
 export class CycleType extends UnknownType<Expression> {
@@ -12,7 +12,7 @@ export class CycleType extends UnknownType<Expression> {
         this.cycle = cycle;
     }
 
-    getReason(translation: Translation, context: Context) {
+    getReason(translation: Locale, context: Context) {
         return (
             translation.node.CycleType.description(
                 this,

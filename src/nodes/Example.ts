@@ -1,5 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Node, { type Field, type Replacement } from './Node';
 import Program from './Program';
 import Token from './Token';
@@ -49,7 +49,7 @@ export default class Example extends Node {
         return Purpose.Document;
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.Example;
     }
 

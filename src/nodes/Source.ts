@@ -21,7 +21,7 @@ import StructureDefinition from './StructureDefinition';
 import type Spaces from '@parser/Spaces';
 import None from '@runtime/None';
 import type SetOpenToken from './SetOpenToken';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Glyphs from '../lore/Glyphs';
 import Root from './Root';
 
@@ -583,8 +583,8 @@ export default class Source extends Expression {
         return super.toWordplay(spaces ?? this.spaces);
     }
 
-    getTranslation(lang: LanguageCode[]) {
-        return this.names.getTranslation(lang);
+    getLocale(lang: LanguageCode[]) {
+        return this.names.getLocaleText(lang);
     }
 
     computeType(context: Context): Type {
@@ -620,7 +620,7 @@ export default class Source extends Expression {
         return '';
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.Source;
     }
 

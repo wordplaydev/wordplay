@@ -5,22 +5,20 @@ import Caret from '../components/editor/util/Caret';
 import type LanguageCode from '@translation/LanguageCode';
 import Refer from './Refer';
 import type Context from '@nodes/Context';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 
 export default class Replace<NodeType extends Node> extends Transform {
     readonly parent: Node;
     readonly node: Node;
     readonly replacement: NodeType | Refer | undefined;
-    readonly description: ((translation: Translation) => string) | undefined;
+    readonly description: ((translation: Locale) => string) | undefined;
 
     constructor(
         context: Context,
         parent: Node,
         node: Node,
         replacement: NodeType | Refer | undefined,
-        description:
-            | ((translation: Translation) => string)
-            | undefined = undefined
+        description: ((translation: Locale) => string) | undefined = undefined
     ) {
         super(context);
 
@@ -72,7 +70,7 @@ export default class Replace<NodeType extends Node> extends Transform {
         return this.replacement?.getNode(languages);
     }
 
-    getDescription(translation: Translation) {
+    getDescription(translation: Locale) {
         if (this.description) return this.description(translation);
         let node =
             this.replacement instanceof Refer

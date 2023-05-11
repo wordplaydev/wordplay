@@ -1,7 +1,7 @@
 <script lang="ts">
     import TextField from '@components/widgets/TextField.svelte';
     import Page from '@components/app/Page.svelte';
-    import { preferredTranslations } from '@translation/translations';
+    import { preferredLocales } from '@translation/locales';
     import { getUser } from '@components/project/Contexts';
     import Lead from '@components/app/Lead.svelte';
     import Button from '@components/widgets/Button.svelte';
@@ -35,17 +35,17 @@
             error =
                 {
                     'auth/id-token-expired':
-                        $preferredTranslations[0].ui.login.expiredFailure,
+                        $preferredLocales[0].ui.login.expiredFailure,
                     'auth/id-token-revoked':
-                        $preferredTranslations[0].ui.login.invalidFailure,
+                        $preferredLocales[0].ui.login.invalidFailure,
                     'auth/invalid-argument':
-                        $preferredTranslations[0].ui.login.invalidFailure,
+                        $preferredLocales[0].ui.login.invalidFailure,
                     'auth/invalid-email':
-                        $preferredTranslations[0].ui.login.emailFailure,
-                }[err.code] ?? $preferredTranslations[0].ui.login.failure;
+                        $preferredLocales[0].ui.login.emailFailure,
+                }[err.code] ?? $preferredLocales[0].ui.login.failure;
         } else {
             console.error(err);
-            error = $preferredTranslations[0].ui.login.failure;
+            error = $preferredLocales[0].ui.login.failure;
         }
         success = false;
     }
@@ -108,39 +108,36 @@
 <Page>
     <div class="login">
         {#if $user && !$user.isAnonymous}
-            <Lead>{$preferredTranslations[0].welcome} {$user.email}</Lead>
-            <Button
-                tip={$preferredTranslations[0].ui.login.logout}
-                action={logout}
-                >{$preferredTranslations[0].ui.login.logout}</Button
+            <Lead>{$preferredLocales[0].welcome} {$user.email}</Lead>
+            <Button tip={$preferredLocales[0].ui.login.logout} action={logout}
+                >{$preferredLocales[0].ui.login.logout}</Button
             >
         {:else}
-            <Lead>{$preferredTranslations[0].ui.login.header}</Lead>
+            <Lead>{$preferredLocales[0].ui.login.header}</Lead>
             <p>
                 {#if missingEmail}
-                    {$preferredTranslations[0].ui.login.enterEmail}
+                    {$preferredLocales[0].ui.login.enterEmail}
                 {:else if $user === null}
-                    {$preferredTranslations[0].ui.login.anonymousPrompt}
+                    {$preferredLocales[0].ui.login.anonymousPrompt}
                 {:else}
-                    {$preferredTranslations[0].ui.login.prompt}
+                    {$preferredLocales[0].ui.login.prompt}
                 {/if}
             </p>
             <form class="form" on:submit={login}>
                 <TextField
-                    placeholder={$preferredTranslations[0].ui.placeholders
-                        .email}
+                    placeholder={$preferredLocales[0].ui.placeholders.email}
                     bind:text={email}
                 /><Button
-                    tip={$preferredTranslations[0].ui.login.submit}
+                    tip={$preferredLocales[0].ui.login.submit}
                     enabled={/^.+@.+$/.test(email)}
                     action={() => undefined}>&gt;</Button
                 >
             </form>
             <p>
                 {#if sent === true}
-                    {$preferredTranslations[0].ui.login.sent}
+                    {$preferredLocales[0].ui.login.sent}
                 {:else if success === true}
-                    {$preferredTranslations[0].ui.login.success}
+                    {$preferredLocales[0].ui.login.success}
                 {:else if success === false}
                     {error}
                 {/if}

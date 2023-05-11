@@ -17,7 +17,7 @@ import type { Path } from '@nodes/Root';
 import type Source from '@nodes/Source';
 import type { User } from 'firebase/auth';
 import type Evaluator from '@runtime/Evaluator';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import type Root from '@nodes/Root';
 
 // App related contexts
@@ -28,9 +28,9 @@ export function getUser(): UserContext {
     return getContext(UserSymbol);
 }
 
-export const TranslationsSymbol = Symbol('translations');
-export function getTranslations(): Translation[] {
-    return getContext(TranslationsSymbol);
+export const LocalesSymbol = Symbol('locales');
+export function getLocales(): Locale[] {
+    return getContext(LocalesSymbol);
 }
 
 export const DarkSymbol = Symbol('dark');

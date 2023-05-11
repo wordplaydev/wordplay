@@ -36,7 +36,7 @@ import TokenType from './TokenType';
 import type Name from './Name';
 import DuplicateName from '@conflicts/DuplicateName';
 import type { Replacement } from './Node';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import NodeLink from '@translation/NodeLink';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
@@ -181,8 +181,8 @@ export default class Bind extends Expression {
         return this.names.getNames();
     }
 
-    getTranslation(lang: LanguageCode[]) {
-        return this.names.getTranslation(lang);
+    getLocale(lang: LanguageCode[]) {
+        return this.names.getLocaleText(lang);
     }
 
     isVariableLength() {
@@ -447,11 +447,11 @@ export default class Bind extends Expression {
         return value;
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.Bind;
     }
 
-    getStartExplanations(translation: Translation, context: Context) {
+    getStartExplanations(translation: Locale, context: Context) {
         return translation.node.Bind.start(
             this.value === undefined
                 ? undefined
@@ -460,7 +460,7 @@ export default class Bind extends Expression {
     }
 
     getFinishExplanations(
-        translation: Translation,
+        translation: Locale,
         context: Context,
         evaluator: Evaluator
     ) {
@@ -470,7 +470,7 @@ export default class Bind extends Expression {
                 this.names,
                 translation,
                 context,
-                this.names.getTranslation(translation.language)
+                this.names.getLocaleText(translation.language)
             )
         );
     }

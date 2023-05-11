@@ -30,7 +30,7 @@ import TypeVariables from './TypeVariables';
 import Reference from './Reference';
 import NotAnInterface from '@conflicts/NotAnInterface';
 import type { Replacement } from './Node';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import AtomicExpression from './AtomicExpression';
 import type NameType from './NameType';
 import InternalException from '@runtime/InternalException';
@@ -159,8 +159,8 @@ export default class StructureDefinition extends AtomicExpression {
         return this.share !== undefined;
     }
 
-    getTranslation(lang: LanguageCode[]): string {
-        return this.names.getTranslation(lang);
+    getLocale(lang: LanguageCode[]): string {
+        return this.names.getLocaleText(lang);
     }
 
     isEvaluationInvolved() {
@@ -415,11 +415,11 @@ export default class StructureDefinition extends AtomicExpression {
         return this.names;
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.StructureDefinition;
     }
 
-    getStartExplanations(translation: Translation) {
+    getStartExplanations(translation: Locale) {
         return translation.node.StructureDefinition.start;
     }
 

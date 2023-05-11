@@ -17,7 +17,7 @@ import {
     EVAL_OPEN_SYMBOL,
 } from '@parser/Symbols';
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import type Expression from '../nodes/Expression';
 
 export default class Structure extends Value {
@@ -102,16 +102,16 @@ export default class Structure extends Value {
     toWordplay(languages: LanguageCode[]): string {
         const bindings = this.type.inputs.map(
             (bind) =>
-                `${bind.names.getTranslation(
+                `${bind.names.getLocaleText(
                     languages
                 )}${BIND_SYMBOL} ${this.resolve(bind.getNames()[0])}`
         );
-        return `${this.type.names.getTranslation(
+        return `${this.type.names.getLocaleText(
             languages
         )}${EVAL_OPEN_SYMBOL}${bindings.join(' ')}${EVAL_CLOSE_SYMBOL}`;
     }
 
-    getDescription(translation: Translation) {
+    getDescription(translation: Locale) {
         return translation.data.structure;
     }
 

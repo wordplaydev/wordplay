@@ -1,7 +1,7 @@
 import Concept from './Concept';
 import type Node from '@nodes/Node';
 import type Context from '@nodes/Context';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import { parseDoc, toTokens } from '@parser/Parser';
 import type Purpose from './Purpose';
 import type StructureDefinition from '@nodes/StructureDefinition';
@@ -27,24 +27,24 @@ export default class NodeConcept extends Concept {
     }
 
     /** Returns the emotions for the glyphs */
-    getEmotion(translation: Translation) {
-        return this.template.getNodeTranslation(translation).emotion;
+    getEmotion(translation: Locale) {
+        return this.template.getNodeLocale(translation).emotion;
     }
 
-    hasName(name: string, translation: Translation): boolean {
-        const nodeTranslation = this.template.getNodeTranslation(translation);
+    hasName(name: string, translation: Locale): boolean {
+        const nodeLocale = this.template.getNodeLocale(translation);
         const match = Object.entries(translation.node).find(
-            ([, value]) => value === nodeTranslation
+            ([, value]) => value === nodeLocale
         );
         return match ? match[0] === name : false;
     }
 
-    getDocs(translation: Translation): [Doc, Spaces] | undefined {
+    getDocs(translation: Locale): [Doc, Spaces] | undefined {
         const tokens = toTokens('`' + this.template.getDoc(translation) + '`');
         return [parseDoc(tokens), tokens.getSpaces()];
     }
 
-    getName(translation: Translation) {
+    getName(translation: Locale) {
         return this.template.getLabel(translation);
     }
 

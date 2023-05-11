@@ -10,7 +10,7 @@ import AnyType from './AnyType';
 import type Conflict from '@conflicts/Conflict';
 import ExpectedColumnType from '@conflicts/ExpectedColumnType';
 import type { Replacement } from './Node';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Glyphs from '../lore/Glyphs';
 
 export default class TableType extends Type {
@@ -87,7 +87,7 @@ export default class TableType extends Type {
         return 'table';
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.TableType;
     }
 

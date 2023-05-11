@@ -5,7 +5,7 @@ import TableType from '@nodes/TableType';
 import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '@parser/Symbols';
 import type Exception from './Exception';
 import Value from './Value';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 
 export default class Table extends Value {
     readonly literal: TableLiteral;
@@ -41,11 +41,11 @@ export default class Table extends Value {
 
     toWordplay(languages: LanguageCode[]): string {
         return `${this.literal.type.columns
-            .map((c) => (c ? c.names.getTranslation(languages) : ''))
+            .map((c) => (c ? c.names.getLocaleText(languages) : ''))
             .join(TABLE_OPEN_SYMBOL)}${TABLE_CLOSE_SYMBOL}`;
     }
 
-    getDescription(translation: Translation) {
+    getDescription(translation: Locale) {
         return translation.data.table;
     }
 

@@ -1,5 +1,5 @@
 import type Borrow from '@nodes/Borrow';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Conflict from './Conflict';
 
 export class UnknownBorrow extends Conflict {
@@ -18,7 +18,7 @@ export class UnknownBorrow extends Conflict {
                     this.borrow.source === undefined
                         ? this.borrow.borrow
                         : this.borrow.source,
-                explanation: (translation: Translation) =>
+                explanation: (translation: Locale) =>
                     translation.conflict.UnknownBorrow.primary,
             },
         };

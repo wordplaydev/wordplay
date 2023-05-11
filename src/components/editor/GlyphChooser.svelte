@@ -14,7 +14,7 @@
         TYPE_SYMBOL,
     } from '../../parser/Symbols';
     import { tokenize } from '../../parser/Tokenizer';
-    import { preferredTranslations } from '../../translation/translations';
+    import { preferredLocales } from '../../translation/locales';
     import { getUnicodeNamed as getUnicodeWithNameText } from '../../unicode/Unicode';
     import { getInsertions } from '../project/Contexts';
     import Button from '../widgets/Button.svelte';
@@ -74,7 +74,7 @@
             >{:else}&mdash;{/each}
     </div>
     <Button
-        tip={$preferredTranslations[0].ui.tooltip.chooserExpand}
+        tip={$preferredLocales[0].ui.tooltip.chooserExpand}
         action={() => (expanded = !expanded)}>{expanded ? '–' : '+'}</Button
     >
 </section>

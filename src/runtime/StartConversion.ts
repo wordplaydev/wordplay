@@ -1,7 +1,7 @@
 import Step from './Step';
 import type Evaluator from './Evaluator';
 import type Value from './Value';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import type ConversionDefinition from '@nodes/ConversionDefinition';
 import type Convert from '@nodes/Convert';
 
@@ -19,7 +19,7 @@ export default class StartConversion extends Step {
         return this.convert.startEvaluation(evaluator, this.conversion);
     }
 
-    getExplanations(translation: Translation) {
+    getExplanations(translation: Locale) {
         return translation.step.evaluate;
     }
 }

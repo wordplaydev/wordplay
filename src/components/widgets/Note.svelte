@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { writingDirection } from '@translation/translations';
+    import { writingDirection } from '@translation/locales';
 
     export let center: boolean = false;
 </script>

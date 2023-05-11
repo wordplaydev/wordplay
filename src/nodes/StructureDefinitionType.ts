@@ -7,7 +7,7 @@ import type TypeSet from './TypeSet';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type Definition from './Definition';
 import type Node from './Node';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Glyphs from '../lore/Glyphs';
 
 export const STRUCTURE_NATIVE_TYPE_NAME = 'structure';
@@ -108,11 +108,11 @@ export default class StructureDefinitionType extends Type {
         return this.structure.getNames()[0];
     }
 
-    getDescription(translation: Translation) {
-        return this.structure.names.getTranslation(translation.language);
+    getDescription(translation: Locale) {
+        return this.structure.names.getLocaleText(translation.language);
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.StructureDefinitionType;
     }
 

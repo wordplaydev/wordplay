@@ -1,7 +1,7 @@
 import Step from './Step';
 import type Evaluator from './Evaluator';
 import type Value from './Value';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import type Evaluable from '@nodes/Evaluable';
 
 export default class StartEvaluation extends Step {
@@ -16,7 +16,7 @@ export default class StartEvaluation extends Step {
         return this.evaluable.startEvaluation(evaluator);
     }
 
-    getExplanations(translation: Translation) {
+    getExplanations(translation: Locale) {
         return translation.step.evaluate;
     }
 }

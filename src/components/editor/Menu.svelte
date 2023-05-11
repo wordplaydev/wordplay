@@ -1,9 +1,6 @@
 <script lang="ts">
     import type Transform from '@transforms/Transform';
-    import {
-        preferredLanguages,
-        preferredTranslations,
-    } from '@translation/translations';
+    import { preferredLanguages, preferredLocales } from '@translation/locales';
     import RootView from '../project/RootView.svelte';
     import Block from '@nodes/Block';
     import type Menu from './util/Menu';
@@ -53,7 +50,7 @@
         {#if node && concept}
             <td colspan="2"
                 ><Speech glyph={node.getGlyphs()} {concept}
-                    >{$preferredTranslations[0].ui.headers.editing}</Speech
+                    >{$preferredLocales[0].ui.headers.editing}</Speech
                 ></td
             >
         {/if}
@@ -84,7 +81,7 @@
                     </td><td class="col"
                         ><em
                             >{transform.getDescription(
-                                $preferredTranslations[0]
+                                $preferredLocales[0]
                             )}</em
                         ></td
                     >

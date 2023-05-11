@@ -2,7 +2,7 @@ import Node, { type Replacement } from './Node';
 import Token from './Token';
 import Bind from './Bind';
 import Expression from './Expression';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 
@@ -55,7 +55,7 @@ export default class Row extends Node {
 
     computeConflicts() {}
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.Row;
     }
 

@@ -1,5 +1,5 @@
 import type StructureDefinition from '@nodes/StructureDefinition';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Conflict from './Conflict';
 
 export class DisallowedInputs extends Conflict {
@@ -14,7 +14,7 @@ export class DisallowedInputs extends Conflict {
         return {
             primary: {
                 node: this.structure.names,
-                explanation: (translation: Translation) =>
+                explanation: (translation: Locale) =>
                     translation.conflict.DisallowedInputs.primary,
             },
         };

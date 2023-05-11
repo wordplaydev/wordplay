@@ -13,7 +13,7 @@ import Evaluate from './Evaluate';
 import PropertyReference from './PropertyReference';
 import type TypeSet from './TypeSet';
 import type { Replacement } from './Node';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Glyphs from '../lore/Glyphs';
 
 type UnitDeriver = (
@@ -188,7 +188,7 @@ export default class MeasurementType extends NativeType {
         return 'measurement';
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.MeasurementType;
     }
 

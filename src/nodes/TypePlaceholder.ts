@@ -5,7 +5,7 @@ import Type from './Type';
 import PlaceholderToken from './PlaceholderToken';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type { Replacement } from './Node';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Glyphs from '../lore/Glyphs';
 
 export default class TypePlaceholder extends Type {
@@ -28,7 +28,7 @@ export default class TypePlaceholder extends Type {
             {
                 name: 'placeholder',
                 types: [Token],
-                label: (translation: Translation) =>
+                label: (translation: Locale) =>
                     translation.ui.placeholders.type,
             },
         ];
@@ -56,7 +56,7 @@ export default class TypePlaceholder extends Type {
         return true;
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.TypePlaceholder;
     }
 

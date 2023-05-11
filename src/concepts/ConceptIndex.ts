@@ -2,7 +2,7 @@ import type Concept from './Concept';
 import type Node from '@nodes/Node';
 import type Type from '@nodes/Type';
 import StructureConcept from './StructureConcept';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Purpose from './Purpose';
 import type Project from '../models/Project';
 import StructureDefinition from '@nodes/StructureDefinition';
@@ -31,12 +31,12 @@ export default class ConceptIndex {
     readonly concepts: Concept[];
     readonly primaryConcepts: Concept[];
     readonly subConcepts: Map<Concept, Set<Concept>> = new Map();
-    readonly translations: Translation[];
+    readonly translations: Locale[];
 
     /** A mapping of node ids to nodes, registered by examples that are generated. */
     readonly examples: Map<number, Node> = new Map();
 
-    constructor(concepts: Concept[], translations: Translation[]) {
+    constructor(concepts: Concept[], translations: Locale[]) {
         // Store the primary concepts
         this.primaryConcepts = [...concepts];
 
@@ -56,7 +56,7 @@ export default class ConceptIndex {
     }
 
     // Make a concept index with a project and some preferreed languages.
-    static make(project: Project, translations: Translation[]) {
+    static make(project: Project, translations: Locale[]) {
         const languages = translations.map((t) => t.language);
 
         const projectStructures = [project.main, ...project.supplements]
@@ -236,7 +236,7 @@ export default class ConceptIndex {
     }
 
     getQuery(
-        translations: Translation[],
+        translations: Locale[],
         query: string
     ): [Concept, [string, number][]][] {
         // Find matching concepts for each translation and the string that matched.

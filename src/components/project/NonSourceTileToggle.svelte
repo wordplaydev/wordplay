@@ -1,6 +1,6 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
-    import { preferredTranslations } from '@translation/translations';
+    import { preferredLocales } from '@translation/locales';
     import Button from '../widgets/Button.svelte';
     import type Tile from './Tile';
 
@@ -10,7 +10,7 @@
 </script>
 
 <Button
-    tip={`${$preferredTranslations[0].ui.tooltip.expand} ${tile.name}`}
+    tip={`${$preferredLocales[0].ui.tooltip.expand} ${tile.name}`}
     action={() => dispatch('toggle')}
     ><span class="name" class:collapsed={tile.isCollapsed()}>{tile.name}</span
     ></Button

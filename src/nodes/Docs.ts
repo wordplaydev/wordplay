@@ -1,7 +1,7 @@
 import Node, { type Replacement } from './Node';
 import Doc from './Doc';
 import type LanguageCode from '@translation/LanguageCode';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 
@@ -34,7 +34,7 @@ export default class Docs extends Node {
         return [];
     }
 
-    getTranslation(lang: LanguageCode | LanguageCode[]): Doc | undefined {
+    getLocale(lang: LanguageCode | LanguageCode[]): Doc | undefined {
         lang = Array.isArray(lang) ? lang : [lang];
         // Find the doc with the most preferred language, and if there are none, an emdash.
         return (
@@ -47,7 +47,7 @@ export default class Docs extends Node {
         );
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.Docs;
     }
 

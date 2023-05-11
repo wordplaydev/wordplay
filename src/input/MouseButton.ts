@@ -1,8 +1,8 @@
 import type Evaluator from '@runtime/Evaluator';
 import Stream from '@runtime/Stream';
 import StreamDefinition from '@nodes/StreamDefinition';
-import { getDocTranslations } from '@translation/getDocTranslations';
-import { getNameTranslations } from '@translation/getNameTranslations';
+import { getDocLocales } from '@translation/getDocLocales';
+import { getNameLocales } from '@translation/getNameLocales';
 import BooleanType from '../nodes/BooleanType';
 import Bind from '@nodes/Bind';
 import UnionType from '@nodes/UnionType';
@@ -44,16 +44,16 @@ export default class Button extends Stream<Bool> {
 }
 
 const DownBind = Bind.make(
-    getDocTranslations((t) => t.input.button.down.doc),
-    getNameTranslations((t) => t.input.button.down.names),
+    getDocLocales((t) => t.input.button.down.doc),
+    getNameLocales((t) => t.input.button.down.names),
     UnionType.make(BooleanType.make(), NoneType.make()),
     // Default to true
     BooleanLiteral.make(true)
 );
 
 export const ButtonDefinition = StreamDefinition.make(
-    getDocTranslations((t) => t.input.button.doc),
-    getNameTranslations((t) => t.input.button.names),
+    getDocLocales((t) => t.input.button.doc),
+    getNameLocales((t) => t.input.button.names),
     [DownBind],
     createStreamEvaluator(
         BooleanType.make(),

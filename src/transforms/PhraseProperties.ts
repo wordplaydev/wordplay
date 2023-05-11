@@ -1,6 +1,6 @@
 import TextLiteral from '@nodes/TextLiteral';
 import en from '@translation/translations/en';
-import { getFirstName } from '../translation/Translation';
+import { getFirstName } from '../translation/Locale';
 import type OutputProperty from './OutputProperty';
 import OutputPropertyText from './OutputPropertyText';
 

@@ -3,22 +3,20 @@
 <script lang="ts">
     import {
         preferredLanguages,
-        preferredTranslations,
+        preferredLocales,
         writingDirection,
-    } from '@translation/translations';
+    } from '@translation/locales';
     import Button from '../widgets/Button.svelte';
     import type LanguageCode from '@translation/LanguageCode';
     import { getLanguageName, Languages } from '@translation/LanguageCode';
-    import SupportedTranslations, {
-        writingLayout,
-    } from '@translation/translations';
+    import SupportedLocales, { writingLayout } from '@translation/locales';
     import { tick } from 'svelte';
     import { clickOutside } from '../app/clickOutside';
 
     let collapsed = true;
     let element: HTMLElement;
 
-    const supportedLanguages = SupportedTranslations.map((t) => t.language);
+    const supportedLanguages = SupportedLocales.map((t) => t.language);
 
     // The choices are all the languages, sorted in English alphabetical order, with supported languages first
     $: languageChoices = [
@@ -104,10 +102,7 @@
             </div>
         </div>
     {:else}
-        <Button
-            tip={$preferredTranslations[0].ui.tooltip.language}
-            action={toggle}
-        >
+        <Button tip={$preferredLocales[0].ui.tooltip.language} action={toggle}>
             <span class="chosen">
                 {#each $preferredLanguages as lang, index}{#if index > 0}+{/if}<span
                         class="language supported">{getLanguageName(lang)}</span

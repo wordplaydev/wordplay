@@ -1,5 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Purpose from '../concepts/Purpose';
 import Glyphs from '../lore/Glyphs';
 import {
@@ -72,7 +72,7 @@ export default class WebLink extends Node {
         return Purpose.Document;
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.WebLink;
     }
 

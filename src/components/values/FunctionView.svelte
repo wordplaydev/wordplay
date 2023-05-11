@@ -5,13 +5,13 @@
     import SymbolView from './SymbolView.svelte';
     import { FUNCTION_SYMBOL } from '@parser/Symbols';
     import TokenType from '@nodes/TokenType';
-    import { preferredLanguages } from '@translation/translations';
+    import { preferredLanguages } from '@translation/locales';
 
     export let value: FunctionValue;
 </script>
 
 <SymbolView symbol={FUNCTION_SYMBOL} type={TokenType.Function} />
 <SymbolView
-    symbol={value.definition.names.getTranslation($preferredLanguages)}
+    symbol={value.definition.names.getLocaleText($preferredLanguages)}
     type={TokenType.Name}
 />

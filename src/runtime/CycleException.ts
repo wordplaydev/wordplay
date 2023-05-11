@@ -1,6 +1,6 @@
 import type Borrow from '@nodes/Borrow';
 import NodeLink from '@translation/NodeLink';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import type Evaluator from './Evaluator';
 import Exception from './Exception';
 
@@ -13,7 +13,7 @@ export default class CycleException extends Exception {
         this.borrow = borrow;
     }
 
-    getDescription(translation: Translation) {
+    getDescription(translation: Locale) {
         return translation.exceptions.cycle(
             new NodeLink(
                 this.borrow,

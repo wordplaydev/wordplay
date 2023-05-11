@@ -4,12 +4,8 @@ import type Context from './Context';
 import type Spaces from '@parser/Spaces';
 import type Type from './Type';
 import type Token from './Token';
-import type Translation from '@translation/Translation';
-import type {
-    Description,
-    DocString,
-    NodeTranslation,
-} from '@translation/Translation';
+import type Locale from '@translation/Locale';
+import type { Description, DocString, NodeText } from '@translation/Locale';
 import type Glyph from '../lore/Glyph';
 import type Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';
@@ -27,7 +23,7 @@ export type Field = {
     types: FieldType[];
     /** A description of the field for the UI */
     label?: (
-        translation: Translation,
+        translation: Locale,
         child: Node,
         context: Context,
         root: Root
@@ -633,22 +629,22 @@ export default abstract class Node {
     /**
      * Given a translation and a context, get the node's static label
      * */
-    getLabel(translation: Translation): string {
-        return this.getNodeTranslation(translation).names;
+    getLabel(locale: Locale): string {
+        return this.getNodeLocale(locale).names;
     }
 
     /**
      * Given a translation and a context, generate a description of the node.
      * */
-    getDescription(translation: Translation, context: Context) {
-        const trans = this.getNodeTranslation(translation);
+    getDescription(locale: Locale, context: Context) {
+        const trans = this.getNodeLocale(locale);
         return trans.description instanceof Function
-            ? trans.description(this, translation, context)
+            ? trans.description(this, locale, context)
             : trans.description;
     }
 
-    getDoc(translation: Translation): DocString {
-        return this.getNodeTranslation(translation).doc;
+    getDoc(locale: Locale): DocString {
+        return this.getNodeLocale(locale).doc;
     }
 
     /**
@@ -660,14 +656,12 @@ export default abstract class Node {
         return undefined;
     }
 
-    abstract getNodeTranslation(
-        translation: Translation
-    ): NodeTranslation<any, any, any>;
+    abstract getNodeLocale(translation: Locale): NodeText<any, any, any>;
 
     /** Provide localized labels for any child that can be a placeholder. */
     getChildPlaceholderLabel(
         child: Node,
-        translation: Translation,
+        translation: Locale,
         context: Context,
         root: Root
     ): Description | undefined {

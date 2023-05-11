@@ -4,7 +4,7 @@ import Expression from '@nodes/Expression';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import type TypeSet from '@nodes/TypeSet';
 import type Evaluator from '@runtime/Evaluator';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Glyphs from '../lore/Glyphs';
 
 export default abstract class HOF extends Expression {
@@ -64,16 +64,16 @@ export default abstract class HOF extends Expression {
         return this;
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.HOF;
     }
 
-    getStartExplanations(translation: Translation) {
+    getStartExplanations(translation: Locale) {
         return translation.node.HOF.start;
     }
 
     getFinishExplanations(
-        translation: Translation,
+        translation: Locale,
         context: Context,
         evaluator: Evaluator
     ) {

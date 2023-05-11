@@ -2,7 +2,7 @@ import type Context from '@nodes/Context';
 import type SetOrMapAccess from '@nodes/SetOrMapAccess';
 import type Type from '@nodes/Type';
 import NodeLink from '@translation/NodeLink';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Conflict from './Conflict';
 
 export class NotASetOrMap extends Conflict {
@@ -20,7 +20,7 @@ export class NotASetOrMap extends Conflict {
         return {
             primary: {
                 node: this.access.setOrMap,
-                explanation: (translation: Translation, context: Context) =>
+                explanation: (translation: Locale, context: Context) =>
                     translation.conflict.NotASetOrMap.primary(
                         new NodeLink(this.received, translation, context)
                     ),

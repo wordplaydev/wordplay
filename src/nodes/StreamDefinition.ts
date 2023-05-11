@@ -20,7 +20,7 @@ import type Value from '@runtime/Value';
 import StartFinish from '@runtime/StartFinish';
 import TypeToken from './TypeToken';
 import type { Replacement } from './Node';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import StreamDefinitionValue from '../runtime/StreamDefinitionValue';
 import type TypeSet from './TypeSet';
 import StreamDefinitionType from './StreamDefinitionType';
@@ -123,8 +123,8 @@ export default class StreamDefinition extends Expression {
         return this.names.getNames();
     }
 
-    getTranslation(lang: LanguageCode[]) {
-        return this.names.getTranslation(lang);
+    getLocale(lang: LanguageCode[]) {
+        return this.names.getLocaleText(lang);
     }
 
     /**
@@ -191,15 +191,15 @@ export default class StreamDefinition extends Expression {
         return current;
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.StreamDefinition;
     }
 
-    getStartExplanations(translation: Translation) {
+    getStartExplanations(translation: Locale) {
         return translation.node.StreamDefinition.start;
     }
 
-    getFinishExplanations(translation: Translation) {
+    getFinishExplanations(translation: Locale) {
         return translation.node.StreamDefinition.start;
     }
 

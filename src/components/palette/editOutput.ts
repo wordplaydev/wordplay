@@ -15,8 +15,8 @@ import TextLiteral from '../../nodes/TextLiteral';
 import ListLiteral from '../../nodes/ListLiteral';
 import { GroupType } from '../../output/Group';
 import { RowType } from '../../output/Row';
-import { getLanguages } from '../../translation/translations';
-import { getTranslation } from '../../translation/translations';
+import { getLanguages } from '../../translation/locales';
+import { getLocale } from '../../translation/locales';
 import { VerseType } from '../../output/Verse';
 import { toExpression } from '../../parser/Parser';
 
@@ -81,7 +81,7 @@ export default function moveOutput(
                     'place',
                     Evaluate.make(
                         Reference.make(
-                            PlaceType.names.getTranslation(languages),
+                            PlaceType.names.getLocaleText(languages),
                             PlaceType
                         ),
                         [
@@ -127,8 +127,8 @@ export function addContent(
 ) {
     const languages = getLanguages();
     const newPhrase = Evaluate.make(
-        Reference.make(PhraseType.names.getTranslation(getLanguages())),
-        [TextLiteral.make(getTranslation().welcome)]
+        Reference.make(PhraseType.names.getLocaleText(getLanguages())),
+        [TextLiteral.make(getLocale().welcome)]
     );
     reviseContent(projects, project, list, [
         ...list.values.slice(0, index + 1),
@@ -136,11 +136,11 @@ export function addContent(
             ? newPhrase
             : // Create a group with a Row layout and a single phrase
               Evaluate.make(
-                  Reference.make(GroupType.names.getTranslation(languages)),
+                  Reference.make(GroupType.names.getLocaleText(languages)),
                   [
                       Evaluate.make(
                           Reference.make(
-                              RowType.names.getTranslation(languages)
+                              RowType.names.getLocaleText(languages)
                           ),
                           []
                       ),

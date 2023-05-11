@@ -1,8 +1,8 @@
 /** The tutorial for learning the programming language. */
-import type Translation from '../translation/Translation';
+import type Locale from '../translation/Locale';
 import type Unit from './Unit';
 
-export function getTutorial(translation: Translation): Unit[] {
+export function getTutorial(translation: Locale): Unit[] {
     return [
         {
             id: 'welcome',

@@ -1,6 +1,6 @@
 import Exception from './Exception';
 import type Evaluator from './Evaluator';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import type Node from '@nodes/Node';
 import type { EvaluationNode } from './Evaluation';
 import NodeLink from '@translation/NodeLink';
@@ -16,7 +16,7 @@ export default class EvaluationLimitException extends Exception {
         this.functions = functions;
     }
 
-    getDescription(translation: Translation) {
+    getDescription(translation: Locale) {
         const counts = new Map<EvaluationNode, number>();
         for (const fun of this.functions)
             counts.set(fun, (counts.get(fun) ?? 0) + 1);
@@ -31,7 +31,7 @@ export default class EvaluationLimitException extends Exception {
                 this.getNodeContext(mostFrequent),
                 mostFrequent instanceof FunctionDefinition ||
                 mostFrequent instanceof StructureDefinition
-                    ? mostFrequent.names.getTranslation([translation.language])
+                    ? mostFrequent.names.getLocaleText([translation.language])
                     : undefined
             )
         );

@@ -2,7 +2,7 @@ import UnknownType from './UnknownType';
 import type Token from './Token';
 import type Node from './Node';
 import type Type from './Type';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import type Context from './Context';
 
 export default class UnknownNameType extends UnknownType<Node> {
@@ -18,7 +18,7 @@ export default class UnknownNameType extends UnknownType<Node> {
         this.name = name;
     }
 
-    getReason(translation: Translation, context: Context) {
+    getReason(translation: Locale, context: Context) {
         return (
             translation.node.UnknownNameType.description(
                 this,

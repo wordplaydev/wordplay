@@ -1,6 +1,6 @@
 import type Expression from '@nodes/Expression';
 import type TableType from '@nodes/TableType';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Conflict from './Conflict';
 
 export default class UnknownColumn extends Conflict {
@@ -17,7 +17,7 @@ export default class UnknownColumn extends Conflict {
         return {
             primary: {
                 node: this.cell,
-                explanation: (translation: Translation) =>
+                explanation: (translation: Locale) =>
                     translation.conflict.UnknownColumn.primary,
             },
         };

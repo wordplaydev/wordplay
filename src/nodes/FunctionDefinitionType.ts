@@ -9,7 +9,7 @@ import {
     EVAL_OPEN_SYMBOL,
     FUNCTION_SYMBOL,
 } from '@parser/Symbols';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Glyphs from '../lore/Glyphs';
 
 export default class FunctionDefinitionType extends Type {
@@ -64,7 +64,7 @@ export default class FunctionDefinitionType extends Type {
             .join(' ')}${EVAL_CLOSE_SYMBOL}`;
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.FunctionDefinitionType;
     }
 

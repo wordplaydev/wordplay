@@ -18,7 +18,7 @@ import type TypeSet from './TypeSet';
 import UnimplementedException from '@runtime/UnimplementedException';
 import type Evaluator from '@runtime/Evaluator';
 import type { Replacement } from './Node';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import NodeLink from '@translation/NodeLink';
 import Glyphs from '../lore/Glyphs';
 
@@ -42,13 +42,13 @@ export default class Delete extends Expression {
             {
                 name: 'table',
                 types: [Expression],
-                label: (translation: Translation) => translation.data.table,
+                label: (translation: Locale) => translation.data.table,
             },
             { name: 'del', types: [Token] },
             {
                 name: 'query',
                 types: [Expression],
-                label: (translation: Translation) => translation.data.query,
+                label: (translation: Locale) => translation.data.query,
                 // Must be a boolean
                 getType: () => BooleanType.make(),
             },
@@ -138,18 +138,18 @@ export default class Delete extends Expression {
         return this.del;
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.Delete;
     }
 
-    getStartExplanations(translation: Translation, context: Context) {
+    getStartExplanations(translation: Locale, context: Context) {
         return translation.node.Delete.start(
             new NodeLink(this.table, translation, context)
         );
     }
 
     getFinishExplanations(
-        translation: Translation,
+        translation: Locale,
         context: Context,
         evaluator: Evaluator
     ) {

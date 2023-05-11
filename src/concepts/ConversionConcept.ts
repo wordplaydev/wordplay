@@ -3,7 +3,7 @@ import type ConversionDefinition from '@nodes/ConversionDefinition';
 import Convert from '@nodes/Convert';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import type Node from '@nodes/Node';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Emotion from '../lore/Emotion';
 import Glyphs from '../lore/Glyphs';
 import type Doc from '../nodes/Doc';
@@ -50,12 +50,12 @@ export default class ConversionConcept extends Concept {
         return false;
     }
 
-    getDocs(translation: Translation): [Doc, Spaces] | undefined {
-        const doc = this.definition.docs?.getTranslation(translation.language);
+    getDocs(translation: Locale): [Doc, Spaces] | undefined {
+        const doc = this.definition.docs?.getLocale(translation.language);
         return doc ? [doc, this.context.source.spaces] : undefined;
     }
 
-    getName(translation: Translation) {
+    getName(translation: Locale) {
         return this.definition.getDescription(translation, this.context);
     }
 

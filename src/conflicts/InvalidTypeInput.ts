@@ -5,7 +5,7 @@ import type NameType from '@nodes/NameType';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import type Type from '@nodes/Type';
 import NodeLink from '@translation/NodeLink';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Conflict from './Conflict';
 
 export default class InvalidTypeInput extends Conflict {
@@ -28,13 +28,13 @@ export default class InvalidTypeInput extends Conflict {
         return {
             primary: {
                 node: this.type,
-                explanation: (translation: Translation, context: Context) =>
+                explanation: (translation: Locale, context: Context) =>
                     translation.conflict.InvalidTypeInput.primary(
                         new NodeLink(
                             this.definition.names,
                             translation,
                             context,
-                            this.definition.names.getTranslation(
+                            this.definition.names.getLocaleText(
                                 translation.language
                             )
                         )
@@ -42,7 +42,7 @@ export default class InvalidTypeInput extends Conflict {
             },
             secondary: {
                 node: this.definition.names,
-                explanation: (translation: Translation, context: Context) =>
+                explanation: (translation: Locale, context: Context) =>
                     translation.conflict.InvalidTypeInput.secondary(
                         new NodeLink(this.type, translation, context)
                     ),

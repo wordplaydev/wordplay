@@ -1,6 +1,6 @@
 import type Type from './Type';
 import UnknownType from './UnknownType';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import type ListAccess from './ListAccess';
 
 export class NotAListType extends UnknownType<ListAccess> {
@@ -8,7 +8,7 @@ export class NotAListType extends UnknownType<ListAccess> {
         super(access, why);
     }
 
-    getReason(translation: Translation) {
+    getReason(translation: Locale) {
         return translation.node.NotAListType.description;
     }
 }

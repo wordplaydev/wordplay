@@ -1,9 +1,9 @@
 <script lang="ts">
     import { getLanguageName } from '@translation/LanguageCode';
-    import { missingTranslations } from '@translation/translations';
+    import { missingLocales } from '@translation/locales';
 </script>
 
-{#each $missingTranslations as missing}
+{#each $missingLocales as missing}
     <p>
         <em>Wordplay no habla <strike>{getLanguageName(missing)}</strike></em>
     </p>

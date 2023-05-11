@@ -1,11 +1,11 @@
 import UnicodeString from '../models/UnicodeString';
 import type Spaces from '@parser/Spaces';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Node, { type Replacement } from './Node';
 import TokenType from './TokenType';
 import Emotion from '../lore/Emotion';
 import Purpose from '../concepts/Purpose';
-import { getTokenLabel, type Description } from '@translation/Translation';
+import { getTokenLabel, type Description } from '@translation/Locale';
 import type Root from './Root';
 import { REVERSE_TEXT_DELIMITERS, TEXT_DELIMITERS } from '../parser/Tokenizer';
 import { Languages } from '../translation/LanguageCode';
@@ -43,7 +43,7 @@ export default class Token extends Node {
     }
     computeConflicts() {}
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.Token;
     }
 
@@ -107,7 +107,7 @@ export default class Token extends Node {
     /**
      * Override node's
      * */
-    getLabel(translation: Translation): string {
+    getLabel(translation: Locale): string {
         return getTokenLabel(this, translation);
     }
 
@@ -115,7 +115,7 @@ export default class Token extends Node {
     getPlaceholder(
         root: Root,
         context: Context,
-        translation: Translation
+        translation: Locale
     ): Description | undefined {
         if (!this.is(TokenType.Placeholder)) return undefined;
         const parent = root.getParent(this);
@@ -126,7 +126,7 @@ export default class Token extends Node {
 
     localized(
         name: boolean,
-        translations: Translation[],
+        translations: Locale[],
         root: Root,
         context: Context
     ) {
@@ -167,7 +167,7 @@ export default class Token extends Node {
                 if (def) {
                     text =
                         def.names.getEmojiName() ??
-                        def.names.getTranslation(
+                        def.names.getLocaleText(
                             translations.map((t) => t.language)
                         );
                 }

@@ -5,7 +5,7 @@ import Language from './Language';
 import type LanguageCode from '@translation/LanguageCode';
 import NameToken from './NameToken';
 import PlaceholderToken from './PlaceholderToken';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import { COMMA_SYMBOL } from '@parser/Symbols';
 import TokenType from './TokenType';
 import Emotion from '../lore/Emotion';
@@ -134,7 +134,7 @@ export default class Name extends Node {
         );
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.Name;
     }
 

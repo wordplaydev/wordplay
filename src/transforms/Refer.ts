@@ -18,8 +18,8 @@ export default class Refer {
 
     getNode(languages: LanguageCode[]) {
         return this.creator(
-            this.definition.getTranslation(languages),
-            this.definition.getTranslation(['😀'])
+            this.definition.getLocale(languages),
+            this.definition.getLocale(['😀'])
         );
     }
 

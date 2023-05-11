@@ -8,7 +8,7 @@ import type TypeSet from './TypeSet';
 import type Evaluator from '@runtime/Evaluator';
 import Docs from './Docs';
 import type { Replacement } from './Node';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import AtomicExpression from './AtomicExpression';
 import Glyphs from '../lore/Glyphs';
 
@@ -77,11 +77,11 @@ export default class DocumentedExpression extends AtomicExpression {
         return this.expression;
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.DocumentedExpression;
     }
 
-    getStartExplanations(translation: Translation) {
+    getStartExplanations(translation: Locale) {
         return translation.node.DocumentedExpression.start;
     }
 

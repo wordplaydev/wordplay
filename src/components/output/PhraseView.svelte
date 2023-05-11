@@ -5,10 +5,7 @@
     import type Place from '@output/Place';
     import parseRichText from '@output/parseRichText';
     import outputToCSS from '@output/outputToCSS';
-    import {
-        preferredLanguages,
-        preferredTranslations,
-    } from '@translation/translations';
+    import { preferredLanguages, preferredLocales } from '@translation/locales';
     import type RenderContext from '@output/RenderContext';
     import Pose from '@output/Pose';
     import Evaluate from '@nodes/Evaluate';
@@ -155,7 +152,7 @@
         role="button"
         aria-hidden={empty ? 'true' : null}
         aria-disabled={!selectable}
-        aria-roledescription={$preferredTranslations[0].terminology.phrase}
+        aria-roledescription={$preferredLocales[0].terminology.phrase}
         class="output phrase"
         class:selected
         tabIndex={interactive && ((!empty && selectable) || editing) ? 0 : null}

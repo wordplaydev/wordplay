@@ -1,6 +1,6 @@
 import Exception from './Exception';
 import type Evaluator from './Evaluator';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import type Node from '@nodes/Node';
 
 export default class StepLimitException extends Exception {
@@ -10,7 +10,7 @@ export default class StepLimitException extends Exception {
         this.node = node;
     }
 
-    getDescription(translation: Translation) {
+    getDescription(translation: Locale) {
         return translation.exceptions.steplimit;
     }
 }

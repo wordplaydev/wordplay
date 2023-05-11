@@ -5,7 +5,7 @@ import type TypeOutput from './TypeOutput';
 import type RenderContext from './RenderContext';
 import Place from './Place';
 import type LanguageCode from '@translation/LanguageCode';
-import { getPreferredTranslation } from '@translation/getPreferredTranslation';
+import { getPreferredLocale } from '@translation/getPreferredLocales';
 import { getBind } from '@translation/getBind';
 import Arrangement from './Arrangement';
 import Phrase from './Phrase';
@@ -61,7 +61,7 @@ export class Free extends Arrangement {
     }
 
     getDescription(output: TypeOutput[], languages: LanguageCode[]) {
-        return getPreferredTranslation(languages).output.free.description(
+        return getPreferredLocale(languages).output.free.description(
             output.length
         );
     }

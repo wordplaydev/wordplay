@@ -2,16 +2,13 @@
     import { animationFactor } from '@models/stores';
     import { onMount, setContext } from 'svelte';
     import Loading from '@components/app/Loading.svelte';
-    import {
-        preferredLanguages,
-        preferredTranslations,
-    } from '@translation/translations';
+    import { preferredLanguages, preferredLocales } from '@translation/locales';
     import { auth } from '@db/firebase';
     import { onAuthStateChanged, type User } from 'firebase/auth';
     import {
         DarkSymbol,
         ProjectsSymbol,
-        TranslationsSymbol,
+        LocalesSymbol,
         UserSymbol,
     } from '../components/project/Contexts';
     import { writable } from 'svelte/store';
@@ -23,7 +20,7 @@
     import { page } from '$app/stores';
 
     /** Expose the translations as context, updating them as necessary */
-    $: setContext(TranslationsSymbol, $preferredTranslations);
+    $: setContext(LocalesSymbol, $preferredLocales);
 
     let loaded = false;
 

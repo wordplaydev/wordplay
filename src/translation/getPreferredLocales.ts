@@ -1,21 +1,21 @@
 import type LanguageCode from './LanguageCode';
-import SupportedTranslations from './translations';
-import type Translation from './Translation';
+import SupportedLocales from './locales';
+import type Locale from './Locale';
 
 /** Given an ordered list of preferred languages, choose the translation that best matches, or the default translation */
 
-export function getPreferredTranslation(languages: LanguageCode[]) {
+export function getPreferredLocale(languages: LanguageCode[]) {
     //
     return (
         languages
             .map((lang) =>
-                SupportedTranslations.find(
+                SupportedLocales.find(
                     (translation) => translation.language === lang
                 )
             )
             .filter(
-                (translation): translation is Translation =>
+                (translation): translation is Locale =>
                     translation !== undefined
-            )[0] ?? SupportedTranslations[0]
+            )[0] ?? SupportedLocales[0]
     );
 }

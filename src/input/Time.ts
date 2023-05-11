@@ -10,8 +10,8 @@ import StreamType from '../nodes/StreamType';
 import UnionType from '../nodes/UnionType';
 import Unit from '../nodes/Unit';
 import Measurement from '../runtime/Measurement';
-import { getDocTranslations } from '../translation/getDocTranslations';
-import { getNameTranslations } from '../translation/getNameTranslations';
+import { getDocLocales } from '../translation/getDocLocales';
+import { getNameLocales } from '../translation/getNameLocales';
 import createStreamEvaluator from './createStreamEvaluator';
 import { animationFactor } from '../models/stores';
 import { get } from 'svelte/store';
@@ -74,16 +74,16 @@ export default class Time extends TemporalStream<Measurement> {
 const TimeType = MeasurementType.make(Unit.make(['ms']));
 
 const FrequencyBind = Bind.make(
-    getDocTranslations((t) => t.input.time.frequency.doc),
-    getNameTranslations((t) => t.input.time.frequency.names),
+    getDocLocales((t) => t.input.time.frequency.doc),
+    getNameLocales((t) => t.input.time.frequency.names),
     UnionType.make(MeasurementType.make(Unit.make(['ms'])), NoneType.make()),
     // Default to nothing
     NoneLiteral.make()
 );
 
 export const TimeDefinition = StreamDefinition.make(
-    getDocTranslations((t) => t.input.time.doc),
-    getNameTranslations((t) => t.input.time.names),
+    getDocLocales((t) => t.input.time.doc),
+    getNameLocales((t) => t.input.time.names),
     [FrequencyBind],
     createStreamEvaluator(
         TimeType.clone(),

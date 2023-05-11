@@ -20,7 +20,7 @@ import Reaction from './Reaction';
 import ValueException from '@runtime/ValueException';
 import type { Replacement } from './Node';
 import AtomicExpression from './AtomicExpression';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import { UnenclosedType } from './UnenclosedType';
 import Glyphs from '../lore/Glyphs';
 import { PROPERTY_SYMBOL } from '../parser/Symbols';
@@ -140,12 +140,12 @@ export default class This extends AtomicExpression {
         return this.dis;
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.This;
     }
 
     getStartExplanations(
-        translation: Translation,
+        translation: Locale,
         context: Context,
         evaluator: Evaluator
     ) {

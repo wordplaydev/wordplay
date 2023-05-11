@@ -1,7 +1,7 @@
 import type Context from '@nodes/Context';
 import type Reference from '@nodes/Reference';
 import NodeLink from '@translation/NodeLink';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Conflict from './Conflict';
 
 export default class ReferenceCycle extends Conflict {
@@ -17,7 +17,7 @@ export default class ReferenceCycle extends Conflict {
         return {
             primary: {
                 node: this.name,
-                explanation: (translation: Translation, context: Context) =>
+                explanation: (translation: Locale, context: Context) =>
                     translation.conflict.ReferenceCycle.primary(
                         new NodeLink(
                             this.name,

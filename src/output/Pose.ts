@@ -105,7 +105,7 @@ export function toPose(value: Value | undefined): Pose | undefined {
 
 export function createPoseLiteral(languages: LanguageCode[]) {
     return Evaluate.make(
-        Reference.make(PoseType.names.getTranslation(languages), PoseType),
+        Reference.make(PoseType.names.getLocaleText(languages), PoseType),
         []
     );
 }

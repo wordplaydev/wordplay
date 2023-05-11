@@ -2,7 +2,7 @@
 
 <script lang="ts">
     import type StructureDefinitionValue from '@runtime/StructureDefinitionValue';
-    import { preferredLanguages } from '@translation/translations';
+    import { preferredLanguages } from '@translation/locales';
     import SymbolView from './SymbolView.svelte';
     import { TYPE_SYMBOL } from '@parser/Symbols';
     import TokenType from '@nodes/TokenType';
@@ -11,6 +11,6 @@
 </script>
 
 <SymbolView symbol={TYPE_SYMBOL} type={TokenType.Type} /><SymbolView
-    symbol={value.definition.names.getTranslation($preferredLanguages)}
+    symbol={value.definition.names.getLocaleText($preferredLanguages)}
     type={TokenType.Name}
 />

@@ -10,7 +10,7 @@ import type Context from '@nodes/Context';
 import type LanguageCode from '@translation/LanguageCode';
 import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from '@parser/Symbols';
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import type Expression from '../nodes/Expression';
 
 export default class List extends Primitive {
@@ -137,7 +137,7 @@ export default class List extends Primitive {
             .join(' ')}${LIST_CLOSE_SYMBOL}`;
     }
 
-    getDescription(translation: Translation) {
+    getDescription(translation: Locale) {
         return translation.data.list;
     }
 

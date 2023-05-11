@@ -1,5 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import ConceptLink from './ConceptLink';
 import type Example from './Example';
 import WebLink from './WebLink';
@@ -37,7 +37,7 @@ export default class Paragraph extends Node {
         return Purpose.Document;
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.Paragraph;
     }
 

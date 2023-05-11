@@ -1,4 +1,4 @@
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import type Program from '../nodes/Program';
 import type Evaluator from './Evaluator';
 import Exception from './Exception';
@@ -12,7 +12,7 @@ export default class BlankException extends Exception {
         this.program = program;
     }
 
-    getDescription(translation: Translation) {
+    getDescription(translation: Locale) {
         return translation.exceptions.blank();
     }
 }

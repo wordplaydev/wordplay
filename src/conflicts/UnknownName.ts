@@ -2,7 +2,7 @@ import type Context from '@nodes/Context';
 import type Token from '@nodes/Token';
 import type Type from '@nodes/Type';
 import NodeLink from '@translation/NodeLink';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Conflict from './Conflict';
 
 export class UnknownName extends Conflict {
@@ -19,7 +19,7 @@ export class UnknownName extends Conflict {
         return {
             primary: {
                 node: this.name,
-                explanation: (translation: Translation, context: Context) =>
+                explanation: (translation: Locale, context: Context) =>
                     translation.conflict.UnknownName.primary(
                         new NodeLink(
                             this.name,

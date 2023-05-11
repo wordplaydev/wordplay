@@ -1,6 +1,6 @@
 import Conflict from './Conflict';
 import type Name from '@nodes/Name';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import NodeLink from '@translation/NodeLink';
 import type Context from '@nodes/Context';
 
@@ -19,7 +19,7 @@ export default class DuplicateName extends Conflict {
         return {
             primary: {
                 node: this.duplicate,
-                explanation: (translation: Translation, context: Context) =>
+                explanation: (translation: Locale, context: Context) =>
                     translation.conflict.DuplicateName.primary(
                         new NodeLink(
                             this.duplicate,
@@ -31,7 +31,7 @@ export default class DuplicateName extends Conflict {
             },
             secondary: {
                 node: this.name,
-                explanation: (translation: Translation, context: Context) =>
+                explanation: (translation: Locale, context: Context) =>
                     translation.conflict.DuplicateName.primary(
                         new NodeLink(
                             this.name,

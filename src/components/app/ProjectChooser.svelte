@@ -3,10 +3,7 @@
     import type Project from '../../models/Project';
     import { getProjects, getUser } from '../project/Contexts';
     import ConfirmButton from '../widgets/ConfirmButton.svelte';
-    import {
-        preferredLanguages,
-        preferredTranslations,
-    } from '@translation/translations';
+    import { preferredLanguages, preferredLocales } from '@translation/locales';
     import { examples, makeProject } from '../../examples/examples';
     import Lead from './Lead.svelte';
     import ProjectPreview from './ProjectPreview.svelte';
@@ -26,7 +23,7 @@
 
     function newProject() {
         const newProjectID = $projects.create(
-            $preferredTranslations[0],
+            $preferredLocales[0],
             $user ? $user.uid : undefined
         );
         goto(`/project/${newProjectID}`);
@@ -49,7 +46,7 @@
     const exampleProjects = examples.map((example) => makeProject(example));
 </script>
 
-<Lead>{$preferredTranslations[0].ui.headers.projects}</Lead>
+<Lead>{$preferredLocales[0].ui.headers.projects}</Lead>
 <div class="projects">
     {#each sortProjects($projects
             .all()
@@ -57,24 +54,22 @@
         <ProjectPreview {project} action={() => changeProject(project, true)}
             ><div class="controls"
                 ><Button
-                    tip={$preferredTranslations[0].ui.tooltip.editProject}
+                    tip={$preferredLocales[0].ui.tooltip.editProject}
                     action={() => changeProject(project)}>✎</Button
                 ><ConfirmButton
-                    prompt={$preferredTranslations[0].ui.prompt.deleteProject}
-                    tip={$preferredTranslations[0].ui.tooltip.deleteProject}
+                    prompt={$preferredLocales[0].ui.prompt.deleteProject}
+                    tip={$preferredLocales[0].ui.tooltip.deleteProject}
                     action={() => $projects.delete(project.id)}>⨉</ConfirmButton
                 ></div
             ></ProjectPreview
         >
     {/each}
     <div class="break" />
-    <Button
-        tip={$preferredTranslations[0].ui.tooltip.newProject}
-        action={newProject}
+    <Button tip={$preferredLocales[0].ui.tooltip.newProject} action={newProject}
         ><span style:font-size="xxx-large">+</span>
     </Button>
 </div>
-<Lead>{$preferredTranslations[0].ui.headers.examples}</Lead>
+<Lead>{$preferredLocales[0].ui.headers.examples}</Lead>
 <div class="projects">
     {#each sortProjects(exampleProjects) as project (project.id)}
         <ProjectPreview {project} action={() => copyProject(project)} />

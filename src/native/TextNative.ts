@@ -14,33 +14,33 @@ import List from '@runtime/List';
 import Block, { BlockKind } from '@nodes/Block';
 import type Docs from '@nodes/Docs';
 import type Names from '@nodes/Names';
-import { getFunctionTranslations } from '@translation/getFunctionTranslations';
-import { getDocTranslations } from '@translation/getDocTranslations';
-import { getNameTranslations } from '@translation/getNameTranslations';
+import { getFunctionLocales } from '@translation/getFunctionLocales';
+import { getDocLocales } from '@translation/getDocLocales';
+import { getNameLocales } from '@translation/getNameLocales';
 import type Expression from '@nodes/Expression';
 import ListType from '../nodes/ListType';
 
 export default function bootstrapText() {
-    const equalsNames = getNameTranslations(
+    const equalsNames = getNameLocales(
         (t) => t.native.text.function.equals.inputs[0].names
     );
-    const notEqualsNames = getNameTranslations(
+    const notEqualsNames = getNameLocales(
         (t) => t.native.text.function.notequals.inputs[0].names
     );
 
-    const countNames = getNameTranslations(
+    const countNames = getNameLocales(
         (t) => t.native.text.function.repeat.inputs[0].names
     );
 
-    const segmentDelimiterNames = getNameTranslations(
+    const segmentDelimiterNames = getNameLocales(
         (t) => t.native.text.function.segment.inputs[0].names
     );
 
-    const combineNames = getNameTranslations(
+    const combineNames = getNameLocales(
         (t) => t.native.text.function.combine.inputs[0].names
     );
 
-    const hasNames = getNameTranslations(
+    const hasNames = getNameLocales(
         (t) => t.native.text.function.has.inputs[0].names
     );
 
@@ -79,28 +79,24 @@ export default function bootstrapText() {
     }
 
     return StructureDefinition.make(
-        getDocTranslations((t) => t.native.text.doc),
-        getNameTranslations((t) => t.native.text.name),
+        getDocLocales((t) => t.native.text.doc),
+        getNameLocales((t) => t.native.text.name),
         [],
         undefined,
         [],
         new Block(
             [
                 createTextFunction(
-                    getFunctionTranslations(
-                        (t) => t.native.text.function.length
-                    ),
+                    getFunctionLocales((t) => t.native.text.function.length),
                     [],
                     MeasurementType.make(),
                     (requestor, text) => text.length(requestor)
                 ),
                 createTextFunction(
-                    getFunctionTranslations(
-                        (t) => t.native.text.function.repeat
-                    ),
+                    getFunctionLocales((t) => t.native.text.function.repeat),
                     [
                         Bind.make(
-                            getDocTranslations(
+                            getDocLocales(
                                 (t) =>
                                     t.native.text.function.repeat.inputs[0].doc
                             ),
@@ -124,12 +120,10 @@ export default function bootstrapText() {
                     }
                 ),
                 createTextFunction(
-                    getFunctionTranslations(
-                        (t) => t.native.text.function.equals
-                    ),
+                    getFunctionLocales((t) => t.native.text.function.equals),
                     [
                         Bind.make(
-                            getDocTranslations(
+                            getDocLocales(
                                 (t) =>
                                     t.native.text.function.equals.inputs[0].doc
                             ),
@@ -152,12 +146,10 @@ export default function bootstrapText() {
                     }
                 ),
                 createTextFunction(
-                    getFunctionTranslations(
-                        (t) => t.native.text.function.notequals
-                    ),
+                    getFunctionLocales((t) => t.native.text.function.notequals),
                     [
                         Bind.make(
-                            getDocTranslations(
+                            getDocLocales(
                                 (t) =>
                                     t.native.text.function.notequals.inputs[0]
                                         .doc
@@ -180,12 +172,10 @@ export default function bootstrapText() {
                     }
                 ),
                 createTextFunction(
-                    getFunctionTranslations(
-                        (t) => t.native.text.function.segment
-                    ),
+                    getFunctionLocales((t) => t.native.text.function.segment),
                     [
                         Bind.make(
-                            getDocTranslations(
+                            getDocLocales(
                                 (t) =>
                                     t.native.text.function.segment.inputs[0].doc
                             ),
@@ -211,12 +201,10 @@ export default function bootstrapText() {
                     }
                 ),
                 createTextFunction(
-                    getFunctionTranslations(
-                        (t) => t.native.text.function.combine
-                    ),
+                    getFunctionLocales((t) => t.native.text.function.combine),
                     [
                         Bind.make(
-                            getDocTranslations(
+                            getDocLocales(
                                 (t) =>
                                     t.native.text.function.combine.inputs[0].doc
                             ),
@@ -237,10 +225,10 @@ export default function bootstrapText() {
                     }
                 ),
                 createTextFunction(
-                    getFunctionTranslations((t) => t.native.text.function.has),
+                    getFunctionLocales((t) => t.native.text.function.has),
                     [
                         Bind.make(
-                            getDocTranslations(
+                            getDocLocales(
                                 (t) => t.native.text.function.has.inputs[0].doc
                             ),
                             hasNames,
@@ -260,7 +248,7 @@ export default function bootstrapText() {
                     }
                 ),
                 createNativeConversion(
-                    getDocTranslations((t) => t.native.text.conversion.text),
+                    getDocLocales((t) => t.native.text.conversion.text),
                     '""',
                     '[""]',
                     (requestor: Expression, val: Text) =>
@@ -272,7 +260,7 @@ export default function bootstrapText() {
                         )
                 ),
                 createNativeConversion(
-                    getDocTranslations((t) => t.native.text.conversion.number),
+                    getDocLocales((t) => t.native.text.conversion.number),
                     '""',
                     '#',
                     (requestor: Expression, val: Text) =>

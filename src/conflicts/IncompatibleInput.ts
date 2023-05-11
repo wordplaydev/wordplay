@@ -6,7 +6,7 @@ import type Type from '@nodes/Type';
 import type BinaryOperation from '@nodes/BinaryOperation';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import NodeLink from '@translation/NodeLink';
 import type Context from '@nodes/Context';
 import type StreamDefinition from '../nodes/StreamDefinition';
@@ -37,7 +37,7 @@ export default class IncompatibleInput extends Conflict {
         return {
             primary: {
                 node: this.givenNode,
-                explanation: (translation: Translation, context: Context) =>
+                explanation: (translation: Locale, context: Context) =>
                     translation.conflict.IncompatibleInput.primary(
                         new NodeLink(this.givenType, translation, context),
                         new NodeLink(this.expectedType, translation, context)
@@ -45,7 +45,7 @@ export default class IncompatibleInput extends Conflict {
             },
             secondary: {
                 node: this.expectedType,
-                explanation: (translation: Translation, context: Context) =>
+                explanation: (translation: Locale, context: Context) =>
                     translation.conflict.IncompatibleInput.secondary(
                         new NodeLink(this.givenType, translation, context),
                         new NodeLink(this.expectedType, translation, context)

@@ -15,7 +15,7 @@ import type { NativeTypeName } from '../native/NativeConstants';
 import UnknownNameType from './UnknownNameType';
 import type Node from './Node';
 import type { Replacement } from './Node';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import { UnknownName } from '@conflicts/UnknownName';
 import Emotion from '../lore/Emotion';
 
@@ -147,7 +147,7 @@ export default class NameType extends Type {
         return 'name';
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.NameType;
     }
 

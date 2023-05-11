@@ -10,7 +10,7 @@ import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import type Conflict from '@conflicts/Conflict';
 import type TypeSet from './TypeSet';
 import type { Replacement } from './Node';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 
@@ -116,7 +116,7 @@ export default class MapType extends NativeType {
             : undefined;
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.MapType;
     }
 

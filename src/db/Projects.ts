@@ -16,7 +16,7 @@ import {
 } from 'firebase/firestore';
 import { firestore } from './firebase';
 import type { Unsubscribe } from 'firebase/auth';
-import type Translation from '../translation/Translation';
+import type Locale from '../translation/Locale';
 import { FirebaseError } from 'firebase/app';
 
 const LOCAL_STORAGE_KEY = 'projects';
@@ -105,7 +105,7 @@ export default class Projects {
     }
 
     /** Create a project and return it's ID */
-    create(translation: Translation, uid: string | undefined) {
+    create(translation: Locale, uid: string | undefined) {
         const newProject = new Project(
             null,
             '',

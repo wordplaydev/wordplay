@@ -1,5 +1,5 @@
 import type ConversionDefinition from '@nodes/ConversionDefinition';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Conflict from './Conflict';
 
 export class MisplacedConversion extends Conflict {
@@ -15,7 +15,7 @@ export class MisplacedConversion extends Conflict {
         return {
             primary: {
                 node: this.conversion,
-                explanation: (translation: Translation) =>
+                explanation: (translation: Locale) =>
                     translation.conflict.MisplacedConversion.primary,
             },
         };

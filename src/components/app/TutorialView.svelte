@@ -6,9 +6,9 @@
     import Progress from '../../tutorial/Progress';
     import Note from '../../components/widgets/Note.svelte';
     import {
-        preferredTranslation,
-        preferredTranslations,
-    } from '../../translation/translations';
+        preferredLocale,
+        preferredLocales,
+    } from '../../translation/locales';
     import DescriptionView from '../../components/concepts/DescriptionView.svelte';
     import { goto } from '$app/navigation';
     import { getProjects, getUser } from '../../components/project/Contexts';
@@ -17,7 +17,7 @@
     import { getTutorial } from '../../tutorial/Tutorial';
     import Source from '../../nodes/Source';
     import type Lesson from '../../tutorial/Lesson';
-    import type { FixedArray } from '../../translation/Translation';
+    import type { FixedArray } from '../../translation/Locale';
 
     const projects = getProjects();
     const user = getUser();
@@ -60,7 +60,7 @@
     }
 
     /** The current place in the tutorial */
-    $: tutorial = getTutorial($preferredTranslation);
+    $: tutorial = getTutorial($preferredLocale);
     $: progress = new Progress(tutorial, 'welcome', 0, 0);
     $: unit = progress.getUnit();
     $: lesson = progress.getLesson();
@@ -127,7 +127,7 @@
     <div class="instructions">
         <nav>
             <Button
-                tip={$preferredTranslation.ui.tooltip.previousLesson}
+                tip={$preferredLocale.ui.tooltip.previousLesson}
                 action={() =>
                     (progress = progress.previousLesson() ?? progress)}
                 enabled={progress.previousLesson() !== undefined}>←</Button
@@ -136,8 +136,7 @@
             <select bind:value={selection} on:change={handleSelect}>
                 {#each tutorial as unit}
                     <optgroup
-                        label={$preferredTranslation.tutorial.units[unit.id]
-                            .name}
+                        label={$preferredLocale.tutorial.units[unit.id].name}
                     >
                         {#each unit.lessons as lesson, index}
                             <option
@@ -153,13 +152,11 @@
                 {/each}
             </select>
             <Note
-                >{unit
-                    ? $preferredTranslation.tutorial.units[unit.id].name
-                    : '—'}
+                >{unit ? $preferredLocale.tutorial.units[unit.id].name : '—'}
                 {#if lesson !== undefined}&gt; {names}{/if}</Note
             >
             <Button
-                tip={$preferredTranslation.ui.tooltip.nextLesson}
+                tip={$preferredLocale.ui.tooltip.nextLesson}
                 action={() => (progress = progress.nextLesson() ?? progress)}
                 enabled={progress.nextLesson() !== undefined}>→</Button
             >
@@ -167,7 +164,7 @@
         <Speech glyph={Glyphs.Function} below>
             <DescriptionView
                 description={step === undefined && unit
-                    ? $preferredTranslation.tutorial.units[unit.id].overview
+                    ? $preferredLocale.tutorial.units[unit.id].overview
                     : lesson !== undefined &&
                       lesson.concept.tutorial.instructions[progress.step] !==
                           undefined
@@ -179,7 +176,7 @@
             />
             <div class="controls">
                 <Button
-                    tip={$preferredTranslation.ui.tooltip.previousLessonStep}
+                    tip={$preferredLocale.ui.tooltip.previousLessonStep}
                     action={() =>
                         (progress = progress.previousStep() ?? progress)}
                     enabled={progress.previousStep() !== undefined}>&lt;</Button
@@ -192,7 +189,7 @@
                     ></div
                 >
                 <Button
-                    tip={$preferredTranslation.ui.tooltip.nextLessonStep}
+                    tip={$preferredLocale.ui.tooltip.nextLessonStep}
                     action={() => (progress = progress.nextStep() ?? progress)}
                     enabled={progress.nextStep() !== undefined}>&gt;</Button
                 >
@@ -205,7 +202,7 @@
                 >{#key project}<ProjectView
                         {project}
                         close={() => goto('/')}
-                        tip={$preferredTranslations[0].ui.tooltip.home}
+                        tip={$preferredLocales[0].ui.tooltip.home}
                     />{/key}</div
             >{:else}<PlayView {project} />{/if}
     {/if}

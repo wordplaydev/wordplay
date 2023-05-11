@@ -2,11 +2,8 @@
     import { slide } from 'svelte/transition';
     import type Concept from '@concepts/Concept';
     import CodeView from './CodeView.svelte';
-    import {
-        preferredLanguages,
-        preferredTranslations,
-    } from '@translation/translations';
-    import MissingTranslationsView from './MissingTranslationsView.svelte';
+    import { preferredLanguages, preferredLocales } from '@translation/locales';
+    import MissingLocalesView from './MissingLocalesView.svelte';
     import DocHTMLView from './DocHTMLView.svelte';
     import type StructureConcept from '@concepts/StructureConcept';
     import Speech from '../lore/Speech.svelte';
@@ -23,7 +20,7 @@
     {#if header}
         <h1
             ><CodeView {concept} {types} {node} describe={false} />
-            <!-- {#each $preferredTranslations as translation, index}
+            <!-- {#each $preferredLocales as translation, index}
                 {#if index > 0}/{/if}
                 <DescriptionView description={concept.getName(translation)} />
             {/each} -->
@@ -35,8 +32,8 @@
         below={header}
         {concept}
     >
-        <MissingTranslationsView />
-        {#each $preferredTranslations as trans}
+        <MissingLocalesView />
+        {#each $preferredLocales as trans}
             {@const [doc, spaces] = concept.getDocs(trans) ?? [
                 undefined,
                 undefined,
@@ -47,7 +44,7 @@
                 {trans.ui.labels.nodoc}
             {/if}
         {:else}
-            {#each $preferredTranslations as trans}
+            {#each $preferredLocales as trans}
                 <p>
                     {trans.ui.labels.nodoc}
                 </p>

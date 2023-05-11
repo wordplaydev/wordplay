@@ -1,6 +1,6 @@
 import type Bind from '@nodes/Bind';
 import type Token from '@nodes/Token';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Conflict from './Conflict';
 
 export class MisplacedShare extends Conflict {
@@ -17,7 +17,7 @@ export class MisplacedShare extends Conflict {
         return {
             primary: {
                 node: this.share,
-                explanation: (translation: Translation) =>
+                explanation: (translation: Locale) =>
                     translation.conflict.MisplacedShare.primary,
             },
         };

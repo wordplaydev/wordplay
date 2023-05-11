@@ -1,8 +1,8 @@
 import Stream from '@runtime/Stream';
 import type Evaluator from '@runtime/Evaluator';
 import StreamDefinition from '../nodes/StreamDefinition';
-import { getDocTranslations } from '../translation/getDocTranslations';
-import { getNameTranslations } from '../translation/getNameTranslations';
+import { getDocLocales } from '../translation/getDocLocales';
+import { getNameLocales } from '../translation/getNameLocales';
 import Bind from '../nodes/Bind';
 import UnionType from '../nodes/UnionType';
 import NoneType from '../nodes/NoneType';
@@ -57,24 +57,24 @@ export default class Key extends Stream<Text> {
 }
 
 const keyBind = Bind.make(
-    getDocTranslations((t) => t.input.key.key.doc),
-    getNameTranslations((t) => t.input.key.key.names),
+    getDocLocales((t) => t.input.key.key.doc),
+    getNameLocales((t) => t.input.key.key.names),
     UnionType.make(TextType.make(), NoneType.make()),
     // Default to none, allowing all keys
     NoneLiteral.make()
 );
 
 const downBind = Bind.make(
-    getDocTranslations((t) => t.input.key.down.doc),
-    getNameTranslations((t) => t.input.key.down.names),
+    getDocLocales((t) => t.input.key.down.doc),
+    getNameLocales((t) => t.input.key.down.names),
     UnionType.make(BooleanType.make(), NoneType.make()),
     // Default to all events
     NoneLiteral.make()
 );
 
 export const KeyDefinition = StreamDefinition.make(
-    getDocTranslations((t) => t.input.key.doc),
-    getNameTranslations((t) => t.input.key.names),
+    getDocLocales((t) => t.input.key.doc),
+    getNameLocales((t) => t.input.key.names),
     [keyBind, downBind],
     createStreamEvaluator(
         TextType.make(),

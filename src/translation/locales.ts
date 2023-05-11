@@ -8,7 +8,7 @@ import {
 import eng from './translations/en';
 import spa from './translations/es';
 import type LanguageCode from './LanguageCode';
-import type Translation from './Translation';
+import type Locale from './Locale';
 import type { WritingDirection, WritingLayout } from './LanguageCode';
 import { getPersistedValue, setPersistedValue } from '@db/persist';
 
@@ -43,54 +43,53 @@ writingDirection.subscribe((direction) =>
 );
 
 /** A list of translations officially supported by Wordplay. */
-const SupportedTranslations: Translation[] = [eng, spa];
+const SupportedLocales: Locale[] = [eng, spa];
 
-export type MissingTranslation = LanguageCode;
+export type MissingLocale = LanguageCode;
 
 /**
  * A utility for converting preferred languages and style into a list of translations,
  * for components that require a translation. Defaults to eng#wordplay if nothing else
  * is available.
  */
-export const preferredTranslations: Readable<Translation[]> = derived(
+export const preferredLocales: Readable<Locale[]> = derived(
     [preferredLanguages],
     () => {
         // Map preferred languages into translations, filtering out missing translations.
         const languages = get(preferredLanguages);
 
-        const translations: Translation[] = languages
+        const translations: Locale[] = languages
             .map((lang) => {
-                const translationsInLanguage = SupportedTranslations.filter(
+                const translationsInLanguage = SupportedLocales.filter(
                     (translation) => translation.language === lang
                 );
                 return translationsInLanguage[0] ?? undefined;
             })
-            .filter((trans): trans is Translation => trans !== undefined);
+            .filter((trans): trans is Locale => trans !== undefined);
 
         return translations.length === 0 ? [eng] : translations;
     }
 );
 
-export const preferredTranslation = derived(
-    preferredTranslations,
-    ($preferredTranslations) => $preferredTranslations[0]
+export const preferredLocale = derived(
+    preferredLocales,
+    ($preferredLocales) => $preferredLocales[0]
 );
 
-export const missingTranslations: Readable<LanguageCode[]> = derived(
+export const missingLocales: Readable<LanguageCode[]> = derived(
     [preferredLanguages],
     () => {
         return get(preferredLanguages).filter(
-            (lang) =>
-                !SupportedTranslations.some((trans) => trans.language === lang)
+            (lang) => !SupportedLocales.some((trans) => trans.language === lang)
         );
     }
 );
 
-export function getTranslation() {
-    return get(preferredTranslations)[0];
+export function getLocale() {
+    return get(preferredLocales)[0];
 }
 
 export function getLanguages() {
-    return get(preferredTranslations).map((t) => t.language);
+    return get(preferredLocales).map((t) => t.language);
 }
-export default SupportedTranslations;
+export default SupportedLocales;

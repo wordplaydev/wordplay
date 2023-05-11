@@ -13,7 +13,7 @@ import type { NativeTypeName } from '../native/NativeConstants';
 import LanguageToken from './LanguageToken';
 import TokenType from './TokenType';
 import type { Replacement } from './Node';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Emotion from '../lore/Emotion';
 
 export default class Unit extends Type {
@@ -298,7 +298,7 @@ export default class Unit extends Type {
         return Unit.get(newExponents);
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.Unit;
     }
 

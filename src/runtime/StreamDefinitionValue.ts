@@ -3,7 +3,7 @@ import type Value from './Value';
 import { STREAM_SYMBOL } from '@parser/Symbols';
 import type LanguageCode from '@translation/LanguageCode';
 import type { NativeTypeName } from '../native/NativeConstants';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import type StreamDefinition from '../nodes/StreamDefinition';
 import StreamType from '../nodes/StreamType';
 
@@ -26,7 +26,7 @@ export default class StreamDefinitionValue extends Primitive {
     }
 
     toWordplay(languages: LanguageCode[]) {
-        return `${STREAM_SYMBOL}${this.definition.names.getTranslation(
+        return `${STREAM_SYMBOL}${this.definition.names.getLocaleText(
             languages
         )}`;
     }
@@ -38,7 +38,7 @@ export default class StreamDefinitionValue extends Primitive {
         );
     }
 
-    getDescription(translation: Translation) {
+    getDescription(translation: Locale) {
         return translation.data.function;
     }
 

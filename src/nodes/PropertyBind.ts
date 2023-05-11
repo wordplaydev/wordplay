@@ -12,7 +12,7 @@ import type TypeSet from './TypeSet';
 import NameException from '@runtime/NameException';
 import type Value from '@runtime/Value';
 import type { Replacement } from './Node';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import BindToken from './BindToken';
 import Structure from '../runtime/Structure';
 import ValueException from '../runtime/ValueException';
@@ -134,16 +134,16 @@ export default class PropertyBind extends Expression {
         return this.bind;
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.PropertyBind;
     }
 
-    getStartExplanations(translation: Translation) {
+    getStartExplanations(translation: Locale) {
         return translation.node.PropertyBind.start;
     }
 
     getFinishExplanations(
-        translation: Translation,
+        translation: Locale,
         context: Context,
         evaluator: Evaluator
     ) {

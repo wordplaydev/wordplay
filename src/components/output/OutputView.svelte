@@ -8,10 +8,10 @@
     import VerseView from './VerseView.svelte';
     import DescriptionView from '@components/concepts/DescriptionView.svelte';
     import {
-        preferredTranslations,
+        preferredLocales,
         writingDirection,
         writingLayout,
-    } from '@translation/translations';
+    } from '@translation/locales';
     import Speech from '../lore/Speech.svelte';
     import {
         getConceptIndex,
@@ -47,7 +47,7 @@
 <section
     class="output"
     class:mini
-    aria-label={$preferredTranslations[0].ui.section.output}
+    aria-label={$preferredLocales[0].ui.section.output}
     style:direction={$writingDirection}
     style:writing-mode={$writingLayout}
 >
@@ -62,7 +62,7 @@
                     glyph={latest.creator.getGlyphs()}
                     concept={$index?.getNodeConcept(latest.creator)}
                     invert
-                    >{#each $preferredTranslations as translation}
+                    >{#each $preferredLocales as translation}
                         <DescriptionView
                             description={latest.getDescription(translation)}
                         />
@@ -79,7 +79,7 @@
                 <ValueView value={latest} interactive={false} />
             {:else}
                 <h2
-                    >{$preferredTranslations.map((translation) =>
+                    >{$preferredLocales.map((translation) =>
                         latest === undefined
                             ? undefined
                             : latest

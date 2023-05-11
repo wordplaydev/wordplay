@@ -2,7 +2,7 @@ import type Context from '@nodes/Context';
 import type Definition from '@nodes/Definition';
 import type NameType from '@nodes/NameType';
 import NodeLink from '@translation/NodeLink';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Conflict from './Conflict';
 
 export class UnknownTypeName extends Conflict {
@@ -19,7 +19,7 @@ export class UnknownTypeName extends Conflict {
         return {
             primary: {
                 node: this.name,
-                explanation: (translation: Translation, context: Context) =>
+                explanation: (translation: Locale, context: Context) =>
                     translation.conflict.InvalidTypeName.primary(
                         new NodeLink(this.definition, translation, context)
                     ),

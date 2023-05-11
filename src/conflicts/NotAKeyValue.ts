@@ -2,7 +2,7 @@ import type Context from '@nodes/Context';
 import type Expression from '@nodes/Expression';
 import type MapLiteral from '@nodes/MapLiteral';
 import NodeLink from '@translation/NodeLink';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import Conflict from './Conflict';
 
 export class NotAKeyValue extends Conflict {
@@ -19,12 +19,12 @@ export class NotAKeyValue extends Conflict {
         return {
             primary: {
                 node: this.expression,
-                explanation: (translation: Translation) =>
+                explanation: (translation: Locale) =>
                     translation.conflict.NotAMap.primary,
             },
             secondary: {
                 node: this.map.open,
-                explanation: (translation: Translation, context: Context) =>
+                explanation: (translation: Locale, context: Context) =>
                     translation.conflict.NotAMap.secondary(
                         new NodeLink(this.expression, translation, context)
                     ),

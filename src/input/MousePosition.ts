@@ -6,8 +6,8 @@ import Structure, { createStructure } from '@runtime/Structure';
 import type Value from '@runtime/Value';
 import type Evaluator from '@runtime/Evaluator';
 import StreamDefinition from '@nodes/StreamDefinition';
-import { getDocTranslations } from '@translation/getDocTranslations';
-import { getNameTranslations } from '@translation/getNameTranslations';
+import { getDocLocales } from '@translation/getDocLocales';
+import { getNameLocales } from '@translation/getNameLocales';
 import StructureDefinitionType from '@nodes/StructureDefinitionType';
 import { PlaceType } from '@output/Place';
 import StreamType from '@nodes/StreamType';
@@ -53,8 +53,8 @@ export default class Pointer extends Stream<Structure> {
 }
 
 export const PointerDefinition = StreamDefinition.make(
-    getDocTranslations((t) => t.input.pointer.doc),
-    getNameTranslations((t) => t.input.pointer.names),
+    getDocLocales((t) => t.input.pointer.doc),
+    getNameLocales((t) => t.input.pointer.names),
     [],
     createStreamEvaluator(
         new StructureDefinitionType(PlaceType),

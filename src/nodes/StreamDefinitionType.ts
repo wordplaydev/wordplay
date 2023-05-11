@@ -1,7 +1,7 @@
 import Type from './Type';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type TypeSet from './TypeSet';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import type StreamDefinition from './StreamDefinition';
 import Glyphs from '../lore/Glyphs';
 
@@ -44,7 +44,7 @@ export default class StreamDefinitionType extends Type {
         return this.definition.toWordplay();
     }
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.StreamDefinitionType;
     }
 

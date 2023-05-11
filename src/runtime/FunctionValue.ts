@@ -5,7 +5,7 @@ import type LanguageCode from '@translation/LanguageCode';
 import { FUNCTION_SYMBOL } from '@parser/Symbols';
 import type Evaluation from './Evaluation';
 import Value from './Value';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 
 // We could have just called this Function, but Javascript claims that globally.
 export default class FunctionValue extends Value {
@@ -40,7 +40,7 @@ export default class FunctionValue extends Value {
     }
 
     toWordplay(languages: LanguageCode[]) {
-        return `${FUNCTION_SYMBOL} ${this.definition.names.getTranslation(
+        return `${FUNCTION_SYMBOL} ${this.definition.names.getLocaleText(
             languages
         )}()`;
     }
@@ -53,7 +53,7 @@ export default class FunctionValue extends Value {
         );
     }
 
-    getDescription(translation: Translation) {
+    getDescription(translation: Locale) {
         return translation.data.function;
     }
 

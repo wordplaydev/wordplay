@@ -1397,7 +1397,7 @@ export function parseDoc(tokens: Tokens): Doc {
     return new Doc(open, content, close, lang);
 }
 
-export function parseTranslationDoc(doc: string) {
+export function parseLocaleDoc(doc: string) {
     return parseDoc(toTokens(DOCS_SYMBOL + doc + DOCS_SYMBOL));
 }
 

@@ -6,7 +6,7 @@ import Reference from '@nodes/Reference';
 import Token from '@nodes/Token';
 import UnaryOperation from '@nodes/UnaryOperation';
 import NodeLink from '@translation/NodeLink';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import type Evaluator from './Evaluator';
 import Exception from './Exception';
 import type Value from './Value';
@@ -29,7 +29,7 @@ export default class FunctionException extends Exception {
         this.verb = verb;
     }
 
-    getDescription(translation: Translation) {
+    getDescription(translation: Locale) {
         // What's the node that has the name?
         const name =
             this.node instanceof Evaluate

@@ -13,7 +13,7 @@ import UnaryOperation from '@nodes/UnaryOperation';
 import BindConcept from './BindConcept';
 import Concept from './Concept';
 import type StructureConcept from './StructureConcept';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import type Purpose from './Purpose';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import Emotion from '../lore/Emotion';
@@ -48,7 +48,7 @@ export default class FunctionConcept extends Concept {
         this.structure = structure;
 
         const reference = Reference.make(
-            this.definition.names.getTranslation(languages),
+            this.definition.names.getLocaleText(languages),
             this.definition
         );
 
@@ -96,7 +96,7 @@ export default class FunctionConcept extends Concept {
 
     getGlyphs(languages: LanguageCode[]) {
         return {
-            symbols: this.definition.names.getTranslation(languages),
+            symbols: this.definition.names.getLocaleText(languages),
         };
     }
 
@@ -108,16 +108,13 @@ export default class FunctionConcept extends Concept {
         return this.definition.names.hasName(name);
     }
 
-    getDocs(translation: Translation): [Doc, Spaces] | undefined {
-        const doc = this.definition.docs?.getTranslation(translation.language);
+    getDocs(translation: Locale): [Doc, Spaces] | undefined {
+        const doc = this.definition.docs?.getLocale(translation.language);
         return doc ? [doc, this.context.source.spaces] : undefined;
     }
 
-    getName(translation: Translation) {
-        return this.definition.names.getTranslation(
-            translation.language,
-            false
-        );
+    getName(translation: Locale) {
+        return this.definition.names.getLocaleText(translation.language, false);
     }
 
     getRepresentation() {

@@ -1,13 +1,13 @@
 import UnknownType from './UnknownType';
 import type Expression from './Expression';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 
 export default class UnimplementedType extends UnknownType<Expression> {
     constructor(expression: Expression) {
         super(expression, undefined);
     }
 
-    getReason(translation: Translation) {
+    getReason(translation: Locale) {
         return translation.node.NotImplementedType.description;
     }
 }

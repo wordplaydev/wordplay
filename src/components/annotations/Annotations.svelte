@@ -10,13 +10,13 @@
 
 <script lang="ts">
     import type Conflict from '@conflicts/Conflict';
-    import { preferredTranslations } from '@translation/translations';
+    import { preferredLocales } from '@translation/locales';
     import Expression from '@nodes/Expression';
     import type Node from '@nodes/Node';
     import Annotation from './Annotation.svelte';
     import type Position from './Position';
     import { tick } from 'svelte';
-    import type { Description } from '@translation/Translation';
+    import type { Description } from '@translation/Locale';
     import type Step from '@runtime/Step';
     import type Evaluator from '@runtime/Evaluator';
     import type Project from '../../models/Project';
@@ -51,19 +51,17 @@
                         node: node,
                         element: view,
                         text: $evaluation?.step
-                            ? $preferredTranslations.map((trans) =>
+                            ? $preferredLocales.map((trans) =>
                                   ($evaluation?.step as Step).getExplanations(
                                       trans,
                                       evaluator
                                   )
                               )
                             : evaluator.steppedToNode() && evaluator.isDone()
-                            ? $preferredTranslations.map(
+                            ? $preferredLocales.map(
                                   (t) => t.evaluation.unevaluated
                               )
-                            : $preferredTranslations.map(
-                                  (t) => t.evaluation.done
-                              ),
+                            : $preferredLocales.map((t) => t.evaluation.done),
                         kind: 'step',
                         position: getPosition(view),
                     },
@@ -84,7 +82,7 @@
                         {
                             node: primary.node,
                             element: getNodeView(primary.node),
-                            text: $preferredTranslations.map((trans) =>
+                            text: $preferredLocales.map((trans) =>
                                 primary.explanation(
                                     trans,
                                     project.getNodeContext(primary.node) ??
@@ -101,7 +99,7 @@
                                   {
                                       node: secondary.node,
                                       element: getNodeView(secondary.node),
-                                      text: $preferredTranslations
+                                      text: $preferredLocales
                                           .map((trans) =>
                                               secondary.explanation(
                                                   trans,
@@ -225,7 +223,7 @@
 <!-- Render annotations by node -->
 <section
     class="annotations"
-    aria-label={$preferredTranslations[0].ui.section.conflicts}
+    aria-label={$preferredLocales[0].ui.section.conflicts}
 >
     {#each Array.from(annotationsByNode.values()) as annotations, index}
         <Annotation id={index} {annotations} />

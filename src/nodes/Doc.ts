@@ -1,7 +1,7 @@
 import Language from './Language';
 import Node, { type Replacement } from './Node';
 import Token from './Token';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import { DOCS_SYMBOL } from '@parser/Symbols';
 import TokenType from './TokenType';
 import Paragraph from './Paragraph';
@@ -110,7 +110,7 @@ export default class Doc extends Node {
 
     computeConflicts() {}
 
-    getNodeTranslation(translation: Translation) {
+    getNodeLocale(translation: Locale) {
         return translation.node.Doc;
     }
 

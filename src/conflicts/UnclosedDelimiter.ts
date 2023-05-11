@@ -1,7 +1,7 @@
 import Conflict from './Conflict';
 import type Node from '@nodes/Node';
 import type Token from '@nodes/Token';
-import type Translation from '@translation/Translation';
+import type Locale from '@translation/Locale';
 import NodeLink from '@translation/NodeLink';
 import type Context from '@nodes/Context';
 
@@ -22,7 +22,7 @@ export default class UnclosedDelimiter extends Conflict {
         return {
             primary: {
                 node: this.open,
-                explanation: (translation: Translation, context: Context) =>
+                explanation: (translation: Locale, context: Context) =>
                     translation.conflict.UnclosedDelimiter.primary(
                         new NodeLink(
                             this.open,
