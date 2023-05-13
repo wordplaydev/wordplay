@@ -1,6 +1,7 @@
 import type Unit from './Unit';
 import type Lesson from './Lesson';
 import type Step from './Step';
+import type { TutorialProgress } from '../db/Creator';
 
 export default class Progress {
     readonly tutorial: Unit[];
@@ -35,6 +36,14 @@ export default class Progress {
     /** Generate a project ID suitable for this point in the tutorial */
     getProjectID() {
         return `${this.unit}${this.lesson ? `-${this.lesson}` : ''}`;
+    }
+
+    toObject(): TutorialProgress {
+        return {
+            unit: this.unit,
+            lesson: this.lesson,
+            step: this.step,
+        };
     }
 
     previousLesson(): Progress | undefined {

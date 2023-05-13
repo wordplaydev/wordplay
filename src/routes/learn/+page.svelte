@@ -6,11 +6,11 @@
     import { page } from '$app/stores';
     import { creator } from '../../db/Creator';
 
-    // Get the tutorial for the preferred locale
+    // Set the tutorial based on the preferred locale.
     $: tutorial = getTutorial($creator.getLocale());
-    // Create progress based on the current search parameters, and if there are none, the persisted state.
-    let progress: Progress;
+    // Set progress if URL indicates one.
     $: {
+        // Figure out where we are in the tutorial.
         const unit = $page.url.searchParams.get('unit');
         const lesson = $page.url.searchParams.get('lesson');
         const step = $page.url.searchParams.get('step');
@@ -20,24 +20,19 @@
             isFinite(parseInt(lesson)) &&
             step !== null &&
             isFinite(parseInt(step))
-        ) {
-            progress = new Progress(
-                tutorial,
-                unit,
-                parseInt(lesson),
-                parseInt(step)
+        )
+            $creator.setTutorialProgress(
+                new Progress(tutorial, unit, parseInt(lesson), parseInt(step))
             );
-        } else progress = new Progress(tutorial, 'welcome', 0, 0);
     }
 
     function navigate(newProgress: Progress) {
-        progress = newProgress;
-
-        // Set the URL to mirror the progress.
+        $creator.setTutorialProgress(newProgress);
+        // Set the URL to mirror the progress, if not at it.
         goto(
-            `/learn?unit=${progress.unit}&lesson=${progress.lesson}&step=${progress.step}`
+            `/learn?unit=${newProgress.unit}&lesson=${newProgress.lesson}&step=${newProgress.step}`
         );
     }
 </script>
 
-<TutorialView {progress} {navigate} />
+<TutorialView progress={$creator.getTutorialProgress(tutorial)} {navigate} />

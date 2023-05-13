@@ -599,7 +599,7 @@
     });
 
     function focusTile(focusedTileID: string | undefined) {
-        if (view === undefined) return;
+        if (view === undefined || view === null) return;
 
         const firstTileID = layout.tiles.find(
             (tile) => !tile.isCollapsed()

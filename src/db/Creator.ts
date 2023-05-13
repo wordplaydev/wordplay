@@ -21,12 +21,15 @@ import type { LayoutObject } from '../components/project/Layout';
 import type LanguageCode from '../locale/LanguageCode';
 import { Languages, type WritingLayout } from '../locale/LanguageCode';
 import SupportedLocales from '../locale/locales';
+import Progress from '../tutorial/Progress';
+import type Unit from '../tutorial/Unit';
 
 const PROJECTS_KEY = 'projects';
 const LAYOUTS_KEY = 'layouts';
 const ANIMATION_FACTOR_KEY = 'animationFactor';
 const LANGUAGES_KEY = 'languages';
 const WRITING_LAYOUT_KEY = 'writingLayout';
+const TUTORIAL_KEY = 'tutorial';
 
 const ANIMATION_DURATION = 200;
 
@@ -39,11 +42,20 @@ export enum SaveStatus {
     Error = 'error',
 }
 
+export type TutorialProgress = {
+    unit: string;
+    lesson: number;
+    step: number;
+};
+
+const TutorialDefault = { unit: 'welcome', lesson: 0, step: 0 };
+
 type CreatorConfig = {
     layouts: Record<string, LayoutObject>;
     animationFactor: number;
     languages: LanguageCode[];
     writingLayout: WritingLayout;
+    tutorial: TutorialProgress;
 };
 
 function setLocalValue(key: string, value: any) {
@@ -75,6 +87,7 @@ export class Creator {
         animationFactor: 1,
         languages: ['en'],
         writingLayout: 'horizontal-tb',
+        tutorial: TutorialDefault,
     };
 
     /** The current list of projects. */
@@ -115,6 +128,7 @@ export class Creator {
     }
 
     setLayout(layouts: Record<string, LayoutObject>) {
+        if (this.config.layouts === layouts) return;
         this.config.layouts = layouts;
         this.saveConfig(LAYOUTS_KEY, layouts, false);
     }
@@ -128,6 +142,7 @@ export class Creator {
     }
 
     setAnimationFactor(factor: number) {
+        if (this.config.animationFactor === factor) return;
         this.config.animationFactor = factor;
         return this.saveConfig(ANIMATION_FACTOR_KEY, factor, true);
     }
@@ -176,8 +191,31 @@ export class Creator {
     }
 
     setWritingLayout(layout: WritingLayout) {
+        if (this.config.writingLayout === layout) return;
         this.config.writingLayout = layout;
         this.saveConfig(WRITING_LAYOUT_KEY, layout, true);
+    }
+
+    setTutorialProgress(progress: Progress) {
+        const value = progress.toObject();
+        if (
+            value.unit === this.config.tutorial.unit &&
+            value.lesson === this.config.tutorial.lesson &&
+            value.step === this.config.tutorial.step
+        )
+            return;
+
+        this.config.tutorial = value;
+        this.saveConfig(TUTORIAL_KEY, value, true);
+    }
+
+    getTutorialProgress(tutorial: Unit[]) {
+        return new Progress(
+            tutorial,
+            this.config.tutorial.unit,
+            this.config.tutorial.lesson,
+            this.config.tutorial.step
+        );
     }
 
     getSaveStatus() {
@@ -457,6 +495,9 @@ export class Creator {
 
         this.config.writingLayout =
             getLocalValue<WritingLayout>(WRITING_LAYOUT_KEY) ?? 'horizontal-tb';
+
+        this.config.tutorial =
+            getLocalValue<TutorialProgress>(TUTORIAL_KEY) ?? TutorialDefault;
     }
 
     /** Start listening tothe Firebase Auth user changes */
