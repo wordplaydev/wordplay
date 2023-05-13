@@ -12,7 +12,6 @@ import type Evaluate from '@nodes/Evaluate';
 import type Step from '@runtime/Step';
 import type { StreamChange } from '@runtime/Evaluator';
 import type Conflict from '@conflicts/Conflict';
-import type Projects from '../../db/Projects';
 import type { Path } from '@nodes/Root';
 import type Source from '@nodes/Source';
 import type { User } from 'firebase/auth';
@@ -39,12 +38,6 @@ export function isDark(): Writable<boolean | undefined> {
 }
 
 // Project related contexts
-
-export type ProjectsContext = Writable<Projects>;
-export const ProjectsSymbol = Symbol('projects');
-export function getProjects() {
-    return getContext<ProjectsContext>(ProjectsSymbol);
-}
 
 export type ProjectContext = Readable<Project | undefined>;
 export const ProjectSymbol = Symbol('project');

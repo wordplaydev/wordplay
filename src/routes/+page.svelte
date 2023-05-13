@@ -3,8 +3,8 @@
     import Lead from '@components/app/Lead.svelte';
     import Page from '@components/app/Page.svelte';
     import BigLink from '../components/app/BigLink.svelte';
-    import { preferredLocales } from '../locale/locales';
     import Background from '../components/app/Background.svelte';
+    import { creator } from '../db/Creator';
 </script>
 
 <svelte:head>
@@ -15,17 +15,17 @@
 
 <Background />
 <Page>
-    <Lead>{$preferredLocales[0].wordplay}</Lead>
-    <p>{$preferredLocales[0].motto}</p>
+    <Lead>{$creator.getLocale().wordplay}</Lead>
+    <p>{$creator.getLocale().motto}</p>
     {#if PUBLIC_CONTEXT === 'prod'}
         <p
             >Coming Fall 2023. Write <a href="https://amyjko.com">Amy</a> for details.</p
         >
     {:else}
-        <BigLink to="/learn">{$preferredLocales[0].ui.headers.learn}</BigLink>
+        <BigLink to="/learn">{$creator.getLocale().ui.headers.learn}</BigLink>
         <BigLink to="/projects"
-            >{$preferredLocales[0].ui.headers.projects}</BigLink
+            >{$creator.getLocale().ui.headers.projects}</BigLink
         >
-        <BigLink to="/login">{$preferredLocales[0].ui.login.header}</BigLink>
+        <BigLink to="/login">{$creator.getLocale().ui.login.header}</BigLink>
     {/if}
 </Page>

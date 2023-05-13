@@ -2,20 +2,17 @@
     import {
         type ProjectContext,
         ProjectSymbol,
-        getProjects,
     } from '@components/project/Contexts';
     import { writable, type Writable } from 'svelte/store';
     import { page } from '$app/stores';
     import ProjectView from '@components/project/ProjectView.svelte';
     import type Project from '@models/Project';
-    import { preferredLocales } from '@locale/locales';
     import Feedback from '@components/app/Feedback.svelte';
     import Loading from '@components/app/Loading.svelte';
     import { setContext } from 'svelte';
     import { browser } from '$app/environment';
     import { goto } from '$app/navigation';
-
-    const projects = getProjects();
+    import { creator, projects } from '@db/Creator';
 
     /** True if we're async loading the project, as opposed to getting it from the browser cache. */
     let loading: boolean = false;
@@ -29,7 +26,7 @@
     $: {
         if ($page && $projects) {
             const projectID = $page.params.projectid;
-            const proj = $projects.get(projectID);
+            const proj = $projects.getProject(projectID);
             if (proj) project.set(proj);
             // No matching project, but we have a project ID and we're in the browser?
             else if (projectID && projectID.length > 0 && browser) {
@@ -38,7 +35,7 @@
                 project.set(undefined);
                 // Async load the project from the database.
                 $projects
-                    .load(projectID)
+                    .loadProject(projectID)
                     .then((loadedProject) => {
                         project.set(loadedProject);
                         loading = false;
@@ -63,11 +60,11 @@
         <ProjectView
             project={$project}
             close={() => goto('/projects')}
-            tip={$preferredLocales[0].ui.tooltip.close}
+            tip={$creator.getLocale().ui.tooltip.close}
         />
     {/key}
 {:else if loading}
     <Loading />
 {:else if $page.params.projectid || error}
-    <Feedback>{$preferredLocales[0].ui.feedback.unknownProject}</Feedback>
+    <Feedback>{$creator.getLocale().ui.feedback.unknownProject}</Feedback>
 {/if}

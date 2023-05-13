@@ -1,14 +1,12 @@
 <script lang="ts">
-    import { getProjects } from '../project/Contexts';
-    import { Status } from '../../db/Projects';
-
-    const projects = getProjects();
+    import { SaveStatus } from '../../db/Creator';
+    import { creator } from '../../db/Creator';
 </script>
 
-<div class="status {$projects.getStatus()}">
-    {$projects.getStatus() === Status.Saved
+<div class="status {$creator.getSaveStatus()}">
+    {$creator.getSaveStatus() === SaveStatus.Saved
         ? '✔'
-        : $projects.getStatus() === Status.Saving
+        : $creator.getSaveStatus() === SaveStatus.Saving
         ? '…'
         : '⨉'}
 </div>

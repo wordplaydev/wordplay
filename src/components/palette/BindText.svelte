@@ -1,22 +1,21 @@
 <script lang="ts">
     import type OutputPropertyValues from '@transforms/OutputPropertyValueSet';
     import TextLiteral from '@nodes/TextLiteral';
-    import { preferredLanguages } from '@locale/locales';
     import TextField from '../widgets/TextField.svelte';
     import type OutputProperty from '@transforms/OutputProperty';
-    import { getProject, getProjects } from '../project/Contexts';
+    import { getProject } from '../project/Contexts';
+    import { creator } from '../../db/Creator';
 
     export let property: OutputProperty;
     export let values: OutputPropertyValues;
     export let validator: (text: string) => boolean;
 
     let project = getProject();
-    const projects = getProjects();
 
     // Whenever the text changes, update in the project.
     function handleChange(newValue: string) {
         if ($project === undefined) return;
-        $projects.reviseNodes(
+        $creator.reviseProjectNodes(
             $project,
             $project.getBindReplacements(
                 values.getExpressions(),
@@ -31,7 +30,7 @@
     text={values.getText()}
     placeholder={values.isEmpty()
         ? ''
-        : values.values[0].bind.names.getLocaleText($preferredLanguages)}
+        : values.values[0].bind.names.getLocaleText($creator.getLanguages())}
     {validator}
     changed={handleChange}
 />

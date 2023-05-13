@@ -11,14 +11,11 @@
     import Unit from '@nodes/Unit';
     import type Expression from '@nodes/Expression';
     import Button from '../widgets/Button.svelte';
-    import { preferredLanguages, preferredLocales } from '@locale/locales';
     import Note from '../widgets/Note.svelte';
-    import { getProjects } from '../project/Contexts';
+    import { creator } from '../../db/Creator';
 
     export let project: Project;
     export let map: MapLiteral | undefined;
-
-    const projects = getProjects();
 
     // Get the map from the value set, unless its not a valid sequence or the maps of the selections aren't equal.
     $: valid =
@@ -35,7 +32,7 @@
         let text = percent.replace('%', '');
         const number = MeasurementLiteral.make(text, Unit.make(['%']));
         if (kv instanceof KeyValue && number.isInteger())
-            $projects.reviseNodes(project, [[kv.key, number]]);
+            $creator.reviseProjectNodes(project, [[kv.key, number]]);
     }
 
     function addPose(index: number) {
@@ -50,7 +47,7 @@
                         ? kv.key.number.getText().replace('%', '')
                         : 0
                 ),
-                createPoseLiteral($preferredLanguages)
+                createPoseLiteral($creator.getLanguages())
             ),
             ...map.values.slice(index + 1),
         ] as KeyValue[]);
@@ -82,7 +79,9 @@
 
     function revise(newValues: KeyValue[]) {
         if (map)
-            $projects.reviseNodes(project, [[map, MapLiteral.make(newValues)]]);
+            $creator.reviseProjectNodes(project, [
+                [map, MapLiteral.make(newValues)],
+            ]);
     }
 </script>
 
@@ -94,7 +93,7 @@
                     <div class="percent"
                         ><TextField
                             text={pair.key.toWordplay()}
-                            placeholder={$preferredLocales[0].ui.placeholders
+                            placeholder={$creator.getLocale().ui.placeholders
                                 .percent}
                             validator={(value) => {
                                 const number = parseInt(value.replace('%', ''));
@@ -125,22 +124,22 @@
                             changed={(value) => revisePercent(pair, value)}
                         />
                         <Button
-                            tip={$preferredLocales[0].ui.tooltip.addPose}
+                            tip={$creator.getLocale().ui.tooltip.addPose}
                             action={() => addPose(index)}>+</Button
                         >
                         <Button
-                            tip={$preferredLocales[0].ui.tooltip.removePose}
+                            tip={$creator.getLocale().ui.tooltip.removePose}
                             action={() => removePose(index)}
                             enabled={map !== undefined && map.values.length > 1}
                             >⨉</Button
                         >
                         <Button
-                            tip={$preferredLocales[0].ui.tooltip.movePoseUp}
+                            tip={$creator.getLocale().ui.tooltip.movePoseUp}
                             action={() => movePose(index, -1)}
                             enabled={index > 0}>↑</Button
                         >
                         <Button
-                            tip={$preferredLocales[0].ui.tooltip.movePoseDown}
+                            tip={$creator.getLocale().ui.tooltip.movePoseDown}
                             action={() => movePose(index, 1)}
                             enabled={index < map.values.length - 1}>↓</Button
                         >
@@ -158,7 +157,7 @@
             {/if}
         {/each}
     {:else}
-        <Note>{$preferredLocales[0].ui.labels.notSequence}</Note>
+        <Note>{$creator.getLocale().ui.labels.notSequence}</Note>
     {/if}
 </div>
 

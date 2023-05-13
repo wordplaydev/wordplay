@@ -4,7 +4,7 @@
     import { onMount } from 'svelte';
     import Eyes from '../lore/Eyes.svelte';
     import UnicodeString from '../../models/UnicodeString';
-    import { animationFactor } from '../../models/stores';
+    import { creator } from '../../db/Creator';
 
     type Glyph = {
         glyph: string;
@@ -60,7 +60,8 @@
         }
 
         previousTime = time;
-        if (mounted && $animationFactor > 0) window.requestAnimationFrame(step);
+        if (mounted && $creator.getAnimationFactor() > 0)
+            window.requestAnimationFrame(step);
     }
 
     onMount(() => {
@@ -93,7 +94,8 @@
         return () => (mounted = false);
     });
 
-    $: if ($animationFactor > 0) window.requestAnimationFrame(step);
+    $: if ($creator.getAnimationFactor() > 0)
+        window.requestAnimationFrame(step);
 </script>
 
 <svelte:window bind:innerWidth={windowWidth} bind:innerHeight={windowHeight} />

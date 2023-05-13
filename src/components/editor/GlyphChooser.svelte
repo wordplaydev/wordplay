@@ -14,12 +14,12 @@
         TYPE_SYMBOL,
     } from '../../parser/Symbols';
     import { tokenize } from '../../parser/Tokenizer';
-    import { preferredLocales } from '../../locale/locales';
     import { getUnicodeNamed as getUnicodeWithNameText } from '../../unicode/Unicode';
     import { getInsertions } from '../project/Contexts';
     import Button from '../widgets/Button.svelte';
     import TextField from '../widgets/TextField.svelte';
     import TokenView from './TokenView.svelte';
+    import { creator } from '../../db/Creator';
 
     export let source: Source;
 
@@ -74,7 +74,7 @@
             >{:else}&mdash;{/each}
     </div>
     <Button
-        tip={$preferredLocales[0].ui.tooltip.chooserExpand}
+        tip={$creator.getLocale().ui.tooltip.chooserExpand}
         action={() => (expanded = !expanded)}>{expanded ? '–' : '+'}</Button
     >
 </section>

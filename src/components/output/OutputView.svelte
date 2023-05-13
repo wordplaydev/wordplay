@@ -7,11 +7,6 @@
     import type Source from '@nodes/Source';
     import VerseView from './VerseView.svelte';
     import DescriptionView from '@components/concepts/DescriptionView.svelte';
-    import {
-        preferredLocales,
-        writingDirection,
-        writingLayout,
-    } from '@locale/locales';
     import Speech from '../lore/Speech.svelte';
     import {
         getConceptIndex,
@@ -20,6 +15,7 @@
     } from '../project/Contexts';
     import type Evaluator from '@runtime/Evaluator';
     import type PaintingConfiguration from './PaintingConfiguration';
+    import { creator } from '../../db/Creator';
 
     export let project: Project;
     export let evaluator: Evaluator;
@@ -47,9 +43,9 @@
 <section
     class="output"
     class:mini
-    aria-label={$preferredLocales[0].ui.section.output}
-    style:direction={$writingDirection}
-    style:writing-mode={$writingLayout}
+    aria-label={$creator.getLocale().ui.section.output}
+    style:direction={$creator.getWritingDirection()}
+    style:writing-mode={$creator.getWritingLayout()}
 >
     <!-- Render the verse, or whatever value we get -->
     <!-- If there's an exception, show that. -->
@@ -62,7 +58,7 @@
                     glyph={latest.creator.getGlyphs()}
                     concept={$index?.getNodeConcept(latest.creator)}
                     invert
-                    >{#each $preferredLocales as translation}
+                    >{#each $creator.getLocales() as translation}
                         <DescriptionView
                             description={latest.getDescription(translation)}
                         />
@@ -79,16 +75,18 @@
                 <ValueView value={latest} interactive={false} />
             {:else}
                 <h2
-                    >{$preferredLocales.map((translation) =>
-                        latest === undefined
-                            ? undefined
-                            : latest
-                                  .getType(project.getContext(source))
-                                  .getDescription(
-                                      translation,
-                                      project.getContext(source)
-                                  )
-                    )}</h2
+                    >{$creator
+                        .getLocales()
+                        .map((translation) =>
+                            latest === undefined
+                                ? undefined
+                                : latest
+                                      .getType(project.getContext(source))
+                                      .getDescription(
+                                          translation,
+                                          project.getContext(source)
+                                      )
+                        )}</h2
                 >
                 <p><ValueView value={latest} /></p>
             {/if}

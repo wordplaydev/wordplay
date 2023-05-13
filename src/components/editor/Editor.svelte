@@ -25,7 +25,6 @@
         getSelectedOutput,
         getAnimatingNodes,
         getConflicts,
-        getProjects,
         setSelectedOutput,
         getSelectedOutputPaths,
         getEvaluation,
@@ -33,12 +32,6 @@
         getKeyboardEditIdle,
         getInsertions,
     } from '../project/Contexts';
-    import {
-        preferredLanguages,
-        preferredLocales,
-        writingDirection,
-        writingLayout,
-    } from '@locale/locales';
     import {
         type Highlights,
         HighlightTypes,
@@ -72,6 +65,7 @@
     import PlaceholderView from './PlaceholderView.svelte';
     import Expression from '../../nodes/Expression';
     import { TYPE_SYMBOL } from '../../parser/Symbols';
+    import { creator } from '../../db/Creator';
 
     export let evaluator: Evaluator;
     export let project: Project;
@@ -83,7 +77,6 @@
     // Managed here but displayed by the project to allow it to escape the editor view.
     export let menu: Menu | undefined = undefined;
 
-    const projects = getProjects();
     const selectedOutput = getSelectedOutput();
     const selectedOutputPaths = getSelectedOutputPaths();
     const evaluation = getEvaluation();
@@ -474,7 +467,7 @@
         );
 
         // Update the project with the new source files
-        $projects.revise(
+        $creator.reviseProject(
             project,
             newProject.withCaret(newSource, newCaretPosition)
         );
@@ -968,7 +961,7 @@
                 menu.selection !== undefined &&
                 menu.transforms.length > 0
             ) {
-                menu.doEdit($preferredLanguages);
+                menu.doEdit($creator.getLanguages());
                 hideMenu();
                 return;
             }
@@ -1059,7 +1052,7 @@
             // Set the keyboard edit idle to false.
             if (keyboard) keyboardEditIdle.set(false);
 
-            $projects.revise(
+            $creator.reviseProject(
                 project,
                 project
                     .withSource(source, newSource)
@@ -1208,14 +1201,14 @@
     aria-live="off"
     aria-multiline="true"
     aria-readonly="false"
-    aria-label={`${$preferredLocales[0].ui.section.editor} ${source.getLocale(
-        $preferredLanguages
+    aria-label={`${$creator.getLocale().ui.section.editor} ${source.getLocale(
+        $creator.getLanguages()
     )}`}
     aria-activedescendant={$caret.position instanceof Node
         ? `node-${$caret.position.id}`
         : getInputID()}
-    style:direction={$writingDirection}
-    style:writing-mode={$writingLayout}
+    style:direction={$creator.getWritingDirection()}
+    style:writing-mode={$creator.getWritingLayout()}
     data-id={source.id}
     bind:this={editor}
     on:pointerdown={(event) => handlePointerDown(event)}
@@ -1286,7 +1279,7 @@
             >{#if $caret.position instanceof Node}
                 <!-- Show the node's label and type, if an expression -->
                 {$caret.position.getLabel(
-                    $preferredLocales[0]
+                    $creator.getLocale()
                 )}{#if caretExpressionType}{caretExpressionType}{/if}
                 <PlaceholderView node={$caret.position} />{/if}<div
                 class="screen-reader-description"
@@ -1294,24 +1287,28 @@
                 aria-atomic="true"
                 aria-relevant="all"
                 >{$caret.position instanceof Node
-                    ? $caret.position.getLabel($preferredLocales[0]) +
+                    ? $caret.position.getLabel($creator.getLocale()) +
                       ', ' +
                       $caret.position.getDescription(
-                          $preferredLocales[0],
+                          $creator.getLocale(),
                           project.getNodeContext($caret.position)
                       ) +
                       (caretExpressionType ? `, ${caretExpressionType}` : '')
                     : $caret.tokenExcludingSpace
-                    ? $preferredLocales[0].caret.before(
-                          source.code.at($caret.position) ?? ''
-                      )
+                    ? $creator
+                          .getLocale()
+                          .caret.before(source.code.at($caret.position) ?? '')
                     : $caret.tokenIncludingSpace
-                    ? $preferredLocales[0].caret.before(
-                          $caret.tokenIncludingSpace.getDescription(
-                              $preferredLocales[0],
-                              project.getNodeContext($caret.tokenIncludingSpace)
+                    ? $creator
+                          .getLocale()
+                          .caret.before(
+                              $caret.tokenIncludingSpace.getDescription(
+                                  $creator.getLocale(),
+                                  project.getNodeContext(
+                                      $caret.tokenIncludingSpace
+                                  )
+                              )
                           )
-                      )
                     : ''}</div
             ></div
         >

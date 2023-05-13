@@ -2,23 +2,21 @@
     import type Project from '@models/Project';
     import Evaluate from '@nodes/Evaluate';
     import Button from '../widgets/Button.svelte';
-    import { preferredLocales } from '@locale/locales';
     import Note from '../widgets/Note.svelte';
     import { GroupType } from '@output/Group';
     import { PhraseType } from '@output/Phrase';
     import RootView from '../project/RootView.svelte';
     import {
-        getProjects,
         getSelectedOutputPaths,
         setSelectedOutput,
     } from '../project/Contexts';
     import { addContent, moveContent, removeContent } from './editOutput';
     import type ListLiteral from '../../nodes/ListLiteral';
+    import { creator } from '../../db/Creator';
 
     export let project: Project;
     export let list: ListLiteral | undefined;
 
-    const projects = getProjects();
     const selectedOutputPaths = getSelectedOutputPaths();
 
     // Get the map from the value set, unless its not a valid sequence or the maps of the selections aren't equal.
@@ -45,31 +43,31 @@
         {#each list.values as content, index}
             <div class="content">
                 <Button
-                    tip={$preferredLocales[0].ui.tooltip.removeContent}
+                    tip={$creator.getLocale().ui.tooltip.removeContent}
                     action={() =>
                         list
-                            ? removeContent($projects, project, list, index)
+                            ? removeContent($creator, project, list, index)
                             : undefined}
                     enabled={list.values.length > 0}>⨉</Button
                 >
                 <Button
-                    tip={$preferredLocales[0].ui.tooltip.moveContentUp}
+                    tip={$creator.getLocale().ui.tooltip.moveContentUp}
                     action={() =>
                         list
-                            ? moveContent($projects, project, list, index, -1)
+                            ? moveContent($creator, project, list, index, -1)
                             : undefined}
                     enabled={index > 0}>↑</Button
                 >
                 <Button
-                    tip={$preferredLocales[0].ui.tooltip.moveContentDown}
+                    tip={$creator.getLocale().ui.tooltip.moveContentDown}
                     action={() =>
                         list
-                            ? moveContent($projects, project, list, index, 1)
+                            ? moveContent($creator, project, list, index, 1)
                             : undefined}
                     enabled={index < list.values.length - 1}>↓</Button
                 >
                 <Button
-                    tip={$preferredLocales[0].ui.tooltip.editContent}
+                    tip={$creator.getLocale().ui.tooltip.editContent}
                     action={() => editContent(index)}>✎</Button
                 >
                 <RootView node={content} />
@@ -77,11 +75,11 @@
         {/each}
         <div class="add">
             <Button
-                tip={$preferredLocales[0].ui.tooltip.addPhrase}
+                tip={$creator.getLocale().ui.tooltip.addPhrase}
                 action={() =>
                     list
                         ? addContent(
-                              $projects,
+                              $creator,
                               project,
                               list,
                               list?.values.length ?? 1 - 1,
@@ -90,11 +88,11 @@
                         : undefined}>+{PhraseType.getNames()[0]}</Button
             >
             <Button
-                tip={$preferredLocales[0].ui.tooltip.addGroup}
+                tip={$creator.getLocale().ui.tooltip.addGroup}
                 action={() =>
                     list
                         ? addContent(
-                              $projects,
+                              $creator,
                               project,
                               list,
                               list?.values.length ?? 1 - 1,
@@ -104,7 +102,7 @@
             ></div
         >
     {:else}
-        <Note>{$preferredLocales[0].ui.labels.computed}</Note>
+        <Note>{$creator.getLocale().ui.labels.computed}</Note>
     {/if}
 </div>
 

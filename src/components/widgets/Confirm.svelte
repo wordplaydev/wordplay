@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { preferredLocales } from '../../locale/locales';
     import Button from './Button.svelte';
+    import { creator } from '../../db/Creator';
 
     export let prompt: string;
     export let decide: (yes: boolean) => void;
@@ -11,11 +11,11 @@
     <div class="decisions"
         ><Button
             stretch
-            tip={$preferredLocales[0].ui.tooltip.no}
+            tip={$creator.getLocale().ui.tooltip.no}
             action={() => decide(false)}>👎</Button
         ><Button
             stretch
-            tip={$preferredLocales[0].ui.tooltip.yes}
+            tip={$creator.getLocale().ui.tooltip.yes}
             action={() => decide(true)}>👍</Button
         ></div
     >

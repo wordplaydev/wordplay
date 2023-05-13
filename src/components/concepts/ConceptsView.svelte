@@ -1,8 +1,8 @@
 <script lang="ts">
     import type Concept from '@concepts/Concept';
-    import { preferredLanguages } from '@locale/locales';
     import type StructureDefinition from '@nodes/StructureDefinition';
     import ConceptGroupView from './ConceptGroupView.svelte';
+    import { creator } from '../../db/Creator';
 
     export let category: string;
     export let concepts: Concept[];
@@ -23,7 +23,7 @@
 <ConceptGroupView concepts={typeless} {selectable} />
 
 {#each Array.from(types) as typeCategory}
-    <h2>{typeCategory.names.getLocaleText($preferredLanguages)}</h2>
+    <h2>{typeCategory.names.getLocaleText($creator.getLanguages())}</h2>
     <ConceptGroupView
         concepts={concepts.filter((c) => c.getAffiliation() === typeCategory)}
         {selectable}

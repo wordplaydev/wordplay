@@ -7,19 +7,16 @@
     import type OutputExpression from '@transforms/OutputExpression';
     import Button from '../widgets/Button.svelte';
     import { SequenceType } from '@output/Sequence';
-    import { preferredLanguages, preferredLocales } from '@locale/locales';
     import Evaluate from '@nodes/Evaluate';
     import Reference from '@nodes/Reference';
     import MapLiteral from '@nodes/MapLiteral';
     import KeyValue from '@nodes/KeyValue';
     import MeasurementLiteral from '@nodes/MeasurementLiteral';
-    import { getProjects } from '../project/Contexts';
+    import { creator } from '../../db/Creator';
 
     export let project: Project;
     export let outputs: OutputExpression[];
     export let sequence: boolean;
-
-    const projects = getProjects();
 
     // Create a mapping from pose properties to values
     let propertyValues: Map<OutputProperty, OutputPropertyValueSet>;
@@ -36,13 +33,15 @@
     }
 
     function convert() {
-        $projects.reviseNodes(
+        $creator.reviseProjectNodes(
             project,
             outputs.map((output) => [
                 output.node,
                 Evaluate.make(
                     Reference.make(
-                        SequenceType.names.getLocaleText($preferredLanguages),
+                        SequenceType.names.getLocaleText(
+                            $creator.getLanguages()
+                        ),
                         SequenceType
                     ),
                     [
@@ -64,7 +63,7 @@
         <PaletteProperty {project} {property} {values} />
     {/each}
     {#if !sequence}
-        <Button tip={$preferredLocales[0].ui.tooltip.sequence} action={convert}
+        <Button tip={$creator.getLocale().ui.tooltip.sequence} action={convert}
             >{SequenceType.getNames()[0]}</Button
         >
     {/if}

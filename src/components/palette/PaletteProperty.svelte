@@ -7,7 +7,6 @@
     import BindOptions from './BindOptions.svelte';
     import BindSlider from './BindSlider.svelte';
     import BindText from './BindText.svelte';
-    import { preferredLocales, preferredLanguages } from '@locale/locales';
     import type Project from '@models/Project';
     import OutputPropertyOptions from '@transforms/OutputPropertyOptions';
     import OutputPropertyText from '@transforms/OutputPropertyText';
@@ -23,13 +22,12 @@
     import ContentEditor from './ContentEditor.svelte';
     import PlaceEditor from './PlaceEditor.svelte';
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
-    import { getConceptIndex, getProjects } from '../project/Contexts';
+    import { getConceptIndex } from '../project/Contexts';
+    import { creator } from '../../db/Creator';
 
     export let project: Project;
     export let property: OutputProperty;
     export let values: OutputPropertyValueSet;
-
-    const projects = getProjects();
 
     let index = getConceptIndex();
     $: bind = values.getBind();
@@ -45,21 +43,24 @@
     >
     {#if values.areSet()}
         <Button
-            tip={$preferredLocales[0].ui.tooltip.revert}
-            action={() => values.unset($projects, project, $preferredLanguages)}
+            tip={$creator.getLocale().ui.tooltip.revert}
+            action={() =>
+                values.unset($creator, project, $creator.getLanguages())}
             >⨉</Button
         >
     {:else}
         <Button
-            tip={$preferredLocales[0].ui.tooltip.set}
-            action={() => values.set($projects, project, $preferredLanguages)}
+            tip={$creator.getLocale().ui.tooltip.set}
+            action={() =>
+                values.set($creator, project, $creator.getLanguages())}
             >✎</Button
         >
     {/if}
     <div class="control">
         {#if values.areMixed()}
             <Note
-                >{$preferredLocales
+                >{$creator
+                    .getLocales()
                     .map((t) => t.ui.labels.mixed)
                     .join('/')}</Note
             >
@@ -67,19 +68,22 @@
             {@const expression = values.getExpression()}
             <!-- If the values arent set, show as inherited if inherited, and otherwise show the default -->
             <Note
-                >{#if property.inherited}{$preferredLocales
+                >{#if property.inherited}{$creator
+                        .getLocales()
                         .map((t) => t.ui.labels.inherited)
                         .join(
                             '/'
                         )}{:else if values.areDefault() && expression !== undefined}<NodeView
                         node={expression}
                     />
-                    {$preferredLocales
+                    {$creator
+                        .getLocales()
                         .map((t) => t.ui.labels.default)
                         .join('/')}{:else}&mdash;{/if}</Note
             >
         {:else if !values.areEditable(project)}
-            <Note>{$preferredLocales.map((t) => t.ui.labels.computed)}</Note>
+            <Note>{$creator.getLocales().map((t) => t.ui.labels.computed)}</Note
+            >
         {:else if property.type instanceof OutputPropertyRange}
             <BindSlider {property} {values} range={property.type} />
         {:else if property.type instanceof OutputPropertyOptions}

@@ -8,7 +8,6 @@
     import type Node from '@nodes/Node';
     import type Token from '@nodes/Token';
     import Spaces from '@parser/Spaces';
-    import { preferredLanguages } from '@locale/locales';
     import NodeView from '@components/editor/NodeView.svelte';
     import {
         getCaret,
@@ -21,6 +20,7 @@
     import Source from '@nodes/Source';
     import Name from '@nodes/Name';
     import Program from '@nodes/Program';
+    import { creator } from '../../db/Creator';
 
     export let node: Node;
     /** Optional space; if not provided, all nodes are rendered with preferred space. */
@@ -87,16 +87,18 @@
             const nameOrDocs = tag instanceof Docs ? tag.docs : tag.names;
             // If at least one is visible, hide all those not in a preferred language.
             if (
-                $preferredLanguages.some((lang) =>
-                    nameOrDocs.some((l) => l.getLanguage() === lang)
-                )
+                $creator
+                    .getLanguages()
+                    .some((lang) =>
+                        nameOrDocs.some((l) => l.getLanguage() === lang)
+                    )
             ) {
                 let first = false;
                 for (const nameOrDoc of nameOrDocs) {
                     if (
-                        !$preferredLanguages.some(
-                            (t) => t === nameOrDoc.getLanguage()
-                        ) &&
+                        !$creator
+                            .getLanguages()
+                            .some((t) => t === nameOrDoc.getLanguage()) &&
                         !$caret?.isIn(nameOrDoc)
                     )
                         newHidden.add(nameOrDoc);

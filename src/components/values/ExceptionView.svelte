@@ -2,10 +2,10 @@
 
 <script lang="ts">
     import type Exception from '@runtime/Exception';
-    import { preferredLocales } from '@locale/locales';
     import DescriptionView from '@components/concepts/DescriptionView.svelte';
+    import { creator } from '../../db/Creator';
 
     export let value: Exception;
 </script>
 
-<DescriptionView description={value.getDescription($preferredLocales[0])} />
+<DescriptionView description={value.getDescription($creator.getLocale())} />

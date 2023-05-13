@@ -3,19 +3,19 @@
     import type OutputPropertyValues from '@transforms/OutputPropertyValueSet';
     import type OutputProperty from '@transforms/OutputProperty';
     import type OutputPropertyOptions from '@transforms/OutputPropertyOptions';
-    import { getProject, getProjects } from '../project/Contexts';
+    import { getProject } from '../project/Contexts';
+    import { creator } from '../../db/Creator';
 
     export let property: OutputProperty;
     export let values: OutputPropertyValues;
     export let options: OutputPropertyOptions;
 
     let project = getProject();
-    let projects = getProjects();
 
     // Whenever the drop down value changes, revise the Evaluates to match the new value.
     function handleChange(newValue: string | undefined) {
         if ($project === undefined) return;
-        $projects.reviseNodes(
+        $creator.reviseProjectNodes(
             $project,
             $project.getBindReplacements(
                 values.getExpressions(),

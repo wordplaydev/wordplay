@@ -10,7 +10,6 @@
 
 <script lang="ts">
     import type Conflict from '@conflicts/Conflict';
-    import { preferredLocales } from '@locale/locales';
     import Expression from '@nodes/Expression';
     import type Node from '@nodes/Node';
     import Annotation from './Annotation.svelte';
@@ -21,6 +20,7 @@
     import type Evaluator from '@runtime/Evaluator';
     import type Project from '../../models/Project';
     import { getEvaluation } from '../project/Contexts';
+    import { creator } from '../../db/Creator';
 
     export let project: Project;
     export let evaluator: Evaluator;
@@ -51,17 +51,20 @@
                         node: node,
                         element: view,
                         text: $evaluation?.step
-                            ? $preferredLocales.map((trans) =>
-                                  ($evaluation?.step as Step).getExplanations(
-                                      trans,
-                                      evaluator
+                            ? $creator
+                                  .getLocales()
+                                  .map((trans) =>
+                                      (
+                                          $evaluation?.step as Step
+                                      ).getExplanations(trans, evaluator)
                                   )
-                              )
                             : evaluator.steppedToNode() && evaluator.isDone()
-                            ? $preferredLocales.map(
-                                  (t) => t.evaluation.unevaluated
-                              )
-                            : $preferredLocales.map((t) => t.evaluation.done),
+                            ? $creator
+                                  .getLocales()
+                                  .map((t) => t.evaluation.unevaluated)
+                            : $creator
+                                  .getLocales()
+                                  .map((t) => t.evaluation.done),
                         kind: 'step',
                         position: getPosition(view),
                     },
@@ -82,13 +85,15 @@
                         {
                             node: primary.node,
                             element: getNodeView(primary.node),
-                            text: $preferredLocales.map((trans) =>
-                                primary.explanation(
-                                    trans,
-                                    project.getNodeContext(primary.node) ??
-                                        project.getContext(project.main)
-                                )
-                            ),
+                            text: $creator
+                                .getLocales()
+                                .map((trans) =>
+                                    primary.explanation(
+                                        trans,
+                                        project.getNodeContext(primary.node) ??
+                                            project.getContext(project.main)
+                                    )
+                                ),
                             kind: conflict.isMinor()
                                 ? ('minor' as const)
                                 : ('primary' as const),
@@ -99,7 +104,8 @@
                                   {
                                       node: secondary.node,
                                       element: getNodeView(secondary.node),
-                                      text: $preferredLocales
+                                      text: $creator
+                                          .getLocales()
                                           .map((trans) =>
                                               secondary.explanation(
                                                   trans,
@@ -223,7 +229,7 @@
 <!-- Render annotations by node -->
 <section
     class="annotations"
-    aria-label={$preferredLocales[0].ui.section.conflicts}
+    aria-label={$creator.getLocale().ui.section.conflicts}
 >
     {#each Array.from(annotationsByNode.values()) as annotations, index}
         <Annotation id={index} {annotations} />

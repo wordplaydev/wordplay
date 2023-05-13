@@ -1,6 +1,5 @@
 <script lang="ts">
     import { afterUpdate } from 'svelte';
-    import { getAnimationDuration } from '@models/stores';
     import type Evaluator from '@runtime/Evaluator';
     import Key from '../../input/Keyboard';
     import Bool from '@runtime/Bool';
@@ -10,7 +9,7 @@
     import Exception from '@runtime/Exception';
     import { getEvaluation } from '../project/Contexts';
     import Controls from './Controls.svelte';
-    import { preferredLocales } from '../../locale/locales';
+    import { creator } from '../../db/Creator';
 
     export let evaluator: Evaluator;
 
@@ -163,12 +162,12 @@
 
 <section
     class="evaluation"
-    aria-label={$preferredLocales[0].ui.section.timeline}
+    aria-label={$creator.getLocale().ui.section.timeline}
     class:stepping={$evaluation?.playing === false}
 >
     <Controls project={evaluator.project} {evaluator} />
     <header
-        transition:slide|local={getAnimationDuration()}
+        transition:slide|local={{ duration: $creator.getAnimationDuration() }}
         class="timeline"
         class:stepping={$evaluation?.playing === false}
         on:pointerdown={(event) => stepToMouse(event)}

@@ -1,26 +1,22 @@
 <script lang="ts">
-    import { animationFactor } from '@models/stores';
     import { onMount, setContext } from 'svelte';
     import Loading from '@components/app/Loading.svelte';
-    import { preferredLanguages, preferredLocales } from '@locale/locales';
-    import { auth } from '@db/firebase';
-    import { onAuthStateChanged, type User } from 'firebase/auth';
+    import type { User } from 'firebase/auth';
     import {
         DarkSymbol,
-        ProjectsSymbol,
         LocalesSymbol,
         UserSymbol,
     } from '../components/project/Contexts';
     import { writable } from 'svelte/store';
     import Fonts from '../native/Fonts';
-    import Projects from '../db/Projects';
+    import { creator } from '../db/Creator';
     import { browser } from '$app/environment';
     import { goto } from '$app/navigation';
     import { PUBLIC_CONTEXT } from '$env/static/public';
     import { page } from '$app/stores';
 
     /** Expose the translations as context, updating them as necessary */
-    $: setContext(LocalesSymbol, $preferredLocales);
+    $: setContext(LocalesSymbol, $creator.getLocales());
 
     let loaded = false;
 
@@ -37,31 +33,20 @@
         // Show only after fonts are loaded, to prevent font jiggle.
         document.fonts.ready.then(() => (loaded = true));
 
-        // Keep the user store in sync.
-        const unsub = onAuthStateChanged(auth, async (newUser) => {
-            // Update the store
-            user.set(newUser);
-            // Update the Projects with the new user, syncing with the database.
-            projects.updateUser(newUser ? newUser.uid : null);
-        });
+        // Login the user
+        $creator.login((newUser) => user.set(newUser));
 
         // Update dark mode, now that we're mounted.
         dark.set(isDarkSet());
 
         /** Load whatever is stored in local storage */
-        projects.loadLocal();
+        $creator.loadLocal();
 
-        // Unusubscribe to auth listener on unmount and clean the project listeners.
+        // Have the Creator cleanup database connections.
         return () => {
-            unsub();
-            projects.clean();
+            $creator.clean();
         };
     });
-
-    /** Create a database of projects linked to the current user. */
-    const projects = new Projects();
-
-    setContext(ProjectsSymbol, projects.getStore());
 
     /** True if either local storage has dark set or the OS is set to dark. */
     function isDarkSet() {
@@ -111,8 +96,8 @@
 {#if PUBLIC_CONTEXT !== 'prod' || $page.route.id === '/'}
     <div
         class:dark={$dark}
-        style="--animation-factor: {$animationFactor}"
-        lang={$preferredLanguages[0]}
+        style="--animation-factor: {$creator.getAnimationFactor()}"
+        lang={$creator.getLanguages()[0]}
     >
         {#if loaded}
             <slot />

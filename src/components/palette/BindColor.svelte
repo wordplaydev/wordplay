@@ -8,18 +8,14 @@
     import ColorChooser from '../widgets/ColorChooser.svelte';
     import type OutputProperty from '../../transforms/OutputProperty';
     import { ColorType } from '../../output/Color';
-    import {
-        getProject,
-        getProjects,
-        getSelectedOutput,
-    } from '../project/Contexts';
+    import { getProject, getSelectedOutput } from '../project/Contexts';
+    import { creator } from '../../db/Creator';
 
     export let property: OutputProperty;
     export let values: OutputPropertyValueSet;
 
     let project = getProject();
     let selectedOutput = getSelectedOutput();
-    const projects = getProjects();
 
     $: lightness = getColorValue('lightness') ?? 0;
     $: chroma = getColorValue('chroma') ?? 0;
@@ -42,7 +38,7 @@
             ]
         );
 
-        $projects.reviseNodes(
+        $creator.reviseProjectNodes(
             $project,
             $project.getBindReplacements(
                 values.getExpressions(),

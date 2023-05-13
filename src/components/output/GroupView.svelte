@@ -10,9 +10,9 @@
     import Group from '@output/Group';
     import Evaluate from '@nodes/Evaluate';
     import { getSelectedOutput } from '../project/Contexts';
-    import { preferredLocales } from '@locale/locales';
     import type { Shape } from '../../output/Shapes';
     import type Verse from '../../output/Verse';
+    import { creator } from '../../db/Creator';
 
     export let group: Group | Verse;
     export let place: Place;
@@ -51,10 +51,12 @@
 
 <div
     role={!group.selectable ? 'presentation' : 'group'}
-    aria-label={group.getDescription($preferredLocales.map((t) => t.language))}
+    aria-label={group.getDescription(
+        $creator.getLocales().map((t) => t.language)
+    )}
     aria-roledescription={group instanceof Group
-        ? $preferredLocales[0].terminology.group
-        : $preferredLocales[0].terminology.verse}
+        ? $creator.getLocale().terminology.group
+        : $creator.getLocale().terminology.verse}
     aria-hidden={empty ? 'true' : null}
     class="output group {group.constructor.name}"
     class:selected={selected && !root}

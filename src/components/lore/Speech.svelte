@@ -1,9 +1,9 @@
 <script lang="ts">
     import type Concept from '../../concepts/Concept';
     import type Glyph from '../../lore/Glyph';
-    import { preferredLocales } from '../../locale/locales';
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
     import Eyes from './Eyes.svelte';
+    import { creator } from '../../db/Creator';
 
     export let glyph: Glyph;
     export let below: boolean = false;
@@ -20,7 +20,7 @@
 
 <div class="dialog {below ? 'column' : 'row'}">
     {#key glyph}
-        <div class="glyphs emotion-{concept?.getEmotion($preferredLocales[0])}">
+        <div class="glyphs emotion-{concept?.getEmotion($creator.getLocale())}">
             {#if concept}
                 <ConceptLinkUI link={concept} salient={false} label={symbols} />
             {:else}

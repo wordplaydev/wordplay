@@ -4,8 +4,8 @@
     import type Token from '@nodes/Token';
     import { getProject, getCaret, getRoot } from '../project/Contexts';
     import TokenCategories from './TokenCategories';
-    import { preferredLocales } from '@locale/locales';
     import PlaceholderView from './PlaceholderView.svelte';
+    import { creator } from '../../db/Creator';
 
     export let node: Token;
 
@@ -21,7 +21,7 @@
     // See if this is a placeholder that should be rendered differently.
     $: placeholder =
         $project && $root && context
-            ? node.getPlaceholder($root, context, $preferredLocales[0])
+            ? node.getPlaceholder($root, context, $creator.getLocale())
             : undefined;
 
     // True if the caret is "on" this token.
@@ -43,7 +43,7 @@
             ? node.getText()
             : node.localized(
                   $caret === undefined || !$caret.isIn(node),
-                  $preferredLocales,
+                  $creator.getLocales(),
                   $root,
                   context
               );

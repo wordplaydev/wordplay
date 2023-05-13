@@ -13,7 +13,6 @@
 <!-- A component that renders an arbitrary component and whose size is set by the project. -->
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
-    import { preferredLocales } from '@locale/locales';
     import Button from '../widgets/Button.svelte';
     import type { Arrangement } from './Layout';
     import type Tile from './Tile';
@@ -21,6 +20,7 @@
     import type Layout from './Layout';
     import TextField from '../widgets/TextField.svelte';
     import { isName } from '../../parser/Tokenizer';
+    import { creator } from '../../db/Creator';
 
     export let tile: Tile;
     export let layout: Layout;
@@ -188,7 +188,7 @@
             {#if tile.isSource()}
                 <TextField
                     text={tile.name}
-                    placeholder={$preferredLocales[0].ui.placeholders.name}
+                    placeholder={$creator.getLocale().ui.placeholders.name}
                     validator={(text) => isName(text)}
                     changed={handleChange}
                     border={false}
@@ -199,12 +199,12 @@
         </div>
         <slot name="extra" />
         <Button
-            tip={$preferredLocales[0].ui.tooltip.collapse}
+            tip={$creator.getLocale().ui.tooltip.collapse}
             action={() => dispatch('mode', { mode: Mode.Collapsed })}
             enabled={!layout.isFullscreen()}>&ndash;</Button
         >
         <Button
-            tip={$preferredLocales[0].ui.tooltip.fullscreen}
+            tip={$creator.getLocale().ui.tooltip.fullscreen}
             action={() =>
                 dispatch('fullscreen', {
                     fullscreen: !fullscreen,

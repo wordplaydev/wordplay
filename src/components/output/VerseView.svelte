@@ -4,8 +4,6 @@
     import { afterUpdate, beforeUpdate, onDestroy, onMount } from 'svelte';
     import type Project from '@models/Project';
     import type Verse from '@output/Verse';
-    import { animationFactor } from '@models/stores';
-    import { preferredLanguages, preferredLocales } from '@locale/locales';
     import { loadedFonts } from '@native/Fonts';
     import { PX_PER_METER, rootScale, toCSS } from '@output/outputToCSS';
     import Place from '@output/Place';
@@ -30,7 +28,6 @@
     import {
         getAnimatingNodes,
         getEvaluation,
-        getProjects,
         getSelectedOutput,
         getSelectedOutputPaths,
         getSelectedPhrase,
@@ -45,6 +42,7 @@
     import { getPlace } from '../../output/getPlace';
     import type PaintingConfiguration from './PaintingConfiguration';
     import { toExpression } from '../../parser/Parser';
+    import { creator } from '../../db/Creator';
 
     export let project: Project;
     export let evaluator: Evaluator;
@@ -57,7 +55,6 @@
     export let painting: boolean;
     export let paintingConfig: PaintingConfiguration | undefined = undefined;
 
-    const projects = getProjects();
     const selectedOutput = getSelectedOutput();
     const selectedOutputPaths = getSelectedOutputPaths();
     const selectedPhrase = getSelectedPhrase();
@@ -93,7 +90,9 @@
                   .filter(
                       (output): output is Phrase => output instanceof Phrase
                   )
-                  .map((output) => output.getDescription($preferredLanguages))
+                  .map((output) =>
+                      output.getDescription($creator.getLanguages())
+                  )
                   .join(', ')
             : '';
 
@@ -108,10 +107,12 @@
                         ? undefined
                         : previouslyPresent.get(name);
                 if (!entered.has(name)) {
-                    const previousText =
-                        previous?.getDescription($preferredLanguages);
-                    const currentText =
-                        output.getDescription($preferredLanguages);
+                    const previousText = previous?.getDescription(
+                        $creator.getLanguages()
+                    );
+                    const currentText = output.getDescription(
+                        $creator.getLanguages()
+                    );
                     if (
                         previousText !== currentText &&
                         typeof currentText === 'string'
@@ -243,9 +244,9 @@
     $: context = new RenderContext(
         verse.font ?? DefaultFont,
         verse.size ?? DefaultSize,
-        $preferredLanguages,
+        $creator.getLanguages(),
         $loadedFonts,
-        $animationFactor
+        $creator.getAnimationFactor()
     );
     $: contentBounds = verse.getLayout(context);
 
@@ -503,11 +504,13 @@
 
                     // Add the stroke to the project's verse
                     if (strokeNodeID === undefined) {
-                        addVerseContent($projects, project, group);
+                        addVerseContent($creator, project, group);
                     } else {
                         const node = project.getNodeByID(strokeNodeID);
                         if (node)
-                            $projects.reviseNodes(project, [[node, group]]);
+                            $creator.reviseProjectNodes(project, [
+                                [node, group],
+                            ]);
                     }
                     strokeNodeID = group.id;
                 }
@@ -525,10 +528,10 @@
                     )
                 ) {
                     moveOutput(
-                        $projects,
+                        $creator,
                         project,
                         $selectedOutput,
-                        $preferredLanguages,
+                        $creator.getLanguages(),
                         newX,
                         newY,
                         false
@@ -791,7 +794,7 @@
         }
         // Remove the node that created this phrase.
         else if (event.key === 'Backspace' && (event.metaKey || event.ctrlKey))
-            $projects.reviseNodes(project, [[evaluate, undefined]]);
+            $creator.reviseProjectNodes(project, [[evaluate, undefined]]);
 
         // // meta-a: select all phrases
         // if (editable && event.key === 'a' && (event.metaKey || event.ctrlKey))
@@ -932,13 +935,13 @@
                 >
                     {#if enteredDescription.length > 0}
                         <p
-                            >{$preferredLocales[0].terminology.entered}
+                            >{$creator.getLocale().terminology.entered}
                             {enteredDescription}</p
                         >
                     {/if}
                     {#if changedDescription.length > 0}
                         <p
-                            >{$preferredLocales[0].terminology.changed}
+                            >{$creator.getLocale().terminology.changed}
                             {changedDescription}</p
                         >
                     {/if}

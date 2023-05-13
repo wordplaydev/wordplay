@@ -12,7 +12,6 @@
         ConceptPathSymbol,
         type ConceptPathContext,
         type ConceptIndexContext,
-        getProjects,
         setSelectedOutput,
         type AnimatingNodesContext,
         type ConflictsContext,
@@ -44,16 +43,9 @@
     import TileView, { type ResizeDirection } from './TileView.svelte';
     import Tile, { Content, Mode } from './Tile';
     import OutputView from '../output/OutputView.svelte';
-    import { preferredLanguages, preferredLocales } from '@locale/locales';
     import type Value from '@runtime/Value';
     import Editor from '../editor/Editor.svelte';
-    import Layout, {
-        Arrangement,
-        DocsID,
-        OutputID,
-        PaletteID,
-        type LayoutObject,
-    } from './Layout';
+    import Layout, { Arrangement, DocsID, OutputID, PaletteID } from './Layout';
     import NonSourceTileToggle from './NonSourceTileToggle.svelte';
     import Button from '../widgets/Button.svelte';
     import Palette from '../palette/Palette.svelte';
@@ -66,7 +58,6 @@
     import ConceptIndex from '../../concepts/ConceptIndex';
     import type Concept from '../../concepts/Concept';
     import Settings from '../settings/Settings.svelte';
-    import { getPersistedValue, setPersistedValue } from '@db/persist';
     import ConfirmButton from '../widgets/ConfirmButton.svelte';
     import { isName } from '@parser/Tokenizer';
     import { goto } from '$app/navigation';
@@ -80,12 +71,11 @@
     import Timeline from '../evaluator/Timeline.svelte';
     import Painting from '../output/Painting.svelte';
     import type PaintingConfiguration from '../output/PaintingConfiguration';
+    import { creator } from '../../db/Creator';
 
     export let project: Project;
     export let close: () => void;
     export let tip: string;
-
-    const projects = getProjects();
 
     // The HTMLElement that represents this element
     let view: HTMLElement | undefined = undefined;
@@ -125,7 +115,6 @@
     let outputBackground: string | null;
 
     /** The current tile layout */
-    const LAYOUT_KEY = 'layout';
     let layoutInitialized = false;
 
     /** The conflicts present in the current project. **/
@@ -274,7 +263,7 @@
                 if (source)
                     newTiles.push(
                         tile.withName(
-                            source.names.getLocaleText($preferredLanguages)
+                            source.names.getLocaleText($creator.getLanguages())
                         )
                     );
             }
@@ -297,7 +286,7 @@
     function createSourceTile(source: Source, index: number) {
         return new Tile(
             Layout.getSourceID(index),
-            source.names.getLocaleText($preferredLanguages),
+            source.names.getLocaleText($creator.getLanguages()),
             Content.Source,
             index === 0 ? Mode.Expanded : Mode.Collapsed,
             undefined,
@@ -306,8 +295,7 @@
     }
 
     function initializedLayout() {
-        const layouts =
-            getPersistedValue<Record<string, LayoutObject>>(LAYOUT_KEY);
+        const layouts = $creator.getLayout();
         const layout = layouts ? layouts[project.id] : null;
         const persistedLayout = layout ? Layout.fromObject(layout) : null;
         return persistedLayout === null
@@ -326,7 +314,7 @@
                     : [
                           new Tile(
                               OutputID,
-                              $preferredLocales[0].ui.tiles.output,
+                              $creator.getLocale().ui.tiles.output,
                               Content.Output,
                               Mode.Expanded,
                               undefined,
@@ -339,7 +327,7 @@
                               ),
                           new Tile(
                               PaletteID,
-                              $preferredLocales[0].ui.tiles.palette,
+                              $creator.getLocale().ui.tiles.palette,
                               Content.Palette,
                               Mode.Collapsed,
                               undefined,
@@ -347,7 +335,7 @@
                           ),
                           new Tile(
                               DocsID,
-                              $preferredLocales[0].ui.tiles.docs,
+                              $creator.getLocale().ui.tiles.docs,
                               Content.Documentation,
                               Mode.Collapsed,
                               undefined,
@@ -393,10 +381,9 @@
 
     /** Persist the layout when it changes */
     $: {
-        const layouts =
-            getPersistedValue<Record<string, LayoutObject>>(LAYOUT_KEY) ?? {};
+        const layouts = $creator.getLayout() ?? {};
         layouts[project.id] = layout.toObject();
-        setPersistedValue(LAYOUT_KEY, layouts);
+        $creator.setLayout(layouts);
     }
 
     /** The tile being dragged */
@@ -436,7 +423,7 @@
 
     /** Set up project wide concept index and path context */
     let index: ConceptIndexContext = writable(
-        new ConceptIndex([], $preferredLocales)
+        new ConceptIndex([], $creator.getLocales())
     );
     setContext(ConceptIndexSymbol, index);
 
@@ -455,7 +442,7 @@
                 project && $index
                     ? ConceptIndex.make(
                           project,
-                          $preferredLocales
+                          $creator.getLocales()
                       ).withExamples($index.examples)
                     : undefined;
 
@@ -558,7 +545,7 @@
     /** When the program steps language changes, get the latest value of the program's evaluation. */
     $: {
         $evaluation;
-        $preferredLanguages;
+        $creator.getLanguages();
         latest = $evaluator.getLatestSourceValue(project.main);
     }
 
@@ -835,7 +822,8 @@
         }
         if (key === 'Enter' && command) {
             // Shift also? Reset
-            if (event.shiftKey) $projects.revise(project, project.clone());
+            if (event.shiftKey)
+                $creator.reviseProject(project, project.clone());
             // Alt also? Full screen.
             else if (event.altKey) {
                 layout = layout.isFullscreen()
@@ -851,8 +839,8 @@
             return;
         }
         if (key === 'z' && command) {
-            if (shift) $projects.redo(project.id);
-            else $projects.undo(project.id);
+            if (shift) $creator.redoProject(project.id);
+            else $creator.undoProject(project.id);
             event.preventDefault();
             event.stopPropagation();
             return;
@@ -921,10 +909,10 @@
     }
 
     function addSource() {
-        $projects.revise(
+        $creator.reviseProject(
             project,
             project.withNewSource(
-                `${$preferredLocales[0].terminology.source}${
+                `${$creator.getLocale().terminology.source}${
                     project.supplements.length + 1
                 }`
             )
@@ -932,17 +920,17 @@
     }
 
     function removeSource(source: Source) {
-        $projects.revise(project, project.withoutSource(source));
+        $creator.reviseProject(project, project.withoutSource(source));
     }
 
     function renameSource(id: string, name: string) {
         if (!isName(name)) return;
         const source = getSourceByID(id);
-        $projects.revise(
+        $creator.reviseProject(
             project,
             project.withSource(
                 source,
-                source.withName(name, $preferredLanguages[0])
+                source.withName(name, $creator.getLanguages()[0])
             )
         );
     }
@@ -1015,11 +1003,11 @@
                                     {#if !$evaluation.evaluator.isPlaying()}<Painting
                                             bind:painting
                                         />{/if}<Button
-                                        tip={$preferredLocales[0].ui.tooltip
+                                        tip={$creator.getLocale().ui.tooltip
                                             .grid}
                                         action={() => (grid = !grid)}>▦</Button
                                     ><Button
-                                        tip={$preferredLocales[0].ui.tooltip
+                                        tip={$creator.getLocale().ui.tooltip
                                             .fit}
                                         action={() => (fit = !fit)}
                                         >{#if fit}🔒{:else}🔓{/if}</Button
@@ -1028,10 +1016,10 @@
                                     {@const source = getSourceByID(tile.id)}
                                     {#if source !== project.main}
                                         <ConfirmButton
-                                            tip={$preferredLocales[0].ui.tooltip
+                                            tip={$creator.getLocale().ui.tooltip
                                                 .deleteSource}
                                             action={() => removeSource(source)}
-                                            prompt={$preferredLocales[0].ui
+                                            prompt={$creator.getLocale().ui
                                                 .prompt.deleteSource}
                                             >⨉</ConfirmButton
                                         >
@@ -1090,18 +1078,18 @@
         <nav class="footer">
             <Status />
             <TextField
-                placeholder={$preferredLocales[0].ui.placeholders.project}
+                placeholder={$creator.getLocale().ui.placeholders.project}
                 text={project.name}
                 border={false}
                 changed={(name) =>
-                    $projects.revise(project, project.withName(name))}
+                    $creator.reviseProject(project, project.withName(name))}
             />
             <Button
                 tip={layout.arrangement === Arrangement.free
-                    ? $preferredLocales[0].ui.tooltip.vertical
+                    ? $creator.getLocale().ui.tooltip.vertical
                     : layout.arrangement === Arrangement.vertical
-                    ? $preferredLocales[0].ui.tooltip.horizontal
-                    : $preferredLocales[0].ui.tooltip.freeform}
+                    ? $creator.getLocale().ui.tooltip.horizontal
+                    : $creator.getLocale().ui.tooltip.freeform}
                 action={() =>
                     (layout = layout.withNextArrangement(
                         canvasWidth,
@@ -1134,7 +1122,7 @@
                 {/if}
             {/each}
             <Button
-                tip={$preferredLocales[0].ui.tooltip.addSource}
+                tip={$creator.getLocale().ui.tooltip.addSource}
                 action={addSource}>+</Button
             >
 

@@ -1,17 +1,13 @@
 <svelte:options immutable={true} />
 
 <script lang="ts">
-    import {
-        preferredLanguages,
-        preferredLocales,
-        writingDirection,
-    } from '@locale/locales';
     import Button from '../widgets/Button.svelte';
     import type LanguageCode from '@locale/LanguageCode';
     import { getLanguageName, Languages } from '@locale/LanguageCode';
-    import SupportedLocales, { writingLayout } from '@locale/locales';
+    import SupportedLocales from '@locale/locales';
     import { tick } from 'svelte';
     import { clickOutside } from '../app/clickOutside';
+    import { creator } from '../../db/Creator';
 
     let collapsed = true;
     let element: HTMLElement;
@@ -27,37 +23,30 @@
     ];
 
     function select(language: LanguageCode, append: boolean) {
-        const selected = $preferredLanguages.includes(language);
-        preferredLanguages.set(
-            selected
-                ? $preferredLanguages.length === 1
-                    ? // If it's already selected, and there's only one, keep it the same.
-                      $preferredLanguages
-                    : // Otherwise, remove it.
-                      [
-                          // Remove
-                          ...$preferredLanguages.slice(
-                              0,
-                              $preferredLanguages.indexOf(language)
-                          ),
-                          ...$preferredLanguages.slice(
-                              $preferredLanguages.indexOf(language) + 1
-                          ),
-                      ]
-                : // If replacing, just set to the given language. Otherwise add.
-                append
-                ? [...$preferredLanguages, language]
-                : [language]
-        );
+        let languages = $creator.getLanguages();
+        const selected = languages.includes(language);
+        languages = selected
+            ? languages.length === 1
+                ? // If it's already selected, and there's only one, keep it the same.
+                  languages
+                : // Otherwise, remove it.
+                  [
+                      // Remove
+                      ...languages.slice(0, languages.indexOf(language)),
+                      ...languages.slice(languages.indexOf(language) + 1),
+                  ]
+            : // If replacing, just set to the given language. Otherwise add.
+            append
+            ? [...languages, language]
+            : [language];
 
         // Set the layout and direction based on the preferred language.
-        if ($preferredLanguages.length > 0) {
-            writingLayout.set(
-                Languages[$preferredLanguages[0]].layout ?? 'horizontal-tb'
+        if (languages.length > 0) {
+            $creator.setWritingLayout(
+                Languages[languages[0]].layout ?? 'horizontal-tb'
             );
-            writingDirection.set(
-                Languages[$preferredLanguages[0]].direction ?? 'ltr'
-            );
+            // Save it.
+            $creator.setLanguages(languages);
         }
 
         // Collapse.
@@ -89,7 +78,7 @@
                     <span
                         class="language"
                         class:supported
-                        class:selected={$preferredLanguages.includes(lang)}
+                        class:selected={$creator.getLanguages().includes(lang)}
                         tabIndex={0}
                         on:pointerdown|stopPropagation={(event) =>
                             select(lang, event.shiftKey)}
@@ -102,9 +91,9 @@
             </div>
         </div>
     {:else}
-        <Button tip={$preferredLocales[0].ui.tooltip.language} action={toggle}>
+        <Button tip={$creator.getLocale().ui.tooltip.language} action={toggle}>
             <span class="chosen">
-                {#each $preferredLanguages as lang, index}{#if index > 0}+{/if}<span
+                {#each $creator.getLanguages() as lang, index}{#if index > 0}+{/if}<span
                         class="language supported">{getLanguageName(lang)}</span
                     >{/each}
             </span>

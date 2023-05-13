@@ -3,7 +3,6 @@
         getDragged,
         getConceptIndex,
         getConceptPath,
-        getProjects,
     } from '../project/Contexts';
     import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
     import Expression from '@nodes/Expression';
@@ -25,19 +24,17 @@
     import StreamConceptView from './StreamConceptView.svelte';
     import NodeConcept from '@concepts/NodeConcept';
     import type Node from '@nodes/Node';
-    import { preferredLocales } from '@locale/locales';
     import NodeConceptView from './NodeConceptView.svelte';
     import Purpose from '@concepts/Purpose';
     import DescriptionView from './DescriptionView.svelte';
     import { tick } from 'svelte';
     import TextField from '../widgets/TextField.svelte';
     import type Project from '../../models/Project';
+    import { creator } from '../../db/Creator';
 
     export let project: Project;
 
     let palette: HTMLElement | undefined;
-
-    let projects = getProjects();
 
     /**
      * The palette is hybrid documentation/drag and drop palette, organized by types.
@@ -141,7 +138,7 @@
         );
 
         // Update the project with the new source files
-        $projects.revise(
+        $creator.reviseProject(
             project,
             project
                 .withSource(source, newSource)
@@ -157,7 +154,7 @@
     $: {
         if (query === '') results = undefined;
         else {
-            results = $index?.getQuery($preferredLocales, query);
+            results = $index?.getQuery($creator.getLocales(), query);
         }
     }
 </script>
@@ -167,7 +164,7 @@
 
 <section
     class="palette"
-    aria-label={$preferredLocales[0].ui.section.palette}
+    aria-label={$creator.getLocale().ui.section.palette}
     on:pointerdown={handlePointerDown}
     on:pointerup={handleDrop}
     on:keydown={(event) => (event.key === 'Backspace' ? back() : undefined)}
@@ -177,12 +174,12 @@
         <TextField placeholder={'🔍'} bind:text={query} fill defaultFocus />
         {#if currentConcept}
             <span class="path">
-                <Button tip={$preferredLocales[0].ui.tooltip.home} action={back}
+                <Button tip={$creator.getLocale().ui.tooltip.home} action={back}
                     >⏴</Button
                 >
                 {#each $path as concept, index}
                     {#if index > 0}&nbsp;&mdash;&nbsp;{/if}<DescriptionView
-                        description={concept.getName($preferredLocales[0])}
+                        description={concept.getName($creator.getLocale())}
                     />
                 {/each}
             </span>
@@ -231,29 +228,29 @@
             <!-- Home page is default. -->
         {:else if $index}
             <ConceptsView
-                category={$preferredLocales[0].terminology.project}
+                category={$creator.getLocale().terminology.project}
                 concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Project)}
             />
             <ConceptsView
-                category={$preferredLocales[0].terminology.code}
+                category={$creator.getLocale().terminology.code}
                 concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Compute)}
                 selectable={true}
             />
             <ConceptsView
-                category={$preferredLocales[0].terminology.store}
+                category={$creator.getLocale().terminology.store}
                 concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Store)}
             />
             <ConceptsView
-                category={$preferredLocales[0].terminology.decide}
+                category={$creator.getLocale().terminology.decide}
                 concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Decide)}
                 selectable={true}
             />
             <ConceptsView
-                category={$preferredLocales[0].terminology.input}
+                category={$creator.getLocale().terminology.input}
                 concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Input)}
             />
             <ConceptsView
-                category={$preferredLocales[0].terminology.output}
+                category={$creator.getLocale().terminology.output}
                 concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Output)}
             />
         {/if}

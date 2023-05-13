@@ -1,12 +1,12 @@
 <script lang="ts">
     import type Transform from '@transforms/Transform';
-    import { preferredLanguages, preferredLocales } from '@locale/locales';
     import RootView from '../project/RootView.svelte';
     import Block from '@nodes/Block';
     import type Menu from './util/Menu';
     import Node from '@nodes/Node';
     import { getConceptIndex } from '../project/Contexts';
     import Speech from '../lore/Speech.svelte';
+    import { creator } from '../../db/Creator';
 
     export let menu: Menu;
     export let position: { left: number; top: number };
@@ -17,7 +17,7 @@
     const WINDOW = 2;
 
     function handleItemClick(item: Transform) {
-        menu.doEdit($preferredLanguages, item);
+        menu.doEdit($creator.getLanguages(), item);
     }
 
     let index = getConceptIndex();
@@ -50,13 +50,14 @@
         {#if node && concept}
             <td colspan="2"
                 ><Speech glyph={node.getGlyphs()} {concept}
-                    >{$preferredLocales[0].ui.headers.editing}</Speech
+                    >{$creator.getLocale().ui.headers.editing}</Speech
                 ></td
             >
         {/if}
         {#each menu.transforms as transform, index}
-            {@const [newNode, newParent] =
-                transform.getEditedNode($preferredLanguages)}
+            {@const [newNode, newParent] = transform.getEditedNode(
+                $creator.getLanguages()
+            )}
             {#if index >= minItem && index <= maxItem}
                 <!-- Prevent default is to ensure focus isn't lost on editor -->
                 <tr
@@ -81,7 +82,7 @@
                     </td><td class="col"
                         ><em
                             >{transform.getDescription(
-                                $preferredLocales[0]
+                                $creator.getLocale()
                             )}</em
                         ></td
                     >

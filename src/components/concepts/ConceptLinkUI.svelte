@@ -1,8 +1,8 @@
 <script lang="ts">
     import { getConceptIndex, getConceptPath } from '../project/Contexts';
     import type ConceptLink from '@nodes/ConceptLink';
-    import { preferredLocales } from '@locale/locales';
     import Concept from '@concepts/Concept';
+    import { creator } from '../../db/Creator';
 
     export let link: ConceptLink | Concept;
     export let salient: boolean = true;
@@ -35,7 +35,7 @@
         on:pointerdown={navigate}
         on:keydown={(event) =>
             event.key == ' ' || event.key === 'Enter' ? navigate() : undefined}
-        >{#if label}{label}{:else}{concept.getName($preferredLocales[0])}{/if}
+        >{#if label}{label}{:else}{concept.getName($creator.getLocale())}{/if}
     </span>
 {:else}
     <span>&mdash;</span>

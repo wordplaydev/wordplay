@@ -1,7 +1,6 @@
 <script lang="ts">
     import TextField from '@components/widgets/TextField.svelte';
     import Page from '@components/app/Page.svelte';
-    import { preferredLocales } from '@locale/locales';
     import { getUser } from '@components/project/Contexts';
     import Lead from '@components/app/Lead.svelte';
     import Button from '@components/widgets/Button.svelte';
@@ -14,6 +13,7 @@
     import { auth } from '@db/firebase';
     import { goto } from '$app/navigation';
     import { onMount } from 'svelte';
+    import { creator } from '../../db/Creator';
 
     let user = getUser();
     let email: string;
@@ -35,17 +35,17 @@
             error =
                 {
                     'auth/id-token-expired':
-                        $preferredLocales[0].ui.login.expiredFailure,
+                        $creator.getLocale().ui.login.expiredFailure,
                     'auth/id-token-revoked':
-                        $preferredLocales[0].ui.login.invalidFailure,
+                        $creator.getLocale().ui.login.invalidFailure,
                     'auth/invalid-argument':
-                        $preferredLocales[0].ui.login.invalidFailure,
+                        $creator.getLocale().ui.login.invalidFailure,
                     'auth/invalid-email':
-                        $preferredLocales[0].ui.login.emailFailure,
-                }[err.code] ?? $preferredLocales[0].ui.login.failure;
+                        $creator.getLocale().ui.login.emailFailure,
+                }[err.code] ?? $creator.getLocale().ui.login.failure;
         } else {
             console.error(err);
-            error = $preferredLocales[0].ui.login.failure;
+            error = $creator.getLocale().ui.login.failure;
         }
         success = false;
     }
@@ -108,36 +108,36 @@
 <Page>
     <div class="login">
         {#if $user && !$user.isAnonymous}
-            <Lead>{$preferredLocales[0].welcome} {$user.email}</Lead>
-            <Button tip={$preferredLocales[0].ui.login.logout} action={logout}
-                >{$preferredLocales[0].ui.login.logout}</Button
+            <Lead>{$creator.getLocale().welcome} {$user.email}</Lead>
+            <Button tip={$creator.getLocale().ui.login.logout} action={logout}
+                >{$creator.getLocale().ui.login.logout}</Button
             >
         {:else}
-            <Lead>{$preferredLocales[0].ui.login.header}</Lead>
+            <Lead>{$creator.getLocale().ui.login.header}</Lead>
             <p>
                 {#if missingEmail}
-                    {$preferredLocales[0].ui.login.enterEmail}
+                    {$creator.getLocale().ui.login.enterEmail}
                 {:else if $user === null}
-                    {$preferredLocales[0].ui.login.anonymousPrompt}
+                    {$creator.getLocale().ui.login.anonymousPrompt}
                 {:else}
-                    {$preferredLocales[0].ui.login.prompt}
+                    {$creator.getLocale().ui.login.prompt}
                 {/if}
             </p>
             <form class="form" on:submit={login}>
                 <TextField
-                    placeholder={$preferredLocales[0].ui.placeholders.email}
+                    placeholder={$creator.getLocale().ui.placeholders.email}
                     bind:text={email}
                 /><Button
-                    tip={$preferredLocales[0].ui.login.submit}
+                    tip={$creator.getLocale().ui.login.submit}
                     enabled={/^.+@.+$/.test(email)}
                     action={() => undefined}>&gt;</Button
                 >
             </form>
             <p>
                 {#if sent === true}
-                    {$preferredLocales[0].ui.login.sent}
+                    {$creator.getLocale().ui.login.sent}
                 {:else if success === true}
-                    {$preferredLocales[0].ui.login.success}
+                    {$creator.getLocale().ui.login.success}
                 {:else if success === false}
                     {error}
                 {/if}

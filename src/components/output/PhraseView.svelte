@@ -5,7 +5,6 @@
     import type Place from '@output/Place';
     import parseRichText from '@output/parseRichText';
     import outputToCSS from '@output/outputToCSS';
-    import { preferredLanguages, preferredLocales } from '@locale/locales';
     import type RenderContext from '@output/RenderContext';
     import Pose from '@output/Pose';
     import Evaluate from '@nodes/Evaluate';
@@ -15,10 +14,10 @@
     import moveOutput from '../palette/editOutput';
     import {
         getProject,
-        getProjects,
         getSelectedOutput,
         getSelectedPhrase,
     } from '../project/Contexts';
+    import { creator } from '../../db/Creator';
 
     export let phrase: Phrase;
     export let place: Place;
@@ -31,7 +30,6 @@
     const selectedOutput = getSelectedOutput();
     const selectedPhrase = getSelectedPhrase();
     const project = getProject();
-    const projects = getProjects();
 
     // Compute a local context based on size and font.
     $: context = phrase.getRenderContext(context);
@@ -40,7 +38,7 @@
     $: visible = place.z > focus.z;
 
     // Get the phrase's text in the preferred language
-    $: text = phrase.getDescription($preferredLanguages);
+    $: text = phrase.getDescription($creator.getLanguages());
     $: empty = phrase.isEmpty();
     $: selectable = phrase.selectable && !empty;
 
@@ -111,10 +109,10 @@
             select(null);
 
             moveOutput(
-                $projects,
+                $creator,
                 $project,
                 [phrase.value.creator],
-                $preferredLanguages,
+                $creator.getLanguages(),
                 horizontal,
                 vertical,
                 true
@@ -135,7 +133,7 @@
         if (event.currentTarget.selectionStart !== null)
             select(event.currentTarget.selectionStart);
 
-        $projects.reviseNodes($project, [
+        $creator.reviseProjectNodes($project, [
             [
                 phrase.value.creator,
                 phrase.value.creator.replace(
@@ -152,7 +150,7 @@
         role="button"
         aria-hidden={empty ? 'true' : null}
         aria-disabled={!selectable}
-        aria-roledescription={$preferredLocales[0].terminology.phrase}
+        aria-roledescription={$creator.getLocale().terminology.phrase}
         class="output phrase"
         class:selected
         tabIndex={interactive && ((!empty && selectable) || editing) ? 0 : null}

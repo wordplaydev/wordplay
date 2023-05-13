@@ -2,13 +2,13 @@
     import type Concept from '@concepts/Concept';
     import RootView from '../project/RootView.svelte';
     import { getConceptPath } from '../project/Contexts';
-    import { preferredLocales } from '@locale/locales';
     import type Node from '@nodes/Node';
     import Note from '../widgets/Note.svelte';
     import type StructureConcept from '@concepts/StructureConcept';
     import TypeView from './TypeView.svelte';
     import DescriptionView from './DescriptionView.svelte';
     import { toClipboard } from '../editor/util/Clipboard';
+    import { creator } from '../../db/Creator';
 
     export let node: Node;
     export let concept: Concept;
@@ -37,7 +37,7 @@
     }
 
     $: selection = getConceptPath();
-    $: description = concept.getName($preferredLocales[0]);
+    $: description = concept.getName($creator.getLocale());
 </script>
 
 <div class="view" class:draggable>

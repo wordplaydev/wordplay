@@ -7,7 +7,7 @@ import Reference from '@nodes/Reference';
 import Unit from '@nodes/Unit';
 import { PlaceType } from '@output/Place';
 import type LanguageCode from '@locale/LanguageCode';
-import type Projects from '../../db/Projects';
+import type { Creator } from '../../db/Creator';
 import UnaryOperation from '../../nodes/UnaryOperation';
 import Decimal from 'decimal.js';
 import { PhraseType } from '../../output/Phrase';
@@ -15,10 +15,10 @@ import TextLiteral from '../../nodes/TextLiteral';
 import ListLiteral from '../../nodes/ListLiteral';
 import { GroupType } from '../../output/Group';
 import { RowType } from '../../output/Row';
-import { getLanguages } from '../../locale/locales';
-import { getLocale } from '../../locale/locales';
 import { VerseType } from '../../output/Verse';
 import { toExpression } from '../../parser/Parser';
+import { creator } from '../../db/Creator';
+import { get } from 'svelte/store';
 
 export function getMeasurement(given: Expression): number | undefined {
     const measurement =
@@ -38,7 +38,7 @@ export function getMeasurement(given: Expression): number | undefined {
 }
 
 export default function moveOutput(
-    projects: Projects,
+    projects: Creator,
     project: Project,
     evaluates: Evaluate[],
     languages: LanguageCode[],
@@ -46,7 +46,7 @@ export default function moveOutput(
     vertical: number,
     relative: boolean
 ) {
-    projects.reviseNodes(
+    projects.reviseProjectNodes(
         project,
         evaluates.map((evaluate) => {
             const ctx = project.getNodeContext(evaluate);
@@ -119,16 +119,18 @@ export default function moveOutput(
 }
 
 export function addContent(
-    projects: Projects,
+    projects: Creator,
     project: Project,
     list: ListLiteral,
     index: number,
     phrase: boolean
 ) {
-    const languages = getLanguages();
+    const languages = get(creator).getLanguages();
     const newPhrase = Evaluate.make(
-        Reference.make(PhraseType.names.getLocaleText(getLanguages())),
-        [TextLiteral.make(getLocale().welcome)]
+        Reference.make(
+            PhraseType.names.getLocaleText(get(creator).getLanguages())
+        ),
+        [TextLiteral.make(get(creator).getLocale().welcome)]
     );
     reviseContent(projects, project, list, [
         ...list.values.slice(0, index + 1),
@@ -152,16 +154,16 @@ export function addContent(
 }
 
 export function reviseContent(
-    projects: Projects,
+    projects: Creator,
     project: Project,
     list: ListLiteral,
     newValues: Expression[]
 ) {
-    projects.reviseNodes(project, [[list, ListLiteral.make(newValues)]]);
+    projects.reviseProjectNodes(project, [[list, ListLiteral.make(newValues)]]);
 }
 
 export function removeContent(
-    projects: Projects,
+    projects: Creator,
     project: Project,
     list: ListLiteral,
     index: number
@@ -174,7 +176,7 @@ export function removeContent(
 }
 
 export function moveContent(
-    projects: Projects,
+    projects: Creator,
     project: Project,
     list: ListLiteral,
     index: number,
@@ -197,7 +199,7 @@ export function moveContent(
 }
 
 export function addVerseContent(
-    projects: Projects,
+    projects: Creator,
     project: Project,
     content: Expression
 ) {

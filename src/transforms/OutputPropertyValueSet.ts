@@ -13,7 +13,7 @@ import MapLiteral from '../nodes/MapLiteral';
 import ListLiteral from '../nodes/ListLiteral';
 import { PlaceType } from '../output/Place';
 import type Bind from '../nodes/Bind';
-import type Projects from '../db/Projects';
+import type { Creator } from '../db/Creator';
 
 /**
  * Represents one or more equivalent inputs to an output expression.
@@ -153,11 +153,11 @@ export default class OutputPropertyValueSet {
     }
 
     /** Given a project, unsets this property on expressions on which it is set. */
-    unset(projects: Projects, project: Project, languages: LanguageCode[]) {
+    unset(projects: Creator, project: Project, languages: LanguageCode[]) {
         // Find all the values that are given, then map them to [ Evaluate, Evaluate ] pairs
         // that represent the original Evaluate and the replacement without the given value.
         // If the property is required, replace with a default value.
-        projects.reviseNodes(
+        projects.reviseProjectNodes(
             project,
             project.getBindReplacements(
                 this.values
@@ -172,8 +172,8 @@ export default class OutputPropertyValueSet {
     }
 
     /** Given a project, set this property to a reasonable starting value */
-    set(projects: Projects, project: Project, languages: LanguageCode[]) {
-        projects.reviseNodes(
+    set(projects: Creator, project: Project, languages: LanguageCode[]) {
+        projects.reviseProjectNodes(
             project,
             project.getBindReplacements(
                 this.values

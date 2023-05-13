@@ -1,11 +1,10 @@
 <script lang="ts">
-    import { preferredLocales } from '@locale/locales';
     import Button from '../widgets/Button.svelte';
-    import { animationFactor } from '@models/stores';
-    import LayoutChooser from './LayoutChooser.svelte';
     import LanguageChooser from './LanguageChooser.svelte';
     import { getUser, isDark } from '../project/Contexts';
     import { PUBLIC_CONTEXT } from '$env/static/public';
+    import { creator } from '../../db/Creator';
+    import LayoutChooser from './LayoutChooser.svelte';
 
     let expanded = false;
 
@@ -14,7 +13,7 @@
 
     $: anonymous = $user === null;
     $: animationSymbol = { 0: '🧘🏽‍♀️', 1: '🏃‍♀️', 2: '½', 3: '⅓', 4: '¼' }[
-        $animationFactor
+        $creator.getAnimationFactor()
     ];
 </script>
 
@@ -22,22 +21,24 @@
     {#if PUBLIC_CONTEXT !== 'prod'}
         <div class="account" class:anonymous>
             <a href="/login">
-                {$user ? $user.email : $preferredLocales[0].ui.labels.anonymous}
+                {$user ? $user.email : $creator.getLocale().ui.labels.anonymous}
             </a>
         </div>
     {/if}
     <div class="controls">
         <Button
-            tip={$preferredLocales[0].ui.tooltip.animate}
+            tip={$creator.getLocale().ui.tooltip.animate}
             action={() =>
-                animationFactor.set(
-                    $animationFactor < 4 ? $animationFactor + 1 : 0
+                $creator.setAnimationFactor(
+                    $creator.getAnimationFactor() < 4
+                        ? $creator.getAnimationFactor() + 1
+                        : 0
                 )}>{animationSymbol}</Button
         >
         <LayoutChooser />
         <LanguageChooser />
         <Button
-            tip={$preferredLocales[0].ui.tooltip.dark}
+            tip={$creator.getLocale().ui.tooltip.dark}
             action={() =>
                 dark.set(
                     $dark === undefined
@@ -52,7 +53,7 @@
         >
     </div>
     <Button
-        tip={$preferredLocales[0].ui.tooltip.settings}
+        tip={$creator.getLocale().ui.tooltip.settings}
         action={() => (expanded = !expanded)}
         ><div class="gear" class:expanded>⚙</div></Button
     >

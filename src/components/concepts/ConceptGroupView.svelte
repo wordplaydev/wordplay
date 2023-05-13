@@ -3,7 +3,7 @@
     import type Concept from '@concepts/Concept';
     import CodeView from './CodeView.svelte';
     import Note from '../widgets/Note.svelte';
-    import { getAnimationDuration } from '@models/stores';
+    import { creator } from '../../db/Creator';
 
     export let concepts: Concept[];
     export let selectable: boolean;
@@ -18,7 +18,11 @@
 <div class="group">
     {#each concepts as concept, index}
         {#if expanded || index < 3}
-            <span transition:slide|local={getAnimationDuration()}>
+            <span
+                transition:slide|local={{
+                    duration: $creator.getAnimationDuration(),
+                }}
+            >
                 <CodeView
                     {concept}
                     node={concept.getRepresentation()}

@@ -5,20 +5,19 @@
     import Glyphs from '../../lore/Glyphs';
     import Progress from '../../tutorial/Progress';
     import Note from '../../components/widgets/Note.svelte';
-    import { preferredLocale, preferredLocales } from '../../locale/locales';
     import DescriptionView from '../../components/concepts/DescriptionView.svelte';
     import { goto } from '$app/navigation';
-    import { getProjects, getUser } from '../../components/project/Contexts';
+    import { getUser } from '../../components/project/Contexts';
     import PlayView from './PlayView.svelte';
     import Button from '../widgets/Button.svelte';
     import Source from '../../nodes/Source';
     import type Lesson from '../../tutorial/Lesson';
     import type { FixedArray } from '../../locale/Locale';
+    import { creator, projects } from '../../db/Creator';
 
     export let progress: Progress;
     export let navigate: (progress: Progress) => void;
 
-    const projects = getProjects();
     const user = getUser();
 
     function getName(lesson: Lesson) {
@@ -100,16 +99,16 @@
     // This persists the project state for later.
     $: {
         if (project) {
-            const existing = $projects.get(project.id);
+            const existing = $projects.getProject(project.id);
             if (existing !== undefined && !existing.equals(project))
-                $projects.addProject(project);
+                $creator.addProject(project);
         }
     }
 
     // Any time the project database changes for the current ID, update the project
     $: {
-        if ($projects) {
-            const proj = $projects.get(progress.getProjectID());
+        if ($creator) {
+            const proj = $projects.getProject(progress.getProjectID());
             if (proj) project = proj;
         }
     }
@@ -124,7 +123,7 @@
     <div class="instructions">
         <nav>
             <Button
-                tip={$preferredLocale.ui.tooltip.previousLesson}
+                tip={$creator.getLocale().ui.tooltip.previousLesson}
                 action={() => navigate(progress.previousLesson() ?? progress)}
                 enabled={progress.previousLesson() !== undefined}>←</Button
             >
@@ -132,7 +131,8 @@
             <select bind:value={selection} on:change={handleSelect}>
                 {#each progress.tutorial as unit}
                     <optgroup
-                        label={$preferredLocale.tutorial.units[unit.id].name}
+                        label={$creator.getLocale().tutorial.units[unit.id]
+                            .name}
                     >
                         {#each unit.lessons as lesson, index}
                             <option
@@ -148,11 +148,13 @@
                 {/each}
             </select>
             <Note
-                >{unit ? $preferredLocale.tutorial.units[unit.id].name : '—'}
+                >{unit
+                    ? $creator.getLocale().tutorial.units[unit.id].name
+                    : '—'}
                 {#if lesson !== undefined}&gt; {names}{/if}</Note
             >
             <Button
-                tip={$preferredLocale.ui.tooltip.nextLesson}
+                tip={$creator.getLocale().ui.tooltip.nextLesson}
                 action={() => navigate(progress.nextLesson() ?? progress)}
                 enabled={progress.nextLesson() !== undefined}>→</Button
             >
@@ -160,7 +162,7 @@
         <Speech glyph={Glyphs.Function} below>
             <DescriptionView
                 description={step === undefined && unit
-                    ? $preferredLocale.tutorial.units[unit.id].overview
+                    ? $creator.getLocale().tutorial.units[unit.id].overview
                     : lesson !== undefined &&
                       lesson.concept.tutorial.instructions[progress.step] !==
                           undefined
@@ -172,7 +174,7 @@
             />
             <div class="controls">
                 <Button
-                    tip={$preferredLocale.ui.tooltip.previousLessonStep}
+                    tip={$creator.getLocale().ui.tooltip.previousLessonStep}
                     action={() => navigate(progress.previousStep() ?? progress)}
                     enabled={progress.previousStep() !== undefined}>&lt;</Button
                 >
@@ -184,7 +186,7 @@
                     ></div
                 >
                 <Button
-                    tip={$preferredLocale.ui.tooltip.nextLessonStep}
+                    tip={$creator.getLocale().ui.tooltip.nextLessonStep}
                     action={() => navigate(progress.nextStep() ?? progress)}
                     enabled={progress.nextStep() !== undefined}>&gt;</Button
                 >
@@ -197,7 +199,7 @@
                 >{#key project}<ProjectView
                         {project}
                         close={() => goto('/')}
-                        tip={$preferredLocales[0].ui.tooltip.home}
+                        tip={$creator.getLocale().ui.tooltip.home}
                     />{/key}</div
             >{:else}<PlayView {project} />{/if}
     {/if}

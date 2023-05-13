@@ -1,13 +1,13 @@
 <script lang="ts">
     import TutorialView from '@components/app/TutorialView.svelte';
     import Progress from '../../tutorial/Progress';
-    import { preferredLocale } from '../../locale/locales';
     import { getTutorial } from '../../tutorial/Tutorial';
     import { goto } from '$app/navigation';
     import { page } from '$app/stores';
+    import { creator } from '../../db/Creator';
 
     // Get the tutorial for the preferred locale
-    $: tutorial = getTutorial($preferredLocale);
+    $: tutorial = getTutorial($creator.getLocale());
     // Create progress based on the current search parameters, and if there are none, the persisted state.
     let progress: Progress;
     $: {

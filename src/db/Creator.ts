@@ -1,8 +1,6 @@
 import Project, { type SerializedProject } from '@models/Project';
 import type Node from '@nodes/Node';
-import type { ProjectsContext } from '../components/project/Contexts';
-import { writable } from 'svelte/store';
-import { getPersistedValue, setPersistedValue } from '@db/persist';
+import { writable, type Writable } from 'svelte/store';
 import Source from '@nodes/Source';
 import {
     collection,
@@ -15,27 +13,69 @@ import {
     writeBatch,
 } from 'firebase/firestore';
 import { firestore } from './firebase';
-import type { Unsubscribe } from 'firebase/auth';
+import { onAuthStateChanged, type Unsubscribe, type User } from 'firebase/auth';
 import type Locale from '../locale/Locale';
 import { FirebaseError } from 'firebase/app';
+import { auth } from '@db/firebase';
+import type { LayoutObject } from '../components/project/Layout';
+import type LanguageCode from '../locale/LanguageCode';
+import { Languages, type WritingLayout } from '../locale/LanguageCode';
+import SupportedLocales from '../locale/locales';
 
-const LOCAL_STORAGE_KEY = 'projects';
+const PROJECTS_KEY = 'projects';
+const LAYOUTS_KEY = 'layouts';
+const ANIMATION_FACTOR_KEY = 'animationFactor';
+const LANGUAGES_KEY = 'languages';
+const WRITING_LAYOUT_KEY = 'writingLayout';
+
+const ANIMATION_DURATION = 200;
 
 // Remember this many project edits.
-const HISTORY_LIMIT = 128;
+const PROJECT_HISTORY_LIMIT = 128;
 
-export enum Status {
+export enum SaveStatus {
     Saved = 'saved',
     Saving = 'saving',
     Error = 'error',
 }
 
-export default class Projects {
-    /** A Svelte store for that contains this. */
-    private store: ProjectsContext;
+type CreatorConfig = {
+    layouts: Record<string, LayoutObject>;
+    animationFactor: number;
+    languages: LanguageCode[];
+    writingLayout: WritingLayout;
+};
+
+function setLocalValue(key: string, value: any) {
+    if (typeof window !== 'undefined') {
+        if (value === null) window.localStorage.removeItem(key);
+        else window.localStorage.setItem(key, JSON.stringify(value));
+    }
+}
+
+function getLocalValue<Type>(key: string): Type | null {
+    const value =
+        typeof window !== 'undefined' ? window.localStorage.getItem(key) : null;
+    return value === null ? null : (JSON.parse(value) as Type);
+}
+
+export class Creator {
+    /** A Svelte store for that contains this. Updated when config changes. */
+    private configStore: Writable<Creator>;
+
+    /** A Svelte store for that contains this. Updated when projects change. */
+    private projectsStore: Writable<Creator>;
 
     /** The current user ID */
     private uid: string | null = null;
+
+    /** The current creator configuration */
+    private config: CreatorConfig = {
+        layouts: {},
+        animationFactor: 1,
+        languages: ['en'],
+        writingLayout: 'horizontal-tb',
+    };
 
     /** The current list of projects. */
     private projects: Map<
@@ -55,38 +95,114 @@ export default class Projects {
     >;
 
     /** The status of persisting the projects. */
-    private status: Status = Status.Saved;
+    private status: SaveStatus = SaveStatus.Saved;
 
     /** Debounce timer, used to clear pending requests. */
     private timer: NodeJS.Timer | undefined = undefined;
 
-    /** Realtime query unsubscriber */
-    private unsubscribe: Unsubscribe | undefined = undefined;
+    /** Realtime query unsubscribers */
+    private authUnsubscribe: Unsubscribe | undefined = undefined;
+    private projectsQueryUnsubscribe: Unsubscribe | undefined = undefined;
 
     constructor() {
         this.projects = new Map();
-        this.store = writable(this);
+        this.configStore = writable(this);
+        this.projectsStore = writable(this);
     }
 
-    getStore() {
-        return this.store;
+    getLayout() {
+        return this.config.layouts;
     }
 
-    getStatus() {
+    setLayout(layouts: Record<string, LayoutObject>) {
+        this.config.layouts = layouts;
+        this.saveConfig(LAYOUTS_KEY, layouts, false);
+    }
+
+    getAnimationFactor() {
+        return this.config.animationFactor;
+    }
+
+    getAnimationDuration() {
+        return this.getAnimationFactor() * ANIMATION_DURATION;
+    }
+
+    setAnimationFactor(factor: number) {
+        this.config.animationFactor = factor;
+        return this.saveConfig(ANIMATION_FACTOR_KEY, factor, true);
+    }
+
+    getLanguages() {
+        return this.config.languages;
+    }
+
+    getMissingLanguages() {
+        return this.getLanguages().filter(
+            (lang) => !SupportedLocales.some((trans) => trans.language === lang)
+        );
+    }
+
+    getLocales() {
+        // Map preferred languages into translations, filtering out missing translations.
+        const languages = this.getLanguages();
+
+        const translations: Locale[] = languages
+            .map((lang) => {
+                const translationsInLanguage = SupportedLocales.filter(
+                    (translation) => translation.language === lang
+                );
+                return translationsInLanguage[0] ?? undefined;
+            })
+            .filter((trans): trans is Locale => trans !== undefined);
+
+        return translations.length === 0 ? [SupportedLocales[0]] : translations;
+    }
+
+    getLocale() {
+        return this.getLocales()[0];
+    }
+
+    setLanguages(languages: LanguageCode[]) {
+        this.config.languages = languages;
+        this.saveConfig(LANGUAGES_KEY, languages, true);
+    }
+
+    getWritingDirection() {
+        return Languages[this.getLanguages()[0]].direction ?? 'ltr';
+    }
+
+    getWritingLayout() {
+        return this.config.writingLayout;
+    }
+
+    setWritingLayout(layout: WritingLayout) {
+        this.config.writingLayout = layout;
+        this.saveConfig(WRITING_LAYOUT_KEY, layout, true);
+    }
+
+    getSaveStatus() {
         return this.status;
     }
 
+    getConfigStore() {
+        return this.configStore;
+    }
+
+    getProjectsStore() {
+        return this.projectsStore;
+    }
+
     /** Get a list of all current projects */
-    all() {
+    getCurrentProjects() {
         return Array.from(this.projects.values()).map((p) => p.current);
     }
 
     /** Returns the current version of the project with the given ID, if it exists. */
-    get(id: string) {
+    getProject(id: string) {
         return this.projects.get(id)?.current;
     }
 
-    async load(projectID: string): Promise<Project | undefined> {
+    async loadProject(projectID: string): Promise<Project | undefined> {
         // If we don't have it, ask the database for it.
         try {
             const projectDoc = await getDoc(
@@ -105,7 +221,7 @@ export default class Projects {
     }
 
     /** Create a project and return it's ID */
-    create(translation: Locale, uid: string | undefined) {
+    createProject(translation: Locale, uid: string | undefined) {
         const newProject = new Project(
             null,
             '',
@@ -132,7 +248,7 @@ export default class Projects {
                 saved: false,
             });
         }
-        if (persist) this.update();
+        if (persist) this.requestProjectsSave();
     }
 
     /** Add a single project, overriding any project with it's ID. */
@@ -141,9 +257,9 @@ export default class Projects {
     }
 
     /** Delete the project with the given ID, if it exists */
-    async delete(id: string) {
+    async deleteProject(id: string) {
         this.projects.delete(id);
-        this.update();
+        this.requestProjectsSave();
         if (this.uid) {
             try {
                 await deleteDoc(doc(firestore, 'projects', id));
@@ -152,13 +268,13 @@ export default class Projects {
                     console.error(error.code);
                     console.error(error.message);
                 }
-                this.setStatus(Status.Error);
+                this.setStatus(SaveStatus.Error);
             }
         }
     }
 
     /** Replaces the project with the given project, adding the current version to the history, and erasing the future, if there is any. */
-    revise(project: string | Project, revised: Project) {
+    reviseProject(project: string | Project, revised: Project) {
         // Find the ID we're revising.
         const id = project instanceof Project ? project.id : project;
 
@@ -170,8 +286,8 @@ export default class Projects {
         info.history.splice(info.index, info.history.length - info.index - 1);
 
         // Is the length of the history great than the limit? Trim it.
-        if (info.history.length > HISTORY_LIMIT)
-            info.history.splice(0, HISTORY_LIMIT - info.history.length);
+        if (info.history.length > PROJECT_HISTORY_LIMIT)
+            info.history.splice(0, PROJECT_HISTORY_LIMIT - info.history.length);
 
         // Add the revised project to the history.
         info.history.push(revised);
@@ -186,18 +302,18 @@ export default class Projects {
         info.saved = false;
 
         // Request a save.
-        this.update();
+        this.requestProjectsSave();
     }
 
-    undo(id: string) {
-        this.travel(id, -1);
+    undoProject(id: string) {
+        this.undoRedoProject(id, -1);
     }
 
-    redo(id: string) {
-        this.travel(id, 1);
+    redoProject(id: string) {
+        this.undoRedoProject(id, 1);
     }
 
-    travel(id: string, direction: -1 | 1) {
+    undoRedoProject(id: string, direction: -1 | 1) {
         const info = this.projects.get(id);
         // No record of this project? Do nothing.
         if (info === undefined) return;
@@ -213,54 +329,77 @@ export default class Projects {
         // Change the current project to the historical project.
         info.current = info.history[info.index];
 
-        this.update();
+        this.requestProjectsSave();
     }
 
     /** Shorthand for revising nodes in a project */
-    reviseNodes(project: Project, revisions: [Node, Node | undefined][]) {
-        this.revise(project, project.withRevisedNodes(revisions));
+    reviseProjectNodes(
+        project: Project,
+        revisions: [Node, Node | undefined][]
+    ) {
+        this.reviseProject(project, project.withRevisedNodes(revisions));
     }
 
     /**
      * Trigger a save to local storage and the remote database at some point in the future.
      * Should be called any time this.projects is modified.
      */
-    update() {
-        // Note that we're saving.
-        this.setStatus(Status.Saving);
+    requestProjectsSave() {
+        // Broadcast to all listeners.
+        this.projectsStore.set(this);
 
-        // Notify subscribers
-        this.store.set(this);
+        // Note that we're saving.
+        this.setStatus(SaveStatus.Saving);
 
         // Clear pending saves.
         clearTimeout(this.timer);
 
         // Initiate another.
-        this.timer = setTimeout(() => this.save(), 1000);
+        this.timer = setTimeout(() => this.saveProjects(), 1000);
     }
 
     /** Update the saving status and broadcast via the store. */
-    setStatus(status: Status) {
+    setStatus(status: SaveStatus) {
         this.status = status;
-        this.store.set(this);
+
+        // Broadcast changes to all listeners.
+        this.configStore.set(this);
     }
 
     /** Convert to an object suitable for JSON serialization */
-    toObject(): SerializedProject[] {
+    toProjectsObject(): SerializedProject[] {
         return Array.from(this.projects.values()).map((project) =>
             project.current.toObject()
         );
     }
 
-    /** Persist in storage */
-    async save() {
-        // First, cache the projects to local storage.
-        this.setStatus(Status.Saving);
+    saveConfig(key: keyof CreatorConfig, value: any, online: boolean) {
+        // Broadcast change to all listeners.
+        this.configStore.set(this);
+
+        // Persist in local storage.
+        this.setStatus(SaveStatus.Saving);
         try {
-            setPersistedValue(LOCAL_STORAGE_KEY, this.toObject());
-            this.setStatus(Status.Saved);
+            setLocalValue(key, value);
+            this.setStatus(SaveStatus.Saved);
         } catch (_) {
-            this.setStatus(Status.Error);
+            this.setStatus(SaveStatus.Error);
+        }
+
+        // Try to save online, if requested
+        if (online && this.uid) {
+        }
+    }
+
+    /** Persist in storage */
+    async saveProjects() {
+        // First, cache the projects to local storage.
+        this.setStatus(SaveStatus.Saving);
+        try {
+            setLocalValue(PROJECTS_KEY, this.toProjectsObject());
+            this.setStatus(SaveStatus.Saved);
+        } catch (_) {
+            this.setStatus(SaveStatus.Error);
         }
 
         // Then, try to save them in Firebase if we have a user ID.
@@ -288,33 +427,61 @@ export default class Projects {
                     console.error(error.code);
                     console.error(error.message);
                 }
-                this.setStatus(Status.Error);
+                this.setStatus(SaveStatus.Error);
             }
         }
     }
 
     /** Load from local browser storage */
     loadLocal() {
-        const data = getPersistedValue<SerializedProject[]>(LOCAL_STORAGE_KEY);
+        const data = getLocalValue<SerializedProject[]>(PROJECTS_KEY);
         if (data)
             this.setProjects(
                 data.map((project) => Project.fromObject(project))
             );
+
+        this.config.layouts =
+            getLocalValue<Record<string, LayoutObject>>(LAYOUTS_KEY) ?? {};
+
+        const persisted = getLocalValue(ANIMATION_FACTOR_KEY);
+        this.config.animationFactor =
+            persisted === true ||
+            persisted === null ||
+            !(typeof persisted === 'number')
+                ? 1
+                : Math.min(4, Math.max(0, persisted));
+
+        this.config.languages = getLocalValue<string[]>(LANGUAGES_KEY) ?? [
+            'en',
+        ];
+
+        this.config.writingLayout =
+            getLocalValue<WritingLayout>(WRITING_LAYOUT_KEY) ?? 'horizontal-tb';
+    }
+
+    /** Start listening tothe Firebase Auth user changes */
+    login(callback: (use: User | null) => void) {
+        // Keep the user store in sync.
+        this.authUnsubscribe = onAuthStateChanged(auth, async (newUser) => {
+            callback(newUser);
+            // Update the Projects with the new user, syncing with the database.
+            this.updateUser(newUser ? newUser.uid : null);
+        });
     }
 
     /** Start a realtime database query on this user's projects, updating them whenever they change. */
     async updateUser(uid: string | null) {
         // Unsubscribe from the old user
-        if (this.unsubscribe) this.unsubscribe();
+        if (this.projectsQueryUnsubscribe) this.projectsQueryUnsubscribe();
 
         // Update the user ID
         this.uid = uid;
 
         // Save whatever's in local storage.
-        this.save();
+        this.saveProjects();
 
         // Any time the user projects changes, update projects.
-        this.unsubscribe =
+        this.projectsQueryUnsubscribe =
             uid === null
                 ? undefined
                 : onSnapshot(
@@ -341,13 +508,18 @@ export default class Projects {
                               console.error(error.code);
                               console.error(error.message);
                           }
-                          this.setStatus(Status.Error);
+                          this.setStatus(SaveStatus.Error);
                       }
                   );
     }
 
     /** Clean up listeners */
     clean() {
-        if (this.unsubscribe) this.unsubscribe();
+        if (this.projectsQueryUnsubscribe) this.projectsQueryUnsubscribe();
+        if (this.authUnsubscribe) this.authUnsubscribe();
     }
 }
+
+const db = new Creator();
+export const creator = db.getConfigStore();
+export const projects = db.getProjectsStore();

@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { preferredLocales } from '@locale/locales';
     import { getFirstName } from '@locale/Locale';
     import TextField from '../widgets/TextField.svelte';
     import type Evaluate from '../../nodes/Evaluate';
@@ -8,14 +7,12 @@
     import MeasurementLiteral from '@nodes/MeasurementLiteral';
     import Unit from '@nodes/Unit';
     import Note from '../widgets/Note.svelte';
-    import { getProjects } from '../project/Contexts';
     import { getMeasurement } from './editOutput';
     import Expression from '../../nodes/Expression';
+    import { creator } from '../../db/Creator';
 
     export let project: Project;
     export let place: Evaluate | undefined;
-
-    const projects = getProjects();
 
     function valid(val: string) {
         return !Measurement.fromUnknown(val).isNaN();
@@ -25,7 +22,7 @@
         if (place === undefined) return;
         if (value.length > 0 && !valid(value)) return;
 
-        $projects.reviseNodes(project, [
+        $creator.reviseProjectNodes(project, [
             [
                 place,
                 place.withBindAs(
@@ -41,7 +38,7 @@
 </script>
 
 <div class="place">
-    {#each [getFirstName($preferredLocales[0].output.place.x.names), getFirstName($preferredLocales[0].output.place.y.names), getFirstName($preferredLocales[0].output.place.z.names)] as dimension}
+    {#each [getFirstName($creator.getLocale().output.place.x.names), getFirstName($creator.getLocale().output.place.y.names), getFirstName($creator.getLocale().output.place.z.names)] as dimension}
         {@const given = place?.getMappingFor(
             dimension,
             project.getNodeContext(place)
@@ -59,7 +56,10 @@
                 />
                 <Note>m</Note>
             {:else}
-                <Note>{$preferredLocales.map((t) => t.ui.labels.computed)}</Note
+                <Note
+                    >{$creator
+                        .getLocales()
+                        .map((t) => t.ui.labels.computed)}</Note
                 >
             {/if}
         </div>

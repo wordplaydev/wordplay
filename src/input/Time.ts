@@ -13,7 +13,7 @@ import Measurement from '../runtime/Measurement';
 import { getDocLocales } from '../locale/getDocLocales';
 import { getNameLocales } from '../locale/getNameLocales';
 import createStreamEvaluator from './createStreamEvaluator';
-import { animationFactor } from '../models/stores';
+import { creator } from '../db/Creator';
 import { get } from 'svelte/store';
 
 const DEFAULT_FREQUENCY = 33;
@@ -43,7 +43,7 @@ export default class Time extends TemporalStream<Measurement> {
     tick(time: DOMHighResTimeStamp) {
         if (this.firstTime === undefined) this.firstTime = time;
 
-        const factor = Math.max(1, get(animationFactor));
+        const factor = Math.max(1, get(creator).getAnimationFactor());
 
         // If the frequency has elapsed, add a value to the stream.
         if (

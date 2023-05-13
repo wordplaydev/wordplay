@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { preferredLocales } from '@locale/locales';
     import type Project from '@models/Project';
     import OutputPropertyValueSet from '@transforms/OutputPropertyValueSet';
     import PaletteProperty from './PaletteProperty.svelte';
@@ -7,6 +6,7 @@
     import OutputExpression from '@transforms/OutputExpression';
     import Speech from '../lore/Speech.svelte';
     import { getConceptIndex, getSelectedOutput } from '../project/Contexts';
+    import { creator } from '../../db/Creator';
 
     export let project: Project;
 
@@ -49,7 +49,7 @@
     }
 </script>
 
-<section class="palette" aria-label={$preferredLocales[0].ui.section.palette}>
+<section class="palette" aria-label={$creator.getLocale().ui.section.palette}>
     <Speech
         glyph={{
             symbols: outputs
@@ -60,7 +60,10 @@
             ? undefined
             : $index?.getStructureConcept(definition)}
     >
-        {$preferredLocales.map((t) => t.ui.headers.editing).join(' ')}
+        {$creator
+            .getLocales()
+            .map((t) => t.ui.headers.editing)
+            .join(' ')}
     </Speech>
 
     {#each Array.from(propertyValues.entries()) as [property, values]}

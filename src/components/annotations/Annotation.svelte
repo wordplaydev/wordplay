@@ -5,7 +5,7 @@
     import DescriptionView from '@components/concepts/DescriptionView.svelte';
     import Speech from '../lore/Speech.svelte';
     import { getConceptIndex } from '../project/Contexts';
-    import { getAnimationDuration } from '@models/stores';
+    import { creator } from '../../db/Creator';
 
     export let id: number;
     export let annotations: AnnotationInfo[];
@@ -51,7 +51,9 @@
             <div
                 class={`annotation ${annotation.kind}`}
                 data-annotationid={id}
-                transition:fade|local={getAnimationDuration()}
+                transition:fade|local={{
+                    duration: $creator.getAnimationDuration(),
+                }}
             >
                 <Speech
                     glyph={annotation.node.getGlyphs()}

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { animationFactor } from '@models/stores';
+    import { creator } from '../../db/Creator';
 
     export let invert: boolean;
 
@@ -7,7 +7,7 @@
     let right: HTMLElement | null;
 
     function animateEye(eye: HTMLElement, delay: number) {
-        if ($animationFactor > 0)
+        if ($creator.getAnimationFactor() > 0)
             return eye.animate(
                 [
                     { transform: 'scaleY(1)' },
@@ -26,7 +26,7 @@
     }
 
     function animateEyes() {
-        if (left && right && $animationFactor > 0) {
+        if (left && right && $creator.getAnimationFactor() > 0) {
             offset = Math.round(Math.random() * 4 - 2);
             gaze = Math.round(Math.random() * 50);
             const delay = getRandomDelay();
@@ -39,7 +39,7 @@
     let offset = 0;
     let gaze = 25;
     $: {
-        if (left && right && $animationFactor > 0) {
+        if (left && right && $creator.getAnimationFactor() > 0) {
             animateEyes();
         }
     }

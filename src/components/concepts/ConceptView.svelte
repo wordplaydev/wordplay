@@ -2,12 +2,11 @@
     import { slide } from 'svelte/transition';
     import type Concept from '@concepts/Concept';
     import CodeView from './CodeView.svelte';
-    import { preferredLanguages, preferredLocales } from '@locale/locales';
     import MissingLocalesView from './MissingLocalesView.svelte';
     import DocHTMLView from './DocHTMLView.svelte';
     import type StructureConcept from '@concepts/StructureConcept';
     import Speech from '../lore/Speech.svelte';
-    import { getAnimationDuration } from '@models/stores';
+    import { creator } from '../../db/Creator';
 
     export let concept: Concept;
     export let types: StructureConcept[] | undefined = undefined;
@@ -16,7 +15,10 @@
     $: node = concept.getRepresentation();
 </script>
 
-<div class="concept" transition:slide|local={getAnimationDuration()}>
+<div
+    class="concept"
+    transition:slide|local={{ duration: $creator.getAnimationDuration() }}
+>
     {#if header}
         <h1
             ><CodeView {concept} {types} {node} describe={false} />
@@ -28,12 +30,12 @@
     {/if}
 
     <Speech
-        glyph={concept.getGlyphs($preferredLanguages)}
+        glyph={concept.getGlyphs($creator.getLanguages())}
         below={header}
         {concept}
     >
         <MissingLocalesView />
-        {#each $preferredLocales as trans}
+        {#each $creator.getLocales() as trans}
             {@const [doc, spaces] = concept.getDocs(trans) ?? [
                 undefined,
                 undefined,
@@ -44,7 +46,7 @@
                 {trans.ui.labels.nodoc}
             {/if}
         {:else}
-            {#each $preferredLocales as trans}
+            {#each $creator.getLocales() as trans}
                 <p>
                     {trans.ui.labels.nodoc}
                 </p>

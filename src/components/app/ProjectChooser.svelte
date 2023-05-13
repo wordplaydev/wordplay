@@ -1,16 +1,15 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
     import type Project from '../../models/Project';
-    import { getProjects, getUser } from '../project/Contexts';
+    import { getUser } from '../project/Contexts';
     import ConfirmButton from '../widgets/ConfirmButton.svelte';
-    import { preferredLanguages, preferredLocales } from '@locale/locales';
     import { examples, makeProject } from '../../examples/examples';
     import Lead from './Lead.svelte';
     import ProjectPreview from './ProjectPreview.svelte';
     import Button from '../widgets/Button.svelte';
     import { PROJECT_PARAM_PLAY } from '../project/ProjectView.svelte';
+    import { creator, projects } from '../../db/Creator';
 
-    const projects = getProjects();
     const user = getUser();
 
     function changeProject(example: Project, fullscreen: boolean = false) {
@@ -22,8 +21,8 @@
     }
 
     function newProject() {
-        const newProjectID = $projects.create(
-            $preferredLocales[0],
+        const newProjectID = $creator.createProject(
+            $creator.getLocale(),
             $user ? $user.uid : undefined
         );
         goto(`/project/${newProjectID}`);
@@ -32,13 +31,13 @@
     function copyProject(project: Project) {
         let newProject = project.copy();
         if ($user) newProject = newProject.withUser($user.uid);
-        $projects.addProject(newProject);
+        $creator.addProject(newProject);
         changeProject(newProject);
     }
 
     function sortProjects(projects: Project[]): Project[] {
         return projects.sort((a, b) =>
-            a.getName().localeCompare(b.getName(), $preferredLanguages)
+            a.getName().localeCompare(b.getName(), $creator.getLanguages())
         );
     }
 
@@ -46,30 +45,31 @@
     const exampleProjects = examples.map((example) => makeProject(example));
 </script>
 
-<Lead>{$preferredLocales[0].ui.headers.projects}</Lead>
+<Lead>{$creator.getLocale().ui.headers.projects}</Lead>
 <div class="projects">
     {#each sortProjects($projects
-            .all()
+            .getCurrentProjects()
             .filter((p) => p.listed)) as project (project.id)}
         <ProjectPreview {project} action={() => changeProject(project, true)}
             ><div class="controls"
                 ><Button
-                    tip={$preferredLocales[0].ui.tooltip.editProject}
+                    tip={$creator.getLocale().ui.tooltip.editProject}
                     action={() => changeProject(project)}>✎</Button
                 ><ConfirmButton
-                    prompt={$preferredLocales[0].ui.prompt.deleteProject}
-                    tip={$preferredLocales[0].ui.tooltip.deleteProject}
-                    action={() => $projects.delete(project.id)}>⨉</ConfirmButton
+                    prompt={$creator.getLocale().ui.prompt.deleteProject}
+                    tip={$creator.getLocale().ui.tooltip.deleteProject}
+                    action={() => $creator.deleteProject(project.id)}
+                    >⨉</ConfirmButton
                 ></div
             ></ProjectPreview
         >
     {/each}
     <div class="break" />
-    <Button tip={$preferredLocales[0].ui.tooltip.newProject} action={newProject}
+    <Button tip={$creator.getLocale().ui.tooltip.newProject} action={newProject}
         ><span style:font-size="xxx-large">+</span>
     </Button>
 </div>
-<Lead>{$preferredLocales[0].ui.headers.examples}</Lead>
+<Lead>{$creator.getLocale().ui.headers.examples}</Lead>
 <div class="projects">
     {#each sortProjects(exampleProjects) as project (project.id)}
         <ProjectPreview {project} action={() => copyProject(project)} />
