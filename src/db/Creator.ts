@@ -12,11 +12,10 @@ import {
     where,
     writeBatch,
 } from 'firebase/firestore';
-import { firestore } from './firebase';
+import { firestore, auth } from '@db/firebase';
 import { onAuthStateChanged, type Unsubscribe, type User } from 'firebase/auth';
-import type Locale from '../locale/Locale';
 import { FirebaseError } from 'firebase/app';
-import { auth } from '@db/firebase';
+import type Locale from '../locale/Locale';
 import type { LayoutObject } from '../components/project/Layout';
 import type LanguageCode from '../locale/LanguageCode';
 import { Languages, type WritingLayout } from '../locale/LanguageCode';
