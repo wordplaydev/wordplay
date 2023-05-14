@@ -7,7 +7,7 @@
         "lint": "eslint .",
         "test": "vitest",
         "test:coverage": "vitest run --coverage",
-        "dev": "ulimit -Sn 100000 && vite dev",
+        "dev": "ulimit -Sn 12288 && vite dev --debug",
         "emu": "firebase use dev && npm run env && firebase emulators:start",
         "env": "cp .env.${GCLOUD_PROJECT:-emulator} .env",
         "build": "npm run env && vite build",

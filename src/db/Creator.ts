@@ -9,6 +9,7 @@ import {
     getDoc,
     onSnapshot,
     query,
+    setDoc,
     where,
     writeBatch,
 } from 'firebase/firestore';
@@ -29,6 +30,14 @@ const ANIMATION_FACTOR_KEY = 'animationFactor';
 const LANGUAGES_KEY = 'languages';
 const WRITING_LAYOUT_KEY = 'writingLayout';
 const TUTORIAL_KEY = 'tutorial';
+
+const deviceSpecific: Record<keyof CreatorConfig, boolean> = {
+    layouts: true,
+    animationFactor: false,
+    languages: false,
+    writingLayout: false,
+    tutorial: false,
+};
 
 const ANIMATION_DURATION = 200;
 
@@ -129,7 +138,7 @@ export class Creator {
     setLayout(layouts: Record<string, LayoutObject>) {
         if (this.config.layouts === layouts) return;
         this.config.layouts = layouts;
-        this.saveConfig(LAYOUTS_KEY, layouts, false);
+        this.saveConfig(LAYOUTS_KEY, layouts);
     }
 
     getAnimationFactor() {
@@ -143,7 +152,7 @@ export class Creator {
     setAnimationFactor(factor: number) {
         if (this.config.animationFactor === factor) return;
         this.config.animationFactor = factor;
-        return this.saveConfig(ANIMATION_FACTOR_KEY, factor, true);
+        return this.saveConfig(ANIMATION_FACTOR_KEY, factor);
     }
 
     getLanguages() {
@@ -178,7 +187,7 @@ export class Creator {
 
     setLanguages(languages: LanguageCode[]) {
         this.config.languages = languages;
-        this.saveConfig(LANGUAGES_KEY, languages, true);
+        this.saveConfig(LANGUAGES_KEY, languages);
     }
 
     getWritingDirection() {
@@ -192,7 +201,7 @@ export class Creator {
     setWritingLayout(layout: WritingLayout) {
         if (this.config.writingLayout === layout) return;
         this.config.writingLayout = layout;
-        this.saveConfig(WRITING_LAYOUT_KEY, layout, true);
+        this.saveConfig(WRITING_LAYOUT_KEY, layout);
     }
 
     setTutorialProgress(progress: Progress) {
@@ -205,7 +214,7 @@ export class Creator {
             return;
 
         this.config.tutorial = value;
-        this.saveConfig(TUTORIAL_KEY, value, true);
+        this.saveConfig(TUTORIAL_KEY, value);
     }
 
     getTutorialProgress(tutorial: Unit[]) {
@@ -410,21 +419,27 @@ export class Creator {
         );
     }
 
-    saveConfig(key: keyof CreatorConfig, value: any, online: boolean) {
-        // Broadcast change to all listeners.
-        this.configStore.set(this);
-
+    saveConfig(key: keyof CreatorConfig, value: any) {
         // Persist in local storage.
         this.setStatus(SaveStatus.Saving);
         try {
             setLocalValue(key, value);
+
+            // Try to save online, if this is not device specific
+            if (!deviceSpecific[key] && this.uid) {
+                // Get the config, but delete all device-specific configs.
+                const config = { ...this.config };
+                for (const key in deviceSpecific) {
+                    if (deviceSpecific[key as keyof CreatorConfig] === true)
+                        delete config[key as keyof CreatorConfig];
+                }
+
+                setDoc(doc(firestore, 'users', this.uid), config);
+            }
+
             this.setStatus(SaveStatus.Saved);
         } catch (_) {
             this.setStatus(SaveStatus.Error);
-        }
-
-        // Try to save online, if requested
-        if (online && this.uid) {
         }
     }
 
@@ -551,6 +566,26 @@ export class Creator {
                           this.setStatus(SaveStatus.Error);
                       }
                   );
+
+        // Immediately get the config from the database
+        if (this.uid) {
+            try {
+                const config = await getDoc(doc(firestore, 'users', this.uid));
+                if (config.exists()) {
+                    const data = config.data();
+                    // Copy each key/value pair from the database to memory and the local store.
+                    for (const key in data) {
+                        if (key in this.config) {
+                            (this.config as Record<string, any>)[key] =
+                                data[key];
+                            setLocalValue(key, data[key]);
+                        }
+                    }
+                    // Update the config store.
+                    this.configStore.set(this);
+                }
+            } catch (_) {}
+        }
     }
 
     /** Clean up listeners */
