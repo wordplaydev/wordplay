@@ -63,37 +63,36 @@
     $: names = lesson ? getName(lesson) : '–';
     $: step = progress.getStep();
 
-    $: project =
-        unit && step && step.sources.length > 0 && lesson
-            ? new Project(
-                  progress.getProjectID(),
-                  lesson ? names : unit.id,
-                  new Source(
-                      'main',
-                      localize(
-                          step ? step.sources[0] : unit.sources[0],
-                          lesson.concept.tutorial.text
-                      )
+    $: project = unit
+        ? new Project(
+              progress.getProjectID(),
+              lesson ? names : unit.id,
+              new Source(
+                  'main',
+                  localize(
+                      step ? step.sources[0] : unit.sources[0],
+                      lesson ? lesson.concept.tutorial.text : []
+                  )
+              ),
+              unit.sources
+                  .slice(1)
+                  .map(
+                      (source, index) =>
+                          new Source(
+                              `${index}`,
+                              lesson
+                                  ? localize(
+                                        source,
+                                        lesson.concept.tutorial.text
+                                    )
+                                  : source
+                          )
                   ),
-                  unit.sources
-                      .slice(1)
-                      .map(
-                          (source, index) =>
-                              new Source(
-                                  `${index}`,
-                                  lesson
-                                      ? localize(
-                                            source,
-                                            lesson.concept.tutorial.text
-                                        )
-                                      : source
-                              )
-                      ),
-                  undefined,
-                  $user ? [$user.uid] : [],
-                  false
-              )
-            : undefined;
+              undefined,
+              $user ? [$user.uid] : [],
+              false
+          )
+        : undefined;
 
     // Any time the project changes, add/update it in projects.
     // This persists the project state for later.
