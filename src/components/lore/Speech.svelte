@@ -6,7 +6,12 @@
     import { creator } from '../../db/Creator';
 
     export let glyph: Glyph;
+    /** If true, speech is placed below glyph. If false, speech is placed to the right or left of glyph. */
     export let below: boolean = false;
+    /** If true and speech is not below, places the speech on the right, otherwise on the left. */
+    export let right: boolean = true;
+    /** If true and speech is not below, baseline aligns the glyph and speech */
+    export let baseline: boolean = false;
     /** If true, uses foreground color for background, and background for foreground. */
     export let invert: boolean = false;
     export let concept: Concept | undefined = undefined;
@@ -18,7 +23,12 @@
             : glyph.symbols;
 </script>
 
-<div class="dialog {below ? 'column' : 'row'}">
+<div
+    class="dialog {below ? 'column' : right ? 'row' : 'row reverse'} {!below &&
+    baseline
+        ? 'baseline'
+        : ''}"
+>
     {#key glyph}
         <div class="glyphs emotion-{concept?.getEmotion($creator.getLocale())}">
             {#if concept}
@@ -29,7 +39,7 @@
             <Eyes {invert} />
         </div>
     {/key}
-    <div class="message {below ? 'below' : 'right'}">
+    <div class="message {below ? 'below' : right ? 'right' : 'left'}">
         <div class="scroller"><slot /></div>
     </div>
 </div>
@@ -54,12 +64,30 @@
         max-width: 100%;
     }
 
+    .dialog.row {
+        flex-direction: row;
+        align-items: center;
+        max-width: 100%;
+    }
+
+    .dialog.row.reverse {
+        flex-direction: row-reverse;
+    }
+
+    .dialog.row.baseline {
+        align-items: baseline;
+    }
+
     .glyphs {
         display: inline-block;
         line-height: 100%;
         font-family: var(--wordplay-code-font);
         position: relative;
         margin-right: auto;
+    }
+
+    .baseline .glyphs {
+        margin-top: var(--wordplay-spacing);
     }
 
     .row .glyphs {
@@ -118,6 +146,10 @@
         top: 50%;
     }
 
+    .baseline .message.right:after {
+        top: calc(2 * var(--wordplay-spacing));
+    }
+
     .message.right:before {
         content: '';
         position: absolute;
@@ -134,6 +166,52 @@
         );
         left: calc(-1 * (var(--tail-width) + 1 * var(--wordplay-border-width)));
         top: 50%;
+    }
+
+    .baseline .message.right:before {
+        top: calc(2 * var(--wordplay-spacing));
+    }
+
+    .message.left:after {
+        content: '';
+        position: absolute;
+        border-style: solid;
+        border-width: var(--tail-width) 0 var(--tail-width) var(--tail-width);
+        border-color: transparent var(--wordplay-background);
+        display: block;
+        width: 0;
+        z-index: 1;
+        margin-top: calc(-1 * var(--tail-width));
+        right: calc(-1 * var(--tail-width));
+        top: 50%;
+    }
+
+    .baseline .message.left:after {
+        top: calc(2 * var(--wordplay-spacing));
+    }
+
+    .message.left:before {
+        content: '';
+        position: absolute;
+        border-style: solid;
+        border-width: calc(var(--tail-width) + var(--wordplay-border-width)) 0
+            calc(var(--tail-width) + var(--wordplay-border-width))
+            calc(var(--tail-width) + var(--wordplay-border-width));
+        border-color: transparent var(--wordplay-border-color);
+        display: block;
+        width: 0;
+        z-index: 0;
+        margin-top: calc(
+            -1 * (var(--tail-width) + var(--wordplay-border-width))
+        );
+        right: calc(
+            -1 * (var(--tail-width) + 1 * var(--wordplay-border-width))
+        );
+        top: 50%;
+    }
+
+    .baseline .message.left:before {
+        top: calc(2 * var(--wordplay-spacing));
     }
 
     .message.below:after {

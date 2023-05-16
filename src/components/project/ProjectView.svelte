@@ -9,8 +9,6 @@
         type DraggedContext,
         DraggedSymbol,
         ConceptIndexSymbol,
-        ConceptPathSymbol,
-        type ConceptPathContext,
         type ConceptIndexContext,
         setSelectedOutput,
         type AnimatingNodesContext,
@@ -30,6 +28,7 @@
         KeyboardEditIdleSymbol,
         InsertionsSymbol,
         type InsertionsContext,
+        getConceptPath,
     } from './Contexts';
     import type Project from '@models/Project';
     import Documentation from '@components/concepts/Documentation.svelte';
@@ -422,13 +421,12 @@
     };
 
     /** Set up project wide concept index and path context */
-    let index: ConceptIndexContext = writable(
+    export let index: ConceptIndexContext = writable(
         new ConceptIndex([], $creator.getLocales())
     );
     setContext(ConceptIndexSymbol, index);
 
-    let path: ConceptPathContext = writable([]);
-    setContext(ConceptPathSymbol, path);
+    let path = getConceptPath();
 
     let latestProject: Project | undefined;
 

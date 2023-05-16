@@ -2,6 +2,7 @@
     import {
         type ProjectContext,
         ProjectSymbol,
+        ConceptPathSymbol,
     } from '@components/project/Contexts';
     import { writable, type Writable } from 'svelte/store';
     import { page } from '$app/stores';
@@ -21,6 +22,9 @@
     /** The project store is derived from the projects and the page's project ID. */
     const project: Writable<Project | undefined> = writable(undefined);
     setContext<ProjectContext>(ProjectSymbol, project);
+
+    // Create a concept path for children
+    setContext(ConceptPathSymbol, writable([]));
 
     // Whenever the page or projects change, update the project store.
     $: {

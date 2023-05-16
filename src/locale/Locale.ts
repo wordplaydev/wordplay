@@ -896,7 +896,7 @@ export type NodeTexts = {
     NoneLiteral: StaticNodeText<1, 0> & AtomicExpressionText;
     Previous: StaticNodeText<1, 0> &
         ExpressionText<(stream: NodeLink) => Description, ValueOrUndefinedText>;
-    Program: StaticNodeText<1, 2> &
+    Program: StaticNodeText<1, 1> &
         ExpressionText<
             (changes: { stream: ValueLink; value: ValueLink }[]) => Description,
             ValueOrUndefinedText

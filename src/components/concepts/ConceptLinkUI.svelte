@@ -1,6 +1,6 @@
 <script lang="ts">
     import { getConceptIndex, getConceptPath } from '../project/Contexts';
-    import type ConceptLink from '@nodes/ConceptLink';
+    import ConceptLink from '@nodes/ConceptLink';
     import Concept from '@concepts/Concept';
     import { creator } from '../../db/Creator';
 
@@ -37,8 +37,8 @@
             event.key == ' ' || event.key === 'Enter' ? navigate() : undefined}
         >{#if label}{label}{:else}{concept.getName($creator.getLocale())}{/if}
     </span>
-{:else}
-    <span>&mdash;</span>
+{:else if link instanceof ConceptLink}
+    <span>{link.concept.getText()}?</span>
 {/if}
 
 <style>

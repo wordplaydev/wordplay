@@ -607,7 +607,7 @@ const eng_wordplay: Locale = {
                 Explanation.as('program evaluated to ', value ?? 'nothing'),
             tutorial: {
                 instructions: [WRITE_DOC],
-                text: ['hola', 'hola'],
+                text: ['hola'],
             },
         },
         PropertyBind: {

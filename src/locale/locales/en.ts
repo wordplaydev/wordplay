@@ -850,24 +850,35 @@ const en: Locale = {
             tutorial: {
                 instructions: [
                     `
-                    Hi! I'm **ƒ**. 
+                    Oh, let's go meet @program. Hi @program!
 
-                    Is this your first time here? 
-                    We call this place the **verse**.
-                    We do many things here -- the food is amazing -- but we particularly like to put on **shows**.
+                    ---
+                    Heyyyy, is this the new choreographer?
 
-                    Shows can be a lot of things, like dances, stories, images, and games.
-                    But we're most excited to put on shows with people like you!
+                    ---
+                    Yeah, they just arrived.
+                    I'm just doing intros, and thought I'd come to you first.
 
-                    I'll let you in a little secret why: we're really not that creative.
-                    I mean, we have a lot going for us.
-                    Every one of us is unique and we come from all over the world.
+                    ---
+                    Nice to meet you!
+                    
+                    ---
+                    Do you want to say what you do?
 
-                    But we just run out of ideas.
-                    We love collaborating with people because they bring new ideas from their own worlds!
+                    ---
+                    Sure.
+                    I'm basically the organizer for a performance.
+                    Everyone figures out what they're doing and then I put them on stage for the audience to see.
+                    For example, let's say my friend ($1) here was in my list of instructions.
+                    They evaluate to (1), then I put (1) on stage.
+
+                    ---
+                    Try changing "$1" to something else.
+                    I'll show that instead.
+                    So I'll evaluate whatever code is in me, and show the result.
                     `,
                 ],
-                text: ['hello', 'hi'],
+                text: ['hello'],
             },
         },
         PropertyBind: {
@@ -2741,7 +2752,20 @@ const en: Locale = {
         units: {
             welcome: {
                 name: 'Welcome',
-                overview: "Hi! Let's learn Wordplay.",
+                overview: `
+                Oh hi, I'm **ƒ**!
+
+                Is this your first time visiting the **verse**?
+                Have you come to help us choreograph a **show**?
+
+                We *love* putting on shows like dances, stories, images, and games.
+                But we're most excited to put on shows with people like you.
+                People from around the world bring such interesting ideas from their experiences, communitities, and culture!
+
+                I'm happy to show you around. 
+                Use **>** to let me know you'd like to move on.
+                Use **<** and we can go back.
+                `,
             },
             numbers: {
                 name: 'Numbers',

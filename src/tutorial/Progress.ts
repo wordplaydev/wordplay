@@ -35,7 +35,7 @@ export default class Progress {
 
     /** Generate a project ID suitable for this point in the tutorial */
     getProjectID() {
-        return `${this.unit}${this.lesson ? `-${this.lesson}` : ''}`;
+        return `${this.unit}-${this.lesson}-${this.step}`;
     }
 
     toObject(): TutorialProgress {

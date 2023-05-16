@@ -215,6 +215,6 @@ export default class Program extends Expression {
     }
 
     getGlyphs() {
-        return Glyphs.Function;
+        return Glyphs.Program;
     }
 }

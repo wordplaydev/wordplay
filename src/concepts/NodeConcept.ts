@@ -31,12 +31,12 @@ export default class NodeConcept extends Concept {
         return this.template.getNodeLocale(translation).emotion;
     }
 
-    hasName(name: string, translation: Locale): boolean {
-        const nodeLocale = this.template.getNodeLocale(translation);
-        const match = Object.entries(translation.node).find(
+    hasName(name: string, locale: Locale): boolean {
+        const nodeLocale = this.template.getNodeLocale(locale);
+        const match = Object.entries(locale.node).find(
             ([, value]) => value === nodeLocale
         );
-        return match ? match[0] === name : false;
+        return match ? match[1].names.includes(name) : false;
     }
 
     getDocs(translation: Locale): [Doc, Spaces] | undefined {

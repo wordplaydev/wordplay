@@ -74,6 +74,9 @@ const GlyphSet = {
         symbols: BORROW_SYMBOL,
     },
     // Functions
+    Program: {
+        symbols: '📄',
+    },
     Function: {
         symbols: FUNCTION_SYMBOL,
     },

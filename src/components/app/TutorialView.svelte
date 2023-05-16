@@ -5,18 +5,39 @@
     import Glyphs from '../../lore/Glyphs';
     import Progress from '../../tutorial/Progress';
     import Note from '../../components/widgets/Note.svelte';
-    import DescriptionView from '../../components/concepts/DescriptionView.svelte';
     import { goto } from '$app/navigation';
-    import { getUser } from '../../components/project/Contexts';
+    import {
+        ConceptIndexSymbol,
+        getUser,
+        type ConceptIndexContext,
+        ConceptPathSymbol,
+    } from '../../components/project/Contexts';
     import PlayView from './PlayView.svelte';
     import Button from '../widgets/Button.svelte';
     import Source from '../../nodes/Source';
     import type Lesson from '../../tutorial/Lesson';
     import type { FixedArray } from '../../locale/Locale';
     import { creator, projects } from '../../db/Creator';
+    import type Doc from '../../nodes/Doc';
+    import type Spaces from '../../parser/Spaces';
+    import { parseDoc, toTokens } from '../../parser/Parser';
+    import DocHtmlView from '../concepts/DocHTMLView.svelte';
+    import { setContext } from 'svelte';
+    import type ConceptIndex from '../../concepts/ConceptIndex';
+    import { writable } from 'svelte/store';
 
     export let progress: Progress;
     export let navigate: (progress: Progress) => void;
+
+    // Get the concept index and path from the project view and put it in
+    // a store, and the store in a context so that ContextViewUI can access the index.
+    let concepts: ConceptIndexContext | undefined = undefined;
+    let conceptsStore = writable<ConceptIndex | undefined>(undefined);
+    $: conceptsStore.set($concepts);
+    setContext(ConceptIndexSymbol, conceptsStore);
+
+    // Create a concept path for children
+    setContext(ConceptPathSymbol, writable([]));
 
     const user = getUser();
 
@@ -41,8 +62,8 @@
                     remaining = remaining.substring(1);
                 }
                 let number = parseInt(numberText);
-                if (isFinite(number) && texts[number] !== undefined) {
-                    localized += texts[number];
+                if (isFinite(number) && texts[number - 1] !== undefined) {
+                    localized += texts[number - 1];
                 }
                 // Otherwise fail.
                 else {
@@ -62,6 +83,35 @@
     $: lesson = progress.getLesson();
     $: names = lesson ? getName(lesson) : '–';
     $: step = progress.getStep();
+    $: instructions = lesson?.concept.tutorial.instructions[progress.step];
+    // Get the corresponding concept so we can find it's glyphs.
+    $: concept =
+        $conceptsStore && lesson
+            ? $conceptsStore.getConceptByName(
+                  typeof lesson.concept.names === 'string'
+                      ? lesson.concept.names
+                      : lesson.concept.names[0]
+              )
+            : undefined;
+
+    /** Convert the instructions into a sequence of docs/space pairs */
+    let turns: { speech: Doc; spaces: Spaces }[] = [];
+    $: {
+        const text =
+            instructions !== undefined && lesson !== undefined
+                ? localize(instructions, lesson.concept.tutorial.text)
+                : unit !== undefined
+                ? $creator.getLocale().tutorial.units[unit.id].overview
+                : '';
+        // Localize all of the text using the lesson's names
+        // Split by speaker
+        const statements = text.split('---');
+        // Map each speaker onto a docs
+        turns = statements.map((statement) => {
+            const tokens = toTokens('`' + statement + '`');
+            return { speech: parseDoc(tokens), spaces: tokens.getSpaces() };
+        });
+    }
 
     $: project = unit
         ? new Project(
@@ -99,7 +149,7 @@
     $: {
         if (project) {
             const existing = $projects.getProject(project.id);
-            if (existing !== undefined && !existing.equals(project))
+            if (existing === undefined || !existing.equals(project))
                 $creator.addProject(project);
         }
     }
@@ -158,48 +208,48 @@
                 enabled={progress.nextLesson() !== undefined}>→</Button
             >
         </nav>
-        <Speech glyph={Glyphs.Function} below>
-            <DescriptionView
-                description={step === undefined && unit
-                    ? $creator.getLocale().tutorial.units[unit.id].overview
-                    : lesson !== undefined &&
-                      lesson.concept.tutorial.instructions[progress.step] !==
-                          undefined
-                    ? localize(
-                          lesson.concept.tutorial.instructions[progress.step],
-                          lesson.concept.tutorial.text
-                      )
-                    : '—'}
-            />
-            <div class="controls">
-                <Button
-                    tip={$creator.getLocale().ui.tooltip.previousLessonStep}
-                    action={() => navigate(progress.previousStep() ?? progress)}
-                    enabled={progress.previousStep() !== undefined}>&lt;</Button
-                >
-                <div class="progress"
-                    ><Note center
-                        >{#if lesson && progress.step !== undefined}{progress.step +
-                                1} /
-                            {lesson.steps.length}{:else}◆{/if}</Note
-                    ></div
-                >
-                <Button
-                    tip={$creator.getLocale().ui.tooltip.nextLessonStep}
-                    action={() => navigate(progress.nextStep() ?? progress)}
-                    enabled={progress.nextStep() !== undefined}>&gt;</Button
-                >
-            </div>
-        </Speech>
+        {#each turns as turn, index}
+            <!-- First speaker is always function, alternating speakers are the concept we're learning about. -->
+            <Speech
+                glyph={index % 2 === 0
+                    ? Glyphs.Function
+                    : concept?.getGlyphs($creator.getLanguages()) ??
+                      Glyphs.Unparsable}
+                right={index % 2 === 0}
+                baseline
+            >
+                <DocHtmlView doc={turn.speech} spaces={turn.spaces} />
+            </Speech>
+        {/each}
+        <div class="controls">
+            <Button
+                tip={$creator.getLocale().ui.tooltip.previousLessonStep}
+                action={() => navigate(progress.previousStep() ?? progress)}
+                enabled={progress.previousStep() !== undefined}>&lt;</Button
+            >
+            <div class="progress"
+                ><Note center
+                    >{#if lesson && progress.step !== undefined}{progress.step +
+                            1} /
+                        {lesson.steps.length}{:else}◆{/if}</Note
+                ></div
+            >
+            <Button
+                tip={$creator.getLocale().ui.tooltip.nextLessonStep}
+                action={() => navigate(progress.nextStep() ?? progress)}
+                enabled={progress.nextStep() !== undefined}>&gt;</Button
+            >
+        </div>
     </div>
     {#if project}
         {#if lesson}
             <div class="project"
-                >{#key project}<ProjectView
-                        {project}
-                        close={() => goto('/')}
-                        tip={$creator.getLocale().ui.tooltip.home}
-                    />{/key}</div
+                ><ProjectView
+                    {project}
+                    bind:index={concepts}
+                    close={() => goto('/')}
+                    tip={$creator.getLocale().ui.tooltip.home}
+                /></div
             >{:else}<PlayView {project} />{/if}
     {/if}
 </div>
