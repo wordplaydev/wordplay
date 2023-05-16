@@ -2357,7 +2357,15 @@ const eng_wordplay: Locale = {
     tutorial: {
         units: {
             welcome: { name: WRITE_DOC, overview: WRITE_DOC },
-            numbers: { name: WRITE_DOC, overview: WRITE_DOC },
+            values: { name: WRITE_DOC, overview: WRITE_DOC },
+            input: { name: WRITE_DOC, overview: WRITE_DOC },
+            collections: { name: WRITE_DOC, overview: WRITE_DOC },
+            names: { name: WRITE_DOC, overview: WRITE_DOC },
+            output: { name: WRITE_DOC, overview: WRITE_DOC },
+            functions: { name: WRITE_DOC, overview: WRITE_DOC },
+            structures: { name: WRITE_DOC, overview: WRITE_DOC },
+            types: { name: WRITE_DOC, overview: WRITE_DOC },
+            docs: { name: 'Documentation', overview: WRITE_DOC },
         },
     },
 };

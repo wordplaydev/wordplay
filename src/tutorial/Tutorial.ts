@@ -46,7 +46,7 @@ export function getTutorial(translation: Locale): Unit[] {
                         },
                     ],
                 },
-                // What are evaluations? , and examples of them using a phrase?
+                // What are evaluations? And examples of them using a phrase.
                 {
                     concept: translation.node.Evaluate,
                     scenes: [
@@ -57,10 +57,21 @@ export function getTutorial(translation: Locale): Unit[] {
                 },
             ],
         },
+        // Overview of primitive values and their functions
         {
-            id: 'numbers',
+            id: 'values',
             sources: ['1'],
             lessons: [
+                // Text and things to do with it
+                {
+                    concept: translation.node.TextLiteral,
+                    scenes: [
+                        {
+                            sources: [''],
+                        },
+                    ],
+                },
+                // Numbers and units and what to do with them
                 {
                     concept: translation.node.MeasurementLiteral,
                     scenes: [
@@ -69,100 +80,307 @@ export function getTutorial(translation: Locale): Unit[] {
                         },
                     ],
                 },
+                // Booleans and things to do with them
+                {
+                    concept: translation.node.BooleanLiteral,
+                    scenes: [
+                        {
+                            sources: [''],
+                        },
+                    ],
+                },
+                // Nothing and what it's useful for
+                {
+                    concept: translation.node.NoneLiteral,
+                    scenes: [
+                        {
+                            sources: [''],
+                        },
+                    ],
+                },
+                // Ways of converting values to other types
+                {
+                    concept: translation.node.Convert,
+                    scenes: [
+                        {
+                            sources: [''],
+                        },
+                    ],
+                },
+                {
+                    // Ways to construct text out of other text values
+                    concept: translation.node.Template,
+                    scenes: [
+                        {
+                            sources: [''],
+                        },
+                    ],
+                },
+            ],
+        },
+        {
+            id: 'input',
+            sources: [''],
+            lessons: [
+                {
+                    concept: translation.node.Conditional,
+                    scenes: [{ sources: [''] }],
+                },
+                {
+                    concept: translation.input.random,
+                    scenes: [{ sources: [''] }],
+                },
+                {
+                    concept: translation.input.time,
+                    scenes: [{ sources: [''] }],
+                },
+                {
+                    concept: translation.input.key,
+                    scenes: [{ sources: [''] }],
+                },
+                {
+                    concept: translation.node.Reaction,
+                    scenes: [{ sources: [''] }],
+                },
+                {
+                    concept: translation.input.button,
+                    scenes: [{ sources: [''] }],
+                },
+                {
+                    concept: translation.input.choice,
+                    scenes: [{ sources: [''] }],
+                },
+                // Changed
+                // Initial
+                // Previous
+            ],
+        },
+        {
+            id: 'collections',
+            sources: [''],
+            lessons: [
+                {
+                    concept: translation.node.ListLiteral,
+                    scenes: [{ sources: [''] }],
+                },
+                {
+                    concept: translation.node.ListAccess,
+                    scenes: [{ sources: [''] }],
+                },
+                {
+                    concept: translation.node.SetLiteral,
+                    scenes: [{ sources: [''] }],
+                },
+                {
+                    concept: translation.node.SetOrMapAccess,
+                    scenes: [{ sources: [''] }],
+                },
+                {
+                    concept: translation.node.MapLiteral,
+                    scenes: [{ sources: [''] }],
+                },
+                // Add tables once implemented.
+                // TableLiteral
+                // Row
+                // Delete
+                // Insert
+                // Update
+                // Select
+            ],
+        },
+        // NAMES - What are they for, why
+        {
+            id: 'names',
+            sources: [''],
+            lessons: [
+                // Why not "variable", what they're used for
+                {
+                    concept: translation.node.Bind,
+                    scenes: [{ sources: [''] }],
+                },
+                // How to tag something with languages
+                {
+                    concept: translation.node.Language,
+                    scenes: [{ sources: [''] }],
+                },
+                // How to refer to them by different names
+                {
+                    concept: translation.node.Reference,
+                    scenes: [{ sources: [''] }],
+                },
+                // How to temporarily name values to compute complicated things
+                {
+                    concept: translation.node.Block,
+                    scenes: [{ sources: [''] }],
+                },
+            ],
+        },
+        // OUTPUT - How to render more than values
+        {
+            id: 'output',
+            sources: [''],
+            lessons: [
+                // How to render and animate text
+                {
+                    concept: translation.output.phrase,
+                    scenes: [{ sources: [''] }],
+                },
+                // How to animate sequences
+                {
+                    concept: translation.output.sequence,
+                    scenes: [{ sources: [''] }],
+                },
+                // How to group multiple phrases together in a layout
+                {
+                    concept: translation.output.group,
+                    scenes: [{ sources: [''] }],
+                },
+                // How to control the camera and frame
+                {
+                    concept: translation.output.verse,
+                    scenes: [{ sources: [''] }],
+                },
+            ],
+        },
+        // FUNCTIONS - What they're for (reuse), when to create them
+        {
+            id: 'functions',
+            sources: [''],
+            lessons: [
+                // Reusing code
+                {
+                    concept: translation.node.FunctionDefinition,
+                    scenes: [{ sources: [''] }],
+                },
+                // Special format for functions on values with one input
+                {
+                    concept: translation.node.BinaryOperation,
+                    scenes: [{ sources: [''] }],
+                },
+                // Special format for functions with no inputs
+                {
+                    concept: translation.node.UnaryOperation,
+                    scenes: [{ sources: [''] }],
+                },
+                // Borrowing other people's code
+                {
+                    concept: translation.node.Borrow,
+                    scenes: [{ sources: [''] }],
+                },
+                // Reusing code from other source files
+                {
+                    concept: translation.node.Borrow,
+                    scenes: [{ sources: [''] }],
+                },
+            ],
+        },
+        // STRUCTURES - What they're for (composite data), when to create them
+        {
+            id: 'structures',
+            sources: [''],
+            lessons: [
+                {
+                    concept: translation.node.StructureDefinition,
+                    scenes: [{ sources: [''] }],
+                },
+                {
+                    concept: translation.node.PropertyReference,
+                    scenes: [{ sources: [''] }],
+                },
+                {
+                    concept: translation.node.PropertyBind,
+                    scenes: [{ sources: [''] }],
+                },
+            ],
+        },
+        // TYPES
+        {
+            id: 'types',
+            sources: [''],
+            lessons: [
+                {
+                    concept: translation.node.TextType,
+                    scenes: [{ sources: [''] }],
+                },
+                {
+                    concept: translation.node.MeasurementType,
+                    scenes: [{ sources: [''] }],
+                },
+                {
+                    concept: translation.node.BooleanType,
+                    scenes: [{ sources: [''] }],
+                },
+                {
+                    concept: translation.node.NoneType,
+                    scenes: [{ sources: [''] }],
+                },
+                {
+                    concept: translation.node.ListType,
+                    scenes: [{ sources: [''] }],
+                },
+                {
+                    concept: translation.node.SetType,
+                    scenes: [{ sources: [''] }],
+                },
+                {
+                    concept: translation.node.MapType,
+                    scenes: [{ sources: [''] }],
+                },
+                // {
+                //     concept: translation.node.TableType,
+                //     scenes: [{ sources: [''] }],
+                // },
+                {
+                    concept: translation.node.NameType,
+                    scenes: [{ sources: [''] }],
+                },
+                {
+                    concept: translation.node.UnionType,
+                    scenes: [{ sources: [''] }],
+                },
+                {
+                    concept: translation.node.AnyType,
+                    scenes: [{ sources: [''] }],
+                },
+                {
+                    concept: translation.node.NeverType,
+                    scenes: [{ sources: [''] }],
+                },
+                {
+                    concept: translation.node.TypeVariable,
+                    scenes: [{ sources: [''] }],
+                },
+                {
+                    concept: translation.node.Is,
+                    scenes: [{ sources: [''] }],
+                },
+            ],
+        },
+        {
+            id: 'docs',
+            sources: [''],
+            lessons: [
+                {
+                    concept: translation.node.Doc,
+                    scenes: [{ sources: [''] }],
+                },
+                {
+                    concept: translation.node.Paragraph,
+                    scenes: [{ sources: [''] }],
+                },
+                {
+                    concept: translation.node.WebLink,
+                    scenes: [{ sources: [''] }],
+                },
+                {
+                    concept: translation.node.ConceptLink,
+                    scenes: [{ sources: [''] }],
+                },
+                {
+                    concept: translation.node.Example,
+                    scenes: [{ sources: [''] }],
+                },
             ],
         },
     ];
 }
-
-/*
-
-SINGLE VALUES - Overview of data structures
-TextLiteral, // Text and things to do with it
-MeasurementLiteral, // Numbers and units and what to do with them
-BooleanLiteral, // Booleans and things to do with them
-NoneLiteral, // Nothing and what it's useful for
-Convert, // Ways of converting values to other types
-Template, // Ways to construct text out of other text values
-BinaryOperation, // Special format for functions on values with one input
-UnaryOperation, // Special format for functions with no inputs
-
-MULTIPLE VALUES
-ListLiteral
-ListAccess
-SetLiteral
-MapLiteral
-SetOrMapAccess
-TableLiteral
-Row
-Delete
-Insert
-Update
-Select
-
-NAMES - What are they for, why
-Bind, // Why not "variable", what they're used for
-Language, // How to tag something with languages
-Reference, // How to refer to them by different names
-Block, // How to temporarily name values to compute complicated things
-
-DECISIONS - Responding to change
-Conditional
-Random
-Time
-Keyboard
-Button
-Choice
-Reaction
-Changed
-Initial
-Previous
-
-OUTPUT - How to render more than values
-Phrase, // How to render and animate text
-Sequence, // How to animate sequences
-Group, // How to group multiple phrases together in a layout
-Verse, // How to control the camera and frame
-
-FUNCTIONS - What they're for (reuse), when to create them
-FunctionDefinition
-
-STRUCTURES - What they're for (composite data), when to create them
-StructureDefinition
-PropertyReference
-PropertyBind
-
-PROJECTS
-Source
-Borrow
-
-DOCUMENTATION
-Doc
-Docs
-DocumentedExpression
-Words
-Paragraph
-WebLink
-ConceptLink
-Example
-
-TYPES - What types are, how to use them to prevent defects
-TextType
-MeasurementType
-BooleanType
-NoneType
-ListType
-SetType
-MapType
-TableType
-NameType
-UnionType
-AnyType
-NeverType
-FunctionType
-StructureDefinitionType
-TypeInputs
-TypeVariable
-StreamDefinitionType
-Is
-
-*/

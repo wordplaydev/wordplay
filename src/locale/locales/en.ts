@@ -2767,10 +2767,21 @@ const en: Locale = {
                 Use **<** and we can go back.
                 `,
             },
-            numbers: {
-                name: 'Numbers',
-                overview: "Hi! Let's learn numbers.",
+            values: {
+                name: 'Values',
+                overview: 'TBD values',
             },
+            input: { name: 'Inputs', overview: WRITE_DOC },
+            collections: {
+                name: 'Collections',
+                overview: 'TBD collections',
+            },
+            names: { name: 'Names', overview: WRITE_DOC },
+            output: { name: 'Output', overview: WRITE_DOC },
+            functions: { name: 'Functions', overview: WRITE_DOC },
+            structures: { name: 'Structures', overview: WRITE_DOC },
+            types: { name: 'Types', overview: WRITE_DOC },
+            docs: { name: 'Documentation', overview: WRITE_DOC },
         },
     },
 };

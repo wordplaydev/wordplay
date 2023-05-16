@@ -1118,7 +1118,15 @@ export type UnitText = {
 
 export type UnitNames = {
     welcome: UnitText;
-    numbers: UnitText;
+    values: UnitText;
+    input: UnitText;
+    collections: UnitText;
+    names: UnitText;
+    output: UnitText;
+    functions: UnitText;
+    structures: UnitText;
+    types: UnitText;
+    docs: UnitText;
 };
 
 export default Locale;
