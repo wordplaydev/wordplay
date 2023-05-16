@@ -231,7 +231,7 @@
                 ><Note center
                     >{#if lesson && progress.step !== undefined}{progress.step +
                             1} /
-                        {lesson.steps.length}{:else}◆{/if}</Note
+                        {lesson.scenes.length}{:else}◆{/if}</Note
                 ></div
             >
             <Button

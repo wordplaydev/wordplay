@@ -22,7 +22,7 @@ export function getTutorial(translation: Locale): Unit[] {
                 // // What programs are, how they are evaluated?
                 {
                     concept: translation.node.Program,
-                    steps: [
+                    scenes: [
                         {
                             sources: ['"$1"'],
                         },
@@ -31,7 +31,7 @@ export function getTutorial(translation: Locale): Unit[] {
                 // What are placeholders for? How they can be used to construct incomplete programs, and to support drag and drop?
                 {
                     concept: translation.node.ExpressionPlaceholder,
-                    steps: [
+                    scenes: [
                         {
                             sources: ['_'],
                         },
@@ -40,7 +40,7 @@ export function getTutorial(translation: Locale): Unit[] {
                 // What is parsing? What happens when it goes wrong? How can errors be fixed?
                 {
                     concept: translation.node.UnparsableExpression,
-                    steps: [
+                    scenes: [
                         {
                             sources: [''],
                         },
@@ -49,7 +49,7 @@ export function getTutorial(translation: Locale): Unit[] {
                 // What are evaluations? , and examples of them using a phrase?
                 {
                     concept: translation.node.Evaluate,
-                    steps: [
+                    scenes: [
                         {
                             sources: [''],
                         },
@@ -63,7 +63,7 @@ export function getTutorial(translation: Locale): Unit[] {
             lessons: [
                 {
                     concept: translation.node.MeasurementLiteral,
-                    steps: [
+                    scenes: [
                         {
                             sources: [''],
                         },

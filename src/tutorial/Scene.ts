@@ -1,7 +1,7 @@
 import type { TileID } from '../components/project/Layout';
 import type Check from './Check';
 
-type Step = {
+type Scene = {
     /** The project to show */
     sources: string[];
     /** Optional list of tile IDs to hide upon display */
@@ -10,4 +10,4 @@ type Step = {
     checks?: Check[];
 };
 
-export default Step;
+export default Scene;

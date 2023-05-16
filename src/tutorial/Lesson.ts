@@ -1,9 +1,9 @@
 import type { LessonText, NameText } from '../locale/Locale';
-import type Step from './Step';
+import type Scene from './Scene';
 
 type Lesson = {
     concept: { names: NameText } & LessonText<any, any>;
-    steps: Step[];
+    scenes: Scene[];
 };
 
 export default Lesson;

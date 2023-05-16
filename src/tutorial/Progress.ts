@@ -1,6 +1,6 @@
 import type Unit from './Unit';
 import type Lesson from './Lesson';
-import type Step from './Step';
+import type Scene from './Scene';
 import type { TutorialProgress } from '../db/Creator';
 
 export default class Progress {
@@ -28,9 +28,9 @@ export default class Progress {
         return unit?.lessons[this.lesson - 1];
     }
 
-    getStep(): Step | undefined {
+    getStep(): Scene | undefined {
         const lesson = this.getLesson();
-        return lesson ? lesson.steps[this.step] : undefined;
+        return lesson ? lesson.scenes[this.step] : undefined;
     }
 
     /** Generate a project ID suitable for this point in the tutorial */
@@ -74,7 +74,7 @@ export default class Progress {
             unit = this.getNextUnit(direction);
             if (unit) {
                 lesson = unit.lessons.length - 1;
-                step = unit.lessons[lesson].steps.length;
+                step = unit.lessons[lesson].scenes.length;
             } else return undefined;
         } else if (lesson === unit.lessons.length && direction > 0) {
             unit = this.getNextUnit(direction);
@@ -88,7 +88,7 @@ export default class Progress {
                 step = start
                     ? 0
                     : direction < 0
-                    ? unit.lessons[lesson].steps.length - 1
+                    ? unit.lessons[lesson].scenes.length - 1
                     : 0;
             } else {
                 step = 0;
@@ -114,7 +114,7 @@ export default class Progress {
         const lesson = this.getLesson();
         return lesson === undefined ||
             (this.step ?? -1) + direction < 0 ||
-            (this.step ?? -1) + direction >= lesson.steps.length - 1
+            (this.step ?? -1) + direction >= lesson.scenes.length - 1
             ? undefined
             : new Progress(
                   this.tutorial,
