@@ -262,7 +262,7 @@
         flex-direction: row;
         gap: var(--wordplay-spacing);
         position: absolute;
-        padding: 1em;
+        padding: var(--wordplay-spacing);
         left: 0;
         top: 0;
         right: 0;
@@ -296,6 +296,9 @@
     .turns {
         flex-grow: 1;
         overflow: scroll;
+        display: flex;
+        flex-direction: column;
+        gap: calc(2 * var(--wordplay-spacing));
     }
 
     .project {
