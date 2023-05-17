@@ -26,6 +26,7 @@
     /** Optional space; if not provided, all nodes are rendered with preferred space. */
     export let spaces: Spaces | undefined = undefined;
     export let inert: boolean = false;
+    export let inline: boolean = false;
 
     /** Get the root, or make one if it's not a source. */
     $: root = node instanceof Source ? node.root : new Root(node);
@@ -124,12 +125,16 @@
     }
 </script>
 
-<span class="root" class:inert><NodeView {node} /></span>
+<span class="root" class:inert class:inline><NodeView {node} /></span>
 
 <style>
     .root {
         display: block;
         font-family: var(--wordplay-code-font);
         font-weight: 400;
+    }
+
+    .inline {
+        display: inline;
     }
 </style>

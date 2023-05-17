@@ -72,6 +72,10 @@ export default class Spaces {
     hasLineBreak(token: Token): boolean {
         return this.getLineBreakCount(token) > 0;
     }
+    hasLineBreaks(): boolean {
+        return Array.from(this.#spaces.values()).some((s) => s.includes('\n'));
+    }
+
     getLastLineSpaces(token: Token): number {
         return this.getLastLine(token).replaceAll('\t', ' '.repeat(TAB_WIDTH))
             .length;

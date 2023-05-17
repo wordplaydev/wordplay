@@ -43,7 +43,7 @@
     on:keydown={(event) =>
         event.key === ' ' || event.key === 'Enter' ? toggle() : undefined}
 >
-    <RootView node={example.program} />
+    <RootView node={example.program} inline={spaces.hasLineBreaks()} />
     {#if see && value}
         &nbsp;…&nbsp;<ValueView {value} />
     {/if}
