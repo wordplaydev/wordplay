@@ -208,19 +208,21 @@
                 enabled={progress.nextLesson() !== undefined}>→</Button
             >
         </nav>
-        {#each turns as turn, index}
-            <!-- First speaker is always function, alternating speakers are the concept we're learning about. -->
-            <Speech
-                glyph={index % 2 === 0
-                    ? Glyphs.Function
-                    : concept?.getGlyphs($creator.getLanguages()) ??
-                      Glyphs.Unparsable}
-                right={index % 2 === 0}
-                baseline
-            >
-                <DocHtmlView doc={turn.speech} spaces={turn.spaces} />
-            </Speech>
-        {/each}
+        <div class="turns">
+            {#each turns as turn, index}
+                <!-- First speaker is always function, alternating speakers are the concept we're learning about. -->
+                <Speech
+                    glyph={index % 2 === 0
+                        ? Glyphs.Function
+                        : concept?.getGlyphs($creator.getLanguages()) ??
+                          Glyphs.Unparsable}
+                    right={index % 2 === 0}
+                    baseline
+                >
+                    <DocHtmlView doc={turn.speech} spaces={turn.spaces} />
+                </Speech>
+            {/each}
+        </div>
         <div class="controls">
             <Button
                 tip={$creator.getLocale().ui.tooltip.previousLessonStep}
@@ -276,6 +278,7 @@
         font-size: 125%;
         flex-shrink: 0;
         flex-grow: 0;
+        align-items: flex-start;
     }
 
     nav {
@@ -283,10 +286,16 @@
         flex-direction: row;
         gap: var(--wordplay-spacing);
         align-items: center;
+        width: 100%;
     }
 
     nav :global(button:last-child) {
         margin-left: auto;
+    }
+
+    .turns {
+        flex-grow: 1;
+        overflow: scroll;
     }
 
     .project {
@@ -301,7 +310,6 @@
         width: 100%;
         justify-items: last baseline;
         align-items: center;
-        margin-top: var(--wordplay-spacing);
         gap: var(--wordplay-spacing);
     }
 

@@ -19,7 +19,7 @@ export function getTutorial(translation: Locale): Unit[] {
                 "Phrase('👋🏻' rest: Sequence({0%: Pose(tilt: -5°) 50%: Pose(tilt: 5°) 100%: Pose(tilt: -5°)} duration: 1s))",
             ],
             lessons: [
-                // // What programs are, how they are evaluated?
+                // What programs are, how they are evaluated?
                 {
                     concept: translation.node.Program,
                     scenes: [
