@@ -82,7 +82,6 @@
 <style>
     section {
         padding: var(--wordplay-spacing);
-        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         display: flex;
         flex-direction: row;
         gap: var(--wordplay-spacing);
