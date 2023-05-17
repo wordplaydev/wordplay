@@ -86,12 +86,8 @@
         margin-right: auto;
     }
 
-    .baseline .glyphs {
-        margin-top: var(--wordplay-spacing);
-    }
-
     .row .glyphs {
-        font-size: 1em;
+        font-size: 2em;
         max-width: 4em;
         flex-shrink: 0;
         text-align: center;
