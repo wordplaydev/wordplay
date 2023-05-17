@@ -109,7 +109,6 @@
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         border-radius: calc(2 * var(--wordplay-border-radius));
         align-self: stretch;
-        word-break: break-word;
         position: relative;
         background: var(--wordplay-background);
         color: var(--wordplay-foreground);
