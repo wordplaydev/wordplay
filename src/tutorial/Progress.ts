@@ -82,8 +82,8 @@ export default class Progress {
         if (direction < 0 && lesson === 0) {
             unit = this.getNextUnit(direction);
             if (unit) {
-                lesson = unit.lessons.length - 1;
-                step = unit.lessons[lesson].scenes.length;
+                lesson = unit.lessons.length;
+                step = unit.lessons[lesson - 1].scenes.length;
             } else return undefined;
         } else if (lesson === unit.lessons.length && direction > 0) {
             unit = this.getNextUnit(direction);
@@ -93,14 +93,18 @@ export default class Progress {
             } else return undefined;
         } else {
             lesson = lesson + direction;
-            if (unit.lessons[lesson] !== undefined) {
+            if (unit.lessons[lesson - 1] !== undefined) {
                 step = start
                     ? 0
                     : direction < 0
                     ? unit.lessons[lesson].scenes.length - 1
                     : 0;
             } else {
-                step = 0;
+                step =
+                    direction < 0
+                        ? this.units[this.unit as keyof UnitNames].overview
+                              .length - 1
+                        : 0;
             }
         }
 
@@ -116,7 +120,16 @@ export default class Progress {
         const unit = this.getNextUnit(direction);
         return unit === undefined
             ? undefined
-            : new Progress(this.units, this.tutorial, unit.id, 0, 0);
+            : new Progress(
+                  this.units,
+                  this.tutorial,
+                  unit.id,
+                  0,
+                  direction < 0
+                      ? this.units[this.unit as keyof UnitNames].overview
+                            .length - 1
+                      : 0
+              );
     }
 
     moveStep(direction: -1 | 1): Progress | undefined {
