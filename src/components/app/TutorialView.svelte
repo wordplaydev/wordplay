@@ -187,6 +187,15 @@
                         label={$creator.getLocale().tutorial.units[unit.id]
                             .name}
                     >
+                        <option
+                            value={new Progress(
+                                $creator.getLocale().tutorial.units,
+                                progress.tutorial,
+                                unit.id,
+                                0,
+                                0
+                            )}>◆</option
+                        >
                         {#each unit.lessons as lesson, index}
                             <option
                                 value={new Progress(
