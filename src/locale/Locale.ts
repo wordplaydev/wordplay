@@ -58,22 +58,19 @@ export type FixedArray<N extends number, T> = N extends 0
           length: N;
       } & ReadonlyArray<T>;
 
-export type LessonText<Steps extends number, Names extends number> = {
-    tutorial: {
-        instructions: FixedArray<Steps, string>;
-        text: FixedArray<Names, string>;
-    };
-};
-
 export type ConceptText<
     Steps extends number,
     Names extends number
 > = NameAndDoc & LessonText<Steps, Names>;
 
 export type NodeText<Kind, Steps extends number, Names extends number> = {
+    /* The name that should be used to refer to the node type */
     names: string;
+    /* A description of what the node is */
     description: Kind;
+    /* Documentation text that appears in the documentation view */
     doc: DocString;
+    /* The emotion that should be conveyed in animations of the node type */
     emotion: Emotion;
 } & LessonText<Steps, Names>;
 
@@ -1113,7 +1110,7 @@ export type InputTexts = {
 
 export type UnitText = {
     name: string;
-    overview: string;
+    overview: string[];
 };
 
 export type UnitNames = {
@@ -1127,6 +1124,15 @@ export type UnitNames = {
     structures: UnitText;
     types: UnitText;
     docs: UnitText;
+};
+
+export type LessonText<Steps extends number, Names extends number> = {
+    tutorial: {
+        /* The sequence of conversational turns to show for each step */
+        instructions: FixedArray<Steps, string>;
+        /* Localized text to replace in the program for the lesson */
+        text: FixedArray<Names, string>;
+    };
 };
 
 export default Locale;

@@ -22,7 +22,13 @@
             isFinite(parseInt(step))
         )
             $creator.setTutorialProgress(
-                new Progress(tutorial, unit, parseInt(lesson), parseInt(step))
+                new Progress(
+                    $creator.getLocale().tutorial.units,
+                    tutorial,
+                    unit,
+                    parseInt(lesson),
+                    parseInt(step)
+                )
             );
     }
 

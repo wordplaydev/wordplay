@@ -9,6 +9,17 @@ import type Unit from './Unit';
  * - Minimize syntactic concepts used
  * - When explaining a concept, explain syntax, then semantics
  * - All tutorial text is written from the perspective of ƒ
+ *
+ * I think of the tutorial as a short interactive story,
+ * where the central conflict is that everyone loves putting on shows, but is bored,
+ * and has no inspiration. They want the creator to be the next director.
+ * But the creator doesn't know how, so ƒ is goinh to train them on verse culture and
+ * introduce them to everyone in the community. The conflict is that the learner doesn’t know verse culture,
+ * and whether the learner will be able to learn. It’s resolved when the learner does.
+ * Every scene is tied to this conflict, as function needs the learner to learn to put on a show.
+ * Boredom is the key conflict that learners experience too.
+ * And every character responds to this conflict with excitement.
+ * The broader conflict is if the player will put on a show.
  */
 export function getTutorial(translation: Locale): Unit[] {
     return [
@@ -19,7 +30,10 @@ export function getTutorial(translation: Locale): Unit[] {
                 "Phrase('👋🏻' rest: Sequence({0%: Pose(tilt: -5°) 50%: Pose(tilt: 5°) 100%: Pose(tilt: -5°)} duration: 1s))",
             ],
             lessons: [
-                // What programs are, how they are evaluated?
+                // Establish the conflict of no inspiration.
+                // Connect conflict to action: learning.
+                // LO: What are programs?
+                // LO: How are they are evaluated?
                 {
                     concept: translation.node.Program,
                     scenes: [
@@ -28,7 +42,11 @@ export function getTutorial(translation: Locale): Unit[] {
                         },
                     ],
                 },
-                // What are placeholders for? How they can be used to construct incomplete programs, and to support drag and drop?
+                // Everyone has a role to play.
+                // But sometimes we don't know what that role is.
+                // LO: What are placeholders for?
+                // LO: What are the docs?
+                // LO: How to replace replaceholders?
                 {
                     concept: translation.node.ExpressionPlaceholder,
                     scenes: [
@@ -37,7 +55,10 @@ export function getTutorial(translation: Locale): Unit[] {
                         },
                     ],
                 },
-                // What is parsing? What happens when it goes wrong? How can errors be fixed?
+                // Sometimes we get out of order and we have no role.
+                // LO: What is parsing?
+                // LO: What happens when it goes wrong?
+                // LO: How can they be fixed?
                 {
                     concept: translation.node.UnparsableExpression,
                     scenes: [
@@ -46,7 +67,9 @@ export function getTutorial(translation: Locale): Unit[] {
                         },
                     ],
                 },
-                // What are evaluations? And examples of them using a phrase.
+                // Most of what we do is evaluate things. Inputs and outputs.
+                // LO: What are evaluations?
+                // LO: Who defines them?
                 {
                     concept: translation.node.Evaluate,
                     scenes: [

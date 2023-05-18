@@ -84,6 +84,10 @@
     $: names = lesson ? getName(lesson) : '–';
     $: step = progress.getStep();
     $: instructions = lesson?.concept.tutorial.instructions[progress.step];
+    $: overview =
+        lesson === undefined && unit
+            ? $creator.getLocale().tutorial.units[unit.id].overview
+            : undefined;
     // Get the corresponding concept so we can find it's glyphs.
     $: concept =
         $conceptsStore && lesson
@@ -100,8 +104,8 @@
         const text =
             instructions !== undefined && lesson !== undefined
                 ? localize(instructions, lesson.concept.tutorial.text)
-                : unit !== undefined
-                ? $creator.getLocale().tutorial.units[unit.id].overview
+                : overview
+                ? overview[progress.step]
                 : '';
         // Localize all of the text using the lesson's names
         // Split by speaker
@@ -186,6 +190,7 @@
                         {#each unit.lessons as lesson, index}
                             <option
                                 value={new Progress(
+                                    $creator.getLocale().tutorial.units,
                                     progress.tutorial,
                                     unit.id,
                                     index + 1,
@@ -231,9 +236,12 @@
             >
             <div class="progress"
                 ><Note center
-                    >{#if lesson && progress.step !== undefined}{progress.step +
-                            1} /
-                        {lesson.scenes.length}{:else}◆{/if}</Note
+                    >{progress.step + 1} /
+                    {lesson
+                        ? lesson.scenes.length
+                        : overview
+                        ? overview.length
+                        : '?'}</Note
                 ></div
             >
             <Button

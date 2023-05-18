@@ -219,6 +219,7 @@ export class Creator {
 
     getTutorialProgress(tutorial: Unit[]) {
         return new Progress(
+            this.getLocale().tutorial.units,
             tutorial,
             this.config.tutorial.unit,
             this.config.tutorial.lesson,

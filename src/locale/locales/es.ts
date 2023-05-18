@@ -154,6 +154,20 @@ const eng_wordplay: Locale = {
         Unknown: 'desconocida',
         End: 'final',
     },
+    tutorial: {
+        units: {
+            welcome: { name: WRITE_DOC, overview: [WRITE_DOC] },
+            values: { name: WRITE_DOC, overview: [WRITE_DOC] },
+            input: { name: WRITE_DOC, overview: [WRITE_DOC] },
+            collections: { name: WRITE_DOC, overview: [WRITE_DOC] },
+            names: { name: WRITE_DOC, overview: [WRITE_DOC] },
+            output: { name: WRITE_DOC, overview: [WRITE_DOC] },
+            functions: { name: WRITE_DOC, overview: [WRITE_DOC] },
+            structures: { name: WRITE_DOC, overview: [WRITE_DOC] },
+            types: { name: WRITE_DOC, overview: [WRITE_DOC] },
+            docs: { name: 'Documentation', overview: [WRITE_DOC] },
+        },
+    },
     node: {
         Dimension: {
             names: 'dimensión',
@@ -2352,20 +2366,6 @@ const eng_wordplay: Locale = {
         popup: {
             doc: WRITE_DOC,
             names: ['surgir'],
-        },
-    },
-    tutorial: {
-        units: {
-            welcome: { name: WRITE_DOC, overview: WRITE_DOC },
-            values: { name: WRITE_DOC, overview: WRITE_DOC },
-            input: { name: WRITE_DOC, overview: WRITE_DOC },
-            collections: { name: WRITE_DOC, overview: WRITE_DOC },
-            names: { name: WRITE_DOC, overview: WRITE_DOC },
-            output: { name: WRITE_DOC, overview: WRITE_DOC },
-            functions: { name: WRITE_DOC, overview: WRITE_DOC },
-            structures: { name: WRITE_DOC, overview: WRITE_DOC },
-            types: { name: WRITE_DOC, overview: WRITE_DOC },
-            docs: { name: 'Documentation', overview: WRITE_DOC },
         },
     },
 };

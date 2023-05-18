@@ -155,7 +155,108 @@ const en: Locale = {
         Unknown: 'unknown',
         End: 'end',
     },
+    tutorial: {
+        units: {
+            welcome: {
+                name: 'Welcome',
+                overview: [
+                    `
+                ...
+
+                Oh, hi.
+
+                Are you new here?
+                `,
+                    `
+                Is this your first time visiting the **verse**?
+                Have you come to help us choreograph a **show**?
+
+                We *love* putting on shows like dances, stories, images, and games.
+                But we're most excited to put on shows with people like you.
+                People from around the world bring such interesting ideas from their experiences, communitities, and culture!
+
+                I'm happy to show you around. 
+                Use **>** to let me know you'd like to move on.
+                Use **<** and we can go back.
+                `,
+                ],
+            },
+            values: {
+                name: 'Values',
+                overview: ['TBD values'],
+            },
+            input: { name: 'Inputs', overview: [WRITE_DOC] },
+            collections: {
+                name: 'Collections',
+                overview: ['TBD collections'],
+            },
+            names: { name: 'Names', overview: [WRITE_DOC] },
+            output: { name: 'Output', overview: [WRITE_DOC] },
+            functions: { name: 'Functions', overview: [WRITE_DOC] },
+            structures: { name: 'Structures', overview: [WRITE_DOC] },
+            types: { name: 'Types', overview: [WRITE_DOC] },
+            docs: { name: 'Documentation', overview: [WRITE_DOC] },
+        },
+    },
     node: {
+        Program: {
+            names: 'program',
+            description: '',
+            emotion: Emotion.TBD,
+            doc: WRITE_DOC,
+            start: (changes) =>
+                changes.length === 0
+                    ? 'evaluating program for the first time'
+                    : changes.length === 1
+                    ? Explanation.as(
+                          changes[0].stream,
+                          ' produced ',
+                          changes[0].value,
+                          ' revaluating program'
+                      )
+                    : Explanation.as(
+                          `${changes.length} streams changed (e.g., `,
+                          changes[0].stream,
+                          ' → ',
+                          changes[0].value,
+                          '); revaluating program'
+                      ),
+            finish: (value) =>
+                Explanation.as('program evaluated to ', value ?? 'nothing'),
+            tutorial: {
+                instructions: [
+                    `
+                    Oh, let's go meet @program. Hi @program!
+
+                    ---
+                    Heyyyy, is this the new choreographer?
+
+                    ---
+                    Yeah, they just arrived.
+                    I'm just doing intros, and thought I'd come to you first.
+
+                    ---
+                    Nice to meet you!
+                    
+                    ---
+                    Do you want to say what you do?
+
+                    ---
+                    Sure.
+                    I'm basically the organizer for a performance.
+                    Everyone figures out what they're doing and then I put them on stage for the audience to see.
+                    For example, let's say my friend ($1) here was in my list of instructions.
+                    They evaluate to (1), then I put (1) on stage.
+
+                    ---
+                    Try changing "$1" to something else.
+                    I'll show that instead.
+                    So I'll evaluate whatever code is in me, and show the result.
+                    `,
+                ],
+                text: ['hello'],
+            },
+        },
         Dimension: {
             names: 'dimension',
             description: getDimensionDescription,
@@ -822,64 +923,6 @@ const en: Locale = {
                     value ?? 'nothing'
                 ),
             tutorial: WRITE_TUTORIAL,
-        },
-        Program: {
-            names: 'program',
-            description: '',
-            emotion: Emotion.TBD,
-            doc: WRITE_DOC,
-            start: (changes) =>
-                changes.length === 0
-                    ? 'evaluating program for the first time'
-                    : changes.length === 1
-                    ? Explanation.as(
-                          changes[0].stream,
-                          ' produced ',
-                          changes[0].value,
-                          ' revaluating program'
-                      )
-                    : Explanation.as(
-                          `${changes.length} streams changed (e.g., `,
-                          changes[0].stream,
-                          ' → ',
-                          changes[0].value,
-                          '); revaluating program'
-                      ),
-            finish: (value) =>
-                Explanation.as('program evaluated to ', value ?? 'nothing'),
-            tutorial: {
-                instructions: [
-                    `
-                    Oh, let's go meet @program. Hi @program!
-
-                    ---
-                    Heyyyy, is this the new choreographer?
-
-                    ---
-                    Yeah, they just arrived.
-                    I'm just doing intros, and thought I'd come to you first.
-
-                    ---
-                    Nice to meet you!
-                    
-                    ---
-                    Do you want to say what you do?
-
-                    ---
-                    Sure.
-                    I'm basically the organizer for a performance.
-                    Everyone figures out what they're doing and then I put them on stage for the audience to see.
-                    For example, let's say my friend ($1) here was in my list of instructions.
-                    They evaluate to (1), then I put (1) on stage.
-
-                    ---
-                    Try changing "$1" to something else.
-                    I'll show that instead.
-                    So I'll evaluate whatever code is in me, and show the result.
-                    `,
-                ],
-                text: ['hello'],
-            },
         },
         PropertyBind: {
             names: 'refine',
@@ -2746,42 +2789,6 @@ const en: Locale = {
         popup: {
             doc: WRITE_DOC,
             names: ['popup'],
-        },
-    },
-    tutorial: {
-        units: {
-            welcome: {
-                name: 'Welcome',
-                overview: `
-                Oh hi, I'm **ƒ**!
-
-                Is this your first time visiting the **verse**?
-                Have you come to help us choreograph a **show**?
-
-                We *love* putting on shows like dances, stories, images, and games.
-                But we're most excited to put on shows with people like you.
-                People from around the world bring such interesting ideas from their experiences, communitities, and culture!
-
-                I'm happy to show you around. 
-                Use **>** to let me know you'd like to move on.
-                Use **<** and we can go back.
-                `,
-            },
-            values: {
-                name: 'Values',
-                overview: 'TBD values',
-            },
-            input: { name: 'Inputs', overview: WRITE_DOC },
-            collections: {
-                name: 'Collections',
-                overview: 'TBD collections',
-            },
-            names: { name: 'Names', overview: WRITE_DOC },
-            output: { name: 'Output', overview: WRITE_DOC },
-            functions: { name: 'Functions', overview: WRITE_DOC },
-            structures: { name: 'Structures', overview: WRITE_DOC },
-            types: { name: 'Types', overview: WRITE_DOC },
-            docs: { name: 'Documentation', overview: WRITE_DOC },
         },
     },
 };

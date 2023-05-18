@@ -2,8 +2,10 @@ import type Unit from './Unit';
 import type Lesson from './Lesson';
 import type Scene from './Scene';
 import type { TutorialProgress } from '../db/Creator';
+import type { UnitNames } from '../locale/Locale';
 
 export default class Progress {
+    readonly units: UnitNames;
     readonly tutorial: Unit[];
     /** The description ID of the unit */
     readonly unit: string;
@@ -12,7 +14,14 @@ export default class Progress {
     /** The number of the step int ehinstruction number of the lesson, or undefined if the lesson hasn't been started */
     readonly step: number;
 
-    constructor(tutorial: Unit[], unit: string, lesson: number, step: number) {
+    constructor(
+        units: UnitNames,
+        tutorial: Unit[],
+        unit: string,
+        lesson: number,
+        step: number
+    ) {
+        this.units = units;
         this.tutorial = tutorial;
         this.unit = unit;
         this.lesson = lesson;
@@ -95,7 +104,7 @@ export default class Progress {
             }
         }
 
-        return new Progress(this.tutorial, unit.id, lesson, step);
+        return new Progress(this.units, this.tutorial, unit.id, lesson, step);
     }
 
     getNextUnit(direction: -1 | 1): Unit | undefined {
@@ -107,20 +116,24 @@ export default class Progress {
         const unit = this.getNextUnit(direction);
         return unit === undefined
             ? undefined
-            : new Progress(this.tutorial, unit.id, 0, 0);
+            : new Progress(this.units, this.tutorial, unit.id, 0, 0);
     }
 
     moveStep(direction: -1 | 1): Progress | undefined {
         const lesson = this.getLesson();
-        return lesson === undefined ||
-            (this.step ?? -1) + direction < 0 ||
-            (this.step ?? -1) + direction >= lesson.scenes.length - 1
+        return this.step + direction < 0 ||
+            (lesson !== undefined &&
+                this.step + direction >= lesson.scenes.length - 1) ||
+            (lesson === undefined &&
+                this.step + direction >=
+                    this.units[this.unit as keyof UnitNames].overview.length)
             ? undefined
             : new Progress(
+                  this.units,
                   this.tutorial,
                   this.unit,
                   this.lesson,
-                  (this.step ?? 0) + direction
+                  this.step + direction
               );
     }
 }
