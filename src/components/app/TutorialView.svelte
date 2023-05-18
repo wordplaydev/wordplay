@@ -25,6 +25,7 @@
     import { setContext } from 'svelte';
     import type ConceptIndex from '../../concepts/ConceptIndex';
     import { writable } from 'svelte/store';
+    import { tick } from 'svelte';
 
     export let progress: Progress;
     export let navigate: (progress: Progress) => void;
@@ -40,6 +41,8 @@
     setContext(ConceptPathSymbol, writable([]));
 
     const user = getUser();
+
+    let view: HTMLElement | undefined;
 
     function getName(lesson: Lesson) {
         return typeof lesson.concept.names === 'string'
@@ -170,10 +173,27 @@
     function handleSelect() {
         if (selection) navigate(selection);
     }
+
+    async function handleKey(event: KeyboardEvent) {
+        if (event.key.startsWith('Arrow')) {
+            if (event.key === 'ArrowLeft')
+                navigate(progress.previousStep() ?? progress);
+            else if (event.key == 'ArrowRight')
+                navigate(progress.nextStep() ?? progress);
+
+            await tick();
+            if (view) view.focus();
+        }
+    }
 </script>
 
-<div class="tutorial">
-    <div class="instructions">
+<section class="tutorial">
+    <div
+        class="instructions"
+        tabIndex="0"
+        on:keydown={handleKey}
+        bind:this={view}
+    >
         <nav>
             <Button
                 tip={$creator.getLocale().ui.tooltip.previousLesson}
@@ -271,7 +291,7 @@
                 /></div
             >{:else}<PlayView {project} />{/if}
     {/if}
-</div>
+</section>
 
 <style>
     .tutorial {
