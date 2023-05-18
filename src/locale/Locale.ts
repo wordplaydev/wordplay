@@ -75,9 +75,9 @@ export type NodeText<Kind, Steps extends number, Names extends number> = {
 } & LessonText<Steps, Names>;
 
 export type StaticNodeText<
-    Steps extends number,
+    Count extends number,
     Names extends number
-> = NodeText<string, Steps, Names>;
+> = NodeText<string, Count, Names>;
 
 export type DynamicNodeText<
     NodeType extends Node,
@@ -893,7 +893,7 @@ export type NodeTexts = {
     NoneLiteral: StaticNodeText<1, 0> & AtomicExpressionText;
     Previous: StaticNodeText<1, 0> &
         ExpressionText<(stream: NodeLink) => Description, ValueOrUndefinedText>;
-    Program: StaticNodeText<1, 1> &
+    Program: StaticNodeText<1, 0> &
         ExpressionText<
             (changes: { stream: ValueLink; value: ValueLink }[]) => Description,
             ValueOrUndefinedText
@@ -1110,7 +1110,7 @@ export type InputTexts = {
 
 export type UnitText = {
     name: string;
-    overview: string[];
+    overview: Dialog[];
 };
 
 export type UnitNames = {
@@ -1126,13 +1126,15 @@ export type UnitNames = {
     docs: UnitText;
 };
 
-export type LessonText<Steps extends number, Names extends number> = {
+export type LessonText<Count extends number, Names extends number> = {
     tutorial: {
         /* The sequence of conversational turns to show for each step */
-        instructions: FixedArray<Steps, string>;
+        dialog: FixedArray<Count, Dialog>;
         /* Localized text to replace in the program for the lesson */
         text: FixedArray<Names, string>;
     };
 };
+
+export type Dialog = [Emotion, string];
 
 export default Locale;

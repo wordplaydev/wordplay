@@ -28,6 +28,8 @@ import {
     getPlaceholderDescription,
     getTokenDescription,
     type Description,
+    type Dialog,
+    type FixedArray,
 } from '../Locale';
 import type { CycleType } from '@nodes/CycleType';
 import type UnknownNameType from '@nodes/UnknownNameType';
@@ -39,7 +41,10 @@ import Unit from '../../nodes/Unit';
 import { UnitOverviews } from './en/UnitOverviews';
 
 export const WRITE_DOC = 'TBD';
-export const WRITE_TUTORIAL = { instructions: [WRITE_DOC] as const, text: [] };
+export const WRITE_TUTORIAL = {
+    dialog: [[Emotion.TBD, WRITE_DOC]] as FixedArray<1, Dialog>,
+    text: [],
+};
 
 const en: Locale = {
     language: 'en',
@@ -185,9 +190,10 @@ const en: Locale = {
             finish: (value) =>
                 Explanation.as('program evaluated to ', value ?? 'nothing'),
             tutorial: {
-                instructions: [
-                    `
-                    Oh, let's go meet @program. Hi @program!
+                dialog: [
+                    [
+                        Emotion.Angry,
+                        `Oh, let's go meet @program. Hi @program!
 
                     ---
                     Heyyyy, is this the new choreographer?
@@ -214,8 +220,9 @@ const en: Locale = {
                     I'll show that instead.
                     So I'll evaluate whatever code is in me, and show the result.
                     `,
+                    ],
                 ],
-                text: ['hello'],
+                text: [],
             },
         },
         Dimension: {

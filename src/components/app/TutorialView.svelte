@@ -86,11 +86,12 @@
     $: lesson = progress.getLesson();
     $: names = lesson ? getName(lesson) : '–';
     $: step = progress.getStep();
-    $: instructions = lesson?.concept.tutorial.instructions[progress.step];
+    $: instructions = lesson?.concept.tutorial.dialog[progress.step];
     $: overview =
         lesson === undefined && unit
             ? $creator.getLocale().tutorial.units[unit.id].overview
             : undefined;
+    $: overviewStep = overview ? overview[progress.step] : undefined;
     // Get the corresponding concept so we can find it's glyphs.
     $: concept =
         $conceptsStore && lesson
@@ -106,9 +107,9 @@
     $: {
         const text =
             instructions !== undefined && lesson !== undefined
-                ? localize(instructions, lesson.concept.tutorial.text)
-                : overview
-                ? overview[progress.step]
+                ? localize(instructions[1], lesson.concept.tutorial.text)
+                : overviewStep
+                ? overviewStep[1]
                 : '';
         // Localize all of the text using the lesson's names
         // Split by speaker
@@ -252,6 +253,11 @@
                           Glyphs.Unparsable}
                     right={index % 2 === 0}
                     baseline
+                    emotion={instructions
+                        ? instructions[0]
+                        : overviewStep
+                        ? overviewStep[0]
+                        : undefined}
                 >
                     <DocHtmlView doc={turn.speech} spaces={turn.spaces} />
                 </Speech>

@@ -27,6 +27,8 @@ import {
     getPlaceholderDescription,
     getTokenDescription,
     type Description,
+    type FixedArray,
+    type Dialog,
 } from '../Locale';
 import type { CycleType } from '@nodes/CycleType';
 import type UnknownNameType from '@nodes/UnknownNameType';
@@ -37,7 +39,10 @@ import Emotion from '../../lore/Emotion';
 import Unit from '@nodes/Unit';
 
 const WRITE_DOC = 'pendiante';
-export const WRITE_TUTORIAL = { instructions: [WRITE_DOC] as const, text: [] };
+export const WRITE_TUTORIAL = {
+    dialog: [[Emotion.TBD, WRITE_DOC]] as FixedArray<1, Dialog>,
+    text: [],
+};
 
 const eng_wordplay: Locale = {
     language: 'es',
@@ -156,16 +161,28 @@ const eng_wordplay: Locale = {
     },
     tutorial: {
         units: {
-            welcome: { name: WRITE_DOC, overview: [WRITE_DOC] },
-            values: { name: WRITE_DOC, overview: [WRITE_DOC] },
-            input: { name: WRITE_DOC, overview: [WRITE_DOC] },
-            collections: { name: WRITE_DOC, overview: [WRITE_DOC] },
-            names: { name: WRITE_DOC, overview: [WRITE_DOC] },
-            output: { name: WRITE_DOC, overview: [WRITE_DOC] },
-            functions: { name: WRITE_DOC, overview: [WRITE_DOC] },
-            structures: { name: WRITE_DOC, overview: [WRITE_DOC] },
-            types: { name: WRITE_DOC, overview: [WRITE_DOC] },
-            docs: { name: 'Documentation', overview: [WRITE_DOC] },
+            welcome: { name: WRITE_DOC, overview: [[Emotion.TBD, WRITE_DOC]] },
+            values: { name: WRITE_DOC, overview: [[Emotion.TBD, WRITE_DOC]] },
+            input: { name: WRITE_DOC, overview: [[Emotion.TBD, WRITE_DOC]] },
+            collections: {
+                name: WRITE_DOC,
+                overview: [[Emotion.TBD, WRITE_DOC]],
+            },
+            names: { name: WRITE_DOC, overview: [[Emotion.TBD, WRITE_DOC]] },
+            output: { name: WRITE_DOC, overview: [[Emotion.TBD, WRITE_DOC]] },
+            functions: {
+                name: WRITE_DOC,
+                overview: [[Emotion.TBD, WRITE_DOC]],
+            },
+            structures: {
+                name: WRITE_DOC,
+                overview: [[Emotion.TBD, WRITE_DOC]],
+            },
+            types: { name: WRITE_DOC, overview: [[Emotion.TBD, WRITE_DOC]] },
+            docs: {
+                name: 'Documentation',
+                overview: [[Emotion.TBD, WRITE_DOC]],
+            },
         },
     },
     node: {
@@ -619,10 +636,7 @@ const eng_wordplay: Locale = {
                       ),
             finish: (value) =>
                 Explanation.as('program evaluated to ', value ?? 'nothing'),
-            tutorial: {
-                instructions: [WRITE_DOC],
-                text: ['hola'],
-            },
+            tutorial: WRITE_TUTORIAL,
         },
         PropertyBind: {
             names: 'refinar',

@@ -1,49 +1,76 @@
+import Emotion from '../../../lore/Emotion';
+import type { UnitNames } from '../../Locale';
+
 const WRITE_DOC = 'TBD';
 
-export const UnitOverviews = {
+export const UnitOverviews: UnitNames = {
     welcome: {
         name: 'Welcome',
         overview: [
-            `
-        ...
+            [
+                Emotion.Bored,
+                `...
 
-        Oh, hi.
+                Oh, hi.
 
-        Are you new here?
+                Are you new here?
 
-        My name is **ƒ**.
-        
-        I'm so bored...
-        `,
-            `
-        Why? Oh, is this your first time visiting **Versa**?
+                My name is **ƒ**.
+                
+                I'm so bored...
+                `,
+            ],
+            [
+                Emotion.Curious,
+                `Why? Oh, is this your first time visiting **Versa**?
 
+                I'm bored because we lost our inspiration. 
+                We *love* putting on shows like dances, stories, images, and games.
+                
+                But we can't do it without people.
+                They have the fun ideas, and we know how to dance.
+                
+                But I haven't seen a person in ages.
+                `,
+            ],
+            [
+                Emotion.Eager,
+                `Wait... you're a person?
 
-        Have you come to help us choreograph a **show**?
+                Could you ... inspire us?
 
-        We *love* putting on shows like dances, stories, images, and games.
-        But we're most excited to put on shows with people like you.
-        People from around the world bring such interesting ideas from their experiences, communitities, and culture!
+                I mean, it's not easy.
+                We're a quirky community, and people who come here to direct us sometimes find our rules and customs a bit strange.
 
-        I'm happy to show you around. 
-        Use **>** to let me know you'd like to move on.
-        Use **<** and we can go back.
-        `,
+                But those that commit to learning about us usually figure it out just fine.
+
+                Do you... want to learn?
+                `,
+            ],
+            [
+                Emotion.Excited,
+                `That's wonderful!
+                I'm so excited.
+
+                I'm happy to show you around and introduce you to everyone.
+                There are soooo many cool things to see here, I'm sure you're going to love it.
+                `,
+            ],
         ],
     },
     values: {
         name: 'Values',
-        overview: ['TBD values'],
+        overview: [[Emotion.TBD, WRITE_DOC]],
     },
-    input: { name: 'Inputs', overview: [WRITE_DOC] },
+    input: { name: 'Inputs', overview: [[Emotion.TBD, WRITE_DOC]] },
     collections: {
         name: 'Collections',
-        overview: ['TBD collections'],
+        overview: [[Emotion.TBD, WRITE_DOC]],
     },
-    names: { name: 'Names', overview: [WRITE_DOC] },
-    output: { name: 'Output', overview: [WRITE_DOC] },
-    functions: { name: 'Functions', overview: [WRITE_DOC] },
-    structures: { name: 'Structures', overview: [WRITE_DOC] },
-    types: { name: 'Types', overview: [WRITE_DOC] },
-    docs: { name: 'Documentation', overview: [WRITE_DOC] },
+    names: { name: 'Names', overview: [[Emotion.TBD, WRITE_DOC]] },
+    output: { name: 'Output', overview: [[Emotion.TBD, WRITE_DOC]] },
+    functions: { name: 'Functions', overview: [[Emotion.TBD, WRITE_DOC]] },
+    structures: { name: 'Structures', overview: [[Emotion.TBD, WRITE_DOC]] },
+    types: { name: 'Types', overview: [[Emotion.TBD, WRITE_DOC]] },
+    docs: { name: 'Documentation', overview: [[Emotion.TBD, WRITE_DOC]] },
 };

@@ -4,6 +4,7 @@
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
     import Eyes from './Eyes.svelte';
     import { creator } from '../../db/Creator';
+    import type Emotion from '../../lore/Emotion';
 
     export let glyph: Glyph;
     /** If true, speech is placed below glyph. If false, speech is placed to the right or left of glyph. */
@@ -14,6 +15,8 @@
     export let baseline: boolean = false;
     /** If true, uses foreground color for background, and background for foreground. */
     export let invert: boolean = false;
+    /** Optional emotion */
+    export let emotion: Emotion | undefined = undefined;
     export let concept: Concept | undefined = undefined;
 
     const Limit = 10;
@@ -30,7 +33,10 @@
         : ''}"
 >
     {#key glyph}
-        <div class="glyphs emotion-{concept?.getEmotion($creator.getLocale())}">
+        <div
+            class="glyphs emotion-{emotion ??
+                concept?.getEmotion($creator.getLocale())}"
+        >
             {#if concept}
                 <ConceptLinkUI link={concept} salient={false} label={symbols} />
             {:else}
