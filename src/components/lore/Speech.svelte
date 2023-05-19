@@ -23,6 +23,8 @@
     export let emotion: Emotion | undefined = undefined;
     export let concept: Concept | undefined = undefined;
 
+    $: renderedEmotion = emotion ?? concept?.getEmotion($creator.getLocale());
+
     $: symbols =
         glyph.symbols.length > Limit
             ? `${glyph.symbols.substring(0, Limit)}…`
@@ -37,8 +39,7 @@
 >
     {#key glyph}
         <div
-            class="glyphs emotion-{emotion ??
-                concept?.getEmotion($creator.getLocale())}"
+            class="glyphs {renderedEmotion ? `emotion-${renderedEmotion}` : ''}"
         >
             {#if concept}
                 <ConceptLinkUI link={concept} salient={false} label={symbols} />
