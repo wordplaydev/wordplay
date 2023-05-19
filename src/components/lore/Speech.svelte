@@ -1,3 +1,7 @@
+<script context="module" lang="ts">
+    export const Limit = 10;
+</script>
+
 <script lang="ts">
     import type Concept from '../../concepts/Concept';
     import type Glyph from '../../lore/Glyph';
@@ -19,7 +23,6 @@
     export let emotion: Emotion | undefined = undefined;
     export let concept: Concept | undefined = undefined;
 
-    const Limit = 10;
     $: symbols =
         glyph.symbols.length > Limit
             ? `${glyph.symbols.substring(0, Limit)}…`
