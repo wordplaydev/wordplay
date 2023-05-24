@@ -288,8 +288,8 @@
     }
 
     .emotion-cheerful {
-        animation: cheerful ease 3;
-        animation-duration: 0.25s;
+        animation: cheerful ease-in-out infinite;
+        animation-duration: 2s;
         transform-origin: bottom;
         --cheerfulness: 1deg;
     }
@@ -298,11 +298,12 @@
         0%,
         100% {
             transform: rotate(calc(-1 * var(--cheerfulness)))
-                skewX(calc(-1 * var(--cheerfulness))) translateX(-10px);
+                skewX(calc(-1 * var(--cheerfulness))) translateX(-3px)
+                rotate(-10deg);
         }
         50% {
             transform: rotate(var(--cheerfulness)) skewX(var(--cheerfulness))
-                translateX(10px);
+                translateX(3px) rotate(10deg);
         }
     }
 
@@ -400,6 +401,258 @@
         }
         90% {
             transform: scaleY(1) rotate(3deg);
+        }
+    }
+
+    .emotion-angry {
+        animation: angry linear infinite;
+        animation-duration: 25ms;
+        transform-origin: center;
+    }
+
+    @keyframes angry {
+        0% {
+            transform: translateY(-1px);
+        }
+        50% {
+            transform: scale(1.3) translateY(2px);
+        }
+        90% {
+            transform: translateY(-1px);
+        }
+    }
+
+    .emotion-arrogant {
+        animation: arrogant ease-out infinite;
+        animation-duration: 5s;
+        transform-origin: bottom;
+    }
+
+    @keyframes arrogant {
+        0%,
+        100% {
+            transform: rotate(0deg) skewX(5deg);
+        }
+        25% {
+            transform: rotate(15deg);
+        }
+        75% {
+            transform: rotate(10deg) skewX(3deg);
+        }
+    }
+
+    .emotion-confused {
+        animation: confused ease infinite;
+        animation-duration: 2s;
+        transform-origin: bottom;
+    }
+
+    @keyframes confused {
+        0%,
+        100% {
+            transform: rotate(0deg);
+        }
+        25% {
+            transform: rotate(5deg);
+        }
+        50% {
+            transform: rotate(5deg) scaleY(1.2);
+        }
+        75% {
+            transform: rotate(5deg) scaleY(1.2);
+        }
+    }
+
+    .emotion-excited {
+        animation: excited ease-out infinite;
+        animation-duration: 500ms;
+        transform-origin: bottom;
+    }
+
+    @keyframes excited {
+        0%,
+        100% {
+            transform: scaleX(1);
+        }
+        50% {
+            transform: scaleX(-1) translateY(-10px);
+        }
+    }
+
+    .emotion-grumpy {
+        animation: grumpy ease-out infinite;
+        animation-duration: 5s;
+        transform-origin: bottom;
+    }
+
+    @keyframes grumpy {
+        0%,
+        100% {
+            transform: none;
+        }
+        25% {
+            transform: scaleY(0.5);
+        }
+        85% {
+            transform: scaleY(0.6);
+        }
+        95% {
+            transform: scaleY(0.9);
+        }
+    }
+
+    .emotion-happy {
+        animation: happy ease-out infinite;
+        animation-duration: 4s;
+        transform-origin: bottom;
+    }
+
+    @keyframes happy {
+        0%,
+        100% {
+            transform: rotate(0deg);
+        }
+        25% {
+            transform: rotate(10deg);
+        }
+        85% {
+            transform: rotate(10deg);
+        }
+        95% {
+            transform: rotate(5deg);
+        }
+    }
+
+    .emotion-insecure {
+        animation: insecure ease-out infinite;
+        animation-duration: 4s;
+        transform-origin: bottom;
+    }
+
+    @keyframes insecure {
+        0%,
+        100% {
+            transform: scale(0.8);
+        }
+        25% {
+            transform: scale(0.4) translate(-5px);
+        }
+        50% {
+            transform: scale(0.4) translate(8px);
+        }
+        90% {
+            transform: scale(0.6) translate(-3px);
+        }
+    }
+
+    .emotion-neutral {
+        animation: neutral ease-out infinite;
+        animation-duration: 4s;
+        transform-origin: bottom;
+    }
+
+    @keyframes neutral {
+        0%,
+        100% {
+            transform: translateX(0);
+        }
+        25% {
+            transform: translateX(-2px);
+        }
+        50% {
+            transform: translateX(3px) rotate(5deg);
+        }
+        90% {
+            transform: translateX(4px) rotate(7deg);
+        }
+    }
+
+    .emotion-sad {
+        animation: sad ease-in infinite;
+        animation-duration: 2s;
+        transform-origin: bottom;
+    }
+
+    @keyframes sad {
+        0%,
+        100% {
+            transform: scaleY(1);
+        }
+        5% {
+            transform: scaleY(0.5) rotate(5deg);
+        }
+        10% {
+            transform: scaleY(0.9);
+        }
+        15% {
+            transform: scaleY(0.5) rotate(-5deg);
+        }
+        20% {
+            transform: scaleY(0.8);
+        }
+        25% {
+            transform: scaleY(0.5) rotate(5deg);
+        }
+        30% {
+            transform: scaleY(0.7);
+        }
+        35% {
+            transform: scaleY(0.5) rotate(5deg);
+        }
+        40% {
+            transform: scaleY(0.6);
+        }
+        45% {
+            transform: scaleY(0.5) rotate(-5deg);
+        }
+        90% {
+            transform: scaleY(0.5);
+        }
+    }
+
+    .emotion-surprised {
+        animation: surprised ease-out infinite;
+        animation-duration: 2s;
+        transform-origin: bottom;
+    }
+
+    @keyframes surprised {
+        0%,
+        100% {
+            transform: scale(1);
+        }
+        5% {
+            transform: scale(1.2);
+        }
+        25% {
+            transform: scale(1.4);
+        }
+        90% {
+            transform: scale(1.3);
+        }
+    }
+
+    .emotion-precise {
+        animation: precise steps(2) infinite;
+        animation-duration: 1s;
+        transform-origin: bottom;
+    }
+
+    @keyframes precise {
+        0% {
+            transform: translate(-10px, -10px);
+        }
+        25% {
+            transform: translate(-10px, 10px);
+        }
+        50% {
+            transform: translate(10px, 10px);
+        }
+        75% {
+            transform: translate(10px, -10px);
+        }
+        100% {
+            transform: translate(-10px, -10px);
         }
     }
 </style>

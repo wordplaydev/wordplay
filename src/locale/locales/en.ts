@@ -441,7 +441,7 @@ const en: Locale = {
         Bind: {
             names: 'bind',
             description: (bind) => bind.names.getNames().join(', '),
-            emotion: Emotion.Restless,
+            emotion: Emotion.Bored,
             doc: `Hello!
                 I love names. 
                 I name things. 
@@ -579,7 +579,7 @@ const en: Locale = {
         BooleanLiteral: {
             names: 'boolean',
             description: (literal) => (literal.bool() ? 'true' : 'false'),
-            emotion: Emotion.Obsessed,
+            emotion: Emotion.Precise,
             doc: `
                 Zero. One. Yes. No. True. False. 
                 There are only two. 

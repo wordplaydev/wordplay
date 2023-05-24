@@ -40,7 +40,7 @@ export default class StreamConcept extends Concept {
     }
 
     getEmotion() {
-        return Emotion.Restless;
+        return Emotion.Bored;
     }
 
     hasName(name: string) {

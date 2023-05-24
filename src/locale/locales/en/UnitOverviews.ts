@@ -60,26 +60,26 @@ export const UnitOverviews: UnitNames = {
     },
     values: {
         name: 'Values',
-        overview: [teacher(Emotion.TBD, WRITE_DOC)],
+        overview: [teacher(Emotion.Neutral, WRITE_DOC)],
     },
-    input: { name: 'Inputs', overview: [teacher(Emotion.TBD, WRITE_DOC)] },
+    input: { name: 'Inputs', overview: [teacher(Emotion.Neutral, WRITE_DOC)] },
     collections: {
         name: 'Collections',
-        overview: [teacher(Emotion.TBD, WRITE_DOC)],
+        overview: [teacher(Emotion.Neutral, WRITE_DOC)],
     },
-    names: { name: 'Names', overview: [teacher(Emotion.TBD, WRITE_DOC)] },
-    output: { name: 'Output', overview: [teacher(Emotion.TBD, WRITE_DOC)] },
+    names: { name: 'Names', overview: [teacher(Emotion.Neutral, WRITE_DOC)] },
+    output: { name: 'Output', overview: [teacher(Emotion.Neutral, WRITE_DOC)] },
     functions: {
         name: 'Functions',
-        overview: [teacher(Emotion.TBD, WRITE_DOC)],
+        overview: [teacher(Emotion.Neutral, WRITE_DOC)],
     },
     structures: {
         name: 'Structures',
-        overview: [teacher(Emotion.TBD, WRITE_DOC)],
+        overview: [teacher(Emotion.Neutral, WRITE_DOC)],
     },
-    types: { name: 'Types', overview: [teacher(Emotion.TBD, WRITE_DOC)] },
+    types: { name: 'Types', overview: [teacher(Emotion.Neutral, WRITE_DOC)] },
     docs: {
         name: 'Documentation',
-        overview: [teacher(Emotion.TBD, WRITE_DOC)],
+        overview: [teacher(Emotion.Neutral, WRITE_DOC)],
     },
 };
