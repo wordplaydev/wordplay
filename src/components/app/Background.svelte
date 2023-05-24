@@ -5,6 +5,7 @@
     import Eyes from '../lore/Eyes.svelte';
     import UnicodeString from '../../models/UnicodeString';
     import { creator } from '../../db/Creator';
+    import Emotion from '../../lore/Emotion';
 
     type Glyph = {
         glyph: string;
@@ -107,7 +108,7 @@
             class="glyph"
             data-id={glyph.index}
             style:font-size="{glyph.size}pt"
-            >{glyph.glyph}<Eyes invert={false} /></div
+            >{glyph.glyph}<Eyes invert={false} emotion={Emotion.Neutral} /></div
         >
     {/each}
 </div>

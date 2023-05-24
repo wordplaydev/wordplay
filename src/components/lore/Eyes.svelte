@@ -1,7 +1,36 @@
+<script context="module" lang="ts">
+    const Squint: `${Emotion}`[] = [
+        'angry',
+        'confused',
+        'grumpy',
+        'insecure',
+        'sad',
+        'precise',
+    ];
+    const Half: `${Emotion}`[] = [
+        'arrogant',
+        'cheerful',
+        'eager',
+        'happy',
+        'kind',
+        'neutral',
+        'serious',
+    ];
+    const Wide: `${Emotion}`[] = [
+        'bored',
+        'curious',
+        'excited',
+        'scared',
+        'surprised',
+    ];
+</script>
+
 <script lang="ts">
     import { creator } from '../../db/Creator';
+    import type Emotion from '../../lore/Emotion';
 
     export let invert: boolean;
+    export let emotion: Emotion;
 
     let left: HTMLElement | null;
     let right: HTMLElement | null;
@@ -43,6 +72,14 @@
             animateEyes();
         }
     }
+
+    let eyes = Squint.includes(emotion)
+        ? 'squint'
+        : Half.includes(emotion)
+        ? 'half'
+        : Wide.includes(emotion)
+        ? 'wide'
+        : 'half';
 </script>
 
 <div
@@ -51,9 +88,8 @@
     class:invert
     style:--offset="{offset}px"
     style:--gaze="{gaze}%"
-    ><div bind:this={left} class="eye left"><div class="pupil" /></div><div
-        bind:this={right}
-        class="eye right"><div class="pupil" /></div
+    ><div bind:this={left} class="eye left {eyes}"><div class="pupil" /></div
+    ><div bind:this={right} class="eye right {eyes}"><div class="pupil" /></div
     ></div
 >
 
@@ -79,6 +115,18 @@
         border: 0.02em solid var(--wordplay-foreground);
         border-radius: 50%;
         display: flex;
+    }
+
+    .squint {
+        transform: scaleY(0.2);
+    }
+
+    .half {
+        transform: scaleY(0.8);
+    }
+
+    .wide {
+        transform: scaleY(1);
     }
 
     .invert .eye {

@@ -8,7 +8,7 @@
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
     import Eyes from './Eyes.svelte';
     import { creator } from '../../db/Creator';
-    import type Emotion from '../../lore/Emotion';
+    import Emotion from '../../lore/Emotion';
 
     export let glyph: Glyph;
     /** If true, speech is placed below glyph. If false, speech is placed to the right or left of glyph. */
@@ -46,7 +46,7 @@
             {:else}
                 {symbols}
             {/if}
-            <Eyes {invert} />
+            <Eyes {invert} emotion={emotion ?? Emotion.Neutral} />
         </div>
     {/key}
     <div class="message {below ? 'below' : right ? 'right' : 'left'}">
