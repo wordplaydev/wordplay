@@ -198,7 +198,7 @@
             <Button
                 tip={$creator.getLocale().ui.tooltip.previousLesson}
                 action={() => navigate(progress.previousLesson() ?? progress)}
-                enabled={progress.previousLesson() !== undefined}>←</Button
+                enabled={progress.previousLesson() !== undefined}>≪</Button
             >
             <!-- A hierarchical select of tutorial units and lessons  -->
             <select bind:value={selection} on:change={handleSelect}>
@@ -239,29 +239,9 @@
             <Button
                 tip={$creator.getLocale().ui.tooltip.nextLesson}
                 action={() => navigate(progress.nextLesson() ?? progress)}
-                enabled={progress.nextLesson() !== undefined}>→</Button
+                enabled={progress.nextLesson() !== undefined}>≫</Button
             >
         </nav>
-        <div class="turns">
-            {#each turns as turn, index}
-                <!-- First speaker is always function, alternating speakers are the concept we're learning about. -->
-                <Speech
-                    glyph={index % 2 === 0
-                        ? Glyphs.Function
-                        : concept?.getGlyphs($creator.getLanguages()) ??
-                          Glyphs.Unparsable}
-                    right={index % 2 === 0}
-                    baseline
-                    emotion={instructions
-                        ? instructions[index].emotion
-                        : overviewStep
-                        ? overviewStep.emotion
-                        : undefined}
-                >
-                    <DocHtmlView doc={turn.speech} spaces={turn.spaces} />
-                </Speech>
-            {/each}
-        </div>
         <div class="controls">
             <Button
                 tip={$creator.getLocale().ui.tooltip.previousLessonStep}
@@ -283,6 +263,26 @@
                 action={() => navigate(progress.nextStep() ?? progress)}
                 enabled={progress.nextStep() !== undefined}>&gt;</Button
             >
+        </div>
+        <div class="turns">
+            {#each turns as turn, index}
+                <!-- First speaker is always function, alternating speakers are the concept we're learning about. -->
+                <Speech
+                    glyph={index % 2 === 0
+                        ? Glyphs.Function
+                        : concept?.getGlyphs($creator.getLanguages()) ??
+                          Glyphs.Unparsable}
+                    right={index % 2 === 0}
+                    baseline
+                    emotion={instructions
+                        ? instructions[index].emotion
+                        : overviewStep
+                        ? overviewStep.emotion
+                        : undefined}
+                >
+                    <DocHtmlView doc={turn.speech} spaces={turn.spaces} />
+                </Speech>
+            {/each}
         </div>
     </div>
     {#if project}
