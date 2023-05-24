@@ -23,7 +23,7 @@ import type ValueLink from './ValueLink';
 import type BooleanLiteral from '@nodes/BooleanLiteral';
 import type ListLiteral from '@nodes/ListLiteral';
 import type StreamDefinitionType from '../nodes/StreamDefinitionType';
-import type Emotion from '../lore/Emotion';
+import Emotion from '../lore/Emotion';
 import type TextType from '../nodes/TextType';
 import type Name from '../nodes/Name';
 import type Language from '../nodes/Language';
@@ -893,7 +893,7 @@ export type NodeTexts = {
     NoneLiteral: StaticNodeText<1, 0> & AtomicExpressionText;
     Previous: StaticNodeText<1, 0> &
         ExpressionText<(stream: NodeLink) => Description, ValueOrUndefinedText>;
-    Program: StaticNodeText<1, 0> &
+    Program: StaticNodeText<1, 1> &
         ExpressionText<
             (changes: { stream: ValueLink; value: ValueLink }[]) => Description,
             ValueOrUndefinedText
@@ -1126,15 +1126,40 @@ export type UnitNames = {
     docs: UnitText;
 };
 
+/** Count corresponds to the number of scenes in the lesson */
 export type LessonText<Count extends number, Names extends number> = {
     tutorial: {
         /* The sequence of conversational turns to show for each step */
-        dialog: FixedArray<Count, Dialog>;
+        dialog: FixedArray<Count, Dialog[]>;
         /* Localized text to replace in the program for the lesson */
         text: FixedArray<Names, string>;
     };
 };
 
-export type Dialog = [Emotion, string];
+export type Dialog = {
+    concept: boolean;
+    emotion: Emotion;
+    text: string;
+};
+
+export function dialog(
+    text: string,
+    concept: boolean = false,
+    emotion: Emotion = Emotion.Neutral
+): Dialog {
+    return {
+        concept,
+        emotion,
+        text,
+    };
+}
+
+export function teacher(emotion: Emotion, text: string): Dialog {
+    return dialog(text, false, emotion);
+}
+
+export function concept(emotion: Emotion, text: string): Dialog {
+    return dialog(text, true, emotion);
+}
 
 export default Locale;

@@ -105,15 +105,14 @@
     /** Convert the instructions into a sequence of docs/space pairs */
     let turns: { speech: Doc; spaces: Spaces }[] = [];
     $: {
-        const text =
+        const statements =
             instructions !== undefined && lesson !== undefined
-                ? localize(instructions[1], lesson.concept.tutorial.text)
+                ? instructions.map((instruction) =>
+                      localize(instruction.text, lesson!.concept.tutorial.text)
+                  )
                 : overviewStep
-                ? overviewStep[1]
-                : '';
-        // Localize all of the text using the lesson's names
-        // Split by speaker
-        const statements = text.split('---');
+                ? [overviewStep.text]
+                : [''];
         // Map each speaker onto a docs
         turns = statements.map((statement) => {
             const tokens = toTokens('`' + statement + '`');
@@ -254,9 +253,9 @@
                     right={index % 2 === 0}
                     baseline
                     emotion={instructions
-                        ? instructions[0]
+                        ? instructions[index].emotion
                         : overviewStep
-                        ? overviewStep[0]
+                        ? overviewStep.emotion
                         : undefined}
                 >
                     <DocHtmlView doc={turn.speech} spaces={turn.spaces} />

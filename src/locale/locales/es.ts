@@ -29,6 +29,7 @@ import {
     type Description,
     type FixedArray,
     type Dialog,
+    teacher,
 } from '../Locale';
 import type { CycleType } from '@nodes/CycleType';
 import type UnknownNameType from '@nodes/UnknownNameType';
@@ -39,8 +40,12 @@ import Emotion from '../../lore/Emotion';
 import Unit from '@nodes/Unit';
 
 const WRITE_DOC = 'pendiante';
+export const WRITE_DIALOG = [[teacher(Emotion.TBD, WRITE_DOC)]] as FixedArray<
+    1,
+    Dialog[]
+>;
 export const WRITE_TUTORIAL = {
-    dialog: [[Emotion.TBD, WRITE_DOC]] as FixedArray<1, Dialog>,
+    dialog: WRITE_DIALOG,
     text: [],
 };
 
@@ -161,27 +166,45 @@ const eng_wordplay: Locale = {
     },
     tutorial: {
         units: {
-            welcome: { name: WRITE_DOC, overview: [[Emotion.TBD, WRITE_DOC]] },
-            values: { name: WRITE_DOC, overview: [[Emotion.TBD, WRITE_DOC]] },
-            input: { name: WRITE_DOC, overview: [[Emotion.TBD, WRITE_DOC]] },
+            welcome: {
+                name: WRITE_DOC,
+                overview: [teacher(Emotion.TBD, WRITE_DOC)],
+            },
+            values: {
+                name: WRITE_DOC,
+                overview: [teacher(Emotion.TBD, WRITE_DOC)],
+            },
+            input: {
+                name: WRITE_DOC,
+                overview: [teacher(Emotion.TBD, WRITE_DOC)],
+            },
             collections: {
                 name: WRITE_DOC,
-                overview: [[Emotion.TBD, WRITE_DOC]],
+                overview: [teacher(Emotion.TBD, WRITE_DOC)],
             },
-            names: { name: WRITE_DOC, overview: [[Emotion.TBD, WRITE_DOC]] },
-            output: { name: WRITE_DOC, overview: [[Emotion.TBD, WRITE_DOC]] },
+            names: {
+                name: WRITE_DOC,
+                overview: [teacher(Emotion.TBD, WRITE_DOC)],
+            },
+            output: {
+                name: WRITE_DOC,
+                overview: [teacher(Emotion.TBD, WRITE_DOC)],
+            },
             functions: {
                 name: WRITE_DOC,
-                overview: [[Emotion.TBD, WRITE_DOC]],
+                overview: [teacher(Emotion.TBD, WRITE_DOC)],
             },
             structures: {
                 name: WRITE_DOC,
-                overview: [[Emotion.TBD, WRITE_DOC]],
+                overview: [teacher(Emotion.TBD, WRITE_DOC)],
             },
-            types: { name: WRITE_DOC, overview: [[Emotion.TBD, WRITE_DOC]] },
+            types: {
+                name: WRITE_DOC,
+                overview: [teacher(Emotion.TBD, WRITE_DOC)],
+            },
             docs: {
                 name: 'Documentation',
-                overview: [[Emotion.TBD, WRITE_DOC]],
+                overview: [teacher(Emotion.TBD, WRITE_DOC)],
             },
         },
     },
@@ -636,7 +659,10 @@ const eng_wordplay: Locale = {
                       ),
             finish: (value) =>
                 Explanation.as('program evaluated to ', value ?? 'nothing'),
-            tutorial: WRITE_TUTORIAL,
+            tutorial: {
+                dialog: WRITE_DIALOG,
+                text: ['hola'],
+            },
         },
         PropertyBind: {
             names: 'refinar',

@@ -30,6 +30,8 @@ import {
     type Description,
     type Dialog,
     type FixedArray,
+    teacher,
+    concept,
 } from '../Locale';
 import type { CycleType } from '@nodes/CycleType';
 import type UnknownNameType from '@nodes/UnknownNameType';
@@ -42,7 +44,7 @@ import { UnitOverviews } from './en/UnitOverviews';
 
 export const WRITE_DOC = 'TBD';
 export const WRITE_TUTORIAL = {
-    dialog: [[Emotion.TBD, WRITE_DOC]] as FixedArray<1, Dialog>,
+    dialog: [[teacher(Emotion.Neutral, WRITE_DOC)]] as FixedArray<1, Dialog[]>,
     text: [],
 };
 
@@ -192,37 +194,40 @@ const en: Locale = {
             tutorial: {
                 dialog: [
                     [
-                        Emotion.Angry,
-                        `Oh, let's go meet @program. Hi @program!
+                        teacher(
+                            Emotion.Excited,
+                            "Oh, let's go meet @program. Hi @program!"
+                        ),
+                        concept(
+                            Emotion.Curious,
+                            'Heyyyy, is this the new choreographer?'
+                        ),
+                        teacher(
+                            Emotion.Neutral,
+                            "Yeah, they just arrived. I'm just doing intros, and thought I'd come to you first."
+                        ),
+                        concept(Emotion.Excited, 'Nice to meet you!'),
+                        teacher(
+                            Emotion.Neutral,
+                            'Do you want to say what you do?'
+                        ),
+                        concept(
+                            Emotion.Serious,
+                            `
+                        Sure.
+                        I'm basically the organizer for a performance.
+                        Everyone figures out what they're doing and then I put them on stage for the audience to see.
+                        For example, let's say my friend ($1) here was in my list of instructions.
+                        They evaluate to (1), then I put (1) on stage.
 
-                    ---
-                    Heyyyy, is this the new choreographer?
-
-                    ---
-                    Yeah, they just arrived.
-                    I'm just doing intros, and thought I'd come to you first.
-
-                    ---
-                    Nice to meet you!
-                    
-                    ---
-                    Do you want to say what you do?
-
-                    ---
-                    Sure.
-                    I'm basically the organizer for a performance.
-                    Everyone figures out what they're doing and then I put them on stage for the audience to see.
-                    For example, let's say my friend ($1) here was in my list of instructions.
-                    They evaluate to (1), then I put (1) on stage.
-
-                    ---
-                    Try changing "$1" to something else.
-                    I'll show that instead.
-                    So I'll evaluate whatever code is in me, and show the result.
-                    `,
+                        Try changing "$1" to something else.
+                        I'll show that instead.
+                        So I'll evaluate whatever code is in me, and show the result.
+                    `
+                        ),
                     ],
                 ],
-                text: [],
+                text: ['hello'],
             },
         },
         Dimension: {

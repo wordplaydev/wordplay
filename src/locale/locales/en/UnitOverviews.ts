@@ -1,5 +1,5 @@
 import Emotion from '../../../lore/Emotion';
-import type { UnitNames } from '../../Locale';
+import { teacher, type UnitNames } from '../../Locale';
 
 const WRITE_DOC = 'TBD';
 
@@ -7,7 +7,7 @@ export const UnitOverviews: UnitNames = {
     welcome: {
         name: 'Welcome',
         overview: [
-            [
+            teacher(
                 Emotion.Bored,
                 `...
 
@@ -18,9 +18,9 @@ export const UnitOverviews: UnitNames = {
                 My name is **ƒ**.
                 
                 I'm so bored...
-                `,
-            ],
-            [
+                `
+            ),
+            teacher(
                 Emotion.Curious,
                 `Why? Oh, is this your first time visiting **Versa**?
 
@@ -31,9 +31,9 @@ export const UnitOverviews: UnitNames = {
                 They have the fun ideas, and we know how to dance.
                 
                 But I haven't seen a person in ages.
-                `,
-            ],
-            [
+                `
+            ),
+            teacher(
                 Emotion.Eager,
                 `Wait... you're a person?
 
@@ -45,32 +45,41 @@ export const UnitOverviews: UnitNames = {
                 But those that commit to learning about us usually figure it out just fine.
 
                 Do you... want to learn?
-                `,
-            ],
-            [
+                `
+            ),
+            teacher(
                 Emotion.Excited,
                 `That's wonderful!
                 I'm so excited.
 
                 I'm happy to show you around and introduce you to everyone.
                 There are soooo many cool things to see here, I'm sure you're going to love it.
-                `,
-            ],
+                `
+            ),
         ],
     },
     values: {
         name: 'Values',
-        overview: [[Emotion.TBD, WRITE_DOC]],
+        overview: [teacher(Emotion.TBD, WRITE_DOC)],
     },
-    input: { name: 'Inputs', overview: [[Emotion.TBD, WRITE_DOC]] },
+    input: { name: 'Inputs', overview: [teacher(Emotion.TBD, WRITE_DOC)] },
     collections: {
         name: 'Collections',
-        overview: [[Emotion.TBD, WRITE_DOC]],
+        overview: [teacher(Emotion.TBD, WRITE_DOC)],
     },
-    names: { name: 'Names', overview: [[Emotion.TBD, WRITE_DOC]] },
-    output: { name: 'Output', overview: [[Emotion.TBD, WRITE_DOC]] },
-    functions: { name: 'Functions', overview: [[Emotion.TBD, WRITE_DOC]] },
-    structures: { name: 'Structures', overview: [[Emotion.TBD, WRITE_DOC]] },
-    types: { name: 'Types', overview: [[Emotion.TBD, WRITE_DOC]] },
-    docs: { name: 'Documentation', overview: [[Emotion.TBD, WRITE_DOC]] },
+    names: { name: 'Names', overview: [teacher(Emotion.TBD, WRITE_DOC)] },
+    output: { name: 'Output', overview: [teacher(Emotion.TBD, WRITE_DOC)] },
+    functions: {
+        name: 'Functions',
+        overview: [teacher(Emotion.TBD, WRITE_DOC)],
+    },
+    structures: {
+        name: 'Structures',
+        overview: [teacher(Emotion.TBD, WRITE_DOC)],
+    },
+    types: { name: 'Types', overview: [teacher(Emotion.TBD, WRITE_DOC)] },
+    docs: {
+        name: 'Documentation',
+        overview: [teacher(Emotion.TBD, WRITE_DOC)],
+    },
 };

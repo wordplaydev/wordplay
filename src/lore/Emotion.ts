@@ -18,6 +18,7 @@ enum Emotion {
     Lonely = 'lonely',
     Loving = 'loving',
     Mad = 'mad',
+    Neutral = 'neutral',
     Peaceful = 'peaceful',
     Pleased = 'pleased',
     Sad = 'sad',
