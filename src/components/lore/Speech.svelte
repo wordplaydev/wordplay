@@ -94,6 +94,7 @@
         font-family: var(--wordplay-code-font);
         position: relative;
         margin-right: auto;
+        z-index: 2;
     }
 
     .row .glyphs {
@@ -302,6 +303,103 @@
         50% {
             transform: rotate(var(--cheerfulness)) skewX(var(--cheerfulness))
                 translateX(10px);
+        }
+    }
+
+    .emotion-bored {
+        animation: bored ease infinite;
+        animation-duration: 2s;
+        transform-origin: bottom;
+    }
+
+    @keyframes bored {
+        0%,
+        50%,
+        100% {
+            transform: scaleY(1);
+        }
+        25% {
+            transform: scaleY(0.7) skewX(-20deg);
+        }
+        75% {
+            transform: scaleY(0.7) skewX(20deg);
+        }
+    }
+
+    .emotion-curious {
+        animation: curious ease infinite;
+        animation-duration: 2s;
+        transform-origin: bottom;
+    }
+
+    @keyframes curious {
+        0%,
+        40%,
+        100% {
+            transform: rotate(0deg);
+        }
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+
+    .emotion-eager {
+        animation: eager ease infinite;
+        animation-duration: 1s;
+        transform-origin: bottom;
+    }
+
+    @keyframes eager {
+        0% {
+            transform: scaleY(1) translateY(0);
+        }
+        10% {
+            transform: scaleY(0.9) translateY(0);
+        }
+        30% {
+            transform: scaleY(1.1) translateY(calc(-1 * var(--bounce-height)));
+        }
+        50% {
+            transform: scaleY(0.95) translateY(0);
+        }
+        57% {
+            transform: scaleY(1) translateY(-7px);
+        }
+        64% {
+            transform: scaleY(1) translateY(0);
+        }
+        100% {
+            transform: scaleY(1) translateY(0);
+        }
+    }
+
+    .emotion-scared {
+        animation: scared linear infinite;
+        animation-duration: 100ms;
+        transform-origin: center;
+    }
+
+    @keyframes scared {
+        0% {
+            transform: scaleY(1) rotate(-2deg);
+        }
+        15% {
+            transform: scaleY(0.9) rotate(3deg);
+        }
+        30% {
+            transform: scaleY(1.1) rotate(-9deg);
+        }
+        45% {
+            transform: scaleY(0.95) rotate(0);
+        }
+        60% {
+            transform: scaleY(1) rotate(-7deg);
+        }
+        75% {
+            transform: scaleY(1) rotate(0);
+        }
+        90% {
+            transform: scaleY(1) rotate(3deg);
         }
     }
 </style>

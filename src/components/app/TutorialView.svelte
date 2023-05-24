@@ -342,6 +342,7 @@
         display: flex;
         flex-direction: column;
         gap: calc(2 * var(--wordplay-spacing));
+        padding-top: calc(2 * var(--wordplay-spacing));
     }
 
     .project {
