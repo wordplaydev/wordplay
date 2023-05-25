@@ -195,11 +195,17 @@
         bind:this={view}
     >
         <nav>
-            <Button
+            <!-- <Button
                 tip={$creator.getLocale().ui.tooltip.previousLesson}
                 action={() => navigate(progress.previousLesson() ?? progress)}
                 enabled={progress.previousLesson() !== undefined}>≪</Button
+            > -->
+            <Button
+                tip={$creator.getLocale().ui.tooltip.previousLessonStep}
+                action={() => navigate(progress.previousStep() ?? progress)}
+                enabled={progress.previousStep() !== undefined}>&lt;</Button
             >
+
             <!-- A hierarchical select of tutorial units and lessons  -->
             <select bind:value={selection} on:change={handleSelect}>
                 {#each progress.tutorial as unit}
@@ -234,36 +240,28 @@
                 >{unit
                     ? $creator.getLocale().tutorial.units[unit.id].name
                     : '—'}
-                {#if lesson !== undefined}&gt; {names}{/if}</Note
-            >
-            <Button
-                tip={$creator.getLocale().ui.tooltip.nextLesson}
-                action={() => navigate(progress.nextLesson() ?? progress)}
-                enabled={progress.nextLesson() !== undefined}>≫</Button
-            >
-        </nav>
-        <div class="controls">
-            <Button
-                tip={$creator.getLocale().ui.tooltip.previousLessonStep}
-                action={() => navigate(progress.previousStep() ?? progress)}
-                enabled={progress.previousStep() !== undefined}>&lt;</Button
-            >
-            <div class="progress"
-                ><Note center
-                    >{progress.step + 1} /
+                {#if lesson !== undefined}&ndash; {names}{/if}
+                <span class="progress"
+                    >&ndash; {progress.step + 1} /
                     {lesson
                         ? lesson.scenes.length
                         : overview
                         ? overview.length
-                        : '?'}</Note
-                ></div
+                        : '?'}</span
+                ></Note
             >
+            <!-- <Button
+                tip={$creator.getLocale().ui.tooltip.nextLesson}
+                action={() => navigate(progress.nextLesson() ?? progress)}
+                enabled={progress.nextLesson() !== undefined}>≫</Button
+            > -->
             <Button
                 tip={$creator.getLocale().ui.tooltip.nextLessonStep}
                 action={() => navigate(progress.nextStep() ?? progress)}
                 enabled={progress.nextStep() !== undefined}>&gt;</Button
             >
-        </div>
+        </nav>
+        <div class="controls" />
         <div class="turns">
             {#each turns as turn, index}
                 <!-- First speaker is always function, alternating speakers are the concept we're learning about. -->
