@@ -93,16 +93,6 @@ export default class List extends Primitive {
         return new List(requestor, this.values.slice(0, -1));
     }
 
-    sans(requestor: Expression, value: Value) {
-        const val = this.values.find((v) => v.isEqualTo(value));
-        return val === undefined
-            ? this
-            : new List(
-                  requestor,
-                  this.values.filter((v) => v !== val)
-              );
-    }
-
     sansAll(requestor: Expression, value: Value) {
         return new List(
             requestor,

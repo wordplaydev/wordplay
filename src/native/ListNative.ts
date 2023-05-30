@@ -505,7 +505,7 @@ export default function bootstrapList() {
                         const list = evaluation.getClosure();
                         const value = evaluation.resolve(sansInputNames);
                         if (list instanceof List && value !== undefined)
-                            return list.sans(requestor, value);
+                            return list.sansAll(requestor, value);
                         else
                             return evaluation.getValueOrTypeException(
                                 requestor,
