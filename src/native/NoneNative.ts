@@ -35,7 +35,7 @@ export default function bootstrapNone() {
                 Bind.make(
                     translations.inputs[0].docs,
                     translations.inputs[0].names,
-                    BooleanType.make()
+                    NoneType.make()
                 ),
             ],
             new NativeExpression(
