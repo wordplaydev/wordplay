@@ -20,7 +20,7 @@ function position(evaluator: Evaluator, x: number, y: number) {
         new Measurement(evaluator.getMain(), x, Unit.make(['px']))
     );
     bindings.set(
-        PlaceType.inputs[0].names,
+        PlaceType.inputs[1].names,
         new Measurement(evaluator.getMain(), y, Unit.make(['px']))
     );
     return createStructure(evaluator, PlaceType, bindings);
