@@ -16,12 +16,7 @@
     }
 </script>
 
-<Button
-    tip={$creator.getLocale().ui.tooltip.reset}
-    action={reset}
-    enabled={$evaluation?.streams !== undefined &&
-        $evaluation.streams.length > 1}>↻</Button
->
+<Button tip={$creator.getLocale().ui.tooltip.reset} action={reset}>↻</Button>
 <Switch
     on={$evaluation?.playing === true}
     toggle={(play) => (play ? evaluator.play() : evaluator.pause())}
