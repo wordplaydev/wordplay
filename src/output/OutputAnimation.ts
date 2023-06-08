@@ -257,7 +257,7 @@ export default class OutputAnimation {
                 // Start at the previous position, no transition
                 new Transition(
                     prior.place,
-                    this.output.rotation,
+                    prior.rotation,
                     this.output.size,
                     rest ? rest.with(move) : move,
                     0,
