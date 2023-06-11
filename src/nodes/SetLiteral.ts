@@ -20,6 +20,9 @@ import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import type { NativeTypeName } from '../native/NativeConstants';
 import Purpose from '../concepts/Purpose';
+import UnclosedDelimiter from '../conflicts/UnclosedDelimiter';
+import SetCloseToken from './SetCloseToken';
+import type Conflict from '../conflicts/Conflict';
 
 export default class SetLiteral extends Expression {
     readonly open: Token;
@@ -73,7 +76,11 @@ export default class SetLiteral extends Expression {
         return 'set';
     }
 
-    computeConflicts() {}
+    computeConflicts(): Conflict[] {
+        return this.close === undefined
+            ? [new UnclosedDelimiter(this, this.open, new SetCloseToken())]
+            : [];
+    }
 
     computeType(context: Context): Type {
         let type =
