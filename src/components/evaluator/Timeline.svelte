@@ -1,7 +1,7 @@
 <script lang="ts">
     import { afterUpdate } from 'svelte';
     import type Evaluator from '@runtime/Evaluator';
-    import Key from '../../input/Keyboard';
+    import Key from '../../input/Key';
     import Bool from '@runtime/Bool';
     import Button from '../../input/MouseButton';
     import { slide } from 'svelte/transition';

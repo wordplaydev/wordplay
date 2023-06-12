@@ -19,7 +19,7 @@ import {
 import type TypeSet from '@nodes/TypeSet';
 import type StreamDefinition from '../nodes/StreamDefinition';
 import { TimeDefinition } from '../input/Time';
-import { KeyDefinition } from '../input/Keyboard';
+import { KeyDefinition } from '../input/Key';
 import { PointerDefinition } from '../input/MousePosition';
 import { ButtonDefinition } from '../input/MouseButton';
 import { RandomDefinition } from '../input/Random';

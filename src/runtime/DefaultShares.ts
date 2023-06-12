@@ -12,7 +12,7 @@ import { SequenceType } from '../output/Sequence';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
 import type StreamDefinition from '../nodes/StreamDefinition';
 import { TimeDefinition } from '../input/Time';
-import { KeyDefinition as KeyDefinition } from '../input/Keyboard';
+import { KeyDefinition as KeyDefinition } from '../input/Key';
 import { MicDefinition as MicDefinition } from '../input/Microphone';
 import { MotionDefinition } from '../input/Motion';
 import { PointerDefinition as PointerDefinition } from '../input/MousePosition';

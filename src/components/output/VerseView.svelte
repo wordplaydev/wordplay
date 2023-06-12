@@ -9,7 +9,7 @@
     import Place from '@output/Place';
     import Evaluate from '@nodes/Evaluate';
     import { DefaultFont, DefaultSize, VerseType } from '@output/Verse';
-    import Key from '@input/Keyboard';
+    import Key from '@input/Key';
     import Pointer from '@input/MousePosition';
     import Button from '@input/MouseButton';
     import { createPlace } from '@output/Place';
