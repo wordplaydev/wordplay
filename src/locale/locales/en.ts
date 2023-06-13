@@ -2979,10 +2979,15 @@ const en: Locale = {
                             Emotion.Kind,
                             `Sure! 
                             
-                            My friend @ExpressionPlaceholder is a placeholder. They represent any kind of expression in a program. They don't evaluate to any value in particular  — in fact, if they show up in @Program, @Program will just shut things down, since it's not really clear what to do next. But they are powerful, because they can represent anyone else, like a stand-in until you decide what you want a part of your performance to be.
+                            My friend @ExpressionPlaceholder is a placeholder. They represent any kind of expression in a program. 
+                            
+                            They don't evaluate to any value in particular  — in fact, if they show up in @Program, @Program will just shut things down, since it's not really clear what to do next. 
+                            
+                            But they are powerful, because they can represent anyone else, like a stand-in until you decide what you want a part of your performance to be.
                         
                             @ExpressionPlaceholder, want to take a place in this @Program, just to illustrate?`
                         ),
+                        pause(),
                         dialog(
                             'FunctionDefinition',
                             Emotion.Neutral,
