@@ -15,8 +15,6 @@
     import PlayView from './PlayView.svelte';
     import Button from '../widgets/Button.svelte';
     import Source from '../../nodes/Source';
-    import type Lesson from '../../tutorial/Lesson';
-    import type { FixedArray } from '../../locale/Locale';
     import { creator, projects } from '../../db/Creator';
     import type Doc from '../../nodes/Doc';
     import type Spaces from '../../parser/Spaces';
@@ -26,6 +24,7 @@
     import type ConceptIndex from '../../concepts/ConceptIndex';
     import { writable } from 'svelte/store';
     import { tick } from 'svelte';
+    import type { Dialog } from '../../locale/Locale';
 
     export let progress: Progress;
     export let navigate: (progress: Progress) => void;
@@ -44,119 +43,49 @@
 
     let view: HTMLElement | undefined;
 
-    function getName(lesson: Lesson) {
-        return typeof lesson.concept.names === 'string'
-            ? lesson.concept.names
-            : lesson.concept.names[0];
-    }
-
-    const placeholderRegEx = new RegExp('^\\$[0-9]+');
-
-    /** Given some text, replace all $[0-9]+ with the text in the texts array corresponding to the index indicated. */
-    function localize(text: string, texts: FixedArray<any, string>) {
-        let localized = '';
-        let remaining = text;
-        while (remaining.length > 0) {
-            if (placeholderRegEx.test(remaining)) {
-                remaining = remaining.substring(1);
-                let numberText = '';
-                while (isFinite(parseInt(remaining.charAt(0)))) {
-                    numberText = numberText + remaining.charAt(0);
-                    remaining = remaining.substring(1);
-                }
-                let number = parseInt(numberText);
-                if (isFinite(number) && texts[number - 1] !== undefined) {
-                    localized += texts[number - 1];
-                }
-                // Otherwise fail.
-                else {
-                    return text;
-                }
-            } else {
-                localized = localized + remaining.charAt(0);
-                remaining = remaining.substring(1);
-            }
-        }
-
-        return localized;
-    }
-
     /** The current place in the tutorial */
-    $: unit = progress.getUnit();
-    $: lesson = progress.getLesson();
-    $: names = lesson ? getName(lesson) : '–';
-    $: step = progress.getStep();
-    $: instructions = lesson?.concept.tutorial.dialog[progress.step];
-    $: overview =
-        lesson === undefined && unit
-            ? $creator.getLocale().tutorial.units[unit.id].overview
-            : undefined;
-    $: overviewStep = overview ? overview[progress.step] : undefined;
-    // Get the corresponding concept so we can find it's glyphs.
-    $: concept =
-        $conceptsStore && lesson
-            ? $conceptsStore.getConceptByName(
-                  typeof lesson.concept.names === 'string'
-                      ? lesson.concept.names
-                      : lesson.concept.names[0]
-              )
-            : undefined;
+    $: act = progress.getAct();
+    $: scene = progress.getScene();
 
     /** Convert the instructions into a sequence of docs/space pairs */
-    let turns: { speech: Doc; spaces: Spaces }[] = [];
+    let turns: { speech: Doc; spaces: Spaces; dialog: Dialog }[] = [];
     $: {
-        const statements =
-            instructions !== undefined && lesson !== undefined
-                ? instructions.map((instruction) =>
-                      localize(instruction.text, lesson!.concept.tutorial.text)
-                  )
-                : overviewStep
-                ? [overviewStep.text]
-                : [''];
+        const dialog = progress.getDialog();
         // Map each speaker onto a docs
-        turns = statements.map((statement) => {
-            const tokens = toTokens('`' + statement + '`');
-            return { speech: parseDoc(tokens), spaces: tokens.getSpaces() };
-        });
+        turns = dialog
+            ? dialog.map((line) => {
+                  const tokens = toTokens('`' + line.text + '`');
+                  return {
+                      speech: parseDoc(tokens),
+                      spaces: tokens.getSpaces(),
+                      dialog: line,
+                  };
+              })
+            : [];
     }
 
-    $: project = unit
-        ? new Project(
-              progress.getProjectID(),
-              lesson ? names : unit.id,
-              new Source(
-                  'main',
-                  localize(
-                      step ? step.sources[0] : unit.sources[0],
-                      lesson ? lesson.concept.tutorial.text : []
-                  )
-              ),
-              unit.sources
-                  .slice(1)
-                  .map(
-                      (source, index) =>
-                          new Source(
-                              `${index}`,
-                              lesson
-                                  ? localize(
-                                        source,
-                                        lesson.concept.tutorial.text
-                                    )
-                                  : source
-                          )
-                  ),
-              undefined,
-              $user ? [$user.uid] : [],
-              false
-          )
-        : undefined;
+    $: code = progress.getCode();
+    $: project =
+        act && code && code.sources.length > 0
+            ? new Project(
+                  progress.getProjectID(),
+                  scene ? scene.name : act.name,
+                  new Source('main', code.sources[0]),
+                  code.sources
+                      .slice(1)
+                      .map((source, index) => new Source(`${index}`, source)),
+                  undefined,
+                  $user ? [$user.uid] : [],
+                  false
+              )
+            : undefined;
 
     // Any time the project changes, add/update it in projects.
     // This persists the project state for later.
     $: {
         if (project) {
             const existing = $projects.getProject(project.id);
-            if (existing === undefined || !existing.equals(project))
+            if (existing !== undefined && !existing.equals(project))
                 $creator.addProject(project);
         }
     }
@@ -175,25 +104,30 @@
     }
 
     async function handleKey(event: KeyboardEvent) {
-        if (event.key.startsWith('Arrow')) {
-            if (event.key === 'ArrowLeft')
-                navigate(progress.previousStep() ?? progress);
-            else if (event.key == 'ArrowRight')
-                navigate(progress.nextStep() ?? progress);
+        if (event.key === 'ArrowLeft' || event.key === 'Backspace')
+            navigate(progress.previousPause() ?? progress);
+        else if (
+            event.key === 'ArrowRight' ||
+            event.key === 'Enter' ||
+            event.key === ' '
+        )
+            navigate(progress.nextPause() ?? progress);
 
-            await tick();
-            if (view) view.focus();
-        }
+        // Focus the dialog after navigating.
+        await tick();
+        if (view) view.focus();
     }
 </script>
 
+<!-- If the body gets focus, focus the instructions. -->
+<svelte:body
+    on:focus={() => {
+        tick().then(() => view?.focus());
+    }}
+/>
+
 <section class="tutorial">
-    <div
-        class="instructions"
-        tabIndex="0"
-        on:keydown={handleKey}
-        bind:this={view}
-    >
+    <div class="dialog" tabIndex="0" on:keydown={handleKey} bind:this={view}>
         <nav>
             <!-- <Button
                 tip={$creator.getLocale().ui.tooltip.previousLesson}
@@ -202,51 +136,34 @@
             > -->
             <Button
                 tip={$creator.getLocale().ui.tooltip.previousLessonStep}
-                action={() => navigate(progress.previousStep() ?? progress)}
-                enabled={progress.previousStep() !== undefined}>&lt;</Button
+                action={() => navigate(progress.previousPause() ?? progress)}
+                enabled={progress.previousPause() !== undefined}>&lt;</Button
             >
 
             <!-- A hierarchical select of tutorial units and lessons  -->
             <select bind:value={selection} on:change={handleSelect}>
-                {#each progress.tutorial as unit}
-                    <optgroup
-                        label={$creator.getLocale().tutorial.units[unit.id]
-                            .name}
-                    >
-                        <option
-                            value={new Progress(
-                                $creator.getLocale().tutorial.units,
-                                progress.tutorial,
-                                unit.id,
-                                0,
-                                0
-                            )}>◆</option
-                        >
-                        {#each unit.lessons as lesson, index}
+                {#each progress.tutorial as act, actIndex}
+                    <optgroup label={act.name}>
+                        {#each act.scenes as scene, sceneIndex}
                             <option
                                 value={new Progress(
-                                    $creator.getLocale().tutorial.units,
                                     progress.tutorial,
-                                    unit.id,
-                                    index + 1,
-                                    0
-                                )}>{getName(lesson)}</option
+                                    actIndex + 1,
+                                    sceneIndex + 1,
+                                    1
+                                )}>{scene.name}</option
                             >
                         {/each}
                     </optgroup>
                 {/each}
             </select>
             <Note
-                >{unit
-                    ? $creator.getLocale().tutorial.units[unit.id].name
-                    : '—'}
-                {#if lesson !== undefined}&ndash; {names}{/if}
+                >{act ? act.name : '—'}
+                {#if scene !== undefined}&ndash; {scene.name}{/if}
                 <span class="progress"
-                    >&ndash; {progress.step + 1} /
-                    {lesson
-                        ? lesson.scenes.length
-                        : overview
-                        ? overview.length
+                    >&ndash; {progress.pause} /
+                    {scene
+                        ? scene.lines.filter((line) => line === null).length + 1
                         : '?'}</span
                 ></Note
             >
@@ -257,26 +174,22 @@
             > -->
             <Button
                 tip={$creator.getLocale().ui.tooltip.nextLessonStep}
-                action={() => navigate(progress.nextStep() ?? progress)}
-                enabled={progress.nextStep() !== undefined}>&gt;</Button
+                action={() => navigate(progress.nextPause() ?? progress)}
+                enabled={progress.nextPause() !== undefined}>&gt;</Button
             >
         </nav>
         <div class="controls" />
         <div class="turns">
-            {#each turns as turn, index}
+            {#each turns as turn}
                 <!-- First speaker is always function, alternating speakers are the concept we're learning about. -->
                 <Speech
-                    glyph={index % 2 === 0
-                        ? Glyphs.Function
-                        : concept?.getGlyphs($creator.getLanguages()) ??
-                          Glyphs.Unparsable}
-                    right={index % 2 === 0}
+                    glyph={$conceptsStore
+                        ?.getConceptByName(turn.dialog.concept)
+                        ?.getGlyphs($creator.getLanguages()) ??
+                        Glyphs.Unparsable}
+                    right={turn.dialog.concept === 'FunctionDefinition'}
                     baseline
-                    emotion={instructions
-                        ? instructions[index].emotion
-                        : overviewStep
-                        ? overviewStep.emotion
-                        : undefined}
+                    emotion={turn.dialog.emotion}
                 >
                     <DocHtmlView doc={turn.speech} spaces={turn.spaces} />
                 </Speech>
@@ -284,13 +197,15 @@
         </div>
     </div>
     {#if project}
-        {#if lesson}
+        {#if scene && code}
             <div class="project"
                 ><ProjectView
                     {project}
                     bind:index={concepts}
                     close={() => goto('/')}
                     tip={$creator.getLocale().ui.tooltip.home}
+                    edit={code.edit}
+                    fit={code.fit}
                 /></div
             >{:else}<PlayView {project} />{/if}
     {/if}
@@ -300,16 +215,14 @@
     .tutorial {
         display: flex;
         flex-direction: row;
-        gap: var(--wordplay-spacing);
         position: absolute;
-        padding: var(--wordplay-spacing);
         left: 0;
         top: 0;
         right: 0;
         bottom: 0;
     }
 
-    .instructions {
+    .dialog {
         width: 30%;
         padding: var(--wordplay-spacing);
         display: flex;
@@ -319,6 +232,10 @@
         flex-shrink: 0;
         flex-grow: 0;
         align-items: flex-start;
+    }
+
+    .dialog:focus {
+        outline-offset: calc(-1 * var(--wordplay-focus-width));
     }
 
     nav {
@@ -336,10 +253,12 @@
     .turns {
         flex-grow: 1;
         overflow: scroll;
+        overflow-clip-margin: var(--wordplay-spacing);
         display: flex;
         flex-direction: column;
         gap: calc(2 * var(--wordplay-spacing));
         padding-top: calc(2 * var(--wordplay-spacing));
+        width: 100%;
     }
 
     .project {

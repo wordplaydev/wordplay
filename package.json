@@ -7,7 +7,7 @@
         "lint": "eslint .",
         "test": "vitest",
         "test:coverage": "vitest run --coverage",
-        "dev": "ulimit -Sn 12288 && vite dev",
+        "dev": "vite dev",
         "emu": "firebase use dev && npm run env && firebase emulators:start",
         "env": "cp .env.${GCLOUD_PROJECT:-emulator} .env",
         "build": "npm run env && vite build",
@@ -34,8 +34,8 @@
         "ts-jest": "^29.0",
         "tslib": "^2.5",
         "typescript": "^5",
-        "vite": "^4",
-        "vitest": "latest"
+        "vite": "^4.3.9",
+        "vitest": "^0.31.4"
     },
     "type": "module",
     "dependencies": {

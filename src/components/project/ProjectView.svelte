@@ -75,6 +75,10 @@
     export let project: Project;
     export let close: () => void;
     export let tip: string;
+    /** If set to false, only the output is shown initially. */
+    export let edit: boolean = true;
+    /** True if the output should be fit to content */
+    export let fit: boolean = true;
 
     // The HTMLElement that represents this element
     let view: HTMLElement | undefined = undefined;
@@ -261,9 +265,14 @@
                     .find((_, index) => Layout.getSourceID(index) === tile.id);
                 if (source)
                     newTiles.push(
-                        tile.withName(
-                            source.names.getLocaleText($creator.getLanguages())
-                        )
+                        tile
+                            .withName(
+                                source.names.getLocaleText(
+                                    $creator.getLanguages()
+                                )
+                            )
+                            // If not editable, keep the sourc files collapsed
+                            .withMode(edit ? tile.mode : Mode.Collapsed)
                     );
             }
         }
@@ -319,11 +328,12 @@
                               undefined,
                               Tile.randomPosition(1024, 768)
                           ),
-                          ...project
-                              .getSources()
-                              .map((source, index) =>
-                                  createSourceTile(source, index)
-                              ),
+                          ...project.getSources().map((source, index) =>
+                              // If not editable, collapse the source.
+                              createSourceTile(source, index).withMode(
+                                  edit ? Mode.Expanded : Mode.Collapsed
+                              )
+                          ),
                           new Tile(
                               PaletteID,
                               $creator.getLocale().ui.tiles.palette,
@@ -405,9 +415,6 @@
 
     /** The latest value of main in the project */
     let latest: Value | undefined;
-
-    /** True if the output should be fit to content */
-    let fit: boolean = true;
 
     /** True if the output should show a grid */
     let grid: boolean = false;

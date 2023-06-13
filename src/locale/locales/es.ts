@@ -27,9 +27,6 @@ import {
     getPlaceholderDescription,
     getTokenDescription,
     type Description,
-    type FixedArray,
-    type Dialog,
-    teacher,
 } from '../Locale';
 import type { CycleType } from '@nodes/CycleType';
 import type UnknownNameType from '@nodes/UnknownNameType';
@@ -40,13 +37,6 @@ import Emotion from '../../lore/Emotion';
 import Unit from '@nodes/Unit';
 
 const WRITE_DOC = 'pendiante';
-export const WRITE_DIALOG = [
-    [teacher(Emotion.Neutral, WRITE_DOC)],
-] as FixedArray<1, Dialog[]>;
-export const WRITE_TUTORIAL = {
-    dialog: WRITE_DIALOG,
-    text: [],
-};
 
 const eng_wordplay: Locale = {
     language: 'es',
@@ -163,172 +153,111 @@ const eng_wordplay: Locale = {
         Unknown: 'desconocida',
         End: 'final',
     },
-    tutorial: {
-        units: {
-            welcome: {
-                name: WRITE_DOC,
-                overview: [teacher(Emotion.Neutral, WRITE_DOC)],
-            },
-            values: {
-                name: WRITE_DOC,
-                overview: [teacher(Emotion.Neutral, WRITE_DOC)],
-            },
-            input: {
-                name: WRITE_DOC,
-                overview: [teacher(Emotion.Neutral, WRITE_DOC)],
-            },
-            collections: {
-                name: WRITE_DOC,
-                overview: [teacher(Emotion.Neutral, WRITE_DOC)],
-            },
-            names: {
-                name: WRITE_DOC,
-                overview: [teacher(Emotion.Neutral, WRITE_DOC)],
-            },
-            output: {
-                name: WRITE_DOC,
-                overview: [teacher(Emotion.Neutral, WRITE_DOC)],
-            },
-            functions: {
-                name: WRITE_DOC,
-                overview: [teacher(Emotion.Neutral, WRITE_DOC)],
-            },
-            structures: {
-                name: WRITE_DOC,
-                overview: [teacher(Emotion.Neutral, WRITE_DOC)],
-            },
-            types: {
-                name: WRITE_DOC,
-                overview: [teacher(Emotion.Neutral, WRITE_DOC)],
-            },
-            docs: {
-                name: 'Documentation',
-                overview: [teacher(Emotion.Neutral, WRITE_DOC)],
-            },
-        },
-    },
     node: {
         Dimension: {
-            names: 'dimensión',
+            name: 'dimensión',
             description: getDimensionDescription,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         Doc: {
-            names: 'documentación',
+            name: 'documentación',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         Docs: {
-            names: 'lista de documentación',
+            name: 'lista de documentación',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         KeyValue: {
-            names: 'par clave/valor',
+            name: 'par clave/valor',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         Language: {
-            names: 'lengua',
+            name: 'lengua',
             description: getLanguageDescription,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         Name: {
-            names: 'nombre',
+            name: 'nombre',
             description: (name) => name.name?.getText(),
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         Names: {
-            names: 'lista de nombres',
+            name: 'lista de nombres',
             description: (names) => `${names.names.length} nombres`,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         Row: {
-            names: 'la hilera',
+            name: 'la hilera',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         Token: {
-            names: 'token',
+            name: 'token',
             description: getTokenDescription,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         TypeInputs: {
-            names: 'lista de variable de tipo',
+            name: 'lista de variable de tipo',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         TypeVariable: {
-            names: 'variable de tipo',
+            name: 'variable de tipo',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         TypeVariables: {
-            names: 'lista de variable de tipo',
+            name: 'lista de variable de tipo',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         Paragraph: {
-            names: 'párrafo',
+            name: 'párrafo',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         WebLink: {
-            names: 'enlace',
+            name: 'enlace',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         ConceptLink: {
-            names: 'concepto',
+            name: 'concepto',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         Words: {
-            names: 'palabras',
+            name: 'palabras',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         Example: {
-            names: 'ejemplo',
+            name: 'ejemplo',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         BinaryOperation: {
-            names: 'operación binaria',
+            name: 'operación binaria',
             description: (op) => op.operator.getText(),
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
@@ -336,10 +265,9 @@ const eng_wordplay: Locale = {
             start: (left) => Explanation.as('evaluating ', left, ' first'),
             finish: (result) =>
                 Explanation.as('evaluated to ', result ?? ' nothing'),
-            tutorial: WRITE_TUTORIAL,
         },
         Bind: {
-            names: 'nombrar',
+            name: 'nombrar',
             description: (bind) => bind.names.getNames().join(', '),
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
@@ -351,10 +279,9 @@ const eng_wordplay: Locale = {
                 value
                     ? Explanation.as('giving ', value, ' the name ', names)
                     : 'no value',
-            tutorial: WRITE_TUTORIAL,
         },
         Block: {
-            names: 'block',
+            name: 'block',
             description: (block) => `${block.statements.length} declaración`,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
@@ -362,18 +289,16 @@ const eng_wordplay: Locale = {
             start: 'start evaluating the statements',
             finish: (value) =>
                 Explanation.as('block evaluated to ', value ?? 'nothing'),
-            tutorial: WRITE_TUTORIAL,
         },
         BooleanLiteral: {
-            names: 'boolean',
+            name: 'boolean',
             description: (literal) => (literal.bool() ? 'verdadera' : 'falsa'),
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
             start: (value) => Explanation.as('create a ', value),
-            tutorial: WRITE_TUTORIAL,
         },
         Borrow: {
-            names: 'pedir prestado',
+            name: 'pedir prestado',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
@@ -391,10 +316,9 @@ const eng_wordplay: Locale = {
             source: 'source',
             bind: 'name',
             version: 'version',
-            tutorial: WRITE_TUTORIAL,
         },
         Changed: {
-            names: 'Cambiada',
+            name: 'Cambiada',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
@@ -405,10 +329,9 @@ const eng_wordplay: Locale = {
                     ' caused this program to reevaluate'
                 ),
             stream: 'stream',
-            tutorial: WRITE_TUTORIAL,
         },
         Conditional: {
-            names: 'condicional',
+            name: 'condicional',
             description: '',
             emotion: Emotion.Neutral,
             doc: `¿Alguna vez pensaste en cómo decidimos?
@@ -433,28 +356,25 @@ const eng_wordplay: Locale = {
             condition: 'condition',
             yes: 'yes',
             no: 'no',
-            tutorial: WRITE_TUTORIAL,
         },
         ConversionDefinition: {
-            names: 'conversión',
+            name: 'conversión',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
             start: 'define this conversion',
-            tutorial: WRITE_TUTORIAL,
         },
         Convert: {
-            names: 'convertir',
+            name: 'convertir',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
             start: (expr) => Explanation.as('first evaluate ', expr),
             finish: (value) =>
                 Explanation.as('converted to ', value ?? 'nothing'),
-            tutorial: WRITE_TUTORIAL,
         },
         Delete: {
-            names: 'delete row',
+            name: 'delete row',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
@@ -464,18 +384,16 @@ const eng_wordplay: Locale = {
                     'evaluated to table without rows, ',
                     value ?? 'nothing'
                 ),
-            tutorial: WRITE_TUTORIAL,
         },
         DocumentedExpression: {
-            names: 'expresión documentada',
+            name: 'expresión documentada',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
             start: 'evaluate the documented expression',
-            tutorial: WRITE_TUTORIAL,
         },
         Evaluate: {
-            names: 'evaluar',
+            name: 'evaluar',
             description: getEvaluateDescription,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
@@ -487,45 +405,40 @@ const eng_wordplay: Locale = {
                 Explanation.as('function evaluated to ', result ?? 'nothing'),
             function: 'function',
             input: 'input',
-            tutorial: WRITE_TUTORIAL,
         },
         ExpressionPlaceholder: {
-            names: 'marcador de posición',
+            name: 'marcador de posición',
             description: getPlaceholderDescription,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
             start: 'cannot evaluate a placeholder',
             placeholder: 'expresión',
-            tutorial: WRITE_TUTORIAL,
         },
         FunctionDefinition: {
-            names: 'función',
+            name: 'función',
             description: (fun, translation) =>
                 fun.names.getLocaleText(translation.language),
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
             start: 'define this function',
-            tutorial: WRITE_TUTORIAL,
         },
         HOF: {
-            names: 'función de orden superior',
+            name: 'función de orden superior',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
             start: 'evaluating the function given',
             finish: (value) =>
                 Explanation.as('evaluated to ', value ?? 'nothing'),
-            tutorial: WRITE_TUTORIAL,
         },
         Initial: {
-            names: 'evaluación inicial',
+            name: 'evaluación inicial',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         Insert: {
-            names: 'insertar',
+            name: 'insertar',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
@@ -535,10 +448,9 @@ const eng_wordplay: Locale = {
                     'evaluated to table new rows, ',
                     value ?? 'nothing'
                 ),
-            tutorial: WRITE_TUTORIAL,
         },
         Is: {
-            names: 'es',
+            name: 'es',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
@@ -551,20 +463,18 @@ const eng_wordplay: Locale = {
                           type,
                           ' evaluating to false'
                       ),
-            tutorial: WRITE_TUTORIAL,
         },
         ListAccess: {
-            names: 'acceso a la lista',
+            name: 'acceso a la lista',
             description: '',
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
             start: (list) => Explanation.as('evaluate ', list, ' first'),
             finish: (value) =>
                 Explanation.as('item at index is ', value ?? 'nothing'),
-            tutorial: WRITE_TUTORIAL,
         },
         ListLiteral: {
-            names: 'lista',
+            name: 'lista',
             description: (literal) =>
                 literal.values.length === 1
                     ? '1 elemento'
@@ -575,10 +485,9 @@ const eng_wordplay: Locale = {
             finish: (value) =>
                 Explanation.as('evaluated to list ', value ?? 'nothing'),
             item: 'item',
-            tutorial: WRITE_TUTORIAL,
         },
         MapLiteral: {
-            names: 'índice',
+            name: 'índice',
             description: (literal) =>
                 literal.values.length === 1
                     ? '1 elemento'
@@ -588,10 +497,9 @@ const eng_wordplay: Locale = {
             start: 'evaluate each key and value first',
             finish: (value) =>
                 Explanation.as('evaluated to map ', value ?? 'nothing'),
-            tutorial: WRITE_TUTORIAL,
         },
         MeasurementLiteral: {
-            names: 'number',
+            name: 'number',
             description: (node: MeasurementLiteral) =>
                 node.number.is(TokenType.Pi)
                     ? 'pi'
@@ -603,26 +511,23 @@ const eng_wordplay: Locale = {
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
             start: (value) => Explanation.as('evaluate to ', value),
-            tutorial: WRITE_TUTORIAL,
         },
         NativeExpression: {
-            names: 'expresión incorporada',
+            name: 'expresión incorporada',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
             start: 'evaluate the built-in expression',
-            tutorial: WRITE_TUTORIAL,
         },
         NoneLiteral: {
-            names: 'nada',
+            name: 'nada',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
             start: 'create a nothing value',
-            tutorial: WRITE_TUTORIAL,
         },
         Previous: {
-            names: 'previa',
+            name: 'previa',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
@@ -632,10 +537,9 @@ const eng_wordplay: Locale = {
                     'evaluated to stream value ',
                     value ?? 'nothing'
                 ),
-            tutorial: WRITE_TUTORIAL,
         },
         Program: {
-            names: 'programa',
+            name: 'programa',
             description: '',
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
@@ -658,13 +562,9 @@ const eng_wordplay: Locale = {
                       ),
             finish: (value) =>
                 Explanation.as('program evaluated to ', value ?? 'nothing'),
-            tutorial: {
-                dialog: WRITE_DIALOG,
-                text: ['hola'],
-            },
         },
         PropertyBind: {
-            names: 'refinar',
+            name: 'refinar',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
@@ -673,10 +573,9 @@ const eng_wordplay: Locale = {
                 structure
                     ? Explanation.as('created new structure ', structure)
                     : 'no structure created',
-            tutorial: WRITE_TUTORIAL,
         },
         PropertyReference: {
-            names: 'acceso a la propiedad',
+            name: 'acceso a la propiedad',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
@@ -691,10 +590,9 @@ const eng_wordplay: Locale = {
                       )
                     : 'no property name given, no value',
             property: 'propiedad',
-            tutorial: WRITE_TUTORIAL,
         },
         Reaction: {
-            names: 'reacción',
+            name: 'reacción',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
@@ -706,19 +604,16 @@ const eng_wordplay: Locale = {
                 ),
             initial: 'initial',
             next: 'next',
-            tutorial: WRITE_TUTORIAL,
         },
         Reference: {
-            names: 'referencia',
+            name: 'referencia',
             description: (node: Reference) => node.getName(),
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
             start: (name) => Explanation.as('get the value of ', name),
-            name: 'nombre',
-            tutorial: WRITE_TUTORIAL,
         },
         Select: {
-            names: 'seleccionar',
+            name: 'seleccionar',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
@@ -728,10 +623,9 @@ const eng_wordplay: Locale = {
                     'evaluated to a new table with the selected rows, ',
                     value ?? 'nothing'
                 ),
-            tutorial: WRITE_TUTORIAL,
         },
         SetLiteral: {
-            names: 'recopilación',
+            name: 'recopilación',
             description: (literal) =>
                 literal.values.length === 1
                     ? '1 elemento'
@@ -741,44 +635,39 @@ const eng_wordplay: Locale = {
             start: WRITE_DOC,
             finish: (value) =>
                 Explanation.as('evaluated to set ', value ?? 'nothing'),
-            tutorial: WRITE_TUTORIAL,
         },
         SetOrMapAccess: {
-            names: 'acceso al conjunto/mapa',
+            name: 'acceso al conjunto/mapa',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
             start: (set) => Explanation.as('evaluate ', set, ' first'),
             finish: (value) =>
                 Explanation.as('item in  with key is ', value ?? 'nothing'),
-            tutorial: WRITE_TUTORIAL,
         },
         Source: {
-            names: 'documento',
+            name: 'documento',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         StreamDefinition: {
-            names: 'arroyo',
+            name: 'arroyo',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: `defines a stream of values.`,
             start: 'define this stream type',
-            tutorial: WRITE_TUTORIAL,
         },
         StructureDefinition: {
-            names: 'estructura',
+            name: 'estructura',
             description: (structure, translation) =>
                 structure.names.getLocaleText(translation.language),
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
             start: 'define this structure type',
-            tutorial: WRITE_TUTORIAL,
         },
         TableLiteral: {
-            names: 'tabla',
+            name: 'tabla',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
@@ -786,54 +675,48 @@ const eng_wordplay: Locale = {
             start: 'first evaluate the rows',
             finish: (table) =>
                 Explanation.as('evaluated to new table ', table ?? 'nothing'),
-            tutorial: WRITE_TUTORIAL,
         },
         Template: {
-            names: 'plantilla de texto',
+            name: 'plantilla de texto',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
             start: WRITE_DOC,
             finish: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         TextLiteral: {
-            names: 'texto',
+            name: 'texto',
             description: (text) => text.text.getText(),
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
             start: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         This: {
-            names: 'esta',
+            name: 'esta',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
             start: (value) =>
                 Explanation.as('evaluated to ', value ?? 'nothing'),
-            tutorial: WRITE_TUTORIAL,
         },
         UnaryOperation: {
-            names: 'operación unaria',
+            name: 'operación unaria',
             description: (op) => op.operator.getText(),
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
             start: (value) => Explanation.as('evaluate the ', value),
             finish: (value) =>
                 Explanation.as('evaluated to ', value ?? 'nothing'),
-            tutorial: WRITE_TUTORIAL,
         },
         UnparsableExpression: {
-            names: 'no analizable',
+            name: 'no analizable',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
             start: 'cannot evaluate unparsable code',
-            tutorial: WRITE_TUTORIAL,
         },
         Update: {
-            names: 'update rows',
+            name: 'update rows',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
@@ -843,52 +726,45 @@ const eng_wordplay: Locale = {
                     'evaluated to a new table with revised rows, ',
                     value ?? 'nothing'
                 ),
-            tutorial: WRITE_TUTORIAL,
         },
         AnyType: {
-            names: 'tipo de cualquier',
+            name: 'tipo de cualquier',
             description: '',
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         BooleanType: {
-            names: 'tipo de booleano',
+            name: 'tipo de booleano',
             description: '',
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         ConversionType: {
-            names: 'tipo de conversión',
+            name: 'tipo de conversión',
             description: '',
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         ExceptionType: {
-            names: 'tipo de excepción',
+            name: 'tipo de excepción',
             description: '',
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         FunctionDefinitionType: {
-            names: 'tipo de función',
+            name: 'tipo de función',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         FunctionType: {
-            names: 'tipo de función',
+            name: 'tipo de función',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         ListType: {
-            names: 'tipo de lista',
+            name: 'tipo de lista',
             description: (
                 node: ListType,
                 translation: Locale,
@@ -902,10 +778,9 @@ const eng_wordplay: Locale = {
                       )}`,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         MapType: {
-            names: 'tipo de índice',
+            name: 'tipo de índice',
             description: (
                 node: MapType,
                 translation: Locale,
@@ -919,61 +794,54 @@ const eng_wordplay: Locale = {
                       )} to ${node.value.getDescription(translation, context)}`,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         MeasurementType: {
-            names: 'tipo de número',
+            name: 'tipo de número',
             description: (node, translation, context) =>
                 node.unit instanceof Unit
                     ? node.unit.getDescription(translation, context)
                     : 'number',
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         NameType: {
-            names: 'tipo de nombre',
+            name: 'tipo de nombre',
             description: (node: NameType) => `a ${node.name.getText()}`,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         NeverType: {
-            names: 'tipo de nunca',
+            name: 'tipo de nunca',
             description: '',
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         NoneType: {
-            names: 'tipo de nada',
+            name: 'tipo de nada',
             description: '',
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         SetType: {
-            names: 'tipo de recopilación',
+            name: 'tipo de recopilación',
             description: (node: SetType, translation: Locale) =>
                 node.key === undefined
                     ? 'algo'
                     : node.key.getLabel(translation),
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         StreamDefinitionType: {
-            names: 'streamtipo de arroyo',
+            name: 'streamtipo de arroyo',
             description: (node: StreamDefinitionType, translation: Locale) =>
                 `a ${node.definition.names.getLocaleText(
                     translation.language
                 )} stream`,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         StreamType: {
-            names: 'streamtipo de arroyo',
+            name: 'streamtipo de arroyo',
             description: (
                 node: StreamType,
                 translation: Locale,
@@ -981,17 +849,15 @@ const eng_wordplay: Locale = {
             ) => `stream of ${node.type.getDescription(translation, context)}`,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         StructureDefinitionType: {
-            names: 'tipo de estructura',
+            name: 'tipo de estructura',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         UnknownType: {
-            names: 'desconocida',
+            name: 'desconocida',
             description: (
                 node: UnknownType<any>,
                 translation: Locale,
@@ -1004,32 +870,28 @@ const eng_wordplay: Locale = {
             },
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         TableType: {
-            names: 'tipo de tabla',
+            name: 'tipo de tabla',
             description: '',
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         TextType: {
-            names: 'tipo de texto',
+            name: 'tipo de texto',
             description: (node) =>
                 node.isLiteral() ? node.text.getText() : 'text',
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         TypePlaceholder: {
-            names: 'tipo de marcador de posición',
+            name: 'tipo de marcador de posición',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         UnionType: {
-            names: 'tipo de opción',
+            name: 'tipo de opción',
             description: (
                 node: UnionType,
                 translation: Locale,
@@ -1044,10 +906,9 @@ const eng_wordplay: Locale = {
                 )}`,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         Unit: {
-            names: 'unidad de medida',
+            name: 'unidad de medida',
             description: (node, translation, context) =>
                 node.exponents.size === 0
                     ? 'numero'
@@ -1059,102 +920,88 @@ const eng_wordplay: Locale = {
                     : node.toWordplay(),
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         UnparsableType: {
-            names: 'tipo no analizable',
+            name: 'tipo no analizable',
             description: '',
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         VariableType: {
-            names: 'tipo variable',
+            name: 'tipo variable',
             description: '',
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         CycleType: {
-            names: 'tipo de ciclo',
+            name: 'tipo de ciclo',
             description: (node: CycleType) =>
                 `${node.expression.toWordplay()} depende de si mismo`,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         UnknownVariableType: {
-            names: 'tipo de variable desconocido',
+            name: 'tipo de variable desconocido',
             description: '',
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         NotAListType: {
-            names: 'tipo sin lista',
+            name: 'tipo sin lista',
             description: '',
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         NoExpressionType: {
-            names: 'tipo sin expresión',
+            name: 'tipo sin expresión',
             description: '',
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         NotAFunctionType: {
-            names: 'tipo sin función',
+            name: 'tipo sin función',
             description: '',
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         NotATableType: {
-            names: 'tipo sin tabla',
+            name: 'tipo sin tabla',
             description: '',
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         NotAStreamType: {
-            names: 'tipo sin arroyo',
+            name: 'tipo sin arroyo',
             description: '',
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         NotASetOrMapType: {
-            names: 'tipo sin recopilación/índice',
+            name: 'tipo sin recopilación/índice',
             description: '',
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         NotEnclosedType: {
-            names: 'no en estructura, conversión o reacción',
+            name: 'no en estructura, conversión o reacción',
             description: '',
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         NotImplementedType: {
-            names: 'typo sin implementado',
+            name: 'typo sin implementado',
             description: '',
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         UnknownNameType: {
-            names: 'tipo de nombre desconocido',
+            name: 'tipo de nombre desconocido',
             description: (node: UnknownNameType) =>
                 node.name === undefined
                     ? 'no se dio nombre'
                     : `${node.name.getText()} no está definido`,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
     },
     native: {
@@ -2144,30 +1991,25 @@ const eng_wordplay: Locale = {
             names: ['Azar'],
             min: { names: 'mínima', doc: WRITE_DOC },
             max: { names: 'maximo', doc: WRITE_DOC },
-            tutorial: WRITE_TUTORIAL,
         },
         choice: {
             doc: WRITE_DOC,
             names: ['Selección', 'Elección'],
-            tutorial: WRITE_TUTORIAL,
         },
         button: {
             doc: WRITE_DOC,
             names: ['Botón'],
             down: { names: 'abajo', doc: WRITE_DOC },
-            tutorial: WRITE_TUTORIAL,
         },
         pointer: {
             doc: WRITE_DOC,
             names: ['Puntero'],
-            tutorial: WRITE_TUTORIAL,
         },
         key: {
             doc: WRITE_DOC,
             names: ['Teclado'],
             key: { names: 'tecla', doc: WRITE_DOC },
             down: { names: 'abajo', doc: WRITE_DOC },
-            tutorial: WRITE_TUTORIAL,
         },
         time: {
             doc: WRITE_DOC,
@@ -2176,7 +2018,6 @@ const eng_wordplay: Locale = {
                 names: ['frecuencia'],
                 doc: WRITE_DOC,
             },
-            tutorial: WRITE_TUTORIAL,
         },
         mic: {
             doc: WRITE_DOC,
@@ -2185,7 +2026,6 @@ const eng_wordplay: Locale = {
                 names: ['frecuencia'],
                 doc: WRITE_DOC,
             },
-            tutorial: WRITE_TUTORIAL,
         },
         camera: {
             doc: WRITE_DOC,
@@ -2202,12 +2042,10 @@ const eng_wordplay: Locale = {
                 names: ['frecuencia'],
                 doc: WRITE_DOC,
             },
-            tutorial: WRITE_TUTORIAL,
         },
         reaction: {
             doc: WRITE_DOC,
             names: 'reaction',
-            tutorial: WRITE_TUTORIAL,
         },
         motion: {
             doc: WRITE_DOC,
@@ -2244,7 +2082,6 @@ const eng_wordplay: Locale = {
                 doc: WRITE_DOC,
                 names: 'gravity',
             },
-            tutorial: WRITE_TUTORIAL,
         },
     },
     output: {
@@ -2263,7 +2100,6 @@ const eng_wordplay: Locale = {
             exit: { doc: WRITE_DOC, names: 'salida' },
             duration: { doc: WRITE_DOC, names: ['duración'] },
             style: { doc: WRITE_DOC, names: 'estilo' },
-            tutorial: WRITE_TUTORIAL,
         },
         verse: {
             names: ['Verso'],
@@ -2272,39 +2108,33 @@ const eng_wordplay: Locale = {
             content: { doc: WRITE_DOC, names: 'contenido' },
             background: { doc: WRITE_DOC, names: 'fondo' },
             frame: { doc: WRITE_DOC, names: 'marco' },
-            tutorial: WRITE_TUTORIAL,
         },
         group: {
             names: 'Group',
             doc: WRITE_DOC,
             content: { doc: WRITE_DOC, names: 'content' },
             layout: { doc: WRITE_DOC, names: 'layout' },
-            tutorial: WRITE_TUTORIAL,
         },
         phrase: {
             names: ['💬', 'Frase'],
             doc: WRITE_DOC,
             text: { doc: WRITE_DOC, names: 'texto' },
-            tutorial: WRITE_TUTORIAL,
         },
         layout: {
             names: ['Arrangement'],
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         row: {
             names: ['Fila'],
             doc: WRITE_DOC,
             description: () => WRITE_DOC,
             padding: { doc: WRITE_DOC, names: 'relleno' },
-            tutorial: WRITE_TUTORIAL,
         },
         stack: {
             names: 'Pila',
             doc: WRITE_DOC,
             description: () => WRITE_DOC,
             padding: { doc: WRITE_DOC, names: 'relleno' },
-            tutorial: WRITE_TUTORIAL,
         },
         grid: {
             names: 'cuadrícula',
@@ -2316,18 +2146,15 @@ const eng_wordplay: Locale = {
             padding: { doc: WRITE_DOC, names: 'relleno' },
             cellWidth: { doc: WRITE_DOC, names: 'anchodecelda' },
             cellHeight: { doc: WRITE_DOC, names: 'alturadecelda' },
-            tutorial: WRITE_TUTORIAL,
         },
         free: {
             names: ['Suelto'],
             doc: WRITE_DOC,
             description: (count: number) => `forma libre, ${count} outputs`,
-            tutorial: WRITE_TUTORIAL,
         },
         shape: {
             names: ['forma'],
             doc: WRITE_DOC,
-            tutorial: WRITE_TUTORIAL,
         },
         rectangle: {
             names: ['Rectángulo'],
@@ -2336,7 +2163,6 @@ const eng_wordplay: Locale = {
             top: { doc: WRITE_DOC, names: 'masalta' },
             right: { doc: WRITE_DOC, names: 'derecha' },
             bottom: { doc: WRITE_DOC, names: 'abajo' },
-            tutorial: WRITE_TUTORIAL,
         },
         pose: {
             names: 'Pose',
@@ -2350,7 +2176,6 @@ const eng_wordplay: Locale = {
             scale: { doc: WRITE_DOC, names: 'escala' },
             flipx: { doc: WRITE_DOC, names: 'voltearx' },
             flipy: { doc: WRITE_DOC, names: 'volteary' },
-            tutorial: WRITE_TUTORIAL,
         },
         color: {
             names: ['Color'],
@@ -2358,7 +2183,6 @@ const eng_wordplay: Locale = {
             lightness: { doc: WRITE_DOC, names: ['luminosidad'] },
             chroma: { doc: WRITE_DOC, names: ['croma'] },
             hue: { doc: WRITE_DOC, names: ['matiz'] },
-            tutorial: WRITE_TUTORIAL,
         },
         sequence: {
             names: 'Secuencia',
@@ -2366,7 +2190,6 @@ const eng_wordplay: Locale = {
             timing: { doc: WRITE_DOC, names: 'timing' },
             count: { doc: WRITE_DOC, names: 'count' },
             poses: { doc: WRITE_DOC, names: 'poses' },
-            tutorial: WRITE_TUTORIAL,
         },
         place: {
             names: ['Posición'],
@@ -2374,7 +2197,6 @@ const eng_wordplay: Locale = {
             x: { doc: WRITE_DOC, names: 'x' },
             y: { doc: WRITE_DOC, names: 'y' },
             z: { doc: WRITE_DOC, names: 'z' },
-            tutorial: WRITE_TUTORIAL,
         },
         easing: {
             straight: 'lineal',
@@ -2407,6 +2229,7 @@ const eng_wordplay: Locale = {
             names: ['surgir'],
         },
     },
+    tutorial: [],
 };
 
 export default eng_wordplay;

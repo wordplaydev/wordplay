@@ -46,9 +46,13 @@
         font-weight: bold;
     }
 
-    span.interactive:hover {
+    span.interactive {
         text-decoration: underline;
         text-decoration-color: var(--wordplay-highlight);
+        text-decoration-thickness: var(--wordplay-border-width);
+    }
+
+    span.interactive:hover {
         text-decoration-thickness: var(--wordplay-focus-width);
         cursor: pointer;
     }

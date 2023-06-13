@@ -22,7 +22,7 @@ import type LanguageCode from '../locale/LanguageCode';
 import { Languages, type WritingLayout } from '../locale/LanguageCode';
 import SupportedLocales from '../locale/locales';
 import Progress from '../tutorial/Progress';
-import type Unit from '../tutorial/Unit';
+import type { Act } from '../locale/Locale';
 
 const PROJECTS_KEY = 'projects';
 const LAYOUTS_KEY = 'layouts';
@@ -51,12 +51,12 @@ export enum SaveStatus {
 }
 
 export type TutorialProgress = {
-    unit: string;
-    lesson: number;
-    step: number;
+    act: number;
+    scene: number;
+    line: number;
 };
 
-const TutorialDefault = { unit: 'welcome', lesson: 0, step: 0 };
+const TutorialDefault = { act: 1, scene: 1, line: 1 };
 
 type CreatorConfig = {
     layouts: Record<string, LayoutObject>;
@@ -207,9 +207,9 @@ export class Creator {
     setTutorialProgress(progress: Progress) {
         const value = progress.toObject();
         if (
-            value.unit === this.config.tutorial.unit &&
-            value.lesson === this.config.tutorial.lesson &&
-            value.step === this.config.tutorial.step
+            value.act === this.config.tutorial.act &&
+            value.scene === this.config.tutorial.scene &&
+            value.line === this.config.tutorial.line
         )
             return;
 
@@ -217,13 +217,12 @@ export class Creator {
         this.saveConfig(TUTORIAL_KEY, value);
     }
 
-    getTutorialProgress(tutorial: Unit[]) {
+    getTutorialProgress(tutorial: Act[]) {
         return new Progress(
-            this.getLocale().tutorial.units,
             tutorial,
-            this.config.tutorial.unit,
-            this.config.tutorial.lesson,
-            this.config.tutorial.step
+            this.config.tutorial.act,
+            this.config.tutorial.scene,
+            this.config.tutorial.line
         );
     }
 

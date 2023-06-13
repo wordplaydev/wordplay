@@ -31,12 +31,15 @@ export default class NodeConcept extends Concept {
         return this.template.getNodeLocale(translation).emotion;
     }
 
+    /** Nodes can be matched by two names: the locale-specific one or the key in the locale
+     * (e.g., FunctionDefinition, Evaluate).
+     */
     hasName(name: string, locale: Locale): boolean {
         const nodeLocale = this.template.getNodeLocale(locale);
         const match = Object.entries(locale.node).find(
             ([, value]) => value === nodeLocale
         );
-        return match ? match[1].names.includes(name) : false;
+        return match ? match[0] === name || match[1].name === name : false;
     }
 
     getDocs(translation: Locale): [Doc, Spaces] | undefined {

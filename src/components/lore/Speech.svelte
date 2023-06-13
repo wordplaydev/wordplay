@@ -94,7 +94,6 @@
         font-family: var(--wordplay-code-font);
         position: relative;
         margin-right: auto;
-        z-index: 2;
     }
 
     .row .glyphs {

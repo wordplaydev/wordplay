@@ -23,7 +23,7 @@ import type ValueLink from './ValueLink';
 import type BooleanLiteral from '@nodes/BooleanLiteral';
 import type ListLiteral from '@nodes/ListLiteral';
 import type StreamDefinitionType from '../nodes/StreamDefinitionType';
-import Emotion from '../lore/Emotion';
+import type Emotion from '../lore/Emotion';
 import type TextType from '../nodes/TextType';
 import type Name from '../nodes/Name';
 import type Language from '../nodes/Language';
@@ -61,36 +61,27 @@ export type FixedArray<N extends number, T> = N extends 0
 export type ConceptText<
     Steps extends number,
     Names extends number
-> = NameAndDoc & LessonText<Steps, Names>;
+> = NameAndDoc;
 
-export type NodeText<Kind, Steps extends number, Names extends number> = {
+export type NodeText<Kind> = {
     /* The name that should be used to refer to the node type */
-    names: string;
+    name: string;
     /* A description of what the node is */
     description: Kind;
     /* Documentation text that appears in the documentation view */
     doc: DocString;
     /* The emotion that should be conveyed in animations of the node type */
     emotion: Emotion;
-} & LessonText<Steps, Names>;
+};
 
-export type StaticNodeText<
-    Count extends number,
-    Names extends number
-> = NodeText<string, Count, Names>;
+export type StaticNodeText = NodeText<string>;
 
-export type DynamicNodeText<
-    NodeType extends Node,
-    Steps extends number,
-    Names extends number
-> = NodeText<
+export type DynamicNodeText<NodeType extends Node> = NodeText<
     (
         node: NodeType,
         translation: Locale,
         context: Context
-    ) => string | undefined,
-    Steps,
-    Names
+    ) => string | undefined
 >;
 
 export interface AtomicExpressionText<
@@ -784,48 +775,46 @@ type Locale = {
         fadein: NameAndDoc;
         popup: NameAndDoc;
     };
-    tutorial: {
-        units: UnitNames;
-    };
+    tutorial: Tutorial;
 };
 
 export type NodeTexts = {
-    Dimension: DynamicNodeText<Dimension, 1, 0>;
-    Doc: StaticNodeText<1, 0>;
-    Docs: StaticNodeText<1, 0>;
-    KeyValue: StaticNodeText<1, 0>;
-    Language: DynamicNodeText<Language, 1, 0>;
-    Name: DynamicNodeText<Name, 1, 0>;
-    Names: DynamicNodeText<Names, 1, 0>;
-    Row: StaticNodeText<1, 0>;
-    Token: DynamicNodeText<Token, 1, 0>;
-    TypeInputs: StaticNodeText<1, 0>;
-    TypeVariable: StaticNodeText<1, 0>;
-    TypeVariables: StaticNodeText<1, 0>;
-    Paragraph: StaticNodeText<1, 0>;
-    WebLink: StaticNodeText<1, 0>;
-    ConceptLink: StaticNodeText<1, 0>;
-    Words: StaticNodeText<1, 0>;
-    Example: StaticNodeText<1, 0>;
-    BinaryOperation: DynamicNodeText<BinaryOperation, 1, 0> &
+    Dimension: DynamicNodeText<Dimension>;
+    Doc: StaticNodeText;
+    Docs: StaticNodeText;
+    KeyValue: StaticNodeText;
+    Language: DynamicNodeText<Language>;
+    Name: DynamicNodeText<Name>;
+    Names: DynamicNodeText<Names>;
+    Row: StaticNodeText;
+    Token: DynamicNodeText<Token>;
+    TypeInputs: StaticNodeText;
+    TypeVariable: StaticNodeText;
+    TypeVariables: StaticNodeText;
+    Paragraph: StaticNodeText;
+    WebLink: StaticNodeText;
+    ConceptLink: StaticNodeText;
+    Words: StaticNodeText;
+    Example: StaticNodeText;
+    BinaryOperation: DynamicNodeText<BinaryOperation> &
         ExpressionText<
             (left: NodeLink) => Description,
             (result: ValueLink | undefined) => Description
         > & {
             right: Description;
         };
-    Bind: DynamicNodeText<Bind, 1, 0> &
+    Bind: DynamicNodeText<Bind> &
         ExpressionText<
             (value: NodeLink | undefined) => Description,
             (value: ValueLink | undefined, names: NodeLink) => Description
         >;
-    Block: DynamicNodeText<Block, 1, 0> &
+    Block: DynamicNodeText<Block> &
         ExpressionText<Description, ValueOrUndefinedText> & {
             statement: Description;
         };
-    BooleanLiteral: DynamicNodeText<BooleanLiteral, 1, 0> &
+    BooleanLiteral: DynamicNodeText<BooleanLiteral> &
         AtomicExpressionText<(value: NodeLink) => Description>;
-    Borrow: StaticNodeText<1, 0> &
+    Borrow: StaticNodeText &
         AtomicExpressionText<
             (
                 source: NodeLink | undefined,
@@ -836,11 +825,11 @@ export type NodeTexts = {
             bind: Description;
             version: Description;
         };
-    Changed: StaticNodeText<1, 0> &
+    Changed: StaticNodeText &
         AtomicExpressionText<(stream: NodeLink) => Description> & {
             stream: Description;
         };
-    Conditional: StaticNodeText<1, 0> &
+    Conditional: StaticNodeText &
         ExpressionText<
             (condition: NodeLink) => Description,
             ValueOrUndefinedText
@@ -849,13 +838,13 @@ export type NodeTexts = {
             yes: Description;
             no: Description;
         };
-    ConversionDefinition: StaticNodeText<1, 0> & AtomicExpressionText;
-    Convert: StaticNodeText<1, 0> &
+    ConversionDefinition: StaticNodeText & AtomicExpressionText;
+    Convert: StaticNodeText &
         ExpressionText<(input: NodeLink) => Description, ValueOrUndefinedText>;
-    Delete: StaticNodeText<1, 0> &
+    Delete: StaticNodeText &
         ExpressionText<(table: NodeLink) => Description, ValueOrUndefinedText>;
-    DocumentedExpression: StaticNodeText<1, 0> & AtomicExpressionText;
-    Evaluate: DynamicNodeText<Evaluate, 1, 0> &
+    DocumentedExpression: StaticNodeText & AtomicExpressionText;
+    Evaluate: DynamicNodeText<Evaluate> &
         ExpressionText<
             (inputs: boolean) => Description,
             ValueOrUndefinedText
@@ -863,47 +852,46 @@ export type NodeTexts = {
             function: Description;
             input: Description;
         };
-    ExpressionPlaceholder: DynamicNodeText<ExpressionPlaceholder, 1, 0> &
+    ExpressionPlaceholder: DynamicNodeText<ExpressionPlaceholder> &
         AtomicExpressionText & {
             placeholder: Description;
         };
-    FunctionDefinition: DynamicNodeText<FunctionDefinition, 1, 0> &
+    FunctionDefinition: DynamicNodeText<FunctionDefinition> &
         AtomicExpressionText;
-    HOF: StaticNodeText<1, 0> &
-        ExpressionText<Description, ValueOrUndefinedText>;
-    Insert: StaticNodeText<1, 0> &
+    HOF: StaticNodeText & ExpressionText<Description, ValueOrUndefinedText>;
+    Insert: StaticNodeText &
         ExpressionText<(table: NodeLink) => Description, ValueOrUndefinedText>;
-    Initial: StaticNodeText<1, 0>;
-    Is: StaticNodeText<1, 0> &
+    Initial: StaticNodeText;
+    Is: StaticNodeText &
         ExpressionText<
             (expr: NodeLink) => Description,
             (is: boolean, type: NodeLink) => Description
         >;
-    ListAccess: StaticNodeText<1, 0> &
+    ListAccess: StaticNodeText &
         ExpressionText<(list: NodeLink) => Description, ValueOrUndefinedText>;
-    ListLiteral: DynamicNodeText<ListLiteral, 1, 0> &
+    ListLiteral: DynamicNodeText<ListLiteral> &
         ExpressionText<Description, ValueOrUndefinedText> & {
             item: Description;
         };
-    MapLiteral: DynamicNodeText<MapLiteral, 1, 0> &
+    MapLiteral: DynamicNodeText<MapLiteral> &
         ExpressionText<Description, ValueOrUndefinedText>;
-    MeasurementLiteral: DynamicNodeText<MeasurementLiteral, 1, 0> &
+    MeasurementLiteral: DynamicNodeText<MeasurementLiteral> &
         AtomicExpressionText<(value: NodeLink) => Description>;
-    NativeExpression: StaticNodeText<1, 0> & AtomicExpressionText;
-    NoneLiteral: StaticNodeText<1, 0> & AtomicExpressionText;
-    Previous: StaticNodeText<1, 0> &
+    NativeExpression: StaticNodeText & AtomicExpressionText;
+    NoneLiteral: StaticNodeText & AtomicExpressionText;
+    Previous: StaticNodeText &
         ExpressionText<(stream: NodeLink) => Description, ValueOrUndefinedText>;
-    Program: StaticNodeText<1, 1> &
+    Program: StaticNodeText &
         ExpressionText<
             (changes: { stream: ValueLink; value: ValueLink }[]) => Description,
             ValueOrUndefinedText
         >;
-    PropertyBind: StaticNodeText<1, 0> &
+    PropertyBind: StaticNodeText &
         ExpressionText<
             Description,
             (structure: ValueLink | undefined) => Description
         >;
-    PropertyReference: StaticNodeText<1, 0> &
+    PropertyReference: StaticNodeText &
         ExpressionText<
             Description,
             (
@@ -913,72 +901,72 @@ export type NodeTexts = {
         > & {
             property: Description;
         };
-    Reaction: StaticNodeText<1, 0> &
+    Reaction: StaticNodeText &
         ExpressionText<Description, ValueOrUndefinedText> & {
             initial: Description;
             next: Description;
         };
-    Reference: DynamicNodeText<Reference, 1, 0> &
+    Reference: DynamicNodeText<Reference> &
         AtomicExpressionText<(name: NodeLink) => Description> & {
             name: Description;
         };
-    Select: StaticNodeText<1, 0> &
+    Select: StaticNodeText &
         ExpressionText<(table: NodeLink) => Description, ValueOrUndefinedText>;
-    SetLiteral: DynamicNodeText<SetLiteral, 1, 0> &
+    SetLiteral: DynamicNodeText<SetLiteral> &
         ExpressionText<Description, ValueOrUndefinedText>;
-    SetOrMapAccess: StaticNodeText<1, 0> &
+    SetOrMapAccess: StaticNodeText &
         ExpressionText<(set: NodeLink) => Description, ValueOrUndefinedText>;
-    Source: StaticNodeText<1, 0>;
-    StreamDefinition: StaticNodeText<1, 0> & AtomicExpressionText;
-    StructureDefinition: DynamicNodeText<StructureDefinition, 1, 0> &
+    Source: StaticNodeText;
+    StreamDefinition: StaticNodeText & AtomicExpressionText;
+    StructureDefinition: DynamicNodeText<StructureDefinition> &
         AtomicExpressionText;
-    TableLiteral: StaticNodeText<1, 0> &
+    TableLiteral: StaticNodeText &
         ExpressionText<Description, ValueOrUndefinedText> & {
             item: Description;
         };
-    Template: StaticNodeText<1, 0> & ExpressionText;
-    TextLiteral: DynamicNodeText<TextLiteral, 1, 0> & AtomicExpressionText;
-    This: StaticNodeText<1, 0> & AtomicExpressionText<ValueOrUndefinedText>;
-    UnaryOperation: DynamicNodeText<UnaryOperation, 1, 0> &
+    Template: StaticNodeText & ExpressionText;
+    TextLiteral: DynamicNodeText<TextLiteral> & AtomicExpressionText;
+    This: StaticNodeText & AtomicExpressionText<ValueOrUndefinedText>;
+    UnaryOperation: DynamicNodeText<UnaryOperation> &
         ExpressionText<(value: NodeLink) => Description, ValueOrUndefinedText>;
-    UnparsableExpression: StaticNodeText<1, 0> & AtomicExpressionText;
-    Update: StaticNodeText<1, 0> &
+    UnparsableExpression: StaticNodeText & AtomicExpressionText;
+    Update: StaticNodeText &
         ExpressionText<(table: NodeLink) => Description, ValueOrUndefinedText>;
-    AnyType: StaticNodeText<1, 0>;
-    BooleanType: StaticNodeText<1, 0>;
-    ConversionType: StaticNodeText<1, 0>;
-    ExceptionType: StaticNodeText<1, 0>;
-    FunctionDefinitionType: StaticNodeText<1, 0>;
-    FunctionType: StaticNodeText<1, 0>;
-    ListType: DynamicNodeText<ListType, 1, 0>;
-    MapType: DynamicNodeText<MapType, 1, 0>;
-    MeasurementType: DynamicNodeText<MeasurementType, 1, 0>;
-    NameType: DynamicNodeText<NameType, 1, 0>;
-    NeverType: StaticNodeText<1, 0>;
-    NoneType: StaticNodeText<1, 0>;
-    SetType: DynamicNodeText<SetType, 1, 0>;
-    StreamDefinitionType: DynamicNodeText<StreamDefinitionType, 1, 0>;
-    StreamType: DynamicNodeText<StreamType, 1, 0>;
-    StructureDefinitionType: StaticNodeText<1, 0>;
-    TableType: StaticNodeText<1, 0>;
-    TextType: DynamicNodeText<TextType, 1, 0>;
-    TypePlaceholder: StaticNodeText<1, 0>;
-    UnknownType: DynamicNodeText<UnknownType<any>, 1, 0>;
-    UnionType: DynamicNodeText<UnionType, 1, 0>;
-    UnparsableType: StaticNodeText<1, 0>;
-    Unit: DynamicNodeText<Unit, 1, 0>;
-    VariableType: StaticNodeText<1, 0>;
-    CycleType: DynamicNodeText<CycleType, 1, 0>;
-    UnknownVariableType: StaticNodeText<1, 0>;
-    NotAListType: StaticNodeText<1, 0>;
-    NoExpressionType: StaticNodeText<1, 0>;
-    NotAFunctionType: StaticNodeText<1, 0>;
-    NotATableType: StaticNodeText<1, 0>;
-    NotAStreamType: StaticNodeText<1, 0>;
-    NotASetOrMapType: StaticNodeText<1, 0>;
-    NotEnclosedType: StaticNodeText<1, 0>;
-    NotImplementedType: StaticNodeText<1, 0>;
-    UnknownNameType: DynamicNodeText<UnknownNameType, 1, 0>;
+    AnyType: StaticNodeText;
+    BooleanType: StaticNodeText;
+    ConversionType: StaticNodeText;
+    ExceptionType: StaticNodeText;
+    FunctionDefinitionType: StaticNodeText;
+    FunctionType: StaticNodeText;
+    ListType: DynamicNodeText<ListType>;
+    MapType: DynamicNodeText<MapType>;
+    MeasurementType: DynamicNodeText<MeasurementType>;
+    NameType: DynamicNodeText<NameType>;
+    NeverType: StaticNodeText;
+    NoneType: StaticNodeText;
+    SetType: DynamicNodeText<SetType>;
+    StreamDefinitionType: DynamicNodeText<StreamDefinitionType>;
+    StreamType: DynamicNodeText<StreamType>;
+    StructureDefinitionType: StaticNodeText;
+    TableType: StaticNodeText;
+    TextType: DynamicNodeText<TextType>;
+    TypePlaceholder: StaticNodeText;
+    UnknownType: DynamicNodeText<UnknownType<any>>;
+    UnionType: DynamicNodeText<UnionType>;
+    UnparsableType: StaticNodeText;
+    Unit: DynamicNodeText<Unit>;
+    VariableType: StaticNodeText;
+    CycleType: DynamicNodeText<CycleType>;
+    UnknownVariableType: StaticNodeText;
+    NotAListType: StaticNodeText;
+    NoExpressionType: StaticNodeText;
+    NotAFunctionType: StaticNodeText;
+    NotATableType: StaticNodeText;
+    NotAStreamType: StaticNodeText;
+    NotASetOrMapType: StaticNodeText;
+    NotEnclosedType: StaticNodeText;
+    NotImplementedType: StaticNodeText;
+    UnknownNameType: DynamicNodeText<UnknownNameType>;
 };
 
 export type OutputTexts = {
@@ -1113,39 +1101,41 @@ export type UnitText = {
     overview: Dialog[];
 };
 
-export type UnitNames = {
-    welcome: UnitText;
-    values: UnitText;
-    input: UnitText;
-    collections: UnitText;
-    names: UnitText;
-    output: UnitText;
-    functions: UnitText;
-    structures: UnitText;
-    types: UnitText;
-    docs: UnitText;
-};
-
-/** Count corresponds to the number of scenes in the lesson */
-export type LessonText<Count extends number, Names extends number> = {
-    tutorial: {
-        /* The sequence of conversational turns to show for each step */
-        dialog: FixedArray<Count, Dialog[]>;
-        /* Localized text to replace in the program for the lesson */
-        text: FixedArray<Names, string>;
-    };
-};
+export type Character = keyof NodeTexts | keyof InputTexts | keyof OutputTexts;
 
 export type Dialog = {
-    concept: boolean;
+    concept: Character;
     emotion: Emotion;
     text: string;
 };
 
+export type Tutorial = Act[];
+
+export type Act = {
+    name: string;
+    scenes: Scene[];
+};
+
+export type Line = Dialog | Code | null;
+
+export type Scene = {
+    name: string;
+    lines: Line[];
+};
+
+export type Code = {
+    /** The source files for the project */
+    sources: string[];
+    /** Fits viewport to output if true */
+    fit: boolean;
+    /** Shows code if true, otherwise output only */
+    edit: boolean;
+};
+
 export function dialog(
-    text: string,
-    concept: boolean = false,
-    emotion: Emotion = Emotion.Neutral
+    concept: Character,
+    emotion: Emotion,
+    text: string
 ): Dialog {
     return {
         concept,
@@ -1154,12 +1144,16 @@ export function dialog(
     };
 }
 
-export function teacher(emotion: Emotion, text: string): Dialog {
-    return dialog(text, false, emotion);
+export function code(source: string, fit: boolean, edit: boolean): Code {
+    return {
+        sources: [source],
+        fit,
+        edit,
+    };
 }
 
-export function concept(emotion: Emotion, text: string): Dialog {
-    return dialog(text, true, emotion);
+export function pause() {
+    return null;
 }
 
 export default Locale;

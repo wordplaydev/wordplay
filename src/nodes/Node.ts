@@ -627,10 +627,10 @@ export default abstract class Node {
     abstract getGlyphs(): Glyph;
 
     /**
-     * Given a translation and a context, get the node's static label
+     * Given a translation, get the node's static label
      * */
     getLabel(locale: Locale): string {
-        return this.getNodeLocale(locale).names;
+        return this.getNodeLocale(locale).name;
     }
 
     /**
@@ -656,7 +656,7 @@ export default abstract class Node {
         return undefined;
     }
 
-    abstract getNodeLocale(translation: Locale): NodeText<any, any, any>;
+    abstract getNodeLocale(translation: Locale): NodeText<any>;
 
     /** Provide localized labels for any child that can be a placeholder. */
     getChildPlaceholderLabel(
