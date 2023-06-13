@@ -34,6 +34,7 @@ import {
     SUM_SYMBOL,
     TABLE_CLOSE_SYMBOL,
     TABLE_OPEN_SYMBOL,
+    TEXT_SYMBOL,
     TRUE_SYMBOL,
     TYPE_CLOSE_SYMBOL,
     TYPE_OPEN_SYMBOL,
@@ -116,6 +117,9 @@ const GlyphSet = {
     },
     None: {
         symbols: NONE_SYMBOL,
+    },
+    TextLiteral: {
+        symbols: TEXT_SYMBOL + TEXT_SYMBOL,
     },
     Measurement: {
         symbols: MEASUREMENT_SYMBOL,

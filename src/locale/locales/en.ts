@@ -2757,7 +2757,148 @@ const en: Locale = {
                     ],
                 },
                 {
-                    name: 'Placeholder',
+                    name: 'Take the Stage',
+                    lines: [
+                        code('Phrase("☀️")', true, false),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Excited,
+                            `Hey @Program! I found a person. Well, I guess they found us. 
+                                
+                            They want to be our new director!`
+                        ),
+                        dialog(
+                            'Program',
+                            Emotion.Curious,
+                            `Really? Are you sure you're really a person? Say something a person would say.`
+                        ),
+                        pause(),
+                        dialog(
+                            'Program',
+                            Emotion.Serious,
+                            `Hm… you really are a person. And you want to direct?`
+                        ),
+                        pause(),
+                        dialog(
+                            'Program',
+                            Emotion.Excited,
+                            `
+                            I see. 
+                            
+                            Did @FunctionDefinition tell you anything about us? Lots of people try to direct us, but some people get confused, bored, even irritated with us. We are pretty dense at times. 
+                            
+                            But I'm proud of what we do, so I don't want to work with just anyone.`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Angry,
+                            `
+                            I told them all this. I said we were weird, and sometimes directors leave because of that, but I think we're special, blah blah blah. They're in. 
+                            
+                            Right, you're in?
+                            `
+                        ),
+                        dialog(
+                            'Program',
+                            Emotion.Insecure,
+                            `
+                            Okay. Well nice to meet you. 
+                            
+                            Sorry, I've just had a lot of people come here and say "this isn't for me" and I've gotten a bit skeptical of people who try for a bit and then just give up. 
+                            
+                            I shouldn't have to change who I am to fit people's expectations. But if you're willing to learn about me, and us, let's try!
+                            `
+                        ),
+                        pause(),
+                        code(``, true, true),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `Do you want to say what you do?`
+                        ),
+                        dialog(
+                            'Program',
+                            Emotion.Neutral,
+                            `
+                            Sure. I'm basically the organizer for a performance.
+                        
+                            The director helps everyone figure out what they're doing and then I put them on stage for the audience to see.
+                        
+                            For example, try typing my ("hello") in the editor over there. That's my friend @TextLiteral. Have you met them yet?
+                        
+                            They evaluate to ("hello"), then I put ("hello") on stage.
+                        
+                            Try changing ("hello") to something else. I'll show that instead. So I'll evaluate whatever code is in me, and show the result.
+                            `
+                        ),
+                        pause(),
+                        dialog(
+                            'Program',
+                            Emotion.Serious,
+                            `
+                            The instructions can get as sophisticated as you want, but there are a few rules. 
+                            
+                            For example, I can only evaluate to one value, and show that one value on stage. That one value can be as complex as you want, and as long as I know how to show it, I will. 
+                            
+                            But if you give me two things, I'll only show the last thing you give me.
+
+                            For example, try adding another instruction after (“hello”), whatever word you want, in quotes.
+                            `
+                        ),
+                        pause(),
+                        dialog(
+                            'Program',
+                            Emotion.Serious,
+                            `See? I just showed your new word, not (“hello”). 
+                            
+                            You know you broke my rule because I underlined “hello” and told you that I'd be ignoring it.
+                            `
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Excited,
+                            `But you can do so much more!`
+                        ),
+                        dialog(
+                            'Program',
+                            Emotion.Serious,
+                            `Yes and no. 
+                            
+                            I can do a lot, but that's only because I work with everyone else in the Verse. 
+                            
+                            They're the ones that bring all of the exciting possibilities to stage. All I really do is let them do their thing, and then take the last thing they created and show it on stage. 
+                            
+                            I'm more like an escort that brings the final value to stage, whether that's a number, text, phrase, or even an exception.
+                            `
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `That's fair. We haven't met any of them yet, we will soon.`
+                        ),
+                        dialog(
+                            'Program',
+                            Emotion.Happy,
+                            `It was great to meet you new director! Good luck with everyone else. I'll always be here.`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Eager,
+                            `I think we're going to go talk to @ExpressionPlaceholder next.`
+                        ),
+                        dialog(
+                            'Program',
+                            Emotion.Neutral,
+                            `Oh that should be fun! They're so kind.`
+                        ),
+                    ],
+                },
+                {
+                    name: 'Holding Space',
                     lines: [
                         code(
                             'Verse([] background: Color(0% 0 0°))',
