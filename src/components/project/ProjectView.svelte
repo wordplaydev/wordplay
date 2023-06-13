@@ -76,7 +76,7 @@
     export let close: () => void;
     export let tip: string;
     /** If set to false, only the output is shown initially. */
-    export let edit: boolean = true;
+    export let editable: boolean = true;
     /** True if the output should be fit to content */
     export let fit: boolean = true;
 
@@ -272,7 +272,7 @@
                                 )
                             )
                             // If not editable, keep the sourc files collapsed
-                            .withMode(edit ? tile.mode : Mode.Collapsed)
+                            .withMode(editable ? tile.mode : Mode.Collapsed)
                     );
             }
         }
@@ -331,7 +331,7 @@
                           ...project.getSources().map((source, index) =>
                               // If not editable, collapse the source.
                               createSourceTile(source, index).withMode(
-                                  edit ? Mode.Expanded : Mode.Collapsed
+                                  editable ? Mode.Expanded : Mode.Collapsed
                               )
                           ),
                           new Tile(
@@ -1067,7 +1067,7 @@
                             ><svelte:fragment slot="footer"
                                 >{#if tile.kind === Content.Source}<GlyphChooser
                                         source={getSourceByID(tile.id)}
-                                    />{:else if tile.kind === Content.Output && layout.fullscreenID !== tile.id}
+                                    />{:else if tile.kind === Content.Output && layout.fullscreenID !== tile.id && editable}
                                     <Timeline
                                         evaluator={$evaluator}
                                     />{/if}</svelte:fragment
@@ -1081,55 +1081,59 @@
 
     {#if !layout.isFullscreen()}
         <nav class="footer">
-            <Status />
-            <TextField
-                placeholder={$creator.getLocale().ui.placeholders.project}
-                text={project.name}
-                border={false}
-                changed={(name) =>
-                    $creator.reviseProject(project, project.withName(name))}
-            />
-            <Button
-                tip={layout.arrangement === Arrangement.free
-                    ? $creator.getLocale().ui.tooltip.vertical
-                    : layout.arrangement === Arrangement.vertical
-                    ? $creator.getLocale().ui.tooltip.horizontal
-                    : $creator.getLocale().ui.tooltip.freeform}
-                action={() =>
-                    (layout = layout.withNextArrangement(
-                        canvasWidth,
-                        canvasHeight
-                    ))}
-                >{#if layout.arrangement === Arrangement.vertical}↕️{:else if layout.arrangement === Arrangement.horizontal}↔️{:else if layout.arrangement === Arrangement.free}█{/if}</Button
-            >
-            {#each layout.getNonSources() as tile}
-                {#if tile.isCollapsed()}
-                    <NonSourceTileToggle
-                        {tile}
-                        on:toggle={() => toggleTile(tile)}
-                    />
-                {/if}
-            {/each}
-            {#each project.getSources() as source, index}
-                {@const tile = layout.getTileWithID(Layout.getSourceID(index))}
-                {#if tile && tile.isCollapsed()}
-                    <!-- Mini source view output is visible when collapsed, or if its main, when output is collapsed. -->
-                    <SourceTileToggle
-                        {project}
-                        evaluator={$evaluator}
-                        {source}
-                        output={source === project.main
-                            ? layout.getOutput()?.mode === Mode.Collapsed
-                            : tile.mode === Mode.Collapsed}
-                        expanded={tile.mode === Mode.Expanded}
-                        on:toggle={() => toggleTile(tile)}
-                    />
-                {/if}
-            {/each}
-            <Button
-                tip={$creator.getLocale().ui.tooltip.addSource}
-                action={addSource}>+</Button
-            >
+            {#if editable}
+                <Status />
+                <TextField
+                    placeholder={$creator.getLocale().ui.placeholders.project}
+                    text={project.name}
+                    border={false}
+                    changed={(name) =>
+                        $creator.reviseProject(project, project.withName(name))}
+                />
+                <Button
+                    tip={layout.arrangement === Arrangement.free
+                        ? $creator.getLocale().ui.tooltip.vertical
+                        : layout.arrangement === Arrangement.vertical
+                        ? $creator.getLocale().ui.tooltip.horizontal
+                        : $creator.getLocale().ui.tooltip.freeform}
+                    action={() =>
+                        (layout = layout.withNextArrangement(
+                            canvasWidth,
+                            canvasHeight
+                        ))}
+                    >{#if layout.arrangement === Arrangement.vertical}↕️{:else if layout.arrangement === Arrangement.horizontal}↔️{:else if layout.arrangement === Arrangement.free}█{/if}</Button
+                >
+                {#each layout.getNonSources() as tile}
+                    {#if tile.isCollapsed()}
+                        <NonSourceTileToggle
+                            {tile}
+                            on:toggle={() => toggleTile(tile)}
+                        />
+                    {/if}
+                {/each}
+                {#each project.getSources() as source, index}
+                    {@const tile = layout.getTileWithID(
+                        Layout.getSourceID(index)
+                    )}
+                    {#if tile && tile.isCollapsed()}
+                        <!-- Mini source view output is visible when collapsed, or if its main, when output is collapsed. -->
+                        <SourceTileToggle
+                            {project}
+                            evaluator={$evaluator}
+                            {source}
+                            output={source === project.main
+                                ? layout.getOutput()?.mode === Mode.Collapsed
+                                : tile.mode === Mode.Collapsed}
+                            expanded={tile.mode === Mode.Expanded}
+                            on:toggle={() => toggleTile(tile)}
+                        />
+                    {/if}
+                {/each}
+                <Button
+                    tip={$creator.getLocale().ui.tooltip.addSource}
+                    action={addSource}>+</Button
+                >
+            {/if}
 
             <div class="settings">
                 <Settings />
@@ -1181,7 +1185,6 @@
         display: flex;
         flex-direction: column;
         overflow: hidden;
-        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
     }
 
     .project:focus:after {

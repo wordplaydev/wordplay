@@ -204,7 +204,7 @@
                     bind:index={concepts}
                     close={() => goto('/')}
                     tip={$creator.getLocale().ui.tooltip.home}
-                    edit={code.edit}
+                    editable={code.edit}
                     fit={code.fit}
                 /></div
             >{:else}<PlayView {project} />{/if}
