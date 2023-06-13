@@ -38,22 +38,26 @@
         >{#if label}{label}{:else}{concept.getName($creator.getLocale())}{/if}
     </span>
 {:else if link instanceof ConceptLink}
-    <span>{link.concept.getText()}?</span>
+    <span>{link.concept.getText()}</span>
 {/if}
 
 <style>
+    span {
+        display: inline-block;
+        padding-left: calc(var(--wordplay-spacing) / 2);
+        padding-right: calc(var(--wordplay-spacing) / 2);
+    }
+
     .salient {
         font-weight: bold;
     }
 
     span.interactive {
-        text-decoration: underline;
-        text-decoration-color: var(--wordplay-highlight);
-        text-decoration-thickness: var(--wordplay-border-width);
+        text-shadow: 1px 1px 2px var(--wordplay-highlight);
     }
 
     span.interactive:hover {
-        text-decoration-thickness: var(--wordplay-focus-width);
+        color: var(--wordplay-highlight);
         cursor: pointer;
     }
 </style>
