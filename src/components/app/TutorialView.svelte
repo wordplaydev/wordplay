@@ -196,19 +196,22 @@
             {/each}
         </div>
     </div>
-    {#if project}
-        {#if scene && code}
-            <div class="project"
-                ><ProjectView
-                    {project}
-                    bind:index={concepts}
-                    close={() => goto('/')}
-                    tip={$creator.getLocale().ui.tooltip.home}
-                    editable={code.edit}
-                    fit={code.fit}
-                /></div
-            >{:else}<PlayView {project} />{/if}
-    {/if}
+    <!-- Create a new view from scratch when the code changes -->
+    {#key code}
+        {#if project}
+            {#if scene && code}
+                <div class="project"
+                    ><ProjectView
+                        {project}
+                        bind:index={concepts}
+                        close={() => goto('/')}
+                        tip={$creator.getLocale().ui.tooltip.home}
+                        editable={code.edit}
+                        fit={code.fit}
+                    /></div
+                >{:else}<PlayView {project} />{/if}
+        {/if}
+    {/key}
 </section>
 
 <style>

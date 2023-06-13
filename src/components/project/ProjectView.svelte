@@ -271,7 +271,7 @@
                                     $creator.getLanguages()
                                 )
                             )
-                            // If not editable, keep the sourc files collapsed
+                            // If not editable, keep the source files collapsed
                             .withMode(editable ? tile.mode : Mode.Collapsed)
                     );
             }
@@ -331,7 +331,9 @@
                           ...project.getSources().map((source, index) =>
                               // If not editable, collapse the source.
                               createSourceTile(source, index).withMode(
-                                  editable ? Mode.Expanded : Mode.Collapsed
+                                  editable && index === 0
+                                      ? Mode.Expanded
+                                      : Mode.Collapsed
                               )
                           ),
                           new Tile(
