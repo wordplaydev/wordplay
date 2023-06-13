@@ -2756,6 +2756,137 @@ const en: Locale = {
                         ),
                     ],
                 },
+                {
+                    name: 'Placeholder',
+                    lines: [
+                        code(
+                            'Verse([] background: Color(0% 0 0°))',
+                            true,
+                            false
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `You're really going to like @ExpressionPlaceholder. They're just so unpredictable, so flexible. They're like a chameleon.`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Confused,
+                            `@ExpressionPlaceholder! Hey, @ExpressionPlaceholder, where are you?
+
+                            Hm, they're usually everywhere. Now they seem to be nowhere.`
+                        ),
+                        dialog(
+                            'ExpressionPlaceholder',
+                            Emotion.Scared,
+                            `@FunctionDefinition … is that you?`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Kind,
+                            `Yeah. It's been so long. How are you?`
+                        ),
+                        dialog(
+                            'ExpressionPlaceholder',
+                            Emotion.Scared,
+                            `Lonely.`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Kind,
+                            `I know that feeling. I have been too. We haven't had a lot of reasons to hang out, have we?`
+                        ),
+                        dialog(
+                            'ExpressionPlaceholder',
+                            Emotion.Scared,
+                            `No. I've missed you. I've missed everyone…`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Kind,
+                            `I know. I have too. I'm so sorry.
+
+                            That's actually why I'm here. I wanted to introduce you to our new director-in-training.`
+                        ),
+                        dialog('ExpressionPlaceholder', Emotion.Scared, 'Hi.'),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Kind,
+                            `They just met @Program, so they're really at the beginning, but I was thinking that it might be best for them to meet you next, since you're such a wonderful representative of so many of us here.`
+                        ),
+                        dialog('ExpressionPlaceholder', Emotion.Curious, `…`),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Kind,
+                            `Do you want to say what you do?`
+                        ),
+                        dialog(
+                            'ExpressionPlaceholder',
+                            Emotion.Scared,
+                            `Can you?`
+                        ),
+                        pause(),
+                        code('_', true, true),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Kind,
+                            `Sure! 
+                            
+                            My friend @ExpressionPlaceholder is a placeholder. They represent any kind of expression in a program. They don't evaluate to any value in particular  — in fact, if they show up in @Program, @Program will just shut things down, since it's not really clear what to do next. But they are powerful, because they can represent anyone else, like a stand-in until you decide what you want a part of your performance to be.
+                        
+                            @ExpressionPlaceholder, want to take a place in this @Program, just to illustrate?`
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `See, @Program didn't know what to do with @ExpressionPlaceholder, so it showed an exception on stage.
+
+                            But if you click on @ExpressionPlaceholder, or move the text caret over it, you'll see a world of possibilities of other characters. 
+                            
+                            You can also just type over @ExpressionPlaceholder and write your own. For example, try typing your name in quotes.`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Serious,
+                            `Just like that, @ExpressionPlaceholder was replaced with other characters
+                                                    
+                            Did I get everything, @ExpressionPlaceholder?`
+                        ),
+                        dialog(
+                            'ExpressionPlaceholder',
+                            Emotion.Eager,
+                            `Yeah. I think so.`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `What do you think, shall we move on?`
+                        ),
+                        dialog(
+                            'ExpressionPlaceholder',
+                            Emotion.Excited,
+                            `It was nice to meet you!`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Cheerful,
+                            `They don't like being on stage, or even in a program for very long. 
+                        
+                            They'd never admit it, but they're kind of a big deal, and most directors can't work without them. 
+                            
+                            Think of the like your stagehand, always available to help you try different arrangements`
+                        ),
+                    ],
+                },
             ],
         },
     ],
