@@ -129,7 +129,9 @@ export default class Progress {
                 this.tutorial,
                 this.act,
                 sceneIndex + 1,
-                direction < 0 ? newScene.lines.length : 0
+                direction < 0
+                    ? newScene.lines.filter((line) => line === null).length + 1
+                    : 1
             );
         } else return undefined;
     }
