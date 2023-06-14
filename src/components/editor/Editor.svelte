@@ -3,12 +3,7 @@
 <script lang="ts">
     import Node from '@nodes/Node';
     import Caret from './util/Caret';
-    import {
-        createEventDispatcher,
-        onDestroy,
-        onMount,
-        setContext,
-    } from 'svelte';
+    import { createEventDispatcher, onDestroy, setContext } from 'svelte';
     import UnicodeString from '@models/UnicodeString';
     import commands, { type Edit } from './util/Commands';
     import type Source from '@nodes/Source';
@@ -165,9 +160,6 @@
             }
         }
     }
-
-    // Focus the hidden text field on mount.
-    onMount(() => focusHiddenTextField());
 
     async function evalUpdate() {
         if (evaluator === undefined || evaluator.isPlaying()) return;
