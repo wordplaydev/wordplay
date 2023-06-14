@@ -24,7 +24,7 @@
     import type ConceptIndex from '../../concepts/ConceptIndex';
     import { writable } from 'svelte/store';
     import { tick } from 'svelte';
-    import type { Dialog } from '../../locale/Locale';
+    import type { Code, Dialog } from '../../locale/Locale';
 
     export let progress: Progress;
     export let navigate: (progress: Progress) => void;
@@ -64,7 +64,17 @@
             : [];
     }
 
-    $: code = progress.getCode();
+    /* 
+        Silly workaround to only modify code when it actually changes. 
+        The keyed each below should only update when it's different code,
+        not just when it's assigned.
+    */
+    let code: Code | undefined;
+    $: {
+        let newCode = progress.getCode();
+        if (newCode !== code) code = newCode;
+    }
+
     $: project =
         act && code && code.sources.length > 0
             ? new Project(
@@ -197,6 +207,7 @@
         </div>
     </div>
     <!-- Create a new view from scratch when the code changes -->
+    <!-- Autofocus the main editor if it's currently focused -->
     {#key code}
         {#if project}
             {#if scene && code}
@@ -208,7 +219,7 @@
                         tip={$creator.getLocale().ui.tooltip.home}
                         editable={code.edit}
                         fit={code.fit}
-                        autofocus={false}
+                        autofocus={document.activeElement !== view}
                     /></div
                 >{:else}<PlayView {project} />{/if}
         {/if}

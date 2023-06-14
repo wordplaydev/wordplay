@@ -326,7 +326,12 @@ export class Creator {
 
         // Get the info for the project. Bail if we don't find it, since this should never happen.
         const info = this.projects.get(id);
-        if (info === undefined) throw Error(`Couldn't find project ID ${id}`);
+
+        // Couldn't find it? Add it.
+        if (info === undefined) {
+            this.addProject(revised);
+            return;
+        }
 
         // Is the undo pointer before the end? Trim the future.
         info.history.splice(info.index, info.history.length - info.index - 1);
