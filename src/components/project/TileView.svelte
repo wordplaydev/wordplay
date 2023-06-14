@@ -21,6 +21,7 @@
     import TextField from '../widgets/TextField.svelte';
     import { isName } from '../../parser/Tokenizer';
     import { creator } from '../../db/Creator';
+    import { onMount } from 'svelte';
 
     export let tile: Tile;
     export let layout: Layout;
@@ -33,6 +34,8 @@
 
     let view: HTMLElement | undefined;
     let resizeDirection: ResizeDirection | null = null;
+    let mounted = false;
+    onMount(() => (mounted = true));
 
     const dispatch = createEventDispatcher();
 
@@ -170,6 +173,7 @@
         : ''} {arrangement} {tile.id}"
     class:fullscreen
     class:dragging
+    class:animated={mounted}
     data-id={tile.id}
     style:background
     style:left={fullscreen ? null : `${tile.bounds?.left ?? 0}px`}
@@ -243,7 +247,7 @@
         align-items: flex-start;
     }
 
-    .tile {
+    .tile.animated {
         transition: left ease-out, top ease-out, width ease-out, height ease-out;
         transition-duration: calc(var(--animation-factor) * 200ms);
     }
