@@ -121,7 +121,7 @@ export default class Progress {
 
     movePause(direction: -1 | 1): Progress | undefined {
         const scene = this.getScene();
-        if (scene === undefined) return;
+        if (scene === undefined) return undefined;
         if (
             this.pause + direction >= 0 &&
             this.pause + direction <=
@@ -150,6 +150,8 @@ export default class Progress {
                     ? newScene.lines.filter((line) => line === null).length + 1
                     : 0
             );
+        } else if (sceneIndex === -1) {
+            return new Progress(this.tutorial, this.act, 0, 0);
         } else return undefined;
     }
 
