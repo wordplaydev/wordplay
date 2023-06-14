@@ -2600,9 +2600,15 @@ const en: Locale = {
     tutorial: [
         {
             name: 'The Verse',
+            code: code('Verse([] background: Color(0% 0 0°))', true, false),
             scenes: [
                 {
-                    name: 'The Silence',
+                    name: 'Silence',
+                    code: code(
+                        'Verse([] background: Color(0% 0 0°))',
+                        true,
+                        false
+                    ),
                     lines: [
                         code(
                             'Verse([] background: Color(0% 0 0°))',
@@ -2758,8 +2764,8 @@ const en: Locale = {
                 },
                 {
                     name: 'Take the Stage',
+                    code: code('Phrase("☀️")', true, false),
                     lines: [
-                        code('Phrase("☀️")', true, false),
                         dialog(
                             'FunctionDefinition',
                             Emotion.Excited,
@@ -2899,12 +2905,12 @@ const en: Locale = {
                 },
                 {
                     name: 'Holding Space',
+                    code: code(
+                        'Verse([] background: Color(0% 0 0°))',
+                        true,
+                        false
+                    ),
                     lines: [
-                        code(
-                            'Verse([] background: Color(0% 0 0°))',
-                            true,
-                            false
-                        ),
                         dialog(
                             'FunctionDefinition',
                             Emotion.Neutral,

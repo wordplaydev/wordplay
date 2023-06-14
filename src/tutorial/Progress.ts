@@ -3,25 +3,27 @@ import type { Act, Code, Dialog, Scene, Tutorial } from '../locale/Locale';
 
 export default class Progress {
     readonly tutorial: Tutorial;
-    /** The act number, 1-indexed */
+    /** The act number, 0-indexed, with 0 presenting the play title screen */
     readonly act: number;
-    /** The scene number, 1-indexed */
+    /** The scene number, 0-indexed, with 0 representing act title screen */
     readonly scene: number;
-    /** The pause stopped at, 1-indexed, representing the nth pause in the scene */
+    /** The nth pause in the scene, but 0-indexed, with 0 representing the scene title screen */
     readonly pause: number;
 
     constructor(tutorial: Tutorial, act: number, scene: number, pause: number) {
         this.tutorial = tutorial;
 
         // Account for invalid acts, scenes, and pauses.
-        act = act < 1 ? 1 : act >= tutorial.length ? tutorial.length : act;
-        const scenes = tutorial[act - 1].scenes.length;
-        scene = scene < 1 ? 1 : scene > scenes ? scenes : scene;
+        act = act < 0 ? 0 : act >= tutorial.length ? tutorial.length : act;
+        const scenes = act === 0 ? 0 : tutorial[act - 1].scenes.length;
+        scene = scene < 0 ? 0 : scene > scenes ? scenes : scene;
         const pauses =
-            tutorial[act - 1].scenes[scene - 1].lines.filter(
-                (line) => line === null
-            ).length + 1;
-        pause = pause < 1 ? 1 : pause > pauses ? pauses : pause;
+            act === 0 || scene === 0
+                ? 0
+                : tutorial[act - 1].scenes[scene - 1].lines.filter(
+                      (line) => line === null
+                  ).length + 1;
+        pause = pause < 0 ? 0 : pause > pauses ? pauses : pause;
 
         this.act = act;
         this.scene = scene;
@@ -53,10 +55,13 @@ export default class Progress {
     }
 
     getCode(): Code | undefined {
+        const act = this.getAct();
         const scene = this.getScene();
         const line = this.getCodeLine();
         const code =
-            scene && line !== undefined ? scene.lines[line] : undefined;
+            scene && line !== undefined
+                ? scene.lines[line]
+                : scene?.code ?? act?.code ?? undefined;
         return code !== null && typeof code === 'object' && 'sources' in code
             ? code
             : undefined;
@@ -66,6 +71,7 @@ export default class Progress {
     getDialog(): Dialog[] | undefined {
         const scene = this.getScene();
         if (scene === undefined) return undefined;
+        if (this.pause === 0) return undefined;
 
         let dialog: Dialog[] = [];
         let pause = 1;
@@ -117,7 +123,7 @@ export default class Progress {
         const scene = this.getScene();
         if (scene === undefined) return;
         if (
-            this.pause + direction >= 1 &&
+            this.pause + direction >= 0 &&
             this.pause + direction <=
                 scene.lines.filter((line) => line === null).length + 1
         )
@@ -142,20 +148,23 @@ export default class Progress {
                 sceneIndex + 1,
                 direction < 0
                     ? newScene.lines.filter((line) => line === null).length + 1
-                    : 1
+                    : 0
             );
         } else return undefined;
     }
 
     moveAct(direction: -1 | 1): Progress | undefined {
+        if (this.act + direction === 0)
+            return new Progress(this.tutorial, 0, 0, 0);
         const actIndex = this.act - 1 + direction;
         const nextAct = this.tutorial[this.act];
         if (nextAct === undefined) return undefined;
-        return new Progress(
-            this.tutorial,
-            actIndex + 1,
-            direction < 0 ? nextAct.scenes.length : 1,
-            1
-        );
+        else
+            return new Progress(
+                this.tutorial,
+                actIndex + 1,
+                direction < 0 ? nextAct.scenes.length : 0,
+                0
+            );
     }
 }

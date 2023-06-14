@@ -47,23 +47,20 @@
     /** The current place in the tutorial */
     $: act = progress.getAct();
     $: scene = progress.getScene();
+    $: dialog = progress.getDialog();
 
     /** Convert the instructions into a sequence of docs/space pairs */
     let turns: { speech: Doc; spaces: Spaces; dialog: Dialog }[] = [];
-    $: {
-        const dialog = progress.getDialog();
-        // Map each speaker onto a docs
-        turns = dialog
-            ? dialog.map((line) => {
-                  const tokens = toTokens('`' + line.text + '`');
-                  return {
-                      speech: parseDoc(tokens),
-                      spaces: tokens.getSpaces(),
-                      dialog: line,
-                  };
-              })
-            : [];
-    }
+    $: turns = dialog
+        ? dialog.map((line) => {
+              const tokens = toTokens('`' + line.text + '`');
+              return {
+                  speech: parseDoc(tokens),
+                  spaces: tokens.getSpaces(),
+                  dialog: line,
+              };
+          })
+        : [];
 
     const conceptPath = getConceptPath();
 
@@ -86,10 +83,14 @@
     }
 
     $: project =
-        act && code.sources.length > 0
+        code.sources.length > 0
             ? new Project(
                   progress.getProjectID(),
-                  scene ? scene.name : act.name,
+                  scene
+                      ? scene.name
+                      : act
+                      ? act.name
+                      : $creator.getLocale().wordplay,
                   new Source('main', code.sources[0]),
                   code.sources
                       .slice(1)
@@ -178,14 +179,16 @@
                 {/each}
             </select>
             <Note
-                >{act ? act.name : '—'}
-                {#if scene !== undefined}&ndash; {scene.name}{/if}
-                <span class="progress"
-                    >&ndash; {progress.pause} /
-                    {scene
-                        ? scene.lines.filter((line) => line === null).length + 1
-                        : '?'}</span
-                ></Note
+                >{#if act !== undefined}{act.name}{/if}
+                {#if act !== undefined && scene !== undefined}&ndash; {scene.name}{/if}
+                {#if act !== undefined && scene !== undefined && progress.pause > 0}
+                    <span class="progress"
+                        >&ndash; {progress.pause} /
+                        {scene
+                            ? scene.lines.filter((line) => line === null)
+                                  .length + 1
+                            : '?'}</span
+                    >{/if}</Note
             >
             <!-- <Button
                 tip={$creator.getLocale().ui.tooltip.nextLesson}
@@ -200,20 +203,30 @@
         </nav>
         <div class="controls" />
         <div class="turns">
-            {#each turns as turn}
-                <!-- First speaker is always function, alternating speakers are the concept we're learning about. -->
-                <Speech
-                    glyph={$conceptsStore
-                        ?.getConceptByName(turn.dialog.concept)
-                        ?.getGlyphs($creator.getLanguages()) ??
-                        Glyphs.Unparsable}
-                    right={turn.dialog.concept === 'FunctionDefinition'}
-                    baseline
-                    emotion={turn.dialog.emotion}
+            {#if act === undefined}
+                <div class="title play">{$creator.getLocale().wordplay}</div>
+            {:else if scene === undefined}
+                <div class="title act"
+                    >Act {progress.act}<br /><em>{act.name}</em></div
                 >
-                    <DocHtmlView doc={turn.speech} spaces={turn.spaces} />
-                </Speech>
-            {/each}
+            {:else if dialog === undefined}
+                <div class="title scene">{scene.name}</div>
+            {:else}
+                {#each turns as turn}
+                    <!-- First speaker is always function, alternating speakers are the concept we're learning about. -->
+                    <Speech
+                        glyph={$conceptsStore
+                            ?.getConceptByName(turn.dialog.concept)
+                            ?.getGlyphs($creator.getLanguages()) ??
+                            Glyphs.Unparsable}
+                        right={turn.dialog.concept === 'FunctionDefinition'}
+                        baseline
+                        emotion={turn.dialog.emotion}
+                    >
+                        <DocHtmlView doc={turn.speech} spaces={turn.spaces} />
+                    </Speech>
+                {/each}
+            {/if}
         </div>
     </div>
     <!-- Create a new view from scratch when the code changes -->
@@ -245,6 +258,32 @@
         top: 0;
         right: 0;
         bottom: 0;
+    }
+
+    .title {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+    }
+
+    .play {
+        font-size: 200%;
+        font-weight: bold;
+        text-align: center;
+        text-transform: uppercase;
+    }
+
+    .act {
+        font-size: 150%;
+        text-align: center;
+    }
+
+    .scene {
+        font-size: 125%;
+        font-style: italic;
+        text-align: center;
     }
 
     .dialog {

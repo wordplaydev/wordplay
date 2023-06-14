@@ -1113,6 +1113,7 @@ export type Tutorial = Act[];
 
 export type Act = {
     name: string;
+    code: Code;
     scenes: Scene[];
 };
 
@@ -1120,6 +1121,7 @@ export type Line = Dialog | Code | null;
 
 export type Scene = {
     name: string;
+    code: Code;
     lines: Line[];
 };
 
