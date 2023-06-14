@@ -12,6 +12,17 @@ export default class Progress {
 
     constructor(tutorial: Tutorial, act: number, scene: number, pause: number) {
         this.tutorial = tutorial;
+
+        // Account for invalid acts, scenes, and pauses.
+        act = act < 1 ? 1 : act >= tutorial.length ? tutorial.length : act;
+        const scenes = tutorial[act - 1].scenes.length;
+        scene = scene < 1 ? 1 : scene > scenes ? scenes : scene;
+        const pauses =
+            tutorial[act - 1].scenes[scene - 1].lines.filter(
+                (line) => line === null
+            ).length + 1;
+        pause = pause < 1 ? 1 : pause > pauses ? pauses : pause;
+
         this.act = act;
         this.scene = scene;
         this.pause = pause;
