@@ -72,18 +72,21 @@
         The keyed each below should only update when it's different code,
         not just when it's assigned.
     */
-    let code: Code | undefined;
+    let code: Code;
     $: {
         let newCode = progress.getCode();
-        if (newCode !== code) {
+        if (newCode !== undefined && newCode !== code) {
             // Reset the concept path when code changes.
             conceptPath.set([]);
             code = newCode;
         }
+        if (code === undefined) {
+            code = { sources: ['Verse()'], fit: true, edit: false };
+        }
     }
 
     $: project =
-        act && code && code.sources.length > 0
+        act && code.sources.length > 0
             ? new Project(
                   progress.getProjectID(),
                   scene ? scene.name : act.name,
