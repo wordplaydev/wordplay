@@ -208,6 +208,7 @@
                         tip={$creator.getLocale().ui.tooltip.home}
                         editable={code.edit}
                         fit={code.fit}
+                        autofocus={false}
                     /></div
                 >{:else}<PlayView {project} />{/if}
         {/if}

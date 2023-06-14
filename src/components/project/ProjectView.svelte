@@ -79,6 +79,7 @@
     export let editable: boolean = true;
     /** True if the output should be fit to content */
     export let fit: boolean = true;
+    export let autofocus: boolean = true;
 
     // The HTMLElement that represents this element
     let view: HTMLElement | undefined = undefined;
@@ -1057,6 +1058,10 @@
                                         {project}
                                         evaluator={$evaluator}
                                         source={getSourceByID(tile.id)}
+                                        autofocus={autofocus &&
+                                            tile.isExpanded() &&
+                                            getSourceByID(tile.id) ===
+                                                project.main}
                                         bind:menu
                                         on:conflicts={(event) =>
                                             (conflictsOfInterest =

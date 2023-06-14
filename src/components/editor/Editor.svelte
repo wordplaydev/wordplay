@@ -3,7 +3,12 @@
 <script lang="ts">
     import Node from '@nodes/Node';
     import Caret from './util/Caret';
-    import { createEventDispatcher, onDestroy, setContext } from 'svelte';
+    import {
+        createEventDispatcher,
+        onDestroy,
+        onMount,
+        setContext,
+    } from 'svelte';
     import UnicodeString from '@models/UnicodeString';
     import commands, { type Edit } from './util/Commands';
     import type Source from '@nodes/Source';
@@ -65,6 +70,7 @@
     export let evaluator: Evaluator;
     export let project: Project;
     export let source: Source;
+    export let autofocus: boolean = true;
 
     const SHOW_OUTPUT_IN_PALETTE = false;
 
@@ -160,6 +166,11 @@
             }
         }
     }
+
+    // Focus the hidden text field on mount.
+    onMount(() => {
+        if (autofocus) focusHiddenTextField();
+    });
 
     async function evalUpdate() {
         if (evaluator === undefined || evaluator.isPlaying()) return;
