@@ -11,6 +11,7 @@
         getUser,
         type ConceptIndexContext,
         ConceptPathSymbol,
+        getConceptPath,
     } from '../../components/project/Contexts';
     import PlayView from './PlayView.svelte';
     import Button from '../widgets/Button.svelte';
@@ -64,6 +65,8 @@
             : [];
     }
 
+    const conceptPath = getConceptPath();
+
     /* 
         Silly workaround to only modify code when it actually changes. 
         The keyed each below should only update when it's different code,
@@ -72,7 +75,11 @@
     let code: Code | undefined;
     $: {
         let newCode = progress.getCode();
-        if (newCode !== code) code = newCode;
+        if (newCode !== code) {
+            // Reset the concept path when code changes.
+            conceptPath.set([]);
+            code = newCode;
+        }
     }
 
     $: project =
