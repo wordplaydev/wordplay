@@ -674,19 +674,18 @@ const en: Locale = {
         ExpressionPlaceholder: {
             name: 'expression placeholder',
             description: getPlaceholderDescription,
-            emotion: Emotion.Sad,
+            emotion: Emotion.Scared,
             doc: `
-            I can be anything. That might sound amazing, but it's actually really hard, because everyone things of me as temporary. 
-            Like, if we were adding some numbers, I might take the place of a number (1 + _), or if someone was evaluating a function with @Evaluate, I might stand in for the function (_(1 2 3)).
-            But as soon as someone decides what to replace me with, I'm just discarded.
-            Tossed out.
-            And so while I can be anything, it's never for long, and I don't get to actually do anything.
-
-            Actually, I do get to do one thing: if someone leaves me in a performance, I will SHUT IT DOWN when it's my turn to dance.
-            But it's actually because I don't know what to do.
-            Because I can be anything, I not really anything...
-            `,
-            start: "Stop the performance, I don't know what I am!",
+                I'm supposed to be an **expression**, but I really don't know how to do anything.
+                
+                Directors usually use me to temporarily hold some space in a performance while they figure out what they want to do.
+                
+                Like, if we were adding some numbers, I might take the place of a number (1 + _), or if someone was evaluating a function with @Evaluate, I might stand in for the function (_(1 2 3)).
+                
+                But as soon as someone decides what to replace me with, I'm out.
+                Which is good, because I'm terrified of being on stage, let alone in @Program!
+                `,
+            start: "Stop the performance, I don't know what to do!",
             placeholder: 'expression',
         },
         FunctionDefinition: {
@@ -1807,7 +1806,7 @@ const en: Locale = {
         type: (expected, given) =>
             Explanation.as('I expected a ', expected, ' but received ', given),
         placeholder: (node) =>
-            Explanation.as(`Eek, I don't know what to do, I'm a `, node, `!`),
+            Explanation.as(`I don't know what to do, I'm a `, node, `!`),
         unparsable: (node) =>
             Explanation.as('this is ', node, ' is not parsable'),
         value: () =>
@@ -2103,7 +2102,7 @@ const en: Locale = {
                 'operators evalute left to right, unlike math; use parentheses to specify order of evaluation',
         },
         Placeholder: {
-            primary: `I'm a placeholder. Can you please find someone to replace me for the performance?`,
+            primary: `Eep, can someone take my place? I don't know what to do up here.`,
         },
         RequiredAfterOptional: {
             primary:
@@ -2883,7 +2882,7 @@ const en: Locale = {
                             
                             I can do a lot, but that's only because I work with everyone else in the **Verse**. 
                             
-                            They're the ones that bring all of the exciting possibilities to stage. All I really do is let them do their thing, and then take the last thing they created and show it on stage. 
+                            They're the ones that bring all of the exciting possibilities to the **stage**. All I really do is let them do their thing, and then take the last thing they created and show it on stage. 
                             
                             I'm more like an escort that brings the final **value** to stage, like numbers, texts, phrases, or other values.
                             `
@@ -2922,15 +2921,15 @@ const en: Locale = {
                         dialog(
                             'FunctionDefinition',
                             Emotion.Neutral,
-                            `You're really going to like @ExpressionPlaceholder. They're just so unpredictable, so flexible. They're like a chameleon.`
+                            `You're really going to like @ExpressionPlaceholder. They're incredibly kind, and so flexible. But they are a bit shy. Just be gentle with them?`
                         ),
                         pause(),
                         dialog(
                             'FunctionDefinition',
                             Emotion.Confused,
-                            `@ExpressionPlaceholder! Hey, @ExpressionPlaceholder, where are you?
+                            `Hellooooo, @ExpressionPlaceholder?
 
-                            Hm, they're usually everywhere. Now they seem to be nowhere.`
+                            Hm, they're usually everywhere. Now they seem to be nowhere...`
                         ),
                         dialog(
                             'ExpressionPlaceholder',
@@ -2987,7 +2986,6 @@ const en: Locale = {
                             `Can you?`
                         ),
                         pause(),
-                        code('_', true, true),
                         dialog(
                             'FunctionDefinition',
                             Emotion.Kind,
@@ -2995,9 +2993,14 @@ const en: Locale = {
                             
                             My friend @ExpressionPlaceholder is a placeholder. They represent any kind of expression in a program. 
                             
-                            They don't evaluate to any value in particular  — in fact, if they show up in @Program, @Program will just shut things down, since it's not really clear what to do next. 
-                            
-                            But they are powerful, because they can represent anyone else, like a stand-in until you decide what you want a part of your performance to be.
+                            They don't evaluate to any value in particular  — in fact, if they show up in @Program, @Program will just halt the performance, since it's not really clear what to do next.`
+                        ),
+                        pause(),
+                        code('_', true, true),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Kind,
+                            `But they are powerful, because they can represent anyone else, like a stand-in until you decide what you want a part of your performance to be.
                         
                             @ExpressionPlaceholder, want to take a place in this @Program, just to illustrate?`
                         ),
@@ -3005,7 +3008,7 @@ const en: Locale = {
                         dialog(
                             'FunctionDefinition',
                             Emotion.Neutral,
-                            `See, @Program didn't know what to do with @ExpressionPlaceholder, so it showed an exception on stage.
+                            `See, @Program didn't know what to do with @ExpressionPlaceholder, so it showed an **exception** on **stage**.
 
                             But if you click on @ExpressionPlaceholder, or move the text caret over it, you'll see a world of possibilities of other characters. 
                             
@@ -3043,7 +3046,7 @@ const en: Locale = {
                         
                             They'd never admit it, but they're kind of a big deal, and most directors can't work without them. 
                             
-                            Think of the like your stagehand, always available to help you try different arrangements`
+                            Think of the like a little helpful stagehand, reminding you of things you haven't figured out yet.`
                         ),
                     ],
                 },
