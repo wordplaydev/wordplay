@@ -44,6 +44,8 @@ import {
     INITIAL_SYMBOL,
     SUM_SYMBOL,
     DIFFERENCE_SYMBOL,
+    EXAMPLE_OPEN_SYMBOL,
+    EXAMPLE_CLOSE_SYMBOL,
 } from './Symbols';
 import TokenList from './TokenList';
 
@@ -95,7 +97,7 @@ export const URLRegEx = new RegExp(
     'u'
 );
 export const WordsRegEx = new RegExp(
-    `^[^\n${EVAL_OPEN_SYMBOL}${EVAL_CLOSE_SYMBOL}${LINK_SYMBOL}${TAG_OPEN_SYMBOL}${TAG_CLOSE_SYMBOL}${FORMAT_SYMBOL}${DOCS_SYMBOL}]+`,
+    `^[^\n${EXAMPLE_OPEN_SYMBOL}${EXAMPLE_CLOSE_SYMBOL}${LINK_SYMBOL}${TAG_OPEN_SYMBOL}${TAG_CLOSE_SYMBOL}${FORMAT_SYMBOL}${DOCS_SYMBOL}]+`,
     'u'
 );
 
@@ -245,6 +247,8 @@ const patterns = [
     { pattern: FORMAT_SYMBOL.repeat(3), types: [TokenType.Extra] },
     { pattern: FORMAT_SYMBOL.repeat(2), types: [TokenType.Bold] },
     { pattern: FORMAT_SYMBOL, types: [TokenType.Italic] },
+    { pattern: EXAMPLE_OPEN_SYMBOL, types: [TokenType.ExampleOpen] },
+    { pattern: EXAMPLE_CLOSE_SYMBOL, types: [TokenType.ExampleClose] },
 
     // All other tokens are names, which are sequences of Unicode glyphs that are not one of the reserved symbols above or whitespace.
     {
@@ -280,6 +284,7 @@ DELIMITERS[LIST_OPEN_SYMBOL] = LIST_CLOSE_SYMBOL;
 DELIMITERS[SET_OPEN_SYMBOL] = SET_CLOSE_SYMBOL;
 DELIMITERS[TYPE_OPEN_SYMBOL] = TYPE_CLOSE_SYMBOL;
 DELIMITERS[TABLE_OPEN_SYMBOL] = TABLE_CLOSE_SYMBOL;
+DELIMITERS[EXAMPLE_OPEN_SYMBOL] = EXAMPLE_CLOSE_SYMBOL;
 
 // Add the text delimiters.
 for (const [open, close] of Object.entries(TEXT_DELIMITERS))
@@ -304,7 +309,7 @@ export function tokenize(source: string): TokenList {
 
     // A stack, top at 0, of TEXT_OPEN tokens, helping us decide when to tokenize TEXT_CLOSE.
     const openTemplates: Token[] = [];
-    const openEval: Token[] = [];
+    const openExample: Token[] = [];
     let inDoc = false;
     let docEvalDepth: number | undefined = undefined;
     while (source.length > 0) {
@@ -314,10 +319,10 @@ export function tokenize(source: string): TokenList {
         const tokenizeDocs =
             inDoc &&
             docEvalDepth !== undefined &&
-            docEvalDepth === openEval.length;
+            docEvalDepth === openExample.length;
 
         // If we're in a doc, then read whitespace starting with newlines only.
-        if (tokenizeDocs && !source.startsWith(')')) {
+        if (tokenizeDocs && !source.startsWith(EXAMPLE_CLOSE_SYMBOL)) {
             const spaceMatch = source.match(/^\n[ \t\n]*/);
             space = spaceMatch === null ? '' : spaceMatch[0];
         }
@@ -351,9 +356,9 @@ export function tokenize(source: string): TokenList {
         else if (nextToken.is(TokenType.TemplateClose)) openTemplates.shift();
 
         // If the token was an eval open, push it on the stack.
-        if (nextToken.is(TokenType.EvalOpen)) openEval.unshift(nextToken);
+        if (nextToken.is(TokenType.ExampleOpen)) openExample.unshift(nextToken);
         // If the token was a close, pop
-        else if (nextToken.is(TokenType.EvalClose)) openEval.shift();
+        else if (nextToken.is(TokenType.ExampleClose)) openExample.shift();
 
         // If we encountered a doc, toggle the flag.
         if (nextToken.is(TokenType.Doc)) {
@@ -362,7 +367,7 @@ export function tokenize(source: string): TokenList {
                 docEvalDepth = undefined;
             } else {
                 inDoc = true;
-                docEvalDepth = openEval.length;
+                docEvalDepth = openExample.length;
             }
         }
     }

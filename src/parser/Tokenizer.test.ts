@@ -104,10 +104,10 @@ test('Tokenize docs', () => {
             .join(' ')
     ).toBe('` hello ` ');
     expect(
-        tokens('`hello (1 + 1)`')
+        tokens('`hello ⧼1 + 1⧽`')
             .map((t) => t.toWordplay())
             .join(' ')
-    ).toBe('` hello  ( 1 + 1 ) ` ');
+    ).toBe('` hello  ⧼ 1 + 1 ⧽ ` ');
     expect(
         tokens('`hello @bind`')
             .map((t) => t.toWordplay())

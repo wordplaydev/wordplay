@@ -22,6 +22,8 @@ enum TokenType {
     Extra = '***',
     Concept = '@concept',
     URL = 'http...',
+    ExampleOpen = '⧼',
+    ExampleClose = '⧽',
 
     None = 'ø',
     Type = '•',

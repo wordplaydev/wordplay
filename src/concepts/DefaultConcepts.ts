@@ -81,6 +81,7 @@ import TypeVariables from '../nodes/TypeVariables';
 import UnaryOperation from '../nodes/UnaryOperation';
 import UnionType from '../nodes/UnionType';
 import WebLink from '../nodes/WebLink';
+import UnparsableExpression from '../nodes/UnparsableExpression';
 
 /** These are ordered by appearance in the docs. */
 const template: Node[] = [
@@ -219,6 +220,7 @@ const template: Node[] = [
     WebLink.make('wordplay', 'http://wordplay.dev'),
     Language.make('en'),
     Example.make(Program.make()),
+    new UnparsableExpression([]),
 ];
 
 export function getNodeConcepts(context: Context): NodeConcept[] {

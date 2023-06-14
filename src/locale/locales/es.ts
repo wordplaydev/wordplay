@@ -110,6 +110,8 @@ const eng_wordplay: Locale = {
         Extra: 'extra',
         Concept: 'enlace de concepto',
         URL: 'URL',
+        ExampleOpen: 'ejemplo abierta',
+        ExampleClose: 'ejemplo cerrar',
         None: 'nada',
         Type: 'tipo',
         TypeOperator: 'es',

@@ -267,7 +267,11 @@ export class Tokens {
         // Read at least one token, then keep going until we reach a token with a line break.
         do {
             nodes.push(this.read());
-        } while (this.hasNext() && this.nextHasPrecedingLineBreak() === false);
+        } while (
+            this.hasNext() &&
+            this.nextHasPrecedingLineBreak() === false &&
+            this.nextIsnt(TokenType.ExampleClose)
+        );
         return nodes;
     }
 
@@ -348,9 +352,16 @@ export function parseBlock(
         : undefined;
 
     const statements = [];
+    // Keep reading binds and expressions until
+    // 1) there are no more tokens and one the following is true:
+    //  a) It's a root and not a doc
+    //  b) It's not a root or a doc and the next is an eval close
+    //  c) It's a doc and the next is an example close
     while (
         tokens.hasNext() &&
-        ((root && !doc) || tokens.nextIsnt(TokenType.EvalClose))
+        ((root && !doc) ||
+            (!root && !doc && tokens.nextIsnt(TokenType.EvalClose)) ||
+            (doc && tokens.nextIsnt(TokenType.ExampleClose)))
     )
         statements.push(
             nextIsBind(tokens, true)
@@ -1411,7 +1422,7 @@ function parseParagraph(tokens: Tokens): Paragraph {
                 ? parseLink(tokens)
                 : tokens.nextIs(TokenType.Concept)
                 ? parseConceptLink(tokens)
-                : tokens.nextIs(TokenType.EvalOpen)
+                : tokens.nextIs(TokenType.ExampleOpen)
                 ? parseExample(tokens)
                 : tokens.nextIsOneOf(
                       TokenType.Words,
@@ -1471,9 +1482,9 @@ function parseWords(tokens: Tokens): Words {
 }
 
 function parseExample(tokens: Tokens): Example {
-    const open = tokens.read(TokenType.EvalOpen);
+    const open = tokens.read(TokenType.ExampleOpen);
     const program = parseProgram(tokens, true);
-    const close = tokens.readIf(TokenType.EvalClose);
+    const close = tokens.readIf(TokenType.ExampleClose);
 
     return new Example(open, program, close);
 }

@@ -114,6 +114,8 @@ const en: Locale = {
         Extra: 'extra',
         Concept: 'concept link',
         URL: 'URL',
+        ExampleOpen: 'example open',
+        ExampleClose: 'example close',
         None: 'nothing',
         Type: 'type',
         TypeOperator: 'is',
@@ -194,9 +196,9 @@ const en: Locale = {
             name: 'dimension',
             description: getDimensionDescription,
             emotion: Emotion.Serious,
-            doc: `I am a *unit of measurement*, like (1m), (10s), (100g), or any other scientific unit. I'm happy to be any unit want to make up too, like (17apple).
+            doc: `I am a *unit of measurement*, like ⧼1m⧽, ⧼10s⧽, ⧼100g⧽, or any other scientific unit. I'm happy to be any unit want to make up too, like (17apple).
             
-                I can be combined with other symbols to make compound units like (9.8m/s^2) or (17apple/day).
+                I can be combined with other symbols to make compound units like ⧼9.8m/s^2⧽ or ⧼17apple/day⧽.
                 
                 I must always follow a number. If I don't, I might be mistaken for a name, which would be quite embarassing, because I name units, not values.`,
         },
@@ -353,10 +355,10 @@ const en: Locale = {
 
                 Check this out.
 
-                (1 + 1)
-                (1 > 1)
-                (1 - 1)
-                (1 = 1)
+                ⧼1 + 1⧽
+                ⧼1 > 1⧽
+                ⧼1 - 1⧽
+                ⧼1 = 1⧽
 
                 Did you see that? 
                 No parentheses, just a tight little operator in the middle.
@@ -983,8 +985,17 @@ const en: Locale = {
             name: 'unparsable',
             description: WRITE_DOC,
             emotion: Emotion.TBD,
-            doc: `a list of unparsable @Token`,
-            start: 'cannot evaluate unparsable code',
+            doc: `
+                (Hi @FunctionDefinition here. I'm translating for @UnparsableExpression, since they're often hard to interpret.)
+
+                Not every expression has meaning on stage.
+
+                In fact, there are all kinds of things you can say that don't make any sense at all.
+
+                When you do, I show up. I'll try to guess what you might have meant, but it's up to you to fix it.
+                You are the director after all, so only you know what you might have meant!
+                `,
+            start: '???',
         },
         Update: {
             name: 'update rows',
@@ -1807,8 +1818,7 @@ const en: Locale = {
             Explanation.as('I expected a ', expected, ' but received ', given),
         placeholder: (node) =>
             Explanation.as(`I don't know what to do, I'm a `, node, `!`),
-        unparsable: (node) =>
-            Explanation.as('this is ', node, ' is not parsable'),
+        unparsable: () => Explanation.as('???'),
         value: () =>
             Explanation.as("Oh no! I expected a value, but I didn't get one"),
     },
@@ -2839,11 +2849,11 @@ const en: Locale = {
                         
                             The **director** — that's you — helps everyone figure out what they're doing. And then I put them on stage for the audience to see.
                         
-                            For example, try typing my ("hello") in the editor over there. That's my friend @TextLiteral. Have you met them yet?
+                            For example, try typing my ⧼"hello"⧽ in the editor over there. That's my friend @TextLiteral. Have you met them yet?
                         
-                            They evaluate to ("hello"), then I put ("hello") on stage.
+                            They evaluate to ⧼"hello"⧽, then I put ⧼"hello"⧽ on stage.
                         
-                            Try changing ("hello") to something else. I'll show that instead. So I'll evaluate whatever code is in me, and show the result.
+                            Try changing ⧼"hello"⧽ to something else. I'll show that instead. So I'll evaluate whatever code is in me, and show the result.
                             `
                         ),
                         pause(),
@@ -2857,15 +2867,15 @@ const en: Locale = {
                             
                             But if you give me two things, I'll only show the last thing you give me.
 
-                            For example, try adding another instruction after (“hello”), whatever word you want, in quotes.`
+                            For example, try adding another instruction after ⧼"hello"⧽, whatever word you want, in quotes.`
                         ),
                         pause(),
                         dialog(
                             'Program',
                             Emotion.Serious,
-                            `See? I just showed your new word, not (“hello”). 
+                            `See? I just showed your new word, not ⧼"hello"⧽.
                             
-                            You know you broke my rule because I underlined (“hello”) and told you that I'd be ignoring it.
+                            You know you broke my rule because I underlined ⧼"hello"⧽ and told you that I'd be ignoring it.
                             `
                         ),
                         pause(),
@@ -2993,7 +3003,7 @@ const en: Locale = {
                             
                             My friend @ExpressionPlaceholder is a placeholder. They represent any kind of expression in a program. 
                             
-                            They don't evaluate to any value in particular  — in fact, if they show up in @Program, @Program will just halt the performance, since it's not really clear what to do next.`
+                            They don't evaluate to any value in particular — in fact, if they show up in @Program, @Program will just halt the performance, since it's not really clear what to do next.`
                         ),
                         pause(),
                         code('_', true, true),
@@ -3047,6 +3057,168 @@ const en: Locale = {
                             They'd never admit it, but they're kind of a big deal, and most directors can't work without them. 
                             
                             Think of the like a little helpful stagehand, reminding you of things you haven't figured out yet.`
+                        ),
+                    ],
+                },
+                {
+                    name: 'Say Again?',
+                    code: code('Phrase("ahkeolfewvk")', true, false),
+                    lines: [
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Eager,
+                            '@UnparsableExpression? Is that you?'
+                        ),
+                        dialog(
+                            'UnparsableExpression',
+                            Emotion.Neutral,
+                            'dwjkdlserkuvisdke!'
+                        ),
+                        pause(),
+                        code('Phrase("c iise we dvk")', true, false),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Excited,
+                            `It’s good to see you too! It’s been so long. What have you been up to in all this silence?`
+                        ),
+                        dialog(
+                            'UnparsableExpression',
+                            Emotion.Sad,
+                            `sd fdsdfdsf ksdf. Dkfjdfdskfd df sdf sd fsdk;l!  Adks  zxcviw werdsf wer  ado. We dsdfd ksld df.ds dfsdfds DIDIIDI.`
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `(It sounds like they spent a lot of time on the beach. They made some new friends, and practiced doing nothing.)`
+                        ),
+                        pause(),
+                        code('Phrase("ivioas we wjjdks")', true, false),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Excited,
+                            `I wanted to introduce you to our potential new director. 
+                            
+                            They just arrived and are learning the basics. I just introduced them to @Program and @ExpressionPlaceholder.`
+                        ),
+                        dialog(
+                            'UnparsableExpression',
+                            Emotion.Excited,
+                            `EEIRC DFUIDIII CAD EWDF FSDE!!!`
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Serious,
+                            `(They just said how awesome it is to meet you, and they think you’ll be a great director.)`
+                        ),
+                        pause(),
+                        code('Phrase("v s d we iweiwei")', true, false),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `I was wondering if you wanted to explain what you do? I can translate.`
+                        ),
+                        dialog(
+                            'UnparsableExpression',
+                            Emotion.Eager,
+                            `ADDKL, ALLIIEE, ALLFOOO, AOOOOOOO, JOOKKDLS, LOOKIL, WEEEERTOL weeertol…`
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `(I represent everything that means nothing. And I mean nothing.)`
+                        ),
+                        pause(),
+                        code('', true, true),
+                        dialog(
+                            'UnparsableExpression',
+                            Emotion.Eager,
+                            `CNNNDN KDKLSL oOOLLlllll PPOLSLSO liiiiiiis, sdllslll, xck we ifolls a.`
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `(For example, try typing ⧼][⧽. See how we're completely confused? That doesn't mean anything, and I'm here to say it.)`
+                        ),
+                        pause(),
+                        code('][', true, true),
+                        dialog(
+                            'UnparsableExpression',
+                            Emotion.Eager,
+                            `ICO Odksjdf lksls kjsfiou fskd we rl,vxids eekd sd dsmf kksdcv.`
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `(When I show up, that means we don't know what you mean.)`
+                        ),
+                        pause(),
+                        code('][', true, true),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Curious,
+                            `Thanks @UnparsableExpression!
+                        
+                            Just like they said, when you’ve said something we don’t understand, unparsable is there to say “We don’t understand.”
+                            
+                            When then happens, I wish we could be more helpful, but we're often pretty dense here, so we're not very good at guessing what you mean.`
+                        ),
+                        pause(),
+                        code('][', true, true),
+                        dialog(
+                            'UnparsableExpression',
+                            Emotion.Eager,
+                            `OSOOSOO SOIEIIEIEIIE ISIISI EIEIIEE!`
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Kind,
+                            `Soooo, @UnparsableExpression want to try making as many of them as possible. 
+                            (You can just key mash a bunch of random characters and you’ll probably get many of them).`
+                        ),
+                        pause(),
+                        dialog(
+                            'UnparsableExpression',
+                            Emotion.Happy,
+                            `PPOOOEPOEP EPWPEPEPPEPP PP PE P!`
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Kind,
+                            `They really enjoyed that, thanks!
+                            
+                            It's pretty hard to write something we truly can't make sense of. 
+                            But it doesn't mean everything you write has meaning.
+                            I'm pretty sure you just typed a bunch of random words, for example.
+                            But what does it mean?`
+                        ),
+                        dialog(
+                            'UnparsableExpression',
+                            Emotion.Confused,
+                            `… DDook`
+                        ),
+                        pause(),
+                        dialog(
+                            'UnparsableExpression',
+                            Emotion.Happy,
+                            `? ??? ????? ?!`
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Kind,
+                            `They’re wondering if you have any ideas for performances to put on yet.`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Kind,
+                            `No? That’s okay. We’ve only begun to show you what’s possible. Let’s go meet @Evaluate.
+                            
+                            Bye unparsable, it was good to see you! Let’s play soon.`
+                        ),
+                        dialog(
+                            'UnparsableExpression',
+                            Emotion.Happy,
+                            `Ood sd fosd oiewi dk c HNLLLooooooO!`
                         ),
                     ],
                 },

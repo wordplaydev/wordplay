@@ -15,6 +15,9 @@ export const SET_OPEN_SYMBOL = '{';
 export const SET_CLOSE_SYMBOL = '}';
 export const TYPE_OPEN_SYMBOL = '⸨';
 export const TYPE_CLOSE_SYMBOL = '⸩';
+// ⧼⧽
+export const EXAMPLE_OPEN_SYMBOL = '⧼';
+export const EXAMPLE_CLOSE_SYMBOL = '⧽';
 export const BIND_SYMBOL = ':';
 export const COMMA_SYMBOL = ',';
 export const MEASUREMENT_SYMBOL = '#';
