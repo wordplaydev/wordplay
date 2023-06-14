@@ -137,8 +137,8 @@ export default class Progress {
     }
 
     moveAct(direction: -1 | 1): Progress | undefined {
-        const actIndex = this.act + direction;
-        const nextAct = this.tutorial[this.act + direction];
+        const actIndex = this.act - 1 + direction;
+        const nextAct = this.tutorial[this.act];
         if (nextAct === undefined) return undefined;
         return new Progress(
             this.tutorial,
