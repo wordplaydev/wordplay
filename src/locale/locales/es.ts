@@ -1611,8 +1611,8 @@ const eng_wordplay: Locale = {
                 ),
         },
         IgnoredExpression: {
-            primary:
-                'this expression is not used; it will not affect the value of anything',
+            primary: WRITE_DOC,
+            secondary: WRITE_DOC,
         },
         IncompleteImplementation: {
             primary: `structures must either be fully implemented or not implemented; this has a mixture`,

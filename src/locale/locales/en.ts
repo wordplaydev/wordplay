@@ -160,28 +160,35 @@ const en: Locale = {
     node: {
         Program: {
             name: 'program',
-            description: '',
-            emotion: Emotion.TBD,
-            doc: WRITE_DOC,
+            description: 'program',
+            emotion: Emotion.Serious,
+            doc: `You know how @Block evaluates a list of expressions, and evaluates to the last one in its list? 
+                
+                I'm the same, but rather than giving my value to whateve expression I'm in, I put the value on stage.
+                
+                The value can be anything: a @MeasurementLiteral, @TextLiteral, or @BooleanLiteral, a @ListLiteral, @SetLiteral, @MapLiteral, or even something more complex, like a @Phrase, @Group, or @Verse.
+
+                If you don't give me a value to show on stage, I'll probably ask you for one.
+                `,
             start: (changes) =>
                 changes.length === 0
-                    ? 'evaluating program for the first time'
+                    ? 'evaluating for the first time'
                     : changes.length === 1
                     ? Explanation.as(
                           changes[0].stream,
-                          ' produced ',
+                          ' evaluated to ',
                           changes[0].value,
-                          ' revaluating program'
+                          ' revaluating'
                       )
                     : Explanation.as(
                           `${changes.length} streams changed (e.g., `,
                           changes[0].stream,
                           ' → ',
                           changes[0].value,
-                          '); revaluating program'
+                          '); revaluating'
                       ),
             finish: (value) =>
-                Explanation.as('program evaluated to ', value ?? 'nothing'),
+                Explanation.as('I evaluated to ', value ?? 'nothing'),
         },
         Dimension: {
             name: 'dimension',
@@ -1894,9 +1901,8 @@ const en: Locale = {
                 ),
         },
         IgnoredExpression: {
-            primary:
-                WRITE_DOC +
-                'this expression is not used; it will not affect the value of anything',
+            primary: "I'm going to use this value and ignore other ones above.",
+            secondary: 'Why are you ignoring me, I want to help!',
         },
         IncompleteImplementation: {
             primary:
@@ -2629,7 +2635,7 @@ const en: Locale = {
                         pause(),
                         dialog(
                             'FunctionDefinition',
-                            Emotion.Sad,
+                            Emotion.Curious,
                             `Oh, is this your first time visiting?
 
                             Nice to meet you. My name is @FunctionDefinition.
@@ -2639,27 +2645,23 @@ const en: Locale = {
                         pause(),
                         dialog(
                             'FunctionDefinition',
-                            Emotion.Sad,
+                            Emotion.Curious,
                             `Did you need some help?
                             Oh, you're visiting.
-                            Welcome to the Verse.
-                        …`
+                            Welcome to the **Verse**.
+                            …`
                         ),
                         pause(),
                         dialog(
                             'FunctionDefinition',
                             Emotion.Bored,
-                            `
-                            What is this place?
+                            `What is this place?
 
                             Yeah, what is this place…
 
-                            I know what it used to be.
-
                             It used to be a place of dancing, stories, games, and play…
 
-                            We used to put on endless shows. Sometimes for visitors like you, sometimes for the challenge. Sometimes just for fun. It was a place full of life and surprise…
-
+                            We used to put on the most beautiful performances. Sometimes for visitors like you, sometimes just for fun. It was a place full of life and surprise…
                             `
                         ),
                         pause(),
@@ -2677,7 +2679,7 @@ const en: Locale = {
                         pause(),
                         dialog(
                             'FunctionDefinition',
-                            Emotion.Sad,
+                            Emotion.Bored,
                             `But all of that meaning? It's given to us. 
                             We don't mean anything without people to remember that history and culture. 
                             And we can't mean anything new if there aren't people to give us new history and culture. 
@@ -2712,7 +2714,7 @@ const en: Locale = {
                         pause(),
                         dialog(
                             'FunctionDefinition',
-                            Emotion.Neutral,
+                            Emotion.Scared,
                             `I know that's a lot to ask. I don't even know you. And I'd really have to talk to the others…`
                         ),
                         pause(),
@@ -2731,8 +2733,15 @@ const en: Locale = {
                         dialog(
                             'FunctionDefinition',
                             Emotion.Serious,
-                            `Oh, the director, yes, I didn't even explain. So the director, this is the person that gives us meaning. They are the person who arranges the choreography, who sets the message, who puts all of us in order just so. This is the inspiration I was talking about. We can do a lot in this world, but we can't direct ourselves. That's why the director is so important.
-                                So when I asked earlier if you could give us meaning, that's what I meant. Could you be our director?`
+                            `Oh, the director, yes, I didn't even explain. 
+                            
+                            So the **director**, this is the person that gives us meaning. They are the person who arranges the choreography, who sets the message, who puts all of us in order just so. 
+                            
+                            This is the inspiration I was talking about. We can do a lot in this world, but we can't direct ourselves. That's why the director is so important.
+                            
+                            So when I asked earlier if you could give us meaning, that's what I meant. 
+                            
+                            Could you be our director?`
                         ),
                         pause(),
                         code(
@@ -2743,13 +2752,13 @@ const en: Locale = {
                         dialog(
                             'FunctionDefinition',
                             Emotion.Excited,
-                            `Really, that's wonderful! This is going to be so much fun. 
+                            `Really? That's wonderful! This is going to be so much fun. 
                             
-                            I mean, it's not going to be easy — most directors find us all pretty strange, so it can take some time to learn to guide us. 
+                            I mean, it's not going to be easy. We have *a lot* to learn.
                             
-                            But I think our differences are what make us powerful together. 
-                            I certainly couldn't put on a show by myself. 
-                            We need everyone in the Verse to come together to do that. 
+                            But I promise it won't be boring.
+                            I think we're a pretty fun bunch.
+                            And we need everyone in the Verse to come together to do that. 
                             
                             I think that's what makes this place so special, actually: there are more than a hundred thousand of us here, 
                             each different, and yet somehow, when we manage to find a shared vision, we can seem like one.`
@@ -2763,7 +2772,7 @@ const en: Locale = {
                     ],
                 },
                 {
-                    name: 'Take the Stage',
+                    name: 'Would you like a program?',
                     code: code('Phrase("☀️")', true, false),
                     lines: [
                         dialog(
@@ -2798,20 +2807,20 @@ const en: Locale = {
                         pause(),
                         dialog(
                             'FunctionDefinition',
-                            Emotion.Angry,
+                            Emotion.Kind,
                             `
-                            I told them all this. I said we were weird, and sometimes directors leave because of that, but I think we're special, blah blah blah. They're in. 
+                            I told them a bit. I said we were weird, and sometimes directors leave because of that. But they're in. 
                             
                             Right, you're in?
                             `
                         ),
                         dialog(
                             'Program',
-                            Emotion.Insecure,
+                            Emotion.Serious,
                             `
                             Okay. Well nice to meet you. 
                             
-                            Sorry, I've just had a lot of people come here and say "this isn't for me" and I've gotten a bit skeptical of people who try for a bit and then just give up. 
+                            Sorry, I've just had a lot of people come here and say "*this isn't for me*" and I've gotten a bit skeptical of people who try for a bit and then just give up. 
                             
                             I shouldn't have to change who I am to fit people's expectations. But if you're willing to learn about me, and us, let's try!
                             `
@@ -2827,9 +2836,9 @@ const en: Locale = {
                             'Program',
                             Emotion.Neutral,
                             `
-                            Sure. I'm basically the organizer for a performance.
+                            Sure. I'm basically the organizer of the program for a performance.
                         
-                            The director helps everyone figure out what they're doing and then I put them on stage for the audience to see.
+                            The **director** — that's you — helps everyone figure out what they're doing. And then I put them on stage for the audience to see.
                         
                             For example, try typing my ("hello") in the editor over there. That's my friend @TextLiteral. Have you met them yet?
                         
@@ -2845,12 +2854,11 @@ const en: Locale = {
                             `
                             The instructions can get as sophisticated as you want, but there are a few rules. 
                             
-                            For example, I can only evaluate to one value, and show that one value on stage. That one value can be as complex as you want, and as long as I know how to show it, I will. 
+                            For example, I can only evaluate to one **value**, and show that one value on stage. That one value can be as complex as you want, and as long as I know how to show it, I will. 
                             
                             But if you give me two things, I'll only show the last thing you give me.
 
-                            For example, try adding another instruction after (“hello”), whatever word you want, in quotes.
-                            `
+                            For example, try adding another instruction after (“hello”), whatever word you want, in quotes.`
                         ),
                         pause(),
                         dialog(
@@ -2858,10 +2866,11 @@ const en: Locale = {
                             Emotion.Serious,
                             `See? I just showed your new word, not (“hello”). 
                             
-                            You know you broke my rule because I underlined “hello” and told you that I'd be ignoring it.
+                            You know you broke my rule because I underlined (“hello”) and told you that I'd be ignoring it.
                             `
                         ),
                         pause(),
+                        code(`Phrase("🎭")`, true, false),
                         dialog(
                             'FunctionDefinition',
                             Emotion.Excited,
@@ -2872,11 +2881,11 @@ const en: Locale = {
                             Emotion.Serious,
                             `Yes and no. 
                             
-                            I can do a lot, but that's only because I work with everyone else in the Verse. 
+                            I can do a lot, but that's only because I work with everyone else in the **Verse**. 
                             
                             They're the ones that bring all of the exciting possibilities to stage. All I really do is let them do their thing, and then take the last thing they created and show it on stage. 
                             
-                            I'm more like an escort that brings the final value to stage, whether that's a number, text, phrase, or even an exception.
+                            I'm more like an escort that brings the final **value** to stage, like numbers, texts, phrases, or other values.
                             `
                         ),
                         pause(),
@@ -2890,7 +2899,6 @@ const en: Locale = {
                             Emotion.Happy,
                             `It was great to meet you new director! Good luck with everyone else. I'll always be here.`
                         ),
-                        pause(),
                         dialog(
                             'FunctionDefinition',
                             Emotion.Eager,

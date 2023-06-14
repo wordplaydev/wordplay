@@ -176,9 +176,7 @@ export default class Block extends Expression {
                         s instanceof Bind
                     )
             )
-            .forEach((s) =>
-                conflicts.push(new IgnoredExpression(s as Expression))
-            );
+            .forEach((s) => conflicts.push(new IgnoredExpression(this, s)));
 
         if (this.open && this.close === undefined)
             conflicts.push(

@@ -530,7 +530,7 @@ type Locale = {
         ExpectedUpdateBind: InternalConflictText<
             (cell: NodeLink) => Description
         >;
-        IgnoredExpression: InternalConflictText<Description>;
+        IgnoredExpression: ConflictText<Description, Description>;
         IncompleteImplementation: InternalConflictText<Description>;
         IncompatibleBind: ConflictText<
             (expected: NodeLink) => Description,
