@@ -223,6 +223,7 @@
                             Glyphs.Unparsable}
                         right={turn.dialog.concept === 'FunctionDefinition'}
                         baseline
+                        scroll={false}
                         emotion={turn.dialog.emotion}
                     >
                         <DocHtmlView doc={turn.speech} spaces={turn.spaces} />

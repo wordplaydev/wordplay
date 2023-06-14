@@ -19,6 +19,8 @@
     export let baseline: boolean = false;
     /** If true, uses foreground color for background, and background for foreground. */
     export let invert: boolean = false;
+    /** If true, sets height of speech to 100% and scrolls it */
+    export let scroll: boolean = true;
     /** Optional emotion */
     export let emotion: Emotion | undefined = undefined;
     export let concept: Concept | undefined = undefined;
@@ -36,6 +38,7 @@
     baseline
         ? 'baseline'
         : ''}"
+    class:scroll
 >
     {#key glyph}
         <div
@@ -50,7 +53,11 @@
         </div>
     {/key}
     <div class="message {below ? 'below' : right ? 'right' : 'left'}">
-        <div class="scroller"><slot /></div>
+        {#if scroll}
+            <div class="scroller"><slot /></div>
+        {:else}
+            <slot />
+        {/if}
     </div>
 </div>
 
@@ -59,13 +66,15 @@
         display: flex;
         flex-wrap: nowrap;
         gap: var(--wordplay-spacing);
+    }
+
+    .dialog.scroll {
         max-height: 100%;
     }
 
     .dialog.column {
         flex-direction: column;
         align-items: start;
-        max-height: 100%;
     }
 
     .dialog.row {
@@ -112,7 +121,6 @@
         overflow: scroll;
         width: 100%;
         height: 100%;
-        padding: var(--wordplay-spacing);
     }
 
     .message {
@@ -127,6 +135,7 @@
         position: relative;
         --tail-width: 0.25em;
         max-height: 100%;
+        padding: var(--wordplay-spacing);
     }
 
     .message.right {
