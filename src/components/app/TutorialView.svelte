@@ -210,7 +210,9 @@
                     >Act {progress.act}<br /><em>{act.name}</em></div
                 >
             {:else if dialog === undefined}
-                <div class="title scene">{scene.name}</div>
+                <div class="title scene"
+                    >Scene {progress.scene}<br /><em>{scene.name}</em></div
+                >
             {:else}
                 {#each turns as turn}
                     <!-- First speaker is always function, alternating speakers are the concept we're learning about. -->
@@ -282,7 +284,6 @@
 
     .scene {
         font-size: 125%;
-        font-style: italic;
         text-align: center;
     }
 
