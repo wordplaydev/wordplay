@@ -12,6 +12,8 @@
         type ConceptIndexContext,
         ConceptPathSymbol,
         getConceptPath,
+        type ProjectContext,
+        ProjectSymbol,
     } from '../../components/project/Contexts';
     import PlayView from './PlayView.svelte';
     import Button from '../widgets/Button.svelte';
@@ -23,7 +25,7 @@
     import DocHtmlView from '../concepts/DocHTMLView.svelte';
     import { setContext } from 'svelte';
     import type ConceptIndex from '../../concepts/ConceptIndex';
-    import { writable } from 'svelte/store';
+    import { writable, type Writable } from 'svelte/store';
     import { tick } from 'svelte';
     import type { Code, Dialog } from '../../locale/Locale';
 
@@ -110,6 +112,11 @@
                 $creator.addProject(project);
         }
     }
+
+    // Set a project context for those that depend on it, such as Palette.svelte.
+    const projectStore: Writable<Project | undefined> = writable(undefined);
+    setContext<ProjectContext>(ProjectSymbol, projectStore);
+    $: projectStore.set(project);
 
     // Any time the project database changes for the current ID, update the project
     $: {

@@ -3371,7 +3371,7 @@ const en: Locale = {
                             `… Yes, let’s show them.`
                         ),
                         pause(),
-                        code("Phrase('hello')", true, true),
+                        code("Phrase('hello')", false, true),
                         dialog(
                             'Evaluate',
                             Emotion.Serious,
