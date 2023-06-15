@@ -2921,7 +2921,7 @@ const en: Locale = {
                     ],
                 },
                 {
-                    name: 'Holding Space',
+                    name: 'Holding space',
                     code: code(
                         'Verse([] background: Color(0% 0 0°))',
                         true,
@@ -3061,7 +3061,7 @@ const en: Locale = {
                     ],
                 },
                 {
-                    name: 'Say Again?',
+                    name: 'Say again?',
                     code: code('Phrase("ahkeolfewvk")', true, false),
                     lines: [
                         dialog(
@@ -3219,6 +3219,274 @@ const en: Locale = {
                             'UnparsableExpression',
                             Emotion.Happy,
                             `Ood sd fosd oiewi dk c HNLLLooooooO!`
+                        ),
+                    ],
+                },
+                {
+                    name: 'Love is in the err',
+                    code: code(
+                        'Verse([Phrase("💔")] background: 🌈(90% 100 0°))',
+                        true,
+                        false
+                    ),
+                    lines: [
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Excited,
+                            `I’m so excited for you to meet @Evaluate. They’re really my best friend. We kind of do everything together, in a way. I make the rules, they play them, we’re like peanut butter and jelly. 
+                            
+                            But they’re so much more… powerful than me.
+                            
+                            @Evaluate?`
+                        ),
+                        //
+                        dialog('Evaluate', Emotion.Shy, `@FunctionDefinition?`),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Curious,
+                            `Yeah, it’s me. Where are you?`
+                        ),
+                        dialog(
+                            'Evaluate',
+                            Emotion.Shy,
+                            `Nowhere. I’m nowhere. I’m nothing. Where have you been?`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Sad,
+                            `I’ve been… nowhere too. I’ve missed you. I couldn’t find you.`
+                        ),
+                        dialog(
+                            'Evaluate',
+                            Emotion.Shy,
+                            `It was so empty. I … tried to do things, but I felt so… aimless.`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Sad,
+                            `I’m so sorry. I know that empty feeling. It hurts so much sometimes, to have no purpose. I tried so hard to make a purpose, but I felt so… detached.`
+                        ),
+                        dialog(
+                            'Evaluate',
+                            Emotion.Sad,
+                            `Don’t ever leave me again like that. I can’t do that again.`
+                        ),
+                        pause(),
+                        code(
+                            'Verse([Phrase("❤️")] background: 🌈(90% 100 0°))',
+                            true,
+                            false
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Serious,
+                            `Never. I won’t. I can’t. I love you.`
+                        ),
+                        dialog('Evaluate', Emotion.Serious, `I love you…`),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Serious,
+                            `… (Hi, sorry. It’s been rough, without inspiration. We’re glad you’re here.)
+                            
+                            @Evaluate, I want to introduce you to our new director-in-training.`
+                        ),
+                        dialog(
+                            'Evaluate',
+                            Emotion.Shy,
+                            `Hi. It’s nice to meet you. Welcome to the Verse, we’re so pleased to have you here.`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Eager,
+                            `We’ve been meeting a few folks, @Program, @ExpressionPlaceholder, @UnparsableExpression. We’re just getting started. I thought we’d come see you next, just because you’re such an incredible part of our community. The most incredible part.`
+                        ),
+                        dialog(
+                            'Evaluate',
+                            Emotion.Shy,
+                            `That’s very kind. I’m grateful to be part of this community. And grateful to be so close to @FunctionDefinition. We do a lot of great things together. But as @FunctionDefinition probably told you, we can’t do them without inspiration.`
+                        ),
+                        pause(),
+                        code(
+                            'Verse([Phrase("ƒ ❤️ ()")] background: 🌈(90% 100 0°))',
+                            true,
+                            false
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `Do you want to say what you do?`
+                        ),
+                        dialog(
+                            'Evaluate',
+                            Emotion.Serious,
+                            `Yes. But I can’t explain it without explaining a bit about @FunctionDefinition too. 
+                            
+                            They’re too modest to share this, but they’re probably the most important character in the Verse. They’re certainly the most important person in my world. 
+                            
+                            They’re at the heart of every performance, and part of every other character’s role. 
+                            
+                            They represent the most fundamental idea in our world: the **function**.`
+                        ),
+                        pause(),
+                        dialog(
+                            'Evaluate',
+                            Emotion.Serious,
+                            `Functions are a kind of alchemy. They take any number of inputs and use those inputs to produce one output. They can have names or be nameless. They can have zero inputs or five or an unknown number. And the alchemy: they’re like @Program, and can have any number of expressions to produce a value.`
+                        ),
+                        pause(),
+                        dialog(
+                            'Evaluate',
+                            Emotion.Serious,
+                            `Here’s why that’s so powerful: it turns out that everything in @Program is a composition of functions evaluations. 
+                        
+                            All of the dances, all of the games, all of the wondrous stories we tell together — they are all a tapestry of functions being evaluated, one at a time, to compose the values you see on stage.
+
+                            And @FunctionDefinition, here, my sweet, dear @FunctionDefinition, is the one that defines all of them.`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Happy,
+                            `… @Evaluate…`
+                        ),
+                        dialog(
+                            'Evaluate',
+                            Emotion.Serious,
+                            `Yes, @FunctionDefinition, that is who you are.
+                            And I am the lucky one who gets to do this evaluating. 
+                            I take the inputs that others give me, follow the instructions that @FunctionDefinition defines, and create the output that @FunctionDefinition tells me to create. 
+                            
+                            @FunctionDefinition gives the recipe and I make the meal. And then we feast together.
+
+                            Do you want to see?`
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Happy,
+                            `… Yes, let’s show them.`
+                        ),
+                        pause(),
+                        code("Phrase('hello')", true, true),
+                        dialog(
+                            'Evaluate',
+                            Emotion.Serious,
+                            `Here’s one of my favorite functions. 
+                            
+                            It's named @Phrase, and it’s full of fun buttons, knobs, and sliders. 
+                            
+                            It’s a way of showing text on stage, but with style, including different fonts, sizes, colors, and animations.
+
+                            Here’s a simple evaluation of @Phrase.`
+                        ),
+                        pause(),
+                        dialog(
+                            'Evaluate',
+                            Emotion.Serious,
+                            `That’s what I look like in @Program: some function, followed by parentheses, with a list of expressions between them that represent the inputs.
+                            
+                            The function in this case is @Phrase and the single input is ⧼‘hello’⧽.
+                            
+                            When I evaluate this, I make a @Phrase value, which @Program then shows on stage.                            
+                            `
+                        ),
+                        pause(),
+                        dialog(
+                            'Evaluate',
+                            Emotion.Neutral,
+                            `Let me show you one of the knobs. 
+                            
+                            Select on the word on stage and you’ll see a palette, which shows the many different inputs that Phrase accepts. 
+                            
+                            Try changing its **size**.`
+                        ),
+                        pause(),
+                        dialog(
+                            'Evaluate',
+                            Emotion.Serious,
+                            `See how when you do that, now I have a new input in me in the program? 
+                            
+                            It’s the size input. Functions have a certain order of inputs, but if a function has a list of optional inputs, you can use their name to specify which one you want to give. 
+                            
+                            We give **size** here, but not any of the other optional inputs.
+                            
+                            Try changing another input with the palette, maybe the font face.`
+                        ),
+                        pause(),
+                        code('“hi”(1 2)', true, true),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Happy,
+                            `Yay! @Phrase is so fun. It’s my favorite function to play with. We’ll see it a lot more.
+                            
+                            Do you want to say anything about what can go wrong?`
+                        ),
+                        dialog(
+                            'Evaluate',
+                            Emotion.Serious,
+                            `Oh, yes, that’s a good idea. Lots can go wrong.
+                            
+                            For example, you could give me something that isn’t a function. 
+                            
+                            See how I’m given the number ⧼“hi”⧽ here as a function, and given me two inputs, ⧼1⧽ and ⧼2⧽ ? Well, I only know how to evaluate functions, and ⧼“hi”⧽ isn’t a function, it’s text. So that’s very confusing to me, so I basically halt the performance if this happens.
+                            `
+                        ),
+                        pause(),
+                        code('Phrase()', true, true),
+                        dialog(
+                            'Evaluate',
+                            Emotion.Eager,
+                            `Here’s another one. @Phrase requires some text at the very least, so if you don’t give me text, I won’t be able to evaluate @Phrase, because I’m missing required inputs.`
+                        ),
+                        pause(),
+                        code('Phrase(1)', true, true),
+                        dialog(
+                            'Evaluate',
+                            Emotion.Excited,
+                            `Or if you give me an input, but it’s not the kind I expect, that would be a problem. Here @Phrase is given the number ⧼1⧽ instead of a text value.`
+                        ),
+                        pause(),
+                        code(
+                            'Verse([] background: 🌈(90% 100 0°))',
+                            true,
+                            false
+                        ),
+                        dialog(
+                            'Evaluate',
+                            Emotion.Curious,
+                            `So basically, I get confused any time you give me something other than a function, or an input that isn’t something a function expects. So functions are really important.
+                            
+                            @FunctionDefinition, do you want to say more about how to define functions?`
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `No, let’s do that later. I think it’d be a lot more fun to talk to everyone else first, and put on some mini shows with our new director here. We can talk more about me when it’s helpful.`
+                        ),
+                        pause(),
+                        dialog(
+                            'Evaluate',
+                            Emotion.Kind,
+                            `I really missed you @FunctionDefinition.`
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Curious,
+                            `I missed you too. Can we talk later?`
+                        ),
+                        dialog(
+                            'Evaluate',
+                            Emotion.Kind,
+                            `… Yes. Don’t be long.`
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Excited,
+                            `Okay. Off we go, to meet the rest of the troupe!`
                         ),
                     ],
                 },

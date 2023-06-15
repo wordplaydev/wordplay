@@ -44,8 +44,6 @@
 <style>
     span {
         display: inline-block;
-        padding-left: calc(var(--wordplay-spacing) / 2);
-        padding-right: calc(var(--wordplay-spacing) / 2);
     }
 
     .salient {

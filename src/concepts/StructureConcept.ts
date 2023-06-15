@@ -144,7 +144,7 @@ export default class StructureConcept extends Concept {
     }
 
     getName(translation: Locale) {
-        return this.definition.names.getLocaleText(translation.language, false);
+        return this.definition.names.getLocaleText(translation.language, true);
     }
 
     getRepresentation() {

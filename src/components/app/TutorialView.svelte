@@ -298,6 +298,10 @@
         flex-shrink: 0;
         flex-grow: 0;
         align-items: flex-start;
+        border-right: var(--wordplay-border-width) solid
+            var(--wordplay-border-color);
+        border-left: var(--wordplay-border-width) solid
+            var(--wordplay-border-color);
     }
 
     .dialog:focus {

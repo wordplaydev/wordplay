@@ -663,4 +663,24 @@
             transform: translate(-10px, -10px);
         }
     }
+
+    .emotion-shy {
+        animation-name: shy;
+        animation-iteration-count: 1;
+        animation-duration: 3s;
+        transform-origin: bottom;
+        animation-fill-mode: forwards;
+    }
+
+    @keyframes shy {
+        0% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(0.75);
+        }
+        100% {
+            transform: scale(0.4);
+        }
+    }
 </style>
