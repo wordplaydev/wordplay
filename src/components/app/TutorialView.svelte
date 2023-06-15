@@ -297,7 +297,7 @@
 
     .dialog {
         width: 30%;
-        padding: var(--wordplay-spacing);
+        padding: calc(2 * var(--wordplay-spacing));
         display: flex;
         flex-direction: column;
         gap: var(--wordplay-spacing);
