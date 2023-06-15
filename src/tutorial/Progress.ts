@@ -159,14 +159,18 @@ export default class Progress {
         if (this.act + direction === 0)
             return new Progress(this.tutorial, 0, 0, 0);
         const actIndex = this.act - 1 + direction;
-        const nextAct = this.tutorial[this.act];
+        const nextAct = this.tutorial[actIndex];
         if (nextAct === undefined) return undefined;
         else
             return new Progress(
                 this.tutorial,
                 actIndex + 1,
                 direction < 0 ? nextAct.scenes.length : 0,
-                0
+                direction < 0
+                    ? nextAct.scenes[nextAct.scenes.length - 1].lines.filter(
+                          (line) => line === null
+                      ).length + 1
+                    : 0
             );
     }
 }
