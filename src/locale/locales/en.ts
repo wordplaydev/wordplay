@@ -644,33 +644,45 @@ const en: Locale = {
         Evaluate: {
             name: 'evaluate',
             description: getEvaluateDescription,
-            emotion: Emotion.Cheerful,
+            emotion: Emotion.Shy,
             doc: `
-            OMG I am sooo excited to *evaluate functions*. 
-            I take a function, and some values, and then I follow the function's steps to compute a value.
-            It's like cooking: give me the ingredients and the receipe and I'll make the dish.
+            Hi. Are you looking for me? I evaluate @FunctionDefinition.
 
-            Because I play with functions a lot, @FunctionDefinition is kind of my best friend.
-            They say what to do, and I do it, and together we make values for everyone else to use.
+            For example, if you had this function, I could evaluate it like this:
 
-            Did you know that @FunctionDefinition and I basically make the whole world of algorithms *work*?
-            We're kind of a big deal.
-            I mean, I couldn't do it without everyone else, but I'm pretty proud of making all of our
-            performances possible.
+            ⧼
+            ƒ greeting(message•"") "Hello " + message
+            
+            greeting('kitty')
+            ⧽
+            
+            Your function can come from anywhere. For example, @TextLiteral has functions. Like this:
 
-            @BinaryOperation and @UnaryOperation?
-            Yeah, I know them.
-            They're cool.
-            I mean, they do what I do, and I guess they're a little more compact.
-            But they're baaaaasically copying me.
-            Sometimes I think they're just trying to look cool.
+            ⧼
+            'kitty'.length()
+            ⧽
+
+            If a function has a single symbol name, you can work with @BinaryOperation.
+
+            ⧼
+            'kitty' ⊆ 'itty'
+            ⧽
+
+            That does the same thing as :
+
+            ⧼
+            'kitty'.⊆('itty')
+            ⧽
             `,
             start: (inputs) =>
                 inputs
-                    ? 'evaluate the inputs first'
-                    : 'get the function to evaluate',
+                    ? "let's get the inputs first"
+                    : "now let's get the function to evaluate",
             finish: (result) =>
-                Explanation.as('function evaluated to ', result ?? 'nothing'),
+                Explanation.as(
+                    'the function evaluated to ',
+                    result ?? 'nothing'
+                ),
             function: 'function',
             input: 'input',
         },
@@ -1388,7 +1400,7 @@ const en: Locale = {
                 },
                 has: {
                     doc: WRITE_DOC,
-                    name: ['has'],
+                    name: ['⊆', 'has'],
                     inputs: [{ doc: WRITE_DOC, names: 'text' }],
                 },
             },
