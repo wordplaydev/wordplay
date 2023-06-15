@@ -1154,6 +1154,14 @@ export function code(source: string, fit: boolean, edit: boolean): Code {
     };
 }
 
+export function output(source: string, fit: boolean = true): Code {
+    return {
+        sources: [source],
+        fit,
+        edit: false,
+    };
+}
+
 export function pause() {
     return null;
 }

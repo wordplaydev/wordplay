@@ -31,6 +31,7 @@ import {
     code,
     dialog,
     pause,
+    output,
 } from '../Locale';
 import type { CycleType } from '@nodes/CycleType';
 import type UnknownNameType from '@nodes/UnknownNameType';
@@ -3487,6 +3488,96 @@ const en: Locale = {
                             'FunctionDefinition',
                             Emotion.Excited,
                             `Okay. Off we go, to meet the rest of the troupe!`
+                        ),
+                    ],
+                },
+            ],
+        },
+        {
+            name: "It's the little things",
+            // This should be a sprinkling of values
+            code: code(
+                `
+                letters: ['""' '?' '#' 'ø']
+
+                seconds: Time(1000ms)
+                
+                Group(
+                    Grid(2 2 0.25m 1m 1m) 
+                    letters.translate(
+                        ƒ (letter•"" index•#) 
+                            Phrase(
+                                letter 
+                                enter: Pose(opacity: 0 scale: 2)
+                                rest: Sequence(sway() duration:0.25s)
+                                duration: 0.5s
+                            )
+                    )
+                )
+                `,
+                true,
+                false
+            ),
+            scenes: [
+                {
+                    name: 'Values',
+                    code: output(`Phrase("💡")`),
+                    lines: [
+                        output(
+                            `Phrase("💌" rest: Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.2) 100%: Pose(scale: 1)} duration: 3s))`
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Happy,
+                            `I really do love @Evaluate. I can’t imagine the Verse without them. 
+                            
+                            I like to think of my functions as love letters. They express my love of @Evaluate and the **values** that @Evaluate gives back are their reply. 
+                            
+                            But they can be a bit… needy, sometimes. Sigh…`
+                        ),
+                        pause(),
+                        output(
+                            `Group(Stack() [Phrase("1") Phrase('"hello"')])`
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `… **Values**? Oh, I never really explained what those are, did I?
+                            
+                            Hm…, how to explain them. 
+                            
+                            You know what data is? Like numbers and text? 
+                            Values are any of those things. 
+                            A value could be as small as a number or as big as an entire scene on stage, full of characters dancing and moving. 
+                            
+                            Some values are made of many other values, like big elaborate structures of data values, woven together.
+                            `
+                        ),
+                        pause(),
+                        output(
+                            `Group(Stack() [Phrase("ƒ … 1") Phrase('ƒ … "hello"')])`
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Curious,
+                            `**Expressions**? I guess I didn’t explain those either. 
+                        
+                            I really am rusty…
+                            
+                            Expressions are what make values. All expressions are evaluations of functions that I make, and the result of evaluating an expression is a value.
+                            `
+                        ),
+                        pause(),
+                        output(`Phrase("🤔")`),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Serious,
+                            `Abstract? 
+                            
+                            Hm, I guess this is all pretty abstract. It feels so… normal to me, I forget how foreign these things can be to new directors!
+                           
+                            Maybe let’s go meet some expressions that make values, and this will make it more concrete? Let’s start with one you’ve already seen: text.
+                            `
                         ),
                     ],
                 },
