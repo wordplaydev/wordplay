@@ -1817,8 +1817,7 @@ const en: Locale = {
         steplimit: 'evaluated too many steps in this function',
         type: (expected, given) =>
             Explanation.as('I expected a ', expected, ' but received ', given),
-        placeholder: (node) =>
-            Explanation.as(`I don't know what to do, I'm a `, node, `!`),
+        placeholder: (node) => Explanation.as(`I don't know what to do here!!`),
         unparsable: () => Explanation.as('???'),
         value: () =>
             Explanation.as("Oh no! I expected a value, but I didn't get one"),
