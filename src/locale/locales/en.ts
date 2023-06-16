@@ -3725,6 +3725,111 @@ const en: Locale = {
                         ),
                     ],
                 },
+                {
+                    name: 'Symbol in the middle',
+                    code: output(`
+                        Group(Row() [
+                            Phrase('1' rest: Sequence({0%: Pose(offset: Place(0m 1m)) 50%: Pose(offset: Place(0m -1m)) 100%: Pose(offset: Place(0m 1m))} duration: 2s)) 
+                            Phrase('+' rest: Sequence({0%: Pose(offset: Place(0m -1m)) 50%: Pose(offset: Place(0m 1m)) 100%: Pose(offset: Place(0m -1m))} duration: 2s)) 
+                            Phrase('1' rest: Sequence({0%: Pose(offset: Place(0m 1m)) 50%: Pose(offset: Place(0m -1m)) 100%: Pose(offset: Place(0m 1m))} duration: 2s)) 
+                        ])`),
+                    lines: [
+                        output('Phrase("🥰")'),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Happy,
+                            `You know, I keep thinking about @Evaluate, and how we were separated for so long. 
+                            I’m so glad you wandered into our world, so we could be reconnected. 
+                            I can just feel the life you’re bringing out in us!`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `Speaking of @Evaluate, did you know they come in another form? 
+                            
+                            You saw them in ⧼function()⧽ form, but they also have this beautiful trick when a single input function is evaluated on a value.
+                            Evaluate calls it @BinaryOperation.
+                            
+                            For example, you know that repeat function that text just showed you?
+                            It looked like this.`
+                        ),
+                        code(`"hi".repeat(5)`, true, true),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Eager,
+                            `Instead, you can have @Evaluate evaluate it with a much simpler symbol in the middle, like this.
+                            
+                            This means "repeat ‘hi’ five times". But it also means "evaluate the ⧼·⧽ function on the text value ⧼"hi"⧽ with the input ⧼5⧽."
+                            
+                            The function ⧼repeat⧽ just has multiple names, one of which is a symbol name ⧼·⧽.`
+                        ),
+                        code(`'hi' · 5`, true, true),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Serious,
+                            `That reminds me of another of @TextLiteral’s functions! 
+                            
+                            It’s helpful for making one text value from multiple text values. It’s called ⧼combine⧽, but also ⧼+⧽, and you can use it to add words together.
+                            
+                            See how I took a text value then evaluated ⧼combine⧽ on it with ⧼"verse"⧽? That made ⧼"hello verse"⧽.
+                            `
+                        ),
+                        code(`'hello '.combine('verse')`, true, true),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Serious,
+                            `But it’s so much easier to just use ⧼+⧽ for this.`
+                        ),
+                        code(`'hello ' + ' verse'`, true, true),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `You can even string these together in a sequence to combine more than two things.`
+                        ),
+                        code(`'hello ' + 'verse' + '!'`, true, true),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `This is the same as a series of evaluations of combine, but without all of the parentheses and ⧼.⧽, and a symbolic name instead of a word name.`
+                        ),
+                        code(
+                            `'hello '.combine('verse').combine('!')`,
+                            true,
+                            true
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `You can also use the symbolic names in this format, but it just ends up looking kind of messy, doesn’t it?`
+                        ),
+                        code(`'hello '.+('verse').+('!')`, true, true),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Happy,
+                            `This is one of the many ways that @Evaluate is amazing ♥ They are so versatile!
+
+                            But they aren’t perfect. With any @BinaryOperation, you need to always make sure to give a second input.
+                            
+                            This won’t work, for example. One plus what? @UnparsableExpression won’t be far away when this happens.
+                            `
+                        ),
+                        code(`1 +`, true, true),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Curious,
+                            `Anyway, shall we go find find @BooleanLiteral? They are two very interesting values…`
+                        ),
+                    ],
+                },
             ],
         },
     ],

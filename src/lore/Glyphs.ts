@@ -84,6 +84,9 @@ const GlyphSet = {
     Evaluate: {
         symbols: PLACEHOLDER_SYMBOL + EVAL_OPEN_SYMBOL + EVAL_CLOSE_SYMBOL,
     },
+    BinaryOperation: {
+        symbols: `${PLACEHOLDER_SYMBOL} ${PLACEHOLDER_SYMBOL} ${PLACEHOLDER_SYMBOL}`,
+    },
     Block: {
         symbols: EVAL_OPEN_SYMBOL + EVAL_CLOSE_SYMBOL,
     },

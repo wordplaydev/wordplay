@@ -33,6 +33,7 @@ import StartEvaluation from '@runtime/StartEvaluation';
 import NodeLink from '@locale/NodeLink';
 import Emotion from '../lore/Emotion';
 import FunctionValue from '../runtime/FunctionValue';
+import Glyphs from '../lore/Glyphs';
 
 export default class BinaryOperation extends Expression {
     readonly left: Expression;
@@ -389,7 +390,7 @@ export default class BinaryOperation extends Expression {
 
     getGlyphs() {
         return {
-            symbols: this.left.getGlyphs().symbols,
+            symbols: Glyphs.BinaryOperation.symbols,
             emotion: Emotion.Kind,
         };
     }
