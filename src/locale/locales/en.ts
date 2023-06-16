@@ -3592,6 +3592,139 @@ const en: Locale = {
                         ),
                     ],
                 },
+                {
+                    name: 'Quote, unquote',
+                    code: output(
+                        `Phrase('""' rest: Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 0.5 opacity: 0.5) 100%: Pose(scale: 1)} duration: 2s))`
+                    ),
+                    lines: [
+                        output(
+                            `Phrase('""' rest: Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 2 opacity: 0.5) 100%: Pose(scale: 1)} duration: 2s))`
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Curious,
+                            `@TextLiteral?`
+                        ),
+                        dialog(
+                            'TextLiteral',
+                            Emotion.Happy,
+                            `Welcome my dear friend, how long it has been. What have you been doing in this dramatic silence of ours?`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Happy,
+                            `Oh, @TextLiteral, it has been a while! I’ve mostly been dreaming and wondering. I just saw @Evaluate after a long while. I was actually introducing them to our newbie director.`
+                        ),
+                        dialog(
+                            'TextLiteral',
+                            Emotion.Eager,
+                            `Oh, how exceptional it is to meet you! I can see that you’re a creative, curious person, probably full of intriguing ideas for how we might entertain. 
+                            I love entertaining. But do you know what I love even more?
+                            
+                            Words! Glorious words. The short ones, the overwhelming ones, the sticky ones, and the slippery ones. Words are my favorite toys.`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `In case you couldn’t tell, @TextLiteral likes words :) 
+                            
+                            @TextLiteral, do you want to explain what you do?`
+                        ),
+                        dialog(
+                            'TextLiteral',
+                            Emotion.Serious,
+                            `I do one simple thing: encode words by bringing our wonderful community together in sequence. 
+                            
+                            I think you saw me earlier when you wrote the word ⧼“hello”⧽? 
+                            That was me, and my friends ⧼“h”⧽, ⧼“e”⧽, ⧼“l”⧽, and ⧼“o”⧽. 
+                            I’m an expression that evaluates to any text you like.
+                            
+                            Why don’t you try making a text in this blank @Program? 
+                            You can use whatever quotes you like — single ⧼''⧽, double ⧼""⧽, angle ⧼«»⧽, brackets ⧼「」⧽, in whatever language you like. 
+                            
+                            The only rule is that if you start some text with an opening quote symbol, you must finish it with a closing one. 
+                            Everything inside is the text value I will create!
+                        `
+                        ),
+                        code('“”', true, true),
+                        pause(),
+                        dialog(
+                            'TextLiteral',
+                            Emotion.Serious,
+                            `Excellent. Of course, “inside” can be tricky. 
+                            
+                            Say you wrote this. 
+                            See how there’s an opening quote but not a closing one? 
+                            Well, how am I supposed to know when the text ends?`
+                        ),
+                        code('“hello', true, true),
+                        pause(),
+                        dialog(
+                            'TextLiteral',
+                            Emotion.Surprised,
+                            `Or, here’s another case. 
+                            
+                            You give me opening and closing text, but you place opening and closing text inside it. 
+                            
+                            See how weird that is? 
+                            I get very perplexed when you try to use the same symbols both inside and outside me. 
+                            
+                            You can fix this by using different symbols for the outside, like a single quote.`
+                        ),
+                        code('"Hi there "friend"', true, true),
+                        pause(),
+                        dialog(
+                            'TextLiteral',
+                            Emotion.Curious,
+                            `Did our friend @FunctionDefinition here tell you about all of the wonderful functions they defined for me? 
+                            
+                            They’ve allowed me to do all kinds of things.
+                            
+                            One is pretty simple: it’s called @TextType.length and all it does is get the length of some text. 
+                            
+                            For example, if we team up with @Evaluate here, and our little friend ⧼.⧽, we can evaluate the length function with no inputs and get the length value back.
+                            
+                            Try changing the text and watch the length that Program shows change as it gets shorter and longer.`
+                        ),
+                        code('"hello".length()', true, true),
+                        pause(),
+                        dialog(
+                            'TextLiteral',
+                            Emotion.Happy,
+                            `Here is another grand one. It makes me chuckle. 
+                            
+                            It’s called **repeat** and when it’s evaluated, it takes whatever text it was evaluated on and repeats it however many times you say.
+                            
+                            Try changing the number and seeing what it evaluates too.`
+                        ),
+                        code(`'hello '.repeat(5)`, true, true),
+                        pause(),
+                        dialog(
+                            'TextLiteral',
+                            Emotion.Eager,
+                            `@FunctionDefinition has made so many more interesting functions for me, but I’ll spare you the details. 
+                            
+                            You can always find me in 📕. I’m happy to share more ways to inspect and create text!`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Happy,
+                            `@TextLiteral, you’re always such a kind and patient teacher! 
+                            It’s always such a joy to work with you. 
+                            
+                            Are you willing to help out as I introduce our friendly neo-director to other expressions?`
+                        ),
+                        dialog(
+                            'TextLiteral',
+                            Emotion.Neutral,
+                            `Yes, of course. It was splendid meeting you. I can’t wait to see how you inspire us on stage!`
+                        ),
+                    ],
+                },
             ],
         },
     ],
