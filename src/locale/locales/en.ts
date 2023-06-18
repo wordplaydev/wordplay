@@ -3830,6 +3830,203 @@ const en: Locale = {
                         ),
                     ],
                 },
+                {
+                    name: 'Yes and no',
+                    code: output(
+                        `Group(Row() [Phrase("⊤") Phrase("⊥")] rest: Sequence({ 0%: Pose(tilt: 0°) 50%: Pose(tilt: 180°) 100%: Pose(tilt: 360°)} duration: 2s))`
+                    ),
+                    lines: [
+                        output('Verse([])'),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Curious,
+                            `⧼⊤⧽! ⧼⊥⧽! Are you two around?
+                            
+                            They’re usually all over the place, but I don’t see them anywhere. 
+                            `
+                        ),
+                        pause(),
+                        dialog('⊤', Emotion.Precise, `Right here.`),
+                        dialog('⊥', Emotion.Precise, `Not there.`),
+                        output(
+                            `multiple:10
+                            Verse([Group(Grid(multiple multiple) ("⊤⊥".repeat(multiple^2) ÷ "").translate(ƒ(glyph•"") Phrase(glyph rest: Pose(color: Color(75% 0 0°)))))])`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Scared,
+                            `Oh, you scared me! I knew you two wouldn’t be far apart. How have you two been in our long silence?`
+                        ),
+                        dialog('⊤', Emotion.Precise, `Very good!`),
+                        dialog('⊥', Emotion.Precise, `Not bad.`),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Curious,
+                            `Not lonely? Everyone I’ve been talking to, @Program, @ExpressionPlaceholder, @Evaluate, they’ve all felt so isolated. (Except for @UnparsableExpression, they seem to be fine almost anywhere).`
+                        ),
+                        dialog('⊤', Emotion.Precise, `We have each other.`),
+                        dialog('⊥', Emotion.Precise, `We’re not alone.`),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Happy,
+                            `Well that’s great to hear. It’s good to be with you again. I wanted to introduce you to our new maybe-director. They’ve been meeting everyone, learning about how to put on performances with us. Do you want to tell them what you do?`
+                        ),
+                        dialog('⊤', Emotion.Precise, `I am true.`),
+                        dialog('⊥', Emotion.Precise, `I am false.`),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Sad,
+                            `Yeah, but what do you do?`
+                        ),
+                        dialog('⊤', Emotion.Precise, `I am just true.`),
+                        dialog('⊥', Emotion.Precise, `And I am not true.`),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Sad,
+                            `Hm. I guess that’s true. But you do some things, right? I thought I made some functions for you.`
+                        ),
+                        dialog('⊤', Emotion.Precise, `Ah yes, three.`),
+                        dialog('⊥', Emotion.Precise, `Not more, not less.`),
+                        pause(),
+                        code('(⊤ & ⊤) = ⊤', true, true),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `One was ⧼&⧽, right? It takes one of you and one other input? And evaluates to ⧼⊤⧽ if both are ⧼⊤⧽?`
+                        ),
+                        dialog(
+                            '⊤',
+                            Emotion.Precise,
+                            `Correct. ⧼⊤ & ⊤ = ⊤⧽, but ⧼⊥⧽ otherwise.`
+                        ),
+                        dialog(
+                            '⊥',
+                            Emotion.Precise,
+                            `Not wrong. ⧼⊤ & ⊥ = ⊥⧽, ⧼⊥ & ⊤ = ⊥⧽, ⧼⊥ & ⊥ = ⊥⧽, but ⧼⊤⧽ otherwise.`
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `(This is really helpful when trying to determine if multiple expressions are all true, because it’s only true when everything is true).`
+                        ),
+                        pause(),
+                        code('(⊤ | ⊤) = ⊥', true, true),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `And the other one was ⧼|⧽, right? It also takes one input? But it evaluates to ⧼⊤⧽ if either is true?`
+                        ),
+                        dialog(
+                            '⊤',
+                            Emotion.Precise,
+                            `Correct. ⧼⊤ | ⊤ = ⊤⧽, ⧼⊤ | ⊥ = ⊤⧽, ⧼⊥ | ⊤ = ⊤⧽, but ⧼⊥⧽ otherwise.`
+                        ),
+                        dialog(
+                            '⊥',
+                            Emotion.Precise,
+                            `Not wrong. ⧼⊥ & ⊥ = ⊥⧽, but ⧼⊤⧽ otherwise.`
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `(This is really helpful when trying to determine if any expressions are true, because it’s true when even just one is true).`
+                        ),
+                        pause(),
+                        code('~⊤ = ⊥', true, true),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Excited,
+                            `But the other was ⧼~⧽? Otherwise known as ⧼not⧽?`
+                        ),
+                        dialog('⊤', Emotion.Precise, `Correct. ⧼~⊤ = ⊥⧽.`),
+                        dialog('⊥', Emotion.Precise, `Not wrong. ⧼~⊥ = ⊤⧽.`),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `(This just reverses a truth value).`
+                        ),
+                        pause(),
+                        output(
+                            `multiple:10
+                            Verse([Group(Grid(multiple multiple) ("⊤⊥".repeat(multiple^2) ÷ "").translate(ƒ(glyph•"") Phrase(glyph rest: Pose(color: Color(75% 0 0°)))))])`
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Curious,
+                            `And what are you useful for, in our performances?`
+                        ),
+                        dialog('⊤', Emotion.Precise, `Ask @Conditional.`),
+                        dialog('⊥', Emotion.Precise, `Don’t ask us.`),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Sad,
+                            `You two… okay, we’ll talk to @Conditional later. 
+                            
+                            (They were supposed to say that they’re useful for making decisions with values, but I guess they want @Conditional to tell you about that. 
+                            We’ll talk to @Conditional later.).`
+                        ),
+                        pause(),
+                        output(
+                            `multiple:10
+                            Verse([Group(Grid(multiple multiple) ("⊤⊥".repeat(multiple^2) ÷ "").translate(ƒ(glyph•"") Phrase(glyph rest: Pose(color: Color(75% 0 0°) tilt: 90°))))])`
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Curious,
+                            `Oh! I was wondering. 
+                            You two represent two really different extremes: true and false. 
+                            But what about things that are … fuzzier? Like things that are kind of true, or somewhat false, or maybe even true and false at the same time? 
+                            
+                            Kind of like Earth looks flat, but isn’t, or the sky is blue, but color is actually just an illusion that our minds create?
+                            
+                            What should our director do if they want to express something like that?`
+                        ),
+                        dialog('⊤', Emotion.Precise, `…`),
+                        dialog('⊥', Emotion.Precise, `…`),
+                        pause(),
+                        output(
+                            `multiple:10
+                            Verse(
+                            [
+                            Group(
+                            Grid(multiple multiple) 
+                            ("⊤⊥".repeat(multiple^2) ÷ "").translate(
+                            ƒ(glyph•"") 
+                            Phrase(glyph rest: Pose(
+                                color: Color(75% 0 0°) 
+                                tilt: 90° 
+                                offset:Place(0m (Time() ^ 2)·-0.000025m/ms^2))
+                            )))])`
+                        ),
+                        dialog('⊤', Emotion.Precise, `… no.`),
+                        dialog('⊥', Emotion.Precise, `… no.`),
+                        pause(),
+                        output('Verse([])'),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Serious,
+                            `Hm, okay. 
+                            It was worth a try! 
+                            Maybe there are other ways to express these ideas I haven’t thought of. 
+                            Or maybe there are just limits to what data can represent…
+                            
+                            Will you two be okay if we go off and meet other expressions?`
+                        ),
+                        dialog('⊤', Emotion.Precise, `We are okay.`),
+                        dialog('⊥', Emotion.Precise, `Not a problem.`),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Happy,
+                            `Okay, bye, and see you soon!`
+                        ),
+                    ],
+                },
             ],
         },
     ],

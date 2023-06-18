@@ -1101,7 +1101,12 @@ export type UnitText = {
     overview: Dialog[];
 };
 
-export type Character = keyof NodeTexts | keyof InputTexts | keyof OutputTexts;
+export type Character =
+    | keyof NodeTexts
+    | keyof InputTexts
+    | keyof OutputTexts
+    | '⊤'
+    | '⊥';
 
 export type Dialog = {
     concept: Character;

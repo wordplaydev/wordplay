@@ -263,7 +263,8 @@ export class Tokens {
 
     readLine() {
         const nodes: Node[] = [];
-        if (!this.hasNext()) return nodes;
+        if (!this.hasNext() || this.nextIs(TokenType.ExampleClose))
+            return nodes;
         // Read at least one token, then keep going until we reach a token with a line break.
         do {
             nodes.push(this.read());

@@ -2,7 +2,6 @@
     import ProjectView from '@components/project/ProjectView.svelte';
     import Project from '@models/Project';
     import Speech from '@components/lore/Speech.svelte';
-    import Glyphs from '../../lore/Glyphs';
     import Progress from '../../tutorial/Progress';
     import Note from '../../components/widgets/Note.svelte';
     import { goto } from '$app/navigation';
@@ -226,8 +225,9 @@
                     <Speech
                         glyph={$conceptsStore
                             ?.getConceptByName(turn.dialog.concept)
-                            ?.getGlyphs($creator.getLanguages()) ??
-                            Glyphs.Unparsable}
+                            ?.getGlyphs($creator.getLanguages()) ?? {
+                            symbols: turn.dialog.concept,
+                        }}
                         right={turn.dialog.concept === 'FunctionDefinition'}
                         baseline
                         scroll={false}
