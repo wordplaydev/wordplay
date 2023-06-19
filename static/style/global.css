@@ -32,6 +32,7 @@
     --wordplay-editor-indent: 3em;
     --wordplay-editor-radius: 3px;
     --wordplay-spacing: 0.5em;
+    --wordplay-font-size: 16px;
     --wordplay-font-weight: 500;
     --wordplay-font-size: 12pt;
     --wordplay-border-width: 1px;
@@ -219,6 +220,7 @@ body {
     margin: 0;
     font-family: var(--wordplay-app-font);
     font-weight: var(--wordplay-font-weight);
+    font-size: var(--wordplay-font-size);
     color: var(--wordplay-foreground);
 }
 

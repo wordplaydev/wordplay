@@ -301,7 +301,6 @@
         display: flex;
         flex-direction: column;
         gap: var(--wordplay-spacing);
-        font-size: 125%;
         flex-shrink: 0;
         flex-grow: 0;
         align-items: flex-start;
