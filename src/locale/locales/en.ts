@@ -40,6 +40,7 @@ import type NodeLink from '../NodeLink';
 import type StreamDefinitionType from '@nodes/StreamDefinitionType';
 import Emotion from '../../lore/Emotion';
 import Unit from '../../nodes/Unit';
+import { TEXT_DELIMITERS } from '../../parser/Tokenizer';
 
 export const WRITE_DOC = 'TBD';
 
@@ -924,9 +925,14 @@ const en: Locale = {
         TextLiteral: {
             name: 'text',
             description: (text) => text.text.getText(),
-            emotion: Emotion.TBD,
-            doc: WRITE_DOC,
-            start: 'create a text value',
+            emotion: Emotion.Serious,
+            doc: `I can be any text you like, and use any of these text symbols: ${Object.keys(
+                TEXT_DELIMITERS
+            ).map((left) => `⧼${left}${TEXT_DELIMITERS[left]}⧽`)}.
+                
+                Just remember to close me if you open me, and use the matching symbol.
+                Otherwise I won't know that you're done with your words.`,
+            start: `let's make text`,
         },
         This: {
             name: 'this',
