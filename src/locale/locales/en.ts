@@ -346,42 +346,15 @@ const en: Locale = {
             name: 'binary operation',
             description: (op) => op.operator.getText(),
             emotion: Emotion.Arrogant,
-            doc: `Yo. You need me?
-                I'm not suprised, I'm pretty bad ass.
-                @Evaluate is nice, but I am *nicer*.
-                Give me a left and right value?
-                I can do all kinds of things.
-                Whatever functions the left value has.
-                And I can do it with out all of those annoying parentheses.
-
-                Check this out.
-
-                ⧼1 + 1⧽
-                ⧼1 > 1⧽
-                ⧼1 - 1⧽
-                ⧼1 = 1⧽
-
-                Did you see that? 
-                No parentheses, just a tight little operator in the middle.
-                *Sleek*.
-
-                Okay, yeah, I can get ahead of myself.
-                I only do left to right.
-                I have no idea what "order of operations" is.
-                You *might* have to wrap some parentheses around me
-                to get what you want.
-                But otherwise?
-                *Streamlined*.
+            doc: `Sometimes when I have a @FunctionDefinition with just one value on the left and one value on the right, I like to use this form, instead of @Evaluate.
+                
+                ⧼1 + 1⧽ is just so much simpler than ⧼1.+(1)⧽ or ⧼1.add(1)⧽, aren't they? I mean the same thing either way, but I'm so much easier to read.
                 `,
             right: 'input',
             start: (left) =>
-                Explanation.as('left first! ', left, ', then right!'),
+                Explanation.as('left first ', left, ', then right.'),
             finish: (result) =>
-                Explanation.as(
-                    'your value, ',
-                    result ?? ' nothing',
-                    ', *slick*'
-                ),
+                Explanation.as('look, I made ', result ?? ' nothing'),
         },
         Bind: {
             name: 'bind',
