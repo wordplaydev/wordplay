@@ -2207,9 +2207,11 @@ const en: Locale = {
         },
         UnparsableConflict: {
             primary: (expression) =>
-                expression
-                    ? WRITE_DOC + 'expected expression, but could not parse one'
-                    : 'expected type, but could not parse one',
+                Explanation.as(
+                    `(@FunctionDefinition here, @UnparsableExpression doesn't know what kind of `,
+                    expression ? `expression` : `type`,
+                    ` this is)`
+                ),
         },
         UnusedBind: {
             primary: `Hey, can I help? No one is saying my name :(`,
