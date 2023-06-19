@@ -368,7 +368,7 @@ export default function bootstrapMeasurement() {
                         new Text(requestor, val.toString())
                 ),
                 createNativeConversion(
-                    getDocLocales((t) => t.native.measurement.conversion.text),
+                    getDocLocales((t) => t.native.measurement.conversion.list),
                     '#',
                     '[]',
                     (requestor: Expression, val: Measurement) => {

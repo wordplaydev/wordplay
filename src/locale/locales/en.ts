@@ -4027,6 +4027,287 @@ const en: Locale = {
                         ),
                     ],
                 },
+                {
+                    name: 'Let me count the ways',
+                    code: output(
+                        `
+                        numbers•[#]:25 → []
+                        Group(Grid(5 5) numbers.translate(
+                            ƒ (n•#) 
+		                        (
+                                    Phrase(
+                                        n → ""    
+                                    )
+                                )
+                            )
+                        `
+                    ),
+                    lines: [
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Confused,
+                            `
+                            Those two are always so… terse! 
+                            They really are inseparable though: just two of the closest friends, always complementing each other, completing each other’s thoughts.`
+                        ),
+                        pause(),
+                        output(
+                            `
+                            numbers•[#]:25 → []
+                            Group(Grid(5 5) numbers.translate(
+                                ƒ (n•#) 
+                                    (
+                                        off:Random(-3 3) · 1m
+                                        Phrase(
+                                            n → "" 
+                                            rest: Sequence({
+                                                        0%:Pose(offset: Place(z: 0m)) 
+                                                        50%:Pose(offset: Place(z: off)) 
+                                                        100%:Pose(offset: Place(z:0m))
+                                                    } 1s)
+                                        ))
+                                    )
+                                )
+                            `
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Eager,
+                            `We should meet @MeasurementLiteral next. 
+                            They always have such interesting things to share. 
+                            
+                            Hey @MeasurementLiteral, are you around?
+                        `
+                        ),
+                        dialog(
+                            'MeasurementLiteral',
+                            Emotion.Kind,
+                            `Just 3 steps away!`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Scared,
+                            `Ack, you scared me!!`
+                        ),
+                        dialog(
+                            'MeasurementLiteral',
+                            Emotion.Kind,
+                            `The 78,238nd time. It’s my 4th favorite hobby!`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Happy,
+                            `I’m glad you’re having a good time. (Deep breaths). It’s been some time, hasn’t it?`
+                        ),
+                        dialog(
+                            'MeasurementLiteral',
+                            Emotion.Kind,
+                            `Incalculably long. I was just passing the time here, counting seconds, and then minutes, and then hours, and then weeks, and then months, and then years, and then…`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Serious,
+                            `
+                            Don’t say decades. 
+                            I can’t have been that long. 
+                            
+                            Anyway, I wanted to introduce you to someone who might be our new director. 
+                            They just showed up and bumped into me, and it turns out they’re a person and interested in putting on shows with us. 
+                            
+                            We just met ⊤ and ⊥, but also @TextLiteral, @Evaluate, @Unparsable, @Placeholder, and @Program. 
+                            We’ve talked about evaluating functions and given a few examples.
+
+                            Do you want to say what you do?
+                            `
+                        ),
+                        dialog(
+                            'MeasurementLiteral',
+                            Emotion.Excited,
+                            `
+                            I count things! 
+                            I can be any number you like. 
+                            Just type me in and I’ll make the value you want. Like this.`
+                        ),
+                        code(`1`, true, true),
+                        pause(),
+                        dialog(
+                            'MeasurementLiteral',
+                            Emotion.Excited,
+                            `Or this.`
+                        ),
+                        code(`1.0`, true, true),
+                        pause(),
+                        dialog(
+                            'MeasurementLiteral',
+                            Emotion.Excited,
+                            `Or this.`
+                        ),
+                        code(`1.01`, true, true),
+                        pause(),
+                        dialog(
+                            'MeasurementLiteral',
+                            Emotion.Excited,
+                            `Or this.`
+                        ),
+                        code(`∞`, true, true),
+                        pause(),
+                        dialog(
+                            'MeasurementLiteral',
+                            Emotion.Excited,
+                            `Or this.`
+                        ),
+                        code(`π`, true, true),
+                        pause(),
+                        dialog(
+                            'MeasurementLiteral',
+                            Emotion.Excited,
+                            `Or this.`
+                        ),
+                        code(`Ⅶ`, true, true),
+                        pause(),
+                        dialog(
+                            'MeasurementLiteral',
+                            Emotion.Excited,
+                            `Or this.`
+                        ),
+                        code(`万十一`, true, true),
+                        pause(),
+                        dialog('MeasurementLiteral', Emotion.Excited, `Or…`),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Kind,
+                            `Okay, okay #, we get it! But you also do something else special, right? Units?`
+                        ),
+                        pause(),
+                        dialog(
+                            'MeasurementLiteral',
+                            Emotion.Excited,
+                            `Oh yes, the things. Just put some symbols after a number and I’ll keep track of what’s being counted. Like this.`
+                        ),
+                        code(`1dolphin`, true, true),
+                        pause(),
+                        dialog(
+                            'MeasurementLiteral',
+                            Emotion.Excited,
+                            `Or this.`
+                        ),
+                        code(`1.0thunderstorm`, true, true),
+                        pause(),
+                        dialog(
+                            'MeasurementLiteral',
+                            Emotion.Excited,
+                            `Or this.`
+                        ),
+                        code(`1.01toe`, true, true),
+                        pause(),
+                        dialog(
+                            'MeasurementLiteral',
+                            Emotion.Excited,
+                            `Or this.`
+                        ),
+                        code(`∞kittens`, true, true),
+                        pause(),
+                        dialog('MeasurementLiteral', Emotion.Excited, `Or…`),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Kind,
+                            `Um, ⧼1.01toe⧽? Yes, thank you @MeasurementLiteral, these are … interesting examples. And they are oh so useful when you’re doing math on numbers, right?`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Kind,
+                            `And they are oh so useful when you’re doing math on numbers, right?`
+                        ),
+                        dialog(
+                            'MeasurementLiteral',
+                            Emotion.Excited,
+                            `Oh yes, the maths! @Function gave me so many neat kinds of arithmetic. Like this.`
+                        ),
+                        code(`1 + 1`, true, true),
+                        pause(),
+                        dialog(
+                            'MeasurementLiteral',
+                            Emotion.Excited,
+                            `Or this.`
+                        ),
+                        code(`1000 + 9999`, true, true),
+                        pause(),
+                        dialog(
+                            'MeasurementLiteral',
+                            Emotion.Excited,
+                            `Or this.`
+                        ),
+                        code(`1kitty + 2kitty`, true, true),
+                        pause(),
+                        dialog(
+                            'MeasurementLiteral',
+                            Emotion.Excited,
+                            `Or this.`
+                        ),
+                        code(`-5s + 5s`, true, true),
+                        pause(),
+                        dialog(
+                            'MeasurementLiteral',
+                            Emotion.Excited,
+                            `Or this.`
+                        ),
+                        code(`2apple + 5orange`, true, true),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Confused,
+                            `Oops. Can you add apples and oranges?`
+                        ),
+                        code(`2apple + 5orange`, true, true),
+                        dialog(
+                            'MeasurementLiteral',
+                            Emotion.Angry,
+                            `No. That’s why I underlined the conflict. 
+                            I don’t like adding incompatible things. 
+                            I can only add compatible numbers. 
+                            That applies to multiplication, division, and all of my other functions.
+                            
+                            Do you want to fix it? 
+                            Change apples to oranges or oranges to apples and the conflict will go away. 
+                            
+                            Make sure there’s no space between the number and the unit, otherwise I don’t know it’s a unit.
+                            
+                            And make sure the units are *exactly* the same. 
+                            I don’t know anything about people units; they mean nothing to me. 
+                            I just compare the unit names and if they don’t match, BOOM!
+                            `
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `That’s so cool. @MeasurementLiteral, you’re so good with numbers! 
+                            I see @MeasurementLiteral show up in a lot of performances where placement matters, and a lot of games where we’re keeping track of scores or lives or other countable things.
+                            
+                            @MeasurementLiteral, is there anything else you want to share with our new director?`
+                        ),
+                        dialog(
+                            'MeasurementLiteral',
+                            Emotion.Serious,
+                            `192 other neat tricks.`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Happy,
+                            `I think we’ll have to wait. You’ll be around if we want to learn more?`
+                        ),
+                        dialog(
+                            'MeasurementLiteral',
+                            Emotion.Happy,
+                            `Yes, you can find me and my functions any time!`
+                        ),
+                    ],
+                },
             ],
         },
     ],
