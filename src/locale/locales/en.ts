@@ -771,8 +771,26 @@ const en: Locale = {
                     : node.unit.isUnitless()
                     ? node.number.getText()
                     : `${node.number.getText()} ${node.unit.toWordplay()}`,
-            emotion: Emotion.TBD,
-            doc: WRITE_DOC,
+            emotion: Emotion.Excited,
+            doc: `I can be any number you like and even a number with units, if you like.
+                That's basically an infinite number of numbers.
+                And an infinite number of units!
+                And an infinite number of number/unit pairs…
+
+                Here are my top 5:
+
+                ⧼0⧽
+                
+                ⧼1story⧽
+
+                ⧼πpie⧽
+
+                ⧼∞rock⧽
+
+                ⧼1000000dollar⧽
+                
+                Just know that if you try to use my @FunctionDefinition on numbers with different units, I won't know what to do.
+                If they don't match, that might be a sign that there's something wrong with your performance.`,
             start: (value) => Explanation.as('evaluate to ', value),
         },
         NativeExpression: {
