@@ -72,8 +72,23 @@ export default class Spaces {
     hasLineBreak(token: Token): boolean {
         return this.getLineBreakCount(token) > 0;
     }
-    hasLineBreaks(): boolean {
-        return Array.from(this.#spaces.values()).some((s) => s.includes('\n'));
+    hasLineBreaks(node?: Node): boolean {
+        // No node given? See if any preceding spaces include a newline.
+        if (node === undefined) {
+            return Array.from(this.#spaces.values()).some((s) =>
+                s.includes('\n')
+            );
+        }
+        // If a node is given, see if any of the tokens of the node have preceding newlines.
+        else {
+            return node
+                .leaves()
+                .some(
+                    (token) =>
+                        token instanceof Token &&
+                        this.#spaces.get(token)?.includes('\n')
+                );
+        }
     }
 
     getLastLineSpaces(token: Token): number {

@@ -524,17 +524,15 @@ const en: Locale = {
             description: (literal) => (literal.bool() ? 'true' : 'false'),
             emotion: Emotion.Precise,
             doc: `
-                Zero. One. Yes. No. True. False. 
-                There are only two. 
-                True ways and false ways. 
-                Yes ways and no ways. 
-                Zero ways and one ways. 
-                (${TRUE_SYMBOL}) and (${FALSE_SYMBOL}) ways.
+                We are ⧼${TRUE_SYMBOL}⧽ and ⧼${FALSE_SYMBOL}⧽.
                 
-                But which is right?
-                Which is left?
-                What do they mean?
-                Perhaps @Conditional knows.
+                We represent true and false.
+
+                True is not false and false is not true.
+
+                Use our functions to reason about truth.
+
+                But leave ambiguity out of it.
                 `,
             start: (value) => Explanation.as(value, '!'),
         },

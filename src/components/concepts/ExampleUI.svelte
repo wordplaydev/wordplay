@@ -12,6 +12,9 @@
     export let example: Example;
     export let spaces: Spaces;
 
+    /** The code is inline if it has any line breaks. */
+    $: inline = !spaces.hasLineBreaks(example);
+
     $: project = new Project(
         null,
         'example',
@@ -43,7 +46,7 @@
     on:keydown={(event) =>
         event.key === ' ' || event.key === 'Enter' ? toggle() : undefined}
 >
-    <RootView node={example.program} inline={!spaces.hasLineBreaks()} />
+    <RootView node={example.program} {inline} />
     {#if see && value}
         &nbsp;…&nbsp;<ValueView {value} />
     {/if}
