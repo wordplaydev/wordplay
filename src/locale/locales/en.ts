@@ -996,8 +996,8 @@ const en: Locale = {
         },
         UnparsableExpression: {
             name: 'unparsable',
-            description: WRITE_DOC,
-            emotion: Emotion.TBD,
+            description: 'unparseable',
+            emotion: Emotion.Excited,
             doc: `
                 (Hi @FunctionDefinition here. I'm translating for @UnparsableExpression, since they're often hard to interpret.)
 
