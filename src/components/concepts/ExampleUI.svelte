@@ -41,7 +41,8 @@
 </script>
 
 <span
-    tabIndex="0"
+    role="button"
+    tabindex="0"
     on:pointerdown={toggle}
     on:keydown={(event) =>
         event.key === ' ' || event.key === 'Enter' ? toggle() : undefined}

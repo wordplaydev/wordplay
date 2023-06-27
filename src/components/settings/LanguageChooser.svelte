@@ -61,7 +61,7 @@
 </script>
 
 <div
-    class="settings"
+    role="presentation"
     class:expanded={!collapsed}
     use:clickOutside
     on:outclick={() => (collapsed = true)}
@@ -76,10 +76,11 @@
                 {#each languageChoices as lang}
                     {@const supported = supportedLanguages.includes(lang)}
                     <span
+                        role="button"
+                        tabindex={0}
                         class="language"
                         class:supported
                         class:selected={$creator.getLanguages().includes(lang)}
-                        tabIndex={0}
                         on:pointerdown|stopPropagation={(event) =>
                             select(lang, event.shiftKey)}
                         on:keydown={(event) =>
@@ -102,25 +103,6 @@
 </div>
 
 <style>
-    .settings {
-        outline-offset: calc(-1 * var(--wordplay-focus-width));
-    }
-
-    .settings.expanded {
-        position: fixed;
-        bottom: 0;
-        right: 0;
-
-        display: flex;
-        justify-content: center;
-        align-items: end;
-        background: var(--wordplay-background);
-        border: var(--wordplay-border-color) solid var(--wordplay-border-width);
-        z-index: 3;
-        padding: var(--wordplay-spacing);
-        user-select: none;
-    }
-
     .language-preferences {
         display: flex;
         flex-direction: column;

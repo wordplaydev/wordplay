@@ -36,9 +36,10 @@
 </div>
 {#if expanded || concepts.length > 3}
     <div
+        role="button"
         class="expander"
         class:expanded
-        tabIndex="0"
+        tabindex="0"
         on:pointerdown={toggle}
         on:keydown={(event) =>
             event.key === ' ' || event.key === 'Enter' ? toggle() : undefined}

@@ -30,8 +30,10 @@
 
 {#if concept}
     <span
+        role="button"
         class="interactive"
         class:salient
+        tabindex="0"
         on:pointerdown={navigate}
         on:keydown={(event) =>
             event.key == ' ' || event.key === 'Enter' ? navigate() : undefined}

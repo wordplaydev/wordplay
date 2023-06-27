@@ -167,7 +167,6 @@
     aria-label={$creator.getLocale().ui.section.palette}
     on:pointerdown={handlePointerDown}
     on:pointerup={handleDrop}
-    on:keydown={(event) => (event.key === 'Backspace' ? back() : undefined)}
     bind:this={palette}
 >
     <div class="header">

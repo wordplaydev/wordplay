@@ -74,6 +74,8 @@
 
 {#if hiddenBefore > 0}
     <span
+        role="button"
+        tabindex="0"
         class="count"
         on:pointerdown={() => (elide = false)}
         on:keydown={(event) =>
@@ -84,6 +86,8 @@
         {node}
     />{/each}{#if hiddenAfter > 0}<span
         class="count"
+        role="button"
+        tabindex="0"
         on:pointerdown={() => (elide = false)}
         on:keydown={(event) =>
             event.key === ' ' || event.key === 'Enter'

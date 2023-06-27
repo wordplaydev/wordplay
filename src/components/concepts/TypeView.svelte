@@ -17,8 +17,9 @@
     {#each types as type, index}
         {#if index > 0}<span class="dot">&nbsp;{OR_SYMBOL}&nbsp;</span>{/if}
         <span
+            role="button"
             class="type"
-            tabIndex="0"
+            tabindex="0"
             on:pointerdown={() => navigate(type)}
             on:keydown={(event) =>
                 event.key === 'Enter' || event.key === ' '

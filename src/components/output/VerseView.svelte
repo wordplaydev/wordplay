@@ -810,29 +810,8 @@
 
 {#if mounted}
     <div
-        class="output verse {interactive && !editing
-            ? 'live'
-            : 'inert'} {project.main.names.getNames()[0]}"
-        class:ignored
-        class:interactive
-        class:changed
-        class:selected={verse.value.creator instanceof Evaluate &&
-            $selectedOutput &&
-            $selectedOutput.includes(verse.value.creator)}
-        class:editing={$evaluation?.playing === false && !painting}
-        data-id={verse.getHTMLID()}
-        data-node-id={verse.value.creator.id}
-        data-selectable={verse.selectable}
-        tabIndex={interactive ? 0 : null}
-        data-defaultfocus
-        style={toCSS({
-            'font-family': `"${verse.font}", ${DefaultFont}`,
-            background: verse.background.toCSS(),
-            color:
-                (verse.rest instanceof Pose
-                    ? verse.rest.color?.toCSS()
-                    : undefined) ?? 'var(--wordplay-foreground)',
-        })}
+        class="interactor"
+        role="presentation"
         on:pointerdown={(event) =>
             interactive ? handlePointerDown(event) : null}
         on:pointerup={interactive ? handleMouseUp : null}
@@ -841,117 +820,155 @@
         on:keydown={interactive ? handleKeyDown : null}
         on:keyup={interactive ? handleKeyUp : null}
         on:wheel={interactive ? handleWheel : null}
-        bind:this={view}
+        tabIndex={interactive ? 0 : null}
     >
-        <!-- Render the verse -->
-        <GroupView
-            group={verse}
-            place={center}
-            focus={renderedFocus}
-            viewport={{ width: viewportWidth, height: viewportHeight }}
-            clip={verse.frame}
-            parentAscent={0}
-            {context}
-            {interactive}
-            {editing}
+        <section
+            class="output verse {interactive && !editing
+                ? 'live'
+                : 'inert'} {project.main.names.getNames()[0]}"
+            class:ignored
+            class:interactive
+            class:changed
+            class:selected={verse.value.creator instanceof Evaluate &&
+                $selectedOutput &&
+                $selectedOutput.includes(verse.value.creator)}
+            class:editing={$evaluation?.playing === false && !painting}
+            data-id={verse.getHTMLID()}
+            data-node-id={verse.value.creator.id}
+            data-selectable={verse.selectable}
+            data-defaultfocus
+            style={toCSS({
+                'font-family': `"${verse.font}", ${DefaultFont}`,
+                background: verse.background.toCSS(),
+                color:
+                    (verse.rest instanceof Pose
+                        ? verse.rest.color?.toCSS()
+                        : undefined) ?? 'var(--wordplay-foreground)',
+            })}
+            bind:this={view}
         >
-            {#if grid}
-                {@const left = Math.min(
-                    0,
-                    Math.floor(contentBounds.left - GRID_PADDING)
-                )}
-                {@const right = Math.max(0, contentBounds.right + GRID_PADDING)}
-                {@const bottom = Math.min(
-                    0,
-                    Math.floor(contentBounds.bottom - GRID_PADDING)
-                )}
-                {@const top = Math.max(0, contentBounds.top + GRID_PADDING)}
-                <!-- Render a grid if this is the root and the grid is on. Apply the same transform that we do the the verse. -->
-                {#each range(left, right) as number}
+            <!-- Render the verse -->
+            <GroupView
+                group={verse}
+                place={center}
+                focus={renderedFocus}
+                viewport={{ width: viewportWidth, height: viewportHeight }}
+                clip={verse.frame}
+                parentAscent={0}
+                {context}
+                {interactive}
+                {editing}
+            >
+                {#if grid}
+                    {@const left = Math.min(
+                        0,
+                        Math.floor(contentBounds.left - GRID_PADDING)
+                    )}
+                    {@const right = Math.max(
+                        0,
+                        contentBounds.right + GRID_PADDING
+                    )}
+                    {@const bottom = Math.min(
+                        0,
+                        Math.floor(contentBounds.bottom - GRID_PADDING)
+                    )}
+                    {@const top = Math.max(0, contentBounds.top + GRID_PADDING)}
+                    <!-- Render a grid if this is the root and the grid is on. Apply the same transform that we do the the verse. -->
+                    {#each range(left, right) as number}
+                        <div
+                            class="gridline vertical"
+                            style:left="{number * PX_PER_METER -
+                                halfGridlineThickness}px"
+                            style:top="{-top * PX_PER_METER -
+                                halfGridlineThickness}px"
+                            style:height="{Math.abs(top - bottom) *
+                                PX_PER_METER}px"
+                        />
+                    {/each}
+                    {#each range(bottom, top) as number}
+                        <div
+                            class="gridline horizontal"
+                            style:top="{-number * PX_PER_METER -
+                                halfGridlineThickness}px"
+                            style:left="{left * PX_PER_METER -
+                                halfGridlineThickness}px"
+                            style:width="{Math.abs(left - right) *
+                                PX_PER_METER}px"
+                        />
+                    {/each}
                     <div
-                        class="gridline vertical"
-                        style:left="{number * PX_PER_METER -
-                            halfGridlineThickness}px"
-                        style:top="{-top * PX_PER_METER -
-                            halfGridlineThickness}px"
-                        style:height="{Math.abs(top - bottom) * PX_PER_METER}px"
-                    />
-                {/each}
-                {#each range(bottom, top) as number}
-                    <div
-                        class="gridline horizontal"
-                        style:top="{-number * PX_PER_METER -
-                            halfGridlineThickness}px"
+                        class="gridline horizontal axis"
+                        style:top="0px"
                         style:left="{left * PX_PER_METER -
                             halfGridlineThickness}px"
                         style:width="{Math.abs(left - right) * PX_PER_METER}px"
                     />
-                {/each}
-                <div
-                    class="gridline horizontal axis"
-                    style:top="0px"
-                    style:left="{left * PX_PER_METER - halfGridlineThickness}px"
-                    style:width="{Math.abs(left - right) * PX_PER_METER}px"
-                />
-                <div
-                    class="gridline vertical axis"
-                    style:left="0px"
-                    style:top="{-top * PX_PER_METER - halfGridlineThickness}px"
-                    style:height="{Math.abs(top - bottom) * PX_PER_METER}px"
-                />
-            {/if}
-            <!-- Render exiting nodes -->
-            {#each Array.from(exiting.entries()) as [name, info] (name)}
-                {#if info.output instanceof Phrase}
-                    <PhraseView
-                        phrase={info.output}
-                        place={info.global}
-                        focus={offsetFocus}
-                        {interactive}
-                        parentAscent={0}
-                        {context}
-                        {editing}
-                    />
-                {:else if info.output instanceof Group}
-                    <GroupView
-                        group={info.output}
-                        place={info.global}
-                        focus={offsetFocus}
-                        parentAscent={0}
-                        {interactive}
-                        {context}
-                        {editing}
+                    <div
+                        class="gridline vertical axis"
+                        style:left="0px"
+                        style:top="{-top * PX_PER_METER -
+                            halfGridlineThickness}px"
+                        style:height="{Math.abs(top - bottom) * PX_PER_METER}px"
                     />
                 {/if}
-            {/each}
-            <!-- Render screen reader live region when in full screen -->
-            {#if fullscreen}
-                <div
-                    role="region"
-                    class="output-changes"
-                    aria-live="polite"
-                    aria-atomic="true"
-                    aria-relevant="all"
-                >
-                    {#if enteredDescription.length > 0}
-                        <p
-                            >{$creator.getLocale().terminology.entered}
-                            {enteredDescription}</p
-                        >
+                <!-- Render exiting nodes -->
+                {#each Array.from(exiting.entries()) as [name, info] (name)}
+                    {#if info.output instanceof Phrase}
+                        <PhraseView
+                            phrase={info.output}
+                            place={info.global}
+                            focus={offsetFocus}
+                            {interactive}
+                            parentAscent={0}
+                            {context}
+                            {editing}
+                        />
+                    {:else if info.output instanceof Group}
+                        <GroupView
+                            group={info.output}
+                            place={info.global}
+                            focus={offsetFocus}
+                            parentAscent={0}
+                            {interactive}
+                            {context}
+                            {editing}
+                        />
                     {/if}
-                    {#if changedDescription.length > 0}
-                        <p
-                            >{$creator.getLocale().terminology.changed}
-                            {changedDescription}</p
-                        >
-                    {/if}
-                </div>
-            {/if}
-        </GroupView>
+                {/each}
+                <!-- Render screen reader live region when in full screen -->
+                {#if fullscreen}
+                    <div
+                        role="region"
+                        class="output-changes"
+                        aria-live="polite"
+                        aria-atomic="true"
+                        aria-relevant="all"
+                    >
+                        {#if enteredDescription.length > 0}
+                            <p
+                                >{$creator.getLocale().terminology.entered}
+                                {enteredDescription}</p
+                            >
+                        {/if}
+                        {#if changedDescription.length > 0}
+                            <p
+                                >{$creator.getLocale().terminology.changed}
+                                {changedDescription}</p
+                            >
+                        {/if}
+                    </div>
+                {/if}
+            </GroupView>
+        </section>
     </div>
 {/if}
 
 <style>
+    .interactor {
+        width: 100%;
+        height: 100%;
+    }
+
     .verse {
         user-select: none;
         width: 100%;

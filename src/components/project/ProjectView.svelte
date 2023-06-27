@@ -946,10 +946,14 @@
 
 <svelte:head><title>Wordplay - {project.name}</title></svelte:head>
 
-<svelte:window bind:innerWidth={windowWidth} bind:innerHeight={windowHeight} />
+<svelte:window
+    bind:innerWidth={windowWidth}
+    bind:innerHeight={windowHeight}
+    on:keydown={handleKey}
+/>
 
 <!-- Render the app header and the current project, if there is one. -->
-<main class="project" on:keydown={handleKey} bind:this={view}>
+<main class="project" bind:this={view}>
     <div
         class="canvas"
         on:pointerdown={handlePointerDown}

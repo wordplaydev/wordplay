@@ -63,7 +63,8 @@
     <div class="matches">
         {#each query === '' ? defaults : results as glyph}<span
                 class="glyph"
-                tabIndex="0"
+                role="button"
+                tabindex="0"
                 on:keydown={(event) =>
                     event.key === ' ' || event.key === 'Enter'
                         ? insert(glyph)

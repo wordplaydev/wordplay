@@ -14,9 +14,10 @@
 
 <div class="options">
     <div
+        role="button"
         class="layout"
         style:writing-mode={$creator.getWritingLayout()}
-        tabIndex="0"
+        tabindex="0"
         on:pointerdown|stopPropagation={toggleLayout}
         on:keydown={(event) =>
             event.key === 'Enter' || event.key == ' '

@@ -43,8 +43,9 @@
 <div class="view" class:draggable>
     <div class="code">
         <div
+            role="textbox"
             class="node"
-            tabIndex="0"
+            tabindex="0"
             on:keydown={(event) =>
                 event.key === 'c' && (event.ctrlKey || event.metaKey)
                     ? copy()
@@ -54,9 +55,10 @@
     </div>
     {#if describe}
         <div
+            role="textbox"
             class="description"
             class:selectable
-            tabIndex={selectable ? 0 : null}
+            tabindex={selectable ? 0 : null}
             on:pointerdown={select}
             on:keydown={(event) =>
                 event.key === 'Enter' || event.key === ' '

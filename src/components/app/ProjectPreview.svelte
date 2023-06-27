@@ -20,8 +20,9 @@
 
 <div class="project">
     <div
+        role="button"
         class="preview"
-        tabIndex="0"
+        tabindex="0"
         on:pointerdown={action}
         on:keydown={(event) =>
             action && (event.key === '' || event.key === 'Enter')

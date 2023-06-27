@@ -49,8 +49,9 @@
 
 <div class="mini" class:expanded>
     <span
+        role="button"
         class="name"
-        tabIndex="0"
+        tabindex="0"
         on:pointerdown={() => dispatch('toggle')}
         on:keydown={(event) => {
             if (event.key === 'Enter' || event.key === ' ') {

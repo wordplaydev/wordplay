@@ -154,7 +154,13 @@
 />
 
 <section class="tutorial">
-    <div class="dialog" tabIndex="0" on:keydown={handleKey} bind:this={view}>
+    <div
+        role="button"
+        class="dialog"
+        tabindex="0"
+        on:keydown={handleKey}
+        bind:this={view}
+    >
         <nav>
             <!-- <Button
                 tip={$creator.getLocale().ui.tooltip.previousLesson}
