@@ -2120,10 +2120,9 @@ const en: Locale = {
         UnclosedDelimiter: {
             primary: (token, expected) =>
                 Explanation.as(
-                    WRITE_DOC,
-                    'expected ',
+                    'I expected ',
                     expected,
-                    ' to match ',
+                    ' sometime after ',
                     token
                 ),
         },
@@ -3080,7 +3079,7 @@ const en: Locale = {
                         dialog(
                             'FunctionDefinition',
                             Emotion.Excited,
-                            `It’s good to see you too! It’s been so long. What have you been up to in all this silence?`
+                            `It's good to see you too! It's been so long. What have you been up to in all this silence?`
                         ),
                         dialog(
                             'UnparsableExpression',
@@ -3109,7 +3108,7 @@ const en: Locale = {
                         dialog(
                             'FunctionDefinition',
                             Emotion.Serious,
-                            `(They just said how awesome it is to meet you, and they think you’ll be a great director.)`
+                            `(They just said how awesome it is to meet you, and they think you'll be a great director.)`
                         ),
                         pause(),
                         code('Phrase("v s d we iweiwei")', true, false),
@@ -3159,7 +3158,7 @@ const en: Locale = {
                             Emotion.Curious,
                             `Thanks @UnparsableExpression!
                         
-                            Just like they said, when you’ve said something we don’t understand, unparsable is there to say “We don’t understand.”
+                            Just like they said, when you've said something we don't understand, unparsable is there to say “We don't understand.”
                             
                             When then happens, I wish we could be more helpful, but we're often pretty dense here, so we're not very good at guessing what you mean.`
                         ),
@@ -3174,7 +3173,7 @@ const en: Locale = {
                             'FunctionDefinition',
                             Emotion.Kind,
                             `Soooo, @UnparsableExpression want to try making as many of them as possible. 
-                            (You can just key mash a bunch of random characters and you’ll probably get many of them).`
+                            (You can just key mash a bunch of random characters and you'll probably get many of them).`
                         ),
                         pause(),
                         dialog(
@@ -3206,15 +3205,15 @@ const en: Locale = {
                         dialog(
                             'FunctionDefinition',
                             Emotion.Kind,
-                            `They’re wondering if you have any ideas for performances to put on yet.`
+                            `They're wondering if you have any ideas for performances to put on yet.`
                         ),
                         pause(),
                         dialog(
                             'FunctionDefinition',
                             Emotion.Kind,
-                            `No? That’s okay. We’ve only begun to show you what’s possible. Let’s go meet @Evaluate.
+                            `No? That's okay. We've only begun to show you what's possible. Let's go meet @Evaluate.
                             
-                            Bye unparsable, it was good to see you! Let’s play soon.`
+                            Bye unparsable, it was good to see you! Let's play soon.`
                         ),
                         dialog(
                             'UnparsableExpression',
@@ -3234,9 +3233,9 @@ const en: Locale = {
                         dialog(
                             'FunctionDefinition',
                             Emotion.Excited,
-                            `I’m so excited for you to meet @Evaluate. They’re really my best friend. We kind of do everything together, in a way. I make the rules, they play them, we’re like peanut butter and jelly. 
+                            `I'm so excited for you to meet @Evaluate. They're really my best friend. We kind of do everything together, in a way. I make the rules, they play them, we're like peanut butter and jelly. 
                             
-                            But they’re so much more… powerful than me.
+                            But they're so much more… powerful than me.
                             
                             @Evaluate?`
                         ),
@@ -3246,18 +3245,18 @@ const en: Locale = {
                         dialog(
                             'FunctionDefinition',
                             Emotion.Curious,
-                            `Yeah, it’s me. Where are you?`
+                            `Yeah, it's me. Where are you?`
                         ),
                         dialog(
                             'Evaluate',
                             Emotion.Shy,
-                            `Nowhere. I’m nowhere. I’m nothing. Where have you been?`
+                            `Nowhere. I'm nowhere. I'm nothing. Where have you been?`
                         ),
                         pause(),
                         dialog(
                             'FunctionDefinition',
                             Emotion.Sad,
-                            `I’ve been… nowhere too. I’ve missed you. I couldn’t find you.`
+                            `I've been… nowhere too. I've missed you. I couldn't find you.`
                         ),
                         dialog(
                             'Evaluate',
@@ -3268,12 +3267,12 @@ const en: Locale = {
                         dialog(
                             'FunctionDefinition',
                             Emotion.Sad,
-                            `I’m so sorry. I know that empty feeling. It hurts so much sometimes, to have no purpose. I tried so hard to make a purpose, but I felt so… detached.`
+                            `I'm so sorry. I know that empty feeling. It hurts so much sometimes, to have no purpose. I tried so hard to make a purpose, but I felt so… detached.`
                         ),
                         dialog(
                             'Evaluate',
                             Emotion.Sad,
-                            `Don’t ever leave me again like that. I can’t do that again.`
+                            `Don't ever leave me again like that. I can't do that again.`
                         ),
                         pause(),
                         code(
@@ -3284,32 +3283,32 @@ const en: Locale = {
                         dialog(
                             'FunctionDefinition',
                             Emotion.Serious,
-                            `Never. I won’t. I can’t. I love you.`
+                            `Never. I won't. I can't. I love you.`
                         ),
                         dialog('Evaluate', Emotion.Serious, `I love you…`),
                         pause(),
                         dialog(
                             'FunctionDefinition',
                             Emotion.Serious,
-                            `… (Hi, sorry. It’s been rough, without inspiration. We’re glad you’re here.)
+                            `… (Hi, sorry. It's been rough, without inspiration. We're glad you're here.)
                             
                             @Evaluate, I want to introduce you to our new director-in-training.`
                         ),
                         dialog(
                             'Evaluate',
                             Emotion.Shy,
-                            `Hi. It’s nice to meet you. Welcome to the Verse, we’re so pleased to have you here.`
+                            `Hi. It's nice to meet you. Welcome to the Verse, we're so pleased to have you here.`
                         ),
                         pause(),
                         dialog(
                             'FunctionDefinition',
                             Emotion.Eager,
-                            `We’ve been meeting a few folks, @Program, @ExpressionPlaceholder, @UnparsableExpression. We’re just getting started. I thought we’d come see you next, just because you’re such an incredible part of our community. The most incredible part.`
+                            `We've been meeting a few folks, @Program, @ExpressionPlaceholder, @UnparsableExpression. We're just getting started. I thought we'd come see you next, just because you're such an incredible part of our community. The most incredible part.`
                         ),
                         dialog(
                             'Evaluate',
                             Emotion.Shy,
-                            `That’s very kind. I’m grateful to be part of this community. And grateful to be so close to @FunctionDefinition. We do a lot of great things together. But as @FunctionDefinition probably told you, we can’t do them without inspiration.`
+                            `That's very kind. I'm grateful to be part of this community. And grateful to be so close to @FunctionDefinition. We do a lot of great things together. But as @FunctionDefinition probably told you, we can't do them without inspiration.`
                         ),
                         pause(),
                         code(
@@ -3325,11 +3324,11 @@ const en: Locale = {
                         dialog(
                             'Evaluate',
                             Emotion.Serious,
-                            `Yes. But I can’t explain it without explaining a bit about @FunctionDefinition too. 
+                            `Yes. But I can't explain it without explaining a bit about @FunctionDefinition too. 
                             
-                            They’re too modest to share this, but they’re probably the most important character in the Verse. They’re certainly the most important person in my world. 
+                            They're too modest to share this, but they're probably the most important character in the Verse. They're certainly the most important person in my world. 
                             
-                            They’re at the heart of every performance, and part of every other character’s role. 
+                            They're at the heart of every performance, and part of every other character's role. 
                             
                             They represent the most fundamental idea in our world: the **function**.`
                         ),
@@ -3337,13 +3336,13 @@ const en: Locale = {
                         dialog(
                             'Evaluate',
                             Emotion.Serious,
-                            `Functions are a kind of alchemy. They take any number of inputs and use those inputs to produce one output. They can have names or be nameless. They can have zero inputs or five or an unknown number. And the alchemy: they’re like @Program, and can have any number of expressions to produce a value.`
+                            `Functions are a kind of alchemy. They take any number of inputs and use those inputs to produce one output. They can have names or be nameless. They can have zero inputs or five or an unknown number. And the alchemy: they're like @Program, and can have any number of expressions to produce a value.`
                         ),
                         pause(),
                         dialog(
                             'Evaluate',
                             Emotion.Serious,
-                            `Here’s why that’s so powerful: it turns out that everything in @Program is a composition of functions evaluations. 
+                            `Here's why that's so powerful: it turns out that everything in @Program is a composition of functions evaluations. 
                         
                             All of the dances, all of the games, all of the wondrous stories we tell together — they are all a tapestry of functions being evaluated, one at a time, to compose the values you see on stage.
 
@@ -3369,28 +3368,28 @@ const en: Locale = {
                         dialog(
                             'FunctionDefinition',
                             Emotion.Happy,
-                            `… Yes, let’s show them.`
+                            `… Yes, let's show them.`
                         ),
                         pause(),
                         code("Phrase('hello')", false, true),
                         dialog(
                             'Evaluate',
                             Emotion.Serious,
-                            `Here’s one of my favorite functions. 
+                            `Here's one of my favorite functions. 
                             
-                            It's named @Phrase, and it’s full of fun buttons, knobs, and sliders. 
+                            It's named @Phrase, and it's full of fun buttons, knobs, and sliders. 
                             
-                            It’s a way of showing text on stage, but with style, including different fonts, sizes, colors, and animations.
+                            It's a way of showing text on stage, but with style, including different fonts, sizes, colors, and animations.
 
-                            Here’s a simple evaluation of @Phrase.`
+                            Here's a simple evaluation of @Phrase.`
                         ),
                         pause(),
                         dialog(
                             'Evaluate',
                             Emotion.Serious,
-                            `That’s what I look like in @Program: some function, followed by parentheses, with a list of expressions between them that represent the inputs.
+                            `That's what I look like in @Program: some function, followed by parentheses, with a list of expressions between them that represent the inputs.
                             
-                            The function in this case is @Phrase and the single input is ⧼‘hello’⧽.
+                            The function in this case is @Phrase and the single input is ⧼‘hello'⧽.
                             
                             When I evaluate this, I make a @Phrase value, which @Program then shows on stage.                            
                             `
@@ -3401,7 +3400,7 @@ const en: Locale = {
                             Emotion.Neutral,
                             `Let me show you one of the knobs. 
                             
-                            Select on the word on stage and you’ll see a palette, which shows the many different inputs that Phrase accepts. 
+                            Select on the word on stage and you'll see a palette, which shows the many different inputs that Phrase accepts. 
                             
                             Try changing its **size**.`
                         ),
@@ -3411,7 +3410,7 @@ const en: Locale = {
                             Emotion.Serious,
                             `See how when you do that, now I have a new input in me in the program? 
                             
-                            It’s the size input. Functions have a certain order of inputs, but if a function has a list of optional inputs, you can use their name to specify which one you want to give. 
+                            It's the size input. Functions have a certain order of inputs, but if a function has a list of optional inputs, you can use their name to specify which one you want to give. 
                             
                             We give **size** here, but not any of the other optional inputs.
                             
@@ -3422,18 +3421,18 @@ const en: Locale = {
                         dialog(
                             'FunctionDefinition',
                             Emotion.Happy,
-                            `Yay! @Phrase is so fun. It’s my favorite function to play with. We’ll see it a lot more.
+                            `Yay! @Phrase is so fun. It's my favorite function to play with. We'll see it a lot more.
                             
                             Do you want to say anything about what can go wrong?`
                         ),
                         dialog(
                             'Evaluate',
                             Emotion.Serious,
-                            `Oh, yes, that’s a good idea. Lots can go wrong.
+                            `Oh, yes, that's a good idea. Lots can go wrong.
                             
-                            For example, you could give me something that isn’t a function. 
+                            For example, you could give me something that isn't a function. 
                             
-                            See how I’m given the number ⧼“hi”⧽ here as a function, and given me two inputs, ⧼1⧽ and ⧼2⧽ ? Well, I only know how to evaluate functions, and ⧼“hi”⧽ isn’t a function, it’s text. So that’s very confusing to me, so I basically halt the performance if this happens.
+                            See how I'm given the number ⧼“hi”⧽ here as a function, and given me two inputs, ⧼1⧽ and ⧼2⧽ ? Well, I only know how to evaluate functions, and ⧼“hi”⧽ isn't a function, it's text. So that's very confusing to me, so I basically halt the performance if this happens.
                             `
                         ),
                         pause(),
@@ -3441,14 +3440,14 @@ const en: Locale = {
                         dialog(
                             'Evaluate',
                             Emotion.Eager,
-                            `Here’s another one. @Phrase requires some text at the very least, so if you don’t give me text, I won’t be able to evaluate @Phrase, because I’m missing required inputs.`
+                            `Here's another one. @Phrase requires some text at the very least, so if you don't give me text, I won't be able to evaluate @Phrase, because I'm missing required inputs.`
                         ),
                         pause(),
                         code('Phrase(1)', true, true),
                         dialog(
                             'Evaluate',
                             Emotion.Excited,
-                            `Or if you give me an input, but it’s not the kind I expect, that would be a problem. Here @Phrase is given the number ⧼1⧽ instead of a text value.`
+                            `Or if you give me an input, but it's not the kind I expect, that would be a problem. Here @Phrase is given the number ⧼1⧽ instead of a text value.`
                         ),
                         pause(),
                         code(
@@ -3459,14 +3458,14 @@ const en: Locale = {
                         dialog(
                             'Evaluate',
                             Emotion.Curious,
-                            `So basically, I get confused any time you give me something other than a function, or an input that isn’t something a function expects. So functions are really important.
+                            `So basically, I get confused any time you give me something other than a function, or an input that isn't something a function expects. So functions are really important.
                             
                             @FunctionDefinition, do you want to say more about how to define functions?`
                         ),
                         dialog(
                             'FunctionDefinition',
                             Emotion.Neutral,
-                            `No, let’s do that later. I think it’d be a lot more fun to talk to everyone else first, and put on some mini shows with our new director here. We can talk more about me when it’s helpful.`
+                            `No, let's do that later. I think it'd be a lot more fun to talk to everyone else first, and put on some mini shows with our new director here. We can talk more about me when it's helpful.`
                         ),
                         pause(),
                         dialog(
@@ -3482,7 +3481,7 @@ const en: Locale = {
                         dialog(
                             'Evaluate',
                             Emotion.Kind,
-                            `… Yes. Don’t be long.`
+                            `… Yes. Don't be long.`
                         ),
                         dialog(
                             'FunctionDefinition',
@@ -3527,7 +3526,7 @@ const en: Locale = {
                         dialog(
                             'FunctionDefinition',
                             Emotion.Happy,
-                            `I really do love @Evaluate. I can’t imagine the Verse without them. 
+                            `I really do love @Evaluate. I can't imagine the Verse without them. 
                             
                             I like to think of my functions as love letters. They express my love of @Evaluate and the **values** that @Evaluate gives back are their reply. 
                             
@@ -3558,7 +3557,7 @@ const en: Locale = {
                         dialog(
                             'FunctionDefinition',
                             Emotion.Curious,
-                            `**Expressions**? I guess I didn’t explain those either. 
+                            `**Expressions**? I guess I didn't explain those either. 
                         
                             I really am rusty…
                             
@@ -3574,7 +3573,7 @@ const en: Locale = {
                             
                             Hm, I guess this is all pretty abstract. It feels so… normal to me, I forget how foreign these things can be to new directors!
                            
-                            Maybe let’s go meet some expressions that make values, and this will make it more concrete? Let’s start with one you’ve already seen: text.
+                            Maybe let's go meet some expressions that make values, and this will make it more concrete? Let's start with one you've already seen: text.
                             `
                         ),
                     ],
@@ -3602,12 +3601,12 @@ const en: Locale = {
                         dialog(
                             'FunctionDefinition',
                             Emotion.Happy,
-                            `Oh, @TextLiteral, it has been a while! I’ve mostly been dreaming and wondering. I just saw @Evaluate after a long while. I was actually introducing them to our newbie director.`
+                            `Oh, @TextLiteral, it has been a while! I've mostly been dreaming and wondering. I just saw @Evaluate after a long while. I was actually introducing them to our newbie director.`
                         ),
                         dialog(
                             'TextLiteral',
                             Emotion.Eager,
-                            `Oh, how exceptional it is to meet you! I can see that you’re a creative, curious person, probably full of intriguing ideas for how we might entertain. 
+                            `Oh, how exceptional it is to meet you! I can see that you're a creative, curious person, probably full of intriguing ideas for how we might entertain. 
                             I love entertaining. But do you know what I love even more?
                             
                             Words! Glorious words. The short ones, the overwhelming ones, the sticky ones, and the slippery ones. Words are my favorite toys.`
@@ -3616,7 +3615,7 @@ const en: Locale = {
                         dialog(
                             'FunctionDefinition',
                             Emotion.Neutral,
-                            `In case you couldn’t tell, @TextLiteral likes words :) 
+                            `In case you couldn't tell, @TextLiteral likes words :) 
                             
                             @TextLiteral, do you want to explain what you do?`
                         ),
@@ -3627,9 +3626,9 @@ const en: Locale = {
                             
                             I think you saw me earlier when you wrote the word ⧼“hello”⧽? 
                             That was me, and my friends ⧼“h”⧽, ⧼“e”⧽, ⧼“l”⧽, and ⧼“o”⧽. 
-                            I’m an expression that evaluates to any text you like.
+                            I'm an expression that evaluates to any text you like.
                             
-                            Why don’t you try making a text in this blank @Program? 
+                            Why don't you try making a text in this blank @Program? 
                             You can use whatever quotes you like — single ⧼''⧽, double ⧼""⧽, angle ⧼«»⧽, brackets ⧼「」⧽, in whatever language you like. 
                             
                             The only rule is that if you start some text with an opening quote symbol, you must finish it with a closing one. 
@@ -3644,7 +3643,7 @@ const en: Locale = {
                             `Excellent. Of course, “inside” can be tricky. 
                             
                             Say you wrote this. 
-                            See how there’s an opening quote but not a closing one? 
+                            See how there's an opening quote but not a closing one? 
                             Well, how am I supposed to know when the text ends?`
                         ),
                         code('“hello', true, true),
@@ -3652,7 +3651,7 @@ const en: Locale = {
                         dialog(
                             'TextLiteral',
                             Emotion.Surprised,
-                            `Or, here’s another case. 
+                            `Or, here's another case. 
                             
                             You give me opening and closing text, but you place opening and closing text inside it. 
                             
@@ -3668,9 +3667,9 @@ const en: Locale = {
                             Emotion.Curious,
                             `Did our friend @FunctionDefinition here tell you about all of the wonderful functions they defined for me? 
                             
-                            They’ve allowed me to do all kinds of things.
+                            They've allowed me to do all kinds of things.
                             
-                            One is pretty simple: it’s called @TextType.length and all it does is get the length of some text. 
+                            One is pretty simple: it's called @TextType.length and all it does is get the length of some text. 
                             
                             For example, if we team up with @Evaluate here, and our little friend ⧼.⧽, we can evaluate the length function with no inputs and get the length value back.
                             
@@ -3683,7 +3682,7 @@ const en: Locale = {
                             Emotion.Happy,
                             `Here is another grand one. It makes me chuckle. 
                             
-                            It’s called **repeat** and when it’s evaluated, it takes whatever text it was evaluated on and repeats it however many times you say.
+                            It's called **repeat** and when it's evaluated, it takes whatever text it was evaluated on and repeats it however many times you say.
                             
                             Try changing the number and seeing what it evaluates too.`
                         ),
@@ -3692,23 +3691,23 @@ const en: Locale = {
                         dialog(
                             'TextLiteral',
                             Emotion.Eager,
-                            `@FunctionDefinition has made so many more interesting functions for me, but I’ll spare you the details. 
+                            `@FunctionDefinition has made so many more interesting functions for me, but I'll spare you the details. 
                             
-                            You can always find me in 📕. I’m happy to share more ways to inspect and create text!`
+                            You can always find me in 📕. I'm happy to share more ways to inspect and create text!`
                         ),
                         pause(),
                         dialog(
                             'FunctionDefinition',
                             Emotion.Happy,
-                            `@TextLiteral, you’re always such a kind and patient teacher! 
-                            It’s always such a joy to work with you. 
+                            `@TextLiteral, you're always such a kind and patient teacher! 
+                            It's always such a joy to work with you. 
                             
                             Are you willing to help out as I introduce our friendly neo-director to other expressions?`
                         ),
                         dialog(
                             'TextLiteral',
                             Emotion.Neutral,
-                            `Yes, of course. It was splendid meeting you. I can’t wait to see how you inspire us on stage!`
+                            `Yes, of course. It was splendid meeting you. I can't wait to see how you inspire us on stage!`
                         ),
                     ],
                 },
@@ -3726,8 +3725,8 @@ const en: Locale = {
                             'FunctionDefinition',
                             Emotion.Happy,
                             `You know, I keep thinking about @Evaluate, and how we were separated for so long. 
-                            I’m so glad you wandered into our world, so we could be reconnected. 
-                            I can just feel the life you’re bringing out in us!`
+                            I'm so glad you wandered into our world, so we could be reconnected. 
+                            I can just feel the life you're bringing out in us!`
                         ),
                         pause(),
                         dialog(
@@ -3748,7 +3747,7 @@ const en: Locale = {
                             Emotion.Eager,
                             `Instead, you can have @Evaluate evaluate it with a much simpler symbol in the middle, like this.
                             
-                            This means "repeat ‘hi’ five times". But it also means "evaluate the ⧼·⧽ function on the text value ⧼"hi"⧽ with the input ⧼5⧽."
+                            This means "repeat ‘hi' five times". But it also means "evaluate the ⧼·⧽ function on the text value ⧼"hi"⧽ with the input ⧼5⧽."
                             
                             The function ⧼repeat⧽ just has multiple names, one of which is a symbol name ⧼·⧽.`
                         ),
@@ -3757,9 +3756,9 @@ const en: Locale = {
                         dialog(
                             'FunctionDefinition',
                             Emotion.Serious,
-                            `That reminds me of another of @TextLiteral’s functions! 
+                            `That reminds me of another of @TextLiteral's functions! 
                             
-                            It’s helpful for making one text value from multiple text values. It’s called ⧼combine⧽, but also ⧼+⧽, and you can use it to add words together.
+                            It's helpful for making one text value from multiple text values. It's called ⧼combine⧽, but also ⧼+⧽, and you can use it to add words together.
                             
                             See how I took a text value then evaluated ⧼combine⧽ on it with ⧼"verse"⧽? That made ⧼"hello verse"⧽.
                             `
@@ -3769,7 +3768,7 @@ const en: Locale = {
                         dialog(
                             'FunctionDefinition',
                             Emotion.Serious,
-                            `But it’s so much easier to just use ⧼+⧽ for this.`
+                            `But it's so much easier to just use ⧼+⧽ for this.`
                         ),
                         code(`'hello ' + ' verse'`, true, true),
                         pause(),
@@ -3794,7 +3793,7 @@ const en: Locale = {
                         dialog(
                             'FunctionDefinition',
                             Emotion.Neutral,
-                            `You can also use the symbolic names in this format, but it just ends up looking kind of messy, doesn’t it?`
+                            `You can also use the symbolic names in this format, but it just ends up looking kind of messy, doesn't it?`
                         ),
                         code(`'hello '.+('verse').+('!')`, true, true),
                         pause(),
@@ -3803,9 +3802,9 @@ const en: Locale = {
                             Emotion.Happy,
                             `This is one of the many ways that @Evaluate is amazing ♥ They are so versatile!
 
-                            But they aren’t perfect. With any @BinaryOperation, you need to always make sure to give a second input.
+                            But they aren't perfect. With any @BinaryOperation, you need to always make sure to give a second input.
                             
-                            This won’t work, for example. One plus what? @UnparsableExpression won’t be far away when this happens.
+                            This won't work, for example. One plus what? @UnparsableExpression won't be far away when this happens.
                             `
                         ),
                         code(`1 +`, true, true),
@@ -3829,7 +3828,7 @@ const en: Locale = {
                             Emotion.Curious,
                             `⧼⊤⧽! ⧼⊥⧽! Are you two around?
                             
-                            They’re usually all over the place, but I don’t see them anywhere. 
+                            They're usually all over the place, but I don't see them anywhere. 
                             `
                         ),
                         pause(),
@@ -3843,7 +3842,7 @@ const en: Locale = {
                         dialog(
                             'FunctionDefinition',
                             Emotion.Scared,
-                            `Oh, you scared me! I knew you two wouldn’t be far apart. How have you two been in our long silence?`
+                            `Oh, you scared me! I knew you two wouldn't be far apart. How have you two been in our long silence?`
                         ),
                         dialog('⊤', Emotion.Precise, `Very good!`),
                         dialog('⊥', Emotion.Precise, `Not bad.`),
@@ -3851,15 +3850,15 @@ const en: Locale = {
                         dialog(
                             'FunctionDefinition',
                             Emotion.Curious,
-                            `Not lonely? Everyone I’ve been talking to, @Program, @ExpressionPlaceholder, @Evaluate, they’ve all felt so isolated. (Except for @UnparsableExpression, they seem to be fine almost anywhere).`
+                            `Not lonely? Everyone I've been talking to, @Program, @ExpressionPlaceholder, @Evaluate, they've all felt so isolated. (Except for @UnparsableExpression, they seem to be fine almost anywhere).`
                         ),
                         dialog('⊤', Emotion.Precise, `We have each other.`),
-                        dialog('⊥', Emotion.Precise, `We’re not alone.`),
+                        dialog('⊥', Emotion.Precise, `We're not alone.`),
                         pause(),
                         dialog(
                             'FunctionDefinition',
                             Emotion.Happy,
-                            `Well that’s great to hear. It’s good to be with you again. I wanted to introduce you to our new maybe-director. They’ve been meeting everyone, learning about how to put on performances with us. Do you want to tell them what you do?`
+                            `Well that's great to hear. It's good to be with you again. I wanted to introduce you to our new maybe-director. They've been meeting everyone, learning about how to put on performances with us. Do you want to tell them what you do?`
                         ),
                         dialog('⊤', Emotion.Precise, `I am true.`),
                         dialog('⊥', Emotion.Precise, `I am false.`),
@@ -3875,7 +3874,7 @@ const en: Locale = {
                         dialog(
                             'FunctionDefinition',
                             Emotion.Sad,
-                            `Hm. I guess that’s true. But you do some things, right? I thought I made some functions for you.`
+                            `Hm. I guess that's true. But you do some things, right? I thought I made some functions for you.`
                         ),
                         dialog('⊤', Emotion.Precise, `Ah yes, three.`),
                         dialog('⊥', Emotion.Precise, `Not more, not less.`),
@@ -3899,7 +3898,7 @@ const en: Locale = {
                         dialog(
                             'FunctionDefinition',
                             Emotion.Neutral,
-                            `(This is really helpful when trying to determine if multiple expressions are all true, because it’s only true when everything is true).`
+                            `(This is really helpful when trying to determine if multiple expressions are all true, because it's only true when everything is true).`
                         ),
                         pause(),
                         code('(⊤ | ⊤) = ⊥', true, true),
@@ -3921,7 +3920,7 @@ const en: Locale = {
                         dialog(
                             'FunctionDefinition',
                             Emotion.Neutral,
-                            `(This is really helpful when trying to determine if any expressions are true, because it’s true when even just one is true).`
+                            `(This is really helpful when trying to determine if any expressions are true, because it's true when even just one is true).`
                         ),
                         pause(),
                         code('~⊤ = ⊥', true, true),
@@ -3948,15 +3947,15 @@ const en: Locale = {
                             `And what are you useful for, in our performances?`
                         ),
                         dialog('⊤', Emotion.Precise, `Ask @Conditional.`),
-                        dialog('⊥', Emotion.Precise, `Don’t ask us.`),
+                        dialog('⊥', Emotion.Precise, `Don't ask us.`),
                         pause(),
                         dialog(
                             'FunctionDefinition',
                             Emotion.Sad,
-                            `You two… okay, we’ll talk to @Conditional later. 
+                            `You two… okay, we'll talk to @Conditional later. 
                             
-                            (They were supposed to say that they’re useful for making decisions with values, but I guess they want @Conditional to tell you about that. 
-                            We’ll talk to @Conditional later.).`
+                            (They were supposed to say that they're useful for making decisions with values, but I guess they want @Conditional to tell you about that. 
+                            We'll talk to @Conditional later.).`
                         ),
                         pause(),
                         output(
@@ -3970,7 +3969,7 @@ const en: Locale = {
                             You two represent two really different extremes: true and false. 
                             But what about things that are … fuzzier? Like things that are kind of true, or somewhat false, or maybe even true and false at the same time? 
                             
-                            Kind of like Earth looks flat, but isn’t, or the sky is blue, but color is actually just an illusion that our minds create?
+                            Kind of like Earth looks flat, but isn't, or the sky is blue, but color is actually just an illusion that our minds create?
                             
                             What should our director do if they want to express something like that?`
                         ),
@@ -4000,7 +3999,7 @@ const en: Locale = {
                             Emotion.Serious,
                             `Hm, okay. 
                             It was worth a try! 
-                            Maybe there are other ways to express these ideas I haven’t thought of. 
+                            Maybe there are other ways to express these ideas I haven't thought of. 
                             Or maybe there are just limits to what data can represent…
                             
                             Will you two be okay if we go off and meet other expressions?`
@@ -4035,7 +4034,7 @@ const en: Locale = {
                             Emotion.Confused,
                             `
                             Those two are always so… terse! 
-                            They really are inseparable though: just two of the closest friends, always complementing each other, completing each other’s thoughts.`
+                            They really are inseparable though: just two of the closest friends, always complementing each other, completing each other's thoughts.`
                         ),
                         pause(),
                         output(
@@ -4080,13 +4079,13 @@ const en: Locale = {
                         dialog(
                             'MeasurementLiteral',
                             Emotion.Kind,
-                            `The 78,238nd time. It’s my 4th favorite hobby!`
+                            `The 78,238nd time. It's my 4th favorite hobby!`
                         ),
                         pause(),
                         dialog(
                             'FunctionDefinition',
                             Emotion.Happy,
-                            `I’m glad you’re having a good time. (Deep breaths). It’s been some time, hasn’t it?`
+                            `I'm glad you're having a good time. (Deep breaths). It's been some time, hasn't it?`
                         ),
                         dialog(
                             'MeasurementLiteral',
@@ -4098,14 +4097,14 @@ const en: Locale = {
                             'FunctionDefinition',
                             Emotion.Serious,
                             `
-                            Don’t say decades. 
-                            I can’t have been that long. 
+                            Don't say decades. 
+                            I can't have been that long. 
                             
                             Anyway, I wanted to introduce you to someone who might be our new director. 
-                            They just showed up and bumped into me, and it turns out they’re a person and interested in putting on shows with us. 
+                            They just showed up and bumped into me, and it turns out they're a person and interested in putting on shows with us. 
                             
                             We just met ⊤ and ⊥, but also @TextLiteral, @Evaluate, @Unparsable, @Placeholder, and @Program. 
-                            We’ve talked about evaluating functions and given a few examples.
+                            We've talked about evaluating functions and given a few examples.
 
                             Do you want to say what you do?
                             `
@@ -4116,7 +4115,7 @@ const en: Locale = {
                             `
                             I count things! 
                             I can be any number you like. 
-                            Just type me in and I’ll make the value you want. Like this.`
+                            Just type me in and I'll make the value you want. Like this.`
                         ),
                         code(`1`, true, true),
                         pause(),
@@ -4172,7 +4171,7 @@ const en: Locale = {
                         dialog(
                             'MeasurementLiteral',
                             Emotion.Excited,
-                            `Oh yes, the things. Just put some symbols after a number and I’ll keep track of what’s being counted. Like this.`
+                            `Oh yes, the things. Just put some symbols after a number and I'll keep track of what's being counted. Like this.`
                         ),
                         code(`1dolphin`, true, true),
                         pause(),
@@ -4201,13 +4200,13 @@ const en: Locale = {
                         dialog(
                             'FunctionDefinition',
                             Emotion.Kind,
-                            `Um, ⧼1.01toe⧽? Yes, thank you @MeasurementLiteral, these are … interesting examples. And they are oh so useful when you’re doing math on numbers, right?`
+                            `Um, ⧼1.01toe⧽? Yes, thank you @MeasurementLiteral, these are … interesting examples. And they are oh so useful when you're doing math on numbers, right?`
                         ),
                         pause(),
                         dialog(
                             'FunctionDefinition',
                             Emotion.Kind,
-                            `And they are oh so useful when you’re doing math on numbers, right?`
+                            `And they are oh so useful when you're doing math on numbers, right?`
                         ),
                         dialog(
                             'MeasurementLiteral',
@@ -4253,27 +4252,27 @@ const en: Locale = {
                         dialog(
                             'MeasurementLiteral',
                             Emotion.Angry,
-                            `No. That’s why I underlined the conflict. 
-                            I don’t like adding incompatible things. 
+                            `No. That's why I underlined the conflict. 
+                            I don't like adding incompatible things. 
                             I can only add compatible numbers. 
                             That applies to multiplication, division, and all of my other functions.
                             
                             Do you want to fix it? 
                             Change apples to oranges or oranges to apples and the conflict will go away. 
                             
-                            Make sure there’s no space between the number and the unit, otherwise I don’t know it’s a unit.
+                            Make sure there's no space between the number and the unit, otherwise I don't know it's a unit.
                             
                             And make sure the units are *exactly* the same. 
-                            I don’t know anything about people units; they mean nothing to me. 
-                            I just compare the unit names and if they don’t match, BOOM!
+                            I don't know anything about people units; they mean nothing to me. 
+                            I just compare the unit names and if they don't match, BOOM!
                             `
                         ),
                         pause(),
                         dialog(
                             'FunctionDefinition',
                             Emotion.Neutral,
-                            `That’s so cool. @MeasurementLiteral, you’re so good with numbers! 
-                            I see @MeasurementLiteral show up in a lot of performances where placement matters, and a lot of games where we’re keeping track of scores or lives or other countable things.
+                            `That's so cool. @MeasurementLiteral, you're so good with numbers! 
+                            I see @MeasurementLiteral show up in a lot of performances where placement matters, and a lot of games where we're keeping track of scores or lives or other countable things.
                             
                             @MeasurementLiteral, is there anything else you want to share with our new director?`
                         ),
@@ -4286,7 +4285,7 @@ const en: Locale = {
                         dialog(
                             'FunctionDefinition',
                             Emotion.Happy,
-                            `I think we’ll have to wait. You’ll be around if we want to learn more?`
+                            `I think we'll have to wait. You'll be around if we want to learn more?`
                         ),
                         dialog(
                             'MeasurementLiteral',
@@ -4497,6 +4496,243 @@ const en: Locale = {
                             Let's start with @ListLiteral first… they're the first collection I met, and probably the most visible in our community, since they're so useful in organizing other values for performances.`
                         ),
                         output(`Phrase("[]")`),
+                    ],
+                },
+                {
+                    name: 'Order, order everyone!',
+                    code: output(
+                        `
+                        clockwise: Sequence({0%: Pose(tilt: 0°) 50%: Pose(tilt: 180°) 100%: Pose(tilt: 360°)} duration: 2s)
+                        counter: Sequence({0%: Pose(tilt: 0°) 50%: Pose(tilt: -180°) 100%: Pose(tilt: -360°)} duration: 2s)
+                        Group(Row() [Phrase("[" rest: clockwise) Phrase("]" rest: counter) ])`
+                    ),
+                    lines: [
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Curious,
+                            `Hiya @ListLiteral! 
+                            Are you around? 
+                            I have someone I'd like you to meet.`
+                        ),
+                        dialog(
+                            'ListLiteral',
+                            Emotion.Curious,
+                            `@FunctionDefinition? Is that you?`
+                        ),
+                        output(
+                            `
+                            up: Sequence({0%: Pose(offset: Place(0m -1m)) 50%: Pose(offset: Place(0m 0m)) 100%: Pose(offset: Place(0m -1m))} duration: 2s)
+                            down: Sequence({0%: Pose(offset: Place(0m 1m)) 50%: Pose(offset: Place(0m 0m)) 100%: Pose(offset: Place(0m 1m))} duration: 2s)
+                            Group(Row() [Phrase("[" rest: up) Phrase("]" rest: down)])`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Excited,
+                            `Yes! It's me. It's been so long!`
+                        ),
+                        dialog(
+                            'ListLiteral',
+                            Emotion.Curious,
+                            `It has. 
+                            Day after day, night after night, no one. 
+                            But you're here. 
+                            
+                            How? 
+                            Tell me what happened, in order!`
+                        ),
+                        output(
+                            `
+                            up: Sequence({0%: Pose(offset: Place(0m 1m)) 50%: Pose(offset: Place(0m 0m)) 100%: Pose(offset: Place(0m 1m))} duration: 2s)
+                            down: Sequence({0%: Pose(offset: Place(0m -1m)) 50%: Pose(offset: Place(0m 0m)) 100%: Pose(offset: Place(0m -1m))} duration: 2s)
+                            Group(Row() [Phrase("[" rest: up) Phrase("]" rest: down)])`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Curious,
+                            `Well, I was sitting around, as I usually do, trying to imagine functions to compute, but just blocked. 
+                            And then my new friend here showed up, curious about our world and wanting to learn more, and maybe even be our next director. 
+                            And so we talked to @Program, @ExpressionPlaceholder, @UnparsableExpression, @Evaluate, @TextLiteral, @MeasurementLiteral, @BooleanLiteral, and @NoneLiteral, waking everyone up. 
+                            
+                            That's why we're here, to talk about what you do and our next performance!`
+                        ),
+                        output(
+                            `
+                            shake: Sequence({0%: Pose(offset: Place(0m)) 25%: Pose(offset: Place(-.1m)) 50%: Pose(offset: Place(.2m)) 75%: Pose(offset: Place(-.3m)) 100%: Pose(offset: Place(0m))} duration: 0.1)
+                            Group(Row() [Phrase("[" rest: shake) Phrase("]" rest: shake)])`
+                        ),
+                        dialog(
+                            'ListLiteral',
+                            Emotion.Excited,
+                            `This is amazing! 
+                            It's great to meet you new director.`
+                        ),
+                        dialog(
+                            'ListLiteral',
+                            Emotion.Excited,
+                            `You want to know what I do?`
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `Yeah, tell them!`
+                        ),
+                        pause(),
+                        dialog(
+                            'ListLiteral',
+                            Emotion.Excited,
+                            `Okay. 
+                            First, and most important, I put values in order. 
+                            Whatever expressions you want: numbers, words, other lists — I can group anything together in sequence. 
+
+                            For example, check out this fun list.
+                            
+                            Have you ever seen anything like it? It's so beautiful! The numbers 1 through 10, in order.
+                            `
+                        ),
+                        code(`[1 2 3 4 5 6 7 8 9 10]`, true, true),
+                        pause(),
+                        dialog(
+                            'ListLiteral',
+                            Emotion.Serious,
+                            `Second, and this is serious, I always start with ⧼[⧽ and end with ⧼]⧽. 
+                            That's how I know the beginning and end of my list. 
+                            
+                            THEY MUST ALWAYS GO IN THIS ORDER. 
+                            
+                            No ⧼]⧽ first, no ⧼[⧽ last, that's WRONG.
+                            
+                            Do you see how confusing things get? Can you fix this one?`
+                        ),
+                        code(`[ 1 2 3 4`, true, true),
+                        pause(),
+                        dialog(
+                            'ListLiteral',
+                            Emotion.Serious,
+                            `This one is broken too. 
+                            
+                            Can you fix it?`
+                        ),
+                        code(`] 1 2 3 4 [`, true, true),
+                        pause(),
+                        dialog(
+                            'ListLiteral',
+                            Emotion.Sad,
+                            `Sometimes people forget this and then there's brackets floating around all alone and they don't like that and then the values all go wild without any order and it's CHAOS. 
+                            
+                            I don't like it.`
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Kind,
+                            `It's okay. We like that you like order, it's what makes you special!`
+                        ),
+                        pause(),
+                        dialog(
+                            'ListLiteral',
+                            Emotion.Happy,
+                            `I like that I like order too! 
+                            Okay, where was I. 
+                            Yes, third, and this is also critical, NO COMMAS! 
+                            I know that in some cultures, people like to put commas between things in lists, but I don't like them. 
+                            They're just like little bits of trash that get in the way of my elegant orderings, and people always forget them. 
+                            
+                            If you're having trouble seeing the boundaries between expressions, just add a line break.
+                            
+                            Maybe you could get rid of those pesky things? Put line breaks if you like. Anything other than commas. Gross!`
+                        ),
+                        code(`[ 1, 2, 3, 4, 5]`, true, true),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Eager,
+                            `@ListLiteral, one of the things I like most about you is how amazing you are at manipulating lists. Do you want to show our student director here some examples?`
+                        ),
+                        dialog(
+                            'ListLiteral',
+                            Emotion.Neutral,
+                            `Yes, but @FunctionDefinition, those are all your doing. 
+                            
+                            You represent all these beautiful functions for me that enable me to do all kinds of things!
+                            
+                            Like **reverse**, oh, this one is wonderful and simple. It just takes my values and puts them in the opposite order.`
+                        ),
+                        code(`[ 1 2 3 4 5 ].reverse()`, true, true),
+                        pause(),
+                        dialog(
+                            'ListLiteral',
+                            Emotion.Excited,
+                            `And this one is fun: **sans** just removes all of the values equal to the given value.
+                            
+                            See how there are no zeros left in the resulting list?`
+                        ),
+                        code(`[ 1 0 1 0 1 ].sans(0)`, true, true),
+                        pause(),
+                        dialog(
+                            'ListLiteral',
+                            Emotion.Serious,
+                            `Ack, I can't believe I forgot to explain the fourth rule! 
+                            
+                            Okay, rule number four: I never change a list. 
+                            I only ever make new ones. 
+                            No matter what function you evaluate on me, I always make a new list, I never change one. 
+                            
+                            So the reverse example above?
+                            That didn't change the list, it made a new list. 
+                            And the sans example? 
+                            That didn't remove the zeros from the original list, it made a new list without zeros. 
+                            
+                            That's actually true for everything in the Verse: once values are made, they are who they are, and do not change.`
+                        ),
+                        pause(),
+                        dialog(
+                            'ListLiteral',
+                            Emotion.Surprised,
+                            `Oh, and that reminds me of the last rule, rule number five: I start counting at 1! 
+                            Not zero, not two, 1. 
+                            
+                            So if you want to get the value at a particular place in a list, you can use two more ⧼[]⧽ and give the place you want.
+                            
+                            See how when I get ⧼3⧽, I give the third value in the list, ⧼'c'⧽? Try changing it to ⧼1⧽ or ⧼5⧽ and see what you get. 
+                            
+                            And then maybe try ⧼0⧽ or ⧼6⧽…
+                            `
+                        ),
+                        code(`['a' 'b' 'c' 'd' 'e'][3]`, true, true),
+                        dialog(
+                            'ListLiteral',
+                            Emotion.Happy,
+                            `Interesting huh? Give me a place in the list that doesn't exist and I'm going to give you @NoneLiteral. Because there's nothing there. Make sense?`
+                        ),
+                        pause(),
+                        dialog(
+                            'ListLiteral',
+                            Emotion.Serious,
+                            `Okay, maybe one list function, because this is my favorite. 
+                            This one is called ⧼random⧽ and will give a random value in the list. 
+                            It's great fun because you never know what you're going to get!
+                            
+                            What did you get, what did you get? Try adding your own animal and see what you get.
+                            `
+                        ),
+                        code(
+                            `['cat' 'dog' 'mouse' 'parrot' 'snake'].random()`,
+                            true,
+                            true
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Happy,
+                            `List, you're silly. 
+                            There are so many other cool things you can do, I'm always so impressed. Will you be around if your new director friend has questions?`
+                        ),
+                        dialog(
+                            'ListLiteral',
+                            Emotion.Eager,
+                            `Yes, of course, always! @FunctionDefinition made so many interesting things for me to do. Just let me know what you need!`
+                        ),
                     ],
                 },
             ],

@@ -836,6 +836,7 @@ function parseList(tokens: Tokens): ListLiteral {
     while (
         tokens.hasNext() &&
         tokens.nextIsnt(TokenType.ListClose) &&
+        tokens.nextIsnt(TokenType.ExampleClose) &&
         !tokens.nextHasMoreThanOneLineBreak()
     )
         values.push(parseExpression(tokens));
