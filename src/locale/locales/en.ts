@@ -346,10 +346,10 @@ const en: Locale = {
         BinaryOperation: {
             name: 'binary operation',
             description: (op) => op.operator.getText(),
-            emotion: Emotion.Arrogant,
-            doc: `Sometimes when I have a @FunctionDefinition with just one value on the left and one value on the right, I like to use this form, instead of @Evaluate.
+            emotion: Emotion.Insecure,
+            doc: `Sometimes when I'm evaluating a @FunctionDefinition with just one value on the left and one value on the right, I like to use this form, instead of @Evaluate.
                 
-                ⧼1 + 1⧽ is just so much simpler than ⧼1.+(1)⧽ or ⧼1.add(1)⧽, aren't they? I mean the same thing either way, but I'm so much easier to read.
+                ⧼1 + 1⧽ is just so much simpler than ⧼1.+(1)⧽ or ⧼1.add(1)⧽. It makes everything a bit tidier, even though its basically the same thing.
                 `,
             right: 'input',
             start: (left) =>
@@ -964,28 +964,13 @@ const en: Locale = {
             name: 'unary operation',
             description: (op) => op.operator.getText(),
             emotion: Emotion.Insecure,
-            doc: `
-            Hi.
+            doc: `Did you know that when I'm evaluating a @FunctionDefinition with just one value, and the name of the @FunctionDefinition is just a single symbol, you can put the name before the input?
+                
+                Like, ⧼-(1 + 1)⧽ or ⧼~⊥⧽, for example. Those are much easier to read than ⧼(1 + 1).negate()⧽ or ⧼⊥.not()⧽.
+                You don't have to write me that way, but it might be easier overall.
 
-            Oh, did you need me?
-            Have you talked to @Evaluate or @BinaryOperation?
-            They are way cooler than me.
-
-            Yes?
-            You still need me?
-            I can only do two little things:
-
-            (-5)
-
-            I made that (5) into (-5).
-
-            (~⊥)
-
-            I made that (⊥) into (⊤).
-
-            That's it.
-            I'm not very special.
-            `,
+                There's only one rule: you can't put any space between the name and the value. Otherwise you might be making a @Reference or @BinaryOperation.
+                `,
             start: (value) => Explanation.as('what are you ', value),
             finish: (value) => Explanation.as('I made it ', value ?? 'nothing'),
         },
@@ -1025,8 +1010,8 @@ const en: Locale = {
         },
         BooleanType: {
             name: 'boolean type',
-            description: WRITE_DOC,
-            emotion: Emotion.TBD,
+            description: 'boolean',
+            emotion: Emotion.Precise,
             doc: `a true or false value`,
         },
         ConversionType: {
@@ -4302,6 +4287,57 @@ const en: Locale = {
                             'MeasurementLiteral',
                             Emotion.Happy,
                             `Yes, you can find me and my functions any time!`
+                        ),
+                    ],
+                },
+                {
+                    name: 'Opening (re)marks',
+                    code: output(`Phrase('~')`),
+                    lines: [
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Curious,
+                            `Sometimes I'm just overwhelmed by how clever everyone is here. Text, truth, numbers — these are such powerful ideas!`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Kind,
+                            `I'm still overwhelmed sometimes by how expressive @Evaluate can be. 
+                            
+                            You know how I was telling you that they can evaluate any function with parentheses ⧼1.add(1)⧽, but also two input functions with infix operators ⧼1 + 1⧽? 
+                            Well they have one more trick for functions with only one input: the unary format.`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Serious,
+                            `There are only a few of these, but they are powerful. One is really relevant to #: negation. You can just put a ⧼-⧽ in front of any number value and get its negative. For example…`
+                        ),
+                        code(`-(1 + 3)`, true, true),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `That little minus sign is the same as saying ⧼(1 + 3).negate()⧽ but so much more elegant.`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Kind,
+                            `The other one is similar, but for negating ⧼⊤⧽ and ⧼⊥⧽: it's like a little squiggle minus, ⧼~⧽ that just flips true to false and false to true. 
+                        
+                            For example, this little expression evaluates ⧼⊤ | ⊥⧽, which is ⧼⊤⧽, then flips the ⧼⊤⧽ to ⧼⊥⧽.
+                        
+                            This is the same as saying ⧼(⊤ | ⊥).not()⧽, but so much more sleek.`
+                        ),
+                        code(`~(⊤ | ⊥)`, true, true),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Happy,
+                            `Isn't that just beautiful, the way that @Evaluate can take so many different forms, but really all be the same idea? They're powerful, but also expressive.
+                            … I wonder how they are?`
                         ),
                     ],
                 },
