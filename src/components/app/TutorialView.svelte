@@ -219,11 +219,11 @@
                 <div class="title play">{$creator.getLocale().wordplay}</div>
             {:else if scene === undefined}
                 <div class="title act"
-                    >Act {progress.act}<br /><em>{act.name}</em></div
+                    >Act {progress.act}<p><em>{act.name}</em></p></div
                 >
             {:else if dialog === undefined}
                 <div class="title scene"
-                    >Scene {progress.scene}<br /><em>{scene.name}</em></div
+                    >Scene {progress.scene}<p><em>{scene.name}</em></p></div
                 >
             {:else}
                 {#each turns as turn}
@@ -284,6 +284,10 @@
         height: 100%;
     }
 
+    .title p {
+        font-size: 200%;
+    }
+
     .play {
         font-size: 200%;
         font-weight: bold;
@@ -297,7 +301,7 @@
     }
 
     .scene {
-        font-size: 125%;
+        font-size: 120%;
         text-align: center;
     }
 

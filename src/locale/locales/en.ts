@@ -3496,7 +3496,7 @@ const en: Locale = {
         {
             name: "It's the little things",
             // This should be a sprinkling of values
-            code: code(
+            code: output(
                 `
                 letters: ['""' '?' '#' 'ø']
 
@@ -3514,9 +3514,7 @@ const en: Locale = {
                             )
                     )
                 )
-                `,
-                true,
-                false
+                `
             ),
             scenes: [
                 {
@@ -4438,6 +4436,67 @@ const en: Locale = {
                             
                             And there are so many more to meet…`
                         ),
+                    ],
+                },
+            ],
+        },
+        {
+            name: "Gather 'round",
+            code: output(
+                `Group(Row((Time() ÷ 500).sin() · 1m) [Phrase('[]') Phrase('{}') Phrase('{:}')])`
+            ),
+            scenes: [
+                {
+                    name: 'Community values',
+                    code: output(
+                        `Group(Row() [Phrase('[') Phrase(" ." · (Time() ÷ 100ms)) Phrase(']')])`
+                    ),
+                    lines: [
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `You know what? 
+                            
+                            The values in our community are just so different. 
+                            
+                            @TextLiteral with their immense worlds of culture from the people world…
+                            
+                            @BooleanLiteral with their binary visions of the world… 
+                            
+                            @MeasurementLiteral with their endless fascination with counting things…
+                            
+                            @NoneLiteral with their quiet way of observing the absence of things…
+                            
+                            Our world is never boring!`
+                        ),
+                        output(
+                            `Group(Stack() [Phrase('""') Phrase("⊤⊥") Phrase("#") Phrase('ø')])`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Kind,
+                            `You might wonder how they get along with each other in a group. 
+                            
+                            Well, there's a whole other set of folks in the Verse that are all about bringing values together in groups. 
+                            
+                            We call them **collections**.
+                            Collections are **values** too; they're just made up of smaller values, or even other collections.
+                            For example, you might have a list of @TextLiteral, or a set of @MeasurementLiteral, or even a list of lists.
+                            `
+                        ),
+                        output(
+                            `Group(Row() [Phrase("[") Phrase('"hi"') Phrase("⊤") Phrase("42") Phrase('ø') Phrase("]") ])`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Kind,
+                            `Do you want to meet them?
+                           
+                            Let's start with @ListLiteral first… they're the first collection I met, and probably the most visible in our community, since they're so useful in organizing other values for performances.`
+                        ),
+                        output(`Phrase("[]")`),
                     ],
                 },
             ],
