@@ -742,9 +742,23 @@ const en: Locale = {
                 literal.values.length === 1
                     ? '1 item'
                     : `${literal.values.length} items`,
-            emotion: Emotion.TBD,
-            doc: WRITE_DOC,
-            start: 'evaluate items first',
+            emotion: Emotion.Eager,
+            doc: `I'm a list of expressions! You can put anything in me: @BooleanLiteral, @MeasurementLiteral, @TextLiteral, @NoneLiteral, even other @ListLiteral, @SetLiteral, @MapLiteral, and more.
+
+            What makes me special is that I keep things in order and I number everything from 1 to however many items are in me.
+
+            For example, the three words in this list are numbered 1, 2, and 3.
+
+            ⧼['apple' 'banana' 'mango']⧽
+            
+            You can get values that I'm storing by their number.
+            For example, the second value in this list is ⧼['banana']⧽
+
+
+            ⧼['apple' 'banana' 'mango'][2]⧽
+
+            `,
+            start: "let's evaluate the items first",
             finish: (value) =>
                 Explanation.as('evaluated to list ', value ?? 'nothing'),
             item: 'item',
