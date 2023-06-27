@@ -802,10 +802,17 @@ const en: Locale = {
         },
         NoneLiteral: {
             name: 'nothing',
-            description: WRITE_DOC,
-            emotion: Emotion.TBD,
-            doc: WRITE_DOC,
-            start: 'create a nothing value',
+            description: 'nothing',
+            emotion: Emotion.Neutral,
+            doc: `Hi, @FunctionDefinition here. @NoneLiteral doesn't like to say much, so I'll translate.
+                
+                @NoneLiteral represents the absence of anything. 
+                It's a way of saying "There is no value". 
+                You'll find it in many @FunctionDefinition that have optional inputs, such as @Phrase.
+
+                It's only equal to itself.            
+                `,
+            start: '…',
         },
         Previous: {
             name: 'previous',
@@ -4338,6 +4345,98 @@ const en: Locale = {
                             Emotion.Happy,
                             `Isn't that just beautiful, the way that @Evaluate can take so many different forms, but really all be the same idea? They're powerful, but also expressive.
                             … I wonder how they are?`
+                        ),
+                    ],
+                },
+                {
+                    name: 'Nothing',
+                    code: output(
+                        `Motion(Phrase('ø' size: 5m) vy: ◆ ? 5m/s ø)`,
+                        false
+                    ),
+                    lines: [
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Curious,
+                            `Do you think you're okay meeting just one more value? Let's go find @NoneLiteral next. They are a bit more chill than @MeasurementLiteral.
+                            
+                            @NoneLiteral? Are you out there?
+                            `
+                        ),
+                        dialog('NoneLiteral', Emotion.Bored, `…`),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Excited,
+                            `We found you! You seem well. How have you been, with all the silence?`
+                        ),
+                        dialog('NoneLiteral', Emotion.Excited, `…`),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `That makes sense. I can see why you'd like the quiet. It's certainly peaceful.
+                            
+                            I wanted to introduce you to my new friend and potential director. They're interested in inspiring us.
+                            `
+                        ),
+                        dialog('NoneLiteral', Emotion.Eager, `…`),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `Yes, I think they have all kinds of ideas. We haven't talked about them yet, but there's plenty of time. We're just learning right now.
+                            
+                            Do you want to share what you do? (I can translate).`
+                        ),
+                        dialog('NoneLiteral', Emotion.Serious, `…`),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `They represent nothing. Different from zero in that you can't add anything to it, or subtract from it. Just… nothing.`
+                        ),
+                        dialog('NoneLiteral', Emotion.Serious, `…`),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `They said that they like to take up space where something might be. Sometimes they represent the lack of a choice in a game, sometimes they represent some default input in a function. 
+                            
+                            In that sense, they might represent the absence of anything.`
+                        ),
+                        dialog('NoneLiteral', Emotion.Neutral, `…`),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `They wanted you to know that they don't really do anything. 
+                            They just are. 
+                            All they really do is say whether they are themselves. 
+                            If they are, they evaluate to ⧼⊤⧽, and ⧼⊥⧽ otherwise.`
+                        ),
+                        code(`ø = ø`, true, true),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Excited,
+                            `Do you remember @Phrase? 
+                            Phrase was a function that actually works with @NoneLiteral a lot. 
+                            Most of the inputs that Evaluate mentioned are ⧼ø⧽ by default, which for @Phrase, means that no size, font, color, etc. are specified.
+                            
+                            Anything else you want to share with our budding director?
+                            `
+                        ),
+                        dialog('NoneLiteral', Emotion.Eager, `…`),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `They think you're doing great! 
+                            And I think you're doing great too. 
+                            You've already met so many of our wonderful players. 
+                            
+                            And there are so many more to meet…`
                         ),
                     ],
                 },
