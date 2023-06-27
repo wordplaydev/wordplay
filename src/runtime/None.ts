@@ -19,10 +19,6 @@ export default class None extends Primitive {
         return 'none';
     }
 
-    resolve() {
-        return undefined;
-    }
-
     isEqualTo(value: Value) {
         return value instanceof None;
     }
