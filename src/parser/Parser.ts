@@ -817,7 +817,11 @@ function parseTemplate(tokens: Tokens): Template {
             : undefined;
         if (close !== undefined) expressions.push(close);
         if (close === undefined || close.is(TokenType.TemplateClose)) break;
-    } while (tokens.hasNext() && !tokens.nextHasMoreThanOneLineBreak());
+    } while (
+        tokens.hasNext() &&
+        !tokens.nextHasMoreThanOneLineBreak() &&
+        tokens.nextIsnt(TokenType.ExampleClose)
+    );
 
     // Read an optional format.
     const format = tokens.nextIs(TokenType.Language)

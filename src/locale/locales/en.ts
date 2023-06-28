@@ -1008,11 +1008,19 @@ const en: Locale = {
         },
         Template: {
             name: 'text template',
-            description: WRITE_DOC,
-            emotion: Emotion.TBD,
-            doc: WRITE_DOC,
-            start: 'evaluate each expression in the template',
-            finish: 'constructing text from the values',
+            description: 'text template',
+            emotion: Emotion.Serious,
+            doc: `I can be placed inside @TextLiteral to combine text and other values into a larger text value.
+
+                For instance, consider this:
+
+                ⧼"Here are some sums \\1 + 2\\, \\2 + 3\\, \\3 + 4\\"⧽
+                
+                See how elegantly I just evaluated those sums, and placed them inside the @TextLiteral?
+                You can use me instead of adding @TextType together.
+                `,
+            start: `let us evaluate each expression in the text`,
+            finish: 'let us combine the text',
         },
         TextLiteral: {
             name: 'text',
@@ -5325,7 +5333,7 @@ const en: Locale = {
                             I mean, if you give me seconds and ask for a @SetType, like, what does that even mean?
 
                             I'll do my best to find a way... 
-                            like, here, I know how to turn numbers into @TextText and @TextType into a @SetType, so I'll give you the set of symbols in the text form of this number.
+                            like, here, I know how to turn numbers into @TextType and @TextType into a @SetType, so I'll give you the set of symbols in the text form of this number.
 
                             But that's probably not what you wanted...
 
@@ -5403,7 +5411,143 @@ const en: Locale = {
                 {
                     name: 'Freedom of speech',
                     code: output(Approach('"')),
-                    lines: [output(Black)],
+                    lines: [
+                        output(Black),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `I love @Convert. 
+                            They're so creative, so courageous. 
+                            
+                            I thought we might see someone that does similar work with values as @Convert. 
+                            They're called @Template and they're all about assembling @TextType from other values.
+                            
+                            @Template, are you here? The silence is broken! We have an aspiring director-person!`
+                        ),
+                        pause(),
+                        dialog(
+                            'Template',
+                            Emotion.Surprised,
+                            `Silence! 
+                            What silence? 
+                            There's so much to say, we could never run out of words. 
+                            Ideas, however, those are more rare these days, aren't they? 
+                            
+                            It's my pleasure to see you again @FunctionDefinition, how have you held up in these quiet times?`
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Sad,
+                            `Well enough. Better now that we're all coming back together. I've missed everyone so much!`
+                        ),
+                        pause(),
+                        dialog(
+                            'Template',
+                            Emotion.Kind,
+                            `I've missed you as well. 
+                            You are such an essential part of our community, @FunctionDefinition, encoding all the wondrous ideas that come from the outside world, so that we may enjoy them. 
+                            So this must be the new director, full of ideas?`
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Happy,
+                            `Yes, they just arrived! I've been introducing them to everyone; we just met all the values and collections, and just talked to @Convert. 
+                            We haven't talked about input and output yet, but I wanted to stop by to see you first, since you and @Convert work so closely together.`
+                        ),
+                        pause(),
+                        dialog(
+                            'Template',
+                            Emotion.Serious,
+                            `We do, don't we? An odd couple we are. They are so — free. 
+                            It makes me uncomfortable sometimes. 
+                            But I like to think that I bring a little order to our partnership, and a little ceremony.`
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Curious,
+                            `Do you want to share what you do?`
+                        ),
+                        pause(),
+                        dialog(
+                            'Template',
+                            Emotion.Neutral,
+                            `Happily. 
+                            To put it simply, I work with @TextLiteral make new text from any values you might give me. 
+                            Ultimately, they all need to be text, and so you'll have to work with @Convert to get them that way. 
+                            But once you give me all that text, I'm happy to stitch it together and assemble your beautiful prose into a single text value for display, or whatever other purposes you might have.`
+                        ),
+                        pause(),
+                        dialog(
+                            'Template',
+                            Emotion.Serious,
+                            `For example, did @FunctionDefinition show you how text knows how to add itself to other text? 
+                            Like this? 
+                            This little expression converts 7 to text, then adds it to ⧼'I have'⧽, then adds ⧼'apples'⧽. 
+                            But it's so untidy, and makes it hard to read what's happening, and the conversion to text feels so unnecessary.`
+                        ),
+                        edit(`'I have' + (7→"") + 'apples'`),
+                        pause(),
+                        dialog(
+                            'Template',
+                            Emotion.Serious,
+                            `What I do is make text like this clean, organic, and simple, even. 
+                            So that same phrase with me would be something like this.`
+                        ),
+                        dialog(
+                            'Template',
+                            Emotion.Happy,
+                            `
+                            Isn't that so much more elegant? 
+                            You can put me anywhere inside a @TextLiteral, and I'll make your values into text, and work with @TextLiteral to make a @TextType.
+
+                            This makes it so much easier to write beautiful prose that uses values.
+                            `
+                        ),
+                        edit(`"I have \\7\\ apples"`),
+                        pause(),
+                        dialog(
+                            'Template',
+                            Emotion.Neutral,
+                            `And when I say any expression, I really do mean any. 
+                            For example, imagine you wanted to do some arithmetic and created some text with the result. 
+                            You might do this.
+                            
+                            This sums several numbers and then makes text with the sum. 
+                            Truly wondrous, isn't it? 
+                            And so much more graceful than ⧼'I have ' + (1 + 2 + 5 + 8) + ' apples'⧽, with all those extra additions.`
+                        ),
+                        edit(`"I have \\1 + 2 + 5 + 8\\ apples"`),
+                        pause(),
+                        output(Black),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Excited,
+                            `This is so very graceful, isn't it! @Template, I love how much you appreciate the beauty in expression. 
+                            It inspires me so much to be graceful myself!`
+                        ),
+                        dialog(
+                            'Template',
+                            Emotion.Happy,
+                            `Why thank you @FunctionDefinition, I am proud of what I do. 
+                            I hope you are proud of what you do, because I certainly couldn't do it without you. 
+                            Inside me are infinite depths of @FunctionDefinition that you made by you that allow me to do my work. 
+                            I cherish what you have empowered me to do.`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Kind,
+                            `Thank you @Template, that's so kind. 
+                            We're going to head out and make one more stop to meet @Conditional.`
+                        ),
+                        dialog(
+                            'Template',
+                            Emotion.Excited,
+                            `Oh dear, @Conditional, my new director friend, you are in for such an intellectual treat! 
+                            @Conditional is simply divine in how they question the order of the world. 
+                            Enjoy!`
+                        ),
+                    ],
                 },
                 {
                     name: 'Decisions, decisions',

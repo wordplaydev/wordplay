@@ -122,8 +122,7 @@ export default class Template extends Expression {
                               .toString()
                               .substring(1, p.text.toString().length - 1)
                       )
-                    : evaluator.popValue(this, TextType.make());
-            if (!(part instanceof Text)) return part;
+                    : new Text(this, evaluator.popValue(this).toString());
             text = part.text + text;
         }
         text =
@@ -167,6 +166,6 @@ export default class Template extends Expression {
     }
 
     getGlyphs() {
-        return Glyphs.Evaluate;
+        return Glyphs.Template;
     }
 }
