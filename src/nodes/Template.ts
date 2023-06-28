@@ -19,6 +19,7 @@ import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';
+import { TEMPLATE_SYMBOL } from '../parser/Symbols';
 
 export type TemplatePart = Expression | Token;
 
@@ -32,9 +33,9 @@ export default class Template extends Expression {
 
         this.open = open;
         this.expressions = expressions ?? [
-            new Token("'\\", TokenType.TemplateOpen),
+            new Token(`'${TEMPLATE_SYMBOL}`, TokenType.TemplateOpen),
             ExpressionPlaceholder.make(TextType.make()),
-            new Token("\\'", TokenType.TemplateClose),
+            new Token(`${TEMPLATE_SYMBOL}'`, TokenType.TemplateClose),
         ];
         this.format = format;
 
