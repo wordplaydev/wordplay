@@ -1167,6 +1167,10 @@ export function output(source: string, fit: boolean = true): Code {
     };
 }
 
+export function edit(source: string): Code {
+    return code(source, true, true);
+}
+
 export function pause() {
     return null;
 }

@@ -112,6 +112,7 @@ const template: Node[] = [
     ),
     ExpressionPlaceholder.make(),
     Program.make(),
+    Convert.make(ExpressionPlaceholder.make(), TypePlaceholder.make()),
 
     // Decisions
     Conditional.make(
