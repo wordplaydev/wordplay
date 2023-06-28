@@ -43,7 +43,7 @@ import Emotion from '../../lore/Emotion';
 import Unit from '../../nodes/Unit';
 import { TEXT_DELIMITERS } from '../../parser/Tokenizer';
 import NeverType from '../../nodes/NeverType';
-import { Approach, Black } from '../../tutorial/Programs';
+import { Approach, Black, SpinningInTheDark } from '../../tutorial/Programs';
 
 export const WRITE_DOC = 'TBD';
 
@@ -5552,7 +5552,173 @@ const en: Locale = {
                 {
                     name: 'Decisions, decisions',
                     code: output(Approach('?')),
-                    lines: [output(Black)],
+                    lines: [
+                        output(Black),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `We've met so many kinds of values on our journey so far, and talked about so many ways of working with them. 
+                            There's just one more I wanted to introduce you to. 
+                            They're particularly special because they're what make our performances so dynamic. 
+                            They're called @Conditional and they are the central character in the Verse that makes **decisions**.`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Serious,
+                            `To be clear, not all decisions: I have my own life, and they have theirs. 
+                            But in a performance, when we're trying to decide what to do next on stage, it's all up to them to follow your guidance as director and decide what to do. 
+                            So they're a key partner creating exciting performances.`
+                        ),
+                        pause(),
+                        output(SpinningInTheDark('?')),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Curious,
+                            `@Conditional, the silence is breaking! We might put on shows again!`
+                        ),
+                        dialog(
+                            'Conditional',
+                            Emotion.Curious,
+                            `@FunctionDefinition? 
+                            The silence is breaking? 
+                            What is silence? 
+                            How does one break it? 
+                            Are we every really silent? 
+                            Who is this person? 
+                            Are they the one breaking it?`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Serious,
+                            `Yes, the silence is breaking, and they are the one! 
+                            They're a person, and they came to inspire us, and direct our shows. 
+                            We've been talking about conversions, and meeting all the values and @Template and @Convert and I wanted them to meet you! 
+                            
+                            In a way, you're the most special of conversions, because you enable us to convert situations to new values.`
+                        ),
+                        dialog(
+                            'Conditional',
+                            Emotion.Curious,
+                            `Do I? 
+                            I do make decisions, but what I really do is encode the decisions that directors tell me to make, so is it really me making the decisions?`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Kind,
+                            `I think so, yes. 
+                            It's more like the director encodes the decision, but then delegates them to you. 
+                            You become the decider. 
+                            Do you want to show an example?`
+                        ),
+                        dialog('Conditional', Emotion.Curious, `Like this?`),
+                        edit(`1 > 5 ? 'more' 'less'`),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Excited,
+                            `Yes, exactly like that! 
+                            Do you see how there's four parts to @Conditional's format? 
+                            There's a condition first, then ⧼?⧽, then a true expression, then a false expression. 
+                            What @Conditional does is evaluate the condition, and if it's true, they evaluate the yes expression. 
+                            Otherwise, they evaluate the *no* expression. 
+                            
+                            It's such a powerful way of deciding!`
+                        ),
+                        dialog(
+                            'Conditional',
+                            Emotion.Curious,
+                            `Is it? Even something like this?`
+                        ),
+                        edit(`1 > 5 ? 'less' 'more'`),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Sad,
+                            `Errr, hm. I guess that is a decision, but it's a wrong one. 
+                            One isn't less than five. 
+                            I guess your decisions aren't always right, but they are reliable, right?`
+                        ),
+                        pause(),
+                        dialog(
+                            'Conditional',
+                            Emotion.Curious,
+                            `Reliable? Maybe? If you accept that I just decide whatever the director tells me, then yes, but what if the director tells me this?
+                            
+                            That looks like a decision, but I will never decide 'big' — is that really a decision?`
+                        ),
+                        edit(`[1 2 3].random() > 3 ? 'big' 'small'`),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Confused,
+                            `Hm, I guess that's a good point. 
+                            I guess whether something is a decision depends a lot on what the director's decision is. 
+                            I guess that means the director has to think pretty carefully about the decisions they give you?`
+                        ),
+                        pause(),
+                        dialog(
+                            'Conditional',
+                            Emotion.Curious,
+                            `Carefully? Skeptical, maybe? Have you thought about my good friends @BooleanLiteral? 
+                            How is their view of the world possibly enough to represent all of the decisions we might want to make? 
+                            What if, for example, we wanted a performance that took someone's name and decided if it was beautiful or not? 
+                            Is that a true or false decision? 
+                            
+                            Is that even a decision we should make? 
+                            
+                            Doesn't it seem awfully reductive and biased?
+
+                            Director, what letters do you think make a name beautiful?`
+                        ),
+                        edit(`"Verse".has('e') ? 'beautiful' 'ugly'`),
+                        pause(),
+                        dialog(
+                            'Conditional',
+                            Emotion.Curious,
+                            `And think about the questions I answer — why can I only respond to ⧼⊤⧽ and ⧼⊥⧽? 
+                            Why not a number? 
+                            Don't I have a right to decide if 1 is beautiful?`
+                        ),
+                        edit(`1 ? 'beautiful' 'ugly'`),
+                        pause(),
+                        output(SpinningInTheDark('?')),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Sad,
+                            `I guess I never really thought about it that way. 
+                            
+                            But @Conditional, even if you have limitations, you are beautiful. 
+                            
+                            You enable us to do so much in our performances that we couldn't do otherwise. 
+                            
+                            You make so much joy and laughter possible. 
+                            
+                            Our director hasn't even seen the amazing things you're capable of yet.`
+                        ),
+                        dialog(
+                            'Conditional',
+                            Emotion.Curious,
+                            `Do you really think that? 
+                            That I'm beautiful? 
+                            I only ever see my limits, but maybe those limits are still worthwhile?`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Kind,
+                            `They absolutely are. 
+                            And I'm excited to show our new friend here just how worthwhile they are.
+                            
+                            Will you be around when I do?`
+                        ),
+                        dialog(
+                            'Conditional',
+                            Emotion.Happy,
+                            `Could anything make me more happy?`
+                        ),
+                    ],
                 },
             ],
         },
