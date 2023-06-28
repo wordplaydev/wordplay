@@ -192,7 +192,8 @@
             </select>
             <Note
                 >{#if act !== undefined}{act.name}{/if}
-                {#if act !== undefined && scene !== undefined}&ndash; {scene.name}{/if}
+                {#if act !== undefined && scene !== undefined}<br
+                    />{scene.name}{/if}
                 {#if act !== undefined && scene !== undefined && progress.pause > 0}
                     <span class="progress"
                         >&ndash; {progress.pause} /
