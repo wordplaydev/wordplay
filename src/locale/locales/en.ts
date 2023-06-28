@@ -41,6 +41,7 @@ import type StreamDefinitionType from '@nodes/StreamDefinitionType';
 import Emotion from '../../lore/Emotion';
 import Unit from '../../nodes/Unit';
 import { TEXT_DELIMITERS } from '../../parser/Tokenizer';
+import NeverType from '../../nodes/NeverType';
 
 export const WRITE_DOC = 'TBD';
 
@@ -754,7 +755,6 @@ const en: Locale = {
             You can get values that I'm storing by their number.
             For example, the second value in this list is ⧼['banana']⧽
 
-
             ⧼['apple' 'banana' 'mango'][2]⧽
 
             `,
@@ -769,8 +769,26 @@ const en: Locale = {
                 literal.values.length === 1
                     ? '1 item'
                     : `${literal.values.length} items`,
-            emotion: Emotion.TBD,
-            doc: WRITE_DOC,
+            emotion: Emotion.Excited,
+            doc: `I'm a mapping from keys to values. 
+                My keys can be any kind of value, and my values can be any kind of value. 
+                I work with @Bind to connect values.
+                Some people like to think of my like an index, or a dictionary, where you give me something, and I give you what it's mapped to.
+
+                For example, here's a mapping from numbers to their number words:
+
+                ⧼{1: 'one' 2: 'two' 3: 'three'}⧽
+
+                If you wanted to check what something is mapped to, just give me the key and I'll give you the value:
+
+                ⧼{1: 'one' 2: 'two' 3: 'three'}{1}⧽
+
+                If I don't have it, I'll give you @NoneLiteral.
+
+                ⧼{1: 'one' 2: 'two' 3: 'three'}{0}⧽
+
+                I have many, many @FunctionDefinition for adding things to a mapping, removing things, getting the set of keys or values, and more.
+                `,
             start: 'evaluate each key and value first',
             finish: (value) =>
                 Explanation.as('evaluated to map ', value ?? 'nothing'),
@@ -907,11 +925,29 @@ const en: Locale = {
                 literal.values.length === 1
                     ? '1 item'
                     : `${literal.values.length} items`,
-            emotion: Emotion.TBD,
-            doc: WRITE_DOC,
-            start: 'evaluate each value first',
+            emotion: Emotion.Eager,
+            doc: `I'm a set. That means I can contain any number of values, including zero values. You can make me like this:
+            
+                ⧼{1 2 3}⧽
+
+                I'm really good if you want to keep a collection of things without duplicates.
+                That means I only contain one of each value. If you give me values I already have, I'll ignore the extras.
+                For example, this set has many duplicates:
+
+                ⧼{1 1 2 2 3 3}⧽
+
+                I evaluate it to just ⧼{1 2 3}⧽.
+
+                If you want to see if I have a value, you can check like this:
+
+                ⧼mysterySet{3}⧽
+
+                I also have so many @FunctionDefinition to add, remove, combine, analyze, and convert my collection of values.
+                You should be able to find whatever you need amo
+                `,
+            start: "let's evaluate the values first",
             finish: (value) =>
-                Explanation.as('evaluated to set ', value ?? 'nothing'),
+                Explanation.as('I created a set', value ?? 'nothing'),
         },
         SetOrMapAccess: {
             name: 'set/map access',
@@ -1082,7 +1118,9 @@ const en: Locale = {
                 translation: Locale,
                 context: Context
             ) =>
-                node.key === undefined || node.value === undefined
+                node.key instanceof NeverType && node.value instanceof NeverType
+                    ? 'empty map'
+                    : node.key === undefined || node.value === undefined
                     ? 'map'
                     : `map of ${node.key.getDescription(
                           translation,
@@ -2629,7 +2667,7 @@ const en: Locale = {
     tutorial: [
         {
             name: 'The Verse',
-            code: code('Verse([] background: Color(0% 0 0°))', true, false),
+            code: output('Verse([] background: Color(0% 0 0°))'),
             scenes: [
                 {
                     name: 'Silence',
@@ -3403,7 +3441,7 @@ const en: Locale = {
                             Emotion.Serious,
                             `That's what I look like in @Program: some function, followed by parentheses, with a list of expressions between them that represent the inputs.
                             
-                            The function in this case is @Phrase and the single input is ⧼‘hello'⧽.
+                            The function in this case is @Phrase and the single input is ⧼'hello'⧽.
                             
                             When I evaluate this, I make a @Phrase value, which @Program then shows on stage.                            
                             `
@@ -3761,7 +3799,7 @@ const en: Locale = {
                             Emotion.Eager,
                             `Instead, you can have @Evaluate evaluate it with a much simpler symbol in the middle, like this.
                             
-                            This means "repeat ‘hi' five times". But it also means "evaluate the ⧼·⧽ function on the text value ⧼"hi"⧽ with the input ⧼5⧽."
+                            This means "repeat 'hi' five times". But it also means "evaluate the ⧼·⧽ function on the text value ⧼"hi"⧽ with the input ⧼5⧽."
                             
                             The function ⧼repeat⧽ just has multiple names, one of which is a symbol name ⧼·⧽.`
                         ),
@@ -4513,7 +4551,7 @@ const en: Locale = {
                     ],
                 },
                 {
-                    name: 'Order, order everyone!',
+                    name: 'Places, everyone!',
                     code: output(
                         `
                         clockwise: Sequence({0%: Pose(tilt: 0°) 50%: Pose(tilt: 180°) 100%: Pose(tilt: 360°)} duration: 2s)
@@ -4746,6 +4784,353 @@ const en: Locale = {
                             'ListLiteral',
                             Emotion.Eager,
                             `Yes, of course, always! @FunctionDefinition made so many interesting things for me to do. Just let me know what you need!`
+                        ),
+                    ],
+                },
+                {
+                    name: 'One of each',
+                    code: output(
+                        `
+                        clockwise: Sequence({0%: Pose(tilt: 0°) 50%: Pose(tilt: 180°) 100%: Pose(tilt: 360°)} duration: 2s)
+                        counter: Sequence({0%: Pose(tilt: 0°) 50%: Pose(tilt: -180°) 100%: Pose(tilt: -360°)} duration: 2s)
+                        Group(Row() [Phrase("{" rest: clockwise) Phrase("}" rest: counter) ])`
+                    ),
+                    lines: [
+                        output('Verse([] background: Color(0% 0 0°))'),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `@ListLiteral is so interesting. 
+                            They're love of order is so endearing, and so useful! 
+                            
+                            I thought it might be interesting for you to meet their cousin @SetLiteral next, since they're so alike, but different in some important ways.
+                            
+                            @SetLiteral? I have someone you'd like to meet.`
+                        ),
+                        pause(),
+                        dialog(
+                            'SetLiteral',
+                            Emotion.Curious,
+                            `Oh! @FunctionDefinition! 
+                            It's you! 
+                            What brings you here? 
+                            Is the silence over? 
+                            What happened? 
+                            Are we putting on a show? 
+                            What is it? 
+                            Where is everyone?`
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Kind,
+                            `So many questions! 
+                            I'm here to introduce you to someone who's considering directing. 
+                            They're learning everything about the Verse and hope to share their inspiration with us! We were just talking to @ListLiteral, but we were also talking to @MeasurementLiteral, @BooleanLiteral, @TextLiteral, @Evaluate, and @Program earlier. 
+                            We came to you next, because we're meeting all the collections!`
+                        ),
+                        pause(),
+                        dialog(
+                            'SetLiteral',
+                            Emotion.Kind,
+                            `Oh it's so wonderful to meet you new director-like person! 
+                            Do you have ideas yet? 
+                            What will we perform? 
+                            Can I help? 
+                            What do you need from me?`
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `Maybe to start, just say what you do?`
+                        ),
+                        pause(),
+                        dialog(
+                            'SetLiteral',
+                            Emotion.Eager,
+                            `Oh yes, of course. I collect things. (Hm, obviously, I am a collection). But most importantly, I only collect one of each kind of thing. I can gather whatever you like, and help you keep track of values, but I will never repeat a value. I like to arrange myself a little like @ListLiteral, but with ⧼{⧽ and ⧼}⧽ instead:`
+                        ),
+                        code(`{ 1 2 3 4 5 }`, true, true),
+                        pause(),
+                        dialog(
+                            'SetLiteral',
+                            Emotion.Neutral,
+                            `That's a set. But like I said, no duplicates. So if you give me this, I'm going to get rid of the extras.`
+                        ),
+                        code(`{ 1 2 2 3 3 3 }`, true, true),
+                        pause(),
+                        dialog(
+                            'SetLiteral',
+                            Emotion.Curious,
+                            `Also like @ListLiteral, you can use ⧼{}⧽ after a set to see if a value is contained in the set. 
+                            You'll either ⧼⊤⧽ if it is or ⧼⊥⧽ if it's not.
+                            
+                            Let's see if ⧼3⧽ is missing from this set. 
+                            Yep, not there! 
+                            Try adding ⧼3⧽ back to the set.`
+                        ),
+                        code(`{ 1 2 4 5 }{3}`, true, true),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `@SetLiteral, are there other things you can do with set values?`
+                        ),
+                        dialog(
+                            'SetLiteral',
+                            Emotion.Eager,
+                            `Why yes, of course, so many, thanks to you. 
+                            What do you want to see me do? 
+                            Do you have a performance in mind? 
+                            How can I help? 
+                            What can I do?`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Curious,
+                            `Maybe, ⧼difference⧽?`
+                        ),
+                        dialog(
+                            'SetLiteral',
+                            Emotion.Neutral,
+                            `Yes, ⧼difference⧽. 
+                            When evaluated on a set, and given another set, it removes all of the items from the given set from the set evaluated on. 
+                            (Hm, those were some clumsy words, but that was what I meant).
+                            
+                            Here's an example.
+                            
+                            See how the result is just the set of ⧼{3}⧽? 
+                            That's the only value that remains after removing the values in ⧼{ 1 2 }⧽.`
+                        ),
+                        code(`{ 1 2 3 }.difference({ 1 2 })`, true, true),
+                        pause(),
+                        dialog(
+                            'SetLiteral',
+                            Emotion.Eager,
+                            `You can also add and remove things from sets. This takes the set ⧼{1}⧽, adds ⧼2⧽ to it, then removes 1 from it, leaving ⧼{ 2 }⧽.`
+                        ),
+                        code(`({ 1 } + 2) - 1`, true, true),
+                        dialog(
+                            'SetLiteral',
+                            Emotion.Neutral,
+                            `There's lots more I can do thanks to @FunctionDefinition here. Come find me anytime you want to learn more!`
+                        ),
+                        pause(),
+                        output('Verse([] background: Color(0% 0 0°))'),
+                        dialog(
+                            'SetLiteral',
+                            Emotion.Curious,
+                            `Oh, and hey @FunctionDefinition, you said you saw @Evaluate?`
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Sad,
+                            `Yes, I did.`
+                        ),
+                        pause(),
+                        dialog('SetLiteral', Emotion.Curious, `How are they?`),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Sad,
+                            `They're okay. We're okay. I think. It's been too long since we've danced together…`
+                        ),
+                        dialog(
+                            'SetLiteral',
+                            Emotion.Curious,
+                            `It has. But with our new director, we will dance again!`
+                        ),
+                    ],
+                },
+                {
+                    name: 'One to one',
+                    code: output(
+                        `
+                        clockwise: Sequence({0%: Pose(tilt: 0°) 50%: Pose(tilt: 180°) 100%: Pose(tilt: 360°)} duration: 2s)
+                        counter: Sequence({0%: Pose(tilt: 0°) 50%: Pose(tilt: -180°) 100%: Pose(tilt: -360°)} duration: 2s)
+                        Group(Row(0m) [Phrase("{" rest: clockwise) Phrase(":") Phrase("}" rest: counter) ])`
+                    ),
+                    lines: [
+                        output('Verse([] background: Color(0% 0 0°))'),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `There's just one more collection I'd like to introduce you to. 
+                            They're a bit like @SetLiteral in some ways, and even use the same braces, but they're different in one important way: they're a connector. 
+                            They're name is @MapLiteral.`
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Curious,
+                            `@MapLiteral? Are you out there?
+                            The silence is breaking!`
+                        ),
+                        pause(),
+                        dialog(
+                            'MapLiteral',
+                            Emotion.Curious,
+                            `Breaking? 
+                            Was it ever really silent? 
+                            It's so good to see you @FunctionDefinition. 
+                            
+                            Oh my, have you talked to @Evaluate? 
+                            They were not in good shape last time we talked. 
+                            You have to talk to them.
+                            `
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Sad,
+                            `Yes, I talked to them...`
+                        ),
+                        pause(),
+                        dialog(
+                            'MapLiteral',
+                            Emotion.Curious,
+                            `
+                            Oh good.
+                            Okay, because there's some repair to do there my friend...
+                            
+                            How have you been?`
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `I've been okay, just a bit lonely, and a lot bored.`
+                        ),
+                        pause(),
+                        dialog(
+                            'MapLiteral',
+                            Emotion.Excited,
+                            `Oh, I'm so sorry to hear that. 
+                            I've been staying connected with everyone during the silence and just figured you and @Evaluate had each other! 
+                            I really would have been happy to talk any time. 
+                            I've just been so busy keeping up with the gossip between @ListLiteral and @SetLiteral, and that weird tension between @Conditional and @BooleanLiteral. 
+                            
+                            Do you know what's going on between them?`
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Surprised,
+                            `No, I don't at all. 
+                            There's tension? 
+                            And what gossip?`
+                        ),
+                        pause(),
+                        dialog(
+                            'MapLiteral',
+                            Emotion.Neutral,
+                            `Well, maybe not in front of our guest here. 
+                            
+                            You must be the new person everyone is talking about. 
+                            I hear you're going to be our new director? 
+                            What kind of fabulous ideas do you have in store for us? 
+                            Singing? 
+                            Dancing? 
+                            As long as it's bright, playful, and strange, I'm here for it!`
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `No need to pressure them! I'm sure they have lots of ideas. We're just trying to make some space for learning and connecting before we figure out the first show. 
+                            
+                            Can you share what you do?`
+                        ),
+                        pause(),
+                        dialog(
+                            'MapLiteral',
+                            Emotion.Eager,
+                            `I connect! 
+                            I'm kind of like a dictionary: give me a value and I'll give you the definition it corresponds to. 
+                            @FunctionDefinition told you about values? 
+                            I map them, one to one, from one value, to another. 
+                            Give me a key, I'll give you the value it corresponds to.
+                            
+                            For example, here's a mapping from names to a point tally. Names are the key, points are the value.`
+                        ),
+                        code(
+                            `{ 'ben': 2points 'joe': 5points 'kate': 12points }`,
+                            true,
+                            true
+                        ),
+                        pause(),
+                        dialog(
+                            'MapLiteral',
+                            Emotion.Serious,
+                            `But like @SetLiteral, I don't like duplicates. You can't have more than one of the same key, but you can have as many unique keys mapped to equivalent values as you like.
+                            
+                            For example, this gives me two ⧼"ben"⧽ keys, but I just use the last one. 
+                            But it's okay that ⧼"ben"⧽ and ⧼"joe"⧽ have the same number of points, because they're different keys.`
+                        ),
+                        code(
+                            `{'ben': 2points 'ben': 5points 'joe': 5points 'kate': 12points }`,
+                            true,
+                            true
+                        ),
+                        dialog(
+                            'MapLiteral',
+                            Emotion.Excited,
+                            `It's my partnership with @Bind that makes me special! 
+                            It's how I connect values to other values. 
+                            
+                            (Have you met @Bind yet? No? Ohhhh, you're going to adore them. They are FABULOUS.)`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Curious,
+                            `@MapLiteral, what if you want an empty mapping? 
+                            How is that different from an empty set, ⧼{}⧽?`
+                        ),
+                        dialog(
+                            'MapLiteral',
+                            Emotion.Neutral,
+                            `Oh, that's just me all by myself! Little @Bind and I just hang out, no keys or values.`
+                        ),
+                        code(`{:}`, true, true),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Curious,
+                            `And what if our director doesn't provide a value or a key? Like this? Like, ⧼3⧽ has no value?`
+                        ),
+                        code(`{1:1 2:2 3 }`, true, true),
+                        dialog(
+                            'MapLiteral',
+                            Emotion.Serious,
+                            `Oh… DON'T do that. 
+                            I only like pairs. 
+                            Is 3 a key? 
+                            A value? 
+                            Totally confusing. 
+                            Stop the show.`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Curious,
+                            `And if our director wants to get a value from a key?`
+                        ),
+                        dialog(
+                            'MapLiteral',
+                            Emotion.Neutral,
+                            `Just like @SetLiteral: just put a ⧼{}⧽ after a map and give me the key you want.`
+                        ),
+                        code(
+                            `{ 'ben': 2points 'joe': 5points 'kate': 12points }{'ben'}`,
+                            true,
+                            true
+                        ),
+                        pause(),
+                        output('Verse([] background: Color(0% 0 0°))'),
+                        dialog(
+                            'MapLiteral',
+                            Emotion.Neutral,
+                            `Otherwise, I'm a lot like @SetLiteral: I can do a lot of the same functions. Stop by any time and I'm happy to show you more!`
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Kind,
+                            `Thank you @MapLiteral! *You* are fabulous.`
                         ),
                     ],
                 },

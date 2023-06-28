@@ -878,6 +878,7 @@ function parseSetOrMap(tokens: Tokens): MapLiteral | SetLiteral {
     while (
         tokens.hasNext() &&
         tokens.nextIsnt(TokenType.SetClose) &&
+        tokens.nextIsnt(TokenType.ExampleClose) &&
         !tokens.nextHasMoreThanOneLineBreak()
     ) {
         const key = parseExpression(tokens);
