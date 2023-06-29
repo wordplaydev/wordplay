@@ -6256,9 +6256,13 @@ const en: Locale = {
                             'Reaction',
                             Emotion.Eager,
                             `But if you don't give me a condition that's true or false, things are going to be weird. 
-                            So here, we're asking of a @Key value is true or false, but it's text, not a @BooleanType.`
+                            So here, we're checking if a @Key value is ⧼⊤⧽ or ⧼⊥⧽, but it's a @TextType, not a @BooleanType.`
                         ),
-                        edit(`Phrase("hi" size: Key(" ") ? 1m … 1m + .)`),
+                        code(
+                            `Phrase("hi" size: Key(" ") ? 1m … 1m + .)`,
+                            false,
+                            true
+                        ),
                         dialog(
                             'FunctionDefinition',
                             Emotion.Curious,

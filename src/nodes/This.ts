@@ -90,8 +90,10 @@ export default class This extends AtomicExpression {
             : new UnenclosedType(this);
     }
 
-    getDependencies(): Expression[] {
-        return [];
+    getDependencies(context: Context): Expression[] {
+        // This depends on the reaction value it is referenced in.
+        const enclosure = this.getEnclosingStructure(context);
+        return enclosure ? [enclosure] : [];
     }
 
     compile(): Step[] {
