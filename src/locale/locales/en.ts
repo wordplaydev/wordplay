@@ -6124,6 +6124,167 @@ const en: Locale = {
                         edit(`['kitty' 'cat' 'feline'][Random(1 3)]`),
                     ],
                 },
+                {
+                    name: 'Reaction',
+                    code: output("Phrase('∆')"),
+                    lines: [
+                        output("Phrase('∆' rest: Pose(tilt: 120°))"),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `All of these streams that I've shown you come from your world. 
+                            
+                            But sometimes, it's helpful to create streams of your own, based on these other streams. 
+                            That's where my friend @Reaction comes in!
+                            
+                            @Reaction, are you around?`
+                        ),
+                        dialog(
+                            'Reaction',
+                            Emotion.Excited,
+                            `Yeah yeah yeah! 
+                            It's @FunctionDefinition! 
+                            How are you doing? 
+                            
+                            Everything has been so… constant, lately. 
+                            Have you noticed that?`
+                        ),
+                        pause(),
+                        output("Phrase('∆' rest: Pose(tilt: 240°))"),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Curious,
+                            `You mean the silence? 
+                            Yes, nothing's really changed, has it, since the last person left? 
+                            
+                            What's that been like for you?`
+                        ),
+                        dialog(
+                            'Reaction',
+                            Emotion.Sad,
+                            `Super strange, super strange. 
+                            My whole life has been about change, always listening and watching for new inputs from people, helping transform them into values. 
+                            
+                            But there hasn't been anything. Until just a moment ago… 
+                            
+                            Wait … is that a person?`
+                        ),
+                        pause(),
+                        output("Phrase('∆' rest: Pose(tilt: 360°))"),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Excited,
+                            `Yes! 
+                            This is our new potential director. 
+                            
+                            I was just showing them @Time, @Key, @Pointer, @Button, @Mic, and @Random, so you probably noticed all the new inputs they were bringing from their world.`
+                        ),
+                        dialog(
+                            'Reaction',
+                            Emotion.Excited,
+                            `Yesssss, change is coming! 
+                            Can I show you what I do?`
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Eager,
+                            `Yes, please do!`
+                        ),
+                        pause(),
+                        dialog(
+                            'Reaction',
+                            Emotion.Serious,
+                            `Okay, so I need three things from you: a condition for change, an initial value, and a next value.
+                            
+                            The **condition** has to evaluate to ⧼⊤⧽ or ⧼⊥⧽, and it should generally check one or more streams — otherwise, there's nothing changing, since the only source of change in a performance is streams.
+                            
+                            The **initial** value is whatever value I should make before any change has happened.
+                            
+                            The **next** value is whatever value I should make whenever the condition changes.`
+                        ),
+                        pause(),
+                        dialog(
+                            'Reaction',
+                            Emotion.Serious,
+                            `Here's an example. 
+                            See the @Key stream? 
+                            Putting ⧼∆⧽ before it asks, "Did this stream change"? 
+                            
+                            Before it changes, I evaluate to the initial value, ⧼1m⧽.
+                            
+                            But when the space key is pressed, @Program reevaluates, and I evaluate to the **next** expression, which is ⧼1m⧽ plus whatever the previous stream value was, that's represented by ⧼.⧽. 
+                            
+                            This adds 1m to the size of the phrase, making the word get bigger and bigger.`
+                        ),
+                        code(
+                            `Phrase("hi" size: ∆ Key(" ") ? 1m … 1m + .)`,
+                            false,
+                            true
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Kind,
+                            `@Reaction, that is so cool. I see you work with @Conditional to react?`
+                        ),
+                        dialog(
+                            'Reaction',
+                            Emotion.Kind,
+                            `Yes, @Conditional and I are best buddies! 
+                            I need them to check the stream change condition, and then I choose the new value based on their check.`
+                        ),
+                        pause(),
+                        dialog(
+                            'Conditional',
+                            Emotion.Eager,
+                            `What does it mean to be buddies though, really? 
+                            Are the conditions I check here any different than the non-stream ones? 
+                            Don't they have the same limitations?
+                            `
+                        ),
+                        dialog(
+                            'Reaction',
+                            Emotion.Serious,
+                            `Oh hi @Conditional! 
+                            Buddies, you know, we play together a lot! And yes, they do have the same limitations. 
+                            The only difference here is that I respond to stream changes. 
+                            But it's the usual story with ⧼⊤⧽ and ⧼⊥⧽: there's no middle ground. 
+                            Something either changed or it didn't, there is no "partial" change.`
+                        ),
+                        pause(),
+                        dialog(
+                            'Reaction',
+                            Emotion.Eager,
+                            `But if you don't give me a condition that's true or false, things are going to be weird. 
+                            So here, we're asking of a @Key value is true or false, but it's text, not a @BooleanType.`
+                        ),
+                        edit(`Phrase("hi" size: Key(" ") ? 1m … 1m + .)`),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Curious,
+                            `Oh, that makes sense. And @Reaction, you work with any stream?`
+                        ),
+                        dialog(
+                            'Reaction',
+                            Emotion.Eager,
+                            `Yes, any stream! 
+                            And actually, even myself. 
+                            So if you make a reaction, and want to make a reaction that reacts to it reacting, you can do that too. 
+                            But we won't worry about that now, since that doesn't usually come up in simple performances.`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Curious,
+                            `Thank you @Reaction. Will you be around to help as I show our director the rest of our beautiful Verse?`
+                        ),
+                        dialog(
+                            'Reaction',
+                            Emotion.Happy,
+                            `Yes, of course, any time. I can't wait to see your inspirations!!`
+                        ),
+                    ],
+                },
             ],
         },
     ],
