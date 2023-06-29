@@ -43,7 +43,7 @@ import Emotion from '../../lore/Emotion';
 import Unit from '../../nodes/Unit';
 import { TEXT_DELIMITERS } from '../../parser/Tokenizer';
 import NeverType from '../../nodes/NeverType';
-import { Approach, Black, SpinningInTheDark } from '../../tutorial/Programs';
+import { FlyIn, DarkVoid, SpinningInTheDark } from '../../tutorial/Programs';
 
 export const WRITE_DOC = 'TBD';
 
@@ -2692,13 +2692,13 @@ const en: Locale = {
     tutorial: [
         {
             name: 'The Verse',
-            code: output(Black),
+            code: output(DarkVoid),
             scenes: [
                 {
                     name: 'Silence',
-                    code: code(Black, true, false),
+                    code: code(DarkVoid, true, false),
                     lines: [
-                        code(Black, true, false),
+                        code(DarkVoid, true, false),
                         dialog(
                             'FunctionDefinition',
                             Emotion.Bored,
@@ -2991,7 +2991,7 @@ const en: Locale = {
                 },
                 {
                     name: 'Holding space',
-                    code: code(Black, true, false),
+                    code: code(DarkVoid, true, false),
                     lines: [
                         dialog(
                             'FunctionDefinition',
@@ -4809,7 +4809,7 @@ const en: Locale = {
                         Group(Row() [Phrase("{" rest: clockwise) Phrase("}" rest: counter) ])`
                     ),
                     lines: [
-                        output(Black),
+                        output(DarkVoid),
                         dialog(
                             'FunctionDefinition',
                             Emotion.Neutral,
@@ -4929,7 +4929,7 @@ const en: Locale = {
                             `There's lots more I can do thanks to @FunctionDefinition here. Come find me anytime you want to learn more!`
                         ),
                         pause(),
-                        output(Black),
+                        output(DarkVoid),
                         dialog(
                             'SetLiteral',
                             Emotion.Curious,
@@ -4963,7 +4963,7 @@ const en: Locale = {
                         Group(Row(0m) [Phrase("{" rest: clockwise) Phrase(":") Phrase("}" rest: counter) ])`
                     ),
                     lines: [
-                        output(Black),
+                        output(DarkVoid),
                         dialog(
                             'FunctionDefinition',
                             Emotion.Neutral,
@@ -5134,7 +5134,7 @@ const en: Locale = {
                             true
                         ),
                         pause(),
-                        output(Black),
+                        output(DarkVoid),
                         dialog(
                             'MapLiteral',
                             Emotion.Neutral,
@@ -5174,7 +5174,7 @@ const en: Locale = {
             scenes: [
                 {
                     name: 'Conversions',
-                    code: output(Black),
+                    code: output(DarkVoid),
                     lines: [
                         dialog(
                             'FunctionDefinition',
@@ -5205,9 +5205,9 @@ const en: Locale = {
                 },
                 {
                     name: 'We can be anything',
-                    code: output(Approach('→')),
+                    code: output(FlyIn('→')),
                     lines: [
-                        output(Black),
+                        output(DarkVoid),
                         dialog(
                             'FunctionDefinition',
                             Emotion.Neutral,
@@ -5410,9 +5410,9 @@ const en: Locale = {
                 },
                 {
                     name: 'Freedom of speech',
-                    code: output(Approach('"')),
+                    code: output(FlyIn('"')),
                     lines: [
-                        output(Black),
+                        output(DarkVoid),
                         dialog(
                             'FunctionDefinition',
                             Emotion.Neutral,
@@ -5518,7 +5518,7 @@ const en: Locale = {
                         ),
                         edit(`"I have \\1 + 2 + 5 + 8\\ apples"`),
                         pause(),
-                        output(Black),
+                        output(DarkVoid),
                         dialog(
                             'FunctionDefinition',
                             Emotion.Excited,
@@ -5551,9 +5551,9 @@ const en: Locale = {
                 },
                 {
                     name: 'Decisions, decisions',
-                    code: output(Approach('?')),
+                    code: output(FlyIn('?')),
                     lines: [
-                        output(Black),
+                        output(DarkVoid),
                         dialog(
                             'FunctionDefinition',
                             Emotion.Neutral,
