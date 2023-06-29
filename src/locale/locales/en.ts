@@ -5974,6 +5974,10 @@ const en: Locale = {
                     name: 'Pointer',
                     code: output(`Phrase("👆🏻")`),
                     lines: [
+                        output(
+                            `Phrase("👆🏻" rest: Sequence({0%: Pose(offset: Place(0m 0m)) 25%: Pose(offset: Place(-1m 1m)) 50%: Pose(offset: Place(1m 1m)) 75%: Pose(offset: Place(1m 0m)) 100%: Pose(offset: Place(0m 0m))} 3s))`,
+                            true
+                        ),
                         dialog(
                             'FunctionDefinition',
                             Emotion.Curious,
@@ -5997,6 +6001,44 @@ const en: Locale = {
                         ),
                         code(`Phrase("hi" place: Pointer())`, false, true),
                         dialog('Pointer', Emotion.Neutral, `wzzzzzzzz…`),
+                    ],
+                },
+                {
+                    name: 'Button',
+                    code: output(`Phrase("🖱️")`),
+                    lines: [
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Kind,
+                            `@Button is like @Key, but corresponds to the primary pointer button, like a click or tap. 
+                            
+                            It's just a stream of ⧼⊤⧽, indicating when the pointer button is pressed down.
+                            
+                            Press that button and watch the events appear on the timeline.`
+                        ),
+                        dialog(
+                            'Button',
+                            Emotion.Neutral,
+                            `click… click… click…`
+                        ),
+                        edit(`Button()`),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `You can configure it to only list to up or down by passing it a ⧼⊤⧽ or ⧼⊥⧽.`
+                        ),
+                        dialog('Button', Emotion.Neutral, `down… down… down…`),
+                        edit(`Button(⊥)`),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Excited,
+                            `Using a @Button stream is one way to advance through stages of a performance, or to trigger some change in a performance. 
+                            
+                            This little program lists to button presses, and starts off showing sad, but when the @Button stream changes to true, @Conditional evaluates to ⧼'happy'⧽ instead.`
+                        ),
+                        edit(`Phrase(Button(⊥) ? 'sad' 'happy')`),
                     ],
                 },
             ],
