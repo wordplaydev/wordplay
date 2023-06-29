@@ -6041,6 +6041,39 @@ const en: Locale = {
                         edit(`Phrase(Button(⊥) ? 'sad' 'happy')`),
                     ],
                 },
+                {
+                    name: 'Mic',
+                    code: output(`Phrase("🎤")`),
+                    lines: [
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Excited,
+                            `Your world and our world also has sound. 
+                            Did you know we can hear you, with your consent? 
+                            
+                            We listen with a stream called @Mic, which provides a low-level sequence of amplitudes.
+                            
+                            Your mic might ask for permission to be shared with us.
+                            Once you do, you'll see a number that corresponds to amplitude, between ⧼0⧽ and ⧼100⧽.`
+                        ),
+                        dialog('Mic', Emotion.Neutral, `bzzzZZZZZzzzzzZZZZ…`),
+                        edit(`Mic()`),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Kind,
+                            `@Mic can be used to make performances respond to sound from the audience. 
+                            
+                            For example, here we could make a little amplitude visualization by converting the amplitude number from the stream to a certain number of ⧼'o'⧽ characters.
+                            
+                            See how when you make noise, there are more ⧼'o'⧽s? 
+                            The Mic's amplitude is divided by ⧼10⧽, putting it in the ⧼0⧽ to ⧼10⧽ range.
+                            Then that value is given to @TextType's **repeat** function, which repeats the ⧼'o'⧽ the given number of times.`
+                        ),
+                        dialog('Mic', Emotion.Neutral, `bzzzZZZZZzzzzzZZZZ…`),
+                        edit(`'o'.repeat(Mic() ÷ 10)`),
+                    ],
+                },
             ],
         },
     ],
