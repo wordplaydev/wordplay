@@ -17,11 +17,15 @@ function position(evaluator: Evaluator, x: number, y: number) {
     const bindings = new Map<Names, Value>();
     bindings.set(
         PlaceType.inputs[0].names,
-        new Measurement(evaluator.getMain(), x, Unit.make(['px']))
+        new Measurement(evaluator.getMain(), x, Unit.make(['m']))
     );
     bindings.set(
         PlaceType.inputs[1].names,
-        new Measurement(evaluator.getMain(), y, Unit.make(['px']))
+        new Measurement(evaluator.getMain(), y, Unit.make(['m']))
+    );
+    bindings.set(
+        PlaceType.inputs[2].names,
+        new Measurement(evaluator.getMain(), 0, Unit.make(['m']))
     );
     return createStructure(evaluator, PlaceType, bindings);
 }

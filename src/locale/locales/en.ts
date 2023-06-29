@@ -5970,6 +5970,35 @@ const en: Locale = {
                         edit(`Phrase(Key().has('Arrow') ? 'move' 'stay')`),
                     ],
                 },
+                {
+                    name: 'Pointer',
+                    code: output(`Phrase("👆🏻")`),
+                    lines: [
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Curious,
+                            `You also have something called a "mouse" in your world, and "trackpads", and "touchscreens"? 
+                            
+                            These appear in our world as streams @Pointer, which is a stream of places on stage.`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Curious,
+                            `Move your pointer around the stage and you'll see the stream of @Place change on stage.`
+                        ),
+                        edit(`Pointer()`),
+                        dialog('Pointer', Emotion.Neutral, `wzzzzzzzzz…`),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Excited,
+                            `@Pointer can be fun if you want to link the place of a phrase to where the pointer is.`
+                        ),
+                        code(`Phrase("hi" place: Pointer())`, false, true),
+                        dialog('Pointer', Emotion.Neutral, `wzzzzzzzz…`),
+                    ],
+                },
             ],
         },
     ],
