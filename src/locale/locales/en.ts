@@ -6225,44 +6225,66 @@ const en: Locale = {
                         dialog(
                             'FunctionDefinition',
                             Emotion.Kind,
-                            `@Reaction, that is so cool. I see you work with @Conditional to react?`
+                            `@Reaction, that is so cool. 
+                            
+                            Do you want to introduce @Changed?
+                            You seem to work with them closely.`
                         ),
                         dialog(
                             'Reaction',
                             Emotion.Kind,
-                            `Yes, @Conditional and I are best buddies! 
-                            I need them to check the stream change condition, and then I choose the new value based on their check.`
+                            `Yes, @Changed and I are best buddies! 
+                            They help me know when something has changed.
+                            
+                            They're like a stream whisperer, listening closely to the director's world…`
                         ),
                         pause(),
                         dialog(
-                            'Conditional',
+                            'Changed',
                             Emotion.Eager,
-                            `What does it mean to be buddies though, really? 
-                            Are the conditions I check here any different than the non-stream ones? 
-                            Don't they have the same limitations?
-                            `
+                            `Wow, stream whisper, that seems a bit extreme...`
                         ),
                         dialog(
                             'Reaction',
                             Emotion.Serious,
-                            `Oh hi @Conditional! 
-                            Buddies, you know, we play together a lot! And yes, they do have the same limitations. 
-                            The only difference here is that I respond to stream changes. 
-                            But it's the usual story with ⧼⊤⧽ and ⧼⊥⧽: there's no middle ground. 
-                            Something either changed or it didn't, there is no "partial" change.`
+                            `Oh hi @Changed! 
+                            Do you want to say more about what you do?`
                         ),
+                        dialog(
+                            `Changed`,
+                            Emotion.Bored,
+                            `I mean, I just tell you if a stream changed.
+                            Give me a stream, and I'll check.
+                            
+                            That's it.`
+                        ),
+                        dialog(
+                            'Reaction',
+                            Emotion.Confused,
+                            `Well, it's more than that right?`
+                        ),
+                        dialog(
+                            'Changed',
+                            Emotion.Bored,
+                            `Not really. That's kind of it.
+                            I mean, I'm good at it, but that's my only thing.`
+                        ),
+                        dialog(`Reaction`, Emotion.Confused, `…`),
                         pause(),
                         dialog(
                             'Reaction',
                             Emotion.Eager,
-                            `But if you don't give me a condition that's true or false, things are going to be weird. 
-                            So here, we're checking if a @Key value is ⧼⊤⧽ or ⧼⊥⧽, but it's a @TextType, not a @BooleanType.`
+                            `Okay.
+                            
+                            Well, I think you're more important that than. Because I'm pretty useless without you! For example, if you give me a condition that doesn't check a stream, I'm never going to create a new value. 
+                            Like here, the condition a @BooleanType from @Button, but without you, I only ever change with the button .`
                         ),
                         code(
-                            `Phrase("hi" size: Key(" ") ? 1m … 1m + .)`,
+                            `Phrase("hi" size: Key(' ') = ' ' ? 1m … 1m + .)`,
                             false,
                             true
                         ),
+                        pause(),
                         dialog(
                             'FunctionDefinition',
                             Emotion.Curious,
