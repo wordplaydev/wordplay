@@ -6074,6 +6074,56 @@ const en: Locale = {
                         edit(`'o'.repeat(Mic() ÷ 10)`),
                     ],
                 },
+                {
+                    name: 'Random',
+                    code: output(`Phrase((Time(100ms) % 10 ÷ 1ms) → "")`),
+                    lines: [
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Curious,
+                            `There's one other stream I want to show you. 
+                            Remember ⧼[].random()⧽ from earlier, from @ListType? 
+                            
+                            Inside it is a stream called @Random, which provides an infinite stream of random numbers. 
+                            
+                            It's a bit different from the other streams in that it doesn't cause a @Program to reevaluate. 
+                            
+                            Instead, each time it's evaluated, it gives a different random number.
+                            
+                            See that little ↻ button by the timeline? Press that to reevaluate the program manually, and you'll see a new number between ⧼0⧽ and ⧼1⧽ each time.`
+                        ),
+                        dialog(
+                            'Random',
+                            Emotion.Neutral,
+                            `0.223423… 0.823423… 0.123459`
+                        ),
+                        edit(`Random()`),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Surprised,
+                            `We can tell @Random the range of numbers we'd like by giving it a minimum and maximum number. This example gives numbers between ⧼1⧽ and ⧼10⧽:`
+                        ),
+                        dialog('Random', Emotion.Neutral, `1… 7… 3… 9… 10… 2…`),
+                        edit(`Random(1 10)`),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Excited,
+                            `Random can be so fun! 
+                            
+                            We can use it with other streams to create fun chaos. 
+                            
+                            For example, here we choose a random word from a list of words. 
+                            This is the same as ⧼['kitty' 'cat' 'meowy'].random()⧽.
+                            
+                            Keep pressing ↻ to get a different cat synonym! 
+                            Try adding your own word to the list and see if you can get the word to appear.`
+                        ),
+                        dialog('Random', Emotion.Neutral, `1… 2… 2… 1… 3…`),
+                        edit(`['kitty' 'cat' 'feline'][Random(1 3)]`),
+                    ],
+                },
             ],
         },
     ],
