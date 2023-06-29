@@ -48,6 +48,8 @@ import {
     DarkVoid,
     SpinningInTheDark,
     TakeTheMic,
+    RainingEmoji,
+    StaticRainingEmoji,
 } from '../../tutorial/Programs';
 
 export const WRITE_DOC = 'TBD';
@@ -4516,7 +4518,7 @@ const en: Locale = {
             ],
         },
         {
-            name: "Gather 'round",
+            name: 'Ensembles',
             code: output(
                 `Group(Row((Time() ÷ 500).sin() · 1m) [Phrase('[]') Phrase('{}') Phrase('{:}')])`
             ),
@@ -6308,6 +6310,75 @@ const en: Locale = {
                             'Reaction',
                             Emotion.Happy,
                             `Yes, of course, any time. I can't wait to see your inspirations!!`
+                        ),
+                    ],
+                },
+            ],
+        },
+        {
+            name: 'Take the stage',
+            code: output(RainingEmoji),
+            scenes: [
+                {
+                    name: 'Output',
+                    code: output(StaticRainingEmoji),
+                    lines: [
+                        output(`Phrase("😀")`),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Happy,
+                            `So what do you think so far? 
+                            
+                            I think the Verse is pretty neat, mostly because the characters in it are so neat. 
+                            Everyone is just so special!`
+                        ),
+                        pause(),
+                        output(`Phrase("🥱")`),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Curious,
+                            `You're bored? 
+                            Oh my. 
+                            I thought all of this would be so interesting! 
+                            
+                            What were you hoping for?`
+                        ),
+                        pause(),
+                        output(`Phrase("😴")`),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Serious,
+                            `I see. 
+                            Text and numbers and lists and streams are boring. 
+                            I guess I really haven't shown you all the things we can make with all of this. 
+                            
+                            Maybe it's time we start talking about output.`
+                        ),
+                        pause(),
+                        output(`Phrase("🤗")`),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `You've seen a lot of output already. 
+                            
+                            Every time @Program evaluates, it results in a value, and @Program shows that value on stage. 
+                            
+                            But so far you've only seen things like numbers, text, lists. 
+                                                        
+                            I get it, you just want to see full performances, just like we do!`
+                        ),
+                        pause(),
+                        output(`Phrase("💬")`),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Eager,
+                            `Remember that output I showed you a long time ago, @Phrase? 
+                            
+                            That's where the performances really begin. 
+                            Let's start there! 
+                            And then I'll show you ways of building ever more interesting performances from that building block. 
+                            
+                            Let me introduce you!`
                         ),
                     ],
                 },
