@@ -44,16 +44,16 @@ export default class Button extends Stream<Bool> {
 }
 
 const DownBind = Bind.make(
-    getDocLocales((t) => t.input.button.down.doc),
-    getNameLocales((t) => t.input.button.down.names),
+    getDocLocales((t) => t.input.Button.down.doc),
+    getNameLocales((t) => t.input.Button.down.names),
     UnionType.make(BooleanType.make(), NoneType.make()),
     // Default to true
     BooleanLiteral.make(true)
 );
 
 export const ButtonDefinition = StreamDefinition.make(
-    getDocLocales((t) => t.input.button.doc),
-    getNameLocales((t) => t.input.button.names),
+    getDocLocales((t) => t.input.Button.doc),
+    getNameLocales((t) => t.input.Button.names),
     [DownBind],
     createStreamEvaluator(
         BooleanType.make(),

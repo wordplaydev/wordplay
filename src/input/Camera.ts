@@ -280,29 +280,29 @@ export const frameType = ListType.make(
 );
 
 const WidthBind = Bind.make(
-    getDocLocales((t) => t.input.camera.width.doc),
-    getNameLocales((t) => t.input.camera.width.names),
+    getDocLocales((t) => t.input.Camera.width.doc),
+    getNameLocales((t) => t.input.Camera.width.names),
     UnionType.make(MeasurementType.make(Unit.make(['px'])), NoneType.make()),
     MeasurementLiteral.make(DEFAULT_WIDTH, Unit.make(['px']))
 );
 
 const HeightBind = Bind.make(
-    getDocLocales((t) => t.input.camera.height.doc),
-    getNameLocales((t) => t.input.camera.height.names),
+    getDocLocales((t) => t.input.Camera.height.doc),
+    getNameLocales((t) => t.input.Camera.height.names),
     UnionType.make(MeasurementType.make(Unit.make(['px'])), NoneType.make()),
     MeasurementLiteral.make(DEFAULT_HEIGHT, Unit.make(['px']))
 );
 
 const FrequencyBind = Bind.make(
-    getDocLocales((t) => t.input.camera.frequency.doc),
-    getNameLocales((t) => t.input.camera.frequency.names),
+    getDocLocales((t) => t.input.Camera.frequency.doc),
+    getNameLocales((t) => t.input.Camera.frequency.names),
     UnionType.make(MeasurementType.make(Unit.make(['ms'])), NoneType.make()),
     MeasurementLiteral.make(DEFAULT_FREQUENCY, Unit.make(['ms']))
 );
 
 export const CameraDefinition = StreamDefinition.make(
-    getDocLocales((t) => t.input.camera.doc),
-    getNameLocales((t) => t.input.camera.names),
+    getDocLocales((t) => t.input.Camera.doc),
+    getNameLocales((t) => t.input.Camera.names),
     [WidthBind, HeightBind, FrequencyBind],
     createStreamEvaluator(
         frameType.clone(),

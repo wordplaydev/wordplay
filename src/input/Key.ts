@@ -57,24 +57,24 @@ export default class Key extends Stream<Text> {
 }
 
 const keyBind = Bind.make(
-    getDocLocales((t) => t.input.key.key.doc),
-    getNameLocales((t) => t.input.key.key.names),
+    getDocLocales((t) => t.input.Key.key.doc),
+    getNameLocales((t) => t.input.Key.key.names),
     UnionType.make(TextType.make(), NoneType.make()),
     // Default to none, allowing all keys
     NoneLiteral.make()
 );
 
 const downBind = Bind.make(
-    getDocLocales((t) => t.input.key.down.doc),
-    getNameLocales((t) => t.input.key.down.names),
+    getDocLocales((t) => t.input.Key.down.doc),
+    getNameLocales((t) => t.input.Key.down.names),
     UnionType.make(BooleanType.make(), NoneType.make()),
     // Default to all events
     NoneLiteral.make()
 );
 
 export const KeyDefinition = StreamDefinition.make(
-    getDocLocales((t) => t.input.key.doc),
-    getNameLocales((t) => t.input.key.names),
+    getDocLocales((t) => t.input.Key.doc),
+    getNameLocales((t) => t.input.Key.names),
     [keyBind, downBind],
     createStreamEvaluator(
         TextType.make(),

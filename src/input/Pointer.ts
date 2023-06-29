@@ -53,8 +53,8 @@ export default class Pointer extends Stream<Structure> {
 }
 
 export const PointerDefinition = StreamDefinition.make(
-    getDocLocales((t) => t.input.pointer.doc),
-    getNameLocales((t) => t.input.pointer.names),
+    getDocLocales((t) => t.input.Pointer.doc),
+    getNameLocales((t) => t.input.Pointer.names),
     [],
     createStreamEvaluator(
         new StructureDefinitionType(PlaceType),

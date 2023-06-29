@@ -1993,32 +1993,32 @@ const eng_wordplay: Locale = {
         },
     },
     input: {
-        random: {
+        Random: {
             doc: WRITE_DOC,
             names: ['Azar'],
             min: { names: 'mínima', doc: WRITE_DOC },
             max: { names: 'maximo', doc: WRITE_DOC },
         },
-        choice: {
+        Choice: {
             doc: WRITE_DOC,
             names: ['Selección', 'Elección'],
         },
-        button: {
+        Button: {
             doc: WRITE_DOC,
             names: ['Botón'],
             down: { names: 'abajo', doc: WRITE_DOC },
         },
-        pointer: {
+        Pointer: {
             doc: WRITE_DOC,
             names: ['Puntero'],
         },
-        key: {
+        Key: {
             doc: WRITE_DOC,
             names: ['Teclado'],
             key: { names: 'tecla', doc: WRITE_DOC },
             down: { names: 'abajo', doc: WRITE_DOC },
         },
-        time: {
+        Time: {
             doc: WRITE_DOC,
             names: ['Tiempo'],
             frequency: {
@@ -2026,7 +2026,7 @@ const eng_wordplay: Locale = {
                 doc: WRITE_DOC,
             },
         },
-        mic: {
+        Mic: {
             doc: WRITE_DOC,
             names: ['Micrófono', '🎤'],
             frequency: {
@@ -2034,7 +2034,7 @@ const eng_wordplay: Locale = {
                 doc: WRITE_DOC,
             },
         },
-        camera: {
+        Camera: {
             doc: WRITE_DOC,
             names: ['Cámara'],
             width: {
@@ -2050,11 +2050,11 @@ const eng_wordplay: Locale = {
                 doc: WRITE_DOC,
             },
         },
-        reaction: {
+        Reaction: {
             doc: WRITE_DOC,
             names: 'reaction',
         },
-        motion: {
+        Motion: {
             doc: WRITE_DOC,
             names: ['⚽️', 'Motion'],
             type: {

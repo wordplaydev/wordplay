@@ -20,10 +20,10 @@ import type TypeSet from '@nodes/TypeSet';
 import type StreamDefinition from '../nodes/StreamDefinition';
 import { TimeDefinition } from '../input/Time';
 import { KeyDefinition } from '../input/Key';
-import { PointerDefinition } from '../input/MousePosition';
-import { ButtonDefinition } from '../input/MouseButton';
+import { PointerDefinition } from '../input/Pointer';
+import { ButtonDefinition } from '../input/Button';
 import { RandomDefinition } from '../input/Random';
-import { MicDefinition } from '../input/Microphone';
+import { MicDefinition } from '../input/Mic';
 import NodeConcept from './NodeConcept';
 import { CameraDefinition } from '../input/Camera';
 

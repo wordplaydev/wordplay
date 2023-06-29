@@ -12,3 +12,5 @@ export const SpinningInTheDark = (symbol: string) =>
         0%:Pose(tilt: 0° color:Color(10% 0 0°)) 
         100%:Pose(tilt:360° color:Color(10% 0 0°))} duration:20s))
     ] background: Color(0% 0 0°))`;
+
+export const TakeTheMic = `Phrase("🎤" size: Mic()·1m)`;

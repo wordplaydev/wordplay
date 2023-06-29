@@ -1064,28 +1064,28 @@ export type OutputTexts = {
 };
 
 export type InputTexts = {
-    random: ConceptText<1, 0> & {
+    Random: ConceptText<1, 0> & {
         min: NameAndDoc;
         max: NameAndDoc;
     };
-    choice: ConceptText<1, 0>;
-    button: ConceptText<1, 0> & { down: NameAndDoc };
-    pointer: ConceptText<1, 0>;
-    key: ConceptText<1, 0> & {
+    Choice: ConceptText<1, 0>;
+    Button: ConceptText<1, 0> & { down: NameAndDoc };
+    Pointer: ConceptText<1, 0>;
+    Key: ConceptText<1, 0> & {
         key: NameAndDoc;
         down: NameAndDoc;
     };
-    time: ConceptText<1, 0> & { frequency: NameAndDoc };
-    mic: ConceptText<1, 0> & {
+    Time: ConceptText<1, 0> & { frequency: NameAndDoc };
+    Mic: ConceptText<1, 0> & {
         frequency: NameAndDoc;
     };
-    camera: ConceptText<1, 0> & {
+    Camera: ConceptText<1, 0> & {
         width: NameAndDoc;
         height: NameAndDoc;
         frequency: NameAndDoc;
     };
-    reaction: ConceptText<1, 0>;
-    motion: ConceptText<1, 0> & {
+    Reaction: ConceptText<1, 0>;
+    Motion: ConceptText<1, 0> & {
         type: NameAndDoc;
         vx: NameAndDoc;
         vy: NameAndDoc;

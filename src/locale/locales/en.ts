@@ -43,7 +43,12 @@ import Emotion from '../../lore/Emotion';
 import Unit from '../../nodes/Unit';
 import { TEXT_DELIMITERS } from '../../parser/Tokenizer';
 import NeverType from '../../nodes/NeverType';
-import { FlyIn, DarkVoid, SpinningInTheDark } from '../../tutorial/Programs';
+import {
+    FlyIn,
+    DarkVoid,
+    SpinningInTheDark,
+    TakeTheMic,
+} from '../../tutorial/Programs';
 
 export const WRITE_DOC = 'TBD';
 
@@ -2431,32 +2436,32 @@ const en: Locale = {
         },
     },
     input: {
-        random: {
+        Random: {
             doc: WRITE_DOC,
             names: ['🎲', 'Random'],
             min: { names: 'min', doc: WRITE_DOC },
             max: { names: 'max', doc: WRITE_DOC },
         },
-        choice: {
+        Choice: {
             doc: WRITE_DOC,
             names: ['🔘', 'Choice', 'selection'],
         },
-        button: {
+        Button: {
             doc: WRITE_DOC,
             names: ['🖱️', 'Button'],
             down: { names: 'down', doc: WRITE_DOC },
         },
-        pointer: {
+        Pointer: {
             doc: WRITE_DOC,
             names: ['👆🏻', 'Pointer'],
         },
-        key: {
+        Key: {
             doc: WRITE_DOC,
             names: ['⌨️', 'Key'],
             key: { names: 'key', doc: WRITE_DOC },
             down: { names: 'down', doc: WRITE_DOC },
         },
-        time: {
+        Time: {
             doc: WRITE_DOC,
             names: ['🕕', 'Time'],
             frequency: {
@@ -2464,7 +2469,7 @@ const en: Locale = {
                 doc: WRITE_DOC,
             },
         },
-        mic: {
+        Mic: {
             doc: WRITE_DOC,
             names: ['🎤', 'Mic'],
             frequency: {
@@ -2472,7 +2477,7 @@ const en: Locale = {
                 doc: WRITE_DOC,
             },
         },
-        camera: {
+        Camera: {
             doc: WRITE_DOC,
             names: ['🎥', 'Camera'],
             width: {
@@ -2488,11 +2493,11 @@ const en: Locale = {
                 doc: WRITE_DOC,
             },
         },
-        reaction: {
+        Reaction: {
             doc: WRITE_DOC,
             names: 'reaction',
         },
-        motion: {
+        Motion: {
             doc: WRITE_DOC,
             names: ['⚽️', 'Motion'],
             type: {
@@ -5156,7 +5161,7 @@ const en: Locale = {
             ],
         },
         {
-            name: 'Scene change',
+            name: 'Cast party',
             code: output(
                 `
                 count: 32
@@ -5723,6 +5728,167 @@ const en: Locale = {
                             'Conditional',
                             Emotion.Happy,
                             `Could anything make me more happy?`
+                        ),
+                    ],
+                },
+            ],
+        },
+        {
+            name: 'Scene change',
+            code: output(TakeTheMic, false),
+            scenes: [
+                {
+                    name: 'Input',
+                    code: output(DarkVoid),
+                    lines: [
+                        output(
+                            `amp: (Mic() ÷ 10)
+                            Phrase(".".repeat(amp.truncate()) rest: Pose(scale: amp))`,
+                            false
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Curious,
+                            `Did you know that your world and ours are connected?
+                            
+                            Make some sound and we can hear it...`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Serious,
+                            `You didn't know the Verse existed, but we know that yours does. 
+                            Because it's your world that makes our world interesting.
+
+                            You probably noticed this as we've wandered and met all of the values, collections, and conversations. 
+
+                            What do any of these values *mean* if there's no person *giving* them meaning, or providing the values in the first place?`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `I want to show you the connection between our worlds, and what they make possible. 
+                            
+                            We call them **input streams**, and they are perhaps the most magical kind of input in the Verse. 
+                            They're like functions that create a special kind of value that changes as your world changes.
+                            
+                            They also can't communicate in the ways you might be used to. 
+                            They're more like heartbeats from another world. 
+                            So I'll do my best to explain how they work, since they won't be able to explain themselves.
+
+                            Are you ready to meet one?
+                            `
+                        ),
+                    ],
+                },
+                {
+                    name: 'Time',
+                    code: output(``),
+                    lines: [
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `Let's start with the most elemental stream of all: @Time.
+                            
+                            To make a stream, we use @Evaluate, and give the name of the type of stream you want.
+                            `
+                        ),
+                        dialog(
+                            'Time',
+                            Emotion.Neutral,
+                            `tick tick tick tick tick…`
+                        ),
+                        edit(`Time()`),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `Do you see how time is changing? 
+                            
+                            Streams are a series of values.
+                            Every time a stream gets a new value, @Program reevaluates with the new stream value.
+                            
+                            That's why this program just keeps counting up: we made a time stream that starts at time 0 milliseconds, and then just keeps updating every time its clock ticks. 
+                            This time is your time, from your world.`
+                        ),
+                        dialog(
+                            'Time',
+                            Emotion.Neutral,
+                            `tick tick tick tick tick…`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Curious,
+                            `See that 1000? It tells @Time to tick every 1000 milliseconds instead of the default of every 33 milliseconds, it's default. 
+                            
+                            Now it's like a counter that ticks every second. These inputs that @Time takes are like a configuration: they tell the stream how to behave.`
+                        ),
+                        dialog(
+                            'Time',
+                            Emotion.Neutral,
+                            `tick… tick… tick… tick… tick…`
+                        ),
+                        edit(`Time(1000ms)`),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Serious,
+                            `But we can use all of the wonderful characters we've met to transform time further. 
+                            For example, what if we wanted to know if time was a multiple of ⧼2⧽? We could use **remainder**, which gets the remainder of a division. 
+                            
+                            If the remainder is zero, we'll evaluate to ⧼⊤⧽ and ⧼⊥⧽ otherwise.
+                            
+                            See how it changes back and forth between ⧼⊤⧽ and ⧼⊥⧽? It's so magical.`
+                        ),
+                        dialog(
+                            'Time',
+                            Emotion.Neutral,
+                            `tick… tick… tick… tick… tick…`
+                        ),
+                        edit(`(Time(1000ms) % 5) = 2ms`),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Curious,
+                            `There's another thing you might have noticed: there's an area below the output that is a timeline. 
+                            
+                            It updates each time the program reevaluates, which is each time a stream changes. 
+                            It's showing every time @Time ticks. 
+                            `
+                        ),
+                        dialog(
+                            'Time',
+                            Emotion.Neutral,
+                            `tick… tick… tick… tick… tick…`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Curious,
+                            `Try dragging on the timeline, using the timeline buttons, using the arrow keys with the timeline focused, or pressing the ⏸️ and ▶️ buttons. 
+                            You can go backwards in time, to see previous evaluations.
+                            
+                            The dashed arrows step to previous and future stream inputs. 
+                            The solid ones step between different steps of the program. 
+                            
+                            Try navigating time, and seeing what the program shows. 
+                            This is how you can see all of the beautiful expressions you've learned about being evaluated by @Evaluate, one step at a time, resulting in the final value that @Program displays on stage.
+                            `
+                        ),
+                        dialog(
+                            'Time',
+                            Emotion.Neutral,
+                            `tick… tick… tick… tick… tick…`
+                        ),
+                        edit(`Time(1000ms)`),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `@Time is an interesting stream because it can be used for many different things: keeping track of how long a performance has been happening, timing some event, animating a word. 
+                            It's one of the most flexible streams, but also one of the most abstract.`
                         ),
                     ],
                 },

@@ -3,7 +3,7 @@
     import type Evaluator from '@runtime/Evaluator';
     import Key from '../../input/Key';
     import Bool from '@runtime/Bool';
-    import Button from '../../input/MouseButton';
+    import Button from '../../input/Button';
     import { slide } from 'svelte/transition';
     import { tick } from 'svelte';
     import Exception from '@runtime/Exception';

@@ -10,8 +10,8 @@
     import Evaluate from '@nodes/Evaluate';
     import { DefaultFont, DefaultSize, VerseType } from '@output/Verse';
     import Key from '@input/Key';
-    import Pointer from '@input/MousePosition';
-    import Button from '@input/MouseButton';
+    import Pointer from '@input/Pointer';
+    import Button from '@input/Button';
     import { createPlace } from '@output/Place';
     import Stage, { type OutputInfoSet } from '@output/Stage';
     import Pose from '@output/Pose';

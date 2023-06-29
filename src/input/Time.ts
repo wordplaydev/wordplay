@@ -74,16 +74,16 @@ export default class Time extends TemporalStream<Measurement> {
 const TimeType = MeasurementType.make(Unit.make(['ms']));
 
 const FrequencyBind = Bind.make(
-    getDocLocales((t) => t.input.time.frequency.doc),
-    getNameLocales((t) => t.input.time.frequency.names),
+    getDocLocales((t) => t.input.Time.frequency.doc),
+    getNameLocales((t) => t.input.Time.frequency.names),
     UnionType.make(MeasurementType.make(Unit.make(['ms'])), NoneType.make()),
     // Default to nothing
     NoneLiteral.make()
 );
 
 export const TimeDefinition = StreamDefinition.make(
-    getDocLocales((t) => t.input.time.doc),
-    getNameLocales((t) => t.input.time.names),
+    getDocLocales((t) => t.input.Time.doc),
+    getNameLocales((t) => t.input.Time.names),
     [FrequencyBind],
     createStreamEvaluator(
         TimeType.clone(),

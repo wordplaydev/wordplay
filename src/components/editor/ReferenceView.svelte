@@ -67,13 +67,13 @@
             transform: scale(1);
         }
         20% {
-            transform: scale(2);
-        }
-        60% {
             transform: scale(1.5);
         }
-        80% {
+        60% {
             transform: scale(1.25);
+        }
+        80% {
+            transform: scale(1.1);
         }
         100% {
             transform: scale(1);

@@ -181,58 +181,58 @@ const AngleSpeedUnit = Unit.make(['°'], ['s']);
 const AngleSpeedType = MeasurementType.make(AngleSpeedUnit);
 
 const TypeBind = Bind.make(
-    getDocLocales((t) => t.input.motion.type.doc),
-    getNameLocales((t) => t.input.motion.type.names),
+    getDocLocales((t) => t.input.Motion.type.doc),
+    getNameLocales((t) => t.input.Motion.type.names),
     new StructureDefinitionType(TypeType),
     Evaluate.make(Reference.make('Phrase'), [TextLiteral.make('⚽️')])
 );
 
 const VXBind = Bind.make(
-    getDocLocales((t) => t.input.motion.vx.doc),
-    getNameLocales((t) => t.input.motion.vx.names),
+    getDocLocales((t) => t.input.Motion.vx.doc),
+    getNameLocales((t) => t.input.Motion.vx.names),
     UnionType.orNone(SpeedType.clone()),
     NoneLiteral.make()
 );
 
 const VYBind = Bind.make(
-    getDocLocales((t) => t.input.motion.vy.doc),
-    getNameLocales((t) => t.input.motion.vy.names),
+    getDocLocales((t) => t.input.Motion.vy.doc),
+    getNameLocales((t) => t.input.Motion.vy.names),
     UnionType.orNone(SpeedType.clone()),
     NoneLiteral.make()
 );
 
 const VZBind = Bind.make(
-    getDocLocales((t) => t.input.motion.vz.doc),
-    getNameLocales((t) => t.input.motion.vz.names),
+    getDocLocales((t) => t.input.Motion.vz.doc),
+    getNameLocales((t) => t.input.Motion.vz.names),
     UnionType.orNone(SpeedType.clone()),
     NoneLiteral.make()
 );
 
 const VAngleBind = Bind.make(
-    getDocLocales((t) => t.input.motion.vangle.doc),
-    getNameLocales((t) => t.input.motion.vangle.names),
+    getDocLocales((t) => t.input.Motion.vangle.doc),
+    getNameLocales((t) => t.input.Motion.vangle.names),
     UnionType.orNone(AngleSpeedType.clone()),
     NoneLiteral.make()
 );
 
 const MassBind = Bind.make(
-    getDocLocales((t) => t.input.motion.mass.doc),
-    getNameLocales((t) => t.input.motion.mass.names),
+    getDocLocales((t) => t.input.Motion.mass.doc),
+    getNameLocales((t) => t.input.Motion.mass.names),
     UnionType.orNone(MeasurementType.make(Unit.make(['kg']))),
     // Default to 1kg.
     MeasurementLiteral.make(1, Unit.make(['kg']))
 );
 
 const BouncinessBind = Bind.make(
-    getDocLocales((t) => t.input.motion.bounciness.doc),
-    getNameLocales((t) => t.input.motion.bounciness.names),
+    getDocLocales((t) => t.input.Motion.bounciness.doc),
+    getNameLocales((t) => t.input.Motion.bounciness.names),
     UnionType.orNone(MeasurementType.make()),
     MeasurementLiteral.make(0.75)
 );
 
 const GravityBind = Bind.make(
-    getDocLocales((t) => t.input.motion.gravity.doc),
-    getNameLocales((t) => t.input.motion.gravity.names),
+    getDocLocales((t) => t.input.Motion.gravity.doc),
+    getNameLocales((t) => t.input.Motion.gravity.names),
     UnionType.orNone(MeasurementType.make(Unit.make(['m'], ['s', 's']))),
     MeasurementLiteral.make(15, Unit.make(['m'], ['s', 's']))
 );
@@ -240,8 +240,8 @@ const GravityBind = Bind.make(
 const type = new StructureDefinitionType(PhraseType);
 
 export const MotionDefinition = StreamDefinition.make(
-    getDocLocales((t) => t.input.motion.doc),
-    getNameLocales((t) => t.input.motion.names),
+    getDocLocales((t) => t.input.Motion.doc),
+    getNameLocales((t) => t.input.Motion.names),
     [
         TypeBind,
         VXBind,
