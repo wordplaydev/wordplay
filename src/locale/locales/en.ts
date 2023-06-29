@@ -5685,7 +5685,7 @@ const en: Locale = {
                             Emotion.Curious,
                             `And think about the questions I answer — why can I only respond to ⧼⊤⧽ and ⧼⊥⧽? 
                             Why not a number? 
-                            Don't I have a right to decide if 1 is beautiful?`
+                            Don't I have a right to decide if ⧼1⧽ is beautiful?`
                         ),
                         edit(`1 ? 'beautiful' 'ugly'`),
                         pause(),

@@ -1582,7 +1582,12 @@ const eng_wordplay: Locale = {
         ExpectedBooleanCondition: {
             primary: (type: NodeLink) =>
                 Explanation.as(
-                    'expected boolean condition but received ',
+                    WRITE_DOC + 'expected boolean condition but received ',
+                    type
+                ),
+            secondary: (type: NodeLink) =>
+                Explanation.as(
+                    WRITE_DOC + 'expected boolean condition but received ',
                     type
                 ),
         },
