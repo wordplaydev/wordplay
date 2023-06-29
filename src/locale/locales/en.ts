@@ -1952,7 +1952,13 @@ const en: Locale = {
         ExpectedBooleanCondition: {
             primary: (type: NodeLink) =>
                 Explanation.as(
-                    WRITE_DOC + 'expected boolean condition but received ',
+                    `I can't choose between yes and no with a `,
+                    type,
+                    `; can you give me a ${TRUE_SYMBOL} or ${FALSE_SYMBOL} value?`
+                ),
+            secondary: (type: NodeLink) =>
+                Explanation.as(
+                    `I wish I evaluated to a ${TRUE_SYMBOL} or ${FALSE_SYMBOL}, but I'm a `,
                     type
                 ),
         },

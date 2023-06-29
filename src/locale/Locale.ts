@@ -517,7 +517,8 @@ type Locale = {
             (duplicate: NodeLink) => Description,
             (duplicate: NodeLink) => Description
         >;
-        ExpectedBooleanCondition: InternalConflictText<
+        ExpectedBooleanCondition: ConflictText<
+            (type: NodeLink) => Description,
             (type: NodeLink) => Description
         >;
         ExpectedColumnType: InternalConflictText<

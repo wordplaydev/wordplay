@@ -20,9 +20,16 @@ export default class ExpectedBooleanCondition extends Conflict {
     getConflictingNodes() {
         return {
             primary: {
-                node: this.conditional.condition,
+                node: this.conditional.question,
                 explanation: (translation: Locale, context: Context) =>
                     translation.conflict.ExpectedBooleanCondition.primary(
+                        new NodeLink(this.type, translation, context)
+                    ),
+            },
+            secondary: {
+                node: this.conditional.condition,
+                explanation: (translation: Locale, context: Context) =>
+                    translation.conflict.ExpectedBooleanCondition.secondary(
                         new NodeLink(this.type, translation, context)
                     ),
             },
