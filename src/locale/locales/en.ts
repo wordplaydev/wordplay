@@ -5784,7 +5784,7 @@ const en: Locale = {
                 },
                 {
                     name: 'Time',
-                    code: output(``),
+                    code: output(`Phrase("🕦")`),
                     lines: [
                         dialog(
                             'FunctionDefinition',
@@ -5890,6 +5890,84 @@ const en: Locale = {
                             `@Time is an interesting stream because it can be used for many different things: keeping track of how long a performance has been happening, timing some event, animating a word. 
                             It's one of the most flexible streams, but also one of the most abstract.`
                         ),
+                    ],
+                },
+                {
+                    name: 'Key',
+                    code: output(`Phrase("⌨️")`),
+                    lines: [
+                        output(
+                            `Phrase("⌨️" rest: Sequence({0%: Pose(tilt: -5°) 25%: Pose(tilt: 0°) 50%: Pose(tilt: 5°) 75%: Pose(tilt: 0°) 100%: Pose(tilt: -5°)} 1s 'straight'))`
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Serious,
+                            `If I'm not mistaken, there's a thing in your world called a “keyboard”? 
+                            
+                            It's a way of selecting which one of us you want to appear in your documents, right? 
+                            
+                            Well in the Verse, we receive these requests as a stream of text, each text value representing the key that was pressed. 
+                            We use these to listen to what people in your world are typing.
+                            
+                            This stream is called @Key.`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `Here's a simple example. 
+                            Click the stage or focus it with the keyboard and then press any keyboard key. 
+                            You'll see the key you've typed appear by name. 
+                            
+                            That's because each time the key stream changes, @Program evaluates the key stream as its latest value, and then shows it on stage.`
+                        ),
+                        dialog(
+                            'Key',
+                            Emotion.Neutral,
+                            `clickety clickety clickety`
+                        ),
+                        edit(`Phrase(Key())`),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Serious,
+                            `This stream will change any time any key is pressed. 
+                            
+                            But you can tell a key stream to just change when a particular key is pressed.
+                            
+                            See how the stream changes to ⧼a⧽ the first time, but then doesn't change after? 
+                            
+                            That's because this stream only changes when ⧼a⧽ is pressed, so it's always showing ⧼a⧽.
+                            But you'll always see the new key value appear in the timeline.`
+                        ),
+                        dialog('Key', Emotion.Neutral, `clickety 'a'…`),
+                        edit(`Phrase(Key('a'))`),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Kind,
+                            `Sometimes it's helpful to know when a key is released, instead of pressed. 
+                            Just pass ⧼⊥⧽ to tell the @Key stream that you to know when a key is released instead of pressed.
+                            
+                            Now, press and hold the 'a' key and then when you release, you'll see the 'a' appear on stage.
+                            
+                            Didn't catch it? 
+                            Press the ↻ button to reset the performance and try it again.`
+                        ),
+                        dialog('Key', Emotion.Neutral, `clickety 'a'…`),
+                        edit(`Phrase(Key('a' ⊥))`),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `@Key streams are really helpful when you want a performance to react to keys that the audience presses. 
+                            
+                            For example, you could check if a key has the word "Arrow" in it to decide if an arrow key was pressed.
+                            
+                            Press an arrow key and you'll see ⧼'move'⧽, press something else and you'll see ⧼'stay'⧽`
+                        ),
+                        dialog('Key', Emotion.Neutral, `clickety 'Arrow'…`),
+                        edit(`Phrase(Key().has('Arrow') ? 'move' 'stay')`),
                     ],
                 },
             ],
