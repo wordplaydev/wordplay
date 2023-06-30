@@ -15,9 +15,9 @@ import { TYPE_SYMBOL } from '../parser/Symbols';
 import type { NameGenerator } from './Verse';
 
 export const GroupType = toStructure(`
-    ${getBind((t) => t.output.group, TYPE_SYMBOL)} Type(
-        ${getBind((t) => t.output.group.layout)}•Arrangement
-        ${getBind((t) => t.output.group.content)}•[Type|ø]
+    ${getBind((t) => t.output.Group, TYPE_SYMBOL)} Type(
+        ${getBind((t) => t.output.Group.layout)}•Arrangement
+        ${getBind((t) => t.output.Group.content)}•[Type|ø]
         ${TypeOutputInputs}
     )`);
 

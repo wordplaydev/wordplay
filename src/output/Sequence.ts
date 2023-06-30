@@ -16,13 +16,13 @@ import type { TransitionSequence } from './OutputAnimation';
 import en from '@locale/locales/en';
 
 export const SequenceType = toStructure(`
-    ${getBind((t) => t.output.sequence, TYPE_SYMBOL)}(
-        ${getBind((t) => t.output.sequence.poses)}•{ % : Pose }
-        ${getBind((t) => t.output.type.duration)}•#s: 0.25s
-        ${getBind((t) => t.output.type.style)}•${Object.values(en.output.easing)
+    ${getBind((t) => t.output.Sequence, TYPE_SYMBOL)}(
+        ${getBind((t) => t.output.Sequence.poses)}•{ % : Pose }
+        ${getBind((t) => t.output.Type.duration)}•#s: 0.25s
+        ${getBind((t) => t.output.Type.style)}•${Object.values(en.output.Easing)
     .map((id) => `"${id}"`)
     .join('|')}: "zippy"
-        ${getBind((t) => t.output.sequence.count)}•1x|2x|3x|4x|5x: 1x
+        ${getBind((t) => t.output.Sequence.count)}•1x|2x|3x|4x|5x: 1x
     )
 `);
 

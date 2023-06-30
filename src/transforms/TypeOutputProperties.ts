@@ -30,7 +30,7 @@ function getPoseProperty(name: string): OutputProperty {
 }
 
 export const DurationProperty: OutputProperty = {
-    name: getFirstName(en.output.type.duration.names),
+    name: getFirstName(en.output.Type.duration.names),
     type: new OutputPropertyRange(0, 2, 0.25, 's', 2),
     required: false,
     inherited: false,
@@ -39,9 +39,9 @@ export const DurationProperty: OutputProperty = {
 };
 
 export const StyleProperty: OutputProperty = {
-    name: getFirstName(en.output.type.style.names),
+    name: getFirstName(en.output.Type.style.names),
     type: new OutputPropertyOptions(
-        Object.values(en.output.easing).reduce(
+        Object.values(en.output.Easing).reduce(
             (all: string[], next: NameText) => [
                 ...all,
                 ...(Array.isArray(next) ? next : [next]),
@@ -64,7 +64,7 @@ export const StyleProperty: OutputProperty = {
 // All output has these properties.
 const TypeOutputProperties: OutputProperty[] = [
     {
-        name: getFirstName(en.output.type.size.names),
+        name: getFirstName(en.output.Type.size.names),
         type: new OutputPropertyRange(0.25, 32, 0.25, 'm'),
         required: false,
         inherited: true,
@@ -72,7 +72,7 @@ const TypeOutputProperties: OutputProperty[] = [
         create: () => MeasurementLiteral.make(1, Unit.make(['m'])),
     },
     {
-        name: getFirstName(en.output.type.family.names),
+        name: getFirstName(en.output.Type.family.names),
         type: new OutputPropertyOptions(
             [...SupportedFonts.map((font) => font.name)],
             true,
@@ -88,7 +88,7 @@ const TypeOutputProperties: OutputProperty[] = [
         create: () => TextLiteral.make('Noto Sans'),
     },
     {
-        name: getFirstName(en.output.type.place.names),
+        name: getFirstName(en.output.Type.place.names),
         type: 'place',
         required: false,
         inherited: false,
@@ -104,7 +104,7 @@ const TypeOutputProperties: OutputProperty[] = [
             ),
     },
     {
-        name: getFirstName(en.output.type.rotation.names),
+        name: getFirstName(en.output.Type.rotation.names),
         type: new OutputPropertyRange(0, 360, 1, '°'),
         required: false,
         inherited: false,
@@ -114,17 +114,17 @@ const TypeOutputProperties: OutputProperty[] = [
     DurationProperty,
     StyleProperty,
     {
-        name: getFirstName(en.output.type.name.names),
+        name: getFirstName(en.output.Type.name.names),
         type: new OutputPropertyText(() => true),
         required: false,
         inherited: false,
         editable: (expr) => expr instanceof TextLiteral,
         create: () => TextLiteral.make(''),
     },
-    getPoseProperty(getFirstName(en.output.type.enter.names)),
-    getPoseProperty(getFirstName(en.output.type.rest.names)),
-    getPoseProperty(getFirstName(en.output.type.move.names)),
-    getPoseProperty(getFirstName(en.output.type.exit.names)),
+    getPoseProperty(getFirstName(en.output.Type.enter.names)),
+    getPoseProperty(getFirstName(en.output.Type.rest.names)),
+    getPoseProperty(getFirstName(en.output.Type.move.names)),
+    getPoseProperty(getFirstName(en.output.Type.exit.names)),
 ];
 
 export default TypeOutputProperties;

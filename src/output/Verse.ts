@@ -25,10 +25,10 @@ export const DefaultFont = `'Noto Sans', 'Noto Color Emoji'`;
 export const DefaultSize = 1;
 
 export const VerseType = toStructure(`
-    ${getBind((t) => t.output.verse, '•')} Type(
-        ${getBind((t) => t.output.verse.content)}•[Type]
-        ${getBind((t) => t.output.verse.background)}•Color: Color(100 0 0°)
-        ${getBind((t) => t.output.verse.frame)}•Shape|ø: ø
+    ${getBind((t) => t.output.Verse, '•')} Type(
+        ${getBind((t) => t.output.Verse.content)}•[Type]
+        ${getBind((t) => t.output.Verse.background)}•Color: Color(100 0 0°)
+        ${getBind((t) => t.output.Verse.frame)}•Shape|ø: ø
         ${TypeOutputInputs}
     )
 `);
@@ -129,7 +129,7 @@ export default class Verse extends TypeOutput {
     }
 
     getDescription(languages: LanguageCode[]) {
-        return getPreferredLocale(languages).output.verse.description(
+        return getPreferredLocale(languages).output.Verse.description(
             this.content.length,
             this.content.filter((o) => o instanceof Phrase).length,
             this.content.filter((o) => o instanceof Group).length

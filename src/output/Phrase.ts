@@ -19,8 +19,8 @@ import { getStyle } from './toTypeOutput';
 import type { NameGenerator } from './Verse';
 
 export const PhraseType = toStructure(`
-    ${getBind((t) => t.output.phrase, '•')} Type(
-        ${getBind((t) => t.output.phrase.text)}•""|[""]
+    ${getBind((t) => t.output.Phrase, '•')} Type(
+        ${getBind((t) => t.output.Phrase.text)}•""|[""]
         ${TypeOutputInputs}
     )`);
 

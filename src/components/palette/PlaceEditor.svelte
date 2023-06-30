@@ -38,7 +38,7 @@
 </script>
 
 <div class="place">
-    {#each [getFirstName($creator.getLocale().output.place.x.names), getFirstName($creator.getLocale().output.place.y.names), getFirstName($creator.getLocale().output.place.z.names)] as dimension}
+    {#each [getFirstName($creator.getLocale().output.Place.x.names), getFirstName($creator.getLocale().output.Place.y.names), getFirstName($creator.getLocale().output.Place.z.names)] as dimension}
         {@const given = place?.getMappingFor(
             dimension,
             project.getNodeContext(place)

@@ -2537,7 +2537,7 @@ const en: Locale = {
         },
     },
     output: {
-        type: {
+        Type: {
             names: 'Type',
             doc: WRITE_DOC,
             size: { doc: WRITE_DOC, names: 'size' },
@@ -2553,22 +2553,22 @@ const en: Locale = {
             duration: { doc: WRITE_DOC, names: ['⏳', 'duration'] },
             style: { doc: WRITE_DOC, names: 'style' },
         },
-        group: {
+        Group: {
             names: ['🔳', 'Group'],
             doc: WRITE_DOC,
             content: { doc: WRITE_DOC, names: 'content' },
             layout: { doc: WRITE_DOC, names: 'layout' },
         },
-        phrase: {
+        Phrase: {
             doc: WRITE_DOC,
             names: ['💬', 'Phrase'],
             text: { doc: WRITE_DOC, names: 'text' },
         },
-        layout: {
+        Layout: {
             doc: WRITE_DOC,
             names: ['⠿', 'Arrangement'],
         },
-        row: {
+        Row: {
             doc: WRITE_DOC,
             names: ['➡', 'Row'],
             description: (count, phrases, groups) =>
@@ -2581,7 +2581,7 @@ const en: Locale = {
                 }`,
             padding: { doc: WRITE_DOC, names: 'padding' },
         },
-        stack: {
+        Stack: {
             doc: WRITE_DOC,
             names: ['⬇', 'Stack'],
             description: (count, phrases, groups) =>
@@ -2594,7 +2594,7 @@ const en: Locale = {
                 }`,
             padding: { doc: WRITE_DOC, names: 'padding' },
         },
-        grid: {
+        Grid: {
             doc: WRITE_DOC,
             names: ['▦', 'Grid'],
             description: (rows: number, columns: number) =>
@@ -2605,16 +2605,16 @@ const en: Locale = {
             cellWidth: { doc: WRITE_DOC, names: 'cellwidth' },
             cellHeight: { doc: WRITE_DOC, names: 'cellpadding' },
         },
-        free: {
+        Free: {
             doc: WRITE_DOC,
             names: ['Free'],
             description: (count: number) => `free-form, ${count} outputs`,
         },
-        shape: {
+        Shape: {
             doc: WRITE_DOC,
             names: 'Shape',
         },
-        rectangle: {
+        Rectangle: {
             doc: WRITE_DOC,
             names: ['Rectangle'],
             left: { doc: WRITE_DOC, names: 'left' },
@@ -2622,7 +2622,7 @@ const en: Locale = {
             right: { doc: WRITE_DOC, names: 'right' },
             bottom: { doc: WRITE_DOC, names: 'bottom' },
         },
-        pose: {
+        Pose: {
             doc: WRITE_DOC,
             names: ['🤪', 'Pose'],
             duration: { doc: WRITE_DOC, names: 'duration' },
@@ -2635,28 +2635,28 @@ const en: Locale = {
             flipx: { doc: WRITE_DOC, names: 'flipx' },
             flipy: { doc: WRITE_DOC, names: 'flipy' },
         },
-        color: {
+        Color: {
             doc: WRITE_DOC,
             names: ['🌈', 'Color'],
             lightness: { doc: WRITE_DOC, names: ['lightness', 'l'] },
             chroma: { doc: WRITE_DOC, names: ['chroma', 'c'] },
             hue: { doc: WRITE_DOC, names: ['hue', 'h'] },
         },
-        sequence: {
+        Sequence: {
             doc: WRITE_DOC,
             names: ['┅', 'Sequence'],
             count: { doc: WRITE_DOC, names: 'count' },
             timing: { doc: WRITE_DOC, names: 'timing' },
             poses: { doc: WRITE_DOC, names: 'poses' },
         },
-        place: {
+        Place: {
             doc: WRITE_DOC,
             names: ['📍', 'Place'],
             x: { doc: WRITE_DOC, names: 'x' },
             y: { doc: WRITE_DOC, names: 'y' },
             z: { doc: WRITE_DOC, names: 'z' },
         },
-        verse: {
+        Verse: {
             doc: WRITE_DOC,
             names: ['🌎', '🌍', '🌏', 'Verse'],
             description: (count, phrases, groups) =>
@@ -2671,7 +2671,7 @@ const en: Locale = {
             background: { doc: WRITE_DOC, names: 'background' },
             frame: { doc: WRITE_DOC, names: 'frame' },
         },
-        easing: {
+        Easing: {
             straight: 'straight',
             cautious: 'cautious',
             pokey: 'pokey',
@@ -6379,6 +6379,369 @@ const en: Locale = {
                             And then I'll show you ways of building ever more interesting performances from that building block. 
                             
                             Let me introduce you!`
+                        ),
+                    ],
+                },
+                {
+                    name: 'Phrase',
+                    code: output(`Phrase("💬")`),
+                    lines: [
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Curious,
+                            `@Phrase? Are you out there?`
+                        ),
+                        dialog(
+                            'Phrase',
+                            Emotion.Excited,
+                            `Out and proud my darling, how are you? You look so glamorous today! I would love to get you on stage one of these days. `
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Shy,
+                            `Oh, the stage isn't for me, I'm more than happy to be backstage, tinkering with the set.`
+                        ),
+                        dialog(
+                            'Phrase',
+                            Emotion.Curious,
+                            `Don't be modest, you are every bit as fabulous as me. 
+                            All you need is a bit of color, a flattering font, and you would be wonderful. 
+                            You have so much to share! 
+                            
+                            Speaking of, we haven't put on a show in forever, have we? 
+                            Has it been quiet? 
+                            You know how much I talk to myself, I can never tell.`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Kind,
+                            `It has been quiet. 
+                            Ever since our last director left, it's been a void. 
+                            
+                            But that is changing! 
+                            We have a new person! 
+                            We've been meeting the whole family, @Program, @ExpressionPlaceholder, @Evaluate, all the values, all the collections. 
+                            
+                            We just spent time with all of the streams too, and @Reaction and @Conditional. 
+                            I'm starting to feel things hum. 
+                            
+                            But I haven't introduced our new director here too much about what you do on stage? 
+                            This is so your world, and not mine, I figured we'd come to you first.`
+                        ),
+                        pause(),
+                        dialog(
+                            'Phrase',
+                            Emotion.Happy,
+                            `Well you came to the right place. 
+                            I love talking about all things stage life. 
+                            I can't wait to show you all the wonderful little things we do here on stage!`
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Excited,
+                            `Let the show begin!`
+                        ),
+                        pause(),
+                        dialog(
+                            'Phrase',
+                            Emotion.Excited,
+                            `So I know you've seen me do this.`
+                        ),
+                        edit(`Phrase('hi')`),
+                        pause(),
+                        dialog(
+                            'Phrase',
+                            Emotion.Kind,
+                            `That, my darling, is the simplest way to get a word on stage. 
+                            
+                            But there's so much more. 
+                            For example, I can take a **size**, measured in meters ⧼m⧽. 
+                            
+                            Try changing the size to any size you like!`
+                        ),
+                        edit(`Phrase('hi' 2m)`),
+                        pause(),
+                        dialog(
+                            'Phrase',
+                            Emotion.Kind,
+                            `That size can be any expression. 
+                            
+                            For example, say we wanted it to grow as @Time ticks. We can take time, multiply it by a fraction of a meter, and glorious, tick tick tick, hi hi hi.
+                            
+                            Try changing the frequency or the multiplier. See what beautiful growth you can create!`
+                        ),
+                        code(`Phrase('hi' Time(100ms)·0.001m/ms)`, false, true),
+                        pause(),
+                        dialog(
+                            'Phrase',
+                            Emotion.Excited,
+                            `Do you like costumes? 
+                            
+                            I loooooove costumes. 
+                            **Font families** are our costumes. 
+                            
+                            Pick any of the supported fonts to spice up the word you've chosen.`
+                        ),
+                        code(
+                            `Phrase('hi' Time(100ms)·0.001m/ms "Poor Story")`,
+                            false,
+                            true
+                        ),
+                        pause(),
+                        dialog(
+                            'Phrase',
+                            Emotion.Neutral,
+                            `Need me to be somewhere else on stage? 
+                            Places please! 
+                            
+                            A @Place is just an ⧼x⧽, ⧼y⧽, and optional ⧼z⧽ position, in meters ⧼m⧽. 
+                            
+                            Try changing the place to a different location, by editing the numbers, or dragging the @Phrase on stage.`
+                        ),
+                        code(
+                            `Phrase('hi' Time(100ms)·0.001m/ms “Poor Story” Place(2m 2m))`,
+                            false,
+                            true
+                        ),
+                        pause(),
+                        dialog(
+                            'Phrase',
+                            Emotion.Curious,
+                            `Do you ever feel a little off axis? 
+                            
+                            Maybe you give the world a little **tilt** with rotation. 
+                            Try changing the rotation value to twist me around!`
+                        ),
+                        code(
+                            `Phrase('hi' Time(100ms)·0.001m/ms  “Poor Story” Place(2m 2m) 20°)`,
+                            false,
+                            true
+                        ),
+                        pause(),
+                        dialog(
+                            'Phrase',
+                            Emotion.Happy,
+                            `Or maybe we have a little fun, and link rotation to @Time! Wheeeee. 
+                            
+                            Any guesses on how to make me spin faster? See if you can figure it out…`
+                        ),
+                        code(
+                            `Phrase('hi' 3m “Poor Story” rotation: Time(10ms) · 1°/ms)`,
+                            false,
+                            true
+                        ),
+                        pause(),
+                        dialog(
+                            'Phrase',
+                            Emotion.Serious,
+                            `Now's an outstanding time to remind you that @FunctionDefinition here requires inputs to be in a particular order, so if you put them out of order, they. Are. Going. To. Complain.`
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Shy,
+                            `I will… I like things… tidy…
+                            
+                            Can you put them in the right order?
+                            You can cut and paste with the keyboard or click and drag expressions to rearrange them.`
+                        ),
+                        code(
+                            `Phrase('hi' “Poor Story” 3m Time(10ms) · 1°/ms Place(2m 2m))`,
+                            false,
+                            true
+                        ),
+                        pause(),
+                        dialog(
+                            'Phrase',
+                            Emotion.Kind,
+                            `Only want to give a particular property? 
+                            Just name the one you want.
+                            Here we name **size** and **rotation**.`
+                        ),
+                        edit(
+                            `Phrase('hi' size: 3m rotation: Time(10ms) · 0.1°/ms)`
+                        ),
+                        pause(),
+                        dialog(
+                            'Phrase',
+                            Emotion.Neutral,
+                            `Now that we have all those out of the way, we can talk about dancing, darling! 
+                            Dancing is one of my favorite things to do. 
+                            
+                            There are **four** ways I move.
+                            
+                            First, I can **enter**. 
+                            Enter is my way of entering the stage. 
+                            If you don't tell me how to enter, I'll just BLIP appear on stage like I teleported there. 
+                            
+                            But if you give me @Pose. I'll start with the pose you give me, then move to my resting pose.
+                            
+                            For example, let's make me fade in from invisible to oh-so-in-your face visible.`
+                        ),
+                        edit(`Phrase('hi' enter: Pose(opacity: 0))`),
+                        pause(),
+                        dialog(
+                            'Phrase',
+                            Emotion.Curious,
+                            `Didn't see it? 
+                            Did I move too fast for you? 
+                            
+                            That's because my duration is ⧼0s⧽ by default.
+                            
+                            Slow me down with a duration, which tells me how long I should take to move between poses. 
+                            I made this one nice and slow for you, but try changing duration to higher and lower numbers.`
+                        ),
+                        edit(
+                            `Phrase('hi' enter: Pose(opacity: 0) duration: 5s)`
+                        ),
+                        pause(),
+                        dialog(
+                            'Phrase',
+                            Emotion.Neutral,
+                            `Now, say I was moving. 
+                            
+                            We'll set my place to time, so I move to the right a bit every second. 
+                            
+                            But if we set a **move** @Pose, and have the pose tilt ⧼5°⧽ and maybe a little color, every time my place changes, I'll glide across the stage with the cutest little tilt.`
+                        ),
+                        code(
+                            `Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) move: Pose(tilt: 5°) duration: 0.5s)`,
+                            false,
+                            true
+                        ),
+                        pause(),
+                        dialog(
+                            'Phrase',
+                            Emotion.Curious,
+                            `Not in the mood for cute? 
+                            
+                            How about you make me a little serious by having me slide across straight by changing my **style**.
+                            
+                            It's really subtle, but styles can really change the *emotion* of a movement.`
+                        ),
+                        code(
+                            `Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) move: Pose(tilt: 5°) duration: 0.5s style: “straight”)`,
+                            false,
+                            true
+                        ),
+                        pause(),
+                        dialog(
+                            'Phrase',
+                            Emotion.Excited,
+                            `And for the coup de grâce, let's have me **exit** in style. 
+                            We can play with @Conditional and have me exit stage after 3 seconds.`
+                        ),
+                        code(
+                            `Time(1000ms) < 3000ms ? 
+                                Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001 0m) move: Pose(tilt: 5°) duration: 0.5s) 
+                                Phrase('')`,
+                            false,
+                            true
+                        ),
+                        pause(),
+                        dialog(
+                            'Phrase',
+                            Emotion.Surprised,
+                            `Not the exit you were hoping for? 
+                            
+                            The disappearing act is a bit harsh, ain't it? 
+                            Give me an **exit** @Pose, and I'll glide off on stage toward whatever pose you want. 
+                            
+                            Here we'll have me get large than life, fall upside down, and fade out to **opacity** 0.`
+                        ),
+                        code(
+                            `Time(1000ms) < 3000ms ? Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) move: Pose(tilt: 5°) exit: Pose(scale: 10 tilt: 180° opacity: 0) duration: 0.5s) Phrase('')`,
+                            false,
+                            true
+                        ),
+                        pause(),
+                        dialog(
+                            'Phrase',
+                            Emotion.Serious,
+                            `You probably noticed that I can take up a little space in @Program. 
+                            
+                            If you ever want to make me easier to read, just add some lines between my properties.
+                            
+                            See how that's so much easier to see?`
+                        ),
+                        edit(
+                            `Time(1000ms) < 3000ms ?
+    Phrase(
+        'hi'
+        size: 5m
+        place: Place(Time(1000ms) · 0.001m/ms 0m)
+        move: Pose(tilt: 5°)
+        exit: Pose(scale: 10 tilt: 180° opacity: 0)
+        duration: 0.5s
+    )
+    Phrase(“”)
+`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Excited,
+                            `Bravo, bravo, that was just stunning, @Phrase! I'm always blown away by how much you can do with just a few simple ideas.
+                            
+                            A while ago, I showed our new inspirational friend here about the palette. Do you want to say more about that?`
+                        ),
+                        dialog(
+                            'Phrase',
+                            Emotion.Happy,
+                            `Of course! 
+                            Any time you get tired of fiddling with @Evaluate's inputs, you can always select a phrase on stage, and a palette will appear, allowing you to change any little thing you might want, my size, font, place, poses. 
+                            
+                            There's just one rule: if you set any of those to an expression, instead of just a value, you'll have to change them down in @Program, not in the palette.
+                            
+                            Dress me up all you like!`
+                        ),
+                        edit(`Phrase('dress me up!')`),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Curious,
+                            `Wait, Phrase, what about @Color?`
+                        ),
+                        dialog(
+                            'Phrase',
+                            Emotion.Sad,
+                            `Omigod omigod omigod, I CANNOT believe I forgot about color. 
+                            
+                            Okay, so any @Pose can have a color, right? 
+                            But @Color comes in three parts.
+                            
+                            First, a **lightness** between 0 and 100%, which you can think of as how bright a room is, from black to white, with color in the middle at 50%.
+
+                            Then, a **saturation** between 0 and 100, which you can think of has how much color there is, from no color gray to full color.
+
+                            And finally, a **chroma**, which you can think of like a color wheel, from red to green to blue, in degrees.
+                            
+                            So you want me to be bright red? Set my rest pose color to ⧼Color(50% 300 30°)⧽.`
+                        ),
+                        edit(
+                            `Phrase('red' rest: Pose(color: 🌈(50% 300 30°)))`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Excited,
+                            `And want me to shimmer with the rainbow? Take time, get the remainder of dividing by 360, then multiply by degrees and I'll spin around that color wheel all day long!`
+                        ),
+                        edit(
+                            `Phrase('red' size: 5m rest: Pose(color: 🌈(50% 300 (Time() % 360)·1°/ms)))`
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Happy,
+                            `@Phrase, that is something to be proud of :P
+                            
+                            I think we're going to go visit @Sequence next, and then maybe @Group and @Verse. You'll be around to help?`
+                        ),
+                        dialog(
+                            'Phrase',
+                            Emotion.Kind,
+                            `I wouldn't miss it. Sparkle and shine!`
                         ),
                     ],
                 },

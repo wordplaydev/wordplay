@@ -13,8 +13,8 @@ import Group from './Group';
 import Phrase from './Phrase';
 
 export const RowType = toStructure(`
-    ${getBind((t) => t.output.row, '•')} Arrangement(
-        ${getBind((t) => t.output.row.padding)}•#m: 1m
+    ${getBind((t) => t.output.Row, '•')} Arrangement(
+        ${getBind((t) => t.output.Row.padding)}•#m: 1m
     )
 `);
 
@@ -95,7 +95,7 @@ export class Row extends Arrangement {
     }
 
     getDescription(output: TypeOutput[], languages: LanguageCode[]) {
-        return getPreferredLocale(languages).output.row.description(
+        return getPreferredLocale(languages).output.Row.description(
             output.length,
             output.filter((o) => o instanceof Phrase).length,
             output.filter((o) => o instanceof Group).length

@@ -15,7 +15,7 @@ function getLocale(name: NameText) {
 
 const SequenceProperties: OutputProperty[] = [
     {
-        name: getLocale(en.output.sequence.poses.names),
+        name: getLocale(en.output.Sequence.poses.names),
         type: 'poses',
         required: true,
         inherited: false,
@@ -35,7 +35,7 @@ const SequenceProperties: OutputProperty[] = [
     DurationProperty,
     StyleProperty,
     {
-        name: getLocale(en.output.sequence.count.names),
+        name: getLocale(en.output.Sequence.count.names),
         type: new OutputPropertyRange(1, 5, 1, 'x', 0),
         required: false,
         inherited: false,

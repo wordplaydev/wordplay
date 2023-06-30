@@ -13,14 +13,14 @@ import Evaluate from '@nodes/Evaluate';
 import Reference from '@nodes/Reference';
 
 export const PoseType = toStructure(`
-    ${getBind((t) => t.output.pose, '•')}(
-        ${getBind((t) => t.output.pose.color)}•Color|ø: ø
-        ${getBind((t) => t.output.pose.opacity)}•%|ø: ø
-        ${getBind((t) => t.output.pose.offset)}•Place|ø: ø
-        ${getBind((t) => t.output.pose.tilt)}•#°|ø: ø
-        ${getBind((t) => t.output.pose.scale)}•#|ø: ø
-        ${getBind((t) => t.output.pose.flipx)}•?|ø: ø
-        ${getBind((t) => t.output.pose.flipy)}•?|ø: ø
+    ${getBind((t) => t.output.Pose, '•')}(
+        ${getBind((t) => t.output.Pose.color)}•Color|ø: ø
+        ${getBind((t) => t.output.Pose.opacity)}•%|ø: ø
+        ${getBind((t) => t.output.Pose.offset)}•Place|ø: ø
+        ${getBind((t) => t.output.Pose.tilt)}•#°|ø: ø
+        ${getBind((t) => t.output.Pose.scale)}•#|ø: ø
+        ${getBind((t) => t.output.Pose.flipx)}•?|ø: ø
+        ${getBind((t) => t.output.Pose.flipy)}•?|ø: ø
     )
 `);
 

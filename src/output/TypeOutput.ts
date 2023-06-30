@@ -15,24 +15,24 @@ import type LanguageCode from '@locale/LanguageCode';
 import type { Description } from '@locale/Locale';
 
 export const TypeType = toStructure(`
-    ${getBind((t) => t.output.type, TYPE_SYMBOL)}()
+    ${getBind((t) => t.output.Type, TYPE_SYMBOL)}()
 `);
 
 export const DefaultStyle = 'zippy';
 
 export const TypeOutputInputs = `
-${getBind((t) => t.output.type.size)}•#m|ø: ø
-${getBind((t) => t.output.type.family)}•${SupportedFontsFamiliesType}|ø: ø
-${getBind((t) => t.output.type.place)}•ø|Place: ø
-${getBind((t) => t.output.type.rotation)}•#°|ø: ø
-${getBind((t) => t.output.type.name)}•""|ø: ø
-${getBind((t) => t.output.type.selectable)}•?: ⊥
-${getBind((t) => t.output.type.enter)}•ø|Pose|Sequence: ø
-${getBind((t) => t.output.type.rest)}•ø|Pose|Sequence: Pose()
-${getBind((t) => t.output.type.move)}•ø|Pose|Sequence: ø
-${getBind((t) => t.output.type.exit)}•ø|Pose|Sequence: ø
-${getBind((t) => t.output.type.duration)}•#s: 0s
-${getBind((t) => t.output.type.style)}•${Object.values(en.output.easing)
+${getBind((t) => t.output.Type.size)}•#m|ø: ø
+${getBind((t) => t.output.Type.family)}•${SupportedFontsFamiliesType}|ø: ø
+${getBind((t) => t.output.Type.place)}•ø|Place: ø
+${getBind((t) => t.output.Type.rotation)}•#°|ø: ø
+${getBind((t) => t.output.Type.name)}•""|ø: ø
+${getBind((t) => t.output.Type.selectable)}•?: ⊥
+${getBind((t) => t.output.Type.enter)}•ø|Pose|Sequence: ø
+${getBind((t) => t.output.Type.rest)}•ø|Pose|Sequence: Pose()
+${getBind((t) => t.output.Type.move)}•ø|Pose|Sequence: ø
+${getBind((t) => t.output.Type.exit)}•ø|Pose|Sequence: ø
+${getBind((t) => t.output.Type.duration)}•#s: 0s
+${getBind((t) => t.output.Type.style)}•${Object.values(en.output.Easing)
     .map((id) => `"${id}"`)
     .join('|')}: "${DefaultStyle}"
 )`;

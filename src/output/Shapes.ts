@@ -7,15 +7,15 @@ import { toDecimal } from './Verse';
 import { PX_PER_METER } from './outputToCSS';
 
 export const ShapeType = toStructure(`
-    ${getBind((t) => t.output.shape, TYPE_SYMBOL)}()
+    ${getBind((t) => t.output.Shape, TYPE_SYMBOL)}()
 `);
 
 export const RectangleType = toStructure(`
-    ${getBind((t) => t.output.rectangle, '•')} Shape(
-        ${getBind((t) => t.output.rectangle.left)}•#m
-        ${getBind((t) => t.output.rectangle.top)}•#m
-        ${getBind((t) => t.output.rectangle.right)}•#m
-        ${getBind((t) => t.output.rectangle.bottom)}•#m
+    ${getBind((t) => t.output.Rectangle, '•')} Shape(
+        ${getBind((t) => t.output.Rectangle.left)}•#m
+        ${getBind((t) => t.output.Rectangle.top)}•#m
+        ${getBind((t) => t.output.Rectangle.right)}•#m
+        ${getBind((t) => t.output.Rectangle.bottom)}•#m
     )
 `);
 

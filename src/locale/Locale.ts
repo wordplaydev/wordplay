@@ -971,7 +971,7 @@ export type NodeTexts = {
 };
 
 export type OutputTexts = {
-    type: ConceptText<1, 0> & {
+    Type: ConceptText<1, 0> & {
         size: NameAndDoc;
         family: NameAndDoc;
         place: NameAndDoc;
@@ -985,28 +985,28 @@ export type OutputTexts = {
         duration: NameAndDoc;
         style: NameAndDoc;
     };
-    group: ConceptText<1, 0> & {
+    Group: ConceptText<1, 0> & {
         content: NameAndDoc;
         layout: NameAndDoc;
     };
-    phrase: ConceptText<1, 0> & {
+    Phrase: ConceptText<1, 0> & {
         text: NameAndDoc;
     };
-    verse: ConceptText<1, 0> & {
+    Verse: ConceptText<1, 0> & {
         description: (total: number, phrases: number, groups: number) => string;
         content: NameAndDoc;
         background: NameAndDoc;
         frame: NameAndDoc;
     };
-    layout: ConceptText<1, 0>;
-    shape: ConceptText<1, 0>;
-    rectangle: ConceptText<1, 0> & {
+    Layout: ConceptText<1, 0>;
+    Shape: ConceptText<1, 0>;
+    Rectangle: ConceptText<1, 0> & {
         left: NameAndDoc;
         top: NameAndDoc;
         right: NameAndDoc;
         bottom: NameAndDoc;
     };
-    pose: ConceptText<1, 0> & {
+    Pose: ConceptText<1, 0> & {
         duration: NameAndDoc;
         style: NameAndDoc;
         color: NameAndDoc;
@@ -1017,30 +1017,30 @@ export type OutputTexts = {
         flipx: NameAndDoc;
         flipy: NameAndDoc;
     };
-    sequence: ConceptText<1, 0> & {
+    Sequence: ConceptText<1, 0> & {
         count: NameAndDoc;
         timing: NameAndDoc;
         poses: NameAndDoc;
     };
-    color: ConceptText<1, 0> & {
+    Color: ConceptText<1, 0> & {
         lightness: NameAndDoc;
         chroma: NameAndDoc;
         hue: NameAndDoc;
     };
-    place: ConceptText<1, 0> & {
+    Place: ConceptText<1, 0> & {
         x: NameAndDoc;
         y: NameAndDoc;
         z: NameAndDoc;
     };
-    row: ConceptText<1, 0> & {
+    Row: ConceptText<1, 0> & {
         description: (total: number, phrases: number, groups: number) => string;
         padding: NameAndDoc;
     };
-    stack: ConceptText<1, 0> & {
+    Stack: ConceptText<1, 0> & {
         description: (total: number, phrases: number, groups: number) => string;
         padding: NameAndDoc;
     };
-    grid: ConceptText<1, 0> & {
+    Grid: ConceptText<1, 0> & {
         description: (rows: number, columns: number) => string;
         rows: NameAndDoc;
         columns: NameAndDoc;
@@ -1048,10 +1048,10 @@ export type OutputTexts = {
         cellWidth: NameAndDoc;
         cellHeight: NameAndDoc;
     };
-    free: ConceptText<1, 0> & {
+    Free: ConceptText<1, 0> & {
         description: (count: number) => string;
     };
-    easing: {
+    Easing: {
         // CSS linear
         straight: NameText;
         // CSS ease-in

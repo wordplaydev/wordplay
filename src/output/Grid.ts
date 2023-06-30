@@ -12,12 +12,12 @@ import Place from './Place';
 import None from '../runtime/None';
 
 export const GridType = toStructure(`
-    ${getBind((t) => t.output.grid, '•')} Arrangement(
-        ${getBind((t) => t.output.grid.rows)}•#
-        ${getBind((t) => t.output.grid.columns)}•#
-        ${getBind((t) => t.output.grid.padding)}•#m: 1m
-        ${getBind((t) => t.output.grid.cellWidth)}•#m|ø: ø
-        ${getBind((t) => t.output.grid.cellHeight)}•#m|ø: ø
+    ${getBind((t) => t.output.Grid, '•')} Arrangement(
+        ${getBind((t) => t.output.Grid.rows)}•#
+        ${getBind((t) => t.output.Grid.columns)}•#
+        ${getBind((t) => t.output.Grid.padding)}•#m: 1m
+        ${getBind((t) => t.output.Grid.cellWidth)}•#m|ø: ø
+        ${getBind((t) => t.output.Grid.cellHeight)}•#m|ø: ø
     )
 `);
 
@@ -151,7 +151,7 @@ export class Grid extends Arrangement {
     }
 
     getDescription(output: TypeOutput[], languages: LanguageCode[]) {
-        return getPreferredLocale(languages).output.grid.description(
+        return getPreferredLocale(languages).output.Grid.description(
             this.rows,
             this.columns
         );

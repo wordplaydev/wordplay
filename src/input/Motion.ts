@@ -28,14 +28,14 @@ import { get } from 'svelte/store';
 import { creator } from '../db/Creator';
 
 const PlaceName =
-    typeof en.output.type.place.names === 'string'
-        ? en.output.type.place.names
-        : en.output.type.place.names[0];
+    typeof en.output.Type.place.names === 'string'
+        ? en.output.Type.place.names
+        : en.output.Type.place.names[0];
 
 const RotationName =
-    typeof en.output.type.rotation.names === 'string'
-        ? en.output.type.rotation.names
-        : en.output.type.rotation.names[0];
+    typeof en.output.Type.rotation.names === 'string'
+        ? en.output.Type.rotation.names
+        : en.output.Type.rotation.names[0];
 
 export default class Motion extends TemporalStream<Value> {
     type: TypeOutput;

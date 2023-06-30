@@ -2092,7 +2092,7 @@ const eng_wordplay: Locale = {
         },
     },
     output: {
-        type: {
+        Type: {
             names: 'Type',
             doc: WRITE_DOC,
             size: { doc: WRITE_DOC, names: 'size' },
@@ -2108,7 +2108,7 @@ const eng_wordplay: Locale = {
             duration: { doc: WRITE_DOC, names: ['duración'] },
             style: { doc: WRITE_DOC, names: 'estilo' },
         },
-        verse: {
+        Verse: {
             names: ['Verso'],
             doc: WRITE_DOC,
             description: () => WRITE_DOC,
@@ -2116,34 +2116,34 @@ const eng_wordplay: Locale = {
             background: { doc: WRITE_DOC, names: 'fondo' },
             frame: { doc: WRITE_DOC, names: 'marco' },
         },
-        group: {
+        Group: {
             names: 'Group',
             doc: WRITE_DOC,
             content: { doc: WRITE_DOC, names: 'content' },
             layout: { doc: WRITE_DOC, names: 'layout' },
         },
-        phrase: {
+        Phrase: {
             names: ['💬', 'Frase'],
             doc: WRITE_DOC,
             text: { doc: WRITE_DOC, names: 'texto' },
         },
-        layout: {
+        Layout: {
             names: ['Arrangement'],
             doc: WRITE_DOC,
         },
-        row: {
+        Row: {
             names: ['Fila'],
             doc: WRITE_DOC,
             description: () => WRITE_DOC,
             padding: { doc: WRITE_DOC, names: 'relleno' },
         },
-        stack: {
+        Stack: {
             names: 'Pila',
             doc: WRITE_DOC,
             description: () => WRITE_DOC,
             padding: { doc: WRITE_DOC, names: 'relleno' },
         },
-        grid: {
+        Grid: {
             names: 'cuadrícula',
             doc: WRITE_DOC,
             description: (rows: number, columns: number) =>
@@ -2154,16 +2154,16 @@ const eng_wordplay: Locale = {
             cellWidth: { doc: WRITE_DOC, names: 'anchodecelda' },
             cellHeight: { doc: WRITE_DOC, names: 'alturadecelda' },
         },
-        free: {
+        Free: {
             names: ['Suelto'],
             doc: WRITE_DOC,
             description: (count: number) => `forma libre, ${count} outputs`,
         },
-        shape: {
+        Shape: {
             names: ['forma'],
             doc: WRITE_DOC,
         },
-        rectangle: {
+        Rectangle: {
             names: ['Rectángulo'],
             doc: WRITE_DOC,
             left: { doc: WRITE_DOC, names: 'izquierda' },
@@ -2171,7 +2171,7 @@ const eng_wordplay: Locale = {
             right: { doc: WRITE_DOC, names: 'derecha' },
             bottom: { doc: WRITE_DOC, names: 'abajo' },
         },
-        pose: {
+        Pose: {
             names: 'Pose',
             doc: WRITE_DOC,
             duration: { doc: WRITE_DOC, names: 'duración' },
@@ -2184,28 +2184,28 @@ const eng_wordplay: Locale = {
             flipx: { doc: WRITE_DOC, names: 'voltearx' },
             flipy: { doc: WRITE_DOC, names: 'volteary' },
         },
-        color: {
+        Color: {
             names: ['Color'],
             doc: WRITE_DOC,
             lightness: { doc: WRITE_DOC, names: ['luminosidad'] },
             chroma: { doc: WRITE_DOC, names: ['croma'] },
             hue: { doc: WRITE_DOC, names: ['matiz'] },
         },
-        sequence: {
+        Sequence: {
             names: 'Secuencia',
             doc: WRITE_DOC,
             timing: { doc: WRITE_DOC, names: 'timing' },
             count: { doc: WRITE_DOC, names: 'count' },
             poses: { doc: WRITE_DOC, names: 'poses' },
         },
-        place: {
+        Place: {
             names: ['Posición'],
             doc: WRITE_DOC,
             x: { doc: WRITE_DOC, names: 'x' },
             y: { doc: WRITE_DOC, names: 'y' },
             z: { doc: WRITE_DOC, names: 'z' },
         },
-        easing: {
+        Easing: {
             straight: 'lineal',
             cautious: 'precavida',
             pokey: 'lenta',

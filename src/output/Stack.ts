@@ -13,8 +13,8 @@ import Phrase from './Phrase';
 import Group from './Group';
 
 export const StackType = toStructure(`
-    ${getBind((t) => t.output.stack, '•')} Arrangement(
-        ${getBind((t) => t.output.stack.padding)}•#m: 1m
+    ${getBind((t) => t.output.Stack, '•')} Arrangement(
+        ${getBind((t) => t.output.Stack.padding)}•#m: 1m
     )
 `);
 
@@ -100,7 +100,7 @@ export class Stack extends Arrangement {
     }
 
     getDescription(output: TypeOutput[], languages: LanguageCode[]) {
-        return getPreferredLocale(languages).output.stack.description(
+        return getPreferredLocale(languages).output.Stack.description(
             output.length,
             output.filter((o) => o instanceof Phrase).length,
             output.filter((o) => o instanceof Group).length
