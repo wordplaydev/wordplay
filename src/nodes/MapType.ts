@@ -121,6 +121,6 @@ export default class MapType extends NativeType {
     }
 
     getGlyphs() {
-        return Glyphs.Set;
+        return Glyphs.Map;
     }
 }

@@ -50,6 +50,8 @@ import {
     TakeTheMic,
     RainingEmoji,
     StaticRainingEmoji,
+    DancingEmoji,
+    DonutDance,
 } from '../../tutorial/Programs';
 
 export const WRITE_DOC = 'TBD';
@@ -2644,7 +2646,7 @@ const en: Locale = {
         },
         Sequence: {
             doc: WRITE_DOC,
-            names: ['┅', 'Sequence'],
+            names: ['💃', 'Sequence'],
             count: { doc: WRITE_DOC, names: 'count' },
             timing: { doc: WRITE_DOC, names: 'timing' },
             poses: { doc: WRITE_DOC, names: 'poses' },
@@ -6742,6 +6744,224 @@ const en: Locale = {
                             'Phrase',
                             Emotion.Kind,
                             `I wouldn't miss it. Sparkle and shine!`
+                        ),
+                    ],
+                },
+                {
+                    name: 'Sequence',
+                    code: output(DancingEmoji('💃')),
+                    lines: [
+                        output(DarkVoid),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Kind,
+                            `@Phrase is just wonderful, aren't they? 
+                            They have so much energy, so many amazing flourishes. 
+                            
+                            Did you know they work closely with our choreographer, @Sequence? 
+                            @Sequence and @Phrase together can do some incredible things that @Phrase can't do alone. 
+                            
+                            Do you want to meet them?`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Excited,
+                            `Yay! @Sequence, we have a guest. Are you back there?`
+                        ),
+                        dialog(
+                            'Sequence',
+                            Emotion.Curious,
+                            `@FunctionDefinition! You look beautiful. 
+                            How long has it been? A week? A month? A century? It was like 1, 2, 3 and then everything was quiet. 
+                            
+                            I feel like I've been dancing alone forever…`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Sad,
+                            `It was silent, wasn't it? 
+                            But I can totally see you dancing alone. 
+                            I was doing my own choreography all alone too, just having to imagine all of you working together. 
+                            But it wasn't the same.`
+                        ),
+                        dialog(
+                            'Sequence',
+                            Emotion.Kind,
+                            `And you an @Evaluate? Are you still…`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Shy,
+                            `I just saw them earlier. They…
+                            
+                            Oh, we have a guest! @Sequence, this is our new director pal. 
+                            They've come to bring us inspiration!`
+                        ),
+                        dialog(
+                            'Sequence',
+                            Emotion.Excited,
+                            `(We're going to come back to that tea, @FunctionDefinition). 
+                            
+                            Director pal, it's so exciting to meet you! Have you come here to learn to dance?`
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Kind,
+                            `Of course they did! Do you want to show them the steps?`
+                        ),
+                        pause(),
+                        dialog(
+                            'Sequence',
+                            Emotion.Serious,
+                            `Absolutely. 
+                            
+                            You know time? 
+                            1, 2, 3, 4, 1, 2, 3, 4? 
+                            Well I make time beautiful, arranging a sequence of poses over time for @Phrase to follow. 
+                            
+                            You tell me what the poses are and I'll help @Phrase follow the steps.
+                            
+                            Like this example: our smiley friend here has four poses, and smoothly moves between them.`
+                        ),
+                        output(
+                            `Phrase('😀' rest: Sequence({0%: Pose() 25%: Pose(offset: Place(0m 1m) scale: 2) 50%: Pose(offset: Place(0m 0m) flipy: ⊤) 75%: Pose(tilt: 45°) 100%: Pose()} 2s))`
+                        ),
+                        pause(),
+                        dialog(
+                            'Sequence',
+                            Emotion.Neutral,
+                            `Here's a simple example of how I work.
+                            
+                            Here's @Phrase (hi @Phrase!) with the word “dance”, and they have an enter pose that's a @Sequence rather than a single @Pose. 
+                            
+                            Follow me? 
+                            
+                            The sequence has four steps. 
+                            Straight, tilt left, tilt right, straight. 
+                            When @Phrase enters, they do this cute little wobble, and then stop. 
+                            
+                            I work with @MapLiteral to map percentages to a @Pose. 
+                            Each of those percentages are how far through the sequence each @Pose should happen.
+                            
+                            Try changing the percentages, especially those two middle ones. It changes the flow and style of the wobble.`
+                        ),
+                        edit(
+                            `Phrase(
+    "dance"
+    enter: Sequence({
+        0%: Pose(tilt: 0°)
+        33%:Pose(tilt:-5°)
+        66%: Pose(tilt: 5°)
+        100%: Pose(tilt: 0°)
+        })
+    )`
+                        ),
+                        pause(),
+                        dialog(
+                            'Sequence',
+                            Emotion.Serious,
+                            `Okay, so now imagine you wanted this to be really fast. 
+                            By default, I'm pretty quick, so any sequence will be a quarter second and it's done. 
+                            
+                            But what if you wanted it to be even faster? 
+                            
+                            Give me a shorter duration and I'll speed every @Pose up to get it done faster. 
+                            
+                            1, 2, 3, 4! 
+                            It doesn't look like a wobble anymore, does it? 
+                            More like a frantic little shake!
+                            
+                            See what it looks like if you slow me down to 2 or 3 seconds…`
+                        ),
+                        edit(
+                            `Phrase(
+"dance"
+enter: Sequence({
+    0%: Pose(tilt: 0°)
+    33%:Pose(tilt:-5°)
+    66%: Pose(tilt: 5°)
+    100%: Pose(tilt: 0°)
+} duration: 0.05s)
+)`
+                        ),
+                        pause(),
+                        dialog(
+                            'Sequence',
+                            Emotion.Excited,
+                            `But sometimes, we come up with a lovely move and we just can't help but want to do it over and over, for emphasis!
+                            
+                            That looks a little violent… try changing my duration and count until we get it just right…`
+                        ),
+                        edit(
+                            `Phrase(
+"dance"
+enter: Sequence({
+    0%: Pose(tilt: 0°)
+    33%:Pose(tilt:-5°)
+    66%: Pose(tilt: 5°)
+    100%: Pose(tilt: 0°)
+} duration: 0.1s count: 4x)
+)`
+                        ),
+                        pause(),
+                        dialog(
+                            'Sequence',
+                            Emotion.Curious,
+                            `But, you say, what if we wanted to do it forever? 
+                            
+                            You can set a @Phrase's **rest** to me. For as long as @Phrase is on stage and resting, they'll repeat a sequence. Infinite wobbles!`
+                        ),
+                        edit(
+                            `Phrase(
+"dance"
+rest: Sequence({
+    0%: Pose(tilt: 0°)
+    33%:Pose(tilt:-5°)
+    66%: Pose(tilt: 5°)
+    100%: Pose(tilt: 0°)
+} duration: 0.05s)
+)`
+                        ),
+                        pause(),
+                        output(DarkVoid),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Kind,
+                            `@Sequence, this is so great! This is exactly what I was hoping you could show us. 
+                            
+                            But I'm curious, what have you been working on lately, dances of your own? 
+                            Maybe something that shows everything you're capable of?`
+                        ),
+                        dialog(
+                            'Sequence',
+                            Emotion.Excited,
+                            `Oh my yes! @Phrase and I have been working on this new donut dance. 
+                            It comes my favorite treat with nearly everything I've learned in dance. 
+                            
+                            Do you want to see it?`
+                        ),
+                        dialog('FunctionDefinition', Emotion.Excited, `Yes!!!`),
+                        pause(),
+                        dialog(
+                            'Sequence',
+                            Emotion.Serious,
+                            `Yeah, hmm, oooh, up, eee, eee, eee, eee, bam, boo, yeah, hmm, oooh, up, eee, eee, eee, eee, bam, boo, yeah, hmm, oooh, up, eee, eee, eee, eee, bam, boo, …`
+                        ),
+                        edit(DonutDance),
+                        pause(),
+                        output(DonutDance),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Happy,
+                            `@Sequence, that's amazing! How could that not be the next viral dance?`
+                        ),
+                        dialog(
+                            'Sequence',
+                            Emotion.Excited,
+                            `You mean next spiral dance. Cheers!`
                         ),
                     ],
                 },

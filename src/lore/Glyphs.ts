@@ -128,6 +128,9 @@ const GlyphSet = {
     Template: {
         symbols: TEMPLATE_SYMBOL,
     },
+    Map: {
+        symbols: SET_OPEN_SYMBOL + BIND_SYMBOL + SET_CLOSE_SYMBOL,
+    },
     Measurement: {
         symbols: MEASUREMENT_SYMBOL,
     },

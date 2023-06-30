@@ -95,3 +95,23 @@ Verse(
     )
     place: Place(0m 0m -5m)
 )`;
+
+export const DancingEmoji = (emoji: string) =>
+    `Phrase('${emoji}' size: 5m rest: Sequence({0%: Pose(offset: Place(-1m 0m)) 25%: Pose(offset: Place(-0m 0m)) 50%: Pose(offset: Place(1m 0m)) 75%: Pose(offset: Place(0m 0m) flipx: ⊤ tilt: 5°) 100%: Pose(offset: Place(-1m 0m))} 2s))`;
+
+export const DonutDance = `Phrase(
+    "🍩"
+    rest: Sequence({
+        0%: Pose(offset: Place(-1m 0m))
+        10%:Pose(offset: Place(1m 0m))
+        20%: Pose(offset: Place(0m -1m))
+        30%: Pose(offset: Place(0m 1m))
+        40%: Pose(tilt: 90°)
+        50%: Pose(tilt: 180°)
+        60%: Pose(tilt: 270°)
+        70%: Pose(tilt: 360°)
+        80%: Pose(scale: 2)
+        90%: Pose(scale: 1.25)
+        100%: Pose(offset: Place(-1m 0m))
+    } duration: 2.5s)
+)`;

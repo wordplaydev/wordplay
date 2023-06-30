@@ -4,7 +4,7 @@ rock: Color(74% 0 200°)
 bamboo: 🌈(77% 88 109°)
 wall: Color(0% 0 0°)
 water: 🌈(50% 89 279°)
-bob: ┅({0%:🤪(color: water tilt: 0°) 50%:🤪(tilt: 7°) 100%:🤪(tilt: 0°)} ⏳: 1.5s)
+bob: Sequence({0%:🤪(color: water tilt: 0°) 50%:🤪(tilt: 7°) 100%:🤪(tilt: 0°)} ⏳: 1.5s)
 
 Verse(
 	[
