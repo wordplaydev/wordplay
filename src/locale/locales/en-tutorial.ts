@@ -5152,6 +5152,170 @@ fruits + 3`
                     ),
                 ],
             },
+            {
+                name: 'Off stage',
+                concept: 'Block',
+                program: symbol('()'),
+                lines: [
+                    output(`Phrase("()" 1m)`, false),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Neutral,
+                        `So there's a character that's been here all along that you haven't met yet, But they've been hiding… 
+                        
+                        They work super closely with @Bind and many other folks, so I thought we should talk to them next. 
+                        
+                        @Block, would you come out?`
+                    ),
+                    dialog('Block', Emotion.Shy, `… hi`),
+                    pause(),
+                    output(`Phrase("()" 2m)`, false),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Kind,
+                        `Hi @Block! 
+                        How are you?`
+                    ),
+                    dialog('Block', Emotion.Shy, `… mmm, good?`),
+                    pause(),
+                    output(`Phrase("()" 3m)`, false),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Kind,
+                        `I have a new friend for you to meet. 
+                        
+                        They might be our next director.`
+                    ),
+                    dialog('Block', Emotion.Shy, `… hi …`),
+                    pause(),
+                    output(`Phrase("()" 4m)`, false),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Kind,
+                        `We were just meeting @Bind and we didn't get a chance to talk about how you two are best of friends!`
+                    ),
+                    dialog('Block', Emotion.Shy, `… yeah, @Bind!`),
+                    pause(),
+                    output(`Phrase("()" 1m)`, false),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Curious,
+                        `Do you want to share what you do together?`
+                    ),
+                    dialog('Block', Emotion.Shy, `… can you?`),
+                    pause(),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Kind,
+                        `Yes, of course! 
+                        So, it turns out that @Program is mostly just a @Block. 
+                        It's just @Block without parentheses. 
+                        
+                        But you can put @Block with parentheses anywhere in a program. 
+                        For example, you can use @Block to clarify the order of evaluating math.
+                        
+                        Here, @BinaryOperator evaluates 1, then evaluates @Block, then they are added together.
+                        
+                        @Block, did I get that right?`
+                    ),
+                    edit(`1 + (2 · 3)`),
+                    dialog('Block', Emotion.Shy, `… yeah!`),
+                    pause(),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Kind,
+                        `And so another thing @Block can do is something you've already seen. 
+                        @Block let's you name things with @Bind. 
+                        
+                        But any names defined in the @Block are only defined between the parentheses. 
+                        Not before, and not after.
+                        
+                        For example, check this out. 
+                        ⧼a⧽ is defined as ⧼1⧽, then a block starts, and ⧼b⧽ is defined as ⧼2⧽, then ⧼c⧽ is defined as their sum. 
+                        
+                        What @Block evaluates to whatever value is last in its list of expressions. 
+                        That's @Bind, which evaluates to whatever ⧼c⧽ is, which is ⧼3⧽. 
+                        
+                        Right?`
+                    ),
+                    edit(
+                        `a: 1
+(
+  b: 2
+  c: a + b
+)`
+                    ),
+                    pause(),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Serious,
+                        `But what if we wanted to access ⧼c⧽ outside the @Block? 
+                        You can't. 
+                        ⧼c⧽ is only defined inside the @Block, but not outside it.
+                        
+                        Is that right @Block?`
+                    ),
+                    edit(
+                        `a: 1
+(
+  b: 2
+  c: a + b
+) + c`
+                    ),
+                    dialog(
+                        'Block',
+                        Emotion.Shy,
+                        `… yeah, nothing outside me can see the names inside me. ⧼c⧽ only exists insideeeee`
+                    ),
+                    pause(),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Neutral,
+                        `And one more thing, I think? 
+                        
+                        Since @Block is a list of expressions, and it only evaluates to the last expression in the list, any expressions in the list that aren't a @Bind are basically ignored.
+                        
+                        For example, here, all of the arithmetic before the last one is ignored. 
+                        
+                        The ⧼3⧽, the ⧼5⧽, the ⧼7⧽, all ignored, and @Block just evaluates to the last one, ⧼9⧽.
+                        
+                        Did I get that right, @Block?`
+                    ),
+                    dialog(
+                        'Block',
+                        Emotion.Shy,
+                        `… mhm. Just the last one. The others… I don't know what they're for!!`
+                    ),
+                    edit(
+                        `(
+  1 + 2
+  2 + 3
+  3 + 4
+  4 + 5
+)`
+                    ),
+                    pause(),
+                    output(`Phrase("()" rest: Sequence(spin() 1s "straight"))`),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Curious,
+                        `Is there anything else you wanted to share, @Block?`
+                    ),
+                    dialog(
+                        'Block',
+                        Emotion.Curious,
+                        `… can we make something? Can I help?`
+                    ),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Kind,
+                        `I'm so curious too! 
+                        But I'm sure our director will decide on their own time. 
+                        
+                        Inspiration comes at the most unexpected of times!`
+                    ),
+                ],
+            },
         ],
     },
 ];
