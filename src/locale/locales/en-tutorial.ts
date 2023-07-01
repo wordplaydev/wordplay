@@ -5317,7 +5317,7 @@ fruits + 3`
                 ],
             },
             {
-                name: 'Dance moves',
+                name: 'Stage directions',
                 concept: 'Functions',
                 program: symbol('ƒ'),
                 lines: [
@@ -5481,6 +5481,433 @@ vowels("hello")`
                         Other times, I feel like it's really directors like you that are where the magic really is. 
                         
                         That makes me feel sometimes like I'm just a hollow shell for the brilliance of people…`
+                    ),
+                ],
+            },
+            {
+                name: 'Set design',
+                concept: 'Structures',
+                program: symbol('•'),
+                lines: [
+                    output(DarkVoid),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Sad,
+                        `There are just a few more characters I'd like you to meet. 
+                        
+                        Next is the most sophisticated character I know, and in a way, a kind of leader. 
+                        
+                        They help organize all of us, set the foundations of a performance, and really just make everything a lot more orderly. 
+                        You are our director, of course, but they're kind of like the one person everyone goes to to keep a show in order. 
+                        
+                        I think they could be pretty important in any show you put on.`
+                    ),
+                    pause(),
+                    output(
+                        `Phrase("•" rest: Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.2) 100%: Pose(scale: 1)} 3s))`
+                    ),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Curious,
+                        `@Structure, are you there?`
+                    ),
+                    dialog(
+                        'StructureDefinition',
+                        Emotion.Curious,
+                        `@FunctionDefinition… my friend. It's been quiet, has it not? Where has everyone been?`
+                    ),
+                    pause(),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Sad,
+                        `The silence. 
+                        It's gotten to all of us. 
+                        
+                        Everyone is okay, and I've found almost everyone. 
+                        But it has been rough for some. 
+                        
+                        How have you fared?`
+                    ),
+                    dialog(
+                        'StructureDefinition',
+                        Emotion.Sad,
+                        `… Who is your friend? Is that a person?`
+                    ),
+                    output(
+                        `Phrase("•" rest: Sequence({0%: Pose(offset: Place(-0.25m)) 50%: Pose(offset: Place(0.25m)) 100%: Pose(offset: Place(-0.25m))} 3s))`
+                    ),
+                    pause(),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Eager,
+                        `Oh, yes, I'm sorry, this is our new director! 
+                        They've come to inspire and guide us, to share their stories, ideas, and imaginings. 
+                        
+                        They've broken the silence!`
+                    ),
+                    dialog(
+                        'StructureDefinition',
+                        Emotion.Eager,
+                        `That is incredible. 
+                        And quite a relief. 
+                        
+                        It's nice to meet you director-person. 
+                        I'm here and ready to serve.
+
+                        @FunctionDefinition… it has been hard. 
+                        You, @Evaluate, everyone really — I didn't realize how much I've depended on all of you. 
+                        
+                        To have purpose, to play, to have community. 
+                        I didn't know that we could lose each other like that. 
+                        
+                        Without anyone to organize, I felt like I could only organize myself, which felt meaningless.`
+                    ),
+                    output(
+                        `Phrase("•" rest: Sequence({0%: Pose(tilt: 0°) 80%: Pose(tilt: 15°) 100%: Pose(tilt: 0°)} 3s))`
+                    ),
+                    pause(),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Kind,
+                        `You're never empty, @StructureDefinition, even when you're alone.
+                        
+                        e're all here, even if we can't be with each other. 
+                        And now that the silence is broken, we can be.`
+                    ),
+                    dialog(
+                        'StructureDefinition',
+                        Emotion.Happy,
+                        `We can, can't we?`
+                    ),
+                    output(
+                        `Phrase("•" rest: Sequence({0%: Pose(offset: Place(0m 0.25m)) 50%: Pose(offset: Place(0m 0m)) 100%: Pose(offset: Place(0m 0.25m))} 3s))`
+                    ),
+                    pause(),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Kind,
+                        `What do you think, are you ready to reunite with everyone? 
+                        To put on whatever performance our sapling director has in mind?`
+                    ),
+                    dialog('StructureDefinition', Emotion.Eager, `I think so.`),
+                    output(
+                        `Phrase("•" rest: Sequence({0%: Pose(offset: Place(0m 0.25m)) 50%: Pose(offset: Place(0m 0m)) 100%: Pose(offset: Place(0m 0.25m))} 1.5s))`
+                    ),
+                    pause(),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Curious,
+                        `Do you think you could help our director here learn a bit more about what you do?`
+                    ),
+                    dialog(
+                        'StructureDefinition',
+                        Emotion.Shy,
+                        `Yes. Yes… I've had a lot of time to think about my purpose in the quiet. And I guess I've realized that what I really do is give groups of things identity. For example, I know you've met ƒ, but have you @Bind?`
+                    ),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Excited,
+                        `Yes! We just met @Bind earlier, and @Block.`
+                    ),
+                    output(
+                        `Phrase("•" enter: Pose(scale: 0.5) rest: Pose(scale: 2))`,
+                        false
+                    ),
+                    pause(),
+                    dialog(
+                        'StructureDefinition',
+                        Emotion.Eager,
+                        `Okay. Well, what I do is bring together values and functions, making a tidy little container for a bunch of related things.
+                        
+                        For example, imagine you wanted to make a little marquee that loops through a series of messages. 
+                        A previous director made one of these and wanted these messages to show.`
+                    ),
+                    edit(
+                        `[
+  'Kitties are cute!'
+  'Got cat?'
+  'Cat mom.'
+  'Tuxie crush'
+  'Lap cat'
+]`
+                    ),
+                    pause(),
+                    dialog(
+                        'StructureDefinition',
+                        Emotion.Serious,
+                        `Then they had the problem of how the performance would remember which message they were on. 
+                        
+                        They realized they needed some way of remembering the index in the list.
+                        
+                        This is a good start, but it only shows the first message.`
+                    ),
+                    edit(
+                        `messages: [
+    'Kitties are cute!'
+    'Got cat?'
+    'Cat mom.'
+    'Tuxie crush'
+    'Lap cat'
+  ]
+index: 1
+Phrase(messages[index])`
+                    ),
+                    pause(),
+                    dialog(
+                        'StructureDefinition',
+                        Emotion.Excited,
+                        `Then they remembered @Reaction, which can be used to respond to stream changes. 
+                        
+                        They wanted the message to change every two sections, so they made @Time stream that ticks every 2 seconds, and used @Reaction to increment the next index each time.
+                        
+                        This @Reaction says start at ⧼1⧽, and when the time changes every ⧼2000ms⧽, evaluate to the previous value of ⧼index + 1⧽. 
+                        
+                        This way, ⧼index⧽ increases by ⧼1⧽ every two seconds, changing the message shown.
+                        
+                        Yay, it works!`
+                    ),
+                    edit(
+                        `messages: [
+  'Kitties are cute!'
+  'Got cat?'
+  'Cat mom.'
+  'Tuxie crush'
+  'Lap cat'
+]
+index•#: ∆ Time(2000ms) ? 1 … index = messages.length() ? 1 index + 1
+Phrase(messages[index])`
+                    ),
+                    pause(),
+                    dialog(
+                        'StructureDefinition',
+                        Emotion.Curious,
+                        `Shall we add some flair? 
+                        Let's make another phrase that is kind of a reflection below, like a shadow. 
+                        
+                        Impressive, right?`
+                    ),
+                    edit(
+                        `messages: [
+  'Kitties are cute!'
+  'Got cat?'
+  'Cat mom.'
+  'Tuxie crush'
+  'Lap cat'
+]
+
+index•#: ∆ Time(2000ms) ? 1 … index = messages.length() ? 1 index + 1
+
+Group(Stack(0m) [
+  Phrase(messages[index])
+  Phrase(messages[index] rest: Pose(flipy: ⊤ opacity: 25%))
+])`
+                    ),
+                    pause(),
+                    dialog(
+                        'StructureDefinition',
+                        Emotion.Serious,
+                        `Now, all of that works. 
+                        And we could just leave it this way. 
+                        
+                        But it is also a bit hard to read and understand. 
+                        
+                        That's partly because we repeat ourselves: ⧼messages[index]⧽ appears twice, once in each phrase. And the @Reaction is very long. 
+                        What can we do to simplify it?
+                        
+                        That's how I can help.
+                        I tidy things, to make them easier to understand, by giving reusable concepts names. 
+                        
+                        So imagine instead of all of these @Bind, we instead make one of me, and name it ⧼Marquee⧽? 
+                        That's what we do first. 
+                        
+                        ⧼Marquee⧽'s job is to store the messages, but also to have a function for advancing to the next message ⧼next()⧽ and a function for getting the current message ⧼now()⧽?
+
+                        Then, we can use Marquee in the reaction. 
+                        Now it just says the initial value is a marquee with the five messages and the next value, after each clock tick, is the next message. 
+                        
+                        Simpler, right? 
+                        That's because all of the logic for next messages is in ⧼next()⧽, which just makes a new ⧼Marquee⧽ with the same messages, but an updated index.
+                    
+                        We also get some benefits in the two @Phrase. 
+                        Instead of them having to refer to the messages and the index like before, we can just say ⧼marquee.now()⧽, which gets the current message in the list.`
+                    ),
+                    edit(
+                        `•Marquee(messages•[“”] index•#: 1) (
+  ƒ now() messages[index]
+  ƒ next() Marquee(messages index ≥ messages.length() ? 1 index + 1)
+)
+
+marquee•Marquee: ∆ Time(2000ms) ? Marquee([
+  'Kitties are cute!'
+  'Got cat?'
+  'Cat mom.'
+  'Tuxie crush'
+  'Lap cat'
+]) … marquee.next()
+
+Group(Stack(0.5m) [
+  Phrase(marquee.now())
+  Phrase(marquee.now() rest: Pose(flipy: ⊤ opacity: 25%))
+])`
+                    ),
+                    pause(),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Curious,
+                        `That's wonderful @StructureDefinition! But I have to say, that does seem like a lot of extra work. Why spend all the time tidying?`
+                    ),
+                    dialog(
+                        'StructureDefinition',
+                        Emotion.Serious,
+                        `Ah, it's really about change. 
+                        
+                        It is a bit more code now, but what if we decided to change ⧼Marquee⧽ in some way? 
+                        
+                        Like what if we wanted to make it so that the list of messages reverses each time it gets to the end? 
+                        In the old version without me, there's no easy way to do that, because we'd have to reverse the list of messages when the index reaches the end. 
+                        
+                        Since @Bind can't change after it's been set, it would be hard.
+                        
+                        But since we made ⧼Marquee⧽, the change is easy. 
+                        We just change the ⧼next⧽ function to make a ⧼Marquee⧽ with a reversed list when the index is at the end, and then just incrementing when it's otherwise.`
+                    ),
+                    edit(
+                        `•Marquee(messages•[“”] index•#: 1) (
+  ƒ now() messages[index]
+  ƒ next()
+    index ≥ messages.length() ?
+      Marquee(messages.reverse() 1)
+      Marquee(messages index + 1)
+)
+
+marquee•Marquee: ∆ Time(2000ms) ? Marquee([
+  'Kitties are cute!'
+  'Got cat?'
+  'Cat mom.'
+  'Tuxie crush'
+  'Lap cat'
+]) … marquee.next()
+
+Group(Stack(0.5m) [
+  Phrase(marquee.now())
+  Phrase(marquee.now() rest: Pose(flipy: ⊤ opacity: 25%))
+])`
+                    ),
+                    pause(),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Surprised,
+                        `Ohh, I see, so by making a @StructureDefinition to store values and @FunctionDefinition that are related to each other, it makes it easier to change things later, if you change your mind.`
+                    ),
+                    dialog(
+                        'StructureDefinition',
+                        Emotion.Happy,
+                        `Yes.
+                        Just like if you tidy your room, it makes it easier to find stuff later. 
+                        
+                        Of course, you don't have to tidy your room to find stuff, it just makes finding stuff harder. 
+                        
+                        The same with a performance: if you invest in tidying, changing things will be easier.`
+                    ),
+                    pause(),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Kind,
+                        `That makes a lot of sense. 
+                        We are kind of an unruly bunch. 
+                        
+                        Keeping us organized is probably a good idea, especially the more complicated a performance gets.
+                        
+                        Is there anything else you wanted to share?`
+                    ),
+                    dialog(
+                        'StructureDefinition',
+                        Emotion.Eager,
+                        `Oh yes. 
+                        You don't have to have any @FunctionDefinition in a @StructureDefinition. 
+                        You can just have values. 
+                        
+                        For example, you might want to just keep a bunch of data in one place. 
+                        I know a lot of directors like making games, and it's really common for them to put all of the game state in a @StructureDefinition.`
+                    ),
+                    edit(`•Game(score•# lives•# level•#)`),
+                    pause(),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Kind,
+                        `Oh, that's right! 
+                        And how do you get data out of a structure once you put it in?`
+                    ),
+                    dialog(
+                        'StructureDefinition',
+                        Emotion.Surprised,
+                        `Oh my, I forgot to explain that. 
+                        
+                        You use a mini me, @PropertyAccess. 
+                        
+                        For instance, with that game example, see how we defined a Game @StructureDefinition, then make a @Game value with ⧼0⧽ score, ⧼3⧽ lives, and level ⧼1⧽? 
+                        
+                        To get the lives, we just say ⧼status.lives⧽, and that will evaluate to ⧼3⧽.`
+                    ),
+                    edit(
+                        `•Game(score•# lives•# level•#)
+status: Game(0 3 1)
+status.lives`
+                    ),
+                    pause(),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Happy,
+                        `Nice! 
+                        So just the mini you to get values instead of you. 
+                        But then how do you change the values?`
+                    ),
+                    dialog(
+                        'StructureDefinition',
+                        Emotion.Serious,
+                        `Remember how @Bind only lets you set a value, but not change it? 
+                        
+                        The same is true for all the @Bind in me. 
+                        
+                        So instead, you make a new structure that has the new value.
+                        
+                        For example, in this game, every time ticks changes, the player gets one more point in their score. 
+                        Weird game, huh? 
+                        
+                        So the initial Game value starts as ⧼Game(0 3 1)⧽, but then the next one is the ⧼Game⧽'s old values, but with the score adding ⧼1⧽.`
+                    ),
+                    edit(
+                        `•Game(score•# lives•# level•#)
+status: ∆ Time() ? Game(0 3 1) … Game(status.score + 1 status.lives status.level)`
+                    ),
+                    pause(),
+                    dialog(
+                        'StructureDefinition',
+                        Emotion.Eager,
+                        `It can get pretty annoying to have to repeat all of those old values if only one thing is changing, so @Bind and I came up with a neat trick to copy a @Structure value with a new value.
+                        
+                        See how it just kind of looks like a regular @Bind? 
+                        
+                        The only difference is that it's on a @StructureDefinition instead of a single name, and every value of the @StructureDefinition is copied over, except for the modified one.`
+                    ),
+                    edit(
+                        `•Game(score•# lives•# level•#)
+status: ∆ Time() ? Game(0 3 1) … status.score: status.score + 1`
+                    ),
+                    pause(),
+                    output(
+                        `Phrase("•" rest: Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.2) 100%: Pose(scale: 1)} 3s))`
+                    ),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Happy,
+                        `That's so neat! 
+                        Okay, is there anything else?`
+                    ),
+                    dialog(
+                        'StructureDefinition',
+                        Emotion.Curious,
+                        `I think all we're missing is inspiration…`
                     ),
                 ],
             },
