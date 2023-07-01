@@ -1,4 +1,4 @@
-import { code, dialog, pause, output, edit, symbol } from '../Locale';
+import { code, dialog, pause, output, edit, symbol, type Act } from '../Locale';
 import {
     FlyIn,
     DarkVoid,
@@ -11,7 +11,7 @@ import {
 } from '../../tutorial/Programs';
 import Emotion from '../../lore/Emotion';
 
-const tutorial = [
+const tutorial: Act[] = [
     {
         name: 'The Verse',
         program: output(DarkVoid),
@@ -5313,6 +5313,174 @@ fruits + 3`
                         But I'm sure our director will decide on their own time. 
                         
                         Inspiration comes at the most unexpected of times!`
+                    ),
+                ],
+            },
+            {
+                name: 'Dance moves',
+                concept: 'Functions',
+                program: symbol('ƒ'),
+                lines: [
+                    symbol('☺️'),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Happy,
+                        `I'm so happy we've found everyone, and that you've been able to meet all of them. 
+                        
+                        Everyone is so different, aren't they? But also so interesting? 
+                        I feel like we're a family, where everyone is unique in their own way, but that our differences together is what makes us strong. 
+                        
+                        What do you think of everyone?`
+                    ),
+                    pause(),
+                    symbol('🙈'),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Curious,
+                        `Me? Well, I'm nothing special. 
+                            I just like being behind the scenes, helping out, showing everyone how they're special. 
+                            
+                            I guess I hadn't even thought about talking about myself. 
+                            
+                            I guess we can talk a bit about me.`
+                    ),
+                    pause(),
+                    symbol('ƒ'),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Serious,
+                        `I guess let's start with what you've already seen. 
+                        You know how every value has different functions that you can evaluate on them? 
+                        
+                        Like numbers know how to @MeasurementType.add, and a text value knows how to check if it @TextType.has some text, or @SetType knows how to check if it has a certain value?
+                        
+                        Well, I'm the one that defines those functions. 
+                        I mean, I don't have the inspiration to create them myself — that's what directors like you do — but I define the inputs a function accepts, the names it has, and the expression that uses the inputs to evaluate to an output value.`
+                    ),
+                    pause(),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Excited,
+                        `Here's a super simple example. The simplest, actually! 
+                        
+                        This defines a function that always evaluates to the number ⧼1⧽. That's it. 
+                        
+                        It's not very useful, is it? 
+                        It has no name, it takes no inputs, and it always evaluates to ⧼1⧽. 
+
+                        You can also see that @Program evaluated to one of me, a @FunctionDefinition.
+                        That's right, @FunctionDefinition are values too!                        
+                        
+                        I don't know why anyone would ever make such a useless function, but as I said, I'm not the one with inspiration, you are.`
+                    ),
+                    edit(`ƒ() 1`),
+                    pause(),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Serious,
+                        `So here's a more useful example. 
+                        
+                        You know odd and even numbers? 
+                        I once had a director that wanted to check if a number was even (divisible by 2, I think that means?), and so they wrote this.
+                        
+                        This is a function called ⧼even⧽ that takes a single number called… ⧼number⧽. 
+                        You need to tell me what kind of value each input is, so @Evaluate can make sure that anything evaluating the function is sending the right kind of value.
+                        
+                        Then, it takes the number, divides it by two, gets the remainder (with the @MeasurementType.%), and then checks if the remainder is equal to ⧼0⧽, with @MeasurementType.equals. 
+                        
+                        So the whole function ends up either evaluating to ⧼⊤⧽ or ⧼⊥⧽. For example, this evaluation of even evaluated to ⧼⊥⧽ because ⧼3⧽ is odd.
+                        
+                        Try using the rewind buttons to see how it works.`
+                    ),
+                    edit(
+                        `ƒ even(number•#) (number % 2) = 0
+even(3)`
+                    ),
+                    pause(),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Eager,
+                        `You can also tell me what kind of value I should evaluate to. 
+                        
+                        See how we added ⧼•⧽? after the list of inputs? 
+                        
+                        That says “the function's expression should evaluate to a ⧼⊤⧽ or ⧼⊥⧽.”
+                        
+                        But see how we complain about it? 
+                        We don't know if the function should be a ⧼⊤⧽ or ⧼⊥⧽ or whatever kind of value you returned, so the show ends.`
+                    ),
+                    edit(`ƒ even(number•#)•? (number % 2) + 0`),
+                    pause(),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Serious,
+                        `Functions can be as complex as you want. You can use simple expressions or @Block, and even make functions inside of functions. 
+                        
+                        For example, check out this function a former director wrote.
+                        
+                        It uses @Block with many @Bind to figure out how many unique vowels a word has. (I think they were trying to figure out if a word was “complicated” or something). 
+                        
+                        See how it has a lot of lines? 
+                        Well, this still only has one expression: a single @Block, and the @Block has all the lines.
+                        
+                        And like any @Block, the last line is what it evaluates to: the total number of unique vowels. 
+                        Everything else — like the first line, which converts the text into a list of letters, then the list of letters into a set — is just preparation for summing those counts in the middle.`
+                    ),
+                    edit(
+                        `ƒ vowels(word•"") (
+  unique: word → [“”] → {}
+  a: unique{'a'} ? 1 0
+  e: unique{'e'} ? 1 0
+  i: unique{'i'} ? 1 0
+  o: unique{'o'} ? 1 0
+  u: unique{'u'} ? 1 0
+  a + e + i + o + u
+)
+vowels("hello")`
+                    ),
+                    pause(),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Serious,
+                        `There's one more thing to show. 
+                        I guess it's important, because everyone is so excited about it! 
+                        
+                        You know how you can make a function and then evaluate it? 
+                        Well since the functions I make are values, you can also give them as an input to another function.
+                        
+                        Here's an example. 
+                        Say you had a list of numbers and you just wanted the even numbers in it. 
+                        @List has this function called @ListType.filter that takes a function as an input and uses the function on each value in the list to decide whether to keep it.
+                        
+                        Let's make a list of numbers and give @ListType.filter the ⧼even⧽ function we made earlier as an input. 
+                        
+                        See what happens? We just get the even numbers.
+                        
+                        Want to try changing it so that it gives odd numbers instead? Maybe try changing the function somehow?`
+                    ),
+                    edit(
+                        `ƒ even(number•#)•? (number % 2) = 0
+[ 1 2 3 4 5 6 7 8 ].filter(even)`
+                    ),
+                    pause(),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Excited,
+                        `There are so many functions that take functions as input. @ListType has them, @SetType has them, @MapType has them. You can even make your own!`
+                    ),
+                    output(
+                        `Group(Grid(3 2) [Phrase("translate") Phrase("filter") Phrase("combine") Phrase("find") Phrase("sort") Phrase("until")])`
+                    ),
+                    pause(),
+                    output(DarkVoid),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Sad,
+                        `I dunno. Sometimes, I see why people say they're so grateful for what I do. 
+                        
+                        Other times, I feel like it's really directors like you that are where the magic really is. 
+                        
+                        That makes me feel sometimes like I'm just a hollow shell for the brilliance of people…`
                     ),
                 ],
             },
