@@ -1177,4 +1177,8 @@ export function pause() {
     return null;
 }
 
+export function symbol(symbol: string) {
+    return output(`Phrase("${symbol}")`);
+}
+
 export default Locale;
