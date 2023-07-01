@@ -1079,6 +1079,8 @@ function parseEvaluate(left: Expression, tokens: Tokens): Evaluate {
 
     // This little peek at space just prevents runaway parsing. It uses space to make an assumption that everything below isn't part of the evaluate.
     while (
+        tokens.hasNext() &&
+        tokens.nextIsnt(TokenType.ExampleClose) &&
         tokens.nextIsnt(TokenType.EvalClose) &&
         !tokens.nextHasMoreThanOneLineBreak()
     )
