@@ -41,6 +41,7 @@ import {
     GroupTypes,
     AppearanceTypes,
     AnimationTypes,
+    ArrangementTypes,
 } from '@runtime/DefaultShares';
 import type Concept from './Concept';
 import NodeConcept from './NodeConcept';
@@ -351,6 +352,15 @@ export function getOutputConcepts(
             )
         ),
         ...GroupTypes.map((def) =>
+            getStructureOrFunctionConcept(
+                def,
+                Purpose.Output,
+                GroupType,
+                languages,
+                context
+            )
+        ),
+        ...ArrangementTypes.map((def) =>
             getStructureOrFunctionConcept(
                 def,
                 Purpose.Output,

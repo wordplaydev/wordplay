@@ -6996,6 +6996,323 @@ rest: Sequence({
                         ),
                     ],
                 },
+                {
+                    name: 'Places please',
+                    concept: 'Group',
+                    code: output(
+                        `Group(Grid(2 2) [Phrase("1" rest: Sequence(spin() 1s)) Phrase("2" rest: Sequence(spin() 2s)) Phrase("3" rest: Sequence(spin() 3s)) Phrase("4" rest: Sequence(spin() 4s))])`
+                    ),
+                    lines: [
+                        output(`Phrase("☹️")`),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `Sigh… everyone keeps bringing up @Evaluate, but I don't know what to say.
+                            Are you ever so close to someone, and yet so far away?
+
+                            …`
+                        ),
+                        pause(),
+                        output(`Phrase("😕")`),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Serious,
+                            `Sorry.
+                            I'm excited to be here with you.
+
+                            I think…
+
+                            I think what will help is introducing you to the rest of us, and then putting on a show, and then I think @Evaluate and I can sort things out.`
+                        ),
+                        pause(),
+                        output(`Phrase("🙂")`),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Eager,
+                            `So who's next?
+
+                            Oh, @Group!
+                            I can't believe I forgot @Group.
+
+                            This is perfect timing; you know @Phrase and @Sequence now, and @Group is such an integral part of bringing us all together.
+                            @Group cares for us all so deeply.
+
+                            @Group? 
+                            Are you there?
+                            `
+                        ),
+                        pause(),
+                        output(`Group(Grid(2 2) [Phrase("🔳")])`),
+                        dialog(
+                            'Group',
+                            Emotion.Neutral,
+                            `@FunctionDefinition, hello, how are you? 
+                            Where has everyone been? 
+                            I've been so worried! 
+                            Are you okay?`
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Kind,
+                            `I'm okay. 
+                            We're all okay! 
+                            The silence is breaking, because we found a person! 
+                            They're going to be our inspiration.`
+                        ),
+                        pause(),
+                        output(`Group(Grid(2 2) [Phrase("🔳") Phrase("🔳")])`),
+                        dialog(
+                            'Group',
+                            Emotion.Happy,
+                            `That's lovely! 
+                            
+                            You're not hurt? 
+                            Everyone else is here? 
+                            
+                            I felt like I was wandering in the dark, and couldn't see anyone.`
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Kind,
+                            `I'm not hurt. Just a bit rusty. 
+                            
+                            And I haven't seen everyone yet, but almost everyone, and I think everyone is waking up okay. 
+                            
+                            (Though apparently some have been at the beach). 
+                            
+                            We've met nearly everyone. 
+                            We're getting ready to put on a show! 
+                            And the best shows always involve you…`
+                        ),
+                        pause(),
+                        output(
+                            `Group(Grid(2 2) [Phrase("🔳") Phrase("🔳") Phrase("🔳")])`
+                        ),
+                        dialog(
+                            'Group',
+                            Emotion.Kind,
+                            `A show! 
+                            I can't wait to help. 
+                            You kids are always so inspiring, I'm always happy to do my part. 
+                            What shall I do, where do I start?`
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Happy,
+                            `Well, we've talked about @Phrase, so maybe start with a bit about your purpose?`
+                        ),
+                        pause(),
+                        output(
+                            `Group(Grid(2 2) [Phrase("🔳") Phrase("🔳") Phrase("🔳") Phrase("🔳")])`
+                        ),
+                        dialog(
+                            'Group',
+                            Emotion.Neutral,
+                            `My purpose, yes. Let's see — I think my purpose is to bring everyone together. 
+                            
+                            But I particularly bring @Phrase together, in beautiful shapes and arrangements on stage.
+                            
+                            Did you know that @Phrase can be in more than one place at once? 
+                            That's because they aren't so much one text phrase on stage, but a phrase maker, just like I'm a @Group maker. 
+                            
+                            They'll make as many as you need, and then I lay them out on stage, as you direct me. 
+                            
+                            All I need is an @Arrangement, and a list of @Phrase, and I'll do the rest.`
+                        ),
+                        pause(),
+                        dialog(
+                            'Group',
+                            Emotion.Excited,
+                            `Here's a simple example. 
+                            
+                            Here I'm using a @Stack arrangement, which creates a vertical arrangement of @Phrase, or other @Group. 
+                            
+                            See how I make a tidy little stack of words? 
+                            They're arranged just so, with a little breathing room for everyone and everyone centered.
+                            
+                            Everyone is so cute!`
+                        ),
+                        edit(
+                            `Group(
+  Stack() [
+    Phrase("one")
+    Phrase('two')
+    Phrase('three')
+  ]
+)`
+                        ),
+                        pause(),
+                        dialog(
+                            'Group',
+                            Emotion.Serious,
+                            `But sometimes we all need a little space. 
+                            So you can give @Stack some padding.
+                            
+                            Try changing the padding to a different @MeasurementLiteral!`
+                        ),
+                        edit(
+                            `Group(
+  Stack(2m) [
+    Phrase("one")
+    Phrase('two')
+    Phrase('three')
+  ]
+)`
+                        ),
+                        pause(),
+                        dialog(
+                            'Group',
+                            Emotion.Happy,
+                            `Just as with anything in the Verse, that padding value can come from anything, like input. 
+                            
+                            Sometimes we grow apart don't we? 
+                            Let's dance that idea by making the padding grow over time…`
+                        ),
+                        edit(
+                            `Group(
+  Stack(Time(100ms)·0.001m/ms) [
+    Phrase("one")
+    Phrase('two')
+    Phrase('three')
+  ]
+)`
+                        ),
+                        pause(),
+                        dialog(
+                            'Group',
+                            Emotion.Surprised,
+                            `We also have a @Row, which is a horizontal arrangement.`
+                        ),
+                        edit(
+                            `Group(
+  Row(Time(100ms)·0.001m/ms) [
+    Phrase("one")
+    Phrase('two')
+    Phrase('three')
+  ]
+)`
+                        ),
+                        pause(),
+                        dialog(
+                            'Group',
+                            Emotion.Curious,
+                            `Sometimes it's nice to use two dimensions instead of one. 
+                            
+                            If you tell me how many rows and columns you want, I'll make a @Grid of phrases. 
+                            
+                            Just make sure to give me enough phrases to fill the grid! 
+                            You can also give @Grid padding and a cell size if you want to be extra precise. 
+                            
+                            Grids are layed out a row at a time, so put your @Phrase list in order of rows.`
+                        ),
+                        edit(
+                            `Group(
+  Grid(2 2) [
+    Phrase("one")
+    Phrase('two')
+    Phrase('three')
+    Phrase('four')
+  ]
+)`
+                        ),
+                        pause(),
+                        dialog(
+                            'Group',
+                            Emotion.Excited,
+                            `And if you wanted a very specific arrangement?
+                            
+                            You could use @Free, and tell me exactly where you want all the phrases. 
+                            Just be sure to give a place to each @Phrase, otherwise I'll just place it at ⧼Place(0m 0m⧽).`
+                        ),
+                        edit(
+                            `Group(
+  Free() [
+    Phrase("one" place: Place(-2m 2m))
+    Phrase('two' place: Place(-1m 1m))
+    Phrase('three' place: Place(0m 0m))
+    Phrase('four' place: Place(1m -1m))
+    Phrase('five' place: Place(2m -2m))
+  ]
+)`
+                        ),
+                        pause(),
+                        dialog(
+                            'Group',
+                            Emotion.Curious,
+                            `And did you know you can also place me inside myself? 
+                            A @Group in a @Group in a @Group, it's very silly. 
+                            
+                            This can make it possible to make a @Grid of @Stack for example.`
+                        ),
+                        edit(
+                            `Group(
+  Grid(2 2) [
+    Group(Stack() [Phrase("one") Phrase(“two”)])
+    Group(Stack() [Phrase("three") Phrase(“four”)])
+    Group(Stack() [Phrase("five") Phrase(“six”)])
+    Group(Stack() [Phrase("seven") Phrase(“eight”)])
+  ]
+)`
+                        ),
+                        pause(),
+                        dialog(
+                            'Group',
+                            Emotion.Surprised,
+                            `Hm, that kind of looks like a 4 by 2 grid, doesn't it? 
+                            
+                            Let's make it a little clearer by tilting two of the stacks.
+                            
+                            Oh, yes, you can give me all the same properties that @Phrase takes!`
+                        ),
+                        edit(
+                            `Group(
+  Grid(2 2) [
+    Group(Stack() [Phrase("one") Phrase(“two”)])
+    Group(Stack() [Phrase("three") Phrase(“four”)] rest: Pose(tilt: 45°))
+    Group(Stack() [Phrase("five") Phrase(“six”)])
+    Group(Stack() [Phrase("seven") Phrase(“eight”)] rest: Pose(tilt: 45°))
+  ]
+)`
+                        ),
+                        pause(),
+                        output(DarkVoid),
+                        dialog(
+                            'Group',
+                            Emotion.Curious,
+                            `Was that good, @FunctionDefinition? 
+                            Did I cover everything?`
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Happy,
+                            `That was better than good! 
+                            I think you showed our new director here just how much is possible. 
+                            
+                            Is there anything else you want to share?`
+                        ),
+                        pause(),
+                        dialog(
+                            'Group',
+                            Emotion.Serious,
+                            `I don't think so… 
+                            
+                            I'm always learning new arrangements, so always check back for new designs I've come up with!
+                            
+                            And @FunctionDefinition, how are you and @Evaluate doing? I know the last time I saw you talking, things were bumpy…`
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Shy,
+                            `I… I'd rather not talk about it right now.`
+                        ),
+                        dialog(
+                            'Group',
+                            Emotion.Kind,
+                            `Okay.
+                            I'm always here if you want to chat.`
+                        ),
+                    ],
+                },
             ],
         },
     ],
