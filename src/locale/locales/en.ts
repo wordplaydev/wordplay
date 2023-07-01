@@ -2448,7 +2448,7 @@ const en: Locale = {
         },
         Choice: {
             doc: WRITE_DOC,
-            names: ['🔘', 'Choice', 'selection'],
+            names: ['🔘', 'Choice'],
         },
         Button: {
             doc: WRITE_DOC,
@@ -7447,6 +7447,90 @@ rest: Sequence({
                             `There's much more you can do with @Stage, but you can explore with them anytime. Right @Stage?`
                         ),
                         dialog('Stage', Emotion.Excited, `ALWAYS!`),
+                    ],
+                },
+                {
+                    name: 'Is there someone named...',
+                    concept: 'Choice',
+                    program: output(`Phrase("🔘" 10m)`, false),
+                    lines: [
+                        output(
+                            `Phrase("🔘" 10m enter: Sequence({0%: Pose(offset: Place(0m 0m)) 50%: Pose(offset: Place(0m -0.2m)) 100%: Pose(offset: Place(0m 0m))} 1s count: 3x))`,
+                            false
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Serious,
+                            `So you know @Key, @Pointer, and @Button, the streams we just talked about? 
+                            
+                            They can be very fun, but they have one problem: not everyone in the audience can use them.
+                            
+                            Some people do not have hands, or cannot use their hands, or cannot use them precisely to click keys or use a mouse.
+                            
+                            We know that many some people use their voices to communicate with our world, or even their eyes.
+                            
+                            So using @Key, @Pointer, or @Button means some people in your audience won't be able to participate.`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Kind,
+                            `Everyone should be able to participate! 
+                            
+                            So now that we've talked about @Phrase in more detail, I wanted to show y ou one final stream, @Choice, which is a stream of @Phrase names that have been selected, independent of how it was selected. 
+                            
+                            For example, an audience might use a mouse to click on a @Phrase, or they might use a keyboard to select it, or there might be other devices they use. 
+                            
+                            Whatever they use, @Choice will contain their latest selection.`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Excited,
+                            `Here's a simple example. 
+                            
+                            See how it has three phrases? 
+                            The first two have two important details. 
+                            First, they're set to be selectable. 
+                            
+                            This tells @Stage that if they are clicked, or if the keyboard is used to select them, that they are chosen. 
+                            
+                            The second detail is that they have a **name**. 
+                            
+                            That gives @Stage a unique name for the phrase that was chosen. 
+                            
+                            It's important that it's unique so that @Stage knows what was chosen.
+                            
+                            The third phrase is set to a @Choice stream, which is a series of @Phrase or @Group names are selected. 
+                            Here, we're just giving the name to another phrase, so that it shows what name is selected.
+                            
+                            Try clicking the cat or dog, or using the keyboard to select one. 
+                            
+                            See how the third @Phrase shows the name selected?
+    `
+                        ),
+                        dialog(
+                            'Choice',
+                            Emotion.Neutral,
+                            "cat... 'dog'... 'cat'... 'dog'..."
+                        ),
+                        edit(
+                            `Stage(
+    [Group(Stack() [
+        Phrase('🐱' name:"cat" selectable:⊤)
+        Phrase('🐶' name: "dog" selectable:⊤)
+        Phrase(Choice())
+    ])
+])`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Serious,
+                            `@Choice really is the best way to listen to the audience. 
+                            
+                            Only use @Key, @Pointer, or @Button if you have no other option, and use it knowing that some in your audience won't be able to enjoy your performance.`
+                        ),
                     ],
                 },
             ],
