@@ -3365,7 +3365,7 @@ const tutorial: Act[] = [
                 ],
             },
             {
-                name: "I'm listening…",
+                name: 'On cue',
                 concept: 'Reaction',
                 program: output("Phrase('∆')"),
                 lines: [
@@ -5908,6 +5908,179 @@ status: ∆ Time() ? Game(0 3 1) … status.score: status.score + 1`
                         'StructureDefinition',
                         Emotion.Curious,
                         `I think all we're missing is inspiration…`
+                    ),
+                ],
+            },
+            {
+                name: "Director's notes",
+                concept: 'Doc',
+                program: symbol('`'),
+                lines: [
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Eager,
+                        `Wow, we've come a long way, haven't we? 
+                        
+                        We have one more character to go. 
+                        They're an interesting one, because in essence, they're all about explaining things, which feels like what I've been doing with you for a while now.
+                        
+                        Their name is @Doc. 
+                        What's up @Doc?`
+                    ),
+                    symbol('``'),
+                    dialog(
+                        'Doc',
+                        Emotion.Surprised,
+                        `@Function, is that you? I never thought I'd see you again. How are you? How's @Evaluate?`
+                    ),
+                    pause(),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Kind,
+                        `I'm okay. @Evaluate is … @Evaluate. 
+                        
+                        I've been introducing everyone to our new director.`
+                    ),
+                    dialog(
+                        'Doc',
+                        Emotion.Kind,
+                        `It's so nice to meet you! 
+                        I hope @Function has been a good teacher?`
+                    ),
+                    symbol('``\\/'),
+                    pause(),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Eager,
+                        `I've tried… you know, you're our last stop? 
+                        
+                        You're so essential, but also, there's so much to explain before we even get to explaining our performances. 
+                        So I wanted you to get the last word. 
+                        
+                        Do you want to share what you do?`
+                    ),
+                    symbol('``\\/en'),
+                    pause(),
+                    dialog(
+                        'Doc',
+                        Emotion.Happy,
+                        `Happily. 
+                        
+                        If you've met everyone but me, then you probably know by now that we do a lot of different things. 
+                        Even I have trouble keeping track of what everyone does! What I do is help explain what everyone is doing in a performance. 
+                        
+                        I'm a way you can remind yourself what everyone is doing, but also a way to explain to others, if you're directing with a friend, or want to share your performance with someone.
+                        
+                        So you don't *have* to work with me, but I find that every performance is a bit easier to do and change if you've spent some time explaining how it works.`
+                    ),
+                    pause(),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Curious,
+                        `So how can our director work with you?`
+                    ),
+                    dialog(
+                        'Doc',
+                        Emotion.Serious,
+                        `Well you can put me almost anywhere inside @Program. For example, say you make a @Bind, and you want to say what the value is for. For example, here we have a simple value we've named, but what I'm doing is providing a broader explanation of its role.`
+                    ),
+                    edit(
+                        `\`The price at the beginning of the game, 
+used to initialize the game.\`
+startingPrice: 5dollar`
+                    ),
+                    pause(),
+                    dialog(
+                        'Doc',
+                        Emotion.Serious,
+                        `Or, suppose you had @FunctionDefinition here defining a way of calculating tax on a price. 
+                        You might want to explain what it computes.
+                        
+                        Just like with @Bind, I come before the @FunctionDefinition.`
+                    ),
+                    edit(
+                        `\`Gets the tax for a given price, 
+which is 1% if less than 100, and 5% otherwise\`
+ƒ tax(price•#dollar) 
+    price · (price < 100dollar ? 0.01 0.05)`
+                    ),
+                    pause(),
+                    dialog(
+                        'Doc',
+                        Emotion.Serious,
+                        `And you can do the same before a @StructureDefinition to explain what it represents. 
+                        
+                        Here the explanation also alludes to what functions it might have later.`
+                    ),
+                    edit(
+                        `\`Represents a product and its price. 
+Eventually will support functions to get other details about the product.\`
+•Product(name•"" price•#dollar)`
+                    ),
+                    pause(),
+                    dialog(
+                        'Doc',
+                        Emotion.Serious,
+                        `You can also put me in front of any expression, which is especially helpful if you have a particularly complicated one.`
+                    ),
+                    edit(
+                        `ƒ quadratic(a•# b•# c•# x•#)
+\`The quadratic equation\`
+(a · (x ^ 2)) + (b · x) + c`
+                    ),
+                    pause(),
+                    dialog(
+                        'Doc',
+                        Emotion.Excited,
+                        `And like @Bind, you can tell me what language an explanation is in, and give me multiple translations of the same explanation.
+                        
+                        (You'll only see the Spanish if it's selected. If you don't see it, try adding Spanish to your selected languages.)`
+                    ),
+                    edit(
+                        `ƒ quadratic(a•# b•# c•# x•#)
+\`The quadratic equation\`/en
+\`La ecuación cuadrática\`/es
+(a · (x ^ 2)) + (b · x) + c`
+                    ),
+                    pause(),
+                    dialog(
+                        'Doc',
+                        Emotion.Curious,
+                        `You know the best place to put me? 
+                        Right at the very beginning of @Program. 
+                        
+                        That way everyone knows what your performance is about. 
+                        
+                        You might even write it before you figure out what you want all of us to do.`
+                    ),
+                    edit(
+                        `\`Have you ever wanted to know what it's like 
+to fly a ✈️ with your mouth?
+Maybe this stores the plane's height?\`
+•Plane()
+\`We need some kind of reaction to listen to the microphone…\`
+sound: _
+\`We know there's a plane, but what else?\`
+Phrase(“✈️”)`
+                    ),
+                    pause(),
+                    symbol('`'),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Excited,
+                        `Wow, I want to fly a plane with my mouth!`
+                    ),
+                    dialog(
+                        'Doc',
+                        Emotion.Confused,
+                        `@FunctionDefinition, we don't have mouths…`
+                    ),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Excited,
+                        `Hm... good point.
+                        
+                        Well thank you @Doc, I think we might be ready for a show!`
                     ),
                 ],
             },
