@@ -184,7 +184,7 @@
                                     actIndex + 1,
                                     sceneIndex + 1,
                                     1
-                                )}>{scene.name}</option
+                                )}>{scene.concept ?? scene.name}</option
                             >
                         {/each}
                     </optgroup>
@@ -193,7 +193,7 @@
             <Note
                 >{#if act !== undefined}{act.name}{/if}
                 {#if act !== undefined && scene !== undefined}<br
-                    />{scene.name}{/if}
+                    />{scene.concept ?? scene.name}{/if}
                 {#if act !== undefined && scene !== undefined && progress.pause > 0}
                     <span class="progress"
                         >&ndash; {progress.pause} /
@@ -224,7 +224,8 @@
                 >
             {:else if dialog === undefined}
                 <div class="title scene"
-                    >Scene {progress.scene}<p><em>{scene.name}</em></p></div
+                    >Scene {progress.scene}<p><em>{scene.name}</em></p
+                    >{#if scene.concept}<em>{scene.concept}</em>{/if}</div
                 >
             {:else}
                 {#each turns as turn}

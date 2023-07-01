@@ -2712,6 +2712,7 @@ const en: Locale = {
                 {
                     name: 'Silence',
                     code: code(DarkVoid, true, false),
+                    concept: undefined,
                     lines: [
                         code(DarkVoid, true, false),
                         dialog(
@@ -2866,6 +2867,7 @@ const en: Locale = {
                 },
                 {
                     name: 'Would you like a program?',
+                    concept: 'Program',
                     code: code('Phrase("☀️")', true, false),
                     lines: [
                         dialog(
@@ -3006,6 +3008,7 @@ const en: Locale = {
                 },
                 {
                     name: 'Holding space',
+                    concept: 'Placeholder',
                     code: code(DarkVoid, true, false),
                     lines: [
                         dialog(
@@ -3142,6 +3145,7 @@ const en: Locale = {
                 },
                 {
                     name: 'Say again?',
+                    concept: 'Unparsable',
                     code: code('Phrase("ahkeolfewvk")', true, false),
                     lines: [
                         dialog(
@@ -3304,6 +3308,7 @@ const en: Locale = {
                 },
                 {
                     name: 'Love is in the err',
+                    concept: 'Evaluate',
                     code: code(
                         'Verse([Phrase("💔")] background: 🌈(90% 100 0°))',
                         true,
@@ -3598,6 +3603,7 @@ const en: Locale = {
             scenes: [
                 {
                     name: 'Values',
+                    concept: undefined,
                     code: output(`Phrase("💡")`),
                     lines: [
                         output(
@@ -3660,6 +3666,7 @@ const en: Locale = {
                 },
                 {
                     name: 'Quote, unquote',
+                    concept: 'Text',
                     code: output(
                         `Phrase('""' rest: Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 0.5 opacity: 0.5) 100%: Pose(scale: 1)} duration: 2s))`
                     ),
@@ -3793,6 +3800,7 @@ const en: Locale = {
                 },
                 {
                     name: 'Symbol in the middle',
+                    concept: 'Infix',
                     code: output(`
                         Group(Row() [
                             Phrase('1' rest: Sequence({0%: Pose(offset: Place(0m 1m)) 50%: Pose(offset: Place(0m -1m)) 100%: Pose(offset: Place(0m 1m))} duration: 2s)) 
@@ -3898,6 +3906,7 @@ const en: Locale = {
                 },
                 {
                     name: 'Yes and no',
+                    concept: 'Truth',
                     code: output(
                         `Group(Row() [Phrase("⊤") Phrase("⊥")] rest: Sequence({ 0%: Pose(tilt: 0°) 50%: Pose(tilt: 180°) 100%: Pose(tilt: 360°)} duration: 2s))`
                     ),
@@ -4095,6 +4104,7 @@ const en: Locale = {
                 },
                 {
                     name: 'Let me count the ways',
+                    concept: 'Numbers',
                     code: output(
                         `
                         numbers•[#]:25 → []
@@ -4376,6 +4386,7 @@ const en: Locale = {
                 },
                 {
                     name: 'Opening (re)marks',
+                    concept: 'Prefix',
                     code: output(`Phrase('~')`),
                     lines: [
                         dialog(
@@ -4426,7 +4437,8 @@ const en: Locale = {
                     ],
                 },
                 {
-                    name: 'Nothing',
+                    name: 'Emptiness',
+                    concept: 'Nothing',
                     code: output(
                         `Motion(Phrase('ø' size: 5m) vy: ◆ ? 5m/s ø)`,
                         false
@@ -4527,6 +4539,7 @@ const en: Locale = {
             scenes: [
                 {
                     name: 'Community values',
+                    concept: undefined,
                     code: output(
                         `Group(Row() [Phrase('[') Phrase(" ." · (Time() ÷ 100ms)) Phrase(']')])`
                     ),
@@ -4580,6 +4593,7 @@ const en: Locale = {
                 },
                 {
                     name: 'Places, everyone!',
+                    concept: 'Lists',
                     code: output(
                         `
                         clockwise: Sequence({0%: Pose(tilt: 0°) 50%: Pose(tilt: 180°) 100%: Pose(tilt: 360°)} duration: 2s)
@@ -4817,6 +4831,7 @@ const en: Locale = {
                 },
                 {
                     name: 'One of each',
+                    concept: 'Sets',
                     code: output(
                         `
                         clockwise: Sequence({0%: Pose(tilt: 0°) 50%: Pose(tilt: 180°) 100%: Pose(tilt: 360°)} duration: 2s)
@@ -4971,6 +4986,7 @@ const en: Locale = {
                 },
                 {
                     name: 'One to one',
+                    concept: 'Mappings',
                     code: output(
                         `
                         clockwise: Sequence({0%: Pose(tilt: 0°) 50%: Pose(tilt: 180°) 100%: Pose(tilt: 360°)} duration: 2s)
@@ -5188,7 +5204,8 @@ const en: Locale = {
             ),
             scenes: [
                 {
-                    name: 'Conversions',
+                    name: 'Types',
+                    concept: undefined,
                     code: output(DarkVoid),
                     lines: [
                         dialog(
@@ -5220,6 +5237,7 @@ const en: Locale = {
                 },
                 {
                     name: 'We can be anything',
+                    concept: 'Convert',
                     code: output(FlyIn('→')),
                     lines: [
                         output(DarkVoid),
@@ -5425,6 +5443,7 @@ const en: Locale = {
                 },
                 {
                     name: 'Freedom of speech',
+                    concept: 'Templates',
                     code: output(FlyIn('"')),
                     lines: [
                         output(DarkVoid),
@@ -5565,7 +5584,8 @@ const en: Locale = {
                     ],
                 },
                 {
-                    name: 'Decisions, decisions',
+                    name: 'How to choose?',
+                    concept: 'Decisions',
                     code: output(FlyIn('?')),
                     lines: [
                         output(DarkVoid),
@@ -5743,6 +5763,7 @@ const en: Locale = {
             scenes: [
                 {
                     name: 'Input',
+                    concept: undefined,
                     code: output(DarkVoid),
                     lines: [
                         output(
@@ -5787,7 +5808,8 @@ const en: Locale = {
                     ],
                 },
                 {
-                    name: 'Time',
+                    name: 'Tick, tick, tick...',
+                    concept: 'Time',
                     code: output(`Phrase("🕦")`),
                     lines: [
                         dialog(
@@ -5897,7 +5919,8 @@ const en: Locale = {
                     ],
                 },
                 {
-                    name: 'Key',
+                    name: 'Clickity clack',
+                    concept: 'Key',
                     code: output(`Phrase("⌨️")`),
                     lines: [
                         output(
@@ -5975,7 +5998,8 @@ const en: Locale = {
                     ],
                 },
                 {
-                    name: 'Pointer',
+                    name: 'Hummmmmmm…',
+                    concept: 'Pointer',
                     code: output(`Phrase("👆🏻")`),
                     lines: [
                         output(
@@ -6008,7 +6032,8 @@ const en: Locale = {
                     ],
                 },
                 {
-                    name: 'Button',
+                    name: 'And... now!',
+                    concept: 'Button',
                     code: output(`Phrase("🖱️")`),
                     lines: [
                         dialog(
@@ -6046,7 +6071,8 @@ const en: Locale = {
                     ],
                 },
                 {
-                    name: 'Mic',
+                    name: 'Is anyone listening?',
+                    concept: 'Mic',
                     code: output(`Phrase("🎤")`),
                     lines: [
                         dialog(
@@ -6079,7 +6105,8 @@ const en: Locale = {
                     ],
                 },
                 {
-                    name: 'Random',
+                    name: 'You never know…',
+                    concept: 'Random',
                     code: output(`Phrase((Time(100ms) % 10 ÷ 1ms) → "")`),
                     lines: [
                         dialog(
@@ -6129,7 +6156,8 @@ const en: Locale = {
                     ],
                 },
                 {
-                    name: 'Reaction',
+                    name: "I'm listening…",
+                    concept: 'Reaction',
                     code: output("Phrase('∆')"),
                     lines: [
                         output("Phrase('∆' rest: Pose(tilt: 120°))"),
@@ -6323,6 +6351,7 @@ const en: Locale = {
             scenes: [
                 {
                     name: 'Output',
+                    concept: undefined,
                     code: output(StaticRainingEmoji),
                     lines: [
                         output(`Phrase("😀")`),
@@ -6385,7 +6414,8 @@ const en: Locale = {
                     ],
                 },
                 {
-                    name: 'Phrase',
+                    name: 'Say what?',
+                    concept: 'Phrase',
                     code: output(`Phrase("💬")`),
                     lines: [
                         dialog(
@@ -6748,7 +6778,8 @@ const en: Locale = {
                     ],
                 },
                 {
-                    name: 'Sequence',
+                    name: '1, 2, 3, 4, 1, 2, 3, 4',
+                    concept: 'Sequence',
                     code: output(DancingEmoji('💃')),
                     lines: [
                         output(DarkVoid),

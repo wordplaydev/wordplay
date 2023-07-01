@@ -1128,6 +1128,7 @@ export type Line = Dialog | Code | null;
 export type Scene = {
     name: string;
     code: Code;
+    concept: string | undefined;
     lines: Line[];
 };
 
