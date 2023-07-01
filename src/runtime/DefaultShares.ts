@@ -24,12 +24,14 @@ import Root from '../nodes/Root';
 import { Animations } from '../output/Animations';
 import { ChoiceDefinition } from '../input/Choice';
 import { GridType } from '../output/Grid';
-import { Shapes } from '../output/Shapes';
+import { RectangleType, Shapes } from '../output/Shapes';
 import { FreeType } from '../output/Free';
 
 export const AnimationTypes = [PoseType, SequenceType];
 
 export const GroupTypes = [TypeType, StageType, GroupType, PhraseType];
+
+export const ShapeTypes = [RectangleType];
 
 export const ArrangementTypes = [
     ArrangementType,

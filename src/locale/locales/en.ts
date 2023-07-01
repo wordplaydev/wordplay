@@ -2660,7 +2660,7 @@ const en: Locale = {
         },
         Stage: {
             doc: WRITE_DOC,
-            names: ['🌎', '🌍', '🌏', 'Stage'],
+            names: ['🎭', 'Stage'],
             description: (count, phrases, groups) =>
                 `verse of ${count} ${
                     count === phrases
@@ -2707,11 +2707,11 @@ const en: Locale = {
     tutorial: [
         {
             name: 'The Verse',
-            code: output(DarkVoid),
+            program: output(DarkVoid),
             scenes: [
                 {
                     name: 'Silence',
-                    code: code(DarkVoid, true, false),
+                    program: code(DarkVoid, true, false),
                     concept: undefined,
                     lines: [
                         code(DarkVoid, true, false),
@@ -2868,7 +2868,7 @@ const en: Locale = {
                 {
                     name: 'Would you like a program?',
                     concept: 'Program',
-                    code: code('Phrase("☀️")', true, false),
+                    program: code('Phrase("☀️")', true, false),
                     lines: [
                         dialog(
                             'FunctionDefinition',
@@ -3009,7 +3009,7 @@ const en: Locale = {
                 {
                     name: 'Holding space',
                     concept: 'Placeholder',
-                    code: code(DarkVoid, true, false),
+                    program: code(DarkVoid, true, false),
                     lines: [
                         dialog(
                             'FunctionDefinition',
@@ -3146,7 +3146,7 @@ const en: Locale = {
                 {
                     name: 'Say again?',
                     concept: 'Unparsable',
-                    code: code('Phrase("ahkeolfewvk")', true, false),
+                    program: code('Phrase("ahkeolfewvk")', true, false),
                     lines: [
                         dialog(
                             'FunctionDefinition',
@@ -3309,7 +3309,7 @@ const en: Locale = {
                 {
                     name: 'Love is in the err',
                     concept: 'Evaluate',
-                    code: code(
+                    program: code(
                         'Stage([Phrase("💔")] background: 🌈(90% 100 0°))',
                         true,
                         false
@@ -3580,7 +3580,7 @@ const en: Locale = {
         {
             name: "It's the little things",
             // This should be a sprinkling of values
-            code: output(
+            program: output(
                 `
                 letters: ['""' '?' '#' 'ø']
 
@@ -3604,7 +3604,7 @@ const en: Locale = {
                 {
                     name: 'Values',
                     concept: undefined,
-                    code: output(`Phrase("💡")`),
+                    program: output(`Phrase("💡")`),
                     lines: [
                         output(
                             `Phrase("💌" rest: Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.2) 100%: Pose(scale: 1)} duration: 3s))`
@@ -3667,7 +3667,7 @@ const en: Locale = {
                 {
                     name: 'Quote, unquote',
                     concept: 'Text',
-                    code: output(
+                    program: output(
                         `Phrase('""' rest: Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 0.5 opacity: 0.5) 100%: Pose(scale: 1)} duration: 2s))`
                     ),
                     lines: [
@@ -3801,7 +3801,7 @@ const en: Locale = {
                 {
                     name: 'Symbol in the middle',
                     concept: 'Infix',
-                    code: output(`
+                    program: output(`
                         Group(Row() [
                             Phrase('1' rest: Sequence({0%: Pose(offset: Place(0m 1m)) 50%: Pose(offset: Place(0m -1m)) 100%: Pose(offset: Place(0m 1m))} duration: 2s)) 
                             Phrase('+' rest: Sequence({0%: Pose(offset: Place(0m -1m)) 50%: Pose(offset: Place(0m 1m)) 100%: Pose(offset: Place(0m -1m))} duration: 2s)) 
@@ -3907,7 +3907,7 @@ const en: Locale = {
                 {
                     name: 'Yes and no',
                     concept: 'Truth',
-                    code: output(
+                    program: output(
                         `Group(Row() [Phrase("⊤") Phrase("⊥")] rest: Sequence({ 0%: Pose(tilt: 0°) 50%: Pose(tilt: 180°) 100%: Pose(tilt: 360°)} duration: 2s))`
                     ),
                     lines: [
@@ -4105,7 +4105,7 @@ const en: Locale = {
                 {
                     name: 'Let me count the ways',
                     concept: 'Numbers',
-                    code: output(
+                    program: output(
                         `
                         numbers•[#]:25 → []
                         Group(Grid(5 5) numbers.translate(
@@ -4387,7 +4387,7 @@ const en: Locale = {
                 {
                     name: 'Opening (re)marks',
                     concept: 'Prefix',
-                    code: output(`Phrase('~')`),
+                    program: output(`Phrase('~')`),
                     lines: [
                         dialog(
                             'FunctionDefinition',
@@ -4439,7 +4439,7 @@ const en: Locale = {
                 {
                     name: 'Emptiness',
                     concept: 'Nothing',
-                    code: output(
+                    program: output(
                         `Motion(Phrase('ø' size: 5m) vy: ◆ ? 5m/s ø)`,
                         false
                     ),
@@ -4533,14 +4533,14 @@ const en: Locale = {
         },
         {
             name: 'Ensembles',
-            code: output(
+            program: output(
                 `Group(Row((Time() ÷ 500).sin() · 1m) [Phrase('[]') Phrase('{}') Phrase('{:}')])`
             ),
             scenes: [
                 {
                     name: 'Community values',
                     concept: undefined,
-                    code: output(
+                    program: output(
                         `Group(Row() [Phrase('[') Phrase(" ." · (Time() ÷ 100ms)) Phrase(']')])`
                     ),
                     lines: [
@@ -4594,7 +4594,7 @@ const en: Locale = {
                 {
                     name: 'Places, everyone!',
                     concept: 'Lists',
-                    code: output(
+                    program: output(
                         `
                         clockwise: Sequence({0%: Pose(tilt: 0°) 50%: Pose(tilt: 180°) 100%: Pose(tilt: 360°)} duration: 2s)
                         counter: Sequence({0%: Pose(tilt: 0°) 50%: Pose(tilt: -180°) 100%: Pose(tilt: -360°)} duration: 2s)
@@ -4832,7 +4832,7 @@ const en: Locale = {
                 {
                     name: 'One of each',
                     concept: 'Sets',
-                    code: output(
+                    program: output(
                         `
                         clockwise: Sequence({0%: Pose(tilt: 0°) 50%: Pose(tilt: 180°) 100%: Pose(tilt: 360°)} duration: 2s)
                         counter: Sequence({0%: Pose(tilt: 0°) 50%: Pose(tilt: -180°) 100%: Pose(tilt: -360°)} duration: 2s)
@@ -4987,7 +4987,7 @@ const en: Locale = {
                 {
                     name: 'One to one',
                     concept: 'Mappings',
-                    code: output(
+                    program: output(
                         `
                         clockwise: Sequence({0%: Pose(tilt: 0°) 50%: Pose(tilt: 180°) 100%: Pose(tilt: 360°)} duration: 2s)
                         counter: Sequence({0%: Pose(tilt: 0°) 50%: Pose(tilt: -180°) 100%: Pose(tilt: -360°)} duration: 2s)
@@ -5182,7 +5182,7 @@ const en: Locale = {
         },
         {
             name: 'Cast party',
-            code: output(
+            program: output(
                 `
                 count: 32
 
@@ -5206,7 +5206,7 @@ const en: Locale = {
                 {
                     name: 'Types',
                     concept: undefined,
-                    code: output(DarkVoid),
+                    program: output(DarkVoid),
                     lines: [
                         dialog(
                             'FunctionDefinition',
@@ -5238,7 +5238,7 @@ const en: Locale = {
                 {
                     name: 'We can be anything',
                     concept: 'Convert',
-                    code: output(FlyIn('→')),
+                    program: output(FlyIn('→')),
                     lines: [
                         output(DarkVoid),
                         dialog(
@@ -5444,7 +5444,7 @@ const en: Locale = {
                 {
                     name: 'Freedom of speech',
                     concept: 'Templates',
-                    code: output(FlyIn('"')),
+                    program: output(FlyIn('"')),
                     lines: [
                         output(DarkVoid),
                         dialog(
@@ -5586,7 +5586,7 @@ const en: Locale = {
                 {
                     name: 'How to choose?',
                     concept: 'Decisions',
-                    code: output(FlyIn('?')),
+                    program: output(FlyIn('?')),
                     lines: [
                         output(DarkVoid),
                         dialog(
@@ -5759,12 +5759,12 @@ const en: Locale = {
         },
         {
             name: 'Scene change',
-            code: output(TakeTheMic, false),
+            program: output(TakeTheMic, false),
             scenes: [
                 {
                     name: 'Input',
                     concept: undefined,
-                    code: output(DarkVoid),
+                    program: output(DarkVoid),
                     lines: [
                         output(
                             `amp: (Mic() ÷ 10)
@@ -5810,7 +5810,7 @@ const en: Locale = {
                 {
                     name: 'Tick, tick, tick...',
                     concept: 'Time',
-                    code: output(`Phrase("🕦")`),
+                    program: output(`Phrase("🕦")`),
                     lines: [
                         dialog(
                             'FunctionDefinition',
@@ -5921,7 +5921,7 @@ const en: Locale = {
                 {
                     name: 'Clickity clack',
                     concept: 'Key',
-                    code: output(`Phrase("⌨️")`),
+                    program: output(`Phrase("⌨️")`),
                     lines: [
                         output(
                             `Phrase("⌨️" rest: Sequence({0%: Pose(tilt: -5°) 25%: Pose(tilt: 0°) 50%: Pose(tilt: 5°) 75%: Pose(tilt: 0°) 100%: Pose(tilt: -5°)} 1s 'straight'))`
@@ -6000,7 +6000,7 @@ const en: Locale = {
                 {
                     name: 'Hummmmmmm…',
                     concept: 'Pointer',
-                    code: output(`Phrase("👆🏻")`),
+                    program: output(`Phrase("👆🏻")`),
                     lines: [
                         output(
                             `Phrase("👆🏻" rest: Sequence({0%: Pose(offset: Place(0m 0m)) 25%: Pose(offset: Place(-1m 1m)) 50%: Pose(offset: Place(1m 1m)) 75%: Pose(offset: Place(1m 0m)) 100%: Pose(offset: Place(0m 0m))} 3s))`,
@@ -6034,7 +6034,7 @@ const en: Locale = {
                 {
                     name: 'And... now!',
                     concept: 'Button',
-                    code: output(`Phrase("🖱️")`),
+                    program: output(`Phrase("🖱️")`),
                     lines: [
                         dialog(
                             'FunctionDefinition',
@@ -6073,7 +6073,7 @@ const en: Locale = {
                 {
                     name: 'Is anyone listening?',
                     concept: 'Mic',
-                    code: output(`Phrase("🎤")`),
+                    program: output(`Phrase("🎤")`),
                     lines: [
                         dialog(
                             'FunctionDefinition',
@@ -6107,7 +6107,7 @@ const en: Locale = {
                 {
                     name: 'You never know…',
                     concept: 'Random',
-                    code: output(`Phrase((Time(100ms) % 10 ÷ 1ms) → "")`),
+                    program: output(`Phrase((Time(100ms) % 10 ÷ 1ms) → "")`),
                     lines: [
                         dialog(
                             'FunctionDefinition',
@@ -6158,7 +6158,7 @@ const en: Locale = {
                 {
                     name: "I'm listening…",
                     concept: 'Reaction',
-                    code: output("Phrase('∆')"),
+                    program: output("Phrase('∆')"),
                     lines: [
                         output("Phrase('∆' rest: Pose(tilt: 120°))"),
                         dialog(
@@ -6347,12 +6347,12 @@ const en: Locale = {
         },
         {
             name: 'Take the stage',
-            code: output(RainingEmoji),
+            program: output(RainingEmoji),
             scenes: [
                 {
                     name: 'Output',
                     concept: undefined,
-                    code: output(StaticRainingEmoji),
+                    program: output(StaticRainingEmoji),
                     lines: [
                         output(`Phrase("😀")`),
                         dialog(
@@ -6416,7 +6416,7 @@ const en: Locale = {
                 {
                     name: 'Say what?',
                     concept: 'Phrase',
-                    code: output(`Phrase("💬")`),
+                    program: output(`Phrase("💬")`),
                     lines: [
                         dialog(
                             'FunctionDefinition',
@@ -6780,7 +6780,7 @@ const en: Locale = {
                 {
                     name: '1, 2, 3, 4, 1, 2, 3, 4',
                     concept: 'Sequence',
-                    code: output(DancingEmoji('💃')),
+                    program: output(DancingEmoji('💃')),
                     lines: [
                         output(DarkVoid),
                         dialog(
@@ -6999,7 +6999,7 @@ rest: Sequence({
                 {
                     name: 'Places please',
                     concept: 'Group',
-                    code: output(
+                    program: output(
                         `Group(Grid(2 2) [Phrase("1" rest: Sequence(spin() 1s)) Phrase("2" rest: Sequence(spin() 2s)) Phrase("3" rest: Sequence(spin() 3s)) Phrase("4" rest: Sequence(spin() 4s))])`
                     ),
                     lines: [
@@ -7311,6 +7311,142 @@ rest: Sequence({
                             `Okay.
                             I'm always here if you want to chat.`
                         ),
+                    ],
+                },
+                {
+                    name: 'Stage… right?',
+                    concept: 'Stage',
+                    program: output(
+                        `Stage([Phrase("🎭" 5m)] background: Color(0% 0 0°))`,
+                        false
+                    ),
+                    lines: [
+                        output(
+                            `Stage([Phrase("🎭" 5m rest: Sequence(bounce(5m) 2s))] background: Color(0% 0 0°))`,
+                            false
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Excited,
+                            `Okay, there's someone who's been here all along, but we haven't really done a proper introduction.
+                            
+                            May I introduce @Stage!`
+                        ),
+                        dialog(
+                            'Stage',
+                            Emotion.Neutral,
+                            `HELLO, @FunctionDefinition
+                            
+                            HELLO PERSON.`
+                        ),
+                        pause(),
+                        output(
+                            `Stage([Phrase("🎭" 5m rest: Pose(tilt: 25° scale: 5))] background: Color(0% 0 0°))`,
+                            false
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Happy,
+                            `@Stage, this person is our new director. 
+                            
+                            They're so excited to finally meet you!`
+                        ),
+                        dialog(
+                            'Stage',
+                            Emotion.Neutral,
+                            `HELLO DIRECTOR. ARE YOU HERE TO INSPIRE?`
+                        ),
+                        pause(),
+                        output(
+                            `Stage([Phrase("🎭" 5m rest: Pose(tilt: -150° scale: 10))] background: Color(0% 0 0°))`,
+                            false
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Kind,
+                            `Indeed they are, with all kinds of expressions from their world.`
+                        ),
+                        dialog(
+                            'Stage',
+                            Emotion.Neutral,
+                            `I AM HERE TO SERVE. TELL ME WHAT TO PUT ON STAGE, AND I WILL.`
+                        ),
+                        pause(),
+                        output(
+                            `Stage([Phrase("🎭" 5m)] background: Color(0% 0 0°))`,
+                            false
+                        ),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `@Stage is one of a kind, and always there. 
+                            
+                            In fact, if you give @Program a @Phrase or @Group, @Program will show a @Stage, even if you don't mention them.
+                            
+                            But if you do mention them, you can be more specific about how you want the stage to appear.`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `Maybe let's start with a simple example. 
+                            
+                            This just gives @Stage a list of one @Phrase. 
+                            
+                            You don't have to mention @Stage here; this just shows what's happening behind the scenes when you give @Phrase to @Program.`
+                        ),
+                        edit(`Stage([Phrase(“🐈”)])`),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `But say you want the stage to have a different background color, such as black.`
+                        ),
+                        dialog('Stage', Emotion.Surprised, `BRRRRR…`),
+                        edit(`Stage([Phrase(“🐈”)] background: Color(0 0 0°))`),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `You can also frame the stage, for example, with a @Rectangle, which takes a top left place and bottom right place.
+                        
+                            See how the kitty is a little bit out of frame?`
+                        ),
+                        dialog(
+                            'Stage',
+                            Emotion.Surprised,
+                            `THE WORLD IS CLOSING IN…`
+                        ),
+                        edit(
+                            `Stage([Phrase(“🐈” place:Place(-2.5m))] background: Color(0 0 0°) frame: Rectangle(-2m -2m 2m 2m))`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Neutral,
+                            `You can also apply all of the same properties to @Stage as you can a @Group or @Phrase. 
+                            Let's tilt the whole stage!`
+                        ),
+                        dialog(
+                            'Stage',
+                            Emotion.Surprised,
+                            `WHOA, CAREFUL NOW…`
+                        ),
+                        edit(
+                            `Stage(
+    [Phrase(“🐈” place:Place(-2.5m))]
+    background: Color(0 0 0°)
+    frame: Rectangle(-2m -2m 2m 2m)
+    rest:Pose(tilt: 30°)
+)`
+                        ),
+                        pause(),
+                        dialog(
+                            'FunctionDefinition',
+                            Emotion.Kind,
+                            `There's much more you can do with @Stage, but you can explore with them anytime. Right @Stage?`
+                        ),
+                        dialog('Stage', Emotion.Excited, `ALWAYS!`),
                     ],
                 },
             ],

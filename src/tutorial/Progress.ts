@@ -61,7 +61,7 @@ export default class Progress {
         const code =
             scene && line !== undefined
                 ? scene.lines[line]
-                : scene?.code ?? act?.code ?? undefined;
+                : scene?.program ?? act?.program ?? undefined;
         return code !== null && typeof code === 'object' && 'sources' in code
             ? code
             : undefined;

@@ -42,6 +42,7 @@ import {
     AppearanceTypes,
     AnimationTypes,
     ArrangementTypes,
+    ShapeTypes,
 } from '@runtime/DefaultShares';
 import type Concept from './Concept';
 import NodeConcept from './NodeConcept';
@@ -83,6 +84,8 @@ import UnaryOperation from '../nodes/UnaryOperation';
 import UnionType from '../nodes/UnionType';
 import WebLink from '../nodes/WebLink';
 import UnparsableExpression from '../nodes/UnparsableExpression';
+import { ArrangementType } from '../output/Arrangement';
+import { ShapeType } from '../output/Shapes';
 
 /** These are ordered by appearance in the docs. */
 const template: Node[] = [
@@ -364,7 +367,16 @@ export function getOutputConcepts(
             getStructureOrFunctionConcept(
                 def,
                 Purpose.Output,
-                GroupType,
+                ArrangementType,
+                languages,
+                context
+            )
+        ),
+        ...ShapeTypes.map((def) =>
+            getStructureOrFunctionConcept(
+                def,
+                Purpose.Output,
+                ShapeType,
                 languages,
                 context
             )
