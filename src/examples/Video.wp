@@ -1,7 +1,7 @@
 === Video
 colors: Camera(32px 24px 33ms)
 
-Verse(
+Stage(
     colors.combine(
         [] 
         ƒ(phrases•[Phrase] row•[Color] y•#) 

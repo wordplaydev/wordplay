@@ -16,9 +16,9 @@ import {
     NameGenerator,
     toBoolean,
     toDecimal,
-    toVerse,
-    VerseType,
-} from './Verse';
+    toStage,
+    StageType,
+} from './Stage';
 import { toPlace } from './Place';
 import { toPose } from './Pose';
 import { toSequence } from './Sequence';
@@ -38,8 +38,8 @@ export function toTypeOutput(
             return toPhrase(value, namer);
         case GroupType:
             return toGroup(value, namer);
-        case VerseType:
-            return toVerse(value);
+        case StageType:
+            return toStage(value);
     }
     return undefined;
 }

@@ -2108,7 +2108,7 @@ const eng_wordplay: Locale = {
             duration: { doc: WRITE_DOC, names: ['duración'] },
             style: { doc: WRITE_DOC, names: 'estilo' },
         },
-        Verse: {
+        Stage: {
             names: ['Verso'],
             doc: WRITE_DOC,
             description: () => WRITE_DOC,

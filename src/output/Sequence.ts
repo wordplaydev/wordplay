@@ -6,7 +6,7 @@ import { getBind } from '@locale/getBind';
 import Output from './Output';
 import type Pose from './Pose';
 import { toPose } from './Pose';
-import { toDecimal } from './Verse';
+import { toDecimal } from './Stage';
 import Text from '../runtime/Text';
 import Map from '../runtime/Map';
 import Measurement from '../runtime/Measurement';

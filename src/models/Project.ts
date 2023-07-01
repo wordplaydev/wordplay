@@ -17,7 +17,7 @@ import type Bind from '@nodes/Bind';
 import Reference from '@nodes/Reference';
 import type LanguageCode from '@locale/LanguageCode';
 import type StreamDefinition from '@nodes/StreamDefinition';
-import { VerseType } from '../output/Verse';
+import { StageType } from '../output/Stage';
 import { GroupType } from '../output/Group';
 import { PhraseType } from '../output/Phrase';
 import { v4 as uuidv4 } from 'uuid';
@@ -648,7 +648,7 @@ export default class Project {
             .filter((node): node is Evaluate => node instanceof Evaluate);
         return [
             ...evaluates.filter((evaluate) =>
-                evaluate.is(VerseType, this.getNodeContext(evaluate))
+                evaluate.is(StageType, this.getNodeContext(evaluate))
             ),
             ...evaluates.filter((evaluate) =>
                 evaluate.is(GroupType, this.getNodeContext(evaluate))

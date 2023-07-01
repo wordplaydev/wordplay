@@ -1,5 +1,5 @@
 import type StructureDefinition from '@nodes/StructureDefinition';
-import { VerseType } from '../output/Verse';
+import { StageType } from '../output/Stage';
 import { PhraseType } from '../output/Phrase';
 import { GroupType } from '../output/Group';
 import { TypeType } from '../output/TypeOutput';
@@ -29,7 +29,7 @@ import { FreeType } from '../output/Free';
 
 export const AnimationTypes = [PoseType, SequenceType];
 
-export const GroupTypes = [TypeType, VerseType, GroupType, PhraseType];
+export const GroupTypes = [TypeType, StageType, GroupType, PhraseType];
 
 export const ArrangementTypes = [
     ArrangementType,

@@ -992,7 +992,7 @@ export type OutputTexts = {
     Phrase: ConceptText<1, 0> & {
         text: NameAndDoc;
     };
-    Verse: ConceptText<1, 0> & {
+    Stage: ConceptText<1, 0> & {
         description: (total: number, phrases: number, groups: number) => string;
         content: NameAndDoc;
         background: NameAndDoc;

@@ -3,17 +3,17 @@
 <script lang="ts">
     import { afterUpdate, beforeUpdate, onDestroy, onMount } from 'svelte';
     import type Project from '@models/Project';
-    import type Verse from '@output/Verse';
+    import type Stage from '@output/Stage';
     import { loadedFonts } from '@native/Fonts';
     import { PX_PER_METER, rootScale, toCSS } from '@output/outputToCSS';
     import Place from '@output/Place';
     import Evaluate from '@nodes/Evaluate';
-    import { DefaultFont, DefaultSize, VerseType } from '@output/Verse';
+    import { DefaultFont, DefaultSize, StageType } from '@output/Stage';
     import Key from '@input/Key';
     import Pointer from '@input/Pointer';
     import Button from '@input/Button';
     import { createPlace } from '@output/Place';
-    import Stage, { type OutputInfoSet } from '@output/Stage';
+    import Scene, { type OutputInfoSet } from '@output/Scene';
     import Pose from '@output/Pose';
     import GroupView from './GroupView.svelte';
     import { tick } from 'svelte';
@@ -24,7 +24,7 @@
     import RenderContext from '@output/RenderContext';
     import { setContext } from 'svelte';
     import { writable } from 'svelte/store';
-    import moveOutput, { addVerseContent } from '../palette/editOutput';
+    import moveOutput, { addStageContent } from '../palette/editOutput';
     import {
         getAnimatingNodes,
         getEvaluation,
@@ -46,7 +46,7 @@
 
     export let project: Project;
     export let evaluator: Evaluator;
-    export let verse: Verse;
+    export let verse: Stage;
     export let fullscreen: boolean;
     export let interactive: boolean;
     export let editable: boolean;
@@ -154,10 +154,10 @@
         undefined;
 
     /** A stage to manage entries, exits, animations. A new one for each project. */
-    let stage: Stage;
+    let scene: Scene;
     $: {
-        if (stage !== undefined) stage.stop();
-        stage = new Stage(
+        if (scene !== undefined) scene.stop();
+        scene = new Scene(
             evaluator,
             // When output exits, remove it from the map and triggering a render.
             (name) => {
@@ -175,7 +175,7 @@
     }
 
     /** When this is unmounted, stop all animations.*/
-    onDestroy(() => stage.stop());
+    onDestroy(() => scene.stop());
 
     /** Expose the editable context to all children */
     let editableStore = writable<boolean>(editable);
@@ -185,7 +185,7 @@
 
     /** Whenever the verse, languages, fonts, or rendered focus changes, update the rendered scene accordingly. */
     $: {
-        const results = stage.update(
+        const results = scene.update(
             verse,
             interactive,
             renderedFocus,
@@ -504,7 +504,7 @@
 
                     // Add the stroke to the project's verse
                     if (strokeNodeID === undefined) {
-                        addVerseContent($creator, project, group);
+                        addStageContent($creator, project, group);
                     } else {
                         const node = project.getNodeByID(strokeNodeID);
                         if (node)
@@ -523,7 +523,7 @@
                     $selectedOutput &&
                     $selectedOutput.length > 0 &&
                     !$selectedOutput[0].is(
-                        VerseType,
+                        StageType,
                         project.getNodeContext($selectedOutput[0])
                     )
                 ) {

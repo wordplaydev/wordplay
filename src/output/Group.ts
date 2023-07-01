@@ -12,7 +12,7 @@ import TypeOutput, { TypeOutputInputs } from './TypeOutput';
 import type LanguageCode from '@locale/LanguageCode';
 import { getStyle, toArrangement, toTypeOutputList } from './toTypeOutput';
 import { TYPE_SYMBOL } from '../parser/Symbols';
-import type { NameGenerator } from './Verse';
+import type { NameGenerator } from './Stage';
 
 export const GroupType = toStructure(`
     ${getBind((t) => t.output.Group, TYPE_SYMBOL)} Type(

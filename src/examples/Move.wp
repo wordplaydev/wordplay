@@ -34,7 +34,7 @@ ball: Motion(
           ø
 )
 
-Verse([
+Stage([
 		Phrase(
     	"🐈"
     	name: "kitty"

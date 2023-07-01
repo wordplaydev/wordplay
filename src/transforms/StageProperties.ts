@@ -3,7 +3,7 @@ import ListLiteral from '../nodes/ListLiteral';
 import { ColorType, createColorLiteral } from '../output/Color';
 import type OutputProperty from './OutputProperty';
 
-const VerseProperties: OutputProperty[] = [
+const StageProperties: OutputProperty[] = [
     {
         name: 'content',
         type: 'content',
@@ -22,4 +22,4 @@ const VerseProperties: OutputProperty[] = [
         create: (languages) => createColorLiteral(languages, 0.5, 100, 180),
     },
 ];
-export default VerseProperties;
+export default StageProperties;

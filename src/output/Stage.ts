@@ -1,344 +1,263 @@
-import type LanguageCode from '../locale/LanguageCode';
-import type TypeOutput from './TypeOutput';
-import Place from './Place';
-import { createPlace } from './Place';
-import type Verse from './Verse';
-import OutputAnimation from './OutputAnimation';
-import type Transition from './Transition';
-import type Node from '@nodes/Node';
+import Structure from '@runtime/Structure';
+import type Value from '@runtime/Value';
+import TypeOutput, { TypeOutputInputs } from './TypeOutput';
 import type RenderContext from './RenderContext';
-import type Evaluator from '../runtime/Evaluator';
+import Phrase from './Phrase';
+import Color from './Color';
+import Place from './Place';
+import toStructure from '../native/toStructure';
+import Measurement from '@runtime/Measurement';
+import Decimal from 'decimal.js';
+import { toColor } from './Color';
+import List from '@runtime/List';
+import type LanguageCode from '@locale/LanguageCode';
+import { getPreferredLocale } from '@locale/getPreferredLocales';
+import { getBind } from '@locale/getBind';
+import Bool from '../runtime/Bool';
+import { getStyle, toTypeOutput, toTypeOutputList } from './toTypeOutput';
+import type TextLang from './TextLang';
+import Pose from './Pose';
+import type Sequence from './Sequence';
+import Group from './Group';
+import { toShape, type Shape } from './Shapes';
 
-export type OutputName = string;
+export const DefaultFont = `'Noto Sans', 'Noto Color Emoji'`;
+export const DefaultSize = 1;
 
-export type OutputInfo = {
-    output: TypeOutput;
-    global: Place;
-    local: Place;
-    rotation: number | undefined;
-    parents: TypeOutput[];
-    context: RenderContext;
-};
+export const StageType = toStructure(`
+    ${getBind((t) => t.output.Stage, '•')} Type(
+        ${getBind((t) => t.output.Stage.content)}•[Type]
+        ${getBind((t) => t.output.Stage.background)}•Color: Color(100 0 0°)
+        ${getBind((t) => t.output.Stage.frame)}•Shape|ø: ø
+        ${TypeOutputInputs}
+    )
+`);
 
-export type OutputInfoSet = Map<OutputName, OutputInfo>;
-export type Orientation = { place: Place; rotation: number | undefined };
-
-/**
- * Derived state of the previous and current Verses.
- * It's responsible for determining what is visible, triggering layout,
- * preparing groups for rendering, and triggering transitions and animations
- * when things enter, move, and exit. It is not itself responsible for animating;
- * that is the job of the Animator. It relies on the project to be updated
- * any time the project reevaluates.
- * */
-export default class Stage {
-    readonly evaluator: Evaluator;
-
-    /** The current verse being displayed */
-    verse: Verse | undefined = undefined;
-
-    /** True if the stage is animated and interactive */
-    live: boolean = true;
-
-    /** The current languages being displayed */
-    languages: LanguageCode[] = [];
-
-    /** The current fonts that are loaded */
-    fontsLoaded: Set<string> = new Set();
-
-    /** The current viewport size from the verse */
-    viewportWidth: number = 0;
-    viewportHeight: number = 0;
-
-    /** The current focus from the verse. */
-    focus: Place;
-
-    /** The previous and current places where groups are at */
-    scene: OutputInfoSet = new Map<OutputName, OutputInfo>();
-    priorScene: OutputInfoSet = new Map<OutputName, OutputInfo>();
-
-    /** The active animations, responsible for tracking transitions and animations on named output. */
-    readonly animations = new Map<OutputName, OutputAnimation>();
-
-    /** The current sequence being animated */
-    animatingNodes = new Set<Node>();
-
-    /**
-     * A callback provided by the instantiator to call when the stage is in need of an update
-     * because an animation finished. Currently this is mostly necessary for exiting phrases.
-     **/
-    readonly exit: (name: OutputName) => void;
-
-    /** A callback for when the animating nodes change, so other parts of the UI can highlight them. */
-    readonly tick: (nodes: Set<Node>) => void;
+export default class Stage extends TypeOutput {
+    readonly content: (TypeOutput | null)[];
+    readonly background: Color;
+    readonly frame: Shape | undefined;
 
     constructor(
-        evaluator: Evaluator,
-        exit: (name: OutputName) => void,
-        tick: (nodes: Set<Node>) => void
+        value: Value,
+        content: (TypeOutput | null)[],
+        background: Color,
+        frame: Shape | undefined = undefined,
+        size: number,
+        font: string,
+        place: Place | undefined = undefined,
+        rotation: number | undefined = undefined,
+        name: TextLang | string,
+        selectable: boolean,
+        entry: Pose | Sequence | undefined = undefined,
+        rest: Pose | Sequence,
+        move: Pose | Sequence | undefined = undefined,
+        exit: Pose | Sequence | undefined = undefined,
+        duration: number = 0,
+        style: string | undefined = 'zippy'
     ) {
-        this.evaluator = evaluator;
-        this.exit = exit;
-        this.tick = tick;
-
-        // Initialize unintialized defaults.
-        this.focus = createPlace(this.evaluator, 0, 0, -6);
-    }
-
-    /**
-     * When any of the following inputs change, update the stage accordingly so that the
-     * rendered screen reflects it.
-     */
-    update(
-        verse: Verse,
-        live: boolean,
-        focus: Place,
-        width: number,
-        height: number,
-        context: RenderContext
-    ) {
-        this.verse = verse;
-        this.live = live;
-        this.focus = focus;
-        this.viewportWidth = width;
-        this.viewportHeight = height;
-
-        // Create sets of who entered, exited, and present output by their name.
-        const entered = new Map<OutputName, TypeOutput>();
-        const moved = new Map<
-            OutputName,
-            {
-                output: TypeOutput;
-                prior: Orientation;
-                present: Orientation;
-            }
-        >();
-        const exited = new Map<OutputName, TypeOutput>();
-        const present = new Map<OutputName, TypeOutput>();
-
-        // Add the verse to the scene. This is necessary so that animations can get its context.
-        const newScene = this.layout(
-            this.verse,
-            [],
-            new Map<OutputName, OutputInfo>(),
-            context
+        super(
+            value,
+            size,
+            font,
+            place,
+            rotation,
+            name,
+            selectable,
+            entry,
+            rest,
+            move,
+            exit,
+            duration,
+            style
         );
 
-        const center = new Place(verse.value, 0, 0, 0);
-        newScene.set(verse.getName(), {
-            output: verse,
-            global: center,
-            local: center,
-            rotation: verse.rotation,
-            parents: [],
-            context,
-        });
+        this.content = content;
+        this.background = background;
+        this.frame = frame;
+    }
 
-        // Based on the places, figure out which output is present and visible.
-        for (const [name, info] of newScene) {
-            const output = info.output;
+    getOutput() {
+        return this.content;
+    }
 
-            // Add this name and phrase to the present sets.
-            present.set(name, output);
+    getLayout(context: RenderContext) {
+        const places: [TypeOutput, Place][] = [];
+        let left = 0,
+            right = 0,
+            bottom = 0,
+            top = 0;
+        for (const child of this.content) {
+            if (child) {
+                const layout = child.getLayout(context);
+                const place = child.place
+                    ? child.place
+                    : new Place(
+                          this.value,
+                          // Place everything in the center
+                          -layout.width / 2,
+                          // We would normally not negate the y because its in math coordinates, but we want to move it
+                          // down the y-axis by half, so we subtract.
+                          -layout.height / 2,
+                          0
+                      );
+                places.push([child, place]);
 
-            // Was this phrase not previously present? Add to the entered set.
-            if (!this.scene.has(name)) entered.set(name, output);
-
-            // Did the place change? Note the move.
-            const priorOutputInfo = this.scene.get(name);
-            const priorLocal = priorOutputInfo?.local;
-            if (
-                priorLocal &&
-                (priorLocal.x !== info.local.x ||
-                    priorLocal.y !== info.local.y ||
-                    priorLocal.z !== info.local.z)
-            ) {
-                moved.set(name, {
-                    output: output,
-                    prior: {
-                        place: priorLocal,
-                        rotation: priorOutputInfo?.rotation,
-                    },
-                    present: {
-                        place: info.local,
-                        rotation: info.output.rotation,
-                    },
-                });
+                if (place.x < left) left = place.x;
+                if (place.x + layout.width > right)
+                    right = place.x + layout.width;
+                if (place.y < bottom) bottom = place.y;
+                if (place.y + layout.height > top)
+                    top = place.y + layout.height;
             }
         }
 
-        // A mapping from exiting groups to where they previously were.
-        const exiting = new Map<OutputName, OutputInfo>();
-
-        // Now that we have a list of everyone present, remove everyone that was present in the prior scene that is no longer, and note that they exited.
-        // We only do this if this is an animated stage; exiting isn't animated on non-live stages.
-        if (live) {
-            for (const [name, info] of this.scene) {
-                const output = info.output;
-                if (!newScene.has(name)) {
-                    // If the phrase has an exit squence, then add it to the phrases to keep rendering
-                    // and remember it's current global place, so we can render it there.
-                    if (output.exit) {
-                        exited.set(name, output);
-                        const place = info.global;
-                        // Use the global place since it's now parent-less.
-                        const newInfo = {
-                            output,
-                            global: place,
-                            local: place,
-                            rotation: info.rotation,
-                            context: info.context,
-                            parents: [this.verse],
-                        };
-                        // Add to the exiting list for the verse to render.
-                        exiting.set(name, newInfo);
-                        // Add to the present list so that when we later animate,
-                        // it's animation record is updated.
-                        present.set(name, output);
-                        // Re-add to the scene so that animations can get info.
-                        newScene.set(name, newInfo);
-                    }
-                }
-            }
-        }
-
-        // Remember the places, so that exiting phrases after the next change have them above.
-        this.priorScene = this.scene;
-        this.scene = newScene;
-
-        // Return the layout for rendering.
         return {
-            entered,
-            present,
-            exiting,
-            // We pass back an animation function so that the view can start animating once it's refreshed
-            // DOM elements. This way the animation handlers can assume DOM elements are ready for animation.
-            animate: () => {
-                if (this.live) this.animate(present, entered, moved, exited);
-            },
+            output: this,
+            left,
+            right,
+            top,
+            bottom,
+            width: right - left,
+            height: top - bottom,
+            places,
         };
     }
 
-    /**
-     * Given a list of entered, moved, and exited named output,
-     * update the active animations. Returns the set of immediate exits for
-     * deletion.
-     */
-    animate(
-        present: Map<OutputName, TypeOutput>,
-        entered: Map<OutputName, TypeOutput>,
-        moved: Map<
-            OutputName,
-            {
-                output: TypeOutput;
-                prior: Orientation;
-                present: Orientation;
-            }
-        >,
-        exited: Map<OutputName, TypeOutput>
-    ): Set<OutputName> {
-        // Update the phrase of all present and exited animations, potentially
-        // ending and starting animations.
-        for (const [name, output] of present) {
-            const animation = this.animations.get(name);
-            const info = this.scene.get(name);
-            if (info) {
-                if (animation) {
-                    animation.update(output, info?.context, entered.has(name));
-                } else if (output.isAnimated()) {
-                    const animation = new OutputAnimation(
-                        this,
-                        output,
-                        info.context,
-                        entered.has(name)
-                    );
-                    this.animations.set(name, animation);
-                }
-            }
-            // Otherwise, there must not be any animation on this name,
-            // because otherwise we would have created an animation.
-        }
-
-        // Trigger moves.
-        for (const [name, change] of moved) {
-            const animation = this.animations.get(name);
-            if (animation) animation.move(change.prior, change.present);
-        }
-
-        // Trigger exits for animated output, keeping track of immediate exits.
-        const done = new Set<OutputName>();
-        for (const [name] of exited) {
-            const animation = this.animations.get(name);
-            // If we have an animation record, trigger exit
-            if (animation) {
-                animation.exit();
-                // If it's already done (for a variety of reasons), end it.
-                if (animation.done()) this.exited(animation);
-            }
-        }
-        return done;
+    getBackground(): Color | undefined {
+        return undefined;
     }
 
-    stop() {
-        this.animations.forEach((animation) => animation.exited());
+    getDescription(languages: LanguageCode[]) {
+        return getPreferredLocale(languages).output.Stage.description(
+            this.content.length,
+            this.content.filter((o) => o instanceof Phrase).length,
+            this.content.filter((o) => o instanceof Group).length
+        );
     }
 
-    exited(animation: OutputAnimation) {
-        const name = animation.output.getName();
-        this.animations.delete(name);
-        this.scene.delete(name);
-        this.exit(name);
+    isEmpty() {
+        return this.content.every((c) => c === null || c.isEmpty());
     }
+}
 
-    startingSequence(transitions: Transition[]) {
-        for (const transition of transitions) {
-            this.animatingNodes.add(transition.pose.value.creator);
+export class NameGenerator {
+    /** Number visible phrases, giving them unique IDs to key off of. */
+    readonly counter = new Map<number, number>();
+    readonly names = new Map<string, number>();
+
+    constructor() {}
+
+    getName(name: string | undefined, value: Value) {
+        // If given a name, make sure it's not a duplicate,
+        // and if it is, make it unique by appending a number.
+        let newName: string;
+        if (name) {
+            const existingNameCount = this.names.get(name);
+            if (existingNameCount !== undefined)
+                name = name + (existingNameCount + 1);
+            newName = name;
+            // Remember this name to prevent duplicates.
+            this.names.set(newName, (existingNameCount ?? 0) + 1);
+        } else {
+            const nodeID = value.creator.id;
+            const count = (this.counter.get(nodeID) ?? 0) + 1;
+            this.counter.set(nodeID, count);
+            newName = `${nodeID}-${count}`;
         }
-        this.tick(this.animatingNodes);
+        return newName;
     }
+}
 
-    endingSequence(transitions: Transition[]) {
-        for (const transition of transitions) {
-            this.animatingNodes.delete(transition.pose.value.creator);
-        }
-        this.tick(this.animatingNodes);
+export function toStage(value: Value): Stage | undefined {
+    if (!(value instanceof Structure)) return undefined;
+
+    // Create a name generator to guarantee unique default names for all TypeOutput.
+    const namer = new NameGenerator();
+
+    if (value.type === StageType) {
+        const possibleGroups = value.resolve('content');
+        const content =
+            possibleGroups instanceof List
+                ? toTypeOutputList(possibleGroups, namer)
+                : toTypeOutput(possibleGroups, namer);
+        const background = toColor(value.resolve('background'));
+        const frame = toShape(value.resolve('frame'));
+
+        const {
+            size,
+            font,
+            place,
+            rotation,
+            name,
+            selectable,
+            rest,
+            enter,
+            move,
+            exit,
+            duration,
+            style,
+        } = getStyle(value);
+
+        return content !== undefined &&
+            background !== undefined &&
+            duration !== undefined &&
+            style !== undefined
+            ? new Stage(
+                  value,
+                  Array.isArray(content) ? content : [content],
+                  background,
+                  frame,
+                  size ?? DefaultSize,
+                  font ?? DefaultFont,
+                  place,
+                  rotation,
+                  namer.getName(name?.text, value),
+                  selectable,
+                  enter,
+                  rest ?? new Pose(value),
+                  move,
+                  exit,
+                  duration,
+                  style
+              )
+            : undefined;
     }
-
-    // A top down layout algorithm that places groups first, then their subgroups, and uses the
-    // ancestor list to compute global places for each group.
-    layout(
-        output: TypeOutput,
-        parents: TypeOutput[],
-        outputInfo: Map<OutputName, OutputInfo>,
-        context: RenderContext
-    ) {
-        // Get the name of the output
-        const name = output.getName();
-        // Add this output to the parent stack.
-        parents.unshift(output);
-        // Update the context passed to children.
-        context = output.getRenderContext(context);
-        // Get the info for the name.
-        const info = outputInfo.get(name);
-        // Get this output's place, so we can offset its subgroups.
-        const parentPlace = info?.global;
-        // Get the places of each of this group's subgroups.
-        for (const [subgroup, place] of output.getLayout(context).places) {
-            // Set the place of this subgroup, offseting it by the parent's position to keep it in global coordinates.
-            outputInfo.set(subgroup.getName(), {
-                output: subgroup,
-                local: place,
-                global: parentPlace ? place.offset(parentPlace) : place,
-                rotation: info?.rotation,
-                context,
-                parents: parents.slice(),
-            });
-            // Now that this subgroup's position is set, layout the subgroup's subgroups.
-            this.layout(subgroup, parents, outputInfo, context);
-        }
-        // Remove this group from the top of the parent stack.
-        parents.shift();
-
-        return outputInfo;
+    // Try converting it to a group and wrapping it in a Stage.
+    else {
+        const type = toTypeOutput(value, namer);
+        return type === undefined
+            ? undefined
+            : new Stage(
+                  value,
+                  [type],
+                  new Color(
+                      value,
+                      new Decimal(100),
+                      new Decimal(0),
+                      new Decimal(0)
+                  ),
+                  undefined,
+                  DefaultSize,
+                  DefaultFont,
+                  undefined,
+                  0,
+                  namer.getName(undefined, value),
+                  type.selectable,
+                  undefined,
+                  new Pose(value),
+                  undefined,
+                  undefined,
+                  0,
+                  'zippy'
+              );
     }
+}
+
+export function toDecimal(value: Value | undefined): Decimal | undefined {
+    return value instanceof Measurement ? value.num : undefined;
+}
+
+export function toBoolean(value: Value | undefined): boolean | undefined {
+    return value instanceof Bool ? value.bool : undefined;
 }

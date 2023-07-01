@@ -1,11 +1,11 @@
-export const DarkVoid = `Verse([] background: Color(0% 0 0°))`;
+export const DarkVoid = `Stage([] background: Color(0% 0 0°))`;
 
 export const FlyIn = (symbol: string) =>
     `z•#m: ∆ Time(30ms) ? 25m … z > 0m ? z - 1m 0m
     Phrase('${symbol}' place:Place(0m 0m z) duration:0.5s)`;
 
 export const SpinningInTheDark = (symbol: string) =>
-    `Verse([
+    `Stage([
         Phrase("${symbol}" 
         size:5m 
         rest: Sequence({
@@ -41,7 +41,7 @@ kitties•[Kitty]:  ∆ Time() ?
     				)
 
 \`Convert the kitties into phrases\`
-Verse(
+Stage(
     kitties.translate(
         ƒ(kitty•Kitty) 
             Phrase(
@@ -79,7 +79,7 @@ kitties•[Kitty]:
     			
 
 \`Convert the kitties into phrases\`
-Verse(
+Stage(
     kitties.translate(
         ƒ(kitty•Kitty) 
             Phrase(

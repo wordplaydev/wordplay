@@ -48,7 +48,7 @@ left: maze.cell(state.row state.column - 1)•''
 right: maze.cell(state.row state.column + 1)•''
 won: current = '🤩'
 
-Verse(
+Stage(
 	[
 		Group(
 			Grid(3 3 0.25m)

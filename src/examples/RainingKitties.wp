@@ -24,7 +24,7 @@ kitties•[Kitty]:  ∆ Time() ?
     				)
 
 `Convert the kitties into phrases`
-Verse(
+Stage(
     kitties.translate(
         ƒ(kitty•Kitty) 
             Phrase(

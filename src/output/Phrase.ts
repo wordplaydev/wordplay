@@ -16,7 +16,7 @@ import { PX_PER_METER, sizeToPx } from './outputToCSS';
 import type LanguageCode from '@locale/LanguageCode';
 import { getBind } from '@locale/getBind';
 import { getStyle } from './toTypeOutput';
-import type { NameGenerator } from './Verse';
+import type { NameGenerator } from './Stage';
 
 export const PhraseType = toStructure(`
     ${getBind((t) => t.output.Phrase, '•')} Type(

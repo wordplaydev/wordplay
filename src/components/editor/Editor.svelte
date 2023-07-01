@@ -59,7 +59,7 @@
     import Evaluate from '@nodes/Evaluate';
     import { PhraseType } from '@output/Phrase';
     import { GroupType } from '@output/Group';
-    import { VerseType } from '@output/Verse';
+    import { StageType } from '@output/Stage';
     import type Evaluator from '@runtime/Evaluator';
     import { TAB_WIDTH } from '../../parser/Spaces';
     import PlaceholderView from './PlaceholderView.svelte';
@@ -252,7 +252,7 @@
                 project.getNodeContext($caret.position),
                 PhraseType,
                 GroupType,
-                VerseType
+                StageType
             )
         )
             setSelectedOutput(selectedOutputPaths, project, [$caret.position]);

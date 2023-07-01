@@ -5,7 +5,7 @@ caught: ∆ (name)? ⊥ … (name = 'mouse') & ~caught
 `Every second, move the mouse`
 place:  ∆ Time(1000ms) ? Place(0m 0m 0m) … caught ?Place(0m 0m)Place(Random(-2 2) · 1m Random(-2 2) · 1m)
 
-Verse([
+Stage([
 		💬(
 			"🐭" 
 			selectable: ⊤

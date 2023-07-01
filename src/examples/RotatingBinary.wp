@@ -1,7 +1,7 @@
 ===RotatingBinary/en
 slowSpin:Sequence(spin() 10s "straight")
 
-Verse([
+Stage([
 		Phrase('1' place: 📍(-0.5m -0.125m 0m) rest:slowSpin)
 		Phrase('0' place: 📍(1.25m -0.25m 0m)rest:slowSpin)
 		Phrase('1' place: 📍(-2.3125m 0.0625m 0m) rest: slowSpin)

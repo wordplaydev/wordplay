@@ -1,11 +1,11 @@
 <script lang="ts">
-    import { toVerse } from '../../output/Verse';
+    import { toStage } from '../../output/Stage';
     import Exception from '@runtime/Exception';
     import type Value from '@runtime/Value';
     import type Project from '@models/Project';
     import ValueView from '../values/ValueView.svelte';
     import type Source from '@nodes/Source';
-    import VerseView from './VerseView.svelte';
+    import StageView from './StageView.svelte';
     import DescriptionView from '@components/concepts/DescriptionView.svelte';
     import Speech from '../lore/Speech.svelte';
     import {
@@ -33,7 +33,7 @@
     let evaluation = getEvaluation();
     let keyboardEditIdle = getKeyboardEditIdle();
 
-    $: verse = latest === undefined ? undefined : toVerse(latest);
+    $: verse = latest === undefined ? undefined : toStage(latest);
     $: background =
         $keyboardEditIdle && latest instanceof Exception
             ? 'var(--wordplay-error)'
@@ -91,9 +91,9 @@
                 <p><ValueView value={latest} /></p>
             {/if}
         </div>
-        <!-- Otherwise, show the Verse -->
+        <!-- Otherwise, show the Stage -->
     {:else}
-        <VerseView
+        <StageView
             {project}
             {evaluator}
             {verse}

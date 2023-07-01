@@ -2,7 +2,7 @@ import toStructure from '../native/toStructure';
 import type Value from '@runtime/Value';
 import { getBind } from '@locale/getBind';
 import Output from './Output';
-import { toDecimal } from './Verse';
+import { toDecimal } from './Stage';
 import type Evaluator from '../runtime/Evaluator';
 import type Names from '../nodes/Names';
 import Measurement from '../runtime/Measurement';

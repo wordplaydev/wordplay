@@ -3,7 +3,7 @@ import { TYPE_SYMBOL } from '../parser/Symbols';
 import Structure from '../runtime/Structure';
 import type Value from '../runtime/Value';
 import { getBind } from '../locale/getBind';
-import { toDecimal } from './Verse';
+import { toDecimal } from './Stage';
 import { PX_PER_METER } from './outputToCSS';
 
 export const ShapeType = toStructure(`

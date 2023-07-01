@@ -5,7 +5,7 @@ import type Color from './Color';
 import Output from './Output';
 import type Place from './Place';
 import { toPlace } from './Place';
-import { toBoolean, toDecimal } from './Verse';
+import { toBoolean, toDecimal } from './Stage';
 import { toColor } from './Color';
 import { getBind } from '@locale/getBind';
 import type LanguageCode from '@locale/LanguageCode';

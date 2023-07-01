@@ -3,10 +3,10 @@ import { PX_PER_METER, sizeToPx, toOutputTransform } from './outputToCSS';
 import Place from './Place';
 import Pose from './Pose';
 import Sequence from './Sequence';
-import type Stage from './Stage';
-import type { Orientation, OutputName } from './Stage';
+import type Scene from './Scene';
+import type { Orientation, OutputName } from './Scene';
 import Transition from './Transition';
-import Verse from './Verse';
+import Stage from './Stage';
 import type RenderContext from './RenderContext';
 import Phrase from './Phrase';
 
@@ -28,7 +28,7 @@ const Log = false;
  */
 export default class OutputAnimation {
     /** The animator that created this */
-    stage: Stage;
+    stage: Scene;
 
     /** The current phrase for this name */
     output: TypeOutput;
@@ -49,7 +49,7 @@ export default class OutputAnimation {
     sequence: Transition[] | undefined = undefined;
 
     constructor(
-        stage: Stage,
+        stage: Scene,
         phrase: TypeOutput,
         context: RenderContext,
         entry: boolean
@@ -429,7 +429,7 @@ export default class OutputAnimation {
         let offsetFocus: Place | undefined = this.stage.focus;
         if (parents && offsetFocus) {
             for (const parent of parents) {
-                if (!(parent instanceof Verse)) {
+                if (!(parent instanceof Stage)) {
                     const parentInfo = this.stage.scene.get(parent.getName());
                     const parentPlace = parentInfo?.local;
                     if (parentPlace)
@@ -476,7 +476,7 @@ export default class OutputAnimation {
                     // Anything rooted in the verse has no height.
                     // Otherwise, pass the height of the parent, just like
                     // we do in GroupView.
-                    this.state === State.Exiting || parents[0] instanceof Verse
+                    this.state === State.Exiting || parents[0] instanceof Stage
                         ? 0
                         : parents[0].getLayout(this.context).height,
                     {

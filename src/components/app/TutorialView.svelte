@@ -79,7 +79,7 @@
             code = newCode;
         }
         if (code === undefined) {
-            code = { sources: ['Verse()'], fit: true, edit: false };
+            code = { sources: ['Stage()'], fit: true, edit: false };
         }
     }
 

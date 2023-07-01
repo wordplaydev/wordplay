@@ -39,7 +39,7 @@ letters•[Letter]:  ∆ tick ?
     )
 
 `Convert the letters into phrases`
-Verse(
+Stage(
     [
       Phrase("☁️" size: 3m place:Place(-8m 12m))
       Phrase("☁️" size: 5m place: Place(8m 11m))

@@ -6,7 +6,7 @@ pressed: ∆ Key()
 count•#: ∆ Key() ? 0 … count + 1
 questions•[Question]:  ∆ Key() ? [] … questions.add(Question(count→"" Random(magnitude magnitude·2) Random(magnitude·2 magnitude·4) Random(0 360)))
 
-Verse(
+Stage(
     [ Phrase('👨‍👨‍👧‍👦' font: "Noto Emoji" place: 📍(0m 0m 0m)) ].append(
         questions.translate(ƒ(q•Question index•#) (
           initialize: pressed & (index = questions.length())

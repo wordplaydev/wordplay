@@ -2,7 +2,7 @@ import type Decimal from 'decimal.js';
 import toStructure from '../native/toStructure';
 import type Value from '@runtime/Value';
 import Output from './Output';
-import { toDecimal } from './Verse';
+import { toDecimal } from './Stage';
 import ColorJS from 'colorjs.io';
 import { TYPE_SYMBOL } from '@parser/Symbols';
 import { getBind } from '@locale/getBind';

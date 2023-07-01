@@ -3,7 +3,7 @@ count: 32
 
 gravity•#m/s^2:  ∆ Button() ? 15m/s^2 … -gravity
 
-Verse(count → [].translate(
+Stage(count → [].translate(
     ƒ(_) Motion(
         Phrase(
             "ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんゔゕゖ"→[].random() 

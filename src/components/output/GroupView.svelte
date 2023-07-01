@@ -11,10 +11,10 @@
     import Evaluate from '@nodes/Evaluate';
     import { getSelectedOutput } from '../project/Contexts';
     import type { Shape } from '../../output/Shapes';
-    import type Verse from '../../output/Verse';
+    import type Stage from '../../output/Stage';
     import { creator } from '../../db/Creator';
 
-    export let group: Group | Verse;
+    export let group: Group | Stage;
     export let place: Place;
     export let focus: Place;
     export let viewport: { width: number; height: number } | undefined =

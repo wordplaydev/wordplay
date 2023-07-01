@@ -21,7 +21,7 @@ options: state.options.length() > 0 ?
     [ Phrase("**GAME OVER**") ]
 
 
-Verse(
+Stage(
   [
 		Group(
 			Stack()

@@ -1,7 +1,7 @@
 import type Value from '@runtime/Value';
 
 /**
- * A base class that represents some part of Verse output.
+ * A base class that represents some part of Stage output.
  * It's core responsibility is to store a link to a Structure value,
  * maintaining provenance.
  * */

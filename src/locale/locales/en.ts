@@ -182,7 +182,7 @@ const en: Locale = {
                 
                 I'm the same, but rather than giving my value to whateve expression I'm in, I put the value on stage.
                 
-                The value can be anything: a @MeasurementLiteral, @TextLiteral, or @BooleanLiteral, a @ListLiteral, @SetLiteral, @MapLiteral, or even something more complex, like a @Phrase, @Group, or @Verse.
+                The value can be anything: a @MeasurementLiteral, @TextLiteral, or @BooleanLiteral, a @ListLiteral, @SetLiteral, @MapLiteral, or even something more complex, like a @Phrase, @Group, or @Stage.
 
                 If you don't give me a value to show on stage, I'll probably ask you for one.
                 `,
@@ -2658,9 +2658,9 @@ const en: Locale = {
             y: { doc: WRITE_DOC, names: 'y' },
             z: { doc: WRITE_DOC, names: 'z' },
         },
-        Verse: {
+        Stage: {
             doc: WRITE_DOC,
-            names: ['🌎', '🌍', '🌏', 'Verse'],
+            names: ['🌎', '🌍', '🌏', 'Stage'],
             description: (count, phrases, groups) =>
                 `verse of ${count} ${
                     count === phrases
@@ -2783,7 +2783,7 @@ const en: Locale = {
                         ),
                         pause(),
                         code(
-                            'Verse([Phrase("☁️")] background: Color(25% 0 0°))',
+                            'Stage([Phrase("☁️")] background: Color(25% 0 0°))',
                             true,
                             false
                         ),
@@ -2794,7 +2794,7 @@ const en: Locale = {
                         ),
                         pause(),
                         code(
-                            'Verse([Phrase("🌙")] background: Color(50% 0 0°))',
+                            'Stage([Phrase("🌙")] background: Color(50% 0 0°))',
                             true,
                             false
                         ),
@@ -2813,7 +2813,7 @@ const en: Locale = {
                         ),
                         pause(),
                         code(
-                            'Verse([Phrase("☀️")] background: Color(75% 0 0°))',
+                            'Stage([Phrase("☀️")] background: Color(75% 0 0°))',
                             true,
                             false
                         ),
@@ -2839,7 +2839,7 @@ const en: Locale = {
                         ),
                         pause(),
                         code(
-                            'Verse([Phrase("☀️")] background: Color(100% 0 0°))',
+                            'Stage([Phrase("☀️")] background: Color(100% 0 0°))',
                             true,
                             false
                         ),
@@ -3310,7 +3310,7 @@ const en: Locale = {
                     name: 'Love is in the err',
                     concept: 'Evaluate',
                     code: code(
-                        'Verse([Phrase("💔")] background: 🌈(90% 100 0°))',
+                        'Stage([Phrase("💔")] background: 🌈(90% 100 0°))',
                         true,
                         false
                     ),
@@ -3361,7 +3361,7 @@ const en: Locale = {
                         ),
                         pause(),
                         code(
-                            'Verse([Phrase("❤️")] background: 🌈(90% 100 0°))',
+                            'Stage([Phrase("❤️")] background: 🌈(90% 100 0°))',
                             true,
                             false
                         ),
@@ -3397,7 +3397,7 @@ const en: Locale = {
                         ),
                         pause(),
                         code(
-                            'Verse([Phrase("ƒ ❤️ ()")] background: 🌈(90% 100 0°))',
+                            'Stage([Phrase("ƒ ❤️ ()")] background: 🌈(90% 100 0°))',
                             true,
                             false
                         ),
@@ -3536,7 +3536,7 @@ const en: Locale = {
                         ),
                         pause(),
                         code(
-                            'Verse([] background: 🌈(90% 100 0°))',
+                            'Stage([] background: 🌈(90% 100 0°))',
                             true,
                             false
                         ),
@@ -3911,7 +3911,7 @@ const en: Locale = {
                         `Group(Row() [Phrase("⊤") Phrase("⊥")] rest: Sequence({ 0%: Pose(tilt: 0°) 50%: Pose(tilt: 180°) 100%: Pose(tilt: 360°)} duration: 2s))`
                     ),
                     lines: [
-                        output('Verse([])'),
+                        output('Stage([])'),
                         dialog(
                             'FunctionDefinition',
                             Emotion.Curious,
@@ -3925,7 +3925,7 @@ const en: Locale = {
                         dialog('⊥', Emotion.Precise, `Not there.`),
                         output(
                             `multiple:10
-                            Verse([Group(Grid(multiple multiple) ("⊤⊥".repeat(multiple^2) ÷ "").translate(ƒ(glyph•"") Phrase(glyph rest: Pose(color: Color(75% 0 0°)))))])`
+                            Stage([Group(Grid(multiple multiple) ("⊤⊥".repeat(multiple^2) ÷ "").translate(ƒ(glyph•"") Phrase(glyph rest: Pose(color: Color(75% 0 0°)))))])`
                         ),
                         pause(),
                         dialog(
@@ -4028,7 +4028,7 @@ const en: Locale = {
                         pause(),
                         output(
                             `multiple:10
-                            Verse([Group(Grid(multiple multiple) ("⊤⊥".repeat(multiple^2) ÷ "").translate(ƒ(glyph•"") Phrase(glyph rest: Pose(color: Color(75% 0 0°)))))])`
+                            Stage([Group(Grid(multiple multiple) ("⊤⊥".repeat(multiple^2) ÷ "").translate(ƒ(glyph•"") Phrase(glyph rest: Pose(color: Color(75% 0 0°)))))])`
                         ),
                         dialog(
                             'FunctionDefinition',
@@ -4049,7 +4049,7 @@ const en: Locale = {
                         pause(),
                         output(
                             `multiple:10
-                            Verse([Group(Grid(multiple multiple) ("⊤⊥".repeat(multiple^2) ÷ "").translate(ƒ(glyph•"") Phrase(glyph rest: Pose(color: Color(75% 0 0°) tilt: 90°))))])`
+                            Stage([Group(Grid(multiple multiple) ("⊤⊥".repeat(multiple^2) ÷ "").translate(ƒ(glyph•"") Phrase(glyph rest: Pose(color: Color(75% 0 0°) tilt: 90°))))])`
                         ),
                         dialog(
                             'FunctionDefinition',
@@ -4067,7 +4067,7 @@ const en: Locale = {
                         pause(),
                         output(
                             `multiple:10
-                            Verse(
+                            Stage(
                             [
                             Group(
                             Grid(multiple multiple) 
@@ -4082,7 +4082,7 @@ const en: Locale = {
                         dialog('⊤', Emotion.Precise, `… no.`),
                         dialog('⊥', Emotion.Precise, `… no.`),
                         pause(),
-                        output('Verse([])'),
+                        output('Stage([])'),
                         dialog(
                             'FunctionDefinition',
                             Emotion.Serious,
@@ -5188,7 +5188,7 @@ const en: Locale = {
 
                 gravity•#m/s^2: 15m/s^2
             
-                Verse(count → [].translate(
+                Stage(count → [].translate(
                     ƒ(_) Motion(
                         Phrase(
                             "→?'" → [].random() 
@@ -6768,7 +6768,7 @@ const en: Locale = {
                             Emotion.Happy,
                             `@Phrase, that is something to be proud of :P
                             
-                            I think we're going to go visit @Sequence next, and then maybe @Group and @Verse. You'll be around to help?`
+                            I think we're going to go visit @Sequence next, and then maybe @Group and @Stage. You'll be around to help?`
                         ),
                         dialog(
                             'Phrase',

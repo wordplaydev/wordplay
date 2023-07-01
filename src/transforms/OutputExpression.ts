@@ -2,7 +2,7 @@ import type Project from '../models/Project';
 import Evaluate from '../nodes/Evaluate';
 import { GroupType } from '@output/Group';
 import { PhraseType } from '@output/Phrase';
-import { VerseType } from '@output/Verse';
+import { StageType } from '@output/Stage';
 import StructureDefinition from '@nodes/StructureDefinition';
 import Expression from '@nodes/Expression';
 import type Value from '@runtime/Value';
@@ -17,7 +17,7 @@ import type OutputProperty from './OutputProperty';
 import TypeOutputProperties from './TypeOutputProperties';
 import GroupProperties from './GroupProperties';
 import PhraseProperties from './PhraseProperties';
-import VerseProperties from './VerseProperties';
+import StageProperties from './StageProperties';
 /**
  * Represents the value of a property. If given is true, it means its set explicitly.
  * If false, it means that it's the default value defined on the output type.
@@ -32,7 +32,7 @@ export type OutputPropertyValue = {
 };
 
 const SupportedTypes: StructureDefinition[] = [
-    VerseType,
+    StageType,
     GroupType,
     PhraseType,
     PoseType,
@@ -91,8 +91,8 @@ export default class OutputExpression {
                       ? PhraseProperties
                       : type === GroupType
                       ? GroupProperties
-                      : type === VerseType
-                      ? VerseProperties
+                      : type === StageType
+                      ? StageProperties
                       : []),
                   ...TypeOutputProperties,
               ];

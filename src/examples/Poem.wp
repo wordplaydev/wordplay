@@ -26,11 +26,11 @@ number•#:  ∆ Button() | ∆ Key() ?
 line: number•# ? poem[number] ø 
  
 line•Line ?
-	Verse(
+	Stage(
 		[ Phrase(line.text enter: line.pose ⏳: 1s name: number → "" style: 'cautious') ]
         background: line.back rest: 🤪(color: line.front) 
     )
-    Verse(
+    Stage(
         [Group(Stack() [Phrase("ADVICE TO MYSELF") Phrase("Jane Hirshfield")] enter: 🤪(scale: 0.75))] 
         background: Color(0 0 0°) 
         rest: Pose(color: Color(100 100 100°))

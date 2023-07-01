@@ -15,7 +15,7 @@ import TextLiteral from '../../nodes/TextLiteral';
 import ListLiteral from '../../nodes/ListLiteral';
 import { GroupType } from '../../output/Group';
 import { RowType } from '../../output/Row';
-import { VerseType } from '../../output/Verse';
+import { StageType } from '../../output/Stage';
 import { toExpression } from '../../parser/Parser';
 import { creator } from '../../db/Creator';
 import { get } from 'svelte/store';
@@ -198,24 +198,24 @@ export function moveContent(
     reviseContent(projects, project, list, newValues);
 }
 
-export function addVerseContent(
+export function addStageContent(
     projects: Creator,
     project: Project,
     content: Expression
 ) {
     // Find the verse in the project.
-    let verse: Evaluate | undefined = getVerse(project);
+    let verse: Evaluate | undefined = getStage(project);
 
     // If there is no verse, add an empty one.
     if (verse === undefined) {
-        const newVerse = toExpression(`Verse([])`);
-        if (newVerse instanceof Evaluate) verse = newVerse;
+        const newStage = toExpression(`Stage([])`);
+        if (newStage instanceof Evaluate) verse = newStage;
     }
 
     if (verse) {
         const context = project.getNodeContext(verse);
         const list = verse.getExpressionFor(
-            VerseType.inputs[0].getNames()[0],
+            StageType.inputs[0].getNames()[0],
             context
         );
         if (list instanceof ListLiteral) {
@@ -224,14 +224,14 @@ export function addVerseContent(
     }
 }
 
-export function getVerse(project: Project): Evaluate | undefined {
+export function getStage(project: Project): Evaluate | undefined {
     for (const source of project.getSources()) {
         const context = project.getContext(source);
         const verse = source.expression
             .nodes()
             .find(
                 (n): n is Evaluate =>
-                    n instanceof Evaluate && n.is(VerseType, context)
+                    n instanceof Evaluate && n.is(StageType, context)
             );
         if (verse) return verse;
     }
