@@ -61,26 +61,24 @@
     }
 </script>
 
-<dialog bind:this={element}>
-    <div class="language-preferences">
-        <div class="languages">
-            {#each languageChoices as lang}
-                {@const supported = supportedLanguages.includes(lang)}
-                <span
-                    role="button"
-                    tabindex={0}
-                    class="language"
-                    class:supported
-                    class:selected={languages.includes(lang)}
-                    on:pointerdown|stopPropagation={(event) =>
-                        select(lang, event.shiftKey)}
-                    on:keydown={(event) =>
-                        event.key === ' ' || event.key === 'Enter'
-                            ? select(lang, event.shiftKey)
-                            : undefined}>{getLanguageName(lang)}</span
-                >
-            {/each}
-        </div>
+<dialog bind:this={element} class="language-preferences">
+    <div class="languages">
+        {#each languageChoices as lang}
+            {@const supported = supportedLanguages.includes(lang)}
+            <span
+                role="button"
+                tabindex={0}
+                class="language"
+                class:supported
+                class:selected={languages.includes(lang)}
+                on:pointerdown|stopPropagation={(event) =>
+                    select(lang, event.shiftKey)}
+                on:keydown={(event) =>
+                    event.key === ' ' || event.key === 'Enter'
+                        ? select(lang, event.shiftKey)
+                        : undefined}>{getLanguageName(lang)}</span
+            >
+        {/each}
     </div>
 </dialog>
 <Button tip={$creator.getLocale().ui.tooltip.language} action={toggle}>
@@ -93,9 +91,7 @@
 
 <style>
     .language-preferences {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+        border-radius: var(--wordplay-border-radius);
     }
 
     .chosen {

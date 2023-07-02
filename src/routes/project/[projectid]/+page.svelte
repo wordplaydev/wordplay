@@ -12,8 +12,8 @@
     import Loading from '@components/app/Loading.svelte';
     import { setContext } from 'svelte';
     import { browser } from '$app/environment';
-    import { goto } from '$app/navigation';
     import { creator, projects } from '@db/Creator';
+    import Page from '@components/app/Page.svelte';
 
     /** True if we're async loading the project, as opposed to getting it from the browser cache. */
     let loading: boolean = false;
@@ -60,13 +60,11 @@
 </svelte:head>
 
 {#if $project}
-    {#key $project.id}
-        <ProjectView
-            project={$project}
-            close={() => goto('/projects')}
-            tip={$creator.getLocale().ui.tooltip.close}
-        />
-    {/key}
+    <Page>
+        {#key $project.id}
+            <ProjectView project={$project} />
+        {/key}
+    </Page>
 {:else if loading}
     <Loading />
 {:else if $page.params.projectid || error}

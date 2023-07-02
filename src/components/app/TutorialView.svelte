@@ -4,7 +4,6 @@
     import Speech from '@components/lore/Speech.svelte';
     import Progress from '../../tutorial/Progress';
     import Note from '../../components/widgets/Note.svelte';
-    import { goto } from '$app/navigation';
     import {
         ConceptIndexSymbol,
         getUser,
@@ -257,8 +256,6 @@
                     ><ProjectView
                         {project}
                         bind:index={concepts}
-                        close={() => goto('/')}
-                        tip={$creator.getLocale().ui.tooltip.home}
                         editable={code.edit}
                         fit={code.fit}
                         autofocus={document.activeElement !== view}

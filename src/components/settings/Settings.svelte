@@ -5,6 +5,8 @@
     import { PUBLIC_CONTEXT } from '$env/static/public';
     import { creator } from '../../db/Creator';
     import LayoutChooser from './LayoutChooser.svelte';
+    import { page } from '$app/stores';
+    import { goto } from '$app/navigation';
 
     let expanded = false;
 
@@ -15,17 +17,24 @@
     $: animationSymbol = { 0: '🧘🏽‍♀️', 1: '🏃‍♀️', 2: '½', 3: '⅓', 4: '¼' }[
         $creator.getAnimationFactor()
     ];
+
+    function getBackPath(route: string): string {
+        if (route.startsWith('/project/')) return '/projects';
+        else return '/';
+    }
 </script>
 
 <div class="settings" class:expanded>
-    {#if PUBLIC_CONTEXT !== 'prod'}
-        <div class="account" class:anonymous>
-            <a href="/login">
-                {$user ? $user.email : $creator.getLocale().ui.labels.anonymous}
-            </a>
-        </div>
-    {/if}
     <div class="controls">
+        {#if PUBLIC_CONTEXT !== 'prod'}
+            <div class="account" class:anonymous>
+                <a href="/login">
+                    {$user
+                        ? $user.email
+                        : $creator.getLocale().ui.labels.anonymous}
+                </a>
+            </div>
+        {/if}
         <Button
             tip={$creator.getLocale().ui.tooltip.animate}
             action={() =>
@@ -57,6 +66,11 @@
         action={() => (expanded = !expanded)}
         ><div class="gear" class:expanded>⚙</div></Button
     >
+    {#if $page.route.id !== '/'}<Button
+            tip={$creator.getLocale().ui.tooltip.back}
+            enabled={$page.route.id !== null && $page.route.id !== "/'"}
+            action={() => goto(getBackPath($page.route.id ?? '/'))}>❌</Button
+        >{/if}
 </div>
 
 <style>
@@ -65,6 +79,9 @@
         flex-direction: row;
         align-items: center;
         gap: var(--wordplay-spacing);
+        background-color: var(--wordplay-background);
+        padding: var(--wordplay-spacing);
+        border-radius: var(--wordplay-border-radius);
     }
 
     .controls {
@@ -73,9 +90,10 @@
         align-items: center;
         gap: var(--wordplay-spacing);
         max-width: 0;
+        max-height: 1.25em;
         opacity: 0;
         overflow-x: hidden;
-        height: 2em;
+        overflow-y: hidden;
         user-select: none;
     }
 
@@ -86,7 +104,7 @@
     }
 
     .settings.expanded .controls {
-        max-width: 12em;
+        max-width: 40em;
         opacity: 1;
         user-select: all;
     }
@@ -109,6 +127,7 @@
         background: var(--wordplay-warning);
         color: var(--wordplay-background);
         padding: calc(var(--wordplay-spacing) / 2) var(--wordplay-spacing);
+        font-size: medium;
     }
 
     .account.anonymous a {

@@ -56,7 +56,6 @@
     import Node from '@nodes/Node';
     import ConceptIndex from '../../concepts/ConceptIndex';
     import type Concept from '../../concepts/Concept';
-    import Settings from '../settings/Settings.svelte';
     import ConfirmButton from '../widgets/ConfirmButton.svelte';
     import { isName } from '@parser/Tokenizer';
     import { goto } from '$app/navigation';
@@ -73,8 +72,6 @@
     import { creator } from '../../db/Creator';
 
     export let project: Project;
-    export let close: () => void;
-    export let tip: string;
     /** If set to false, only the output is shown initially. */
     export let editable: boolean = true;
     /** True if the output should be fit to content */
@@ -815,8 +812,7 @@
         const shift = event.shiftKey;
 
         if (key === 'Escape') {
-            if (command) close();
-            else layout = layout.withoutFullscreen();
+            layout = layout.withoutFullscreen();
             return;
         }
         if (key === 'Tab' && alt) {
@@ -1090,66 +1086,57 @@
         {/key}
     </div>
 
-    {#if !layout.isFullscreen()}
+    {#if !layout.isFullscreen() && editable}
         <nav class="footer">
-            {#if editable}
-                <Status />
-                <TextField
-                    placeholder={$creator.getLocale().ui.placeholders.project}
-                    text={project.name}
-                    border={false}
-                    changed={(name) =>
-                        $creator.reviseProject(project, project.withName(name))}
-                />
-                <Button
-                    tip={layout.arrangement === Arrangement.free
-                        ? $creator.getLocale().ui.tooltip.vertical
-                        : layout.arrangement === Arrangement.vertical
-                        ? $creator.getLocale().ui.tooltip.horizontal
-                        : $creator.getLocale().ui.tooltip.freeform}
-                    action={() =>
-                        (layout = layout.withNextArrangement(
-                            canvasWidth,
-                            canvasHeight
-                        ))}
-                    >{#if layout.arrangement === Arrangement.vertical}↕️{:else if layout.arrangement === Arrangement.horizontal}↔️{:else if layout.arrangement === Arrangement.free}█{/if}</Button
-                >
-                {#each layout.getNonSources() as tile}
-                    {#if tile.isCollapsed()}
-                        <NonSourceTileToggle
-                            {tile}
-                            on:toggle={() => toggleTile(tile)}
-                        />
-                    {/if}
-                {/each}
-                {#each project.getSources() as source, index}
-                    {@const tile = layout.getTileWithID(
-                        Layout.getSourceID(index)
-                    )}
-                    {#if tile && tile.isCollapsed()}
-                        <!-- Mini source view output is visible when collapsed, or if its main, when output is collapsed. -->
-                        <SourceTileToggle
-                            {project}
-                            evaluator={$evaluator}
-                            {source}
-                            output={source === project.main
-                                ? layout.getOutput()?.mode === Mode.Collapsed
-                                : tile.mode === Mode.Collapsed}
-                            expanded={tile.mode === Mode.Expanded}
-                            on:toggle={() => toggleTile(tile)}
-                        />
-                    {/if}
-                {/each}
-                <Button
-                    tip={$creator.getLocale().ui.tooltip.addSource}
-                    action={addSource}>+</Button
-                >
-            {/if}
-
-            <div class="settings">
-                <Settings />
-                <Button {tip} action={close}>❌</Button>
-            </div>
+            <Status />
+            <TextField
+                placeholder={$creator.getLocale().ui.placeholders.project}
+                text={project.name}
+                border={false}
+                changed={(name) =>
+                    $creator.reviseProject(project, project.withName(name))}
+            />
+            <Button
+                tip={layout.arrangement === Arrangement.free
+                    ? $creator.getLocale().ui.tooltip.vertical
+                    : layout.arrangement === Arrangement.vertical
+                    ? $creator.getLocale().ui.tooltip.horizontal
+                    : $creator.getLocale().ui.tooltip.freeform}
+                action={() =>
+                    (layout = layout.withNextArrangement(
+                        canvasWidth,
+                        canvasHeight
+                    ))}
+                >{#if layout.arrangement === Arrangement.vertical}↕️{:else if layout.arrangement === Arrangement.horizontal}↔️{:else if layout.arrangement === Arrangement.free}█{/if}</Button
+            >
+            {#each layout.getNonSources() as tile}
+                {#if tile.isCollapsed()}
+                    <NonSourceTileToggle
+                        {tile}
+                        on:toggle={() => toggleTile(tile)}
+                    />
+                {/if}
+            {/each}
+            {#each project.getSources() as source, index}
+                {@const tile = layout.getTileWithID(Layout.getSourceID(index))}
+                {#if tile && tile.isCollapsed()}
+                    <!-- Mini source view output is visible when collapsed, or if its main, when output is collapsed. -->
+                    <SourceTileToggle
+                        {project}
+                        evaluator={$evaluator}
+                        {source}
+                        output={source === project.main
+                            ? layout.getOutput()?.mode === Mode.Collapsed
+                            : tile.mode === Mode.Collapsed}
+                        expanded={tile.mode === Mode.Expanded}
+                        on:toggle={() => toggleTile(tile)}
+                    />
+                {/if}
+            {/each}
+            <Button
+                tip={$creator.getLocale().ui.tooltip.addSource}
+                action={addSource}>+</Button
+            >
         </nav>
 
         <!-- Render annotations on top of the tiles and the footer, unless dragging -->
@@ -1196,6 +1183,7 @@
         display: flex;
         flex-direction: column;
         overflow: hidden;
+        width: 100%;
     }
 
     .project:focus:after {
@@ -1224,14 +1212,6 @@
         gap: var(--wordplay-spacing);
         border-top: var(--wordplay-border-width) solid
             var(--wordplay-border-color);
-    }
-
-    .settings {
-        margin-left: auto;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: var(--wordplay-spacing);
     }
 
     .drag-outline {

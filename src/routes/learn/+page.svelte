@@ -4,6 +4,7 @@
     import { goto } from '$app/navigation';
     import { page } from '$app/stores';
     import { creator } from '../../db/Creator';
+    import Page from '@components/app/Page.svelte';
 
     // Set the tutorial based on the preferred locale.
     $: tutorial = $creator.getLocale().tutorial;
@@ -40,4 +41,9 @@
     }
 </script>
 
-<TutorialView progress={$creator.getTutorialProgress(tutorial)} {navigate} />
+<Page>
+    <TutorialView
+        progress={$creator.getTutorialProgress(tutorial)}
+        {navigate}
+    />
+</Page>

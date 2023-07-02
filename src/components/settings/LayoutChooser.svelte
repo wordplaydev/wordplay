@@ -31,6 +31,7 @@
         display: flex;
         flex-direction: row;
         gap: var(--wordplay-spacing);
+        font-size: small;
     }
 
     .layout {
