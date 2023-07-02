@@ -183,7 +183,7 @@
                                     progress.tutorial,
                                     actIndex + 1,
                                     sceneIndex + 1,
-                                    1
+                                    0
                                 )}>{scene.concept ?? scene.name}</option
                             >
                         {/each}
