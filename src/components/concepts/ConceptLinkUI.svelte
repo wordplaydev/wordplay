@@ -15,10 +15,33 @@
     let concept: Concept | undefined;
     $: {
         if (link instanceof Concept) concept = link;
+        else if ($index === undefined) concept = undefined;
+        // Try to resolve the concept in the index
         else {
+            // Remove the link symbol
             const id = link.concept.getText().slice(1);
-            concept =
-                id === undefined ? undefined : $index?.getConceptByName(id);
+            // Split the name by /
+            const names = id.split('/');
+            concept = $index.getConceptByName(names[0]);
+            if (concept && names.length > 1) {
+                const subConcept = Array.from(concept.getSubConcepts()).find(
+                    (sub) => sub.hasName(names[1], $creator.getLocale())
+                );
+                if (subConcept !== undefined) concept = subConcept;
+                else if (concept.affiliation !== undefined) {
+                    const structure = $index.getStructureConcept(
+                        concept.affiliation
+                    );
+                    if (structure) {
+                        const subConcept = Array.from(
+                            structure.getSubConcepts()
+                        ).find((sub) =>
+                            sub.hasName(names[1], $creator.getLocale())
+                        );
+                        if (subConcept) concept = subConcept;
+                    }
+                }
+            }
         }
     }
 

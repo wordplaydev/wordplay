@@ -775,7 +775,7 @@ const tutorial: Act[] = [
                         
                         Select on the word on stage and you'll see a palette, which shows the many different inputs that Phrase accepts. 
                         
-                        Try changing its **size**.`
+                        Try changing its @Phrase/size.`
                     ),
                     pause(),
                     dialog(
@@ -785,7 +785,7 @@ const tutorial: Act[] = [
                         
                         It's the size input. Functions have a certain order of inputs, but if a function has a list of optional inputs, you can use their name to specify which one you want to give. 
                         
-                        We give **size** here, but not any of the other optional inputs.
+                        We give @Phrase/size here, but not any of the other optional inputs.
                         
                         Try changing another input with the palette, maybe the font face.`
                     ),
@@ -1034,7 +1034,7 @@ const tutorial: Act[] = [
                         
                         They've allowed me to do all kinds of things.
                         
-                        One is pretty simple: it's called @TextType.length and all it does is get the length of some text. 
+                        One is pretty simple: it's called @TextType/length and all it does is get the length of some text. 
                         
                         For example, if we team up with @Evaluate here, and our little friend ⧼.⧽, we can evaluate the length function with no inputs and get the length value back.
                         
@@ -1047,7 +1047,7 @@ const tutorial: Act[] = [
                         Emotion.Happy,
                         `Here is another grand one. It makes me chuckle. 
                         
-                        It's called **repeat** and when it's evaluated, it takes whatever text it was evaluated on and repeats it however many times you say.
+                        It's called @TextType/repeat and when it's evaluated, it takes whatever text it was evaluated on and repeats it however many times you say.
                         
                         Try changing the number and seeing what it evaluates too.`
                     ),
@@ -1972,14 +1972,14 @@ const tutorial: Act[] = [
                         
                         You represent all these beautiful functions for me that enable me to do all kinds of things!
                         
-                        Like **reverse**, oh, this one is wonderful and simple. It just takes my values and puts them in the opposite order.`
+                        Like @ListType\reverse, oh, this one is wonderful and simple. It just takes my values and puts them in the opposite order.`
                     ),
                     edit(`[ 1 2 3 4 5 ].reverse()`),
                     pause(),
                     dialog(
                         'ListLiteral',
                         Emotion.Excited,
-                        `And this one is fun: **sans** just removes all of the values equal to the given value.
+                        `And this one is fun: @ListType/sans just removes all of the values equal to the given value.
                         
                         See how there are no zeros left in the resulting list?`
                     ),
@@ -3076,7 +3076,7 @@ const tutorial: Act[] = [
                         'FunctionDefinition',
                         Emotion.Serious,
                         `But we can use all of the wonderful characters we've met to transform time further. 
-                        For example, what if we wanted to know if time was a multiple of ⧼2⧽? We could use **remainder**, which gets the remainder of a division. 
+                        For example, what if we wanted to know if time was a multiple of ⧼2⧽? We could use @MeasurementType/remainder, which gets the remainder of a division. 
                         
                         If the remainder is zero, we'll evaluate to ⧼⊤⧽ and ⧼⊥⧽ otherwise.
                         
@@ -3308,7 +3308,7 @@ const tutorial: Act[] = [
                         
                         See how when you make noise, there are more ⧼'o'⧽s? 
                         The Mic's amplitude is divided by ⧼10⧽, putting it in the ⧼0⧽ to ⧼10⧽ range.
-                        Then that value is given to @TextType's **repeat** function, which repeats the ⧼'o'⧽ the given number of times.`
+                        Then that value is given to @TextType/repeat function, which repeats the ⧼'o'⧽ the given number of times.`
                     ),
                     dialog('Mic', Emotion.Neutral, `bzzzZZZZZzzzzzZZZZ…`),
                     edit(`'o'.repeat(Mic() ÷ 10)`),
@@ -3706,7 +3706,7 @@ const tutorial: Act[] = [
                         `That, my darling, is the simplest way to get a word on stage. 
                         
                         But there's so much more. 
-                        For example, I can take a **size**, measured in meters ⧼m⧽. 
+                        For example, I can take a @Phrase/size, measured in meters ⧼m⧽. 
                         
                         Try changing the size to any size you like!`
                     ),
@@ -3760,7 +3760,7 @@ const tutorial: Act[] = [
                         Emotion.Curious,
                         `Do you ever feel a little off axis? 
                         
-                        Maybe you give the world a little **tilt** with rotation. 
+                        Maybe you give the world a little @Pose/tilt with rotation. 
                         Try changing the rotation value to twist me around!`
                     ),
                     code(
@@ -3806,7 +3806,7 @@ const tutorial: Act[] = [
                         Emotion.Kind,
                         `Only want to give a particular property? 
                         Just name the one you want.
-                        Here we name **size** and **rotation**.`
+                        Here we name @Phrase/size and @Phrase/rotation.`
                     ),
                     edit(
                         `Phrase('hi' size: 3m rotation: Time(10ms) · 0.1°/ms)`
@@ -3820,7 +3820,7 @@ const tutorial: Act[] = [
                         
                         There are **four** ways I move.
                         
-                        First, I can **enter**. 
+                        First, I can @Phrase/enter. 
                         Enter is my way of entering the stage. 
                         If you don't tell me how to enter, I'll just BLIP appear on stage like I teleported there. 
                         
@@ -3850,7 +3850,7 @@ const tutorial: Act[] = [
                         
                         We'll set my place to time, so I move to the right a bit every second. 
                         
-                        But if we set a **move** @Pose, and have the pose tilt ⧼5°⧽ and maybe a little color, every time my place changes, I'll glide across the stage with the cutest little tilt.`
+                        But if we set a @Phrase/move @Pose, and have the @Pose/tilt ⧼5°⧽ and maybe a little color, every time my place changes, I'll glide across the stage with the cutest little tilt.`
                     ),
                     code(
                         `Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) move: Pose(tilt: 5°) duration: 0.5s)`,
@@ -3863,7 +3863,7 @@ const tutorial: Act[] = [
                         Emotion.Curious,
                         `Not in the mood for cute? 
                         
-                        How about you make me a little serious by having me slide across straight by changing my **style**.
+                        How about you make me a little serious by having me slide across straight by changing my @Phrase/style.
                         
                         It's really subtle, but styles can really change the *emotion* of a movement.`
                     ),
@@ -3876,7 +3876,7 @@ const tutorial: Act[] = [
                     dialog(
                         'Phrase',
                         Emotion.Excited,
-                        `And for the coup de grâce, let's have me **exit** in style. 
+                        `And for the coup de grâce, let's have me @Phrase/exit in style. 
                         We can play with @Conditional and have me exit stage after 3 seconds.`
                     ),
                     code(
@@ -3893,9 +3893,9 @@ const tutorial: Act[] = [
                         `Not the exit you were hoping for? 
                         
                         The disappearing act is a bit harsh, ain't it? 
-                        Give me an **exit** @Pose, and I'll glide off on stage toward whatever pose you want. 
+                        Give me an @Phrase/exit @Pose, and I'll glide off on stage toward whatever pose you want. 
                         
-                        Here we'll have me get large than life, fall upside down, and fade out to **opacity** 0.`
+                        Here we'll have me get large than life, fall upside down, and fade out to @Pose/opacity ⧼0⧽.`
                     ),
                     code(
                         `Time(1000ms) < 3000ms ? Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) move: Pose(tilt: 5°) exit: Pose(scale: 10 tilt: 180° opacity: 0) duration: 0.5s) Phrase('')`,
@@ -3958,11 +3958,11 @@ const tutorial: Act[] = [
                         Okay, so any @Pose can have a color, right? 
                         But @Color comes in three parts.
                         
-                        First, a **lightness** between 0 and 100%, which you can think of as how bright a room is, from black to white, with color in the middle at 50%.
+                        First, a @Color/lightness between 0 and 100%, which you can think of as how bright a room is, from black to white, with color in the middle at 50%.
 
-                        Then, a **saturation** between 0 and 100, which you can think of has how much color there is, from no color gray to full color.
+                        Then, a @Color/saturation between 0 and 100, which you can think of has how much color there is, from no color gray to full color.
 
-                        And finally, a **chroma**, which you can think of like a color wheel, from red to green to blue, in degrees.
+                        And finally, a @Color/chroma, which you can think of like a color wheel, from red to green to blue, in degrees.
                         
                         So you want me to be bright red? Set my rest pose color to ⧼Color(50% 300 30°)⧽.`
                     ),
@@ -4164,7 +4164,7 @@ const tutorial: Act[] = [
                         Emotion.Curious,
                         `But, you say, what if we wanted to do it forever? 
                         
-                        You can set a @Phrase's **rest** to me. For as long as @Phrase is on stage and resting, they'll repeat a sequence. Infinite wobbles!`
+                        You can set a @Phrase/rest to me. For as long as @Phrase is on stage and resting, they'll repeat a sequence. Infinite wobbles!`
                     ),
                     edit(
                         `Phrase(
@@ -4718,7 +4718,7 @@ const tutorial: Act[] = [
                         
                         This tells @Stage that if they are clicked, or if the keyboard is used to select them, that they are chosen. 
                         
-                        The second detail is that they have a **name**. 
+                        The second detail is that they have a @Phrase/name.
                         
                         That gives @Stage a unique name for the phrase that was chosen. 
                         
@@ -4879,7 +4879,7 @@ const tutorial: Act[] = [
                         
                         But sometimes, rather than passing a value around, it's helpful to set it aside, and save it for later, for some other expression.
                         
-                        That's what a **name** is for. 
+                        That's what a @Phrase/name is for. 
                         
                         I name things so we can use them later.`
                     ),
@@ -4950,7 +4950,7 @@ number`
                         `
                         Now, let's make the phrase. 
                         
-                        We put that @ListType.has expression in for the text and convert it to text. 
+                        We put that @ListType/has expression in for the text and convert it to text. 
                         
                         Now we get @Phrase on stage as ⧼⊤⧽ or ⧼⊥⧽. Good!`
                     ),
@@ -5360,7 +5360,7 @@ fruits + 3`
                         `I guess let's start with what you've already seen. 
                         You know how every value has different functions that you can evaluate on them? 
                         
-                        Like numbers know how to @MeasurementType.add, and a text value knows how to check if it @TextType.has some text, or @SetType knows how to check if it has a certain value?
+                        Like numbers know how to @MeasurementType/add, and a text value knows how to check if it @TextType/has some text, or @SetType knows how to check if it has a certain value?
                         
                         Well, I'm the one that defines those functions. 
                         I mean, I don't have the inspiration to create them myself — that's what directors like you do — but I define the inputs a function accepts, the names it has, and the expression that uses the inputs to evaluate to an output value.`
@@ -5394,7 +5394,7 @@ fruits + 3`
                         This is a function called ⧼even⧽ that takes a single number called… ⧼number⧽. 
                         You need to tell me what kind of value each input is, so @Evaluate can make sure that anything evaluating the function is sending the right kind of value.
                         
-                        Then, it takes the number, divides it by two, gets the remainder (with the @MeasurementType.%), and then checks if the remainder is equal to ⧼0⧽, with @MeasurementType.equals. 
+                        Then, it takes the number, divides it by two, gets the remainder (with the @MeasurementType.%), and then checks if the remainder is equal to ⧼0⧽, with @MeasurementType/equals. 
                         
                         So the whole function ends up either evaluating to ⧼⊤⧽ or ⧼⊥⧽. For example, this evaluation of even evaluated to ⧼⊥⧽ because ⧼3⧽ is odd.
                         
@@ -5458,9 +5458,9 @@ vowels("hello")`
                         
                         Here's an example. 
                         Say you had a list of numbers and you just wanted the even numbers in it. 
-                        @List has this function called @ListType.filter that takes a function as an input and uses the function on each value in the list to decide whether to keep it.
+                        @List has this function called @ListType/filter that takes a function as an input and uses the function on each value in the list to decide whether to keep it.
                         
-                        Let's make a list of numbers and give @ListType.filter the ⧼even⧽ function we made earlier as an input. 
+                        Let's make a list of numbers and give @ListType/filter the ⧼even⧽ function we made earlier as an input. 
                         
                         See what happens? We just get the even numbers.
                         

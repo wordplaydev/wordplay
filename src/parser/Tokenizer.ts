@@ -112,7 +112,7 @@ export function isName(name: string) {
     return new RegExp(`${NameRegExPattern}$`, 'u').test(name);
 }
 
-export const ConceptRegEx = `${LINK_SYMBOL}(?!http)[a-zA-Z]*`;
+export const ConceptRegEx = `${LINK_SYMBOL}(?!http)[a-zA-Z/]*`;
 
 function escapeRegexCharacter(c: string) {
     return /[\\\/\(\)\[\]\{\}]/.test(c) ? '\\' + c : c;
