@@ -1,7 +1,7 @@
 export const DarkVoid = `Stage([] background: Color(0% 0 0°))`;
 
 export const FlyIn = (symbol: string) =>
-    `z•#m: ∆ Time(30ms) ? 25m … z > 0m ? z - 1m 0m
+    `z•#m: 25m … ∆ Time(30ms) … z > 0m ? z - 1m 0m
     Phrase('${symbol}' place:Place(0m 0m z) duration:0.5s)`;
 
 export const SpinningInTheDark = (symbol: string) =>
@@ -23,7 +23,7 @@ size: 30
 
 \`Initially, make a list of 20 kitties, each placed somewhere random.
 When the the clock ticks, move them all down a bit.\`
-kitties•[Kitty]:  ∆ Time() ? 
+kitties•[Kitty]: 
     count → [].translate(
         ƒ(_) Kitty(
             Random(-size size)
@@ -33,7 +33,7 @@ kitties•[Kitty]:  ∆ Time() ?
             	Random(-30 30)
         		)
     			)
-    			…
+    			… ∆ Time()…
     			kitties.translate(
         		ƒ(kitty•Kitty)
             (kitty.y: kitty.y < -size ? size kitty.y - 2)
@@ -196,7 +196,7 @@ initial•[Character]:
             0°)
         )
   
-characters•[Character]: ∆ Time(750ms) ? initial … characters
+characters•[Character]: initial … ∆ Time(750ms) … characters
 
 Stage([
   Group(
@@ -230,7 +230,7 @@ initial•[Character]:
         0°)
       )
 
-characters•[Character]:  ∆ Time(750ms) ? initial … characters
+characters•[Character]:  initial … ∆ Time(750ms) … characters
 
 Stage([
   Group(
@@ -265,7 +265,7 @@ initial•[Character]:
         0°)
       )
 
-characters•[Character]:  ∆ Time(750ms) ? initial … characters
+characters•[Character]: initial … ∆ Time(750ms) … characters
 
 Stage([
   Group(
@@ -300,7 +300,7 @@ initial•[Character]:
         0°)
       )
 
-characters•[Character]:  ∆ Time(750ms) ? initial … characters.translate(ƒ (c•Character) c.move())
+characters•[Character]: initial … ∆ Time(750ms) … characters.translate(ƒ (c•Character) c.move())
 
 Stage([
   Group(
@@ -335,7 +335,7 @@ initial•[Character]:
         0°)
       )
 
-characters•[Character]:  ∆ Time(750ms) ? initial … characters.translate(ƒ (c•Character) c.move())
+characters•[Character]: initial … ∆ Time(750ms) … characters.translate(ƒ (c•Character) c.move())
 
 Stage([
   Group(

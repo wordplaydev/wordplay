@@ -3,8 +3,8 @@
 
 magnitude: 5
 pressed: ∆ Key()
-count•#: ∆ Key() ? 0 … count + 1
-questions•[Question]:  ∆ Key() ? [] … questions.add(Question(count→"" Random(magnitude magnitude·2) Random(magnitude·2 magnitude·4) Random(0 360)))
+count•#: 0 … ∆ Key() … count + 1
+questions•[Question]:  [] … ∆ Key() … questions.add(Question(count→"" Random(magnitude magnitude·2) Random(magnitude·2 magnitude·4) Random(0 360)))
 
 Stage(
     [ Phrase('👨‍👨‍👧‍👦' font: "Noto Emoji" place: 📍(0m 0m 0m)) ].append(

@@ -9,8 +9,7 @@ roll: State('roll over' ['There is a knife next to you.'] [ pickup stand ])
 start: State("start" ["You awaken in a dark, cold room that smells of mold."] [ roll stand ])
 
 key: Key()
-state•State:  ∆ key ? 
-  start …
+state•State:  start … ∆ key …
 		(
   		option: state.options[key → #]
   		option•ø ? state option

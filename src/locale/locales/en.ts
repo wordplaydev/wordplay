@@ -910,6 +910,7 @@ const en: Locale = {
                     value ?? 'nothing'
                 ),
             initial: 'initial',
+            condition: 'condition',
             next: 'next',
         },
         Reference: {

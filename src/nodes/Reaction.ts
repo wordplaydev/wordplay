@@ -14,8 +14,6 @@ import type Context from './Context';
 import UnionType from './UnionType';
 import type TypeSet from './TypeSet';
 import Exception from '@runtime/Exception';
-import { QUESTION_SYMBOL, COMMA_SYMBOL } from '@parser/Symbols';
-import TokenType from './TokenType';
 import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import BooleanType from './BooleanType';
@@ -27,27 +25,28 @@ import TypeException from '../runtime/TypeException';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';
+import StreamToken from './StreamToken';
 
 export default class Reaction extends Expression {
-    readonly condition: Expression;
-    readonly question: Token;
     readonly initial: Expression;
     readonly dots: Token;
+    readonly condition: Expression;
+    readonly nextdots: Token | undefined;
     readonly next: Expression;
 
     constructor(
-        condition: Expression,
-        question: Token,
         initial: Expression,
         dots: Token,
+        condition: Expression,
+        nextdots: Token | undefined,
         next: Expression
     ) {
         super();
 
-        this.condition = condition;
-        this.question = question;
         this.initial = initial;
         this.dots = dots;
+        this.condition = condition;
+        this.nextdots = nextdots;
         this.next = next;
 
         this.computeChildren();
@@ -56,24 +55,35 @@ export default class Reaction extends Expression {
     static make(initial: Expression, condition: Expression, next: Expression) {
         return new Reaction(
             initial,
-            new Token(QUESTION_SYMBOL, TokenType.Conditional),
+            new StreamToken(),
             condition,
-            new Token(COMMA_SYMBOL, TokenType.Stream),
+            new StreamToken(),
             next
         );
     }
 
     getGrammar() {
         return [
-            { name: 'condition', types: [Expression], space: true },
-            { name: 'question', types: [Token], space: true },
             {
                 name: 'initial',
                 types: [Expression],
                 label: (translation: Locale) =>
                     translation.node.Reaction.initial,
             },
-            { name: 'dots', types: [Token], space: true, indent: true },
+            { name: 'dots', types: [Token], space: true },
+            {
+                name: 'condition',
+                types: [Expression],
+                space: true,
+                label: (translation: Locale) =>
+                    translation.node.Reaction.condition,
+            },
+            {
+                name: 'nextdots',
+                types: [Token, undefined],
+                space: true,
+                indent: true,
+            },
             {
                 name: 'next',
                 types: [Expression],
@@ -86,10 +96,14 @@ export default class Reaction extends Expression {
 
     clone(replace?: Replacement) {
         return new Reaction(
-            this.replaceChild('condition', this.condition, replace),
-            this.replaceChild('question', this.question, replace),
             this.replaceChild('initial', this.initial, replace),
-            this.replaceChild<Token>('dots', this.dots, replace),
+            this.replaceChild('dots', this.dots, replace),
+            this.replaceChild('condition', this.condition, replace),
+            this.replaceChild<Token | undefined>(
+                'nextdots',
+                this.nextdots,
+                replace
+            ),
             this.replaceChild<Expression>('next', this.next, replace)
         ) as this;
     }
@@ -236,7 +250,7 @@ export default class Reaction extends Expression {
     }
 
     getStart() {
-        return this.dots;
+        return this.initial;
     }
 
     getFinish() {

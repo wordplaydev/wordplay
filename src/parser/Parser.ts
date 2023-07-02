@@ -501,7 +501,8 @@ export function parseLanguage(tokens: Tokens): Language {
 /** EXPRESSION :: BINARY_OPERATION [ conditional EXPRESSION EXPRESSION ]? */
 export function parseExpression(
     tokens: Tokens,
-    expectSpace: boolean = false
+    expectSpace: boolean = false,
+    allowReaction: boolean = true
 ): Expression {
     // If the next token has more than one preceding line break, just return an unparsable.
     // This prevents runaway expressions and provides an opportunity to provide feedback precisely
@@ -509,23 +510,28 @@ export function parseExpression(
     if (!expectSpace && tokens.nextHasMoreThanOneLineBreak())
         return new UnparsableExpression([]);
 
-    const left = parseBinaryOperation(tokens);
+    let left = parseBinaryOperation(tokens);
 
     // Is it conditional statement?
-    if (tokens.nextIs(TokenType.Conditional)) {
-        const question = tokens.read(TokenType.Conditional);
-        const yes = parseExpression(tokens);
+    if (tokens.nextIs(TokenType.Conditional))
+        left = parseConditional(left, tokens);
 
-        // Is it a Reaction?
-        if (tokens.nextIs(TokenType.Stream)) {
-            return parseReaction(left, question, yes, tokens);
-        }
-        // Otherwise its a Conditional.
-        else {
-            const no = parseExpression(tokens);
-            return new Conditional(left, question, yes, no);
-        }
-    } else return left;
+    // Is it a reaction?
+    if (tokens.nextIs(TokenType.Stream) && allowReaction)
+        left = parseReaction(left, tokens);
+
+    // Return whatever expression we got
+    return left;
+}
+
+export function parseConditional(
+    condition: Expression,
+    tokens: Tokens
+): Conditional {
+    const question = tokens.read(TokenType.Conditional);
+    const yes = parseExpression(tokens);
+    const no = parseExpression(tokens);
+    return new Conditional(condition, question, yes, no);
 }
 
 /** BINARY_OPERATION :: ATOMIC_EXPRESSION [ binary_op ATOMIC_EXPRESSION ]* */
@@ -1002,15 +1008,14 @@ function parseDelete(table: Expression, tokens: Tokens): Delete {
 }
 
 /** STREAM :: EXPRESSION … EXPRESSION */
-function parseReaction(
-    condition: Expression,
-    question: Token,
-    initial: Expression,
-    tokens: Tokens
-): Reaction {
+function parseReaction(initial: Expression, tokens: Tokens): Reaction {
     const dots = tokens.read(TokenType.Stream);
-    const next = parseExpression(tokens);
-    return new Reaction(condition, question, initial, dots, next);
+    const condition = parseExpression(tokens, false, false);
+    const nextdots = tokens.nextIs(TokenType.Stream)
+        ? tokens.read(TokenType.Stream)
+        : undefined;
+    const next = parseExpression(tokens, false, false);
+    return new Reaction(initial, dots, condition, nextdots, next);
 }
 
 /** FUNCTION :: DOCS? (ƒ | ALIASES) TYPE_VARIABLES? ( BIND* ) (•TYPE)? EXPRESSION */

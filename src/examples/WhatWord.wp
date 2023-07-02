@@ -19,7 +19,7 @@ key/en,tecla/es,مفتاح/ar: ⌨️()
 `When the keyboard state changes, the game state changes.`/en
 `Cuando cambia el estado del teclado, cambia el estado del juego.`/es
 `عندما تتغير حالة لوحة المفاتيح ، تتغير حالة اللعبة.`/ar
-state/en,estado/es,حالة/ar•Game:  ∆ key ? start … 
+state/en,estado/es,حالة/ar•Game: start … ∆ key …
     key = "Escape" ? start
     	(state.status ≠ "playing") & (key = " ") ? Game([] words.random())
     		(state.status = "playing") & (key.length() = 1) & ~state.guesses.has(key) ? 

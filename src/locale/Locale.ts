@@ -906,6 +906,7 @@ export type NodeTexts = {
     Reaction: StaticNodeText &
         ExpressionText<Description, ValueOrUndefinedText> & {
             initial: Description;
+            condition: Description;
             next: Description;
         };
     Reference: DynamicNodeText<Reference> &

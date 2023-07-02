@@ -275,6 +275,13 @@ a {
     text-decoration-thickness: var(--wordplay-focus-width);
 }
 
+a:focus {
+    outline: none;
+    text-decoration: underline;
+    text-decoration-thickness: var(--wordplay-focus-width);
+
+}
+
 a:hover {
     text-decoration: underline;
 }

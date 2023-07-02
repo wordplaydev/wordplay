@@ -604,8 +604,9 @@ const eng_wordplay: Locale = {
                     'the stream value is currently ',
                     value ?? 'nothing'
                 ),
-            initial: 'initial',
-            next: 'next',
+            initial: 'inicial',
+            condition: 'condición',
+            next: 'próxima',
         },
         Reference: {
             name: 'referencia',

@@ -3368,9 +3368,9 @@ const tutorial: Act[] = [
             {
                 name: 'On cue',
                 concept: 'Reaction',
-                program: output("Phrase('∆')"),
+                program: output("Phrase('…')"),
                 lines: [
-                    output("Phrase('∆' rest: Pose(tilt: 120°))"),
+                    output("Phrase('…' rest: Pose(tilt: 120°))"),
                     dialog(
                         'FunctionDefinition',
                         Emotion.Neutral,
@@ -3392,7 +3392,7 @@ const tutorial: Act[] = [
                         Have you noticed that?`
                     ),
                     pause(),
-                    output("Phrase('∆' rest: Pose(tilt: 240°))"),
+                    output("Phrase('…' rest: Pose(tilt: 240°))"),
                     dialog(
                         'FunctionDefinition',
                         Emotion.Curious,
@@ -3412,7 +3412,7 @@ const tutorial: Act[] = [
                         Wait … is that a person?`
                     ),
                     pause(),
-                    output("Phrase('∆' rest: Pose(tilt: 360°))"),
+                    output("Phrase('…' rest: Pose(tilt: 360°))"),
                     dialog(
                         'FunctionDefinition',
                         Emotion.Excited,
@@ -3437,13 +3437,20 @@ const tutorial: Act[] = [
                         'Reaction',
                         Emotion.Serious,
                         `Okay, so I need three things from you: a condition for change, an initial value, and a next value.
-                        
-                        The **condition** has to evaluate to ⧼⊤⧽ or ⧼⊥⧽, and it should generally check one or more streams — otherwise, there's nothing changing, since the only source of change in a performance is streams.
-                        
+
                         The **initial** value is whatever value I should make before any change has happened.
-                        
-                        The **next** value is whatever value I should make whenever the condition changes.`
+                        It's just a normal expression, of any kind!
+
+                        Then you put ⧼…⧽ after the initial value to tell me that the value can change.
+
+                        After ⧼…⧽, give me **condition** that evaluates to ⧼⊤⧽ or ⧼⊥⧽. 
+                        It should generally check one or more streams — otherwise, there's nothing changing, since the only source of change in a performance is streams.
+
+                        Then put another ⧼…⧽ after the condition to tell me that the value can change.
+
+                        Finally, the **next** value is whatever value I should make whenever the condition changes.`
                     ),
+                    edit(`_ … _•? … _`),
                     pause(),
                     dialog(
                         'Reaction',
@@ -3459,7 +3466,7 @@ const tutorial: Act[] = [
                         This adds 1m to the size of the phrase, making the word get bigger and bigger.`
                     ),
                     code(
-                        `Phrase("hi" size: ∆ Key(" ") ? 1m … 1m + .)`,
+                        `Phrase("hi" size: 1m … ∆ Key(" ") … 1m + .)`,
                         false,
                         true
                     ),
@@ -3522,7 +3529,7 @@ const tutorial: Act[] = [
                         Like here, the condition a @BooleanType from @Button, but without you, I only ever change with the button .`
                     ),
                     code(
-                        `Phrase("hi" size: Key(' ') = ' ' ? 1m … 1m + .)`,
+                        `Phrase("hi" size: 1m … Key(' ') = ' ' … 1m + .)`,
                         false,
                         true
                     ),
@@ -5675,7 +5682,7 @@ Phrase(messages[index])`
   'Tuxie crush'
   'Lap cat'
 ]
-index•#: ∆ Time(2000ms) ? 1 … index = messages.length() ? 1 index + 1
+index•#: 1 … ∆ Time(2000ms) … index = messages.length() ? 1 index + 1
 Phrase(messages[index])`
                     ),
                     pause(),
@@ -5696,7 +5703,7 @@ Phrase(messages[index])`
   'Lap cat'
 ]
 
-index•#: ∆ Time(2000ms) ? 1 … index = messages.length() ? 1 index + 1
+index•#: 1 … ∆ Time(2000ms) … index = messages.length() ? 1 index + 1
 
 Group(Stack(0m) [
   Phrase(messages[index])
@@ -5738,13 +5745,13 @@ Group(Stack(0m) [
   ƒ next() Marquee(messages index ≥ messages.length() ? 1 index + 1)
 )
 
-marquee•Marquee: ∆ Time(2000ms) ? Marquee([
+marquee•Marquee: Marquee([
   'Kitties are cute!'
   'Got cat?'
   'Cat mom.'
   'Tuxie crush'
   'Lap cat'
-]) … marquee.next()
+]) … ∆ Time(2000ms) … marquee.next()
 
 Group(Stack(0.5m) [
   Phrase(marquee.now())
@@ -5781,13 +5788,13 @@ Group(Stack(0.5m) [
       Marquee(messages index + 1)
 )
 
-marquee•Marquee: ∆ Time(2000ms) ? Marquee([
+marquee•Marquee: Marquee([
   'Kitties are cute!'
   'Got cat?'
   'Cat mom.'
   'Tuxie crush'
   'Lap cat'
-]) … marquee.next()
+]) … ∆ Time(2000ms) … marquee.next()
 
 Group(Stack(0.5m) [
   Phrase(marquee.now())
@@ -5879,7 +5886,7 @@ status.lives`
                     ),
                     edit(
                         `•Game(score•# lives•# level•#)
-status: ∆ Time() ? Game(0 3 1) … Game(status.score + 1 status.lives status.level)`
+status: Game(0 3 1) … ∆ Time() … Game(status.score + 1 status.lives status.level)`
                     ),
                     pause(),
                     dialog(
@@ -5893,7 +5900,7 @@ status: ∆ Time() ? Game(0 3 1) … Game(status.score + 1 status.lives status.l
                     ),
                     edit(
                         `•Game(score•# lives•# level•#)
-status: ∆ Time() ? Game(0 3 1) … status.score: status.score + 1`
+status: Game(0 3 1) … ∆ Time() … status.score: status.score + 1`
                     ),
                     pause(),
                     output(

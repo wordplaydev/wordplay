@@ -1,4 +1,4 @@
-import type Conditional from '@nodes/Conditional';
+import Conditional from '@nodes/Conditional';
 import type Context from '@nodes/Context';
 import type Type from '@nodes/Type';
 import NodeLink from '@locale/NodeLink';
@@ -20,7 +20,10 @@ export default class ExpectedBooleanCondition extends Conflict {
     getConflictingNodes() {
         return {
             primary: {
-                node: this.conditional.question,
+                node:
+                    this.conditional instanceof Conditional
+                        ? this.conditional.question
+                        : this.conditional.dots,
                 explanation: (translation: Locale, context: Context) =>
                     translation.conflict.ExpectedBooleanCondition.primary(
                         new NodeLink(this.type, translation, context)

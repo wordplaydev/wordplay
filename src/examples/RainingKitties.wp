@@ -6,7 +6,7 @@ size: 30
 
 `Initially, make a list of 20 kitties, each placed somewhere random.
 When the the clock ticks, move them all down a bit.`
-kitties•[Kitty]:  ∆ Time() ? 
+kitties•[Kitty]:  
     count → [].translate(
         ƒ(_) Kitty(
             Random(-size size)
@@ -16,8 +16,8 @@ kitties•[Kitty]:  ∆ Time() ?
             	Random(-30 30)
         		)
     			)
-    			…
-    			kitties.translate(
+    … ∆ Time() …
+        kitties.translate(
         		ƒ(kitty•Kitty)
             (kitty.y: kitty.y < -size ? size kitty.y - 2)
                 .angle: kitty.angle + kitty.speed

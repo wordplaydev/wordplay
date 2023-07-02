@@ -18,8 +18,7 @@ amps: Mic()
 tick: Time()
 
 `Initialize as a list of random letters in random positions`
-letters•[Letter]:  ∆ tick ? 
-    count → [].translate(
+letters•[Letter]: count → [].translate(
         ƒ(_) Letter(
            "abcdefghijklmnopqrstuvwxyz" → [].random() 
             Random(-size size) · 1m
@@ -29,7 +28,7 @@ letters•[Letter]:  ∆ tick ?
             ⊥
         )
     )
-    …
+    … ∆ tick …
 		`If the letter is above the y-axes, move it down a bit and rotate it.
      Otherwise, reset it above the threshold and randomly decide whether it's visible.`
     letters.translate(

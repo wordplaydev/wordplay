@@ -15,12 +15,12 @@ test.each([
     // Check stream references.
     [`Time() + 500ms`, makeOne, '500ms', '501ms'],
     // Check reaction binding.
-    [`a: ∆ Time() ? 1 … a + 1\na`, makeOne, '1', '2'],
+    [`a: 1 … ∆ Time() … a + 1\na`, makeOne, '1', '2'],
     // Check reactions in evaluations.
     [
         `
         ƒ mult(a•# b•#) a · b
-        b: mult(2 ∆ Time() ? 1 … 2)
+        b: mult(2 1 … ∆ Time() … 2)
         b
         `,
         makeOne,

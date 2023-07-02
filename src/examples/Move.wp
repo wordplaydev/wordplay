@@ -4,7 +4,7 @@
 key: Key()
 speed: 1m
 
-cat•Cat:  ∆ key ? Cat(5m 1) …
+cat•Cat:  Cat(5m 1) … ∆ key …
     key = "ArrowLeft" ? Cat(cat.position - speed 1) 
     	key = "ArrowRight" ? Cat(cat.position + speed -1) 
     		cat
