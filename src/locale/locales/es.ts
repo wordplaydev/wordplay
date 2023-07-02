@@ -1933,6 +1933,7 @@ const eng_wordplay: Locale = {
             previousLesson: WRITE_DOC,
             nextLessonStep: WRITE_DOC,
             previousLessonStep: WRITE_DOC,
+            revertProject: WRITE_DOC,
         },
         prompt: {
             deleteSource: 'delete?',

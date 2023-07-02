@@ -73,6 +73,7 @@
     import Arrangement from '../../db/Arrangement';
 
     export let project: Project;
+    export let original: Project | undefined = undefined;
     /** If set to false, only the output is shown initially. */
     export let editable: boolean = true;
     /** True if the output should be fit to content */
@@ -927,6 +928,10 @@
             editable = true;
         }
     }
+
+    function revert() {
+        if (original) $creator.reviseProject(project, original);
+    }
 </script>
 
 <svelte:head><title>Wordplay - {project.name}</title></svelte:head>
@@ -1079,6 +1084,11 @@
 
     {#if !layout.isFullscreen() && editable}
         <nav class="footer">
+            {#if original}<Button
+                    tip={$creator.getLocale().ui.tooltip.revertProject}
+                    enabled={!project.equals(original)}
+                    action={() => revert()}>↺</Button
+                >{/if}
             <Status />
             <TextField
                 placeholder={$creator.getLocale().ui.placeholders.project}

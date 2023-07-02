@@ -702,6 +702,7 @@ type Locale = {
             previousLesson: string;
             nextLessonStep: string;
             previousLessonStep: string;
+            revertProject: string;
         };
         prompt: {
             deleteSource: string;

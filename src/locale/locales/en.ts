@@ -2366,6 +2366,7 @@ const en: Locale = {
             previousLesson: 'previous lesson',
             nextLessonStep: 'next step',
             previousLessonStep: 'previous step',
+            revertProject: 'revert to original code',
         },
         prompt: {
             deleteSource: 'delete',

@@ -83,7 +83,8 @@
         }
     }
 
-    $: project =
+    // Figure out the default project to show.
+    $: defaultProject =
         code.sources.length > 0
             ? new Project(
                   progress.getProjectID(),
@@ -105,15 +106,8 @@
               )
             : undefined;
 
-    // Any time the project changes, add/update it in projects.
-    // This persists the project state for later.
-    $: {
-        if (project) {
-            const existing = $projects.getProject(project.id);
-            if (existing !== undefined && !existing.equals(project))
-                $creator.addProject(project);
-        }
-    }
+    // Start with the default project.
+    $: project = defaultProject;
 
     // Set a project context for those that depend on it, such as Palette.svelte.
     const projectStore: Writable<Project | undefined> = writable(undefined);
@@ -126,6 +120,16 @@
         if ($creator) {
             const proj = $projects.getProject(progress.getProjectID());
             if (proj) project = proj;
+        }
+    }
+
+    // Any time the project changes, add/update it in projects.
+    // This persists the project state for later.
+    $: {
+        if (project) {
+            const existing = $projects.getProject(project.id);
+            if (existing !== undefined && !existing.equals(project))
+                $creator.addProject(project);
         }
     }
 
@@ -270,6 +274,7 @@
                 <div class="project"
                     ><ProjectView
                         {project}
+                        original={defaultProject}
                         bind:index={concepts}
                         editable={code.edit}
                         fit={code.fit}
