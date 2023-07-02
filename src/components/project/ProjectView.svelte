@@ -44,7 +44,7 @@
     import OutputView from '../output/OutputView.svelte';
     import type Value from '@runtime/Value';
     import Editor from '../editor/Editor.svelte';
-    import Layout, { Arrangement, DocsID, OutputID, PaletteID } from './Layout';
+    import Layout, { DocsID, OutputID, PaletteID } from './Layout';
     import NonSourceTileToggle from './NonSourceTileToggle.svelte';
     import Button from '../widgets/Button.svelte';
     import Palette from '../palette/Palette.svelte';
@@ -70,6 +70,7 @@
     import Painting from '../output/Painting.svelte';
     import type PaintingConfiguration from '../output/PaintingConfiguration';
     import { creator } from '../../db/Creator';
+    import Arrangement from '../../db/Arrangement';
 
     export let project: Project;
     /** If set to false, only the output is shown initially. */
@@ -103,14 +104,6 @@
     /** The current canvas dimensions */
     let canvasWidth: number = 1024;
     let canvasHeight: number = 768;
-
-    /** The bound window dimensions */
-    let windowWidth: number = 1;
-    let windowHeight: number = 1;
-    $: windowAspect =
-        typeof window === 'undefined'
-            ? windowWidth / windowHeight
-            : window.innerWidth / window.innerHeight;
 
     /** The background color of the output, so we can make the tile match. */
     let outputBackground: string | null;
@@ -351,12 +344,6 @@
                               Tile.randomPosition(1024, 768)
                           ),
                       ],
-                // Choose a default layout appropriate for the aspect ratio
-                layout
-                    ? layout.arrangement
-                    : windowAspect > 1
-                    ? Arrangement.horizontal
-                    : Arrangement.vertical,
                 layout ? layout.fullscreenID : undefined
             );
 
@@ -533,7 +520,11 @@
 
     $: {
         if (canvasWidth && canvasHeight) {
-            layout = layout.resized(canvasWidth, canvasHeight);
+            layout = layout.resized(
+                $creator.getArrangement(),
+                canvasWidth,
+                canvasHeight
+            );
         }
     }
 
@@ -665,7 +656,7 @@
 
         layout = layout
             .withTileLast(tile.withMode(mode))
-            .resized(canvasWidth, canvasHeight);
+            .resized($creator.getArrangement(), canvasWidth, canvasHeight);
     }
 
     function setFullscreen(tile: Tile, fullscreen: boolean) {
@@ -683,7 +674,7 @@
     }
 
     function handlePointerDown(event: PointerEvent) {
-        if (layout.arrangement === Arrangement.free) {
+        if ($creator.getArrangement() === Arrangement.free) {
             const tileView = document
                 .elementFromPoint(event.clientX, event.clientY)
                 ?.closest('.tile');
@@ -808,20 +799,11 @@
     function handleKey(event: KeyboardEvent) {
         const key = event.key;
         const command = event.ctrlKey || event.metaKey;
-        const alt = event.altKey;
         const shift = event.shiftKey;
 
         if (key === 'Escape' && layout.isFullscreen()) {
             layout = layout.withoutFullscreen();
             event.stopImmediatePropagation();
-            return;
-        } else if (key === 'Tab' && alt) {
-            layout =
-                layout.arrangement === Arrangement.vertical
-                    ? layout.withArrangement(Arrangement.horizontal)
-                    : layout.arrangement === Arrangement.horizontal
-                    ? layout.withArrangement(Arrangement.free)
-                    : layout.withArrangement(Arrangement.vertical);
             return;
         } else if (key === 'Enter' && command) {
             // Shift also? Reset
@@ -949,11 +931,7 @@
 
 <svelte:head><title>Wordplay - {project.name}</title></svelte:head>
 
-<svelte:window
-    bind:innerWidth={windowWidth}
-    bind:innerHeight={windowHeight}
-    on:keydown={handleKey}
-/>
+<svelte:window on:keydown={handleKey} />
 
 <!-- Render the app header and the current project, if there is one. -->
 <main class="project" bind:this={view}>
@@ -969,7 +947,7 @@
         bind:this={canvas}
     >
         <!-- This little guy enables the scroll bars to appear at the furthest extent a window has moved. -->
-        {#if layout.arrangement === Arrangement.free}
+        {#if $creator.getArrangement() === Arrangement.free}
             <div
                 class="boundary"
                 style:left="{maxRight}px"
@@ -987,7 +965,7 @@
                         <TileView
                             {tile}
                             {layout}
-                            arrangement={layout.arrangement}
+                            arrangement={$creator.getArrangement()}
                             background={tile.kind === Content.Output
                                 ? outputBackground
                                 : null}
@@ -1109,19 +1087,6 @@
                 changed={(name) =>
                     $creator.reviseProject(project, project.withName(name))}
             />
-            <Button
-                tip={layout.arrangement === Arrangement.free
-                    ? $creator.getLocale().ui.tooltip.vertical
-                    : layout.arrangement === Arrangement.vertical
-                    ? $creator.getLocale().ui.tooltip.horizontal
-                    : $creator.getLocale().ui.tooltip.freeform}
-                action={() =>
-                    (layout = layout.withNextArrangement(
-                        canvasWidth,
-                        canvasHeight
-                    ))}
-                >{#if layout.arrangement === Arrangement.vertical}↕️{:else if layout.arrangement === Arrangement.horizontal}↔️{:else if layout.arrangement === Arrangement.free}█{/if}</Button
-            >
             {#each layout.getNonSources() as tile}
                 {#if tile.isCollapsed()}
                     <NonSourceTileToggle

@@ -8,11 +8,14 @@
     import { page } from '$app/stores';
     import { goto } from '$app/navigation';
     import { clickOutside } from '../app/clickOutside';
+    import Arrangement from '../../db/Arrangement';
 
     let expanded = false;
 
     let user = getUser();
     let dark = isDark();
+
+    $: arrangement = $creator.getArrangement();
 
     $: anonymous = $user === null;
     $: animationSymbol = { 0: '🧘🏽‍♀️', 1: '🏃‍♀️', 2: '½', 3: '⅓', 4: '¼' }[
@@ -48,6 +51,22 @@
                 </a>
             </div>
         {/if}
+        <Button
+            tip={arrangement === Arrangement.free
+                ? $creator.getLocale().ui.tooltip.vertical
+                : arrangement === Arrangement.vertical
+                ? $creator.getLocale().ui.tooltip.horizontal
+                : $creator.getLocale().ui.tooltip.freeform}
+            action={() =>
+                $creator.setArrangement(
+                    arrangement === Arrangement.vertical
+                        ? Arrangement.horizontal
+                        : arrangement === Arrangement.horizontal
+                        ? Arrangement.free
+                        : Arrangement.vertical
+                )}
+            >{#if arrangement === Arrangement.vertical}↕{:else if arrangement === Arrangement.horizontal}↔️{:else if arrangement === Arrangement.free}⏹️{/if}</Button
+        >
         <Button
             tip={$creator.getLocale().ui.tooltip.animate}
             action={() =>

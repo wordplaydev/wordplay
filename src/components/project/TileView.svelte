@@ -14,7 +14,6 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
     import Button from '../widgets/Button.svelte';
-    import type { Arrangement } from './Layout';
     import type Tile from './Tile';
     import { Mode } from './Tile';
     import type Layout from './Layout';
@@ -22,6 +21,7 @@
     import { isName } from '../../parser/Tokenizer';
     import { creator } from '../../db/Creator';
     import { onMount } from 'svelte';
+    import type Arrangement from '../../db/Arrangement';
 
     export let tile: Tile;
     export let layout: Layout;
@@ -48,11 +48,7 @@
         // )
         //     dispatch('mode', { mode: Mode.Collapsed });
         // Move or resize on command-arrow
-        if (
-            arrangement &&
-            (event.metaKey || event.ctrlKey) &&
-            event.key.startsWith('Arrow')
-        ) {
+        if ((event.metaKey || event.ctrlKey) && event.key.startsWith('Arrow')) {
             const increment = 50;
             const resize = event.shiftKey;
             const horizontal =

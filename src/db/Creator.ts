@@ -23,16 +23,20 @@ import { Languages, type WritingLayout } from '../locale/LanguageCode';
 import SupportedLocales from '../locale/locales';
 import Progress from '../tutorial/Progress';
 import type { Act } from '../locale/Locale';
+import Arrangement from './Arrangement';
 
 const PROJECTS_KEY = 'projects';
 const LAYOUTS_KEY = 'layouts';
+const ARRANGEMENT_KEY = 'arrangement';
 const ANIMATION_FACTOR_KEY = 'animationFactor';
 const LANGUAGES_KEY = 'languages';
 const WRITING_LAYOUT_KEY = 'writingLayout';
 const TUTORIAL_KEY = 'tutorial';
 
+/** If true, we only persist on the device, and not in the database. */
 const deviceSpecific: Record<keyof CreatorConfig, boolean> = {
     layouts: true,
+    arrangement: true,
     animationFactor: false,
     languages: false,
     writingLayout: false,
@@ -60,6 +64,7 @@ const TutorialDefault = { act: 1, scene: 1, line: 1 };
 
 type CreatorConfig = {
     layouts: Record<string, LayoutObject>;
+    arrangement: Arrangement;
     animationFactor: number;
     languages: LanguageCode[];
     writingLayout: WritingLayout;
@@ -92,6 +97,7 @@ export class Creator {
     /** The current creator configuration */
     private config: CreatorConfig = {
         layouts: {},
+        arrangement: Arrangement.vertical,
         animationFactor: 1,
         languages: ['en'],
         writingLayout: 'horizontal-tb',
@@ -139,6 +145,16 @@ export class Creator {
         if (this.config.layouts === layouts) return;
         this.config.layouts = layouts;
         this.saveConfig(LAYOUTS_KEY, layouts);
+    }
+
+    getArrangement() {
+        return this.config.arrangement;
+    }
+
+    setArrangement(arrangement: Arrangement) {
+        if (this.config.arrangement === arrangement) return;
+        this.config.arrangement = arrangement;
+        this.saveConfig(ARRANGEMENT_KEY, arrangement);
     }
 
     getAnimationFactor() {
@@ -499,6 +515,10 @@ export class Creator {
             this.setProjects(
                 data.map((project) => Project.fromObject(project))
             );
+
+        this.config.arrangement =
+            (getLocalValue<string>(ARRANGEMENT_KEY) as Arrangement) ??
+            Arrangement.vertical;
 
         this.config.layouts =
             getLocalValue<Record<string, LayoutObject>>(LAYOUTS_KEY) ?? {};

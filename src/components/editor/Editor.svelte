@@ -1327,6 +1327,7 @@
         padding: calc(2 * var(--wordplay-spacing));
         min-height: 100%;
         min-width: 100%;
+        cursor: text;
     }
 
     .editor:focus {

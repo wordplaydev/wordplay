@@ -1,12 +1,7 @@
+import Arrangement from '../../db/Arrangement';
 import type Bounds from './Bounds';
 import { Content, Mode } from './Tile';
 import Tile from './Tile';
-
-export enum Arrangement {
-    vertical = 'vertical',
-    horizontal = 'horizontal',
-    free = 'free',
-}
 
 export type TileID = string;
 
@@ -24,20 +19,13 @@ export type LayoutObject = {
         name: string;
         kind: Content;
     }[];
-    arrangement: Arrangement;
 };
 
 export default class Layout {
     readonly tiles: Tile[];
-    readonly arrangement: Arrangement;
     readonly fullscreenID: string | undefined;
 
-    constructor(
-        tiles: Tile[],
-        arrangement: Arrangement,
-        fullscreenID: string | undefined
-    ) {
-        this.arrangement = arrangement;
+    constructor(tiles: Tile[], fullscreenID: string | undefined) {
         this.fullscreenID = fullscreenID;
         this.tiles = tiles;
     }
@@ -55,7 +43,6 @@ export default class Layout {
                     position: tile.position,
                 };
             }),
-            arrangement: this.arrangement,
         };
     }
 
@@ -74,7 +61,6 @@ export default class Layout {
                               tile.position ?? undefined
                           )
                   ),
-                  layout.arrangement,
                   layout.fullscreen ?? undefined
               );
     }
@@ -127,13 +113,12 @@ export default class Layout {
                       newTile,
                       ...this.tiles.slice(index + 1),
                   ],
-                  this.arrangement,
                   this.fullscreenID
               );
     }
 
     withTiles(tiles: Tile[]) {
-        return new Layout(tiles, this.arrangement, this.fullscreenID);
+        return new Layout(tiles, this.fullscreenID);
     }
 
     withTileLast(tile: Tile) {
@@ -146,7 +131,6 @@ export default class Layout {
                       ...this.tiles.slice(index + 1),
                       tile,
                   ],
-                  this.arrangement,
                   this.fullscreenID
               );
     }
@@ -164,11 +148,11 @@ export default class Layout {
     }
 
     withFullscreen(tileID: string) {
-        return new Layout(this.tiles, this.arrangement, tileID);
+        return new Layout(this.tiles, tileID);
     }
 
     withoutFullscreen() {
-        return new Layout(this.tiles, this.arrangement, undefined);
+        return new Layout(this.tiles, undefined);
     }
 
     collapsed() {
@@ -179,26 +163,10 @@ export default class Layout {
         return this.tiles.filter((tile) => tile.mode !== Mode.Collapsed);
     }
 
-    withNextArrangement(_: number, __: number) {
-        return new Layout(
-            this.tiles,
-            this.arrangement === Arrangement.vertical
-                ? Arrangement.horizontal
-                : this.arrangement === Arrangement.horizontal
-                ? Arrangement.free
-                : Arrangement.vertical,
-            this.fullscreenID
-        );
-    }
-
-    withArrangement(arrangement: Arrangement) {
-        return new Layout(this.tiles, arrangement, this.fullscreenID);
-    }
-
-    resized(width: number, height: number) {
-        return this.arrangement === Arrangement.vertical
+    resized(arrangement: Arrangement, width: number, height: number) {
+        return arrangement === Arrangement.vertical
             ? this.vertical(width, height)
-            : this.arrangement === Arrangement.horizontal
+            : arrangement === Arrangement.horizontal
             ? this.horizontal(width, height)
             : this.positioned();
     }
