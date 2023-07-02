@@ -288,6 +288,8 @@
 
     .title p {
         font-size: 200%;
+        /* Prevents long words from overflowing. */
+        overflow-wrap: anywhere;
     }
 
     .play {
