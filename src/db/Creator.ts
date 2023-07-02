@@ -446,6 +446,9 @@ export class Creator {
         } catch (_) {
             this.setStatus(SaveStatus.Error);
         }
+
+        // Notify config listeners.
+        this.configStore.set(this);
     }
 
     /** Persist in storage */

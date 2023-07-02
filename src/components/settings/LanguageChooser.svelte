@@ -1,4 +1,4 @@
-<svelte:options immutable={true} />
+<svelte:options />
 
 <script lang="ts">
     import Button from '../widgets/Button.svelte';
@@ -6,11 +6,12 @@
     import { getLanguageName, Languages } from '@locale/LanguageCode';
     import SupportedLocales from '@locale/locales';
     import { tick } from 'svelte';
-    import { clickOutside } from '../app/clickOutside';
     import { creator } from '../../db/Creator';
 
     let collapsed = true;
-    let element: HTMLElement;
+    let element: HTMLDialogElement;
+
+    $: languages = $creator.getLanguages();
 
     const supportedLanguages = SupportedLocales.map((t) => t.language);
 
@@ -23,7 +24,6 @@
     ];
 
     function select(language: LanguageCode, append: boolean) {
-        let languages = $creator.getLanguages();
         const selected = languages.includes(language);
         languages = selected
             ? languages.length === 1
@@ -49,58 +49,47 @@
             $creator.setLanguages(languages);
         }
 
-        // Collapse.
-        collapsed = true;
+        // Hide the dialog.
+        element.close();
     }
 
     async function toggle() {
         collapsed = !collapsed;
+        element.showModal();
         await tick();
         element?.focus();
     }
 </script>
 
-<div
-    role="presentation"
-    class:expanded={!collapsed}
-    use:clickOutside
-    on:outclick={() => (collapsed = true)}
-    on:keydown={(event) =>
-        event.key === 'Escape' ? (collapsed = true) : undefined}
-    tabIndex="0"
-    bind:this={element}
->
-    {#if !collapsed}
-        <div class="language-preferences">
-            <div class="languages">
-                {#each languageChoices as lang}
-                    {@const supported = supportedLanguages.includes(lang)}
-                    <span
-                        role="button"
-                        tabindex={0}
-                        class="language"
-                        class:supported
-                        class:selected={$creator.getLanguages().includes(lang)}
-                        on:pointerdown|stopPropagation={(event) =>
-                            select(lang, event.shiftKey)}
-                        on:keydown={(event) =>
-                            event.key === ' ' || event.key === 'Enter'
-                                ? select(lang, event.shiftKey)
-                                : undefined}>{getLanguageName(lang)}</span
-                    >
-                {/each}
-            </div>
+<dialog bind:this={element}>
+    <div class="language-preferences">
+        <div class="languages">
+            {#each languageChoices as lang}
+                {@const supported = supportedLanguages.includes(lang)}
+                <span
+                    role="button"
+                    tabindex={0}
+                    class="language"
+                    class:supported
+                    class:selected={languages.includes(lang)}
+                    on:pointerdown|stopPropagation={(event) =>
+                        select(lang, event.shiftKey)}
+                    on:keydown={(event) =>
+                        event.key === ' ' || event.key === 'Enter'
+                            ? select(lang, event.shiftKey)
+                            : undefined}>{getLanguageName(lang)}</span
+                >
+            {/each}
         </div>
-    {:else}
-        <Button tip={$creator.getLocale().ui.tooltip.language} action={toggle}>
-            <span class="chosen">
-                {#each $creator.getLanguages() as lang, index}{#if index > 0}+{/if}<span
-                        class="language supported">{getLanguageName(lang)}</span
-                    >{/each}
-            </span>
-        </Button>
-    {/if}
-</div>
+    </div>
+</dialog>
+<Button tip={$creator.getLocale().ui.tooltip.language} action={toggle}>
+    <span class="chosen">
+        {#each languages as lang, index}{#if index > 0}+{/if}<span
+                class="language supported">{getLanguageName(lang)}</span
+            >{/each}
+    </span>
+</Button>
 
 <style>
     .language-preferences {
