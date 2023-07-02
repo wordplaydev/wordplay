@@ -34,10 +34,16 @@
     function step(time: DOMHighResTimeStamp) {
         if (previousTime === undefined) previousTime = time;
 
-        const elapsed = time - previousTime;
+        const elapsed =
+            $creator.getAnimationFactor() > 0
+                ? (time - previousTime) / $creator.getAnimationFactor()
+                : 0;
         if (previousTime) {
             for (const glyph of state) {
                 glyph.x += glyph.vx * (elapsed / 1000);
+                glyph.y += glyph.vy * (elapsed / 1000);
+                glyph.angle += (glyph.va * (elapsed / 1000)) % 360;
+
                 if (glyph.x > windowWidth * (1 + bounds))
                     glyph.x = -windowWidth * bounds;
                 if (glyph.x < -windowWidth * bounds)
@@ -46,8 +52,6 @@
                     glyph.y = -windowHeight * bounds;
                 if (glyph.y < -windowHeight * bounds)
                     glyph.y = windowHeight * (1 + bounds);
-                glyph.y += glyph.vy * (elapsed / 1000);
-                glyph.angle += (glyph.va * (elapsed / 1000)) % 360;
 
                 const element = document.querySelector(
                     `[data-id="${glyph.index}"]`
