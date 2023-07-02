@@ -115,3 +115,243 @@ export const DonutDance = `Phrase(
         100%: Pose(offset: Place(-1m 0m))
     } duration: 2.5s)
 )`;
+
+export const EvaluateDance = [
+    `Stage([] background:Color(0% 0 0°))`,
+    `•Character(glyph•"" place•Place)
+Stage([] background: Color(0% 0 0°))`,
+    `•Character(glyph•"" place•Place rotation•#°)
+Stage([]  background:Color(0% 0 0°))`,
+    `•Character(glyph•"" place•Place rotation•#°)
+Stage([]  background:Color(0% 0 0°))
+symbols: [ "()" "⊤" "⊥" "''" "#" "[]" "{}" "{:}" "?" "→" "//" ":" "ƒ" "•"]`,
+    `•Character(glyph•"" place•Place rotation•#°)
+initial•[Character]: [ "()" "⊤" "⊥" "''" "#" "[]" "{}" "{:}" "?" "→" "//" ":" "ƒ" "•"].translate(ƒ(glyph•"") Character(glyph Place() 0°))
+Stage([]  background:Color(0% 0 0°))`,
+    `•Character(glyph•"" place•Place rotation•#°)
+initial•[Character]: [ "()" "⊤" "⊥" "''" "#" "[]" "{}" "{:}" "?" "→" "//" ":" "ƒ" "•"].translate(ƒ(glyph•"") Character(glyph Place() 0°))
+Stage(
+    [
+        Group(
+            Free()
+            initial.translate(ƒ(char•Character)
+                Phrase(
+                    char.glyph
+                    rotation: char.rotation
+                    place: char.place
+                )
+            )
+        )
+    ]
+    background: Color(0% 0 0°))`,
+    `•Character(glyph•"" place•Place rotation•#°)
+initial•[Character]: [ "()" "⊤" "⊥" "''" "#" "[]" "{}" "{:}" "?" "→" "//" ":" "ƒ" "•"].translate(ƒ(glyph•"") Character(glyph Place() 0°))
+Stage(
+    [
+        Group(
+            Free()
+            initial.translate(ƒ(char•Character)
+                Phrase(
+                    char.glyph
+                    rotation: char.rotation
+                    place: char.place
+                    rest: Pose(color:Color(100% 100 0°))
+                )
+            )
+        )
+    ]
+    background: Color(0% 0 0°))`,
+    `•Character(glyph•"" place•Place rotation•#°)
+initial•[Character]: 
+  [ "()" "⊤" "⊥" "''" "#" "[]" "{}" "{:}" "?" "→" "//" ":" "ƒ" "•"].
+    translate(ƒ(glyph•"") 
+      Character(
+        glyph 
+        Place(Random() · 10m Random() · 10m Random(-3 3) ·1m) 
+        0°)
+      )
+Stage([
+  Group(
+    Free()
+    initial.translate(ƒ(char•Character)
+      Phrase(
+        char.glyph
+        size: 2m
+        rotation: char.rotation
+        place: char.place
+        rest: Pose(color:Color(100% 100 0°))
+      )
+    )
+  )]
+  background:Color(0% 0 0°))`,
+
+    `•Character(glyph•"" place•Place rotation•#°)
+
+initial•[Character]: 
+    [ "()" "⊤" "⊥" "''" "#" "[]" "{}" "{:}" "?" "→" "//" ":" "ƒ" "•"].
+        translate(ƒ(glyph•"") 
+        Character(
+            glyph 
+            Place(Random() · 10m Random() · 10m Random(-3 3) ·1m) 
+            0°)
+        )
+  
+characters•[Character]: ∆ Time(750ms) ? initial … characters
+
+Stage([
+  Group(
+    Free()
+    characters.translate(ƒ(char•Character)
+      Phrase(
+        char.glyph
+        size: 2m
+        rotation: char.rotation
+        place: char.place
+        rest: Pose(color:Color(100% 100 0°))
+      )
+    )
+  )]
+  background:Color(0% 0 0°))`,
+
+    `•Character(glyph•"" place•Place rotation•#°) (
+  ƒ move()
+    Character(
+     glyph
+     place
+     rotation)
+)
+
+initial•[Character]: 
+  [ "()" "⊤" "⊥" "''" "#" "[]" "{}" "{:}" "?" "→" "//" ":" "ƒ" "•"].
+    translate(ƒ(glyph•"") 
+      Character(
+        glyph 
+        Place(Random() · 10m Random() · 10m Random(-3 3) ·1m) 
+        0°)
+      )
+
+characters•[Character]:  ∆ Time(750ms) ? initial … characters
+
+Stage([
+  Group(
+    Free()
+    characters.translate(ƒ(char•Character)
+      Phrase(
+        char.glyph
+        size: 2m
+        rotation: char.rotation
+        place: char.place
+        rest: Pose(color:Color(100% 100 0°))
+      )
+    )
+  )]
+  background:Color(0% 0 0°))`,
+
+    `•Character(glyph•"" place•Place rotation•#°) (
+  ƒ move()
+    Character(
+     glyph
+     Place(place.x + (Random(-1 1) · 1m) place.y + (Random(-1 1) · 1m) Random(-3 3) ·1m)
+     Random(-45 45) · 1°
+    )
+)
+
+initial•[Character]: 
+  [ "()" "⊤" "⊥" "''" "#" "[]" "{}" "{:}" "?" "→" "//" ":" "ƒ" "•"].
+    translate(ƒ(glyph•"") 
+      Character(
+        glyph 
+        Place(Random() · 10m Random() · 10m Random(-3 3) ·1m) 
+        0°)
+      )
+
+characters•[Character]:  ∆ Time(750ms) ? initial … characters
+
+Stage([
+  Group(
+    Free()
+    characters.translate(ƒ(char•Character)
+      Phrase(
+        char.glyph
+        size: 2m
+        rotation: char.rotation
+        place: char.place
+        rest: Pose(color:Color(100% 100 0°))
+      )
+    )
+  )]
+  background:Color(0% 0 0°))`,
+
+    `•Character(glyph•"" place•Place rotation•#°) (
+  ƒ move()
+    Character(
+     glyph
+     Place(place.x + (Random(-1 1) · 1m) place.y + (Random(-1 1) · 1m) Random(-3 3) ·1m)
+     Random(-45 45) · 1°
+    )
+)
+
+initial•[Character]: 
+  [ "()" "⊤" "⊥" "''" "#" "[]" "{}" "{:}" "?" "→" "//" ":" "ƒ" "•"].
+    translate(ƒ(glyph•"") 
+      Character(
+        glyph 
+        Place(Random() · 10m Random() · 10m Random(-3 3) ·1m) 
+        0°)
+      )
+
+characters•[Character]:  ∆ Time(750ms) ? initial … characters.translate(ƒ (c•Character) c.move())
+
+Stage([
+  Group(
+    Free()
+    characters.translate(ƒ(char•Character)
+      Phrase(
+        char.glyph
+        size: 2m
+        rotation: char.rotation
+        place: char.place
+        rest: Pose(color:Color(100% 100 0°))
+      )
+    )
+  )]
+  background:Color(0% 0 0°))`,
+
+    `•Character(glyph•"" place•Place rotation•#°) (
+  ƒ move()
+    Character(
+     glyph
+     Place(place.x + (Random(-1 1) · 1m) place.y + (Random(-1 1) · 1m) Random(-3 3) ·1m)
+     Random(-45 45) · 1°
+    )
+)
+
+initial•[Character]: 
+  [ "()" "⊤" "⊥" "''" "#" "[]" "{}" "{:}" "?" "→" "//" ":" "ƒ" "•"].
+    translate(ƒ(glyph•"") 
+      Character(
+        glyph 
+        Place(Random() · 10m Random() · 10m Random(-3 3) ·1m) 
+        0°)
+      )
+
+characters•[Character]:  ∆ Time(750ms) ? initial … characters.translate(ƒ (c•Character) c.move())
+
+Stage([
+  Group(
+    Free()
+    characters.translate(ƒ(char•Character)
+      Phrase(
+        char.glyph
+        size: 2m
+        rotation: char.rotation
+        place: char.place
+        rest: Pose(color:Color(100% 100 0°))
+        move: Pose()
+        duration: 0.5s
+      )
+    )
+  )]
+  background:Color(0% 0 0°)
+)`,
+];

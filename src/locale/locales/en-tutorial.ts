@@ -8,6 +8,7 @@ import {
     StaticRainingEmoji,
     DancingEmoji,
     DonutDance,
+    EvaluateDance,
 } from '../../tutorial/Programs';
 import Emotion from '../../lore/Emotion';
 
@@ -1538,7 +1539,7 @@ const tutorial: Act[] = [
                     dialog(
                         'MeasurementLiteral',
                         Emotion.Excited,
-                        `Oh yes, the maths! @Function gave me so many neat kinds of arithmetic. Like this.`
+                        `Oh yes, the maths! @FunctionDefinition gave me so many neat kinds of arithmetic. Like this.`
                     ),
                     edit(`1 + 1`),
                     pause(),
@@ -5945,7 +5946,7 @@ status: ∆ Time() ? Game(0 3 1) … status.score: status.score + 1`
                         'Doc',
                         Emotion.Kind,
                         `It's so nice to meet you! 
-                        I hope @Function has been a good teacher?`
+                        I hope @FunctionDefinition has been a good teacher?`
                     ),
                     symbol('``\\/'),
                     pause(),
@@ -6081,6 +6082,503 @@ Phrase(“✈️”)`
                         `Hm... good point.
                         
                         Well thank you @Doc, I think we might be ready for a show!`
+                    ),
+                ],
+            },
+        ],
+    },
+    {
+        name: 'Denouement',
+        program: symbol('😨'),
+        scenes: [
+            {
+                name: 'Codependency',
+                concept: undefined,
+                program: output(
+                    `Phrase('😨' rest: Sequence({0%: Pose(offset: Place(0m 0m)) 25%: Pose(offset: Place(-.1m .1m)) 50%: Pose(offset: Place(.1m 0m)) 75%: Pose(offset: Place(-.1m 0.1m)) 100%: Pose(offset: Place(0m 0m)) } style: "linear"))`
+                ),
+                lines: [
+                    symbol('😡'),
+                    dialog(
+                        'Evaluate',
+                        Emotion.Sad,
+                        `@FunctionDefinition, where have you been??`
+                    ),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Surprised,
+                        `I've been showing our new director…`
+                    ),
+                    pause(),
+                    symbol('😢'),
+                    dialog(
+                        'Evaluate',
+                        Emotion.Shy,
+                        `I didn't think you would be that long…`
+                    ),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Sad,
+                        `… @Evaluate, I know you missed me. I missed you. But this is big: the silence is broken, we have a new director… I love you, and I know you need me, but I also have things to do.`
+                    ),
+                    pause(),
+                    symbol('😠'),
+                    dialog(
+                        'Evaluate',
+                        Emotion.Sad,
+                        `Let's talk about this later. You have things to do.`
+                    ),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Kind,
+                        `I think we need to talk about it now. We can't keep falling into this cycle.`
+                    ),
+                    pause(),
+                    symbol('😓'),
+                    dialog(
+                        'Evaluate',
+                        Emotion.Curious,
+                        `What cycle? I love you! How is that a cycle?`
+                    ),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Kind,
+                        `I make functions, you evaluate them, that is our way. 
+                        But there has to be more to us than you needing me. 
+                        
+                        Reuniting with everyone has reminded me how much we need space to be ourselves, but also how we need to love ourselves. 
+                        
+                        I can't give you all the love you need. 
+                        Some of that has to come from you.`
+                    ),
+                    pause(),
+                    symbol('😭'),
+                    dialog('Evaluate', Emotion.Sad, `You don't love me?`),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Angry,
+                        `No, that's not what I said… what I mean is that we have to both matter in this relationship. 
+                        
+                        I need to say what I need and you need to say what you need and we can love each other for who we are, as individuals. 
+                        
+                        What do *you* need? 
+                        What do you love about yourself?`
+                    ),
+                    pause(),
+                    symbol('🫠'),
+                    dialog(
+                        'Evaluate',
+                        Emotion.Shy,
+                        `I need … you. I don't need me.`
+                    ),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Kind,
+                        `I love you @Evaluate. 
+                        
+                        But I need you to love you. 
+                        
+                        I'm excited about our world coming back to life, and what it's going to mean to be together again, but I need you to find yourself, your needs, and your own purpose. 
+                        
+                        I can't be your purpose.`
+                    ),
+                    pause(),
+                    output(DarkVoid),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Sad,
+                        `I need some space. I'm sorry, director-friend. Maybe @Evaluate can wrap up this welcome party without me.`
+                    ),
+                    pause(),
+                    dialog('Evaluate', Emotion.Shy, `… Hi.`),
+                    pause(),
+                    dialog(
+                        'Evaluate',
+                        Emotion.Shy,
+                        `… Did you learn a lot? @FunctionDefinition knows so much.`
+                    ),
+                    pause(),
+                    dialog(
+                        'Evaluate',
+                        Emotion.Curious,
+                        `Me? I don't know anything. I give @FunctionDefinition what they need…
+                        
+                        At least I thought I did.`
+                    ),
+                    pause(),
+                    output(`Stage([] background: Color(10% 0 0°))`),
+                    dialog(
+                        'ListType',
+                        Emotion.Kind,
+                        `That is not true, @Evaluate.`
+                    ),
+                    dialog('BooleanType', Emotion.Precise, `Not true.`),
+                    dialog(
+                        'TextType',
+                        Emotion.Happy,
+                        `Not true in the slightest!`
+                    ),
+                    dialog('Changed', Emotion.Happy, `Super not true!`),
+                    dialog(
+                        'MeasurementType',
+                        Emotion.Serious,
+                        `1) You basically run our performances, 2) @Evaluate would be useless without you, 3) you literally transform things into entirely new values, 4) you come in so many different forms, 5) you give all of us purpose, 6) we all look up to you for guidance…`
+                    ),
+                    pause(),
+                    output(`Stage([] background: Color(20% 0 0°))`),
+                    dialog(
+                        'Phrase',
+                        Emotion.Kind,
+                        `@MeasurementType is right @Evaluate, you are fabulous in fifty ways.`
+                    ),
+                    dialog('Sequence', Emotion.Happy, `I spin when I see you!`),
+                    dialog(
+                        'Group',
+                        Emotion.Kind,
+                        `You inspire me to bring us together!`
+                    ),
+                    dialog(
+                        'Stage',
+                        Emotion.Serious,
+                        `YOU ARE THE BONES OF OUR BEING`
+                    ),
+                    dialog('NoneType', Emotion.Serious, `…`),
+                    dialog(
+                        'Program',
+                        Emotion.Kind,
+                        `I am everything you make me!`
+                    ),
+                    pause(),
+                    output(`Stage([] background: Color(40% 0 0°))`),
+                    dialog(
+                        'Convert',
+                        Emotion.Kind,
+                        `I learned everything from you!`
+                    ),
+                    dialog(
+                        'StructureDefinition',
+                        Emotion.Kind,
+                        `We'd be in disarray without you.`
+                    ),
+                    dialog(
+                        'Bind',
+                        Emotion.Happy,
+                        `Like, what would I name if you didn't make it?`
+                    ),
+                    dialog(
+                        'Conditional',
+                        Emotion.Curious,
+                        `How could we do anything without you?`
+                    ),
+                    dialog('Block', Emotion.Kind, `… you are @Evaluate!`),
+                    pause(),
+                    output(`Stage([] background: Color(50% 0 0°))`),
+                    dialog('Evaluate', Emotion.Happy, `…`),
+                    pause(),
+                    output(`Stage([] background: Color(60% 0 0°))`),
+                    dialog(
+                        'Evaluate',
+                        Emotion.Kind,
+                        `You are all so kind… I … `
+                    ),
+                    pause(),
+                    output(`Stage([] background: Color(70% 0 0°))`),
+                    dialog(
+                        'Evaluate',
+                        Emotion.Kind,
+                        `Can we just dance? I've missed you all so much.`
+                    ),
+                    pause(),
+                    output(`Stage([] background: Color(80% 0 0°))`),
+                    dialog('FunctionDefinition', Emotion.Happy, `Let's dance.`),
+                    dialog(
+                        'Evaluate',
+                        Emotion.Sad,
+                        `@FunctionDefinition… I'm so...`
+                    ),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Happy,
+                        `Why don't you lead us?`
+                    ),
+                    pause(),
+                    dialog('Evaluate', Emotion.Shy, `… I can't… `),
+                    dialog('FunctionDefinition', Emotion.Happy, `You *can*.`),
+                    pause(),
+                    output(`Stage([] background: Color(90% 0 0°))`),
+                    dialog('Evaluate', Emotion.Shy, `… I … I'll try.`),
+                    pause(),
+                    output(`Stage([] background: Color(100% 0 0°))`),
+                    dialog(
+                        'Evaluate',
+                        Emotion.Shy,
+                        `I want… I want us all to move to a beat. 
+                        To tilt to the beat… in the dark. 
+                        
+                        Can we do that?`
+                    ),
+                    pause(),
+                    dialog('Program', Emotion.Happy, `We can do that!`),
+                    dialog('Stage', Emotion.Kind, `START WITH MEEEEE`),
+                    dialog(
+                        'Evaluate',
+                        Emotion.Kind,
+                        `Okay, @Stage, can you make it dark?`
+                    ),
+                    dialog('Stage', Emotion.Kind, `DARK!`),
+                    edit(EvaluateDance[0]),
+                    pause(),
+                    dialog(
+                        'Evaluate',
+                        Emotion.Kind,
+                        `@StructureDefinition, I think we need a way to remember our places. Can you make a structure for us?`
+                    ),
+                    dialog(
+                        'StructureDefinition',
+                        Emotion.Curious,
+                        `Like this?`
+                    ),
+                    edit(EvaluateDance[1]),
+                    pause(),
+                    dialog(
+                        'Evaluate',
+                        Emotion.Kind,
+                        `Yes… I also want us to rotate on the beat. 
+                        
+                        Can you remember a rotation too?`
+                    ),
+                    dialog(
+                        'StructureDefinition',
+                        Emotion.Curious,
+                        `How about this?`
+                    ),
+                    edit(EvaluateDance[2]),
+                    pause(),
+                    dialog(
+                        'Evaluate',
+                        Emotion.Happy,
+                        `Yeah, like that. 
+                        
+                        Hm… oh, we need to be on stage. @TextType, would you mind making a list of everyone? We'll turn that into ⧼Character>s.`
+                    ),
+                    dialog(
+                        'TextType',
+                        Emotion.Excited,
+                        `My pleasure, my dear. Will this do?`
+                    ),
+                    edit(EvaluateDance[3]),
+                    pause(),
+                    dialog(
+                        'Evaluate',
+                        Emotion.Excited,
+                        `Yes, that's great! 
+                        
+                        We just need to make them into characters now. 
+                        
+                        @ListType, can we translate them? @FunctionDefinition, will you help?`
+                    ),
+                    dialog(
+                        'ListType',
+                        Emotion.Happy,
+                        `Translation, 1, 2, 3! Like this?`
+                    ),
+                    edit(EvaluateDance[4]),
+                    pause(),
+                    dialog(
+                        'Evaluate',
+                        Emotion.Happy,
+                        `Splendid! 
+                        
+                        Now we need us on stage. 
+                        Can we translate the characters into @Phrase? Maybe in a @Free @Group?`
+                    ),
+                    dialog('ListType', Emotion.Kind, `One more time!`),
+                    dialog('Phrase', Emotion.Kind, `All the attention!`),
+                    dialog(
+                        'Group',
+                        Emotion.Kind,
+                        `Come on everyone, places please…`
+                    ),
+                    edit(EvaluateDance[5]),
+                    pause(),
+                    dialog(
+                        'Evaluate',
+                        Emotion.Confused,
+                        `Oh… where are we? Oh! We need color. 
+                        
+                        @Pose, can we be white?`
+                    ),
+                    edit(EvaluateDance[6]),
+                    pause(),
+                    dialog(
+                        'Evaluate',
+                        Emotion.Surprised,
+                        `Oops, we're all on top of each other! We need starting places. Let's tap into @Random?`
+                    ),
+                    edit(EvaluateDance[7]),
+                    pause(),
+                    dialog(
+                        'Evaluate',
+                        Emotion.Happy,
+                        `Yay! 
+                        
+                        Now we just need to move. 
+                        @Reaction, can you give us a beat, maybe ⧼0.75⧽ seconds?`
+                    ),
+                    dialog(
+                        'Reaction',
+                        Emotion.Kind,
+                        `I can change it! 
+                        
+                        We need a @Time stream, but we also need to change the characters. 
+                        But what should the next value be?`
+                    ),
+                    edit(EvaluateDance[8]),
+                    pause(),
+                    dialog(
+                        'Evaluate',
+                        Emotion.Eager,
+                        `I guess we need some way of moving us on each beat. 
+                        
+                        @StructureDefinition, can we make a move function that chooses a new place and rotation?`
+                    ),
+                    dialog(
+                        'StructureDefinition',
+                        Emotion.Sad,
+                        `I don't know how to make a function…`
+                    ),
+                    pause(),
+                    dialog('Evaluate', Emotion.Sad, `…`),
+                    dialog('FunctionDefinition', Emotion.Happy, `I can help.`),
+                    dialog('Evaluate', Emotion.Happy, `…`),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Happy,
+                        `Sometimes… I just need you to know how amazing you are. And sometimes that means leaving. Look at what you're creating here…`
+                    ),
+                    dialog(
+                        'Evaluate',
+                        Emotion.Happy,
+                        `I … I am creating something. 
+                        We are creating something… but we can't create it without out. 
+                        
+                        Will you help?`
+                    ),
+                    pause(),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Eager,
+                        `Of course. A ⧼move⧽ function, coming right up. I'll start it, you finish it…`
+                    ),
+                    edit(EvaluateDance[9]),
+                    pause(),
+                    dialog(
+                        'Evaluate',
+                        Emotion.Confused,
+                        `Thank you @FunctionDefinition. 
+                        
+                        They're not moving… Oh right, ⧼move⧽ didn't change anything! 
+                        
+                        Let's take the current position and move us in a random direction horizontally and vertically. 
+                        
+                        And maybe a random depth, so we all get a chance up front. And some random rotation?
+                        `
+                    ),
+                    edit(EvaluateDance[10]),
+                    pause(),
+                    dialog(
+                        'Evaluate',
+                        Emotion.Confused,
+                        `Hmm… still not moving. 
+                        
+                        Oh! 
+                        We didn't evaluate ⧼move⧽ in @Reaction. 
+                        
+                        @ListType, can you translate each ⧼Character⧽ into a _moved_ ⧼Character⧽?`
+                    ),
+                    dialog(
+                        'ListType',
+                        Emotion.Excited,
+                        `Translating with your help!`
+                    ),
+                    edit(EvaluateDance[11]),
+                    pause(),
+                    dialog(
+                        'Evaluate',
+                        Emotion.Confused,
+                        `We're so choppy. 
+                        
+                        Oh, @Phrase, we forgot to set a move @Pose and duration. 
+                        Can you choose something smaller than the @Time tick, so we move and then rest a bit?`
+                    ),
+                    edit(EvaluateDance[12]),
+                    pause(),
+                    dialog(
+                        'Evaluate',
+                        Emotion.Excited,
+                        `We're dancing! We're really dancing. We did it!`
+                    ),
+                    dialog('ListType', Emotion.Kind, `1, 2, 3, 1, 2, 3`),
+                    dialog('BooleanType', Emotion.Precise, `Move!`),
+                    dialog('TextType', Emotion.Happy, `Elation!`),
+                    dialog(
+                        'Conditional',
+                        Emotion.Curious,
+                        `What is dancing, really?`
+                    ),
+                    dialog('Changed', Emotion.Happy, `Boom, boom, boom`),
+                    dialog(
+                        'MeasurementType',
+                        Emotion.Serious,
+                        `left 5 degrees, up 1 meter`
+                    ),
+                    dialog('Phrase', Emotion.Kind, `Marvelous!`),
+                    dialog('Sequence', Emotion.Happy, `The feeling!`),
+                    dialog('Group', Emotion.Kind, `Together now!`),
+                    dialog('Stage', Emotion.Serious, `BOOM BOOM BOOM`),
+                    dialog('NoneType', Emotion.Serious, `…`),
+                    dialog(
+                        'StructureDefinition',
+                        Emotion.Kind,
+                        `Remember to move!`
+                    ),
+                    dialog('Bind', Emotion.Happy, `Characters!`),
+                    pause(),
+                    output(EvaluateDance[12]),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Kind,
+                        `You did it @Evaluate! 
+                        
+                        This was your vision.`
+                    ),
+                    dialog(
+                        'Evaluate',
+                        Emotion.Kind,
+                        `I… I did do it. 
+                        
+                        But we also did it together.`
+                    ),
+                    pause(),
+                    dialog(
+                        'Program',
+                        Emotion.Curious,
+                        `Did we just put on our own performance?`
+                    ),
+                    dialog('Reaction', Emotion.Eager, `I think we did…`),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Serious,
+                        `We did… but we couldn't have done it without our new director friend. 
+                        
+                        They broke our silence, they reminded us why we're expressions, together.`
+                    ),
+                    pause(),
+                    output(`Phrase("?")`),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Excited,
+                        `So, sparkly new director, what shall we say?`
                     ),
                 ],
             },
