@@ -155,7 +155,14 @@
 
 <section class="tutorial">
     <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-    <div role="article" class="dialog" on:keydown={handleKey} bind:this={view}>
+    <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+    <div
+        role="article"
+        class="dialog"
+        tabindex="0"
+        on:keydown={handleKey}
+        bind:this={view}
+    >
         <div class="turns">
             {#if act === undefined}
                 <div class="title play">{$creator.getLocale().wordplay}</div>
