@@ -811,11 +811,11 @@
         const alt = event.altKey;
         const shift = event.shiftKey;
 
-        if (key === 'Escape') {
+        if (key === 'Escape' && layout.isFullscreen()) {
             layout = layout.withoutFullscreen();
+            event.stopImmediatePropagation();
             return;
-        }
-        if (key === 'Tab' && alt) {
+        } else if (key === 'Tab' && alt) {
             layout =
                 layout.arrangement === Arrangement.vertical
                     ? layout.withArrangement(Arrangement.horizontal)
@@ -823,8 +823,7 @@
                     ? layout.withArrangement(Arrangement.free)
                     : layout.withArrangement(Arrangement.vertical);
             return;
-        }
-        if (key === 'Enter' && command) {
+        } else if (key === 'Enter' && command) {
             // Shift also? Reset
             if (event.shiftKey)
                 $creator.reviseProject(project, project.clone());

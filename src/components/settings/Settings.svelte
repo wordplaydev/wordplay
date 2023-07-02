@@ -22,7 +22,14 @@
         if (route.startsWith('/project/')) return '/projects';
         else return '/';
     }
+
+    function handleKey(event: KeyboardEvent) {
+        if (event.key === 'Escape' && $page.route.id !== null)
+            goto(getBackPath($page.route.id));
+    }
 </script>
+
+<svelte:window on:keydown={handleKey} />
 
 <div class="settings" class:expanded>
     <div class="controls">
