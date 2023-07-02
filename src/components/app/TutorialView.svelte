@@ -26,6 +26,7 @@
     import { writable, type Writable } from 'svelte/store';
     import { tick } from 'svelte';
     import type { Code, Dialog } from '../../locale/Locale';
+    import { goto } from '$app/navigation';
 
     export let progress: Progress;
     export let navigate: (progress: Progress) => void;
@@ -136,8 +137,11 @@
             event.key === 'ArrowRight' ||
             event.key === 'Enter' ||
             event.key === ' '
-        )
-            navigate(progress.nextPause() ?? progress);
+        ) {
+            const next = progress.nextPause();
+            if (next) navigate(next);
+            else goto('/projects');
+        }
 
         // Focus the dialog after navigating.
         await tick();
