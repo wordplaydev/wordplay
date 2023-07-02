@@ -180,33 +180,24 @@
                 >
             {:else}
                 {#key turns}
-                    {#each turns as turn, index}
+                    {#each turns as turn}
                         <!-- First speaker is always function, alternating speakers are the concept we're learning about. -->
-                        <div
-                            class="turn"
-                            class:animated={$creator.getAnimationFactor() > 0}
-                            style="--delay:{$creator.getAnimationDuration() *
-                                2 *
-                                index}ms"
+                        <Speech
+                            glyph={$conceptsStore
+                                ?.getConceptByName(turn.dialog.concept)
+                                ?.getGlyphs($creator.getLanguages()) ?? {
+                                symbols: turn.dialog.concept,
+                            }}
+                            right={turn.dialog.concept === 'FunctionDefinition'}
+                            baseline
+                            scroll={false}
+                            emotion={turn.dialog.emotion}
                         >
-                            <Speech
-                                glyph={$conceptsStore
-                                    ?.getConceptByName(turn.dialog.concept)
-                                    ?.getGlyphs($creator.getLanguages()) ?? {
-                                    symbols: turn.dialog.concept,
-                                }}
-                                right={turn.dialog.concept ===
-                                    'FunctionDefinition'}
-                                baseline
-                                scroll={false}
-                                emotion={turn.dialog.emotion}
-                            >
-                                <DocHtmlView
-                                    doc={turn.speech}
-                                    spaces={turn.spaces}
-                                />
-                            </Speech>
-                        </div>
+                            <DocHtmlView
+                                doc={turn.speech}
+                                spaces={turn.spaces}
+                            />
+                        </Speech>
                     {/each}
                 {/key}
             {/if}
@@ -342,35 +333,6 @@
 
     .dialog:focus {
         outline-offset: calc(-1 * var(--wordplay-focus-width));
-    }
-
-    .turn.animated {
-        opacity: 0;
-        animation-name: popIn;
-        animation-duration: 0.5s;
-        animation-delay: var(--delay);
-        animation-fill-mode: forwards;
-    }
-
-    @keyframes popIn {
-        0% {
-            opacity: 0;
-            transform: scale(0);
-        }
-        25% {
-            transform: scaleY(0.25);
-        }
-        50% {
-            transform: scaleY(0.75);
-        }
-        80% {
-            opacity: 0;
-            transform: scale(1.1);
-        }
-        100% {
-            opacity: 1;
-            transform: scale(1);
-        }
     }
 
     nav {

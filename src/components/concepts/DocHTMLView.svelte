@@ -9,13 +9,18 @@
     import Example from '@nodes/Example';
     import ExampleUI from './ExampleUI.svelte';
     import type Spaces from '@parser/Spaces';
+    import { creator } from '../../db/Creator';
 
     export let doc: Doc;
     export let spaces: Spaces;
 </script>
 
-{#each doc.paragraphs as paragraph}
-    <p>
+{#each doc.paragraphs as paragraph, index}
+    <p
+        class="paragraph"
+        class:animated={$creator.getAnimationFactor() > 0}
+        style="--delay:{$creator.getAnimationDuration() * index * 0.5}ms"
+    >
         {#each paragraph.content as content, index}
             {#if content instanceof WebLink}
                 {#if content.url && content.description}
@@ -51,5 +56,29 @@
     }
     .extra {
         font-weight: 700;
+    }
+
+    .paragraph.animated {
+        transform: scaleY(0);
+        animation-name: pop;
+        animation-duration: 200ms;
+        animation-delay: var(--delay);
+        animation-fill-mode: forwards;
+        transform-origin: top;
+    }
+
+    @keyframes pop {
+        0% {
+            opacity: 0;
+            transform: scaleY(0);
+        }
+        80% {
+            opacity: 0.9;
+            transform: scaleY(1.05);
+        }
+        100% {
+            opacity: 1;
+            transform: scaleY(1);
+        }
     }
 </style>
