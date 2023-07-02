@@ -7,6 +7,7 @@
     import LayoutChooser from './LayoutChooser.svelte';
     import { page } from '$app/stores';
     import { goto } from '$app/navigation';
+    import { clickOutside } from '../app/clickOutside';
 
     let expanded = false;
 
@@ -31,7 +32,12 @@
 
 <svelte:window on:keydown={handleKey} />
 
-<div class="settings" class:expanded>
+<div
+    class="settings"
+    class:expanded
+    use:clickOutside
+    on:outclick={() => (expanded = false)}
+>
     <div class="controls">
         {#if PUBLIC_CONTEXT !== 'prod'}
             <div class="account" class:anonymous>
