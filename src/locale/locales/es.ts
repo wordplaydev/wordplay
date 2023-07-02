@@ -51,6 +51,8 @@ const eng_wordplay: Locale = {
         source: 'fuente',
         input: 'input',
         output: 'producción',
+        act: 'acto',
+        scene: 'escena',
         phrase: 'frase',
         group: 'grupo',
         verse: 'verso',

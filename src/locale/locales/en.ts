@@ -55,6 +55,8 @@ const en: Locale = {
         source: 'source',
         input: 'input',
         output: 'output',
+        act: 'act',
+        scene: 'scene',
         phrase: 'phrase',
         group: 'group',
         verse: 'verse',

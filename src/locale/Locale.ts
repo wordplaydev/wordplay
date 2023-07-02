@@ -226,6 +226,8 @@ type Locale = {
         source: string;
         input: string;
         output: string;
+        act: string;
+        scene: string;
         phrase: string;
         group: string;
         verse: string;

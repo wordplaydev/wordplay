@@ -174,11 +174,13 @@
                 <div class="title play">{$creator.getLocale().wordplay}</div>
             {:else if scene === undefined}
                 <div class="title act"
-                    >Act {progress.act}<p><em>{act.name}</em></p></div
+                    >{$creator.getLocale().terminology.act}
+                    {progress.act}<p><em>{act.name}</em></p></div
                 >
             {:else if dialog === undefined}
                 <div class="title scene"
-                    >Scene {progress.scene}<p><em>{scene.name}</em></p
+                    >{$creator.getLocale().terminology.scene}
+                    {progress.scene}<p><em>{scene.name}</em></p
                     >{#if scene.concept}<em>{scene.concept}</em>{/if}</div
                 >
             {:else}
@@ -310,11 +312,13 @@
     }
 
     .act {
+        text-transform: capitalize;
         font-size: 150%;
         text-align: center;
     }
 
     .scene {
+        text-transform: capitalize;
         font-size: 120%;
         text-align: center;
     }
