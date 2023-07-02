@@ -161,6 +161,37 @@
         on:keydown={handleKey}
         bind:this={view}
     >
+        <div class="turns">
+            {#if act === undefined}
+                <div class="title play">{$creator.getLocale().wordplay}</div>
+            {:else if scene === undefined}
+                <div class="title act"
+                    >Act {progress.act}<p><em>{act.name}</em></p></div
+                >
+            {:else if dialog === undefined}
+                <div class="title scene"
+                    >Scene {progress.scene}<p><em>{scene.name}</em></p
+                    >{#if scene.concept}<em>{scene.concept}</em>{/if}</div
+                >
+            {:else}
+                {#each turns as turn}
+                    <!-- First speaker is always function, alternating speakers are the concept we're learning about. -->
+                    <Speech
+                        glyph={$conceptsStore
+                            ?.getConceptByName(turn.dialog.concept)
+                            ?.getGlyphs($creator.getLanguages()) ?? {
+                            symbols: turn.dialog.concept,
+                        }}
+                        right={turn.dialog.concept === 'FunctionDefinition'}
+                        baseline
+                        scroll={false}
+                        emotion={turn.dialog.emotion}
+                    >
+                        <DocHtmlView doc={turn.speech} spaces={turn.spaces} />
+                    </Speech>
+                {/each}
+            {/if}
+        </div>
         <nav>
             <!-- <Button
                 tip={$creator.getLocale().ui.tooltip.previousLesson}
@@ -214,38 +245,6 @@
                 enabled={progress.nextPause() !== undefined}>&gt;</Button
             >
         </nav>
-        <div class="controls" />
-        <div class="turns">
-            {#if act === undefined}
-                <div class="title play">{$creator.getLocale().wordplay}</div>
-            {:else if scene === undefined}
-                <div class="title act"
-                    >Act {progress.act}<p><em>{act.name}</em></p></div
-                >
-            {:else if dialog === undefined}
-                <div class="title scene"
-                    >Scene {progress.scene}<p><em>{scene.name}</em></p
-                    >{#if scene.concept}<em>{scene.concept}</em>{/if}</div
-                >
-            {:else}
-                {#each turns as turn}
-                    <!-- First speaker is always function, alternating speakers are the concept we're learning about. -->
-                    <Speech
-                        glyph={$conceptsStore
-                            ?.getConceptByName(turn.dialog.concept)
-                            ?.getGlyphs($creator.getLanguages()) ?? {
-                            symbols: turn.dialog.concept,
-                        }}
-                        right={turn.dialog.concept === 'FunctionDefinition'}
-                        baseline
-                        scroll={false}
-                        emotion={turn.dialog.emotion}
-                    >
-                        <DocHtmlView doc={turn.speech} spaces={turn.spaces} />
-                    </Speech>
-                {/each}
-            {/if}
-        </div>
     </div>
     <!-- Create a new view from scratch when the code changes -->
     <!-- Autofocus the main editor if it's currently focused -->
@@ -355,15 +354,6 @@
         display: flex;
         flex-direction: row;
         flex-grow: 1;
-    }
-
-    .controls {
-        display: flex;
-        flex-direction: row;
-        width: 100%;
-        justify-items: last baseline;
-        align-items: center;
-        gap: var(--wordplay-spacing);
     }
 
     .progress {
