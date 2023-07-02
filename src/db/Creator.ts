@@ -283,11 +283,11 @@ export class Creator {
     }
 
     /** Create a project and return it's ID */
-    createProject(translation: Locale, uid: string | undefined) {
+    createProject(locale: Locale, uid: string | undefined) {
         const newProject = new Project(
             null,
             '',
-            new Source(translation.terminology.start, ''),
+            new Source(locale.terminology.start, ''),
             [],
             undefined,
             uid ? [uid] : []

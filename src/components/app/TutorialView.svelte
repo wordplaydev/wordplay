@@ -92,7 +92,10 @@
                       : act
                       ? act.name
                       : $creator.getLocale().wordplay,
-                  new Source('main', code.sources[0]),
+                  new Source(
+                      $creator.getLocale().terminology.start,
+                      code.sources[0]
+                  ),
                   code.sources
                       .slice(1)
                       .map((source, index) => new Source(`${index}`, source)),
