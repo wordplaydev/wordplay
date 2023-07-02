@@ -937,6 +937,14 @@
             )
         );
     }
+
+    function becomeEditable() {
+        const main = layout.getTileWithID(Layout.getSourceID(0));
+        if (main) {
+            toggleTile(main);
+            editable = true;
+        }
+    }
 </script>
 
 <svelte:head><title>Wordplay - {project.name}</title></svelte:head>
@@ -1007,6 +1015,12 @@
                         >
                             <svelte:fragment slot="extra">
                                 {#if tile.kind === Content.Output}
+                                    {#if !editable}<Button
+                                            tip={$creator.getLocale().ui.tooltip
+                                                .editProject}
+                                            action={() => becomeEditable()}
+                                            >✏️</Button
+                                        >{/if}
                                     {#if !$evaluation.evaluator.isPlaying()}<Painting
                                             bind:painting
                                         />{/if}<Button
