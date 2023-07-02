@@ -318,7 +318,6 @@
 
     .dialog {
         width: 30%;
-        padding: calc(2 * var(--wordplay-spacing));
         display: flex;
         flex-direction: column;
         gap: var(--wordplay-spacing);
@@ -336,6 +335,7 @@
     }
 
     nav {
+        padding: calc(2 * var(--wordplay-spacing));
         display: flex;
         flex-direction: row;
         gap: var(--wordplay-spacing);
@@ -348,6 +348,7 @@
     }
 
     .turns {
+        padding: var(--wordplay-spacing);
         flex-grow: 1;
         overflow: scroll;
         overflow-clip-margin: var(--wordplay-spacing);
