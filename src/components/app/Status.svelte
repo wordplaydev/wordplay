@@ -1,12 +1,12 @@
 <script lang="ts">
     import { SaveStatus } from '../../db/Creator';
-    import { creator } from '../../db/Creator';
+    import { status } from '../../db/Creator';
 </script>
 
-<div class="status {$creator.getSaveStatus()}">
-    {$creator.getSaveStatus() === SaveStatus.Saved
+<div class="status {$status}">
+    {$status === SaveStatus.Saved
         ? '✔'
-        : $creator.getSaveStatus() === SaveStatus.Saving
+        : $status === SaveStatus.Saving
         ? '…'
         : '⨉'}
 </div>

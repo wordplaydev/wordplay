@@ -122,7 +122,7 @@ export class Creator {
     >;
 
     /** The status of persisting the projects. */
-    private status: SaveStatus = SaveStatus.Saved;
+    private status: Writable<SaveStatus> = writable(SaveStatus.Saved);
 
     /** Debounce timer, used to clear pending requests. */
     private timer: NodeJS.Timer | undefined = undefined;
@@ -242,7 +242,7 @@ export class Creator {
         );
     }
 
-    getSaveStatus() {
+    getSaveStatusStore() {
         return this.status;
     }
 
@@ -427,10 +427,7 @@ export class Creator {
 
     /** Update the saving status and broadcast via the store. */
     setStatus(status: SaveStatus) {
-        this.status = status;
-
-        // Broadcast changes to all listeners.
-        this.configStore.set(this);
+        this.status.set(status);
     }
 
     /** Convert to an object suitable for JSON serialization */
@@ -626,3 +623,4 @@ export class Creator {
 const db = new Creator();
 export const creator = db.getConfigStore();
 export const projects = db.getProjectsStore();
+export const status = db.getSaveStatusStore();
