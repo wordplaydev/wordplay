@@ -246,6 +246,8 @@
         background: var(--wordplay-background);
         border-top: var(--wordplay-border-color) solid
             var(--wordplay-border-width);
+        border-bottom: var(--wordplay-border-color) solid
+            var(--wordplay-border-width);
         padding: var(--wordplay-spacing);
         display: flex;
         flex-direction: row;
