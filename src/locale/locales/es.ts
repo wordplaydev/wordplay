@@ -2235,6 +2235,10 @@ const eng_wordplay: Locale = {
             doc: WRITE_DOC,
             names: ['surgir'],
         },
+        shake: {
+            doc: WRITE_DOC,
+            names: ['agitar'],
+        },
     },
     tutorial: [],
 };

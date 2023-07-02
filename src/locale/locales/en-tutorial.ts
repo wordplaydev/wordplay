@@ -6095,7 +6095,7 @@ Phrase(“✈️”)`
                 name: 'Codependency',
                 concept: undefined,
                 program: output(
-                    `Phrase('😨' rest: Sequence({0%: Pose(offset: Place(0m 0m)) 25%: Pose(offset: Place(-.1m .1m)) 50%: Pose(offset: Place(.1m 0m)) 75%: Pose(offset: Place(-.1m 0.1m)) 100%: Pose(offset: Place(0m 0m)) } style: "linear"))`
+                    `Phrase('😨' rest: Sequence(shake() style: "linear"))`
                 ),
                 lines: [
                     symbol('😡'),

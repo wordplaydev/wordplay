@@ -2689,6 +2689,10 @@ const en: Locale = {
             doc: WRITE_DOC,
             names: ['popup'],
         },
+        shake: {
+            doc: WRITE_DOC,
+            names: ['shake'],
+        },
     },
     tutorial: tutorial,
 };

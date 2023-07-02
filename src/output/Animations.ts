@@ -90,4 +90,19 @@ export const Animations = [
 			}`)
         )
     ),
+    FunctionDefinition.make(
+        getDocLocales((t) => t.animation.shake.doc),
+        getNameLocales((t) => t.animation.shake.names),
+        undefined,
+        [],
+        parseExpression(
+            toTokens(`{
+                0%: Pose(offset: Place(0m 0m)) 
+                25%: Pose(offset: Place(-.1m .1m)) 
+                50%: Pose(offset: Place(.1m 0m)) 
+                75%: Pose(offset: Place(-.1m 0.1m)) 
+                100%: Pose(offset: Place(0m 0m)) 
+            }`)
+        )
+    ),
 ];

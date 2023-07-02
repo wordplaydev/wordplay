@@ -775,6 +775,7 @@ type Locale = {
         spin: NameAndDoc;
         fadein: NameAndDoc;
         popup: NameAndDoc;
+        shake: NameAndDoc;
     };
     tutorial: Tutorial;
 };
