@@ -120,7 +120,8 @@
     setContext<ProjectContext>(ProjectSymbol, projectStore);
     $: projectStore.set(project);
 
-    // Any time the project database changes for the current ID, update the project
+    // Any time the project database changes for the current ID, update the project.
+    // This is what allows us to persist any edits to the project.
     $: {
         if ($creator) {
             const proj = $projects.getProject(progress.getProjectID());
@@ -216,7 +217,7 @@
             <Button
                 tip={$creator.getLocale().ui.tooltip.previousLessonStep}
                 action={() => navigate(progress.previousPause() ?? progress)}
-                enabled={progress.previousPause() !== undefined}>&lt;</Button
+                enabled={progress.previousPause() !== undefined}>⇦</Button
             >
 
             <!-- A hierarchical select of tutorial units and lessons  -->
@@ -257,7 +258,7 @@
             <Button
                 tip={$creator.getLocale().ui.tooltip.nextLessonStep}
                 action={() => navigate(progress.nextPause() ?? progress)}
-                enabled={progress.nextPause() !== undefined}>&gt;</Button
+                enabled={progress.nextPause() !== undefined}>⇨</Button
             >
         </nav>
     </div>
