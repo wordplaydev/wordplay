@@ -342,7 +342,7 @@
     }
 
     nav {
-        padding: calc(2 * var(--wordplay-spacing));
+        padding: var(--wordplay-spacing);
         display: flex;
         flex-direction: row;
         gap: var(--wordplay-spacing);
