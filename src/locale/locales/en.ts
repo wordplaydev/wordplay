@@ -51,7 +51,7 @@ const en: Locale = {
         store: 'store',
         code: 'compute',
         decide: 'decide',
-        project: 'project',
+        project: 'performance',
         source: 'source',
         input: 'input',
         output: 'output',
@@ -516,7 +516,7 @@ const en: Locale = {
             emotion: Emotion.TBD,
             doc:
                 WRITE_DOC +
-                `Use a binding from another source file or project.`,
+                `Use a binding from another source file or performance.`,
             start: (source, name) =>
                 name === undefined && source === undefined
                     ? 'borrowing nothing'
@@ -2326,14 +2326,14 @@ const en: Locale = {
             forwardInput: 'forward one input',
             present: 'to the present',
             start: 'to the beginning',
-            reset: 'restart the evaluation of the project from the beginning.',
+            reset: 'restart the evaluation of the performance from the beginning.',
             home: 'return to the types menu',
             revert: 'revert to default',
             set: 'edit this property',
             fullscreen: 'fill the browser with this window',
             collapse: 'collapse window',
             expand: 'expand window',
-            close: 'close this project',
+            close: 'close this performance',
             language: 'change preferred languages',
             horizontal: 'switch to horizontal arrangement',
             vertical: 'switch to vertical arrangement',
@@ -2354,10 +2354,10 @@ const en: Locale = {
             animate: 'toggle animations on/off',
             addSource: 'create a new source',
             deleteSource: 'remove this source',
-            deleteProject: 'delete this project',
-            editProject: 'edit this project',
+            deleteProject: 'delete this performance',
+            editProject: 'edit this performance',
             settings: 'show settings',
-            newProject: 'new project',
+            newProject: 'new performance',
             dark: 'toggle dark mode on, off, and default',
             chooserExpand: 'expand/collapse',
             place: 'place output',
@@ -2391,11 +2391,11 @@ const en: Locale = {
         headers: {
             learn: 'Learn',
             editing: 'edit me!',
-            projects: 'Projects',
+            projects: 'Performances',
             examples: 'Examples',
         },
         section: {
-            project: 'project',
+            project: 'performance',
             conflicts: 'conflicts',
             timeline: 'timeline',
             toolbar: 'toolbar',
@@ -2404,13 +2404,13 @@ const en: Locale = {
             editor: 'code editor',
         },
         feedback: {
-            unknownProject: "There's no project with this ID.",
+            unknownProject: "There's no performance with this ID.",
         },
         login: {
             header: 'Login',
-            prompt: 'Log in to access your projects.',
+            prompt: 'Log in to access your performances.',
             anonymousPrompt:
-                'Your projects are saved on this device. Create an account to save them online.',
+                'Your performances are saved on this device. Create an account to save them online.',
             submit: 'send a login email',
             enterEmail:
                 "It looks like you're logging in on a different device. Can you enter your email again?",
