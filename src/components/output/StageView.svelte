@@ -812,7 +812,7 @@
     <div
         class="interactor"
         role="presentation"
-        on:pointerdown={(event) =>
+        on:pointerdown|stopPropagation={(event) =>
             interactive ? handlePointerDown(event) : null}
         on:pointerup={interactive ? handleMouseUp : null}
         on:pointermove={interactive ? handlePointerMove : null}
