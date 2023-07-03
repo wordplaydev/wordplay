@@ -3625,6 +3625,113 @@ const tutorial: Act[] = [
                 ],
             },
             {
+                name: 'Keeping moving',
+                concept: 'Motion',
+                program: output(
+                    `Motion(
+                        Phrase("🏀" 3m place: ◆ ? Place(0m 5m) ø) 
+                        vx: ◆ ? 0m/s ø
+                        vy: ◆ ? 0m/s ø
+                        vangle: ◆ ? 0°/s ø
+                    )`,
+                    false
+                ),
+                lines: [
+                    output(DarkVoid),
+                    // dialog('FunctionDefinition', Emotion.Excited, ``),
+                    // dialog('Motion', Emotion.Excited, ``),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Excited,
+                        `So far, all of the **streams** we've talked about are sequences of simple values, like @TextType or @MeasurementType.
+                    
+                    Some streams, however, can produce complex values.
+
+                    @Motion is one of the most interesting of those.
+                    `
+                    ),
+                    pause(),
+                    output(
+                        `Motion(
+                            Phrase("🏀" 3m place: ◆ ? Place(0m 5m) ø) 
+                        )`,
+                        false
+                    ),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Excited,
+                        `Here's the simplest way to use it.
+                        
+                        This creates a @Motion stream that starts with this @Phrase, but then has a place that is a @Conditional.
+                        
+                        Do you see the little @Initial? 
+                        That means "True if the performance has just started", so the @Conditional here means "If the performance has just started, start the ball at the place ⧼Place(0m 5m)⧽".
+                        
+                        Otherwise, it's @NoneLiteral, which tells the @Motion stream to keep moving the ball based on **gravity**.
+                        
+                        The ground is at ⧼0m⧽ on the y-axes`
+                    ),
+                    dialog('Motion', Emotion.Excited, `Woosh…`),
+                    pause(),
+                    output(
+                        `Motion(
+    Phrase("🏀" 3m place: ◆ ? Place(0m 5m) ø) 
+    vx: ◆ ? -5/s ø
+    vy: ◆ ? 5m/s ø
+    vangle: ◆ ? 30°/s ø
+)`,
+                        false
+                    ),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Excited,
+                        `But @Motion has many other tricks.
+
+                        For example, it can have initial velocities.
+
+                        This example makes the ball move left and up, spinning a bit initially.
+                        `
+                    ),
+                    dialog('Motion', Emotion.Excited, `Woooosh…`),
+                    pause(),
+                    output(
+                        `Motion(
+    Phrase("🏀" 3m place: ◆ ? Place(0m 5m) ø) 
+    vx: ◆ ? -5m/s ø
+    vy: ◆ ? 5m/s ø
+    vangle: ◆ ? 30°/s ø
+    gravity: 200m/s^2
+)`,
+                        false
+                    ),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Excited,
+                        `You can even change gravity to be really extreme.
+
+                        Try changing it to be like the moon, where gravity is really low!
+                        `
+                    ),
+                    dialog('Motion', Emotion.Excited, `Wsh…`),
+                    pause(),
+                    output(
+                        `Motion(
+    Phrase("🏀" 3m place: ◆ ? Place(0m 5m) ø) 
+    vy: ◆ ? 50m/s ø
+)`,
+                        false
+                    ),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Excited,
+                        `There are a lot of fun things you can do with a @Motion stream!
+
+                        Maybe you already have some ideas...
+                        `
+                    ),
+                ],
+            },
+            {
                 name: 'On cue',
                 concept: 'Reaction',
                 program: output("Phrase('…')"),
