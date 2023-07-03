@@ -943,7 +943,7 @@
 <main class="project" bind:this={view}>
     <div
         class="canvas"
-        on:pointerdown={handlePointerDown}
+        on:pointerdown|preventDefault|stopPropagation={handlePointerDown}
         on:pointerup={handlePointerUp}
         on:pointermove={handlePointerMove}
         on:transitionend={repositionFloaters}
