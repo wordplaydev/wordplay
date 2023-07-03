@@ -239,11 +239,11 @@ const en: Locale = {
                 That's what I do. Just a little slash, and a couple letters, and no one will ever be confused about what language some text is in.
                 For example, let's say you wanted to say my name, but make it clear I'm in English:
                 
-                ("Language"/en)
+                ⧼"Language"/en⧽
                 
                 Or, suppose you wanted to do this for a @Name.
 
-                (sound/en: "meow")
+                ⧼sound/en: "meow"⧽
 
                 Or even @Doc!
 
@@ -382,14 +382,14 @@ const en: Locale = {
                 I'm s excited to tell you about this!
                 One value, many names. For example:
 
-                (joe,tess,amy: 5)
+                ⧼joe,tess,amy: 5⧽
 
                 See what I did there? 
                 One value, three names.
                 You can refer to that five by *any* of those names.
                 This is especially when you want to give names in many languages:
 
-                (joe/en,aimee/fr,明/zh: 5)
+                ⧼joe/en,aimee/fr,明/zh: 5⧽
 
                 See what I did *there*? 
                 Three names for one value, just in different languages!
@@ -398,7 +398,7 @@ const en: Locale = {
                 Did you know that you can tell me what kind of value a name should have, and if it doesn't have it, I will tell you?
                 Like this:
 
-                (bignumber•#: "one zillion")
+                ⧼bignumber•#: "one zillion"⧽
 
                 See, I said (bignumber) should be a number, but it's text, and those aren't compatible and so BOOM!
                 I'll let you know if they disagree.
