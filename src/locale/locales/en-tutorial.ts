@@ -3687,7 +3687,7 @@ const tutorial: Act[] = [
                         Emotion.Excited,
                         `But @Motion has many other tricks.
 
-                        For example, it can have initial velocities.
+                        For example, it can have initial velocities, @Motion/vx, @Motion/vy, @Motion/vz, and @Motion/vangle.
 
                         This example makes the ball move left and up, spinning a bit initially.
                         `
@@ -3707,9 +3707,11 @@ const tutorial: Act[] = [
                     dialog(
                         'FunctionDefinition',
                         Emotion.Excited,
-                        `You can even change gravity to be really extreme.
+                        `You can even change @Motion/gravity to be really extreme.
 
                         Try changing it to be like the moon, where gravity is really low!
+
+                        Or try changing @Motion/mass or @Motion/bounciness, which affects how @Phrase bounce.
                         `
                     ),
                     dialog('Motion', Emotion.Excited, `Wsh…`),

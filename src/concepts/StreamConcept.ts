@@ -11,6 +11,7 @@ import type StreamDefinition from '../nodes/StreamDefinition';
 import Emotion from '../lore/Emotion';
 import type Doc from '../nodes/Doc';
 import type Spaces from '../parser/Spaces';
+import BindConcept from './BindConcept';
 
 export default class StreamConcept extends Concept {
     /** The type this concept represents. */
@@ -18,6 +19,9 @@ export default class StreamConcept extends Concept {
 
     /** A derived reference to the stream */
     readonly reference: Reference;
+
+    /** Bind concepts */
+    readonly inputs: BindConcept[];
 
     constructor(
         stream: StreamDefinition,
@@ -30,6 +34,10 @@ export default class StreamConcept extends Concept {
         this.reference = Reference.make(
             stream.names.getLocaleText(languages),
             this.definition
+        );
+
+        this.inputs = this.definition.inputs.map(
+            (bind) => new BindConcept(Purpose.Input, bind, languages, context)
         );
     }
 
@@ -76,7 +84,7 @@ export default class StreamConcept extends Concept {
     }
 
     getSubConcepts(): Set<Concept> {
-        return new Set();
+        return new Set(this.inputs);
     }
 
     equals(concept: Concept) {
