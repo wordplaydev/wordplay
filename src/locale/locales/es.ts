@@ -47,7 +47,7 @@ const eng_wordplay: Locale = {
         store: 'datos',
         decide: 'decidir',
         code: 'código',
-        project: 'proyecto',
+        project: 'función',
         source: 'fuente',
         input: 'input',
         output: 'producción',
@@ -1958,11 +1958,11 @@ const eng_wordplay: Locale = {
         headers: {
             learn: WRITE_DOC,
             editing: '¡edítame!',
-            projects: 'Proyectos',
+            projects: 'Funcións',
             examples: 'ejemplos',
         },
         section: {
-            project: 'proyecto',
+            project: 'función',
             conflicts: 'conflictos',
             timeline: 'línea de tiempo',
             toolbar: 'herramientas',
