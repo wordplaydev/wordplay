@@ -6845,7 +6845,8 @@ Phrase(“✈️”)`
                     dialog(
                         'FunctionDefinition',
                         Emotion.Eager,
-                        `Of course. A ⧼move⧽ function, coming right up. I'll start it, you finish it…`
+                        `Of course. 
+                        A ⧼move⧽ function, coming right up. I'll start it, you finish it…`
                     ),
                     edit(EvaluateDance[9]),
                     pause(),
@@ -6895,33 +6896,60 @@ Phrase(“✈️”)`
                         Emotion.Excited,
                         `We're dancing! We're really dancing. We did it!`
                     ),
-                    dialog('ListType', Emotion.Kind, `1, 2, 3, 1, 2, 3`),
-                    dialog('BooleanType', Emotion.Precise, `Move!`),
-                    dialog('TextType', Emotion.Happy, `Elation!`),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Kind,
+                        `We just forgot one person...`
+                    ),
+                    dialog('Evaluate', Emotion.Excited, `Who?`),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Kind,
+                        `Our director!
+                        They should get to dance with us.`
+                    ),
+                    pause(),
+                    dialog(
+                        'Evaluate',
+                        Emotion.Excited,
+                        `Oh yes, of course!
+                        
+                        How about we let them make the music?
+                        
+                        @Phrase, can you listen to @Mic, and hook it up to @Color/lightnes and @Color/chroma in your @Phrase/color?
+                        
+                        That way, we're turn turn white hot when our director makes noise!`
+                    ),
+                    dialog('Phrase', Emotion.Kind, `Excellent idea!`),
+                    edit(EvaluateDance[13]),
+                    pause(),
+                    output(EvaluateDance[13]),
+                    dialog('ListType', Emotion.Excited, `1, 2, 3, 1, 2, 3`),
+                    dialog('BooleanType', Emotion.Excited, `Move!`),
+                    dialog('TextType', Emotion.Excited, `Elation!`),
                     dialog(
                         'Conditional',
-                        Emotion.Curious,
+                        Emotion.Excited,
                         `What is dancing, really?`
                     ),
-                    dialog('Changed', Emotion.Happy, `Boom, boom, boom`),
+                    dialog('Changed', Emotion.Excited, `Boom, boom, boom`),
                     dialog(
                         'MeasurementType',
-                        Emotion.Serious,
+                        Emotion.Excited,
                         `left 5 degrees, up 1 meter`
                     ),
-                    dialog('Phrase', Emotion.Kind, `Marvelous!`),
-                    dialog('Sequence', Emotion.Happy, `The feeling!`),
-                    dialog('Group', Emotion.Kind, `Together now!`),
-                    dialog('Stage', Emotion.Serious, `BOOM BOOM BOOM`),
-                    dialog('NoneType', Emotion.Serious, `…`),
+                    dialog('Phrase', Emotion.Excited, `Marvelous!`),
+                    dialog('Sequence', Emotion.Excited, `The feeling!`),
+                    dialog('Group', Emotion.Excited, `Together now!`),
+                    dialog('Stage', Emotion.Excited, `BOOM BOOM BOOM`),
+                    dialog('NoneType', Emotion.Excited, `…`),
                     dialog(
                         'StructureDefinition',
-                        Emotion.Kind,
+                        Emotion.Excited,
                         `Remember to move!`
                     ),
-                    dialog('Bind', Emotion.Happy, `Characters!`),
+                    dialog('Bind', Emotion.Excited, `Characters!`),
                     pause(),
-                    output(EvaluateDance[12]),
                     dialog(
                         'FunctionDefinition',
                         Emotion.Kind,

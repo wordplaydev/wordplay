@@ -373,4 +373,42 @@ Stage([
   )]
   background:Color(0% 0 0°)
 )`,
+
+    `•Character(glyph•"" place•Place rotation•#°) (
+  ƒ move()
+    Character(
+     glyph
+     Place(place.x + (Random(-1 1) · 1m) place.y + (Random(-1 1) · 1m) Random(-3 3) ·1m)
+     Random(-45 45) · 1°
+    )
+)
+
+initial•[Character]: 
+  [ "()" "⊤" "⊥" "''" "#" "[]" "{}" "{:}" "?" "→" "//" ":" "ƒ" "•"].
+    translate(ƒ(glyph•"") 
+      Character(
+        glyph 
+        Place(Random() · 10m Random() · 10m Random(-3 3) ·1m) 
+        0°)
+      )
+
+characters•[Character]: initial … ∆ Time(750ms) … characters.translate(ƒ (c•Character) c.move())
+
+Stage([
+  Group(
+    Free()
+    characters.translate(ƒ(char•Character)
+      Phrase(
+        char.glyph
+        size: 3m
+        rotation: char.rotation
+        place: char.place
+        rest: Pose(color:Color(Mic()·1% Mic() 0°))
+        move: Pose()
+        duration: 0.5s
+      )
+    )
+  )]
+  background:Color(0% 0 0°)
+`,
 ];
