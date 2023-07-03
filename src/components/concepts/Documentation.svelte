@@ -34,7 +34,7 @@
 
     export let project: Project;
 
-    let palette: HTMLElement | undefined;
+    let view: HTMLElement | undefined;
 
     /**
      * The palette is hybrid documentation/drag and drop palette, organized by types.
@@ -57,9 +57,9 @@
     $: setContext('context', project.getContext(project.main));
 
     async function scrollToTop() {
-        if (palette) {
+        if (view) {
             await tick();
-            palette.scrollTop = 0;
+            view.scrollTop = 0;
         }
     }
 
@@ -73,7 +73,7 @@
     }
 
     function handlePointerDown(event: PointerEvent) {
-        palette?.focus();
+        view?.focus();
 
         if (event.buttons !== 1) return;
 
@@ -167,7 +167,7 @@
     aria-label={$creator.getLocale().ui.section.palette}
     on:pointerdown={handlePointerDown}
     on:pointerup={handleDrop}
-    bind:this={palette}
+    bind:this={view}
 >
     <div class="header">
         <TextField placeholder={'🔍'} bind:text={query} fill defaultFocus />
