@@ -298,9 +298,11 @@
         {/if}
     {/key}
 </section>
-{#each highlights as highlight}
-    <TutorialHighlight id={highlight} />
-{/each}
+{#key highlights}
+    {#each highlights as highlight}
+        <TutorialHighlight id={highlight} />
+    {/each}
+{/key}
 
 <style>
     .tutorial {

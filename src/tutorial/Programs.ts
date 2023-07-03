@@ -1,5 +1,24 @@
 export const DarkVoid = `Stage([] background: Color(0% 0 0°))`;
 
+export const PrimitiveJiggle = `
+letters: ['""' '?' '#' 'ø']
+
+seconds: Time(1000ms)
+
+Group(
+    Grid(2 2 0.25m 1m 1m) 
+    letters.translate(
+        ƒ (letter•"" index•#) 
+            Phrase(
+                letter 
+                enter: Pose(opacity: 0 scale: 2)
+                rest: Sequence(sway() duration:0.25s)
+                duration: 0.5s
+            )
+    )
+)
+`;
+
 export const FlyIn = (symbol: string) =>
     `z•#m: 25m … ∆ Time(30ms) … z > 0m ? z - 1m 0m
     Phrase('${symbol}' place:Place(0m 0m z) duration:0.5s)`;

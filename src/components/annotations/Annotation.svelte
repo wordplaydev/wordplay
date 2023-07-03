@@ -49,7 +49,7 @@
     >
         {#each annotations as annotation}
             <div
-                class={`annotation ${annotation.kind}`}
+                class={`annotation conflict ${annotation.kind}`}
                 data-annotationid={id}
                 transition:fade|local={{
                     duration: $creator.getAnimationDuration(),

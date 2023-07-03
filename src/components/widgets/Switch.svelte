@@ -5,9 +5,10 @@
     export let onLabel: string;
     export let offTip: string;
     export let onTip: string;
+    export let classes: string | undefined = undefined;
 </script>
 
-<span class="switch">
+<span class="switch {classes ?? ''}">
     <span
         class={`button off ${on ? 'inactive' : 'active'}`}
         role="button"

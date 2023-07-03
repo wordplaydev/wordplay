@@ -1000,6 +1000,7 @@
                             <svelte:fragment slot="extra">
                                 {#if tile.kind === Content.Output}
                                     {#if !editable}<Button
+                                            classes="editProject"
                                             tip={$creator.getLocale().ui.tooltip
                                                 .editProject}
                                             action={() => becomeEditable()}

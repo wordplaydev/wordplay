@@ -24,6 +24,7 @@
     onTip={$creator.getLocale().ui.tooltip.play}
     offLabel="⏸️"
     onLabel="▶️"
+    classes="playToggle"
 />
 <Button
     tip={$creator.getLocale().ui.tooltip.start}

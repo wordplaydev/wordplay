@@ -1384,7 +1384,7 @@ const en: Locale = {
                 },
                 not: {
                     doc: WRITE_DOC,
-                    name: NOT_SYMBOL,
+                    name: [NOT_SYMBOL, 'not'],
                     inputs: [],
                 },
                 equals: {

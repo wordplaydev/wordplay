@@ -119,6 +119,9 @@ const GlyphSet = {
     BooleanLiteral: {
         symbols: TRUE_SYMBOL + FALSE_SYMBOL,
     },
+    BooleanType: {
+        symbols: TRUE_SYMBOL + FALSE_SYMBOL,
+    },
     None: {
         symbols: NONE_SYMBOL,
     },
@@ -179,7 +182,7 @@ const GlyphSet = {
     },
     // Documentation
     Doc: {
-        symbols: DOCS_SYMBOL,
+        symbols: DOCS_SYMBOL + DOCS_SYMBOL,
     },
     Link: {
         symbols: LINK_SYMBOL,

@@ -58,7 +58,7 @@
     }
 </script>
 
-<section class:expanded>
+<section class:expanded class="directory">
     <TextField placeholder="🔍" bind:text={query} />
     <div class="matches">
         {#each query === '' ? defaults : results as glyph}<span

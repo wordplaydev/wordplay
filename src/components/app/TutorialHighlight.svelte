@@ -40,6 +40,8 @@
         left: 0;
         top: 0;
         transform: translate(-50%, -50%);
+        z-index: 2;
+        pointer-events: none;
     }
 
     @keyframes glow {

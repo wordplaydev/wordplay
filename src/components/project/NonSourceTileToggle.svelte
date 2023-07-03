@@ -10,6 +10,7 @@
 </script>
 
 <Button
+    classes="{tile.id}Expand"
     tip={`${$creator.getLocale().ui.tooltip.expand} ${tile.name}`}
     action={() => dispatch('toggle')}
     ><span class="name" class:collapsed={tile.isCollapsed()}>{tile.name}</span

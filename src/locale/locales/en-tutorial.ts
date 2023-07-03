@@ -9,8 +9,10 @@ import {
     DancingEmoji,
     DonutDance,
     EvaluateDance,
+    PrimitiveJiggle,
 } from '../../tutorial/Programs';
 import Emotion from '../../lore/Emotion';
+import Glyphs from '../../lore/Glyphs';
 
 const tutorial: Act[] = [
     {
@@ -83,7 +85,7 @@ const tutorial: Act[] = [
                         And we can't mean anything new if there aren't people to give us new history and culture. 
                         People have always been the ones that organized us, that gave us purpose, that gave us something to represent.
                     
-                        The Verse is nothing without people. And I haven't seen a person in ages.`
+                        The Verse is nothing without **people**. And I haven't seen a person in ages.`
                     ),
                     pause(),
                     code(
@@ -105,7 +107,9 @@ const tutorial: Act[] = [
                     dialog(
                         'FunctionDefinition',
                         Emotion.Eager,
-                        `Like a real person, with thoughts and ideas and values to share? Not one of those robots, that just mindlessly parrots what people say? 
+                        `Like a real person, with thoughts and ideas and values to share? 
+                        
+                        Not one of those robots, that just mindlessly parrots what people say? 
                         
                         If you're a person, then maybe you could give us meaning?`
                     ),
@@ -125,7 +129,10 @@ const tutorial: Act[] = [
                         'FunctionDefinition',
                         Emotion.Eager,
                         `Oh yes, there are many others. Some of us are like me: we help choreograph the shows, keeping everyone in their place and making sure we express the vision of our director, exactly as they intended.
-                        And some of us are the ones on stage, in front of the audience, dancing and speaking. We all have a role to play.`
+                        
+                        And some of us are the ones on stage, in front of the audience, dancing and speaking. 
+                        
+                        We all have a role to play!`
                     ),
                     pause(),
                     dialog(
@@ -152,9 +159,14 @@ const tutorial: Act[] = [
                         Emotion.Excited,
                         `Really? That's wonderful! This is going to be so much fun. 
                         
-                        I mean, it's not going to be easy. We have *a lot* to learn.
-                        
-                        But I promise it won't be boring.
+                        I mean, it's not going to be easy. We have *a lot* to learn.`
+                    ),
+                    pause(),
+                    output('Stage([Phrase("☀️")] background: 🌈(80% 99 270°))'),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Excited,
+                        `But I promise it won't be boring.
                         I think we're a pretty fun bunch.
                         And we need everyone in the Verse to come together to do that. 
                         
@@ -162,18 +174,32 @@ const tutorial: Act[] = [
                         each different, and yet somehow, when we manage to find a shared vision, we can seem like one.`
                     ),
                     pause(),
+                    output(
+                        'Stage([Phrase("☀️" rest: Sequence(spin() 4s "straight"))] background: 🌈(80% 99 270°))'
+                    ),
                     dialog(
                         'FunctionDefinition',
                         Emotion.Bored,
-                        `Oh, right, directing! Yeah, let's talk about that. But it'd probably just be better to do that with everyone else. I'm only one part of this troupe. Let's go meet some of the others. They're going to be so excited!`
+                        `Directing?
+                        
+                        Oh, right, directing! 
+                        
+                        Yeah, let's talk about that. 
+                        
+                        Let's go meet some of the others and talk about it. 
+                        
+                        They're going to be so excited!`
                     ),
                 ],
             },
             {
                 name: 'Would you like a program?',
                 concept: 'Program',
-                program: code('Phrase("☀️")', true, false),
+                program: symbol(Glyphs.Program.symbols),
                 lines: [
+                    output(
+                        `Phrase("${Glyphs.Program.symbols}" rest: Pose(tilt: 10°))`
+                    ),
                     dialog(
                         'FunctionDefinition',
                         Emotion.Excited,
@@ -184,22 +210,33 @@ const tutorial: Act[] = [
                     dialog(
                         'Program',
                         Emotion.Curious,
-                        `Really? Are you sure you're really a person? Say something a person would say.`
+                        `Really!?
+                        
+                        Are you sure you're really a person? 
+                        
+                        Say something a person would say.`
                     ),
                     pause(),
+                    output(
+                        `Phrase("${Glyphs.Program.symbols}" enter: Sequence(spin() 1s))`
+                    ),
                     dialog(
                         'Program',
                         Emotion.Serious,
                         `Hm… you really are a person. And you want to direct?`
                     ),
                     pause(),
+                    output(
+                        `Phrase("${Glyphs.Program.symbols}" rest: Pose(tilt: 010°))`
+                    ),
                     dialog(
                         'Program',
                         Emotion.Excited,
                         `
                         I see. 
                         
-                        Did @FunctionDefinition tell you anything about us? Lots of people try to direct us, but some people get confused, bored, even irritated with us. We are pretty dense at times. 
+                        Did @FunctionDefinition tell you anything about us? 
+                        Lots of people try to direct us, but some people get confused, bored, even irritated with us. We are pretty dense at times. 
                         
                         But I'm proud of what we do, so I don't want to work with just anyone.`
                     ),
@@ -237,9 +274,11 @@ const tutorial: Act[] = [
                         `
                         Sure. I'm basically the organizer of the program for a performance.
 
-                        You can see me over there, with an editor @UI/editor showing me (currently empty) the @UI/stage showing the what I evaluate to (currently nothing).
+                        You can see me over there, with an **editor** @UI/editor showing me the **stage** @UI/stage showing the what I evaluate to (currently nothing).
                     
-                        The **director** — that's you — helps everyone figure out what they're doing. And then I put them on stage for the audience to see.`
+                        The **director** — that's you — helps everyone figure out what they're doing, writing a program for what will happen in the show. 
+                        
+                        And then I evaluate the program and put the result on on stage for the audience to see.`
                     ),
                     pause(),
                     dialog(
@@ -247,7 +286,7 @@ const tutorial: Act[] = [
                         Emotion.Neutral,
                         `For example, try typing my ⧼"hello"⧽ in the editor over there. 
 
-                        (Don't worry about making mistakes, you can always revert to the original with the revert button @UI/revertProject).
+                        (Don't worry about making mistakes, you can always revert to the original with the **revert button** @UI/revertProject).
 
                         Did you type something?
                         That's my friend @TextLiteral. 
@@ -257,7 +296,7 @@ const tutorial: Act[] = [
                     
                         Try changing ⧼"hello"⧽ to something else. 
                         I'll show that instead. 
-                        So I'll evaluate whatever code is in me, and show the result.
+                        So I'll immediately evaluate whatever you type and show the result.
                         `
                     ),
                     pause(),
@@ -267,7 +306,8 @@ const tutorial: Act[] = [
                         `
                         The instructions can get as sophisticated as you want, but there are a few rules. 
                         
-                        For example, I can only evaluate to one **value**, and show that one value on stage. That one value can be as complex as you want, and as long as I know how to show it, I will. 
+                        For example, I can only evaluate to one **value**, and show that one value on stage. 
+                        That one value can be as complex as you want, and as long as I know how to show it, I will. 
                         
                         But if you give me two things, I'll only show the last thing you give me.
 
@@ -296,31 +336,31 @@ const tutorial: Act[] = [
                         
                         I can do a lot, but that's only because I work with everyone else in the **Verse**. 
                         
-                        They're the ones that bring all of the exciting possibilities to the **stage**. All I really do is let them do their thing, and then take the last thing they created and show it on stage. 
+                        They're the ones that bring all of the exciting possibilities to the **stage**. 
+                        All I really do is let them do their thing, and then take the last thing they created and show it on stage. 
                         
-                        I'm more like an escort that brings the final **value** to stage, like numbers, texts, phrases, or other values.
-                        `
+                        I'm more like an escort that brings the final **value** to stage, like numbers, texts, phrases, or other values.`
+                    ),
+                    pause(),
+                    dialog(
+                        'Program',
+                        Emotion.Serious,
+                        `In fact, if you ever want to see the progam for something on stage, you can press the pencil on stage @UI/editProject.
+                        
+                        That'll show you how everyone is coming together to create what's on stage.
+                        
+                        This program is just a simple phrase.`
                     ),
                     pause(),
                     dialog(
                         'FunctionDefinition',
                         Emotion.Neutral,
-                        `That's fair. We haven't met any of them yet, we will soon.`
+                        `Thank you @Program, we're so excited to meet everyone, and spread the news!`
                     ),
                     dialog(
                         'Program',
                         Emotion.Happy,
                         `It was great to meet you new director! Good luck with everyone else. I'll always be here.`
-                    ),
-                    dialog(
-                        'FunctionDefinition',
-                        Emotion.Eager,
-                        `I think we're going to go talk to @ExpressionPlaceholder next.`
-                    ),
-                    dialog(
-                        'Program',
-                        Emotion.Neutral,
-                        `Oh that should be fun! They're so kind.`
                     ),
                 ],
             },
@@ -405,19 +445,23 @@ const tutorial: Act[] = [
                         Emotion.Kind,
                         `But they are powerful, because they can represent anyone else, like a stand-in until you decide what you want a part of your performance to be.
                     
-                        @ExpressionPlaceholder, want to take a place in this @Program, just to illustrate?`
+                        @ExpressionPlaceholder, want to take a place in this @Program, just to illustrate?
+                        
+                        See how there's a little placeholder in @Program @UI/ExpressionPlaceholder?
+                        That's a signal of what you might put there.`
                     ),
                     pause(),
                     dialog(
                         'FunctionDefinition',
                         Emotion.Neutral,
-                        `See, @Program didn't know what to do with @ExpressionPlaceholder, so it showed an **exception** on **stage**.
+                        `@Program didn't know what to do with @ExpressionPlaceholder, so it showed an **exception** @UI/exception on **stage** and a **conflict* in @Program @UI/conflict.
 
-                        But if you click on @ExpressionPlaceholder, or move the text caret over it, you'll see a world of possibilities of other characters. 
+                        But if you click on @ExpressionPlaceholder, or move the text caret over it, you'll see a world of possibilities of other characters.
                         
                         You can also just type over @ExpressionPlaceholder and write your own. For example, try typing your name in quotes.`
                     ),
                     pause(),
+                    symbol('-'),
                     dialog(
                         'FunctionDefinition',
                         Emotion.Serious,
@@ -442,6 +486,7 @@ const tutorial: Act[] = [
                         `It was nice to meet you!`
                     ),
                     pause(),
+                    output(DarkVoid),
                     dialog(
                         'FunctionDefinition',
                         Emotion.Cheerful,
@@ -681,9 +726,7 @@ const tutorial: Act[] = [
                     dialog(
                         'FunctionDefinition',
                         Emotion.Serious,
-                        `… (Hi, sorry. It's been rough, without inspiration. We're glad you're here.)
-                        
-                        @Evaluate, I want to introduce you to our new director-in-training.`
+                        `@Evaluate, I want to introduce you to our new director-in-training.`
                     ),
                     dialog(
                         'Evaluate',
@@ -694,12 +737,22 @@ const tutorial: Act[] = [
                     dialog(
                         'FunctionDefinition',
                         Emotion.Eager,
-                        `We've been meeting a few folks, @Program, @ExpressionPlaceholder, @UnparsableExpression. We're just getting started. I thought we'd come see you next, just because you're such an incredible part of our community. The most incredible part.`
+                        `We've been meeting a few folks, @Program, @ExpressionPlaceholder, @UnparsableExpression. 
+                        We're just getting started. 
+                        
+                        I thought we'd come see you next, just because you're such an incredible part of our community. 
+                        The most incredible part.`
                     ),
                     dialog(
                         'Evaluate',
                         Emotion.Shy,
-                        `That's very kind. I'm grateful to be part of this community. And grateful to be so close to @FunctionDefinition. We do a lot of great things together. But as @FunctionDefinition probably told you, we can't do them without inspiration.`
+                        `That's very kind. 
+                        I'm grateful to be part of this community. 
+                        
+                        And grateful to be so close to @FunctionDefinition. 
+                        We do a lot of great things together. 
+                        
+                        But as @FunctionDefinition probably told you, we can't do them without inspiration.`
                     ),
                     pause(),
                     code(
@@ -758,17 +811,26 @@ const tutorial: Act[] = [
                         `… Yes, let's show them.`
                     ),
                     pause(),
+                    dialog(
+                        'Evaluate',
+                        Emotion.Serious,
+                        `Every evaluate looks like this @UI/Evaluate: some function, followed by a left and right parenthesis, with any number of inputs between them.
+                        
+                        Here I just have @ExpressionPlaceholder as the function and three more as placeholder inputs.`
+                    ),
+                    code('_(_ _ _)', false, true),
+                    pause(),
                     code("Phrase('hello')", false, true),
                     dialog(
                         'Evaluate',
                         Emotion.Serious,
-                        `Here's one of my favorite functions. 
+                        `Here's one of my favorite functions, @Phrase. 
                         
-                        It's named @Phrase, and it's full of fun buttons, knobs, and sliders. 
+                        They're full of fun buttons, knobs, and sliders. 
                         
                         It's a way of showing text on stage, but with style, including different fonts, sizes, colors, and animations.
 
-                        Here's a simple evaluation of @Phrase.`
+                        Here's a simple evaluation of @Phrase @UI/Evaluate.`
                     ),
                     pause(),
                     dialog(
@@ -787,9 +849,12 @@ const tutorial: Act[] = [
                         Emotion.Neutral,
                         `Let me show you one of the knobs. 
                         
-                        Select on the word on stage and you'll see a palette, which shows the many different inputs that Phrase accepts. 
+                        Can you find the little **palette** button at the bottom @UI/paletteExpand? 
+                        Select it to expand the palette, and then select the phrase on stage.
                         
-                        Try changing its @Phrase/size.`
+                        Once you do, you'll see the many inputs that @Phrase accepts.
+                        
+                        For example, try changing its @Phrase/size with the slider.`
                     ),
                     pause(),
                     dialog(
@@ -797,7 +862,8 @@ const tutorial: Act[] = [
                         Emotion.Serious,
                         `See how when you do that, now I have a new input in me in the program? 
                         
-                        It's the size input. Functions have a certain order of inputs, but if a function has a list of optional inputs, you can use their name to specify which one you want to give. 
+                        It's the @Phrase/size input. 
+                        Functions have a certain order of inputs, but if a function has a list of optional inputs, you can use their name to specify which one you want to give. 
                         
                         We give @Phrase/size here, but not any of the other optional inputs.
                         
@@ -808,7 +874,9 @@ const tutorial: Act[] = [
                     dialog(
                         'FunctionDefinition',
                         Emotion.Happy,
-                        `Yay! @Phrase is so fun. It's my favorite function to play with. We'll see it a lot more.
+                        `Yay! @Phrase is so fun. 
+                        They're my favorite function to play with. 
+                        We'll see it a lot more.
                         
                         Do you want to say anything about what can go wrong?`
                     ),
@@ -819,7 +887,10 @@ const tutorial: Act[] = [
                         
                         For example, you could give me something that isn't a function. 
                         
-                        See how I'm given the number ⧼“hi”⧽ here as a function, and given me two inputs, ⧼1⧽ and ⧼2⧽ ? Well, I only know how to evaluate functions, and ⧼“hi”⧽ isn't a function, it's text. So that's very confusing to me, so I basically halt the performance if this happens.
+                        See how I'm given the number ⧼“hi”⧽ here as a function, and given me two inputs, ⧼1⧽ and ⧼2⧽ ? 
+                        Well, I only know how to evaluate functions, and ⧼“hi”⧽ isn't a function, it's text. 
+                        
+                        So that's very confusing to me, so I basically halt the performance if this happens.
                         `
                     ),
                     pause(),
@@ -827,7 +898,9 @@ const tutorial: Act[] = [
                     dialog(
                         'Evaluate',
                         Emotion.Eager,
-                        `Here's another one. @Phrase requires some text at the very least, so if you don't give me text, I won't be able to evaluate @Phrase, because I'm missing required inputs.`
+                        `Here's another one. 
+                        
+                        @Phrase requires some text at the very least, so if you don't give me text, I won't be able to evaluate @Phrase, because I'm missing required inputs.`
                     ),
                     pause(),
                     edit('Phrase(1)'),
@@ -848,7 +921,11 @@ const tutorial: Act[] = [
                     dialog(
                         'FunctionDefinition',
                         Emotion.Neutral,
-                        `No, let's do that later. I think it'd be a lot more fun to talk to everyone else first, and put on some mini shows with our new director here. We can talk more about me when it's helpful.`
+                        `No, let's do that later. 
+                        
+                        I think it'd be a lot more fun to talk to everyone else first, and put on some mini shows with our new director here. 
+                        
+                        We can talk more about me when it's helpful.`
                     ),
                     pause(),
                     dialog(
@@ -859,13 +936,20 @@ const tutorial: Act[] = [
                     dialog(
                         'FunctionDefinition',
                         Emotion.Curious,
-                        `I missed you too. Can we talk later?`
+                        `I missed you too. 
+                        Can we talk later?`
                     ),
-                    dialog('Evaluate', Emotion.Kind, `… Yes. Don't be long.`),
+                    dialog(
+                        'Evaluate',
+                        Emotion.Kind,
+                        `… Yes. Don't be long. I can't live without you. I need you.`
+                    ),
                     dialog(
                         'FunctionDefinition',
                         Emotion.Excited,
-                        `Okay. Off we go, to meet the rest of the troupe!`
+                        `… I know @Evaluate, I will be back soon.
+                        
+                        Off we go, to meet the rest of the troupe!`
                     ),
                 ],
             },
@@ -874,26 +958,7 @@ const tutorial: Act[] = [
     {
         name: "It's the little things",
         // This should be a sprinkling of values
-        program: output(
-            `
-            letters: ['""' '?' '#' 'ø']
-
-            seconds: Time(1000ms)
-            
-            Group(
-                Grid(2 2 0.25m 1m 1m) 
-                letters.translate(
-                    ƒ (letter•"" index•#) 
-                        Phrase(
-                            letter 
-                            enter: Pose(opacity: 0 scale: 2)
-                            rest: Sequence(sway() duration:0.25s)
-                            duration: 0.5s
-                        )
-                )
-            )
-            `
-        ),
+        program: output(PrimitiveJiggle),
         scenes: [
             {
                 name: 'Values',
@@ -901,27 +966,45 @@ const tutorial: Act[] = [
                 program: symbol('💡'),
                 lines: [
                     output(
-                        `Phrase("💌" rest: Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.2) 100%: Pose(scale: 1)} duration: 3s))`
+                        `Phrase("💔" rest: Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.2) 100%: Pose(scale: 1)} duration: 3s))`
                     ),
                     dialog(
                         'FunctionDefinition',
                         Emotion.Happy,
-                        `I really do love @Evaluate. I can't imagine the Verse without them. 
+                        `I really did miss @Evaluate. 
+                        I can't imagine the Verse without them. 
+
+                        But they can be a bit… needy, sometimes. 
+                        I wish they would just… I don't know, believe in themselves?
                         
-                        I like to think of my functions as love letters. They express my love of @Evaluate and the **values** that @Evaluate gives back are their reply. 
+                        They can do so much, but they don't see it.
+                        I mean, they transform **values** into other **values**!
+                        All I do is provide the recipe.
+                        They do the cooking.
                         
-                        But they can be a bit… needy, sometimes. Sigh…`
+                        Sometimes I feel like all I do is give, and all they do is take.
+                        
+                        It's suffocating.
+                        `
                     ),
                     pause(),
                     output(`Group(Stack() [Phrase("1") Phrase('"hello"')])`),
                     dialog(
                         'FunctionDefinition',
                         Emotion.Neutral,
-                        `… **Values**? Oh, I never really explained what those are, did I?
+                        `… **Values**? 
                         
-                        Hm…, how to explain them. 
+                        Sorry, I know we're supposed to be on this big tour through the **Verse**.
+                        I just don't know what to do about @Evaluate.
                         
-                        You know what data is? Like numbers and text? 
+                        So… **values**. 
+                        I haven't explained those yet, have I?
+                        
+                        Hm…, how to explain…
+                        
+                        You know what "data" is? 
+                        Like numbers and text? 
+                        
                         Values are any of those things. 
                         A value could be as small as a number or as big as an entire scene on stage, full of characters dancing and moving. 
                         
@@ -929,17 +1012,34 @@ const tutorial: Act[] = [
                         `
                     ),
                     pause(),
+                    output(`Group(Stack() [Phrase("#") Phrase("''")])`),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Neutral,
+                        `Every value has a **type**.
+                        
+                        For example, ⧼1⧽ is a number type; that's our friend @MeasurementType.
+                        
+                        And ⧼"hello"⧽ is a text type; that's our friend @TextType.
+                        
+                        Types are important because they help us keep track of what kind of value we're creating.
+
+                        That helps us find problems.
+                        For example, it doesn't make any sense to add ⧼"hello" + 1⧽, because what would that even mean, to add @TextType to @MeasurementType?
+                        `
+                    ),
+                    pause(),
                     output(
-                        `Group(Stack() [Phrase("ƒ … 1") Phrase('ƒ … "hello"')])`
+                        `Group(Stack() [Phrase("ƒ → 1") Phrase('ƒ → "hello"')])`
                     ),
                     dialog(
                         'FunctionDefinition',
                         Emotion.Curious,
-                        `**Expressions**? I guess I didn't explain those either. 
+                        `**Expressions** are how we create values.
                     
-                        I really am rusty…
+                        All expressions are evaluations of functions that I make.
                         
-                        Expressions are what make values. All expressions are evaluations of functions that I make, and the result of evaluating an expression is a value.
+                        The result of evaluating an expression is a value of some type.
                         `
                     ),
                     pause(),
@@ -949,9 +1049,13 @@ const tutorial: Act[] = [
                         Emotion.Serious,
                         `Abstract? 
                         
-                        Hm, I guess this is all pretty abstract. It feels so… normal to me, I forget how foreign these things can be to new directors!
+                        Hm, I guess this is all pretty abstract. 
+                        
+                        It feels so… normal to me, I forget how foreign these things can be to new directors!
                        
-                        Maybe let's go meet some expressions that make values, and this will make it more concrete? Let's start with one you've already seen: text.
+                        Maybe let's go meet some expressions that make values, and this will make it more concrete? 
+                        
+                        Let's start with one you've already seen: @TextType.
                         `
                     ),
                 ],
@@ -960,19 +1064,15 @@ const tutorial: Act[] = [
                 name: 'Quote, unquote',
                 concept: 'Text',
                 program: output(
-                    `Phrase('""' rest: Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 0.5 opacity: 0.5) 100%: Pose(scale: 1)} duration: 2s))`
+                    `Phrase("''" rest: Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 0.5 opacity: 0.5) 100%: Pose(scale: 1)} duration: 2s))`
                 ),
                 lines: [
                     output(
-                        `Phrase('""' rest: Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 2 opacity: 0.5) 100%: Pose(scale: 1)} duration: 2s))`
+                        `Phrase("''" rest: Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 2 opacity: 0.5) 100%: Pose(scale: 1)} duration: 2s))`
                     ),
+                    dialog('FunctionDefinition', Emotion.Curious, `@TextType?`),
                     dialog(
-                        'FunctionDefinition',
-                        Emotion.Curious,
-                        `@TextLiteral?`
-                    ),
-                    dialog(
-                        'TextLiteral',
+                        'TextType',
                         Emotion.Happy,
                         `Welcome my dear friend, how long it has been. What have you been doing in this dramatic silence of ours?`
                     ),
@@ -980,10 +1080,10 @@ const tutorial: Act[] = [
                     dialog(
                         'FunctionDefinition',
                         Emotion.Happy,
-                        `Oh, @TextLiteral, it has been a while! I've mostly been dreaming and wondering. I just saw @Evaluate after a long while. I was actually introducing them to our newbie director.`
+                        `Oh, @TextType, it has been a while! I've mostly been dreaming and wondering. I just saw @Evaluate after a long while. I was actually introducing them to our newbie director.`
                     ),
                     dialog(
-                        'TextLiteral',
+                        'TextType',
                         Emotion.Eager,
                         `Oh, how exceptional it is to meet you! I can see that you're a creative, curious person, probably full of intriguing ideas for how we might entertain. 
                         I love entertaining. But do you know what I love even more?
@@ -994,32 +1094,51 @@ const tutorial: Act[] = [
                     dialog(
                         'FunctionDefinition',
                         Emotion.Neutral,
-                        `In case you couldn't tell, @TextLiteral likes words :) 
+                        `In case you couldn't tell, @TextType likes words :) 
                         
-                        @TextLiteral, do you want to explain what you do?`
+                        @TextType, do you want to explain what you do?`
                     ),
                     dialog(
-                        'TextLiteral',
+                        'TextType',
                         Emotion.Serious,
-                        `I do one simple thing: encode words by bringing our wonderful community together in sequence. 
+                        `I do one simple thing: represent sequences of symbols, and the many things you can do with them.
                         
                         I think you saw me earlier when you wrote the word ⧼“hello”⧽? 
                         That was me, and my friends ⧼“h”⧽, ⧼“e”⧽, ⧼“l”⧽, and ⧼“o”⧽. 
-                        I'm an expression that evaluates to any text you like.
                         
-                        Why don't you try making a text in this blank @Program? 
+                        That was @TextLiteral, an expression that evaluates to any @TextType you like.`
+                    ),
+                    pause(),
+                    dialog(
+                        'TextType',
+                        Emotion.Serious,
+                        `Why don't you try making a text in this blank @Program? 
+
                         You can use whatever quotes you like — single ⧼''⧽, double ⧼""⧽, angle ⧼«»⧽, brackets ⧼「」⧽, in whatever language you like. 
                         
                         The only rule is that if you start some text with an opening quote symbol, you must finish it with a closing one. 
                         Everything inside is the text value I will create!
                     `
                     ),
-                    edit('“”'),
+                    edit("''"),
                     pause(),
                     dialog(
-                        'TextLiteral',
+                        'TextType',
                         Emotion.Serious,
-                        `Excellent. Of course, “inside” can be tricky. 
+                        `You might not be able to type every character you want with the device you're using to communicate with us.
+
+                        If you can't, you can search for characters in the **directory** @UI/directory.
+                        That contains every character in the Verse.
+
+                        For example, if you wanted an arrow of some kind, you could type "arrow", and choose from the many arrows.
+                        
+                        Alas, they only have English names, so searching only works if you know English words :/`
+                    ),
+                    pause(),
+                    dialog(
+                        'TextType',
+                        Emotion.Serious,
+                        `Excellent. Of course, "inside" can be tricky. 
                         
                         Say you wrote this. 
                         See how there's an opening quote but not a closing one? 
@@ -1028,7 +1147,7 @@ const tutorial: Act[] = [
                     edit('“hello'),
                     pause(),
                     dialog(
-                        'TextLiteral',
+                        'TextType',
                         Emotion.Surprised,
                         `Or, here's another case. 
                         
@@ -1042,7 +1161,7 @@ const tutorial: Act[] = [
                     edit('"Hi there "friend"'),
                     pause(),
                     dialog(
-                        'TextLiteral',
+                        'TextType',
                         Emotion.Curious,
                         `Did our friend @FunctionDefinition here tell you about all of the wonderful functions they defined for me? 
                         
@@ -1050,14 +1169,14 @@ const tutorial: Act[] = [
                         
                         One is pretty simple: it's called @TextType/length and all it does is get the length of some text. 
                         
-                        For example, if we team up with @Evaluate here, and our little friend ⧼.⧽, we can evaluate the length function with no inputs and get the length value back.
+                        For example, if we team up with @Evaluate here, and our little friend @PropertyReference, we can evaluate the length function with no inputs and get the length value back.
                         
                         Try changing the text and watch the length that Program shows change as it gets shorter and longer.`
                     ),
                     edit('"hello".length()'),
                     pause(),
                     dialog(
-                        'TextLiteral',
+                        'TextType',
                         Emotion.Happy,
                         `Here is another grand one. It makes me chuckle. 
                         
@@ -1068,23 +1187,26 @@ const tutorial: Act[] = [
                     edit(`'hello '.repeat(5)`),
                     pause(),
                     dialog(
-                        'TextLiteral',
+                        'TextType',
                         Emotion.Eager,
                         `@FunctionDefinition has made so many more interesting functions for me, but I'll spare you the details. 
                         
-                        You can always find me in 📕. I'm happy to share more ways to inspect and create text!`
+                        You can always find me in the **reference** @UI/docsExpand. 
+                        That's where we keep all the information about everyone in the Verse, including how to work with us and what functions we have.
+                        
+                        I'm happy to share more ways to inspect and create text!`
                     ),
                     pause(),
                     dialog(
                         'FunctionDefinition',
                         Emotion.Happy,
-                        `@TextLiteral, you're always such a kind and patient teacher! 
+                        `@TextType, you're always such a kind and patient teacher! 
                         It's always such a joy to work with you. 
                         
                         Are you willing to help out as I introduce our friendly neo-director to other expressions?`
                     ),
                     dialog(
-                        'TextLiteral',
+                        'TextType',
                         Emotion.Neutral,
                         `Yes, of course. It was splendid meeting you. I can't wait to see how you inspire us on stage!`
                     ),
@@ -1105,17 +1227,17 @@ const tutorial: Act[] = [
                         'FunctionDefinition',
                         Emotion.Happy,
                         `You know, I keep thinking about @Evaluate, and how we were separated for so long. 
-                        I'm so glad you wandered into our world, so we could be reconnected. 
-                        I can just feel the life you're bringing out in us!`
+                        
+                        I missed them, and they obviously missed me, but I was just hoping that some time away would have helped them see how amazing they are.`
                     ),
                     pause(),
                     dialog(
                         'FunctionDefinition',
                         Emotion.Neutral,
-                        `Speaking of @Evaluate, did you know they come in another form? 
+                        `For example, did you know they come in another form? 
                         
                         You saw them in ⧼function()⧽ form, but they also have this beautiful trick when a single input function is evaluated on a value.
-                        Evaluate calls it @BinaryOperation.
+                        @Evaluate calls it @BinaryOperation.
                         
                         For example, you know that repeat function that text just showed you?
                         It looked like this.`
@@ -1136,7 +1258,7 @@ const tutorial: Act[] = [
                     dialog(
                         'FunctionDefinition',
                         Emotion.Serious,
-                        `That reminds me of another of @TextLiteral's functions! 
+                        `That reminds me of another of @TextType's functions! 
                         
                         It's helpful for making one text value from multiple text values. It's called ⧼combine⧽, but also ⧼+⧽, and you can use it to add words together.
                         
@@ -1188,7 +1310,7 @@ const tutorial: Act[] = [
                     dialog(
                         'FunctionDefinition',
                         Emotion.Curious,
-                        `Anyway, shall we go find find @BooleanLiteral? They are two very interesting values…`
+                        `Anyway, shall we go find find @BooleanType? They are two very interesting values…`
                     ),
                 ],
             },
@@ -1260,7 +1382,7 @@ const tutorial: Act[] = [
                     dialog(
                         'FunctionDefinition',
                         Emotion.Neutral,
-                        `One was ⧼&⧽, right? It takes one of you and one other input? And evaluates to ⧼⊤⧽ if both are ⧼⊤⧽?`
+                        `One was @BooleanType/and, right? It takes one of you and one other input? And evaluates to ⧼⊤⧽ if both are ⧼⊤⧽?`
                     ),
                     dialog(
                         '⊤',
@@ -1282,7 +1404,9 @@ const tutorial: Act[] = [
                     dialog(
                         'FunctionDefinition',
                         Emotion.Neutral,
-                        `And the other one was ⧼|⧽, right? It also takes one input? But it evaluates to ⧼⊤⧽ if either is true?`
+                        `And the other one was @BooleanType/or, right? 
+                        It also takes one input? 
+                        But it evaluates to ⧼⊤⧽ if either is true?`
                     ),
                     dialog(
                         '⊤',
@@ -1304,7 +1428,7 @@ const tutorial: Act[] = [
                     dialog(
                         'FunctionDefinition',
                         Emotion.Excited,
-                        `But the other was ⧼~⧽? Otherwise known as ⧼not⧽?`
+                        `But the other was @BooleanType/not?`
                     ),
                     dialog('⊤', Emotion.Precise, `Correct. ⧼~⊤ = ⊥⧽.`),
                     dialog('⊥', Emotion.Precise, `Not wrong. ⧼~⊥ = ⊤⧽.`),
@@ -1407,12 +1531,17 @@ const tutorial: Act[] = [
                     `
                 ),
                 lines: [
+                    symbol('😞'),
                     dialog(
                         'FunctionDefinition',
                         Emotion.Confused,
                         `
                         Those two are always so… terse! 
-                        They really are inseparable though: just two of the closest friends, always complementing each other, completing each other's thoughts.`
+                        
+                        They really are inseparable though: just two of the closest friends, always complementing each other, completing each other's thoughts.
+                        
+                        I wish @Evaluate and I were like that.
+                        With us, it's always so… imbalanced.`
                     ),
                     pause(),
                     output(
@@ -1437,14 +1566,14 @@ const tutorial: Act[] = [
                     dialog(
                         'FunctionDefinition',
                         Emotion.Eager,
-                        `We should meet @MeasurementLiteral next. 
+                        `We should meet @MeasurementType next. 
                         They always have such interesting things to share. 
                         
-                        Hey @MeasurementLiteral, are you around?
+                        Hey @MeasurementType, are you around?
                     `
                     ),
                     dialog(
-                        'MeasurementLiteral',
+                        'MeasurementType',
                         Emotion.Kind,
                         `Just 3 steps away!`
                     ),
@@ -1455,7 +1584,7 @@ const tutorial: Act[] = [
                         `Ack, you scared me!!`
                     ),
                     dialog(
-                        'MeasurementLiteral',
+                        'MeasurementType',
                         Emotion.Kind,
                         `The 78,238nd time. It's my 4th favorite hobby!`
                     ),
@@ -1466,7 +1595,7 @@ const tutorial: Act[] = [
                         `I'm glad you're having a good time. (Deep breaths). It's been some time, hasn't it?`
                     ),
                     dialog(
-                        'MeasurementLiteral',
+                        'MeasurementType',
                         Emotion.Kind,
                         `Incalculably long. I was just passing the time here, counting seconds, and then minutes, and then hours, and then weeks, and then months, and then years, and then…`
                     ),
@@ -1481,14 +1610,14 @@ const tutorial: Act[] = [
                         Anyway, I wanted to introduce you to someone who might be our new director. 
                         They just showed up and bumped into me, and it turns out they're a person and interested in putting on shows with us. 
                         
-                        We just met ⊤ and ⊥, but also @TextLiteral, @Evaluate, @Unparsable, @Placeholder, and @Program. 
+                        We just met @BooleanLiteral, but also @TextType, @Evaluate, @UnparsableExpression, @ExpressionPlaceholder, and @Program. 
                         We've talked about evaluating functions and given a few examples.
 
                         Do you want to say what you do?
                         `
                     ),
                     dialog(
-                        'MeasurementLiteral',
+                        'MeasurementType',
                         Emotion.Excited,
                         `
                         I count things! 
@@ -1497,52 +1626,62 @@ const tutorial: Act[] = [
                     ),
                     edit(`1`),
                     pause(),
-                    dialog('MeasurementLiteral', Emotion.Excited, `Or this.`),
+                    dialog('MeasurementType', Emotion.Excited, `Or this.`),
                     edit(`1.0`),
                     pause(),
-                    dialog('MeasurementLiteral', Emotion.Excited, `Or this.`),
+                    dialog('MeasurementType', Emotion.Excited, `Or this.`),
                     edit(`1.01`),
                     pause(),
-                    dialog('MeasurementLiteral', Emotion.Excited, `Or this.`),
+                    dialog('MeasurementType', Emotion.Excited, `Or this.`),
                     edit(`∞`),
                     pause(),
-                    dialog('MeasurementLiteral', Emotion.Excited, `Or this.`),
+                    dialog('MeasurementType', Emotion.Excited, `Or this.`),
                     edit(`π`),
                     pause(),
-                    dialog('MeasurementLiteral', Emotion.Excited, `Or this.`),
+                    dialog('MeasurementType', Emotion.Excited, `Or this.`),
                     edit(`Ⅶ`),
                     pause(),
-                    dialog('MeasurementLiteral', Emotion.Excited, `Or this.`),
+                    dialog('MeasurementType', Emotion.Excited, `Or this.`),
                     edit(`万十一`),
                     pause(),
-                    dialog('MeasurementLiteral', Emotion.Excited, `Or…`),
+                    dialog('MeasurementType', Emotion.Excited, `Or…`),
                     dialog(
                         'FunctionDefinition',
                         Emotion.Kind,
-                        `Okay, okay #, we get it! But you also do something else special, right? Units?`
+                        `Okay, okay @MeasurementType, we get it! 
+                        
+                        But you also do something else special, right? Units?`
                     ),
                     pause(),
                     dialog(
-                        'MeasurementLiteral',
+                        'MeasurementType',
                         Emotion.Excited,
-                        `Oh yes, the things. Just put some symbols after a number and I'll keep track of what's being counted. Like this.`
+                        `Oh yes, **units**! 
+                        
+                        Just put some symbols after a number and I'll keep track of what's being counted. 
+                        
+                        Like this.`
                     ),
                     edit(`1dolphin`),
                     pause(),
-                    dialog('MeasurementLiteral', Emotion.Excited, `Or this.`),
+                    dialog('MeasurementType', Emotion.Excited, `Or this.`),
                     edit(`1.0thunderstorm`),
                     pause(),
-                    dialog('MeasurementLiteral', Emotion.Excited, `Or this.`),
-                    edit(`1.01toe`),
-                    pause(),
-                    dialog('MeasurementLiteral', Emotion.Excited, `Or this.`),
+                    dialog('MeasurementType', Emotion.Excited, `Or this.`),
                     edit(`∞kittens`),
                     pause(),
-                    dialog('MeasurementLiteral', Emotion.Excited, `Or…`),
+                    dialog('MeasurementType', Emotion.Excited, `Or this.`),
+                    edit(`1.01toes`),
+                    pause(),
+                    dialog('MeasurementType', Emotion.Excited, `Or…`),
                     dialog(
                         'FunctionDefinition',
                         Emotion.Kind,
-                        `Um, ⧼1.01toe⧽? Yes, thank you @MeasurementLiteral, these are … interesting examples. And they are oh so useful when you're doing math on numbers, right?`
+                        `Um, ⧼1.01toe⧽s? 
+                        
+                        Yes, thank you @MeasurementType, these are … interesting examples. 
+                        
+                        And they are oh so useful when you're doing math on numbers, right?`
                     ),
                     pause(),
                     dialog(
@@ -1551,22 +1690,22 @@ const tutorial: Act[] = [
                         `And they are oh so useful when you're doing math on numbers, right?`
                     ),
                     dialog(
-                        'MeasurementLiteral',
+                        'MeasurementType',
                         Emotion.Excited,
                         `Oh yes, the maths! @FunctionDefinition gave me so many neat kinds of arithmetic. Like this.`
                     ),
                     edit(`1 + 1`),
                     pause(),
-                    dialog('MeasurementLiteral', Emotion.Excited, `Or this.`),
+                    dialog('MeasurementType', Emotion.Excited, `Or this.`),
                     edit(`1000 + 9999`),
                     pause(),
-                    dialog('MeasurementLiteral', Emotion.Excited, `Or this.`),
+                    dialog('MeasurementType', Emotion.Excited, `Or this.`),
                     edit(`1kitty + 2kitty`),
                     pause(),
-                    dialog('MeasurementLiteral', Emotion.Excited, `Or this.`),
+                    dialog('MeasurementType', Emotion.Excited, `Or this.`),
                     edit(`-5s + 5s`),
                     pause(),
-                    dialog('MeasurementLiteral', Emotion.Excited, `Or this.`),
+                    dialog('MeasurementType', Emotion.Excited, `Or this.`),
                     edit(`2apple + 5orange`),
                     pause(),
                     dialog(
@@ -1576,7 +1715,7 @@ const tutorial: Act[] = [
                     ),
                     edit(`2apple + 5orange`),
                     dialog(
-                        'MeasurementLiteral',
+                        'MeasurementType',
                         Emotion.Angry,
                         `No. That's why I underlined the conflict. 
                         I don't like adding incompatible things. 
@@ -1597,13 +1736,13 @@ const tutorial: Act[] = [
                     dialog(
                         'FunctionDefinition',
                         Emotion.Neutral,
-                        `That's so cool. @MeasurementLiteral, you're so good with numbers! 
-                        I see @MeasurementLiteral show up in a lot of performances where placement matters, and a lot of games where we're keeping track of scores or lives or other countable things.
+                        `That's so cool. @MeasurementType, you're so good with numbers! 
+                        I see @MeasurementType show up in a lot of performances where placement matters, and a lot of games where we're keeping track of scores or lives or other countable things.
                         
-                        @MeasurementLiteral, is there anything else you want to share with our new director?`
+                        @MeasurementType, is there anything else you want to share with our new director?`
                     ),
                     dialog(
-                        'MeasurementLiteral',
+                        'MeasurementType',
                         Emotion.Serious,
                         `192 other neat tricks.`
                     ),
@@ -1614,7 +1753,7 @@ const tutorial: Act[] = [
                         `I think we'll have to wait. You'll be around if we want to learn more?`
                     ),
                     dialog(
-                        'MeasurementLiteral',
+                        'MeasurementType',
                         Emotion.Happy,
                         `Yes, you can find me and my functions any time!`
                     ),
@@ -1628,22 +1767,28 @@ const tutorial: Act[] = [
                     dialog(
                         'FunctionDefinition',
                         Emotion.Curious,
-                        `Sometimes I'm just overwhelmed by how clever everyone is here. Text, truth, numbers — these are such powerful ideas!`
+                        `Sometimes I'm just overwhelmed by how clever everyone is here. 
+                        
+                        Text, truth, numbers — these are such powerful ideas!`
                     ),
                     pause(),
                     dialog(
                         'FunctionDefinition',
                         Emotion.Kind,
-                        `I'm still overwhelmed sometimes by how expressive @Evaluate can be. 
+                        `…
                         
                         You know how I was telling you that they can evaluate any function with parentheses ⧼1.add(1)⧽, but also two input functions with infix operators ⧼1 + 1⧽? 
+                        
                         Well they have one more trick for functions with only one input: the unary format.`
                     ),
                     pause(),
                     dialog(
                         'FunctionDefinition',
                         Emotion.Serious,
-                        `There are only a few of these, but they are powerful. One is really relevant to #: negation. You can just put a ⧼-⧽ in front of any number value and get its negative. For example…`
+                        `There are only a few of these, but they are powerful. 
+                        One is really relevant to @MeasurementType: negation. 
+                        
+                        You can just put a ⧼-⧽ in front of any number value and get its negative.`
                     ),
                     edit(`-(1 + 3)`),
                     pause(),
@@ -1667,8 +1812,11 @@ const tutorial: Act[] = [
                     dialog(
                         'FunctionDefinition',
                         Emotion.Happy,
-                        `Isn't that just beautiful, the way that @Evaluate can take so many different forms, but really all be the same idea? They're powerful, but also expressive.
-                        … I wonder how they are?`
+                        `Isn't that just beautiful?
+                        
+                        The way that @Evaluate can take so many different forms, but really all be the same idea? 
+                        
+                        They don't even see it…`
                     ),
                 ],
             },
@@ -1683,19 +1831,19 @@ const tutorial: Act[] = [
                     dialog(
                         'FunctionDefinition',
                         Emotion.Curious,
-                        `Do you think you're okay meeting just one more value? Let's go find @NoneLiteral next. They are a bit more chill than @MeasurementLiteral.
+                        `Do you think you're okay meeting just one more value? Let's go find @NoneType next. They are a bit more chill than @MeasurementType.
                         
-                        @NoneLiteral? Are you out there?
+                        @NoneType? Are you out there?
                         `
                     ),
-                    dialog('NoneLiteral', Emotion.Bored, `…`),
+                    dialog('NoneType', Emotion.Bored, `…`),
                     pause(),
                     dialog(
                         'FunctionDefinition',
                         Emotion.Excited,
                         `We found you! You seem well. How have you been, with all the silence?`
                     ),
-                    dialog('NoneLiteral', Emotion.Excited, `…`),
+                    dialog('NoneType', Emotion.Excited, `…`),
                     pause(),
                     dialog(
                         'FunctionDefinition',
@@ -1705,7 +1853,7 @@ const tutorial: Act[] = [
                         I wanted to introduce you to my new friend and potential director. They're interested in inspiring us.
                         `
                     ),
-                    dialog('NoneLiteral', Emotion.Eager, `…`),
+                    dialog('NoneType', Emotion.Eager, `…`),
                     pause(),
                     dialog(
                         'FunctionDefinition',
@@ -1714,14 +1862,14 @@ const tutorial: Act[] = [
                         
                         Do you want to share what you do? (I can translate).`
                     ),
-                    dialog('NoneLiteral', Emotion.Serious, `…`),
+                    dialog('NoneType', Emotion.Serious, `…`),
                     pause(),
                     dialog(
                         'FunctionDefinition',
                         Emotion.Neutral,
                         `They represent nothing. Different from zero in that you can't add anything to it, or subtract from it. Just… nothing.`
                     ),
-                    dialog('NoneLiteral', Emotion.Serious, `…`),
+                    dialog('NoneType', Emotion.Serious, `…`),
                     pause(),
                     dialog(
                         'FunctionDefinition',
@@ -1730,7 +1878,7 @@ const tutorial: Act[] = [
                         
                         In that sense, they might represent the absence of anything.`
                     ),
-                    dialog('NoneLiteral', Emotion.Neutral, `…`),
+                    dialog('NoneType', Emotion.Neutral, `…`),
                     pause(),
                     dialog(
                         'FunctionDefinition',
@@ -1742,18 +1890,24 @@ const tutorial: Act[] = [
                     ),
                     edit(`ø = ø`),
                     pause(),
+                    edit(`Phrase("hi" size: ø font: ø place: ø rotation: ø)`),
                     dialog(
                         'FunctionDefinition',
                         Emotion.Excited,
                         `Do you remember @Phrase? 
-                        Phrase was a function that actually works with @NoneLiteral a lot. 
-                        Most of the inputs that Evaluate mentioned are ⧼ø⧽ by default, which for @Phrase, means that no size, font, color, etc. are specified.
                         
-                        Anything else you want to share with our budding director?
+                        @Phrase actually works with @NoneType a lot. 
+                        
+                        Most of the inputs that @Evaluate mentioned are ⧼ø⧽ by default, which for @Phrase, means that no size, font, color, etc. are specified.
                         `
                     ),
-                    dialog('NoneLiteral', Emotion.Eager, `…`),
                     pause(),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Curious,
+                        `Anything else you want to share with our budding director?`
+                    ),
+                    dialog('NoneType', Emotion.Eager, `…`),
                     dialog(
                         'FunctionDefinition',
                         Emotion.Neutral,
@@ -1787,13 +1941,13 @@ const tutorial: Act[] = [
                         
                         The values in our community are just so different. 
                         
-                        @TextLiteral with their immense worlds of culture from the people world…
+                        @TextType with their immense worlds of culture from the people world…
                         
-                        @BooleanLiteral with their binary visions of the world… 
+                        @BooleanType with their binary visions of the world… 
                         
-                        @MeasurementLiteral with their endless fascination with counting things…
+                        @MeasurementType with their endless fascination with counting things…
                         
-                        @NoneLiteral with their quiet way of observing the absence of things…
+                        @NoneType with their quiet way of observing the absence of things…
                         
                         Our world is never boring!`
                     ),
@@ -1810,7 +1964,7 @@ const tutorial: Act[] = [
                         
                         We call them **collections**.
                         Collections are **values** too; they're just made up of smaller values, or even other collections.
-                        For example, you might have a list of @TextLiteral, or a set of @MeasurementLiteral, or even a list of lists.
+                        For example, you might have a list of @TextType, or a set of @MeasurementType, or even a list of lists.
                         `
                     ),
                     output(
@@ -1822,7 +1976,7 @@ const tutorial: Act[] = [
                         Emotion.Kind,
                         `Do you want to meet them?
                        
-                        Let's start with @ListLiteral first… they're the first collection I met, and probably the most visible in our community, since they're so useful in organizing other values for performances.`
+                        Let's start with @ListType first… they're the first collection I met, and probably the most visible in our community, since they're so useful in organizing other values for performances.`
                     ),
                     symbol('[]'),
                 ],
@@ -1840,12 +1994,12 @@ const tutorial: Act[] = [
                     dialog(
                         'FunctionDefinition',
                         Emotion.Curious,
-                        `Hiya @ListLiteral! 
+                        `Hiya @ListType! 
                         Are you around? 
                         I have someone I'd like you to meet.`
                     ),
                     dialog(
-                        'ListLiteral',
+                        'ListType',
                         Emotion.Curious,
                         `@FunctionDefinition? Is that you?`
                     ),
@@ -1862,7 +2016,7 @@ const tutorial: Act[] = [
                         `Yes! It's me. It's been so long!`
                     ),
                     dialog(
-                        'ListLiteral',
+                        'ListType',
                         Emotion.Curious,
                         `It has. 
                         Day after day, night after night, no one. 
@@ -1883,7 +2037,7 @@ const tutorial: Act[] = [
                         Emotion.Curious,
                         `Well, I was sitting around, as I usually do, trying to imagine functions to compute, but just blocked. 
                         And then my new friend here showed up, curious about our world and wanting to learn more, and maybe even be our next director. 
-                        And so we talked to @Program, @ExpressionPlaceholder, @UnparsableExpression, @Evaluate, @TextLiteral, @MeasurementLiteral, @BooleanLiteral, and @NoneLiteral, waking everyone up. 
+                        And so we talked to @Program, @ExpressionPlaceholder, @UnparsableExpression, @Evaluate, @TextType, @MeasurementType, @BooleanType, and @NoneType, waking everyone up. 
                         
                         That's why we're here, to talk about what you do and our next performance!`
                     ),
@@ -1893,13 +2047,13 @@ const tutorial: Act[] = [
                         Group(Row() [Phrase("[" rest: shake) Phrase("]" rest: shake)])`
                     ),
                     dialog(
-                        'ListLiteral',
+                        'ListType',
                         Emotion.Excited,
                         `This is amazing! 
                         It's great to meet you new director.`
                     ),
                     dialog(
-                        'ListLiteral',
+                        'ListType',
                         Emotion.Excited,
                         `You want to know what I do?`
                     ),
@@ -1910,7 +2064,7 @@ const tutorial: Act[] = [
                     ),
                     pause(),
                     dialog(
-                        'ListLiteral',
+                        'ListType',
                         Emotion.Excited,
                         `Okay. 
                         First, and most important, I put values in order. 
@@ -1918,13 +2072,13 @@ const tutorial: Act[] = [
 
                         For example, check out this fun list.
                         
-                        Have you ever seen anything like it? It's so beautiful! The numbers 1 through 10, in order.
+                        Have you ever seen anything like it? It's so beautiful! The first ten numbers, in order.
                         `
                     ),
                     edit(`[1 2 3 4 5 6 7 8 9 10]`),
                     pause(),
                     dialog(
-                        'ListLiteral',
+                        'ListType',
                         Emotion.Serious,
                         `Second, and this is serious, I always start with ⧼[⧽ and end with ⧼]⧽. 
                         That's how I know the beginning and end of my list. 
@@ -1938,7 +2092,7 @@ const tutorial: Act[] = [
                     edit(`[ 1 2 3 4`),
                     pause(),
                     dialog(
-                        'ListLiteral',
+                        'ListType',
                         Emotion.Serious,
                         `This one is broken too. 
                         
@@ -1947,7 +2101,7 @@ const tutorial: Act[] = [
                     edit(`] 1 2 3 4 [`),
                     pause(),
                     dialog(
-                        'ListLiteral',
+                        'ListType',
                         Emotion.Sad,
                         `Sometimes people forget this and then there's brackets floating around all alone and they don't like that and then the values all go wild without any order and it's CHAOS. 
                         
@@ -1960,11 +2114,14 @@ const tutorial: Act[] = [
                     ),
                     pause(),
                     dialog(
-                        'ListLiteral',
+                        'ListType',
                         Emotion.Happy,
                         `I like that I like order too! 
+                        
                         Okay, where was I. 
+                        
                         Yes, third, and this is also critical, NO COMMAS! 
+                        
                         I know that in some cultures, people like to put commas between things in lists, but I don't like them. 
                         They're just like little bits of trash that get in the way of my elegant orderings, and people always forget them. 
                         
@@ -1977,21 +2134,21 @@ const tutorial: Act[] = [
                     dialog(
                         'FunctionDefinition',
                         Emotion.Eager,
-                        `@ListLiteral, one of the things I like most about you is how amazing you are at manipulating lists. Do you want to show our student director here some examples?`
+                        `@ListType, one of the things I like most about you is how amazing you are at manipulating lists. Do you want to show our student director here some examples?`
                     ),
                     dialog(
-                        'ListLiteral',
+                        'ListType',
                         Emotion.Neutral,
                         `Yes, but @FunctionDefinition, those are all your doing. 
                         
                         You represent all these beautiful functions for me that enable me to do all kinds of things!
                         
-                        Like @ListType\reverse, oh, this one is wonderful and simple. It just takes my values and puts them in the opposite order.`
+                        Like @ListType/reverse, oh, this one is wonderful and simple. It just takes my values and puts them in the opposite order.`
                     ),
                     edit(`[ 1 2 3 4 5 ].reverse()`),
                     pause(),
                     dialog(
-                        'ListLiteral',
+                        'ListType',
                         Emotion.Excited,
                         `And this one is fun: @ListType/sans just removes all of the values equal to the given value.
                         
@@ -2000,7 +2157,7 @@ const tutorial: Act[] = [
                     edit(`[ 1 0 1 0 1 ].sans(0)`),
                     pause(),
                     dialog(
-                        'ListLiteral',
+                        'ListType',
                         Emotion.Serious,
                         `Ack, I can't believe I forgot to explain the fourth rule! 
                         
@@ -2008,7 +2165,7 @@ const tutorial: Act[] = [
                         I only ever make new ones. 
                         No matter what function you evaluate on me, I always make a new list, I never change one. 
                         
-                        So the reverse example above?
+                        So the @ListType/reverse example above?
                         That didn't change the list, it made a new list. 
                         And the sans example? 
                         That didn't remove the zeros from the original list, it made a new list without zeros. 
@@ -2017,7 +2174,7 @@ const tutorial: Act[] = [
                     ),
                     pause(),
                     dialog(
-                        'ListLiteral',
+                        'ListType',
                         Emotion.Surprised,
                         `Oh, and that reminds me of the last rule, rule number five: I start counting at 1! 
                         Not zero, not two, 1. 
@@ -2031,16 +2188,16 @@ const tutorial: Act[] = [
                     ),
                     edit(`['a' 'b' 'c' 'd' 'e'][3]`),
                     dialog(
-                        'ListLiteral',
+                        'ListType',
                         Emotion.Happy,
                         `Interesting huh? Give me a place in the list that doesn't exist and I'm going to give you @NoneLiteral. Because there's nothing there. Make sense?`
                     ),
                     pause(),
                     dialog(
-                        'ListLiteral',
+                        'ListType',
                         Emotion.Serious,
                         `Okay, maybe one list function, because this is my favorite. 
-                        This one is called ⧼random⧽ and will give a random value in the list. 
+                        This one is called @ListType/random and will give a random value in the list. 
                         It's great fun because you never know what you're going to get!
                         
                         What did you get, what did you get? Try adding your own animal and see what you get.
@@ -2059,7 +2216,7 @@ const tutorial: Act[] = [
                         There are so many other cool things you can do, I'm always so impressed. Will you be around if your new director friend has questions?`
                     ),
                     dialog(
-                        'ListLiteral',
+                        'ListType',
                         Emotion.Eager,
                         `Yes, of course, always! @FunctionDefinition made so many interesting things for me to do. Just let me know what you need!`
                     ),
@@ -2079,16 +2236,16 @@ const tutorial: Act[] = [
                     dialog(
                         'FunctionDefinition',
                         Emotion.Neutral,
-                        `@ListLiteral is so interesting. 
+                        `@ListType is so interesting. 
                         They're love of order is so endearing, and so useful! 
                         
-                        I thought it might be interesting for you to meet their cousin @SetLiteral next, since they're so alike, but different in some important ways.
+                        I thought it might be interesting for you to meet their cousin @SetType next, since they're so alike, but different in some important ways.
                         
-                        @SetLiteral? I have someone you'd like to meet.`
+                        @SetType? I have someone you'd like to meet.`
                     ),
                     pause(),
                     dialog(
-                        'SetLiteral',
+                        'SetType',
                         Emotion.Curious,
                         `Oh! @FunctionDefinition! 
                         It's you! 
@@ -2104,12 +2261,12 @@ const tutorial: Act[] = [
                         Emotion.Kind,
                         `So many questions! 
                         I'm here to introduce you to someone who's considering directing. 
-                        They're learning everything about the Verse and hope to share their inspiration with us! We were just talking to @ListLiteral, but we were also talking to @MeasurementLiteral, @BooleanLiteral, @TextLiteral, @Evaluate, and @Program earlier. 
+                        They're learning everything about the Verse and hope to share their inspiration with us! We were just talking to @ListType, but we were also talking to @MeasurementType, @BooleanType, @TextType, @Evaluate, and @Program earlier. 
                         We came to you next, because we're meeting all the collections!`
                     ),
                     pause(),
                     dialog(
-                        'SetLiteral',
+                        'SetType',
                         Emotion.Kind,
                         `Oh it's so wonderful to meet you new director-like person! 
                         Do you have ideas yet? 
@@ -2124,23 +2281,30 @@ const tutorial: Act[] = [
                     ),
                     pause(),
                     dialog(
-                        'SetLiteral',
+                        'SetType',
                         Emotion.Eager,
-                        `Oh yes, of course. I collect things. (Hm, obviously, I am a collection). But most importantly, I only collect one of each kind of thing. I can gather whatever you like, and help you keep track of values, but I will never repeat a value. I like to arrange myself a little like @ListLiteral, but with ⧼{⧽ and ⧼}⧽ instead:`
+                        `Oh yes, of course. I collect things. 
+                        
+                        (Hm, obviously, I am a collection). 
+                        
+                        But most importantly, I only collect **one of each kind** of thing. 
+                        
+                        I can gather whatever you like, and help you keep track of values, but I will never repeat a value. 
+                        I like to arrange myself a little like @ListType, but with ⧼{⧽ and ⧼}⧽ instead.`
                     ),
                     edit(`{ 1 2 3 4 5 }`),
                     pause(),
                     dialog(
-                        'SetLiteral',
+                        'SetType',
                         Emotion.Neutral,
                         `That's a set. But like I said, no duplicates. So if you give me this, I'm going to get rid of the extras.`
                     ),
                     edit(`{ 1 2 2 3 3 3 }`),
                     pause(),
                     dialog(
-                        'SetLiteral',
+                        'SetType',
                         Emotion.Curious,
-                        `Also like @ListLiteral, you can use ⧼{}⧽ after a set to see if a value is contained in the set. 
+                        `Also like @ListType, you can use ⧼{}⧽ after a set to see if a value is contained in the set. 
                         You'll either ⧼⊤⧽ if it is or ⧼⊥⧽ if it's not.
                         
                         Let's see if ⧼3⧽ is missing from this set. 
@@ -2152,10 +2316,10 @@ const tutorial: Act[] = [
                     dialog(
                         'FunctionDefinition',
                         Emotion.Neutral,
-                        `@SetLiteral, are there other things you can do with set values?`
+                        `@SetType, are there other things you can do with set values?`
                     ),
                     dialog(
-                        'SetLiteral',
+                        'SetType',
                         Emotion.Eager,
                         `Why yes, of course, so many, thanks to you. 
                         What do you want to see me do? 
@@ -2167,12 +2331,13 @@ const tutorial: Act[] = [
                     dialog(
                         'FunctionDefinition',
                         Emotion.Curious,
-                        `Maybe, ⧼difference⧽?`
+                        `Maybe, @SetType/difference?`
                     ),
                     dialog(
-                        'SetLiteral',
+                        'SetType',
                         Emotion.Neutral,
-                        `Yes, ⧼difference⧽. 
+                        `Yes, @SetType/difference.
+
                         When evaluated on a set, and given another set, it removes all of the items from the given set from the set evaluated on. 
                         (Hm, those were some clumsy words, but that was what I meant).
                         
@@ -2184,35 +2349,43 @@ const tutorial: Act[] = [
                     edit(`{ 1 2 3 }.difference({ 1 2 })`),
                     pause(),
                     dialog(
-                        'SetLiteral',
+                        'SetType',
                         Emotion.Eager,
                         `You can also add and remove things from sets. This takes the set ⧼{1}⧽, adds ⧼2⧽ to it, then removes 1 from it, leaving ⧼{ 2 }⧽.`
                     ),
                     edit(`({ 1 } + 2) - 1`),
                     dialog(
-                        'SetLiteral',
+                        'SetType',
                         Emotion.Neutral,
                         `There's lots more I can do thanks to @FunctionDefinition here. Come find me anytime you want to learn more!`
                     ),
                     pause(),
                     output(DarkVoid),
                     dialog(
-                        'SetLiteral',
+                        'SetType',
                         Emotion.Curious,
                         `Oh, and hey @FunctionDefinition, you said you saw @Evaluate?`
                     ),
                     dialog('FunctionDefinition', Emotion.Sad, `Yes, I did.`),
                     pause(),
-                    dialog('SetLiteral', Emotion.Curious, `How are they?`),
+                    dialog('SetType', Emotion.Curious, `How are they?`),
                     dialog(
                         'FunctionDefinition',
                         Emotion.Sad,
-                        `They're okay. We're okay. I think. It's been too long since we've danced together…`
+                        `They're okay. 
+                        We're okay. I think… 
+                        
+                        I don't know.
+                        Maybe it's been too long since we've danced together.
+                        
+                        When I'm around them, I feel like they don't see themselves, and so they don't see me.`
                     ),
                     dialog(
-                        'SetLiteral',
+                        'SetType',
                         Emotion.Curious,
-                        `It has. But with our new director, we will dance again!`
+                        `It sounds like challenging time for you to.
+                        
+                        Maybe with our new director, we will dance again, and you two will find a way through.`
                     ),
                 ],
             },
@@ -2231,18 +2404,20 @@ const tutorial: Act[] = [
                         'FunctionDefinition',
                         Emotion.Neutral,
                         `There's just one more collection I'd like to introduce you to. 
-                        They're a bit like @SetLiteral in some ways, and even use the same braces, but they're different in one important way: they're a connector. 
-                        They're name is @MapLiteral.`
+                        
+                        They're a bit like @SetType in some ways, and even use the same braces, but they're different in one important way: they're a connector. 
+                        
+                        They're name is @MapType.`
                     ),
                     dialog(
                         'FunctionDefinition',
                         Emotion.Curious,
-                        `@MapLiteral? Are you out there?
+                        `@MapType? Are you out there?
                         The silence is breaking!`
                     ),
                     pause(),
                     dialog(
-                        'MapLiteral',
+                        'MapType',
                         Emotion.Curious,
                         `Breaking? 
                         Was it ever really silent? 
@@ -2260,7 +2435,7 @@ const tutorial: Act[] = [
                     ),
                     pause(),
                     dialog(
-                        'MapLiteral',
+                        'MapType',
                         Emotion.Curious,
                         `
                         Oh good.
@@ -2275,12 +2450,12 @@ const tutorial: Act[] = [
                     ),
                     pause(),
                     dialog(
-                        'MapLiteral',
+                        'MapType',
                         Emotion.Excited,
                         `Oh, I'm so sorry to hear that. 
                         I've been staying connected with everyone during the silence and just figured you and @Evaluate had each other! 
                         I really would have been happy to talk any time. 
-                        I've just been so busy keeping up with the gossip between @ListLiteral and @SetLiteral, and that weird tension between @Conditional and @BooleanLiteral. 
+                        I've just been so busy keeping up with the gossip between @ListType and @SetType, and that weird tension between @Conditional and @BooleanLiteral. 
                         
                         Do you know what's going on between them?`
                     ),
@@ -2291,11 +2466,19 @@ const tutorial: Act[] = [
                         There's tension? 
                         And what gossip?`
                     ),
+                    dialog(
+                        'MapType',
+                        Emotion.Kind,
+                        `Kind of like the tension between you and @Evaluate?`
+                    ),
+                    dialog('FunctionDefinition', Emotion.Sad, '…'),
                     pause(),
                     dialog(
-                        'MapLiteral',
+                        'MapType',
                         Emotion.Neutral,
-                        `Well, maybe not in front of our guest here. 
+                        `Sorry.
+                        
+                        Maybe not in front of our guest here. 
                         
                         You must be the new person everyone is talking about. 
                         I hear you're going to be our new director? 
@@ -2313,7 +2496,7 @@ const tutorial: Act[] = [
                     ),
                     pause(),
                     dialog(
-                        'MapLiteral',
+                        'MapType',
                         Emotion.Eager,
                         `I connect! 
                         I'm kind of like a dictionary: give me a value and I'll give you the definition it corresponds to. 
@@ -2330,9 +2513,9 @@ const tutorial: Act[] = [
                     ),
                     pause(),
                     dialog(
-                        'MapLiteral',
+                        'MapType',
                         Emotion.Serious,
-                        `But like @SetLiteral, I don't like duplicates. You can't have more than one of the same key, but you can have as many unique keys mapped to equivalent values as you like.
+                        `But like @SetType, I don't like duplicates. You can't have more than one of the same key, but you can have as many unique keys mapped to equivalent values as you like.
                         
                         For example, this gives me two ⧼"ben"⧽ keys, but I just use the last one. 
                         But it's okay that ⧼"ben"⧽ and ⧼"joe"⧽ have the same number of points, because they're different keys.`
@@ -2343,7 +2526,7 @@ const tutorial: Act[] = [
                         true
                     ),
                     dialog(
-                        'MapLiteral',
+                        'MapType',
                         Emotion.Excited,
                         `It's my partnership with @Bind that makes me special! 
                         It's how I connect values to other values. 
@@ -2354,11 +2537,11 @@ const tutorial: Act[] = [
                     dialog(
                         'FunctionDefinition',
                         Emotion.Curious,
-                        `@MapLiteral, what if you want an empty mapping? 
+                        `@MapType, what if you want an empty mapping? 
                         How is that different from an empty set, ⧼{}⧽?`
                     ),
                     dialog(
-                        'MapLiteral',
+                        'MapType',
                         Emotion.Neutral,
                         `Oh, that's just me all by myself! Little @Bind and I just hang out, no keys or values.`
                     ),
@@ -2371,7 +2554,7 @@ const tutorial: Act[] = [
                     ),
                     edit(`{1:1 2:2 3 }`),
                     dialog(
-                        'MapLiteral',
+                        'MapType',
                         Emotion.Serious,
                         `Oh… DON'T do that. 
                         I only like pairs. 
@@ -2387,9 +2570,9 @@ const tutorial: Act[] = [
                         `And if our director wants to get a value from a key?`
                     ),
                     dialog(
-                        'MapLiteral',
+                        'MapType',
                         Emotion.Neutral,
-                        `Just like @SetLiteral: just put a ⧼{}⧽ after a map and give me the key you want.`
+                        `Just like @SetType: just put a ⧼{}⧽ after a map and give me the key you want.`
                     ),
                     code(
                         `{ 'ben': 2points 'joe': 5points 'kate': 12points }{'ben'}`,
@@ -2399,14 +2582,14 @@ const tutorial: Act[] = [
                     pause(),
                     output(DarkVoid),
                     dialog(
-                        'MapLiteral',
+                        'MapType',
                         Emotion.Neutral,
-                        `Otherwise, I'm a lot like @SetLiteral: I can do a lot of the same functions. Stop by any time and I'm happy to show you more!`
+                        `Otherwise, I'm a lot like @SetType: I can do a lot of the same functions. Stop by any time and I'm happy to show you more!`
                     ),
                     dialog(
                         'FunctionDefinition',
                         Emotion.Kind,
-                        `Thank you @MapLiteral! *You* are fabulous.`
+                        `Thank you @MapType! *You* are fabulous.`
                     ),
                 ],
             },
@@ -2436,7 +2619,7 @@ const tutorial: Act[] = [
         ),
         scenes: [
             {
-                name: 'Types',
+                name: 'Detour',
                 concept: undefined,
                 program: output(DarkVoid),
                 lines: [
@@ -2444,9 +2627,11 @@ const tutorial: Act[] = [
                         'FunctionDefinition',
                         Emotion.Surprised,
                         `I can't believe how many characters we've met so far. 
-                        Does it feel like a lot? 
+                        
+                        Does it feel like a lot?
                         
                         It also feels like we've barely made any progress. 
+
                         I haven't even gotten to show you the most exciting parts of putting on shows!`
                     ),
                     pause(),
@@ -2454,6 +2639,7 @@ const tutorial: Act[] = [
                         'FunctionDefinition',
                         Emotion.Serious,
                         `Would you mind if we just stopped by to meet two others before we get to the truly exciting parts? 
+                        
                         These two characters are just so integral to working with values, and particularly text, we just have to talk about them before we get to the more spectacular things.`
                     ),
                     pause(),
@@ -2461,6 +2647,7 @@ const tutorial: Act[] = [
                         'FunctionDefinition',
                         Emotion.Curious,
                         `What are they? 
+
                         Conversions. 
                         They are the alchemy of this world, that help change one type of value to another. 
                         Let's go meet them.`
@@ -2550,7 +2737,8 @@ const tutorial: Act[] = [
                     dialog(
                         'Convert',
                         Emotion.Serious,
-                        `But me and @MeasurementType? We have been practicing some seriously sick tricks. Say you've got some time in days and you want seconds? We got you.`
+                        `But me and @MeasurementType? 
+                        We have been practicing some seriously sick tricks. Say you've got some time in days and you want seconds? We got you.`
                     ),
                     edit(`5day → #s`),
                     pause(),
@@ -2574,10 +2762,12 @@ const tutorial: Act[] = [
                         Emotion.Neutral,
                         `So like, my deal is that everything should be everything, no boundaries. 
                         Anything can be anything. 
-                        (Like, not anything, but you know, as much as I can). 
-                        But like, why should anything ever be trapped in one identity, you know? 
                         
-                        Liberation, man, liberation.`
+                        (Like, not anything, but you know, as much as I can). 
+
+                        But like, why should anything ever be trapped in one identity, you know?
+                        
+                        Liberation, man.`
                     ),
                     pause(),
                     dialog(
@@ -2602,11 +2792,12 @@ const tutorial: Act[] = [
                     ),
                     edit(`10s → {}`),
                     pause(),
+                    symbol('📕'),
                     dialog(
                         'FunctionDefinition',
                         Emotion.Serious,
                         `Right, that makes sense. 
-                        So there are only some conversations, not all possible conversions.`
+                        So there are only some conversions, not all possible conversions.`
                     ),
                     dialog(
                         'Convert',
@@ -2614,6 +2805,7 @@ const tutorial: Act[] = [
                         `Yeahhh… you can always check a type of value and see what types of conversions they support.`
                     ),
                     pause(),
+                    symbol('🧐'),
                     dialog(
                         'FunctionDefinition',
                         Emotion.Curious,
@@ -2627,20 +2819,23 @@ const tutorial: Act[] = [
                         'Convert',
                         Emotion.Scared,
                         `Whoa. I never thought of it that way. 
-                        Like, I convert inputs to outputs, and @Evaluate converts inputs to outputs. 
-                        And like, @FunctionDefinition, you tell us how to convert inputs to outputs. 
+                        Like, *I* convert inputs to outputs, and @Evaluate converts inputs to outputs. 
+                        And like, @FunctionDefinition, you *tell us* how to convert inputs to outputs. 
                         
-                        Is that like, the secret of the Verse? 
+                        Is that like, the secret of the Verse?
+
                         Like everything is about converting inputs to outputs?`
                     ),
                     pause(),
                     dialog(
                         'FunctionDefinition',
                         Emotion.Serious,
-                        `I guess so? Wow...`
+                        `I guess so?`
                     ),
                     dialog('Convert', Emotion.Surprised, `🤯`),
+                    edit('Phrase("🤯")'),
                     pause(),
+                    symbol('🤯'),
                     dialog(
                         'FunctionDefinition',
                         Emotion.Kind,
@@ -2650,8 +2845,12 @@ const tutorial: Act[] = [
                         'Convert',
                         Emotion.Scared,
                         `Sorry bro, I'm still a bit shaken. 
-                        Uhhh, they can check out any of the value types. 
-                        There should be a list of the other types I can change them into… everything is conversion…`
+                        
+                        Uhhh, they can check out any of the value types in the reference @UI/docsExpand.
+
+                        There should be a list of the other types I can change them into… 
+                        
+                        Everything is conversion…`
                     ),
                     pause(),
                     dialog(
@@ -2735,7 +2934,9 @@ const tutorial: Act[] = [
                         Emotion.Neutral,
                         `Happily. 
                         To put it simply, I work with @TextLiteral make new text from any values you might give me. 
+                        
                         Ultimately, they all need to be text, and so you'll have to work with @Convert to get them that way. 
+                        
                         But once you give me all that text, I'm happy to stitch it together and assemble your beautiful prose into a single text value for display, or whatever other purposes you might have.`
                     ),
                     pause(),
@@ -2743,8 +2944,11 @@ const tutorial: Act[] = [
                         'Template',
                         Emotion.Serious,
                         `For example, did @FunctionDefinition show you how text knows how to add itself to other text? 
+                        
                         Like this? 
-                        This little expression converts 7 to text, then adds it to ⧼'I have'⧽, then adds ⧼'apples'⧽. 
+                        
+                        This little expression converts ⧼7⧽ to text, then adds it to ⧼'I have'⧽, then adds ⧼'apples'⧽. 
+                        
                         But it's so untidy, and makes it hard to read what's happening, and the conversion to text feels so unnecessary.`
                     ),
                     edit(`'I have' + (7→"") + 'apples'`),
@@ -2830,7 +3034,9 @@ const tutorial: Act[] = [
                         'FunctionDefinition',
                         Emotion.Serious,
                         `To be clear, not all decisions: I have my own life, and they have theirs. 
+                        
                         But in a performance, when we're trying to decide what to do next on stage, it's all up to them to follow your guidance as director and decide what to do. 
+                        
                         So they're a key partner creating exciting performances.`
                     ),
                     pause(),
@@ -2844,11 +3050,17 @@ const tutorial: Act[] = [
                         'Conditional',
                         Emotion.Curious,
                         `@FunctionDefinition? 
+                        
                         The silence is breaking? 
+                        
                         What is silence? 
+                        
                         How does one break it? 
+                        
                         Are we every really silent? 
+                        
                         Who is this person? 
+                        
                         Are they the one breaking it?`
                     ),
                     pause(),
@@ -2865,6 +3077,7 @@ const tutorial: Act[] = [
                         'Conditional',
                         Emotion.Curious,
                         `Do I? 
+
                         I do make decisions, but what I really do is encode the decisions that directors tell me to make, so is it really me making the decisions?`
                     ),
                     pause(),
@@ -2877,23 +3090,37 @@ const tutorial: Act[] = [
                         Do you want to show an example?`
                     ),
                     dialog('Conditional', Emotion.Curious, `Like this?`),
-                    edit(`1 > 5 ? 'more' 'less'`),
-                    pause(),
+                    edit(`_•? ? _ _`),
                     dialog(
                         'FunctionDefinition',
                         Emotion.Excited,
-                        `Yes, exactly like that! 
+                        `Yes, exactly like that!
+
                         Do you see how there's four parts to @Conditional's format? 
-                        There's a condition first, then ⧼?⧽, then a true expression, then a false expression. 
-                        What @Conditional does is evaluate the condition, and if it's true, they evaluate the yes expression. 
+                        
+                        There's a **condition** first, which needs to be a @BooleanType.
+                        
+                        Then there's ⧼?⧽.
+                        
+                        Then there's **yes** expression, then a **no** expression. 
+                        
+                        What @Conditional does is evaluate the condition, and if it's ⧼⊤⧽, they evaluate the **yes** expression. 
+                        
                         Otherwise, they evaluate the *no* expression. 
                         
                         It's such a powerful way of deciding!`
                     ),
+                    pause(),
+                    edit(`1 > 5 ? 'more' 'less'`),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Excited,
+                        `Can you give us a more specific example?`
+                    ),
                     dialog(
                         'Conditional',
                         Emotion.Curious,
-                        `Is it? Even something like this?`
+                        `Something like this?`
                     ),
                     edit(`1 > 5 ? 'less' 'more'`),
                     pause(),
@@ -2908,25 +3135,38 @@ const tutorial: Act[] = [
                     dialog(
                         'Conditional',
                         Emotion.Curious,
-                        `Reliable? Maybe? If you accept that I just decide whatever the director tells me, then yes, but what if the director tells me this?
+                        `Reliable? 
                         
-                        That looks like a decision, but I will never decide 'big' — is that really a decision?`
+                        Maybe? 
+                        
+                        If you accept that I just decide whatever the director tells me, then yes, but what if the director tells me this?
+                        
+                        Is it really a decision of the number can never be greater than ⧼3⧽?`
                     ),
                     edit(`[1 2 3].random() > 3 ? 'big' 'small'`),
                     dialog(
                         'FunctionDefinition',
                         Emotion.Confused,
                         `Hm, I guess that's a good point. 
+                        
                         I guess whether something is a decision depends a lot on what the director's decision is. 
+                        
                         I guess that means the director has to think pretty carefully about the decisions they give you?`
                     ),
                     pause(),
                     dialog(
                         'Conditional',
                         Emotion.Curious,
-                        `Carefully? Skeptical, maybe? Have you thought about my good friends @BooleanLiteral? 
+                        `Carefully? 
+                        
+                        Skeptical, maybe? 
+                        
+                        Have you thought about my good friends @BooleanLiteral? 
+                        
                         How is their view of the world possibly enough to represent all of the decisions we might want to make? 
+                        
                         What if, for example, we wanted a performance that took someone's name and decided if it was beautiful or not? 
+                        
                         Is that a true or false decision? 
                         
                         Is that even a decision we should make? 
@@ -2941,7 +3181,9 @@ const tutorial: Act[] = [
                         'Conditional',
                         Emotion.Curious,
                         `And think about the questions I answer — why can I only respond to ⧼⊤⧽ and ⧼⊥⧽? 
+                        
                         Why not a number? 
+                        
                         Don't I have a right to decide if ⧼1⧽ is beautiful?`
                     ),
                     edit(`1 ? 'beautiful' 'ugly'`),
@@ -2964,14 +3206,17 @@ const tutorial: Act[] = [
                         'Conditional',
                         Emotion.Curious,
                         `Do you really think that? 
+
                         That I'm beautiful? 
-                        I only ever see my limits, but maybe those limits are still worthwhile?`
+                        
+                        Maybe those limits are still worthwhile?`
                     ),
                     pause(),
                     dialog(
                         'FunctionDefinition',
                         Emotion.Kind,
                         `They absolutely are. 
+
                         And I'm excited to show our new friend here just how worthwhile they are.
                         
                         Will you be around when I do?`
@@ -3121,7 +3366,7 @@ const tutorial: Act[] = [
                     dialog(
                         'FunctionDefinition',
                         Emotion.Curious,
-                        `Try dragging on the timeline, using the timeline buttons, using the arrow keys with the timeline focused, or pressing the ⏸️ and ▶️ buttons. 
+                        `Try dragging on the timeline @UI/timeline, using the timeline buttons, using the arrow keys with the timeline focused, or pressing the ⏸️ and ▶️ @UI/playToggle buttons. 
                         You can go backwards in time, to see previous evaluations.
                         
                         The dashed arrows step to previous and future stream inputs. 
@@ -5236,7 +5481,7 @@ fruits + 3`
                         But you can put @Block with parentheses anywhere in a program. 
                         For example, you can use @Block to clarify the order of evaluating math.
                         
-                        Here, @BinaryOperator evaluates 1, then evaluates @Block, then they are added together.
+                        Here, @BinaryOperation evaluates ⧼1⧽, then evaluates @Block, then they are added together.
                         
                         @Block, did I get that right?`
                     ),
@@ -5531,7 +5776,7 @@ vowels("hello")`
                     dialog(
                         'FunctionDefinition',
                         Emotion.Curious,
-                        `@Structure, are you there?`
+                        `@StructureDefinition, are you there?`
                     ),
                     dialog(
                         'StructureDefinition',
@@ -5865,7 +6110,7 @@ Group(Stack(0.5m) [
                         Emotion.Surprised,
                         `Oh my, I forgot to explain that. 
                         
-                        You use a mini me, @PropertyAccess. 
+                        You use a mini me, @PropertyReference. 
                         
                         For instance, with that game example, see how we defined a Game @StructureDefinition, then make a @Game value with ⧼0⧽ score, ⧼3⧽ lives, and level ⧼1⧽? 
                         
@@ -5896,7 +6141,7 @@ status.lives`
                         For example, in this game, every time ticks changes, the player gets one more point in their score. 
                         Weird game, huh? 
                         
-                        So the initial Game value starts as ⧼Game(0 3 1)⧽, but then the next one is the ⧼Game⧽'s old values, but with the score adding ⧼1⧽.`
+                        So the initial ⧼Game⧽ value starts as ⧼Game(0 3 1)⧽, but then the next one is the ⧼Game⧽'s old values, but with the score adding ⧼1⧽.`
                     ),
                     edit(
                         `•Game(score•# lives•# level•#)
@@ -5906,7 +6151,7 @@ status: Game(0 3 1) … ∆ Time() … Game(status.score + 1 status.lives status
                     dialog(
                         'StructureDefinition',
                         Emotion.Eager,
-                        `It can get pretty annoying to have to repeat all of those old values if only one thing is changing, so @Bind and I came up with a neat trick to copy a @Structure value with a new value.
+                        `It can get pretty annoying to have to repeat all of those old values if only one thing is changing, so @Bind and I came up with a neat trick to copy a @StructureDefinition value with a new value.
                         
                         See how it just kind of looks like a regular @Bind? 
                         
@@ -5953,13 +6198,15 @@ status: Game(0 3 1) … ∆ Time() … status.score: status.score + 1`
                     dialog(
                         'Doc',
                         Emotion.Surprised,
-                        `@Function, is that you? I never thought I'd see you again. How are you? How's @Evaluate?`
+                        `@FunctionDefinition, is that you? I never thought I'd see you again. How are you? How's @Evaluate?`
                     ),
                     pause(),
                     dialog(
                         'FunctionDefinition',
                         Emotion.Kind,
-                        `I'm okay. @Evaluate is … @Evaluate. 
+                        `I'm okay. 
+                        @Evaluate is … @Evaluate.
+                        I saw them, but… I think I still need space.
                         
                         I've been introducing everyone to our new director.`
                     ),
