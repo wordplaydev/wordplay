@@ -41,7 +41,7 @@
 </script>
 
 <section
-    class="output"
+    class="output stage"
     class:mini
     aria-label={$creator.getLocale().ui.section.output}
     style:direction={$creator.getWritingDirection()}

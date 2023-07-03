@@ -27,6 +27,8 @@
     import { tick } from 'svelte';
     import type { Code, Dialog } from '../../locale/Locale';
     import { goto } from '$app/navigation';
+    import ConceptLink from '../../nodes/ConceptLink';
+    import TutorialHighlight from './TutorialHighlight.svelte';
 
     export let progress: Progress;
     export let navigate: (progress: Progress) => void;
@@ -62,6 +64,18 @@
               };
           })
         : [];
+
+    $: highlights = turns
+        .map((turn) =>
+            turn.speech
+                .nodes()
+                .filter(
+                    (node): node is ConceptLink => node instanceof ConceptLink
+                )
+        )
+        .flat()
+        .filter((concept) => concept.concept.getText().startsWith('@UI/'))
+        .map((concept) => concept.concept.getText().substring('@UI/'.length));
 
     const conceptPath = getConceptPath();
 
@@ -284,6 +298,9 @@
         {/if}
     {/key}
 </section>
+{#each highlights as highlight}
+    <TutorialHighlight id={highlight} />
+{/each}
 
 <style>
     .tutorial {

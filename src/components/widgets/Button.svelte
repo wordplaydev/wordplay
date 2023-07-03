@@ -6,12 +6,14 @@
     export let enabled: boolean = true;
     export let stretch: boolean = false;
     export let submit: boolean = false;
+    export let classes: string | undefined = undefined;
 </script>
 
 <!-- Note that we don't disable the button using disabled because that makes
     it invisible to screen readers. -->
 <button
     class:stretch
+    class={classes}
     type={submit ? 'submit' : null}
     title={tip}
     aria-label={tip}

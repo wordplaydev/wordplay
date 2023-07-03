@@ -1085,6 +1085,7 @@
     {#if !layout.isFullscreen() && editable}
         <nav class="footer">
             {#if original}<Button
+                    classes="revertProject"
                     tip={$creator.getLocale().ui.tooltip.revertProject}
                     enabled={!project.equals(original)}
                     action={() => revert()}>↺</Button

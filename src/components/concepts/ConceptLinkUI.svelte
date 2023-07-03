@@ -3,6 +3,7 @@
     import ConceptLink from '@nodes/ConceptLink';
     import Concept from '@concepts/Concept';
     import { creator } from '../../db/Creator';
+    import TutorialHighlight from '../app/TutorialHighlight.svelte';
 
     export let link: ConceptLink | Concept;
     export let salient: boolean = true;
@@ -13,6 +14,7 @@
     let path = getConceptPath();
 
     let concept: Concept | undefined;
+    let ui: string | undefined;
     $: {
         if (link instanceof Concept) concept = link;
         else if ($index === undefined) concept = undefined;
@@ -22,23 +24,32 @@
             const id = link.concept.getText().slice(1);
             // Split the name by /
             const names = id.split('/');
-            concept = $index.getConceptByName(names[0]);
-            if (concept && names.length > 1) {
-                const subConcept = Array.from(concept.getSubConcepts()).find(
-                    (sub) => sub.hasName(names[1], $creator.getLocale())
-                );
-                if (subConcept !== undefined) concept = subConcept;
-                else if (concept.affiliation !== undefined) {
-                    const structure = $index.getStructureConcept(
-                        concept.affiliation
+            // See if it's a UI reference
+            if (names[0] === 'UI' && names.length > 1) {
+                ui = names[1];
+            }
+            // Otherwise, try to resolve a concept or subconcept.
+            else {
+                concept = $index.getConceptByName(names[0]);
+                if (concept && names.length > 1) {
+                    const subConcept = Array.from(
+                        concept.getSubConcepts()
+                    ).find((sub) =>
+                        sub.hasName(names[1], $creator.getLocale())
                     );
-                    if (structure) {
-                        const subConcept = Array.from(
-                            structure.getSubConcepts()
-                        ).find((sub) =>
-                            sub.hasName(names[1], $creator.getLocale())
+                    if (subConcept !== undefined) concept = subConcept;
+                    else if (concept.affiliation !== undefined) {
+                        const structure = $index.getStructureConcept(
+                            concept.affiliation
                         );
-                        if (subConcept) concept = subConcept;
+                        if (structure) {
+                            const subConcept = Array.from(
+                                structure.getSubConcepts()
+                            ).find((sub) =>
+                                sub.hasName(names[1], $creator.getLocale())
+                            );
+                            if (subConcept) concept = subConcept;
+                        }
                     }
                 }
             }
@@ -62,6 +73,8 @@
             event.key == ' ' || event.key === 'Enter' ? navigate() : undefined}
         >{#if label}{label}{:else}{concept.getName($creator.getLocale())}{/if}
     </span>
+{:else if ui}
+    <TutorialHighlight />
 {:else if link instanceof ConceptLink}
     <span>{link.concept.getText()}</span>
 {/if}

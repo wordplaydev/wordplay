@@ -237,7 +237,7 @@ const tutorial: Act[] = [
                         `
                         Sure. I'm basically the organizer of the program for a performance.
 
-                        You can see me over there, with an @UI/editor showing me (currently empty) the @UI/stage showing the what I evaluate to (currently nothing).
+                        You can see me over there, with an editor @UI/editor showing me (currently empty) the @UI/stage showing the what I evaluate to (currently nothing).
                     
                         The **director** — that's you — helps everyone figure out what they're doing. And then I put them on stage for the audience to see.`
                     ),
@@ -247,7 +247,7 @@ const tutorial: Act[] = [
                         Emotion.Neutral,
                         `For example, try typing my ⧼"hello"⧽ in the editor over there. 
 
-                        (Don't worry about making mistakes, you can always revert to the original with @UI/revertProject).
+                        (Don't worry about making mistakes, you can always revert to the original with the revert button @UI/revertProject).
 
                         Did you type something?
                         That's my friend @TextLiteral. 
