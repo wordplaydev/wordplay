@@ -71,6 +71,7 @@
     import type PaintingConfiguration from '../output/PaintingConfiguration';
     import { creator } from '../../db/Creator';
     import Arrangement from '../../db/Arrangement';
+    import Glyphs from '../../lore/Glyphs';
 
     export let project: Project;
     export let original: Project | undefined = undefined;
@@ -1084,6 +1085,7 @@
 
     {#if !layout.isFullscreen() && editable}
         <nav class="footer">
+            {Glyphs.Program.symbols}
             {#if original}<Button
                     classes="revertProject"
                     tip={$creator.getLocale().ui.tooltip.revertProject}
