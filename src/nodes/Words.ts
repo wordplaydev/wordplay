@@ -5,6 +5,7 @@ import Glyphs from '../lore/Glyphs';
 import Node, { type Field, type Replacement } from './Node';
 import Token from './Token';
 import TokenType from './TokenType';
+import { unescaped } from './TextLiteral';
 
 export default class Words extends Node {
     readonly open: Token | undefined;
@@ -64,7 +65,7 @@ export default class Words extends Node {
     }
 
     getText() {
-        return this.words?.getText() ?? '';
+        return unescaped(this.words?.getText() ?? '');
     }
 
     containsText(text: string) {

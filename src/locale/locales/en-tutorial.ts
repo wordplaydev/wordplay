@@ -30,7 +30,7 @@ const tutorial: Act[] = [
                     dialog(
                         'FunctionDefinition',
                         Emotion.Neutral,
-                        'Do I know you?'
+                        'Do I know ^* you?'
                     ),
                     pause(),
                     dialog(
