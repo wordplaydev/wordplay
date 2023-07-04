@@ -1,5 +1,4 @@
 enum Emotion {
-    TBD = 'tbd',
     Angry = 'angry',
     Arrogant = 'arrogant',
     Bored = 'bored',

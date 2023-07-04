@@ -208,8 +208,8 @@ const en: Locale = {
         },
         Doc: {
             name: 'documentation',
-            description: WRITE_DOC,
-            emotion: Emotion.TBD,
+            description: 'documentation',
+            emotion: Emotion.Serious,
             doc:
                 WRITE_DOC +
                 `Describes the purpose of some code.
@@ -220,13 +220,13 @@ const en: Locale = {
         Docs: {
             name: 'documentation list',
             description: WRITE_DOC,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Serious,
             doc: WRITE_DOC + `a list of documentation`,
         },
         KeyValue: {
             name: 'key/value pair',
             description: WRITE_DOC,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Kind,
             doc:
                 WRITE_DOC +
                 `represents a single mapping in a map between a key and a value.`,
@@ -234,7 +234,7 @@ const en: Locale = {
         Language: {
             name: 'language tag',
             description: getLanguageDescription,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Eager,
             doc: `
                 Why hello! 
                 Have you ever wanted to make it *crystal clear* what lanugage something is? 
@@ -255,7 +255,7 @@ const en: Locale = {
         Name: {
             name: 'name',
             description: (name) => name.name?.getText(),
-            emotion: Emotion.TBD,
+            emotion: Emotion.Kind,
             doc:
                 WRITE_DOC +
                 `
@@ -269,7 +269,7 @@ const en: Locale = {
         Names: {
             name: 'name list',
             description: (names) => `${names.names.length} names`,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Kind,
             doc:
                 WRITE_DOC +
                 `
@@ -282,19 +282,19 @@ const en: Locale = {
         Row: {
             name: 'row',
             description: WRITE_DOC,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Angry,
             doc: WRITE_DOC + `a row of values, matching a table definition`,
         },
         Token: {
             name: 'token',
             description: getTokenDescription,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Neutral,
             doc: WRITE_DOC + 'the smallest group of symbols in a performance',
         },
         TypeInputs: {
             name: 'type inputs',
             description: WRITE_DOC,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Curious,
             doc:
                 WRITE_DOC +
                 `a list of types given to a @FunctionDefinition or @StructureDefinition`,
@@ -302,7 +302,7 @@ const en: Locale = {
         TypeVariable: {
             name: 'type variable',
             description: WRITE_DOC,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Curious,
             doc:
                 WRITE_DOC +
                 `a placeholder for a type used in a @FunctionDefinition or @StructureDefinition`,
@@ -310,13 +310,13 @@ const en: Locale = {
         TypeVariables: {
             name: 'type variables',
             description: WRITE_DOC,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Curious,
             doc: WRITE_DOC + `a list of @TypeVariable`,
         },
         Paragraph: {
             name: 'paragraph',
             description: WRITE_DOC,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Serious,
             doc:
                 WRITE_DOC +
                 `a formatted list of words, links, and example code`,
@@ -324,25 +324,25 @@ const en: Locale = {
         WebLink: {
             name: 'link',
             description: WRITE_DOC,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Serious,
             doc: WRITE_DOC + `a link to something on the web`,
         },
         ConceptLink: {
             name: 'concept',
             description: WRITE_DOC,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Serious,
             doc: WRITE_DOC + `a link to a concept in Wordplay`,
         },
         Words: {
             name: 'words',
             description: WRITE_DOC,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Serious,
             doc: WRITE_DOC + `words that are part of @Doc`,
         },
         Example: {
             name: 'example',
             description: WRITE_DOC,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Serious,
             doc: WRITE_DOC + `a program that illustrates how to use some code`,
         },
         BinaryOperation: {
@@ -515,7 +515,7 @@ const en: Locale = {
         Borrow: {
             name: 'borrow',
             description: WRITE_DOC,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Excited,
             doc:
                 WRITE_DOC +
                 `Use a binding from another source file or performance.`,
@@ -537,7 +537,7 @@ const en: Locale = {
         Changed: {
             name: 'changed',
             description: WRITE_DOC,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Curious,
             doc: WRITE_DOC + `true if a stream caused a program to re-evaluate`,
             start: (stream: NodeLink) =>
                 Explanation.as(
@@ -581,7 +581,7 @@ const en: Locale = {
         ConversionDefinition: {
             name: 'conversion',
             description: WRITE_DOC,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Excited,
             doc:
                 WRITE_DOC +
                 `define a conversion from one value type to another`,
@@ -614,7 +614,7 @@ const en: Locale = {
         Delete: {
             name: 'delete',
             description: WRITE_DOC,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Angry,
             doc: WRITE_DOC + `delete rows from a table`,
             start: (table) => Explanation.as('evaluate ', table, ' first'),
             finish: (value) =>
@@ -626,7 +626,7 @@ const en: Locale = {
         DocumentedExpression: {
             name: 'documented expression',
             description: WRITE_DOC,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Serious,
             doc: WRITE_DOC,
             start: 'evaluate the documented expression',
         },
@@ -689,7 +689,7 @@ greeting('kitty')⧽
             name: 'function',
             description: (fun, translation) =>
                 fun.names.getLocaleText(translation.language),
-            emotion: Emotion.TBD,
+            emotion: Emotion.Kind,
             doc:
                 WRITE_DOC +
                 `define a function that maps input values to an output value`,
@@ -698,7 +698,7 @@ greeting('kitty')⧽
         HOF: {
             name: 'higher order function',
             description: WRITE_DOC,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Kind,
             doc: WRITE_DOC,
             start: 'evaluating the function given',
             finish: (value) =>
@@ -707,13 +707,13 @@ greeting('kitty')⧽
         Initial: {
             name: 'initial evaluation',
             description: WRITE_DOC,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Curious,
             doc: WRITE_DOC,
         },
         Insert: {
             name: 'insert',
             description: WRITE_DOC,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Angry,
             doc: WRITE_DOC,
             start: (table) => Explanation.as('evaluate ', table, ' first'),
             finish: (value) =>
@@ -725,7 +725,7 @@ greeting('kitty')⧽
         Is: {
             name: 'is',
             description: WRITE_DOC,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Curious,
             doc: WRITE_DOC,
             start: (value) => Explanation.as('evaluate ', value, ' first'),
             finish: (is, type) =>
@@ -740,7 +740,7 @@ greeting('kitty')⧽
         ListAccess: {
             name: 'list access',
             description: '',
-            emotion: Emotion.TBD,
+            emotion: Emotion.Cheerful,
             doc: WRITE_DOC,
             start: (list) => Explanation.as('evaluate ', list, ' first'),
             finish: (value) =>
@@ -837,7 +837,7 @@ greeting('kitty')⧽
         NativeExpression: {
             name: 'built-in expression',
             description: WRITE_DOC,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Neutral,
             doc: WRITE_DOC,
             start: 'evaluate the built-in expression',
         },
@@ -858,7 +858,7 @@ greeting('kitty')⧽
         Previous: {
             name: 'previous',
             description: WRITE_DOC,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Curious,
             doc: WRITE_DOC,
             start: (stream) => Explanation.as('first get ', stream),
             finish: (value) =>
@@ -870,7 +870,7 @@ greeting('kitty')⧽
         PropertyBind: {
             name: 'refine',
             description: WRITE_DOC,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Kind,
             doc: WRITE_DOC,
             start: 'get the structure',
             finish: (structure) =>
@@ -881,7 +881,7 @@ greeting('kitty')⧽
         PropertyReference: {
             name: 'property access',
             description: WRITE_DOC,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Kind,
             doc: WRITE_DOC,
             start: 'first get the value',
             finish: (property, value) =>
@@ -898,7 +898,7 @@ greeting('kitty')⧽
         Reaction: {
             name: 'reaction',
             description: WRITE_DOC,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Excited,
             doc: `A reaction to a stream change.`,
             start: 'first check if the stream has changed',
             finish: (value) =>
@@ -913,14 +913,14 @@ greeting('kitty')⧽
         Reference: {
             name: 'reference',
             description: (node: Reference) => node.getName(),
-            emotion: Emotion.TBD,
+            emotion: Emotion.Kind,
             doc: WRITE_DOC,
             start: (name) => Explanation.as('get the value of ', name),
         },
         Select: {
             name: 'select',
             description: WRITE_DOC,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Angry,
             doc: WRITE_DOC,
             start: (table) => Explanation.as('evaluate ', table, ' first'),
             finish: (value) =>
@@ -962,7 +962,7 @@ greeting('kitty')⧽
         SetOrMapAccess: {
             name: 'set/map access',
             description: WRITE_DOC,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Kind,
             doc: WRITE_DOC,
             start: (set) => Explanation.as('evaluate ', set, ' first'),
             finish: (value) =>
@@ -971,13 +971,13 @@ greeting('kitty')⧽
         Source: {
             name: 'document',
             description: WRITE_DOC,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Serious,
             doc: WRITE_DOC,
         },
         StreamDefinition: {
             name: 'stream',
             description: WRITE_DOC,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Curious,
             doc: WRITE_DOC + `defines a stream of values.`,
             start: 'define this stream type',
         },
@@ -985,14 +985,14 @@ greeting('kitty')⧽
             name: 'structure',
             description: (structure, translation) =>
                 structure.names.getLocaleText(translation.language),
-            emotion: Emotion.TBD,
+            emotion: Emotion.Kind,
             doc: `define a data structure that stores values and functions on those values.`,
             start: 'define this structure type',
         },
         TableLiteral: {
             name: 'table',
             description: WRITE_DOC,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Angry,
             doc: WRITE_DOC,
             item: 'row',
             start: 'first evaluate the rows',
@@ -1030,7 +1030,7 @@ greeting('kitty')⧽
         This: {
             name: 'this',
             description: WRITE_DOC,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Kind,
             doc: WRITE_DOC,
             start: (value) =>
                 Explanation.as('evaluated to ', value ?? 'nothing'),
@@ -1068,7 +1068,7 @@ greeting('kitty')⧽
         Update: {
             name: 'update rows',
             description: WRITE_DOC,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Angry,
             doc: WRITE_DOC,
             start: (table) => Explanation.as('evaluate ', table, ' first'),
             finish: (value) =>
@@ -1080,7 +1080,7 @@ greeting('kitty')⧽
         AnyType: {
             name: 'any type',
             description: WRITE_DOC,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Curious,
             doc: `represents any possible type`,
         },
         BooleanType: {
@@ -1092,25 +1092,25 @@ greeting('kitty')⧽
         ConversionType: {
             name: 'conversion type',
             description: WRITE_DOC,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Curious,
             doc: `a type of function that converts values of one type to another `,
         },
         ExceptionType: {
             name: 'exception type',
             description: WRITE_DOC,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Curious,
             doc: WRITE_DOC,
         },
         FunctionDefinitionType: {
             name: 'function type',
             description: WRITE_DOC,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Curious,
             doc: WRITE_DOC,
         },
         FunctionType: {
             name: 'function type',
             description: WRITE_DOC,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Curious,
             doc: WRITE_DOC,
         },
         ListType: {
@@ -1126,7 +1126,7 @@ greeting('kitty')⧽
                           translation,
                           context
                       )}`,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Cheerful,
             doc: WRITE_DOC,
         },
         MapType: {
@@ -1144,7 +1144,7 @@ greeting('kitty')⧽
                           translation,
                           context
                       )} to ${node.value.getDescription(translation, context)}`,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Kind,
             doc: WRITE_DOC,
         },
         MeasurementType: {
@@ -1153,25 +1153,25 @@ greeting('kitty')⧽
                 node.unit instanceof Unit
                     ? node.unit.getDescription(translation, context)
                     : 'number',
-            emotion: Emotion.TBD,
+            emotion: Emotion.Precise,
             doc: WRITE_DOC,
         },
         NameType: {
             name: 'name type',
             description: (node: NameType) => `${node.name.getText()}`,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Curious,
             doc: WRITE_DOC,
         },
         NeverType: {
             name: 'never type',
             description: '',
-            emotion: Emotion.TBD,
+            emotion: Emotion.Curious,
             doc: WRITE_DOC,
         },
         NoneType: {
             name: 'nothing type',
             description: '',
-            emotion: Emotion.TBD,
+            emotion: Emotion.Neutral,
             doc: WRITE_DOC,
         },
         SetType: {
@@ -1180,7 +1180,7 @@ greeting('kitty')⧽
                 node.key === undefined
                     ? 'anything'
                     : node.key.getLabel(translation),
-            emotion: Emotion.TBD,
+            emotion: Emotion.Kind,
             doc: WRITE_DOC,
         },
         StreamDefinitionType: {
@@ -1189,7 +1189,7 @@ greeting('kitty')⧽
                 `a ${node.definition.names.getLocaleText(
                     translation.language
                 )} stream`,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Curious,
             doc: WRITE_DOC,
         },
         StreamType: {
@@ -1203,13 +1203,13 @@ greeting('kitty')⧽
                     translation,
                     context
                 )}`,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Curious,
             doc: WRITE_DOC,
         },
         StructureDefinitionType: {
             name: 'structure type',
             description: WRITE_DOC,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Kind,
             doc: WRITE_DOC,
         },
         UnknownType: {
@@ -1224,26 +1224,26 @@ greeting('kitty')⧽
                     .map((unknown) => unknown.getReason(translation, context))
                     .join(', because ')}`;
             },
-            emotion: Emotion.TBD,
+            emotion: Emotion.Curious,
             doc: WRITE_DOC,
         },
         TableType: {
             name: 'table type',
             description: '',
-            emotion: Emotion.TBD,
+            emotion: Emotion.Angry,
             doc: WRITE_DOC,
         },
         TextType: {
             name: 'text type',
             description: (node) =>
                 node.isLiteral() ? node.text.getText() : 'text',
-            emotion: Emotion.TBD,
+            emotion: Emotion.Happy,
             doc: WRITE_DOC,
         },
         TypePlaceholder: {
             name: 'placeholder type',
             description: WRITE_DOC,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Curious,
             doc: WRITE_DOC,
         },
         UnionType: {
@@ -1260,7 +1260,7 @@ greeting('kitty')⧽
                     translation,
                     context
                 )}`,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Curious,
             doc: WRITE_DOC,
         },
         Unit: {
@@ -1274,80 +1274,80 @@ greeting('kitty')⧽
                     : node.toWordplay() === 'm/s'
                     ? 'velocity'
                     : node.toWordplay(),
-            emotion: Emotion.TBD,
+            emotion: Emotion.Precise,
             doc: WRITE_DOC,
         },
         UnparsableType: {
             name: 'unparsable type',
             description: '',
-            emotion: Emotion.TBD,
+            emotion: Emotion.Curious,
             doc: WRITE_DOC,
         },
         VariableType: {
             name: 'variable type',
             description: '',
-            emotion: Emotion.TBD,
+            emotion: Emotion.Curious,
             doc: WRITE_DOC,
         },
         CycleType: {
             name: 'cycle type',
             description: (node: CycleType) =>
                 `${node.expression.toWordplay()} depends on itself`,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Curious,
             doc: WRITE_DOC,
         },
         UnknownVariableType: {
             name: 'unknown variable type',
             description: '',
-            emotion: Emotion.TBD,
+            emotion: Emotion.Curious,
             doc: WRITE_DOC,
         },
         NotAListType: {
             name: 'non-list type',
             description: '',
-            emotion: Emotion.TBD,
+            emotion: Emotion.Curious,
             doc: WRITE_DOC,
         },
         NoExpressionType: {
             name: 'non-expression type',
             description: '',
-            emotion: Emotion.TBD,
+            emotion: Emotion.Curious,
             doc: WRITE_DOC,
         },
         NotAFunctionType: {
             name: 'non-function type',
             description: '',
-            emotion: Emotion.TBD,
+            emotion: Emotion.Curious,
             doc: WRITE_DOC,
         },
         NotATableType: {
             name: 'non-table type',
             description: '',
-            emotion: Emotion.TBD,
+            emotion: Emotion.Curious,
             doc: WRITE_DOC,
         },
         NotAStreamType: {
             name: 'non-stream type',
             description: '',
-            emotion: Emotion.TBD,
+            emotion: Emotion.Curious,
             doc: WRITE_DOC,
         },
         NotASetOrMapType: {
             name: 'non-set/map type',
             description: '',
-            emotion: Emotion.TBD,
+            emotion: Emotion.Curious,
             doc: WRITE_DOC,
         },
         NotEnclosedType: {
             name: 'not in structure, conversion, or reaction',
             description: '',
-            emotion: Emotion.TBD,
+            emotion: Emotion.Curious,
             doc: WRITE_DOC,
         },
         NotImplementedType: {
             name: 'unimplemented type',
             description: '',
-            emotion: Emotion.TBD,
+            emotion: Emotion.Curious,
             doc: WRITE_DOC,
         },
         UnknownNameType: {
@@ -1356,7 +1356,7 @@ greeting('kitty')⧽
                 node.name === undefined
                     ? "a name wasn't given"
                     : `${node.name.getText()} isn't defined on ${node.why?.toWordplay()}`,
-            emotion: Emotion.TBD,
+            emotion: Emotion.Curious,
             doc: WRITE_DOC,
         },
     },
