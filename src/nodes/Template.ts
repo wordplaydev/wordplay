@@ -116,6 +116,7 @@ export default class Template extends Expression {
         for (let i = this.expressions.length - 1; i >= 0; i--) {
             const p = this.expressions[i];
             const part =
+                // Is the token static text? Grab the text minus the delimiters.
                 p instanceof Token
                     ? new Text(
                           this,
@@ -123,6 +124,10 @@ export default class Template extends Expression {
                               .toString()
                               .substring(1, p.text.toString().length - 1)
                       )
+                    : // Otherwise, get the value off the top of the stack and convert it to string, unless it is already text.
+                    // Or if it's already text, just keep it as is.
+                    evaluator.peekValue() instanceof Text
+                    ? (evaluator.popValue(this) as Text)
                     : new Text(this, evaluator.popValue(this).toString());
             text = part.text + text;
         }
