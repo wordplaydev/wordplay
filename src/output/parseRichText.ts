@@ -1,3 +1,9 @@
+const UNDERSCORE_SYMBOL = '_';
+const ITALIC_SYMBOL = '/';
+const LIGHT_SYMBOL = '|';
+const BOLD_SYMBOL = '*';
+const EXTRA_SYMBOL = '^';
+
 export default function parseRichText(text: string): RichNode {
     const paragraphs = text.split(/\s*\n\n\s*/);
     // First, split into paragraphs.
@@ -120,7 +126,7 @@ class UnderlineNode extends Node {
         super(children);
     }
     getRichTextMarker() {
-        return '_';
+        return UNDERSCORE_SYMBOL;
     }
     getHTMLOpenMarker() {
         return '<u>';
@@ -135,7 +141,7 @@ class LightNode extends Node {
         super(children);
     }
     getRichTextMarker() {
-        return '*';
+        return LIGHT_SYMBOL;
     }
     getHTMLOpenMarker() {
         return "<span class='light'>";
@@ -154,7 +160,7 @@ class BoldNode extends Node {
     }
 
     getRichTextMarker() {
-        return '**';
+        return BOLD_SYMBOL;
     }
     getHTMLOpenMarker() {
         return '<strong>';
@@ -163,7 +169,7 @@ class BoldNode extends Node {
         return '</strong>';
     }
     getWeight(): undefined | number {
-        return 500;
+        return 700;
     }
 }
 
@@ -182,7 +188,7 @@ class ExtraBoldNode extends Node {
         return '</span>';
     }
     getWeight(): undefined | number {
-        return 700;
+        return 900;
     }
 }
 
@@ -192,7 +198,7 @@ class ItalicNode extends Node {
     }
 
     getRichTextMarker() {
-        return '/';
+        return ITALIC_SYMBOL;
     }
     getHTMLOpenMarker() {
         return '<em>';
@@ -211,23 +217,38 @@ function parseNodes(symbols: string[], awaiting?: string): Node[] {
         (awaiting === undefined || !symbols.join('').startsWith(awaiting))
     ) {
         const next = symbols[0];
-        const nextNext = symbols[1];
-        const nextNextNext = symbols[2];
-        if (next === '*') {
-            if (nextNext === '*') {
-                if (nextNextNext === '*') children.push(parseExtra(symbols));
-                else children.push(parseBold(symbols));
-            } else children.push(parseLight(symbols));
-        } else if (next === '_') children.push(parseUnderline(symbols));
-        else if (next === '/') children.push(parseItalic(symbols));
-        else {
+        const repeated = next === symbols[1];
+        if (next === LIGHT_SYMBOL && !repeated)
+            children.push(parseLight(symbols));
+        else if (next === BOLD_SYMBOL && !repeated)
+            children.push(parseBold(symbols));
+        else if (next === EXTRA_SYMBOL && !repeated)
+            children.push(parseExtra(symbols));
+        else if (next === UNDERSCORE_SYMBOL && !repeated)
+            children.push(parseUnderline(symbols));
+        else if (next === ITALIC_SYMBOL && !repeated)
+            children.push(parseItalic(symbols));
+        else if (
+            repeated &&
+            (next === LIGHT_SYMBOL ||
+                next === BOLD_SYMBOL ||
+                next === EXTRA_SYMBOL ||
+                next === UNDERSCORE_SYMBOL ||
+                next === ITALIC_SYMBOL)
+        ) {
+            children.push(new TextNode(next));
+            symbols.shift();
+            symbols.shift();
+        } else {
             let symbol = symbols[0];
             let text = '';
             while (
                 symbols.length > 0 &&
-                symbol !== '*' &&
-                symbol !== '/' &&
-                symbol !== '_'
+                symbol !== EXTRA_SYMBOL &&
+                symbol !== BOLD_SYMBOL &&
+                symbol !== LIGHT_SYMBOL &&
+                symbol !== ITALIC_SYMBOL &&
+                symbol !== UNDERSCORE_SYMBOL
             ) {
                 text += symbols.shift();
                 symbol = symbols[0];
@@ -240,41 +261,35 @@ function parseNodes(symbols: string[], awaiting?: string): Node[] {
 
 function parseItalic(symbols: string[]): ItalicNode {
     symbols.shift();
-    const nodes = parseNodes(symbols, '/');
+    const nodes = parseNodes(symbols, ITALIC_SYMBOL);
     symbols.shift();
     return new ItalicNode(nodes);
 }
 
 function parseUnderline(symbols: string[]): UnderlineNode {
     symbols.shift();
-    const nodes = parseNodes(symbols, '_');
+    const nodes = parseNodes(symbols, UNDERSCORE_SYMBOL);
     symbols.shift();
     return new UnderlineNode(nodes);
 }
 
 function parseLight(symbols: string[]): LightNode {
     symbols.shift();
-    const nodes = parseNodes(symbols, '*');
+    const nodes = parseNodes(symbols, LIGHT_SYMBOL);
     symbols.shift();
     return new LightNode(nodes);
 }
 
 function parseBold(symbols: string[]): BoldNode {
     symbols.shift();
-    symbols.shift();
-    const nodes = parseNodes(symbols, '**');
-    symbols.shift();
+    const nodes = parseNodes(symbols, BOLD_SYMBOL);
     symbols.shift();
     return new BoldNode(nodes);
 }
 
 function parseExtra(symbols: string[]): ExtraBoldNode {
     symbols.shift();
-    symbols.shift();
-    symbols.shift();
-    const nodes = parseNodes(symbols, '***');
-    symbols.shift();
-    symbols.shift();
+    const nodes = parseNodes(symbols, EXTRA_SYMBOL);
     symbols.shift();
     return new ExtraBoldNode(nodes);
 }

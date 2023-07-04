@@ -4086,7 +4086,46 @@ const tutorial: Act[] = [
                         Emotion.Kind,
                         `That, my darling, is the simplest way to get a word on stage. 
                         
-                        But there's so much more. 
+                        But there's so much more!
+                        
+                        For example, did you know that you can style the text you give me by just putting special symbols in @TextLiteral?
+                        
+                        Behold: bold!`
+                    ),
+                    edit(`Phrase('*hi*')`),
+                    pause(),
+                    dialog(
+                        'Phrase',
+                        Emotion.Kind,
+                        `Not enough sass for you?
+                        
+                        How about underline, italics, light text, and extra bold text, *all at once*?`
+                    ),
+                    edit(`Phrase('/I/ _am_ ^the^ *fabulous* 💬!')`),
+                    pause(),
+                    dialog(
+                        'Phrase',
+                        Emotion.Kind,
+                        `Still not impressed?
+
+                        Mix them all together!`
+                    ),
+                    edit(`Phrase('/_*I am the fabulous*_/ 💬!')`),
+                    pause(),
+                    dialog(
+                        'Phrase',
+                        Emotion.Kind,
+                        `And if you ever want to use any of these special formatting characters as text instead of formatting, you can just repeat them, kind of like in @TextLiteral, and I'll just use the character literally.`
+                    ),
+                    edit(
+                        `Phrase('Format with /italic/ (//), _underline_ (__), |light| (||), *bold* (**), ^extra bold^ (^^) ')`
+                    ),
+                    pause(),
+                    dialog(
+                        'Phrase',
+                        Emotion.Excited,
+                        `But I can do more than just style text.
+                        
                         For example, I can take a @Phrase/size, measured in meters ⧼m⧽. 
                         
                         Try changing the size to any size you like!`

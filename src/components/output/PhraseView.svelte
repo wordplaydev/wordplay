@@ -215,7 +215,7 @@
     }
 
     .phrase > :global(.extra) {
-        font-weight: 700;
+        font-weight: 900;
     }
 
     :global(.verse.editing.interactive) .selected {
