@@ -267,11 +267,8 @@ export const TEXT_DELIMITERS: Record<string, string> = {
     '‘': '’',
     '‹': '›',
     '«': '»',
-    // '›': '‹',
-    // '»': '«',
     '「': '」',
     '『': '』',
-    '`': '`',
 };
 
 export const REVERSE_TEXT_DELIMITERS: Record<string, string> = {};
@@ -287,6 +284,7 @@ DELIMITERS[SET_OPEN_SYMBOL] = SET_CLOSE_SYMBOL;
 DELIMITERS[TYPE_OPEN_SYMBOL] = TYPE_CLOSE_SYMBOL;
 DELIMITERS[TABLE_OPEN_SYMBOL] = TABLE_CLOSE_SYMBOL;
 DELIMITERS[EXAMPLE_OPEN_SYMBOL] = EXAMPLE_CLOSE_SYMBOL;
+DELIMITERS[DOCS_SYMBOL] = DOCS_SYMBOL;
 
 // Add the text delimiters.
 for (const [open, close] of Object.entries(TEXT_DELIMITERS))
