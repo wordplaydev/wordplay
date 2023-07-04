@@ -9,6 +9,10 @@ import type Reference from '@nodes/Reference';
 import type SetType from '@nodes/SetType';
 import type StreamType from '@nodes/StreamType';
 import type UnionType from '@nodes/UnionType';
+import type CycleType from '@nodes/CycleType';
+import NeverType from '@nodes/NeverType';
+import type UnknownNameType from '@nodes/UnknownNameType';
+import Unit from '@nodes/Unit';
 import {
     AND_SYMBOL,
     OR_SYMBOL,
@@ -29,15 +33,11 @@ import {
     getTokenDescription,
     type Description,
 } from '../Locale';
-import type { CycleType } from '@nodes/CycleType';
-import type UnknownNameType from '@nodes/UnknownNameType';
 import Explanation from '../Explanation';
 import type NodeLink from '../NodeLink';
 import type StreamDefinitionType from '@nodes/StreamDefinitionType';
 import Emotion from '../../lore/Emotion';
-import Unit from '../../nodes/Unit';
 import { TEXT_DELIMITERS } from '../../parser/Tokenizer';
-import NeverType from '../../nodes/NeverType';
 import tutorial from './en-tutorial';
 
 export const WRITE_DOC = 'TBD';

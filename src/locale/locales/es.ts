@@ -28,7 +28,7 @@ import {
     getTokenDescription,
     type Description,
 } from '../Locale';
-import type { CycleType } from '@nodes/CycleType';
+import type CycleType from '@nodes/CycleType';
 import type UnknownNameType from '@nodes/UnknownNameType';
 import Explanation from '../Explanation';
 import type NodeLink from '../NodeLink';

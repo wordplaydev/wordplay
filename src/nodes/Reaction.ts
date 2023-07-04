@@ -1,6 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import Expression from './Expression';
-import { CycleType } from './CycleType';
+import CycleType from './CycleType';
 import Token from './Token';
 import type Type from './Type';
 import type Evaluator from '@runtime/Evaluator';

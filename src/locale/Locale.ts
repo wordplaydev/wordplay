@@ -15,7 +15,7 @@ import type SetType from '@nodes/SetType';
 import type StreamType from '@nodes/StreamType';
 import type UnionType from '@nodes/UnionType';
 import type Unit from '@nodes/Unit';
-import type { CycleType } from '@nodes/CycleType';
+import type CycleType from '@nodes/CycleType';
 import type UnknownNameType from '@nodes/UnknownNameType';
 import type NodeLink from './NodeLink';
 import type Explanation from './Explanation';
