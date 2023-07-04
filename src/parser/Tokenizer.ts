@@ -98,8 +98,12 @@ export const URLRegEx = new RegExp(
     /^https?:\/\/(www.)?[-a-zA-Z0-9@:%._+~#=]{1,256}.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_+.~#?&//=]*)/,
     'u'
 );
+
+export const DOC_SPECIAL_CHARACTERS = `${EXAMPLE_OPEN_SYMBOL}${EXAMPLE_CLOSE_SYMBOL}${LINK_SYMBOL}${TAG_OPEN_SYMBOL}${TAG_CLOSE_SYMBOL}${FORMAT_SYMBOL}${DOCS_SYMBOL}`;
+
+/** Words are any sequence of characters that aren't special characters, unless those special characters are preceded by an escape symbol */
 export const WordsRegEx = new RegExp(
-    `^[^\n${EXAMPLE_OPEN_SYMBOL}${EXAMPLE_CLOSE_SYMBOL}${LINK_SYMBOL}${TAG_OPEN_SYMBOL}${TAG_CLOSE_SYMBOL}${FORMAT_SYMBOL}${DOCS_SYMBOL}]+`,
+    `^(\\^[${DOC_SPECIAL_CHARACTERS}]|[^\n${DOC_SPECIAL_CHARACTERS}])+`,
     'u'
 );
 
