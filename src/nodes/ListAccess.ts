@@ -13,8 +13,6 @@ import type Step from '@runtime/Step';
 import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
 import type Context from './Context';
-import NoneType from './NoneType';
-import UnionType from './UnionType';
 import type TypeSet from './TypeSet';
 import Unit from './Unit';
 import type Bind from './Bind';
@@ -135,11 +133,7 @@ export default class ListAccess extends Expression {
                 this.index.getValue().num.lessThanOrEqualTo(listType.length)
             )
                 return listType.type;
-            else
-                return UnionType.getPossibleUnion(context, [
-                    listType.type,
-                    NoneType.None,
-                ]);
+            else return listType.type;
         } else return new NotAListType(this, listType);
     }
 
