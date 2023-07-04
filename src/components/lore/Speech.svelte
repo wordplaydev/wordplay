@@ -286,8 +286,8 @@
             transform: scaleY(1);
         }
         10%,
-        90% {
-            transform: scaleY(0.5);
+        70% {
+            transform: scaleY(0.9);
         }
         100% {
             transform: scaleY(1);
