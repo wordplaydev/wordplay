@@ -181,6 +181,9 @@ test('Parse expressions', () => {
     const text = parseExpression(toTokens('«hola»'));
     expect(text).toBeInstanceOf(TextLiteral);
 
+    const escapedText = parseExpression(toTokens('"hello ^"'));
+    expect(escapedText).toBeInstanceOf(TextLiteral);
+
     const template = parseExpression(
         toTokens('"My cat\'s name is \\name + name\\, what\'s yours?"')
     );

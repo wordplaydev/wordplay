@@ -691,7 +691,7 @@ const eng_wordplay: Locale = {
         },
         TextLiteral: {
             name: 'texto',
-            description: (text) => text.text.getText(),
+            description: (text) => text.getText(),
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
             start: WRITE_DOC,

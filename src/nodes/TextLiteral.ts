@@ -13,15 +13,24 @@ import Literal from './Literal';
 import Emotion from '../lore/Emotion';
 import Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';
+import { TEXT_DELIMITERS } from '../parser/Tokenizer';
+import { TEMPLATE_SYMBOL } from '../parser/Symbols';
+
+export const ESCAPE_REGEX = /\^(.)/g;
 
 export default class TextLiteral extends Literal {
+    /** The raw token in the program */
     readonly text: Token;
+
     readonly format?: Language;
 
     constructor(text: Token, format?: Language) {
         super();
+
         this.text = text;
         this.format = format;
+
+        /** Unescape the text string */
 
         this.computeChildren();
     }
@@ -61,26 +70,16 @@ export default class TextLiteral extends Literal {
         return new TextType(this.text, this.format);
     }
 
-    getValue() {
-        // Remove the opening and optional closing quote symbols.
-        const lastChar =
-            this.text.text.toString().length === 0
-                ? undefined
-                : this.text.text
-                      .toString()
-                      .charAt(this.text.text.toString().length - 1);
-        const lastCharIsQuote =
-            lastChar === undefined
-                ? false
-                : ['』', '」', '»', '›', "'", '’', '”', '"'].includes(lastChar);
+    /** Get the text, with any escape characters processed. */
+    getText(): string {
+        // Replace any escapes with the character they're escaping
+        return unescape(this.text.getText());
+    }
+
+    getValue(): Text {
         return new Text(
             this,
-            this.text.text
-                .toString()
-                .substring(
-                    1,
-                    this.text.text.toString().length - (lastCharIsQuote ? 1 : 0)
-                ),
+            undelimited(this.getText()),
             this.format === undefined ? undefined : this.format.getLanguage()
         );
     }
@@ -119,4 +118,21 @@ export default class TextLiteral extends Literal {
             emotion: Emotion.Excited,
         };
     }
+}
+
+export function unescaped(text: string) {
+    return text.replaceAll(ESCAPE_REGEX, '$1');
+}
+
+export function undelimited(text: string) {
+    return text.substring(
+        1,
+        text.length -
+            (Object.hasOwn(
+                TEXT_DELIMITERS,
+                text.length === 0 ? '' : text.charAt(text.length - 1)
+            ) || text.charAt(text.length - 1) === TEMPLATE_SYMBOL
+                ? 1
+                : 0)
+    );
 }

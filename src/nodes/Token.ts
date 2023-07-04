@@ -79,8 +79,6 @@ export default class Token extends Node {
     }
 
     // TEXT UTILITIES
-
-    /** Get the grapheme length of the text (as opposed to the codepoint length) */
     getText() {
         return this.text.toString();
     }
@@ -92,6 +90,7 @@ export default class Token extends Node {
         );
     }
 
+    /** Get the grapheme length of the text (as opposed to the codepoint length) */
     getTextLength() {
         return this.text.getLength();
     }

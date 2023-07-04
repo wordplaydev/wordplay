@@ -1022,7 +1022,7 @@ const en: Locale = {
         },
         TextLiteral: {
             name: 'text',
-            description: (text) => text.text.getText(),
+            description: (text) => text.getText(),
             emotion: Emotion.Serious,
             doc: `I can be any text you like, and use any of these text symbols: ${Object.keys(
                 TEXT_DELIMITERS

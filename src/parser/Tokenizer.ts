@@ -191,34 +191,61 @@ const patterns = [
     { pattern: PROPERTY_SYMBOL, types: [TokenType.Access, TokenType.This] },
     { pattern: TRUE_SYMBOL, types: [TokenType.Boolean] },
     { pattern: FALSE_SYMBOL, types: [TokenType.Boolean] },
-    // Lazily match non-template strings that lack open parentheses and aren't closed with a preceding escape.
-    { pattern: /^"[^\\]*?("|(?=\n))/u, types: [TokenType.Text] },
-    { pattern: /^“[^\\]*?(”|(?=\n))/u, types: [TokenType.Text] },
-    { pattern: /^„[^\\]*?(“|(?=\n))/u, types: [TokenType.Text] },
-    { pattern: /^'[^\\]*?('|(?=\n))/u, types: [TokenType.Text] },
-    { pattern: /^‘[^\\]*?(’|(?=\n))/u, types: [TokenType.Text] },
-    { pattern: /^‹[^\\]*?(›|(?=\n))/u, types: [TokenType.Text] },
-    { pattern: /^«[^\\]*?(»|(?=\n))/u, types: [TokenType.Text] },
-    { pattern: /^「[^\\]*?(」|(?=\n))/u, types: [TokenType.Text] },
-    { pattern: /^『[^\\]*?(』|(?=\n))/u, types: [TokenType.Text] },
-    // Lazily match open template strings that aren't opened with a preceding scape.
+    // Match non-template open/close/between strings.
+    // (Starts with an open quote, followed by any sequence of 1) escaped template markers or 2) non-template markers, closed by either a matching quote or a new line)
+    { pattern: /^"(\^\\|[^\\])*?("|(?=\n))/u, types: [TokenType.Text] },
+    { pattern: /^“(\^\\|[^\\])*?(”|(?=\n))/u, types: [TokenType.Text] },
+    { pattern: /^„(\^\\|[^\\])*?(“|(?=\n))/u, types: [TokenType.Text] },
+    { pattern: /^'(\^\\|[^\\])*?('|(?=\n))/u, types: [TokenType.Text] },
+    { pattern: /^‘(\^\\|[^\\])*?(’|(?=\n))/u, types: [TokenType.Text] },
+    { pattern: /^‹(\^\\|[^\\])*?(›|(?=\n))/u, types: [TokenType.Text] },
+    { pattern: /^«(\^\\|[^\\])*?(»|(?=\n))/u, types: [TokenType.Text] },
+    { pattern: /^「(\^\\|[^\\])*?(」|(?=\n))/u, types: [TokenType.Text] },
+    { pattern: /^『(\^\\|[^\\])*?(』|(?=\n))/u, types: [TokenType.Text] },
+    // Match template open strings
+    // (Start with an open quote, followed by any 1) escaped template markers or 2) non-template markers, ending with a template marker not preceded by an escape character.)
     {
-        pattern: /^["“„'‘‹«「『].*?(\\|(?=\n))/u,
+        pattern: /^["“„'‘‹«「『](\^\\|[^\\])*?\\/u,
         types: [TokenType.TemplateOpen],
     },
-    // Lazily match closing strings that don't contain another opening string. This allows betweens to match.
-    { pattern: /^\\[^\\]*?("|(?=\n))/u, types: [TokenType.TemplateClose] },
-    { pattern: /^\\[^\\]*?(”|(?=\n))/u, types: [TokenType.TemplateClose] },
-    { pattern: /^\\[^\\]*?([']|(?=\n))/u, types: [TokenType.TemplateClose] },
-    { pattern: /^\\[^\\]*?(’|(?=\n))/u, types: [TokenType.TemplateClose] },
-    { pattern: /^\\[^\\]*?(›|(?=\n))/u, types: [TokenType.TemplateClose] },
-    { pattern: /^\\[^\\]*?(»|(?=\n))/u, types: [TokenType.TemplateClose] },
-    { pattern: /^\\[^\\]*?(」|(?=\n))/u, types: [TokenType.TemplateClose] },
-    { pattern: /^\\[^\\]*?(』|(?=\n))/u, types: [TokenType.TemplateClose] },
-    // If none of the closed patterns match above, allow a new line to close the text literal.
-    { pattern: /^\\[^\\]*?(?=\n)”/u, types: [TokenType.TemplateClose] },
-    // Match this after the eval close to avoid capturing function evaluations in templates.
-    { pattern: /^\\.*?\\/u, types: [TokenType.TemplateBetween] },
+    // Match template close strings that don't contain another close (those are template "between" strings below).
+    {
+        pattern: /^\\(\^\\|[^\\])*?("|(?=\n))/u,
+        types: [TokenType.TemplateClose],
+    },
+    {
+        pattern: /^\\(\^\\|[^\\])*?(”|(?=\n))/u,
+        types: [TokenType.TemplateClose],
+    },
+    {
+        pattern: /^\\(\^\\|[^\\])*?([']|(?=\n))/u,
+        types: [TokenType.TemplateClose],
+    },
+    {
+        pattern: /^\\(\^\\|[^\\])*?(’|(?=\n))/u,
+        types: [TokenType.TemplateClose],
+    },
+    {
+        pattern: /^\\(\^\\|[^\\])*?(›|(?=\n))/u,
+        types: [TokenType.TemplateClose],
+    },
+    {
+        pattern: /^\\(\^\\|[^\\])*?(»|(?=\n))/u,
+        types: [TokenType.TemplateClose],
+    },
+    {
+        pattern: /^\\(\^\\|[^\\])*?(」|(?=\n))/u,
+        types: [TokenType.TemplateClose],
+    },
+    {
+        pattern: /^\\(\^\\|[^\\])*?(』|(?=\n))/u,
+        types: [TokenType.TemplateClose],
+    },
+    // If none of the template close patterns match above, allow a new line to close.
+    { pattern: /^\\(\^\\|[^\\])*?(?=\n)/u, types: [TokenType.TemplateClose] },
+    // Match template "between" strings that have open and unescaped close markers
+    // (Start with an open template marker, followed by any 1) escaped template markers or 2) non-template markers, ending with a close template marker.)
+    { pattern: /^\\(\^\\|[^\\])*?\\/u, types: [TokenType.TemplateBetween] },
     // Finally, catch any leftover single open or close parentheses.
     { pattern: EVAL_OPEN_SYMBOL, types: [TokenType.EvalOpen] },
     { pattern: EVAL_CLOSE_SYMBOL, types: [TokenType.EvalClose] },

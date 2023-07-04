@@ -20,6 +20,7 @@ import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';
 import { TEMPLATE_SYMBOL } from '../parser/Symbols';
+import { undelimited, unescaped } from './TextLiteral';
 
 export type TemplatePart = Expression | Token;
 
@@ -115,22 +116,18 @@ export default class Template extends Expression {
         let text = '';
         for (let i = this.expressions.length - 1; i >= 0; i--) {
             const p = this.expressions[i];
-            const part =
-                // Is the token static text? Grab the text minus the delimiters.
-                p instanceof Token
-                    ? new Text(
-                          this,
-                          p.text
-                              .toString()
-                              .substring(1, p.text.toString().length - 1)
-                      )
-                    : // Otherwise, get the value off the top of the stack and convert it to string, unless it is already text.
-                    // Or if it's already text, just keep it as is.
-                    evaluator.peekValue() instanceof Text
-                    ? (evaluator.popValue(this) as Text)
-                    : new Text(this, evaluator.popValue(this).toString());
-            text = part.text + text;
+            let next: string;
+            if (p instanceof Token) {
+                next = undelimited(unescaped(p.getText()));
+            } else if (evaluator.peekValue() instanceof Text) {
+                next = (evaluator.popValue(this) as Text).text;
+            } else {
+                next = evaluator.popValue(this).toString();
+            }
+            // Assemble in reverse order
+            text = next + text;
         }
+        //
         text =
             this.open.text
                 .toString()
