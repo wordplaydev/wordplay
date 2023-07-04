@@ -1,4 +1,4 @@
-import type BinaryOperation from './BinaryOperation';
+import BinaryOperation from './BinaryOperation';
 import Bind from './Bind';
 import type Context from './Context';
 import Evaluate from './Evaluate';
@@ -156,11 +156,22 @@ function getConcreteTypeVariable(
     // If we didn't find it explicitly provided as an input, can we infer it from the structure on which this function is being called?
     // For example, suppose we were evaluating ["hi" "mom"].first(), a structure with a generic type variable that defines the list item types.
     // In this case, we can ask the type of the structure to tell us what concrete type it contains.
+    // This case handles Evaluate syntax.
     if (
         evaluation instanceof Evaluate &&
         evaluation.func instanceof PropertyReference
     ) {
         const structureType = evaluation.func.structure.getType(context);
+        const typeInput = structureType.resolveTypeVariable(
+            type.getName(),
+            context
+        );
+        if (typeInput !== undefined) return typeInput;
+    }
+
+    // This case handles the BinaryOperator syntax.
+    if (evaluation instanceof BinaryOperation) {
+        const structureType = evaluation.left.getType(context);
         const typeInput = structureType.resolveTypeVariable(
             type.getName(),
             context
