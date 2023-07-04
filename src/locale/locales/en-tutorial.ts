@@ -6338,7 +6338,7 @@ status: Game(0 3 1) … ∆ Time() … status.score: status.score + 1`
                         `It's so nice to meet you! 
                         I hope @FunctionDefinition has been a good teacher?`
                     ),
-                    symbol('``\\/'),
+                    symbol('``/'),
                     pause(),
                     dialog(
                         'FunctionDefinition',
@@ -6350,7 +6350,7 @@ status: Game(0 3 1) … ∆ Time() … status.score: status.score + 1`
                         
                         Do you want to share what you do?`
                     ),
-                    symbol('``\\/en'),
+                    symbol('``/en'),
                     pause(),
                     dialog(
                         'Doc',
