@@ -15,7 +15,7 @@ Mazes are generated randomly.
  
 	ƒ cell(row•# column •#) (
 		cells: grid[row]
-		cells•ø ? ø cells[column] 
+		cells[column] 
 	)
 
 	ƒ allowed(row•# column•#) cell(row column)•''

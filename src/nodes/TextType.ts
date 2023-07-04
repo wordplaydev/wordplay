@@ -9,6 +9,8 @@ import TokenType from './TokenType';
 import type TypeSet from './TypeSet';
 import Emotion from '../lore/Emotion';
 import { TEXT_DELIMITERS } from '../parser/Tokenizer';
+import UnionType from './UnionType';
+import type Context from './Context';
 
 /** Any string or a specific string, depending on whether the given token is an empty text literal. */
 export default class TextType extends NativeType {
@@ -44,21 +46,25 @@ export default class TextType extends NativeType {
 
     computeConflicts() {}
 
-    acceptsAll(types: TypeSet): boolean {
+    acceptsAll(types: TypeSet, context: Context): boolean {
         // For this to accept the given type, it must accept all possible types.
         return types.list().every((type) => {
-            // If the possible type is not text, it is not acceptable.
-            if (!(type instanceof TextType)) return false;
+            // If the type is a union, get its type set and see if this accepts all of them.
+            if (type instanceof UnionType)
+                return this.acceptsAll(type.getTypeSet(context), context);
+            // If the possible type is not text, the type set is not acceptable.
+            else if (!(type instanceof TextType)) return false;
             // If:
             // 1) this accepts any text, or its accepts specific text that matches the given type's text.
             // 2) this has no required format, or they have matching formats
-            return (
-                (this.getUnquotedText() === '' ||
-                    this.getUnquotedText() === type.getUnquotedText()) &&
-                (this.format === undefined ||
-                    (type.format !== undefined &&
-                        this.format.isEqualTo(type.format)))
-            );
+            else
+                return (
+                    (this.getUnquotedText() === '' ||
+                        this.getUnquotedText() === type.getUnquotedText()) &&
+                    (this.format === undefined ||
+                        (type.format !== undefined &&
+                            this.format.isEqualTo(type.format)))
+                );
         });
     }
 

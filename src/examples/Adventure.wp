@@ -9,11 +9,7 @@ roll: State('roll over' ['There is a knife next to you.'] [ pickup stand ])
 start: State("start" ["You awaken in a dark, cold room that smells of mold."] [ roll stand ])
 
 key: Key()
-state•State:  start … ∆ key …
-		(
-  		option: state.options[key → #]
-  		option•ø ? state option
-    )
+state•State:  start … ∆ key … state.options[key → #]
 
 options: state.options.length() > 0 ? 
     state.options.translate(ƒ(option•State) Phrase("***\option.action\***" size: 2m name: option.action duration: 1s enter: Pose(opacity: 0%)))

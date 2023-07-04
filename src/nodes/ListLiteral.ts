@@ -21,6 +21,7 @@ import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';
+import generalize from './generalize';
 
 export default class ListLiteral extends Expression {
     readonly open: Token;
@@ -88,25 +89,8 @@ export default class ListLiteral extends Expression {
                       expressions.map((v) => v.getType(context))
                   );
 
-        // Are all of the types in the union list types? If so, collapse them into a single list type.
-        if (itemType instanceof UnionType) {
-            const types = itemType.getPossibleTypes(context);
-            const listTypes = types.filter(
-                (type): type is ListType => type instanceof ListType
-            );
-            if (listTypes.length === types.length) {
-                itemType = ListType.make(
-                    UnionType.getPossibleUnion(
-                        context,
-                        listTypes.reduce(
-                            (all: Type[], type) =>
-                                type.type ? [...all, type.type] : all,
-                            []
-                        )
-                    )
-                );
-            }
-        }
+        // Strip away any concrete types in the item types.
+        itemType = itemType ? generalize(itemType, context) : undefined;
 
         return ListType.make(itemType, this.values.length);
     }

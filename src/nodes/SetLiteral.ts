@@ -23,6 +23,7 @@ import Purpose from '../concepts/Purpose';
 import UnclosedDelimiter from '../conflicts/UnclosedDelimiter';
 import SetCloseToken from './SetCloseToken';
 import type Conflict from '../conflicts/Conflict';
+import generalize from './generalize';
 
 export default class SetLiteral extends Expression {
     readonly open: Token;
@@ -83,14 +84,18 @@ export default class SetLiteral extends Expression {
     }
 
     computeType(context: Context): Type {
-        let type =
+        let types =
             this.values.length === 0
                 ? new AnyType()
                 : UnionType.getPossibleUnion(
                       context,
                       this.values.map((v) => (v as Expression).getType(context))
                   );
-        return SetType.make(type);
+
+        // Strip away any concrete types in the item types.
+        types = generalize(types, context);
+
+        return SetType.make(types);
     }
 
     getDependencies(): Expression[] {
