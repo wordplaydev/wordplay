@@ -637,30 +637,22 @@ const en: Locale = {
 
             For example, if you had this function, I could evaluate it like this:
 
-⧼
-ƒ greeting(message•"") 
-    "Hello " + message
+⧼ƒ greeting(message•"")
+  "Hello " + message
 
-greeting('kitty')
-⧽
+greeting('kitty')⧽
             
             Your function can come from anywhere. For example, @TextLiteral has functions. Like this:
 
-⧼
-'kitty'.length()
-⧽
+⧼'kitty'.length()⧽
 
             If a function has a single symbol name, you can work with @BinaryOperation.
 
-⧼
-'kitty' ⊆ 'itty'
-⧽
+⧼'kitty' ⊆ 'itty'⧽
 
             That does the same thing as :
 
-⧼
-'kitty'.⊆('itty')
-⧽
+            ⧼'kitty'.⊆('itty')⧽
             `,
             start: (inputs) =>
                 inputs

@@ -36,17 +36,29 @@
     }
 </script>
 
-{#if evaluated}
-    <RootView node={example.program} />
-    {#if value}
-        <div class="value"><ValueView {value} /></div>
-    {/if}
-{:else}
-    <RootView node={example.program} {inline} />
+<div class="example" class:evaluated class:inline
+    ><RootView
+        node={example.program}
+        {spaces}
+        inline={!evaluated && inline}
+    /></div
+>{#if evaluated && value}
+    <div class="value"><ValueView {value} /></div>
 {/if}
 
 <style>
     .value {
         margin: var(--wordplay-spacing);
+        text-align: right;
+    }
+
+    .example.inline {
+        display: inline;
+    }
+
+    .example.evaluated {
+        padding: var(--wordplay-spacing);
+        border-radius: var(--wordplay-border-radius);
+        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
     }
 </style>
