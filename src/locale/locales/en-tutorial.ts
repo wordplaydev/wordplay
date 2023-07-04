@@ -2987,15 +2987,15 @@ const tutorial: Act[] = [
                     dialog(
                         'Template',
                         Emotion.Curious,
-                        `And so you might be wondering, "What if I want to use \\ in some text?
+                        `And so you might be wondering, "What if I want to use @Template in some text?"
                         
                         Well, maybe you weren't wondering that, but I'm going to tell you anyway.
                         
-                        In any @TextLiteral, you can you use the special character ⧼^⧽ before any character, and I will show that character instead of whatever special meaning it has.
+                        In any @TextLiteral, just give me two in a row! I'll interpret that as just one @Template instead of an empty expression, which wouldn't have any meaning anyway.
                         
-                        Try removing the ⧼^⧽ and you'll see that the slash regains its meaning, restoring the text as me, a @Template.`
+                        Try removing the \\ and you'll see that the slash regains its meaning, restoring the text as me, a @Template.`
                     ),
-                    edit(`"I'm just ^\\regular^\\ text, not a template."`),
+                    edit(`"I'm just \\\\regular\\\\ text, not a template."`),
                     pause(),
                     output(DarkVoid),
                     dialog(

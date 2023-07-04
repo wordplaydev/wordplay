@@ -16,7 +16,7 @@ import type { NativeTypeName } from '../native/NativeConstants';
 import { TEXT_DELIMITERS } from '../parser/Tokenizer';
 import { TEMPLATE_SYMBOL } from '../parser/Symbols';
 
-export const ESCAPE_REGEX = /\^(.)/g;
+export const ESCAPE_REGEX = /\\(.)/g;
 
 export default class TextLiteral extends Literal {
     /** The raw token in the program */
