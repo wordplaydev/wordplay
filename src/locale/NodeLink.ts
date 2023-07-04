@@ -30,6 +30,9 @@ export default class NodeLink {
     }
 
     getDescription() {
-        return this.description ?? this.node.getLabel(this.translation);
+        return (
+            this.description ??
+            this.node.getDescription(this.translation, this.context)
+        );
     }
 }

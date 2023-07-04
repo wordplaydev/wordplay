@@ -86,7 +86,7 @@ export default class This extends AtomicExpression {
                 : structure.input
             : // Reactions have the reaction's value type
             structure instanceof Reaction
-            ? structure.getType(context)
+            ? structure.initial.getType(context)
             : new UnenclosedType(this);
     }
 
