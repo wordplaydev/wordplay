@@ -127,6 +127,8 @@ const patterns = [
         pattern: COMMA_SYMBOL,
         types: [TokenType.Separator],
     },
+    { pattern: EXAMPLE_OPEN_SYMBOL, types: [TokenType.ExampleOpen] },
+    { pattern: EXAMPLE_CLOSE_SYMBOL, types: [TokenType.ExampleClose] },
     { pattern: LANGUAGE_SYMBOL, types: [TokenType.Language] },
     { pattern: `${TABLE_OPEN_SYMBOL}?`, types: [TokenType.Select] },
     { pattern: `${TABLE_OPEN_SYMBOL}+`, types: [TokenType.Insert] },
@@ -276,8 +278,6 @@ const patterns = [
     { pattern: FORMAT_SYMBOL.repeat(3), types: [TokenType.Extra] },
     { pattern: FORMAT_SYMBOL.repeat(2), types: [TokenType.Bold] },
     { pattern: FORMAT_SYMBOL, types: [TokenType.Italic] },
-    { pattern: EXAMPLE_OPEN_SYMBOL, types: [TokenType.ExampleOpen] },
-    { pattern: EXAMPLE_CLOSE_SYMBOL, types: [TokenType.ExampleClose] },
 
     // All other tokens are names, which are sequences of Unicode glyphs that are not one of the reserved symbols above or whitespace.
     {

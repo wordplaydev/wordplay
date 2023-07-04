@@ -2984,6 +2984,19 @@ const tutorial: Act[] = [
                     ),
                     edit(`"I have \\1 + 2 + 5 + 8\\ apples"`),
                     pause(),
+                    dialog(
+                        'Template',
+                        Emotion.Curious,
+                        `And so you might be wondering, "What if I want to use \\ in some text?
+                        
+                        Well, maybe you weren't wondering that, but I'm going to tell you anyway.
+                        
+                        In any @TextLiteral, you can you use the special character ⧼^⧽ before any character, and I will show that character instead of whatever special meaning it has.
+                        
+                        Try removing the ⧼^⧽ and you'll see that the slash regains its meaning, restoring the text as me, a @Template.`
+                    ),
+                    edit(`"I'm just ^\\regular^\\ text, not a template."`),
+                    pause(),
                     output(DarkVoid),
                     dialog(
                         'FunctionDefinition',

@@ -73,7 +73,7 @@ export default class TextLiteral extends Literal {
     /** Get the text, with any escape characters processed. */
     getText(): string {
         // Replace any escapes with the character they're escaping
-        return unescape(this.text.getText());
+        return unescaped(this.text.getText());
     }
 
     getValue(): Text {
