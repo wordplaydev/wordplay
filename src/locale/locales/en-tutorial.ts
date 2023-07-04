@@ -5883,7 +5883,7 @@ vowels("hello")`
                         
                         Here's an example. 
                         Say you had a list of numbers and you just wanted the even numbers in it. 
-                        @List has this function called @ListType/filter that takes a function as an input and uses the function on each value in the list to decide whether to keep it.
+                        @ListType has this function called @ListType/filter that takes a function as an input and uses the function on each value in the list to decide whether to keep it.
                         
                         Let's make a list of numbers and give @ListType/filter the ⧼even⧽ function we made earlier as an input. 
                         
@@ -6278,7 +6278,7 @@ Group(Stack(0.5m) [
                         
                         You use a mini me, @PropertyReference. 
                         
-                        For instance, with that game example, see how we defined a Game @StructureDefinition, then make a @Game value with ⧼0⧽ score, ⧼3⧽ lives, and level ⧼1⧽? 
+                        For instance, with that game example, see how we defined a Game @StructureDefinition, then make a ⧼Game⧽ value with ⧼0⧽ score, ⧼3⧽ lives, and level ⧼1⧽? 
                         
                         To get the lives, we just say ⧼status.lives⧽, and that will evaluate to ⧼3⧽.`
                     ),

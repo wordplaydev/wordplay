@@ -1003,7 +1003,7 @@ export type OutputTexts = {
         background: NameAndDoc;
         frame: NameAndDoc;
     };
-    Layout: ConceptText<1, 0>;
+    Arrangement: ConceptText<1, 0>;
     Shape: ConceptText<1, 0>;
     Rectangle: ConceptText<1, 0> & {
         left: NameAndDoc;

@@ -2551,7 +2551,7 @@ greeting('kitty')⧽
             names: ['💬', 'Phrase'],
             text: { doc: WRITE_DOC, names: 'text' },
         },
-        Layout: {
+        Arrangement: {
             doc: WRITE_DOC,
             names: ['⠿', 'Arrangement'],
         },

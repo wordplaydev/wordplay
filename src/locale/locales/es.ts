@@ -2133,7 +2133,7 @@ const eng_wordplay: Locale = {
             doc: WRITE_DOC,
             text: { doc: WRITE_DOC, names: 'texto' },
         },
-        Layout: {
+        Arrangement: {
             names: ['Arrangement'],
             doc: WRITE_DOC,
         },
