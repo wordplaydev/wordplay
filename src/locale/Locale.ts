@@ -66,7 +66,7 @@ export type ConceptText<
 export type NodeText<Kind> = {
     /* The name that should be used to refer to the node type */
     name: string;
-    /* A description of what the node is */
+    /* A description of what the node is. More specific than a name. If not provided, name is used. */
     description: Kind;
     /* Documentation text that appears in the documentation view */
     doc: DocString;

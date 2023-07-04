@@ -640,7 +640,7 @@ export default abstract class Node {
         const trans = this.getNodeLocale(locale);
         return trans.description instanceof Function
             ? trans.description(this, locale, context)
-            : trans.description;
+            : trans.description ?? trans.name;
     }
 
     getDoc(locale: Locale): DocString {
