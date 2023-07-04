@@ -33,7 +33,11 @@
                     {content.description.getText()}
                 {/if}
             {:else if content instanceof Example}
-                <ExampleUI example={content} {spaces} />
+                <ExampleUI
+                    example={content}
+                    {spaces}
+                    evaluated={paragraph.content.length === 1}
+                />
             {:else if content instanceof ConceptLink}
                 <ConceptLinkUI link={content} />
             {:else if content instanceof Words && content.words}

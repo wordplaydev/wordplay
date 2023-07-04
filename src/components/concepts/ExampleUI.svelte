@@ -11,6 +11,8 @@
 
     export let example: Example;
     export let spaces: Spaces;
+    /** True if this example should show it's value. */
+    export let evaluated: boolean;
 
     /** The code is inline if it has any line breaks. */
     $: inline = !spaces.hasLineBreaks(example);
@@ -21,7 +23,7 @@
         new Source('example', [example.program, spaces]),
         []
     );
-    $: value = new Evaluator(project).getInitialValue();
+    $: value = evaluated ? new Evaluator(project).getInitialValue() : undefined;
 
     let index = getConceptIndex();
 
@@ -32,30 +34,19 @@
             $index?.removeExample(example.program.expression);
         });
     }
-
-    let see = false;
-
-    function toggle() {
-        see = !see;
-    }
 </script>
 
-<span
-    role="button"
-    tabindex="0"
-    on:pointerdown={toggle}
-    on:keydown={(event) =>
-        event.key === ' ' || event.key === 'Enter' ? toggle() : undefined}
->
-    <RootView node={example.program} {inline} />
-    {#if see && value}
-        &nbsp;…&nbsp;<ValueView {value} />
+{#if evaluated}
+    <RootView node={example.program} />
+    {#if value}
+        <div class="value"><ValueView {value} /></div>
     {/if}
-</span>
+{:else}
+    <RootView node={example.program} {inline} />
+{/if}
 
 <style>
-    span {
-        cursor: pointer;
-        user-select: none;
+    .value {
+        margin: var(--wordplay-spacing);
     }
 </style>
