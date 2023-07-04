@@ -63,6 +63,7 @@ import TypeInputs from '@nodes/TypeInputs';
 import Paragraph from '@nodes/Paragraph';
 import Words from '@nodes/Words';
 import WebLink from '@nodes/WebLink';
+import Example from '../nodes/Example';
 
 test('Parse programs', () => {
     expect(toProgram('')).toBeInstanceOf(Program);
@@ -564,4 +565,16 @@ test('linked docs', () => {
     expect((doc.paragraphs[0].content[1] as WebLink).url?.getText()).toBe(
         'https://wikipedia.org'
     );
+});
+
+test('docs in docs', () => {
+    const doc = parseDoc(
+        toTokens("`This is a doc: ⧼`my doc`⧽. Don't you see it?`")
+    );
+    expect(doc).toBeInstanceOf(Doc);
+    expect(doc.paragraphs[0]).toBeInstanceOf(Paragraph);
+    expect(doc.paragraphs[0].content[0]).toBeInstanceOf(Words);
+    expect(doc.paragraphs[0].content[1]).toBeInstanceOf(Example);
+    expect(doc.paragraphs[0].content[2]).toBeInstanceof(Words);
+    expect(doc.paragraphs[0].content.length).toBe(4);
 });

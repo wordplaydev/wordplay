@@ -311,17 +311,14 @@ export function tokenize(source: string): TokenList {
 
     // A stack, top at 0, of TEXT_OPEN tokens, helping us decide when to tokenize TEXT_CLOSE.
     const openTemplates: Token[] = [];
-    const openExample: Token[] = [];
-    let inDoc = false;
-    let docEvalDepth: number | undefined = undefined;
+    const openExampleAndDocs: Token[] = [];
     while (source.length > 0) {
         // First read whitespace
         let space = '';
 
         const tokenizeDocs =
-            inDoc &&
-            docEvalDepth !== undefined &&
-            docEvalDepth === openExample.length;
+            openExampleAndDocs.length > 0 &&
+            openExampleAndDocs[0].is(TokenType.Doc);
 
         // If we're in a doc, then read whitespace starting with newlines only.
         if (tokenizeDocs && !source.startsWith(EXAMPLE_CLOSE_SYMBOL)) {
@@ -358,19 +355,20 @@ export function tokenize(source: string): TokenList {
         else if (nextToken.is(TokenType.TemplateClose)) openTemplates.shift();
 
         // If the token was an eval open, push it on the stack.
-        if (nextToken.is(TokenType.ExampleOpen)) openExample.unshift(nextToken);
+        if (nextToken.is(TokenType.ExampleOpen))
+            openExampleAndDocs.unshift(nextToken);
         // If the token was a close, pop
-        else if (nextToken.is(TokenType.ExampleClose)) openExample.shift();
+        else if (nextToken.is(TokenType.ExampleClose))
+            openExampleAndDocs.shift();
 
         // If we encountered a doc, toggle the flag.
         if (nextToken.is(TokenType.Doc)) {
-            if (inDoc) {
-                inDoc = false;
-                docEvalDepth = undefined;
-            } else {
-                inDoc = true;
-                docEvalDepth = openExample.length;
-            }
+            if (
+                openExampleAndDocs.length > 0 &&
+                openExampleAndDocs[0].is(TokenType.Doc)
+            )
+                openExampleAndDocs.shift();
+            else openExampleAndDocs.unshift(nextToken);
         }
     }
 
