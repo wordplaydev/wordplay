@@ -112,6 +112,8 @@ const en: Locale = {
         Words: 'words',
         Link: 'web link',
         Italic: 'italic',
+        Underline: 'underline',
+        Light: 'light',
         Bold: 'bold',
         Extra: 'extra',
         Concept: 'concept link',

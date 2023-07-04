@@ -42,9 +42,7 @@
                 <ConceptLinkUI link={content} />
             {:else if content instanceof Words && content.words}
                 {#if index > 0 && spaces && spaces.getSpace(content.words).length > 0}&nbsp;{/if}<span
-                    class:italic={content.isItalic()}
-                    class:bold={content.isBold()}
-                    class:extra={content.isExtra()}>{content.getText()}</span
+                    class={content.getFormat()}>{content.getText()}</span
                 >
             {/if}
         {/each}
@@ -54,6 +52,12 @@
 <style>
     .italic {
         font-style: italic;
+    }
+    .underline {
+        text-decoration: underline;
+    }
+    .light {
+        font-weight: 300;
     }
     .bold {
         font-weight: bold;

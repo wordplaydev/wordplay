@@ -1441,6 +1441,8 @@ function parseParagraph(tokens: Tokens): Paragraph {
                 : tokens.nextIsOneOf(
                       TokenType.Words,
                       TokenType.Italic,
+                      TokenType.Underline,
+                      TokenType.Light,
                       TokenType.Bold,
                       TokenType.Extra
                   )
@@ -1475,6 +1477,8 @@ function parseWords(tokens: Tokens): Words {
     // Read an optional format
     const open = tokens.nextIsOneOf(
         TokenType.Italic,
+        TokenType.Underline,
+        TokenType.Light,
         TokenType.Bold,
         TokenType.Extra
     )
@@ -1488,8 +1492,15 @@ function parseWords(tokens: Tokens): Words {
 
     // Read closing format if it matches.
     const close =
-        open && tokens.nextIs(open.getTypes()[0])
-            ? tokens.read(open.getTypes()[0])
+        open &&
+        [
+            TokenType.Italic,
+            TokenType.Underline,
+            TokenType.Light,
+            TokenType.Bold,
+            TokenType.Extra,
+        ].some((type) => open.is(type) && tokens.nextIs(type))
+            ? tokens.read()
             : undefined;
 
     return new Words(open, words, close);

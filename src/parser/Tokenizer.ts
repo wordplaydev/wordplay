@@ -12,7 +12,6 @@ import {
     EVAL_CLOSE_SYMBOL,
     EVAL_OPEN_SYMBOL,
     FALSE_SYMBOL,
-    FORMAT_SYMBOL,
     FUNCTION_SYMBOL,
     LANGUAGE_SYMBOL,
     LINK_SYMBOL,
@@ -46,6 +45,11 @@ import {
     DIFFERENCE_SYMBOL,
     EXAMPLE_OPEN_SYMBOL,
     EXAMPLE_CLOSE_SYMBOL,
+    ITALIC_SYMBOL,
+    UNDERSCORE_SYMBOL,
+    LIGHT_SYMBOL,
+    BOLD_SYMBOL,
+    EXTRA_SYMBOL,
 } from './Symbols';
 import TokenList from './TokenList';
 
@@ -64,7 +68,6 @@ const RESERVED_SYMBOLS = [
     TAG_OPEN_SYMBOL,
     TAG_CLOSE_SYMBOL,
     LINK_SYMBOL,
-    FORMAT_SYMBOL,
     BIND_SYMBOL,
     PROPERTY_SYMBOL,
     BASE_SYMBOL,
@@ -99,11 +102,29 @@ export const URLRegEx = new RegExp(
     'u'
 );
 
-export const DOC_SPECIAL_CHARACTERS = `${EXAMPLE_OPEN_SYMBOL}${EXAMPLE_CLOSE_SYMBOL}${LINK_SYMBOL}${TAG_OPEN_SYMBOL}${TAG_CLOSE_SYMBOL}${FORMAT_SYMBOL}${DOCS_SYMBOL}`;
+export const DOC_SPECIAL_CHARACTERS = [
+    EXAMPLE_OPEN_SYMBOL,
+    EXAMPLE_CLOSE_SYMBOL,
+    LINK_SYMBOL,
+    TAG_OPEN_SYMBOL,
+    TAG_CLOSE_SYMBOL,
+    ITALIC_SYMBOL,
+    UNDERSCORE_SYMBOL,
+    LIGHT_SYMBOL,
+    BOLD_SYMBOL,
+    EXTRA_SYMBOL,
+    DOCS_SYMBOL,
+];
 
-/** Words are any sequence of characters that aren't special characters, unless those special characters are preceded by an escape symbol */
+/** Words are any sequence of characters that aren't special characters, unless those special characters are repeated, indicating an escape. */
 export const WordsRegEx = new RegExp(
-    `^(\\^[${DOC_SPECIAL_CHARACTERS}]|[^\n${DOC_SPECIAL_CHARACTERS}])+`,
+    `^(${DOC_SPECIAL_CHARACTERS.map((c) => {
+        const escape =
+            c === '/' || c === '|' || c === '*' || c === '^' ? '\\' : '';
+        return `${escape}${c}${escape}${c}|`;
+    }).join('')}[^\n${DOC_SPECIAL_CHARACTERS.map(
+        (c) => `${c === '/' ? '\\' : ''}${c}`
+    ).join('')}])+`,
     'u'
 );
 
@@ -133,7 +154,7 @@ const patterns = [
     },
     { pattern: EXAMPLE_OPEN_SYMBOL, types: [TokenType.ExampleOpen] },
     { pattern: EXAMPLE_CLOSE_SYMBOL, types: [TokenType.ExampleClose] },
-    { pattern: LANGUAGE_SYMBOL, types: [TokenType.Language] },
+    { pattern: LANGUAGE_SYMBOL, types: [TokenType.Language, TokenType.Italic] },
     { pattern: `${TABLE_OPEN_SYMBOL}?`, types: [TokenType.Select] },
     { pattern: `${TABLE_OPEN_SYMBOL}+`, types: [TokenType.Insert] },
     { pattern: `${TABLE_OPEN_SYMBOL}-`, types: [TokenType.Delete] },
@@ -147,7 +168,10 @@ const patterns = [
     { pattern: CONVERT_SYMBOL, types: [TokenType.Convert] },
     { pattern: NONE_SYMBOL, types: [TokenType.None, TokenType.NoneType] },
     { pattern: TYPE_SYMBOL, types: [TokenType.Type, TokenType.TypeOperator] },
-    { pattern: OR_SYMBOL, types: [TokenType.BinaryOperator, TokenType.Union] },
+    {
+        pattern: OR_SYMBOL,
+        types: [TokenType.BinaryOperator, TokenType.Union, TokenType.Light],
+    },
     { pattern: TYPE_OPEN_SYMBOL, types: [TokenType.TypeOpen] },
     { pattern: TYPE_CLOSE_SYMBOL, types: [TokenType.TypeClose] },
     {
@@ -262,6 +286,20 @@ const patterns = [
         types: [TokenType.BooleanType, TokenType.Conditional],
     },
     { pattern: '¿', types: [TokenType.BooleanType, TokenType.Conditional] },
+    // Tokenize formatting symbols before binary ops
+    // Light is tokenized with the | operator above
+    {
+        pattern: UNDERSCORE_SYMBOL,
+        types: [TokenType.Underline, TokenType.BinaryOperator],
+    },
+    {
+        pattern: BOLD_SYMBOL,
+        types: [TokenType.Bold, TokenType.BinaryOperator],
+    },
+    {
+        pattern: EXTRA_SYMBOL,
+        types: [TokenType.Extra, TokenType.BinaryOperator],
+    },
     // Prefix and infix operators are single Unicode glyphs that are surrounded by whitespace that are not one of the above
     // and one of the following:
     // - Mathematical operators: U+2200..U+22FF
@@ -279,9 +317,6 @@ const patterns = [
         types: [TokenType.Concept],
     },
     { pattern: LINK_SYMBOL, types: [TokenType.Link] },
-    { pattern: FORMAT_SYMBOL.repeat(3), types: [TokenType.Extra] },
-    { pattern: FORMAT_SYMBOL.repeat(2), types: [TokenType.Bold] },
-    { pattern: FORMAT_SYMBOL, types: [TokenType.Italic] },
 
     // All other tokens are names, which are sequences of Unicode glyphs that are not one of the reserved symbols above or whitespace.
     {

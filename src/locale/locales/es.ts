@@ -108,6 +108,8 @@ const eng_wordplay: Locale = {
         Words: 'palabras',
         Link: 'enlace web',
         Italic: 'itálica',
+        Underline: 'rayar',
+        Light: 'ligero',
         Bold: 'negrita',
         Extra: 'extra',
         Concept: 'enlace de concepto',

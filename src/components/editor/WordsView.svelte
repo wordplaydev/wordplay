@@ -12,10 +12,7 @@
     $: editing = $caret?.isIn(node);
 </script>
 
-<span
-    class:italic={node.isItalic()}
-    class:bold={node.isBold()}
-    class:extra={node.isExtra()}
+<span class={node.getFormat()}
     >{#if editing}<NodeView node={node.open} />{/if}<NodeView
         node={node.words}
     />{#if editing}<NodeView node={node.close} />{/if}
@@ -24,6 +21,12 @@
 <style>
     .italic {
         font-style: italic;
+    }
+    .underline {
+        text-decoration: underline;
+    }
+    .light {
+        font-weight: 300;
     }
     .bold {
         font-weight: bold;

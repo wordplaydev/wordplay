@@ -6527,33 +6527,35 @@ Phrase(“✈️”)`
                         Emotion.Excited,
                         `Oh no, not at all.
                         
-                        You can make text italic by wrapping any text with ⧼*⧽.
+                        Do you remember how @Phrase has all of those fancy ways of styling text?
                         
-                        Notice how it's italic?
-                        Put your text cursor inside the word 'italic' and you'll see the markers.`
+                        I can do the same.`
                     ),
-                    edit(`\`I'm *italic* text.\` "italic"`),
+                    edit(
+                        `\`Docs can be 
+/italic/, 
+_underlined_, 
+|light|, 
+*bold*, or 
+^extra bold^.\`
+"fancy"`
+                    ),
                     pause(),
                     dialog(
                         'Doc',
                         Emotion.Excited,
-                        `If you put double ⧼*⧽'s, I'll make it bold.`
+                        `And of course, just as with @TextLiteral and @Phrase, if you need to use any of these characters literally, just repeat them twice.`
                     ),
-                    edit(`\`I'm **bold** text.\` "bold"`),
-                    pause(),
-                    dialog(
-                        'Doc',
-                        Emotion.Excited,
-                        `If you put *triple* ⧼*⧽'s, I'll make it extra bold.`
+                    edit(
+                        `\`
+Docs can be 
+  /italic/ (//), 
+  _underlined_ (__), 
+  |light| (||), 
+  *bold* (**), or 
+  ^extra bold^ (^^).\`
+"fancy"`
                     ),
-                    edit(`\`I'm ***extra bold*** text.\` "extra bold"`),
-                    pause(),
-                    dialog(
-                        'Doc',
-                        Emotion.Excited,
-                        `And of course, just as with @TextLiteral, if you need to use a character like ⧼*⧽, you can make me treat it literally with ⧼^⧽`
-                    ),
-                    edit(`\`I'm a bunch of ^*^*^*^*.\``),
                     pause(),
                     dialog(
                         'Doc',

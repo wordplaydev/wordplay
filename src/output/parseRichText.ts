@@ -1,8 +1,10 @@
-const UNDERSCORE_SYMBOL = '_';
-const ITALIC_SYMBOL = '/';
-const LIGHT_SYMBOL = '|';
-const BOLD_SYMBOL = '*';
-const EXTRA_SYMBOL = '^';
+import {
+    BOLD_SYMBOL,
+    EXTRA_SYMBOL,
+    ITALIC_SYMBOL,
+    LIGHT_SYMBOL,
+    UNDERSCORE_SYMBOL,
+} from '../parser/Symbols';
 
 export default function parseRichText(text: string): RichNode {
     const paragraphs = text.split(/\s*\n\n\s*/);
@@ -179,7 +181,7 @@ class ExtraBoldNode extends Node {
     }
 
     getRichTextMarker() {
-        return '***';
+        return EXTRA_SYMBOL;
     }
     getHTMLOpenMarker() {
         return "<span class='extra'>";

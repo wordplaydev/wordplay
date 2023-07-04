@@ -52,16 +52,24 @@ export default class Words extends Node {
         return translation.node.Words;
     }
 
-    isItalic() {
-        return this.open?.is(TokenType.Italic);
-    }
-
-    isBold() {
-        return this.open?.is(TokenType.Bold);
-    }
-
-    isExtra() {
-        return this.open?.is(TokenType.Extra);
+    getFormat():
+        | 'italic'
+        | 'underline'
+        | 'light'
+        | 'bold'
+        | 'extra'
+        | undefined {
+        return this.open === undefined
+            ? undefined
+            : this.open.is(TokenType.Italic)
+            ? 'italic'
+            : this.open.is(TokenType.Underline)
+            ? 'underline'
+            : this.open.is(TokenType.Light)
+            ? 'light'
+            : this.open.is(TokenType.Bold)
+            ? 'bold'
+            : 'extra';
     }
 
     getText() {
