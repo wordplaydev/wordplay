@@ -29,6 +29,6 @@
         font-weight: bold;
     }
     .extra {
-        font-weight: 700;
+        font-weight: 900;
     }
 </style>

@@ -6358,12 +6358,19 @@ status: Game(0 3 1) … ∆ Time() … status.score: status.score + 1`
                         `Happily. 
                         
                         If you've met everyone but me, then you probably know by now that we do a lot of different things. 
-                        Even I have trouble keeping track of what everyone does! What I do is help explain what everyone is doing in a performance. 
+                        Even I have trouble keeping track of what everyone does! 
                         
-                        I'm a way you can remind yourself what everyone is doing, but also a way to explain to others, if you're directing with a friend, or want to share your performance with someone.
+                        What I do is help explain what everyone is doing in a performance.`
+                    ),
+                    pause(),
+                    dialog(
+                        'Doc',
+                        Emotion.Happy,
+                        `I'm a way you can remind yourself what everyone is doing, but also a way to explain to others, if you're directing with a friend, or want to share your performance with someone.
                         
                         So you don't *have* to work with me, but I find that every performance is a bit easier to do and change if you've spent some time explaining how it works.`
                     ),
+                    symbol('`About me...`/en'),
                     pause(),
                     dialog(
                         'FunctionDefinition',
@@ -6455,7 +6462,7 @@ sound: _
 Phrase(“✈️”)`
                     ),
                     pause(),
-                    symbol('`'),
+                    symbol('✈️🫦'),
                     dialog(
                         'FunctionDefinition',
                         Emotion.Excited,
@@ -6470,9 +6477,85 @@ Phrase(“✈️”)`
                         'FunctionDefinition',
                         Emotion.Excited,
                         `Hm... good point.
-                        
-                        Well thank you @Doc, I think we might be ready for a show!`
+
+                        Speaking of speaking, it seems like you can only contain plain text.
+                        Is that right?
+                    `
                     ),
+                    pause(),
+                    dialog(
+                        'Doc',
+                        Emotion.Excited,
+                        `Oh no, not at all.
+                        
+                        You can make text italic by wrapping any text with ⧼*⧽.
+                        
+                        Notice how it's italic?
+                        Put your text cursor inside the word 'italic' and you'll see the markers.`
+                    ),
+                    edit(`\`I'm *italic* text.\` "italic"`),
+                    pause(),
+                    dialog(
+                        'Doc',
+                        Emotion.Excited,
+                        `If you put double ⧼*⧽'s, I'll make it bold.`
+                    ),
+                    edit(`\`I'm **bold** text.\` "bold"`),
+                    pause(),
+                    dialog(
+                        'Doc',
+                        Emotion.Excited,
+                        `If you put *triple* ⧼*⧽'s, I'll make it extra bold.`
+                    ),
+                    edit(`\`I'm ***extra bold*** text.\` "extra bold"`),
+                    pause(),
+                    dialog(
+                        'Doc',
+                        Emotion.Excited,
+                        `And of course, just as with @TextLiteral, if you need to use a character like ⧼*⧽, you can make me treat it literally with ⧼^⧽`
+                    ),
+                    edit(`\`I'm a bunch of ^*^*^*^*.\``),
+                    pause(),
+                    dialog(
+                        'Doc',
+                        Emotion.Excited,
+                        `You can put example code inside ^⧼^⧽.`
+                    ),
+                    edit(
+                        `\`I'm an example inside a doc: ⧼1 + 1⧽.\`
+1 + 1`
+                    ),
+                    pause(),
+                    //                     dialog(
+                    //                         'Doc',
+                    //                         Emotion.Excited,
+                    //                         `And if you put an example on a new line by itself, it will eval be evaluated to show it's value.`
+                    //                     ),
+                    //                     edit(
+                    //                         `\`Add numbers like this:
+                    // ⧼sum(1 2)⧽
+                    // \`
+                    // ƒ sum(a•# b•#) a + b`
+                    //                     ),
+                    //                     pause(),
+                    dialog(
+                        'Doc',
+                        Emotion.Excited,
+                        `You can also add links to other content on the internet.`
+                    ),
+                    edit(
+                        `\`Learn more at <Wordplay@https://wordplay.dev>.\` "a link!"`
+                    ),
+                    pause(),
+                    output('Phrase("Quiet backstage!")'),
+                    dialog(
+                        'FunctionDefinition',
+                        Emotion.Excited,
+                        `Wow.
+                        
+                        I had no idea you could do so much! Thank you @Doc, I think we might be ready for a show!`
+                    ),
+                    dialog('Doc', Emotion.Excited, `Let's do it!`),
                 ],
             },
         ],
