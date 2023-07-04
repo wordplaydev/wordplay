@@ -439,7 +439,7 @@ const tutorial: Act[] = [
                         They don't evaluate to any value in particular — in fact, if they show up in @Program, @Program will just halt the performance, since it's not really clear what to do next.`
                     ),
                     pause(),
-                    edit('_'),
+                    edit('_', true),
                     dialog(
                         'FunctionDefinition',
                         Emotion.Kind,
@@ -579,7 +579,7 @@ const tutorial: Act[] = [
                         `(For example, try typing ⧼][⧽. See how we're completely confused? That doesn't mean anything, and I'm here to say it.)`
                     ),
                     pause(),
-                    edit(']['),
+                    edit('][', true),
                     dialog(
                         'UnparsableExpression',
                         Emotion.Eager,
@@ -591,7 +591,7 @@ const tutorial: Act[] = [
                         `(When I show up, that means we don't know what you mean.)`
                     ),
                     pause(),
-                    edit(']['),
+                    edit('][', true),
                     dialog(
                         'FunctionDefinition',
                         Emotion.Curious,
@@ -602,7 +602,7 @@ const tutorial: Act[] = [
                         When then happens, I wish we could be more helpful, but we're often pretty dense here, so we're not very good at guessing what you mean.`
                     ),
                     pause(),
-                    edit(']['),
+                    edit('][', true),
                     dialog(
                         'UnparsableExpression',
                         Emotion.Eager,
@@ -818,7 +818,7 @@ const tutorial: Act[] = [
                         
                         Here I just have @ExpressionPlaceholder as the function and three more as placeholder inputs.`
                     ),
-                    code('_(_ _ _)', false, true),
+                    code('_(_ _ _)', false, true, true),
                     pause(),
                     code("Phrase('hello')", false, true),
                     dialog(
@@ -870,7 +870,7 @@ const tutorial: Act[] = [
                         Try changing another input with the palette, maybe the font face.`
                     ),
                     pause(),
-                    edit('“hi”(1 2)'),
+                    edit('"hi"(1 2)', true),
                     dialog(
                         'FunctionDefinition',
                         Emotion.Happy,
@@ -894,7 +894,7 @@ const tutorial: Act[] = [
                         `
                     ),
                     pause(),
-                    edit('Phrase()'),
+                    edit('Phrase()', true),
                     dialog(
                         'Evaluate',
                         Emotion.Eager,
@@ -903,7 +903,7 @@ const tutorial: Act[] = [
                         @Phrase requires some text at the very least, so if you don't give me text, I won't be able to evaluate @Phrase, because I'm missing required inputs.`
                     ),
                     pause(),
-                    edit('Phrase(1)'),
+                    edit('Phrase(1)', true),
                     dialog(
                         'Evaluate',
                         Emotion.Excited,
@@ -1144,7 +1144,7 @@ const tutorial: Act[] = [
                         See how there's an opening quote but not a closing one? 
                         Well, how am I supposed to know when the text ends?`
                     ),
-                    edit('“hello'),
+                    edit('"hello', true),
                     pause(),
                     dialog(
                         'TextType',
@@ -1158,7 +1158,7 @@ const tutorial: Act[] = [
                         
                         You can fix this by using different symbols for the outside, like a single quote.`
                     ),
-                    edit('"Hi there "friend"'),
+                    edit('"Hi there "friend"', true),
                     pause(),
                     dialog(
                         'TextType',
@@ -1305,7 +1305,7 @@ const tutorial: Act[] = [
                         This won't work, for example. One plus what? @UnparsableExpression won't be far away when this happens.
                         `
                     ),
-                    edit(`1 +`),
+                    edit(`1 +`, true),
                     pause(),
                     dialog(
                         'FunctionDefinition',
@@ -1518,17 +1518,16 @@ const tutorial: Act[] = [
                 name: 'Let me count the ways',
                 concept: 'Numbers',
                 program: output(
-                    `
-                    numbers•[#]:25 → []
-                    Group(Grid(5 5) numbers.translate(
-                        ƒ (n•#) 
-                            (
-                                Phrase(
-                                    n → ""    
-                                )
-                            )
-                        )
-                    `
+                    `numbers•[#]: 25 → []
+Group(Grid(5 5) numbers.translate(
+    ƒ (n•#) 
+        (
+            Phrase(
+                n → ""    
+            )
+        )
+    )
+)`
                 ),
                 lines: [
                     symbol('😞'),
@@ -1706,14 +1705,13 @@ const tutorial: Act[] = [
                     edit(`-5s + 5s`),
                     pause(),
                     dialog('MeasurementType', Emotion.Excited, `Or this.`),
-                    edit(`2apple + 5orange`),
+                    edit(`2apple + 5orange`, true),
                     pause(),
                     dialog(
                         'FunctionDefinition',
                         Emotion.Confused,
                         `Oops. Can you add apples and oranges?`
                     ),
-                    edit(`2apple + 5orange`),
                     dialog(
                         'MeasurementType',
                         Emotion.Angry,
@@ -2042,9 +2040,8 @@ const tutorial: Act[] = [
                         That's why we're here, to talk about what you do and our next performance!`
                     ),
                     output(
-                        `
-                        shake: Sequence({0%: Pose(offset: Place(0m)) 25%: Pose(offset: Place(-.1m)) 50%: Pose(offset: Place(.2m)) 75%: Pose(offset: Place(-.3m)) 100%: Pose(offset: Place(0m))} duration: 0.1)
-                        Group(Row() [Phrase("[" rest: shake) Phrase("]" rest: shake)])`
+                        `wobble: Sequence({0%: Pose(offset: Place(0m)) 25%: Pose(offset: Place(-.1m)) 50%: Pose(offset: Place(.2m)) 75%: Pose(offset: Place(-.3m)) 100%: Pose(offset: Place(0m))} duration: 0.1s)
+Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                     ),
                     dialog(
                         'ListType',
@@ -2089,7 +2086,7 @@ const tutorial: Act[] = [
                         
                         Do you see how confusing things get? Can you fix this one?`
                     ),
-                    edit(`[ 1 2 3 4`),
+                    edit(`[ 1 2 3 4`, true),
                     pause(),
                     dialog(
                         'ListType',
@@ -2098,7 +2095,7 @@ const tutorial: Act[] = [
                         
                         Can you fix it?`
                     ),
-                    edit(`] 1 2 3 4 [`),
+                    edit(`] 1 2 3 4 [`, true),
                     pause(),
                     dialog(
                         'ListType',
@@ -2129,7 +2126,7 @@ const tutorial: Act[] = [
                         
                         Maybe you could get rid of those pesky things? Put line breaks if you like. Anything other than commas. Gross!`
                     ),
-                    edit(`[ 1, 2, 3, 4, 5]`),
+                    edit(`[ 1, 2, 3, 4, 5]`, true),
                     pause(),
                     dialog(
                         'FunctionDefinition',
@@ -2552,7 +2549,7 @@ const tutorial: Act[] = [
                         Emotion.Curious,
                         `And what if our director doesn't provide a value or a key? Like this? Like, ⧼3⧽ has no value?`
                     ),
-                    edit(`{1:1 2:2 3 }`),
+                    edit(`{1:1 2:2 3 }`, true),
                     dialog(
                         'MapType',
                         Emotion.Serious,
@@ -3103,7 +3100,7 @@ const tutorial: Act[] = [
                         Do you want to show an example?`
                     ),
                     dialog('Conditional', Emotion.Curious, `Like this?`),
-                    edit(`_•? ? _ _`),
+                    edit(`_•? ? _ _`, true),
                     dialog(
                         'FunctionDefinition',
                         Emotion.Excited,
@@ -3199,7 +3196,7 @@ const tutorial: Act[] = [
                         
                         Don't I have a right to decide if ⧼1⧽ is beautiful?`
                     ),
-                    edit(`1 ? 'beautiful' 'ugly'`),
+                    edit(`1 ? 'beautiful' 'ugly'`, true),
                     pause(),
                     output(SpinningInTheDark('?')),
                     dialog(
@@ -3589,7 +3586,7 @@ const tutorial: Act[] = [
             {
                 name: 'You never know…',
                 concept: 'Random',
-                program: output(`Phrase((Time(100ms) % 10 ÷ 1ms) → "")`),
+                program: output(`Phrase(((Time(100ms) % 10) ÷ 1ms) → "")`),
                 lines: [
                     dialog(
                         'FunctionDefinition',
@@ -3642,11 +3639,11 @@ const tutorial: Act[] = [
                 concept: 'Motion',
                 program: output(
                     `Motion(
-                        Phrase("🏀" 3m place: ◆ ? Place(0m 5m) ø) 
-                        vx: ◆ ? 0m/s ø
-                        vy: ◆ ? 0m/s ø
-                        vangle: ◆ ? 0°/s ø
-                    )`,
+    Phrase("🏀" 3m place: ◆ ? Place(0m 5m) ø) 
+    vx: ◆ ? 0m/s ø
+    vy: ◆ ? 0m/s ø
+    vangle: ◆ ? 0°/s ø
+)`,
                     false
                 ),
                 lines: [
@@ -3689,7 +3686,7 @@ const tutorial: Act[] = [
                     output(
                         `Motion(
     Phrase("🏀" 3m place: ◆ ? Place(0m 5m) ø) 
-    vx: ◆ ? -5/s ø
+    vx: ◆ ? -5m/s ø
     vy: ◆ ? 5m/s ø
     vangle: ◆ ? 30°/s ø
 )`,
@@ -3831,7 +3828,7 @@ const tutorial: Act[] = [
 
                         Finally, the **next** value is whatever value I should make whenever the condition changes.`
                     ),
-                    edit(`_ … _•? … _`),
+                    edit(`_ … _•? … _`, true),
                     pause(),
                     dialog(
                         'Reaction',
@@ -4170,7 +4167,7 @@ const tutorial: Act[] = [
                         Try changing the place to a different location, by editing the numbers, or dragging the @Phrase on stage.`
                     ),
                     code(
-                        `Phrase('hi' Time(100ms)·0.001m/ms “Poor Story” Place(2m 2m))`,
+                        `Phrase('hi' Time(100ms)·0.001m/ms "Poor Story" Place(2m 2m))`,
                         false,
                         true
                     ),
@@ -4184,7 +4181,7 @@ const tutorial: Act[] = [
                         Try changing the rotation value to twist me around!`
                     ),
                     code(
-                        `Phrase('hi' Time(100ms)·0.001m/ms  “Poor Story” Place(2m 2m) 20°)`,
+                        `Phrase('hi' Time(100ms)·0.001m/ms "Poor Story" Place(2m 2m) 20°)`,
                         false,
                         true
                     ),
@@ -4197,7 +4194,7 @@ const tutorial: Act[] = [
                         Any guesses on how to make me spin faster? See if you can figure it out…`
                     ),
                     code(
-                        `Phrase('hi' 3m “Poor Story” rotation: Time(10ms) · 1°/ms)`,
+                        `Phrase('hi' 3m "Poor Story" rotation: Time(10ms) · 1°/ms)`,
                         false,
                         true
                     ),
@@ -4216,8 +4213,9 @@ const tutorial: Act[] = [
                         You can cut and paste with the keyboard or click and drag expressions to rearrange them.`
                     ),
                     code(
-                        `Phrase('hi' “Poor Story” 3m Time(10ms) · 1°/ms Place(2m 2m))`,
+                        `Phrase('hi' "Poor Story" 3m Time(10ms) · 1°/ms Place(2m 2m))`,
                         false,
+                        true,
                         true
                     ),
                     pause(),
@@ -4301,7 +4299,7 @@ const tutorial: Act[] = [
                     ),
                     code(
                         `Time(1000ms) < 3000ms ? 
-                            Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001 0m) move: Pose(tilt: 5°) duration: 0.5s) 
+                            Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) move: Pose(tilt: 5°) duration: 0.5s) 
                             Phrase('')`,
                         false,
                         true
@@ -5236,7 +5234,7 @@ const tutorial: Act[] = [
                         Who's your friend here?`
                     ),
                     pause(),
-                    output(`Phrase(":" rest: Pose(scale: 10ms ÷ Time())`),
+                    output(`Phrase(":" rest: Pose(scale: 10ms ÷ Time()))`),
                     dialog(
                         'FunctionDefinition',
                         Emotion.Kind,
@@ -5255,7 +5253,7 @@ const tutorial: Act[] = [
                     ),
                     pause(),
                     output(
-                        `Phrase(":" 10m rest: Sequence(bounce(3m) 1s)`,
+                        `Phrase(":" 10m rest: Sequence(bounce(3m) 1s))`,
                         false
                     ),
                     dialog(
@@ -5345,7 +5343,8 @@ number`
                     ),
                     edit(
                         `number•#: "oh hi"
-number`
+number`,
+                        true
                     ),
                     pause(),
                     dialog(
@@ -5492,7 +5491,8 @@ Phrase(
                         `fruits: 5
 total: fruits + veggies
 veggies: 3
-total`
+total`,
+                        true
                     ),
                     pause(),
                     dialog(
@@ -5513,7 +5513,8 @@ total`
                         `fruits: 5
 fruits: 10
 total: fruits + fruits
-total`
+total`,
+                        true
                     ),
                     pause(),
                     dialog(
@@ -5532,7 +5533,8 @@ total`
                     edit(
                         `fruits: 5
 veggies: 10
-fruits + 3`
+fruits + 3`,
+                        true
                     ),
                     pause(),
                     dialog(
@@ -5562,7 +5564,7 @@ fruits + 3`
                         
                         The more languages the better though, since there are a lot of people in the world who read a lot of different languages!`
                     ),
-                    edit(`fruit/en,fruta/es,水果/zh: 5`),
+                    edit(`fruit/en,fruta/es,水果/zh: 5`, true),
                     pause(),
                     output('Phrase(":")'),
                     dialog(
@@ -5671,7 +5673,8 @@ fruits + 3`
 (
   b: 2
   c: a + b
-)`
+)`,
+                        true
                     ),
                     pause(),
                     dialog(
@@ -5688,7 +5691,8 @@ fruits + 3`
 (
   b: 2
   c: a + b
-) + c`
+) + c`,
+                        true
                     ),
                     dialog(
                         'Block',
@@ -5720,7 +5724,8 @@ fruits + 3`
   2 + 3
   3 + 4
   4 + 5
-)`
+)`,
+                        true
                     ),
                     pause(),
                     output(`Phrase("()" rest: Sequence(spin() 1s "straight"))`),
@@ -6160,7 +6165,7 @@ Group(Stack(0m) [
                         Instead of them having to refer to the messages and the index like before, we can just say ⧼marquee.now()⧽, which gets the current message in the list.`
                     ),
                     edit(
-                        `•Marquee(messages•[“”] index•#: 1) (
+                        `•Marquee(messages•[""] index•#: 1) (
   ƒ now() messages[index]
   ƒ next() Marquee(messages index ≥ messages.length() ? 1 index + 1)
 )
@@ -6424,7 +6429,8 @@ status: Game(0 3 1) … ∆ Time() … status.score: status.score + 1`
                     edit(
                         `\`The price at the beginning of the game, 
 used to initialize the game.\`
-startingPrice: 5dollar`
+startingPrice: 5dollar`,
+                        true
                     ),
                     pause(),
                     dialog(
@@ -6498,7 +6504,8 @@ Maybe this stores the plane's height?\`
 \`We need some kind of reaction to listen to the microphone…\`
 sound: _
 \`We know there's a plane, but what else?\`
-Phrase(“✈️”)`
+Phrase(“✈️”)`,
+                        true
                     ),
                     pause(),
                     symbol('✈️🫦'),
@@ -6609,7 +6616,7 @@ Docs can be
                 name: 'Codependency',
                 concept: undefined,
                 program: output(
-                    `Phrase('😨' rest: Sequence(shake() style: "linear"))`
+                    `Phrase('😨' rest: Sequence(shake() style: "straight"))`
                 ),
                 lines: [
                     symbol('😡'),
@@ -6880,7 +6887,7 @@ Docs can be
                         Emotion.Excited,
                         `My pleasure, my dear. Will this do?`
                     ),
-                    edit(EvaluateDance[3]),
+                    edit(EvaluateDance[3], true),
                     pause(),
                     dialog(
                         'Evaluate',
@@ -6896,7 +6903,7 @@ Docs can be
                         Emotion.Happy,
                         `Translation, 1, 2, 3! Like this?`
                     ),
-                    edit(EvaluateDance[4]),
+                    edit(EvaluateDance[4], true),
                     pause(),
                     dialog(
                         'Evaluate',

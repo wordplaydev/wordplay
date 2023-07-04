@@ -1144,6 +1144,8 @@ export type Code = {
     fit: boolean;
     /** Shows code if true, otherwise output only */
     edit: boolean;
+    /** True if the conflicts are intentional. Used to filter out intentioally conflicted programs in testing */
+    conflicted: boolean;
 };
 
 export function dialog(
@@ -1158,11 +1160,17 @@ export function dialog(
     };
 }
 
-export function code(source: string, fit: boolean, edit: boolean): Code {
+export function code(
+    source: string,
+    fit: boolean,
+    edit: boolean,
+    conflicted: boolean = false
+): Code {
     return {
         sources: [source],
         fit,
         edit,
+        conflicted,
     };
 }
 
@@ -1171,11 +1179,12 @@ export function output(source: string, fit: boolean = true): Code {
         sources: [source],
         fit,
         edit: false,
+        conflicted: false,
     };
 }
 
-export function edit(source: string): Code {
-    return code(source, true, true);
+export function edit(source: string, conflicted: boolean = false): Code {
+    return code(source, true, true, conflicted);
 }
 
 export function pause() {

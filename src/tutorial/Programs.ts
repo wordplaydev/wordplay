@@ -3,21 +3,18 @@ export const DarkVoid = `Stage([] background: Color(0% 0 0°))`;
 export const PrimitiveJiggle = `
 letters: ['""' '?' '#' 'ø']
 
-seconds: Time(1000ms)
-
 Group(
     Grid(2 2 0.25m 1m 1m) 
     letters.translate(
-        ƒ (letter•"" index•#) 
+        ƒ (letter•'""'|'?'|'#'|'ø')
             Phrase(
                 letter 
                 enter: Pose(opacity: 0 scale: 2)
-                rest: Sequence(sway() duration:0.25s)
+                rest: Sequence(sway() duration: 0.25s)
                 duration: 0.5s
             )
-    )
-)
-`;
+    ) 
+)`;
 
 export const FlyIn = (symbol: string) =>
     `z•#m: 25m … ∆ Time(30ms) … z > 0m ? z - 1m 0m
@@ -47,11 +44,10 @@ kitties•[Kitty]:
         ƒ(_) Kitty(
             Random(-size size)
             Random(-size size)
-            	Random(0 size ÷ 2)
-            	Random(360)
-            	Random(-30 30)
-        		)
-    			)
+            Random(0 size ÷ 2)
+            Random(360)
+            Random(-30 30)
+          ))
     			… ∆ Time()…
     			kitties.translate(
         		ƒ(kitty•Kitty)
@@ -81,20 +77,19 @@ export const StaticRainingEmoji = `
 count: 50
 size: 30
 
-•Kitty(x•# y•# z•# angle•# speed•#) ()
+•Kitty(x•# y•# z•# angle•#) ()
 
 \`Initially, make a list of 20 kitties, each placed somewhere random.
 When the the clock ticks, move them all down a bit.\`
 kitties•[Kitty]:  
     count → [].translate(
         ƒ(_) Kitty(
-            Random(-size size)
-            Random(-size size)
-            	Random(0 size ÷ 2)
-            	Random(360)
-            	Random(-30 30)
-        		)
-            )
+          Random(-size size)
+          Random(-size size)
+          Random(0 size ÷ 2)
+          Random(360)
+        )
+      )
     			
 
 \`Convert the kitties into phrases\`
@@ -409,6 +404,6 @@ Stage([
       )
     )
   )]
-  background:Color(0% 0 0°)
+  background:Color(0% 0 0°))
 `,
 ];

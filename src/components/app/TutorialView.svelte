@@ -93,7 +93,12 @@
             code = newCode;
         }
         if (code === undefined) {
-            code = { sources: ['Stage()'], fit: true, edit: false };
+            code = {
+                sources: ['Stage()'],
+                fit: true,
+                edit: false,
+                conflicted: false,
+            };
         }
     }
 
