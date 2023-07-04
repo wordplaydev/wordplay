@@ -575,6 +575,6 @@ test('docs in docs', () => {
     expect(doc.paragraphs[0]).toBeInstanceOf(Paragraph);
     expect(doc.paragraphs[0].content[0]).toBeInstanceOf(Words);
     expect(doc.paragraphs[0].content[1]).toBeInstanceOf(Example);
-    expect(doc.paragraphs[0].content[2]).toBeInstanceof(Words);
-    expect(doc.paragraphs[0].content.length).toBe(4);
+    expect(doc.paragraphs[0].content[2]).toBeInstanceOf(Words);
+    expect(doc.paragraphs[0].content.length).toBe(3);
 });
