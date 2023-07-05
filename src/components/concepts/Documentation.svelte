@@ -48,7 +48,8 @@
     let dragged = getDragged();
 
     let query: string = '';
-    let results: [Concept, [string, number][]][] | undefined = undefined;
+    let results: [Concept, [string, number, number][]][] | undefined =
+        undefined;
 
     $: currentConcept = $path[$path.length - 1];
 
@@ -155,6 +156,22 @@
         if (query === '') results = undefined;
         else {
             results = $index?.getQuery($creator.getLocales(), query);
+            // If there are results, sort them by priority
+            if (results) {
+                results = results.sort((a, b) => {
+                    const [, aMatches] = a;
+                    const [, bMatches] = b;
+                    const aMinPriority = Math.min.apply(
+                        null,
+                        aMatches.map(([, , match]) => match)
+                    );
+                    const bMinPriority = Math.min.apply(
+                        null,
+                        bMatches.map(([, , match]) => match)
+                    );
+                    return aMinPriority - bMinPriority;
+                });
+            }
         }
     }
 </script>

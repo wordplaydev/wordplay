@@ -224,10 +224,10 @@ export default class ConceptIndex {
     getQuery(
         translations: Locale[],
         query: string
-    ): [Concept, [string, number][]][] {
+    ): [Concept, [string, number, number][]][] {
         // Find matching concepts for each translation and the string that matched.
         const matches = translations.reduce(
-            (matches: [Concept, [string, number]][], translation) => {
+            (matches: [Concept, [string, number, number]][], translation) => {
                 const lowerQuery = query.toLocaleLowerCase(
                     translation.language
                 );
@@ -241,15 +241,18 @@ export default class ConceptIndex {
                             );
                             return match !== undefined ? [c, match] : undefined;
                         })
-                        .filter((match): match is [Concept, [string, number]] =>
-                            Array.isArray(match)
+                        .filter(
+                            (
+                                match
+                            ): match is [Concept, [string, number, number]] =>
+                                Array.isArray(match)
                         ),
                 ];
             },
             []
         );
         // Collapse matching text of equivalent concepts
-        const map = new Map<Concept, [string, number][]>();
+        const map = new Map<Concept, [string, number, number][]>();
         for (const [concept, match] of matches) {
             const list = map.get(concept);
             map.set(concept, list === undefined ? [match] : [...list, match]);

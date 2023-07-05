@@ -93,15 +93,25 @@ export default abstract class Concept {
     getTextMatching(
         translation: Locale,
         query: string
-    ): [string, number] | undefined {
-        const description = this.getName(translation, false);
-        const lowerDescription = description.toLocaleLowerCase(
-            translation.language
-        );
+    ): [string, number, number] | undefined {
+        const name = this.getName(translation, false);
+        const lowerDescription = name.toLocaleLowerCase(translation.language);
         const index = lowerDescription.indexOf(query);
-        if (index >= 0) return [description, index];
+        // Return name match at priority 1
+        if (index >= 0) return [name, index, 1];
         const [doc] = this.getDocs(translation) ?? [undefined];
-        return doc?.getMatchingText(query);
+        // If the name doesn't match, see if a doc does
+        if (doc) {
+            const [match, index] = doc.getMatchingText(query) ?? [
+                undefined,
+                undefined,
+            ];
+            if (match) {
+                // Add priority 2 to the list
+                return [match, index, 2];
+            }
+        }
+        return undefined;
     }
 
     /**
