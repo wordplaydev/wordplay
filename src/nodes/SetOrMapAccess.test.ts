@@ -3,7 +3,7 @@ import { testConflict } from '@conflicts/TestUtilities';
 import { IncompatibleKey } from '@conflicts/IncompatibleKey';
 import Evaluator from '@runtime/Evaluator';
 import SetOrMapAccess from './SetOrMapAccess';
-import { NotASetOrMap } from '@conflicts/NotASetOrMap';
+import IncompatibleInput from '../conflicts/IncompatibleInput';
 
 test.each([
     [
@@ -12,7 +12,7 @@ test.each([
         SetOrMapAccess,
         IncompatibleKey,
     ],
-    ['{1:1 2:2 3:3}{1}', '[1 2 3]{"hi"}', SetOrMapAccess, NotASetOrMap],
+    ['{1:1 2:2 3:3}{1}', '[1 2 3]{"hi"}', SetOrMapAccess, IncompatibleInput],
 ])(
     'Expect %s no conflicts, %s to have %s with %s',
     (good, bad, node, conflict) => {

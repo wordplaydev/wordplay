@@ -12,7 +12,6 @@ import { NEGATE_SYMBOL, NOT_SYMBOL } from '@parser/Symbols';
 import type TypeSet from './TypeSet';
 import FunctionException from '@runtime/FunctionException';
 import FunctionDefinition from './FunctionDefinition';
-import NotAFunction from '@conflicts/NotAFunction';
 import Evaluation from '@runtime/Evaluation';
 import getConcreteExpectedType from './Generics';
 import type Value from '@runtime/Value';
@@ -23,6 +22,9 @@ import StartEvaluation from '@runtime/StartEvaluation';
 import NodeLink from '@locale/NodeLink';
 import Emotion from '../lore/Emotion';
 import FunctionValue from '../runtime/FunctionValue';
+import IncompatibleInput from '../conflicts/IncompatibleInput';
+import AnyType from './AnyType';
+import FunctionType from './FunctionType';
 
 export default class UnaryOperation extends Expression {
     readonly operator: Token;
@@ -81,10 +83,10 @@ export default class UnaryOperation extends Expression {
         // Did we find nothing?
         if (fun === undefined)
             conflicts.push(
-                new NotAFunction(
-                    this,
+                new IncompatibleInput(
                     this.operator,
-                    this.operand.getType(context)
+                    this.operand.getType(context),
+                    FunctionType.make(undefined, [], new AnyType())
                 )
             );
 

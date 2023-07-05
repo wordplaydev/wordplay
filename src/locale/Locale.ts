@@ -573,22 +573,9 @@ type Locale = {
         MissingLanguage: InternalConflictText<Description>;
         MissingShareLanguages: InternalConflictText<Description>;
         NoExpression: InternalConflictText<Description>;
-        NonBooleanQuery: InternalConflictText<(type: NodeLink) => Description>;
-        NotAFunction: InternalConflictText<
-            (
-                name: NodeLink | undefined,
-                given: NodeLink | undefined
-            ) => Description
-        >;
-        NotAList: InternalConflictText<(type: NodeLink) => Description>;
-        NotAListIndex: InternalConflictText<(type: NodeLink) => Description>;
         NotAMap: ConflictText<Description, (expr: NodeLink) => Description>;
         NotANumber: InternalConflictText<Description>;
         NotAnInterface: InternalConflictText<Description>;
-        NotASetOrMap: InternalConflictText<(type: NodeLink) => Description>;
-        NotAStream: InternalConflictText<(type: NodeLink) => Description>;
-        NotAStreamIndex: InternalConflictText<(type: NodeLink) => Description>;
-        NotATable: InternalConflictText<(type: NodeLink) => Description>;
         NotInstantiable: InternalConflictText<Description>;
         OrderOfOperations: InternalConflictText<Description>;
         Placeholder: InternalConflictText<Description>;

@@ -5,13 +5,13 @@ import Evaluator from '@runtime/Evaluator';
 import Block from './Block';
 import { test, expect } from 'vitest';
 import Evaluate from './Evaluate';
-import NotAFunction from '@conflicts/NotAFunction';
+import IncompatibleInput from '../conflicts/IncompatibleInput';
 
 test.each([
     ['(1)', '()', Block, ExpectedEndingExpression],
     ['1 + 1', '1 + 1\n2 + 2', Block, IgnoredExpression],
-    ['ƒ b() 1\nb()', "(ƒ b() 1)\nb()'", Evaluate, NotAFunction],
-    ['•B()\nB()', "a: (•B())\nB()'", Evaluate, NotAFunction],
+    ['ƒ b() 1\nb()', "(ƒ b() 1)\nb()'", Evaluate, IncompatibleInput],
+    ['•B()\nB()', "a: (•B())\nB()'", Evaluate, IncompatibleInput],
 ])(
     'Expect %s no conflicts, %s to have %s with %s',
     (good, bad, node, conflict, number?) => {

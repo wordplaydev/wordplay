@@ -2,7 +2,6 @@ import { test, expect } from 'vitest';
 import { testConflict, testTypes } from '@conflicts/TestUtilities';
 import IncompatibleInput from '@conflicts/IncompatibleInput';
 import NotInstantiable from '@conflicts/NotInstantiable';
-import NotAFunction from '@conflicts/NotAFunction';
 import Evaluator from '@runtime/Evaluator';
 import Evaluate from './Evaluate';
 import MissingInput from '@conflicts/MissingInput';
@@ -18,7 +17,7 @@ test.each([
         'add: ƒ(a•# b•#) a + b\nadd(1 2)',
         'add: ƒ(a•# b•#) a + b\nsum(1 2)',
         Evaluate,
-        NotAFunction,
+        IncompatibleInput,
     ],
     [
         '•Cat() (add: ƒ(a•# b•#) a)\nCat()',
@@ -62,7 +61,7 @@ test.each([
         Evaluate,
         IncompatibleInput,
     ],
-    ['(ƒ() 5)()', '(ƒ() 5 5)()', Evaluate, NotAFunction],
+    ['(ƒ() 5)()', '(ƒ() 5 5)()', Evaluate, IncompatibleInput],
     // Type inputs have to be declared
     [
         '•Cat⸨Desire⸩()\nCat⸨#⸩()',
@@ -81,7 +80,7 @@ test.each([
         a.cos()
         `,
         Evaluate,
-        NotAFunction,
+        IncompatibleInput,
         1,
     ],
     // Infer bind types from function inputs

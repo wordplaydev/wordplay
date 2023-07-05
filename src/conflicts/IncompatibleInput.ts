@@ -1,33 +1,17 @@
-import type Evaluate from '@nodes/Evaluate';
 import Conflict from './Conflict';
-import type Expression from '@nodes/Expression';
-import type Bind from '@nodes/Bind';
 import type Type from '@nodes/Type';
-import type BinaryOperation from '@nodes/BinaryOperation';
-import type StructureDefinition from '@nodes/StructureDefinition';
-import type FunctionDefinition from '@nodes/FunctionDefinition';
 import type Locale from '@locale/Locale';
 import NodeLink from '@locale/NodeLink';
 import type Context from '@nodes/Context';
-import type StreamDefinition from '../nodes/StreamDefinition';
+import type Node from '../nodes/Node';
 
 export default class IncompatibleInput extends Conflict {
-    readonly func: FunctionDefinition | StructureDefinition | StreamDefinition;
-    readonly evaluate: Evaluate | BinaryOperation;
-    readonly givenNode: Expression | Bind;
+    readonly givenNode: Node;
     readonly givenType: Type;
     readonly expectedType: Type;
 
-    constructor(
-        func: FunctionDefinition | StructureDefinition | StreamDefinition,
-        evaluate: Evaluate | BinaryOperation,
-        givenInput: Expression | Bind,
-        givenType: Type,
-        expectedType: Type
-    ) {
+    constructor(givenInput: Node, givenType: Type, expectedType: Type) {
         super(false);
-        this.func = func;
-        this.evaluate = evaluate;
         this.givenNode = givenInput;
         this.givenType = givenType;
         this.expectedType = expectedType;

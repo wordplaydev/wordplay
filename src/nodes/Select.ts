@@ -4,8 +4,6 @@ import Row from './Row';
 import type Conflict from '@conflicts/Conflict';
 import UnknownColumn from '@conflicts/UnknownColumn';
 import ExpectedSelectName from '@conflicts/ExpectedSelectName';
-import NonBooleanQuery from '@conflicts/NonBooleanQuery';
-import NotATable from '@conflicts/NotATable';
 import type Type from './Type';
 import Reference from './Reference';
 import TableType from './TableType';
@@ -27,6 +25,7 @@ import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import NodeLink from '@locale/NodeLink';
 import Glyphs from '../lore/Glyphs';
+import IncompatibleInput from '../conflicts/IncompatibleInput';
 
 export default class Select extends Expression {
     readonly table: Expression;
@@ -89,7 +88,9 @@ export default class Select extends Expression {
 
         // Table must be table typed.
         if (!(tableType instanceof TableType))
-            conflicts.push(new NotATable(this, tableType));
+            conflicts.push(
+                new IncompatibleInput(this, tableType, TableType.make([]))
+            );
 
         // The columns in a select must be names.
         this.row.cells.forEach((cell) => {
@@ -118,7 +119,9 @@ export default class Select extends Expression {
             this.query instanceof Expression &&
             !(queryType instanceof BooleanType)
         )
-            conflicts.push(new NonBooleanQuery(this, queryType));
+            conflicts.push(
+                new IncompatibleInput(this.query, queryType, BooleanType.make())
+            );
 
         return conflicts;
     }

@@ -1,5 +1,4 @@
 import type Conflict from '@conflicts/Conflict';
-import { NotAListIndex } from '@conflicts/NotAListIndex';
 import Expression from './Expression';
 import ListType from './ListType';
 import MeasurementType from './MeasurementType';
@@ -16,7 +15,6 @@ import type Context from './Context';
 import type TypeSet from './TypeSet';
 import Unit from './Unit';
 import type Bind from './Bind';
-import { NotAList } from '@conflicts/NotAList';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import ListOpenToken from './ListOpenToken';
 import ListCloseToken from './ListCloseToken';
@@ -29,6 +27,7 @@ import Glyphs from '../lore/Glyphs';
 import type { NativeTypeName } from '../native/NativeConstants';
 import Purpose from '../concepts/Purpose';
 import None from '../runtime/None';
+import IncompatibleInput from '../conflicts/IncompatibleInput';
 
 export default class ListAccess extends Expression {
     readonly list: Expression;
@@ -109,7 +108,9 @@ export default class ListAccess extends Expression {
 
         const listType = this.list.getType(context);
         if (!(listType instanceof ListType))
-            conflicts.push(new NotAList(this, listType));
+            conflicts.push(
+                new IncompatibleInput(this.list, listType, ListType.make())
+            );
 
         const indexType = this.index.getType(context);
 
@@ -117,7 +118,13 @@ export default class ListAccess extends Expression {
             !(indexType instanceof MeasurementType) ||
             (indexType.unit instanceof Unit && !indexType.unit.isUnitless())
         )
-            conflicts.push(new NotAListIndex(this, indexType));
+            conflicts.push(
+                new IncompatibleInput(
+                    this.index,
+                    indexType,
+                    MeasurementType.make()
+                )
+            );
 
         return conflicts;
     }

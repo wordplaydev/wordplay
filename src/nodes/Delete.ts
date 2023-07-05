@@ -2,8 +2,6 @@ import type Node from './Node';
 import Token from './Token';
 import Expression from './Expression';
 import type Conflict from '@conflicts/Conflict';
-import NonBooleanQuery from '@conflicts/NonBooleanQuery';
-import NotATable from '@conflicts/NotATable';
 import type Type from './Type';
 import BooleanType from './BooleanType';
 import TableType from './TableType';
@@ -21,6 +19,7 @@ import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import NodeLink from '@locale/NodeLink';
 import Glyphs from '../lore/Glyphs';
+import IncompatibleInput from '../conflicts/IncompatibleInput';
 
 export default class Delete extends Expression {
     readonly table: Expression;
@@ -74,7 +73,9 @@ export default class Delete extends Expression {
 
         // Table must be table typed.
         if (!(tableType instanceof TableType))
-            conflicts.push(new NotATable(this, tableType));
+            conflicts.push(
+                new IncompatibleInput(this.table, tableType, TableType.make([]))
+            );
 
         // The query must be truthy.
         const queryType = this.query.getType(context);
@@ -82,7 +83,9 @@ export default class Delete extends Expression {
             this.query instanceof Expression &&
             !(queryType instanceof BooleanType)
         )
-            conflicts.push(new NonBooleanQuery(this, queryType));
+            conflicts.push(
+                new IncompatibleInput(this.query, queryType, BooleanType.make())
+            );
 
         return conflicts;
     }

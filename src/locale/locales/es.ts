@@ -1646,7 +1646,7 @@ const eng_wordplay: Locale = {
         },
         IncompatibleInput: {
             primary: (given, expected) =>
-                Explanation.as('expected ', expected, ' input'),
+                Explanation.as('I expected ', expected, ' but got ', given),
             secondary: (given, expected) =>
                 Explanation.as(
                     `Umm, I got a `,
@@ -1662,6 +1662,9 @@ const eng_wordplay: Locale = {
         },
         ImpossibleType: {
             primary: 'this can never be this type',
+        },
+        InputListMustBeLast: {
+            primary: 'list of inputs must be last',
         },
         InvalidLanguage: {
             primary: `this is not a valid language code`,
@@ -1722,27 +1725,6 @@ const eng_wordplay: Locale = {
         NoExpression: {
             primary: `functions require an expression, but none was provided for this one`,
         },
-        NonBooleanQuery: {
-            primary: (type) =>
-                Explanation.as('queries must be boolean, but this is a ', type),
-        },
-        NotAFunction: {
-            primary: (name, type) =>
-                Explanation.as(
-                    name ? name : 'this',
-                    ' is not a function ',
-                    type ? ' in ' : ' scope',
-                    type ? type : ''
-                ),
-        },
-        NotAList: {
-            primary: (type) =>
-                Explanation.as('expected a list, this is a ', type),
-        },
-        NotAListIndex: {
-            primary: (type) =>
-                Explanation.as('expected number, this is a ', type),
-        },
         NotAMap: {
             primary:
                 'this expression is not allowed in a map, only key/value pairs are allowed',
@@ -1754,22 +1736,6 @@ const eng_wordplay: Locale = {
         NotAnInterface: {
             primary:
                 'this is not an interface; structures can only implement interfaces, not other structures',
-        },
-        NotASetOrMap: {
-            primary: (type) =>
-                Explanation.as('expected set or map, but this is a ', type),
-        },
-        NotAStream: {
-            primary: (type) =>
-                Explanation.as('expected stream, but this is a ', type),
-        },
-        NotAStreamIndex: {
-            primary: (type) =>
-                Explanation.as('expected a number, but this is a ', type),
-        },
-        NotATable: {
-            primary: (type) =>
-                Explanation.as('expected a table, but this is a ', type),
         },
         NotInstantiable: {
             primary:
@@ -1851,9 +1817,6 @@ const eng_wordplay: Locale = {
         },
         UnusedBind: {
             primary: 'this name is unused',
-        },
-        InputListMustBeLast: {
-            primary: 'list of inputs must be last',
         },
     },
     step: {

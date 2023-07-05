@@ -3,7 +3,6 @@ import Token from './Token';
 import Expression from './Expression';
 import Row from './Row';
 import type Conflict from '@conflicts/Conflict';
-import NotATable from '@conflicts/NotATable';
 import TableType from './TableType';
 import Bind from '@nodes/Bind';
 import type Type from './Type';
@@ -25,6 +24,7 @@ import type Locale from '@locale/Locale';
 import UnimplementedException from '@runtime/UnimplementedException';
 import NodeLink from '@locale/NodeLink';
 import Glyphs from '../lore/Glyphs';
+import IncompatibleInput from '../conflicts/IncompatibleInput';
 
 export default class Insert extends Expression {
     readonly table: Expression;
@@ -79,7 +79,7 @@ export default class Insert extends Expression {
 
         // Table must be table typed.
         if (!(tableType instanceof TableType))
-            return [new NotATable(this, tableType)];
+            return [new IncompatibleInput(this, tableType, TableType.make([]))];
 
         // Check the row for conflicts.
         conflicts = conflicts.concat(analyzeRow(tableType, this.row, context));

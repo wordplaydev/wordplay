@@ -2061,72 +2061,23 @@ greeting('kitty')⧽
                 ),
         },
         MissingLanguage: {
-            primary:
-                WRITE_DOC +
-                'no language was provided, but there was a slash suggesting one would be',
+            primary: `Don't forget to give me a language!`,
         },
         MissingShareLanguages: {
-            primary:
-                WRITE_DOC +
-                'shared bindings must specify language so others know what languages are supported',
+            primary: `If you want to share, say what language this is in, so others can find it if they know your language.`,
         },
         NoExpression: {
-            primary:
-                WRITE_DOC +
-                `functions require an expression, but none was provided for this one`,
-        },
-        NonBooleanQuery: {
-            primary: (type) =>
-                Explanation.as(
-                    WRITE_DOC + 'queries must be boolean, but this is a ',
-                    type
-                ),
-        },
-        NotAFunction: {
-            primary: (name, type) =>
-                Explanation.as(
-                    WRITE_DOC,
-                    name ? name : 'this',
-                    ' is not a function ',
-                    type ? ' in ' : ' in scope',
-                    type ? type : ''
-                ),
-        },
-        NotAList: {
-            primary: (type) =>
-                Explanation.as(WRITE_DOC, 'expected a list, this is a ', type),
-        },
-        NotAListIndex: {
-            primary: (type) =>
-                Explanation.as(WRITE_DOC, 'expected number, this is a ', type),
+            primary: `What should my value be?`,
         },
         NotAMap: {
-            primary:
-                WRITE_DOC +
-                'this expression is not allowed in a map, only key/value pairs are allowed',
-            secondary: (expr) => Explanation.as('this map has a ', expr),
+            primary: `I'm a map, so everything you give me has to be in pairs.`,
+            secondary: () => `Oops, I'm in a map without a partner!`,
         },
         NotANumber: {
             primary: `I'm not formatted correctly to be a number`,
         },
         NotAnInterface: {
             primary: `I am not an interface; ${STRUCTURE}s can only implement interfaces, not other structures`,
-        },
-        NotASetOrMap: {
-            primary: (type) =>
-                Explanation.as('I expected set or map, but this is a ', type),
-        },
-        NotAStream: {
-            primary: (type) =>
-                Explanation.as('I expected a stream, but this is a ', type),
-        },
-        NotAStreamIndex: {
-            primary: (type) =>
-                Explanation.as('I expected a number, but this is a ', type),
-        },
-        NotATable: {
-            primary: (type) =>
-                Explanation.as('I expected a table, but this is a ', type),
         },
         NotInstantiable: {
             primary: `cannot make this ${STRUCTURE} because it refers to an interface`,

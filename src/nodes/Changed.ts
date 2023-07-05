@@ -7,7 +7,6 @@ import type Value from '@runtime/Value';
 import type Step from '@runtime/Step';
 import Finish from '@runtime/Finish';
 import type Context from './Context';
-import { NotAStream } from '@conflicts/NotAStream';
 import StreamType from './StreamType';
 import KeepStream from '@runtime/KeepStream';
 import type Bind from './Bind';
@@ -26,6 +25,7 @@ import BooleanType from './BooleanType';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';
+import IncompatibleInput from '../conflicts/IncompatibleInput';
 
 export default class Changed extends AtomicExpression {
     readonly change: Token;
@@ -77,7 +77,8 @@ export default class Changed extends AtomicExpression {
         const valueType = this.stream.getType(context);
         const streamType = context.getStreamType(valueType);
 
-        if (streamType === undefined) return [new NotAStream(this, valueType)];
+        if (streamType === undefined)
+            return [new IncompatibleInput(this, valueType, StreamType.make())];
 
         return [];
     }

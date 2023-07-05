@@ -1,13 +1,18 @@
 import { test } from 'vitest';
 import { testConflict } from '@conflicts/TestUtilities';
 import IncompatibleCellType from '@conflicts/IncompatibleCellType';
-import NotATable from '@conflicts/NotATable';
 import Insert from './Insert';
 import MissingCell from '@conflicts/MissingCell';
 import InvalidRow from '@conflicts/InvalidRow';
+import IncompatibleInput from '../conflicts/IncompatibleInput';
 
 test.each([
-    ['table: ⎡one•#⎦\ntable⎡+ ⎡1⎦', 'table: 1\ntable⎡+ ⎡1⎦', Insert, NotATable],
+    [
+        'table: ⎡one•#⎦\ntable⎡+ ⎡1⎦',
+        'table: 1\ntable⎡+ ⎡1⎦',
+        Insert,
+        IncompatibleInput,
+    ],
     [
         'table: ⎡one•#⎦\ntable⎡+ ⎡1⎦',
         'table: ⎡one•#⎦\ntable⎡+ ⎡⎦',

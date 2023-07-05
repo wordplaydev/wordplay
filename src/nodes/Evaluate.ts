@@ -5,7 +5,6 @@ import MissingInput from '@conflicts/MissingInput';
 import UnexpectedInput from '@conflicts/UnexpectedInput';
 import IncompatibleInput from '@conflicts/IncompatibleInput';
 import NotInstantiable from '@conflicts/NotInstantiable';
-import NotAFunction from '@conflicts/NotAFunction';
 import StructureDefinitionType from './StructureDefinitionType';
 import Expression from './Expression';
 import Token from './Token';
@@ -51,6 +50,8 @@ import StreamDefinition from './StreamDefinition';
 import StreamDefinitionType from './StreamDefinitionType';
 import StreamDefinitionValue from '../runtime/StreamDefinitionValue';
 import Glyphs from '../lore/Glyphs';
+import FunctionType from './FunctionType';
+import AnyType from './AnyType';
 
 type Mapping = {
     expected: Bind;
@@ -340,16 +341,16 @@ export default class Evaluate extends Expression {
             )
         )
             return [
-                new NotAFunction(
-                    this,
+                new IncompatibleInput(
                     this.func instanceof PropertyReference
-                        ? this.func.name
+                        ? this.func.name ?? this.func
                         : this.func instanceof Reference
                         ? this.func
-                        : undefined,
+                        : this.func,
                     this.func instanceof PropertyReference
                         ? this.func.structure.getType(context)
-                        : undefined
+                        : this.func.getType(context),
+                    FunctionType.make(undefined, [], new AnyType())
                 ),
             ];
 
@@ -403,13 +404,7 @@ export default class Evaluate extends Expression {
                 const givenType = given.getType(context);
                 if (!expectedType.accepts(givenType, context, given))
                     conflicts.push(
-                        new IncompatibleInput(
-                            fun,
-                            this,
-                            given,
-                            givenType,
-                            expectedType
-                        )
+                        new IncompatibleInput(given, givenType, expectedType)
                     );
             }
 
@@ -438,8 +433,6 @@ export default class Evaluate extends Expression {
                         )
                             conflicts.push(
                                 new IncompatibleInput(
-                                    fun,
-                                    this,
                                     item,
                                     givenType,
                                     expected.type

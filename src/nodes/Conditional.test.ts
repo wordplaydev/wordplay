@@ -3,7 +3,6 @@ import ExpectedBooleanCondition from '@conflicts/ExpectedBooleanCondition';
 import Evaluator from '@runtime/Evaluator';
 import Conditional from './Conditional';
 import BinaryOperation from './BinaryOperation';
-import NotAFunction from '@conflicts/NotAFunction';
 import { test, expect } from 'vitest';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 
@@ -19,7 +18,7 @@ test.each([
         ⊤ ? a + 1 a
         `,
         BinaryOperation,
-        NotAFunction,
+        IncompatibleInput,
         1,
     ],
     [

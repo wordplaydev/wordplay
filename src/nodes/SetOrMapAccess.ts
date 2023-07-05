@@ -20,7 +20,6 @@ import TypeException from '@runtime/TypeException';
 import UnionType from './UnionType';
 import SetOpenToken from './SetOpenToken';
 import SetCloseToken from './SetCloseToken';
-import { NotASetOrMap } from '@conflicts/NotASetOrMap';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
@@ -29,6 +28,7 @@ import NodeLink from '@locale/NodeLink';
 import Glyphs from '../lore/Glyphs';
 import type { NativeTypeName } from '../native/NativeConstants';
 import Purpose from '../concepts/Purpose';
+import IncompatibleInput from '../conflicts/IncompatibleInput';
 
 export default class SetOrMapAccess extends Expression {
     readonly setOrMap: Expression;
@@ -104,7 +104,13 @@ export default class SetOrMapAccess extends Expression {
         const conflicts = [];
 
         if (!(setMapType instanceof SetType || setMapType instanceof MapType))
-            conflicts.push(new NotASetOrMap(this, setMapType));
+            conflicts.push(
+                new IncompatibleInput(
+                    this,
+                    setMapType,
+                    UnionType.make(SetType.make(), MapType.make())
+                )
+            );
 
         if (
             (setMapType instanceof SetType || setMapType instanceof MapType) &&

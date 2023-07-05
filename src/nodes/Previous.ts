@@ -9,9 +9,7 @@ import Measurement from '@runtime/Measurement';
 import type Step from '@runtime/Step';
 import Finish from '@runtime/Finish';
 import type Context from './Context';
-import { NotAStream } from '@conflicts/NotAStream';
 import StreamType from './StreamType';
-import { NotAStreamIndex } from '@conflicts/NotAStreamIndex';
 import Stream from '@runtime/Stream';
 import KeepStream from '@runtime/KeepStream';
 import type Bind from './Bind';
@@ -28,6 +26,7 @@ import type Locale from '@locale/Locale';
 import { NotAStreamType } from './NotAStreamType';
 import NodeLink from '@locale/NodeLink';
 import Glyphs from '../lore/Glyphs';
+import IncompatibleInput from '../conflicts/IncompatibleInput';
 
 export default class Previous extends Expression {
     readonly stream: Expression;
@@ -84,14 +83,21 @@ export default class Previous extends Expression {
         const valueType = this.stream.getType(context);
         const streamType = context.getStreamType(valueType);
 
-        if (streamType === undefined) return [new NotAStream(this, valueType)];
+        if (streamType === undefined)
+            return [new IncompatibleInput(this, valueType, StreamType.make())];
 
         const indexType = this.index.getType(context);
         if (
             !(indexType instanceof MeasurementType) ||
             indexType.unit !== undefined
         )
-            return [new NotAStreamIndex(this, indexType)];
+            return [
+                new IncompatibleInput(
+                    this.index,
+                    indexType,
+                    MeasurementType.make()
+                ),
+            ];
 
         return [];
     }

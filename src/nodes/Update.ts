@@ -6,8 +6,6 @@ import type Conflict from '@conflicts/Conflict';
 import UnknownColumn from '@conflicts/UnknownColumn';
 import IncompatibleCellType from '@conflicts/IncompatibleCellType';
 import ExpectedUpdateBind from '@conflicts/ExpectedUpdateBind';
-import NonBooleanQuery from '@conflicts/NonBooleanQuery';
-import NotATable from '@conflicts/NotATable';
 import type Type from './Type';
 import Bind from '@nodes/Bind';
 import TableType from './TableType';
@@ -25,6 +23,7 @@ import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import NodeLink from '@locale/NodeLink';
 import Glyphs from '../lore/Glyphs';
+import IncompatibleInput from '../conflicts/IncompatibleInput';
 
 export default class Update extends Expression {
     readonly table: Expression;
@@ -86,7 +85,9 @@ export default class Update extends Expression {
 
         // Table must be table typed.
         if (!(tableType instanceof TableType)) {
-            conflicts.push(new NotATable(this, tableType));
+            conflicts.push(
+                new IncompatibleInput(this, tableType, TableType.make([]))
+            );
             return conflicts;
         }
 
@@ -136,7 +137,9 @@ export default class Update extends Expression {
             this.query instanceof Expression &&
             !(queryType instanceof BooleanType)
         )
-            conflicts.push(new NonBooleanQuery(this, queryType));
+            conflicts.push(
+                new IncompatibleInput(this.query, queryType, BooleanType.make())
+            );
 
         return conflicts;
     }

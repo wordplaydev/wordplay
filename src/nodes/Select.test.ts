@@ -2,22 +2,21 @@ import { test } from 'vitest';
 import { testConflict } from '@conflicts/TestUtilities';
 import UnknownColumn from '@conflicts/UnknownColumn';
 import ExpectedSelectName from '@conflicts/ExpectedSelectName';
-import NonBooleanQuery from '@conflicts/NonBooleanQuery';
-import NotATable from '@conflicts/NotATable';
 import Select from './Select';
+import IncompatibleInput from '../conflicts/IncompatibleInput';
 
 test.each([
     [
         'table: ⎡one•#⎦\ntable ⎡? ⎡one⎦ 1 < 2',
         'table: 1\ntable ⎡? ⎡one⎦ 1 < 2',
         Select,
-        NotATable,
+        IncompatibleInput,
     ],
     [
         'table: ⎡one•#⎦\ntable ⎡? ⎡one⎦ 1 < 2',
         'table: 1\ntable ⎡? ⎡one⎦ 1 + 2',
         Select,
-        NonBooleanQuery,
+        IncompatibleInput,
     ],
     [
         'table: ⎡one•#⎦\ntable ⎡? ⎡one⎦ 1 < 2',

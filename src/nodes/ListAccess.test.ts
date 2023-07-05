@@ -1,13 +1,12 @@
 import { test, expect } from 'vitest';
 import { testConflict } from '@conflicts/TestUtilities';
-import { NotAListIndex } from '@conflicts/NotAListIndex';
 import Evaluator from '@runtime/Evaluator';
 import ListAccess from './ListAccess';
-import { NotAList } from '@conflicts/NotAList';
+import IncompatibleInput from '../conflicts/IncompatibleInput';
 
 test.each([
-    ['[1 2 3][0]', '[1 2 "hi"]["hi"]', ListAccess, NotAListIndex],
-    ['[1][1]', '1[1]', ListAccess, NotAList],
+    ['[1 2 3][0]', '[1 2 "hi"]["hi"]', ListAccess, IncompatibleInput],
+    ['[1][1]', '1[1]', ListAccess, IncompatibleInput],
 ])(
     'Expect %s no conflicts, %s to have %s with %s',
     (good, bad, node, conflict) => {

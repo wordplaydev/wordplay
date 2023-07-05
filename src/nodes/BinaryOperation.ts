@@ -18,7 +18,6 @@ import UnexpectedInputs from '@conflicts/UnexpectedInput';
 import MissingInput from '@conflicts/MissingInput';
 import IncompatibleInput from '@conflicts/IncompatibleInput';
 import Evaluation from '@runtime/Evaluation';
-import NotAFunction from '@conflicts/NotAFunction';
 import getConcreteExpectedType from './Generics';
 import type Value from '@runtime/Value';
 import UnknownNameType from './UnknownNameType';
@@ -34,6 +33,8 @@ import NodeLink from '@locale/NodeLink';
 import Emotion from '../lore/Emotion';
 import FunctionValue from '../runtime/FunctionValue';
 import Glyphs from '../lore/Glyphs';
+import FunctionType from './FunctionType';
+import AnyType from './AnyType';
 
 export default class BinaryOperation extends Expression {
     readonly left: Expression;
@@ -156,10 +157,10 @@ export default class BinaryOperation extends Expression {
         // Did we find nothing?
         if (fun === undefined)
             return [
-                new NotAFunction(
-                    this,
+                new IncompatibleInput(
                     this.operator,
-                    this.left.getType(context)
+                    this.left.getType(context),
+                    FunctionType.make(undefined, [], new AnyType())
                 ),
             ];
 
@@ -191,8 +192,6 @@ export default class BinaryOperation extends Expression {
                     if (!expectedType.accepts(rightType, context))
                         conflicts.push(
                             new IncompatibleInput(
-                                fun,
-                                this,
                                 this.right,
                                 rightType,
                                 expectedType
