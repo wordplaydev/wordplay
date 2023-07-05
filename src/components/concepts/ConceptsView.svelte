@@ -23,7 +23,7 @@
 <ConceptGroupView concepts={typeless} {selectable} />
 
 {#each Array.from(types) as typeCategory}
-    <h2>{typeCategory.names.getLocaleText($creator.getLanguages())}</h2>
+    <h2>{typeCategory.names.getLocaleText($creator.getLanguages(), false)}</h2>
     <ConceptGroupView
         concepts={concepts.filter((c) => c.getAffiliation() === typeCategory)}
         {selectable}
