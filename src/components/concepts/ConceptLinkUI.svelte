@@ -66,8 +66,14 @@
     }
 
     function navigate() {
-        if (concept && $path[$path.length - 1] !== concept)
-            path.set([...$path, concept]);
+        // If we have a concept and the last concept isn't it, navigate
+        if (concept && $path[$path.length - 1] !== concept) {
+            // If the concept before the last is the concept, just go back
+            if ($path.length >= 2 && $path[$path.length - 2] === concept)
+                path.set($path.slice(0, $path.length - 1));
+            // Otherwise, append the concept.
+            else path.set([...$path, concept]);
+        }
     }
 </script>
 
