@@ -37,7 +37,7 @@
     }
 
     $: selection = getConceptPath();
-    $: description = concept.getName($creator.getLocale());
+    $: description = concept.getName($creator.getLocale(), false);
 </script>
 
 <div class="view" class:draggable>

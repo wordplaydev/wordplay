@@ -1,7 +1,6 @@
 import type Doc from '@nodes/Doc';
 import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
-import type { Description } from '@locale/Locale';
 import type Locale from '@locale/Locale';
 import type Purpose from './Purpose';
 import type StructureDefinition from '@nodes/StructureDefinition';
@@ -59,8 +58,9 @@ export default abstract class Concept {
 
     /**
      * Returns a localized creator-facing name or description to represent the concept.
+     * Returns a symbolic name if asked and available.
      */
-    abstract getName(translation: Locale): Description;
+    abstract getName(translation: Locale, symbolic: boolean): string;
 
     /**
      * Returns, if available, documentation for the concept.
@@ -94,20 +94,12 @@ export default abstract class Concept {
         translation: Locale,
         query: string
     ): [string, number] | undefined {
-        const description = this.getName(translation);
-        if (typeof description === 'string') {
-            const lowerDescription = description.toLocaleLowerCase(
-                translation.language
-            );
-            const index = lowerDescription.indexOf(query);
-            if (index >= 0) return [description, index];
-        } else {
-            const match = description.getTextContaining(
-                translation.language,
-                query
-            );
-            if (match !== undefined) return match;
-        }
+        const description = this.getName(translation, false);
+        const lowerDescription = description.toLocaleLowerCase(
+            translation.language
+        );
+        const index = lowerDescription.indexOf(query);
+        if (index >= 0) return [description, index];
         const [doc] = this.getDocs(translation) ?? [undefined];
         return doc?.getMatchingText(query);
     }

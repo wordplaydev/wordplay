@@ -56,6 +56,15 @@
         }
     }
 
+    let longName: string;
+    let symbolicName: string;
+    $: {
+        if (concept) {
+            symbolicName = concept.getName($creator.getLocale(), true);
+            longName = concept.getName($creator.getLocale(), false);
+        }
+    }
+
     function navigate() {
         if (concept && $path[$path.length - 1] !== concept)
             path.set([...$path, concept]);
@@ -71,7 +80,9 @@
         on:pointerdown={navigate}
         on:keydown={(event) =>
             event.key == ' ' || event.key === 'Enter' ? navigate() : undefined}
-        >{#if label}{label}{:else}{concept.getName($creator.getLocale())}{/if}
+        >{#if label}{label}{:else}{longName}{#if symbolicName !== longName}<sub
+                    >{symbolicName}</sub
+                >{/if}{/if}
     </span>
 {:else if ui}
     <TutorialHighlight />

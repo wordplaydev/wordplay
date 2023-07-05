@@ -178,7 +178,10 @@
                 >
                 {#each $path as concept, index}
                     {#if index > 0}&nbsp;&mdash;&nbsp;{/if}<DescriptionView
-                        description={concept.getName($creator.getLocale())}
+                        description={concept.getName(
+                            $creator.getLocale(),
+                            false
+                        )}
                     />
                 {/each}
             </span>

@@ -55,8 +55,8 @@ export default class BindConcept extends Concept {
         return doc ? [doc, this.context.source.spaces] : undefined;
     }
 
-    getName(translation: Locale) {
-        return this.bind.names.getLocaleText(translation.language);
+    getName(translation: Locale, symbolic: boolean) {
+        return this.bind.names.getLocaleText(translation.language, symbolic);
     }
 
     getRepresentation() {

@@ -47,8 +47,10 @@ export default class NodeConcept extends Concept {
         return [parseDoc(tokens), tokens.getSpaces()];
     }
 
-    getName(locale: Locale) {
-        return this.template.getLabel(locale);
+    getName(locale: Locale, symbolic: boolean) {
+        return symbolic
+            ? this.template.getGlyphs().symbols
+            : this.template.getLabel(locale);
     }
 
     getRepresentation() {

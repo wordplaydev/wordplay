@@ -683,7 +683,7 @@ greeting('kitty')⧽
             input: 'input',
         },
         ExpressionPlaceholder: {
-            name: 'expression placeholder',
+            name: 'placeholder',
             description: getPlaceholderDescription,
             emotion: Emotion.Scared,
             doc: `
