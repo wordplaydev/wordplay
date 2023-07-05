@@ -32,7 +32,7 @@ export default class DuplicateName extends Conflict {
             secondary: {
                 node: this.name,
                 explanation: (translation: Locale, context: Context) =>
-                    translation.conflict.DuplicateName.primary(
+                    translation.conflict.DuplicateName.secondary(
                         new NodeLink(
                             this.name,
                             translation,

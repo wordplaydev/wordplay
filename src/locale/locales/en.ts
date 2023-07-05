@@ -19,7 +19,6 @@ import {
     NOT_SYMBOL,
     PRODUCT_SYMBOL,
     COMMA_SYMBOL,
-    PROPERTY_SYMBOL,
     TRUE_SYMBOL,
     FALSE_SYMBOL,
     SUM_SYMBOL,
@@ -42,6 +41,13 @@ import tutorial from './en-tutorial';
 
 export const WRITE_DOC = 'TBD';
 
+const SOURCE = 'source';
+const PROGRAM = 'program';
+const NAME = 'name';
+const STRUCTURE = 'structure';
+const CONVERSION = 'conversion';
+const REACTION = 'reaction';
+
 const en: Locale = {
     language: 'en',
     wordplay: 'Wordplay',
@@ -52,7 +58,7 @@ const en: Locale = {
         code: 'compute',
         decide: 'decide',
         project: 'performance',
-        source: 'source',
+        source: SOURCE,
         input: 'input',
         output: 'output',
         act: 'act',
@@ -81,7 +87,7 @@ const en: Locale = {
         none: 'none',
         list: 'list',
         stream: 'stream',
-        structure: 'structure',
+        structure: STRUCTURE,
         streamdefinition: 'stream definition',
         index: 'index',
         query: 'query',
@@ -125,7 +131,7 @@ const en: Locale = {
         TypeOperator: 'is',
         TypeOpen: 'type input open',
         TypeClose: 'type input close',
-        Separator: 'name separator',
+        Separator: `${NAME} separator`,
         Language: 'language tag',
         BooleanType: 'boolean type',
         NumberType: 'number type',
@@ -159,18 +165,18 @@ const en: Locale = {
         Decimal: 'decimal numeral',
         Base: 'base numeral',
         Boolean: 'boolean',
-        Name: 'name',
+        Name: NAME,
         Unknown: 'unknown',
         End: 'end',
     },
     node: {
         Program: {
-            name: 'program',
-            description: 'program',
+            name: PROGRAM,
+            description: PROGRAM,
             emotion: Emotion.Serious,
             doc: `You know how @Block evaluates a list of expressions, and evaluates to the last one in its list? 
                 
-                I'm the same, but rather than giving my value to whateve expression I'm in, I put the value on stage.
+                I'm the same, but rather than giving my value to whatever expression I'm in, I put the value on stage.
                 
                 The value can be anything: a @MeasurementLiteral, @TextLiteral, or @BooleanLiteral, a @ListLiteral, @SetLiteral, @MapLiteral, or even something more complex, like a @Phrase, @Group, or @Stage.
 
@@ -204,7 +210,7 @@ const en: Locale = {
             
                 I can be combined with other symbols to make compound units like ⧼9.8m/s^2⧽ or ⧼17apple/day⧽.
                 
-                I must always follow a number. If I don't, I might be mistaken for a name, which would be quite embarassing, because I name units, not values.`,
+                I must always follow a number. If I don't, I might be mistaken for a ${NAME}, which would be quite embarassing, because I name units, not values.`,
         },
         Doc: {
             name: 'documentation',
@@ -239,7 +245,7 @@ const en: Locale = {
                 Why hello! 
                 Have you ever wanted to make it *crystal clear* what lanugage something is? 
                 That's what I do. Just a little slash, and a couple letters, and no one will ever be confused about what language some text is in.
-                For example, let's say you wanted to say my name, but make it clear I'm in English:
+                For example, let's say you wanted to say my ${NAME}, but make it clear I'm in English:
                 
                 ⧼"Language"/en⧽
                 
@@ -253,7 +259,7 @@ const en: Locale = {
                 `,
         },
         Name: {
-            name: 'name',
+            name: NAME,
             description: (name) => name.name?.getText(),
             emotion: Emotion.Kind,
             doc:
@@ -261,13 +267,13 @@ const en: Locale = {
                 `
                 Identifies code.
                 
-                names are used to represent some value in a program, such as a function, structure type, or a binding in a block. 
+                names are used to represent some value in a ${PROGRAM}, such as a function, ${STRUCTURE} type, or a binding in a block. 
                 They're a helpful way of giving a shorthand label to some value or way of computing or storing values. 
                 Names can be optionally tagged with a language; this is helpful when sharing code, since the language might use to name a function might not be known to people who want to use it. 
                 Translating names makes shared code more globally useful.`,
         },
         Names: {
-            name: 'name list',
+            name: `${NAME} list`,
             description: (names) => `${names.names.length} names`,
             emotion: Emotion.Kind,
             doc:
@@ -343,7 +349,13 @@ const en: Locale = {
             name: 'example',
             description: 'example',
             emotion: Emotion.Serious,
-            doc: WRITE_DOC + `a program that illustrates how to use some code`,
+            doc: `You can put a ${PROGRAM} in any documentation to format some text as ${PROGRAM}, or to illustrate how to use some code. 
+If you put it on it's own line, it will be displayed in a fancy box and show the result of evaluating the ${PROGRAM}.
+Like this:
+
+⧼"My example is cute"⧽
+
+`,
         },
         BinaryOperation: {
             name: 'binary operation',
@@ -518,7 +530,7 @@ const en: Locale = {
             emotion: Emotion.Excited,
             doc:
                 WRITE_DOC +
-                `Use a binding from another source file or performance.`,
+                `Use a binding from another ${SOURCE} or performance.`,
             start: (source, name) =>
                 name === undefined && source === undefined
                     ? 'borrowing nothing'
@@ -528,9 +540,9 @@ const en: Locale = {
                           'borrow ',
                           name ?? ' unspecified name ',
                           ' from ',
-                          source ?? ' unspecified source'
+                          source ?? ` unspecified ${SOURCE}`
                       ),
-            source: 'source',
+            source: SOURCE,
             bind: 'name',
             version: 'version',
         },
@@ -538,12 +550,14 @@ const en: Locale = {
             name: 'changed',
             description: 'changed',
             emotion: Emotion.Curious,
-            doc: WRITE_DOC + `true if a stream caused a program to re-evaluate`,
+            doc:
+                WRITE_DOC +
+                `true if a stream caused a ${PROGRAM} to re-evaluate`,
             start: (stream: NodeLink) =>
                 Explanation.as(
                     'check if ',
                     stream,
-                    ' caused this program to reevaluate'
+                    ` caused this ${PROGRAM} to reevaluate`
                 ),
             stream: 'stream',
         },
@@ -579,13 +593,13 @@ const en: Locale = {
             no: 'no',
         },
         ConversionDefinition: {
-            name: 'conversion',
-            description: 'conversion',
+            name: CONVERSION,
+            description: CONVERSION,
             emotion: Emotion.Excited,
             doc:
                 WRITE_DOC +
-                `define a conversion from one value type to another`,
-            start: 'define this conversion',
+                `define a ${CONVERSION} from one value type to another`,
+            start: `define this ${CONVERSION}`,
         },
         Convert: {
             name: 'convert',
@@ -872,11 +886,11 @@ greeting('kitty')⧽
             description: 'refine',
             emotion: Emotion.Kind,
             doc: WRITE_DOC,
-            start: 'get the structure',
+            start: `get the ${STRUCTURE}`,
             finish: (structure) =>
                 structure
-                    ? Explanation.as('created new structure ', structure)
-                    : 'no structure created',
+                    ? Explanation.as(`created new ${STRUCTURE} `, structure)
+                    : `no ${STRUCTURE} created`,
         },
         PropertyReference: {
             name: 'property access',
@@ -896,10 +910,10 @@ greeting('kitty')⧽
             property: 'property',
         },
         Reaction: {
-            name: 'reaction',
-            description: 'reaction',
+            name: REACTION,
+            description: REACTION,
             emotion: Emotion.Excited,
-            doc: `A reaction to a stream change.`,
+            doc: `A ${REACTION} to a stream change.`,
             start: 'first check if the stream has changed',
             finish: (value) =>
                 Explanation.as(
@@ -982,12 +996,14 @@ greeting('kitty')⧽
             start: 'define this stream type',
         },
         StructureDefinition: {
-            name: 'structure',
+            name: STRUCTURE,
             description: (structure, translation) =>
                 structure.names.getLocaleText(translation.language),
             emotion: Emotion.Kind,
-            doc: `define a data structure that stores values and functions on those values.`,
-            start: 'define this structure type',
+            doc:
+                WRITE_DOC +
+                `define a structure that stores values and functions on those values.`,
+            start: `define this ${STRUCTURE}`,
         },
         TableLiteral: {
             name: 'table',
@@ -1090,8 +1106,8 @@ greeting('kitty')⧽
             doc: `a true or false value`,
         },
         ConversionType: {
-            name: 'conversion type',
-            description: 'conversion',
+            name: `${CONVERSION} type`,
+            description: CONVERSION,
             emotion: Emotion.Curious,
             doc: `a type of function that converts values of one type to another `,
         },
@@ -1207,7 +1223,7 @@ greeting('kitty')⧽
             doc: WRITE_DOC,
         },
         StructureDefinitionType: {
-            name: 'structure type',
+            name: `${STRUCTURE} type`,
             description: 'structure type',
             emotion: Emotion.Kind,
             doc: WRITE_DOC,
@@ -1339,7 +1355,7 @@ greeting('kitty')⧽
             doc: WRITE_DOC,
         },
         NotEnclosedType: {
-            name: 'not in structure, conversion, or reaction',
+            name: `not in ${STRUCTURE}, ${CONVERSION}, or ${REACTION}`,
             description: '',
             emotion: Emotion.Curious,
             doc: WRITE_DOC,
@@ -1895,52 +1911,44 @@ greeting('kitty')⧽
         BorrowCycle: {
             primary: (borrow) =>
                 Explanation.as(
-                    WRITE_DOC + 'this depends on ',
+                    'this depends on ',
                     borrow,
-                    " which depends on this source, so the program can't be evaluated"
+                    ` which depends on this ${SOURCE}, so the ${PROGRAM} can't be evaluated`
                 ),
         },
         ReferenceCycle: {
             primary: (ref) =>
                 Explanation.as(
                     ref,
-                    WRITE_DOC + ' depends on itself, so it cannot be evaluated'
+                    `this ${NAME} depends on itself, so there's no way to evaluate it.`
                 ),
         },
         DisallowedInputs: {
-            primary:
-                WRITE_DOC +
-                'inputs on interfaces not allowed because one or more of its functions are unimplemented',
+            primary: `I can't have inputs because one of or more of my functions isn't implemented`,
         },
         DuplicateName: {
-            primary: (name) =>
-                Explanation.as(
-                    name,
-                    WRITE_DOC +
-                        ' is already defined, which might intend to refer to the other bind with the same name'
-                ),
+            primary: () => `Someone has my name, so I can't have this name.`,
             secondary: (name) =>
                 Explanation.as('this is overwritten by ', name),
         },
         DuplicateShare: {
             primary: (bind) =>
                 Explanation.as(
-                    WRITE_DOC + 'has the same name as ',
+                    `I have the same name as `,
                     bind,
                     ', which makes what is shared ambiguous'
                 ),
             secondary: (bind) =>
                 Explanation.as(
-                    WRITE_DOC + 'has the same name as ',
+                    `I have has the same name as `,
                     bind,
                     ', which makes what is shared ambiguous'
                 ),
         },
         DuplicateTypeVariable: {
-            primary: (dupe) =>
-                Explanation.as(WRITE_DOC + 'this has the same name as ', dupe),
+            primary: (dupe) => Explanation.as('I have the same name as ', dupe),
             secondary: (dupe) =>
-                Explanation.as('this has the same name as ', dupe),
+                Explanation.as('I have the same name as ', dupe),
         },
         ExpectedBooleanCondition: {
             primary: (type: NodeLink) =>
@@ -1956,49 +1964,29 @@ greeting('kitty')⧽
                 ),
         },
         ExpectedColumnType: {
-            primary: (bind) =>
-                Explanation.as(
-                    WRITE_DOC + 'this table column ',
-                    bind,
-                    ' has no type, but all columns require one'
-                ),
+            primary: () => 'I need a column type',
         },
         ExpectedEndingExpression: {
-            primary:
-                WRITE_DOC +
-                'blocks require at least one expression so that they evaluate to something',
+            primary: 'I need at least one expression.',
         },
         ExpectedSelectName: {
             primary: (cell) =>
-                Explanation.as(
-                    cell,
-                    WRITE_DOC +
-                        ' has no name; selects require column names to know what columns to return'
-                ),
+                Explanation.as(cell, 'I need at least one column names.'),
         },
         ExpectedUpdateBind: {
             primary: (cell) =>
-                Explanation.as(
-                    WRITE_DOC,
-                    cell,
-                    ' has value; updates require a value for each column specified to know what value to set'
-                ),
+                Explanation.as('I need a value for every column'),
         },
         IgnoredExpression: {
             primary: "I'm going to use this value and ignore other ones above.",
             secondary: 'Why are you ignoring me, I want to help!',
         },
         IncompleteImplementation: {
-            primary:
-                WRITE_DOC +
-                `structures must either be fully implemented or not implemented; this has a mixture`,
+            primary: `My functions either need to all be implemented, or none be implemented. No messy mixtures!`,
         },
         IncompatibleBind: {
             primary: (expected) =>
-                Explanation.as(
-                    WRITE_DOC + `I think I'm supposed to be a `,
-                    expected
-                ),
+                Explanation.as(`Uhh, I'm supposed to be `, expected),
             secondary: (given, expected) =>
                 Explanation.as(
                     `Hey, I got a `,
@@ -2008,14 +1996,13 @@ greeting('kitty')⧽
                 ),
         },
         IncompatibleCellType: {
-            primary: (expected) =>
-                Explanation.as(WRITE_DOC + 'expected column type ', expected),
-            secondary: (given) => Explanation.as('given ', given),
+            primary: (expected) => Explanation.as('I needed a ', expected),
+            secondary: (given) => Explanation.as('I got a ', given),
         },
         IncompatibleInput: {
             primary: (given, expected) =>
                 Explanation.as(
-                    `I think I'm supposed to be a `,
+                    `I'm supposed to be a `,
                     expected,
                     ", but I'm a ",
                     given
@@ -2030,55 +2017,38 @@ greeting('kitty')⧽
         },
         IncompatibleKey: {
             primary: (expected) =>
-                Explanation.as(WRITE_DOC + 'expected ', expected, ' key '),
-            secondary: (given) => Explanation.as('given ', given),
+                Explanation.as('I expected a ', expected, ' key '),
+            secondary: (given) => Explanation.as('I got a ', given),
         },
         ImpossibleType: {
-            primary: WRITE_DOC + 'this can never be this type',
+            primary: 'this can never be this type',
         },
         InvalidLanguage: {
-            primary: WRITE_DOC + `this is not a valid language code`,
+            primary: `I don't know this language`,
         },
         InvalidRow: {
-            primary: WRITE_DOC + `row is missing one or more required columns`,
+            primary: `I'm missing one or more columns`,
         },
         InvalidTypeInput: {
-            primary: (def) =>
-                Explanation.as(
-                    WRITE_DOC,
-                    def,
-                    ` does not expect this type input`
-                ),
-            secondary: (type) =>
-                Explanation.as('this definition does expect type ', type),
+            primary: () => `I wasn't expecting this type input`,
+            secondary: () => 'Am I supposed to be here?',
         },
         MisplacedConversion: {
-            primary:
-                WRITE_DOC + `conversions only allowed in structure definitions`,
+            primary: `I'm not allowed here, only in ${STRUCTURE}s`,
         },
         MisplacedInput: {
-            primary: WRITE_DOC + `this input is out of the expected order`,
+            primary: `I think this input is misplaced. Check the order?`,
         },
         MisplacedShare: {
-            primary: WRITE_DOC + `shares only allowed at top level of program`,
+            primary: `I can only be at the top level of a ${PROGRAM}, not inside anything.`,
         },
         MisplacedThis: {
-            primary:
-                WRITE_DOC +
-                `${PROPERTY_SYMBOL} only allowed in structure definition, conversion definition, or reaction`,
+            primary: `I'm only allowed in ${STRUCTURE}s, ${CONVERSION}s, or ${REACTION}s`,
         },
         MissingCell: {
-            primary: (column) =>
-                Explanation.as(
-                    WRITE_DOC + `this row is missing column`,
-                    column
-                ),
+            primary: (column) => Explanation.as(`I'm missing column`, column),
             secondary: (row) =>
-                Explanation.as(
-                    `this column is required, but `,
-                    row,
-                    ' did not provide it'
-                ),
+                Explanation.as(`I'm required, but `, row, ` didn't provide it`),
         },
         MissingInput: {
             primary: (input) =>
@@ -2137,61 +2107,38 @@ greeting('kitty')⧽
             secondary: (expr) => Explanation.as('this map has a ', expr),
         },
         NotANumber: {
-            primary: WRITE_DOC + "this number isn't formatted correctly",
+            primary: `I'm not formatted correctly to be a number`,
         },
         NotAnInterface: {
-            primary:
-                WRITE_DOC +
-                'this is not an interface; structures can only implement interfaces, not other structures',
+            primary: `I am not an interface; ${STRUCTURE}s can only implement interfaces, not other structures`,
         },
         NotASetOrMap: {
             primary: (type) =>
-                Explanation.as(
-                    WRITE_DOC,
-                    'expected set or map, but this is a ',
-                    type
-                ),
+                Explanation.as('I expected set or map, but this is a ', type),
         },
         NotAStream: {
             primary: (type) =>
-                Explanation.as(
-                    WRITE_DOC,
-                    'expected stream, but this is a ',
-                    type
-                ),
+                Explanation.as('I expected a stream, but this is a ', type),
         },
         NotAStreamIndex: {
             primary: (type) =>
-                Explanation.as(
-                    WRITE_DOC,
-                    'expected a number, but this is a ',
-                    type
-                ),
+                Explanation.as('I expected a number, but this is a ', type),
         },
         NotATable: {
             primary: (type) =>
-                Explanation.as(
-                    WRITE_DOC,
-                    'expected a table, but this is a ',
-                    type
-                ),
+                Explanation.as('I expected a table, but this is a ', type),
         },
         NotInstantiable: {
-            primary:
-                WRITE_DOC +
-                'cannot make this structure because it refers to an interface',
+            primary: `cannot make this ${STRUCTURE} because it refers to an interface`,
         },
         OrderOfOperations: {
-            primary:
-                WRITE_DOC +
-                'operators evalute left to right, unlike math; use parentheses to specify order of evaluation',
+            primary: `I'll evalute left to right, unlike math; do you want to use @Block to specify a different order?`,
         },
         Placeholder: {
-            primary: `Eep, can someone take my place? I don't know what to do up here.`,
+            primary: `Can someone take my place? I don't know what to do.`,
         },
         RequiredAfterOptional: {
-            primary:
-                WRITE_DOC + 'required inputs cannot come after optional ones',
+            primary: `required inputs can't come after optional ones`,
         },
         UnclosedDelimiter: {
             primary: (token, expected) =>
@@ -2203,19 +2150,12 @@ greeting('kitty')⧽
                 ),
         },
         UnexpectedEtc: {
-            primary:
-                WRITE_DOC +
-                'variable length inputs can only appear on function evaluations',
+            primary: 'only functions can have variable length inputs',
         },
         UnexpectedInput: {
             primary: (evaluation) =>
-                Explanation.as(
-                    WRITE_DOC,
-                    'this input is not specified on ',
-                    evaluation
-                ),
-            secondary: (input) =>
-                Explanation.as('this function does not expect this ', input),
+                Explanation.as(`I didn't expect this input `, evaluation),
+            secondary: () => Explanation.as(`Am I supposed to be here?`),
         },
         UnexpectedTypeVariable: {
             primary: 'type inputs not allowed on type variables',
@@ -2223,34 +2163,32 @@ greeting('kitty')⧽
         UnimplementedInterface: {
             primary: (inter, fun) =>
                 Explanation.as(
-                    WRITE_DOC,
-                    'this structure implements ',
+                    `I implement `,
                     inter,
-                    ' but does not implement ',
+                    ' but still need to implement ',
                     fun
                 ),
         },
         UnknownBorrow: {
-            primary: WRITE_DOC + 'unknown source and name',
+            primary: `I don't know a ${SOURCE} by this name`,
         },
         UnknownColumn: {
-            primary: WRITE_DOC + 'unknown column in table',
+            primary: `I don't know a column by this name`,
         },
         UnknownConversion: {
             primary: (from, to) =>
                 Explanation.as(
-                    WRITE_DOC,
-                    'no conversion from ',
+                    `I couldn'tn find a way to make `,
                     from,
-                    ' to ',
+                    ' into a ',
                     to
                 ),
         },
         UnknownInput: {
-            primary: WRITE_DOC + 'no input by this name',
+            primary: `I don't know of an input by this name`,
         },
         UnknownName: {
-            primary: (name, type) =>
+            primary: (_, type) =>
                 Explanation.as(
                     `No one has this name in `,
                     type ? type : ' this @Block'
@@ -2265,7 +2203,7 @@ greeting('kitty')⧽
                 ),
         },
         Unnamed: {
-            primary: WRITE_DOC + 'missing name',
+            primary: `ahh, I need a name!`,
         },
         UnparsableConflict: {
             primary: (expression) =>
@@ -2312,8 +2250,8 @@ greeting('kitty')⧽
         tooltip: {
             yes: 'confirm',
             no: 'cancel',
-            play: 'evaluate the program fully',
-            pause: 'evaluate the program one step at a time',
+            play: `evaluate the ${PROGRAM} fully`,
+            pause: `evaluate the ${PROGRAM} one step at a time`,
             back: 'back one step',
             backInput: 'back one input',
             out: 'step out of this function',
@@ -2347,8 +2285,8 @@ greeting('kitty')⧽
             editContent: 'edit this content',
             sequence: 'convert to a sequence',
             animate: 'toggle animations on/off',
-            addSource: 'create a new source',
-            deleteSource: 'remove this source',
+            addSource: `create a new ${SOURCE}`,
+            deleteSource: `remove this ${SOURCE}`,
             deleteProject: 'delete this performance',
             editProject: 'edit this performance',
             settings: 'show settings',

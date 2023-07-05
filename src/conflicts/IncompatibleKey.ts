@@ -27,7 +27,7 @@ export class IncompatibleKey extends Conflict {
                     ),
             },
             secondary: {
-                node: this.expected,
+                node: this.access.setOrMap,
                 explanation: (translation: Locale, context: Context) =>
                     translation.conflict.IncompatibleKey.secondary(
                         new NodeLink(this.received, translation, context)
