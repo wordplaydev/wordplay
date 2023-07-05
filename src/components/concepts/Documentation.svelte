@@ -31,6 +31,7 @@
     import TextField from '../widgets/TextField.svelte';
     import type Project from '../../models/Project';
     import { creator } from '../../db/Creator';
+    import getScrollParent from '../util/getScrollParent';
 
     export let project: Project;
 
@@ -58,24 +59,25 @@
     $: setContext('context', project.getContext(project.main));
 
     async function scrollToTop() {
+        // Wait for everything to render
+        await tick();
+        // Scroll to the top of the containing viewport.
         if (view) {
-            await tick();
-            view.scrollTop = 0;
+            const scroll = getScrollParent(view);
+            if (scroll) scroll.scrollTop = 0;
         }
     }
 
     // When the path changes, wait for rendering, then scroll to the top.
     $: {
         if ($path.length > 0) {
-            scrollToTop();
             query = '';
             results = undefined;
+            scrollToTop();
         }
     }
 
     function handlePointerDown(event: PointerEvent) {
-        view?.focus();
-
         if (event.buttons !== 1) return;
 
         // Find code views
