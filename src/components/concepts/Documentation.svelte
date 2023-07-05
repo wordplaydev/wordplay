@@ -217,7 +217,10 @@
                 {#each text as [match, index]}
                     <p class="result"
                         >{match.substring(0, index)}<span class="match"
-                            >{query}</span
+                            >{match.substring(
+                                index,
+                                index + query.length
+                            )}</span
                         >{match.substring(index + query.length)}</p
                     >
                 {/each}
