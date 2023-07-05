@@ -2330,11 +2330,25 @@ greeting('kitty')⧽
             down: { names: 'down', doc: WRITE_DOC },
         },
         Time: {
-            doc: WRITE_DOC,
+            doc: `(@FunctionDefinition here. I'll explain time, since it doesn't speak).
+                
+                Time is a stream that ticks at a certain frequency. 
+                Each time it does, @Program reevaluates with the new time value.
+                
+                For example:
+                
+                ⧼Time()⧽
+                
+                If you provide time a @Time/frequency, it will tick at that rate. For example:
+
+                ⧼Time()⧽
+ 
+                However, there are limits to how small it can be, since @Program needs time to evaluate before they can respond to the next tick.
+                The smallest is probably around ⧼20ms⧽.`,
             names: ['🕕', 'Time'],
             frequency: {
                 names: ['frequency'],
-                doc: WRITE_DOC,
+                doc: `This is the frequency with which time should tick. It defaults to ⧼33ms⧽, which is about 30 times per second.`,
             },
         },
         Mic: {
