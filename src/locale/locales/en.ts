@@ -2201,7 +2201,7 @@ greeting('kitty')⧽
             present: 'to the present',
             start: 'to the beginning',
             reset: 'restart the evaluation of the performance from the beginning.',
-            home: 'return to the types menu',
+            home: 'return home',
             revert: 'revert to default',
             set: 'edit this property',
             fullscreen: 'fill the browser with this window',

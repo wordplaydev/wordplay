@@ -32,6 +32,7 @@
     import type Project from '../../models/Project';
     import { creator } from '../../db/Creator';
     import getScrollParent from '../util/getScrollParent';
+    import Note from '../widgets/Note.svelte';
 
     export let project: Project;
 
@@ -154,6 +155,10 @@
         path.set([...$path]);
     }
 
+    function home() {
+        path.set([]);
+    }
+
     $: {
         if (query === '') results = undefined;
         else {
@@ -192,17 +197,22 @@
         <TextField placeholder={'🔍'} bind:text={query} fill defaultFocus />
         {#if currentConcept}
             <span class="path">
-                <Button tip={$creator.getLocale().ui.tooltip.home} action={back}
-                    >⏴</Button
+                <Button tip={$creator.getLocale().ui.tooltip.home} action={home}
+                    >🏠</Button
                 >
-                {#each $path as concept, index}
-                    {#if index > 0}&nbsp;&mdash;&nbsp;{/if}<DescriptionView
-                        description={concept.getName(
-                            $creator.getLocale(),
-                            false
-                        )}
-                    />
-                {/each}
+                <Button tip={$creator.getLocale().ui.tooltip.back} action={back}
+                    >👈</Button
+                >
+                <Note
+                    >{#each $path as concept, index}
+                        {#if index > 0}&nbsp;&mdash;&nbsp;{/if}<DescriptionView
+                            description={concept.getName(
+                                $creator.getLocale(),
+                                false
+                            )}
+                        />
+                    {/each}</Note
+                >
             </span>
         {/if}
     </div>
@@ -305,7 +315,6 @@
     }
 
     .header {
-        top: 0;
         background-color: var(--wordplay-background);
         border-bottom: var(--wordplay-border-width) solid
             var(--wordplay-border-color);
@@ -320,6 +329,7 @@
         flex-direction: row;
         flex-wrap: wrap;
         gap: var(--wordplay-spacing);
+        padding-left: var(--wordplay-spacing);
         align-items: center;
     }
 
