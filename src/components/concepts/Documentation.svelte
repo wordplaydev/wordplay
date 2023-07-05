@@ -10,7 +10,7 @@
     import Source from '@nodes/Source';
     import ConceptsView from './ConceptsView.svelte';
     import StructureConceptView from './StructureConceptView.svelte';
-    import { setContext } from 'svelte';
+    import { onDestroy, setContext } from 'svelte';
     import StructureConcept from '@concepts/StructureConcept';
     import FunctionConcept from '@concepts/FunctionConcept';
     import BindConcept from '@concepts/BindConcept';
@@ -68,16 +68,42 @@
         }
     }
 
-    // When the path changes, wait for rendering, then scroll to the top.
+    // When the path changes, reset the query
+    const queryResetUnsub = path.subscribe(() => {
+        query = '';
+    });
+    onDestroy(() => queryResetUnsub());
+
+    // When the path changes to a non-bind concept, scroll to top.
     $: {
         if (
             $path.length > 0 &&
             !($path[$path.length - 1] instanceof BindConcept)
-        ) {
-            query = '';
-            results = undefined;
+        )
             scrollToTop();
-        }
+    }
+
+    // If the query changes to non-empty, compute results
+    $: {
+        if (query !== '') {
+            results = $index?.getQuery($creator.getLocales(), query);
+            // If there are results, sort them by priority
+            if (results) {
+                results = results.sort((a, b) => {
+                    const [, aMatches] = a;
+                    const [, bMatches] = b;
+                    const aMinPriority = Math.min.apply(
+                        null,
+                        aMatches.map(([, , match]) => match)
+                    );
+                    const bMinPriority = Math.min.apply(
+                        null,
+                        bMatches.map(([, , match]) => match)
+                    );
+                    return aMinPriority - bMinPriority;
+                });
+            }
+        } else results = undefined;
     }
 
     function handlePointerDown(event: PointerEvent) {
@@ -159,29 +185,6 @@
 
     function home() {
         path.set([]);
-    }
-
-    $: {
-        if (query === '') results = undefined;
-        else {
-            results = $index?.getQuery($creator.getLocales(), query);
-            // If there are results, sort them by priority
-            if (results) {
-                results = results.sort((a, b) => {
-                    const [, aMatches] = a;
-                    const [, bMatches] = b;
-                    const aMinPriority = Math.min.apply(
-                        null,
-                        aMatches.map(([, , match]) => match)
-                    );
-                    const bMinPriority = Math.min.apply(
-                        null,
-                        bMatches.map(([, , match]) => match)
-                    );
-                    return aMinPriority - bMinPriority;
-                });
-            }
-        }
     }
 </script>
 
