@@ -12,13 +12,15 @@ import type Doc from '../nodes/Doc';
 import type Spaces from '../parser/Spaces';
 import BindConcept from './BindConcept';
 import type StructureConcept from './StructureConcept';
+import Evaluate from '../nodes/Evaluate';
+import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
 
 export default class StreamConcept extends Concept {
     /** The type this concept represents. */
     readonly definition: StreamDefinition;
 
     /** A derived reference to the stream */
-    readonly reference: Reference;
+    readonly reference: Evaluate;
 
     /** Bind concepts */
     readonly inputs: BindConcept[];
@@ -31,9 +33,14 @@ export default class StreamConcept extends Concept {
         super(Purpose.Input, undefined, context);
 
         this.definition = stream;
-        this.reference = Reference.make(
-            stream.names.getLocaleText(languages),
-            this.definition
+        this.reference = Evaluate.make(
+            Reference.make(
+                stream.names.getLocaleText(languages),
+                this.definition
+            ),
+            this.definition.inputs
+                // .filter((input) => !input.hasDefault())
+                .map((input) => ExpressionPlaceholder.make(input.type))
         );
 
         this.inputs = this.definition.inputs.map(
