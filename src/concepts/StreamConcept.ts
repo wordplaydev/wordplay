@@ -2,7 +2,6 @@ import type Context from '@nodes/Context';
 import type LanguageCode from '@locale/LanguageCode';
 import type Node from '@nodes/Node';
 import Reference from '@nodes/Reference';
-import StreamType from '@nodes/StreamType';
 import Concept from './Concept';
 import type ConceptIndex from './ConceptIndex';
 import type Locale from '@locale/Locale';
@@ -12,6 +11,7 @@ import Emotion from '../lore/Emotion';
 import type Doc from '../nodes/Doc';
 import type Spaces from '../parser/Spaces';
 import BindConcept from './BindConcept';
+import type StructureConcept from './StructureConcept';
 
 export default class StreamConcept extends Concept {
     /** The type this concept represents. */
@@ -67,11 +67,8 @@ export default class StreamConcept extends Concept {
         );
     }
 
-    getTypeConcept(index: ConceptIndex): Concept | undefined {
-        const type = this.definition.getType(this.context);
-        return type instanceof StreamType
-            ? index.getConceptOfType(type.type)
-            : undefined;
+    getTypeConcept(index: ConceptIndex): StructureConcept | undefined {
+        return index.getConceptOfType(this.definition.output);
     }
 
     getRepresentation() {

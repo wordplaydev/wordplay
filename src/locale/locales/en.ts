@@ -2330,7 +2330,7 @@ greeting('kitty')⧽
             down: { names: 'down', doc: WRITE_DOC },
         },
         Time: {
-            doc: `(@FunctionDefinition here. I'll explain time, since it doesn't speak).
+            doc: `/@FunctionDefinition here. I'll explain @Time, since it doesn't speak./
                 
                 Time is a stream that ticks at a certain frequency. 
                 Each time it does, @Program reevaluates with the new time value.
