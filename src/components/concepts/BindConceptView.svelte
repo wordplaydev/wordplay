@@ -6,6 +6,7 @@
     import MissingLocalesView from './MissingLocalesView.svelte';
     import DocHTMLView from './DocHTMLView.svelte';
     import TypeView from './TypeView.svelte';
+    import RootView from '../project/RootView.svelte';
 
     export let concept: BindConcept;
 
@@ -17,6 +18,10 @@
 
 <Speech glyph={concept.getGlyphs($creator.getLanguages())} below={true}>
     {#if types}<TypeView {types} />{/if}
+    {#if concept.bind.value !== undefined}: <RootView
+            node={concept.bind.value}
+            inline
+        />{/if}
     <MissingLocalesView />
     {#each $creator.getLocales() as trans}
         {@const [doc, spaces] = concept.getDocs(trans) ?? [

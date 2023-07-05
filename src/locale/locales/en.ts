@@ -2341,7 +2341,7 @@ greeting('kitty')⧽
                 
                 If you provide time a @Time/frequency, it will tick at that rate. For example:
 
-                ⧼Time()⧽
+                ⧼Time(1000ms)⧽
  
                 However, there are limits to how small it can be, since @Program needs time to evaluate before they can respond to the next tick.
                 The smallest is probably around ⧼20ms⧽.`,

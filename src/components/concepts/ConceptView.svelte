@@ -61,6 +61,6 @@
     .concept {
         display: flex;
         flex-direction: column;
-        gap: var(--wordplay-spacing);
+        gap: calc(2 * var(--wordplay-spacing));
     }
 </style>

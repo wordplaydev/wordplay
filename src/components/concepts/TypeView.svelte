@@ -15,8 +15,8 @@
 
 <span>
     {#each types as type, index}
-        {#if index > 0}<span class="dot">&nbsp;{OR_SYMBOL}&nbsp;</span>{/if}
-        <span
+        {#if index > 0}<span class="dot">&nbsp;{OR_SYMBOL}&nbsp;</span
+            >{/if}<span
             role="button"
             class="type"
             tabindex="0"
