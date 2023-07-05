@@ -48,7 +48,7 @@ const tutorial: Act[] = [
                         Emotion.Curious,
                         `Did you need some help?
                         Oh, you're visiting.
-                        Welcome to the **Verse**.
+                        Welcome to the *Verse*.
                         …`
                     ),
                     pause(),
@@ -73,7 +73,7 @@ const tutorial: Act[] = [
                         I can mean so many things, for example. 
                         I'm the Dutch florin symbol sometimes, an old currency of the Netherlands. 
                         I used to be known and used around the world by people, to help them trade. 
-                        Long ago, I was also the lowercase *f* of the Latin alphabet. 
+                        Long ago, I was also the lowercase /f/of the Latin alphabet. 
                         Today, I'm pretty obscure, but most often used to represent functions, like in math.`
                     ),
                     pause(),
@@ -85,7 +85,7 @@ const tutorial: Act[] = [
                         And we can't mean anything new if there aren't people to give us new history and culture. 
                         People have always been the ones that organized us, that gave us purpose, that gave us something to represent.
                     
-                        The Verse is nothing without **people**. And I haven't seen a person in ages.`
+                        The Verse is nothing without *people*. And I haven't seen a person in ages.`
                     ),
                     pause(),
                     code(
@@ -140,7 +140,7 @@ const tutorial: Act[] = [
                         Emotion.Serious,
                         `Oh, the director, yes, I didn't even explain. 
                         
-                        So the **director**, this is the person that gives us meaning. They are the person who arranges the choreography, who sets the message, who puts all of us in order just so. 
+                        So the *director*, this is the person that gives us meaning. They are the person who arranges the choreography, who sets the message, who puts all of us in order just so. 
                         
                         This is the inspiration I was talking about. We can do a lot in this world, but we can't direct ourselves. That's why the director is so important.
                         
@@ -159,7 +159,7 @@ const tutorial: Act[] = [
                         Emotion.Excited,
                         `Really? That's wonderful! This is going to be so much fun. 
                         
-                        I mean, it's not going to be easy. We have *a lot* to learn.`
+                        I mean, it's not going to be easy. We have /a lot/ to learn.`
                     ),
                     pause(),
                     output('Stage([Phrase("☀️")] background: 🌈(80% 99 270°))'),
@@ -256,7 +256,7 @@ const tutorial: Act[] = [
                         `
                         Okay. Well nice to meet you. 
                         
-                        Sorry, I've just had a lot of people come here and say "*this isn't for me*" and I've gotten a bit skeptical of people who try for a bit and then just give up. 
+                        Sorry, I've just had a lot of people come here and say "/this isn't for me/" and I've gotten a bit skeptical of people who try for a bit and then just give up. 
                         
                         I shouldn't have to change who I am to fit people's expectations. But if you're willing to learn about me, and us, let's try!
                         `
@@ -274,9 +274,9 @@ const tutorial: Act[] = [
                         `
                         Sure. I'm basically the organizer of the program for a performance.
 
-                        You can see me over there, with an **editor** @UI/editor showing me the **stage** @UI/stage showing the what I evaluate to (currently nothing).
+                        You can see me over there, with an *editor* @UI/editor showing me the *stage* @UI/stage showing the what I evaluate to (currently nothing).
                     
-                        The **director** — that's you — helps everyone figure out what they're doing, writing a program for what will happen in the show. 
+                        The *director* — that's you — helps everyone figure out what they're doing, writing a program for what will happen in the show. 
                         
                         And then I evaluate the program and put the result on on stage for the audience to see.`
                     ),
@@ -286,7 +286,7 @@ const tutorial: Act[] = [
                         Emotion.Neutral,
                         `For example, try typing my ⧼"hello"⧽ in the editor over there. 
 
-                        (Don't worry about making mistakes, you can always revert to the original with the **revert button** @UI/revertProject).
+                        (Don't worry about making mistakes, you can always revert to the original with *revert* @UI/revertProject).
 
                         Did you type something?
                         That's my friend @TextLiteral. 
@@ -306,7 +306,7 @@ const tutorial: Act[] = [
                         `
                         The instructions can get as sophisticated as you want, but there are a few rules. 
                         
-                        For example, I can only evaluate to one **value**, and show that one value on stage. 
+                        For example, I can only evaluate to one *value*, and show that one value on stage. 
                         That one value can be as complex as you want, and as long as I know how to show it, I will. 
                         
                         But if you give me two things, I'll only show the last thing you give me.
@@ -334,12 +334,12 @@ const tutorial: Act[] = [
                         Emotion.Serious,
                         `Yes and no. 
                         
-                        I can do a lot, but that's only because I work with everyone else in the **Verse**. 
+                        I can do a lot, but that's only because I work with everyone else in the *Verse*. 
                         
-                        They're the ones that bring all of the exciting possibilities to the **stage**. 
+                        They're the ones that bring all of the exciting possibilities to the *stage*. 
                         All I really do is let them do their thing, and then take the last thing they created and show it on stage. 
                         
-                        I'm more like an escort that brings the final **value** to stage, like numbers, texts, phrases, or other values.`
+                        I'm more like an escort that brings the final *value* to stage, like numbers, texts, phrases, or other values.`
                     ),
                     pause(),
                     dialog(
@@ -454,7 +454,7 @@ const tutorial: Act[] = [
                     dialog(
                         'FunctionDefinition',
                         Emotion.Neutral,
-                        `@Program didn't know what to do with @ExpressionPlaceholder, so it showed an **exception** @UI/exception on **stage** and a **conflict* in @Program @UI/conflict.
+                        `@Program didn't know what to do with @ExpressionPlaceholder, so it showed an *exception* @UI/exception on *stage* and a *conflict* in @Program @UI/conflict.
 
                         But if you click on @ExpressionPlaceholder, or move the text caret over it, you'll see a world of possibilities of other characters.
                         
@@ -511,7 +511,7 @@ const tutorial: Act[] = [
                     dialog(
                         'UnparsableExpression',
                         Emotion.Neutral,
-                        'dwjkdlserkuvisdke!'
+                        '/dwjkdlserkuvisdke!/'
                     ),
                     pause(),
                     code('Phrase("c iise we dvk")', true, false),
@@ -523,7 +523,7 @@ const tutorial: Act[] = [
                     dialog(
                         'UnparsableExpression',
                         Emotion.Sad,
-                        `sd fdsdfdsf ksdf. Dkfjdfdskfd df sdf sd fsdk;l!  Adks  zxcviw werdsf wer  ado. We dsdfd ksld df.ds dfsdfds DIDIIDI.`
+                        `/sd fdsdfdsf ksdf. Dkfjdfdskfd df sdf sd fsdk;l!  Adks  zxcviw werdsf wer  ado. We dsdfd ksld df.ds dfsdfds DIDIIDI./`
                     ),
                     dialog(
                         'FunctionDefinition',
@@ -542,7 +542,7 @@ const tutorial: Act[] = [
                     dialog(
                         'UnparsableExpression',
                         Emotion.Excited,
-                        `EEIRC DFUIDIII CAD EWDF FSDE!!!`
+                        `/EEIRC DFUIDIII CAD EWDF FSDE!!!/`
                     ),
                     dialog(
                         'FunctionDefinition',
@@ -559,7 +559,7 @@ const tutorial: Act[] = [
                     dialog(
                         'UnparsableExpression',
                         Emotion.Eager,
-                        `ADDKL, ALLIIEE, ALLFOOO, AOOOOOOO, JOOKKDLS, LOOKIL, WEEEERTOL weeertol…`
+                        `/ADDKL, ALLIIEE, ALLFOOO, AOOOOOOO, JOOKKDLS, LOOKIL, WEEEERTOL weeertol…/`
                     ),
                     dialog(
                         'FunctionDefinition',
@@ -571,7 +571,7 @@ const tutorial: Act[] = [
                     dialog(
                         'UnparsableExpression',
                         Emotion.Eager,
-                        `CNNNDN KDKLSL oOOLLlllll PPOLSLSO liiiiiiis, sdllslll, xck we ifolls a.`
+                        `/CNNNDN KDKLSL oOOLLlllll PPOLSLSO liiiiiiis, sdllslll, xck we ifolls a./`
                     ),
                     dialog(
                         'FunctionDefinition',
@@ -583,7 +583,7 @@ const tutorial: Act[] = [
                     dialog(
                         'UnparsableExpression',
                         Emotion.Eager,
-                        `ICO Odksjdf lksls kjsfiou fskd we rl,vxids eekd sd dsmf kksdcv.`
+                        `/ICO Odksjdf lksls kjsfiou fskd we rl,vxids eekd sd dsmf kksdcv./`
                     ),
                     dialog(
                         'FunctionDefinition',
@@ -606,7 +606,7 @@ const tutorial: Act[] = [
                     dialog(
                         'UnparsableExpression',
                         Emotion.Eager,
-                        `OSOOSOO SOIEIIEIEIIE ISIISI EIEIIEE!`
+                        `/OSOOSOO SOIEIIEIEIIE ISIISI EIEIIEE!/`
                     ),
                     dialog(
                         'FunctionDefinition',
@@ -618,7 +618,7 @@ const tutorial: Act[] = [
                     dialog(
                         'UnparsableExpression',
                         Emotion.Happy,
-                        `PPOOOEPOEP EPWPEPEPPEPP PP PE P!`
+                        `/PPOOOEPOEP EPWPEPEPPEPP PP PE P!/`
                     ),
                     dialog(
                         'FunctionDefinition',
@@ -630,12 +630,16 @@ const tutorial: Act[] = [
                         I'm pretty sure you just typed a bunch of random words, for example.
                         But what does it mean?`
                     ),
-                    dialog('UnparsableExpression', Emotion.Confused, `… DDook`),
+                    dialog(
+                        'UnparsableExpression',
+                        Emotion.Confused,
+                        `… /DDook/`
+                    ),
                     pause(),
                     dialog(
                         'UnparsableExpression',
                         Emotion.Happy,
-                        `? ??? ????? ?!`
+                        `/? ??? ????? ?!/`
                     ),
                     dialog(
                         'FunctionDefinition',
@@ -653,7 +657,7 @@ const tutorial: Act[] = [
                     dialog(
                         'UnparsableExpression',
                         Emotion.Happy,
-                        `Ood sd fosd oiewi dk c HNLLLooooooO!`
+                        `/Ood sd fosd oiewi dk c HNLLLooooooO!/`
                     ),
                 ],
             },
@@ -774,7 +778,7 @@ const tutorial: Act[] = [
                         
                         They're at the heart of every performance, and part of every other character's role. 
                         
-                        They represent the most fundamental idea in our world: the **function**.`
+                        They represent the most fundamental idea in our world: the *function*.`
                     ),
                     pause(),
                     dialog(
@@ -849,7 +853,7 @@ const tutorial: Act[] = [
                         Emotion.Neutral,
                         `Let me show you one of the knobs. 
                         
-                        Can you find the little **palette** button at the bottom @UI/paletteExpand? 
+                        Can you find the little *palette* button at the bottom @UI/paletteExpand? 
                         Select it to expand the palette, and then select the phrase on stage.
                         
                         Once you do, you'll see the many inputs that @Phrase accepts.
@@ -978,7 +982,7 @@ const tutorial: Act[] = [
                         I wish they would just… I don't know, believe in themselves?
                         
                         They can do so much, but they don't see it.
-                        I mean, they transform **values** into other **values**!
+                        I mean, they transform *values* into other *values*!
                         All I do is provide the recipe.
                         They do the cooking.
                         
@@ -992,12 +996,12 @@ const tutorial: Act[] = [
                     dialog(
                         'FunctionDefinition',
                         Emotion.Neutral,
-                        `… **Values**? 
+                        `… *Values*? 
                         
-                        Sorry, I know we're supposed to be on this big tour through the **Verse**.
+                        Sorry, I know we're supposed to be on this big tour through the *Verse*.
                         I just don't know what to do about @Evaluate.
                         
-                        So… **values**. 
+                        So… *values*. 
                         I haven't explained those yet, have I?
                         
                         Hm…, how to explain…
@@ -1016,7 +1020,7 @@ const tutorial: Act[] = [
                     dialog(
                         'FunctionDefinition',
                         Emotion.Neutral,
-                        `Every value has a **type**.
+                        `Every value has a *type*.
                         
                         For example, ⧼1⧽ is a number type; that's our friend @MeasurementType.
                         
@@ -1035,7 +1039,7 @@ const tutorial: Act[] = [
                     dialog(
                         'FunctionDefinition',
                         Emotion.Curious,
-                        `**Expressions** are how we create values.
+                        `*Expressions* are how we create values.
                     
                         All expressions are evaluations of functions that I make.
                         
@@ -1127,7 +1131,7 @@ const tutorial: Act[] = [
                         Emotion.Serious,
                         `You might not be able to type every character you want with the device you're using to communicate with us.
 
-                        If you can't, you can search for characters in the **directory** @UI/directory.
+                        If you can't, you can search for characters in the *directory* @UI/directory.
                         That contains every character in the Verse.
 
                         For example, if you wanted an arrow of some kind, you could type "arrow", and choose from the many arrows.
@@ -1191,7 +1195,7 @@ const tutorial: Act[] = [
                         Emotion.Eager,
                         `@FunctionDefinition has made so many more interesting functions for me, but I'll spare you the details. 
                         
-                        You can always find me in the **reference** @UI/docsExpand. 
+                        You can always find me in the *reference* @UI/docsExpand. 
                         That's where we keep all the information about everyone in the Verse, including how to work with us and what functions we have.
                         
                         I'm happy to share more ways to inspect and create text!`
@@ -1655,7 +1659,7 @@ Group(Grid(5 5) numbers.translate(
                     dialog(
                         'MeasurementType',
                         Emotion.Excited,
-                        `Oh yes, **units**! 
+                        `Oh yes, *units*! 
                         
                         Just put some symbols after a number and I'll keep track of what's being counted. 
                         
@@ -1725,7 +1729,7 @@ Group(Grid(5 5) numbers.translate(
                         
                         Make sure there's no space between the number and the unit, otherwise I don't know it's a unit.
                         
-                        And make sure the units are *exactly* the same. 
+                        And make sure the units are /exactly/ the same. 
                         I don't know anything about people units; they mean nothing to me. 
                         I just compare the unit names and if they don't match, BOOM!
                         `
@@ -1960,8 +1964,8 @@ Group(Grid(5 5) numbers.translate(
                         
                         Well, there's a whole other set of folks in the Verse that are all about bringing values together in groups. 
                         
-                        We call them **collections**.
-                        Collections are **values** too; they're just made up of smaller values, or even other collections.
+                        We call them *collections*.
+                        Collections are *values* too; they're just made up of smaller values, or even other collections.
                         For example, you might have a list of @TextType, or a set of @MeasurementType, or even a list of lists.
                         `
                     ),
@@ -2586,7 +2590,7 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                     dialog(
                         'FunctionDefinition',
                         Emotion.Kind,
-                        `Thank you @MapType! *You* are fabulous.`
+                        `Thank you @MapType! /You/ are fabulous.`
                     ),
                 ],
             },
@@ -2816,7 +2820,7 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         'Convert',
                         Emotion.Scared,
                         `Whoa. I never thought of it that way. 
-                        Like, *I* convert inputs to outputs, and @Evaluate converts inputs to outputs. 
+                        Like, /I/ convert inputs to outputs, and @Evaluate converts inputs to outputs. 
                         And like, @FunctionDefinition, you *tell us* how to convert inputs to outputs. 
                         
                         Is that like, the secret of the Verse?
@@ -3037,7 +3041,7 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         `We've met so many kinds of values on our journey so far, and talked about so many ways of working with them. 
                         There's just one more I wanted to introduce you to. 
                         They're particularly special because they're what make our performances so dynamic. 
-                        They're called @Conditional and they are the central character in the Verse that makes **decisions**.`
+                        They're called @Conditional and they are the central character in the Verse that makes *decisions*.`
                     ),
                     pause(),
                     dialog(
@@ -3108,15 +3112,15 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
 
                         Do you see how there's four parts to @Conditional's format? 
                         
-                        There's a **condition** first, which needs to be a @BooleanType.
+                        There's a *condition* first, which needs to be a @BooleanType.
                         
                         Then there's ⧼?⧽.
                         
-                        Then there's **yes** expression, then a **no** expression. 
+                        Then there's *yes* expression, then a *no* expression. 
                         
-                        What @Conditional does is evaluate the condition, and if it's ⧼⊤⧽, they evaluate the **yes** expression. 
+                        What @Conditional does is evaluate the condition, and if it's ⧼⊤⧽, they evaluate the *yes* expression. 
                         
-                        Otherwise, they evaluate the *no* expression. 
+                        Otherwise, they evaluate the /no/ expression. 
                         
                         It's such a powerful way of deciding!`
                     ),
@@ -3270,7 +3274,7 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
 
                         You probably noticed this as we've wandered and met all of the values, collections, and conversations. 
 
-                        What do any of these values *mean* if there's no person *giving* them meaning, or providing the values in the first place?`
+                        What do any of these values /mean/ if there's no person /giving/ them meaning, or providing the values in the first place?`
                     ),
                     pause(),
                     dialog(
@@ -3653,7 +3657,7 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                     dialog(
                         'FunctionDefinition',
                         Emotion.Excited,
-                        `So far, all of the **streams** we've talked about are sequences of simple values, like @TextType or @MeasurementType.
+                        `So far, all of the *streams* we've talked about are sequences of simple values, like @TextType or @MeasurementType.
                     
                     Some streams, however, can produce complex values.
 
@@ -3677,7 +3681,7 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         Do you see the little @Initial? 
                         That means "True if the performance has just started", so the @Conditional here means "If the performance has just started, start the ball at the place ⧼Place(0m 5m)⧽".
                         
-                        Otherwise, it's @NoneLiteral, which tells the @Motion stream to keep moving the ball based on **gravity**.
+                        Otherwise, it's @NoneLiteral, which tells the @Motion stream to keep moving the ball based on *gravity*.
                         
                         The ground is at ⧼0m⧽ on the y-axes`
                     ),
@@ -3816,17 +3820,17 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         Emotion.Serious,
                         `Okay, so I need three things from you: a condition for change, an initial value, and a next value.
 
-                        The **initial** value is whatever value I should make before any change has happened.
+                        The *initial* value is whatever value I should make before any change has happened.
                         It's just a normal expression, of any kind!
 
                         Then you put ⧼…⧽ after the initial value to tell me that the value can change.
 
-                        After ⧼…⧽, give me **condition** that evaluates to ⧼⊤⧽ or ⧼⊥⧽. 
+                        After ⧼…⧽, give me *condition* that evaluates to ⧼⊤⧽ or ⧼⊥⧽. 
                         It should generally check one or more streams — otherwise, there's nothing changing, since the only source of change in a performance is streams.
 
                         Then put another ⧼…⧽ after the condition to tell me that the value can change.
 
-                        Finally, the **next** value is whatever value I should make whenever the condition changes.`
+                        Finally, the *next* value is whatever value I should make whenever the condition changes.`
                     ),
                     edit(`_ … _•? … _`, true),
                     pause(),
@@ -3839,7 +3843,7 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         
                         Before it changes, I evaluate to the initial value, ⧼1m⧽.
                         
-                        But when the space key is pressed, @Program reevaluates, and I evaluate to the **next** expression, which is ⧼1m⧽ plus whatever the previous stream value was, that's represented by ⧼.⧽. 
+                        But when the space key is pressed, @Program reevaluates, and I evaluate to the *next* expression, which is ⧼1m⧽ plus whatever the previous stream value was, that's represented by ⧼.⧽. 
                         
                         This adds 1m to the size of the phrase, making the word get bigger and bigger.`
                     ),
@@ -4098,7 +4102,7 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         
                         How about underline, italics, light text, and extra bold text, *all at once*?`
                     ),
-                    edit(`Phrase('/I/ _am_ ^the^ *fabulous* 💬!')`),
+                    edit(`Phrase('/I/ _am_ ^the^ /fabulous/ 💬!')`),
                     pause(),
                     dialog(
                         'Phrase',
@@ -4115,7 +4119,7 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         `And if you ever want to use any of these special formatting characters as text instead of formatting, you can just repeat them, kind of like in @TextLiteral, and I'll just use the character literally.`
                     ),
                     edit(
-                        `Phrase('Format with /italic/ (//), _underline_ (__), |light| (||), *bold* (**), ^extra bold^ (^^) ')`
+                        `Phrase('Format with /italic/ (//), _underline_ (__), |light| (||), /bold/ (**), ^extra bold^ (^^) ')`
                     ),
                     pause(),
                     dialog(
@@ -4236,7 +4240,7 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         `Now that we have all those out of the way, we can talk about dancing, darling! 
                         Dancing is one of my favorite things to do. 
                         
-                        There are **four** ways I move.
+                        There are *four* ways I move.
                         
                         First, I can @Phrase/enter. 
                         Enter is my way of entering the stage. 
@@ -4283,7 +4287,7 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         
                         How about you make me a little serious by having me slide across straight by changing my @Phrase/style.
                         
-                        It's really subtle, but styles can really change the *emotion* of a movement.`
+                        It's really subtle, but styles can really change the /emotion/ of a movement.`
                     ),
                     code(
                         `Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) move: Pose(tilt: 5°) duration: 0.5s style: “straight”)`,
@@ -5205,7 +5209,7 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         
                         And so there's one more there's one more group I want to introduce you to. 
                         
-                        They are how we **remember**, and how we organize our memories. 
+                        They are how we *remember*, and how we organize our memories. 
                         
                         Without them, everything so much of our work would have to be done over, and over, and over, and we'd never be able to put on the most exciting shows.
                         `
@@ -5335,7 +5339,7 @@ number`
                     dialog(
                         'Bind',
                         Emotion.Eager,
-                        `But like, what if you gave me something that was *not* a number? 
+                        `But like, what if you gave me something that was /not/ a number? 
                         
                         Then I'd complain, because you said it was supposed to be a number, but you gave me some text. 
                         
@@ -6412,7 +6416,7 @@ status: Game(0 3 1) … ∆ Time() … status.score: status.score + 1`
                         Emotion.Happy,
                         `I'm a way you can remind yourself what everyone is doing, but also a way to explain to others, if you're directing with a friend, or want to share your performance with someone.
                         
-                        So you don't *have* to work with me, but I find that every performance is a bit easier to do and change if you've spent some time explaining how it works.`
+                        So you don't /have/ to work with me, but I find that every performance is a bit easier to do and change if you've spent some time explaining how it works.`
                     ),
                     symbol('`About me...`/en'),
                     pause(),
@@ -6682,7 +6686,7 @@ Docs can be
                         
                         I need to say what I need and you need to say what you need and we can love each other for who we are, as individuals. 
                         
-                        What do *you* need? 
+                        What do /you/ need? 
                         What do you love about yourself?`
                     ),
                     pause(),
