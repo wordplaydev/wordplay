@@ -194,7 +194,7 @@
     bind:this={view}
 >
     <div class="header">
-        <TextField placeholder={'🔍'} bind:text={query} fill defaultFocus />
+        <TextField placeholder={'🔍'} bind:text={query} fill />
         {#if currentConcept}
             <span class="path">
                 <Button tip={$creator.getLocale().ui.tooltip.home} action={home}

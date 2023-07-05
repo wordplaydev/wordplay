@@ -626,10 +626,10 @@
             )[0];
             if (defaultFocus instanceof HTMLElement) viewToFocus = defaultFocus;
             else {
-                const focusable = tileView.querySelectorAll(
-                    'input, button, [tabindex="0"]'
-                )[0];
-                if (focusable instanceof HTMLElement) viewToFocus = focusable;
+                // // const focusable = tileView.querySelectorAll(
+                // //     'input, button, [tabindex="0"]'
+                // // )[0];
+                // if (focusable instanceof HTMLElement) viewToFocus = focusable;
             }
         }
         // No tiles visible? Just focus on the project view.
@@ -943,7 +943,7 @@
 <main class="project" bind:this={view}>
     <div
         class="canvas"
-        on:pointerdown|preventDefault|stopPropagation={handlePointerDown}
+        on:pointerdown|stopImmediatePropagation|stopPropagation={handlePointerDown}
         on:pointerup={handlePointerUp}
         on:pointermove={handlePointerMove}
         on:transitionend={repositionFloaters}
