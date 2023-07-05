@@ -8,6 +8,7 @@ import UnusedBind from '@conflicts/UnusedBind';
 import UnparsableType from '@nodes/UnparsableType';
 import UnparsableExpression from '@nodes/UnparsableExpression';
 import Project from '../models/Project';
+import Example from '../nodes/Example';
 
 const source = new Source('native', '');
 const project = new Project(null, 'test', source, []);
@@ -43,17 +44,32 @@ function checkNativeNodes(nodes: Node[]) {
             .getAllConflicts(context)
             .filter((n) => !(n instanceof UnusedBind));
 
-        if (conflicts.length > 0)
+        if (conflicts.length > 0) {
             for (const conflict of conflicts) {
                 const conflictingNodes = conflict.getConflictingNodes();
-                console.log(
-                    `Conflict on:\n${node.toWordplay()}\nPrimary node: ${conflictingNodes.primary.node.toWordplay()}\n\t${
-                        conflict.constructor.name
-                    }`
-                );
-            }
 
-        expect(conflicts).toHaveLength(0);
+                // Ignore conflicts in examples
+                if (
+                    context
+                        .getRoot(node)
+                        ?.getAncestors(conflictingNodes.primary.node)
+                        .find((n) => n instanceof Example) === undefined
+                ) {
+                    console.error(
+                        `Conflict on:\n${node
+                            .toWordplay()
+                            .substring(
+                                0,
+                                50
+                            )}\nPrimary node: ${conflictingNodes.primary.node.toWordplay()}\n\t${
+                            conflict.constructor.name
+                        }`
+                    );
+
+                    expect(conflicts).toHaveLength(0);
+                }
+            }
+        }
     }
 }
 

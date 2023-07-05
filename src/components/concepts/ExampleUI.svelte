@@ -15,7 +15,7 @@
     export let evaluated: boolean;
 
     /** The code is inline if it has any line breaks. */
-    $: inline = !spaces.hasLineBreaks(example);
+    $: inline = !spaces.hasLineBreaks(example) && !evaluated;
 
     $: project = new Project(
         null,

@@ -1094,43 +1094,43 @@ greeting('kitty')⧽
                 ),
         },
         AnyType: {
-            name: 'any type',
+            name: 'any',
             description: 'any',
             emotion: Emotion.Curious,
             doc: `represents any possible type`,
         },
         BooleanType: {
-            name: 'boolean type',
+            name: 'boolean',
             description: 'boolean',
             emotion: Emotion.Precise,
             doc: `a true or false value`,
         },
         ConversionType: {
-            name: `${CONVERSION} type`,
+            name: `${CONVERSION}`,
             description: CONVERSION,
             emotion: Emotion.Curious,
             doc: `a type of function that converts values of one type to another `,
         },
         ExceptionType: {
-            name: 'exception type',
+            name: 'exception',
             description: 'exception',
             emotion: Emotion.Curious,
             doc: WRITE_DOC,
         },
         FunctionDefinitionType: {
-            name: 'function type',
+            name: 'function',
             description: 'function',
             emotion: Emotion.Curious,
             doc: WRITE_DOC,
         },
         FunctionType: {
-            name: 'function type',
+            name: 'function',
             description: 'function',
             emotion: Emotion.Curious,
             doc: WRITE_DOC,
         },
         ListType: {
-            name: 'list type',
+            name: 'list',
             description: (
                 node: ListType,
                 translation: Locale,
@@ -1146,7 +1146,7 @@ greeting('kitty')⧽
             doc: WRITE_DOC,
         },
         MapType: {
-            name: 'map type',
+            name: 'map',
             description: (
                 node: MapType,
                 translation: Locale,
@@ -1164,7 +1164,7 @@ greeting('kitty')⧽
             doc: WRITE_DOC,
         },
         MeasurementType: {
-            name: 'number type',
+            name: 'number',
             description: (node, translation, context) =>
                 node.unit instanceof Unit
                     ? node.unit.getDescription(translation, context)
@@ -1173,25 +1173,25 @@ greeting('kitty')⧽
             doc: WRITE_DOC,
         },
         NameType: {
-            name: 'name type',
+            name: 'structure',
             description: (node: NameType) => `${node.name.getText()}`,
             emotion: Emotion.Curious,
             doc: WRITE_DOC,
         },
         NeverType: {
-            name: 'never type',
+            name: 'never',
             description: '',
             emotion: Emotion.Curious,
             doc: WRITE_DOC,
         },
         NoneType: {
-            name: 'nothing type',
+            name: 'nothing',
             description: '',
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
         },
         SetType: {
-            name: 'set type',
+            name: 'set',
             description: (node: SetType, translation: Locale) =>
                 node.key === undefined
                     ? 'anything'
@@ -1200,7 +1200,7 @@ greeting('kitty')⧽
             doc: WRITE_DOC,
         },
         StreamDefinitionType: {
-            name: 'stream type',
+            name: 'stream',
             description: (node: StreamDefinitionType, translation: Locale) =>
                 `a ${node.definition.names.getLocaleText(
                     translation.language
@@ -1209,7 +1209,7 @@ greeting('kitty')⧽
             doc: WRITE_DOC,
         },
         StreamType: {
-            name: 'stream type',
+            name: 'stream',
             description: (
                 node: StreamType,
                 translation: Locale,
@@ -1223,13 +1223,13 @@ greeting('kitty')⧽
             doc: WRITE_DOC,
         },
         StructureDefinitionType: {
-            name: `${STRUCTURE} type`,
-            description: 'structure type',
+            name: `${STRUCTURE}`,
+            description: 'structure',
             emotion: Emotion.Kind,
             doc: WRITE_DOC,
         },
         UnknownType: {
-            name: 'unknown type',
+            name: 'unknown',
             description: (
                 node: UnknownType<any>,
                 translation: Locale,
@@ -1244,26 +1244,26 @@ greeting('kitty')⧽
             doc: WRITE_DOC,
         },
         TableType: {
-            name: 'table type',
-            description: '',
+            name: 'table',
+            description: 'table',
             emotion: Emotion.Angry,
             doc: WRITE_DOC,
         },
         TextType: {
-            name: 'text type',
+            name: 'text',
             description: (node) =>
                 node.isLiteral() ? node.text.getText() : 'text',
             emotion: Emotion.Happy,
             doc: WRITE_DOC,
         },
         TypePlaceholder: {
-            name: 'placeholder type',
-            description: 'placeholder type',
+            name: 'placeholder',
+            description: 'placeholder',
             emotion: Emotion.Curious,
             doc: WRITE_DOC,
         },
         UnionType: {
-            name: 'option type',
+            name: 'option',
             description: (
                 node: UnionType,
                 translation: Locale,
@@ -1294,39 +1294,39 @@ greeting('kitty')⧽
             doc: WRITE_DOC,
         },
         UnparsableType: {
-            name: 'unparsable type',
+            name: 'unparsable',
             description: '',
             emotion: Emotion.Curious,
             doc: WRITE_DOC,
         },
         VariableType: {
-            name: 'variable type',
+            name: 'variable',
             description: '',
             emotion: Emotion.Curious,
             doc: WRITE_DOC,
         },
         CycleType: {
-            name: 'cycle type',
+            name: 'cycle',
             description: (node: CycleType) =>
                 `${node.expression.toWordplay()} depends on itself`,
             emotion: Emotion.Curious,
             doc: WRITE_DOC,
         },
         UnknownVariableType: {
-            name: 'unknown variable type',
+            name: 'unknown variable',
             description: '',
             emotion: Emotion.Curious,
             doc: WRITE_DOC,
         },
         NotAType: {
-            name: 'not a type',
+            name: 'unexpected',
             description: (expected, locale, context) =>
                 `not a ${expected.getDescription(locale, context)}`,
             emotion: Emotion.Curious,
             doc: WRITE_DOC,
         },
         NoExpressionType: {
-            name: 'non-expression type',
+            name: 'non-expression',
             description: '',
             emotion: Emotion.Curious,
             doc: WRITE_DOC,
@@ -1338,13 +1338,13 @@ greeting('kitty')⧽
             doc: WRITE_DOC,
         },
         NotImplementedType: {
-            name: 'unimplemented type',
+            name: 'unimplemented',
             description: '',
             emotion: Emotion.Curious,
             doc: WRITE_DOC,
         },
         UnknownNameType: {
-            name: 'unknown name type',
+            name: 'unknown name',
             description: (node: UnknownNameType) =>
                 node.name === undefined
                     ? "a name wasn't given"
@@ -1463,12 +1463,25 @@ greeting('kitty')⧽
             doc: `We are any number imaginable, even with units.
             
             We can be integers, real numbers, negative, positive, fractional, decimal. We can be Arabic numbers (123), Roman numerals (ⅩⅩⅩⅠⅩ), Japanese numerals (二十), and more.`,
-            name: 'number type',
+            name: 'number',
             function: {
                 add: {
-                    doc: WRITE_DOC,
+                    doc: `I take two @MeasurementType with the same @Unit and add them together, creating a new @MeasurementType of the same @Unit.
+                    
+                    For example:
+
+                    ⧼1 + 1⧽
+
+                    ⧼3cat + 5cat⧽
+                    
+                    If the units don't match, I halt the show.
+                    
+                    ⧼3cat + 5dog⧽
+                    `,
                     name: ['+', 'add'],
-                    inputs: [{ doc: WRITE_DOC, names: 'number' }],
+                    inputs: [
+                        { doc: `I'm the number to add.`, names: 'number' },
+                    ],
                 },
                 subtract: {
                     doc: WRITE_DOC,

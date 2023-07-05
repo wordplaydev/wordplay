@@ -35,14 +35,14 @@
 
     <h2>inputs</h2>
     {#each concept.inputs as bind}
-        <BindConceptView concept={bind} header={false} />
+        <BindConceptView concept={bind} />
     {:else}
         <Note>&mdash;</Note>
     {/each}
 
     <h2>properties</h2>
     {#each concept.properties as bind}
-        <BindConceptView concept={bind} header={false} />
+        <BindConceptView concept={bind} />
     {:else}
         <Note>&mdash;</Note>
     {/each}

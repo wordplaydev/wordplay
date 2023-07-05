@@ -15,9 +15,8 @@
 </script>
 
 <ConceptView {concept} types={outputs}>
-    <h2>inputs</h2>
     {#each concept.inputs as input}
-        <BindConceptView concept={input} header={false} />
+        <BindConceptView concept={input} />
     {:else}
         <Note>&mdash;</Note>
     {/each}

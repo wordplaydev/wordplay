@@ -1,10 +1,13 @@
 <script lang="ts">
     import type BindConcept from '@concepts/BindConcept';
     import { getConceptIndex } from '../project/Contexts';
-    import ConceptView from './ConceptView.svelte';
+    import Speech from '../lore/Speech.svelte';
+    import { creator } from '../../db/Creator';
+    import MissingLocalesView from './MissingLocalesView.svelte';
+    import DocHTMLView from './DocHTMLView.svelte';
+    import TypeView from './TypeView.svelte';
 
     export let concept: BindConcept;
-    export let header: boolean = true;
 
     let index = getConceptIndex();
     $: types = $index?.getConceptsOfTypes(
@@ -12,4 +15,18 @@
     );
 </script>
 
-<ConceptView {concept} {types} {header} />
+<Speech glyph={concept.getGlyphs($creator.getLanguages())} below={true}>
+    {#if types}<TypeView {types} />{/if}
+    <MissingLocalesView />
+    {#each $creator.getLocales() as trans}
+        {@const [doc, spaces] = concept.getDocs(trans) ?? [
+            undefined,
+            undefined,
+        ]}
+        {#if doc && spaces}
+            <DocHTMLView {doc} {spaces} />
+        {:else}
+            {trans.ui.labels.nodoc}
+        {/if}
+    {/each}
+</Speech>

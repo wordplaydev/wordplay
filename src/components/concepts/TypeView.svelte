@@ -2,7 +2,7 @@
     import type StructureConcept from '@concepts/StructureConcept';
     import RootView from '../project/RootView.svelte';
     import { getConceptPath } from '../project/Contexts';
-    import { OR_SYMBOL, TYPE_SYMBOL } from '@parser/Symbols';
+    import { OR_SYMBOL } from '@parser/Symbols';
 
     export let types: StructureConcept[];
 
@@ -13,7 +13,7 @@
     }
 </script>
 
-<span class="dot">{TYPE_SYMBOL}</span>&nbsp;<span>
+<span>
     {#each types as type, index}
         {#if index > 0}<span class="dot">&nbsp;{OR_SYMBOL}&nbsp;</span>{/if}
         <span
@@ -24,7 +24,8 @@
             on:keydown={(event) =>
                 event.key === 'Enter' || event.key === ' '
                     ? navigate(type)
-                    : undefined}><RootView node={type.type} inert /></span
+                    : undefined}
+            ><RootView node={type.type} inert inline /></span
         >{/each}
 </span>
 

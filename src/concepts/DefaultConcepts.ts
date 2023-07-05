@@ -86,6 +86,7 @@ import WebLink from '../nodes/WebLink';
 import UnparsableExpression from '../nodes/UnparsableExpression';
 import { ArrangementType } from '../output/Arrangement';
 import { ShapeType } from '../output/Shapes';
+import Unit from '../nodes/Unit';
 
 /** These are ordered by appearance in the docs. */
 const template: Node[] = [
@@ -165,6 +166,7 @@ const template: Node[] = [
     // Measurements
     MeasurementType.make(),
     MeasurementLiteral.make(0),
+    Unit.make(['unit']),
 
     // Text
     TextType.make(),
