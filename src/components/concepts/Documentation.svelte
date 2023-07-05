@@ -16,7 +16,6 @@
     import BindConcept from '@concepts/BindConcept';
     import type Concept from '@concepts/Concept';
     import FunctionConceptView from './FunctionConceptView.svelte';
-    import BindConceptView from './BindConceptView.svelte';
     import StreamConcept from '@concepts/StreamConcept';
     import CodeView from './CodeView.svelte';
     import ConversionConcept from '@concepts/ConversionConcept';
@@ -71,7 +70,10 @@
 
     // When the path changes, wait for rendering, then scroll to the top.
     $: {
-        if ($path.length > 0) {
+        if (
+            $path.length > 0 &&
+            !($path[$path.length - 1] instanceof BindConcept)
+        ) {
             query = '';
             results = undefined;
             scrollToTop();
@@ -241,25 +243,44 @@
             {/each}
             <!-- A selected concept is prioritized over the home page -->
         {:else if currentConcept}
-            {#if currentConcept instanceof StructureConcept}
-                <StructureConceptView concept={currentConcept} />
-            {:else if currentConcept instanceof FunctionConcept}
-                <FunctionConceptView concept={currentConcept} />
-            {:else if currentConcept instanceof BindConcept}
-                <BindConceptView concept={currentConcept} />
-            {:else if currentConcept instanceof ConversionConcept}
-                <ConversionConceptView concept={currentConcept} />
-            {:else if currentConcept instanceof StreamConcept}
-                <StreamConceptView concept={currentConcept} />
-            {:else if currentConcept instanceof NodeConcept}
-                <NodeConceptView concept={currentConcept} />
-            {:else}
-                <CodeView
-                    node={currentConcept.getRepresentation()}
-                    concept={currentConcept}
-                />
-            {/if}
-            <!-- Home page is default. -->
+            {#key currentConcept}
+                {#if currentConcept instanceof StructureConcept}
+                    <StructureConceptView concept={currentConcept} />
+                {:else if currentConcept instanceof FunctionConcept}
+                    <FunctionConceptView concept={currentConcept} />
+                    <!-- If it's a bind, don't show a bind view, show the concept that owns the bind, and ask it to scroll to it -->
+                {:else if currentConcept instanceof BindConcept}
+                    {@const owner = $index?.getConceptOwner(currentConcept)}
+                    {#if owner instanceof FunctionConcept}
+                        <FunctionConceptView
+                            concept={owner}
+                            subconcept={currentConcept}
+                        />
+                    {:else if owner instanceof StructureConcept}
+                        <StructureConceptView
+                            concept={owner}
+                            subconcept={currentConcept}
+                        />
+                    {:else if owner instanceof StreamConcept}
+                        <StreamConceptView
+                            concept={owner}
+                            subconcept={currentConcept}
+                        />
+                    {/if}
+                {:else if currentConcept instanceof ConversionConcept}
+                    <ConversionConceptView concept={currentConcept} />
+                {:else if currentConcept instanceof StreamConcept}
+                    <StreamConceptView concept={currentConcept} />
+                {:else if currentConcept instanceof NodeConcept}
+                    <NodeConceptView concept={currentConcept} />
+                {:else}
+                    <CodeView
+                        node={currentConcept.getRepresentation()}
+                        concept={currentConcept}
+                    />
+                {/if}
+                <!-- Home page is default. -->
+            {/key}
         {:else if $index}
             <ConceptsView
                 category={$creator.getLocale().terminology.project}

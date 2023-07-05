@@ -197,6 +197,11 @@ export default class ConceptIndex {
         );
     }
 
+    /** Finds the first concept for which this concept is a subconcept */
+    getConceptOwner(concept: Concept): Concept | undefined {
+        return this.concepts.find((c) => c.getSubConcepts().has(concept));
+    }
+
     getConceptsOfTypes(types: TypeSet): StructureConcept[] {
         return types
             .list()

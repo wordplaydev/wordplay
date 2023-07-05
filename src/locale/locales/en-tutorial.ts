@@ -3334,7 +3334,8 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                     dialog(
                         'FunctionDefinition',
                         Emotion.Curious,
-                        `See that 1000? It tells @Time to tick every 1000 milliseconds instead of the default of every 33 milliseconds, it's default. 
+                        `See that ⧼1000ms⧽? 
+                        It's a @Time/frequency that tells @Time to tick every 1000 milliseconds instead of the default of every 33 milliseconds, it's default. 
                         
                         Now it's like a counter that ticks every second. These inputs that @Time takes are like a configuration: they tell the stream how to behave.`
                     ),
@@ -4150,7 +4151,7 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         `Do you like costumes? 
                         
                         I loooooove costumes. 
-                        **Font families** are our costumes. 
+                        My @Phrase/font is a costume. 
                         
                         Pick any of the supported fonts to spice up the word you've chosen.`
                     ),

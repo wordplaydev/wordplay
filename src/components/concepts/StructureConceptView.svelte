@@ -4,8 +4,26 @@
     import type StructureConcept from '@concepts/StructureConcept';
     import BindConceptView from './BindConceptView.svelte';
     import ConceptView from './ConceptView.svelte';
+    import type BindConcept from '../../concepts/BindConcept';
+    import { onMount } from 'svelte';
 
     export let concept: StructureConcept;
+    export let subconcept: BindConcept | undefined = undefined;
+
+    onMount(() => {
+        if (subconcept) {
+            const inputIndex = concept.inputs.indexOf(subconcept);
+            const propertyIndex = concept.properties.indexOf(subconcept);
+            const [kind, index] =
+                inputIndex >= 0
+                    ? ['input', inputIndex]
+                    : propertyIndex >= 0
+                    ? ['property', propertyIndex]
+                    : [undefined, undefined];
+            if (kind)
+                document.getElementById(`${kind}-${index}`)?.scrollIntoView();
+        }
+    });
 </script>
 
 <ConceptView {concept}>
@@ -34,15 +52,19 @@
     {/if}
 
     <h2>inputs</h2>
-    {#each concept.inputs as bind}
-        <BindConceptView concept={bind} />
+    {#each concept.inputs as bind, index}
+        <div id="input-{index}">
+            <BindConceptView concept={bind} />
+        </div>
     {:else}
         <Note>&mdash;</Note>
     {/each}
 
     <h2>properties</h2>
-    {#each concept.properties as bind}
-        <BindConceptView concept={bind} />
+    {#each concept.properties as bind, index}
+        <div id="property-{index + concept.inputs.length}">
+            <BindConceptView concept={bind} />
+        </div>
     {:else}
         <Note>&mdash;</Note>
     {/each}
