@@ -687,7 +687,7 @@ greeting('kitty')⧽
             description: getPlaceholderDescription,
             emotion: Emotion.Scared,
             doc: `
-                I'm supposed to be an **expression**, but I really don't know how to do anything.
+                I'm supposed to be an *expression*, but I really don't know how to do anything.
                 
                 Directors usually use me to temporarily hold some space in a performance while they figure out what they want to do.
                 
