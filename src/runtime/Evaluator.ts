@@ -156,6 +156,10 @@ export default class Evaluator {
      */
     temporalReactions: Stream[] = [];
 
+    /** The animation multiplier to apply to all time-based streams. Can come from anywhere, but typically a user configuration.
+     */
+    timeMultiplier: number = 1;
+
     /**
      * Remember streams that were converted to values so we can convert them back to streams
      * when needed in stream operations.
@@ -1002,6 +1006,10 @@ export default class Evaluator {
         }
     }
 
+    updateTimeMultiplier(multiplier: number) {
+        this.timeMultiplier = multiplier;
+    }
+
     tick(time: DOMHighResTimeStamp) {
         // First time? Just record it.
         if (this.previousTime === undefined) this.previousTime = time;
@@ -1018,7 +1026,7 @@ export default class Evaluator {
                 );
             // Tick each one, indireclty filling this.temporalReactions.
             for (const stream of this.nativeTemporalStreams)
-                stream.tick(time, delta);
+                stream.tick(time, delta, this.timeMultiplier);
 
             // If they changed, react.
             this.flush();

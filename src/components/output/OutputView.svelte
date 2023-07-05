@@ -38,6 +38,9 @@
         $keyboardEditIdle && latest instanceof Exception
             ? 'var(--wordplay-error)'
             : verse?.background.toCSS() ?? null;
+
+    /** When creator's preferred animation factor changes, update evaluator */
+    $: evaluator.updateTimeMultiplier($creator.getAnimationFactor());
 </script>
 
 <section

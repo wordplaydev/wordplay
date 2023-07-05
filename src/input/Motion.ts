@@ -24,8 +24,6 @@ import ValueException from '../runtime/ValueException';
 import UnionType from '../nodes/UnionType';
 import NoneLiteral from '../nodes/NoneLiteral';
 import { PhraseType } from '../output/Phrase';
-import { get } from 'svelte/store';
-import { creator } from '../db/Creator';
 
 const PlaceName =
     typeof en.output.Type.place.names === 'string'
@@ -119,10 +117,11 @@ export default class Motion extends TemporalStream<Value> {
     }
 
     /** Given some change in time in milliseconds, move the object. */
-    tick(_: DOMHighResTimeStamp, delta: number) {
+    tick(_: DOMHighResTimeStamp, delta: number, multiplier: number) {
+        if (multiplier === 0) return;
+
         // Compute how many seconds have elapsed.
-        const seconds =
-            delta / 1000 / Math.max(1, get(creator).getAnimationFactor());
+        const seconds = delta / 1000 / Math.max(1, multiplier);
 
         // First, apply gravity to the y velocity proporitional to elapsed time.
         this.vy -= this.gravity * seconds;
