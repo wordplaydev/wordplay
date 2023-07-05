@@ -54,8 +54,8 @@ const en: Locale = {
     welcome: 'hello',
     motto: 'Where words come to life',
     terminology: {
-        store: 'store',
-        code: 'compute',
+        store: 'bind',
+        code: 'evaluate',
         decide: 'decide',
         project: 'performance',
         source: SOURCE,
