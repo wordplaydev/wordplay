@@ -949,42 +949,19 @@ const eng_wordplay: Locale = {
         },
         UnknownVariableType: {
             name: 'tipo de variable desconocido',
-            description: '',
+            description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
         },
-        NotAListType: {
+        NotAType: {
             name: 'tipo sin lista',
-            description: '',
+            description: (expected, locale, context) =>
+                `tipo sin ${expected.getDescription(locale, context)}`,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
         },
         NoExpressionType: {
             name: 'tipo sin expresión',
-            description: '',
-            emotion: Emotion.Neutral,
-            doc: WRITE_DOC,
-        },
-        NotAFunctionType: {
-            name: 'tipo sin función',
-            description: '',
-            emotion: Emotion.Neutral,
-            doc: WRITE_DOC,
-        },
-        NotATableType: {
-            name: 'tipo sin tabla',
-            description: '',
-            emotion: Emotion.Neutral,
-            doc: WRITE_DOC,
-        },
-        NotAStreamType: {
-            name: 'tipo sin arroyo',
-            description: '',
-            emotion: Emotion.Neutral,
-            doc: WRITE_DOC,
-        },
-        NotASetOrMapType: {
-            name: 'tipo sin recopilación/índice',
             description: '',
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,

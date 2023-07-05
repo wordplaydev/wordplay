@@ -21,7 +21,7 @@ import ListCloseToken from './ListCloseToken';
 import MeasurementLiteral from './MeasurementLiteral';
 import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
-import { NotAListType } from './NotAListType';
+import { NotAType } from './NotAType';
 import NodeLink from '@locale/NodeLink';
 import Glyphs from '../lore/Glyphs';
 import type { NativeTypeName } from '../native/NativeConstants';
@@ -141,7 +141,7 @@ export default class ListAccess extends Expression {
             )
                 return listType.type;
             else return listType.type;
-        } else return new NotAListType(this, listType);
+        } else return new NotAType(this, listType, ListType.make());
     }
 
     getDependencies(): Expression[] {

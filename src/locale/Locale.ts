@@ -40,6 +40,7 @@ import type TextLiteral from '../nodes/TextLiteral';
 import type UnaryOperation from '../nodes/UnaryOperation';
 import TokenType from '../nodes/TokenType';
 import type StructureDefinition from '../nodes/StructureDefinition';
+import type Type from '../nodes/Type';
 
 export type Description = string | Explanation;
 export type DocString = string;
@@ -951,12 +952,8 @@ export type NodeTexts = {
     VariableType: StaticNodeText;
     CycleType: DynamicNodeText<CycleType>;
     UnknownVariableType: StaticNodeText;
-    NotAListType: StaticNodeText;
+    NotAType: DynamicNodeText<Type>;
     NoExpressionType: StaticNodeText;
-    NotAFunctionType: StaticNodeText;
-    NotATableType: StaticNodeText;
-    NotAStreamType: StaticNodeText;
-    NotASetOrMapType: StaticNodeText;
     NotEnclosedType: StaticNodeText;
     NotImplementedType: StaticNodeText;
     UnknownNameType: DynamicNodeText<UnknownNameType>;

@@ -20,12 +20,14 @@ import TokenType from './TokenType';
 import Names from './Names';
 import type Evaluator from '@runtime/Evaluator';
 import type Value from '@runtime/Value';
-import NotAFunctionType from './NotAFunctionType';
 import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import StartConversion from '@runtime/StartConversion';
 import NodeLink from '@locale/NodeLink';
 import Glyphs from '../lore/Glyphs';
+import { NotAType } from './NotAType';
+import ConversionType from './ConversionType';
+import NeverType from './NeverType';
 
 export default class Convert extends Expression {
     readonly expression: Expression;
@@ -121,7 +123,11 @@ export default class Convert extends Expression {
         // Get the conversion definition.
         const conversions = this.getConversionSequence(context);
         if (conversions === undefined || conversions.length === 0)
-            return new NotAFunctionType(this, undefined);
+            return new NotAType(
+                this,
+                new NeverType(),
+                ConversionType.make(this.expression.getType(context), this.type)
+            );
         const lastConversion = conversions[conversions.length - 1];
         return lastConversion.output;
     }

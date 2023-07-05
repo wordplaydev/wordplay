@@ -19,13 +19,13 @@ import type Definition from './Definition';
 import type TypeSet from './TypeSet';
 import UnimplementedException from '@runtime/UnimplementedException';
 import type Evaluator from '@runtime/Evaluator';
-import NotATableType from './NotATableType';
 import UnknownNameType from './UnknownNameType';
 import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import NodeLink from '@locale/NodeLink';
 import Glyphs from '../lore/Glyphs';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
+import { NotAType } from './NotAType';
 
 export default class Select extends Expression {
     readonly table: Expression;
@@ -130,7 +130,7 @@ export default class Select extends Expression {
         // Get the table type and find the rows corresponding the selected columns.
         const tableType = this.table.getType(context);
         if (!(tableType instanceof TableType))
-            return new NotATableType(this, tableType);
+            return new NotAType(this, tableType, TableType.make([]));
 
         // For each cell in the select row, find the corresponding column type in the table type.
         // If we can't find one, return unknown.

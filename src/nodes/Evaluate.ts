@@ -37,7 +37,6 @@ import EvalOpenToken from './EvalOpenToken';
 import EvalCloseToken from './EvalCloseToken';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import InvalidTypeInput from '@conflicts/InvalidTypeInput';
-import NotAFunctionType from './NotAFunctionType';
 import PropertyReference from './PropertyReference';
 import NeverType from './NeverType';
 import type { Replacement } from './Node';
@@ -52,6 +51,7 @@ import StreamDefinitionValue from '../runtime/StreamDefinitionValue';
 import Glyphs from '../lore/Glyphs';
 import FunctionType from './FunctionType';
 import AnyType from './AnyType';
+import { NotAType } from './NotAType';
 
 type Mapping = {
     expected: Bind;
@@ -527,7 +527,12 @@ export default class Evaluate extends Expression {
             return fun.output;
         }
         // Otherwise, who knows.
-        else return new NotAFunctionType(this, this.func.getType(context));
+        else
+            return new NotAType(
+                this,
+                this.func.getType(context),
+                FunctionType.make(undefined, [], new AnyType())
+            );
     }
 
     getDependencies(context: Context): Expression[] {

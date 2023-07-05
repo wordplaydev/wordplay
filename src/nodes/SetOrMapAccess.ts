@@ -23,12 +23,12 @@ import SetCloseToken from './SetCloseToken';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
-import { NotASetOrMapType } from './NotASetOrMapType';
 import NodeLink from '@locale/NodeLink';
 import Glyphs from '../lore/Glyphs';
 import type { NativeTypeName } from '../native/NativeConstants';
 import Purpose from '../concepts/Purpose';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
+import { NotAType } from './NotAType';
 
 export default class SetOrMapAccess extends Expression {
     readonly setOrMap: Expression;
@@ -136,7 +136,12 @@ export default class SetOrMapAccess extends Expression {
         )
             return setOrMapType.value;
         else if (setOrMapType instanceof SetType) return BooleanType.make();
-        else return new NotASetOrMapType(this, setOrMapType);
+        else
+            return new NotAType(
+                this,
+                setOrMapType,
+                UnionType.make(SetType.make(), MapType.make())
+            );
     }
 
     getDependencies(): Expression[] {

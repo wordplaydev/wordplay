@@ -1318,38 +1318,15 @@ greeting('kitty')⧽
             emotion: Emotion.Curious,
             doc: WRITE_DOC,
         },
-        NotAListType: {
-            name: 'non-list type',
-            description: '',
+        NotAType: {
+            name: 'not a type',
+            description: (expected, locale, context) =>
+                `not a ${expected.getDescription(locale, context)}`,
             emotion: Emotion.Curious,
             doc: WRITE_DOC,
         },
         NoExpressionType: {
             name: 'non-expression type',
-            description: '',
-            emotion: Emotion.Curious,
-            doc: WRITE_DOC,
-        },
-        NotAFunctionType: {
-            name: 'non-function type',
-            description: '',
-            emotion: Emotion.Curious,
-            doc: WRITE_DOC,
-        },
-        NotATableType: {
-            name: 'non-table type',
-            description: '',
-            emotion: Emotion.Curious,
-            doc: WRITE_DOC,
-        },
-        NotAStreamType: {
-            name: 'non-stream type',
-            description: '',
-            emotion: Emotion.Curious,
-            doc: WRITE_DOC,
-        },
-        NotASetOrMapType: {
-            name: 'non-set/map type',
             description: '',
             emotion: Emotion.Curious,
             doc: WRITE_DOC,

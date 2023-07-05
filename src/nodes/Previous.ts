@@ -23,10 +23,10 @@ import UnionType from './UnionType';
 import NoneType from './NoneType';
 import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
-import { NotAStreamType } from './NotAStreamType';
 import NodeLink from '@locale/NodeLink';
 import Glyphs from '../lore/Glyphs';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
+import { NotAType } from './NotAType';
 
 export default class Previous extends Expression {
     readonly stream: Expression;
@@ -107,7 +107,7 @@ export default class Previous extends Expression {
         const streamType = this.stream.getType(context);
         return streamType instanceof StreamType
             ? UnionType.make(streamType.type, NoneType.None)
-            : new NotAStreamType(this, streamType);
+            : new NotAType(this, streamType, StreamType.make());
     }
 
     getDependencies(): Expression[] {
