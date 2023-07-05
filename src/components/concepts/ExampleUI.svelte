@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { onDestroy } from 'svelte';
+    import { onDestroy, onMount } from 'svelte';
     import RootView from '../project/RootView.svelte';
     import { getConceptIndex } from '../project/Contexts';
     import Project from '@models/Project';
@@ -8,6 +8,7 @@
     import type Spaces from '@parser/Spaces';
     import ValueView from '../values/ValueView.svelte';
     import Evaluator from '@runtime/Evaluator';
+    import type Value from '../../runtime/Value';
 
     export let example: Example;
     export let spaces: Spaces;
@@ -23,7 +24,25 @@
         new Source('example', [example.program, spaces]),
         []
     );
-    $: value = evaluated ? new Evaluator(project).getInitialValue() : undefined;
+    let value: Value | undefined = undefined;
+    $: evaluator = evaluated ? new Evaluator(project) : undefined;
+
+    function update() {
+        if (evaluator) value = evaluator.getLatestSourceValue(project.main);
+    }
+
+    onMount(() => {
+        if (evaluator) {
+            evaluator.observe(update);
+            evaluator.start();
+        }
+        return () => {
+            if (evaluator) {
+                evaluator.stop();
+                evaluator.ignore(update);
+            }
+        };
+    });
 
     let index = getConceptIndex();
 
