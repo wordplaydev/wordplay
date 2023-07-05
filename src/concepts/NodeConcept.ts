@@ -48,7 +48,7 @@ export default class NodeConcept extends Concept {
     }
 
     getName(locale: Locale) {
-        return this.getGlyphs().symbols; //this.template.getLabel(locale);
+        return this.template.getLabel(locale);
     }
 
     getRepresentation() {
