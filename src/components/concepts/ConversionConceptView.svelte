@@ -16,14 +16,12 @@
 </script>
 
 <ConceptView {concept}>
-    <h2>input</h2>
     <CodeView
         concept={input ?? concept}
         node={input ? input.getRepresentation() : concept.definition.input}
         selectable={input !== undefined}
     />
 
-    <h2>output</h2>
     <CodeView
         concept={output ?? concept}
         node={output ? output.getRepresentation() : concept.definition.output}

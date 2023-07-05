@@ -2,7 +2,6 @@
     import type FunctionConcept from '@concepts/FunctionConcept';
     import ConceptView from './ConceptView.svelte';
     import BindConceptView from './BindConceptView.svelte';
-    import Note from '../widgets/Note.svelte';
     import { getConceptIndex } from '../project/Contexts';
 
     export let concept: FunctionConcept;
@@ -17,7 +16,5 @@
 <ConceptView {concept} types={outputs}>
     {#each concept.inputs as input}
         <BindConceptView concept={input} />
-    {:else}
-        <Note>&mdash;</Note>
     {/each}
 </ConceptView>
