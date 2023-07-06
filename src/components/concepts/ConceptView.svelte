@@ -4,12 +4,12 @@
     import CodeView from './CodeView.svelte';
     import MissingLocalesView from './MissingLocalesView.svelte';
     import DocHTMLView from './DocHTMLView.svelte';
-    import type StructureConcept from '@concepts/StructureConcept';
     import Speech from '../lore/Speech.svelte';
     import { creator } from '../../db/Creator';
+    import type Type from '../../nodes/Type';
 
     export let concept: Concept;
-    export let types: StructureConcept[] | undefined = undefined;
+    export let type: Type | undefined = undefined;
     export let header: boolean = true;
 
     $: node = concept.getRepresentation();
@@ -21,7 +21,7 @@
 >
     {#if header}
         <h1
-            ><CodeView {concept} {types} {node} describe={false} />
+            ><CodeView {concept} {type} {node} describe={false} />
             <!-- {#each $preferredLocales as translation, index}
                 {#if index > 0}/{/if}
                 <DescriptionView description={concept.getName(translation)} />

@@ -2,18 +2,13 @@
     import type FunctionConcept from '@concepts/FunctionConcept';
     import ConceptView from './ConceptView.svelte';
     import BindConceptView from './BindConceptView.svelte';
-    import { getConceptIndex } from '../project/Contexts';
     import type BindConcept from '../../concepts/BindConcept';
     import { onMount } from 'svelte';
 
     export let concept: FunctionConcept;
     export let subconcept: BindConcept | undefined = undefined;
 
-    let index = getConceptIndex();
     $: type = concept.definition.getOutputType(concept.context);
-    $: outputs = $index
-        ? $index.getConceptsOfTypes(type.getTypeSet(concept.context))
-        : [];
 
     onMount(() => {
         if (subconcept) {
@@ -26,7 +21,7 @@
     });
 </script>
 
-<ConceptView {concept} types={outputs}>
+<ConceptView {concept} {type}>
     {#each concept.inputs as input, index}
         <div id="subconcept-{index}">
             <BindConceptView concept={input} />

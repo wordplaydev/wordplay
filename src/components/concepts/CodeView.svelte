@@ -4,15 +4,15 @@
     import { getConceptPath } from '../project/Contexts';
     import type Node from '@nodes/Node';
     import Note from '../widgets/Note.svelte';
-    import type StructureConcept from '@concepts/StructureConcept';
     import TypeView from './TypeView.svelte';
     import DescriptionView from './DescriptionView.svelte';
     import { toClipboard } from '../editor/util/Clipboard';
     import { creator } from '../../db/Creator';
+    import type Type from '../../nodes/Type';
 
     export let node: Node;
     export let concept: Concept;
-    export let types: StructureConcept[] | undefined = undefined;
+    export let type: Type | undefined = undefined;
     export let describe: boolean = true;
     export let selectable: boolean = false;
 
@@ -50,7 +50,7 @@
                 event.key === 'c' && (event.ctrlKey || event.metaKey)
                     ? copy()
                     : undefined}><RootView {node} /></div
-        >{#if types}&nbsp;<TypeView {types} />
+        >{#if type}&nbsp;<TypeView {type} context={concept.context} />
         {/if}
     </div>
     {#if describe}

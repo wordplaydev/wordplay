@@ -1,12 +1,21 @@
 <script lang="ts">
     import type StructureConcept from '@concepts/StructureConcept';
     import RootView from '../project/RootView.svelte';
-    import { getConceptPath } from '../project/Contexts';
+    import { getConceptIndex, getConceptPath } from '../project/Contexts';
     import { OR_SYMBOL } from '@parser/Symbols';
+    import type Type from '@nodes/Type';
+    import type Context from '@nodes/Context';
 
-    export let types: StructureConcept[];
+    export let type: Type;
+    export let context: Context;
 
     let path = getConceptPath();
+    let index = getConceptIndex();
+
+    $: types = type
+        .getTypeSet(context)
+        .list()
+        .map((type) => [type, $index?.getConceptOfType(type)] as const);
 
     function navigate(type: StructureConcept) {
         path.set([...$path, type]);
@@ -14,18 +23,17 @@
 </script>
 
 <span>
-    {#each types as type, index}
+    {#each types as [type, concept], index}
         {#if index > 0}<span class="dot">&nbsp;{OR_SYMBOL}&nbsp;</span
             >{/if}<span
             role="button"
             class="type"
             tabindex="0"
-            on:pointerdown={() => navigate(type)}
+            on:pointerdown={() => (concept ? navigate(concept) : undefined)}
             on:keydown={(event) =>
-                event.key === 'Enter' || event.key === ' '
-                    ? navigate(type)
-                    : undefined}
-            ><RootView node={type.type} inert inline /></span
+                concept && (event.key === 'Enter' || event.key === ' ')
+                    ? navigate(concept)
+                    : undefined}><RootView node={type} inert inline /></span
         >{/each}
 </span>
 
