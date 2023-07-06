@@ -9,17 +9,19 @@
     import { toClipboard } from '../editor/util/Clipboard';
     import { creator } from '../../db/Creator';
     import type Type from '../../nodes/Type';
+    import type Spaces from '../../parser/Spaces';
 
     export let node: Node;
-    export let concept: Concept;
+    export let concept: Concept | undefined = undefined;
+    export let spaces: Spaces | undefined = undefined;
     export let type: Type | undefined = undefined;
     export let describe: boolean = true;
     export let selectable: boolean = false;
-
-    $: draggable = concept.getNodes().has(node);
+    export let inline: boolean = false;
+    export let outline: boolean = true;
 
     function select(event: MouseEvent | KeyboardEvent) {
-        if (selectable && selection) {
+        if (concept && selectable && selection) {
             // If the concept is already in the selection, pop back to it.
             if ($selection.includes(concept)) {
                 while ($selection.at(-1) !== concept) $selection.pop();
@@ -37,20 +39,26 @@
     }
 
     $: selection = getConceptPath();
-    $: description = concept.getName($creator.getLocale(), false);
+    $: description = concept
+        ? concept.getName($creator.getLocale(), false)
+        : undefined;
 </script>
 
-<div class="view" class:draggable>
+<div class="view">
     <div class="code">
         <div
             role="textbox"
             class="node"
+            class:outline
             tabindex="0"
             on:keydown={(event) =>
                 event.key === 'c' && (event.ctrlKey || event.metaKey)
                     ? copy()
-                    : undefined}><RootView {node} /></div
-        >{#if type}&nbsp;<TypeView {type} context={concept.context} />
+                    : undefined}><RootView {node} {inline} {spaces} /></div
+        >{#if type && concept}&nbsp;<TypeView
+                {type}
+                context={concept.context}
+            />
         {/if}
     </div>
     {#if describe}
@@ -77,24 +85,24 @@
 <style>
     .view {
         display: inline-block;
-        vertical-align: middle;
-        margin-bottom: var(--wordplay-spacing);
-        margin-right: var(--wordplay-spacing);
         touch-action: none;
     }
 
     .node {
+        display: inline-block;
+        cursor: pointer;
+        user-select: none;
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .node.outline {
         padding: var(--wordplay-spacing);
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
         border-radius: var(--wordplay-border-radius)
             calc(3 * var(--wordplay-border-radius))
             calc(3 * var(--wordplay-border-radius))
             var(--wordplay-border-radius);
-        display: inline-block;
-        cursor: pointer;
-        user-select: none;
-        display: inline-block;
-        vertical-align: middle;
     }
 
     .code {

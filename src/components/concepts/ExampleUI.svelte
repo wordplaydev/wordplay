@@ -1,6 +1,5 @@
 <script lang="ts">
     import { onDestroy, onMount } from 'svelte';
-    import RootView from '../project/RootView.svelte';
     import { getConceptIndex } from '../project/Contexts';
     import Project from '@models/Project';
     import type Example from '@nodes/Example';
@@ -9,6 +8,7 @@
     import ValueView from '../values/ValueView.svelte';
     import Evaluator from '@runtime/Evaluator';
     import type Value from '../../runtime/Value';
+    import CodeView from './CodeView.svelte';
 
     export let example: Example;
     export let spaces: Spaces;
@@ -56,10 +56,12 @@
 </script>
 
 <div class="example" class:evaluated class:inline
-    ><RootView
+    ><CodeView
         node={example.program}
-        {spaces}
         inline={!evaluated && inline}
+        {spaces}
+        outline={false}
+        describe={false}
     /></div
 >{#if evaluated && value}
     <div class="value"><ValueView {value} /></div>

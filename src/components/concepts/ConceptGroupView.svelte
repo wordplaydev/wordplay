@@ -53,7 +53,7 @@
         margin-left: 0;
         display: flex;
         flex-wrap: wrap;
-        gap: var(--wordplay-spacing);
+        gap: calc(2 * var(--wordplay-spacing));
     }
 
     .expander {
