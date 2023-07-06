@@ -564,10 +564,14 @@ test('linked docs', () => {
     );
     expect(doc).toBeInstanceOf(Doc);
     expect(doc.paragraphs[0]).toBeInstanceOf(Paragraph);
-    expect(doc.paragraphs[0].content[1]).toBeInstanceOf(WebLink);
-    expect((doc.paragraphs[0].content[1] as WebLink).url?.getText()).toBe(
-        'https://wikipedia.org'
+    expect((doc.paragraphs[0].content[0] as Words).segments[1]).toBeInstanceOf(
+        WebLink
     );
+    expect(
+        (
+            (doc.paragraphs[0].content[0] as Words).segments[1] as WebLink
+        ).url?.getText()
+    ).toBe('https://wikipedia.org');
 });
 
 test('docs in docs', () => {
@@ -577,7 +581,14 @@ test('docs in docs', () => {
     expect(doc).toBeInstanceOf(Doc);
     expect(doc.paragraphs[0]).toBeInstanceOf(Paragraph);
     expect(doc.paragraphs[0].content[0]).toBeInstanceOf(Words);
-    expect(doc.paragraphs[0].content[1]).toBeInstanceOf(Example);
-    expect(doc.paragraphs[0].content[2]).toBeInstanceOf(Words);
-    expect(doc.paragraphs[0].content.length).toBe(3);
+    expect((doc.paragraphs[0].content[0] as Words).segments[0]).toBeInstanceOf(
+        Token
+    );
+    expect((doc.paragraphs[0].content[0] as Words).segments[1]).toBeInstanceOf(
+        Example
+    );
+    expect((doc.paragraphs[0].content[0] as Words).segments[2]).toBeInstanceOf(
+        Token
+    );
+    expect((doc.paragraphs[0].content[0] as Words).segments.length).toBe(3);
 });
