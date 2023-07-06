@@ -220,7 +220,11 @@ const template: Node[] = [
     // Documentation
     Doc.make([
         new Paragraph([
-            new Words(undefined, new Token('TBD', TokenType.Words), undefined),
+            new Words(
+                undefined,
+                [new Token('TBD', TokenType.Words)],
+                undefined
+            ),
         ]),
     ]),
     ConceptLink.make(PLACEHOLDER_SYMBOL),

@@ -363,7 +363,8 @@ Like this:
             emotion: Emotion.Insecure,
             doc: `Sometimes when I'm evaluating a @FunctionDefinition with just one value on the left and one value on the right, I like to use this form, instead of @Evaluate.
                 
-                ⧼1 + 1⧽ is just so much simpler than ⧼1.+(1)⧽ or ⧼1.add(1)⧽. It makes everything a bit tidier, even though its basically the same thing.
+                ⧼1 + 1⧽ is just so much simpler than ⧼1.+(1)⧽ or ⧼1.add(1)⧽. 
+                It makes everything a bit tidier, even though its basically the same thing.
                 `,
             right: 'input',
             start: (left) =>
@@ -859,7 +860,7 @@ greeting('kitty')⧽
             name: 'nothing',
             description: 'nothing',
             emotion: Emotion.Neutral,
-            doc: `Hi, @FunctionDefinition here. @NoneLiteral doesn't like to say much, so I'll translate.
+            doc: `/Hi, @FunctionDefinition here. @NoneLiteral doesn't like to say much, so I'll translate./
                 
                 @NoneLiteral represents the absence of anything. 
                 It's a way of saying "There is no value". 

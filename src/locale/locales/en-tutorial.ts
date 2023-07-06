@@ -4167,7 +4167,7 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         `Need me to be somewhere else on stage? 
                         Places please! 
                         
-                        A @Place is just an ⧼x⧽, ⧼y⧽, and optional ⧼z⧽ position, in meters ⧼m⧽. 
+                        A @Place is just an ⧼x⧽, ⧼y⧽, and optional ⧼z⧽ position, in meters ⧼m⧽.
                         
                         Try changing the place to a different location, by editing the numbers, or dragging the @Phrase on stage.`
                     ),

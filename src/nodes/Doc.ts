@@ -91,8 +91,8 @@ export default class Doc extends Node {
             .filter((n): n is Words => n instanceof Words)
             .filter(
                 (w) =>
-                    w.words &&
-                    w.words
+                    w.segments &&
+                    w
                         .getText()
                         .toLocaleLowerCase(this.lang?.getLanguageCode())
                         .indexOf(text) >= 0

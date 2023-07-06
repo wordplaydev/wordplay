@@ -6,28 +6,33 @@ import Node, { type Field, type Replacement } from './Node';
 import Token from './Token';
 import TokenType from './TokenType';
 import { unescaped } from './TextLiteral';
+import Example from './Example';
+import WebLink from './WebLink';
+import ConceptLink from './ConceptLink';
+
+export type Segment = Token | Words | WebLink | ConceptLink | Example;
 
 export default class Words extends Node {
     readonly open: Token | undefined;
-    readonly words: Token | undefined;
+    readonly segments: Segment[];
     readonly close: Token | undefined;
 
     constructor(
         open: Token | undefined,
-        words: Token | undefined,
+        words: Segment[],
         close: Token | undefined
     ) {
         super();
 
         this.open = open;
-        this.words = words;
+        this.segments = words;
         this.close = close;
     }
 
     getGrammar(): Field[] {
         return [
             { name: 'open', types: [Token] },
-            { name: 'words', types: [Token] },
+            { name: 'segments', types: [Words, WebLink, ConceptLink, Example] },
             { name: 'close', types: [Token] },
         ];
     }
@@ -39,7 +44,7 @@ export default class Words extends Node {
     clone(replace?: Replacement | undefined): this {
         return new Words(
             this.replaceChild('open', this.open, replace),
-            this.replaceChild('words', this.words, replace),
+            this.replaceChild('segments', this.segments, replace),
             this.replaceChild('close', this.close, replace)
         ) as this;
     }
@@ -73,11 +78,15 @@ export default class Words extends Node {
     }
 
     getText() {
-        return unescaped(this.words?.getText() ?? '');
+        return unescaped(
+            this.segments.map((segment) => segment.toWordplay()).join('')
+        );
     }
 
-    containsText(text: string) {
-        return this.words && this.words.containsText(text);
+    containsText(text: string): boolean {
+        return this.segments.some(
+            (segment) => segment instanceof Words && segment.containsText(text)
+        );
     }
 
     getGlyphs() {

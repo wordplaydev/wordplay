@@ -74,7 +74,7 @@ import Paragraph from '@nodes/Paragraph';
 import type { Content } from '@nodes/Paragraph';
 import WebLink from '@nodes/WebLink';
 import ConceptLink from '@nodes/ConceptLink';
-import Words from '@nodes/Words';
+import Words, { type Segment } from '@nodes/Words';
 import Example from '@nodes/Example';
 import PropertyBind from '../nodes/PropertyBind';
 import Initial from '../nodes/Initial';
@@ -1430,35 +1430,26 @@ function parseParagraph(tokens: Tokens): Paragraph {
     const content: Content[] = [];
 
     // Read until hitting two newlines or a closing doc symbol.
+    // Stop the paragraph if the content we just parsed has a Words with two or more line breaks.
     while (tokens.hasNext() && tokens.nextIsnt(TokenType.Doc)) {
-        content.push(
-            tokens.nextIs(TokenType.TagOpen)
-                ? parseLink(tokens)
-                : tokens.nextIs(TokenType.Concept)
-                ? parseConceptLink(tokens)
-                : tokens.nextIs(TokenType.ExampleOpen)
-                ? parseExample(tokens)
-                : tokens.nextIsOneOf(
-                      TokenType.Words,
-                      TokenType.Italic,
-                      TokenType.Underline,
-                      TokenType.Light,
-                      TokenType.Bold,
-                      TokenType.Extra
-                  )
-                ? parseWords(tokens)
-                : // Just read the token as a word, even though we don't know what it is.
-                  new Words(undefined, tokens.read(), undefined)
-        );
-
-        // Stop if the content we just parsed has a Words with two or more line breaks.
+        content.push(parseSegment(tokens));
         if (tokens.nextHasMoreThanOneLineBreak()) break;
     }
 
     return new Paragraph(content);
 }
 
-function parseLink(tokens: Tokens): WebLink {
+function parseSegment(tokens: Tokens) {
+    return tokens.nextIs(TokenType.TagOpen)
+        ? parseWebLink(tokens)
+        : tokens.nextIs(TokenType.Concept)
+        ? parseConceptLink(tokens)
+        : tokens.nextIs(TokenType.ExampleOpen)
+        ? parseExample(tokens)
+        : parseWords(tokens);
+}
+
+function parseWebLink(tokens: Tokens): WebLink {
     const open = tokens.read(TokenType.TagOpen);
     const description = tokens.readIf(TokenType.Words);
     const at = tokens.readIf(TokenType.Link);
@@ -1473,37 +1464,45 @@ function parseConceptLink(tokens: Tokens): ConceptLink {
     return new ConceptLink(concept);
 }
 
+const FORMATS = [
+    TokenType.Italic,
+    TokenType.Underline,
+    TokenType.Light,
+    TokenType.Bold,
+    TokenType.Extra,
+];
+
 function parseWords(tokens: Tokens): Words {
     // Read an optional format
-    const open = tokens.nextIsOneOf(
-        TokenType.Italic,
-        TokenType.Underline,
-        TokenType.Light,
-        TokenType.Bold,
-        TokenType.Extra
-    )
-        ? tokens.read()
-        : undefined;
+    const open = tokens.nextIsOneOf(...FORMATS) ? tokens.read() : undefined;
 
-    // Read words
-    const words = tokens.nextIs(TokenType.Words)
-        ? tokens.read(TokenType.Words)
-        : undefined;
+    // Figure out what token type it is.
+    let format: TokenType | undefined = undefined;
+    if (open !== undefined) {
+        const types = new Set(FORMATS);
+        const intersection = open.types.filter((type) => types.has(type));
+        if (intersection.length > 0) format = intersection[0];
+    }
+
+    // Read segments until reaching the matching closing format or the end of the paragraph or the end of the doc or there are no more tokens.
+    const segments: Segment[] = [];
+    while (
+        tokens.hasNext() &&
+        tokens.nextIsnt(TokenType.Doc) &&
+        (format === undefined || !tokens.nextIs(format))
+    ) {
+        segments.push(
+            tokens.nextIs(TokenType.Words)
+                ? tokens.read(TokenType.Words)
+                : parseSegment(tokens)
+        );
+        if (tokens.nextHasMoreThanOneLineBreak()) break;
+    }
 
     // Read closing format if it matches.
-    const close =
-        open &&
-        [
-            TokenType.Italic,
-            TokenType.Underline,
-            TokenType.Light,
-            TokenType.Bold,
-            TokenType.Extra,
-        ].some((type) => open.is(type) && tokens.nextIs(type))
-            ? tokens.read()
-            : undefined;
+    const close = format && tokens.nextIs(format) ? tokens.read() : undefined;
 
-    return new Words(open, words, close);
+    return new Words(open, segments, close);
 }
 
 function parseExample(tokens: Tokens): Example {

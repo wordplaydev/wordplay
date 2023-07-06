@@ -4,6 +4,7 @@
     import type Words from '@nodes/Words';
     import NodeView from './NodeView.svelte';
     import { getCaret } from '../project/Contexts';
+    import NodeSequenceView from './NodeSequenceView.svelte';
 
     export let node: Words;
 
@@ -13,8 +14,8 @@
 </script>
 
 <span class={node.getFormat()}
-    >{#if editing}<NodeView node={node.open} />{/if}<NodeView
-        node={node.words}
+    >{#if editing}<NodeView node={node.open} />{/if}<NodeSequenceView
+        nodes={node.segments}
     />{#if editing}<NodeView node={node.close} />{/if}
 </span>
 

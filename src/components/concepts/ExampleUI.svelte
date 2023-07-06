@@ -14,9 +14,7 @@
     export let spaces: Spaces;
     /** True if this example should show it's value. */
     export let evaluated: boolean;
-
-    /** The code is inline if it has any line breaks. */
-    $: inline = !spaces.hasLineBreaks(example) && !evaluated;
+    export let inline: boolean;
 
     $: project = new Project(
         null,
@@ -58,7 +56,7 @@
 <div class="example" class:evaluated class:inline
     ><CodeView
         node={example.program}
-        inline={!evaluated && inline}
+        {inline}
         {spaces}
         outline={false}
         describe={false}

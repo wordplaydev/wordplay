@@ -10,6 +10,8 @@
     import ExampleUI from './ExampleUI.svelte';
     import type Spaces from '@parser/Spaces';
     import { creator } from '../../db/Creator';
+    import WebLinkHTMLView from './WebLinkHTMLView.svelte';
+    import WordsHTMLView from './WordsHTMLView.svelte';
 
     export let doc: Doc;
     export let spaces: Spaces;
@@ -20,52 +22,27 @@
         class="paragraph"
         class:animated={$creator.getAnimationFactor() > 0}
         style="--delay:{$creator.getAnimationDuration() * index * 0.5}ms"
-    >
-        {#each paragraph.content as content, index}
-            {#if content instanceof WebLink}
-                {#if content.url && content.description}
-                    {#if spaces.getSpace(content.open).length > 0}&nbsp;{/if}<a
-                        href={content.url.getText()}
-                        target="_blank"
-                        rel="noreferrer">{content.description.getText()}</a
-                    >
-                {:else if content.description}
-                    {content.description.getText()}
-                {/if}
-            {:else if content instanceof Example}
-                <ExampleUI
+        >{#each paragraph.content as content}
+            {#if content instanceof WebLink}<WebLinkHTMLView
+                    link={content}
+                    {spaces}
+                />{:else if content instanceof Example}<ExampleUI
                     example={content}
                     {spaces}
                     evaluated={paragraph.content.length === 1}
+                    inline={paragraph.content.length > 1}
+                />{:else if content instanceof ConceptLink}<ConceptLinkUI
+                    link={content}
+                />{:else if content instanceof Words}<WordsHTMLView
+                    words={content}
+                    {spaces}
                 />
-            {:else if content instanceof ConceptLink}
-                <ConceptLinkUI link={content} />
-            {:else if content instanceof Words && content.words}
-                {#if index > 0 && spaces && spaces.getSpace(content.words).length > 0}&nbsp;{/if}<span
-                    class={content.getFormat()}>{content.getText()}</span
-                >
             {/if}
         {/each}
     </p>
 {/each}
 
 <style>
-    .italic {
-        font-style: italic;
-    }
-    .underline {
-        text-decoration: underline;
-    }
-    .light {
-        font-weight: 300;
-    }
-    .bold {
-        font-weight: bold;
-    }
-    .extra {
-        font-weight: 700;
-    }
-
     .paragraph.animated {
         transform: scaleY(0);
         animation-name: pop;
