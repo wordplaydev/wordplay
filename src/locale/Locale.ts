@@ -212,6 +212,7 @@ export function getTokenDescription(token: Token, translation: Locale) {
  * All of these fields must be included in order for a translation to be complete.
  **/
 type Locale = {
+    /** An ISO 639-1 language code */
     language: LanguageCode;
     /** The name of the Wordplay project */
     wordplay: string;
