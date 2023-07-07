@@ -6436,7 +6436,9 @@ Docs can be
                         `\`Learn more at <Wordplay@https://wordplay.dev>.\` "a link!"`
                     ),
                     null,
-                    fit('Phrase("Quiet backstage!")'),
+                    fit(
+                        'Stage([Phrase("Quiet backstage!" rest: Pose(color: Color(100% 0 0°)))] background: Color(0% 0 0°)'
+                    ),
                     dialog(
                         'FunctionDefinition',
                         'excited',
@@ -6451,16 +6453,16 @@ Docs can be
     },
     {
         name: 'Denouement',
-        program: symbol('😨'),
+        program: fit(`Stage([Phrase('😨')] background: Color(0% 0 0°))`),
         scenes: [
             {
                 name: 'Codependency',
                 concept: undefined,
                 program: fit(
-                    `Phrase('😨' rest: Sequence(shake() style: "straight"))`
+                    `Stage([Phrase('😨' rest: Sequence(shake() style: "straight"))] background: Color(0% 0 0°))`
                 ),
                 lines: [
-                    symbol('😡'),
+                    fit(`Stage([Phrase('😡')] background: Color(0% 0 0°))`),
                     dialog(
                         'Evaluate',
                         'sad',
@@ -6472,7 +6474,7 @@ Docs can be
                         `I've been showing our new director…`
                     ),
                     null,
-                    symbol('😢'),
+                    fit(`Stage([Phrase('😢')] background: Color(0% 0 0°))`),
                     dialog(
                         'Evaluate',
                         'shy',
@@ -6484,7 +6486,7 @@ Docs can be
                         `… @Evaluate, I know you missed me. I missed you. But this is big: the silence is broken, we have a new director… I love you, and I know you need me, but I also have things to do.`
                     ),
                     null,
-                    symbol('😠'),
+                    fit(`Stage([Phrase('😠')] background: Color(0% 0 0°))`),
                     dialog(
                         'Evaluate',
                         'sad',
@@ -6496,7 +6498,7 @@ Docs can be
                         `I think we need to talk about it now. We can't keep falling into this cycle.`
                     ),
                     null,
-                    symbol('😓'),
+                    fit(`Stage([Phrase('😓')] background: Color(0% 0 0°))`),
                     dialog(
                         'Evaluate',
                         'curious',
@@ -6514,7 +6516,7 @@ Docs can be
                         Some of that has to come from you.`
                     ),
                     null,
-                    symbol('😭'),
+                    fit(`Stage([Phrase('😭')] background: Color(0% 0 0°))`),
                     dialog('Evaluate', 'sad', `You don't love me?`),
                     dialog(
                         'FunctionDefinition',
@@ -6527,7 +6529,7 @@ Docs can be
                         What do you love about yourself?`
                     ),
                     null,
-                    symbol('🫠'),
+                    fit(`Stage([Phrase('🫠')] background: Color(0% 0 0°))`),
                     dialog('Evaluate', 'shy', `I need … you. I don't need me.`),
                     dialog(
                         'FunctionDefinition',
