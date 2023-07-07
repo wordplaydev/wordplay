@@ -15,9 +15,10 @@ export type TemplateInput =
 /**
  * Takes a localization templae and converts it to a concrete string.
  * The syntax is as follows.
- * To indicate that the string has not yet been written, write an empty string:
+ * To indicate that the string has not yet been written, write an empty string or "$?":
  *
  *      ""
+ *      "$?"
  *
  * To refer to an input, use a $, followed by the number of the input desired,
  * starting from 1.
@@ -49,7 +50,7 @@ export default function concretize(
     ...inputs: TemplateInput[]
 ): Description {
     // Not written? Return the TBD string.
-    if (template === '') return Description.as(locale.tbd);
+    if (template === '' || template === '$?') return Description.as(locale.tbd);
 
     return (
         parse(locale, new Template(template), ...inputs) ?? Description.as('-')
