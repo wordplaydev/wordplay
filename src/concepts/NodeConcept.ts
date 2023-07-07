@@ -7,6 +7,7 @@ import type Purpose from './Purpose';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import type Spaces from '../parser/Spaces';
 import type Doc from '../nodes/Doc';
+import type Emotion from '../lore/Emotion';
 
 export default class NodeConcept extends Concept {
     readonly template: Node;
@@ -28,7 +29,7 @@ export default class NodeConcept extends Concept {
 
     /** Returns the emotions for the glyphs */
     getEmotion(translation: Locale) {
-        return this.template.getNodeLocale(translation).emotion;
+        return this.template.getNodeLocale(translation).emotion as Emotion;
     }
 
     /** Nodes can be matched by two names: the locale-specific one or the key in the locale
