@@ -55,8 +55,8 @@ export default class ConversionConcept extends Concept {
         return doc ? [doc, this.context.source.spaces] : undefined;
     }
 
-    getName(translation: Locale) {
-        return this.definition.getDescription(translation, this.context);
+    getName(locale: Locale) {
+        return this.definition.getDescription(locale, this.context).toString();
     }
 
     getRepresentation() {

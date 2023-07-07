@@ -25,6 +25,7 @@ import FunctionValue from '../runtime/FunctionValue';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import AnyType from './AnyType';
 import FunctionType from './FunctionType';
+import concretize from '../locale/locales/concretize';
 
 export default class UnaryOperation extends Expression {
     readonly operator: Token;
@@ -189,19 +190,23 @@ export default class UnaryOperation extends Expression {
         return translation.node.UnaryOperation;
     }
 
-    getStartExplanations(translation: Locale, context: Context) {
-        return translation.node.UnaryOperation.start(
-            new NodeLink(this.operand, translation, context)
+    getStartExplanations(locale: Locale, context: Context) {
+        return concretize(
+            locale,
+            locale.node.UnaryOperation.start,
+            new NodeLink(this.operand, locale, context)
         );
     }
 
     getFinishExplanations(
-        translation: Locale,
+        locale: Locale,
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.node.UnaryOperation.finish(
-            this.getValueIfDefined(translation, context, evaluator)
+        return concretize(
+            locale,
+            locale.node.UnaryOperation.finish,
+            this.getValueIfDefined(locale, context, evaluator)
         );
     }
 

@@ -5,6 +5,7 @@ import type Token from '@nodes/Token';
 import Value from './Value';
 import NodeLink from '@locale/NodeLink';
 import ValueLink from '@locale/ValueLink';
+import concretize from '../locale/locales/concretize';
 
 export default class NameException extends Exception {
     readonly name: Token | undefined;
@@ -21,12 +22,14 @@ export default class NameException extends Exception {
         this.scope = scope;
     }
 
-    getDescription(translation: Locale) {
-        return translation.exceptions.name(
+    getDescription(locale: Locale) {
+        return concretize(
+            locale,
+            locale.exceptions.name,
             this.name
                 ? new NodeLink(
                       this.name,
-                      translation,
+                      locale,
                       this.getNodeContext(this.name),
                       this.name.getText()
                   )
@@ -34,7 +37,7 @@ export default class NameException extends Exception {
             this.scope instanceof Value
                 ? new ValueLink(
                       this.scope,
-                      translation,
+                      locale,
                       this.getNodeContext(this.scope.creator)
                   )
                 : undefined

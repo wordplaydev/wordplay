@@ -2,6 +2,7 @@ import type Bind from '@nodes/Bind';
 import type Token from '@nodes/Token';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
+import concretize from '../locale/locales/concretize';
 
 export class MisplacedShare extends Conflict {
     readonly bind: Bind;
@@ -18,7 +19,10 @@ export class MisplacedShare extends Conflict {
             primary: {
                 node: this.share,
                 explanation: (translation: Locale) =>
-                    translation.conflict.MisplacedShare.primary,
+                    concretize(
+                        translation,
+                        translation.conflict.MisplacedShare
+                    ),
             },
         };
     }

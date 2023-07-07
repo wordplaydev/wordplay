@@ -4,6 +4,7 @@ import type Type from '@nodes/Type';
 import NodeLink from '@locale/NodeLink';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
+import concretize from '../locale/locales/concretize';
 
 export class UnknownConversion extends Conflict {
     readonly convert: Convert;
@@ -19,10 +20,12 @@ export class UnknownConversion extends Conflict {
         return {
             primary: {
                 node: this.convert.type,
-                explanation: (translation: Locale, context: Context) =>
-                    translation.conflict.UnknownConversion.primary(
-                        new NodeLink(this.expectedType, translation, context),
-                        new NodeLink(this.convert.type, translation, context)
+                explanation: (locale: Locale, context: Context) =>
+                    concretize(
+                        locale,
+                        locale.conflict.UnknownConversion,
+                        new NodeLink(this.expectedType, locale, context),
+                        new NodeLink(this.convert.type, locale, context)
                     ),
             },
         };

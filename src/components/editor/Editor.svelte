@@ -66,6 +66,7 @@
     import Expression from '../../nodes/Expression';
     import { TYPE_SYMBOL } from '../../parser/Symbols';
     import { creator } from '../../db/Creator';
+    import concretize from '../../locale/locales/concretize';
 
     export let evaluator: Evaluator;
     export let project: Project;
@@ -1298,20 +1299,20 @@
                       ) +
                       (caretExpressionType ? `, ${caretExpressionType}` : '')
                     : $caret.tokenExcludingSpace
-                    ? $creator
-                          .getLocale()
-                          .caret.before(source.code.at($caret.position) ?? '')
+                    ? concretize(
+                          $creator.getLocale(),
+                          $creator.getLocale().caret.before,
+                          source.code.at($caret.position) ?? ''
+                      )
                     : $caret.tokenIncludingSpace
-                    ? $creator
-                          .getLocale()
-                          .caret.before(
-                              $caret.tokenIncludingSpace.getDescription(
-                                  $creator.getLocale(),
-                                  project.getNodeContext(
-                                      $caret.tokenIncludingSpace
-                                  )
-                              )
+                    ? concretize(
+                          $creator.getLocale(),
+                          $creator.getLocale().caret.before,
+                          $caret.tokenIncludingSpace.getDescription(
+                              $creator.getLocale(),
+                              project.getNodeContext($caret.tokenIncludingSpace)
                           )
+                      )
                     : ''}</div
             ></div
         >

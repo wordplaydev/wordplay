@@ -9,6 +9,7 @@ import type Locale from '@locale/Locale';
 import NodeLink from '@locale/NodeLink';
 import type Context from '@nodes/Context';
 import type StreamDefinition from '../nodes/StreamDefinition';
+import concretize from '../locale/locales/concretize';
 
 export default class UnexpectedInputs extends Conflict {
     readonly func: FunctionDefinition | StructureDefinition | StreamDefinition;
@@ -30,13 +31,15 @@ export default class UnexpectedInputs extends Conflict {
         return {
             primary: {
                 node: this.input,
-                explanation: (translation: Locale, context: Context) =>
-                    translation.conflict.UnexpectedInput.primary(
+                explanation: (locale: Locale, context: Context) =>
+                    concretize(
+                        locale,
+                        locale.conflict.UnexpectedInput.primary,
                         new NodeLink(
                             this.evaluate instanceof Evaluate
                                 ? this.evaluate.func
                                 : this.evaluate.operator,
-                            translation,
+                            locale,
                             context
                         )
                     ),
@@ -46,9 +49,11 @@ export default class UnexpectedInputs extends Conflict {
                     this.evaluate instanceof Evaluate
                         ? this.evaluate.func
                         : this.evaluate.operator,
-                explanation: (translation: Locale, context: Context) =>
-                    translation.conflict.UnexpectedInput.secondary(
-                        new NodeLink(this.input, translation, context)
+                explanation: (locale: Locale, context: Context) =>
+                    concretize(
+                        locale,
+                        locale.conflict.UnexpectedInput.secondary,
+                        new NodeLink(this.input, locale, context)
                     ),
             },
         };

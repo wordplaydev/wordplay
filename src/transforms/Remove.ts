@@ -4,6 +4,7 @@ import Node from '@nodes/Node';
 import Caret from '../components/editor/util/Caret';
 import type Context from '@nodes/Context';
 import type Locale from '@locale/Locale';
+import concretize from '../locale/locales/concretize';
 
 /**
  * Remove a node from sequence of nodes in a parent.
@@ -86,9 +87,11 @@ export default class Remove extends Transform {
         return parent;
     }
 
-    getDescription(translation: Locale) {
-        return translation.transform.remove(
-            this.getNewNode().getLabel(translation)
+    getDescription(locale: Locale) {
+        return concretize(
+            locale,
+            locale.transform.remove,
+            this.getNewNode().getLabel(locale)
         );
     }
 

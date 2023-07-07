@@ -4,6 +4,7 @@ import type StructureDefinition from '@nodes/StructureDefinition';
 import NodeLink from '@locale/NodeLink';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
+import concretize from '../locale/locales/concretize';
 
 export class UnimplementedInterface extends Conflict {
     readonly structure: StructureDefinition;
@@ -26,7 +27,9 @@ export class UnimplementedInterface extends Conflict {
             primary: {
                 node: this.structure.names,
                 explanation: (translation: Locale, context: Context) =>
-                    translation.conflict.UnimplementedInterface.primary(
+                    concretize(
+                        translation,
+                        translation.conflict.UnimplementedInterface,
                         new NodeLink(
                             this.interfaceStructure,
                             translation,

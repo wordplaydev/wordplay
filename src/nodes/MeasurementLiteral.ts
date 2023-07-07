@@ -18,6 +18,7 @@ import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type Decimal from 'decimal.js';
+import concretize, { type TemplateInput } from '../locale/locales/concretize';
 
 export default class MeasurementLiteral extends Literal {
     readonly number: Token;
@@ -113,13 +114,19 @@ export default class MeasurementLiteral extends Literal {
         return translation.node.MeasurementLiteral;
     }
 
-    getStartExplanations(translation: Locale, context: Context) {
-        return translation.node.MeasurementLiteral.start(
-            new NodeLink(this.number, translation, context)
+    getStartExplanations(locale: Locale, context: Context) {
+        return concretize(
+            locale,
+            locale.node.MeasurementLiteral.start,
+            new NodeLink(this.number, locale, context)
         );
     }
 
     getGlyphs() {
         return Glyphs.Measurement;
+    }
+
+    getDescriptionInputs(_: Locale, __: Context): TemplateInput[] {
+        return [this.number.getText(), this.unit.toWordplay()];
     }
 }

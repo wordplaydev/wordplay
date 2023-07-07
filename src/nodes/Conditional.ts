@@ -22,6 +22,7 @@ import type Locale from '@locale/Locale';
 import NodeLink from '@locale/NodeLink';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
+import concretize from '../locale/locales/concretize';
 
 export default class Conditional extends Expression {
     readonly condition: Expression;
@@ -186,19 +187,23 @@ export default class Conditional extends Expression {
         return translation.node.Conditional;
     }
 
-    getStartExplanations(translation: Locale, context: Context) {
-        return translation.node.Conditional.start(
-            new NodeLink(this.condition, translation, context)
+    getStartExplanations(locale: Locale, context: Context) {
+        return concretize(
+            locale,
+            locale.node.Conditional.start,
+            new NodeLink(this.condition, locale, context)
         );
     }
 
     getFinishExplanations(
-        translation: Locale,
+        locale: Locale,
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.node.Conditional.finish(
-            this.getValueIfDefined(translation, context, evaluator)
+        return concretize(
+            locale,
+            locale.node.Conditional.finish,
+            this.getValueIfDefined(locale, context, evaluator)
         );
     }
 

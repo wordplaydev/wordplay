@@ -2,6 +2,7 @@ import type Expression from '@nodes/Expression';
 import Conflict from './Conflict';
 import type Locale from '@locale/Locale';
 import type Block from '../nodes/Block';
+import concretize from '../locale/locales/concretize';
 
 export class IgnoredExpression extends Conflict {
     readonly block: Block;
@@ -17,13 +18,19 @@ export class IgnoredExpression extends Conflict {
         return {
             primary: {
                 node: this.block,
-                explanation: (translation: Locale) =>
-                    translation.conflict.IgnoredExpression.primary,
+                explanation: (locale: Locale) =>
+                    concretize(
+                        locale,
+                        locale.conflict.IgnoredExpression.primary
+                    ),
             },
             secondary: {
                 node: this.expr,
-                explanation: (translation: Locale) =>
-                    translation.conflict.IgnoredExpression.secondary,
+                explanation: (locale: Locale) =>
+                    concretize(
+                        locale,
+                        locale.conflict.IgnoredExpression.secondary
+                    ),
             },
         };
     }

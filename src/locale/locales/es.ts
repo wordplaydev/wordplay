@@ -1,46 +1,21 @@
-import type Context from '@nodes/Context';
-import TokenType from '@nodes/TokenType';
-import type UnknownType from '@nodes/UnknownType';
 import type Locale from '../Locale';
-import type ListType from '@nodes/ListType';
-import type MapType from '@nodes/MapType';
-import type MeasurementLiteral from '@nodes/MeasurementLiteral';
-import type NameType from '@nodes/NameType';
-import type Reference from '@nodes/Reference';
-import type SetType from '@nodes/SetType';
-import type StreamType from '@nodes/StreamType';
-import type UnionType from '@nodes/UnionType';
 import {
     AND_SYMBOL,
     OR_SYMBOL,
     NOT_SYMBOL,
     PRODUCT_SYMBOL,
-    PROPERTY_SYMBOL,
     TRUE_SYMBOL,
     FALSE_SYMBOL,
     SUM_SYMBOL,
 } from '@parser/Symbols';
-import {
-    getDimensionDescription,
-    getEvaluateDescription,
-    getLanguageDescription,
-    getPlaceholderDescription,
-    getTokenDescription,
-    type Description,
-} from '../Locale';
-import type CycleType from '@nodes/CycleType';
-import type UnknownNameType from '@nodes/UnknownNameType';
-import Explanation from '../Explanation';
-import type NodeLink from '../NodeLink';
-import type StreamDefinitionType from '../../nodes/StreamDefinitionType';
 import Emotion from '../../lore/Emotion';
-import Unit from '@nodes/Unit';
 
 const WRITE_DOC = 'pendiante';
 
 const eng_wordplay: Locale = {
     language: 'es',
     wordplay: 'PalabraJugar',
+    tbd: 'no escrito',
     welcome: 'hola',
     motto: 'Donde las palabras cobran vida',
     terminology: {
@@ -60,10 +35,11 @@ const eng_wordplay: Locale = {
         start: 'comenzar',
         entered: 'ingresó',
         changed: 'cambiada',
+        name: 'nombre',
     },
     caret: {
-        before: (description) => `antes de ${description}`,
-        inside: (description) => `dentro de ${description}`,
+        before: 'antes de $1',
+        inside: 'dentro de $1',
     },
     data: {
         value: 'avaluar',
@@ -162,7 +138,7 @@ const eng_wordplay: Locale = {
     node: {
         Dimension: {
             name: 'dimensión',
-            description: getDimensionDescription,
+            description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
         },
@@ -186,19 +162,19 @@ const eng_wordplay: Locale = {
         },
         Language: {
             name: 'lengua',
-            description: getLanguageDescription,
+            description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
         },
         Name: {
             name: 'nombre',
-            description: (name) => name.name?.getText(),
+            description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
         },
         Names: {
             name: 'lista de nombres',
-            description: (names) => `${names.names.length} nombres`,
+            description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
         },
@@ -210,7 +186,7 @@ const eng_wordplay: Locale = {
         },
         Token: {
             name: 'token',
-            description: getTokenDescription,
+            description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
         },
@@ -264,77 +240,54 @@ const eng_wordplay: Locale = {
         },
         BinaryOperation: {
             name: 'operación binaria',
-            description: (op) => op.operator.getText(),
+            description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
             right: 'input',
-            start: (left) => Explanation.as('evaluating ', left, ' first'),
-            finish: (result) =>
-                Explanation.as('evaluated to ', result ?? ' nothing'),
+            start: WRITE_DOC,
+            finish: WRITE_DOC,
         },
         Bind: {
             name: 'nombrar',
-            description: (bind) => bind.names.getNames().join(', '),
+            description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            start: (value) =>
-                value
-                    ? Explanation.as('evaluate ', value, ' first')
-                    : 'no value',
-            finish: (value, names) =>
-                value
-                    ? Explanation.as('giving ', value, ' the name ', names)
-                    : 'no value',
+            start: WRITE_DOC,
+            finish: WRITE_DOC,
         },
         Block: {
             name: 'block',
-            description: (block) => `${block.statements.length} declaración`,
+            description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            statement: 'statement',
-            start: 'start evaluating the statements',
-            finish: (value) =>
-                Explanation.as('block evaluated to ', value ?? 'nothing'),
+            statement: WRITE_DOC,
+            start: WRITE_DOC,
+            finish: WRITE_DOC,
         },
         BooleanLiteral: {
             name: 'boolean',
-            description: (literal) => (literal.bool() ? 'verdadera' : 'falsa'),
+            description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            start: (value) => Explanation.as('create a ', value),
+            start: WRITE_DOC,
         },
         Borrow: {
             name: 'pedir prestado',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            start: (source, name) =>
-                name === undefined && source === undefined
-                    ? 'borrowing nothing'
-                    : name === undefined && source !== undefined
-                    ? Explanation.as('borrow ', source)
-                    : Explanation.as(
-                          'borrow ',
-                          name ?? ' unspecified name ',
-                          ' from ',
-                          source ?? ' unspecified source'
-                      ),
-            source: 'source',
-            bind: 'name',
-            version: 'version',
+            start: WRITE_DOC,
+            source: WRITE_DOC,
+            bind: WRITE_DOC,
+            version: WRITE_DOC,
         },
         Changed: {
             name: 'Cambiada',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            start: (stream: NodeLink) =>
-                Explanation.as(
-                    'check if ',
-                    stream,
-                    ' caused this program to reevaluate'
-                ),
-            stream: 'stream',
+            start: WRITE_DOC,
+            stream: WRITE_DOC,
         },
         Conditional: {
             name: 'condicional',
@@ -353,89 +306,74 @@ const eng_wordplay: Locale = {
             Sí, no, si, si no, esto, aquello.
             Es mi pequeña forma de mantener las cosas organizadas, incluso ante tanta complejidad.
             `,
-            start: (condition) => Explanation.as('check ', condition, ' first'),
-            finish: (value) =>
-                Explanation.as(
-                    'conditional evaluated to ',
-                    value ?? ' nothing'
-                ),
-            condition: 'condition',
-            yes: 'yes',
-            no: 'no',
+            start: WRITE_DOC,
+            finish: WRITE_DOC,
+            condition: WRITE_DOC,
+            yes: WRITE_DOC,
+            no: WRITE_DOC,
         },
         ConversionDefinition: {
             name: 'conversión',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            start: 'define this conversion',
+            start: WRITE_DOC,
         },
         Convert: {
             name: 'convertir',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            start: (expr) => Explanation.as('first evaluate ', expr),
-            finish: (value) =>
-                Explanation.as('converted to ', value ?? 'nothing'),
+            start: WRITE_DOC,
+            finish: WRITE_DOC,
         },
         Delete: {
             name: 'delete row',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            start: (table) => Explanation.as('evaluate ', table, ' first'),
-            finish: (value) =>
-                Explanation.as(
-                    'evaluated to table without rows, ',
-                    value ?? 'nothing'
-                ),
+            start: WRITE_DOC,
+            finish: WRITE_DOC,
         },
         DocumentedExpression: {
             name: 'expresión documentada',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            start: 'evaluate the documented expression',
+            start: WRITE_DOC,
         },
         Evaluate: {
             name: 'evaluar',
-            description: getEvaluateDescription,
+            description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            start: (inputs) =>
-                inputs
-                    ? 'evaluate the inputs first'
-                    : 'get the function to evaluate',
-            finish: (result) =>
-                Explanation.as('function evaluated to ', result ?? 'nothing'),
-            function: 'function',
-            input: 'input',
+            start: WRITE_DOC,
+            finish: WRITE_DOC,
+            function: WRITE_DOC,
+            input: WRITE_DOC,
         },
         ExpressionPlaceholder: {
             name: 'marcador de posición',
-            description: getPlaceholderDescription,
+            description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            start: 'cannot evaluate a placeholder',
-            placeholder: 'expresión',
+            start: WRITE_DOC,
+            placeholder: WRITE_DOC,
         },
         FunctionDefinition: {
             name: 'función',
-            description: (fun, translation) =>
-                fun.names.getLocaleText(translation.language),
+            description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            start: 'define this function',
+            start: WRITE_DOC,
         },
         HOF: {
             name: 'función de orden superior',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            start: 'evaluating the function given',
-            finish: (value) =>
-                Explanation.as('evaluated to ', value ?? 'nothing'),
+            start: WRITE_DOC,
+            finish: WRITE_DOC,
         },
         Initial: {
             name: 'evaluación inicial',
@@ -448,153 +386,94 @@ const eng_wordplay: Locale = {
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            start: (table) => Explanation.as('evaluate ', table, ' first'),
-            finish: (value) =>
-                Explanation.as(
-                    'evaluated to table new rows, ',
-                    value ?? 'nothing'
-                ),
+            start: WRITE_DOC,
+            finish: WRITE_DOC,
         },
         Is: {
             name: 'es',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            start: (value) => Explanation.as('evaluate ', value, ' first'),
-            finish: (is, type) =>
-                is
-                    ? Explanation.as('value is ', type, ', evaluating to true')
-                    : Explanation.as(
-                          'value is not ',
-                          type,
-                          ' evaluating to false'
-                      ),
+            start: WRITE_DOC,
+            finish: WRITE_DOC,
         },
         ListAccess: {
             name: 'acceso a la lista',
             description: '',
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            start: (list) => Explanation.as('evaluate ', list, ' first'),
-            finish: (value) =>
-                Explanation.as('item at index is ', value ?? 'nothing'),
+            start: WRITE_DOC,
+            finish: WRITE_DOC,
         },
         ListLiteral: {
             name: 'lista',
-            description: (literal) =>
-                literal.values.length === 1
-                    ? '1 elemento'
-                    : `${literal.values.length} elementos`,
+            description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            start: 'evaluate items first',
-            finish: (value) =>
-                Explanation.as('evaluated to list ', value ?? 'nothing'),
-            item: 'item',
+            start: WRITE_DOC,
+            finish: WRITE_DOC,
+            item: WRITE_DOC,
         },
         MapLiteral: {
             name: 'índice',
-            description: (literal) =>
-                literal.values.length === 1
-                    ? '1 elemento'
-                    : `${literal.values.length} elementos`,
+            description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            start: 'evaluate each key and value first',
-            finish: (value) =>
-                Explanation.as('evaluated to map ', value ?? 'nothing'),
+            start: WRITE_DOC,
+            finish: WRITE_DOC,
         },
         MeasurementLiteral: {
-            name: 'number',
-            description: (node: MeasurementLiteral) =>
-                node.number.is(TokenType.Pi)
-                    ? 'pi'
-                    : node.number.is(TokenType.Infinity)
-                    ? 'infinidad'
-                    : node.unit.isUnitless()
-                    ? node.number.getText()
-                    : `${node.number.getText()} ${node.unit.toWordplay()}`,
+            name: 'número',
+            description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            start: (value) => Explanation.as('evaluate to ', value),
+            start: WRITE_DOC,
         },
         NativeExpression: {
             name: 'expresión incorporada',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            start: 'evaluate the built-in expression',
+            start: WRITE_DOC,
         },
         NoneLiteral: {
             name: 'nada',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            start: 'create a nothing value',
+            start: WRITE_DOC,
         },
         Previous: {
             name: 'previa',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            start: (stream) => Explanation.as('first get ', stream),
-            finish: (value) =>
-                Explanation.as(
-                    'evaluated to stream value ',
-                    value ?? 'nothing'
-                ),
+            start: WRITE_DOC,
+            finish: WRITE_DOC,
         },
         Program: {
             name: 'programa',
             description: '',
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            start: (changes) =>
-                changes.length === 0
-                    ? 'evaluating program for the first time'
-                    : changes.length === 1
-                    ? Explanation.as(
-                          changes[0].stream,
-                          ' produced ',
-                          changes[0].value,
-                          ' revaluating program'
-                      )
-                    : Explanation.as(
-                          `${changes.length} streams changed (e.g., `,
-                          changes[0].stream,
-                          ' → ',
-                          changes[0].value,
-                          '); revaluating program'
-                      ),
-            finish: (value) =>
-                Explanation.as('program evaluated to ', value ?? 'nothing'),
+            start: WRITE_DOC,
+            finish: WRITE_DOC,
         },
         PropertyBind: {
             name: 'refinar',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            start: 'get the structure',
-            finish: (structure) =>
-                structure
-                    ? Explanation.as('created new structure ', structure)
-                    : 'no structure created',
+            start: WRITE_DOC,
+            finish: WRITE_DOC,
         },
         PropertyReference: {
             name: 'acceso a la propiedad',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            start: 'first get the value',
-            finish: (property, value) =>
-                property
-                    ? Explanation.as(
-                          'property ',
-                          property,
-                          'is ',
-                          value ?? 'nothing'
-                      )
-                    : 'no property name given, no value',
+            start: WRITE_DOC,
+            finish: WRITE_DOC,
             property: 'propiedad',
         },
         Reaction: {
@@ -602,55 +481,42 @@ const eng_wordplay: Locale = {
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            start: 'first check if the stream has changed',
-            finish: (value) =>
-                Explanation.as(
-                    'the stream value is currently ',
-                    value ?? 'nothing'
-                ),
+            start: WRITE_DOC,
+            finish: WRITE_DOC,
             initial: 'inicial',
             condition: 'condición',
             next: 'próxima',
         },
         Reference: {
             name: 'referencia',
-            description: (node: Reference) => node.getName(),
+            description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            start: (name) => Explanation.as('get the value of ', name),
+            start: WRITE_DOC,
         },
         Select: {
             name: 'seleccionar',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            start: (table) => Explanation.as('evaluate ', table, ' first'),
-            finish: (value) =>
-                Explanation.as(
-                    'evaluated to a new table with the selected rows, ',
-                    value ?? 'nothing'
-                ),
+            start: WRITE_DOC,
+            finish: WRITE_DOC,
         },
         SetLiteral: {
             name: 'recopilación',
-            description: (literal) =>
-                literal.values.length === 1
-                    ? '1 elemento'
-                    : `${literal.values.length} elementos`,
+            description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
             start: WRITE_DOC,
-            finish: (value) =>
-                Explanation.as('evaluated to set ', value ?? 'nothing'),
+            finish: WRITE_DOC,
         },
         SetOrMapAccess: {
             name: 'acceso al conjunto/mapa',
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            start: (set) => Explanation.as('evaluate ', set, ' first'),
-            finish: (value) =>
-                Explanation.as('item in  with key is ', value ?? 'nothing'),
+            start: WRITE_DOC,
+            finish: WRITE_DOC,
         },
         Source: {
             name: 'documento',
@@ -667,8 +533,7 @@ const eng_wordplay: Locale = {
         },
         StructureDefinition: {
             name: 'estructura',
-            description: (structure, translation) =>
-                structure.names.getLocaleText(translation.language),
+            description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
             start: 'define this structure type',
@@ -680,8 +545,7 @@ const eng_wordplay: Locale = {
             doc: WRITE_DOC,
             item: 'row',
             start: 'first evaluate the rows',
-            finish: (table) =>
-                Explanation.as('evaluated to new table ', table ?? 'nothing'),
+            finish: WRITE_DOC,
         },
         Template: {
             name: 'plantilla de texto',
@@ -693,7 +557,7 @@ const eng_wordplay: Locale = {
         },
         TextLiteral: {
             name: 'texto',
-            description: (text) => text.getText(),
+            description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
             start: WRITE_DOC,
@@ -703,17 +567,15 @@ const eng_wordplay: Locale = {
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            start: (value) =>
-                Explanation.as('evaluated to ', value ?? 'nothing'),
+            start: WRITE_DOC,
         },
         UnaryOperation: {
             name: 'operación unaria',
-            description: (op) => op.operator.getText(),
+            description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            start: (value) => Explanation.as('evaluate the ', value),
-            finish: (value) =>
-                Explanation.as('evaluated to ', value ?? 'nothing'),
+            start: WRITE_DOC,
+            finish: WRITE_DOC,
         },
         UnparsableExpression: {
             name: 'no analizable',
@@ -727,12 +589,8 @@ const eng_wordplay: Locale = {
             description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
-            start: (table) => Explanation.as('evaluate ', table, ' first'),
-            finish: (value) =>
-                Explanation.as(
-                    'evaluated to a new table with revised rows, ',
-                    value ?? 'nothing'
-                ),
+            start: WRITE_DOC,
+            finish: WRITE_DOC,
         },
         AnyType: {
             name: 'tipo de cualquier',
@@ -772,48 +630,25 @@ const eng_wordplay: Locale = {
         },
         ListType: {
             name: 'tipo de lista',
-            description: (
-                node: ListType,
-                translation: Locale,
-                context: Context
-            ) =>
-                node.type === undefined
-                    ? 'list'
-                    : `list of ${node.type.getDescription(
-                          translation,
-                          context
-                      )}`,
+            description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
         },
         MapType: {
             name: 'tipo de índice',
-            description: (
-                node: MapType,
-                translation: Locale,
-                context: Context
-            ) =>
-                node.key === undefined || node.value === undefined
-                    ? 'map'
-                    : `map of ${node.key.getDescription(
-                          translation,
-                          context
-                      )} to ${node.value.getDescription(translation, context)}`,
+            description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
         },
         MeasurementType: {
             name: 'tipo de número',
-            description: (node, translation, context) =>
-                node.unit instanceof Unit
-                    ? node.unit.getDescription(translation, context)
-                    : 'number',
+            description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
         },
         NameType: {
             name: 'tipo de nombre',
-            description: (node: NameType) => `a ${node.name.getText()}`,
+            description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
         },
@@ -831,29 +666,19 @@ const eng_wordplay: Locale = {
         },
         SetType: {
             name: 'tipo de recopilación',
-            description: (node: SetType, translation: Locale) =>
-                node.key === undefined
-                    ? 'algo'
-                    : node.key.getLabel(translation),
+            description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
         },
         StreamDefinitionType: {
             name: 'streamtipo de arroyo',
-            description: (node: StreamDefinitionType, translation: Locale) =>
-                `a ${node.definition.names.getLocaleText(
-                    translation.language
-                )} stream`,
+            description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
         },
         StreamType: {
             name: 'streamtipo de arroyo',
-            description: (
-                node: StreamType,
-                translation: Locale,
-                context: Context
-            ) => `stream of ${node.type.getDescription(translation, context)}`,
+            description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
         },
@@ -865,16 +690,9 @@ const eng_wordplay: Locale = {
         },
         UnknownType: {
             name: 'desconocida',
-            description: (
-                node: UnknownType<any>,
-                translation: Locale,
-                context: Context
-            ) => {
-                return `unknown, because ${node
-                    .getReasons()
-                    .map((unknown) => unknown.getReason(translation, context))
-                    .join(', because ')}`;
-            },
+            description: WRITE_DOC,
+            unknown: WRITE_DOC,
+            connector: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
         },
@@ -886,8 +704,7 @@ const eng_wordplay: Locale = {
         },
         TextType: {
             name: 'tipo de texto',
-            description: (node) =>
-                node.isLiteral() ? node.text.getText() : 'text',
+            description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
         },
@@ -899,32 +716,13 @@ const eng_wordplay: Locale = {
         },
         UnionType: {
             name: 'tipo de opción',
-            description: (
-                node: UnionType,
-                translation: Locale,
-                context: Context
-            ) =>
-                `${node.left.getDescription(
-                    translation,
-                    context
-                )}${OR_SYMBOL}${node.right.getDescription(
-                    translation,
-                    context
-                )}`,
+            description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
         },
         Unit: {
             name: 'unidad de medida',
-            description: (node, translation, context) =>
-                node.exponents.size === 0
-                    ? 'numero'
-                    : node.numerator.length === 1 &&
-                      node.denominator.length === 0
-                    ? node.numerator[0].getDescription(translation, context)
-                    : node.toWordplay() === 'm/s'
-                    ? 'velocidad'
-                    : node.toWordplay(),
+            description: '$1',
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
         },
@@ -942,8 +740,7 @@ const eng_wordplay: Locale = {
         },
         CycleType: {
             name: 'tipo de ciclo',
-            description: (node: CycleType) =>
-                `${node.expression.toWordplay()} depende de si mismo`,
+            description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
         },
@@ -955,8 +752,7 @@ const eng_wordplay: Locale = {
         },
         NotAType: {
             name: 'tipo sin lista',
-            description: (expected, locale, context) =>
-                `tipo sin ${expected.getDescription(locale, context)}`,
+            description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
         },
@@ -980,10 +776,7 @@ const eng_wordplay: Locale = {
         },
         UnknownNameType: {
             name: 'tipo de nombre desconocido',
-            description: (node: UnknownNameType) =>
-                node.name === undefined
-                    ? 'no se dio nombre'
-                    : `${node.name.getText()} no está definido`,
+            description: WRITE_DOC,
             emotion: Emotion.Neutral,
             doc: WRITE_DOC,
         },
@@ -1482,336 +1275,128 @@ const eng_wordplay: Locale = {
         },
     },
     exceptions: {
-        blank: () =>
-            '¡Estoy tan emocionada de montar un espectáculo contigo! ¿Por dónde deberíamos empezar?',
-        function: (node, type) =>
-            Explanation.as(
-                'no function named ',
-                node,
-                ' in ',
-                type === undefined ? ' scope' : type
-            ),
-        name: (node, scope) =>
-            node
-                ? Explanation.as(
-                      'There is no value named ',
-                      node,
-                      ' in ',
-                      scope === undefined ? ' this @Block' : scope
-                  )
-                : Explanation.as('There was no name given'),
-        cycle: (node) => Explanation.as(node, ' depends on itself'),
-        functionlimit: (fun) =>
-            Explanation.as('evaluated too many functions, especially ', fun),
-        steplimit: 'evaluated too many steps in this function',
-        type: (expected, given) =>
-            Explanation.as('expected ', expected, ' but received ', given),
-        placeholder: (node) =>
-            Explanation.as('this ', node, ' is not implemented'),
-        unparsable: (node) => Explanation.as('this ', node, ' is not parsable'),
-        value: (node) =>
-            Explanation.as(node, ' expected a value, but did not receive one'),
+        blank: '¡Estoy tan emocionada de montar un espectáculo contigo! ¿Por dónde deberíamos empezar?',
+        function: WRITE_DOC,
+        name: WRITE_DOC,
+        cycle: WRITE_DOC,
+        functionlimit: WRITE_DOC,
+        steplimit: WRITE_DOC,
+        type: WRITE_DOC,
+        placeholder: WRITE_DOC,
+        unparsable: WRITE_DOC,
+        value: WRITE_DOC,
     },
     conflict: {
-        BorrowCycle: {
-            primary: (borrow) =>
-                Explanation.as(
-                    'this depends on ',
-                    borrow,
-                    " which depends on this source, so the program can't be evaluated"
-                ),
-        },
-        ReferenceCycle: {
-            primary: (ref) =>
-                Explanation.as(
-                    ref,
-                    ' depends on itself, so it cannot be evaluated'
-                ),
-        },
-        DisallowedInputs: {
-            primary:
-                'inputs on interfaces not allowed because one or more of its functions are unimplemented',
-        },
+        BorrowCycle: WRITE_DOC,
+        ReferenceCycle: WRITE_DOC,
+        DisallowedInputs: WRITE_DOC,
         DuplicateName: {
-            primary: (name) =>
-                Explanation.as(
-                    name,
-                    ' is already defined, which might intend to refer to the other bind with the same name'
-                ),
-            secondary: (name) =>
-                Explanation.as('this is overwritten by ', name),
+            primary: WRITE_DOC,
+            secondary: WRITE_DOC,
         },
         DuplicateShare: {
-            primary: (bind) =>
-                Explanation.as(
-                    'has the same name as ',
-                    bind,
-                    ', which makes what is shared ambiguous'
-                ),
-            secondary: (bind) =>
-                Explanation.as(
-                    'has the same name as ',
-                    bind,
-                    ', which makes what is shared ambiguous'
-                ),
+            primary: WRITE_DOC,
+            secondary: WRITE_DOC,
         },
         DuplicateTypeVariable: {
-            primary: (dupe) =>
-                Explanation.as('this has the same name as ', dupe),
-            secondary: (dupe) =>
-                Explanation.as('this has the same name as ', dupe),
+            primary: WRITE_DOC,
+            secondary: WRITE_DOC,
         },
         ExpectedBooleanCondition: {
-            primary: (type: NodeLink) =>
-                Explanation.as(
-                    WRITE_DOC + 'expected boolean condition but received ',
-                    type
-                ),
-            secondary: (type: NodeLink) =>
-                Explanation.as(
-                    WRITE_DOC + 'expected boolean condition but received ',
-                    type
-                ),
+            primary: WRITE_DOC,
+            secondary: WRITE_DOC,
         },
-        ExpectedColumnType: {
-            primary: (bind) =>
-                Explanation.as(
-                    'this table column ',
-                    bind,
-                    ' has no type, but all columns require one'
-                ),
-        },
-        ExpectedEndingExpression: {
-            primary:
-                'blocks require at least one expression so that they evaluate to something',
-        },
-        ExpectedSelectName: {
-            primary: (cell) =>
-                Explanation.as(
-                    cell,
-                    ' has no name; selects require column names to know what columns to return'
-                ),
-        },
-        ExpectedUpdateBind: {
-            primary: (cell) =>
-                Explanation.as(
-                    cell,
-                    ' has value; updates require a value for each column specified to know what value to set'
-                ),
-        },
+        ExpectedColumnType: WRITE_DOC,
+        ExpectedEndingExpression: WRITE_DOC,
+        ExpectedSelectName: WRITE_DOC,
+        ExpectedUpdateBind: WRITE_DOC,
         IgnoredExpression: {
             primary: WRITE_DOC,
             secondary: WRITE_DOC,
         },
-        IncompleteImplementation: {
-            primary: `structures must either be fully implemented or not implemented; this has a mixture`,
-        },
+        IncompleteImplementation: WRITE_DOC,
         IncompatibleBind: {
-            primary: (expected) => Explanation.as('expected ', expected),
-            secondary: (given, expected) =>
-                Explanation.as(
-                    `Hey, I got a `,
-                    given,
-                    ` instead of a `,
-                    expected
-                ),
+            primary: WRITE_DOC,
+            secondary: WRITE_DOC,
         },
         IncompatibleCellType: {
-            primary: (expected) =>
-                Explanation.as('expected column type ', expected),
-            secondary: (given) => Explanation.as('given ', given),
+            primary: WRITE_DOC,
+            secondary: WRITE_DOC,
         },
         IncompatibleInput: {
-            primary: (given, expected) =>
-                Explanation.as('I expected ', expected, ' but got ', given),
-            secondary: (given, expected) =>
-                Explanation.as(
-                    `Umm, I got a `,
-                    given,
-                    ' instead of ',
-                    expected
-                ),
+            primary: WRITE_DOC,
+            secondary: WRITE_DOC,
         },
         IncompatibleKey: {
-            primary: (expected) =>
-                Explanation.as('expected ', expected, ' key '),
-            secondary: (given) => Explanation.as('given ', given),
+            primary: WRITE_DOC,
+            secondary: WRITE_DOC,
         },
-        ImpossibleType: {
-            primary: 'this can never be this type',
-        },
-        InputListMustBeLast: {
-            primary: 'list of inputs must be last',
-        },
-        InvalidLanguage: {
-            primary: `this is not a valid language code`,
-        },
-        InvalidRow: {
-            primary: `row is missing one or more required columns`,
-        },
+        ImpossibleType: WRITE_DOC,
+        InputListMustBeLast: WRITE_DOC,
+        InvalidLanguage: WRITE_DOC,
+        InvalidRow: WRITE_DOC,
         InvalidTypeInput: {
-            primary: (def) =>
-                Explanation.as(def, ` does not expect this type input`),
-            secondary: (type) =>
-                Explanation.as('this definition does expect type ', type),
+            primary: WRITE_DOC,
+            secondary: WRITE_DOC,
         },
-        MisplacedConversion: {
-            primary: `conversions only allowed in structure definitions`,
-        },
-        MisplacedInput: {
-            primary: `this input is out of the expected order`,
-        },
-        MisplacedShare: {
-            primary: `shares only allowed at top level of program`,
-        },
-        MisplacedThis: {
-            primary: `${PROPERTY_SYMBOL} only allowed in structure definition, conversion, or reaction`,
-        },
+        MisplacedConversion: WRITE_DOC,
+        MisplacedInput: WRITE_DOC,
+        MisplacedShare: WRITE_DOC,
+        MisplacedThis: WRITE_DOC,
         MissingCell: {
-            primary: (column) =>
-                Explanation.as(`this row is missing column`, column),
-            secondary: (row) =>
-                Explanation.as(
-                    `this column is required, but `,
-                    row,
-                    ' did not provide it'
-                ),
+            primary: WRITE_DOC,
+            secondary: WRITE_DOC,
         },
         MissingInput: {
-            primary: (input) =>
-                Explanation.as(
-                    'expected input ',
-                    input,
-                    ' but did not receive it'
-                ),
-            secondary: (evaluate) =>
-                Explanation.as(
-                    `this input is required, but `,
-                    evaluate,
-                    ' did not provide it'
-                ),
+            primary: WRITE_DOC,
+            secondary: WRITE_DOC,
         },
-        MissingLanguage: {
-            primary:
-                'no language was provided, but there was a slash suggesting one would be',
-        },
-        MissingShareLanguages: {
-            primary:
-                'shared bindings must specify language so others know what languages are supported',
-        },
-        NoExpression: {
-            primary: `functions require an expression, but none was provided for this one`,
-        },
+        MissingLanguage: WRITE_DOC,
+        MissingShareLanguages: WRITE_DOC,
+        NoExpression: WRITE_DOC,
         NotAMap: {
-            primary:
-                'this expression is not allowed in a map, only key/value pairs are allowed',
-            secondary: (expr) => Explanation.as('this map has a ', expr),
+            primary: WRITE_DOC,
+            secondary: WRITE_DOC,
         },
-        NotANumber: {
-            primary: "this number isn't formatted correctly",
-        },
-        NotAnInterface: {
-            primary:
-                'this is not an interface; structures can only implement interfaces, not other structures',
-        },
-        NotInstantiable: {
-            primary:
-                'cannot make this structure because it refers to an interface',
-        },
-        OrderOfOperations: {
-            primary:
-                'operators evalute left to right, unlike math; use parentheses to specify order of evaluation',
-        },
-        Placeholder: {
-            primary:
-                'this is unimplemented, so the program will stop if evaluated',
-        },
-        RequiredAfterOptional: {
-            primary: 'required inputs cannot come after optional ones',
-        },
-        UnclosedDelimiter: {
-            primary: (token, expected) =>
-                Explanation.as('expected ', expected, ' to match ', token),
-        },
-        UnexpectedEtc: {
-            primary:
-                'variable length inputs can only appear on function evaluations',
-        },
+        NotANumber: WRITE_DOC,
+        NotAnInterface: WRITE_DOC,
+        NotInstantiable: WRITE_DOC,
+        OrderOfOperations: WRITE_DOC,
+        Placeholder: WRITE_DOC,
+        RequiredAfterOptional: WRITE_DOC,
+        UnclosedDelimiter: WRITE_DOC,
+        UnexpectedEtc: WRITE_DOC,
         UnexpectedInput: {
-            primary: (evaluation) =>
-                Explanation.as('this input is not specified on ', evaluation),
-            secondary: (input) =>
-                Explanation.as('this function does not expect this ', input),
+            primary: WRITE_DOC,
+            secondary: WRITE_DOC,
         },
-        UnexpectedTypeVariable: {
-            primary: 'type inputs not allowed on type variables',
-        },
-        UnimplementedInterface: {
-            primary: (inter, fun) =>
-                Explanation.as(
-                    'this structure implements ',
-                    inter,
-                    ' but does not implement ',
-                    fun
-                ),
-        },
-        UnknownBorrow: {
-            primary: 'unknown source and name',
-        },
-        UnknownColumn: {
-            primary: 'unknown column in table',
-        },
-        UnknownConversion: {
-            primary: (from, to) =>
-                Explanation.as('no conversion from ', from, ' to ', to),
-        },
-        UnknownInput: {
-            primary: 'no input by this name',
-        },
-        UnknownName: {
-            primary: (name, type) =>
-                Explanation.as(
-                    name,
-                    ' is not defined in ',
-                    type ? type : ' this scope'
-                ),
-        },
-        InvalidTypeName: {
-            primary: (type) =>
-                Explanation.as(
-                    'type names can only refer to structures or type variables, but this refers to a ',
-                    type
-                ),
-        },
-        Unnamed: {
-            primary: 'missing name',
-        },
-        UnparsableConflict: {
-            primary: (expression) =>
-                expression
-                    ? 'expected expression, but could not parse one'
-                    : 'expected type, but could not parse one',
-        },
-        UnusedBind: {
-            primary: 'this name is unused',
-        },
+        UnexpectedTypeVariable: WRITE_DOC,
+        UnimplementedInterface: WRITE_DOC,
+        UnknownBorrow: WRITE_DOC,
+        UnknownColumn: WRITE_DOC,
+        UnknownConversion: WRITE_DOC,
+        UnknownInput: WRITE_DOC,
+        UnknownName: WRITE_DOC,
+        InvalidTypeName: WRITE_DOC,
+        Unnamed: WRITE_DOC,
+        UnparsableConflict: WRITE_DOC,
+        UnusedBind: WRITE_DOC,
     },
     step: {
-        stream: 'keeping the stream instead of getting its latest value',
-        jump: 'jumping past code',
-        jumpif: (yes) => (yes ? 'jumping over code' : 'not jumping over code'),
-        halt: 'encountered exception, stopping',
-        initialize: 'preparing to process items',
-        evaluate: 'starting evaluation',
-        next: 'apply the function to the next item',
-        check: 'check the result',
+        stream: WRITE_DOC,
+        jump: WRITE_DOC,
+        jumpif: WRITE_DOC,
+        halt: WRITE_DOC,
+        initialize: WRITE_DOC,
+        evaluate: WRITE_DOC,
+        next: WRITE_DOC,
+        check: WRITE_DOC,
     },
     transform: {
-        add: (node: Description) => ` add ${node}`,
-        append: (node: Description) => `append ${node}`,
-        remove: (node: Description) => `remove ${node}`,
-        replace: (node: Description | undefined) =>
-            `replace with ${node ?? 'nothing'}`,
+        add: WRITE_DOC,
+        append: WRITE_DOC,
+        remove: WRITE_DOC,
+        replace: WRITE_DOC,
     },
     ui: {
         placeholders: {
@@ -1824,50 +1409,50 @@ const eng_wordplay: Locale = {
             email: 'email',
         },
         tooltip: {
-            yes: 'confirm',
-            no: 'cancel',
-            play: 'evaluate the program fully',
-            pause: 'evaluate the program one step at a time',
-            back: 'back one step',
-            backInput: 'back one input',
-            out: 'step out of this function',
-            forward: 'forward one step',
-            forwardInput: 'forward one input',
-            present: 'to the present',
-            start: 'to the beginning',
-            reset: 'restart the evaluation of the project from the beginning.',
-            home: 'return to the types menu',
-            revert: 'revert to default',
-            set: 'edit this property',
-            fullscreen: 'fill the browser with this window',
-            collapse: 'collapse window',
-            expand: 'expand window',
-            close: 'close this project',
-            language: 'change preferred languages',
-            horizontal: 'switch to horizontal arrangement',
-            vertical: 'switch to vertical arrangement',
-            freeform: 'switch to free form arrangement',
-            fit: 'fit to content',
-            grid: 'show/hide grid',
-            addPose: 'add pose',
-            removePose: 'remove pose',
-            movePoseUp: 'move pose up',
-            movePoseDown: 'move pose down',
-            addPhrase: 'add a phrase after this',
-            addGroup: 'add a group after this',
-            removeContent: 'remove this content',
-            moveContentUp: 'move this content up',
-            moveContentDown: 'move this content down',
-            editContent: 'edit this content',
-            sequence: 'convert to a sequence',
-            animate: 'toggle animations on/off',
-            addSource: 'create a new source',
-            deleteSource: 'remove this source',
-            deleteProject: 'delete this project',
-            editProject: 'edit this project',
-            settings: 'show settings',
-            newProject: 'new project',
-            dark: 'toggle dark mode on, off, and default',
+            yes: WRITE_DOC,
+            no: WRITE_DOC,
+            play: WRITE_DOC,
+            pause: WRITE_DOC,
+            back: WRITE_DOC,
+            backInput: WRITE_DOC,
+            out: WRITE_DOC,
+            forward: WRITE_DOC,
+            forwardInput: WRITE_DOC,
+            present: WRITE_DOC,
+            start: WRITE_DOC,
+            reset: WRITE_DOC,
+            home: WRITE_DOC,
+            revert: WRITE_DOC,
+            set: WRITE_DOC,
+            fullscreen: WRITE_DOC,
+            collapse: WRITE_DOC,
+            expand: WRITE_DOC,
+            close: WRITE_DOC,
+            language: WRITE_DOC,
+            horizontal: WRITE_DOC,
+            vertical: WRITE_DOC,
+            freeform: WRITE_DOC,
+            fit: WRITE_DOC,
+            grid: WRITE_DOC,
+            addPose: WRITE_DOC,
+            removePose: WRITE_DOC,
+            movePoseUp: WRITE_DOC,
+            movePoseDown: WRITE_DOC,
+            addPhrase: WRITE_DOC,
+            addGroup: WRITE_DOC,
+            removeContent: WRITE_DOC,
+            moveContentUp: WRITE_DOC,
+            moveContentDown: WRITE_DOC,
+            editContent: WRITE_DOC,
+            sequence: WRITE_DOC,
+            animate: WRITE_DOC,
+            addSource: WRITE_DOC,
+            deleteSource: WRITE_DOC,
+            deleteProject: WRITE_DOC,
+            editProject: WRITE_DOC,
+            settings: WRITE_DOC,
+            newProject: WRITE_DOC,
+            dark: WRITE_DOC,
             chooserExpand: 'expandir/colapsar',
             place: 'mover salida',
             paint: 'salida de pintura',
@@ -1878,19 +1463,19 @@ const eng_wordplay: Locale = {
             revertProject: WRITE_DOC,
         },
         prompt: {
-            deleteSource: 'delete?',
-            deleteProject: 'delete?',
+            deleteSource: WRITE_DOC,
+            deleteProject: WRITE_DOC,
         },
         labels: {
-            learn: 'learn more …',
-            nodoc: 'no documentation',
-            mixed: 'mixed',
-            computed: 'computed',
-            default: 'default',
-            inherited: 'inherited',
-            notSequence: 'invalid sequence',
-            notContent: 'invalid content',
-            anonymous: 'temporary account - click to login',
+            learn: WRITE_DOC,
+            nodoc: WRITE_DOC,
+            mixed: WRITE_DOC,
+            computed: WRITE_DOC,
+            default: WRITE_DOC,
+            inherited: WRITE_DOC,
+            notSequence: WRITE_DOC,
+            notContent: WRITE_DOC,
+            anonymous: WRITE_DOC,
         },
         tiles: {
             output: '💬',
@@ -1916,21 +1501,19 @@ const eng_wordplay: Locale = {
             unknownProject: 'No hay ningún proyecto con este ID.',
         },
         login: {
-            header: 'Login',
-            prompt: 'Log in to access your projects.',
-            anonymousPrompt:
-                'You are currently using an anonymous account. Log in to ensure your projects are saved.',
-            submit: 'send a login email',
-            enterEmail:
-                "It looks like you're logging in on a different device. Can you enter your email again?",
-            sent: 'Check your email for a link.',
-            success: 'Account created!',
-            failure: 'There was a problem linking your email.',
-            expiredFailure: 'This link expired.',
-            invalidFailure: "This link isn't valid.",
-            emailFailure: "This email wasn't valid.",
-            logout: 'logout',
-            offline: 'You appear to be offline.',
+            header: WRITE_DOC,
+            prompt: WRITE_DOC,
+            anonymousPrompt: WRITE_DOC,
+            submit: WRITE_DOC,
+            enterEmail: WRITE_DOC,
+            sent: WRITE_DOC,
+            success: WRITE_DOC,
+            failure: WRITE_DOC,
+            expiredFailure: WRITE_DOC,
+            invalidFailure: WRITE_DOC,
+            emailFailure: WRITE_DOC,
+            logout: WRITE_DOC,
+            offline: WRITE_DOC,
         },
         edit: {
             wrap: 'envolver',
@@ -1997,15 +1580,15 @@ const eng_wordplay: Locale = {
             },
         },
         Reaction: {
+            names: 'reacción',
             doc: WRITE_DOC,
-            names: 'reaction',
         },
         Motion: {
+            names: 'movimiento',
             doc: WRITE_DOC,
-            names: ['⚽️', 'Motion'],
             type: {
                 doc: WRITE_DOC,
-                names: 'type',
+                names: 'tipo',
             },
             vx: {
                 doc: WRITE_DOC,
@@ -2025,23 +1608,23 @@ const eng_wordplay: Locale = {
             },
             mass: {
                 doc: WRITE_DOC,
-                names: 'mass',
+                names: 'masa',
             },
             bounciness: {
                 doc: WRITE_DOC,
-                names: 'bounciness',
+                names: 'rebote',
             },
             gravity: {
                 doc: WRITE_DOC,
-                names: 'gravity',
+                names: 'gravedad',
             },
         },
     },
     output: {
         Type: {
-            names: 'Type',
+            names: 'tipo',
             doc: WRITE_DOC,
-            size: { doc: WRITE_DOC, names: 'size' },
+            size: { doc: WRITE_DOC, names: 'tamaño' },
             family: { doc: WRITE_DOC, names: 'fuente' },
             place: { doc: WRITE_DOC, names: 'place' },
             rotation: { doc: WRITE_DOC, names: 'rotación' },
@@ -2055,9 +1638,9 @@ const eng_wordplay: Locale = {
             style: { doc: WRITE_DOC, names: 'estilo' },
         },
         Stage: {
-            names: ['Verso'],
+            names: 'Verso',
             doc: WRITE_DOC,
-            description: () => WRITE_DOC,
+            description: WRITE_DOC,
             content: { doc: WRITE_DOC, names: 'contenido' },
             background: { doc: WRITE_DOC, names: 'fondo' },
             frame: { doc: WRITE_DOC, names: 'marco' },
@@ -2080,20 +1663,19 @@ const eng_wordplay: Locale = {
         Row: {
             names: ['Fila'],
             doc: WRITE_DOC,
-            description: () => WRITE_DOC,
+            description: WRITE_DOC,
             padding: { doc: WRITE_DOC, names: 'relleno' },
         },
         Stack: {
             names: 'Pila',
             doc: WRITE_DOC,
-            description: () => WRITE_DOC,
+            description: WRITE_DOC,
             padding: { doc: WRITE_DOC, names: 'relleno' },
         },
         Grid: {
             names: 'cuadrícula',
             doc: WRITE_DOC,
-            description: (rows: number, columns: number) =>
-                `cuadrícula de ${rows} fila, ${columns} columnas${rows}`,
+            description: 'cuadrícula de $1 fila, $2 columnas',
             rows: { doc: WRITE_DOC, names: 'fila' },
             columns: { doc: WRITE_DOC, names: 'columnas' },
             padding: { doc: WRITE_DOC, names: 'relleno' },
@@ -2101,16 +1683,16 @@ const eng_wordplay: Locale = {
             cellHeight: { doc: WRITE_DOC, names: 'alturadecelda' },
         },
         Free: {
-            names: ['Suelto'],
+            names: 'Suelto',
             doc: WRITE_DOC,
-            description: (count: number) => `forma libre, ${count} outputs`,
+            description: 'forma libre, $1 producción',
         },
         Shape: {
-            names: ['forma'],
+            names: 'forma',
             doc: WRITE_DOC,
         },
         Rectangle: {
-            names: ['Rectángulo'],
+            names: 'Rectángulo',
             doc: WRITE_DOC,
             left: { doc: WRITE_DOC, names: 'izquierda' },
             top: { doc: WRITE_DOC, names: 'masalta' },
@@ -2131,7 +1713,7 @@ const eng_wordplay: Locale = {
             flipy: { doc: WRITE_DOC, names: 'volteary' },
         },
         Color: {
-            names: ['Color'],
+            names: 'Color',
             doc: WRITE_DOC,
             lightness: { doc: WRITE_DOC, names: ['luminosidad'] },
             chroma: { doc: WRITE_DOC, names: ['croma'] },

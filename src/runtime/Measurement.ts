@@ -10,6 +10,7 @@ import type Value from './Value';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type Locale from '@locale/Locale';
 import type Expression from '../nodes/Expression';
+import Description from '../locale/Description';
 
 /** A decimal number with a unit.
  * If all of it's parts are empty, it is not a number.
@@ -228,7 +229,7 @@ export default class Measurement extends Primitive {
     }
 
     getDescription(translation: Locale) {
-        return translation.data.measurement;
+        return Description.as(translation.data.measurement);
     }
 
     getSize() {

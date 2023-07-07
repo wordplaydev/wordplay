@@ -4,6 +4,7 @@ import type NameType from '@nodes/NameType';
 import NodeLink from '@locale/NodeLink';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
+import concretize from '../locale/locales/concretize';
 
 export class UnknownTypeName extends Conflict {
     readonly name: NameType;
@@ -19,9 +20,11 @@ export class UnknownTypeName extends Conflict {
         return {
             primary: {
                 node: this.name,
-                explanation: (translation: Locale, context: Context) =>
-                    translation.conflict.InvalidTypeName.primary(
-                        new NodeLink(this.definition, translation, context)
+                explanation: (locale: Locale, context: Context) =>
+                    concretize(
+                        locale,
+                        locale.conflict.InvalidTypeName,
+                        new NodeLink(this.definition, locale, context)
                     ),
             },
         };

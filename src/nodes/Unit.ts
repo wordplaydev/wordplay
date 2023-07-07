@@ -308,4 +308,12 @@ export default class Unit extends Type {
             emotion: Emotion.Kind,
         };
     }
+
+    getDescriptionInputs(locale: Locale) {
+        return [
+            this.exponents.size === 0
+                ? locale.native.measurement.name[0]
+                : this.toWordplay(),
+        ];
+    }
 }

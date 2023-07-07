@@ -11,6 +11,7 @@ import Arrangement from './Arrangement';
 import Measurement from '../runtime/Measurement';
 import Phrase from './Phrase';
 import Group from './Group';
+import concretize from '../locale/locales/concretize';
 
 export const StackType = toStructure(`
     ${getBind((t) => t.output.Stack, '•')} Arrangement(
@@ -100,11 +101,14 @@ export class Stack extends Arrangement {
     }
 
     getDescription(output: TypeOutput[], languages: LanguageCode[]) {
-        return getPreferredLocale(languages).output.Stack.description(
+        const locale = getPreferredLocale(languages);
+        return concretize(
+            locale,
+            locale.output.Stack.description,
             output.length,
             output.filter((o) => o instanceof Phrase).length,
             output.filter((o) => o instanceof Group).length
-        );
+        ).toString();
     }
 }
 

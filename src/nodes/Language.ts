@@ -9,6 +9,7 @@ import InvalidLanguage from '@conflicts/InvalidLanguage';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
+import type Context from './Context';
 
 export default class Language extends Node {
     readonly slash: Token;
@@ -76,6 +77,15 @@ export default class Language extends Node {
 
     getNodeLocale(translation: Locale) {
         return translation.node.Language;
+    }
+
+    getDescriptionInputs(locale: Locale, _: Context) {
+        return [
+            this.lang
+                ? Languages[this.lang.getText()]?.name ??
+                  locale.node.Language.description
+                : locale.node.Language.description,
+        ];
     }
 
     getGlyphs() {

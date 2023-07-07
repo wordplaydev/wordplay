@@ -4,6 +4,7 @@ import Step from './Step';
 import type Value from './Value';
 import type Expression from '@nodes/Expression';
 import type Locale from '@locale/Locale';
+import concretize from '../locale/locales/concretize';
 
 export default class Halt extends Step {
     readonly exception: (evaluator: Evaluator) => Exception;
@@ -21,7 +22,7 @@ export default class Halt extends Step {
         return this.exception(evaluator);
     }
 
-    getExplanations(translation: Locale) {
-        return translation.step.halt;
+    getExplanations(locale: Locale) {
+        return concretize(locale, locale.step.halt);
     }
 }

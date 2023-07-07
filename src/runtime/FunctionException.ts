@@ -10,6 +10,7 @@ import type Locale from '@locale/Locale';
 import type Evaluator from './Evaluator';
 import Exception from './Exception';
 import type Value from './Value';
+import concretize from '../locale/locales/concretize';
 
 export default class FunctionException extends Exception {
     readonly subject: Value | undefined;
@@ -29,7 +30,7 @@ export default class FunctionException extends Exception {
         this.verb = verb;
     }
 
-    getDescription(translation: Locale) {
+    getDescription(locale: Locale) {
         // What's the node that has the name?
         const name =
             this.node instanceof Evaluate
@@ -42,11 +43,13 @@ export default class FunctionException extends Exception {
                 ? this.node.operator
                 : this.node.type;
 
-        return translation.exceptions.function(
+        return concretize(
+            locale,
+            locale.exceptions.function,
             // Wrap the node containing the name in a link
             new NodeLink(
                 name,
-                translation,
+                locale,
                 this.evaluator.project.getNodeContext(this.node),
                 name instanceof Reference
                     ? name.getName()
@@ -63,7 +66,7 @@ export default class FunctionException extends Exception {
                               this.subject.creator
                           )
                       ),
-                      translation,
+                      locale,
                       this.evaluator.project.getNodeContext(
                           this.subject.creator
                       )

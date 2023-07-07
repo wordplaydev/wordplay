@@ -138,6 +138,10 @@ export default class Name extends Node {
         return translation.node.Name;
     }
 
+    getDescriptionInputs() {
+        return [this.name?.getText()];
+    }
+
     getGlyphs() {
         return {
             symbols: this.name?.getText() ?? '',

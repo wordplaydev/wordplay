@@ -1,6 +1,7 @@
 import type Name from '@nodes/Name';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
+import concretize from '../locale/locales/concretize';
 
 export default class Unnamed extends Conflict {
     readonly alias: Name;
@@ -13,8 +14,8 @@ export default class Unnamed extends Conflict {
         return {
             primary: {
                 node: this.alias,
-                explanation: (translation: Locale) =>
-                    translation.conflict.Unnamed.primary,
+                explanation: (locale: Locale) =>
+                    concretize(locale, locale.conflict.Unnamed),
             },
         };
     }

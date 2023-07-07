@@ -13,6 +13,7 @@ import Literal from './Literal';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';
+import concretize from '../locale/locales/concretize';
 
 export default class NoneLiteral extends Literal {
     readonly none: Token;
@@ -76,12 +77,12 @@ export default class NoneLiteral extends Literal {
         return current;
     }
 
-    getNodeLocale(translation: Locale) {
-        return translation.node.NoneLiteral;
+    getNodeLocale(locale: Locale) {
+        return locale.node.NoneLiteral;
     }
 
-    getStartExplanations(translation: Locale) {
-        return translation.node.NoneLiteral.start;
+    getStartExplanations(locale: Locale) {
+        return concretize(locale, locale.node.NoneLiteral.start);
     }
 
     getGlyphs() {

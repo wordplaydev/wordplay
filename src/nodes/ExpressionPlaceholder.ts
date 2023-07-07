@@ -18,9 +18,11 @@ import TypeToken from './TypeToken';
 import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import AtomicExpression from './AtomicExpression';
-import type { Description } from '@locale/Locale';
+import type { Template } from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import type Root from './Root';
+import concretize from '../locale/locales/concretize';
+import NodeLink from '../locale/NodeLink';
 
 export default class ExpressionPlaceholder extends AtomicExpression {
     readonly placeholder: Token;
@@ -60,7 +62,7 @@ export default class ExpressionPlaceholder extends AtomicExpression {
                     _: Node,
                     context: Context,
                     root: Root
-                ): Description => {
+                ): Template => {
                     const parent: Node | undefined = root.getParent(this);
                     // See if the parent has a label.
                     return (
@@ -139,8 +141,14 @@ export default class ExpressionPlaceholder extends AtomicExpression {
         return translation.node.ExpressionPlaceholder;
     }
 
-    getStartExplanations(translation: Locale) {
-        return translation.node.ExpressionPlaceholder.start;
+    getDescriptionInput(locale: Locale, context: Context) {
+        return [
+            this.type ? new NodeLink(this.type, locale, context) : undefined,
+        ];
+    }
+
+    getStartExplanations(locale: Locale) {
+        return concretize(locale, locale.node.ExpressionPlaceholder.start);
     }
 
     getGlyphs() {

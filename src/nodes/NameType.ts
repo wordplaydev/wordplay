@@ -157,4 +157,8 @@ export default class NameType extends Type {
             emotion: Emotion.Kind,
         };
     }
+
+    getDescriptionInputs() {
+        return [this.name.getText()];
+    }
 }

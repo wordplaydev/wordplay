@@ -29,10 +29,14 @@ export default class NodeLink {
         );
     }
 
-    getDescription() {
+    getDescription(): string {
         return (
             this.description ??
-            this.node.getDescription(this.translation, this.context)
+            this.node.getDescription(this.translation, this.context).toString()
         );
+    }
+
+    toString(): string {
+        return this.getDescription();
     }
 }

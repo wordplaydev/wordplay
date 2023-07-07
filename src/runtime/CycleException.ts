@@ -3,6 +3,7 @@ import NodeLink from '@locale/NodeLink';
 import type Locale from '@locale/Locale';
 import type Evaluator from './Evaluator';
 import Exception from './Exception';
+import concretize from '../locale/locales/concretize';
 
 export default class CycleException extends Exception {
     readonly borrow: Borrow;
@@ -13,11 +14,13 @@ export default class CycleException extends Exception {
         this.borrow = borrow;
     }
 
-    getDescription(translation: Locale) {
-        return translation.exceptions.cycle(
+    getDescription(locale: Locale) {
+        return concretize(
+            locale,
+            locale.exceptions.cycle,
             new NodeLink(
                 this.borrow,
-                translation,
+                locale,
                 this.evaluator.project.getNodeContext(this.borrow),
                 this.borrow.source?.getText()
             )

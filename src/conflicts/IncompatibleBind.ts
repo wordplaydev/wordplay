@@ -4,6 +4,7 @@ import type Type from '@nodes/Type';
 import NodeLink from '@locale/NodeLink';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
+import concretize from '../locale/locales/concretize';
 
 export default class IncompatibleBind extends Conflict {
     readonly expectedType: Type;
@@ -22,17 +23,21 @@ export default class IncompatibleBind extends Conflict {
         return {
             primary: {
                 node: this.value,
-                explanation: (translation: Locale, context: Context) =>
-                    translation.conflict.IncompatibleBind.primary(
-                        new NodeLink(this.expectedType, translation, context)
+                explanation: (locale: Locale, context: Context) =>
+                    concretize(
+                        locale,
+                        locale.conflict.IncompatibleBind.primary,
+                        new NodeLink(this.expectedType, locale, context)
                     ),
             },
             secondary: {
                 node: this.expectedType,
-                explanation: (translation: Locale, context: Context) =>
-                    translation.conflict.IncompatibleBind.secondary(
-                        new NodeLink(this.givenType, translation, context),
-                        new NodeLink(this.expectedType, translation, context)
+                explanation: (locale: Locale, context: Context) =>
+                    concretize(
+                        locale,
+                        locale.conflict.IncompatibleBind.secondary,
+                        new NodeLink(this.givenType, locale, context),
+                        new NodeLink(this.expectedType, locale, context)
                     ),
             },
         };

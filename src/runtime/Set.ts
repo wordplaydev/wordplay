@@ -10,6 +10,7 @@ import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '@parser/Symbols';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type Locale from '@locale/Locale';
 import type Expression from '../nodes/Expression';
+import Description from '../locale/Description';
 
 export default class Set extends Primitive {
     readonly values: Value[];
@@ -105,7 +106,7 @@ export default class Set extends Primitive {
     }
 
     getDescription(translation: Locale) {
-        return translation.data.set;
+        return Description.as(translation.data.set);
     }
 
     getSize() {

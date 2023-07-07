@@ -3,6 +3,7 @@ import type TypeVariable from '@nodes/TypeVariable';
 import type Locale from '@locale/Locale';
 import NodeLink from '@locale/NodeLink';
 import type Context from '@nodes/Context';
+import concretize from '../locale/locales/concretize';
 
 export default class DuplicateTypeVariable extends Conflict {
     readonly typeVar: TypeVariable;
@@ -19,25 +20,29 @@ export default class DuplicateTypeVariable extends Conflict {
         return {
             primary: {
                 node: this.typeVar,
-                explanation: (translation: Locale, context: Context) =>
-                    translation.conflict.DuplicateTypeVariable.primary(
+                explanation: (locale: Locale, context: Context) =>
+                    concretize(
+                        locale,
+                        locale.conflict.DuplicateTypeVariable.primary,
                         new NodeLink(
                             this.duplicate,
-                            translation,
+                            locale,
                             context,
-                            this.duplicate.getLocale(translation.language)
+                            this.duplicate.getLocale(locale.language)
                         )
                     ),
             },
             secondary: {
                 node: this.duplicate,
-                explanation: (translation: Locale, context: Context) =>
-                    translation.conflict.DuplicateTypeVariable.secondary(
+                explanation: (locale: Locale, context: Context) =>
+                    concretize(
+                        locale,
+                        locale.conflict.DuplicateTypeVariable.secondary,
                         new NodeLink(
                             this.typeVar,
-                            translation,
+                            locale,
                             context,
-                            this.typeVar.getLocale(translation.language)
+                            this.typeVar.getLocale(locale.language)
                         )
                     ),
             },

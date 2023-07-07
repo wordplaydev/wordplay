@@ -27,6 +27,7 @@ import Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';
 import StreamToken from './StreamToken';
 import generalize from './generalize';
+import concretize from '../locale/locales/concretize';
 
 export default class Reaction extends Expression {
     readonly initial: Expression;
@@ -263,17 +264,19 @@ export default class Reaction extends Expression {
         return translation.node.Reaction;
     }
 
-    getStartExplanations(translation: Locale) {
-        return translation.node.Reaction.start;
+    getStartExplanations(locale: Locale) {
+        return concretize(locale, locale.node.Reaction.start);
     }
 
     getFinishExplanations(
-        translation: Locale,
+        locale: Locale,
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.node.Reaction.finish(
-            this.getValueIfDefined(translation, context, evaluator)
+        return concretize(
+            locale,
+            locale.node.Reaction.finish,
+            this.getValueIfDefined(locale, context, evaluator)
         );
     }
 

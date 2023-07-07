@@ -13,6 +13,7 @@ import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import NoneType from './NoneType';
 import Glyphs from '../lore/Glyphs';
+import NodeLink from '../locale/NodeLink';
 
 export default class UnionType extends Type {
     readonly left: Type;
@@ -180,5 +181,12 @@ export default class UnionType extends Type {
 
     getGlyphs() {
         return Glyphs.Union;
+    }
+
+    getDescriptionInputs(locale: Locale, context: Context) {
+        return [
+            new NodeLink(this.left, locale, context),
+            new NodeLink(this.right, locale, context),
+        ];
     }
 }

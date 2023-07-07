@@ -1,6 +1,7 @@
 import type Block from '@nodes/Block';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
+import concretize from '../locale/locales/concretize';
 
 export class ExpectedEndingExpression extends Conflict {
     readonly block: Block;
@@ -14,8 +15,11 @@ export class ExpectedEndingExpression extends Conflict {
         return {
             primary: {
                 node: this.block,
-                explanation: (translation: Locale) =>
-                    translation.conflict.ExpectedEndingExpression.primary,
+                explanation: (locale: Locale) =>
+                    concretize(
+                        locale,
+                        locale.conflict.ExpectedEndingExpression
+                    ),
             },
         };
     }

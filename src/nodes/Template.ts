@@ -21,6 +21,7 @@ import Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';
 import { TEMPLATE_SYMBOL } from '../parser/Symbols';
 import { undelimited, unescaped } from './TextLiteral';
+import concretize from '../locale/locales/concretize';
 
 export type TemplatePart = Expression | Token;
 
@@ -160,12 +161,12 @@ export default class Template extends Expression {
         return translation.node.Template;
     }
 
-    getStartExplanations(translation: Locale) {
-        return translation.node.Template.start;
+    getStartExplanations(locale: Locale) {
+        return concretize(locale, locale.node.Template.start);
     }
 
-    getFinishExplanations(translation: Locale) {
-        return translation.node.Template.finish;
+    getFinishExplanations(locale: Locale) {
+        return concretize(locale, locale.node.Template.finish);
     }
 
     getGlyphs() {

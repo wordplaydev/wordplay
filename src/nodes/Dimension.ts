@@ -7,6 +7,8 @@ import NameToken from './NameToken';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
+import Description from '../locale/Description';
+import type Context from './Context';
 
 export default class Dimension extends Node {
     readonly product: Token | undefined;
@@ -78,6 +80,41 @@ export default class Dimension extends Node {
 
     getNodeLocale(translation: Locale) {
         return translation.node.Dimension;
+    }
+
+    getDescription(locale: Locale, _: Context): Description {
+        const dim = this.getName();
+        return Description.as(
+            {
+                pm: 'picometers',
+                nm: 'nanometers',
+                µm: 'micrometers',
+                mm: 'millimeters',
+                m: 'meters',
+                cm: 'centimeters',
+                dm: 'decimeters',
+                km: 'kilometers',
+                Mm: 'megameters',
+                Gm: 'gigameters',
+                Tm: 'terameters',
+                mi: 'miles',
+                in: 'inches',
+                ft: 'feet',
+                ms: 'milliseconds',
+                s: 'seconds',
+                min: 'minutes',
+                hr: 'hours',
+                day: 'days',
+                wk: 'weeks',
+                yr: 'years',
+                g: 'grams',
+                mg: 'milligrams',
+                kg: 'kilograms',
+                oz: 'ounces',
+                lb: 'pounds',
+                pt: 'font size',
+            }[dim] ?? locale.node.Dimension.description
+        );
     }
 
     getGlyphs() {

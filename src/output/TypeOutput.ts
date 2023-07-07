@@ -12,7 +12,6 @@ import type RenderContext from './RenderContext';
 import Fonts, { SupportedFontsFamiliesType } from '../native/Fonts';
 import en from '@locale/locales/en';
 import type LanguageCode from '@locale/LanguageCode';
-import type { Description } from '@locale/Locale';
 
 export const TypeType = toStructure(`
     ${getBind((t) => t.output.Type, TYPE_SYMBOL)}()
@@ -98,7 +97,7 @@ export default abstract class TypeOutput extends Output {
 
     abstract getOutput(): (TypeOutput | null)[];
     abstract getBackground(): Color | undefined;
-    abstract getDescription(lang: LanguageCode[]): Description;
+    abstract getDescription(lang: LanguageCode[]): string;
 
     getRenderContext(context: RenderContext) {
         return context.withFontAndSize(this.font, this.size);

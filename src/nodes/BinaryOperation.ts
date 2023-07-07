@@ -27,7 +27,7 @@ import TokenType from './TokenType';
 import MeasurementType from './MeasurementType';
 import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
-import type { Description } from '@locale/Locale';
+import type { Template } from '@locale/Locale';
 import StartEvaluation from '@runtime/StartEvaluation';
 import NodeLink from '@locale/NodeLink';
 import Emotion from '../lore/Emotion';
@@ -35,6 +35,8 @@ import FunctionValue from '../runtime/FunctionValue';
 import Glyphs from '../lore/Glyphs';
 import FunctionType from './FunctionType';
 import AnyType from './AnyType';
+import concretize from '../locale/locales/concretize';
+import Description from '../locale/Description';
 
 export default class BinaryOperation extends Expression {
     readonly left: Expression;
@@ -61,8 +63,7 @@ export default class BinaryOperation extends Expression {
                     translation: Locale,
                     _: Node,
                     context: Context
-                ): Description =>
-                    this.left.getType(context).getLabel(translation),
+                ): Template => this.left.getType(context).getLabel(translation),
             },
             {
                 name: 'operator',
@@ -88,7 +89,7 @@ export default class BinaryOperation extends Expression {
                     translation: Locale,
                     _: Node,
                     context: Context
-                ): Description => {
+                ): Template => {
                     const fun = this.getFunction(context);
                     return (
                         fun?.inputs[0].names.getLocaleText(
@@ -371,9 +372,11 @@ export default class BinaryOperation extends Expression {
         return this.operator;
     }
 
-    getStartExplanations(translation: Locale, context: Context) {
-        return translation.node.BinaryOperation.start(
-            new NodeLink(this.left, translation, context)
+    getStartExplanations(locale: Locale, context: Context) {
+        return concretize(
+            locale,
+            locale.node.BinaryOperation.start,
+            new NodeLink(this.left, locale, context)
         );
     }
 
@@ -382,9 +385,15 @@ export default class BinaryOperation extends Expression {
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.node.BinaryOperation.finish(
+        return concretize(
+            translation,
+            translation.node.BinaryOperation.finish,
             this.getValueIfDefined(translation, context, evaluator)
         );
+    }
+
+    getDescription(): Description {
+        return Description.as(this.operator.getText());
     }
 
     getGlyphs() {

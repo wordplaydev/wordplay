@@ -6,6 +6,7 @@ import type TypeSet from '@nodes/TypeSet';
 import type Evaluator from '@runtime/Evaluator';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
+import concretize from '../locale/locales/concretize';
 
 export default abstract class HOF extends Expression {
     getGrammar() {
@@ -68,17 +69,19 @@ export default abstract class HOF extends Expression {
         return translation.node.HOF;
     }
 
-    getStartExplanations(translation: Locale) {
-        return translation.node.HOF.start;
+    getStartExplanations(locale: Locale) {
+        return concretize(locale, locale.node.HOF.start);
     }
 
     getFinishExplanations(
-        translation: Locale,
+        locale: Locale,
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.node.HOF.finish(
-            this.getValueIfDefined(translation, context, evaluator)
+        return concretize(
+            locale,
+            locale.node.HOF.finish,
+            this.getValueIfDefined(locale, context, evaluator)
         );
     }
 

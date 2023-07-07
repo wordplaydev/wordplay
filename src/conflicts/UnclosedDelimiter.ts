@@ -4,6 +4,7 @@ import type Token from '@nodes/Token';
 import type Locale from '@locale/Locale';
 import NodeLink from '@locale/NodeLink';
 import type Context from '@nodes/Context';
+import concretize from '../locale/locales/concretize';
 
 export default class UnclosedDelimiter extends Conflict {
     readonly open: Token;
@@ -22,17 +23,19 @@ export default class UnclosedDelimiter extends Conflict {
         return {
             primary: {
                 node: this.open,
-                explanation: (translation: Locale, context: Context) =>
-                    translation.conflict.UnclosedDelimiter.primary(
+                explanation: (locale: Locale, context: Context) =>
+                    concretize(
+                        locale,
+                        locale.conflict.UnclosedDelimiter,
                         new NodeLink(
                             this.open,
-                            translation,
+                            locale,
                             context,
                             this.open.getText()
                         ),
                         new NodeLink(
                             this.expected,
-                            translation,
+                            locale,
                             context,
                             this.expected.getText()
                         )

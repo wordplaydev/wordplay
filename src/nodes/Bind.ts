@@ -44,6 +44,7 @@ import type { EvaluatorNode } from '../runtime/Evaluation';
 import type Reaction from './Reaction';
 import Evaluate from './Evaluate';
 import FunctionType from './FunctionType';
+import concretize from '../locale/locales/concretize';
 
 export default class Bind extends Expression {
     readonly docs?: Docs;
@@ -452,7 +453,9 @@ export default class Bind extends Expression {
     }
 
     getStartExplanations(translation: Locale, context: Context) {
-        return translation.node.Bind.start(
+        return concretize(
+            translation,
+            translation.node.Bind.start,
             this.value === undefined
                 ? undefined
                 : new NodeLink(this.value, translation, context)
@@ -464,7 +467,9 @@ export default class Bind extends Expression {
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.node.Bind.finish(
+        return concretize(
+            translation,
+            translation.node.Bind.finish,
             this.getValueIfDefined(translation, context, evaluator),
             new NodeLink(
                 this.names,
@@ -473,6 +478,13 @@ export default class Bind extends Expression {
                 this.names.getLocaleText(translation.language)
             )
         );
+    }
+
+    getDescriptionInputs(locale: Locale) {
+        return [
+            this.names.getLocaleName(locale.language)?.getName() ??
+                locale.node.Bind.description,
+        ];
     }
 
     getGlyphs() {

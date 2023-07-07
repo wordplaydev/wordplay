@@ -26,6 +26,7 @@ import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';
 import generalize from './generalize';
+import concretize from '../locale/locales/concretize';
 
 export default class MapLiteral extends Expression {
     readonly open: Token;
@@ -200,18 +201,24 @@ export default class MapLiteral extends Expression {
         return translation.node.MapLiteral;
     }
 
-    getStartExplanations(translation: Locale) {
-        return translation.node.MapLiteral.start;
+    getStartExplanations(locale: Locale) {
+        return concretize(locale, locale.node.MapLiteral.start);
     }
 
     getFinishExplanations(
-        translation: Locale,
+        locale: Locale,
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.node.MapLiteral.finish(
-            this.getValueIfDefined(translation, context, evaluator)
+        return concretize(
+            locale,
+            locale.node.MapLiteral.finish,
+            this.getValueIfDefined(locale, context, evaluator)
         );
+    }
+
+    getDescriptionInputs(locale: Locale, _: Context) {
+        return [this.values.length];
     }
 
     getGlyphs() {

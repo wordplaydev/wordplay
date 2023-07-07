@@ -8,6 +8,7 @@ import type Locale from '@locale/Locale';
 import type Expression from '../nodes/Expression';
 import List from './List';
 import Bool from './Bool';
+import Description from '../locale/Description';
 
 export default class Text extends Primitive {
     readonly text: string;
@@ -69,7 +70,7 @@ export default class Text extends Primitive {
     }
 
     getDescription(translation: Locale) {
-        return translation.data.text;
+        return Description.as(translation.data.text);
     }
 
     getSize() {

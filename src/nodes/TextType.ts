@@ -100,4 +100,7 @@ export default class TextType extends NativeType {
             emotion: Emotion.Excited,
         };
     }
+    getDescriptionInputs() {
+        return [this.isLiteral() ? this.text.getText() : undefined];
+    }
 }

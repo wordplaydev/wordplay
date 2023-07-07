@@ -1,6 +1,7 @@
 import type StructureDefinition from '@nodes/StructureDefinition';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
+import concretize from '../locale/locales/concretize';
 
 export class DisallowedInputs extends Conflict {
     readonly structure: StructureDefinition;
@@ -14,8 +15,8 @@ export class DisallowedInputs extends Conflict {
         return {
             primary: {
                 node: this.structure.names,
-                explanation: (translation: Locale) =>
-                    translation.conflict.DisallowedInputs.primary,
+                explanation: (locale: Locale) =>
+                    concretize(locale, locale.conflict.DisallowedInputs),
             },
         };
     }

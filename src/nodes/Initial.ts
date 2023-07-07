@@ -19,6 +19,7 @@ import type Node from './Node';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';
+import concretize from '../locale/locales/concretize';
 
 export default class Initial extends AtomicExpression {
     readonly diamond: Token;
@@ -97,7 +98,7 @@ export default class Initial extends AtomicExpression {
     }
 
     getStartExplanations(translation: Locale) {
-        return translation.node.Initial.description;
+        return concretize(translation, translation.node.Initial.description);
     }
 
     getGlyphs() {

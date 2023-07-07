@@ -3,6 +3,7 @@ import type Context from '@nodes/Context';
 import NodeLink from '@locale/NodeLink';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
+import concretize from '../locale/locales/concretize';
 
 export class DuplicateShare extends Conflict {
     readonly share: Bind;
@@ -17,16 +18,20 @@ export class DuplicateShare extends Conflict {
         return {
             primary: {
                 node: this.share.names,
-                explanation: (translation: Locale, context: Context) =>
-                    translation.conflict.DuplicateShare.primary(
-                        new NodeLink(this.other, translation, context)
+                explanation: (locale: Locale, context: Context) =>
+                    concretize(
+                        locale,
+                        locale.conflict.DuplicateShare.primary,
+                        new NodeLink(this.other, locale, context)
                     ),
             },
             secondary: {
                 node: this.other.names,
-                explanation: (translation: Locale, context: Context) =>
-                    translation.conflict.DuplicateShare.secondary(
-                        new NodeLink(this.other, translation, context)
+                explanation: (locale: Locale, context: Context) =>
+                    concretize(
+                        locale,
+                        locale.conflict.DuplicateShare.secondary,
+                        new NodeLink(this.other, locale, context)
                     ),
             },
         };

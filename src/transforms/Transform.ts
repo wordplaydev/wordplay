@@ -5,7 +5,7 @@ import type Context from '@nodes/Context';
 import type Source from '@nodes/Source';
 import type Spaces from '@parser/Spaces';
 import type Locale from '@locale/Locale';
-import type { Description } from '@locale/Locale';
+import type Description from '../locale/Description';
 
 export default abstract class Transform {
     readonly context: Context;

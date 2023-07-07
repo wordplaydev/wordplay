@@ -20,6 +20,7 @@ import PropertyReference from './PropertyReference';
 import IncompatibleBind from '../conflicts/IncompatibleBind';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
+import concretize from '../locale/locales/concretize';
 
 export default class PropertyBind extends Expression {
     readonly reference: PropertyReference;
@@ -138,17 +139,19 @@ export default class PropertyBind extends Expression {
         return translation.node.PropertyBind;
     }
 
-    getStartExplanations(translation: Locale) {
-        return translation.node.PropertyBind.start;
+    getStartExplanations(locale: Locale) {
+        return concretize(locale, locale.node.PropertyBind.start);
     }
 
     getFinishExplanations(
-        translation: Locale,
+        locale: Locale,
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.node.PropertyBind.finish(
-            this.getValueIfDefined(translation, context, evaluator)
+        return concretize(
+            locale,
+            locale.node.PropertyBind.finish,
+            this.getValueIfDefined(locale, context, evaluator)
         );
     }
 

@@ -5,6 +5,7 @@ import type TableType from '@nodes/TableType';
 import NodeLink from '@locale/NodeLink';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
+import concretize from '../locale/locales/concretize';
 
 export default class MissingCell extends Conflict {
     readonly row: Row;
@@ -23,23 +24,25 @@ export default class MissingCell extends Conflict {
         return {
             primary: {
                 node: this.row,
-                explanation: (translation: Locale, context: Context) =>
-                    translation.conflict.MissingCell.primary(
+                explanation: (locale: Locale, context: Context) =>
+                    concretize(
+                        locale,
+                        locale.conflict.MissingCell.primary,
                         new NodeLink(
                             this.column,
-                            translation,
+                            locale,
                             context,
-                            this.column.names.getLocaleText(
-                                translation.language
-                            )
+                            this.column.names.getLocaleText(locale.language)
                         )
                     ),
             },
             secondary: {
                 node: this.column,
-                explanation: (translation: Locale, context: Context) =>
-                    translation.conflict.MissingCell.secondary(
-                        new NodeLink(this.row, translation, context)
+                explanation: (locale: Locale, context: Context) =>
+                    concretize(
+                        locale,
+                        locale.conflict.MissingCell.secondary,
+                        new NodeLink(this.row, locale, context)
                     ),
             },
         };

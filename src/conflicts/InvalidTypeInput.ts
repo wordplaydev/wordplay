@@ -7,6 +7,7 @@ import type Type from '@nodes/Type';
 import NodeLink from '@locale/NodeLink';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
+import concretize from '../locale/locales/concretize';
 
 export default class InvalidTypeInput extends Conflict {
     readonly evaluate: NameType | Evaluate;
@@ -28,23 +29,25 @@ export default class InvalidTypeInput extends Conflict {
         return {
             primary: {
                 node: this.type,
-                explanation: (translation: Locale, context: Context) =>
-                    translation.conflict.InvalidTypeInput.primary(
+                explanation: (locale: Locale, context: Context) =>
+                    concretize(
+                        locale,
+                        locale.conflict.InvalidTypeInput.primary,
                         new NodeLink(
                             this.definition.names,
-                            translation,
+                            locale,
                             context,
-                            this.definition.names.getLocaleText(
-                                translation.language
-                            )
+                            this.definition.names.getLocaleText(locale.language)
                         )
                     ),
             },
             secondary: {
                 node: this.definition.names,
-                explanation: (translation: Locale, context: Context) =>
-                    translation.conflict.InvalidTypeInput.secondary(
-                        new NodeLink(this.type, translation, context)
+                explanation: (locale: Locale, context: Context) =>
+                    concretize(
+                        locale,
+                        locale.conflict.InvalidTypeInput.secondary,
+                        new NodeLink(this.type, locale, context)
                     ),
             },
         };

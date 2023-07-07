@@ -27,6 +27,7 @@ export default abstract class Exception extends Primitive {
     getType() {
         return new ExceptionType(this);
     }
+
     getNativeTypeName(): NativeTypeName {
         return 'exception';
     }

@@ -1,6 +1,7 @@
 import type Row from '@nodes/Row';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
+import concretize from '../locale/locales/concretize';
 
 export default class InvalidRow extends Conflict {
     readonly row: Row;
@@ -14,8 +15,8 @@ export default class InvalidRow extends Conflict {
         return {
             primary: {
                 node: this.row,
-                explanation: (translation: Locale) =>
-                    translation.conflict.InvalidRow.primary,
+                explanation: (locale: Locale) =>
+                    concretize(locale, locale.conflict.InvalidRow),
             },
         };
     }

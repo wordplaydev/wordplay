@@ -20,6 +20,7 @@ import Pose from './Pose';
 import type Sequence from './Sequence';
 import Group from './Group';
 import { toShape, type Shape } from './Shapes';
+import concretize from '../locale/locales/concretize';
 
 export const DefaultFont = `'Noto Sans', 'Noto Color Emoji'`;
 export const DefaultSize = 1;
@@ -129,11 +130,14 @@ export default class Stage extends TypeOutput {
     }
 
     getDescription(languages: LanguageCode[]) {
-        return getPreferredLocale(languages).output.Stage.description(
+        const locale = getPreferredLocale(languages);
+        return concretize(
+            locale,
+            locale.output.Stage.description,
             this.content.length,
             this.content.filter((o) => o instanceof Phrase).length,
             this.content.filter((o) => o instanceof Group).length
-        );
+        ).toString();
     }
 
     isEmpty() {

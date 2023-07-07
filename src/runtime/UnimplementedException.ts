@@ -4,6 +4,7 @@ import Exception from './Exception';
 import type Expression from '@nodes/Expression';
 import NodeLink from '@locale/NodeLink';
 import type Token from '@nodes/Token';
+import concretize from '../locale/locales/concretize';
 
 export default class UnimplementedException extends Exception {
     readonly placeholder: Expression | Token;
@@ -12,11 +13,13 @@ export default class UnimplementedException extends Exception {
         this.placeholder = placeholder;
     }
 
-    getDescription(translation: Locale) {
-        return translation.exceptions.placeholder(
+    getDescription(locale: Locale) {
+        return concretize(
+            locale,
+            locale.exceptions.placeholder,
             new NodeLink(
                 this.placeholder,
-                translation,
+                locale,
                 this.getNodeContext(this.placeholder)
             )
         );

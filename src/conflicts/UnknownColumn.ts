@@ -2,6 +2,7 @@ import type Expression from '@nodes/Expression';
 import type TableType from '@nodes/TableType';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
+import concretize from '../locale/locales/concretize';
 
 export default class UnknownColumn extends Conflict {
     readonly type: TableType;
@@ -17,8 +18,8 @@ export default class UnknownColumn extends Conflict {
         return {
             primary: {
                 node: this.cell,
-                explanation: (translation: Locale) =>
-                    translation.conflict.UnknownColumn.primary,
+                explanation: (locale: Locale) =>
+                    concretize(locale, locale.conflict.UnknownColumn),
             },
         };
     }

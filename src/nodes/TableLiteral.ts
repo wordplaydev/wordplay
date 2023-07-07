@@ -18,6 +18,7 @@ import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
+import concretize from '../locale/locales/concretize';
 
 export default class TableLiteral extends Expression {
     readonly type: TableType;
@@ -150,17 +151,19 @@ export default class TableLiteral extends Expression {
         return translation.node.TableLiteral;
     }
 
-    getStartExplanations(translation: Locale) {
-        return translation.node.TableLiteral.start;
+    getStartExplanations(locale: Locale) {
+        return concretize(locale, locale.node.TableLiteral.start);
     }
 
     getFinishExplanations(
-        translation: Locale,
+        locale: Locale,
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.node.TableLiteral.finish(
-            this.getValueIfDefined(translation, context, evaluator)
+        return concretize(
+            locale,
+            locale.node.TableLiteral.finish,
+            this.getValueIfDefined(locale, context, evaluator)
         );
     }
 

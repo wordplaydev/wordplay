@@ -24,6 +24,7 @@ import type SetOpenToken from './SetOpenToken';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Root from './Root';
+import Description from '../locale/Description';
 
 /** A document representing executable Wordplay code and it's various metadata, such as conflicts, tokens, and evaulator. */
 export default class Source extends Expression {
@@ -616,20 +617,16 @@ export default class Source extends Expression {
         return this;
     }
 
-    getDescription() {
-        return '';
-    }
-
     getNodeLocale(translation: Locale) {
         return translation.node.Source;
     }
 
     getStartExplanations() {
-        return '';
+        return Description.as('');
     }
 
     getFinishExplanations() {
-        return '';
+        return Description.as('');
     }
 
     getGlyphs() {

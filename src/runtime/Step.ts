@@ -3,7 +3,7 @@ import type Evaluator from './Evaluator';
 import type Value from './Value';
 import type Expression from '@nodes/Expression';
 import type Locale from '@locale/Locale';
-import type { Description } from '@locale/Locale';
+import type Description from '../locale/Description';
 
 /** Represents one step a compiled program's execution. */
 export default abstract class Step {

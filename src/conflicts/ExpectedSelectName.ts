@@ -3,6 +3,7 @@ import type Expression from '@nodes/Expression';
 import NodeLink from '@locale/NodeLink';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
+import concretize from '../locale/locales/concretize';
 
 export default class ExpectedSelectName extends Conflict {
     readonly cell: Expression;
@@ -17,9 +18,11 @@ export default class ExpectedSelectName extends Conflict {
         return {
             primary: {
                 node: this.cell,
-                explanation: (translation: Locale, context: Context) =>
-                    translation.conflict.ExpectedSelectName.primary(
-                        new NodeLink(this.cell, translation, context)
+                explanation: (locale: Locale, context: Context) =>
+                    concretize(
+                        locale,
+                        locale.conflict.ExpectedSelectName,
+                        new NodeLink(this.cell, locale, context)
                     ),
             },
         };

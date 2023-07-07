@@ -15,6 +15,7 @@ import Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';
 import { TEXT_DELIMITERS } from '../parser/Tokenizer';
 import { TEMPLATE_SYMBOL } from '../parser/Symbols';
+import concretize from '../locale/locales/concretize';
 
 export const ESCAPE_REGEX = /\\(.)/g;
 
@@ -109,7 +110,7 @@ export default class TextLiteral extends Literal {
     }
 
     getStartExplanations(translation: Locale) {
-        return translation.node.TextLiteral.start;
+        return concretize(translation, translation.node.TextLiteral.start);
     }
 
     getGlyphs() {
@@ -117,6 +118,10 @@ export default class TextLiteral extends Literal {
             symbols: this.text.getDelimiters(),
             emotion: Emotion.Excited,
         };
+    }
+
+    getDescriptionInputs() {
+        return [this.getText()];
     }
 }
 

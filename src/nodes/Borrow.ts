@@ -32,6 +32,7 @@ import NodeLink from '@locale/NodeLink';
 import StreamDefinition from './StreamDefinition';
 import StreamDefinitionValue from '../runtime/StreamDefinitionValue';
 import Glyphs from '../lore/Glyphs';
+import concretize from '../locale/locales/concretize';
 
 export type SharedDefinition =
     | Source
@@ -241,23 +242,20 @@ export default class Borrow extends AtomicExpression {
         return translation.node.Borrow;
     }
 
-    getStartExplanations(translation: Locale, context: Context) {
-        return translation.node.Borrow.start(
+    getStartExplanations(locale: Locale, context: Context) {
+        return concretize(
+            locale,
+            locale.node.Borrow.start,
             this.source
                 ? new NodeLink(
                       this.source,
-                      translation,
+                      locale,
                       context,
                       this.source.getText()
                   )
                 : undefined,
             this.name
-                ? new NodeLink(
-                      this.name,
-                      translation,
-                      context,
-                      this.name.getText()
-                  )
+                ? new NodeLink(this.name, locale, context, this.name.getText())
                 : undefined
         );
     }

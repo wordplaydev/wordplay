@@ -3,6 +3,7 @@ import type Expression from '@nodes/Expression';
 import NodeLink from '@locale/NodeLink';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
+import concretize from '../locale/locales/concretize';
 
 export default class ExpectedUpdateBind extends Conflict {
     readonly cell: Expression;
@@ -16,9 +17,11 @@ export default class ExpectedUpdateBind extends Conflict {
         return {
             primary: {
                 node: this.cell,
-                explanation: (translation: Locale, context: Context) =>
-                    translation.conflict.ExpectedUpdateBind.primary(
-                        new NodeLink(this.cell, translation, context)
+                explanation: (locale: Locale, context: Context) =>
+                    concretize(
+                        locale,
+                        locale.conflict.ExpectedUpdateBind,
+                        new NodeLink(this.cell, locale, context)
                     ),
             },
         };

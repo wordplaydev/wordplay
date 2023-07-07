@@ -28,6 +28,7 @@ import Glyphs from '../lore/Glyphs';
 import { NotAType } from './NotAType';
 import ConversionType from './ConversionType';
 import NeverType from './NeverType';
+import concretize from '../locale/locales/concretize';
 
 export default class Convert extends Expression {
     readonly expression: Expression;
@@ -220,19 +221,23 @@ export default class Convert extends Expression {
         return translation.node.Convert;
     }
 
-    getStartExplanations(translation: Locale, context: Context) {
-        return translation.node.Convert.start(
-            new NodeLink(this.expression, translation, context)
+    getStartExplanations(locale: Locale, context: Context) {
+        return concretize(
+            locale,
+            locale.node.Convert.start,
+            new NodeLink(this.expression, locale, context)
         );
     }
 
     getFinishExplanations(
-        translation: Locale,
+        locale: Locale,
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.node.Convert.finish(
-            this.getValueIfDefined(translation, context, evaluator)
+        return concretize(
+            locale,
+            locale.node.Convert.finish,
+            this.getValueIfDefined(locale, context, evaluator)
         );
     }
 

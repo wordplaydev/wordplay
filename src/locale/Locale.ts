@@ -1,51 +1,11 @@
 import type LanguageCode from './LanguageCode';
-import Token from '@nodes/Token';
-import type UnknownType from '@nodes/UnknownType';
 import type Node from '@nodes/Node';
-import type Dimension from '@nodes/Dimension';
-import type ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import type Context from '@nodes/Context';
-import type ListType from '@nodes/ListType';
-import type MapType from '@nodes/MapType';
-import type MeasurementLiteral from '@nodes/MeasurementLiteral';
-import type MeasurementType from '@nodes/MeasurementType';
-import type NameType from '@nodes/NameType';
-import type Reference from '@nodes/Reference';
-import type SetType from '@nodes/SetType';
-import type StreamType from '@nodes/StreamType';
-import type UnionType from '@nodes/UnionType';
-import type Unit from '@nodes/Unit';
-import type CycleType from '@nodes/CycleType';
-import type UnknownNameType from '@nodes/UnknownNameType';
-import type NodeLink from './NodeLink';
-import type Explanation from './Explanation';
-import type ValueLink from './ValueLink';
-import type BooleanLiteral from '@nodes/BooleanLiteral';
-import type ListLiteral from '@nodes/ListLiteral';
-import type StreamDefinitionType from '../nodes/StreamDefinitionType';
 import type Emotion from '../lore/Emotion';
-import type TextType from '../nodes/TextType';
-import type Name from '../nodes/Name';
-import type Language from '../nodes/Language';
-import { Languages } from './LanguageCode';
-import type Names from '../nodes/Names';
-import type BinaryOperation from '../nodes/BinaryOperation';
-import type Bind from '../nodes/Bind';
-import type Block from '../nodes/Block';
-import type Evaluate from '../nodes/Evaluate';
-import type FunctionDefinition from '../nodes/FunctionDefinition';
-import type MapLiteral from '../nodes/MapLiteral';
-import type SetLiteral from '../nodes/SetLiteral';
-import type TextLiteral from '../nodes/TextLiteral';
-import type UnaryOperation from '../nodes/UnaryOperation';
+import Token from '@nodes/Token';
 import TokenType from '../nodes/TokenType';
-import type StructureDefinition from '../nodes/StructureDefinition';
-import type Type from '../nodes/Type';
 
-export type Description = string | Explanation;
+export type Template = string;
 export type DocString = string;
-
-export type LabelTranslator = (node: Node, locale: Locale) => string;
 
 export type NameAndDoc = {
     names: NameText;
@@ -64,54 +24,27 @@ export type ConceptText<
     Names extends number
 > = NameAndDoc;
 
-export type NodeText<Kind> = {
+export type NodeText = {
     /* The name that should be used to refer to the node type */
     name: string;
     /* A description of what the node is. More specific than a name. If not provided, name is used. */
-    description: Kind;
+    description: Template;
     /* Documentation text that appears in the documentation view */
     doc: DocString;
     /* The emotion that should be conveyed in animations of the node type */
     emotion: Emotion;
 };
 
-export type StaticNodeText = NodeText<string>;
-
-export type DynamicNodeText<NodeType extends Node> = NodeText<
-    (
-        node: NodeType,
-        translation: Locale,
-        context: Context
-    ) => string | undefined
->;
-
-export interface AtomicExpressionText<
-    Start extends DescriptionOrGenerator = Description
-> {
-    start: Start;
+export interface AtomicExpressionText {
+    start: Template;
 }
 
-export interface ExpressionText<
-    Start extends DescriptionOrGenerator = Description,
-    Finish extends DescriptionOrGenerator = Description
-> extends AtomicExpressionText<Start> {
-    finish: Finish;
+export interface ExpressionText extends AtomicExpressionText {
+    finish: Template;
 }
 
-export type DescriptionOrGenerator =
-    | Description
-    | ((...args: any[]) => Description);
-
-export type InternalConflictText<Primary extends DescriptionOrGenerator> = {
-    primary: Primary;
-};
-
-export type ConflictText<
-    Primary extends DescriptionOrGenerator,
-    Secondary extends DescriptionOrGenerator
-> = InternalConflictText<Primary> & {
-    secondary: Secondary;
-};
+export type InternalConflictText = Template;
+export type ConflictText = { primary: Template; secondary: Template };
 
 export type FunctionText<Inputs> = {
     name: NameText;
@@ -123,71 +56,8 @@ export type NameText = string | string[];
 
 export type DocText = string;
 
-type ValueOrUndefinedText = (value: ValueLink | undefined) => Description;
-
 export function getFirstName(name: NameText) {
     return typeof name === 'string' ? name : name[0];
-}
-
-export function getDimensionDescription(dimension: Dimension) {
-    const dim = dimension.getName();
-    return (
-        {
-            pm: 'picometers',
-            nm: 'nanometers',
-            µm: 'micrometers',
-            mm: 'millimeters',
-            m: 'meters',
-            cm: 'centimeters',
-            dm: 'decimeters',
-            km: 'kilometers',
-            Mm: 'megameters',
-            Gm: 'gigameters',
-            Tm: 'terameters',
-            mi: 'miles',
-            in: 'inches',
-            ft: 'feet',
-            ms: 'milliseconds',
-            s: 'seconds',
-            min: 'minutes',
-            hr: 'hours',
-            day: 'days',
-            wk: 'weeks',
-            yr: 'years',
-            g: 'grams',
-            mg: 'milligrams',
-            kg: 'kilograms',
-            oz: 'ounces',
-            lb: 'pounds',
-            pt: 'font size',
-        }[dim] ?? dim
-    );
-}
-
-export function getLanguageDescription(language: Language) {
-    return language.lang
-        ? Languages[language.lang.getText()]?.name ?? undefined
-        : undefined;
-}
-
-export function getEvaluateDescription(
-    evaluate: Evaluate,
-    translation: Locale,
-    context: Context
-) {
-    return evaluate
-        .getFunction(context)
-        ?.names.getLocaleText(translation.language);
-}
-
-export function getPlaceholderDescription(
-    node: ExpressionPlaceholder,
-    translation: Locale,
-    context: Context
-) {
-    return node.type
-        ? node.type.getDescription(translation, context)
-        : undefined;
 }
 
 export function getTokenLabel(token: Node, translation: Locale): string {
@@ -202,10 +72,6 @@ export function getTokenLabel(token: Node, translation: Locale): string {
     return tokenLabel;
 }
 
-export function getTokenDescription(token: Token, translation: Locale) {
-    return `${getTokenLabel(token, translation)} ${token.getText()}`;
-}
-
 /**
  * Represents a complete translation for Wordplay,
  * including every user interface label, every description, etc.
@@ -214,6 +80,8 @@ export function getTokenDescription(token: Token, translation: Locale) {
 type Locale = {
     /** An ISO 639-1 language code */
     language: LanguageCode;
+    /** The placeholder string indicating that a locale string is not yet written */
+    tbd: string;
     /** The name of the Wordplay project */
     wordplay: string;
     /** Used to address someone or say hi, on the login screen. */
@@ -240,11 +108,13 @@ type Locale = {
         entered: string;
         /** How to describe output that has changed */
         changed: string;
+        /** How to refer to names that things have */
+        name: string;
     };
     /** A way to say "before [description]" */
     caret: {
-        before: (description: string) => string;
-        inside: (description: string) => string;
+        before: Template;
+        inside: Template;
     };
     data: {
         value: string;
@@ -267,8 +137,8 @@ type Locale = {
         key: string;
     };
     evaluation: {
-        done: Description;
-        unevaluated: Description;
+        done: Template;
+        unevaluated: Template;
     };
     token: Record<keyof typeof TokenType, string>;
     node: NodeTexts;
@@ -491,143 +361,168 @@ type Locale = {
         };
     };
     exceptions: {
-        blank: () => Description;
-        function: (name: NodeLink, type: NodeLink | undefined) => Description;
-        cycle: (borrow: NodeLink) => Description;
-        functionlimit: (fun: NodeLink) => Description;
-        steplimit: Description;
-        name: (
-            name: NodeLink | undefined,
-            scope: ValueLink | undefined
-        ) => Description;
-        type: (expected: NodeLink, received: ValueLink) => Description;
-        placeholder: (expression: NodeLink) => Description;
-        unparsable: (expr: NodeLink) => Description;
-        value: (node: NodeLink) => Description;
+        /** No inputs */
+        blank: Template;
+        /** $1: Name of function not found in scope */
+        function: Template;
+        /** $1: Scope in which name was not found */
+        name: Template;
+        /** $1: Borrow that it depends on */
+        cycle: Template;
+        /** $1: The function that was evaluated too many times */
+        functionlimit: Template;
+        /** No inputs */
+        steplimit: Template;
+        /**
+         * $1 = expected type
+         * $2 = received type
+         */
+        type: Template;
+        /** No inputs */
+        placeholder: Template;
+        /** No inputs */
+        unparsable: Template;
+        /** No inputs */
+        value: Template;
     };
     conflict: {
-        BorrowCycle: InternalConflictText<(borrow: NodeLink) => Description>;
-        ReferenceCycle: InternalConflictText<(ref: NodeLink) => Description>;
-        DisallowedInputs: InternalConflictText<Description>;
-        DuplicateName: ConflictText<
-            (name: NodeLink) => Description,
-            (name: NodeLink) => Description
-        >;
-        DuplicateShare: ConflictText<
-            (bind: NodeLink) => Description,
-            (bind: NodeLink) => Description
-        >;
-        DuplicateTypeVariable: ConflictText<
-            (duplicate: NodeLink) => Description,
-            (duplicate: NodeLink) => Description
-        >;
-        ExpectedBooleanCondition: ConflictText<
-            (type: NodeLink) => Description,
-            (type: NodeLink) => Description
-        >;
-        ExpectedColumnType: InternalConflictText<
-            (type: NodeLink) => Description
-        >;
-        ExpectedEndingExpression: InternalConflictText<Description>;
-        ExpectedSelectName: InternalConflictText<
-            (cell: NodeLink) => Description
-        >;
-        ExpectedUpdateBind: InternalConflictText<
-            (cell: NodeLink) => Description
-        >;
-        IgnoredExpression: ConflictText<Description, Description>;
-        IncompleteImplementation: InternalConflictText<Description>;
-        IncompatibleBind: ConflictText<
-            (expected: NodeLink) => Description,
-            (given: NodeLink, expected: NodeLink) => Description
-        >;
-        IncompatibleCellType: ConflictText<
-            (expected: NodeLink) => Description,
-            (given: NodeLink) => Description
-        >;
-        IncompatibleInput: ConflictText<
-            (given: NodeLink, expected: NodeLink) => Description,
-            (given: NodeLink, expected: NodeLink) => Description
-        >;
-        IncompatibleKey: ConflictText<
-            (expected: NodeLink) => Description,
-            (given: NodeLink) => Description
-        >;
-        ImpossibleType: InternalConflictText<Description>;
-        InvalidLanguage: InternalConflictText<Description>;
-        InvalidRow: InternalConflictText<Description>;
-        InvalidTypeInput: ConflictText<
-            (definition: NodeLink) => Description,
-            (type: NodeLink) => Description
-        >;
-        MisplacedConversion: InternalConflictText<Description>;
-        MisplacedInput: InternalConflictText<Description>;
-        MisplacedShare: InternalConflictText<Description>;
-        MisplacedThis: InternalConflictText<Description>;
-        MissingCell: ConflictText<
-            (column: NodeLink) => Description,
-            (row: NodeLink) => Description
-        >;
-        MissingInput: ConflictText<
-            (input: NodeLink) => Description,
-            (evaluate: NodeLink) => Description
-        >;
-        MissingLanguage: InternalConflictText<Description>;
-        MissingShareLanguages: InternalConflictText<Description>;
-        NoExpression: InternalConflictText<Description>;
-        NotAMap: ConflictText<Description, (expr: NodeLink) => Description>;
-        NotANumber: InternalConflictText<Description>;
-        NotAnInterface: InternalConflictText<Description>;
-        NotInstantiable: InternalConflictText<Description>;
-        OrderOfOperations: InternalConflictText<Description>;
-        Placeholder: InternalConflictText<Description>;
-        RequiredAfterOptional: InternalConflictText<Description>;
-        UnclosedDelimiter: InternalConflictText<
-            (token: NodeLink, expected: NodeLink) => Description
-        >;
-        UnexpectedEtc: InternalConflictText<Description>;
-        UnexpectedInput: ConflictText<
-            (evaluation: NodeLink) => Description,
-            (input: NodeLink) => Description
-        >;
-        UnexpectedTypeVariable: InternalConflictText<Description>;
-        UnimplementedInterface: InternalConflictText<
-            (inter: NodeLink, fun: NodeLink) => Description
-        >;
-        UnknownBorrow: InternalConflictText<Description>;
-        UnknownColumn: InternalConflictText<Description>;
-        UnknownConversion: InternalConflictText<
-            (from: NodeLink, to: NodeLink) => Description
-        >;
-        UnknownInput: InternalConflictText<Description>;
-        UnknownName: InternalConflictText<
-            (name: NodeLink, type: NodeLink | undefined) => Description
-        >;
-        InvalidTypeName: InternalConflictText<
-            (type: ValueLink | NodeLink) => Description
-        >;
-        Unnamed: InternalConflictText<Description>;
-        UnparsableConflict: InternalConflictText<
-            (expression: boolean) => Description
-        >;
-        UnusedBind: InternalConflictText<Description>;
-        InputListMustBeLast: InternalConflictText<Description>;
+        /** $1: borrow that had a cycle */
+        BorrowCycle: InternalConflictText;
+        /** $1: The name that depends on itself */
+        ReferenceCycle: InternalConflictText;
+        DisallowedInputs: InternalConflictText;
+        /** $1: The name that shadowed this one */
+        DuplicateName: ConflictText;
+        /** $1: The duplicate */
+        DuplicateShare: ConflictText;
+        /** $1: The duplicate */
+        DuplicateTypeVariable: ConflictText;
+        /** $1: The non-boolean expression */
+        ExpectedBooleanCondition: ConflictText;
+        /** $: The missing column */
+        ExpectedColumnType: InternalConflictText;
+        ExpectedEndingExpression: InternalConflictText;
+        /** $1: The select expression */
+        ExpectedSelectName: InternalConflictText;
+        ExpectedUpdateBind: InternalConflictText;
+        IgnoredExpression: ConflictText;
+        IncompleteImplementation: InternalConflictText;
+        /**
+         * $1: Expected
+         * $2: Given
+         * */
+        IncompatibleBind: ConflictText;
+        /**
+         * $1: Expected
+         * $2: Given
+         * */
+        IncompatibleCellType: ConflictText;
+        /**
+         * $1: Expected
+         * $2: Given
+         * */
+        IncompatibleInput: ConflictText;
+        /**
+         * $1: Expected
+         * $2: Given
+         * */
+        IncompatibleKey: ConflictText;
+        ImpossibleType: InternalConflictText;
+        InvalidLanguage: InternalConflictText;
+        InvalidRow: InternalConflictText;
+        /**
+         * $1: Definition
+         * $2: Type
+         * */
+        InvalidTypeInput: ConflictText;
+        MisplacedConversion: InternalConflictText;
+        MisplacedInput: InternalConflictText;
+        MisplacedShare: InternalConflictText;
+        MisplacedThis: InternalConflictText;
+        /**
+         * $1: Column
+         * $2: Row
+         * */
+        MissingCell: ConflictText;
+        /**
+         * $1: Missing input
+         * $2: Evaluate that is missing input
+         * */
+        MissingInput: ConflictText;
+        MissingLanguage: InternalConflictText;
+        MissingShareLanguages: InternalConflictText;
+        NoExpression: InternalConflictText;
+        /**
+         * $1: Expression that's not a map
+         * */
+        NotAMap: ConflictText;
+        NotANumber: InternalConflictText;
+        NotAnInterface: InternalConflictText;
+        NotInstantiable: InternalConflictText;
+        OrderOfOperations: InternalConflictText;
+        Placeholder: InternalConflictText;
+        RequiredAfterOptional: InternalConflictText;
+        /**
+         * $1: Unclosed token
+         * $2: Opening delimiter
+         * */
+        UnclosedDelimiter: InternalConflictText;
+        UnexpectedEtc: InternalConflictText;
+        /**
+         * $1: Evaluate with unexected input
+         * $2: Unexpected input
+         * */
+        UnexpectedInput: ConflictText;
+        UnexpectedTypeVariable: InternalConflictText;
+        /**
+         * $1: Interface
+         * $2: Function
+         * */
+        UnimplementedInterface: InternalConflictText;
+        UnknownBorrow: InternalConflictText;
+        UnknownColumn: InternalConflictText;
+        /**
+         * $1: From type
+         * $2: To type
+         * */
+        UnknownConversion: InternalConflictText;
+        UnknownInput: InternalConflictText;
+        /**
+         * $1: Scope
+         * */
+        UnknownName: InternalConflictText;
+        /**
+         * $1: Invalid type
+         * */
+        InvalidTypeName: InternalConflictText;
+        Unnamed: InternalConflictText;
+        /**
+         * $1: True if expression, false if type
+         * */
+        UnparsableConflict: InternalConflictText;
+        UnusedBind: InternalConflictText;
+        InputListMustBeLast: InternalConflictText;
     };
     step: {
-        stream: Description;
-        jump: Description;
-        jumpif: (yes: boolean) => Description;
-        halt: Description;
-        initialize: Description;
-        evaluate: Description;
-        next: Description;
-        check: Description;
+        stream: Template;
+        jump: Template;
+        /** $1: true if jumping */
+        jumpif: Template;
+        halt: Template;
+        initialize: Template;
+        evaluate: Template;
+        next: Template;
+        check: Template;
     };
     transform: {
-        add: (node: Description) => Description;
-        append: (node: Description) => Description;
-        remove: (node: Description) => Description;
-        replace: (node: Description | undefined) => Description;
+        /** $1: node description */
+        add: Template;
+        /** $1: node description */
+        append: Template;
+        /** $1: node description */
+        remove: Template;
+        /** $1: node description or undefined */
+        replace: Template;
     };
     ui: {
         placeholders: {
@@ -773,191 +668,368 @@ type Locale = {
 };
 
 export type NodeTexts = {
-    Dimension: DynamicNodeText<Dimension>;
-    Doc: StaticNodeText;
-    Docs: StaticNodeText;
-    KeyValue: StaticNodeText;
-    Language: DynamicNodeText<Language>;
-    Name: DynamicNodeText<Name>;
-    Names: DynamicNodeText<Names>;
-    Row: StaticNodeText;
-    Token: DynamicNodeText<Token>;
-    TypeInputs: StaticNodeText;
-    TypeVariable: StaticNodeText;
-    TypeVariables: StaticNodeText;
-    Paragraph: StaticNodeText;
-    WebLink: StaticNodeText;
-    ConceptLink: StaticNodeText;
-    Words: StaticNodeText;
-    Example: StaticNodeText;
-    BinaryOperation: DynamicNodeText<BinaryOperation> &
-        ExpressionText<
-            (left: NodeLink) => Description,
-            (result: ValueLink | undefined) => Description
-        > & {
-            right: Description;
+    Dimension: NodeText;
+    Doc: NodeText;
+    Docs: NodeText;
+    KeyValue: NodeText;
+    Language: NodeText;
+    /**
+     * Description
+     * $1: name or undefined
+     */
+    Name: NodeText;
+    Names: NodeText;
+    Row: NodeText;
+    /**
+     * Description
+     * $1: token label
+     * $1: token text
+     */
+    Token: NodeText;
+    TypeInputs: NodeText;
+    TypeVariable: NodeText;
+    TypeVariables: NodeText;
+    Paragraph: NodeText;
+    WebLink: NodeText;
+    ConceptLink: NodeText;
+    Words: NodeText;
+    Example: NodeText;
+    /**
+     * Start
+     * $1: left expression
+     * Finish
+     * $1: result
+     */
+    BinaryOperation: NodeText &
+        ExpressionText & {
+            right: Template;
         };
-    Bind: DynamicNodeText<Bind> &
-        ExpressionText<
-            (value: NodeLink | undefined) => Description,
-            (value: ValueLink | undefined, names: NodeLink) => Description
-        >;
-    Block: DynamicNodeText<Block> &
-        ExpressionText<Description, ValueOrUndefinedText> & {
-            statement: Description;
+    /**
+     * Start
+     * $1: bind evaluating
+     * Finish
+     * $1: resulting value
+     * $2: names bound
+     */
+    Bind: NodeText & ExpressionText;
+    /**
+     * Description
+     * $1: # of statements
+     * Start
+     * No inputs
+     * Finish
+     * $1: Resulting value
+     */
+    Block: NodeText &
+        ExpressionText & {
+            statement: Template;
         };
-    BooleanLiteral: DynamicNodeText<BooleanLiteral> &
-        AtomicExpressionText<(value: NodeLink) => Description>;
-    Borrow: StaticNodeText &
-        AtomicExpressionText<
-            (
-                source: NodeLink | undefined,
-                name: NodeLink | undefined
-            ) => Description
-        > & {
-            source: Description;
-            bind: Description;
-            version: Description;
-        };
-    Changed: StaticNodeText &
-        AtomicExpressionText<(stream: NodeLink) => Description> & {
-            stream: Description;
-        };
-    Conditional: StaticNodeText &
-        ExpressionText<
-            (condition: NodeLink) => Description,
-            ValueOrUndefinedText
-        > & {
-            condition: Description;
-            yes: Description;
-            no: Description;
-        };
-    ConversionDefinition: StaticNodeText & AtomicExpressionText;
-    Convert: StaticNodeText &
-        ExpressionText<(input: NodeLink) => Description, ValueOrUndefinedText>;
-    Delete: StaticNodeText &
-        ExpressionText<(table: NodeLink) => Description, ValueOrUndefinedText>;
-    DocumentedExpression: StaticNodeText & AtomicExpressionText;
-    Evaluate: DynamicNodeText<Evaluate> &
-        ExpressionText<
-            (inputs: boolean) => Description,
-            ValueOrUndefinedText
-        > & {
-            function: Description;
-            input: Description;
-        };
-    ExpressionPlaceholder: DynamicNodeText<ExpressionPlaceholder> &
+    /**
+     * Description
+     * $1: true if true, false otherwise
+     */
+    BooleanLiteral: NodeText & AtomicExpressionText;
+    /**
+     * Start
+     * $1: source
+     * $2: name borrowed
+     */
+    Borrow: NodeText &
         AtomicExpressionText & {
-            placeholder: Description;
+            source: Template;
+            bind: Template;
+            version: Template;
         };
-    FunctionDefinition: DynamicNodeText<FunctionDefinition> &
-        AtomicExpressionText;
-    HOF: StaticNodeText & ExpressionText<Description, ValueOrUndefinedText>;
-    Insert: StaticNodeText &
-        ExpressionText<(table: NodeLink) => Description, ValueOrUndefinedText>;
-    Initial: StaticNodeText;
-    Is: StaticNodeText &
-        ExpressionText<
-            (expr: NodeLink) => Description,
-            (is: boolean, type: NodeLink) => Description
-        >;
-    ListAccess: StaticNodeText &
-        ExpressionText<(list: NodeLink) => Description, ValueOrUndefinedText>;
-    ListLiteral: DynamicNodeText<ListLiteral> &
-        ExpressionText<Description, ValueOrUndefinedText> & {
-            item: Description;
+    /**
+     * Start
+     * $1: stream that changed
+     */
+    Changed: NodeText &
+        AtomicExpressionText & {
+            stream: Template;
         };
-    MapLiteral: DynamicNodeText<MapLiteral> &
-        ExpressionText<Description, ValueOrUndefinedText>;
-    MeasurementLiteral: DynamicNodeText<MeasurementLiteral> &
-        AtomicExpressionText<(value: NodeLink) => Description>;
-    NativeExpression: StaticNodeText & AtomicExpressionText;
-    NoneLiteral: StaticNodeText & AtomicExpressionText;
-    Previous: StaticNodeText &
-        ExpressionText<(stream: NodeLink) => Description, ValueOrUndefinedText>;
-    Program: StaticNodeText &
-        ExpressionText<
-            (changes: { stream: ValueLink; value: ValueLink }[]) => Description,
-            ValueOrUndefinedText
-        >;
-    PropertyBind: StaticNodeText &
-        ExpressionText<
-            Description,
-            (structure: ValueLink | undefined) => Description
-        >;
-    PropertyReference: StaticNodeText &
-        ExpressionText<
-            Description,
-            (
-                property: NodeLink | undefined,
-                value: ValueLink | undefined
-            ) => Description
-        > & {
-            property: Description;
+    /**
+     * Start
+     * $1: condition to check
+     * Finish
+     * $1: resulting value
+     */
+    Conditional: NodeText &
+        ExpressionText & {
+            condition: Template;
+            yes: Template;
+            no: Template;
         };
-    Reaction: StaticNodeText &
-        ExpressionText<Description, ValueOrUndefinedText> & {
-            initial: Description;
-            condition: Description;
-            next: Description;
+    ConversionDefinition: NodeText & AtomicExpressionText;
+    /**
+     * Start
+     * $1: expression to convert
+     * Finish
+     * $1: resulting value
+     */
+    Convert: NodeText & ExpressionText;
+    /**
+     * Start
+     * $1: table expression
+     * Finish
+     * $1: resulting value
+     */
+    Delete: NodeText & ExpressionText;
+    DocumentedExpression: NodeText & AtomicExpressionText;
+    /**
+     * Descriptionn
+     * $1: name of function being evaluated
+     * Start
+     * no inputs
+     * Finish
+     * $1: resulting value
+     */
+    Evaluate: NodeText &
+        ExpressionText & {
+            function: Template;
+            input: Template;
         };
-    Reference: DynamicNodeText<Reference> &
-        AtomicExpressionText<(name: NodeLink) => Description> & {
-            name: Description;
+    /**
+     * Description
+     * $1: type or undefined
+     */
+    ExpressionPlaceholder: NodeText &
+        AtomicExpressionText & {
+            placeholder: Template;
         };
-    Select: StaticNodeText &
-        ExpressionText<(table: NodeLink) => Description, ValueOrUndefinedText>;
-    SetLiteral: DynamicNodeText<SetLiteral> &
-        ExpressionText<Description, ValueOrUndefinedText>;
-    SetOrMapAccess: StaticNodeText &
-        ExpressionText<(set: NodeLink) => Description, ValueOrUndefinedText>;
-    Source: StaticNodeText;
-    StreamDefinition: StaticNodeText & AtomicExpressionText;
-    StructureDefinition: DynamicNodeText<StructureDefinition> &
-        AtomicExpressionText;
-    TableLiteral: StaticNodeText &
-        ExpressionText<Description, ValueOrUndefinedText> & {
-            item: Description;
+    /**
+     * Description
+     * $1: function name in locale
+     */
+    FunctionDefinition: NodeText & AtomicExpressionText;
+    /**
+     * Finish
+     * $1: resulting value
+     */
+    HOF: NodeText & ExpressionText;
+    /**
+     * Start
+     * $1: table expression
+     * Finish
+     * $1: resulting value
+     */
+    Insert: NodeText & ExpressionText;
+    Initial: NodeText;
+    /**
+     * Start
+     * $1: expression
+     * Finish
+     * $1: result
+     * $2: type
+     */
+    Is: NodeText & ExpressionText;
+    /**
+     * Start
+     * $1: list
+     * Finish
+     * $1: resulting value
+     */
+    ListAccess: NodeText & ExpressionText;
+    /**
+     * Description
+     * $1: item count
+     * Finish
+     * $1: resulting value
+     */
+    ListLiteral: NodeText &
+        ExpressionText & {
+            item: Template;
         };
-    Template: StaticNodeText & ExpressionText;
-    TextLiteral: DynamicNodeText<TextLiteral> & AtomicExpressionText;
-    This: StaticNodeText & AtomicExpressionText<ValueOrUndefinedText>;
-    UnaryOperation: DynamicNodeText<UnaryOperation> &
-        ExpressionText<(value: NodeLink) => Description, ValueOrUndefinedText>;
-    UnparsableExpression: StaticNodeText & AtomicExpressionText;
-    Update: StaticNodeText &
-        ExpressionText<(table: NodeLink) => Description, ValueOrUndefinedText>;
-    AnyType: StaticNodeText;
-    BooleanType: StaticNodeText;
-    ConversionType: StaticNodeText;
-    ExceptionType: StaticNodeText;
-    FunctionDefinitionType: StaticNodeText;
-    FunctionType: StaticNodeText;
-    ListType: DynamicNodeText<ListType>;
-    MapType: DynamicNodeText<MapType>;
-    MeasurementType: DynamicNodeText<MeasurementType>;
-    NameType: DynamicNodeText<NameType>;
-    NeverType: StaticNodeText;
-    NoneType: StaticNodeText;
-    SetType: DynamicNodeText<SetType>;
-    StreamDefinitionType: DynamicNodeText<StreamDefinitionType>;
-    StreamType: DynamicNodeText<StreamType>;
-    StructureDefinitionType: StaticNodeText;
-    TableType: StaticNodeText;
-    TextType: DynamicNodeText<TextType>;
-    TypePlaceholder: StaticNodeText;
-    UnknownType: DynamicNodeText<UnknownType<any>>;
-    UnionType: DynamicNodeText<UnionType>;
-    UnparsableType: StaticNodeText;
-    Unit: DynamicNodeText<Unit>;
-    VariableType: StaticNodeText;
-    CycleType: DynamicNodeText<CycleType>;
-    UnknownVariableType: StaticNodeText;
-    NotAType: DynamicNodeText<Type>;
-    NoExpressionType: StaticNodeText;
-    NotEnclosedType: StaticNodeText;
-    NotImplementedType: StaticNodeText;
-    UnknownNameType: DynamicNodeText<UnknownNameType>;
+    /**
+     * Finish
+     * $1: resulting value
+     */
+    MapLiteral: NodeText & ExpressionText;
+    /**
+     * Description
+     * $1: number
+     * $1: unit
+     * Start
+     * $1: the node
+     */
+    MeasurementLiteral: NodeText & AtomicExpressionText;
+    NativeExpression: NodeText & AtomicExpressionText;
+    NoneLiteral: NodeText & AtomicExpressionText;
+    /**
+     * Start
+     * $1: the stream expression being checked
+     * Finish
+     * $1: resulting value
+     */
+    Previous: NodeText & ExpressionText;
+    /**
+     * Start
+     * $1: a stream that changed
+     * Finish
+     * $1: resulting value
+     */
+    Program: NodeText & ExpressionText;
+    /**
+     * Finish
+     * $1: revised property
+     * $1: revised value
+     */
+    PropertyBind: NodeText & ExpressionText;
+    /**
+     * Finish
+     * $1: revised property
+     * $1: revised value
+     */
+    PropertyReference: NodeText &
+        ExpressionText & {
+            property: Template;
+        };
+    /**
+     * Finish
+     * $1: resulting value
+     */
+    Reaction: NodeText &
+        ExpressionText & {
+            initial: Template;
+            condition: Template;
+            next: Template;
+        };
+    /**
+     * Description
+     * $1: the name
+     * Start
+     * $1: the name being resolved
+     */
+    Reference: NodeText &
+        AtomicExpressionText & {
+            name: Template;
+        };
+    /**
+     * Finish
+     * $1: the table
+     * $1: the result
+     */
+    Select: NodeText & ExpressionText;
+    /**
+     * Finish
+     * $1: the new set
+     */
+    SetLiteral: NodeText & ExpressionText;
+    /**
+     * Finish
+     * $1: the set/map value
+     */
+    SetOrMapAccess: NodeText & ExpressionText;
+    Source: NodeText;
+    StreamDefinition: NodeText & AtomicExpressionText;
+    /**
+     * Description
+     * $1: name of the structure
+     */
+    StructureDefinition: NodeText & AtomicExpressionText;
+    /**
+     * Finish
+     * $1: resulting table
+     */
+    TableLiteral: NodeText &
+        ExpressionText & {
+            item: Template;
+        };
+    Template: NodeText & ExpressionText;
+    /**
+     * Description
+     * $1: the text
+     */
+    TextLiteral: NodeText & AtomicExpressionText;
+    /**
+     * Finish
+     * $1: resulting value
+     */
+    This: NodeText & AtomicExpressionText;
+    /**
+     * Description
+     * $1: the operator
+     * Finish
+     * $1: resulting value
+     */
+    UnaryOperation: NodeText & ExpressionText;
+    UnparsableExpression: NodeText & AtomicExpressionText;
+    /**
+     * Start
+     * $1: the table
+     * Finish
+     * $1: resulting value
+     */
+    Update: NodeText & ExpressionText;
+    AnyType: NodeText;
+    BooleanType: NodeText;
+    ConversionType: NodeText;
+    ExceptionType: NodeText;
+    FunctionDefinitionType: NodeText;
+    FunctionType: NodeText;
+    /**
+     * Description
+     * $1: Type or undefined
+     */
+    ListType: NodeText;
+    /**
+     * Description
+     * $1: Key type or undefined
+     * $2: Map type or undefined
+     */
+    MapType: NodeText;
+    MeasurementType: NodeText;
+    /**
+     * Description
+     * $1: Type name
+     */
+    NameType: NodeText;
+    NeverType: NodeText;
+    NoneType: NodeText;
+    /**
+     * Description
+     * $1: Type expected
+     */
+    NotAType: NodeText;
+    /**
+     * Description
+     * $1: Type or undefined
+     */
+    SetType: NodeText;
+    StreamDefinitionType: NodeText;
+    StreamType: NodeText;
+    StructureDefinitionType: NodeText;
+    TableType: NodeText;
+    /**
+     * Description
+     * $1: Concrete type or undefined
+     */
+    TextType: NodeText;
+    TypePlaceholder: NodeText;
+    /**
+     * Description
+     * $1: Name that's not known or undefined
+     */
+    UnknownNameType: NodeText;
+    UnknownType: NodeText & { unknown: string; connector: string };
+    /**
+     * Description
+     * $1: left
+     * $2: right
+     */
+    UnionType: NodeText;
+    UnparsableType: NodeText;
+    /**
+     * Description
+     * $1: unit description
+     */
+    Unit: NodeText;
+    VariableType: NodeText;
+    CycleType: NodeText;
+    UnknownVariableType: NodeText;
+    NoExpressionType: NodeText;
+    NotEnclosedType: NodeText;
+    NotImplementedType: NodeText;
 };
 
 export type OutputTexts = {
@@ -983,7 +1055,14 @@ export type OutputTexts = {
         text: NameAndDoc;
     };
     Stage: ConceptText<1, 0> & {
-        description: (total: number, phrases: number, groups: number) => string;
+        /**
+         *
+         * @param total output
+         * @param phrases total
+         * @param groups total
+         * @returns
+         */
+        description: Template;
         content: NameAndDoc;
         background: NameAndDoc;
         frame: NameAndDoc;
@@ -1023,15 +1102,30 @@ export type OutputTexts = {
         z: NameAndDoc;
     };
     Row: ConceptText<1, 0> & {
-        description: (total: number, phrases: number, groups: number) => string;
+        /**
+         * $1 total count
+         * $2 phrase count
+         * $3 group count
+         */
+        description: Template;
         padding: NameAndDoc;
     };
     Stack: ConceptText<1, 0> & {
-        description: (total: number, phrases: number, groups: number) => string;
+        /**
+         * $1 total count
+         * $2 phrase count
+         * $3 group count
+         */
+        description: Template;
         padding: NameAndDoc;
     };
     Grid: ConceptText<1, 0> & {
-        description: (rows: number, columns: number) => string;
+        /**
+         *
+         * $1: rows
+         * $2: columns
+         */
+        description: Template;
         rows: NameAndDoc;
         columns: NameAndDoc;
         padding: NameAndDoc;
@@ -1039,7 +1133,10 @@ export type OutputTexts = {
         cellHeight: NameAndDoc;
     };
     Free: ConceptText<1, 0> & {
-        description: (count: number) => string;
+        /**
+         * $1: output count
+         */
+        description: Template;
     };
     Easing: {
         // CSS linear

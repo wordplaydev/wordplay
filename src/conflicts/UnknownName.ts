@@ -4,6 +4,7 @@ import type Type from '@nodes/Type';
 import NodeLink from '@locale/NodeLink';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
+import concretize from '../locale/locales/concretize';
 
 export class UnknownName extends Conflict {
     readonly name: Token;
@@ -19,16 +20,18 @@ export class UnknownName extends Conflict {
         return {
             primary: {
                 node: this.name,
-                explanation: (translation: Locale, context: Context) =>
-                    translation.conflict.UnknownName.primary(
+                explanation: (locale: Locale, context: Context) =>
+                    concretize(
+                        locale,
+                        locale.conflict.UnknownName,
                         new NodeLink(
                             this.name,
-                            translation,
+                            locale,
                             context,
                             this.name.getText()
                         ),
                         this.type
-                            ? new NodeLink(this.type, translation, context)
+                            ? new NodeLink(this.type, locale, context)
                             : undefined
                     ),
             },

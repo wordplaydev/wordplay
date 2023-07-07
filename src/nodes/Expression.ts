@@ -7,9 +7,9 @@ import type Step from '@runtime/Step';
 import type Bind from './Bind';
 import type TypeSet from './TypeSet';
 import type Locale from '@locale/Locale';
-import type { Description } from '@locale/Locale';
 import ValueLink from '@locale/ValueLink';
 import Purpose from '../concepts/Purpose';
+import type Description from '../locale/Description';
 
 export default abstract class Expression extends Node {
     constructor() {

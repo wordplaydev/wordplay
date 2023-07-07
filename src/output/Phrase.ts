@@ -157,10 +157,10 @@ export default class Phrase extends TypeOutput {
         return undefined;
     }
 
-    getDescription(languages: LanguageCode[]): string {
+    getDescription(languages: LanguageCode[]) {
+        // Convert the preferred languages into matching text, filtering unmatched languages, and choosing the
+        // first match. If no match, default to the first text.
         return (
-            // Convert the preferred languages into matching text, filtering unmatched languages, and choosing the
-            // first match. If no match, default to the first text.
             (
                 languages
                     .map((lang) => this.text.find((text) => lang === text.lang))

@@ -8,6 +8,7 @@ import type { NativeTypeName } from '../native/NativeConstants';
 import type Locale from '@locale/Locale';
 import type StreamDefinition from '../nodes/StreamDefinition';
 import type Expression from '../nodes/Expression';
+import concretize from '../locale/locales/concretize';
 
 export const MAX_STREAM_LENGTH = 256;
 
@@ -40,7 +41,8 @@ export default abstract class Stream<
     }
 
     getDescription(translation: Locale) {
-        return (
+        return concretize(
+            translation,
             this.definition.docs
                 ?.getLocale(translation.language)
                 ?.getFirstParagraph() ?? translation.data.stream

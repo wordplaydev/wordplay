@@ -3,6 +3,7 @@ import type Evaluator from './Evaluator';
 import type Value from './Value';
 import type Locale from '@locale/Locale';
 import type Evaluable from '@nodes/Evaluable';
+import concretize from '../locale/locales/concretize';
 
 export default class StartEvaluation extends Step {
     readonly evaluable: Evaluable;
@@ -16,7 +17,7 @@ export default class StartEvaluation extends Step {
         return this.evaluable.startEvaluation(evaluator);
     }
 
-    getExplanations(translation: Locale) {
-        return translation.step.evaluate;
+    getExplanations(locale: Locale) {
+        return concretize(locale, locale.step.evaluate);
     }
 }

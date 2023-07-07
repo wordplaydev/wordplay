@@ -5,11 +5,13 @@ import type Spaces from '@parser/Spaces';
 import type Type from './Type';
 import type Token from './Token';
 import type Locale from '@locale/Locale';
-import type { Description, DocString, NodeText } from '@locale/Locale';
+import type { Template, DocString, NodeText } from '@locale/Locale';
 import type Glyph from '../lore/Glyph';
 import type Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type Root from './Root';
+import type Description from '../locale/Description';
+import concretize, { type TemplateInput } from '../locale/locales/concretize';
 
 /* A global ID for nodes, for helping index them */
 let NODE_ID_COUNTER = 0;
@@ -27,7 +29,7 @@ export type Field = {
         child: Node,
         context: Context,
         root: Root
-    ) => Description;
+    ) => Template;
     /** True if a preceding space is preferred the node */
     space?: boolean | ((node: Node) => boolean);
     /** True if the field should be indented if on a new line */
@@ -636,11 +638,20 @@ export default abstract class Node {
     /**
      * Given a translation and a context, generate a description of the node.
      * */
-    getDescription(locale: Locale, context: Context) {
+    getDescription(locale: Locale, context: Context): Description {
         const trans = this.getNodeLocale(locale);
-        return trans.description instanceof Function
-            ? trans.description(this, locale, context)
-            : trans.description ?? trans.name;
+        return concretize(
+            locale,
+            trans.description,
+            ...this.getDescriptionInputs(locale, context)
+        );
+    }
+
+    /**
+     * Get the list of inputs to give to concretize the description.
+     */
+    getDescriptionInputs(_: Locale, __: Context): TemplateInput[] {
+        return [] as TemplateInput[];
     }
 
     getDoc(locale: Locale): DocString {
@@ -656,7 +667,7 @@ export default abstract class Node {
         return undefined;
     }
 
-    abstract getNodeLocale(translation: Locale): NodeText<any>;
+    abstract getNodeLocale(translation: Locale): NodeText;
 
     /** Provide localized labels for any child that can be a placeholder. */
     getChildPlaceholderLabel(
@@ -664,7 +675,7 @@ export default abstract class Node {
         translation: Locale,
         context: Context,
         root: Root
-    ): Description | undefined {
+    ): Template | undefined {
         const label = this.getFieldOfChild(child)?.label;
         return label ? label(translation, child, context, root) : undefined;
     }

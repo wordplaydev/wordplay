@@ -5,6 +5,7 @@ import type FunctionDefinition from '@nodes/FunctionDefinition';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import type Locale from '@locale/Locale';
 import type StreamDefinition from '../nodes/StreamDefinition';
+import concretize from '../locale/locales/concretize';
 
 export default class MisplacedInput extends Conflict {
     readonly func: FunctionDefinition | StructureDefinition | StreamDefinition;
@@ -30,8 +31,8 @@ export default class MisplacedInput extends Conflict {
         return {
             primary: {
                 node: this.given.names,
-                explanation: (translation: Locale) =>
-                    translation.conflict.MisplacedInput.primary,
+                explanation: (locale: Locale) =>
+                    concretize(locale, locale.conflict.MisplacedInput),
             },
         };
     }

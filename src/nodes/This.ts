@@ -25,6 +25,7 @@ import { UnenclosedType } from './UnenclosedType';
 import Glyphs from '../lore/Glyphs';
 import { PROPERTY_SYMBOL } from '../parser/Symbols';
 import TokenType from './TokenType';
+import concretize from '../locale/locales/concretize';
 
 type ThisStructure = StructureDefinition | ConversionDefinition | Reaction;
 
@@ -151,7 +152,9 @@ export default class This extends AtomicExpression {
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.node.This.start(
+        return concretize(
+            translation,
+            translation.node.This.start,
             this.getValueIfDefined(translation, context, evaluator)
         );
     }

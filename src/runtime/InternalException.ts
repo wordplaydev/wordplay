@@ -1,5 +1,6 @@
 import Exception from './Exception';
 import type Evaluator from './Evaluator';
+import Description from '../locale/Description';
 
 export default class InternalException extends Exception {
     readonly reason: string;
@@ -9,6 +10,6 @@ export default class InternalException extends Exception {
     }
 
     getDescription() {
-        return this.reason;
+        return Description.as(this.reason);
     }
 }

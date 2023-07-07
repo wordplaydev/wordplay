@@ -10,6 +10,7 @@ import type Token from '@nodes/Token';
 import type Context from '@nodes/Context';
 import NodeLink from '@locale/NodeLink';
 import type StreamDefinition from '../nodes/StreamDefinition';
+import concretize from '../locale/locales/concretize';
 
 export default class MissingInput extends Conflict {
     readonly func: FunctionDefinition | StructureDefinition | StreamDefinition;
@@ -34,21 +35,25 @@ export default class MissingInput extends Conflict {
         return {
             primary: {
                 node: this.last,
-                explanation: (translation: Locale, context: Context) =>
-                    translation.conflict.MissingInput.primary(
+                explanation: (locale: Locale, context: Context) =>
+                    concretize(
+                        locale,
+                        locale.conflict.MissingInput.primary,
                         new NodeLink(
                             this.input,
-                            translation,
+                            locale,
                             context,
-                            this.input.names.getLocaleText(translation.language)
+                            this.input.names.getLocaleText(locale.language)
                         )
                     ),
             },
             secondary: {
                 node: this.input.names,
-                explanation: (translation: Locale, context: Context) =>
-                    translation.conflict.MissingInput.secondary(
-                        new NodeLink(this.evaluate, translation, context)
+                explanation: (locale: Locale, context: Context) =>
+                    concretize(
+                        locale,
+                        locale.conflict.MissingInput.secondary,
+                        new NodeLink(this.evaluate, locale, context)
                     ),
             },
         };

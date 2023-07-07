@@ -14,6 +14,7 @@ import Literal from './Literal';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';
+import concretize from '../locale/locales/concretize';
 
 export default class BooleanLiteral extends Literal {
     readonly value: Token;
@@ -90,10 +91,16 @@ export default class BooleanLiteral extends Literal {
         return translation.node.BooleanLiteral;
     }
 
-    getStartExplanations(translation: Locale, context: Context) {
-        return translation.node.BooleanLiteral.start(
-            new NodeLink(this.value, translation, context, this.value.getText())
+    getStartExplanations(locale: Locale, context: Context) {
+        return concretize(
+            locale,
+            locale.node.BooleanLiteral.start,
+            new NodeLink(this.value, locale, context, this.value.getText())
         );
+    }
+
+    getDescriptionInputs() {
+        return [this.bool()];
     }
 
     getGlyphs() {

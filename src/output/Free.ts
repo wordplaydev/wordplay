@@ -9,6 +9,7 @@ import { getPreferredLocale } from '@locale/getPreferredLocales';
 import { getBind } from '@locale/getBind';
 import Arrangement from './Arrangement';
 import Phrase from './Phrase';
+import concretize from '../locale/locales/concretize';
 
 export const FreeType = toStructure(`
     ${getBind((t) => t.output.Free, '•')} Arrangement()
@@ -61,9 +62,12 @@ export class Free extends Arrangement {
     }
 
     getDescription(output: TypeOutput[], languages: LanguageCode[]) {
-        return getPreferredLocale(languages).output.Free.description(
+        const locale = getPreferredLocale(languages);
+        return concretize(
+            locale,
+            locale.output.Free.description,
             output.length
-        );
+        ).toString();
     }
 }
 

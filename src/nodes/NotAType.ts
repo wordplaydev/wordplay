@@ -3,6 +3,9 @@ import UnknownType from './UnknownType';
 import type Locale from '@locale/Locale';
 import type Expression from './Expression';
 import type Context from './Context';
+import type { TemplateInput } from '../locale/locales/concretize';
+import NodeLink from '../locale/NodeLink';
+import concretize from '../locale/locales/concretize';
 
 export class NotAType extends UnknownType<Expression> {
     readonly given: Type;
@@ -14,9 +17,14 @@ export class NotAType extends UnknownType<Expression> {
     }
 
     getReason(locale: Locale, context: Context) {
-        return (
-            locale.node.NotAType.description(this.expected, locale, context) ??
-            locale.node.NotAType.name
+        return concretize(
+            locale,
+            locale.node.NotAType.description,
+            new NodeLink(this.expected, locale, context)
         );
+    }
+
+    getDescriptionInputs(locale: Locale, context: Context): TemplateInput[] {
+        return [new NodeLink(this.expected, locale, context)];
     }
 }

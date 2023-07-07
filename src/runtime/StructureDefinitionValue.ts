@@ -7,6 +7,7 @@ import { TYPE_SYMBOL } from '@parser/Symbols';
 import type LanguageCode from '@locale/LanguageCode';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type Locale from '@locale/Locale';
+import concretize from '../locale/locales/concretize';
 
 export default class StructureDefinitionValue extends Primitive {
     /** The definition from the AST. */
@@ -45,7 +46,7 @@ export default class StructureDefinitionValue extends Primitive {
     }
 
     getDescription(translation: Locale) {
-        return translation.data.function;
+        return concretize(translation, translation.data.function);
     }
 
     getSize() {

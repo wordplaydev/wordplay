@@ -3,6 +3,7 @@ import type Evaluator from './Evaluator';
 import type Locale from '@locale/Locale';
 import type Expression from '@nodes/Node';
 import NodeLink from '@locale/NodeLink';
+import concretize from '../locale/locales/concretize';
 
 export default class ValueException extends Exception {
     readonly expression: Expression;
@@ -11,11 +12,13 @@ export default class ValueException extends Exception {
         this.expression = expression;
     }
 
-    getDescription(translation: Locale) {
-        return translation.exceptions.value(
+    getDescription(locale: Locale) {
+        return concretize(
+            locale,
+            locale.exceptions.value,
             new NodeLink(
                 this.expression,
-                translation,
+                locale,
                 this.getNodeContext(this.expression)
             )
         );

@@ -38,6 +38,7 @@ import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import { SHARE_SYMBOL } from '../parser/Symbols';
 import TokenType from './TokenType';
+import concretize from '../locale/locales/concretize';
 
 export default class StructureDefinition extends AtomicExpression {
     readonly docs: Docs | undefined;
@@ -420,7 +421,14 @@ export default class StructureDefinition extends AtomicExpression {
     }
 
     getStartExplanations(translation: Locale) {
-        return translation.node.StructureDefinition.start;
+        return concretize(
+            translation,
+            translation.node.StructureDefinition.start
+        );
+    }
+
+    getDescriptionInputs(locale: Locale) {
+        return [this.names.getLocaleText(locale.language)];
     }
 
     getGlyphs() {

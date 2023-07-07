@@ -1,6 +1,7 @@
 import type ConversionDefinition from '@nodes/ConversionDefinition';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
+import concretize from '../locale/locales/concretize';
 
 export class MisplacedConversion extends Conflict {
     readonly conversion: ConversionDefinition;
@@ -15,8 +16,8 @@ export class MisplacedConversion extends Conflict {
         return {
             primary: {
                 node: this.conversion,
-                explanation: (translation: Locale) =>
-                    translation.conflict.MisplacedConversion.primary,
+                explanation: (locale: Locale) =>
+                    concretize(locale, locale.conflict.MisplacedConversion),
             },
         };
     }

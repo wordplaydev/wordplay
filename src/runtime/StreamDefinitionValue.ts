@@ -6,6 +6,7 @@ import type { NativeTypeName } from '../native/NativeConstants';
 import type Locale from '@locale/Locale';
 import type StreamDefinition from '../nodes/StreamDefinition';
 import StreamType from '../nodes/StreamType';
+import concretize from '../locale/locales/concretize';
 
 export default class StreamDefinitionValue extends Primitive {
     /** The definition from the AST. */
@@ -39,7 +40,7 @@ export default class StreamDefinitionValue extends Primitive {
     }
 
     getDescription(translation: Locale) {
-        return translation.data.function;
+        return concretize(translation, translation.data.function);
     }
 
     getSize() {

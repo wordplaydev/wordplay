@@ -9,6 +9,7 @@ import Primitive from './Primitive';
 import type Value from './Value';
 import type Locale from '@locale/Locale';
 import type Expression from '../nodes/Expression';
+import Description from '../locale/Description';
 
 export default class Bool extends Primitive {
     readonly bool: boolean;
@@ -65,7 +66,7 @@ export default class Bool extends Primitive {
     }
 
     getDescription(translation: Locale) {
-        return translation.data.boolean;
+        return Description.as(translation.data.boolean);
     }
 
     getSize() {

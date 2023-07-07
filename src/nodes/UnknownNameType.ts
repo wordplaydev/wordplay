@@ -4,6 +4,8 @@ import type Node from './Node';
 import type Type from './Type';
 import type Locale from '@locale/Locale';
 import type Context from './Context';
+import type { TemplateInput } from '../locale/locales/concretize';
+import concretize from '../locale/locales/concretize';
 
 export default class UnknownNameType extends UnknownType<Node> {
     readonly name: Token | undefined;
@@ -18,13 +20,11 @@ export default class UnknownNameType extends UnknownType<Node> {
         this.name = name;
     }
 
-    getReason(translation: Locale, context: Context) {
-        return (
-            translation.node.UnknownNameType.description(
-                this,
-                translation,
-                context
-            ) ?? ''
-        );
+    getReason(locale: Locale) {
+        return concretize(locale, locale.node.UnknownNameType.description);
+    }
+
+    getDescriptionInputs(_: Locale, __: Context): TemplateInput[] {
+        return [this.name?.getText()];
     }
 }

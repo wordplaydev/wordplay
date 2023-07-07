@@ -5,12 +5,13 @@ import Node, { type Replacement } from './Node';
 import TokenType from './TokenType';
 import Emotion from '../lore/Emotion';
 import Purpose from '../concepts/Purpose';
-import { getTokenLabel, type Description } from '@locale/Locale';
+import { getTokenLabel, type Template } from '@locale/Locale';
 import type Root from './Root';
 import { REVERSE_TEXT_DELIMITERS, TEXT_DELIMITERS } from '../parser/Tokenizer';
 import { Languages } from '../locale/LanguageCode';
 import type Definition from './Definition';
 import type Context from './Context';
+import type { TemplateInput } from '../locale/locales/concretize';
 
 export default class Token extends Node {
     /** The one or more types of token this might represent. This is narrowed during parsing to one.*/
@@ -115,12 +116,16 @@ export default class Token extends Node {
         root: Root,
         context: Context,
         translation: Locale
-    ): Description | undefined {
+    ): Template | undefined {
         if (!this.is(TokenType.Placeholder)) return undefined;
         const parent = root.getParent(this);
         return parent === undefined
             ? undefined
             : parent.getChildPlaceholderLabel(this, translation, context, root);
+    }
+
+    getDescriptionInputs(locale: Locale, _: Context): TemplateInput[] {
+        return [getTokenLabel(this, locale), this.getText()];
     }
 
     localized(

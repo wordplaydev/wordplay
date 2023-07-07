@@ -29,6 +29,7 @@ import type { NativeTypeName } from '../native/NativeConstants';
 import Purpose from '../concepts/Purpose';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import { NotAType } from './NotAType';
+import concretize from '../locale/locales/concretize';
 
 export default class SetOrMapAccess extends Expression {
     readonly setOrMap: Expression;
@@ -197,19 +198,23 @@ export default class SetOrMapAccess extends Expression {
         return translation.node.SetOrMapAccess;
     }
 
-    getStartExplanations(translation: Locale, context: Context) {
-        return translation.node.SetOrMapAccess.start(
-            new NodeLink(this.setOrMap, translation, context)
+    getStartExplanations(locale: Locale, context: Context) {
+        return concretize(
+            locale,
+            locale.node.SetOrMapAccess.start,
+            new NodeLink(this.setOrMap, locale, context)
         );
     }
 
     getFinishExplanations(
-        translation: Locale,
+        locale: Locale,
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.node.SetOrMapAccess.finish(
-            this.getValueIfDefined(translation, context, evaluator)
+        return concretize(
+            locale,
+            locale.node.SetOrMapAccess.finish,
+            this.getValueIfDefined(locale, context, evaluator)
         );
     }
 

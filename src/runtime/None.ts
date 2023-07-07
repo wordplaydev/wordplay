@@ -5,6 +5,7 @@ import type { NativeTypeName } from '../native/NativeConstants';
 import Primitive from './Primitive';
 import type Locale from '@locale/Locale';
 import type Expression from '../nodes/Expression';
+import Description from '../locale/Description';
 
 export default class None extends Primitive {
     constructor(creator: Expression) {
@@ -28,7 +29,7 @@ export default class None extends Primitive {
     }
 
     getDescription(translation: Locale) {
-        return translation.data.none;
+        return Description.as(translation.data.none);
     }
 
     getSize() {

@@ -11,6 +11,7 @@ import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import AtomicExpression from './AtomicExpression';
 import Glyphs from '../lore/Glyphs';
+import concretize from '../locale/locales/concretize';
 
 export default class DocumentedExpression extends AtomicExpression {
     readonly docs: Docs;
@@ -81,8 +82,8 @@ export default class DocumentedExpression extends AtomicExpression {
         return translation.node.DocumentedExpression;
     }
 
-    getStartExplanations(translation: Locale) {
-        return translation.node.DocumentedExpression.start;
+    getStartExplanations(locale: Locale) {
+        return concretize(locale, locale.node.DocumentedExpression.start);
     }
 
     getGlyphs() {

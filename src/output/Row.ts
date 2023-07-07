@@ -11,6 +11,7 @@ import Measurement from '../runtime/Measurement';
 import Arrangement from './Arrangement';
 import Group from './Group';
 import Phrase from './Phrase';
+import concretize from '../locale/locales/concretize';
 
 export const RowType = toStructure(`
     ${getBind((t) => t.output.Row, '•')} Arrangement(
@@ -95,11 +96,14 @@ export class Row extends Arrangement {
     }
 
     getDescription(output: TypeOutput[], languages: LanguageCode[]) {
-        return getPreferredLocale(languages).output.Row.description(
+        const locale = getPreferredLocale(languages);
+        return concretize(
+            locale,
+            locale.output.Row.description,
             output.length,
             output.filter((o) => o instanceof Phrase).length,
             output.filter((o) => o instanceof Group).length
-        );
+        ).toString();
     }
 }
 

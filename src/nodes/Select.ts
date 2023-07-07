@@ -26,6 +26,7 @@ import NodeLink from '@locale/NodeLink';
 import Glyphs from '../lore/Glyphs';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import { NotAType } from './NotAType';
+import concretize from '../locale/locales/concretize';
 
 export default class Select extends Expression {
     readonly table: Expression;
@@ -202,19 +203,23 @@ export default class Select extends Expression {
         return translation.node.Select;
     }
 
-    getStartExplanations(translation: Locale, context: Context) {
-        return translation.node.Select.start(
-            new NodeLink(this.table, translation, context)
+    getStartExplanations(locale: Locale, context: Context) {
+        return concretize(
+            locale,
+            locale.node.Select.start,
+            new NodeLink(this.table, locale, context)
         );
     }
 
     getFinishExplanations(
-        translation: Locale,
+        locale: Locale,
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.node.Select.finish(
-            this.getValueIfDefined(translation, context, evaluator)
+        return concretize(
+            locale,
+            locale.node.Select.finish,
+            this.getValueIfDefined(locale, context, evaluator)
         );
     }
 

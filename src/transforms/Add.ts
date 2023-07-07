@@ -6,6 +6,7 @@ import Refer from './Refer';
 import Caret from '../components/editor/util/Caret';
 import type Context from '@nodes/Context';
 import type Locale from '@locale/Locale';
+import concretize from '../locale/locales/concretize';
 
 export default class Add<NodeType extends Node> extends Transform {
     readonly parent: Node;
@@ -69,12 +70,12 @@ export default class Add<NodeType extends Node> extends Transform {
             : [newSource, new Caret(newSource, newCaretPosition, newNode)];
     }
 
-    getDescription(translation: Locale) {
+    getDescription(locale: Locale) {
         let node =
             this.child instanceof Refer
-                ? this.child.getNode([translation.language])
-                : this.getNewNode([translation.language]);
-        return translation.transform.add(node.getLabel(translation));
+                ? this.child.getNode([locale.language])
+                : this.getNewNode([locale.language]);
+        return concretize(locale, locale.transform.add, node.getLabel(locale));
     }
 
     equals(transform: Transform) {

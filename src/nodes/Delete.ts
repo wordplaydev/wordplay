@@ -20,6 +20,7 @@ import type Locale from '@locale/Locale';
 import NodeLink from '@locale/NodeLink';
 import Glyphs from '../lore/Glyphs';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
+import concretize from '../locale/locales/concretize';
 
 export default class Delete extends Expression {
     readonly table: Expression;
@@ -145,19 +146,23 @@ export default class Delete extends Expression {
         return translation.node.Delete;
     }
 
-    getStartExplanations(translation: Locale, context: Context) {
-        return translation.node.Delete.start(
-            new NodeLink(this.table, translation, context)
+    getStartExplanations(locale: Locale, context: Context) {
+        return concretize(
+            locale,
+            locale.node.Delete.start,
+            new NodeLink(this.table, locale, context)
         );
     }
 
     getFinishExplanations(
-        translation: Locale,
+        locale: Locale,
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.node.Delete.finish(
-            this.getValueIfDefined(translation, context, evaluator)
+        return concretize(
+            locale,
+            locale.node.Delete.finish,
+            this.getValueIfDefined(locale, context, evaluator)
         );
     }
 

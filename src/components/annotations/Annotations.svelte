@@ -15,12 +15,12 @@
     import Annotation from './Annotation.svelte';
     import type Position from './Position';
     import { tick } from 'svelte';
-    import type { Description } from '@locale/Locale';
     import type Step from '@runtime/Step';
     import type Evaluator from '@runtime/Evaluator';
     import type Project from '../../models/Project';
     import { getEvaluation } from '../project/Contexts';
     import { creator } from '../../db/Creator';
+    import Description from '../../locale/Description';
 
     export let project: Project;
     export let evaluator: Evaluator;
@@ -61,10 +61,14 @@
                             : evaluator.steppedToNode() && evaluator.isDone()
                             ? $creator
                                   .getLocales()
-                                  .map((t) => t.evaluation.unevaluated)
+                                  .map((t) =>
+                                      Description.as(t.evaluation.unevaluated)
+                                  )
                             : $creator
                                   .getLocales()
-                                  .map((t) => t.evaluation.done),
+                                  .map((t) =>
+                                      Description.as(t.evaluation.done)
+                                  ),
                         kind: 'step',
                         position: getPosition(view),
                     },

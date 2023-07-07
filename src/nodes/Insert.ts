@@ -25,6 +25,7 @@ import UnimplementedException from '@runtime/UnimplementedException';
 import NodeLink from '@locale/NodeLink';
 import Glyphs from '../lore/Glyphs';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
+import concretize from '../locale/locales/concretize';
 
 export default class Insert extends Expression {
     readonly table: Expression;
@@ -206,19 +207,23 @@ export default class Insert extends Expression {
         return translation.node.Insert;
     }
 
-    getStartExplanations(translation: Locale, context: Context) {
-        return translation.node.Insert.start(
-            new NodeLink(this.table, translation, context)
+    getStartExplanations(locale: Locale, context: Context) {
+        return concretize(
+            locale,
+            locale.node.Insert.start,
+            new NodeLink(this.table, locale, context)
         );
     }
 
     getFinishExplanations(
-        translation: Locale,
+        locale: Locale,
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.node.Insert.finish(
-            this.getValueIfDefined(translation, context, evaluator)
+        return concretize(
+            locale,
+            locale.node.Insert.finish,
+            this.getValueIfDefined(locale, context, evaluator)
         );
     }
 

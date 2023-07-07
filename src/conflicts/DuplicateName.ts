@@ -3,6 +3,7 @@ import type Name from '@nodes/Name';
 import type Locale from '@locale/Locale';
 import NodeLink from '@locale/NodeLink';
 import type Context from '@nodes/Context';
+import concretize from '../locale/locales/concretize';
 
 export default class DuplicateName extends Conflict {
     readonly name: Name;
@@ -19,11 +20,13 @@ export default class DuplicateName extends Conflict {
         return {
             primary: {
                 node: this.duplicate,
-                explanation: (translation: Locale, context: Context) =>
-                    translation.conflict.DuplicateName.primary(
+                explanation: (locale: Locale, context: Context) =>
+                    concretize(
+                        locale,
+                        locale.conflict.DuplicateName.primary,
                         new NodeLink(
                             this.duplicate,
-                            translation,
+                            locale,
                             context,
                             this.duplicate.getName()
                         )
@@ -31,11 +34,13 @@ export default class DuplicateName extends Conflict {
             },
             secondary: {
                 node: this.name,
-                explanation: (translation: Locale, context: Context) =>
-                    translation.conflict.DuplicateName.secondary(
+                explanation: (locale: Locale, context: Context) =>
+                    concretize(
+                        locale,
+                        locale.conflict.DuplicateName.secondary,
                         new NodeLink(
                             this.name,
-                            translation,
+                            locale,
                             context,
                             this.name.getName()
                         )

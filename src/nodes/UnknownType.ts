@@ -1,11 +1,12 @@
 import type { NativeTypeName } from '../native/NativeConstants';
 import type Locale from '@locale/Locale';
-import type { Description } from '@locale/Locale';
 import type Context from './Context';
 import type Node from './Node';
 import Type from './Type';
 import { UNKNOWN_SYMBOL } from '../parser/Symbols';
 import Glyphs from '../lore/Glyphs';
+import type Description from '../locale/Description';
+import concretize from '../locale/locales/concretize';
 
 export default abstract class UnknownType<
     ExpressionType extends Node
@@ -58,5 +59,15 @@ export default abstract class UnknownType<
 
     getGlyphs() {
         return Glyphs.Unknown;
+    }
+
+    getDescription(locale: Locale, context: Context) {
+        return concretize(
+            locale,
+            locale.node.UnknownType.unknown,
+            `${locale.node.UnknownType.connector} ${this.getReasons()
+                .map((unknown) => unknown.getReason(locale, context))
+                .join(locale.node.UnknownType.connector)}`
+        );
     }
 }

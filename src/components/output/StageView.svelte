@@ -107,12 +107,12 @@
                         ? undefined
                         : previouslyPresent.get(name);
                 if (!entered.has(name)) {
-                    const previousText = previous?.getDescription(
-                        $creator.getLanguages()
-                    );
-                    const currentText = output.getDescription(
-                        $creator.getLanguages()
-                    );
+                    const previousText = previous
+                        ?.getDescription($creator.getLanguages())
+                        .toString();
+                    const currentText = output
+                        .getDescription($creator.getLanguages())
+                        .toString();
                     if (
                         previousText !== currentText &&
                         typeof currentText === 'string'

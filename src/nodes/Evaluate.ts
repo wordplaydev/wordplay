@@ -52,6 +52,7 @@ import Glyphs from '../lore/Glyphs';
 import FunctionType from './FunctionType';
 import AnyType from './AnyType';
 import { NotAType } from './NotAType';
+import concretize from '../locale/locales/concretize';
 
 type Mapping = {
     expected: Bind;
@@ -791,18 +792,30 @@ export default class Evaluate extends Expression {
         return translation.node.Evaluate;
     }
 
-    getStartExplanations(translation: Locale) {
-        return translation.node.Evaluate.start(this.inputs.length > 0);
+    getStartExplanations(locale: Locale) {
+        return concretize(
+            locale,
+            locale.node.Evaluate.start,
+            this.inputs.length > 0
+        );
     }
 
     getFinishExplanations(
-        translation: Locale,
+        locale: Locale,
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.node.Evaluate.finish(
-            this.getValueIfDefined(translation, context, evaluator)
+        return concretize(
+            locale,
+            locale.node.Evaluate.finish,
+            this.getValueIfDefined(locale, context, evaluator)
         );
+    }
+
+    getDescriptionInputs(locale: Locale, context: Context) {
+        return [
+            this.getFunction(context)?.names.getLocaleText(locale.language),
+        ];
     }
 
     getGlyphs() {

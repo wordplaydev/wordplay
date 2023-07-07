@@ -1,6 +1,7 @@
 import Conflict from './Conflict';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
 import type Locale from '@locale/Locale';
+import concretize from '../locale/locales/concretize';
 
 export default class NoExpression extends Conflict {
     readonly def: FunctionDefinition;
@@ -16,7 +17,7 @@ export default class NoExpression extends Conflict {
             primary: {
                 node: this.def.names,
                 explanation: (translation: Locale) =>
-                    translation.conflict.NoExpression.primary,
+                    concretize(translation, translation.conflict.NoExpression),
             },
         };
     }

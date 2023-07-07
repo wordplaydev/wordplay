@@ -5,6 +5,7 @@ import ValueLink from '@locale/ValueLink';
 import type Evaluator from './Evaluator';
 import Exception from './Exception';
 import type Value from './Value';
+import concretize from '../locale/locales/concretize';
 
 export default class TypeException extends Exception {
     readonly expected: Type;
@@ -17,16 +18,18 @@ export default class TypeException extends Exception {
         this.received = received;
     }
 
-    getDescription(translation: Locale) {
-        return translation.exceptions.type(
+    getDescription(locale: Locale) {
+        return concretize(
+            locale,
+            locale.exceptions.type,
             new NodeLink(
                 this.expected,
-                translation,
+                locale,
                 this.getNodeContext(this.expected)
             ),
             new ValueLink(
                 this.received,
-                translation,
+                locale,
                 this.getNodeContext(this.received.creator)
             )
         );

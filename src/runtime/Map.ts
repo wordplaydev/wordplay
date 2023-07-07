@@ -14,6 +14,7 @@ import {
 import type { NativeTypeName } from '../native/NativeConstants';
 import type Locale from '@locale/Locale';
 import type Expression from '../nodes/Expression';
+import Description from '../locale/Description';
 
 export default class Map extends Primitive {
     readonly values: [Value, Value][];
@@ -123,7 +124,7 @@ export default class Map extends Primitive {
     }
 
     getDescription(translation: Locale) {
-        return translation.data.map;
+        return Description.as(translation.data.map);
     }
 
     getSize() {

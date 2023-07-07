@@ -5,6 +5,7 @@ import NodeLink from '@locale/NodeLink';
 import type Locale from '@locale/Locale';
 import type Reaction from '../nodes/Reaction';
 import Conflict from './Conflict';
+import concretize from '../locale/locales/concretize';
 
 export default class ExpectedBooleanCondition extends Conflict {
     readonly conditional: Conditional | Reaction;
@@ -24,16 +25,20 @@ export default class ExpectedBooleanCondition extends Conflict {
                     this.conditional instanceof Conditional
                         ? this.conditional.question
                         : this.conditional.dots,
-                explanation: (translation: Locale, context: Context) =>
-                    translation.conflict.ExpectedBooleanCondition.primary(
-                        new NodeLink(this.type, translation, context)
+                explanation: (locale: Locale, context: Context) =>
+                    concretize(
+                        locale,
+                        locale.conflict.ExpectedBooleanCondition.primary,
+                        new NodeLink(this.type, locale, context)
                     ),
             },
             secondary: {
                 node: this.conditional.condition,
-                explanation: (translation: Locale, context: Context) =>
-                    translation.conflict.ExpectedBooleanCondition.secondary(
-                        new NodeLink(this.type, translation, context)
+                explanation: (locale: Locale, context: Context) =>
+                    concretize(
+                        locale,
+                        locale.conflict.ExpectedBooleanCondition.secondary,
+                        new NodeLink(this.type, locale, context)
                     ),
             },
         };

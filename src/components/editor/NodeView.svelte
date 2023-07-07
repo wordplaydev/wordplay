@@ -78,7 +78,7 @@
         id={`node-${node.id}`}
         role="presentation"
         aria-hidden={hide ? 'true' : null}
-        aria-label={description}
+        aria-label={description?.toString()}
         >{#if value}<ValueView
                 {value}
                 {node}

@@ -10,6 +10,7 @@ import Arrangement from './Arrangement';
 import Measurement from '../runtime/Measurement';
 import Place from './Place';
 import None from '../runtime/None';
+import concretize from '../locale/locales/concretize';
 
 export const GridType = toStructure(`
     ${getBind((t) => t.output.Grid, '•')} Arrangement(
@@ -151,10 +152,13 @@ export class Grid extends Arrangement {
     }
 
     getDescription(output: TypeOutput[], languages: LanguageCode[]) {
-        return getPreferredLocale(languages).output.Grid.description(
+        const locale = getPreferredLocale(languages);
+        return concretize(
+            locale,
+            locale.output.Grid.description,
             this.rows,
             this.columns
-        );
+        ).toString();
     }
 }
 

@@ -6,6 +6,7 @@ import Bool from './Bool';
 import type Evaluator from './Evaluator';
 import Step from './Step';
 import type Value from './Value';
+import concretize from '../locale/locales/concretize';
 
 export default class JumpIf extends Step {
     readonly conditional: Conditional | BinaryOperation;
@@ -36,9 +37,11 @@ export default class JumpIf extends Step {
         return undefined;
     }
 
-    getExplanations(translation: Locale, evaluator: Evaluator) {
+    getExplanations(locale: Locale, evaluator: Evaluator) {
         const val = evaluator.peekValue();
-        return translation.step.jumpif(
+        return concretize(
+            locale,
+            locale.step.jumpif,
             val instanceof Bool && val.bool === this.yes
         );
     }

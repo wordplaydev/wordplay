@@ -24,6 +24,7 @@ import UnclosedDelimiter from '../conflicts/UnclosedDelimiter';
 import SetCloseToken from './SetCloseToken';
 import type Conflict from '../conflicts/Conflict';
 import generalize from './generalize';
+import concretize from '../locale/locales/concretize';
 
 export default class SetLiteral extends Expression {
     readonly open: Token;
@@ -153,18 +154,24 @@ export default class SetLiteral extends Expression {
         return translation.node.SetLiteral;
     }
 
-    getStartExplanations(translation: Locale) {
-        return translation.node.SetLiteral.start;
+    getStartExplanations(locale: Locale) {
+        return concretize(locale, locale.node.SetLiteral.start);
     }
 
     getFinishExplanations(
-        translation: Locale,
+        locale: Locale,
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.node.SetLiteral.finish(
-            this.getValueIfDefined(translation, context, evaluator)
+        return concretize(
+            locale,
+            locale.node.SetLiteral.finish,
+            this.getValueIfDefined(locale, context, evaluator)
         );
+    }
+
+    getDescriptionInputs() {
+        return [this.values.length];
     }
 
     getGlyphs() {

@@ -13,6 +13,7 @@ import AtomicExpression from '@nodes/AtomicExpression';
 import type Locale from '@locale/Locale';
 import InternalException from '@runtime/InternalException';
 import Glyphs from '../lore/Glyphs';
+import concretize from '../locale/locales/concretize';
 
 export default class NativeExpression extends AtomicExpression {
     readonly type: Type;
@@ -93,8 +94,8 @@ export default class NativeExpression extends AtomicExpression {
         return translation.node.NativeExpression;
     }
 
-    getStartExplanations(translation: Locale) {
-        return translation.node.NativeExpression.start;
+    getStartExplanations(locale: Locale) {
+        return concretize(locale, locale.node.NativeExpression.start);
     }
 
     getGlyphs() {

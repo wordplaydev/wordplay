@@ -5,6 +5,7 @@ import type Type from '@nodes/Type';
 import NodeLink from '@locale/NodeLink';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
+import concretize from '../locale/locales/concretize';
 
 export default class IncompatibleCellType extends Conflict {
     readonly type: TableType;
@@ -30,16 +31,20 @@ export default class IncompatibleCellType extends Conflict {
         return {
             primary: {
                 node: this.cell,
-                explanation: (translation: Locale, context: Context) =>
-                    translation.conflict.IncompatibleCellType.primary(
-                        new NodeLink(this.expected, translation, context)
+                explanation: (locale: Locale, context: Context) =>
+                    concretize(
+                        locale,
+                        locale.conflict.IncompatibleCellType.primary,
+                        new NodeLink(this.expected, locale, context)
                     ),
             },
             secondary: {
                 node: this.type,
-                explanation: (translation: Locale, context: Context) =>
-                    translation.conflict.IncompatibleCellType.secondary(
-                        new NodeLink(this.received, translation, context)
+                explanation: (locale: Locale, context: Context) =>
+                    concretize(
+                        locale,
+                        locale.conflict.IncompatibleCellType.secondary,
+                        new NodeLink(this.received, locale, context)
                     ),
             },
         };

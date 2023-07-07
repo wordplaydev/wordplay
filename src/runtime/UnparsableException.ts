@@ -3,6 +3,7 @@ import Exception from './Exception';
 import type Locale from '@locale/Locale';
 import type Expression from '@nodes/Expression';
 import NodeLink from '@locale/NodeLink';
+import concretize from '../locale/locales/concretize';
 
 export default class UnparsableException extends Exception {
     readonly unparsable: Expression;
@@ -13,11 +14,13 @@ export default class UnparsableException extends Exception {
         this.unparsable = unparsable;
     }
 
-    getDescription(translation: Locale) {
-        return translation.exceptions.unparsable(
+    getDescription(locale: Locale) {
+        return concretize(
+            locale,
+            locale.exceptions.unparsable,
             new NodeLink(
                 this.unparsable,
-                translation,
+                locale,
                 this.getNodeContext(this.unparsable)
             )
         );

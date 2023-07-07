@@ -6,6 +6,7 @@ import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '@parser/Symbols';
 import type Exception from './Exception';
 import Value from './Value';
 import type Locale from '@locale/Locale';
+import concretize from '../locale/locales/concretize';
 
 export default class Table extends Value {
     readonly literal: TableLiteral;
@@ -46,7 +47,7 @@ export default class Table extends Value {
     }
 
     getDescription(translation: Locale) {
-        return translation.data.table;
+        return concretize(translation, translation.data.table);
     }
 
     getSize() {

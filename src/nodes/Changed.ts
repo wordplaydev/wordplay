@@ -26,6 +26,7 @@ import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
+import concretize from '../locale/locales/concretize';
 
 export default class Changed extends AtomicExpression {
     readonly change: Token;
@@ -142,9 +143,11 @@ export default class Changed extends AtomicExpression {
         return translation.node.Changed;
     }
 
-    getStartExplanations(translation: Locale, context: Context) {
-        return translation.node.Changed.start(
-            new NodeLink(this.stream, translation, context)
+    getStartExplanations(locale: Locale, context: Context) {
+        return concretize(
+            locale,
+            locale.node.Changed.start,
+            new NodeLink(this.stream, locale, context)
         );
     }
 

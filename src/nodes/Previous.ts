@@ -27,6 +27,7 @@ import NodeLink from '@locale/NodeLink';
 import Glyphs from '../lore/Glyphs';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import { NotAType } from './NotAType';
+import concretize from '../locale/locales/concretize';
 
 export default class Previous extends Expression {
     readonly stream: Expression;
@@ -169,19 +170,23 @@ export default class Previous extends Expression {
         return translation.node.Previous;
     }
 
-    getStartExplanations(translation: Locale, context: Context) {
-        return translation.node.Previous.start(
-            new NodeLink(this.stream, translation, context)
+    getStartExplanations(locale: Locale, context: Context) {
+        return concretize(
+            locale,
+            locale.node.Previous.start,
+            new NodeLink(this.stream, locale, context)
         );
     }
 
     getFinishExplanations(
-        translation: Locale,
+        locale: Locale,
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.node.Previous.finish(
-            this.getValueIfDefined(translation, context, evaluator)
+        return concretize(
+            locale,
+            locale.node.Previous.finish,
+            this.getValueIfDefined(locale, context, evaluator)
         );
     }
 

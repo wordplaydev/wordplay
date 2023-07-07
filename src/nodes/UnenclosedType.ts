@@ -1,13 +1,14 @@
 import UnknownType from './UnknownType';
 import type This from './This';
 import type Locale from '@locale/Locale';
+import concretize from '../locale/locales/concretize';
 
 export class UnenclosedType extends UnknownType<This> {
     constructor(dis: This) {
         super(dis, undefined);
     }
 
-    getReason(translation: Locale) {
-        return translation.node.NotEnclosedType.description;
+    getReason(locale: Locale) {
+        return concretize(locale, locale.node.NotEnclosedType.description);
     }
 }

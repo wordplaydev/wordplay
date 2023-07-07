@@ -23,6 +23,7 @@ import Glyphs from '../lore/Glyphs';
 import TokenType from './TokenType';
 import { TYPE_SYMBOL } from '../parser/Symbols';
 import Purpose from '../concepts/Purpose';
+import concretize from '../locale/locales/concretize';
 
 export default class Is extends Expression {
     readonly expression: Expression;
@@ -155,21 +156,25 @@ export default class Is extends Expression {
         return translation.node.Is;
     }
 
-    getStartExplanations(translation: Locale, context: Context) {
-        return translation.node.Is.start(
-            new NodeLink(this.expression, translation, context)
+    getStartExplanations(locale: Locale, context: Context) {
+        return concretize(
+            locale,
+            locale.node.Is.start,
+            new NodeLink(this.expression, locale, context)
         );
     }
 
     getFinishExplanations(
-        translation: Locale,
+        locale: Locale,
         context: Context,
         evaluator: Evaluator
     ) {
         const result = evaluator.peekValue();
-        return translation.node.Is.finish(
+        return concretize(
+            locale,
+            locale.node.Is.finish,
             result instanceof Bool && result.bool,
-            new NodeLink(this.type, translation, context)
+            new NodeLink(this.type, locale, context)
         );
     }
 

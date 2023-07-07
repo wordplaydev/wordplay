@@ -4,8 +4,8 @@ import type Evaluator from './Evaluator';
 import type LanguageCode from '@locale/LanguageCode';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type Locale from '@locale/Locale';
-import type { Description } from '@locale/Locale';
 import type Expression from '../nodes/Expression';
+import type Description from '../locale/Description';
 
 /** Used to uniquely distinguish values. */
 let VALUE_ID = 0;

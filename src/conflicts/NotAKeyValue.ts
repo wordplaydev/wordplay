@@ -4,6 +4,7 @@ import type MapLiteral from '@nodes/MapLiteral';
 import NodeLink from '@locale/NodeLink';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
+import concretize from '../locale/locales/concretize';
 
 export class NotAKeyValue extends Conflict {
     readonly map: MapLiteral;
@@ -19,14 +20,16 @@ export class NotAKeyValue extends Conflict {
         return {
             primary: {
                 node: this.expression,
-                explanation: (translation: Locale) =>
-                    translation.conflict.NotAMap.primary,
+                explanation: (locale: Locale) =>
+                    concretize(locale, locale.conflict.NotAMap.primary),
             },
             secondary: {
                 node: this.map.open,
-                explanation: (translation: Locale, context: Context) =>
-                    translation.conflict.NotAMap.secondary(
-                        new NodeLink(this.expression, translation, context)
+                explanation: (locale: Locale, context: Context) =>
+                    concretize(
+                        locale,
+                        locale.conflict.NotAMap.secondary,
+                        new NodeLink(this.expression, locale, context)
                     ),
             },
         };

@@ -4,6 +4,7 @@ import type Type from '@nodes/Type';
 import NodeLink from '@locale/NodeLink';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
+import concretize from '../locale/locales/concretize';
 
 export class IncompatibleKey extends Conflict {
     readonly access: SetOrMapAccess;
@@ -21,16 +22,20 @@ export class IncompatibleKey extends Conflict {
         return {
             primary: {
                 node: this.access.key,
-                explanation: (translation: Locale, context: Context) =>
-                    translation.conflict.IncompatibleKey.primary(
-                        new NodeLink(this.expected, translation, context)
+                explanation: (locale: Locale, context: Context) =>
+                    concretize(
+                        locale,
+                        locale.conflict.IncompatibleKey.primary,
+                        new NodeLink(this.expected, locale, context)
                     ),
             },
             secondary: {
                 node: this.access.setOrMap,
-                explanation: (translation: Locale, context: Context) =>
-                    translation.conflict.IncompatibleKey.secondary(
-                        new NodeLink(this.received, translation, context)
+                explanation: (locale: Locale, context: Context) =>
+                    concretize(
+                        locale,
+                        locale.conflict.IncompatibleKey.secondary,
+                        new NodeLink(this.received, locale, context)
                     ),
             },
         };

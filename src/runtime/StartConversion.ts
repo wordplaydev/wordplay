@@ -4,6 +4,7 @@ import type Value from './Value';
 import type Locale from '@locale/Locale';
 import type ConversionDefinition from '@nodes/ConversionDefinition';
 import type Convert from '@nodes/Convert';
+import concretize from '../locale/locales/concretize';
 
 export default class StartConversion extends Step {
     readonly convert: Convert;
@@ -19,7 +20,7 @@ export default class StartConversion extends Step {
         return this.convert.startEvaluation(evaluator, this.conversion);
     }
 
-    getExplanations(translation: Locale) {
-        return translation.step.evaluate;
+    getExplanations(locale: Locale) {
+        return concretize(locale, locale.step.evaluate);
     }
 }

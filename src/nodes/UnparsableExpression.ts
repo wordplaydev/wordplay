@@ -13,6 +13,7 @@ import UnparsableType from './UnparsableType';
 import type Locale from '@locale/Locale';
 import AtomicExpression from './AtomicExpression';
 import Glyphs from '../lore/Glyphs';
+import concretize from '../locale/locales/concretize';
 
 export default class UnparsableExpression extends AtomicExpression {
     readonly unparsables: Node[];
@@ -76,7 +77,10 @@ export default class UnparsableExpression extends AtomicExpression {
     }
 
     getStartExplanations(translation: Locale) {
-        return translation.node.UnparsableExpression.start;
+        return concretize(
+            translation,
+            translation.node.UnparsableExpression.start
+        );
     }
 
     getGlyphs() {

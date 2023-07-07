@@ -5,6 +5,7 @@ import Conflict from './Conflict';
 import type Locale from '@locale/Locale';
 import type Context from '@nodes/Context';
 import NodeLink from '@locale/NodeLink';
+import concretize from '../locale/locales/concretize';
 
 export class BorrowCycle extends Conflict {
     readonly program: Program;
@@ -22,15 +23,15 @@ export class BorrowCycle extends Conflict {
         return {
             primary: {
                 node: this.borrow,
-                explanation: (translation: Locale, context: Context) =>
-                    translation.conflict.BorrowCycle.primary(
+                explanation: (locale: Locale, context: Context) =>
+                    concretize(
+                        locale,
+                        locale.conflict.BorrowCycle,
                         new NodeLink(
                             this.borrow,
-                            translation,
+                            locale,
                             context,
-                            this.cycle[0].names.getLocaleText(
-                                translation.language
-                            )
+                            this.cycle[0].names.getLocaleText(locale.language)
                         )
                     ),
             },

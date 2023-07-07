@@ -1,6 +1,7 @@
 import type Borrow from '@nodes/Borrow';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
+import concretize from '../locale/locales/concretize';
 
 export class UnknownBorrow extends Conflict {
     readonly borrow: Borrow;
@@ -18,8 +19,8 @@ export class UnknownBorrow extends Conflict {
                     this.borrow.source === undefined
                         ? this.borrow.borrow
                         : this.borrow.source,
-                explanation: (translation: Locale) =>
-                    translation.conflict.UnknownBorrow.primary,
+                explanation: (locale: Locale) =>
+                    concretize(locale, locale.conflict.UnknownBorrow),
             },
         };
     }

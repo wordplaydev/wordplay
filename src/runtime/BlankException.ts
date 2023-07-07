@@ -2,6 +2,7 @@ import type Locale from '@locale/Locale';
 import type Program from '../nodes/Program';
 import type Evaluator from './Evaluator';
 import Exception from './Exception';
+import concretize from '../locale/locales/concretize';
 
 export default class BlankException extends Exception {
     readonly program: Program;
@@ -13,6 +14,6 @@ export default class BlankException extends Exception {
     }
 
     getDescription(translation: Locale) {
-        return translation.exceptions.blank();
+        return concretize(translation, translation.exceptions.blank);
     }
 }

@@ -6,6 +6,8 @@ import type LanguageCode from '@locale/LanguageCode';
 import Refer from './Refer';
 import type Context from '@nodes/Context';
 import type Locale from '@locale/Locale';
+import concretize from '../locale/locales/concretize';
+import Description from '../locale/Description';
 
 export default class Replace<NodeType extends Node> extends Transform {
     readonly parent: Node;
@@ -71,12 +73,17 @@ export default class Replace<NodeType extends Node> extends Transform {
     }
 
     getDescription(translation: Locale) {
-        if (this.description) return this.description(translation);
+        if (this.description)
+            return Description.as(this.description(translation));
         let node =
             this.replacement instanceof Refer
                 ? this.replacement.getNode([translation.language])
                 : this.getNewNode([translation.language]);
-        return translation.transform.replace(node?.getLabel(translation));
+        return concretize(
+            translation,
+            translation.transform.replace,
+            node?.getLabel(translation)
+        );
     }
 
     equals(transform: Transform) {

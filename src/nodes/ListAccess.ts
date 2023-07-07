@@ -28,6 +28,7 @@ import type { NativeTypeName } from '../native/NativeConstants';
 import Purpose from '../concepts/Purpose';
 import None from '../runtime/None';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
+import concretize from '../locale/locales/concretize';
 
 export default class ListAccess extends Expression {
     readonly list: Expression;
@@ -194,19 +195,23 @@ export default class ListAccess extends Expression {
         return translation.node.ListAccess;
     }
 
-    getStartExplanations(translation: Locale, context: Context) {
-        return translation.node.ListAccess.start(
-            new NodeLink(this.list, translation, context)
+    getStartExplanations(locale: Locale, context: Context) {
+        return concretize(
+            locale,
+            locale.node.ListAccess.start,
+            new NodeLink(this.list, locale, context)
         );
     }
 
     getFinishExplanations(
-        translation: Locale,
+        locale: Locale,
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.node.ListAccess.finish(
-            this.getValueIfDefined(translation, context, evaluator)
+        return concretize(
+            locale,
+            locale.node.ListAccess.finish,
+            this.getValueIfDefined(locale, context, evaluator)
         );
     }
 

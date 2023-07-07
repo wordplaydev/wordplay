@@ -22,9 +22,9 @@ import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import type LanguageCode from '@locale/LanguageCode';
 import TokenType from './TokenType';
-import ValueLink from '@locale/ValueLink';
 import Glyphs from '../lore/Glyphs';
 import BlankException from '../runtime/BlankException';
+import concretize from '../locale/locales/concretize';
 
 export default class Program extends Expression {
     readonly docs?: Docs;
@@ -178,39 +178,28 @@ export default class Program extends Expression {
     }
 
     getStartExplanations(
-        translation: Locale,
+        locale: Locale,
         context: Context,
         evaluator: Evaluator
     ) {
         const reaction = evaluator.getReactionPriorTo(evaluator.getStepIndex());
 
-        return translation.node.Program.start(
-            reaction
-                ? reaction.changes.map((change) => {
-                      return {
-                          stream: new ValueLink(
-                              change.stream,
-                              translation,
-                              context
-                          ),
-                          value: new ValueLink(
-                              change.value,
-                              translation,
-                              context
-                          ),
-                      };
-                  })
-                : []
+        return concretize(
+            locale,
+            locale.node.Program.start,
+            reaction && reaction.changes.length > 0
         );
     }
 
     getFinishExplanations(
-        translation: Locale,
+        locale: Locale,
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.node.Program.finish(
-            this.getValueIfDefined(translation, context, evaluator)
+        return concretize(
+            locale,
+            locale.node.Program.finish,
+            this.getValueIfDefined(locale, context, evaluator)
         );
     }
 

@@ -6,6 +6,7 @@ import type { EvaluationNode } from './Evaluation';
 import NodeLink from '@locale/NodeLink';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import StructureDefinition from '@nodes/StructureDefinition';
+import concretize from '../locale/locales/concretize';
 
 export default class EvaluationLimitException extends Exception {
     readonly node: Node;
@@ -16,7 +17,7 @@ export default class EvaluationLimitException extends Exception {
         this.functions = functions;
     }
 
-    getDescription(translation: Locale) {
+    getDescription(locale: Locale) {
         const counts = new Map<EvaluationNode, number>();
         for (const fun of this.functions)
             counts.set(fun, (counts.get(fun) ?? 0) + 1);
@@ -24,14 +25,16 @@ export default class EvaluationLimitException extends Exception {
         const sorted = [...counts].sort((a, b) => b[1] - a[1]);
         const mostFrequent = sorted[0][0];
 
-        return translation.exceptions.functionlimit(
+        return concretize(
+            locale,
+            locale.exceptions.functionlimit,
             new NodeLink(
                 mostFrequent,
-                translation,
+                locale,
                 this.getNodeContext(mostFrequent),
                 mostFrequent instanceof FunctionDefinition ||
                 mostFrequent instanceof StructureDefinition
-                    ? mostFrequent.names.getLocaleText([translation.language])
+                    ? mostFrequent.names.getLocaleText([locale.language])
                     : undefined
             )
         );

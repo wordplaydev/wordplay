@@ -3,6 +3,7 @@ import type Evaluator from './Evaluator';
 import type Value from './Value';
 import type Expression from '@nodes/Expression';
 import type Locale from '@locale/Locale';
+import concretize from '../locale/locales/concretize';
 
 export default class Initialize extends Step {
     action?: (evaluator: Evaluator) => Value | undefined;
@@ -20,6 +21,6 @@ export default class Initialize extends Step {
     }
 
     getExplanations(translation: Locale) {
-        return translation.step.initialize;
+        return concretize(translation, translation.step.initialize);
     }
 }

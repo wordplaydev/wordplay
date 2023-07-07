@@ -30,6 +30,7 @@ import Emotion from '../lore/Emotion';
 import Evaluate from './Evaluate';
 import StreamDefinitionType from './StreamDefinitionType';
 import TokenType from './TokenType';
+import concretize, { type TemplateInput } from '../locale/locales/concretize';
 
 /**
  * A reference to some Definition. Can optionally take the definition which it refers,
@@ -252,10 +253,16 @@ export default class Reference extends AtomicExpression {
         return translation.node.Reference;
     }
 
-    getStartExplanations(translation: Locale, context: Context) {
-        return translation.node.Reference.start(
-            new NodeLink(this.name, translation, context, this.name.getText())
+    getStartExplanations(locale: Locale, context: Context) {
+        return concretize(
+            locale,
+            locale.node.Reference.start,
+            new NodeLink(this.name, locale, context, this.name.getText())
         );
+    }
+
+    getDescriptionInputs(_: Locale, __: Context): TemplateInput[] {
+        return [this.getName()];
     }
 
     getGlyphs() {

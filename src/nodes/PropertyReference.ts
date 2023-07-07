@@ -31,6 +31,7 @@ import Glyphs from '../lore/Glyphs';
 import UnimplementedException from '../runtime/UnimplementedException';
 import Purpose from '../concepts/Purpose';
 import { UnknownName } from '../conflicts/UnknownName';
+import concretize from '../locale/locales/concretize';
 
 export default class PropertyReference extends Expression {
     readonly structure: Expression;
@@ -284,25 +285,22 @@ export default class PropertyReference extends Expression {
         return translation.node.PropertyReference;
     }
 
-    getStartExplanations(translation: Locale) {
-        return translation.node.PropertyReference.start;
+    getStartExplanations(locale: Locale) {
+        return concretize(locale, locale.node.PropertyReference.start);
     }
 
     getFinishExplanations(
-        translation: Locale,
+        locale: Locale,
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.node.PropertyReference.finish(
+        return concretize(
+            locale,
+            locale.node.PropertyReference.finish,
             this.name
-                ? new NodeLink(
-                      this.name,
-                      translation,
-                      context,
-                      this.name?.getName()
-                  )
+                ? new NodeLink(this.name, locale, context, this.name?.getName())
                 : undefined,
-            this.getValueIfDefined(translation, context, evaluator)
+            this.getValueIfDefined(locale, context, evaluator)
         );
     }
 

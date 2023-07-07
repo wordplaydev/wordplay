@@ -23,6 +23,7 @@ import AtomicExpression from './AtomicExpression';
 import InternalException from '@runtime/InternalException';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
+import concretize from '../locale/locales/concretize';
 
 export default class ConversionDefinition extends AtomicExpression {
     readonly docs: Docs | undefined;
@@ -177,7 +178,10 @@ export default class ConversionDefinition extends AtomicExpression {
     }
 
     getStartExplanations(translation: Locale) {
-        return translation.node.ConversionDefinition.start;
+        return concretize(
+            translation,
+            translation.node.ConversionDefinition.start
+        );
     }
 
     getGlyphs() {

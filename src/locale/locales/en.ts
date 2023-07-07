@@ -1,18 +1,4 @@
-import type Context from '@nodes/Context';
-import type UnknownType from '@nodes/UnknownType';
 import type Locale from '../Locale';
-import type ListType from '@nodes/ListType';
-import type MapType from '@nodes/MapType';
-import type MeasurementLiteral from '@nodes/MeasurementLiteral';
-import type NameType from '@nodes/NameType';
-import type Reference from '@nodes/Reference';
-import type SetType from '@nodes/SetType';
-import type StreamType from '@nodes/StreamType';
-import type UnionType from '@nodes/UnionType';
-import type CycleType from '@nodes/CycleType';
-import NeverType from '@nodes/NeverType';
-import type UnknownNameType from '@nodes/UnknownNameType';
-import Unit from '@nodes/Unit';
 import {
     AND_SYMBOL,
     OR_SYMBOL,
@@ -24,32 +10,15 @@ import {
     SUM_SYMBOL,
     QUOTIENT_SYMBOL,
 } from '@parser/Symbols';
-import {
-    getDimensionDescription,
-    getEvaluateDescription,
-    getLanguageDescription,
-    getPlaceholderDescription,
-    getTokenDescription,
-    type Description,
-} from '../Locale';
-import Explanation from '../Explanation';
-import type NodeLink from '../NodeLink';
-import type StreamDefinitionType from '@nodes/StreamDefinitionType';
 import Emotion from '../../lore/Emotion';
 import { TEXT_DELIMITERS } from '../../parser/Tokenizer';
 import tutorial from './en-tutorial';
 
 export const WRITE_DOC = 'TBD';
 
-const SOURCE = 'source';
-const PROGRAM = 'program';
-const NAME = 'name';
-const STRUCTURE = 'structure';
-const CONVERSION = 'conversion';
-const REACTION = 'reaction';
-
 const en: Locale = {
     language: 'en',
+    tbd: 'TBD',
     wordplay: 'Wordplay',
     welcome: 'hello',
     motto: 'Where words come to life',
@@ -58,7 +27,7 @@ const en: Locale = {
         code: 'evaluate',
         decide: 'decide',
         project: 'performance',
-        source: SOURCE,
+        source: 'source',
         input: 'input',
         output: 'output',
         act: 'act',
@@ -70,10 +39,11 @@ const en: Locale = {
         start: 'start',
         entered: 'new',
         changed: 'changed',
+        name: 'name',
     },
     caret: {
-        before: (description) => `before ${description}`,
-        inside: (description) => `inside ${description}`,
+        before: 'before $1',
+        inside: 'inside $1',
     },
     data: {
         value: 'value',
@@ -87,7 +57,7 @@ const en: Locale = {
         none: 'none',
         list: 'list',
         stream: 'stream',
-        structure: STRUCTURE,
+        structure: '$structure',
         streamdefinition: 'stream definition',
         index: 'index',
         query: 'query',
@@ -131,7 +101,7 @@ const en: Locale = {
         TypeOperator: 'is',
         TypeOpen: 'type input open',
         TypeClose: 'type input close',
-        Separator: `${NAME} separator`,
+        Separator: `$name separator`,
         Language: 'language tag',
         BooleanType: 'boolean type',
         NumberType: 'number type',
@@ -165,52 +135,20 @@ const en: Locale = {
         Decimal: 'decimal numeral',
         Base: 'base numeral',
         Boolean: 'boolean',
-        Name: NAME,
+        Name: '$name',
         Unknown: 'unknown',
         End: 'end',
     },
     node: {
-        Program: {
-            name: PROGRAM,
-            description: PROGRAM,
-            emotion: Emotion.Serious,
-            doc: `You know how @Block evaluates a list of expressions, and evaluates to the last one in its list? 
-                
-                I'm the same, but rather than giving my value to whatever expression I'm in, I put the value on stage.
-                
-                The value can be anything: a @MeasurementLiteral, @TextLiteral, or @BooleanLiteral, a @ListLiteral, @SetLiteral, @MapLiteral, or even something more complex, like a @Phrase, @Group, or @Stage.
-
-                If you don't give me a value to show on stage, I'll probably ask you for one.
-                `,
-            start: (changes) =>
-                changes.length === 0
-                    ? 'evaluating for the first time'
-                    : changes.length === 1
-                    ? Explanation.as(
-                          changes[0].stream,
-                          ' evaluated to ',
-                          changes[0].value,
-                          ' revaluating'
-                      )
-                    : Explanation.as(
-                          `${changes.length} streams changed (e.g., `,
-                          changes[0].stream,
-                          ' → ',
-                          changes[0].value,
-                          '); revaluating'
-                      ),
-            finish: (value) =>
-                Explanation.as('I evaluated to ', value ?? 'nothing'),
-        },
         Dimension: {
             name: 'dimension',
-            description: getDimensionDescription,
+            description: 'number',
             emotion: Emotion.Serious,
             doc: `I am a *unit of measurement*, like ⧼1m⧽, ⧼10s⧽, ⧼100g⧽, or any other scientific unit. I'm happy to be any unit want to make up too, like (17apple).
             
                 I can be combined with other symbols to make compound units like ⧼9.8m/s^2⧽ or ⧼17apple/day⧽.
                 
-                I must always follow a number. If I don't, I might be mistaken for a ${NAME}, which would be quite embarassing, because I name units, not values.`,
+                I must always follow a number. If I don't, I might be mistaken for a $name, which would be quite embarassing, because I name units, not values.`,
         },
         Doc: {
             name: 'documentation',
@@ -239,13 +177,13 @@ const en: Locale = {
         },
         Language: {
             name: 'language tag',
-            description: getLanguageDescription,
+            description: 'language',
             emotion: Emotion.Eager,
             doc: `
                 Why hello! 
                 Have you ever wanted to make it *crystal clear* what lanugage something is? 
                 That's what I do. Just a little slash, and a couple letters, and no one will ever be confused about what language some text is in.
-                For example, let's say you wanted to say my ${NAME}, but make it clear I'm in English:
+                For example, let's say you wanted to say my $name, but make it clear I'm in English:
                 
                 ⧼"Language"/en⧽
                 
@@ -259,22 +197,22 @@ const en: Locale = {
                 `,
         },
         Name: {
-            name: NAME,
-            description: (name) => name.name?.getText(),
+            name: 'name',
+            description: '$1 ?? [$1 | unnamed]',
             emotion: Emotion.Kind,
             doc:
                 WRITE_DOC +
                 `
                 Identifies code.
                 
-                names are used to represent some value in a ${PROGRAM}, such as a function, ${STRUCTURE} type, or a binding in a block. 
+                names are used to represent some value in a $program, such as a function, $structure type, or a binding in a block. 
                 They're a helpful way of giving a shorthand label to some value or way of computing or storing values. 
                 Names can be optionally tagged with a language; this is helpful when sharing code, since the language might use to name a function might not be known to people who want to use it. 
                 Translating names makes shared code more globally useful.`,
         },
         Names: {
-            name: `${NAME} list`,
-            description: (names) => `${names.names.length} names`,
+            name: '$name list',
+            description: '$name list',
             emotion: Emotion.Kind,
             doc:
                 WRITE_DOC +
@@ -293,7 +231,7 @@ const en: Locale = {
         },
         Token: {
             name: 'token',
-            description: getTokenDescription,
+            description: '$1 $2',
             emotion: Emotion.Neutral,
             doc: WRITE_DOC + 'the smallest group of symbols in a performance',
         },
@@ -349,8 +287,8 @@ const en: Locale = {
             name: 'example',
             description: 'example',
             emotion: Emotion.Serious,
-            doc: `You can put a ${PROGRAM} in any documentation to format some text as ${PROGRAM}, or to illustrate how to use some code. 
-If you put it on it's own line, it will be displayed in a fancy box and show the result of evaluating the ${PROGRAM}.
+            doc: `You can put a $program in any documentation to format some text as $program, or to illustrate how to use some code. 
+If you put it on it's own line, it will be displayed in a fancy box and show the result of evaluating the $program.
 Like this:
 
 ⧼"My example is cute"⧽
@@ -359,7 +297,7 @@ Like this:
         },
         BinaryOperation: {
             name: 'binary operation',
-            description: (op) => op.operator.getText(),
+            description: 'operator',
             emotion: Emotion.Insecure,
             doc: `Sometimes when I'm evaluating a @FunctionDefinition with just one value on the left and one value on the right, I like to use this form, instead of @Evaluate.
                 
@@ -367,14 +305,12 @@ Like this:
                 It makes everything a bit tidier, even though its basically the same thing.
                 `,
             right: 'input',
-            start: (left) =>
-                Explanation.as('left first ', left, ', then right.'),
-            finish: (result) =>
-                Explanation.as('look, I made ', result ?? ' nothing'),
+            start: '$1 first, then right',
+            finish: 'look, I made $1',
         },
         Bind: {
             name: 'bind',
-            description: (bind) => bind.names.getNames().join(', '),
+            description: 'bind',
             emotion: Emotion.Bored,
             doc: `Hello!
                 I love names. 
@@ -419,27 +355,12 @@ Like this:
                 I'll let you know if they disagree.
                 Sometimes you might *have* to tell me what kind of data something else because I can't figure it out myself.
                 `,
-            start: (value) =>
-                value
-                    ? Explanation.as(
-                          `Let's see what value we get from `,
-                          value,
-                          `!`
-                      )
-                    : 'Mm, no value. I hope I`m in a @FunctionDefinition',
-            finish: (value, names) =>
-                value
-                    ? Explanation.as(
-                          'Oh nice, I got ',
-                          value,
-                          `! Let's name it `,
-                          names
-                      )
-                    : 'Uh oh, no value. How am I suppose to name nothing?',
+            start: "Let's see what value we get from $1",
+            finish: "Oh nice, I got $1! Let's name it $2",
         },
         Block: {
             name: 'block',
-            description: (block) => `${block.statements.length} statements`,
+            description: '$1 statements',
             emotion: Emotion.Grumpy,
             doc: `Have you met my friend @Bind?
                 I think you'd know if you had.
@@ -502,18 +423,14 @@ Like this:
                 Sometimes I just need some quiet.`,
             statement: 'statement',
             start: `Here we go with @Bind again, getting all excited about naming things`,
-            finish: (value) =>
-                Explanation.as(
-                    `Finally done. The last thing I got was `,
-                    value ?? 'nothing'
-                ),
+            finish: 'Finally done. The last thing I got was $1',
         },
         BooleanLiteral: {
             name: 'boolean',
-            description: (literal) => (literal.bool() ? 'true' : 'false'),
+            description: '$1 ?? [true|false]',
             emotion: Emotion.Precise,
             doc: `
-                We are ⧼${TRUE_SYMBOL}⧽ and ⧼${FALSE_SYMBOL}⧽.
+                We are ⧼⊤⧽ and ⧼⊥⧽.
                 
                 We represent true and false.
 
@@ -523,7 +440,7 @@ Like this:
 
                 But leave ambiguity out of it.
                 `,
-            start: (value) => Explanation.as(value, '!'),
+            start: '$1!',
         },
         Borrow: {
             name: 'borrow',
@@ -531,19 +448,9 @@ Like this:
             emotion: Emotion.Excited,
             doc:
                 WRITE_DOC +
-                `Use a binding from another ${SOURCE} or performance.`,
-            start: (source, name) =>
-                name === undefined && source === undefined
-                    ? 'borrowing nothing'
-                    : name === undefined && source !== undefined
-                    ? Explanation.as('borrow ', source)
-                    : Explanation.as(
-                          'borrow ',
-                          name ?? ' unspecified name ',
-                          ' from ',
-                          source ?? ` unspecified ${SOURCE}`
-                      ),
-            source: SOURCE,
+                `Use a binding from another $source or performance.`,
+            start: 'borrowing $2 from $1',
+            source: '$source',
             bind: 'name',
             version: 'version',
         },
@@ -552,14 +459,8 @@ Like this:
             description: 'changed',
             emotion: Emotion.Curious,
             doc:
-                WRITE_DOC +
-                `true if a stream caused a ${PROGRAM} to re-evaluate`,
-            start: (stream: NodeLink) =>
-                Explanation.as(
-                    'check if ',
-                    stream,
-                    ` caused this ${PROGRAM} to reevaluate`
-                ),
+                WRITE_DOC + `true if a stream caused a $program to re-evaluate`,
+            start: 'check if $1 caused this $program to reevaluate',
             stream: 'stream',
         },
         Conditional: {
@@ -581,26 +482,20 @@ Like this:
             Yes, no, if, else, this, that.
             Hm, I'm starting to sound like @BooleanLiteral...
             `,
-            start: (condition) =>
-                Explanation.as(
-                    `let's see if `,
-                    condition,
-                    ` is ${TRUE_SYMBOL} or ${FALSE_SYMBOL}`
-                ),
-            finish: (value) =>
-                Explanation.as(`it's `, value ?? ' nothing', '!'),
+            start: "let's see if $1 is true",
+            finish: "it's $1 value!",
             condition: 'condition',
             yes: 'yes',
             no: 'no',
         },
         ConversionDefinition: {
-            name: CONVERSION,
-            description: CONVERSION,
+            name: 'conversion',
+            description: 'conversion',
             emotion: Emotion.Excited,
             doc:
                 WRITE_DOC +
-                `define a ${CONVERSION} from one value type to another`,
-            start: `define this ${CONVERSION}`,
+                `define a conversion from one value type to another`,
+            start: `define this conversion`,
         },
         Convert: {
             name: 'convert',
@@ -621,22 +516,16 @@ Like this:
 
                 Values have a set of @ConversionDefinition that are predefined, but if you make a @StructureDefinition for a new type of value, you can define your own.
                 `,
-            start: (expr) =>
-                Explanation.as("let's get the value to convert", expr),
-            finish: (value) =>
-                Explanation.as('I converted this to ', value ?? 'nothing'),
+            start: "let's get the value to convert from $1",
+            finish: 'I converted this to $1',
         },
         Delete: {
             name: 'delete',
             description: 'delete',
             emotion: Emotion.Angry,
             doc: WRITE_DOC + `delete rows from a table`,
-            start: (table) => Explanation.as('evaluate ', table, ' first'),
-            finish: (value) =>
-                Explanation.as(
-                    'evaluated to table without rows, ',
-                    value ?? 'nothing'
-                ),
+            start: 'evaluate $1 first',
+            finish: 'evaluated to table without row $1',
         },
         DocumentedExpression: {
             name: 'documented expression',
@@ -647,7 +536,7 @@ Like this:
         },
         Evaluate: {
             name: 'evaluate',
-            description: getEvaluateDescription,
+            description: 'evaluate $1 ?? [$1|anonymous function]',
             emotion: Emotion.Shy,
             doc: `
             Hi. Are you looking for me? I evaluate @FunctionDefinition.
@@ -671,21 +560,14 @@ greeting('kitty')⧽
 
             ⧼'kitty'.⊆('itty')⧽
             `,
-            start: (inputs) =>
-                inputs
-                    ? "let's get the inputs first"
-                    : "now let's get the function to evaluate",
-            finish: (result) =>
-                Explanation.as(
-                    'the function evaluated to ',
-                    result ?? 'nothing'
-                ),
+            start: "let's evaluate the inputs first",
+            finish: 'the function evaluated to $1',
             function: 'function',
             input: 'input',
         },
         ExpressionPlaceholder: {
             name: 'placeholder',
-            description: getPlaceholderDescription,
+            description: '$1 ?? [$1|placeholder]',
             emotion: Emotion.Scared,
             doc: `
                 I'm supposed to be an *expression*, but I really don't know how to do anything.
@@ -702,8 +584,7 @@ greeting('kitty')⧽
         },
         FunctionDefinition: {
             name: 'function',
-            description: (fun, translation) =>
-                fun.names.getLocaleText(translation.language),
+            description: 'function $1',
             emotion: Emotion.Kind,
             doc:
                 WRITE_DOC +
@@ -716,8 +597,7 @@ greeting('kitty')⧽
             emotion: Emotion.Kind,
             doc: WRITE_DOC,
             start: 'evaluating the function given',
-            finish: (value) =>
-                Explanation.as('evaluated to ', value ?? 'nothing'),
+            finish: 'evaluated to $1',
         },
         Initial: {
             name: 'initial evaluation',
@@ -730,43 +610,28 @@ greeting('kitty')⧽
             description: 'insert',
             emotion: Emotion.Angry,
             doc: WRITE_DOC,
-            start: (table) => Explanation.as('evaluate ', table, ' first'),
-            finish: (value) =>
-                Explanation.as(
-                    'evaluated to table new rows, ',
-                    value ?? 'nothing'
-                ),
+            start: 'evaluate $1 first',
+            finish: 'evaluated to table new rows, $1',
         },
         Is: {
             name: 'is',
             description: 'is',
             emotion: Emotion.Curious,
             doc: WRITE_DOC,
-            start: (value) => Explanation.as('evaluate ', value, ' first'),
-            finish: (is, type) =>
-                is
-                    ? Explanation.as('value is ', type, ', evaluating to true')
-                    : Explanation.as(
-                          'value is not ',
-                          type,
-                          ' evaluating to false'
-                      ),
+            start: 'evaluate $1 first',
+            finish: '$1 ?? [ value is $2 | value is not $2 ]',
         },
         ListAccess: {
             name: 'list access',
             description: '',
             emotion: Emotion.Cheerful,
             doc: WRITE_DOC,
-            start: (list) => Explanation.as('evaluate ', list, ' first'),
-            finish: (value) =>
-                Explanation.as('item at index is ', value ?? 'nothing'),
+            start: 'evaluate $1 first',
+            finish: 'item at index is $1',
         },
         ListLiteral: {
             name: 'list',
-            description: (literal) =>
-                literal.values.length === 1
-                    ? '1 item'
-                    : `${literal.values.length} items`,
+            description: '$1 item list',
             emotion: Emotion.Eager,
             doc: `I'm a list of expressions! You can put anything in me: @BooleanLiteral, @MeasurementLiteral, @TextLiteral, @NoneLiteral, even other @ListLiteral, @SetLiteral, @MapLiteral, and more.
 
@@ -783,16 +648,12 @@ greeting('kitty')⧽
 
             `,
             start: "let's evaluate the items first",
-            finish: (value) =>
-                Explanation.as('evaluated to list ', value ?? 'nothing'),
+            finish: 'evaluated to list $1',
             item: 'item',
         },
         MapLiteral: {
             name: 'map',
-            description: (literal) =>
-                literal.values.length === 1
-                    ? '1 item'
-                    : `${literal.values.length} items`,
+            description: '$1 pairing map',
             emotion: Emotion.Excited,
             doc: `I'm a mapping from keys to values. 
                 My keys can be any kind of value, and my values can be any kind of value. 
@@ -814,19 +675,11 @@ greeting('kitty')⧽
                 I have many, many @FunctionDefinition for adding things to a mapping, removing things, getting the set of keys or values, and more.
                 `,
             start: 'evaluate each key and value first',
-            finish: (value) =>
-                Explanation.as('evaluated to map ', value ?? 'nothing'),
+            finish: 'I connected everyone! $1',
         },
         MeasurementLiteral: {
             name: 'number',
-            description: (node: MeasurementLiteral) =>
-                node.number.getText() === 'π'
-                    ? 'pi'
-                    : node.number.getText() === '∞'
-                    ? 'infinity'
-                    : node.unit.isUnitless()
-                    ? node.number.getText()
-                    : `${node.number.getText()} ${node.unit.toWordplay()}`,
+            description: '$1 $2',
             emotion: Emotion.Excited,
             doc: `I can be any number you like and even a number with units, if you like.
                 That's basically an infinite number of numbers.
@@ -847,7 +700,7 @@ greeting('kitty')⧽
                 
                 Just know that if you try to use my @FunctionDefinition on numbers with different units, I won't know what to do.
                 If they don't match, that might be a sign that there's something wrong with your performance.`,
-            start: (value) => Explanation.as('evaluate to ', value),
+            start: 'evaluate to $1',
         },
         NativeExpression: {
             name: 'built-in expression',
@@ -875,23 +728,31 @@ greeting('kitty')⧽
             description: 'previous',
             emotion: Emotion.Curious,
             doc: WRITE_DOC,
-            start: (stream) => Explanation.as('first get ', stream),
-            finish: (value) =>
-                Explanation.as(
-                    'evaluated to stream value ',
-                    value ?? 'nothing'
-                ),
+            start: 'first get $1',
+            finish: 'evaluated to stream value $1',
+        },
+        Program: {
+            name: 'program',
+            description: '$program',
+            emotion: Emotion.Serious,
+            doc: `You know how @Block evaluates a list of expressions, and evaluates to the last one in its list? 
+                
+                I'm the same, but rather than giving my value to whatever expression I'm in, I put the value on stage.
+                
+                The value can be anything: a @MeasurementLiteral, @TextLiteral, or @BooleanLiteral, a @ListLiteral, @SetLiteral, @MapLiteral, or even something more complex, like a @Phrase, @Group, or @Stage.
+
+                If you don't give me a value to show on stage, I'll probably ask you for one.
+                `,
+            start: '$1 ?? [ stream changed, reevaluating | evaluating for the first time ]',
+            finish: 'I evaluated to $1',
         },
         PropertyBind: {
             name: 'refine',
             description: 'refine',
             emotion: Emotion.Kind,
             doc: WRITE_DOC,
-            start: `get the ${STRUCTURE}`,
-            finish: (structure) =>
-                structure
-                    ? Explanation.as(`created new ${STRUCTURE} `, structure)
-                    : `no ${STRUCTURE} created`,
+            start: `get the $structure`,
+            finish: 'I created a new $structure $1 set to $2',
         },
         PropertyReference: {
             name: 'property access',
@@ -899,57 +760,38 @@ greeting('kitty')⧽
             emotion: Emotion.Kind,
             doc: WRITE_DOC,
             start: 'first get the value',
-            finish: (property, value) =>
-                property
-                    ? Explanation.as(
-                          'property ',
-                          property,
-                          ' is ',
-                          value ?? 'nothing'
-                      )
-                    : 'no property name given, no value',
+            finish: 'property $1 is $2',
             property: 'property',
         },
         Reaction: {
-            name: REACTION,
-            description: REACTION,
+            name: 'reaction',
+            description: 'reaction',
             emotion: Emotion.Excited,
-            doc: `A ${REACTION} to a stream change.`,
+            doc: `A reaction to a stream change.`,
             start: 'first check if the stream has changed',
-            finish: (value) =>
-                Explanation.as(
-                    'the stream value is currently ',
-                    value ?? 'nothing'
-                ),
+            finish: 'the stream value is currently $1',
             initial: 'initial',
             condition: 'condition',
             next: 'next',
         },
         Reference: {
             name: 'reference',
-            description: (node: Reference) => node.getName(),
+            description: '$1',
             emotion: Emotion.Kind,
             doc: WRITE_DOC,
-            start: (name) => Explanation.as('get the value of ', name),
+            start: 'getting the value of $1',
         },
         Select: {
             name: 'select',
             description: 'select',
             emotion: Emotion.Angry,
             doc: WRITE_DOC,
-            start: (table) => Explanation.as('evaluate ', table, ' first'),
-            finish: (value) =>
-                Explanation.as(
-                    'evaluated to a new table with the selected rows, ',
-                    value ?? 'nothing'
-                ),
+            start: 'evaluate $1 first',
+            finish: 'evaluated to a new table with the selected rows, $1',
         },
         SetLiteral: {
             name: 'set',
-            description: (literal) =>
-                literal.values.length === 1
-                    ? '1 item'
-                    : `${literal.values.length} items`,
+            description: '$1 items',
             emotion: Emotion.Eager,
             doc: `I'm a set. That means I can contain any number of values, including zero values. You can make me like this:
             
@@ -971,17 +813,15 @@ greeting('kitty')⧽
                 You should be able to find whatever you need amo
                 `,
             start: "let's evaluate the values first",
-            finish: (value) =>
-                Explanation.as('I created a set', value ?? 'nothing'),
+            finish: 'I created a set $1',
         },
         SetOrMapAccess: {
             name: 'set/map access',
             description: 'set/map access',
             emotion: Emotion.Kind,
             doc: WRITE_DOC,
-            start: (set) => Explanation.as('evaluate ', set, ' first'),
-            finish: (value) =>
-                Explanation.as('item in  with key is ', value ?? 'nothing'),
+            start: 'evaluate the set first',
+            finish: 'item in with key is $1',
         },
         Source: {
             name: 'document',
@@ -997,14 +837,13 @@ greeting('kitty')⧽
             start: 'define this stream type',
         },
         StructureDefinition: {
-            name: STRUCTURE,
-            description: (structure, translation) =>
-                structure.names.getLocaleText(translation.language),
+            name: 'structure',
+            description: 'structure $1',
             emotion: Emotion.Kind,
             doc:
                 WRITE_DOC +
                 `define a structure that stores values and functions on those values.`,
-            start: `define this ${STRUCTURE}`,
+            start: `define this $structure`,
         },
         TableLiteral: {
             name: 'table',
@@ -1013,8 +852,7 @@ greeting('kitty')⧽
             doc: WRITE_DOC,
             item: 'row',
             start: 'first evaluate the rows',
-            finish: (table) =>
-                Explanation.as('evaluated to new table ', table ?? 'nothing'),
+            finish: 'evaluated to new table $1',
         },
         Template: {
             name: 'text template',
@@ -1034,7 +872,7 @@ greeting('kitty')⧽
         },
         TextLiteral: {
             name: 'text',
-            description: (text) => text.getText(),
+            description: 'text $1',
             emotion: Emotion.Serious,
             doc: `I can be any text you like, and use any of these text symbols: ${Object.keys(
                 TEXT_DELIMITERS
@@ -1049,12 +887,11 @@ greeting('kitty')⧽
             description: 'this',
             emotion: Emotion.Kind,
             doc: WRITE_DOC,
-            start: (value) =>
-                Explanation.as('evaluated to ', value ?? 'nothing'),
+            start: 'evaluated to $1',
         },
         UnaryOperation: {
             name: 'unary operation',
-            description: (op) => op.operator.getText(),
+            description: '$1',
             emotion: Emotion.Insecure,
             doc: `Did you know that when I'm evaluating a @FunctionDefinition with just one value, and the name of the @FunctionDefinition is just a single symbol, you can put the name before the input?
                 
@@ -1063,8 +900,8 @@ greeting('kitty')⧽
 
                 There's only one rule: you can't put any space between the name and the value. Otherwise you might be making a @Reference or @BinaryOperation.
                 `,
-            start: (value) => Explanation.as('what are you ', value),
-            finish: (value) => Explanation.as('I made it ', value ?? 'nothing'),
+            start: 'evaluate the expression',
+            finish: 'I made it $1',
         },
         UnparsableExpression: {
             name: 'unparsable',
@@ -1087,12 +924,8 @@ greeting('kitty')⧽
             description: 'update rows',
             emotion: Emotion.Angry,
             doc: WRITE_DOC,
-            start: (table) => Explanation.as('evaluate ', table, ' first'),
-            finish: (value) =>
-                Explanation.as(
-                    'evaluated to a new table with revised rows, ',
-                    value ?? 'nothing'
-                ),
+            start: 'evaluate $1 first',
+            finish: 'evaluated to a new table with revised rows, $1',
         },
         AnyType: {
             name: 'any',
@@ -1107,8 +940,8 @@ greeting('kitty')⧽
             doc: `a true or false value`,
         },
         ConversionType: {
-            name: `${CONVERSION}`,
-            description: CONVERSION,
+            name: 'conversion',
+            description: 'conversion',
             emotion: Emotion.Curious,
             doc: `a type of function that converts values of one type to another `,
         },
@@ -1132,50 +965,25 @@ greeting('kitty')⧽
         },
         ListType: {
             name: 'list',
-            description: (
-                node: ListType,
-                translation: Locale,
-                context: Context
-            ) =>
-                node.type === undefined
-                    ? 'list'
-                    : `list of ${node.type.getDescription(
-                          translation,
-                          context
-                      )}`,
+            description: '$1 ?? [list of $1|list]',
             emotion: Emotion.Cheerful,
             doc: WRITE_DOC,
         },
         MapType: {
             name: 'map',
-            description: (
-                node: MapType,
-                translation: Locale,
-                context: Context
-            ) =>
-                node.key instanceof NeverType && node.value instanceof NeverType
-                    ? 'empty map'
-                    : node.key === undefined || node.value === undefined
-                    ? 'map'
-                    : `map of ${node.key.getDescription(
-                          translation,
-                          context
-                      )} to ${node.value.getDescription(translation, context)}`,
+            description: 'map from $1 ?? [$1|any] to $2 ?? [$2|any]',
             emotion: Emotion.Kind,
             doc: WRITE_DOC,
         },
         MeasurementType: {
             name: 'number',
-            description: (node, translation, context) =>
-                node.unit instanceof Unit
-                    ? node.unit.getDescription(translation, context)
-                    : 'number',
+            description: 'number',
             emotion: Emotion.Precise,
             doc: WRITE_DOC,
         },
         NameType: {
             name: 'structure',
-            description: (node: NameType) => `${node.name.getText()}`,
+            description: '$1 type',
             emotion: Emotion.Curious,
             doc: WRITE_DOC,
         },
@@ -1193,54 +1001,33 @@ greeting('kitty')⧽
         },
         SetType: {
             name: 'set',
-            description: (node: SetType, translation: Locale) =>
-                node.key === undefined
-                    ? 'anything'
-                    : node.key.getLabel(translation),
+            description: '$1 ?? [$1|anything] set type',
             emotion: Emotion.Kind,
             doc: WRITE_DOC,
         },
         StreamDefinitionType: {
             name: 'stream',
-            description: (node: StreamDefinitionType, translation: Locale) =>
-                `a ${node.definition.names.getLocaleText(
-                    translation.language
-                )} stream`,
+            description: 'stream type',
             emotion: Emotion.Curious,
             doc: WRITE_DOC,
         },
         StreamType: {
             name: 'stream',
-            description: (
-                node: StreamType,
-                translation: Locale,
-                context: Context
-            ) =>
-                `a type of stream of ${node.type.getDescription(
-                    translation,
-                    context
-                )}`,
+            description: 'stream type',
             emotion: Emotion.Curious,
             doc: WRITE_DOC,
         },
         StructureDefinitionType: {
-            name: `${STRUCTURE}`,
+            name: 'structure',
             description: 'structure',
             emotion: Emotion.Kind,
             doc: WRITE_DOC,
         },
         UnknownType: {
             name: 'unknown',
-            description: (
-                node: UnknownType<any>,
-                translation: Locale,
-                context: Context
-            ) => {
-                return `unknown, because ${node
-                    .getReasons()
-                    .map((unknown) => unknown.getReason(translation, context))
-                    .join(', because ')}`;
-            },
+            description: 'unknown type',
+            unknown: 'unknown',
+            connector: ', because',
             emotion: Emotion.Curious,
             doc: WRITE_DOC,
         },
@@ -1252,8 +1039,7 @@ greeting('kitty')⧽
         },
         TextType: {
             name: 'text',
-            description: (node) =>
-                node.isLiteral() ? node.text.getText() : 'text',
+            description: '$1 ?? [$1|text]',
             emotion: Emotion.Happy,
             doc: WRITE_DOC,
         },
@@ -1265,32 +1051,13 @@ greeting('kitty')⧽
         },
         UnionType: {
             name: 'option',
-            description: (
-                node: UnionType,
-                translation: Locale,
-                context: Context
-            ) =>
-                `${node.left.getDescription(
-                    translation,
-                    context
-                )}${OR_SYMBOL}${node.right.getDescription(
-                    translation,
-                    context
-                )}`,
+            description: '$1 | $2',
             emotion: Emotion.Curious,
             doc: WRITE_DOC,
         },
         Unit: {
             name: 'unit',
-            description: (node, translation, context) =>
-                node.exponents.size === 0
-                    ? 'number'
-                    : node.numerator.length === 1 &&
-                      node.denominator.length === 0
-                    ? node.numerator[0].getDescription(translation, context)
-                    : node.toWordplay() === 'm/s'
-                    ? 'velocity'
-                    : node.toWordplay(),
+            description: '$1',
             emotion: Emotion.Precise,
             doc: WRITE_DOC,
         },
@@ -1308,8 +1075,7 @@ greeting('kitty')⧽
         },
         CycleType: {
             name: 'cycle',
-            description: (node: CycleType) =>
-                `${node.expression.toWordplay()} depends on itself`,
+            description: 'depends on itself',
             emotion: Emotion.Curious,
             doc: WRITE_DOC,
         },
@@ -1321,8 +1087,7 @@ greeting('kitty')⧽
         },
         NotAType: {
             name: 'unexpected',
-            description: (expected, locale, context) =>
-                `not a ${expected.getDescription(locale, context)}`,
+            description: 'not a $1',
             emotion: Emotion.Curious,
             doc: WRITE_DOC,
         },
@@ -1333,7 +1098,7 @@ greeting('kitty')⧽
             doc: WRITE_DOC,
         },
         NotEnclosedType: {
-            name: `not in ${STRUCTURE}, ${CONVERSION}, or ${REACTION}`,
+            name: 'not in $structure, $conversion, or $reaction',
             description: '',
             emotion: Emotion.Curious,
             doc: WRITE_DOC,
@@ -1346,10 +1111,7 @@ greeting('kitty')⧽
         },
         UnknownNameType: {
             name: 'unknown name',
-            description: (node: UnknownNameType) =>
-                node.name === undefined
-                    ? "a name wasn't given"
-                    : `${node.name.getText()} isn't defined on ${node.why?.toWordplay()}`,
+            description: "$1 ?? [$1 isn't defined | a name wasn't given]",
             emotion: Emotion.Curious,
             doc: WRITE_DOC,
         },
@@ -1876,296 +1638,127 @@ greeting('kitty')⧽
         },
     },
     exceptions: {
-        blank: () =>
-            "I'm so excited to put on a show with you! Where should we start?",
-        function: (name) => Explanation.as("Oops, I don't know how to ", name),
-        name: (node, scope) =>
-            node
-                ? Explanation.as(
-                      'I feel... unbound, with no value. Am I supposed to have a value in ',
-                      scope === undefined ? ' this @Block' : scope,
-                      '?'
-                  )
-                : Explanation.as("Ack, I didn't get a name!"),
-        cycle: (node) => Explanation.as(node, ' depends on itself'),
-        functionlimit: (fun) =>
-            Explanation.as('evaluated too many functions, especially ', fun),
-        steplimit: 'evaluated too many steps in this function',
-        type: (expected, given) =>
-            Explanation.as('I expected a ', expected, ' but received ', given),
-        placeholder: (node) => Explanation.as(`I don't know what to do here!!`),
-        unparsable: () => Explanation.as('???'),
-        value: () =>
-            Explanation.as("Oh no! I expected a value, but I didn't get one"),
+        blank: "I'm so excited to put on a show with you! Where should we start?",
+        function: "Oops, I don't know how to $1",
+        name: 'I feel... unbound, with no value. Am I supposed to have a value in $1 ?? [ $1 | this @Block ]?',
+        cycle: '$1 depends on itself',
+        functionlimit: 'I evaluated too many functions, especially $1',
+        steplimit: 'I evaluated too many steps in this function',
+        type: 'I expected a $1 but received $2',
+        placeholder: "I don't know what to do here!!",
+        unparsable: '???',
+        value: "Oh no! I expected a value, but I didn't get one",
     },
     conflict: {
-        BorrowCycle: {
-            primary: (borrow) =>
-                Explanation.as(
-                    'this depends on ',
-                    borrow,
-                    ` which depends on this ${SOURCE}, so the ${PROGRAM} can't be evaluated`
-                ),
-        },
-        ReferenceCycle: {
-            primary: (ref) =>
-                Explanation.as(
-                    ref,
-                    `this ${NAME} depends on itself, so there's no way to evaluate it.`
-                ),
-        },
-        DisallowedInputs: {
-            primary: `I can't have inputs because one of or more of my functions isn't implemented`,
-        },
+        BorrowCycle:
+            "this depends on $1, which depends on this $source, so the $program can't be evaluated",
+        ReferenceCycle:
+            "$1 depends on itself, so there's no way to evaluate it.",
+        DisallowedInputs:
+            "I can't have inputs because one of or more of my functions isn't implemented",
         DuplicateName: {
-            primary: () => `Someone has my name, so I can't have this name.`,
-            secondary: (name) =>
-                Explanation.as('this is overwritten by ', name),
+            primary: "Someone has my name, so I can't have this name.",
+            secondary: 'this is overwritten by $1',
         },
         DuplicateShare: {
-            primary: (bind) =>
-                Explanation.as(
-                    `I have the same name as `,
-                    bind,
-                    ', which makes what is shared ambiguous'
-                ),
-            secondary: (bind) =>
-                Explanation.as(
-                    `I have has the same name as `,
-                    bind,
-                    ', which makes what is shared ambiguous'
-                ),
+            primary:
+                'I have the same name as $1, which makes what is shared ambiguous',
+            secondary: 'I have has the same name as $1',
         },
         DuplicateTypeVariable: {
-            primary: (dupe) => Explanation.as('I have the same name as ', dupe),
-            secondary: (dupe) =>
-                Explanation.as('I have the same name as ', dupe),
+            primary: 'I have the same name as $1',
+            secondary: 'I have the same name as $1',
         },
         ExpectedBooleanCondition: {
-            primary: (type: NodeLink) =>
-                Explanation.as(
-                    `I can't choose between yes and no with a `,
-                    type,
-                    `; can you give me a ${TRUE_SYMBOL} or ${FALSE_SYMBOL} value?`
-                ),
-            secondary: (type: NodeLink) =>
-                Explanation.as(
-                    `I wish I evaluated to a ${TRUE_SYMBOL} or ${FALSE_SYMBOL}, but I'm a `,
-                    type
-                ),
+            primary:
+                "I can't choose between yes and no with a $1. Can you give me a @TextType?",
+            secondary: "I wish I evaluated to a @TextType, but I'm a $1",
         },
-        ExpectedColumnType: {
-            primary: () => 'I need a column type',
-        },
-        ExpectedEndingExpression: {
-            primary: 'I need at least one expression.',
-        },
-        ExpectedSelectName: {
-            primary: (cell) =>
-                Explanation.as(cell, 'I need at least one column names.'),
-        },
-        ExpectedUpdateBind: {
-            primary: (cell) =>
-                Explanation.as('I need a value for every column'),
-        },
+        ExpectedColumnType: 'I need a column type',
+        ExpectedEndingExpression: 'I need at least one expression.',
+        ExpectedSelectName: 'I need at least one column name.',
+        ExpectedUpdateBind: 'I need a value for every column',
         IgnoredExpression: {
             primary: "I'm going to use this value and ignore other ones above.",
             secondary: 'Why are you ignoring me, I want to help!',
         },
-        IncompleteImplementation: {
-            primary: `My functions either need to all be implemented, or none be implemented. No messy mixtures!`,
-        },
+        IncompleteImplementation:
+            'My functions either need to all be implemented, or none be implemented. No messy mixtures!',
         IncompatibleBind: {
-            primary: (expected) =>
-                Explanation.as(`Uhh, I'm supposed to be `, expected),
-            secondary: (given, expected) =>
-                Explanation.as(
-                    `Hey, I got a `,
-                    given,
-                    ` instead of a `,
-                    expected
-                ),
+            primary: `I'm supposed to be $1, but I'm $2`,
+            secondary: 'Hey, I got a $2 instead of a $1',
         },
         IncompatibleCellType: {
-            primary: (expected) => Explanation.as('I needed a ', expected),
-            secondary: (given) => Explanation.as('I got a ', given),
+            primary: 'I needed a $1, but got a $2',
+            secondary: 'I got a $2',
         },
         IncompatibleInput: {
-            primary: (given, expected) =>
-                Explanation.as(
-                    `I'm supposed to be a `,
-                    expected,
-                    ", but I'm a ",
-                    given
-                ),
-            secondary: (given, expected) =>
-                Explanation.as(
-                    `Umm, I got a `,
-                    given,
-                    ' instead of ',
-                    expected
-                ),
+            primary: "I'm supposed to be a $1, but I'm a $2",
+            secondary: 'Umm, I got a $2 instead of a $1',
         },
         IncompatibleKey: {
-            primary: (expected) =>
-                Explanation.as('I expected a ', expected, ' key '),
-            secondary: (given) => Explanation.as('I got a ', given),
+            primary: 'I expected a $1 key',
+            secondary: 'I got a $2',
         },
-        ImpossibleType: {
-            primary: 'this can never be this type',
-        },
-        InvalidLanguage: {
-            primary: `I don't know this language`,
-        },
-        InvalidRow: {
-            primary: `I'm missing one or more columns`,
-        },
+        ImpossibleType: 'this can never be this type',
+        InvalidLanguage: "I don't know this language",
+        InvalidRow: "I'm missing one or more columns",
         InvalidTypeInput: {
-            primary: () => `I wasn't expecting this type input`,
-            secondary: () => 'Am I supposed to be here?',
+            primary: "I wasn't expecting this type input",
+            secondary: 'Am I supposed to be here?',
         },
-        MisplacedConversion: {
-            primary: `I'm not allowed here, only in ${STRUCTURE}s`,
-        },
-        MisplacedInput: {
-            primary: `I think this input is misplaced. Check the order?`,
-        },
-        MisplacedShare: {
-            primary: `I can only be at the top level of a ${PROGRAM}, not inside anything.`,
-        },
-        MisplacedThis: {
-            primary: `I'm only allowed in ${STRUCTURE}s, ${CONVERSION}s, or ${REACTION}s`,
-        },
+        MisplacedConversion: "I'm not allowed here, only in a $structure.",
+        MisplacedInput: 'I think this input is misplaced. Check the order?',
+        MisplacedShare:
+            'I can only be at the top level of a $program, not inside anything.',
+        MisplacedThis:
+            "I'm only allowed in a $structure, $conversion, or $reaction.",
         MissingCell: {
-            primary: (column) => Explanation.as(`I'm missing column`, column),
-            secondary: (row) =>
-                Explanation.as(`I'm required, but `, row, ` didn't provide it`),
+            primary: "I'm missing column $1",
+            secondary: "I'm required, but $2 didn't provide it",
         },
         MissingInput: {
-            primary: (input) =>
-                Explanation.as('I need ', input, ', can you add one?'),
-            secondary: (evaluate) =>
-                Explanation.as(
-                    `this input is required, but `,
-                    evaluate,
-                    ' did not provide it'
-                ),
+            primary: 'I need $1, can you add one?',
+            secondary: 'This input is required, but $2 did not provide it',
         },
-        MissingLanguage: {
-            primary: `Don't forget to give me a language!`,
-        },
-        MissingShareLanguages: {
-            primary: `If you want to share, say what language this is in, so others can find it if they know your language.`,
-        },
-        NoExpression: {
-            primary: `What should my value be?`,
-        },
+        MissingLanguage: `Don't forget to give me a language!`,
+        MissingShareLanguages: `If you want to share, say what language this is in, so others can find it if they know your language.`,
+        NoExpression: `What should my value be?`,
         NotAMap: {
-            primary: `I'm a map, so everything you give me has to be in pairs.`,
-            secondary: () => `Oops, I'm in a map without a partner!`,
+            primary: "I'm a map, so everything you give me has to be in pairs.",
+            secondary: "Oops, I'm in a map without a partner!",
         },
-        NotANumber: {
-            primary: `I'm not formatted correctly to be a number`,
-        },
-        NotAnInterface: {
-            primary: `I am not an interface; ${STRUCTURE}s can only implement interfaces, not other structures`,
-        },
-        NotInstantiable: {
-            primary: `cannot make this ${STRUCTURE} because it refers to an interface`,
-        },
-        OrderOfOperations: {
-            primary: `I'll evalute left to right, unlike math; do you want to use @Block to specify a different order?`,
-        },
-        Placeholder: {
-            primary: `Can someone take my place? I don't know what to do.`,
-        },
-        RequiredAfterOptional: {
-            primary: `required inputs can't come after optional ones`,
-        },
-        UnclosedDelimiter: {
-            primary: (token, expected) =>
-                Explanation.as(
-                    'I expected ',
-                    expected,
-                    ' sometime after ',
-                    token
-                ),
-        },
-        UnexpectedEtc: {
-            primary: 'only functions can have variable length inputs',
-        },
+        NotANumber: `I'm not formatted correctly to be a number`,
+        NotAnInterface: `I am not an interface; a $structure can only implement interfaces, not other structures`,
+        NotInstantiable: `cannot make this $structure because it refers to an interface`,
+        OrderOfOperations: `I'll evalute left to right, unlike math; do you want to use @Block to specify a different order?`,
+        Placeholder: `Can someone take my place? I don't know what to do.`,
+        RequiredAfterOptional: `required inputs can't come after optional ones`,
+        UnclosedDelimiter: 'I expected $2 sometime after $1',
+        UnexpectedEtc: 'only functions can have variable length inputs',
         UnexpectedInput: {
-            primary: (evaluation) =>
-                Explanation.as(`I didn't expect this input `, evaluation),
-            secondary: () => Explanation.as(`Am I supposed to be here?`),
+            primary: "I didn't expect this input $2",
+            secondary: 'Am I supposed to be here?',
         },
-        UnexpectedTypeVariable: {
-            primary: 'type inputs not allowed on type variables',
-        },
-        UnimplementedInterface: {
-            primary: (inter, fun) =>
-                Explanation.as(
-                    `I implement `,
-                    inter,
-                    ' but still need to implement ',
-                    fun
-                ),
-        },
-        UnknownBorrow: {
-            primary: `I don't know a ${SOURCE} by this name`,
-        },
-        UnknownColumn: {
-            primary: `I don't know a column by this name`,
-        },
-        UnknownConversion: {
-            primary: (from, to) =>
-                Explanation.as(
-                    `I couldn'tn find a way to make `,
-                    from,
-                    ' into a ',
-                    to
-                ),
-        },
-        UnknownInput: {
-            primary: `I don't know of an input by this name`,
-        },
-        UnknownName: {
-            primary: (_, type) =>
-                Explanation.as(
-                    `No one has this name in `,
-                    type ? type : ' this @Block'
-                ),
-        },
-        InvalidTypeName: {
-            primary: (type) =>
-                Explanation.as(
-                    WRITE_DOC,
-                    'type names can only refer to structures or type variables, but this refers to a ',
-                    type
-                ),
-        },
-        Unnamed: {
-            primary: `ahh, I need a name!`,
-        },
-        UnparsableConflict: {
-            primary: (expression) =>
-                Explanation.as(
-                    `(@FunctionDefinition here, @UnparsableExpression doesn't know what kind of `,
-                    expression ? `expression` : `type`,
-                    ` this is)`
-                ),
-        },
-        UnusedBind: {
-            primary: `Hey, can I help? No one is saying my name :(`,
-        },
-        InputListMustBeLast: {
-            primary: 'list of inputs must be last',
-        },
+        UnexpectedTypeVariable: 'type inputs not allowed on type variables',
+        UnimplementedInterface: "I implement $1 but haven't implemented $2",
+        UnknownBorrow: "I don't know a $souce by this name",
+        UnknownColumn: `I don't know a column by this name`,
+        UnknownConversion: "I couldn'tn find a way to make $1 into a $2",
+        UnknownInput: `I don't know of an input by this name`,
+        UnknownName: 'No one has this name in $1 ?? [ $1 | this @Block ]',
+        InvalidTypeName:
+            'type names can only refer to structures or type variables, but this refers to a $1',
+        Unnamed: `ahh, I need a name!`,
+        UnparsableConflict:
+            "(@FunctionDefinition here, @UnparsableExpression doesn't know what kind of $1 ?? [ expression | type ] this is)",
+        UnusedBind: `Hey, can I help? No one is saying my name :(`,
+        InputListMustBeLast: 'list of inputs must be last',
     },
     step: {
         stream: 'keeping the stream instead of getting its latest value',
         jump: 'jumping past code',
-        jumpif: (yes) => (yes ? 'jumping over code' : 'not jumping over code'),
+        jumpif: '$1 ?? [jumping over code | not jumping over code]',
         halt: 'encountered exception, stopping',
         initialize: 'preparing to process items',
         evaluate: 'starting evaluation',
@@ -2173,11 +1766,10 @@ greeting('kitty')⧽
         check: 'check the result',
     },
     transform: {
-        add: (node: Description) => ` add ${node}`,
-        append: (node: Description) => `append ${node}`,
-        remove: (node: Description) => `remove ${node}`,
-        replace: (node: Description | undefined) =>
-            `replace with ${node ?? 'nothing'}`,
+        add: 'add $1',
+        append: 'append $1',
+        remove: 'remove $1',
+        replace: 'replace with $1 ?? [$1|nothing]',
     },
     ui: {
         placeholders: {
@@ -2192,8 +1784,8 @@ greeting('kitty')⧽
         tooltip: {
             yes: 'confirm',
             no: 'cancel',
-            play: `evaluate the ${PROGRAM} fully`,
-            pause: `evaluate the ${PROGRAM} one step at a time`,
+            play: `evaluate the $program fully`,
+            pause: `evaluate the $program one step at a time`,
             back: 'back one step',
             backInput: 'back one input',
             out: 'step out of this function',
@@ -2227,8 +1819,8 @@ greeting('kitty')⧽
             editContent: 'edit this content',
             sequence: 'convert to a sequence',
             animate: 'toggle animations on/off',
-            addSource: `create a new ${SOURCE}`,
-            deleteSource: `remove this ${SOURCE}`,
+            addSource: 'create a new $source',
+            deleteSource: 'remove this $source',
             deleteProject: 'delete this performance',
             editProject: 'edit this performance',
             settings: 'show settings',
@@ -2452,34 +2044,19 @@ greeting('kitty')⧽
         Row: {
             doc: WRITE_DOC,
             names: ['➡', 'Row'],
-            description: (count, phrases, groups) =>
-                `row of ${count} ${
-                    count === phrases
-                        ? 'phrases'
-                        : count === groups
-                        ? 'groups'
-                        : 'phrases and groups'
-                }`,
+            description: 'row of $1 phrases and groups',
             padding: { doc: WRITE_DOC, names: 'padding' },
         },
         Stack: {
             doc: WRITE_DOC,
             names: ['⬇', 'Stack'],
-            description: (count, phrases, groups) =>
-                `stack of ${count} ${
-                    count === phrases
-                        ? 'phrases'
-                        : count === groups
-                        ? 'groups'
-                        : 'phrases and groups'
-                }`,
+            description: 'stack of $1 phrases and groups',
             padding: { doc: WRITE_DOC, names: 'padding' },
         },
         Grid: {
             doc: WRITE_DOC,
             names: ['▦', 'Grid'],
-            description: (rows: number, columns: number) =>
-                `${rows} row ${columns} column grid`,
+            description: '$1 row $2 column grid',
             rows: { doc: WRITE_DOC, names: 'rows' },
             columns: { doc: WRITE_DOC, names: 'columns' },
             padding: { doc: WRITE_DOC, names: 'padding' },
@@ -2489,7 +2066,7 @@ greeting('kitty')⧽
         Free: {
             doc: WRITE_DOC,
             names: ['Free'],
-            description: (count: number) => `free-form, ${count} outputs`,
+            description: 'free-form $1 outputs',
         },
         Shape: {
             doc: WRITE_DOC,
@@ -2540,14 +2117,7 @@ greeting('kitty')⧽
         Stage: {
             doc: WRITE_DOC,
             names: ['🎭', 'Stage'],
-            description: (count, phrases, groups) =>
-                `verse of ${count} ${
-                    count === phrases
-                        ? 'phrases'
-                        : count === groups
-                        ? 'groups'
-                        : 'phrases and groups'
-                }`,
+            description: 'stage of $1 phrases and groups',
             content: { doc: WRITE_DOC, names: 'content' },
             background: { doc: WRITE_DOC, names: 'background' },
             frame: { doc: WRITE_DOC, names: 'frame' },

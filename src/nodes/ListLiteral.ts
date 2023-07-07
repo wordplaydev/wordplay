@@ -22,6 +22,7 @@ import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';
 import generalize from './generalize';
+import concretize from '../locale/locales/concretize';
 
 export default class ListLiteral extends Expression {
     readonly open: Token;
@@ -155,18 +156,24 @@ export default class ListLiteral extends Expression {
         return translation.node.ListLiteral;
     }
 
-    getStartExplanations(translation: Locale) {
-        return translation.node.ListLiteral.start;
+    getStartExplanations(locale: Locale) {
+        return concretize(locale, locale.node.ListLiteral.start);
     }
 
     getFinishExplanations(
-        translation: Locale,
+        locale: Locale,
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.node.ListLiteral.finish(
-            this.getValueIfDefined(translation, context, evaluator)
+        return concretize(
+            locale,
+            locale.node.ListLiteral.finish,
+            this.getValueIfDefined(locale, context, evaluator)
         );
+    }
+
+    getDescriptionInputs() {
+        return [this.values.length];
     }
 
     getGlyphs() {

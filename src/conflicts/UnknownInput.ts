@@ -5,6 +5,7 @@ import type StructureDefinition from '@nodes/StructureDefinition';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
 import type Locale from '@locale/Locale';
 import type StreamDefinition from '../nodes/StreamDefinition';
+import concretize from '../locale/locales/concretize';
 
 export default class UnknownInput extends Conflict {
     readonly func: FunctionDefinition | StructureDefinition | StreamDefinition;
@@ -28,7 +29,7 @@ export default class UnknownInput extends Conflict {
             primary: {
                 node: this.given.names,
                 explanation: (translation: Locale) =>
-                    translation.conflict.UnknownInput.primary,
+                    concretize(translation, translation.conflict.UnknownInput),
             },
         };
     }

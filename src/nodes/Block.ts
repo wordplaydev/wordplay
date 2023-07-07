@@ -26,6 +26,7 @@ import NoExpressionType from './NoExpressionType';
 import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
+import concretize from '../locale/locales/concretize';
 
 export enum BlockKind {
     Root = 'root',
@@ -290,23 +291,30 @@ export default class Block extends Expression {
         return translation.node.Block;
     }
 
-    getStartExplanations(translation: Locale) {
-        return translation.node.Block.start;
+    getStartExplanations(locale: Locale) {
+        return concretize(locale, locale.node.Block.start);
     }
 
     getFinishExplanations(
-        translation: Locale,
+        locale: Locale,
         context: Context,
         evaluator: Evaluator
     ) {
-        return translation.node.Block.finish(
-            this.getValueIfDefined(translation, context, evaluator)
+        return concretize(
+            locale,
+            locale.node.Block.finish,
+            this.getValueIfDefined(locale, context, evaluator)
         );
+    }
+
+    getDescriptionInputs() {
+        return [this.statements.length];
     }
 
     getStart() {
         return this.open ?? this.getFirstLeaf() ?? this;
     }
+
     getFinish(): Node {
         return this.close ?? this.getLast() ?? this;
     }

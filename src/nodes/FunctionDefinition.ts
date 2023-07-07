@@ -33,6 +33,7 @@ import InternalException from '@runtime/InternalException';
 import Glyphs from '../lore/Glyphs';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import Block from './Block';
+import concretize from '../locale/locales/concretize';
 
 export default class FunctionDefinition extends Expression {
     readonly docs?: Docs;
@@ -320,12 +321,16 @@ export default class FunctionDefinition extends Expression {
         return translation.node.FunctionDefinition;
     }
 
-    getStartExplanations(translation: Locale) {
-        return translation.node.FunctionDefinition.start;
+    getStartExplanations(locale: Locale) {
+        return concretize(locale, locale.node.FunctionDefinition.start);
     }
 
-    getFinishExplanations(translation: Locale) {
-        return translation.node.FunctionDefinition.start;
+    getFinishExplanations(locale: Locale) {
+        return concretize(locale, locale.node.FunctionDefinition.start);
+    }
+
+    getDescriptionInputs(locale: Locale, _: Context) {
+        return [this.names.getLocaleText(locale.language)];
     }
 
     getGlyphs() {
