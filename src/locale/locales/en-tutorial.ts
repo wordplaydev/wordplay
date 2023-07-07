@@ -6437,7 +6437,7 @@ Docs can be
                     ),
                     null,
                     fit(
-                        'Stage([Phrase("Quiet backstage!" rest: Pose(color: Color(100% 0 0°)))] background: Color(0% 0 0°)'
+                        'Stage([Phrase("Quiet backstage!" rest: Pose(color: Color(100% 0 0°)))] background: Color(0% 0 0°))'
                     ),
                     dialog(
                         'FunctionDefinition',
