@@ -32,7 +32,7 @@ export type NodeText = {
     /* Documentation text that appears in the documentation view */
     doc: DocString;
     /* The emotion that should be conveyed in animations of the node type */
-    emotion: Emotion;
+    emotion: Emotion | `${Emotion}`;
 };
 
 export interface AtomicExpressionText {
@@ -1198,7 +1198,7 @@ export type Character =
 
 export type Dialog = {
     concept: Character;
-    emotion: Emotion;
+    emotion: Emotion | `${Emotion}`;
     text: string;
 };
 

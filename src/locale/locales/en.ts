@@ -1,5 +1,4 @@
 import type Locale from '../Locale';
-import Emotion from '../../lore/Emotion';
 import tutorial from './en-tutorial';
 
 const en: Locale = {
@@ -129,7 +128,7 @@ const en: Locale = {
         Dimension: {
             name: 'dimension',
             description: 'number',
-            emotion: Emotion.Serious,
+            emotion: 'serious',
             doc: `I am a *unit of measurement*, like ⧼1m⧽, ⧼10s⧽, ⧼100g⧽, or any other scientific unit. I'm happy to be any unit want to make up too, like (17apple).
             
                 I can be combined with other symbols to make compound units like ⧼9.8m/s^2⧽ or ⧼17apple/day⧽.
@@ -139,7 +138,7 @@ const en: Locale = {
         Doc: {
             name: 'documentation',
             description: 'documentation',
-            emotion: Emotion.Serious,
+            emotion: 'serious',
             doc:
                 '$?' +
                 `Describes the purpose of some code.
@@ -150,13 +149,13 @@ const en: Locale = {
         Docs: {
             name: 'documentation list',
             description: 'documentation list',
-            emotion: Emotion.Serious,
+            emotion: 'serious',
             doc: '$?' + `a list of documentation`,
         },
         KeyValue: {
             name: 'key/value pair',
             description: 'key/value pair',
-            emotion: Emotion.Kind,
+            emotion: 'kind',
             doc:
                 '$?' +
                 `represents a single mapping in a map between a key and a value.`,
@@ -164,7 +163,7 @@ const en: Locale = {
         Language: {
             name: 'language tag',
             description: 'language',
-            emotion: Emotion.Eager,
+            emotion: 'eager',
             doc: `
                 Why hello! 
                 Have you ever wanted to make it *crystal clear* what lanugage something is? 
@@ -185,7 +184,7 @@ const en: Locale = {
         Name: {
             name: 'name',
             description: '$1 ?? [$1 | unnamed]',
-            emotion: Emotion.Kind,
+            emotion: 'kind',
             doc:
                 '$?' +
                 `
@@ -199,7 +198,7 @@ const en: Locale = {
         Names: {
             name: '$name list',
             description: '$name list',
-            emotion: Emotion.Kind,
+            emotion: 'kind',
             doc:
                 '$?' +
                 `
@@ -212,19 +211,19 @@ const en: Locale = {
         Row: {
             name: 'row',
             description: 'row',
-            emotion: Emotion.Angry,
+            emotion: 'angry',
             doc: '$?' + `a row of values, matching a table definition`,
         },
         Token: {
             name: 'token',
             description: '$1 $2',
-            emotion: Emotion.Neutral,
+            emotion: 'neutral',
             doc: '$?' + 'the smallest group of symbols in a performance',
         },
         TypeInputs: {
             name: 'type inputs',
             description: 'type inputs',
-            emotion: Emotion.Curious,
+            emotion: 'curious',
             doc:
                 '$?' +
                 `a list of types given to a @FunctionDefinition or @StructureDefinition`,
@@ -232,7 +231,7 @@ const en: Locale = {
         TypeVariable: {
             name: 'type variable',
             description: 'type variable',
-            emotion: Emotion.Curious,
+            emotion: 'curious',
             doc:
                 '$?' +
                 `a placeholder for a type used in a @FunctionDefinition or @StructureDefinition`,
@@ -240,37 +239,37 @@ const en: Locale = {
         TypeVariables: {
             name: 'type variables',
             description: 'type variables',
-            emotion: Emotion.Curious,
+            emotion: 'curious',
             doc: '$?' + `a list of @TypeVariable`,
         },
         Paragraph: {
             name: 'paragraph',
             description: 'paragraph',
-            emotion: Emotion.Serious,
+            emotion: 'serious',
             doc: '$?' + `a formatted list of words, links, and example code`,
         },
         WebLink: {
             name: 'link',
             description: 'link',
-            emotion: Emotion.Serious,
+            emotion: 'serious',
             doc: '$?' + `a link to something on the web`,
         },
         ConceptLink: {
             name: 'concept',
             description: 'concept',
-            emotion: Emotion.Serious,
+            emotion: 'serious',
             doc: '$?' + `a link to a concept in Wordplay`,
         },
         Words: {
             name: 'words',
             description: 'words',
-            emotion: Emotion.Serious,
+            emotion: 'serious',
             doc: '$?' + `words that are part of @Doc`,
         },
         Example: {
             name: 'example',
             description: 'example',
-            emotion: Emotion.Serious,
+            emotion: 'serious',
             doc: `You can put a $program in any documentation to format some text as $program, or to illustrate how to use some code. 
 If you put it on it's own line, it will be displayed in a fancy box and show the result of evaluating the $program.
 Like this:
@@ -282,7 +281,7 @@ Like this:
         BinaryOperation: {
             name: 'binary operation',
             description: 'operator',
-            emotion: Emotion.Insecure,
+            emotion: 'insecure',
             doc: `Sometimes when I'm evaluating a @FunctionDefinition with just one value on the left and one value on the right, I like to use this form, instead of @Evaluate.
                 
                 ⧼1 + 1⧽ is just so much simpler than ⧼1.+(1)⧽ or ⧼1.add(1)⧽. 
@@ -295,7 +294,7 @@ Like this:
         Bind: {
             name: 'bind',
             description: 'bind',
-            emotion: Emotion.Bored,
+            emotion: 'bored',
             doc: `Hello!
                 I love names. 
                 I name things. 
@@ -345,7 +344,7 @@ Like this:
         Block: {
             name: 'block',
             description: '$1 statements',
-            emotion: Emotion.Grumpy,
+            emotion: 'grumpy',
             doc: `Have you met my friend @Bind?
                 I think you'd know if you had.
                 Sometimes they are so annoying.
@@ -412,7 +411,7 @@ Like this:
         BooleanLiteral: {
             name: 'boolean',
             description: '$1 ?? [true|false]',
-            emotion: Emotion.Precise,
+            emotion: 'precise',
             doc: `
                 We are ⧼⊤⧽ and ⧼⊥⧽.
                 
@@ -429,7 +428,7 @@ Like this:
         Borrow: {
             name: 'borrow',
             description: 'borrow',
-            emotion: Emotion.Excited,
+            emotion: 'excited',
             doc: '$?' + `Use a binding from another $source or performance.`,
             start: 'borrowing $2 from $1',
             source: '$source',
@@ -439,7 +438,7 @@ Like this:
         Changed: {
             name: 'changed',
             description: 'changed',
-            emotion: Emotion.Curious,
+            emotion: 'curious',
             doc: '$?' + `true if a stream caused a $program to re-evaluate`,
             start: 'check if $1 caused this $program to reevaluate',
             stream: 'stream',
@@ -447,7 +446,7 @@ Like this:
         Conditional: {
             name: 'conditional',
             description: '',
-            emotion: Emotion.Curious,
+            emotion: 'curious',
             doc: `
             Did you ever think about how we decide? 
             I think about that a lot. 
@@ -472,14 +471,14 @@ Like this:
         ConversionDefinition: {
             name: 'conversion',
             description: 'conversion',
-            emotion: Emotion.Excited,
+            emotion: 'excited',
             doc: '$?' + `define a conversion from one value type to another`,
             start: `define this conversion`,
         },
         Convert: {
             name: 'convert',
             description: 'converts a value to a different type',
-            emotion: Emotion.Cheerful,
+            emotion: 'cheerful',
             doc: `
                 Yo. I turn values from one type to another. Check it out:
                 
@@ -501,7 +500,7 @@ Like this:
         Delete: {
             name: 'delete',
             description: 'delete',
-            emotion: Emotion.Angry,
+            emotion: 'angry',
             doc: '$?' + `delete rows from a table`,
             start: 'evaluate $1 first',
             finish: 'evaluated to table without row $1',
@@ -509,14 +508,14 @@ Like this:
         DocumentedExpression: {
             name: 'documented expression',
             description: 'documented expression',
-            emotion: Emotion.Serious,
+            emotion: 'serious',
             doc: '$?',
             start: 'evaluate the documented expression',
         },
         Evaluate: {
             name: 'evaluate',
             description: 'evaluate $1 ?? [$1|anonymous function]',
-            emotion: Emotion.Shy,
+            emotion: 'shy',
             doc: `
             Hi. Are you looking for me? I evaluate @FunctionDefinition.
 
@@ -547,7 +546,7 @@ greeting('kitty')⧽
         ExpressionPlaceholder: {
             name: 'placeholder',
             description: '$1 ?? [$1|placeholder]',
-            emotion: Emotion.Scared,
+            emotion: 'scared',
             doc: `
                 I'm supposed to be an *expression*, but I really don't know how to do anything.
                 
@@ -564,7 +563,7 @@ greeting('kitty')⧽
         FunctionDefinition: {
             name: 'function',
             description: 'function $1',
-            emotion: Emotion.Kind,
+            emotion: 'kind',
             doc:
                 '$?' +
                 `define a function that maps input values to an output value`,
@@ -573,7 +572,7 @@ greeting('kitty')⧽
         HOF: {
             name: 'higher order function',
             description: 'higher order function',
-            emotion: Emotion.Kind,
+            emotion: 'kind',
             doc: '$?',
             start: 'evaluating the function given',
             finish: 'evaluated to $1',
@@ -581,13 +580,13 @@ greeting('kitty')⧽
         Initial: {
             name: 'initial evaluation',
             description: 'initial evaluation',
-            emotion: Emotion.Curious,
+            emotion: 'curious',
             doc: '$?',
         },
         Insert: {
             name: 'insert',
             description: 'insert',
-            emotion: Emotion.Angry,
+            emotion: 'angry',
             doc: '$?',
             start: 'evaluate $1 first',
             finish: 'evaluated to table new rows, $1',
@@ -595,7 +594,7 @@ greeting('kitty')⧽
         Is: {
             name: 'is',
             description: 'is',
-            emotion: Emotion.Curious,
+            emotion: 'curious',
             doc: '$?',
             start: 'evaluate $1 first',
             finish: '$1 ?? [ value is $2 | value is not $2 ]',
@@ -603,7 +602,7 @@ greeting('kitty')⧽
         ListAccess: {
             name: 'list access',
             description: '',
-            emotion: Emotion.Cheerful,
+            emotion: 'cheerful',
             doc: '$?',
             start: 'evaluate $1 first',
             finish: 'item at index is $1',
@@ -611,7 +610,7 @@ greeting('kitty')⧽
         ListLiteral: {
             name: 'list',
             description: '$1 item list',
-            emotion: Emotion.Eager,
+            emotion: 'eager',
             doc: `I'm a list of expressions! You can put anything in me: @BooleanLiteral, @MeasurementLiteral, @TextLiteral, @NoneLiteral, even other @ListLiteral, @SetLiteral, @MapLiteral, and more.
 
             What makes me special is that I keep things in order and I number everything from 1 to however many items are in me.
@@ -633,7 +632,7 @@ greeting('kitty')⧽
         MapLiteral: {
             name: 'map',
             description: '$1 pairing map',
-            emotion: Emotion.Excited,
+            emotion: 'excited',
             doc: `I'm a mapping from keys to values. 
                 My keys can be any kind of value, and my values can be any kind of value. 
                 I work with @Bind to connect values.
@@ -659,7 +658,7 @@ greeting('kitty')⧽
         MeasurementLiteral: {
             name: 'number',
             description: '$1 $2',
-            emotion: Emotion.Excited,
+            emotion: 'excited',
             doc: `I can be any number you like and even a number with units, if you like.
                 That's basically an infinite number of numbers.
                 And an infinite number of units!
@@ -684,14 +683,14 @@ greeting('kitty')⧽
         NativeExpression: {
             name: 'built-in expression',
             description: 'built-in expression',
-            emotion: Emotion.Neutral,
+            emotion: 'neutral',
             doc: '$?',
             start: 'evaluate the built-in expression',
         },
         NoneLiteral: {
             name: 'nothing',
             description: 'nothing',
-            emotion: Emotion.Neutral,
+            emotion: 'neutral',
             doc: `/Hi, @FunctionDefinition here. @NoneLiteral doesn't like to say much, so I'll translate./
                 
                 @NoneLiteral represents the absence of anything. 
@@ -705,7 +704,7 @@ greeting('kitty')⧽
         Previous: {
             name: 'previous',
             description: 'previous',
-            emotion: Emotion.Curious,
+            emotion: 'curious',
             doc: '$?',
             start: 'first get $1',
             finish: 'evaluated to stream value $1',
@@ -713,7 +712,7 @@ greeting('kitty')⧽
         Program: {
             name: 'program',
             description: '$program',
-            emotion: Emotion.Serious,
+            emotion: 'serious',
             doc: `You know how @Block evaluates a list of expressions, and evaluates to the last one in its list? 
                 
                 I'm the same, but rather than giving my value to whatever expression I'm in, I put the value on stage.
@@ -728,7 +727,7 @@ greeting('kitty')⧽
         PropertyBind: {
             name: 'refine',
             description: 'refine',
-            emotion: Emotion.Kind,
+            emotion: 'kind',
             doc: '$?',
             start: `get the $structure`,
             finish: 'I created a new $structure $1 set to $2',
@@ -736,7 +735,7 @@ greeting('kitty')⧽
         PropertyReference: {
             name: 'property access',
             description: 'property access',
-            emotion: Emotion.Kind,
+            emotion: 'kind',
             doc: '$?',
             start: 'first get the value',
             finish: 'property $1 is $2',
@@ -745,7 +744,7 @@ greeting('kitty')⧽
         Reaction: {
             name: 'reaction',
             description: 'reaction',
-            emotion: Emotion.Excited,
+            emotion: 'excited',
             doc: `A reaction to a stream change.`,
             start: 'first check if the stream has changed',
             finish: 'the stream value is currently $1',
@@ -756,14 +755,14 @@ greeting('kitty')⧽
         Reference: {
             name: 'reference',
             description: '$1',
-            emotion: Emotion.Kind,
+            emotion: 'kind',
             doc: '$?',
             start: 'getting the value of $1',
         },
         Select: {
             name: 'select',
             description: 'select',
-            emotion: Emotion.Angry,
+            emotion: 'angry',
             doc: '$?',
             start: 'evaluate $1 first',
             finish: 'evaluated to a new table with the selected rows, $1',
@@ -771,7 +770,7 @@ greeting('kitty')⧽
         SetLiteral: {
             name: 'set',
             description: '$1 items',
-            emotion: Emotion.Eager,
+            emotion: 'eager',
             doc: `I'm a set. That means I can contain any number of values, including zero values. You can make me like this:
             
                 ⧼{1 2 3}⧽
@@ -797,7 +796,7 @@ greeting('kitty')⧽
         SetOrMapAccess: {
             name: 'set/map access',
             description: 'set/map access',
-            emotion: Emotion.Kind,
+            emotion: 'kind',
             doc: '$?',
             start: 'evaluate the set first',
             finish: 'item in with key is $1',
@@ -805,20 +804,20 @@ greeting('kitty')⧽
         Source: {
             name: 'document',
             description: 'document',
-            emotion: Emotion.Serious,
+            emotion: 'serious',
             doc: '$?',
         },
         StreamDefinition: {
             name: 'stream',
             description: 'stream',
-            emotion: Emotion.Curious,
+            emotion: 'curious',
             doc: '$?' + `defines a stream of values.`,
             start: 'define this stream type',
         },
         StructureDefinition: {
             name: 'structure',
             description: 'structure $1',
-            emotion: Emotion.Kind,
+            emotion: 'kind',
             doc:
                 '$?' +
                 `define a structure that stores values and functions on those values.`,
@@ -827,7 +826,7 @@ greeting('kitty')⧽
         TableLiteral: {
             name: 'table',
             description: 'table',
-            emotion: Emotion.Angry,
+            emotion: 'angry',
             doc: '$?',
             item: 'row',
             start: 'first evaluate the rows',
@@ -836,7 +835,7 @@ greeting('kitty')⧽
         Template: {
             name: 'text template',
             description: 'text template',
-            emotion: Emotion.Serious,
+            emotion: 'serious',
             doc: `I can be placed inside @TextLiteral to combine text and other values into a larger text value.
 
                 For instance, consider this:
@@ -852,7 +851,7 @@ greeting('kitty')⧽
         TextLiteral: {
             name: 'text',
             description: 'text $1',
-            emotion: Emotion.Serious,
+            emotion: 'serious',
             doc: `I can be any text you like, and use any of these text symbols: ⧼""⧽, ⧼“”⧽, ⧼„“⧽, ⧼''⧽, ⧼‘’⧽, ⧼‹›⧽, ⧼«»⧽, ⧼「」⧽, or ⧼『'⧽.
                 Just remember to close me if you open me, and use the matching symbol.
                 Otherwise I won't know that you're done with your words.`,
@@ -861,14 +860,14 @@ greeting('kitty')⧽
         This: {
             name: 'this',
             description: 'this',
-            emotion: Emotion.Kind,
+            emotion: 'kind',
             doc: '$?',
             start: 'evaluated to $1',
         },
         UnaryOperation: {
             name: 'unary operation',
             description: '$1',
-            emotion: Emotion.Insecure,
+            emotion: 'insecure',
             doc: `Did you know that when I'm evaluating a @FunctionDefinition with just one value, and the name of the @FunctionDefinition is just a single symbol, you can put the name before the input?
                 
                 Like, ⧼-(1 + 1)⧽ or ⧼~⊥⧽, for example. Those are much easier to read than ⧼(1 + 1).negate()⧽ or ⧼⊥.not()⧽.
@@ -882,7 +881,7 @@ greeting('kitty')⧽
         UnparsableExpression: {
             name: 'unparsable',
             description: 'unparseable',
-            emotion: Emotion.Excited,
+            emotion: 'excited',
             doc: `
                 (Hi @FunctionDefinition here. I'm translating for @UnparsableExpression, since they're often hard to interpret.)
 
@@ -898,7 +897,7 @@ greeting('kitty')⧽
         Update: {
             name: 'update rows',
             description: 'update rows',
-            emotion: Emotion.Angry,
+            emotion: 'angry',
             doc: '$?',
             start: 'evaluate $1 first',
             finish: 'evaluated to a new table with revised rows, $1',
@@ -906,97 +905,97 @@ greeting('kitty')⧽
         AnyType: {
             name: 'any',
             description: 'any',
-            emotion: Emotion.Curious,
+            emotion: 'curious',
             doc: `represents any possible type`,
         },
         BooleanType: {
             name: 'boolean',
             description: 'boolean',
-            emotion: Emotion.Precise,
+            emotion: 'precise',
             doc: `a true or false value`,
         },
         ConversionType: {
             name: 'conversion',
             description: 'conversion',
-            emotion: Emotion.Curious,
+            emotion: 'curious',
             doc: `a type of function that converts values of one type to another `,
         },
         ExceptionType: {
             name: 'exception',
             description: 'exception',
-            emotion: Emotion.Curious,
+            emotion: 'curious',
             doc: '$?',
         },
         FunctionDefinitionType: {
             name: 'function',
             description: 'function',
-            emotion: Emotion.Curious,
+            emotion: 'curious',
             doc: '$?',
         },
         FunctionType: {
             name: 'function',
             description: 'function',
-            emotion: Emotion.Curious,
+            emotion: 'curious',
             doc: '$?',
         },
         ListType: {
             name: 'list',
             description: '$1 ?? [list of $1|list]',
-            emotion: Emotion.Cheerful,
+            emotion: 'cheerful',
             doc: '$?',
         },
         MapType: {
             name: 'map',
             description: 'map from $1 ?? [$1|any] to $2 ?? [$2|any]',
-            emotion: Emotion.Kind,
+            emotion: 'kind',
             doc: '$?',
         },
         MeasurementType: {
             name: 'number',
             description: 'number',
-            emotion: Emotion.Precise,
+            emotion: 'precise',
             doc: '$?',
         },
         NameType: {
             name: 'structure',
             description: '$1 type',
-            emotion: Emotion.Curious,
+            emotion: 'curious',
             doc: '$?',
         },
         NeverType: {
             name: 'never',
             description: '',
-            emotion: Emotion.Curious,
+            emotion: 'curious',
             doc: '$?',
         },
         NoneType: {
             name: 'nothing',
             description: '',
-            emotion: Emotion.Neutral,
+            emotion: 'neutral',
             doc: '$?',
         },
         SetType: {
             name: 'set',
             description: '$1 ?? [$1|anything] set type',
-            emotion: Emotion.Kind,
+            emotion: 'kind',
             doc: '$?',
         },
         StreamDefinitionType: {
             name: 'stream',
             description: 'stream type',
-            emotion: Emotion.Curious,
+            emotion: 'curious',
             doc: '$?',
         },
         StreamType: {
             name: 'stream',
             description: 'stream type',
-            emotion: Emotion.Curious,
+            emotion: 'curious',
             doc: '$?',
         },
         StructureDefinitionType: {
             name: 'structure',
             description: 'structure',
-            emotion: Emotion.Kind,
+            emotion: 'kind',
             doc: '$?',
         },
         UnknownType: {
@@ -1004,91 +1003,91 @@ greeting('kitty')⧽
             description: 'unknown type',
             unknown: 'unknown',
             connector: ', because',
-            emotion: Emotion.Curious,
+            emotion: 'curious',
             doc: '$?',
         },
         TableType: {
             name: 'table',
             description: 'table',
-            emotion: Emotion.Angry,
+            emotion: 'angry',
             doc: '$?',
         },
         TextType: {
             name: 'text',
             description: '$1 ?? [$1|text]',
-            emotion: Emotion.Happy,
+            emotion: 'happy',
             doc: '$?',
         },
         TypePlaceholder: {
             name: 'placeholder',
             description: 'placeholder',
-            emotion: Emotion.Curious,
+            emotion: 'curious',
             doc: '$?',
         },
         UnionType: {
             name: 'option',
             description: '$1 | $2',
-            emotion: Emotion.Curious,
+            emotion: 'curious',
             doc: '$?',
         },
         Unit: {
             name: 'unit',
             description: '$1',
-            emotion: Emotion.Precise,
+            emotion: 'precise',
             doc: '$?',
         },
         UnparsableType: {
             name: 'unparsable',
             description: '',
-            emotion: Emotion.Curious,
+            emotion: 'curious',
             doc: '$?',
         },
         VariableType: {
             name: 'variable',
             description: '',
-            emotion: Emotion.Curious,
+            emotion: 'curious',
             doc: '$?',
         },
         CycleType: {
             name: 'cycle',
             description: 'depends on itself',
-            emotion: Emotion.Curious,
+            emotion: 'curious',
             doc: '$?',
         },
         UnknownVariableType: {
             name: 'unknown variable',
             description: '',
-            emotion: Emotion.Curious,
+            emotion: 'curious',
             doc: '$?',
         },
         NotAType: {
             name: 'unexpected',
             description: 'not a $1',
-            emotion: Emotion.Curious,
+            emotion: 'curious',
             doc: '$?',
         },
         NoExpressionType: {
             name: 'non-expression',
             description: '',
-            emotion: Emotion.Curious,
+            emotion: 'curious',
             doc: '$?',
         },
         NotEnclosedType: {
             name: 'not in $structure, $conversion, or $reaction',
             description: '',
-            emotion: Emotion.Curious,
+            emotion: 'curious',
             doc: '$?',
         },
         NotImplementedType: {
             name: 'unimplemented',
             description: '',
-            emotion: Emotion.Curious,
+            emotion: 'curious',
             doc: '$?',
         },
         UnknownNameType: {
             name: 'unknown name',
             description: "$1 ?? [$1 isn't defined | a name wasn't given]",
-            emotion: Emotion.Curious,
+            emotion: 'curious',
             doc: '$?',
         },
     },
