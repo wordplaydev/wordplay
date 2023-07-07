@@ -1,17 +1,5 @@
 import type Locale from '../Locale';
-import {
-    AND_SYMBOL,
-    OR_SYMBOL,
-    NOT_SYMBOL,
-    PRODUCT_SYMBOL,
-    COMMA_SYMBOL,
-    TRUE_SYMBOL,
-    FALSE_SYMBOL,
-    SUM_SYMBOL,
-    QUOTIENT_SYMBOL,
-} from '@parser/Symbols';
 import Emotion from '../../lore/Emotion';
-import { TEXT_DELIMITERS } from '../../parser/Tokenizer';
 import tutorial from './en-tutorial';
 
 export const WRITE_DOC = 'TBD';
@@ -219,7 +207,7 @@ const en: Locale = {
                 `
                 Defines a list of names some code is known by.
                 
-                Names are separated by ${COMMA_SYMBOL} symbols. 
+                Names are separated by ⧼,⧽ symbols. 
                 Having multiple names is most helpful when you want to use multiple languages.
                 `,
         },
@@ -474,8 +462,8 @@ Like this:
             Sometimes I feel a lot of pressure to decide, since I'm the only one in this world who gets to decide.
             
             I get overwhelmed, and so I've tried to simplify things. 
-            @BooleanLiteral helps see that I could reduce everything to just two options: (${TRUE_SYMBOL}) and (${FALSE_SYMBOL}).
-            If it's (${TRUE_SYMBOL}), then I evaluate my *yes* code. If it's (${FALSE_SYMBOL}), then I evaluate my *no* code.
+            @BooleanLiteral helps see that I could reduce everything to just two options: ⧼⊤⧽ and ⧼⊥⧽.
+            If it's ⧼⊤⧽, then I evaluate my *yes* code. If it's ⧼⊥⧽, then I evaluate my *no* code.
 
             I know that decisions are rarely this simple, but breaking down the world into these two options makes things easier for me.
             It's my little way of keeping things organized, even in the face of so much complexity.
@@ -874,10 +862,7 @@ greeting('kitty')⧽
             name: 'text',
             description: 'text $1',
             emotion: Emotion.Serious,
-            doc: `I can be any text you like, and use any of these text symbols: ${Object.keys(
-                TEXT_DELIMITERS
-            ).map((left) => `⧼${left}${TEXT_DELIMITERS[left]}⧽`)}.
-                
+            doc: `I can be any text you like, and use any of these text symbols: ⧼""⧽, ⧼“”⧽, ⧼„“⧽, ⧼''⧽, ⧼‘’⧽, ⧼‹›⧽, ⧼«»⧽, ⧼「」⧽, or ⧼『'⧽.
                 Just remember to close me if you open me, and use the matching symbol.
                 Otherwise I won't know that you're done with your words.`,
             start: `let's make text`,
@@ -1125,17 +1110,17 @@ greeting('kitty')⧽
             function: {
                 and: {
                     doc: WRITE_DOC,
-                    name: [AND_SYMBOL, 'and'],
+                    name: ['&', 'and'],
                     inputs: [{ doc: WRITE_DOC, names: 'value' }],
                 },
                 or: {
                     doc: WRITE_DOC,
-                    name: [OR_SYMBOL, 'or'],
+                    name: ['|', 'or'],
                     inputs: [{ doc: WRITE_DOC, names: 'value' }],
                 },
                 not: {
                     doc: WRITE_DOC,
-                    name: [NOT_SYMBOL, 'not'],
+                    name: ['~', 'not'],
                     inputs: [],
                 },
                 equals: {
@@ -1198,17 +1183,17 @@ greeting('kitty')⧽
                 },
                 repeat: {
                     doc: WRITE_DOC,
-                    name: [PRODUCT_SYMBOL, '🔁', 'repeat'],
+                    name: ['·', '🔁', 'repeat'],
                     inputs: [{ doc: WRITE_DOC, names: 'count' }],
                 },
                 segment: {
                     doc: WRITE_DOC,
-                    name: [QUOTIENT_SYMBOL, 'segment'],
+                    name: ['÷', 'segment'],
                     inputs: [{ doc: WRITE_DOC, names: 'delimiter' }],
                 },
                 combine: {
                     doc: WRITE_DOC,
-                    name: [SUM_SYMBOL, 'combine'],
+                    name: ['+', 'combine'],
                     inputs: [{ doc: WRITE_DOC, names: 'text' }],
                 },
                 has: {
@@ -1253,7 +1238,7 @@ greeting('kitty')⧽
                 },
                 multiply: {
                     doc: WRITE_DOC,
-                    name: [PRODUCT_SYMBOL, 'multiply'],
+                    name: ['·', 'multiply'],
                     inputs: [{ doc: WRITE_DOC, names: 'number' }],
                 },
                 divide: {
@@ -1394,7 +1379,7 @@ greeting('kitty')⧽
                 },
                 append: {
                     doc: WRITE_DOC,
-                    name: [SUM_SYMBOL, 'append'],
+                    name: ['+', 'append'],
                     inputs: [{ doc: WRITE_DOC, names: 'list' }],
                 },
                 replace: {

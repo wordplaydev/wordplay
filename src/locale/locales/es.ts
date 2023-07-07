@@ -1,13 +1,4 @@
 import type Locale from '../Locale';
-import {
-    AND_SYMBOL,
-    OR_SYMBOL,
-    NOT_SYMBOL,
-    PRODUCT_SYMBOL,
-    TRUE_SYMBOL,
-    FALSE_SYMBOL,
-    SUM_SYMBOL,
-} from '@parser/Symbols';
 import Emotion from '../../lore/Emotion';
 
 const WRITE_DOC = 'pendiante';
@@ -299,8 +290,8 @@ const eng_wordplay: Locale = {
             A veces siento mucha presión para decidir, ya que soy el único en este mundo que puede decidir.
            
             Me siento abrumado, así que he tratado de simplificar las cosas.
-            Primero, solo considero dos opciones: (${TRUE_SYMBOL}) y (${FALSE_SYMBOL}).
-            Si es (${TRUE_SYMBOL}), entonces evalúo mi código *sí*. Si es (${FALSE_SYMBOL}), entonces evalúo mi código *no*.
+            Primero, solo considero dos opciones: ⧼⊤⧽ y ⧼⊥⧽.
+            Si es ⧼⊤⧽, entonces evalúo mi código *sí*. Si es ⧼⊥⧽, entonces evalúo mi código *no*.
 
             Sé que las decisiones rara vez son tan simples, pero dividir el mundo en estos binarios me facilita las cosas.
             Sí, no, si, si no, esto, aquello.
@@ -788,27 +779,27 @@ const eng_wordplay: Locale = {
             function: {
                 and: {
                     doc: WRITE_DOC,
-                    name: [AND_SYMBOL, 'and'],
+                    name: 'y',
                     inputs: [{ doc: WRITE_DOC, names: 'value' }],
                 },
                 or: {
                     doc: WRITE_DOC,
-                    name: [OR_SYMBOL, 'or'],
+                    name: 'o',
                     inputs: [{ doc: WRITE_DOC, names: 'value' }],
                 },
                 not: {
                     doc: WRITE_DOC,
-                    name: NOT_SYMBOL,
+                    name: 'no',
                     inputs: [],
                 },
                 equals: {
                     doc: WRITE_DOC,
-                    name: ['=', 'equals'],
+                    name: 'igual',
                     inputs: [{ doc: WRITE_DOC, names: 'value' }],
                 },
                 notequal: {
                     doc: WRITE_DOC,
-                    name: ['≠'],
+                    name: 'noIgual',
                     inputs: [{ doc: WRITE_DOC, names: 'value' }],
                 },
             },
@@ -866,7 +857,7 @@ const eng_wordplay: Locale = {
                 },
                 combine: {
                     doc: WRITE_DOC,
-                    name: [SUM_SYMBOL, 'combinar'],
+                    name: 'combinar',
                     inputs: [{ doc: WRITE_DOC, names: 'texto' }],
                 },
                 has: {
@@ -886,17 +877,17 @@ const eng_wordplay: Locale = {
             function: {
                 add: {
                     doc: WRITE_DOC,
-                    name: ['+', 'add'],
+                    name: 'add',
                     inputs: [{ doc: WRITE_DOC, names: 'number' }],
                 },
                 subtract: {
                     doc: WRITE_DOC,
-                    name: ['-', 'subtract'],
+                    name: 'subtract',
                     inputs: [{ doc: WRITE_DOC, names: 'number' }],
                 },
                 multiply: {
                     doc: WRITE_DOC,
-                    name: [PRODUCT_SYMBOL, 'multiply'],
+                    name: 'multiplicar',
                     inputs: [{ doc: WRITE_DOC, names: 'number' }],
                 },
                 divide: {
@@ -906,7 +897,7 @@ const eng_wordplay: Locale = {
                 },
                 remainder: {
                     doc: WRITE_DOC,
-                    name: ['%', 'remainder'],
+                    name: 'remainder',
                     inputs: [{ doc: WRITE_DOC, names: 'number' }],
                 },
                 truncate: {
@@ -951,7 +942,7 @@ const eng_wordplay: Locale = {
                 },
                 equal: {
                     doc: WRITE_DOC,
-                    name: ['=', 'equal'],
+                    name: 'equal',
                     inputs: [{ doc: WRITE_DOC, names: 'number' }],
                 },
                 notequal: {
