@@ -131,7 +131,7 @@ export default class StructureConcept extends Concept {
     }
 
     getEmotion() {
-        return Emotion.Serious;
+        return Emotion.serious;
     }
 
     hasName(name: string) {

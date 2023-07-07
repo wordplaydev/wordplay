@@ -399,7 +399,7 @@ export default class BinaryOperation extends Expression {
     getGlyphs() {
         return {
             symbols: Glyphs.BinaryOperation.symbols,
-            emotion: Emotion.Kind,
+            emotion: Emotion.kind,
         };
     }
 }

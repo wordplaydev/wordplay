@@ -49,7 +49,7 @@
             {:else}
                 {symbols}
             {/if}
-            <Eyes {invert} emotion={emotion ?? Emotion.Neutral} />
+            <Eyes {invert} emotion={emotion ?? Emotion.neutral} />
         </div>
     {/key}
     <div class="message {below ? 'below' : right ? 'right' : 'left'}">

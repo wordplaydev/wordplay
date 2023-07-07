@@ -154,7 +154,7 @@ export default class NameType extends Type {
     getGlyphs() {
         return {
             symbols: this.name.getText(),
-            emotion: Emotion.Kind,
+            emotion: Emotion.kind,
         };
     }
 

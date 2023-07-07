@@ -305,7 +305,7 @@ export default class Unit extends Type {
     getGlyphs() {
         return {
             symbols: this.toWordplay(),
-            emotion: Emotion.Kind,
+            emotion: Emotion.kind,
         };
     }
 

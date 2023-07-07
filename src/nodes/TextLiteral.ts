@@ -116,7 +116,7 @@ export default class TextLiteral extends Literal {
     getGlyphs() {
         return {
             symbols: this.text.getDelimiters(),
-            emotion: Emotion.Excited,
+            emotion: Emotion.excited,
         };
     }
 

@@ -29,6 +29,7 @@
     import { goto } from '$app/navigation';
     import ConceptLink from '../../nodes/ConceptLink';
     import TutorialHighlight from './TutorialHighlight.svelte';
+    import Emotion from '../../lore/Emotion';
 
     export let progress: Progress;
     export let navigate: (progress: Progress) => void;
@@ -220,7 +221,7 @@
                             right={turn.dialog.concept === 'FunctionDefinition'}
                             baseline
                             scroll={false}
-                            emotion={turn.dialog.emotion}
+                            emotion={Emotion[turn.dialog.emotion]}
                         >
                             <DocHtmlView
                                 doc={turn.speech}

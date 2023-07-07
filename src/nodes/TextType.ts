@@ -97,7 +97,7 @@ export default class TextType extends NativeType {
     getGlyphs() {
         return {
             symbols: this.text.getDelimiters(),
-            emotion: Emotion.Excited,
+            emotion: Emotion.excited,
         };
     }
     getDescriptionInputs() {

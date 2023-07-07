@@ -43,7 +43,7 @@ export default class ConversionConcept extends Concept {
     }
 
     getEmotion() {
-        return Emotion.Cheerful;
+        return Emotion.cheerful;
     }
 
     hasName() {

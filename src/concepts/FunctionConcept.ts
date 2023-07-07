@@ -101,7 +101,7 @@ export default class FunctionConcept extends Concept {
     }
 
     getEmotion() {
-        return Emotion.Curious;
+        return Emotion.curious;
     }
 
     hasName(name: string) {

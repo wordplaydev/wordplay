@@ -39,7 +39,7 @@ export default class BindConcept extends Concept {
     }
 
     getEmotion() {
-        return Emotion.Kind;
+        return Emotion.kind;
     }
 
     getType() {

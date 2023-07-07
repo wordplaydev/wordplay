@@ -145,7 +145,7 @@ export default class Name extends Node {
     getGlyphs() {
         return {
             symbols: this.name?.getText() ?? '',
-            emotion: Emotion.Kind,
+            emotion: Emotion.kind,
         };
     }
 }

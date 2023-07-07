@@ -268,7 +268,7 @@ export default class Reference extends AtomicExpression {
     getGlyphs() {
         return {
             symbols: this.name.getText(),
-            emotion: Emotion.Kind,
+            emotion: Emotion.kind,
         };
     }
 }

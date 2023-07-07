@@ -1198,7 +1198,7 @@ export type Character =
 
 export type Dialog = {
     concept: Character;
-    emotion: Emotion;
+    emotion: `${Emotion}`;
     text: string;
 };
 
@@ -1232,7 +1232,7 @@ export type Code = {
 
 export function dialog(
     concept: Character,
-    emotion: Emotion,
+    emotion: `${Emotion}`,
     text: string
 ): Dialog {
     return {
@@ -1242,7 +1242,7 @@ export function dialog(
     };
 }
 
-export function code(
+function code(
     source: string,
     fit: boolean,
     edit: boolean,
@@ -1256,25 +1256,23 @@ export function code(
     };
 }
 
-export function output(source: string, fit: boolean = true): Code {
-    return {
-        sources: [source],
-        fit,
-        edit: false,
-        conflicted: false,
-    };
+export function fit(source: string): Code {
+    return code(source, true, false, false);
 }
 
-export function edit(source: string, conflicted: boolean = false): Code {
-    return code(source, true, true, conflicted);
+export function fixed(source: string): Code {
+    return code(source, false, false, false);
+}
+export function edit(source: string): Code {
+    return code(source, true, true, false);
 }
 
-export function pause() {
-    return null;
+export function conflict(source: string): Code {
+    return code(source, true, true, true);
 }
 
 export function symbol(symbol: string) {
-    return output(`Phrase("${symbol}")`);
+    return fit(`Phrase("${symbol}")`);
 }
 
 export default Locale;

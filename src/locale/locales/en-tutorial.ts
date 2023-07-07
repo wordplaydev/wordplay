@@ -1,4 +1,12 @@
-import { code, dialog, pause, output, edit, symbol, type Act } from '../Locale';
+import {
+    dialog,
+    fit,
+    edit,
+    symbol,
+    type Act,
+    conflict,
+    fixed,
+} from '../Locale';
 import {
     FlyIn,
     DarkVoid,
@@ -11,50 +19,47 @@ import {
     EvaluateDance,
     PrimitiveJiggle,
 } from '../../tutorial/Programs';
-import Emotion from '../../lore/Emotion';
-import Glyphs from '../../lore/Glyphs';
 
 const tutorial: Act[] = [
     {
         name: 'The Verse',
-        program: output(DarkVoid),
+        program: fit(DarkVoid),
         scenes: [
             {
                 name: 'Silence',
-                program: code(DarkVoid, true, false),
+                program: fit(DarkVoid),
                 concept: undefined,
                 lines: [
-                    code(DarkVoid, true, false),
-                    dialog('FunctionDefinition', Emotion.Bored, `… Oh, hi.`),
-                    pause(),
+                    dialog('FunctionDefinition', 'bored', `… Oh, hi.`),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         'Do I know ^* you?'
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `Oh, is this your first time visiting?
 
                         Nice to meet you. My name is @FunctionDefinition.
 
                         …`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `Did you need some help?
                         Oh, you're visiting.
                         Welcome to the *Verse*.
                         …`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Bored,
+                        'bored',
                         `What is this place?
 
                         Yeah, what is this place…
@@ -64,10 +69,10 @@ const tutorial: Act[] = [
                         We used to put on the most beautiful performances. Sometimes for visitors like you, sometimes just for fun. It was a place full of life and surprise…
                         `
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Sad,
+                        'sad',
                         `Stop? We didn't want to stop. We just lost our inspiration. 
                         
                         I can mean so many things, for example. 
@@ -76,10 +81,10 @@ const tutorial: Act[] = [
                         Long ago, I was also the lowercase /f/of the Latin alphabet. 
                         Today, I'm pretty obscure, but most often used to represent functions, like in math.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Bored,
+                        'bored',
                         `But all of that meaning? It's given to us. 
                         We don't mean anything without people to remember that history and culture. 
                         And we can't mean anything new if there aren't people to give us new history and culture. 
@@ -87,57 +92,45 @@ const tutorial: Act[] = [
                     
                         The Verse is nothing without *people*. And I haven't seen a person in ages.`
                     ),
-                    pause(),
-                    code(
-                        'Stage([Phrase("☁️")] background: Color(25% 0 0°))',
-                        true,
-                        false
-                    ),
+                    null,
+                    fit('Stage([Phrase("☁️")] background: Color(25% 0 0°))'),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `Wait... are you a person?`
                     ),
-                    pause(),
-                    code(
-                        'Stage([Phrase("🌙")] background: Color(50% 0 0°))',
-                        true,
-                        false
-                    ),
+                    null,
+                    fit('Stage([Phrase("🌙")] background: Color(50% 0 0°))'),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Eager,
+                        'eager',
                         `Like a real person, with thoughts and ideas and values to share? 
                         
                         Not one of those robots, that just mindlessly parrots what people say? 
                         
                         If you're a person, then maybe you could give us meaning?`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Scared,
+                        'scared',
                         `I know that's a lot to ask. I don't even know you. And I'd really have to talk to the others…`
                     ),
-                    pause(),
-                    code(
-                        'Stage([Phrase("☀️")] background: Color(75% 0 0°))',
-                        true,
-                        false
-                    ),
+                    null,
+                    fit('Stage([Phrase("☀️")] background: Color(75% 0 0°))'),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Eager,
+                        'eager',
                         `Oh yes, there are many others. Some of us are like me: we help choreograph the shows, keeping everyone in their place and making sure we express the vision of our director, exactly as they intended.
                         
                         And some of us are the ones on stage, in front of the audience, dancing and speaking. 
                         
                         We all have a role to play!`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Serious,
+                        'serious',
                         `Oh, the director, yes, I didn't even explain. 
                         
                         So the *director*, this is the person that gives us meaning. They are the person who arranges the choreography, who sets the message, who puts all of us in order just so. 
@@ -148,24 +141,20 @@ const tutorial: Act[] = [
                         
                         Could you be our director?`
                     ),
-                    pause(),
-                    code(
-                        'Stage([Phrase("☀️")] background: Color(100% 0 0°))',
-                        true,
-                        false
-                    ),
+                    null,
+                    fit('Stage([Phrase("☀️")] background: Color(100% 0 0°))'),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Excited,
+                        'excited',
                         `Really? That's wonderful! This is going to be so much fun. 
                         
                         I mean, it's not going to be easy. We have /a lot/ to learn.`
                     ),
-                    pause(),
-                    output('Stage([Phrase("☀️")] background: 🌈(80% 99 270°))'),
+                    null,
+                    fit('Stage([Phrase("☀️")] background: 🌈(80% 99 270°))'),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Excited,
+                        'excited',
                         `But I promise it won't be boring.
                         I think we're a pretty fun bunch.
                         And we need everyone in the Verse to come together to do that. 
@@ -173,13 +162,13 @@ const tutorial: Act[] = [
                         I think that's what makes this place so special, actually: there are more than a hundred thousand of us here, 
                         each different, and yet somehow, when we manage to find a shared vision, we can seem like one.`
                     ),
-                    pause(),
-                    output(
+                    null,
+                    fit(
                         'Stage([Phrase("☀️" rest: Sequence(spin() 4s "straight"))] background: 🌈(80% 99 270°))'
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Bored,
+                        'bored',
                         `Directing?
                         
                         Oh, right, directing! 
@@ -195,43 +184,37 @@ const tutorial: Act[] = [
             {
                 name: 'Would you like a program?',
                 concept: 'Program',
-                program: symbol(Glyphs.Program.symbols),
+                program: symbol('📄'),
                 lines: [
-                    output(
-                        `Phrase("${Glyphs.Program.symbols}" rest: Pose(tilt: 10°))`
-                    ),
+                    fit(`Phrase("📄" rest: Pose(tilt: 10°))`),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Excited,
+                        'excited',
                         `Hey @Program! I found a person. Well, I guess they found us. 
                             
                         They want to be our new director!`
                     ),
                     dialog(
                         'Program',
-                        Emotion.Curious,
+                        'curious',
                         `Really!?
                         
                         Are you sure you're really a person? 
                         
                         Say something a person would say.`
                     ),
-                    pause(),
-                    output(
-                        `Phrase("${Glyphs.Program.symbols}" enter: Sequence(spin() 1s))`
-                    ),
+                    null,
+                    fit(`Phrase("📄" enter: Sequence(spin() 1s))`),
                     dialog(
                         'Program',
-                        Emotion.Serious,
+                        'serious',
                         `Hm… you really are a person. And you want to direct?`
                     ),
-                    pause(),
-                    output(
-                        `Phrase("${Glyphs.Program.symbols}" rest: Pose(tilt: 010°))`
-                    ),
+                    null,
+                    fit(`Phrase("📄" rest: Pose(tilt: 010°))`),
                     dialog(
                         'Program',
-                        Emotion.Excited,
+                        'excited',
                         `
                         I see. 
                         
@@ -240,10 +223,10 @@ const tutorial: Act[] = [
                         
                         But I'm proud of what we do, so I don't want to work with just anyone.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `
                         I told them a bit. I said we were weird, and sometimes directors leave because of that. But they're in. 
                         
@@ -252,7 +235,7 @@ const tutorial: Act[] = [
                     ),
                     dialog(
                         'Program',
-                        Emotion.Serious,
+                        'serious',
                         `
                         Okay. Well nice to meet you. 
                         
@@ -261,16 +244,16 @@ const tutorial: Act[] = [
                         I shouldn't have to change who I am to fit people's expectations. But if you're willing to learn about me, and us, let's try!
                         `
                     ),
-                    pause(),
+                    null,
                     edit(``),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `Do you want to say what you do?`
                     ),
                     dialog(
                         'Program',
-                        Emotion.Neutral,
+                        'neutral',
                         `
                         Sure. I'm basically the organizer of the program for a performance.
 
@@ -280,10 +263,10 @@ const tutorial: Act[] = [
                         
                         And then I evaluate the program and put the result on on stage for the audience to see.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Program',
-                        Emotion.Neutral,
+                        'neutral',
                         `For example, try typing my ⧼"hello"⧽ in the editor over there. 
 
                         (Don't worry about making mistakes, you can always revert to the original with *revert* @UI/revertProject).
@@ -299,10 +282,10 @@ const tutorial: Act[] = [
                         So I'll immediately evaluate whatever you type and show the result.
                         `
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Program',
-                        Emotion.Serious,
+                        'serious',
                         `
                         The instructions can get as sophisticated as you want, but there are a few rules. 
                         
@@ -313,25 +296,25 @@ const tutorial: Act[] = [
 
                         For example, try adding another instruction after ⧼"hello"⧽, whatever word you want, in quotes.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Program',
-                        Emotion.Serious,
+                        'serious',
                         `See? I just showed your new word, not ⧼"hello"⧽.
                         
                         You know you broke my rule because I underlined ⧼"hello"⧽ and told you that I'd be ignoring it.
                         `
                     ),
-                    pause(),
-                    code(`Phrase("🎭")`, true, false),
+                    null,
+                    symbol('🎭'),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Excited,
+                        'excited',
                         `But you can do so much more!`
                     ),
                     dialog(
                         'Program',
-                        Emotion.Serious,
+                        'serious',
                         `Yes and no. 
                         
                         I can do a lot, but that's only because I work with everyone else in the *Verse*. 
@@ -341,25 +324,25 @@ const tutorial: Act[] = [
                         
                         I'm more like an escort that brings the final *value* to stage, like numbers, texts, phrases, or other values.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Program',
-                        Emotion.Serious,
+                        'serious',
                         `In fact, if you ever want to see the progam for something on stage, you can press the pencil on stage @UI/editProject.
                         
                         That'll show you how everyone is coming together to create what's on stage.
                         
                         This program is just a simple phrase.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `Thank you @Program, we're so excited to meet everyone, and spread the news!`
                     ),
                     dialog(
                         'Program',
-                        Emotion.Happy,
+                        'happy',
                         `It was great to meet you new director! Good luck with everyone else. I'll always be here.`
                     ),
                 ],
@@ -367,82 +350,82 @@ const tutorial: Act[] = [
             {
                 name: 'Holding space',
                 concept: 'Placeholder',
-                program: code(DarkVoid, true, false),
+                program: fit(DarkVoid),
                 lines: [
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `You're really going to like @ExpressionPlaceholder. They're incredibly kind, and so flexible. But they are a bit shy. Just be gentle with them?`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Confused,
+                        'confused',
                         `Hellooooo, @ExpressionPlaceholder?
 
                         Hm, they're usually everywhere. Now they seem to be nowhere...`
                     ),
                     dialog(
                         'ExpressionPlaceholder',
-                        Emotion.Scared,
+                        'scared',
                         `@FunctionDefinition … is that you?`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `Yeah. It's been so long. How are you?`
                     ),
-                    dialog('ExpressionPlaceholder', Emotion.Scared, `Lonely.`),
-                    pause(),
+                    dialog('ExpressionPlaceholder', 'scared', `Lonely.`),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `I know that feeling. I have been too. We haven't had a lot of reasons to hang out, have we?`
                     ),
                     dialog(
                         'ExpressionPlaceholder',
-                        Emotion.Scared,
+                        'scared',
                         `No. I've missed you. I've missed everyone…`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `I know. I have too. I'm so sorry.
 
                         That's actually why I'm here. I wanted to introduce you to our new director-in-training.`
                     ),
-                    dialog('ExpressionPlaceholder', Emotion.Scared, 'Hi.'),
-                    pause(),
+                    dialog('ExpressionPlaceholder', 'scared', 'Hi.'),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `They just met @Program, so they're really at the beginning, but I was thinking that it might be best for them to meet you next, since you're such a wonderful representative of so many of us here.`
                     ),
-                    dialog('ExpressionPlaceholder', Emotion.Curious, `…`),
-                    pause(),
+                    dialog('ExpressionPlaceholder', 'curious', `…`),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `Do you want to say what you do?`
                     ),
-                    dialog('ExpressionPlaceholder', Emotion.Scared, `Can you?`),
-                    pause(),
+                    dialog('ExpressionPlaceholder', 'scared', `Can you?`),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `Sure! 
                         
                         My friend @ExpressionPlaceholder is a placeholder. They represent any kind of expression in a program. 
                         
                         They don't evaluate to any value in particular — in fact, if they show up in @Program, @Program will just halt the performance, since it's not really clear what to do next.`
                     ),
-                    pause(),
-                    edit('_', true),
+                    null,
+                    conflict('_'),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `But they are powerful, because they can represent anyone else, like a stand-in until you decide what you want a part of your performance to be.
                     
                         @ExpressionPlaceholder, want to take a place in this @Program, just to illustrate?
@@ -450,46 +433,46 @@ const tutorial: Act[] = [
                         See how there's a little placeholder in @Program @UI/ExpressionPlaceholder?
                         That's a signal of what you might put there.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `@Program didn't know what to do with @ExpressionPlaceholder, so it showed an *exception* @UI/exception on *stage* and a *conflict* in @Program @UI/conflict.
 
                         But if you click on @ExpressionPlaceholder, or move the text caret over it, you'll see a world of possibilities of other characters.
                         
                         You can also just type over @ExpressionPlaceholder and write your own. For example, try typing your name in quotes.`
                     ),
-                    pause(),
+                    null,
                     symbol('-'),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Serious,
+                        'serious',
                         `Just like that, @ExpressionPlaceholder was replaced with other characters
                                                 
                         Did I get everything, @ExpressionPlaceholder?`
                     ),
                     dialog(
                         'ExpressionPlaceholder',
-                        Emotion.Eager,
+                        'eager',
                         `Yeah. I think so.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `What do you think, shall we move on?`
                     ),
                     dialog(
                         'ExpressionPlaceholder',
-                        Emotion.Excited,
+                        'excited',
                         `It was nice to meet you!`
                     ),
-                    pause(),
-                    output(DarkVoid),
+                    null,
+                    fit(DarkVoid),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Cheerful,
+                        'cheerful',
                         `They don't like being on stage, or even in a program for very long. 
                     
                         They'd never admit it, but they're kind of a big deal, and most directors can't work without them. 
@@ -501,128 +484,128 @@ const tutorial: Act[] = [
             {
                 name: 'Say again?',
                 concept: 'Unparsable',
-                program: code('Phrase("ahkeolfewvk")', true, false),
+                program: symbol('ahkeolfewvk'),
                 lines: [
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Eager,
+                        'eager',
                         '@UnparsableExpression? Is that you?'
                     ),
                     dialog(
                         'UnparsableExpression',
-                        Emotion.Neutral,
+                        'neutral',
                         '/dwjkdlserkuvisdke!/'
                     ),
-                    pause(),
-                    code('Phrase("c iise we dvk")', true, false),
+                    null,
+                    symbol('c iise we dvk'),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Excited,
+                        'excited',
                         `It's good to see you too! It's been so long. What have you been up to in all this silence?`
                     ),
                     dialog(
                         'UnparsableExpression',
-                        Emotion.Sad,
+                        'sad',
                         `/sd fdsdfdsf ksdf. Dkfjdfdskfd df sdf sd fsdk;l!  Adks  zxcviw werdsf wer  ado. We dsdfd ksld df.ds dfsdfds DIDIIDI./`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `(It sounds like they spent a lot of time on the beach. They made some new friends, and practiced doing nothing.)`
                     ),
-                    pause(),
-                    code('Phrase("ivioas we wjjdks")', true, false),
+                    null,
+                    symbol('ivioas we wjjdks'),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Excited,
+                        'excited',
                         `I wanted to introduce you to our potential new director. 
                         
                         They just arrived and are learning the basics. I just introduced them to @Program and @ExpressionPlaceholder.`
                     ),
                     dialog(
                         'UnparsableExpression',
-                        Emotion.Excited,
+                        'excited',
                         `/EEIRC DFUIDIII CAD EWDF FSDE!!!/`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Serious,
+                        'serious',
                         `(They just said how awesome it is to meet you, and they think you'll be a great director.)`
                     ),
-                    pause(),
-                    code('Phrase("v s d we iweiwei")', true, false),
+                    null,
+                    fit('Phrase("v s d we iweiwei")'),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `I was wondering if you wanted to explain what you do? I can translate.`
                     ),
                     dialog(
                         'UnparsableExpression',
-                        Emotion.Eager,
+                        'eager',
                         `/ADDKL, ALLIIEE, ALLFOOO, AOOOOOOO, JOOKKDLS, LOOKIL, WEEEERTOL weeertol…/`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `(I represent everything that means nothing. And I mean nothing.)`
                     ),
-                    pause(),
+                    null,
                     edit(''),
                     dialog(
                         'UnparsableExpression',
-                        Emotion.Eager,
+                        'eager',
                         `/CNNNDN KDKLSL oOOLLlllll PPOLSLSO liiiiiiis, sdllslll, xck we ifolls a./`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `(For example, try typing ⧼][⧽. See how we're completely confused? That doesn't mean anything, and I'm here to say it.)`
                     ),
-                    pause(),
-                    edit('][', true),
+                    null,
+                    conflict(']['),
                     dialog(
                         'UnparsableExpression',
-                        Emotion.Eager,
+                        'eager',
                         `/ICO Odksjdf lksls kjsfiou fskd we rl,vxids eekd sd dsmf kksdcv./`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `(When I show up, that means we don't know what you mean.)`
                     ),
-                    pause(),
-                    edit('][', true),
+                    null,
+                    conflict(']['),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `Thanks @UnparsableExpression!
                     
                         Just like they said, when you've said something we don't understand, unparsable is there to say “We don't understand.”
                         
                         When then happens, I wish we could be more helpful, but we're often pretty dense here, so we're not very good at guessing what you mean.`
                     ),
-                    pause(),
-                    edit('][', true),
+                    null,
+                    conflict(']['),
                     dialog(
                         'UnparsableExpression',
-                        Emotion.Eager,
+                        'eager',
                         `/OSOOSOO SOIEIIEIEIIE ISIISI EIEIIEE!/`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `Soooo, @UnparsableExpression want to try making as many of them as possible. 
                         (You can just key mash a bunch of random characters and you'll probably get many of them).`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'UnparsableExpression',
-                        Emotion.Happy,
+                        'happy',
                         `/PPOOOEPOEP EPWPEPEPPEPP PP PE P!/`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `They really enjoyed that, thanks!
                         
                         It's pretty hard to write something we truly can't make sense of. 
@@ -630,33 +613,25 @@ const tutorial: Act[] = [
                         I'm pretty sure you just typed a bunch of random words, for example.
                         But what does it mean?`
                     ),
-                    dialog(
-                        'UnparsableExpression',
-                        Emotion.Confused,
-                        `… /DDook/`
-                    ),
-                    pause(),
-                    dialog(
-                        'UnparsableExpression',
-                        Emotion.Happy,
-                        `/? ??? ????? ?!/`
-                    ),
+                    dialog('UnparsableExpression', 'confused', `… /DDook/`),
+                    null,
+                    dialog('UnparsableExpression', 'happy', `/? ??? ????? ?!/`),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `They're wondering if you have any ideas for performances to put on yet.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `No? That's okay. We've only begun to show you what's possible. Let's go meet @Evaluate.
                         
                         Bye unparsable, it was good to see you! Let's play soon.`
                     ),
                     dialog(
                         'UnparsableExpression',
-                        Emotion.Happy,
+                        'happy',
                         `/Ood sd fosd oiewi dk c HNLLLooooooO!/`
                     ),
                 ],
@@ -664,15 +639,13 @@ const tutorial: Act[] = [
             {
                 name: 'Love is in the err',
                 concept: 'Evaluate',
-                program: code(
-                    'Stage([Phrase("💔")] background: 🌈(90% 100 0°))',
-                    true,
-                    false
+                program: fit(
+                    'Stage([Phrase("💔")] background: 🌈(90% 100 0°))'
                 ),
                 lines: [
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Excited,
+                        'excited',
                         `I'm so excited for you to meet @Evaluate. They're really my best friend. We kind of do everything together, in a way. I make the rules, they play them, we're like peanut butter and jelly. 
                         
                         But they're so much more… powerful than me.
@@ -680,67 +653,63 @@ const tutorial: Act[] = [
                         @Evaluate?`
                     ),
                     //
-                    dialog('Evaluate', Emotion.Shy, `@FunctionDefinition?`),
-                    pause(),
+                    dialog('Evaluate', 'shy', `@FunctionDefinition?`),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `Yeah, it's me. Where are you?`
                     ),
                     dialog(
                         'Evaluate',
-                        Emotion.Shy,
+                        'shy',
                         `Nowhere. I'm nowhere. I'm nothing. Where have you been?`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Sad,
+                        'sad',
                         `I've been… nowhere too. I've missed you. I couldn't find you.`
                     ),
                     dialog(
                         'Evaluate',
-                        Emotion.Shy,
+                        'shy',
                         `It was so empty. I … tried to do things, but I felt so… aimless.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Sad,
+                        'sad',
                         `I'm so sorry. I know that empty feeling. It hurts so much sometimes, to have no purpose. I tried so hard to make a purpose, but I felt so… detached.`
                     ),
                     dialog(
                         'Evaluate',
-                        Emotion.Sad,
+                        'sad',
                         `Don't ever leave me again like that. I can't do that again.`
                     ),
-                    pause(),
-                    code(
-                        'Stage([Phrase("❤️")] background: 🌈(90% 100 0°))',
-                        true,
-                        false
-                    ),
+                    null,
+                    fit('Stage([Phrase("❤️")] background: 🌈(90% 100 0°))'),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Serious,
+                        'serious',
                         `Never. I won't. I can't. I love you.`
                     ),
-                    dialog('Evaluate', Emotion.Serious, `I love you…`),
-                    pause(),
+                    dialog('Evaluate', 'serious', `I love you…`),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Serious,
+                        'serious',
                         `@Evaluate, I want to introduce you to our new director-in-training.`
                     ),
                     dialog(
                         'Evaluate',
-                        Emotion.Shy,
+                        'shy',
                         `Hi. It's nice to meet you. Welcome to the Verse, we're so pleased to have you here.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Eager,
+                        'eager',
                         `We've been meeting a few folks, @Program, @ExpressionPlaceholder, @UnparsableExpression. 
                         We're just getting started. 
                         
@@ -749,7 +718,7 @@ const tutorial: Act[] = [
                     ),
                     dialog(
                         'Evaluate',
-                        Emotion.Shy,
+                        'shy',
                         `That's very kind. 
                         I'm grateful to be part of this community. 
                         
@@ -758,20 +727,18 @@ const tutorial: Act[] = [
                         
                         But as @FunctionDefinition probably told you, we can't do them without inspiration.`
                     ),
-                    pause(),
-                    code(
-                        'Stage([Phrase("ƒ ❤️ ()")] background: 🌈(90% 100 0°))',
-                        true,
-                        false
+                    null,
+                    fit(
+                        'Stage([Phrase("ƒ ❤️ ()")] background: 🌈(90% 100 0°))'
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `Do you want to say what you do?`
                     ),
                     dialog(
                         'Evaluate',
-                        Emotion.Serious,
+                        'serious',
                         `Yes. But I can't explain it without explaining a bit about @FunctionDefinition too. 
                         
                         They're too modest to share this, but they're probably the most important character in the Verse. They're certainly the most important person in my world. 
@@ -780,27 +747,27 @@ const tutorial: Act[] = [
                         
                         They represent the most fundamental idea in our world: the *function*.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Evaluate',
-                        Emotion.Serious,
+                        'serious',
                         `Functions are a kind of alchemy. They take any number of inputs and use those inputs to produce one output. They can have names or be nameless. They can have zero inputs or five or an unknown number. And the alchemy: they're like @Program, and can have any number of expressions to produce a value.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Evaluate',
-                        Emotion.Serious,
+                        'serious',
                         `Here's why that's so powerful: it turns out that everything in @Program is a composition of functions evaluations. 
                     
                         All of the dances, all of the games, all of the wondrous stories we tell together — they are all a tapestry of functions being evaluated, one at a time, to compose the values you see on stage.
 
                         And @FunctionDefinition, here, my sweet, dear @FunctionDefinition, is the one that defines all of them.`
                     ),
-                    pause(),
-                    dialog('FunctionDefinition', Emotion.Happy, `… @Evaluate…`),
+                    null,
+                    dialog('FunctionDefinition', 'happy', `… @Evaluate…`),
                     dialog(
                         'Evaluate',
-                        Emotion.Serious,
+                        'serious',
                         `Yes, @FunctionDefinition, that is who you are.
                         And I am the lucky one who gets to do this evaluating. 
                         I take the inputs that others give me, follow the instructions that @FunctionDefinition defines, and create the output that @FunctionDefinition tells me to create. 
@@ -811,23 +778,23 @@ const tutorial: Act[] = [
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Happy,
+                        'happy',
                         `… Yes, let's show them.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Evaluate',
-                        Emotion.Serious,
+                        'serious',
                         `Every evaluate looks like this @UI/Evaluate: some function, followed by a left and right parenthesis, with any number of inputs between them.
                         
                         Here I just have @ExpressionPlaceholder as the function and three more as placeholder inputs.`
                     ),
-                    code('_(_ _ _)', false, true, true),
-                    pause(),
-                    code("Phrase('hello')", false, true),
+                    conflict('_(_ _ _)'),
+                    null,
+                    edit("Phrase('hello')"),
                     dialog(
                         'Evaluate',
-                        Emotion.Serious,
+                        'serious',
                         `Here's one of my favorite functions, @Phrase. 
                         
                         They're full of fun buttons, knobs, and sliders. 
@@ -836,10 +803,10 @@ const tutorial: Act[] = [
 
                         Here's a simple evaluation of @Phrase @UI/Evaluate.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Evaluate',
-                        Emotion.Serious,
+                        'serious',
                         `That's what I look like in @Program: some function, followed by parentheses, with a list of expressions between them that represent the inputs.
                         
                         The function in this case is @Phrase and the single input is ⧼'hello'⧽.
@@ -847,10 +814,10 @@ const tutorial: Act[] = [
                         When I evaluate this, I make a @Phrase value, which @Program then shows on stage.                            
                         `
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Evaluate',
-                        Emotion.Neutral,
+                        'neutral',
                         `Let me show you one of the knobs. 
                         
                         Can you find the little *palette* button at the bottom @UI/paletteExpand? 
@@ -860,10 +827,10 @@ const tutorial: Act[] = [
                         
                         For example, try changing its @Phrase/size with the slider.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Evaluate',
-                        Emotion.Serious,
+                        'serious',
                         `See how when you do that, now I have a new input in me in the program? 
                         
                         It's the @Phrase/size input. 
@@ -873,11 +840,11 @@ const tutorial: Act[] = [
                         
                         Try changing another input with the palette, maybe the font face.`
                     ),
-                    pause(),
-                    edit('"hi"(1 2)', true),
+                    null,
+                    conflict('"hi"(1 2)'),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Happy,
+                        'happy',
                         `Yay! @Phrase is so fun. 
                         They're my favorite function to play with. 
                         We'll see it a lot more.
@@ -886,7 +853,7 @@ const tutorial: Act[] = [
                     ),
                     dialog(
                         'Evaluate',
-                        Emotion.Serious,
+                        'serious',
                         `Oh, yes, that's a good idea. Lots can go wrong.
                         
                         For example, you could give me something that isn't a function. 
@@ -897,60 +864,60 @@ const tutorial: Act[] = [
                         So that's very confusing to me, so I basically halt the performance if this happens.
                         `
                     ),
-                    pause(),
-                    edit('Phrase()', true),
+                    null,
+                    conflict('Phrase()'),
                     dialog(
                         'Evaluate',
-                        Emotion.Eager,
+                        'eager',
                         `Here's another one. 
                         
                         @Phrase requires some text at the very least, so if you don't give me text, I won't be able to evaluate @Phrase, because I'm missing required inputs.`
                     ),
-                    pause(),
-                    edit('Phrase(1)', true),
+                    null,
+                    conflict('Phrase(1)'),
                     dialog(
                         'Evaluate',
-                        Emotion.Excited,
+                        'excited',
                         `Or if you give me an input, but it's not the kind I expect, that would be a problem. Here @Phrase is given the number ⧼1⧽ instead of a text value.`
                     ),
-                    pause(),
-                    code('Stage([] background: 🌈(90% 100 0°))', true, false),
+                    null,
+                    fit('Stage([] background: 🌈(90% 100 0°))'),
                     dialog(
                         'Evaluate',
-                        Emotion.Curious,
+                        'curious',
                         `So basically, I get confused any time you give me something other than a function, or an input that isn't something a function expects. So functions are really important.
                         
                         @FunctionDefinition, do you want to say more about how to define functions?`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `No, let's do that later. 
                         
                         I think it'd be a lot more fun to talk to everyone else first, and put on some mini shows with our new director here. 
                         
                         We can talk more about me when it's helpful.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Evaluate',
-                        Emotion.Kind,
+                        'kind',
                         `I really missed you @FunctionDefinition.`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `I missed you too. 
                         Can we talk later?`
                     ),
                     dialog(
                         'Evaluate',
-                        Emotion.Kind,
+                        'kind',
                         `… Yes. Don't be long. I can't live without you. I need you.`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Excited,
+                        'excited',
                         `… I know @Evaluate, I will be back soon.
                         
                         Off we go, to meet the rest of the troupe!`
@@ -962,19 +929,19 @@ const tutorial: Act[] = [
     {
         name: "It's the little things",
         // This should be a sprinkling of values
-        program: output(PrimitiveJiggle),
+        program: fit(PrimitiveJiggle),
         scenes: [
             {
                 name: 'Values',
                 concept: undefined,
                 program: symbol('💡'),
                 lines: [
-                    output(
+                    fit(
                         `Phrase("💔" rest: Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.2) 100%: Pose(scale: 1)} duration: 3s))`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Happy,
+                        'happy',
                         `I really did miss @Evaluate. 
                         I can't imagine the Verse without them. 
 
@@ -991,11 +958,11 @@ const tutorial: Act[] = [
                         It's suffocating.
                         `
                     ),
-                    pause(),
-                    output(`Group(Stack() [Phrase("1") Phrase('"hello"')])`),
+                    null,
+                    fit(`Group(Stack() [Phrase("1") Phrase('"hello"')])`),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `… *Values*? 
                         
                         Sorry, I know we're supposed to be on this big tour through the *Verse*.
@@ -1015,11 +982,11 @@ const tutorial: Act[] = [
                         Some values are made of many other values, like big elaborate structures of data values, woven together.
                         `
                     ),
-                    pause(),
-                    output(`Group(Stack() [Phrase("#") Phrase("''")])`),
+                    null,
+                    fit(`Group(Stack() [Phrase("#") Phrase("''")])`),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `Every value has a *type*.
                         
                         For example, ⧼1⧽ is a number type; that's our friend @MeasurementType.
@@ -1032,13 +999,13 @@ const tutorial: Act[] = [
                         For example, it doesn't make any sense to add ⧼"hello" + 1⧽, because what would that even mean, to add @TextType to @MeasurementType?
                         `
                     ),
-                    pause(),
-                    output(
+                    null,
+                    fit(
                         `Group(Stack() [Phrase("ƒ → 1") Phrase('ƒ → "hello"')])`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `*Expressions* are how we create values.
                     
                         All expressions are evaluations of functions that I make.
@@ -1046,11 +1013,11 @@ const tutorial: Act[] = [
                         The result of evaluating an expression is a value of some type.
                         `
                     ),
-                    pause(),
+                    null,
                     symbol('🤔'),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Serious,
+                        'serious',
                         `Abstract? 
                         
                         Hm, I guess this is all pretty abstract. 
@@ -1067,44 +1034,44 @@ const tutorial: Act[] = [
             {
                 name: 'Quote, unquote',
                 concept: 'Text',
-                program: output(
+                program: fit(
                     `Phrase("''" rest: Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 0.5 opacity: 0.5) 100%: Pose(scale: 1)} duration: 2s))`
                 ),
                 lines: [
-                    output(
+                    fit(
                         `Phrase("''" rest: Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 2 opacity: 0.5) 100%: Pose(scale: 1)} duration: 2s))`
                     ),
-                    dialog('FunctionDefinition', Emotion.Curious, `@TextType?`),
+                    dialog('FunctionDefinition', 'curious', `@TextType?`),
                     dialog(
                         'TextType',
-                        Emotion.Happy,
+                        'happy',
                         `Welcome my dear friend, how long it has been. What have you been doing in this dramatic silence of ours?`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Happy,
+                        'happy',
                         `Oh, @TextType, it has been a while! I've mostly been dreaming and wondering. I just saw @Evaluate after a long while. I was actually introducing them to our newbie director.`
                     ),
                     dialog(
                         'TextType',
-                        Emotion.Eager,
+                        'eager',
                         `Oh, how exceptional it is to meet you! I can see that you're a creative, curious person, probably full of intriguing ideas for how we might entertain. 
                         I love entertaining. But do you know what I love even more?
                         
                         Words! Glorious words. The short ones, the overwhelming ones, the sticky ones, and the slippery ones. Words are my favorite toys.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `In case you couldn't tell, @TextType likes words :) 
                         
                         @TextType, do you want to explain what you do?`
                     ),
                     dialog(
                         'TextType',
-                        Emotion.Serious,
+                        'serious',
                         `I do one simple thing: represent sequences of symbols, and the many things you can do with them.
                         
                         I think you saw me earlier when you wrote the word ⧼“hello”⧽? 
@@ -1112,10 +1079,10 @@ const tutorial: Act[] = [
                         
                         That was @TextLiteral, an expression that evaluates to any @TextType you like.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'TextType',
-                        Emotion.Serious,
+                        'serious',
                         `Why don't you try making a text in this blank @Program? 
 
                         You can use whatever quotes you like — single ⧼''⧽, double ⧼""⧽, angle ⧼«»⧽, brackets ⧼「」⧽, in whatever language you like. 
@@ -1125,10 +1092,10 @@ const tutorial: Act[] = [
                     `
                     ),
                     edit("''"),
-                    pause(),
+                    null,
                     dialog(
                         'TextType',
-                        Emotion.Serious,
+                        'serious',
                         `You might not be able to type every character you want with the device you're using to communicate with us.
 
                         If you can't, you can search for characters in the *directory* @UI/directory.
@@ -1138,21 +1105,21 @@ const tutorial: Act[] = [
                         
                         Alas, they only have English names, so searching only works if you know English words :/`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'TextType',
-                        Emotion.Serious,
+                        'serious',
                         `Excellent. Of course, "inside" can be tricky. 
                         
                         Say you wrote this. 
                         See how there's an opening quote but not a closing one? 
                         Well, how am I supposed to know when the text ends?`
                     ),
-                    edit('"hello', true),
-                    pause(),
+                    conflict('"hello'),
+                    null,
                     dialog(
                         'TextType',
-                        Emotion.Surprised,
+                        'surprised',
                         `Or, here's another case. 
                         
                         You give me opening and closing text, but you place opening and closing text inside it. 
@@ -1162,11 +1129,11 @@ const tutorial: Act[] = [
                         
                         You can fix this by using different symbols for the outside, like a single quote.`
                     ),
-                    edit('"Hi there "friend"', true),
-                    pause(),
+                    conflict('"Hi there "friend"'),
+                    null,
                     dialog(
                         'TextType',
-                        Emotion.Curious,
+                        'curious',
                         `Did our friend @FunctionDefinition here tell you about all of the wonderful functions they defined for me? 
                         
                         They've allowed me to do all kinds of things.
@@ -1178,10 +1145,10 @@ const tutorial: Act[] = [
                         Try changing the text and watch the length that Program shows change as it gets shorter and longer.`
                     ),
                     edit('"hello".length()'),
-                    pause(),
+                    null,
                     dialog(
                         'TextType',
-                        Emotion.Happy,
+                        'happy',
                         `Here is another grand one. It makes me chuckle. 
                         
                         It's called @TextType/repeat and when it's evaluated, it takes whatever text it was evaluated on and repeats it however many times you say.
@@ -1189,10 +1156,10 @@ const tutorial: Act[] = [
                         Try changing the number and seeing what it evaluates too.`
                     ),
                     edit(`'hello '.repeat(5)`),
-                    pause(),
+                    null,
                     dialog(
                         'TextType',
-                        Emotion.Eager,
+                        'eager',
                         `@FunctionDefinition has made so many more interesting functions for me, but I'll spare you the details. 
                         
                         You can always find me in the *reference* @UI/docsExpand. 
@@ -1200,10 +1167,10 @@ const tutorial: Act[] = [
                         
                         I'm happy to share more ways to inspect and create text!`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Happy,
+                        'happy',
                         `@TextType, you're always such a kind and patient teacher! 
                         It's always such a joy to work with you. 
                         
@@ -1211,7 +1178,7 @@ const tutorial: Act[] = [
                     ),
                     dialog(
                         'TextType',
-                        Emotion.Neutral,
+                        'neutral',
                         `Yes, of course. It was splendid meeting you. I can't wait to see how you inspire us on stage!`
                     ),
                 ],
@@ -1219,25 +1186,25 @@ const tutorial: Act[] = [
             {
                 name: 'Symbol in the middle',
                 concept: 'Infix',
-                program: output(`
+                program: fit(`
                     Group(Row() [
                         Phrase('1' rest: Sequence({0%: Pose(offset: Place(0m 1m)) 50%: Pose(offset: Place(0m -1m)) 100%: Pose(offset: Place(0m 1m))} duration: 2s)) 
                         Phrase('+' rest: Sequence({0%: Pose(offset: Place(0m -1m)) 50%: Pose(offset: Place(0m 1m)) 100%: Pose(offset: Place(0m -1m))} duration: 2s)) 
                         Phrase('1' rest: Sequence({0%: Pose(offset: Place(0m 1m)) 50%: Pose(offset: Place(0m -1m)) 100%: Pose(offset: Place(0m 1m))} duration: 2s)) 
                     ])`),
                 lines: [
-                    output('Phrase("🥰")'),
+                    fit('Phrase("🥰")'),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Happy,
+                        'happy',
                         `You know, I keep thinking about @Evaluate, and how we were separated for so long. 
                         
                         I missed them, and they obviously missed me, but I was just hoping that some time away would have helped them see how amazing they are.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `For example, did you know they come in another form? 
                         
                         You saw them in ⧼function()⧽ form, but they also have this beautiful trick when a single input function is evaluated on a value.
@@ -1247,10 +1214,10 @@ const tutorial: Act[] = [
                         It looked like this.`
                     ),
                     edit(`"hi".repeat(5)`),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Eager,
+                        'eager',
                         `Instead, you can have @Evaluate evaluate it with a much simpler symbol in the middle, like this.
                         
                         This means "repeat 'hi' five times". But it also means "evaluate the ⧼·⧽ function on the text value ⧼"hi"⧽ with the input ⧼5⧽."
@@ -1258,10 +1225,10 @@ const tutorial: Act[] = [
                         The function ⧼repeat⧽ just has multiple names, one of which is a symbol name ⧼·⧽.`
                     ),
                     edit(`'hi' · 5`),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Serious,
+                        'serious',
                         `That reminds me of another of @TextType's functions! 
                         
                         It's helpful for making one text value from multiple text values. It's called ⧼combine⧽, but also ⧼+⧽, and you can use it to add words together.
@@ -1270,38 +1237,38 @@ const tutorial: Act[] = [
                         `
                     ),
                     edit(`'hello '.combine('verse')`),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Serious,
+                        'serious',
                         `But it's so much easier to just use ⧼+⧽ for this.`
                     ),
                     edit(`'hello ' + ' verse'`),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `You can even string these together in a sequence to combine more than two things.`
                     ),
                     edit(`'hello ' + 'verse' + '!'`),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `This is the same as a series of evaluations of combine, but without all of the parentheses and ⧼.⧽, and a symbolic name instead of a word name.`
                     ),
-                    code(`'hello '.combine('verse').combine('!')`, true, true),
-                    pause(),
+                    edit(`'hello '.combine('verse').combine('!')`),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `You can also use the symbolic names in this format, but it just ends up looking kind of messy, doesn't it?`
                     ),
                     edit(`'hello '.+('verse').+('!')`),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Happy,
+                        'happy',
                         `This is one of the many ways that @Evaluate is amazing ♥ They are so versatile!
 
                         But they aren't perfect. With any @BinaryOperation, you need to always make sure to give a second input.
@@ -1309,11 +1276,11 @@ const tutorial: Act[] = [
                         This won't work, for example. One plus what? @UnparsableExpression won't be far away when this happens.
                         `
                     ),
-                    edit(`1 +`, true),
-                    pause(),
+                    conflict(`1 +`),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `Anyway, shall we go find find @BooleanType? They are two very interesting values…`
                     ),
                 ],
@@ -1321,155 +1288,155 @@ const tutorial: Act[] = [
             {
                 name: 'Yes and no',
                 concept: 'Truth',
-                program: output(
+                program: fit(
                     `Group(Row() [Phrase("⊤") Phrase("⊥")] rest: Sequence({ 0%: Pose(tilt: 0°) 50%: Pose(tilt: 180°) 100%: Pose(tilt: 360°)} duration: 2s))`
                 ),
                 lines: [
-                    output('Stage([])'),
+                    fit('Stage([])'),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `⧼⊤⧽! ⧼⊥⧽! Are you two around?
                         
                         They're usually all over the place, but I don't see them anywhere. 
                         `
                     ),
-                    pause(),
-                    dialog('⊤', Emotion.Precise, `Right here.`),
-                    dialog('⊥', Emotion.Precise, `Not there.`),
-                    output(
+                    null,
+                    dialog('⊤', 'precise', `Right here.`),
+                    dialog('⊥', 'precise', `Not there.`),
+                    fit(
                         `multiple:10
                         Stage([Group(Grid(multiple multiple) ("⊤⊥".repeat(multiple^2) ÷ "").translate(ƒ(glyph•"") Phrase(glyph rest: Pose(color: Color(75% 0 0°)))))])`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Scared,
+                        'scared',
                         `Oh, you scared me! I knew you two wouldn't be far apart. How have you two been in our long silence?`
                     ),
-                    dialog('⊤', Emotion.Precise, `Very good!`),
-                    dialog('⊥', Emotion.Precise, `Not bad.`),
-                    pause(),
+                    dialog('⊤', 'precise', `Very good!`),
+                    dialog('⊥', 'precise', `Not bad.`),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `Not lonely? Everyone I've been talking to, @Program, @ExpressionPlaceholder, @Evaluate, they've all felt so isolated. (Except for @UnparsableExpression, they seem to be fine almost anywhere).`
                     ),
-                    dialog('⊤', Emotion.Precise, `We have each other.`),
-                    dialog('⊥', Emotion.Precise, `We're not alone.`),
-                    pause(),
+                    dialog('⊤', 'precise', `We have each other.`),
+                    dialog('⊥', 'precise', `We're not alone.`),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Happy,
+                        'happy',
                         `Well that's great to hear. It's good to be with you again. I wanted to introduce you to our new maybe-director. They've been meeting everyone, learning about how to put on performances with us. Do you want to tell them what you do?`
                     ),
-                    dialog('⊤', Emotion.Precise, `I am true.`),
-                    dialog('⊥', Emotion.Precise, `I am false.`),
-                    pause(),
+                    dialog('⊤', 'precise', `I am true.`),
+                    dialog('⊥', 'precise', `I am false.`),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Sad,
+                        'sad',
                         `Yeah, but what do you do?`
                     ),
-                    dialog('⊤', Emotion.Precise, `I am just true.`),
-                    dialog('⊥', Emotion.Precise, `And I am not true.`),
-                    pause(),
+                    dialog('⊤', 'precise', `I am just true.`),
+                    dialog('⊥', 'precise', `And I am not true.`),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Sad,
+                        'sad',
                         `Hm. I guess that's true. But you do some things, right? I thought I made some functions for you.`
                     ),
-                    dialog('⊤', Emotion.Precise, `Ah yes, three.`),
-                    dialog('⊥', Emotion.Precise, `Not more, not less.`),
-                    pause(),
+                    dialog('⊤', 'precise', `Ah yes, three.`),
+                    dialog('⊥', 'precise', `Not more, not less.`),
+                    null,
                     edit('(⊤ & ⊤) = ⊤'),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `One was @BooleanType/and, right? It takes one of you and one other input? And evaluates to ⧼⊤⧽ if both are ⧼⊤⧽?`
                     ),
                     dialog(
                         '⊤',
-                        Emotion.Precise,
+                        'precise',
                         `Correct. ⧼⊤ & ⊤ = ⊤⧽, but ⧼⊥⧽ otherwise.`
                     ),
                     dialog(
                         '⊥',
-                        Emotion.Precise,
+                        'precise',
                         `Not wrong. ⧼⊤ & ⊥ = ⊥⧽, ⧼⊥ & ⊤ = ⊥⧽, ⧼⊥ & ⊥ = ⊥⧽, but ⧼⊤⧽ otherwise.`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `(This is really helpful when trying to determine if multiple expressions are all true, because it's only true when everything is true).`
                     ),
-                    pause(),
+                    null,
                     edit('(⊤ | ⊤) = ⊥'),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `And the other one was @BooleanType/or, right? 
                         It also takes one input? 
                         But it evaluates to ⧼⊤⧽ if either is true?`
                     ),
                     dialog(
                         '⊤',
-                        Emotion.Precise,
+                        'precise',
                         `Correct. ⧼⊤ | ⊤ = ⊤⧽, ⧼⊤ | ⊥ = ⊤⧽, ⧼⊥ | ⊤ = ⊤⧽, but ⧼⊥⧽ otherwise.`
                     ),
                     dialog(
                         '⊥',
-                        Emotion.Precise,
+                        'precise',
                         `Not wrong. ⧼⊥ & ⊥ = ⊥⧽, but ⧼⊤⧽ otherwise.`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `(This is really helpful when trying to determine if any expressions are true, because it's true when even just one is true).`
                     ),
-                    pause(),
+                    null,
                     edit('~⊤ = ⊥'),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Excited,
+                        'excited',
                         `But the other was @BooleanType/not?`
                     ),
-                    dialog('⊤', Emotion.Precise, `Correct. ⧼~⊤ = ⊥⧽.`),
-                    dialog('⊥', Emotion.Precise, `Not wrong. ⧼~⊥ = ⊤⧽.`),
+                    dialog('⊤', 'precise', `Correct. ⧼~⊤ = ⊥⧽.`),
+                    dialog('⊥', 'precise', `Not wrong. ⧼~⊥ = ⊤⧽.`),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `(This just reverses a truth value).`
                     ),
-                    pause(),
-                    output(
+                    null,
+                    fit(
                         `multiple:10
                         Stage([Group(Grid(multiple multiple) ("⊤⊥".repeat(multiple^2) ÷ "").translate(ƒ(glyph•"") Phrase(glyph rest: Pose(color: Color(75% 0 0°)))))])`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `And what are you useful for, in our performances?`
                     ),
-                    dialog('⊤', Emotion.Precise, `Ask @Conditional.`),
-                    dialog('⊥', Emotion.Precise, `Don't ask us.`),
-                    pause(),
+                    dialog('⊤', 'precise', `Ask @Conditional.`),
+                    dialog('⊥', 'precise', `Don't ask us.`),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Sad,
+                        'sad',
                         `You two… okay, we'll talk to @Conditional later. 
                         
                         (They were supposed to say that they're useful for making decisions with values, but I guess they want @Conditional to tell you about that. 
                         We'll talk to @Conditional later.).`
                     ),
-                    pause(),
-                    output(
+                    null,
+                    fit(
                         `multiple:10
                         Stage([Group(Grid(multiple multiple) ("⊤⊥".repeat(multiple^2) ÷ "").translate(ƒ(glyph•"") Phrase(glyph rest: Pose(color: Color(75% 0 0°) tilt: 90°))))])`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `Oh! I was wondering. 
                         You two represent two really different extremes: true and false. 
                         But what about things that are … fuzzier? Like things that are kind of true, or somewhat false, or maybe even true and false at the same time? 
@@ -1478,10 +1445,10 @@ const tutorial: Act[] = [
                         
                         What should our director do if they want to express something like that?`
                     ),
-                    dialog('⊤', Emotion.Precise, `…`),
-                    dialog('⊥', Emotion.Precise, `…`),
-                    pause(),
-                    output(
+                    dialog('⊤', 'precise', `…`),
+                    dialog('⊥', 'precise', `…`),
+                    null,
+                    fit(
                         `multiple:10
                         Stage(
                         [
@@ -1495,13 +1462,13 @@ const tutorial: Act[] = [
                             offset:Place(0m (Time() ^ 2)·-0.000025m/ms^2))
                         )))])`
                     ),
-                    dialog('⊤', Emotion.Precise, `… no.`),
-                    dialog('⊥', Emotion.Precise, `… no.`),
-                    pause(),
-                    output('Stage([])'),
+                    dialog('⊤', 'precise', `… no.`),
+                    dialog('⊥', 'precise', `… no.`),
+                    null,
+                    fit('Stage([])'),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Serious,
+                        'serious',
                         `Hm, okay. 
                         It was worth a try! 
                         Maybe there are other ways to express these ideas I haven't thought of. 
@@ -1509,11 +1476,11 @@ const tutorial: Act[] = [
                         
                         Will you two be okay if we go off and meet other expressions?`
                     ),
-                    dialog('⊤', Emotion.Precise, `We are okay.`),
-                    dialog('⊥', Emotion.Precise, `Not a problem.`),
+                    dialog('⊤', 'precise', `We are okay.`),
+                    dialog('⊥', 'precise', `Not a problem.`),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Happy,
+                        'happy',
                         `Okay, bye, and see you soon!`
                     ),
                 ],
@@ -1521,7 +1488,7 @@ const tutorial: Act[] = [
             {
                 name: 'Let me count the ways',
                 concept: 'Numbers',
-                program: output(
+                program: fit(
                     `numbers•[#]: 25 → []
 Group(Grid(5 5) numbers.translate(
     ƒ (n•#) 
@@ -1537,7 +1504,7 @@ Group(Grid(5 5) numbers.translate(
                     symbol('😞'),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Confused,
+                        'confused',
                         `
                         Those two are always so… terse! 
                         
@@ -1546,8 +1513,8 @@ Group(Grid(5 5) numbers.translate(
                         I wish @Evaluate and I were like that.
                         With us, it's always so… imbalanced.`
                     ),
-                    pause(),
-                    output(
+                    null,
+                    fit(
                         `
                         numbers•[#]:25 → []
                         Group(Grid(5 5) numbers.translate(
@@ -1568,44 +1535,40 @@ Group(Grid(5 5) numbers.translate(
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Eager,
+                        'eager',
                         `We should meet @MeasurementType next. 
                         They always have such interesting things to share. 
                         
                         Hey @MeasurementType, are you around?
                     `
                     ),
-                    dialog(
-                        'MeasurementType',
-                        Emotion.Kind,
-                        `Just 3 steps away!`
-                    ),
-                    pause(),
+                    dialog('MeasurementType', 'kind', `Just 3 steps away!`),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Scared,
+                        'scared',
                         `Ack, you scared me!!`
                     ),
                     dialog(
                         'MeasurementType',
-                        Emotion.Kind,
+                        'kind',
                         `The 78,238nd time. It's my 4th favorite hobby!`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Happy,
+                        'happy',
                         `I'm glad you're having a good time. (Deep breaths). It's been some time, hasn't it?`
                     ),
                     dialog(
                         'MeasurementType',
-                        Emotion.Kind,
+                        'kind',
                         `Incalculably long. I was just passing the time here, counting seconds, and then minutes, and then hours, and then weeks, and then months, and then years, and then…`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Serious,
+                        'serious',
                         `
                         Don't say decades. 
                         I can't have been that long. 
@@ -1621,44 +1584,44 @@ Group(Grid(5 5) numbers.translate(
                     ),
                     dialog(
                         'MeasurementType',
-                        Emotion.Excited,
+                        'excited',
                         `
                         I count things! 
                         I can be any number you like. 
                         Just type me in and I'll make the value you want. Like this.`
                     ),
                     edit(`1`),
-                    pause(),
-                    dialog('MeasurementType', Emotion.Excited, `Or this.`),
+                    null,
+                    dialog('MeasurementType', 'excited', `Or this.`),
                     edit(`1.0`),
-                    pause(),
-                    dialog('MeasurementType', Emotion.Excited, `Or this.`),
+                    null,
+                    dialog('MeasurementType', 'excited', `Or this.`),
                     edit(`1.01`),
-                    pause(),
-                    dialog('MeasurementType', Emotion.Excited, `Or this.`),
+                    null,
+                    dialog('MeasurementType', 'excited', `Or this.`),
                     edit(`∞`),
-                    pause(),
-                    dialog('MeasurementType', Emotion.Excited, `Or this.`),
+                    null,
+                    dialog('MeasurementType', 'excited', `Or this.`),
                     edit(`π`),
-                    pause(),
-                    dialog('MeasurementType', Emotion.Excited, `Or this.`),
+                    null,
+                    dialog('MeasurementType', 'excited', `Or this.`),
                     edit(`Ⅶ`),
-                    pause(),
-                    dialog('MeasurementType', Emotion.Excited, `Or this.`),
+                    null,
+                    dialog('MeasurementType', 'excited', `Or this.`),
                     edit(`万十一`),
-                    pause(),
-                    dialog('MeasurementType', Emotion.Excited, `Or…`),
+                    null,
+                    dialog('MeasurementType', 'excited', `Or…`),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `Okay, okay @MeasurementType, we get it! 
                         
                         But you also do something else special, right? Units?`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'MeasurementType',
-                        Emotion.Excited,
+                        'excited',
                         `Oh yes, *units*! 
                         
                         Just put some symbols after a number and I'll keep track of what's being counted. 
@@ -1666,59 +1629,59 @@ Group(Grid(5 5) numbers.translate(
                         Like this.`
                     ),
                     edit(`1dolphin`),
-                    pause(),
-                    dialog('MeasurementType', Emotion.Excited, `Or this.`),
+                    null,
+                    dialog('MeasurementType', 'excited', `Or this.`),
                     edit(`1.0thunderstorm`),
-                    pause(),
-                    dialog('MeasurementType', Emotion.Excited, `Or this.`),
+                    null,
+                    dialog('MeasurementType', 'excited', `Or this.`),
                     edit(`∞kittens`),
-                    pause(),
-                    dialog('MeasurementType', Emotion.Excited, `Or this.`),
+                    null,
+                    dialog('MeasurementType', 'excited', `Or this.`),
                     edit(`1.01toes`),
-                    pause(),
-                    dialog('MeasurementType', Emotion.Excited, `Or…`),
+                    null,
+                    dialog('MeasurementType', 'excited', `Or…`),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `Um, ⧼1.01toe⧽s? 
                         
                         Yes, thank you @MeasurementType, these are … interesting examples. 
                         
                         And they are oh so useful when you're doing math on numbers, right?`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `And they are oh so useful when you're doing math on numbers, right?`
                     ),
                     dialog(
                         'MeasurementType',
-                        Emotion.Excited,
+                        'excited',
                         `Oh yes, the maths! @FunctionDefinition gave me so many neat kinds of arithmetic. Like this.`
                     ),
                     edit(`1 + 1`),
-                    pause(),
-                    dialog('MeasurementType', Emotion.Excited, `Or this.`),
+                    null,
+                    dialog('MeasurementType', 'excited', `Or this.`),
                     edit(`1000 + 9999`),
-                    pause(),
-                    dialog('MeasurementType', Emotion.Excited, `Or this.`),
+                    null,
+                    dialog('MeasurementType', 'excited', `Or this.`),
                     edit(`1kitty + 2kitty`),
-                    pause(),
-                    dialog('MeasurementType', Emotion.Excited, `Or this.`),
+                    null,
+                    dialog('MeasurementType', 'excited', `Or this.`),
                     edit(`-5s + 5s`),
-                    pause(),
-                    dialog('MeasurementType', Emotion.Excited, `Or this.`),
-                    edit(`2apple + 5orange`, true),
-                    pause(),
+                    null,
+                    dialog('MeasurementType', 'excited', `Or this.`),
+                    conflict(`2apple + 5orange`),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Confused,
+                        'confused',
                         `Oops. Can you add apples and oranges?`
                     ),
                     dialog(
                         'MeasurementType',
-                        Emotion.Angry,
+                        'angry',
                         `No. That's why I underlined the conflict. 
                         I don't like adding incompatible things. 
                         I can only add compatible numbers. 
@@ -1734,10 +1697,10 @@ Group(Grid(5 5) numbers.translate(
                         I just compare the unit names and if they don't match, BOOM!
                         `
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `That's so cool. @MeasurementType, you're so good with numbers! 
                         I see @MeasurementType show up in a lot of performances where placement matters, and a lot of games where we're keeping track of scores or lives or other countable things.
                         
@@ -1745,18 +1708,18 @@ Group(Grid(5 5) numbers.translate(
                     ),
                     dialog(
                         'MeasurementType',
-                        Emotion.Serious,
+                        'serious',
                         `192 other neat tricks.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Happy,
+                        'happy',
                         `I think we'll have to wait. You'll be around if we want to learn more?`
                     ),
                     dialog(
                         'MeasurementType',
-                        Emotion.Happy,
+                        'happy',
                         `Yes, you can find me and my functions any time!`
                     ),
                 ],
@@ -1764,45 +1727,45 @@ Group(Grid(5 5) numbers.translate(
             {
                 name: 'Opening (re)marks',
                 concept: 'Prefix',
-                program: output(`Phrase('~')`),
+                program: fit(`Phrase('~')`),
                 lines: [
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `Sometimes I'm just overwhelmed by how clever everyone is here. 
                         
                         Text, truth, numbers — these are such powerful ideas!`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `…
                         
                         You know how I was telling you that they can evaluate any function with parentheses ⧼1.add(1)⧽, but also two input functions with infix operators ⧼1 + 1⧽? 
                         
                         Well they have one more trick for functions with only one input: the unary format.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Serious,
+                        'serious',
                         `There are only a few of these, but they are powerful. 
                         One is really relevant to @MeasurementType: negation. 
                         
                         You can just put a ⧼-⧽ in front of any number value and get its negative.`
                     ),
                     edit(`-(1 + 3)`),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `That little minus sign is the same as saying ⧼(1 + 3).negate()⧽ but so much more elegant.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `The other one is similar, but for negating ⧼⊤⧽ and ⧼⊥⧽: it's like a little squiggle minus, ⧼~⧽ that just flips true to false and false to true. 
                     
                         For example, this little expression evaluates ⧼⊤ | ⊥⧽, which is ⧼⊤⧽, then flips the ⧼⊤⧽ to ⧼⊥⧽.
@@ -1810,10 +1773,10 @@ Group(Grid(5 5) numbers.translate(
                         This is the same as saying ⧼(⊤ | ⊥).not()⧽, but so much more sleek.`
                     ),
                     edit(`~(⊤ | ⊥)`),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Happy,
+                        'happy',
                         `Isn't that just beautiful?
                         
                         The way that @Evaluate can take so many different forms, but really all be the same idea? 
@@ -1825,77 +1788,74 @@ Group(Grid(5 5) numbers.translate(
             {
                 name: 'Emptiness',
                 concept: 'Nothing',
-                program: output(
-                    `Motion(Phrase('ø' size: 5m) vy: ◆ ? 5m/s ø)`,
-                    false
-                ),
+                program: fixed(`Motion(Phrase('ø' size: 5m) vy: ◆ ? 5m/s ø)`),
                 lines: [
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `Do you think you're okay meeting just one more value? Let's go find @NoneType next. They are a bit more chill than @MeasurementType.
                         
                         @NoneType? Are you out there?
                         `
                     ),
-                    dialog('NoneType', Emotion.Bored, `…`),
-                    pause(),
+                    dialog('NoneType', 'bored', `…`),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Excited,
+                        'excited',
                         `We found you! You seem well. How have you been, with all the silence?`
                     ),
-                    dialog('NoneType', Emotion.Excited, `…`),
-                    pause(),
+                    dialog('NoneType', 'excited', `…`),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `That makes sense. I can see why you'd like the quiet. It's certainly peaceful.
                         
                         I wanted to introduce you to my new friend and potential director. They're interested in inspiring us.
                         `
                     ),
-                    dialog('NoneType', Emotion.Eager, `…`),
-                    pause(),
+                    dialog('NoneType', 'eager', `…`),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `Yes, I think they have all kinds of ideas. We haven't talked about them yet, but there's plenty of time. We're just learning right now.
                         
                         Do you want to share what you do? (I can translate).`
                     ),
-                    dialog('NoneType', Emotion.Serious, `…`),
-                    pause(),
+                    dialog('NoneType', 'serious', `…`),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `They represent nothing. Different from zero in that you can't add anything to it, or subtract from it. Just… nothing.`
                     ),
-                    dialog('NoneType', Emotion.Serious, `…`),
-                    pause(),
+                    dialog('NoneType', 'serious', `…`),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `They said that they like to take up space where something might be. Sometimes they represent the lack of a choice in a game, sometimes they represent some default input in a function. 
                         
                         In that sense, they might represent the absence of anything.`
                     ),
-                    dialog('NoneType', Emotion.Neutral, `…`),
-                    pause(),
+                    dialog('NoneType', 'neutral', `…`),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `They wanted you to know that they don't really do anything. 
                         They just are. 
                         All they really do is say whether they are themselves. 
                         If they are, they evaluate to ⧼⊤⧽, and ⧼⊥⧽ otherwise.`
                     ),
                     edit(`ø = ø`),
-                    pause(),
+                    null,
                     edit(`Phrase("hi" size: ø font: ø place: ø rotation: ø)`),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Excited,
+                        'excited',
                         `Do you remember @Phrase? 
                         
                         @Phrase actually works with @NoneType a lot. 
@@ -1903,16 +1863,16 @@ Group(Grid(5 5) numbers.translate(
                         Most of the inputs that @Evaluate mentioned are ⧼ø⧽ by default, which for @Phrase, means that no size, font, color, etc. are specified.
                         `
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `Anything else you want to share with our budding director?`
                     ),
-                    dialog('NoneType', Emotion.Eager, `…`),
+                    dialog('NoneType', 'eager', `…`),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `They think you're doing great! 
                         And I think you're doing great too. 
                         You've already met so many of our wonderful players. 
@@ -1925,20 +1885,20 @@ Group(Grid(5 5) numbers.translate(
     },
     {
         name: 'Ensembles',
-        program: output(
+        program: fit(
             `Group(Row((Time() ÷ 500).sin() · 1m) [Phrase('[]') Phrase('{}') Phrase('{:}')])`
         ),
         scenes: [
             {
                 name: 'Community values',
                 concept: undefined,
-                program: output(
+                program: fit(
                     `Group(Row() [Phrase('[') Phrase(" ." · (Time() ÷ 100ms)) Phrase(']')])`
                 ),
                 lines: [
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `You know what? 
                         
                         The values in our community are just so different. 
@@ -1953,13 +1913,13 @@ Group(Grid(5 5) numbers.translate(
                         
                         Our world is never boring!`
                     ),
-                    output(
+                    fit(
                         `Group(Stack() [Phrase('""') Phrase("⊤⊥") Phrase("#") Phrase('ø')])`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `You might wonder how they get along with each other in a group. 
                         
                         Well, there's a whole other set of folks in the Verse that are all about bringing values together in groups. 
@@ -1969,13 +1929,13 @@ Group(Grid(5 5) numbers.translate(
                         For example, you might have a list of @TextType, or a set of @MeasurementType, or even a list of lists.
                         `
                     ),
-                    output(
+                    fit(
                         `Group(Row() [Phrase("[") Phrase('"hi"') Phrase("⊤") Phrase("42") Phrase('ø') Phrase("]") ])`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `Do you want to meet them?
                        
                         Let's start with @ListType first… they're the first collection I met, and probably the most visible in our community, since they're so useful in organizing other values for performances.`
@@ -1986,7 +1946,7 @@ Group(Grid(5 5) numbers.translate(
             {
                 name: 'Places, everyone!',
                 concept: 'Lists',
-                program: output(
+                program: fit(
                     `
                     clockwise: Sequence({0%: Pose(tilt: 0°) 50%: Pose(tilt: 180°) 100%: Pose(tilt: 360°)} duration: 2s)
                     counter: Sequence({0%: Pose(tilt: 0°) 50%: Pose(tilt: -180°) 100%: Pose(tilt: -360°)} duration: 2s)
@@ -1995,31 +1955,31 @@ Group(Grid(5 5) numbers.translate(
                 lines: [
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `Hiya @ListType! 
                         Are you around? 
                         I have someone I'd like you to meet.`
                     ),
                     dialog(
                         'ListType',
-                        Emotion.Curious,
+                        'curious',
                         `@FunctionDefinition? Is that you?`
                     ),
-                    output(
+                    fit(
                         `
                         up: Sequence({0%: Pose(offset: Place(0m -1m)) 50%: Pose(offset: Place(0m 0m)) 100%: Pose(offset: Place(0m -1m))} duration: 2s)
                         down: Sequence({0%: Pose(offset: Place(0m 1m)) 50%: Pose(offset: Place(0m 0m)) 100%: Pose(offset: Place(0m 1m))} duration: 2s)
                         Group(Row() [Phrase("[" rest: up) Phrase("]" rest: down)])`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Excited,
+                        'excited',
                         `Yes! It's me. It's been so long!`
                     ),
                     dialog(
                         'ListType',
-                        Emotion.Curious,
+                        'curious',
                         `It has. 
                         Day after day, night after night, no one. 
                         But you're here. 
@@ -2027,46 +1987,42 @@ Group(Grid(5 5) numbers.translate(
                         How? 
                         Tell me what happened, in order!`
                     ),
-                    output(
+                    fit(
                         `
                         up: Sequence({0%: Pose(offset: Place(0m 1m)) 50%: Pose(offset: Place(0m 0m)) 100%: Pose(offset: Place(0m 1m))} duration: 2s)
                         down: Sequence({0%: Pose(offset: Place(0m -1m)) 50%: Pose(offset: Place(0m 0m)) 100%: Pose(offset: Place(0m -1m))} duration: 2s)
                         Group(Row() [Phrase("[" rest: up) Phrase("]" rest: down)])`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `Well, I was sitting around, as I usually do, trying to imagine functions to compute, but just blocked. 
                         And then my new friend here showed up, curious about our world and wanting to learn more, and maybe even be our next director. 
                         And so we talked to @Program, @ExpressionPlaceholder, @UnparsableExpression, @Evaluate, @TextType, @MeasurementType, @BooleanType, and @NoneType, waking everyone up. 
                         
                         That's why we're here, to talk about what you do and our next performance!`
                     ),
-                    output(
+                    fit(
                         `wobble: Sequence({0%: Pose(offset: Place(0m)) 25%: Pose(offset: Place(-.1m)) 50%: Pose(offset: Place(.2m)) 75%: Pose(offset: Place(-.3m)) 100%: Pose(offset: Place(0m))} duration: 0.1s)
 Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                     ),
                     dialog(
                         'ListType',
-                        Emotion.Excited,
+                        'excited',
                         `This is amazing! 
                         It's great to meet you new director.`
                     ),
                     dialog(
                         'ListType',
-                        Emotion.Excited,
+                        'excited',
                         `You want to know what I do?`
                     ),
-                    dialog(
-                        'FunctionDefinition',
-                        Emotion.Neutral,
-                        `Yeah, tell them!`
-                    ),
-                    pause(),
+                    dialog('FunctionDefinition', 'neutral', `Yeah, tell them!`),
+                    null,
                     dialog(
                         'ListType',
-                        Emotion.Excited,
+                        'excited',
                         `Okay. 
                         First, and most important, I put values in order. 
                         Whatever expressions you want: numbers, words, other lists — I can group anything together in sequence. 
@@ -2077,10 +2033,10 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         `
                     ),
                     edit(`[1 2 3 4 5 6 7 8 9 10]`),
-                    pause(),
+                    null,
                     dialog(
                         'ListType',
-                        Emotion.Serious,
+                        'serious',
                         `Second, and this is serious, I always start with ⧼[⧽ and end with ⧼]⧽. 
                         That's how I know the beginning and end of my list. 
                         
@@ -2090,33 +2046,33 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         
                         Do you see how confusing things get? Can you fix this one?`
                     ),
-                    edit(`[ 1 2 3 4`, true),
-                    pause(),
+                    conflict(`[ 1 2 3 4`),
+                    null,
                     dialog(
                         'ListType',
-                        Emotion.Serious,
+                        'serious',
                         `This one is broken too. 
                         
                         Can you fix it?`
                     ),
-                    edit(`] 1 2 3 4 [`, true),
-                    pause(),
+                    conflict(`] 1 2 3 4 [`),
+                    null,
                     dialog(
                         'ListType',
-                        Emotion.Sad,
+                        'sad',
                         `Sometimes people forget this and then there's brackets floating around all alone and they don't like that and then the values all go wild without any order and it's CHAOS. 
                         
                         I don't like it.`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `It's okay. We like that you like order, it's what makes you special!`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'ListType',
-                        Emotion.Happy,
+                        'happy',
                         `I like that I like order too! 
                         
                         Okay, where was I. 
@@ -2130,16 +2086,16 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         
                         Maybe you could get rid of those pesky things? Put line breaks if you like. Anything other than commas. Gross!`
                     ),
-                    edit(`[ 1, 2, 3, 4, 5]`, true),
-                    pause(),
+                    conflict(`[ 1, 2, 3, 4, 5]`),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Eager,
+                        'eager',
                         `@ListType, one of the things I like most about you is how amazing you are at manipulating lists. Do you want to show our student director here some examples?`
                     ),
                     dialog(
                         'ListType',
-                        Emotion.Neutral,
+                        'neutral',
                         `Yes, but @FunctionDefinition, those are all your doing. 
                         
                         You represent all these beautiful functions for me that enable me to do all kinds of things!
@@ -2147,19 +2103,19 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         Like @ListType/reverse, oh, this one is wonderful and simple. It just takes my values and puts them in the opposite order.`
                     ),
                     edit(`[ 1 2 3 4 5 ].reverse()`),
-                    pause(),
+                    null,
                     dialog(
                         'ListType',
-                        Emotion.Excited,
+                        'excited',
                         `And this one is fun: @ListType/sans just removes all of the values equal to the given value.
                         
                         See how there are no zeros left in the resulting list?`
                     ),
                     edit(`[ 1 0 1 0 1 ].sans(0)`),
-                    pause(),
+                    null,
                     dialog(
                         'ListType',
-                        Emotion.Serious,
+                        'serious',
                         `Ack, I can't believe I forgot to explain the fourth rule! 
                         
                         Okay, rule number four: I never change a list. 
@@ -2173,10 +2129,10 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         
                         That's actually true for everything in the Verse: once values are made, they are who they are, and do not change.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'ListType',
-                        Emotion.Surprised,
+                        'surprised',
                         `Oh, and that reminds me of the last rule, rule number five: I start counting at 1! 
                         Not zero, not two, 1. 
                         
@@ -2190,13 +2146,13 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                     edit(`['a' 'b' 'c' 'd' 'e'][3]`),
                     dialog(
                         'ListType',
-                        Emotion.Happy,
+                        'happy',
                         `Interesting huh? Give me a place in the list that doesn't exist and I'm going to give you @NoneLiteral. Because there's nothing there. Make sense?`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'ListType',
-                        Emotion.Serious,
+                        'serious',
                         `Okay, maybe one list function, because this is my favorite. 
                         This one is called @ListType/random and will give a random value in the list. 
                         It's great fun because you never know what you're going to get!
@@ -2204,21 +2160,17 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         What did you get, what did you get? Try adding your own animal and see what you get.
                         `
                     ),
-                    code(
-                        `['cat' 'dog' 'mouse' 'parrot' 'snake'].random()`,
-                        true,
-                        true
-                    ),
-                    pause(),
+                    edit(`['cat' 'dog' 'mouse' 'parrot' 'snake'].random()`),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Happy,
+                        'happy',
                         `List, you're silly. 
                         There are so many other cool things you can do, I'm always so impressed. Will you be around if your new director friend has questions?`
                     ),
                     dialog(
                         'ListType',
-                        Emotion.Eager,
+                        'eager',
                         `Yes, of course, always! @FunctionDefinition made so many interesting things for me to do. Just let me know what you need!`
                     ),
                 ],
@@ -2226,17 +2178,17 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
             {
                 name: 'One of each',
                 concept: 'Sets',
-                program: output(
+                program: fit(
                     `
                     clockwise: Sequence({0%: Pose(tilt: 0°) 50%: Pose(tilt: 180°) 100%: Pose(tilt: 360°)} duration: 2s)
                     counter: Sequence({0%: Pose(tilt: 0°) 50%: Pose(tilt: -180°) 100%: Pose(tilt: -360°)} duration: 2s)
                     Group(Row() [Phrase("{" rest: clockwise) Phrase("}" rest: counter) ])`
                 ),
                 lines: [
-                    output(DarkVoid),
+                    fit(DarkVoid),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `@ListType is so interesting. 
                         They're love of order is so endearing, and so useful! 
                         
@@ -2244,10 +2196,10 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         
                         @SetType? I have someone you'd like to meet.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'SetType',
-                        Emotion.Curious,
+                        'curious',
                         `Oh! @FunctionDefinition! 
                         It's you! 
                         What brings you here? 
@@ -2259,16 +2211,16 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `So many questions! 
                         I'm here to introduce you to someone who's considering directing. 
                         They're learning everything about the Verse and hope to share their inspiration with us! We were just talking to @ListType, but we were also talking to @MeasurementType, @BooleanType, @TextType, @Evaluate, and @Program earlier. 
                         We came to you next, because we're meeting all the collections!`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'SetType',
-                        Emotion.Kind,
+                        'kind',
                         `Oh it's so wonderful to meet you new director-like person! 
                         Do you have ideas yet? 
                         What will we perform? 
@@ -2277,13 +2229,13 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `Maybe to start, just say what you do?`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'SetType',
-                        Emotion.Eager,
+                        'eager',
                         `Oh yes, of course. I collect things. 
                         
                         (Hm, obviously, I am a collection). 
@@ -2294,17 +2246,17 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         I like to arrange myself a little like @ListType, but with ⧼{⧽ and ⧼}⧽ instead.`
                     ),
                     edit(`{ 1 2 3 4 5 }`),
-                    pause(),
+                    null,
                     dialog(
                         'SetType',
-                        Emotion.Neutral,
+                        'neutral',
                         `That's a set. But like I said, no duplicates. So if you give me this, I'm going to get rid of the extras.`
                     ),
                     edit(`{ 1 2 2 3 3 3 }`),
-                    pause(),
+                    null,
                     dialog(
                         'SetType',
-                        Emotion.Curious,
+                        'curious',
                         `Also like @ListType, you can use ⧼{}⧽ after a set to see if a value is contained in the set. 
                         You'll either ⧼⊤⧽ if it is or ⧼⊥⧽ if it's not.
                         
@@ -2313,30 +2265,30 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         Try adding ⧼3⧽ back to the set.`
                     ),
                     edit(`{ 1 2 4 5 }{3}`),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `@SetType, are there other things you can do with set values?`
                     ),
                     dialog(
                         'SetType',
-                        Emotion.Eager,
+                        'eager',
                         `Why yes, of course, so many, thanks to you. 
                         What do you want to see me do? 
                         Do you have a performance in mind? 
                         How can I help? 
                         What can I do?`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `Maybe, @SetType/difference?`
                     ),
                     dialog(
                         'SetType',
-                        Emotion.Neutral,
+                        'neutral',
                         `Yes, @SetType/difference.
 
                         When evaluated on a set, and given another set, it removes all of the items from the given set from the set evaluated on. 
@@ -2348,31 +2300,31 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         That's the only value that remains after removing the values in ⧼{ 1 2 }⧽.`
                     ),
                     edit(`{ 1 2 3 }.difference({ 1 2 })`),
-                    pause(),
+                    null,
                     dialog(
                         'SetType',
-                        Emotion.Eager,
+                        'eager',
                         `You can also add and remove things from sets. This takes the set ⧼{1}⧽, adds ⧼2⧽ to it, then removes 1 from it, leaving ⧼{ 2 }⧽.`
                     ),
                     edit(`({ 1 } + 2) - 1`),
                     dialog(
                         'SetType',
-                        Emotion.Neutral,
+                        'neutral',
                         `There's lots more I can do thanks to @FunctionDefinition here. Come find me anytime you want to learn more!`
                     ),
-                    pause(),
-                    output(DarkVoid),
+                    null,
+                    fit(DarkVoid),
                     dialog(
                         'SetType',
-                        Emotion.Curious,
+                        'curious',
                         `Oh, and hey @FunctionDefinition, you said you saw @Evaluate?`
                     ),
-                    dialog('FunctionDefinition', Emotion.Sad, `Yes, I did.`),
-                    pause(),
-                    dialog('SetType', Emotion.Curious, `How are they?`),
+                    dialog('FunctionDefinition', 'sad', `Yes, I did.`),
+                    null,
+                    dialog('SetType', 'curious', `How are they?`),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Sad,
+                        'sad',
                         `They're okay. 
                         We're okay. I think… 
                         
@@ -2383,7 +2335,7 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                     ),
                     dialog(
                         'SetType',
-                        Emotion.Curious,
+                        'curious',
                         `It sounds like challenging time for you to.
                         
                         Maybe with our new director, we will dance again, and you two will find a way through.`
@@ -2393,17 +2345,17 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
             {
                 name: 'One to one',
                 concept: 'Mappings',
-                program: output(
+                program: fit(
                     `
                     clockwise: Sequence({0%: Pose(tilt: 0°) 50%: Pose(tilt: 180°) 100%: Pose(tilt: 360°)} duration: 2s)
                     counter: Sequence({0%: Pose(tilt: 0°) 50%: Pose(tilt: -180°) 100%: Pose(tilt: -360°)} duration: 2s)
                     Group(Row(0m) [Phrase("{" rest: clockwise) Phrase(":") Phrase("}" rest: counter) ])`
                 ),
                 lines: [
-                    output(DarkVoid),
+                    fit(DarkVoid),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `There's just one more collection I'd like to introduce you to. 
                         
                         They're a bit like @SetType in some ways, and even use the same braces, but they're different in one important way: they're a connector. 
@@ -2412,14 +2364,14 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `@MapType? Are you out there?
                         The silence is breaking!`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'MapType',
-                        Emotion.Curious,
+                        'curious',
                         `Breaking? 
                         Was it ever really silent? 
                         It's so good to see you @FunctionDefinition. 
@@ -2431,13 +2383,13 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Sad,
+                        'sad',
                         `Yes, I talked to them...`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'MapType',
-                        Emotion.Curious,
+                        'curious',
                         `
                         Oh good.
                         Okay, because there's some repair to do there my friend...
@@ -2446,13 +2398,13 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `I've been okay, just a bit lonely, and a lot bored.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'MapType',
-                        Emotion.Excited,
+                        'excited',
                         `Oh, I'm so sorry to hear that. 
                         I've been staying connected with everyone during the silence and just figured you and @Evaluate had each other! 
                         I really would have been happy to talk any time. 
@@ -2462,21 +2414,21 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Surprised,
+                        'surprised',
                         `No, I don't at all. 
                         There's tension? 
                         And what gossip?`
                     ),
                     dialog(
                         'MapType',
-                        Emotion.Kind,
+                        'kind',
                         `Kind of like the tension between you and @Evaluate?`
                     ),
-                    dialog('FunctionDefinition', Emotion.Sad, '…'),
-                    pause(),
+                    dialog('FunctionDefinition', 'sad', '…'),
+                    null,
                     dialog(
                         'MapType',
-                        Emotion.Neutral,
+                        'neutral',
                         `Sorry.
                         
                         Maybe not in front of our guest here. 
@@ -2490,15 +2442,15 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `No need to pressure them! I'm sure they have lots of ideas. We're just trying to make some space for learning and connecting before we figure out the first show. 
                         
                         Can you share what you do?`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'MapType',
-                        Emotion.Eager,
+                        'eager',
                         `I connect! 
                         I'm kind of like a dictionary: give me a value and I'll give you the definition it corresponds to. 
                         @FunctionDefinition told you about values? 
@@ -2507,56 +2459,50 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         
                         For example, here's a mapping from names to a point tally. Names are the key, points are the value.`
                     ),
-                    code(
-                        `{ 'ben': 2points 'joe': 5points 'kate': 12points }`,
-                        true,
-                        true
-                    ),
-                    pause(),
+                    edit(`{ 'ben': 2points 'joe': 5points 'kate': 12points }`),
+                    null,
                     dialog(
                         'MapType',
-                        Emotion.Serious,
+                        'serious',
                         `But like @SetType, I don't like duplicates. You can't have more than one of the same key, but you can have as many unique keys mapped to equivalent values as you like.
                         
                         For example, this gives me two ⧼"ben"⧽ keys, but I just use the last one. 
                         But it's okay that ⧼"ben"⧽ and ⧼"joe"⧽ have the same number of points, because they're different keys.`
                     ),
-                    code(
-                        `{'ben': 2points 'ben': 5points 'joe': 5points 'kate': 12points }`,
-                        true,
-                        true
+                    edit(
+                        `{'ben': 2points 'ben': 5points 'joe': 5points 'kate': 12points }`
                     ),
                     dialog(
                         'MapType',
-                        Emotion.Excited,
+                        'excited',
                         `It's my partnership with @Bind that makes me special! 
                         It's how I connect values to other values. 
                         
                         (Have you met @Bind yet? No? Ohhhh, you're going to adore them. They are FABULOUS.)`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `@MapType, what if you want an empty mapping? 
                         How is that different from an empty set, ⧼{}⧽?`
                     ),
                     dialog(
                         'MapType',
-                        Emotion.Neutral,
+                        'neutral',
                         `Oh, that's just me all by myself! Little @Bind and I just hang out, no keys or values.`
                     ),
                     edit(`{:}`),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `And what if our director doesn't provide a value or a key? Like this? Like, ⧼3⧽ has no value?`
                     ),
-                    edit(`{1:1 2:2 3 }`, true),
+                    conflict(`{1:1 2:2 3 }`),
                     dialog(
                         'MapType',
-                        Emotion.Serious,
+                        'serious',
                         `Oh… DON'T do that. 
                         I only like pairs. 
                         Is 3 a key? 
@@ -2564,32 +2510,30 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         Totally confusing. 
                         Stop the show.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `And if our director wants to get a value from a key?`
                     ),
                     dialog(
                         'MapType',
-                        Emotion.Neutral,
+                        'neutral',
                         `Just like @SetType: just put a ⧼{}⧽ after a map and give me the key you want.`
                     ),
-                    code(
-                        `{ 'ben': 2points 'joe': 5points 'kate': 12points }{'ben'}`,
-                        true,
-                        true
+                    edit(
+                        `{ 'ben': 2points 'joe': 5points 'kate': 12points }{'ben'}`
                     ),
-                    pause(),
-                    output(DarkVoid),
+                    null,
+                    fit(DarkVoid),
                     dialog(
                         'MapType',
-                        Emotion.Neutral,
+                        'neutral',
                         `Otherwise, I'm a lot like @SetType: I can do a lot of the same functions. Stop by any time and I'm happy to show you more!`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `Thank you @MapType! /You/ are fabulous.`
                     ),
                 ],
@@ -2598,7 +2542,7 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
     },
     {
         name: 'Cast party',
-        program: output(
+        program: fixed(
             `
             count: 32
 
@@ -2615,18 +2559,17 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                     bounciness: Random()
                     gravity: gravity
                     )
-                ))`,
-            false
+                ))`
         ),
         scenes: [
             {
                 name: 'Detour',
                 concept: undefined,
-                program: output(DarkVoid),
+                program: fit(DarkVoid),
                 lines: [
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Surprised,
+                        'surprised',
                         `I can't believe how many characters we've met so far. 
                         
                         Does it feel like a lot?
@@ -2635,18 +2578,18 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
 
                         I haven't even gotten to show you the most exciting parts of putting on shows!`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Serious,
+                        'serious',
                         `Would you mind if we just stopped by to meet two others before we get to the truly exciting parts? 
                         
                         These two characters are just so integral to working with values, and particularly text, we just have to talk about them before we get to the more spectacular things.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `What are they? 
 
                         Conversions. 
@@ -2658,28 +2601,28 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
             {
                 name: 'We can be anything',
                 concept: 'Convert',
-                program: output(FlyIn('→')),
+                program: fit(FlyIn('→')),
                 lines: [
-                    output(DarkVoid),
+                    fit(DarkVoid),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `Hey @Convert! 
                         You there?`
                     ),
                     dialog(
                         'Convert',
-                        Emotion.Happy,
+                        'happy',
                         `Duuuuude, @FunctionDefinition, it's been epochs! 
                         You're looking stylish. 
                         It's been super quiet lately, hasn't it? 
                         
                         You have a new friend?`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `Yes, this person here is interested in directing. 
                         
                         We're on the grand tour — we've met @Program, @ExpressionPlaceholder, @UnparsableExpression, @Evaluate, and all the values and collections. 
@@ -2687,65 +2630,65 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                     ),
                     dialog(
                         'Convert',
-                        Emotion.Kind,
+                        'kind',
                         `Heck yeah, values are my best buds. We like to do parkour on the weekends — or shows, or whatever.`
                     ),
-                    pause(),
-                    dialog('FunctionDefinition', Emotion.Curious, `Parkour?`),
+                    null,
+                    dialog('FunctionDefinition', 'curious', `Parkour?`),
                     dialog(
                         'Convert',
-                        Emotion.Serious,
+                        'serious',
                         `Yeah, you know, like gymnastics on the streets, leaping over things, spanning buildings, like high wire stuff but without wires. Courageous leaps!`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Serious,
+                        'serious',
                         `Ohhh, I see what you mean. 
                         Yes, I guess what you do is kind of like parkour. 
                         
                         I'm not sure our new director friend here follows though. 
                         Could you explain without the metaphors?`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Convert',
-                        Emotion.Kind,
+                        'kind',
                         `Happy to bro. So like, imagine you had a number.`
                     ),
                     edit(`1`),
-                    pause(),
+                    null,
                     dialog(
                         'Convert',
-                        Emotion.Kind,
+                        'kind',
                         `And imagine you wanted it to be text. Throw me in there with @TextType and BAM, you've got text!`
                     ),
                     edit(`1 → ""`),
-                    pause(),
+                    null,
                     dialog(
                         'Convert',
-                        Emotion.Serious,
+                        'serious',
                         `Or like, imagine you had text and wanted a number. Throw me in there with @MeasurementType and POP, you've got a number!`
                     ),
                     edit(`"1"→#`),
-                    pause(),
+                    null,
                     dialog(
                         'Convert',
-                        Emotion.Surprised,
+                        'surprised',
                         `But you want to see some, like, serious mojo? Say you've got some text and you want its characters in a list. Throw me in there with @ListType and HAAAAAA, you've got a list of letters.`
                     ),
                     edit(`"halloween"→[]`),
-                    pause(),
+                    null,
                     dialog(
                         'Convert',
-                        Emotion.Serious,
+                        'serious',
                         `But me and @MeasurementType? 
                         We have been practicing some seriously sick tricks. Say you've got some time in days and you want seconds? We got you.`
                     ),
                     edit(`5day → #s`),
-                    pause(),
+                    null,
                     dialog(
                         'Convert',
-                        Emotion.Excited,
+                        'excited',
                         `But the real wicked tricks? 
                         Chaining. 
                         Like multiple conversions in a row. 
@@ -2757,10 +2700,10 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         Sweet!`
                     ),
                     edit(`1day → #s → "" → []`),
-                    pause(),
+                    null,
                     dialog(
                         'Convert',
-                        Emotion.Neutral,
+                        'neutral',
                         `So like, my deal is that everything should be everything, no boundaries. 
                         Anything can be anything. 
                         
@@ -2770,17 +2713,17 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         
                         Liberation, man.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `That is amazing, @Convert, and so inspiring. 
                         
                         But anything, really?`
                     ),
                     dialog(
                         'Convert',
-                        Emotion.Sad,
+                        'sad',
                         `Well, not like, anything. 
                         I mean, if you give me seconds and ask for a @SetType, like, what does that even mean?
 
@@ -2792,24 +2735,24 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         And, if I don't know how to give you what you asked for, I'm basically going to shut things down.`
                     ),
                     edit(`10s → {}`),
-                    pause(),
+                    null,
                     symbol('📕'),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Serious,
+                        'serious',
                         `Right, that makes sense. 
                         So there are only some conversions, not all possible conversions.`
                     ),
                     dialog(
                         'Convert',
-                        Emotion.Sad,
+                        'sad',
                         `Yeahhh… you can always check a type of value and see what types of conversions they support.`
                     ),
-                    pause(),
+                    null,
                     symbol('🧐'),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `Did you know that @Convert and @Evaluate are related? 
                         They're like cousins. 
                         
@@ -2818,7 +2761,7 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                     ),
                     dialog(
                         'Convert',
-                        Emotion.Scared,
+                        'scared',
                         `Whoa. I never thought of it that way. 
                         Like, /I/ convert inputs to outputs, and @Evaluate converts inputs to outputs. 
                         And like, @FunctionDefinition, you *tell us* how to convert inputs to outputs. 
@@ -2827,24 +2770,20 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
 
                         Like everything is about converting inputs to outputs?`
                     ),
-                    pause(),
-                    dialog(
-                        'FunctionDefinition',
-                        Emotion.Serious,
-                        `I guess so?`
-                    ),
-                    dialog('Convert', Emotion.Surprised, `🤯`),
+                    null,
+                    dialog('FunctionDefinition', 'serious', `I guess so?`),
+                    dialog('Convert', 'surprised', `🤯`),
                     edit('Phrase("🤯")'),
-                    pause(),
+                    null,
                     symbol('🤯'),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `@Convert, how should our new director find out what kinds of conversions are possible?`
                     ),
                     dialog(
                         'Convert',
-                        Emotion.Scared,
+                        'scared',
                         `Sorry bro, I'm still a bit shaken. 
                         
                         Uhhh, they can check out any of the value types in the reference @UI/docsExpand.
@@ -2853,10 +2792,10 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         
                         Everything is conversion…`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Happy,
+                        'happy',
                         `It was so great to see you @Convert! 
                         We're going to head out and meet others. 
                         
@@ -2864,7 +2803,7 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                     ),
                     dialog(
                         'Convert',
-                        Emotion.Surprised,
+                        'surprised',
                         `Soon. Yeah… Yes! Totally, yes.`
                     ),
                 ],
@@ -2872,12 +2811,12 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
             {
                 name: 'Freedom of speech',
                 concept: 'Templates',
-                program: output(FlyIn('"')),
+                program: fit(FlyIn('"')),
                 lines: [
-                    output(DarkVoid),
+                    fit(DarkVoid),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `I love @Convert. 
                         They're so creative, so courageous. 
                         
@@ -2886,10 +2825,10 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         
                         @Template, are you here? The silence is broken! We have an aspiring director-person!`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Template',
-                        Emotion.Surprised,
+                        'surprised',
                         `Silence! 
                         What silence? 
                         There's so much to say, we could never run out of words. 
@@ -2899,40 +2838,40 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Sad,
+                        'sad',
                         `Well enough. Better now that we're all coming back together. I've missed everyone so much!`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Template',
-                        Emotion.Kind,
+                        'kind',
                         `I've missed you as well. 
                         You are such an essential part of our community, @FunctionDefinition, encoding all the wondrous ideas that come from the outside world, so that we may enjoy them. 
                         So this must be the new director, full of ideas?`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Happy,
+                        'happy',
                         `Yes, they just arrived! I've been introducing them to everyone; we just met all the values and collections, and just talked to @Convert. 
                         We haven't talked about input and output yet, but I wanted to stop by to see you first, since you and @Convert work so closely together.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Template',
-                        Emotion.Serious,
+                        'serious',
                         `We do, don't we? An odd couple we are. They are so — free. 
                         It makes me uncomfortable sometimes. 
                         But I like to think that I bring a little order to our partnership, and a little ceremony.`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `Do you want to share what you do?`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Template',
-                        Emotion.Neutral,
+                        'neutral',
                         `Happily. 
                         To put it simply, I work with @TextLiteral make new text from any values you might give me. 
                         
@@ -2940,10 +2879,10 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         
                         But once you give me all that text, I'm happy to stitch it together and assemble your beautiful prose into a single text value for display, or whatever other purposes you might have.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Template',
-                        Emotion.Serious,
+                        'serious',
                         `For example, did @FunctionDefinition show you how text knows how to add itself to other text? 
                         
                         Like this? 
@@ -2953,16 +2892,16 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         But it's so untidy, and makes it hard to read what's happening, and the conversion to text feels so unnecessary.`
                     ),
                     edit(`'I have' + (7→"") + 'apples'`),
-                    pause(),
+                    null,
                     dialog(
                         'Template',
-                        Emotion.Serious,
+                        'serious',
                         `What I do is make text like this clean, organic, and simple, even. 
                         So that same phrase with me would be something like this.`
                     ),
                     dialog(
                         'Template',
-                        Emotion.Happy,
+                        'happy',
                         `
                         Isn't that so much more elegant? 
                         You can put me anywhere inside a @TextLiteral, and I'll make your values into text, and work with @TextLiteral to make a @TextType.
@@ -2971,10 +2910,10 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         `
                     ),
                     edit(`"I have \\7\\ apples"`),
-                    pause(),
+                    null,
                     dialog(
                         'Template',
-                        Emotion.Neutral,
+                        'neutral',
                         `And when I say any expression, I really do mean any. 
                         For example, imagine you wanted to do some arithmetic and created some text with the result. 
                         You might do this.
@@ -2984,10 +2923,10 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         And so much more graceful than ⧼'I have ' + (1 + 2 + 5 + 8) + ' apples'⧽, with all those extra additions.`
                     ),
                     edit(`"I have \\1 + 2 + 5 + 8\\ apples"`),
-                    pause(),
+                    null,
                     dialog(
                         'Template',
-                        Emotion.Curious,
+                        'curious',
                         `And so you might be wondering, "What if I want to use @Template in some text?"
                         
                         Well, maybe you weren't wondering that, but I'm going to tell you anyway.
@@ -2997,32 +2936,32 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         Try removing the \\ and you'll see that the slash regains its meaning, restoring the text as me, a @Template.`
                     ),
                     edit(`"I'm just \\\\regular\\\\ text, not a template."`),
-                    pause(),
-                    output(DarkVoid),
+                    null,
+                    fit(DarkVoid),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Excited,
+                        'excited',
                         `This is so very graceful, isn't it! @Template, I love how much you appreciate the beauty in expression. 
                         It inspires me so much to be graceful myself!`
                     ),
                     dialog(
                         'Template',
-                        Emotion.Happy,
+                        'happy',
                         `Why thank you @FunctionDefinition, I am proud of what I do. 
                         I hope you are proud of what you do, because I certainly couldn't do it without you. 
                         Inside me are infinite depths of @FunctionDefinition that you made by you that allow me to do my work. 
                         I cherish what you have empowered me to do.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `Thank you @Template, that's so kind. 
                         We're going to head out and make one more stop to meet @Conditional.`
                     ),
                     dialog(
                         'Template',
-                        Emotion.Excited,
+                        'excited',
                         `Oh dear, @Conditional, my new director friend, you are in for such an intellectual treat! 
                         @Conditional is simply divine in how they question the order of the world. 
                         Enjoy!`
@@ -3032,37 +2971,37 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
             {
                 name: 'How to choose?',
                 concept: 'Decisions',
-                program: output(FlyIn('?')),
+                program: fit(FlyIn('?')),
                 lines: [
-                    output(DarkVoid),
+                    fit(DarkVoid),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `We've met so many kinds of values on our journey so far, and talked about so many ways of working with them. 
                         There's just one more I wanted to introduce you to. 
                         They're particularly special because they're what make our performances so dynamic. 
                         They're called @Conditional and they are the central character in the Verse that makes *decisions*.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Serious,
+                        'serious',
                         `To be clear, not all decisions: I have my own life, and they have theirs. 
                         
                         But in a performance, when we're trying to decide what to do next on stage, it's all up to them to follow your guidance as director and decide what to do. 
                         
                         So they're a key partner creating exciting performances.`
                     ),
-                    pause(),
-                    output(SpinningInTheDark('?')),
+                    null,
+                    fit(SpinningInTheDark('?')),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `@Conditional, the silence is breaking! We might put on shows again!`
                     ),
                     dialog(
                         'Conditional',
-                        Emotion.Curious,
+                        'curious',
                         `@FunctionDefinition? 
                         
                         The silence is breaking? 
@@ -3077,10 +3016,10 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         
                         Are they the one breaking it?`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Serious,
+                        'serious',
                         `Yes, the silence is breaking, and they are the one! 
                         They're a person, and they came to inspire us, and direct our shows. 
                         We've been talking about conversions, and meeting all the values and @Template and @Convert and I wanted them to meet you! 
@@ -3089,25 +3028,25 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                     ),
                     dialog(
                         'Conditional',
-                        Emotion.Curious,
+                        'curious',
                         `Do I? 
 
                         I do make decisions, but what I really do is encode the decisions that directors tell me to make, so is it really me making the decisions?`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `I think so, yes. 
                         It's more like the director encodes the decision, but then delegates them to you. 
                         You become the decider. 
                         Do you want to show an example?`
                     ),
-                    dialog('Conditional', Emotion.Curious, `Like this?`),
-                    edit(`_•? ? _ _`, true),
+                    dialog('Conditional', 'curious', `Like this?`),
+                    conflict(`_•? ? _ _`),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Excited,
+                        'excited',
                         `Yes, exactly like that!
 
                         Do you see how there's four parts to @Conditional's format? 
@@ -3124,31 +3063,27 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         
                         It's such a powerful way of deciding!`
                     ),
-                    pause(),
+                    null,
                     edit(`1 > 5 ? 'more' 'less'`),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Excited,
+                        'excited',
                         `Can you give us a more specific example?`
                     ),
-                    dialog(
-                        'Conditional',
-                        Emotion.Curious,
-                        `Something like this?`
-                    ),
+                    dialog('Conditional', 'curious', `Something like this?`),
                     edit(`1 > 5 ? 'less' 'more'`),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Sad,
+                        'sad',
                         `Errr, hm. I guess that is a decision, but it's a wrong one. 
                         One isn't less than five. 
                         I guess your decisions aren't always right, but they are reliable, right?`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Conditional',
-                        Emotion.Curious,
+                        'curious',
                         `Reliable? 
                         
                         Maybe? 
@@ -3160,17 +3095,17 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                     edit(`[1 2 3].random() > 3 ? 'big' 'small'`),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Confused,
+                        'confused',
                         `Hm, I guess that's a good point. 
                         
                         I guess whether something is a decision depends a lot on what the director's decision is. 
                         
                         I guess that means the director has to think pretty carefully about the decisions they give you?`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Conditional',
-                        Emotion.Curious,
+                        'curious',
                         `Carefully? 
                         
                         Skeptical, maybe? 
@@ -3190,22 +3125,22 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         Director, what letters do you think make a name beautiful?`
                     ),
                     edit(`"Verse".has('e') ? 'beautiful' 'ugly'`),
-                    pause(),
+                    null,
                     dialog(
                         'Conditional',
-                        Emotion.Curious,
+                        'curious',
                         `And think about the questions I answer — why can I only respond to ⧼⊤⧽ and ⧼⊥⧽? 
                         
                         Why not a number? 
                         
                         Don't I have a right to decide if ⧼1⧽ is beautiful?`
                     ),
-                    edit(`1 ? 'beautiful' 'ugly'`, true),
-                    pause(),
-                    output(SpinningInTheDark('?')),
+                    conflict(`1 ? 'beautiful' 'ugly'`),
+                    null,
+                    fit(SpinningInTheDark('?')),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Sad,
+                        'sad',
                         `I guess I never really thought about it that way. 
                         
                         But @Conditional, even if you have limitations, you are beautiful. 
@@ -3218,17 +3153,17 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                     ),
                     dialog(
                         'Conditional',
-                        Emotion.Curious,
+                        'curious',
                         `Do you really think that? 
 
                         That I'm beautiful? 
                         
                         Maybe those limits are still worthwhile?`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `They absolutely are. 
 
                         And I'm excited to show our new friend here just how worthwhile they are.
@@ -3237,7 +3172,7 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                     ),
                     dialog(
                         'Conditional',
-                        Emotion.Happy,
+                        'happy',
                         `Could anything make me more happy?`
                     ),
                 ],
@@ -3246,29 +3181,28 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
     },
     {
         name: 'Scene change',
-        program: output(TakeTheMic, false),
+        program: fixed(TakeTheMic),
         scenes: [
             {
                 name: 'Input',
                 concept: undefined,
-                program: output(DarkVoid),
+                program: fit(DarkVoid),
                 lines: [
-                    output(
+                    fixed(
                         `amp: (Mic() ÷ 10)
-                        Phrase(".".repeat(amp.truncate()) rest: Pose(scale: amp))`,
-                        false
+                        Phrase(".".repeat(amp.truncate()) rest: Pose(scale: amp))`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `Did you know that your world and ours are connected?
                         
                         Make some sound and we can hear it...`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Serious,
+                        'serious',
                         `You didn't know the Verse existed, but we know that yours does. 
                         Because it's your world that makes our world interesting.
 
@@ -3276,10 +3210,10 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
 
                         What do any of these values /mean/ if there's no person /giving/ them meaning, or providing the values in the first place?`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `I want to show you the connection between our worlds, and what they make possible. 
                         
                         We call them **input streams**, and they are perhaps the most magical kind of input in the Verse. 
@@ -3301,22 +3235,18 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                 lines: [
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `Let's start with the most elemental stream of all: @Time.
                         
                         To make a stream, we use @Evaluate, and give the name of the type of stream you want.
                         `
                     ),
-                    dialog(
-                        'Time',
-                        Emotion.Neutral,
-                        `tick tick tick tick tick…`
-                    ),
+                    dialog('Time', 'neutral', `tick tick tick tick tick…`),
                     edit(`Time()`),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `Do you see how time is changing? 
                         
                         Streams are a series of values.
@@ -3325,30 +3255,22 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         That's why this program just keeps counting up: we made a time stream that starts at time 0 milliseconds, and then just keeps updating every time its clock ticks. 
                         This time is your time, from your world.`
                     ),
-                    dialog(
-                        'Time',
-                        Emotion.Neutral,
-                        `tick tick tick tick tick…`
-                    ),
-                    pause(),
+                    dialog('Time', 'neutral', `tick tick tick tick tick…`),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `See that ⧼1000ms⧽? 
                         It's a @Time/frequency that tells @Time to tick every 1000 milliseconds instead of the default of every 33 milliseconds, it's default. 
                         
                         Now it's like a counter that ticks every second. These inputs that @Time takes are like a configuration: they tell the stream how to behave.`
                     ),
-                    dialog(
-                        'Time',
-                        Emotion.Neutral,
-                        `tick… tick… tick… tick… tick…`
-                    ),
+                    dialog('Time', 'neutral', `tick… tick… tick… tick… tick…`),
                     edit(`Time(1000ms)`),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Serious,
+                        'serious',
                         `But we can use all of the wonderful characters we've met to transform time further. 
                         For example, what if we wanted to know if time was a multiple of ⧼2⧽? We could use @MeasurementType/remainder, which gets the remainder of a division. 
                         
@@ -3356,31 +3278,23 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         
                         See how it changes back and forth between ⧼⊤⧽ and ⧼⊥⧽? It's so magical.`
                     ),
-                    dialog(
-                        'Time',
-                        Emotion.Neutral,
-                        `tick… tick… tick… tick… tick…`
-                    ),
+                    dialog('Time', 'neutral', `tick… tick… tick… tick… tick…`),
                     edit(`(Time(1000ms) % 5) = 2ms`),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `There's another thing you might have noticed: there's an area below the output that is a timeline. 
                         
                         It updates each time the program reevaluates, which is each time a stream changes. 
                         It's showing every time @Time ticks. 
                         `
                     ),
-                    dialog(
-                        'Time',
-                        Emotion.Neutral,
-                        `tick… tick… tick… tick… tick…`
-                    ),
-                    pause(),
+                    dialog('Time', 'neutral', `tick… tick… tick… tick… tick…`),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `Try dragging on the timeline @UI/timeline, using the timeline buttons, using the arrow keys with the timeline focused, or pressing the ⏸️ and ▶️ @UI/playToggle buttons. 
                         You can go backwards in time, to see previous evaluations.
                         
@@ -3391,16 +3305,12 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         This is how you can see all of the beautiful expressions you've learned about being evaluated by @Evaluate, one step at a time, resulting in the final value that @Program displays on stage.
                         `
                     ),
-                    dialog(
-                        'Time',
-                        Emotion.Neutral,
-                        `tick… tick… tick… tick… tick…`
-                    ),
+                    dialog('Time', 'neutral', `tick… tick… tick… tick… tick…`),
                     edit(`Time(1000ms)`),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `@Time is an interesting stream because it can be used for many different things: keeping track of how long a performance has been happening, timing some event, animating a word. 
                         It's one of the most flexible streams, but also one of the most abstract.`
                     ),
@@ -3411,12 +3321,12 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                 concept: 'Key',
                 program: symbol('⌨️'),
                 lines: [
-                    output(
+                    fit(
                         `Phrase("⌨️" rest: Sequence({0%: Pose(tilt: -5°) 25%: Pose(tilt: 0°) 50%: Pose(tilt: 5°) 75%: Pose(tilt: 0°) 100%: Pose(tilt: -5°)} 1s 'straight'))`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Serious,
+                        'serious',
                         `If I'm not mistaken, there's a thing in your world called a “keyboard”? 
                         
                         It's a way of selecting which one of us you want to appear in your documents, right? 
@@ -3426,26 +3336,22 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         
                         This stream is called @Key.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `Here's a simple example. 
                         Click the stage or focus it with the keyboard and then press any keyboard key. 
                         You'll see the key you've typed appear by name. 
                         
                         That's because each time the key stream changes, @Program evaluates the key stream as its latest value, and then shows it on stage.`
                     ),
-                    dialog(
-                        'Key',
-                        Emotion.Neutral,
-                        `clickety clickety clickety`
-                    ),
+                    dialog('Key', 'neutral', `clickety clickety clickety`),
                     edit(`Phrase(Key())`),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Serious,
+                        'serious',
                         `This stream will change any time any key is pressed. 
                         
                         But you can tell a key stream to just change when a particular key is pressed.
@@ -3455,12 +3361,12 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         That's because this stream only changes when ⧼a⧽ is pressed, so it's always showing ⧼a⧽.
                         But you'll always see the new key value appear in the timeline.`
                     ),
-                    dialog('Key', Emotion.Neutral, `clickety 'a'…`),
+                    dialog('Key', 'neutral', `clickety 'a'…`),
                     edit(`Phrase(Key('a'))`),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `Sometimes it's helpful to know when a key is released, instead of pressed. 
                         Just pass ⧼⊥⧽ to tell the @Key stream that you to know when a key is released instead of pressed.
                         
@@ -3469,19 +3375,19 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         Didn't catch it? 
                         Press the ↻ button to reset the performance and try it again.`
                     ),
-                    dialog('Key', Emotion.Neutral, `clickety 'a'…`),
+                    dialog('Key', 'neutral', `clickety 'a'…`),
                     edit(`Phrase(Key('a' ⊥))`),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `@Key streams are really helpful when you want a performance to react to keys that the audience presses. 
                         
                         For example, you could check if a key has the word "Arrow" in it to decide if an arrow key was pressed.
                         
                         Press an arrow key and you'll see ⧼'move'⧽, press something else and you'll see ⧼'stay'⧽`
                     ),
-                    dialog('Key', Emotion.Neutral, `clickety 'Arrow'…`),
+                    dialog('Key', 'neutral', `clickety 'Arrow'…`),
                     edit(`Phrase(Key().has('Arrow') ? 'move' 'stay')`),
                 ],
             },
@@ -3490,33 +3396,32 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                 concept: 'Pointer',
                 program: symbol('👆🏻'),
                 lines: [
-                    output(
-                        `Phrase("👆🏻" rest: Sequence({0%: Pose(offset: Place(0m 0m)) 25%: Pose(offset: Place(-1m 1m)) 50%: Pose(offset: Place(1m 1m)) 75%: Pose(offset: Place(1m 0m)) 100%: Pose(offset: Place(0m 0m))} 3s))`,
-                        true
+                    fixed(
+                        `Phrase("👆🏻" rest: Sequence({0%: Pose(offset: Place(0m 0m)) 25%: Pose(offset: Place(-1m 1m)) 50%: Pose(offset: Place(1m 1m)) 75%: Pose(offset: Place(1m 0m)) 100%: Pose(offset: Place(0m 0m))} 3s))`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `You also have something called a "mouse" in your world, and "trackpads", and "touchscreens"? 
                         
                         These appear in our world as streams @Pointer, which is a stream of places on stage.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `Move your pointer around the stage and you'll see the stream of @Place change on stage.`
                     ),
                     edit(`Pointer()`),
-                    dialog('Pointer', Emotion.Neutral, `wzzzzzzzzz…`),
-                    pause(),
+                    dialog('Pointer', 'neutral', `wzzzzzzzzz…`),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Excited,
+                        'excited',
                         `@Pointer can be fun if you want to link the place of a phrase to where the pointer is.`
                     ),
-                    code(`Phrase("hi" place: Pointer())`, false, true),
-                    dialog('Pointer', Emotion.Neutral, `wzzzzzzzz…`),
+                    fit(`Phrase("hi" place: Pointer())`),
+                    dialog('Pointer', 'neutral', `wzzzzzzzz…`),
                 ],
             },
             {
@@ -3526,27 +3431,27 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                 lines: [
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `@Button is like @Key, but corresponds to the primary pointer button, like a click or tap. 
                         
                         It's just a stream of ⧼⊤⧽, indicating when the pointer button is pressed down.
                         
                         Press that button and watch the events appear on the timeline.`
                     ),
-                    dialog('Button', Emotion.Neutral, `click… click… click…`),
+                    dialog('Button', 'neutral', `click… click… click…`),
                     edit(`Button()`),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `You can configure it to only list to up or down by passing it a ⧼⊤⧽ or ⧼⊥⧽.`
                     ),
-                    dialog('Button', Emotion.Neutral, `down… down… down…`),
+                    dialog('Button', 'neutral', `down… down… down…`),
                     edit(`Button(⊥)`),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Excited,
+                        'excited',
                         `Using a @Button stream is one way to advance through stages of a performance, or to trigger some change in a performance. 
                         
                         This little program lists to button presses, and starts off showing sad, but when the @Button stream changes to true, @Conditional evaluates to ⧼'happy'⧽ instead.`
@@ -3561,7 +3466,7 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                 lines: [
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Excited,
+                        'excited',
                         `Your world and our world also has sound. 
                         Did you know we can hear you, with your consent? 
                         
@@ -3570,12 +3475,12 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         Your mic might ask for permission to be shared with us.
                         Once you do, you'll see a number that corresponds to amplitude, between ⧼0⧽ and ⧼100⧽.`
                     ),
-                    dialog('Mic', Emotion.Neutral, `bzzzZZZZZzzzzzZZZZ…`),
+                    dialog('Mic', 'neutral', `bzzzZZZZZzzzzzZZZZ…`),
                     edit(`Mic()`),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `@Mic can be used to make performances respond to sound from the audience. 
                         
                         For example, here we could make a little amplitude visualization by converting the amplitude number from the stream to a certain number of ⧼'o'⧽ characters.
@@ -3584,18 +3489,18 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         The Mic's amplitude is divided by ⧼10⧽, putting it in the ⧼0⧽ to ⧼10⧽ range.
                         Then that value is given to @TextType/repeat function, which repeats the ⧼'o'⧽ the given number of times.`
                     ),
-                    dialog('Mic', Emotion.Neutral, `bzzzZZZZZzzzzzZZZZ…`),
+                    dialog('Mic', 'neutral', `bzzzZZZZZzzzzzZZZZ…`),
                     edit(`'o'.repeat(Mic() ÷ 10)`),
                 ],
             },
             {
                 name: 'You never know…',
                 concept: 'Random',
-                program: output(`Phrase(((Time(100ms) % 10) ÷ 1ms) → "")`),
+                program: fit(`Phrase(((Time(100ms) % 10) ÷ 1ms) → "")`),
                 lines: [
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `There's one other stream I want to show you. 
                         Remember ⧼[].random()⧽ from earlier, from @ListType? 
                         
@@ -3607,24 +3512,20 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         
                         See that little ↻ button by the timeline? Press that to reevaluate the program manually, and you'll see a new number between ⧼0⧽ and ⧼1⧽ each time.`
                     ),
-                    dialog(
-                        'Random',
-                        Emotion.Neutral,
-                        `0.223423… 0.823423… 0.123459`
-                    ),
+                    dialog('Random', 'neutral', `0.223423… 0.823423… 0.123459`),
                     edit(`Random()`),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Surprised,
+                        'surprised',
                         `We can tell @Random the range of numbers we'd like by giving it a minimum and maximum number. This example gives numbers between ⧼1⧽ and ⧼10⧽:`
                     ),
-                    dialog('Random', Emotion.Neutral, `1… 7… 3… 9… 10… 2…`),
+                    dialog('Random', 'neutral', `1… 7… 3… 9… 10… 2…`),
                     edit(`Random(1 10)`),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Excited,
+                        'excited',
                         `Random can be so fun! 
                         
                         We can use it with other streams to create fun chaos. 
@@ -3635,29 +3536,28 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         Keep pressing ↻ to get a different cat synonym! 
                         Try adding your own word to the list and see if you can get the word to appear.`
                     ),
-                    dialog('Random', Emotion.Neutral, `1… 2… 2… 1… 3…`),
+                    dialog('Random', 'neutral', `1… 2… 2… 1… 3…`),
                     edit(`['kitty' 'cat' 'feline'][Random(1 3)]`),
                 ],
             },
             {
                 name: 'Keeping moving',
                 concept: 'Motion',
-                program: output(
+                program: fixed(
                     `Motion(
     Phrase("🏀" 3m place: ◆ ? Place(0m 5m) ø) 
     vx: ◆ ? 0m/s ø
     vy: ◆ ? 0m/s ø
     vangle: ◆ ? 0°/s ø
-)`,
-                    false
+)`
                 ),
                 lines: [
-                    output(DarkVoid),
+                    fit(DarkVoid),
                     // dialog('FunctionDefinition', Emotion.Excited, ``),
                     // dialog('Motion', Emotion.Excited, ``),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Excited,
+                        'excited',
                         `So far, all of the *streams* we've talked about are sequences of simple values, like @TextType or @MeasurementType.
                     
                     Some streams, however, can produce complex values.
@@ -3665,16 +3565,15 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                     @Motion is one of the most interesting of those.
                     `
                     ),
-                    pause(),
-                    output(
+                    null,
+                    fixed(
                         `Motion(
                             Phrase("🏀" 3m place: ◆ ? Place(0m 5m) ø) 
-                        )`,
-                        false
+                        )`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Excited,
+                        'excited',
                         `Here's the simplest way to use it.
                         
                         This creates a @Motion stream that starts with this @Phrase, but then has a place that is a @Conditional.
@@ -3686,20 +3585,19 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         
                         The ground is at ⧼0m⧽ on the y-axes`
                     ),
-                    dialog('Motion', Emotion.Excited, `Woosh…`),
-                    pause(),
-                    output(
+                    dialog('Motion', 'excited', `Woosh…`),
+                    null,
+                    fixed(
                         `Motion(
     Phrase("🏀" 3m place: ◆ ? Place(0m 5m) ø) 
     vx: ◆ ? -5m/s ø
     vy: ◆ ? 5m/s ø
     vangle: ◆ ? 30°/s ø
-)`,
-                        false
+)`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Excited,
+                        'excited',
                         `But @Motion has many other tricks.
 
                         For example, it can have initial velocities, @Motion/vx, @Motion/vy, @Motion/vz, and @Motion/vangle.
@@ -3707,21 +3605,20 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         This example makes the ball move left and up, spinning a bit initially.
                         `
                     ),
-                    dialog('Motion', Emotion.Excited, `Woooosh…`),
-                    pause(),
-                    output(
+                    dialog('Motion', 'excited', `Woooosh…`),
+                    null,
+                    fixed(
                         `Motion(
     Phrase("🏀" 3m place: ◆ ? Place(0m 5m) ø) 
     vx: ◆ ? -5m/s ø
     vy: ◆ ? 5m/s ø
     vangle: ◆ ? 30°/s ø
     gravity: 200m/s^2
-)`,
-                        false
+)`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Excited,
+                        'excited',
                         `You can even change @Motion/gravity to be really extreme.
 
                         Try changing it to be like the moon, where gravity is really low!
@@ -3729,18 +3626,17 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         Or try changing @Motion/mass or @Motion/bounciness, which affects how @Phrase bounce.
                         `
                     ),
-                    dialog('Motion', Emotion.Excited, `Wsh…`),
-                    pause(),
-                    output(
+                    dialog('Motion', 'excited', `Wsh…`),
+                    null,
+                    fixed(
                         `Motion(
     Phrase("🏀" 3m place: ◆ ? Place(0m 5m) ø) 
     vy: ◆ ? 50m/s ø
-)`,
-                        false
+)`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Excited,
+                        'excited',
                         `There are a lot of fun things you can do with a @Motion stream!
 
                         Maybe you already have some ideas...
@@ -3751,12 +3647,12 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
             {
                 name: 'On cue',
                 concept: 'Reaction',
-                program: output("Phrase('…')"),
+                program: fit("Phrase('…')"),
                 lines: [
-                    output("Phrase('…' rest: Pose(tilt: 120°))"),
+                    fit("Phrase('…' rest: Pose(tilt: 120°))"),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `All of these streams that I've shown you come from your world. 
                         
                         But sometimes, it's helpful to create streams of your own, based on these other streams. 
@@ -3766,7 +3662,7 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                     ),
                     dialog(
                         'Reaction',
-                        Emotion.Excited,
+                        'excited',
                         `Yeah yeah yeah! 
                         It's @FunctionDefinition! 
                         How are you doing? 
@@ -3774,11 +3670,11 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         Everything has been so… constant, lately. 
                         Have you noticed that?`
                     ),
-                    pause(),
-                    output("Phrase('…' rest: Pose(tilt: 240°))"),
+                    null,
+                    fit("Phrase('…' rest: Pose(tilt: 240°))"),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `You mean the silence? 
                         Yes, nothing's really changed, has it, since the last person left? 
                         
@@ -3786,7 +3682,7 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                     ),
                     dialog(
                         'Reaction',
-                        Emotion.Sad,
+                        'sad',
                         `Super strange, super strange. 
                         My whole life has been about change, always listening and watching for new inputs from people, helping transform them into values. 
                         
@@ -3794,11 +3690,11 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         
                         Wait … is that a person?`
                     ),
-                    pause(),
-                    output("Phrase('…' rest: Pose(tilt: 360°))"),
+                    null,
+                    fit("Phrase('…' rest: Pose(tilt: 360°))"),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Excited,
+                        'excited',
                         `Yes! 
                         This is our new potential director. 
                         
@@ -3806,19 +3702,15 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                     ),
                     dialog(
                         'Reaction',
-                        Emotion.Excited,
+                        'excited',
                         `Yesssss, change is coming! 
                         Can I show you what I do?`
                     ),
-                    dialog(
-                        'FunctionDefinition',
-                        Emotion.Eager,
-                        `Yes, please do!`
-                    ),
-                    pause(),
+                    dialog('FunctionDefinition', 'eager', `Yes, please do!`),
+                    null,
                     dialog(
                         'Reaction',
-                        Emotion.Serious,
+                        'serious',
                         `Okay, so I need three things from you: a condition for change, an initial value, and a next value.
 
                         The *initial* value is whatever value I should make before any change has happened.
@@ -3833,11 +3725,11 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
 
                         Finally, the *next* value is whatever value I should make whenever the condition changes.`
                     ),
-                    edit(`_ … _•? … _`, true),
-                    pause(),
+                    conflict(`_ … _•? … _`),
+                    null,
                     dialog(
                         'Reaction',
-                        Emotion.Serious,
+                        'serious',
                         `Here's an example. 
                         See the @Key stream? 
                         Putting ⧼∆⧽ before it asks, "Did this stream change"? 
@@ -3848,15 +3740,11 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         
                         This adds 1m to the size of the phrase, making the word get bigger and bigger.`
                     ),
-                    code(
-                        `Phrase("hi" size: 1m … ∆ Key(" ") … 1m + .)`,
-                        false,
-                        true
-                    ),
-                    pause(),
+                    fit(`Phrase("hi" size: 1m … ∆ Key(" ") … 1m + .)`),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `@Reaction, that is so cool. 
                         
                         Do you want to introduce @Changed?
@@ -3864,27 +3752,27 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                     ),
                     dialog(
                         'Reaction',
-                        Emotion.Kind,
+                        'kind',
                         `Yes, @Changed and I are best buddies! 
                         They help me know when something has changed.
                         
                         They're like a stream whisperer, listening closely to the director's world…`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Changed',
-                        Emotion.Eager,
+                        'eager',
                         `Wow, stream whisper, that seems a bit extreme...`
                     ),
                     dialog(
                         'Reaction',
-                        Emotion.Serious,
+                        'serious',
                         `Oh hi @Changed! 
                         Do you want to say more about what you do?`
                     ),
                     dialog(
                         `Changed`,
-                        Emotion.Bored,
+                        'bored',
                         `I mean, I just tell you if a stream changed.
                         Give me a stream, and I'll check.
                         
@@ -3892,53 +3780,49 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                     ),
                     dialog(
                         'Reaction',
-                        Emotion.Confused,
+                        'confused',
                         `Well, it's more than that right?`
                     ),
                     dialog(
                         'Changed',
-                        Emotion.Bored,
+                        'bored',
                         `Not really. That's kind of it.
                         I mean, I'm good at it, but that's my only thing.`
                     ),
-                    dialog(`Reaction`, Emotion.Confused, `…`),
-                    pause(),
+                    dialog(`Reaction`, 'confused', `…`),
+                    null,
                     dialog(
                         'Reaction',
-                        Emotion.Eager,
+                        'eager',
                         `Okay.
                         
                         Well, I think you're more important that than. Because I'm pretty useless without you! For example, if you give me a condition that doesn't check a stream, I'm never going to create a new value. 
                         Like here, the condition a @BooleanType from @Button, but without you, I only ever change with the button .`
                     ),
-                    code(
-                        `Phrase("hi" size: 1m … Key(' ') = ' ' … 1m + .)`,
-                        false,
-                        true
-                    ),
-                    pause(),
+                    fit(`Phrase("hi" size: 1m … Key(' ') = ' ' … 1m + .)`),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `Oh, that makes sense. And @Reaction, you work with any stream?`
                     ),
                     dialog(
                         'Reaction',
-                        Emotion.Eager,
+                        'eager',
                         `Yes, any stream! 
                         And actually, even myself. 
                         So if you make a reaction, and want to make a reaction that reacts to it reacting, you can do that too. 
                         But we won't worry about that now, since that doesn't usually come up in simple performances.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `Thank you @Reaction. Will you be around to help as I show our director the rest of our beautiful Verse?`
                     ),
                     dialog(
                         'Reaction',
-                        Emotion.Happy,
+                        'happy',
                         `Yes, of course, any time. I can't wait to see your inspirations!!`
                     ),
                 ],
@@ -3947,49 +3831,49 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
     },
     {
         name: 'Take the stage',
-        program: output(RainingEmoji),
+        program: fit(RainingEmoji),
         scenes: [
             {
                 name: 'Output',
                 concept: undefined,
-                program: output(StaticRainingEmoji),
+                program: fit(StaticRainingEmoji),
                 lines: [
                     symbol('😀'),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Happy,
+                        'happy',
                         `So what do you think so far? 
                         
                         I think the Verse is pretty neat, mostly because the characters in it are so neat. 
                         Everyone is just so special!`
                     ),
-                    pause(),
+                    null,
                     symbol('🥱'),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `You're bored? 
                         Oh my. 
                         I thought all of this would be so interesting! 
                         
                         What were you hoping for?`
                     ),
-                    pause(),
+                    null,
                     symbol('😴'),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Serious,
+                        'serious',
                         `I see. 
                         Text and numbers and lists and streams are boring. 
                         I guess I really haven't shown you all the things we can make with all of this. 
                         
                         Maybe it's time we start talking about output.`
                     ),
-                    pause(),
+                    null,
                     symbol('🤗'),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `You've seen a lot of output already. 
                         
                         Every time @Program evaluates, it results in a value, and @Program shows that value on stage. 
@@ -3998,11 +3882,11 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                                                     
                         I get it, you just want to see full performances, just like we do!`
                     ),
-                    pause(),
+                    null,
                     symbol('💬'),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Eager,
+                        'eager',
                         `Remember that output I showed you a long time ago, @Phrase? 
                         
                         That's where the performances really begin. 
@@ -4020,23 +3904,23 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                 lines: [
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `@Phrase? Are you out there?`
                     ),
                     dialog(
                         'Phrase',
-                        Emotion.Excited,
+                        'excited',
                         `Out and proud my darling, how are you? You look so glamorous today! I would love to get you on stage one of these days. `
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Shy,
+                        'shy',
                         `Oh, the stage isn't for me, I'm more than happy to be backstage, tinkering with the set.`
                     ),
                     dialog(
                         'Phrase',
-                        Emotion.Curious,
+                        'curious',
                         `Don't be modest, you are every bit as fabulous as me. 
                         All you need is a bit of color, a flattering font, and you would be wonderful. 
                         You have so much to share! 
@@ -4045,10 +3929,10 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         Has it been quiet? 
                         You know how much I talk to myself, I can never tell.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `It has been quiet. 
                         Ever since our last director left, it's been a void. 
                         
@@ -4062,30 +3946,30 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         But I haven't introduced our new director here too much about what you do on stage? 
                         This is so your world, and not mine, I figured we'd come to you first.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Phrase',
-                        Emotion.Happy,
+                        'happy',
                         `Well you came to the right place. 
                         I love talking about all things stage life. 
                         I can't wait to show you all the wonderful little things we do here on stage!`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Excited,
+                        'excited',
                         `Let the show begin!`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Phrase',
-                        Emotion.Excited,
+                        'excited',
                         `So I know you've seen me do this.`
                     ),
                     edit(`Phrase('hi')`),
-                    pause(),
+                    null,
                     dialog(
                         'Phrase',
-                        Emotion.Kind,
+                        'kind',
                         `That, my darling, is the simplest way to get a word on stage. 
                         
                         But there's so much more!
@@ -4095,37 +3979,37 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         Behold: bold!`
                     ),
                     edit(`Phrase('*hi*')`),
-                    pause(),
+                    null,
                     dialog(
                         'Phrase',
-                        Emotion.Kind,
+                        'kind',
                         `Not enough sass for you?
                         
                         How about underline, italics, light text, and extra bold text, *all at once*?`
                     ),
                     edit(`Phrase('/I/ _am_ ^the^ /fabulous/ 💬!')`),
-                    pause(),
+                    null,
                     dialog(
                         'Phrase',
-                        Emotion.Kind,
+                        'kind',
                         `Still not impressed?
 
                         Mix them all together!`
                     ),
                     edit(`Phrase('/_*I am the fabulous*_/ 💬!')`),
-                    pause(),
+                    null,
                     dialog(
                         'Phrase',
-                        Emotion.Kind,
+                        'kind',
                         `And if you ever want to use any of these special formatting characters as text instead of formatting, you can just repeat them, kind of like in @TextLiteral, and I'll just use the character literally.`
                     ),
                     edit(
                         `Phrase('Format with /italic/ (//), _underline_ (__), |light| (||), /bold/ (**), ^extra bold^ (^^) ')`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Phrase',
-                        Emotion.Excited,
+                        'excited',
                         `But I can do more than just style text.
                         
                         For example, I can take a @Phrase/size, measured in meters ⧼m⧽. 
@@ -4133,21 +4017,21 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         Try changing the size to any size you like!`
                     ),
                     edit(`Phrase('hi' 2m)`),
-                    pause(),
+                    null,
                     dialog(
                         'Phrase',
-                        Emotion.Kind,
+                        'kind',
                         `That size can be any expression. 
                         
                         For example, say we wanted it to grow as @Time ticks. We can take time, multiply it by a fraction of a meter, and glorious, tick tick tick, hi hi hi.
                         
                         Try changing the frequency or the multiplier. See what beautiful growth you can create!`
                     ),
-                    code(`Phrase('hi' Time(100ms)·0.001m/ms)`, false, true),
-                    pause(),
+                    fit(`Phrase('hi' Time(100ms)·0.001m/ms)`),
+                    null,
                     dialog(
                         'Phrase',
-                        Emotion.Excited,
+                        'excited',
                         `Do you like costumes? 
                         
                         I loooooove costumes. 
@@ -4155,15 +4039,11 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         
                         Pick any of the supported fonts to spice up the word you've chosen.`
                     ),
-                    code(
-                        `Phrase('hi' Time(100ms)·0.001m/ms "Poor Story")`,
-                        false,
-                        true
-                    ),
-                    pause(),
+                    fit(`Phrase('hi' Time(100ms)·0.001m/ms "Poor Story")`),
+                    null,
                     dialog(
                         'Phrase',
-                        Emotion.Neutral,
+                        'neutral',
                         `Need me to be somewhere else on stage? 
                         Places please! 
                         
@@ -4171,62 +4051,53 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         
                         Try changing the place to a different location, by editing the numbers, or dragging the @Phrase on stage.`
                     ),
-                    code(
-                        `Phrase('hi' Time(100ms)·0.001m/ms "Poor Story" Place(2m 2m))`,
-                        false,
-                        true
+                    fit(
+                        `Phrase('hi' Time(100ms)·0.001m/ms "Poor Story" Place(2m 2m))`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Phrase',
-                        Emotion.Curious,
+                        'curious',
                         `Do you ever feel a little off axis? 
                         
                         Maybe you give the world a little @Pose/tilt with rotation. 
                         Try changing the rotation value to twist me around!`
                     ),
-                    code(
-                        `Phrase('hi' Time(100ms)·0.001m/ms "Poor Story" Place(2m 2m) 20°)`,
-                        false,
-                        true
+                    fit(
+                        `Phrase('hi' Time(100ms)·0.001m/ms "Poor Story" Place(2m 2m) 20°)`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Phrase',
-                        Emotion.Happy,
+                        'happy',
                         `Or maybe we have a little fun, and link rotation to @Time! Wheeeee. 
                         
                         Any guesses on how to make me spin faster? See if you can figure it out…`
                     ),
-                    code(
-                        `Phrase('hi' 3m "Poor Story" rotation: Time(10ms) · 1°/ms)`,
-                        false,
-                        true
+                    fit(
+                        `Phrase('hi' 3m "Poor Story" rotation: Time(10ms) · 1°/ms)`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Phrase',
-                        Emotion.Serious,
+                        'serious',
                         `Now's an outstanding time to remind you that @FunctionDefinition here requires inputs to be in a particular order, so if you put them out of order, they. Are. Going. To. Complain.`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Shy,
+                        'shy',
                         `I will… I like things… tidy…
                         
                         Can you put them in the right order?
                         You can cut and paste with the keyboard or click and drag expressions to rearrange them.`
                     ),
-                    code(
-                        `Phrase('hi' "Poor Story" 3m Time(10ms) · 1°/ms Place(2m 2m))`,
-                        false,
-                        true,
-                        true
+                    conflict(
+                        `Phrase('hi' "Poor Story" 3m Time(10ms) · 1°/ms Place(2m 2m))`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Phrase',
-                        Emotion.Kind,
+                        'kind',
                         `Only want to give a particular property? 
                         Just name the one you want.
                         Here we name @Phrase/size and @Phrase/rotation.`
@@ -4234,10 +4105,10 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                     edit(
                         `Phrase('hi' size: 3m rotation: Time(10ms) · 0.1°/ms)`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Phrase',
-                        Emotion.Neutral,
+                        'neutral',
                         `Now that we have all those out of the way, we can talk about dancing, darling! 
                         Dancing is one of my favorite things to do. 
                         
@@ -4252,10 +4123,10 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         For example, let's make me fade in from invisible to oh-so-in-your face visible.`
                     ),
                     edit(`Phrase('hi' enter: Pose(opacity: 0))`),
-                    pause(),
+                    null,
                     dialog(
                         'Phrase',
-                        Emotion.Curious,
+                        'curious',
                         `Didn't see it? 
                         Did I move too fast for you? 
                         
@@ -4265,54 +4136,48 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         I made this one nice and slow for you, but try changing duration to higher and lower numbers.`
                     ),
                     edit(`Phrase('hi' enter: Pose(opacity: 0) duration: 5s)`),
-                    pause(),
+                    null,
                     dialog(
                         'Phrase',
-                        Emotion.Neutral,
+                        'neutral',
                         `Now, say I was moving. 
                         
                         We'll set my place to time, so I move to the right a bit every second. 
                         
                         But if we set a @Phrase/move @Pose, and have the @Pose/tilt ⧼5°⧽ and maybe a little color, every time my place changes, I'll glide across the stage with the cutest little tilt.`
                     ),
-                    code(
-                        `Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) move: Pose(tilt: 5°) duration: 0.5s)`,
-                        false,
-                        true
+                    fit(
+                        `Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) move: Pose(tilt: 5°) duration: 0.5s)`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Phrase',
-                        Emotion.Curious,
+                        'curious',
                         `Not in the mood for cute? 
                         
                         How about you make me a little serious by having me slide across straight by changing my @Phrase/style.
                         
                         It's really subtle, but styles can really change the /emotion/ of a movement.`
                     ),
-                    code(
-                        `Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) move: Pose(tilt: 5°) duration: 0.5s style: “straight”)`,
-                        false,
-                        true
+                    fit(
+                        `Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) move: Pose(tilt: 5°) duration: 0.5s style: “straight”)`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Phrase',
-                        Emotion.Excited,
+                        'excited',
                         `And for the coup de grâce, let's have me @Phrase/exit in style. 
                         We can play with @Conditional and have me exit stage after 3 seconds.`
                     ),
-                    code(
+                    fit(
                         `Time(1000ms) < 3000ms ? 
                             Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) move: Pose(tilt: 5°) duration: 0.5s) 
-                            Phrase('')`,
-                        false,
-                        true
+                            Phrase('')`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Phrase',
-                        Emotion.Surprised,
+                        'surprised',
                         `Not the exit you were hoping for? 
                         
                         The disappearing act is a bit harsh, ain't it? 
@@ -4320,15 +4185,13 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         
                         Here we'll have me get large than life, fall upside down, and fade out to @Pose/opacity ⧼0⧽.`
                     ),
-                    code(
-                        `Time(1000ms) < 3000ms ? Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) move: Pose(tilt: 5°) exit: Pose(scale: 10 tilt: 180° opacity: 0) duration: 0.5s) Phrase('')`,
-                        false,
-                        true
+                    fit(
+                        `Time(1000ms) < 3000ms ? Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) move: Pose(tilt: 5°) exit: Pose(scale: 10 tilt: 180° opacity: 0) duration: 0.5s) Phrase('')`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Phrase',
-                        Emotion.Serious,
+                        'serious',
                         `You probably noticed that I can take up a little space in @Program. 
                         
                         If you ever want to make me easier to read, just add some lines between my properties.
@@ -4348,17 +4211,17 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
     Phrase(“”)
 `
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Excited,
+                        'excited',
                         `Bravo, bravo, that was just stunning, @Phrase! I'm always blown away by how much you can do with just a few simple ideas.
                         
                         A while ago, I showed our new inspirational friend here about the palette. Do you want to say more about that?`
                     ),
                     dialog(
                         'Phrase',
-                        Emotion.Happy,
+                        'happy',
                         `Of course! 
                         Any time you get tired of fiddling with @Evaluate's inputs, you can always select a phrase on stage, and a palette will appear, allowing you to change any little thing you might want, my size, font, place, poses. 
                         
@@ -4367,15 +4230,15 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         Dress me up all you like!`
                     ),
                     edit(`Phrase('dress me up!')`),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `Wait, Phrase, what about @Color?`
                     ),
                     dialog(
                         'Phrase',
-                        Emotion.Sad,
+                        'sad',
                         `Omigod omigod omigod, I CANNOT believe I forgot about color. 
                         
                         Okay, so any @Pose can have a color, right? 
@@ -4390,10 +4253,10 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         So you want me to be bright red? Set my rest pose color to ⧼Color(50% 300 30°)⧽.`
                     ),
                     edit(`Phrase('red' rest: Pose(color: 🌈(50% 300 30°)))`),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Excited,
+                        'excited',
                         `And want me to shimmer with the rainbow? Take time, get the remainder of dividing by 360, then multiply by degrees and I'll spin around that color wheel all day long!`
                     ),
                     edit(
@@ -4401,14 +4264,14 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Happy,
+                        'happy',
                         `@Phrase, that is something to be proud of :P
                         
                         I think we're going to go visit @Sequence next, and then maybe @Group and @Stage. You'll be around to help?`
                     ),
                     dialog(
                         'Phrase',
-                        Emotion.Kind,
+                        'kind',
                         `I wouldn't miss it. Sparkle and shine!`
                     ),
                 ],
@@ -4416,12 +4279,12 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
             {
                 name: '1, 2, 3, 4, 1, 2, 3, 4',
                 concept: 'Sequence',
-                program: output(DancingEmoji('💃')),
+                program: fit(DancingEmoji('💃')),
                 lines: [
-                    output(DarkVoid),
+                    fit(DarkVoid),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `@Phrase is just wonderful, aren't they? 
                         They have so much energy, so many amazing flourishes. 
                         
@@ -4430,24 +4293,24 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         
                         Do you want to meet them?`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Excited,
+                        'excited',
                         `Yay! @Sequence, we have a guest. Are you back there?`
                     ),
                     dialog(
                         'Sequence',
-                        Emotion.Curious,
+                        'curious',
                         `@FunctionDefinition! You look beautiful. 
                         How long has it been? A week? A month? A century? It was like 1, 2, 3 and then everything was quiet. 
                         
                         I feel like I've been dancing alone forever…`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Sad,
+                        'sad',
                         `It was silent, wasn't it? 
                         But I can totally see you dancing alone. 
                         I was doing my own choreography all alone too, just having to imagine all of you working together. 
@@ -4455,13 +4318,13 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                     ),
                     dialog(
                         'Sequence',
-                        Emotion.Kind,
+                        'kind',
                         `And you an @Evaluate? Are you still…`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Shy,
+                        'shy',
                         `I just saw them earlier. They…
                         
                         Oh, we have a guest! @Sequence, this is our new director pal. 
@@ -4469,20 +4332,20 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                     ),
                     dialog(
                         'Sequence',
-                        Emotion.Excited,
+                        'excited',
                         `(We're going to come back to that tea, @FunctionDefinition). 
                         
                         Director pal, it's so exciting to meet you! Have you come here to learn to dance?`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `Of course they did! Do you want to show them the steps?`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Sequence',
-                        Emotion.Serious,
+                        'serious',
                         `Absolutely. 
                         
                         You know time? 
@@ -4493,13 +4356,13 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         
                         Like this example: our smiley friend here has four poses, and smoothly moves between them.`
                     ),
-                    output(
+                    fit(
                         `Phrase('😀' rest: Sequence({0%: Pose() 25%: Pose(offset: Place(0m 1m) scale: 2) 50%: Pose(offset: Place(0m 0m) flipy: ⊤) 75%: Pose(tilt: 45°) 100%: Pose()} 2s))`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Sequence',
-                        Emotion.Neutral,
+                        'neutral',
                         `Here's a simple example of how I work.
                         
                         Here's @Phrase (hi @Phrase!) with the word “dance”, and they have an enter pose that's a @Sequence rather than a single @Pose. 
@@ -4528,10 +4391,10 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
     )
 )`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Sequence',
-                        Emotion.Serious,
+                        'serious',
                         `Okay, so now imagine you wanted this to be really fast. 
                         By default, I'm pretty quick, so any sequence will be a quarter second and it's done. 
                         
@@ -4559,10 +4422,10 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
     )
 )`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Sequence',
-                        Emotion.Excited,
+                        'excited',
                         `But sometimes, we come up with a lovely move and we just can't help but want to do it over and over, for emphasis!
                         
                         That looks a little violent… try changing my duration and count until we get it just right…`
@@ -4581,10 +4444,10 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
         count: 4x)
     )`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Sequence',
-                        Emotion.Curious,
+                        'curious',
                         `But, you say, what if we wanted to do it forever? 
                         
                         You can set a @Phrase/rest to me. For as long as @Phrase is on stage and resting, they'll repeat a sequence. Infinite wobbles!`
@@ -4603,11 +4466,11 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
     )
 )`
                     ),
-                    pause(),
-                    output(DarkVoid),
+                    null,
+                    fit(DarkVoid),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `@Sequence, this is so great! This is exactly what I was hoping you could show us. 
                         
                         But I'm curious, what have you been working on lately, dances of your own? 
@@ -4615,30 +4478,30 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                     ),
                     dialog(
                         'Sequence',
-                        Emotion.Excited,
+                        'excited',
                         `Oh my yes! @Phrase and I have been working on this new donut dance. 
                         It comes my favorite treat with nearly everything I've learned in dance. 
                         
                         Do you want to see it?`
                     ),
-                    dialog('FunctionDefinition', Emotion.Excited, `Yes!!!`),
-                    pause(),
+                    dialog('FunctionDefinition', 'excited', `Yes!!!`),
+                    null,
                     dialog(
                         'Sequence',
-                        Emotion.Serious,
+                        'serious',
                         `Yeah, hmm, oooh, up, eee, eee, eee, eee, bam, boo, yeah, hmm, oooh, up, eee, eee, eee, eee, bam, boo, yeah, hmm, oooh, up, eee, eee, eee, eee, bam, boo, …`
                     ),
                     edit(DonutDance),
-                    pause(),
-                    output(DonutDance),
+                    null,
+                    fit(DonutDance),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Happy,
+                        'happy',
                         `@Sequence, that's amazing! How could that not be the next viral dance?`
                     ),
                     dialog(
                         'Sequence',
-                        Emotion.Excited,
+                        'excited',
                         `You mean next spiral dance. Cheers!`
                     ),
                 ],
@@ -4646,24 +4509,24 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
             {
                 name: 'Places please',
                 concept: 'Group',
-                program: output(
+                program: fit(
                     `Group(Grid(2 2) [Phrase("1" rest: Sequence(spin() 1s)) Phrase("2" rest: Sequence(spin() 2s)) Phrase("3" rest: Sequence(spin() 3s)) Phrase("4" rest: Sequence(spin() 4s))])`
                 ),
                 lines: [
                     symbol('☹️'),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `Sigh… everyone keeps bringing up @Evaluate, but I don't know what to say.
                         Are you ever so close to someone, and yet so far away?
 
                         …`
                     ),
-                    pause(),
+                    null,
                     symbol('😕'),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Serious,
+                        'serious',
                         `Sorry.
                         I'm excited to be here with you.
 
@@ -4671,11 +4534,11 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
 
                         I think what will help is introducing you to the rest of us, and then putting on a show, and then I think @Evaluate and I can sort things out.`
                     ),
-                    pause(),
+                    null,
                     symbol('🙂'),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Eager,
+                        'eager',
                         `So who's next?
 
                         Oh, @Group!
@@ -4688,11 +4551,11 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         Are you there?
                         `
                     ),
-                    pause(),
-                    output(`Group(Grid(2 2) [Phrase("🔳")])`),
+                    null,
+                    fit(`Group(Grid(2 2) [Phrase("🔳")])`),
                     dialog(
                         'Group',
-                        Emotion.Neutral,
+                        'neutral',
                         `@FunctionDefinition, hello, how are you? 
                         Where has everyone been? 
                         I've been so worried! 
@@ -4700,17 +4563,17 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `I'm okay. 
                         We're all okay! 
                         The silence is breaking, because we found a person! 
                         They're going to be our inspiration.`
                     ),
-                    pause(),
-                    output(`Group(Grid(2 2) [Phrase("🔳") Phrase("🔳")])`),
+                    null,
+                    fit(`Group(Grid(2 2) [Phrase("🔳") Phrase("🔳")])`),
                     dialog(
                         'Group',
-                        Emotion.Happy,
+                        'happy',
                         `That's lovely! 
                         
                         You're not hurt? 
@@ -4720,7 +4583,7 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `I'm not hurt. Just a bit rusty. 
                         
                         And I haven't seen everyone yet, but almost everyone, and I think everyone is waking up okay. 
@@ -4731,13 +4594,13 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         We're getting ready to put on a show! 
                         And the best shows always involve you…`
                     ),
-                    pause(),
-                    output(
+                    null,
+                    fit(
                         `Group(Grid(2 2) [Phrase("🔳") Phrase("🔳") Phrase("🔳")])`
                     ),
                     dialog(
                         'Group',
-                        Emotion.Kind,
+                        'kind',
                         `A show! 
                         I can't wait to help. 
                         You kids are always so inspiring, I'm always happy to do my part. 
@@ -4745,16 +4608,16 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Happy,
+                        'happy',
                         `Well, we've talked about @Phrase, so maybe start with a bit about your purpose?`
                     ),
-                    pause(),
-                    output(
+                    null,
+                    fit(
                         `Group(Grid(2 2) [Phrase("🔳") Phrase("🔳") Phrase("🔳") Phrase("🔳")])`
                     ),
                     dialog(
                         'Group',
-                        Emotion.Neutral,
+                        'neutral',
                         `My purpose, yes. Let's see — I think my purpose is to bring everyone together. 
                         
                         But I particularly bring @Phrase together, in beautiful shapes and arrangements on stage.
@@ -4766,10 +4629,10 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         
                         All I need is an @Arrangement, and a list of @Phrase, and I'll do the rest.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Group',
-                        Emotion.Excited,
+                        'excited',
                         `Here's a simple example. 
                         
                         Here I'm using a @Stack arrangement, which creates a vertical arrangement of @Phrase, or other @Group. 
@@ -4789,10 +4652,10 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
     ]
 )`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Group',
-                        Emotion.Serious,
+                        'serious',
                         `But sometimes we all need a little space. 
                         So you can give @Stack some padding.
                         
@@ -4808,10 +4671,10 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
     ]
 )`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Group',
-                        Emotion.Happy,
+                        'happy',
                         `Just as with anything in the Verse, that padding value can come from anything, like input. 
                         
                         Sometimes we grow apart don't we? 
@@ -4827,10 +4690,10 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
     ]
 )`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Group',
-                        Emotion.Surprised,
+                        'surprised',
                         `We also have a @Row, which is a horizontal arrangement.`
                     ),
                     edit(
@@ -4842,10 +4705,10 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
     ]
 )`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Group',
-                        Emotion.Curious,
+                        'curious',
                         `Sometimes it's nice to use two dimensions instead of one. 
                         
                         If you tell me how many rows and columns you want, I'll make a @Grid of phrases. 
@@ -4865,10 +4728,10 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
     ]
 )`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Group',
-                        Emotion.Excited,
+                        'excited',
                         `And if you wanted a very specific arrangement?
                         
                         You could use @Free, and tell me exactly where you want all the phrases. 
@@ -4885,10 +4748,10 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
     ]
 )`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Group',
-                        Emotion.Curious,
+                        'curious',
                         `And did you know you can also place me inside myself? 
                         A @Group in a @Group in a @Group, it's very silly. 
                         
@@ -4904,10 +4767,10 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
     ]
 )`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Group',
-                        Emotion.Surprised,
+                        'surprised',
                         `Hm, that kind of looks like a 4 by 2 grid, doesn't it? 
                         
                         Let's make it a little clearer by tilting two of the stacks.
@@ -4924,26 +4787,26 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
     ]
 )`
                     ),
-                    pause(),
-                    output(DarkVoid),
+                    null,
+                    fit(DarkVoid),
                     dialog(
                         'Group',
-                        Emotion.Curious,
+                        'curious',
                         `Was that good, @FunctionDefinition? 
                         Did I cover everything?`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Happy,
+                        'happy',
                         `That was better than good! 
                         I think you showed our new director here just how much is possible. 
                         
                         Is there anything else you want to share?`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Group',
-                        Emotion.Serious,
+                        'serious',
                         `I don't think so… 
                         
                         I'm always learning new arrangements, so always check back for new designs I've come up with!
@@ -4952,12 +4815,12 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Shy,
+                        'shy',
                         `I… I'd rather not talk about it right now.`
                     ),
                     dialog(
                         'Group',
-                        Emotion.Kind,
+                        'kind',
                         `Okay.
                         I'm always here if you want to chat.`
                     ),
@@ -4966,79 +4829,74 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
             {
                 name: 'Stage… right?',
                 concept: 'Stage',
-                program: output(
-                    `Stage([Phrase("🎭" 5m)] background: Color(0% 0 0°))`,
-                    false
+                program: fixed(
+                    `Stage([Phrase("🎭" 5m)] background: Color(0% 0 0°))`
                 ),
                 lines: [
-                    output(
-                        `Stage([Phrase("🎭" 5m rest: Sequence(bounce(5m) 2s))] background: Color(0% 0 0°))`,
-                        false
+                    fixed(
+                        `Stage([Phrase("🎭" 5m rest: Sequence(bounce(5m) 2s))] background: Color(0% 0 0°))`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Excited,
+                        'excited',
                         `Okay, there's someone who's been here all along, but we haven't really done a proper introduction.
                         
                         May I introduce @Stage!`
                     ),
                     dialog(
                         'Stage',
-                        Emotion.Neutral,
+                        'neutral',
                         `HELLO, @FunctionDefinition
                         
                         HELLO PERSON.`
                     ),
-                    pause(),
-                    output(
-                        `Stage([Phrase("🎭" 5m rest: Pose(tilt: 25° scale: 5))] background: Color(0% 0 0°))`,
-                        false
+                    null,
+                    fixed(
+                        `Stage([Phrase("🎭" 5m rest: Pose(tilt: 25° scale: 5))] background: Color(0% 0 0°))`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Happy,
+                        'happy',
                         `@Stage, this person is our new director. 
                         
                         They're so excited to finally meet you!`
                     ),
                     dialog(
                         'Stage',
-                        Emotion.Neutral,
+                        'neutral',
                         `HELLO DIRECTOR. ARE YOU HERE TO INSPIRE?`
                     ),
-                    pause(),
-                    output(
-                        `Stage([Phrase("🎭" 5m rest: Pose(tilt: -150° scale: 10))] background: Color(0% 0 0°))`,
-                        false
+                    null,
+                    fixed(
+                        `Stage([Phrase("🎭" 5m rest: Pose(tilt: -150° scale: 10))] background: Color(0% 0 0°))`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `Indeed they are, with all kinds of expressions from their world.`
                     ),
                     dialog(
                         'Stage',
-                        Emotion.Neutral,
+                        'neutral',
                         `I AM HERE TO SERVE. TELL ME WHAT TO PUT ON STAGE, AND I WILL.`
                     ),
-                    pause(),
-                    output(
-                        `Stage([Phrase("🎭" 5m)] background: Color(0% 0 0°))`,
-                        false
+                    null,
+                    fixed(
+                        `Stage([Phrase("🎭" 5m)] background: Color(0% 0 0°))`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `@Stage is one of a kind, and always there. 
                         
                         In fact, if you give @Program a @Phrase or @Group, @Program will show a @Stage, even if you don't mention them.
                         
                         But if you do mention them, you can be more specific about how you want the stage to appear.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `Maybe let's start with a simple example. 
                         
                         This just gives @Stage a list of one @Phrase. 
@@ -5046,38 +4904,34 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         You don't have to mention @Stage here; this just shows what's happening behind the scenes when you give @Phrase to @Program.`
                     ),
                     edit(`Stage([Phrase(“🐈”)])`),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `But say you want the stage to have a different background color, such as black.`
                     ),
-                    dialog('Stage', Emotion.Surprised, `BRRRRR…`),
+                    dialog('Stage', 'surprised', `BRRRRR…`),
                     edit(`Stage([Phrase(“🐈”)] background: Color(0 0 0°))`),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `You can also frame the stage, for example, with a @Rectangle, which takes a top left place and bottom right place.
                     
                         See how the kitty is a little bit out of frame?`
                     ),
-                    dialog(
-                        'Stage',
-                        Emotion.Surprised,
-                        `THE WORLD IS CLOSING IN…`
-                    ),
+                    dialog('Stage', 'surprised', `THE WORLD IS CLOSING IN…`),
                     edit(
                         `Stage([Phrase(“🐈” place:Place(-2.5m))] background: Color(0 0 0°) frame: Rectangle(-2m -2m 2m 2m))`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `You can also apply all of the same properties to @Stage as you can a @Group or @Phrase. 
                         Let's tilt the whole stage!`
                     ),
-                    dialog('Stage', Emotion.Surprised, `WHOA, CAREFUL NOW…`),
+                    dialog('Stage', 'surprised', `WHOA, CAREFUL NOW…`),
                     edit(
                         `Stage(
     [Phrase(“🐈” place:Place(-2.5m))]
@@ -5086,27 +4940,26 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
     rest:Pose(tilt: 30°)
 )`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `There's much more you can do with @Stage, but you can explore with them anytime. Right @Stage?`
                     ),
-                    dialog('Stage', Emotion.Excited, `ALWAYS!`),
+                    dialog('Stage', 'excited', `ALWAYS!`),
                 ],
             },
             {
                 name: 'Is there someone named...',
                 concept: 'Choice',
-                program: output(`Phrase("🔘" 10m)`, false),
+                program: fixed(`Phrase("🔘" 10m)`),
                 lines: [
-                    output(
-                        `Phrase("🔘" 10m enter: Sequence({0%: Pose(offset: Place(0m 0m)) 50%: Pose(offset: Place(0m -0.2m)) 100%: Pose(offset: Place(0m 0m))} 1s count: 3x))`,
-                        false
+                    fixed(
+                        `Phrase("🔘" 10m enter: Sequence({0%: Pose(offset: Place(0m 0m)) 50%: Pose(offset: Place(0m -0.2m)) 100%: Pose(offset: Place(0m 0m))} 1s count: 3x))`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Serious,
+                        'serious',
                         `So you know @Key, @Pointer, and @Button, the streams we just talked about? 
                         
                         They can be very fun, but they have one problem: not everyone in the audience can use them.
@@ -5117,10 +4970,10 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         
                         So using @Key, @Pointer, or @Button means some people in your audience won't be able to participate.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `Everyone should be able to participate! 
                         
                         So now that we've talked about @Phrase in more detail, I wanted to show y ou one final stream, @Choice, which is a stream of @Phrase names that have been selected, independent of how it was selected. 
@@ -5129,10 +4982,10 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         
                         Whatever they use, @Choice will contain their latest selection.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Excited,
+                        'excited',
                         `Here's a simple example. 
                         
                         See how it has three phrases? 
@@ -5157,7 +5010,7 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                     ),
                     dialog(
                         'Choice',
-                        Emotion.Neutral,
+                        'neutral',
                         "cat... 'dog'... 'cat'... 'dog'..."
                     ),
                     edit(
@@ -5169,10 +5022,10 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
     ])
 ])`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Serious,
+                        'serious',
                         `@Choice really is the best way to listen to the audience. 
                         
                         Only use @Key, @Pointer, or @Button if you have no other option, and use it knowing that some in your audience won't be able to enjoy your performance.`
@@ -5183,28 +5036,28 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
     },
     {
         name: 'Callbacks',
-        program: output(DarkVoid),
+        program: fit(DarkVoid),
         scenes: [
             {
                 name: 'Memories',
                 concept: undefined,
                 program: symbol('💭'),
                 lines: [
-                    dialog('FunctionDefinition', Emotion.Curious, `…`),
-                    pause(),
+                    dialog('FunctionDefinition', 'curious', `…`),
+                    null,
                     symbol('🤯'),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `Sometimes I just need to pause and reflect on how incredible my little community is. 
                         We are all so different, and none of us could perform alone. But together, we can do such amazing things!
                     `
                     ),
-                    pause(),
+                    null,
                     symbol('🧠'),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `
                         But it seems no matter how amazing we are, we always forget, and end up repeating ourselves. 
                         
@@ -5222,15 +5075,15 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                 concept: 'Bind',
                 program: symbol(':'),
                 lines: [
-                    output(`Phrase(":" rotation: 90°)`),
+                    fit(`Phrase(":" rotation: 90°)`),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `@Bind? There's someone I want to introduce you to.`
                     ),
                     dialog(
                         'Bind',
-                        Emotion.Curious,
+                        'curious',
                         `@FunctionDefinition? 
                         
                         Oh wow, it is you. 
@@ -5238,17 +5091,17 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         
                         Who's your friend here?`
                     ),
-                    pause(),
-                    output(`Phrase(":" rest: Pose(scale: 10ms ÷ Time()))`),
+                    null,
+                    fit(`Phrase(":" rest: Pose(scale: 10ms ÷ Time()))`),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `They're our new director! 
                         They've come here to inspire us with new ideas, new expressions.`
                     ),
                     dialog(
                         'Bind',
-                        Emotion.Excited,
+                        'excited',
                         `Seriously? 
                         
                         That would be amazing. 
@@ -5256,19 +5109,16 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         
                         I feel like all I've been doing is just waiting…`
                     ),
-                    pause(),
-                    output(
-                        `Phrase(":" 10m rest: Sequence(bounce(3m) 1s))`,
-                        false
-                    ),
+                    null,
+                    fixed(`Phrase(":" 10m rest: Sequence(bounce(3m) 1s))`),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `Well now that you know, what do you want to do most right now?`
                     ),
                     dialog(
                         'Bind',
-                        Emotion.Serious,
+                        'serious',
                         `Name things. 
                         Name everything! 
                         Name everyone. 
@@ -5277,25 +5127,25 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `I haven't told our inspiration here about names at all, aside from the names of all of the characters we've met. 
                         Do you want to explain how names work here?`
                     ),
-                    pause(),
+                    null,
                     symbol(':'),
                     dialog(
                         'Bind',
-                        Emotion.Excited,
+                        'excited',
                         `Absolutely! So names… you know how every expression makes a value?`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `We talked about values! Like @MeasurementType, @TextType, @NoneType, @ListType, @SetType, @MapType...`
                     ),
                     dialog(
                         'Bind',
-                        Emotion.Excited,
+                        'excited',
                         `Right! 
                         
                         So like, values, when we make them, they just kind of get passed around by us, like a ball, from expression to expression, until @Program makes the final value it gives to @Stage to show. 
@@ -5306,10 +5156,10 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         
                         I name things so we can use them later.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Bind',
-                        Emotion.Serious,
+                        'serious',
                         `So like here's a really simple example. 
                         
                         Let's say we want to name a number. 
@@ -5323,10 +5173,10 @@ Group(Row() [Phrase("[" rest: wobble) Phrase("]" rest: wobble)])`
                         `number: 1
 number`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Bind',
-                        Emotion.Serious,
+                        'serious',
                         `And like, you can tell me what kind of value the name should be by giving me a type with the ⧼•⧽ symbol. 
                         So like, if you wanted to make sure that number was a number, you'd say this.
                         
@@ -5336,25 +5186,24 @@ number`
                         `number•#: 1
 number`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Bind',
-                        Emotion.Eager,
+                        'eager',
                         `But like, what if you gave me something that was /not/ a number? 
                         
                         Then I'd complain, because you said it was supposed to be a number, but you gave me some text. 
                         
                         So I don't know what to do. See?`
                     ),
-                    edit(
+                    conflict(
                         `number•#: "oh hi"
-number`,
-                        true
+number`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Bind',
-                        Emotion.Serious,
+                        'serious',
                         `But okay, by now you must be thinking, *Why would anyone name a number or text like this???*.
                         
                         Well, imagine, like, you were listening to @Key, and you want know if it's one of a set of secret letters, and show a @Phrase with a big ⧼⊤⧽ if it's a magic letter, and small ⧼⊥⧽ if it's not. 
@@ -5367,10 +5216,10 @@ number`,
                         `
                     ),
                     edit(`[ 'a' 'e' 'i' 'o' 'u'].has(Key())`),
-                    pause(),
+                    null,
                     dialog(
                         'Bind',
-                        Emotion.Serious,
+                        'serious',
                         `
                         Now, let's make the phrase. 
                         
@@ -5379,10 +5228,10 @@ number`,
                         Now we get @Phrase on stage as ⧼⊤⧽ or ⧼⊥⧽. Good!`
                     ),
                     edit(`Phrase([ 'a' 'e' 'i' 'o' 'u'].has(Key())→"")`),
-                    pause(),
+                    null,
                     dialog(
                         'Bind',
-                        Emotion.Curious,
+                        'curious',
                         `Now comes the problem part. 
                         
                         How do we change the size of the @Phrase? 
@@ -5397,10 +5246,10 @@ number`,
    [ 'a' 'e' 'i' 'o' 'u' ].has(Key()) ? 2m 1m
 )`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Bind',
-                        Emotion.Excited,
+                        'excited',
                         `That's where I come in! 
                         See, what you can do is just evaluate the expression and name the resulting value.
                         
@@ -5423,10 +5272,10 @@ Phrase(
     magic ? 2m 1m
 )`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Bind',
-                        Emotion.Serious,
+                        'serious',
                         `You know, you could always just duplicate the expressions you write. 
                         It would be the same show. 
                         
@@ -5450,10 +5299,10 @@ Phrase(
     rest: Pose(color: Color(50% 100 [ 'a' 'e' 'i' 'o' 'u' 'z'].has(Key()) ? 180° 0°))
 )`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Bind',
-                        Emotion.Kind,
+                        'kind',
                         `But like, if you name the expression, you just have to do it once. 
                         
                         And look how much easier that is to read, too.`
@@ -5466,10 +5315,10 @@ Phrase(
     rest: Pose(color: Color(50% 100 magic ? 180° 0°))
 )`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Excited,
+                        'excited',
                         `@Bind, that was such a good example! 
                         
                         You know I love names. 
@@ -5478,7 +5327,7 @@ Phrase(
                     ),
                     dialog(
                         'Bind',
-                        Emotion.Sad,
+                        'sad',
                         `Yeah, hm. 
                         There are. 
                         
@@ -5492,17 +5341,16 @@ Phrase(
                         
                         And only after the ⧼total⧽ is ⧼veggies⧽ like, “here I am!” and then the whole production falls apart.`
                     ),
-                    edit(
+                    conflict(
                         `fruits: 5
 total: fruits + veggies
 veggies: 3
-total`,
-                        true
+total`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Bind',
-                        Emotion.Serious,
+                        'serious',
                         `Or, like here's an example where we give two different values the same name. 
                         
                         And so we evaluate ⧼5⧽, and name it ⧼fruits⧽, and then we evaluate ⧼10⧽… and then we name it ⧼fruits⧽?? 
@@ -5514,17 +5362,16 @@ total`,
                         
                         We don't want anyone getting confused about who is who.`
                     ),
-                    edit(
+                    conflict(
                         `fruits: 5
 fruits: 10
 total: fruits + fruits
-total`,
-                        true
+total`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Bind',
-                        Emotion.Kind,
+                        'kind',
                         `I guess there's one last one. 
                         
                         Say you have this. 
@@ -5535,21 +5382,20 @@ total`,
                         
                         Like, maybe you're just not using it, but then why is it there?`
                     ),
-                    edit(
+                    conflict(
                         `fruits: 5
 veggies: 10
-fruits + 3`,
-                        true
+fruits + 3`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `This is so helpful @Bind, this is so great. Are you sure there's nothing else?`
                     ),
                     dialog(
                         'Bind',
-                        Emotion.Eager,
+                        'eager',
                         `Oh! Yes, something really important. 
                         
                         So like, one name is good, right? 
@@ -5569,19 +5415,19 @@ fruits + 3`,
                         
                         The more languages the better though, since there are a lot of people in the world who read a lot of different languages!`
                     ),
-                    edit(`fruit/en,fruta/es,水果/zh: 5`, true),
-                    pause(),
-                    output('Phrase(":")'),
+                    conflict(`fruit/en,fruta/es,水果/zh: 5`),
+                    null,
+                    fit('Phrase(":")'),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `You know, @Bind works with a lot of other characters, including @Evaluate — you saw them when you name a @FunctionDefinition input, as in ⧼Pose(color: _)⧽ — and we're going to meet a few of these other folks. 
                         
                         @Bind, will you be around to demo?`
                     ),
                     dialog(
                         'Bind',
-                        Emotion.Excited,
+                        'excited',
                         `Um, yeah! 
                         Now that the silence is breaking, let's name values all day!`
                     ),
@@ -5592,56 +5438,56 @@ fruits + 3`,
                 concept: 'Block',
                 program: symbol('()'),
                 lines: [
-                    output(`Phrase("()" 1m)`, false),
+                    fixed(`Phrase("()" 1m)`),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `So there's a character that's been here all along that you haven't met yet, But they've been hiding… 
                         
                         They work super closely with @Bind and many other folks, so I thought we should talk to them next. 
                         
                         @Block, would you come out?`
                     ),
-                    dialog('Block', Emotion.Shy, `… hi`),
-                    pause(),
-                    output(`Phrase("()" 2m)`, false),
+                    dialog('Block', 'shy', `… hi`),
+                    null,
+                    fixed(`Phrase("()" 2m)`),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `Hi @Block! 
                         How are you?`
                     ),
-                    dialog('Block', Emotion.Shy, `… mmm, good?`),
-                    pause(),
-                    output(`Phrase("()" 3m)`, false),
+                    dialog('Block', 'shy', `… mmm, good?`),
+                    null,
+                    fixed(`Phrase("()" 3m)`),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `I have a new friend for you to meet. 
                         
                         They might be our next director.`
                     ),
-                    dialog('Block', Emotion.Shy, `… hi …`),
-                    pause(),
-                    output(`Phrase("()" 4m)`, false),
+                    dialog('Block', 'shy', `… hi …`),
+                    null,
+                    fixed(`Phrase("()" 4m)`),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `We were just meeting @Bind and we didn't get a chance to talk about how you two are best of friends!`
                     ),
-                    dialog('Block', Emotion.Shy, `… yeah, @Bind!`),
-                    pause(),
-                    output(`Phrase("()" 1m)`, false),
+                    dialog('Block', 'shy', `… yeah, @Bind!`),
+                    null,
+                    fixed(`Phrase("()" 1m)`),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `Do you want to share what you do together?`
                     ),
-                    dialog('Block', Emotion.Shy, `… can you?`),
-                    pause(),
+                    dialog('Block', 'shy', `… can you?`),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `Yes, of course! 
                         So, it turns out that @Program is mostly just a @Block. 
                         It's just @Block without parentheses. 
@@ -5654,11 +5500,11 @@ fruits + 3`,
                         @Block, did I get that right?`
                     ),
                     edit(`1 + (2 · 3)`),
-                    dialog('Block', Emotion.Shy, `… yeah!`),
-                    pause(),
+                    dialog('Block', 'shy', `… yeah!`),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `And so another thing @Block can do is something you've already seen. 
                         @Block let's you name things with @Bind. 
                         
@@ -5673,41 +5519,39 @@ fruits + 3`,
                         
                         Right?`
                     ),
-                    edit(
+                    conflict(
                         `a: 1
 (
   b: 2
   c: a + b
-)`,
-                        true
+)`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Serious,
+                        'serious',
                         `But what if we wanted to access ⧼c⧽ outside the @Block? 
                         You can't. 
                         ⧼c⧽ is only defined inside the @Block, but not outside it.
                         
                         Is that right @Block?`
                     ),
-                    edit(
+                    conflict(
                         `a: 1
 (
   b: 2
   c: a + b
-) + c`,
-                        true
+) + c`
                     ),
                     dialog(
                         'Block',
-                        Emotion.Shy,
+                        'shy',
                         `… yeah, nothing outside me can see the names inside me. ⧼c⧽ only exists insideeeee`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Neutral,
+                        'neutral',
                         `And one more thing, I think? 
                         
                         Since @Block is a list of expressions, and it only evaluates to the last expression in the list, any expressions in the list that aren't a @Bind are basically ignored.
@@ -5720,33 +5564,32 @@ fruits + 3`,
                     ),
                     dialog(
                         'Block',
-                        Emotion.Shy,
+                        'shy',
                         `… mhm. Just the last one. The others… I don't know what they're for!!`
                     ),
-                    edit(
+                    conflict(
                         `(
   1 + 2
   2 + 3
   3 + 4
   4 + 5
-)`,
-                        true
+)`
                     ),
-                    pause(),
-                    output(`Phrase("()" rest: Sequence(spin() 1s "straight"))`),
+                    null,
+                    fit(`Phrase("()" rest: Sequence(spin() 1s "straight"))`),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `Is there anything else you wanted to share, @Block?`
                     ),
                     dialog(
                         'Block',
-                        Emotion.Curious,
+                        'curious',
                         `… can we make something? Can I help?`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `I'm so curious too! 
                         But I'm sure our director will decide on their own time. 
                         
@@ -5762,7 +5605,7 @@ fruits + 3`,
                     symbol('☺️'),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Happy,
+                        'happy',
                         `I'm so happy we've found everyone, and that you've been able to meet all of them. 
                         
                         Everyone is so different, aren't they? But also so interesting? 
@@ -5770,11 +5613,11 @@ fruits + 3`,
                         
                         What do you think of everyone?`
                     ),
-                    pause(),
+                    null,
                     symbol('🙈'),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `Me? Well, I'm nothing special. 
                             I just like being behind the scenes, helping out, showing everyone how they're special. 
                             
@@ -5782,11 +5625,11 @@ fruits + 3`,
                             
                             I guess we can talk a bit about me.`
                     ),
-                    pause(),
+                    null,
                     symbol('ƒ'),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Serious,
+                        'serious',
                         `I guess let's start with what you've already seen. 
                         You know how every value has different functions that you can evaluate on them? 
                         
@@ -5795,10 +5638,10 @@ fruits + 3`,
                         Well, I'm the one that defines those functions. 
                         I mean, I don't have the inspiration to create them myself — that's what directors like you do — but I define the inputs a function accepts, the names it has, and the expression that uses the inputs to evaluate to an output value.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Excited,
+                        'excited',
                         `Here's a super simple example. The simplest, actually! 
                         
                         This defines a function that always evaluates to the number ⧼1⧽. That's it. 
@@ -5812,10 +5655,10 @@ fruits + 3`,
                         I don't know why anyone would ever make such a useless function, but as I said, I'm not the one with inspiration, you are.`
                     ),
                     edit(`ƒ() 1`),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Serious,
+                        'serious',
                         `So here's a more useful example. 
                         
                         You know odd and even numbers? 
@@ -5834,10 +5677,10 @@ fruits + 3`,
                         `ƒ even(number•#) (number % 2) = 0
 even(3)`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Eager,
+                        'eager',
                         `You can also tell me what kind of value I should evaluate to. 
                         
                         See how we added ⧼•⧽? after the list of inputs? 
@@ -5848,10 +5691,10 @@ even(3)`
                         We don't know if the function should be a ⧼⊤⧽ or ⧼⊥⧽ or whatever kind of value you returned, so the show ends.`
                     ),
                     edit(`ƒ even(number•#)•? (number % 2) + 0`),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Serious,
+                        'serious',
                         `Functions can be as complex as you want. You can use simple expressions or @Block, and even make functions inside of functions. 
                         
                         For example, check out this function a former director wrote.
@@ -5876,10 +5719,10 @@ even(3)`
 )
 vowels("hello")`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Serious,
+                        'serious',
                         `There's one more thing to show. 
                         I guess it's important, because everyone is so excited about it! 
                         
@@ -5900,20 +5743,20 @@ vowels("hello")`
                         `ƒ even(number•#)•? (number % 2) = 0
 [ 1 2 3 4 5 6 7 8 ].filter(even)`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Excited,
+                        'excited',
                         `There are so many functions that take functions as input. @ListType has them, @SetType has them, @MapType has them. You can even make your own!`
                     ),
-                    output(
+                    fit(
                         `Group(Grid(3 2) [Phrase("translate") Phrase("filter") Phrase("combine") Phrase("find") Phrase("sort") Phrase("until")])`
                     ),
-                    pause(),
-                    output(DarkVoid),
+                    null,
+                    fit(DarkVoid),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Sad,
+                        'sad',
                         `I dunno. Sometimes, I see why people say they're so grateful for what I do. 
                         
                         Other times, I feel like it's really directors like you that are where the magic really is. 
@@ -5927,10 +5770,10 @@ vowels("hello")`
                 concept: 'Structures',
                 program: symbol('•'),
                 lines: [
-                    output(DarkVoid),
+                    fit(DarkVoid),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Sad,
+                        'sad',
                         `There are just a few more characters I'd like you to meet. 
                         
                         Next is the most sophisticated character I know, and in a way, a kind of leader. 
@@ -5940,24 +5783,24 @@ vowels("hello")`
                         
                         I think they could be pretty important in any show you put on.`
                     ),
-                    pause(),
-                    output(
+                    null,
+                    fit(
                         `Phrase("•" rest: Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.2) 100%: Pose(scale: 1)} 3s))`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `@StructureDefinition, are you there?`
                     ),
                     dialog(
                         'StructureDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `@FunctionDefinition… my friend. It's been quiet, has it not? Where has everyone been?`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Sad,
+                        'sad',
                         `The silence. 
                         It's gotten to all of us. 
                         
@@ -5968,16 +5811,16 @@ vowels("hello")`
                     ),
                     dialog(
                         'StructureDefinition',
-                        Emotion.Sad,
+                        'sad',
                         `… Who is your friend? Is that a person?`
                     ),
-                    output(
+                    fit(
                         `Phrase("•" rest: Sequence({0%: Pose(offset: Place(-0.25m)) 50%: Pose(offset: Place(0.25m)) 100%: Pose(offset: Place(-0.25m))} 3s))`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Eager,
+                        'eager',
                         `Oh, yes, I'm sorry, this is our new director! 
                         They've come to inspire and guide us, to share their stories, ideas, and imaginings. 
                         
@@ -5985,7 +5828,7 @@ vowels("hello")`
                     ),
                     dialog(
                         'StructureDefinition',
-                        Emotion.Eager,
+                        'eager',
                         `That is incredible. 
                         And quite a relief. 
                         
@@ -6000,61 +5843,56 @@ vowels("hello")`
                         
                         Without anyone to organize, I felt like I could only organize myself, which felt meaningless.`
                     ),
-                    output(
+                    fit(
                         `Phrase("•" rest: Sequence({0%: Pose(tilt: 0°) 80%: Pose(tilt: 15°) 100%: Pose(tilt: 0°)} 3s))`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `You're never empty, @StructureDefinition, even when you're alone.
                         
                         e're all here, even if we can't be with each other. 
                         And now that the silence is broken, we can be.`
                     ),
-                    dialog(
-                        'StructureDefinition',
-                        Emotion.Happy,
-                        `We can, can't we?`
-                    ),
-                    output(
+                    dialog('StructureDefinition', 'happy', `We can, can't we?`),
+                    fit(
                         `Phrase("•" rest: Sequence({0%: Pose(offset: Place(0m 0.25m)) 50%: Pose(offset: Place(0m 0m)) 100%: Pose(offset: Place(0m 0.25m))} 3s))`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `What do you think, are you ready to reunite with everyone? 
                         To put on whatever performance our sapling director has in mind?`
                     ),
-                    dialog('StructureDefinition', Emotion.Eager, `I think so.`),
-                    output(
+                    dialog('StructureDefinition', 'eager', `I think so.`),
+                    fit(
                         `Phrase("•" rest: Sequence({0%: Pose(offset: Place(0m 0.25m)) 50%: Pose(offset: Place(0m 0m)) 100%: Pose(offset: Place(0m 0.25m))} 1.5s))`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `Do you think you could help our director here learn a bit more about what you do?`
                     ),
                     dialog(
                         'StructureDefinition',
-                        Emotion.Shy,
+                        'shy',
                         `Yes. Yes… I've had a lot of time to think about my purpose in the quiet. And I guess I've realized that what I really do is give groups of things identity. For example, I know you've met ƒ, but have you @Bind?`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Excited,
+                        'excited',
                         `Yes! We just met @Bind earlier, and @Block.`
                     ),
-                    output(
-                        `Phrase("•" enter: Pose(scale: 0.5) rest: Pose(scale: 2))`,
-                        false
+                    fixed(
+                        `Phrase("•" enter: Pose(scale: 0.5) rest: Pose(scale: 2))`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'StructureDefinition',
-                        Emotion.Eager,
+                        'eager',
                         `Okay. Well, what I do is bring together values and functions, making a tidy little container for a bunch of related things.
                         
                         For example, imagine you wanted to make a little marquee that loops through a series of messages. 
@@ -6069,10 +5907,10 @@ vowels("hello")`
   'Lap cat'
 ]`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'StructureDefinition',
-                        Emotion.Serious,
+                        'serious',
                         `Then they had the problem of how the performance would remember which message they were on. 
                         
                         They realized they needed some way of remembering the index in the list.
@@ -6090,10 +5928,10 @@ vowels("hello")`
 index: 1
 Phrase(messages[index])`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'StructureDefinition',
-                        Emotion.Excited,
+                        'excited',
                         `Then they remembered @Reaction, which can be used to respond to stream changes. 
                         
                         They wanted the message to change every two sections, so they made @Time stream that ticks every 2 seconds, and used @Reaction to increment the next index each time.
@@ -6115,10 +5953,10 @@ Phrase(messages[index])`
 index•#: 1 … ∆ Time(2000ms) … index = messages.length() ? 1 index + 1
 Phrase(messages[index])`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'StructureDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `Shall we add some flair? 
                         Let's make another phrase that is kind of a reflection below, like a shadow. 
                         
@@ -6140,10 +5978,10 @@ Group(Stack(0m) [
   Phrase(messages[index] rest: Pose(flipy: ⊤ opacity: 25%))
 ])`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'StructureDefinition',
-                        Emotion.Serious,
+                        'serious',
                         `Now, all of that works. 
                         And we could just leave it this way. 
                         
@@ -6188,15 +6026,15 @@ Group(Stack(0.5m) [
   Phrase(marquee.now() rest: Pose(flipy: ⊤ opacity: 25%))
 ])`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `That's wonderful @StructureDefinition! But I have to say, that does seem like a lot of extra work. Why spend all the time tidying?`
                     ),
                     dialog(
                         'StructureDefinition',
-                        Emotion.Serious,
+                        'serious',
                         `Ah, it's really about change. 
                         
                         It is a bit more code now, but what if we decided to change ⧼Marquee⧽ in some way? 
@@ -6231,15 +6069,15 @@ Group(Stack(0.5m) [
   Phrase(marquee.now() rest: Pose(flipy: ⊤ opacity: 25%))
 ])`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Surprised,
+                        'surprised',
                         `Ohh, I see, so by making a @StructureDefinition to store values and @FunctionDefinition that are related to each other, it makes it easier to change things later, if you change your mind.`
                     ),
                     dialog(
                         'StructureDefinition',
-                        Emotion.Happy,
+                        'happy',
                         `Yes.
                         Just like if you tidy your room, it makes it easier to find stuff later. 
                         
@@ -6247,10 +6085,10 @@ Group(Stack(0.5m) [
                         
                         The same with a performance: if you invest in tidying, changing things will be easier.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `That makes a lot of sense. 
                         We are kind of an unruly bunch. 
                         
@@ -6260,7 +6098,7 @@ Group(Stack(0.5m) [
                     ),
                     dialog(
                         'StructureDefinition',
-                        Emotion.Eager,
+                        'eager',
                         `Oh yes. 
                         You don't have to have any @FunctionDefinition in a @StructureDefinition. 
                         You can just have values. 
@@ -6269,16 +6107,16 @@ Group(Stack(0.5m) [
                         I know a lot of directors like making games, and it's really common for them to put all of the game state in a @StructureDefinition.`
                     ),
                     edit(`•Game(score•# lives•# level•#)`),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `Oh, that's right! 
                         And how do you get data out of a structure once you put it in?`
                     ),
                     dialog(
                         'StructureDefinition',
-                        Emotion.Surprised,
+                        'surprised',
                         `Oh my, I forgot to explain that. 
                         
                         You use a mini me, @PropertyReference. 
@@ -6292,17 +6130,17 @@ Group(Stack(0.5m) [
 status: Game(0 3 1)
 status.lives`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Happy,
+                        'happy',
                         `Nice! 
                         So just the mini you to get values instead of you. 
                         But then how do you change the values?`
                     ),
                     dialog(
                         'StructureDefinition',
-                        Emotion.Serious,
+                        'serious',
                         `Remember how @Bind only lets you set a value, but not change it? 
                         
                         The same is true for all the @Bind in me. 
@@ -6318,10 +6156,10 @@ status.lives`
                         `•Game(score•# lives•# level•#)
 status: Game(0 3 1) … ∆ Time() … Game(status.score + 1 status.lives status.level)`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'StructureDefinition',
-                        Emotion.Eager,
+                        'eager',
                         `It can get pretty annoying to have to repeat all of those old values if only one thing is changing, so @Bind and I came up with a neat trick to copy a @StructureDefinition value with a new value.
                         
                         See how it just kind of looks like a regular @Bind? 
@@ -6332,19 +6170,19 @@ status: Game(0 3 1) … ∆ Time() … Game(status.score + 1 status.lives status
                         `•Game(score•# lives•# level•#)
 status: Game(0 3 1) … ∆ Time() … status.score: status.score + 1`
                     ),
-                    pause(),
-                    output(
+                    null,
+                    fit(
                         `Phrase("•" rest: Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.2) 100%: Pose(scale: 1)} 3s))`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Happy,
+                        'happy',
                         `That's so neat! 
                         Okay, is there anything else?`
                     ),
                     dialog(
                         'StructureDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `I think all we're missing is inspiration…`
                     ),
                 ],
@@ -6356,7 +6194,7 @@ status: Game(0 3 1) … ∆ Time() … status.score: status.score + 1`
                 lines: [
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Eager,
+                        'eager',
                         `Wow, we've come a long way, haven't we? 
                         
                         We have one more character to go. 
@@ -6368,13 +6206,13 @@ status: Game(0 3 1) … ∆ Time() … status.score: status.score + 1`
                     symbol('``'),
                     dialog(
                         'Doc',
-                        Emotion.Surprised,
+                        'surprised',
                         `@FunctionDefinition, is that you? I never thought I'd see you again. How are you? How's @Evaluate?`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `I'm okay. 
                         @Evaluate is … @Evaluate.
                         I saw them, but… I think I still need space.
@@ -6383,15 +6221,15 @@ status: Game(0 3 1) … ∆ Time() … status.score: status.score + 1`
                     ),
                     dialog(
                         'Doc',
-                        Emotion.Kind,
+                        'kind',
                         `It's so nice to meet you! 
                         I hope @FunctionDefinition has been a good teacher?`
                     ),
                     symbol('``/'),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Eager,
+                        'eager',
                         `I've tried… you know, you're our last stop? 
                         
                         You're so essential, but also, there's so much to explain before we even get to explaining our performances. 
@@ -6400,10 +6238,10 @@ status: Game(0 3 1) … ∆ Time() … status.score: status.score + 1`
                         Do you want to share what you do?`
                     ),
                     symbol('``/en'),
-                    pause(),
+                    null,
                     dialog(
                         'Doc',
-                        Emotion.Happy,
+                        'happy',
                         `Happily. 
                         
                         If you've met everyone but me, then you probably know by now that we do a lot of different things. 
@@ -6411,36 +6249,35 @@ status: Game(0 3 1) … ∆ Time() … status.score: status.score + 1`
                         
                         What I do is help explain what everyone is doing in a performance.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Doc',
-                        Emotion.Happy,
+                        'happy',
                         `I'm a way you can remind yourself what everyone is doing, but also a way to explain to others, if you're directing with a friend, or want to share your performance with someone.
                         
                         So you don't /have/ to work with me, but I find that every performance is a bit easier to do and change if you've spent some time explaining how it works.`
                     ),
                     symbol('`About me...`/en'),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Curious,
+                        'curious',
                         `So how can our director work with you?`
                     ),
                     dialog(
                         'Doc',
-                        Emotion.Serious,
+                        'serious',
                         `Well you can put me almost anywhere inside @Program. For example, say you make a @Bind, and you want to say what the value is for. For example, here we have a simple value we've named, but what I'm doing is providing a broader explanation of its role.`
                     ),
-                    edit(
+                    conflict(
                         `\`The price at the beginning of the game, 
 used to initialize the game.\`
-startingPrice: 5dollar`,
-                        true
+startingPrice: 5dollar`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Doc',
-                        Emotion.Serious,
+                        'serious',
                         `Or, suppose you had @FunctionDefinition here defining a way of calculating tax on a price. 
                         You might want to explain what it computes.
                         
@@ -6452,10 +6289,10 @@ which is 1% if less than 100, and 5% otherwise\`
 ƒ tax(price•#dollar) 
     price · (price < 100dollar ? 0.01 0.05)`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Doc',
-                        Emotion.Serious,
+                        'serious',
                         `And you can do the same before a @StructureDefinition to explain what it represents. 
                         
                         Here the explanation also alludes to what functions it might have later.`
@@ -6465,10 +6302,10 @@ which is 1% if less than 100, and 5% otherwise\`
 Eventually will support functions to get other details about the product.\`
 •Product(name•"" price•#dollar)`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Doc',
-                        Emotion.Serious,
+                        'serious',
                         `You can also put me in front of any expression, which is especially helpful if you have a particularly complicated one.`
                     ),
                     edit(
@@ -6476,10 +6313,10 @@ Eventually will support functions to get other details about the product.\`
 \`The quadratic equation\`
 (a · (x ^ 2)) + (b · x) + c`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Doc',
-                        Emotion.Excited,
+                        'excited',
                         `And like @Bind, you can tell me what language an explanation is in, and give me multiple translations of the same explanation.
                         
                         (You'll only see the Spanish if it's selected. If you don't see it, try adding Spanish to your selected languages.)`
@@ -6490,10 +6327,10 @@ Eventually will support functions to get other details about the product.\`
 \`La ecuación cuadrática\`/es
 (a · (x ^ 2)) + (b · x) + c`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Doc',
-                        Emotion.Curious,
+                        'curious',
                         `You know the best place to put me? 
                         Right at the very beginning of @Program. 
                         
@@ -6501,7 +6338,7 @@ Eventually will support functions to get other details about the product.\`
                         
                         You might even write it before you figure out what you want all of us to do.`
                     ),
-                    edit(
+                    conflict(
                         `\`Have you ever wanted to know what it's like 
 to fly a ✈️ with your mouth?
 Maybe this stores the plane's height?\`
@@ -6509,34 +6346,33 @@ Maybe this stores the plane's height?\`
 \`We need some kind of reaction to listen to the microphone…\`
 sound: _
 \`We know there's a plane, but what else?\`
-Phrase(“✈️”)`,
-                        true
+Phrase(“✈️”)`
                     ),
-                    pause(),
+                    null,
                     symbol('✈️🫦'),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Excited,
+                        'excited',
                         `Wow, I want to fly a plane with my mouth!`
                     ),
                     dialog(
                         'Doc',
-                        Emotion.Confused,
+                        'confused',
                         `@FunctionDefinition, we don't have mouths…`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Excited,
+                        'excited',
                         `Hm... good point.
 
                         Speaking of speaking, it seems like you can only contain plain text.
                         Is that right?
                     `
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Doc',
-                        Emotion.Excited,
+                        'excited',
                         `Oh no, not at all.
                         
                         Do you remember how @Phrase has all of those fancy ways of styling text?
@@ -6552,10 +6388,10 @@ _underlined_,
 ^extra bold^.\`
 "fancy"`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Doc',
-                        Emotion.Excited,
+                        'excited',
                         `And of course, just as with @TextLiteral and @Phrase, if you need to use any of these characters literally, just repeat them twice.`
                     ),
                     edit(
@@ -6568,17 +6404,17 @@ Docs can be
   ^extra bold^ (^^).\`
 "fancy"`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Doc',
-                        Emotion.Excited,
+                        'excited',
                         `You can put example code inside ^⧼^⧽.`
                     ),
                     edit(
                         `\`I'm an example inside a doc: ⧼1 + 1⧽.\`
 1 + 1`
                     ),
-                    pause(),
+                    null,
                     //                     dialog(
                     //                         'Doc',
                     //                         Emotion.Excited,
@@ -6590,25 +6426,25 @@ Docs can be
                     // \`
                     // ƒ sum(a•# b•#) a + b`
                     //                     ),
-                    //                     pause(),
+                    //                     null,
                     dialog(
                         'Doc',
-                        Emotion.Excited,
+                        'excited',
                         `You can also add links to other content on the internet.`
                     ),
                     edit(
                         `\`Learn more at <Wordplay@https://wordplay.dev>.\` "a link!"`
                     ),
-                    pause(),
-                    output('Phrase("Quiet backstage!")'),
+                    null,
+                    fit('Phrase("Quiet backstage!")'),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Excited,
+                        'excited',
                         `Wow.
                         
                         I had no idea you could do so much! Thank you @Doc, I think we might be ready for a show!`
                     ),
-                    dialog('Doc', Emotion.Excited, `Let's do it!`),
+                    dialog('Doc', 'excited', `Let's do it!`),
                 ],
             },
         ],
@@ -6620,55 +6456,55 @@ Docs can be
             {
                 name: 'Codependency',
                 concept: undefined,
-                program: output(
+                program: fit(
                     `Phrase('😨' rest: Sequence(shake() style: "straight"))`
                 ),
                 lines: [
                     symbol('😡'),
                     dialog(
                         'Evaluate',
-                        Emotion.Sad,
+                        'sad',
                         `@FunctionDefinition, where have you been??`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Surprised,
+                        'surprised',
                         `I've been showing our new director…`
                     ),
-                    pause(),
+                    null,
                     symbol('😢'),
                     dialog(
                         'Evaluate',
-                        Emotion.Shy,
+                        'shy',
                         `I didn't think you would be that long…`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Sad,
+                        'sad',
                         `… @Evaluate, I know you missed me. I missed you. But this is big: the silence is broken, we have a new director… I love you, and I know you need me, but I also have things to do.`
                     ),
-                    pause(),
+                    null,
                     symbol('😠'),
                     dialog(
                         'Evaluate',
-                        Emotion.Sad,
+                        'sad',
                         `Let's talk about this later. You have things to do.`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `I think we need to talk about it now. We can't keep falling into this cycle.`
                     ),
-                    pause(),
+                    null,
                     symbol('😓'),
                     dialog(
                         'Evaluate',
-                        Emotion.Curious,
+                        'curious',
                         `What cycle? I love you! How is that a cycle?`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `I make functions, you evaluate them, that is our way. 
                         But there has to be more to us than you needing me. 
                         
@@ -6677,12 +6513,12 @@ Docs can be
                         I can't give you all the love you need. 
                         Some of that has to come from you.`
                     ),
-                    pause(),
+                    null,
                     symbol('😭'),
-                    dialog('Evaluate', Emotion.Sad, `You don't love me?`),
+                    dialog('Evaluate', 'sad', `You don't love me?`),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Angry,
+                        'angry',
                         `No, that's not what I said… what I mean is that we have to both matter in this relationship. 
                         
                         I need to say what I need and you need to say what you need and we can love each other for who we are, as individuals. 
@@ -6690,16 +6526,12 @@ Docs can be
                         What do /you/ need? 
                         What do you love about yourself?`
                     ),
-                    pause(),
+                    null,
                     symbol('🫠'),
-                    dialog(
-                        'Evaluate',
-                        Emotion.Shy,
-                        `I need … you. I don't need me.`
-                    ),
+                    dialog('Evaluate', 'shy', `I need … you. I don't need me.`),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `I love you @Evaluate. 
                         
                         But I need you to love you. 
@@ -6708,195 +6540,163 @@ Docs can be
                         
                         I can't be your purpose.`
                     ),
-                    pause(),
-                    output(DarkVoid),
+                    null,
+                    fit(DarkVoid),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Sad,
+                        'sad',
                         `I need some space. I'm sorry, director-friend. Maybe @Evaluate can wrap up this welcome party without me.`
                     ),
-                    pause(),
-                    dialog('Evaluate', Emotion.Shy, `… Hi.`),
-                    pause(),
+                    null,
+                    dialog('Evaluate', 'shy', `… Hi.`),
+                    null,
                     dialog(
                         'Evaluate',
-                        Emotion.Shy,
+                        'shy',
                         `… Did you learn a lot? @FunctionDefinition knows so much.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Evaluate',
-                        Emotion.Curious,
+                        'curious',
                         `Me? I don't know anything. I give @FunctionDefinition what they need…
                         
                         At least I thought I did.`
                     ),
-                    pause(),
-                    output(`Stage([] background: Color(10% 0 0°))`),
-                    dialog(
-                        'ListType',
-                        Emotion.Kind,
-                        `That is not true, @Evaluate.`
-                    ),
-                    dialog('BooleanType', Emotion.Precise, `Not true.`),
-                    dialog(
-                        'TextType',
-                        Emotion.Happy,
-                        `Not true in the slightest!`
-                    ),
-                    dialog('Changed', Emotion.Happy, `Super not true!`),
+                    null,
+                    fit(`Stage([] background: Color(10% 0 0°))`),
+                    dialog('ListType', 'kind', `That is not true, @Evaluate.`),
+                    dialog('BooleanType', 'precise', `Not true.`),
+                    dialog('TextType', 'happy', `Not true in the slightest!`),
+                    dialog('Changed', 'happy', `Super not true!`),
                     dialog(
                         'MeasurementType',
-                        Emotion.Serious,
+                        'serious',
                         `1) You basically run our performances, 2) @Evaluate would be useless without you, 3) you literally transform things into entirely new values, 4) you come in so many different forms, 5) you give all of us purpose, 6) we all look up to you for guidance…`
                     ),
-                    pause(),
-                    output(`Stage([] background: Color(20% 0 0°))`),
+                    null,
+                    fit(`Stage([] background: Color(20% 0 0°))`),
                     dialog(
                         'Phrase',
-                        Emotion.Kind,
+                        'kind',
                         `@MeasurementType is right @Evaluate, you are fabulous in fifty ways.`
                     ),
-                    dialog('Sequence', Emotion.Happy, `I spin when I see you!`),
+                    dialog('Sequence', 'happy', `I spin when I see you!`),
                     dialog(
                         'Group',
-                        Emotion.Kind,
+                        'kind',
                         `You inspire me to bring us together!`
                     ),
                     dialog(
                         'Stage',
-                        Emotion.Serious,
+                        'serious',
                         `YOU ARE THE BONES OF OUR BEING`
                     ),
-                    dialog('NoneType', Emotion.Serious, `…`),
-                    dialog(
-                        'Program',
-                        Emotion.Kind,
-                        `I am everything you make me!`
-                    ),
-                    pause(),
-                    output(`Stage([] background: Color(40% 0 0°))`),
-                    dialog(
-                        'Convert',
-                        Emotion.Kind,
-                        `I learned everything from you!`
-                    ),
+                    dialog('NoneType', 'serious', `…`),
+                    dialog('Program', 'kind', `I am everything you make me!`),
+                    null,
+                    fit(`Stage([] background: Color(40% 0 0°))`),
+                    dialog('Convert', 'kind', `I learned everything from you!`),
                     dialog(
                         'StructureDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `We'd be in disarray without you.`
                     ),
                     dialog(
                         'Bind',
-                        Emotion.Happy,
+                        'happy',
                         `Like, what would I name if you didn't make it?`
                     ),
                     dialog(
                         'Conditional',
-                        Emotion.Curious,
+                        'curious',
                         `How could we do anything without you?`
                     ),
-                    dialog('Block', Emotion.Kind, `… you are @Evaluate!`),
-                    pause(),
-                    output(`Stage([] background: Color(50% 0 0°))`),
-                    dialog('Evaluate', Emotion.Happy, `…`),
-                    pause(),
-                    output(`Stage([] background: Color(60% 0 0°))`),
+                    dialog('Block', 'kind', `… you are @Evaluate!`),
+                    null,
+                    fit(`Stage([] background: Color(50% 0 0°))`),
+                    dialog('Evaluate', 'happy', `…`),
+                    null,
+                    fit(`Stage([] background: Color(60% 0 0°))`),
+                    dialog('Evaluate', 'kind', `You are all so kind… I … `),
+                    null,
+                    fit(`Stage([] background: Color(70% 0 0°))`),
                     dialog(
                         'Evaluate',
-                        Emotion.Kind,
-                        `You are all so kind… I … `
-                    ),
-                    pause(),
-                    output(`Stage([] background: Color(70% 0 0°))`),
-                    dialog(
-                        'Evaluate',
-                        Emotion.Kind,
+                        'kind',
                         `Can we just dance? I've missed you all so much.`
                     ),
-                    pause(),
-                    output(`Stage([] background: Color(80% 0 0°))`),
-                    dialog('FunctionDefinition', Emotion.Happy, `Let's dance.`),
-                    dialog(
-                        'Evaluate',
-                        Emotion.Sad,
-                        `@FunctionDefinition… I'm so...`
-                    ),
+                    null,
+                    fit(`Stage([] background: Color(80% 0 0°))`),
+                    dialog('FunctionDefinition', 'happy', `Let's dance.`),
+                    dialog('Evaluate', 'sad', `@FunctionDefinition… I'm so...`),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Happy,
+                        'happy',
                         `Why don't you lead us?`
                     ),
-                    pause(),
-                    dialog('Evaluate', Emotion.Shy, `… I can't… `),
-                    dialog('FunctionDefinition', Emotion.Happy, `You *can*.`),
-                    pause(),
-                    output(`Stage([] background: Color(90% 0 0°))`),
-                    dialog('Evaluate', Emotion.Shy, `… I … I'll try.`),
-                    pause(),
-                    output(`Stage([] background: Color(100% 0 0°))`),
+                    null,
+                    dialog('Evaluate', 'shy', `… I can't… `),
+                    dialog('FunctionDefinition', 'happy', `You *can*.`),
+                    null,
+                    fit(`Stage([] background: Color(90% 0 0°))`),
+                    dialog('Evaluate', 'shy', `… I … I'll try.`),
+                    null,
+                    fit(`Stage([] background: Color(100% 0 0°))`),
                     dialog(
                         'Evaluate',
-                        Emotion.Shy,
+                        'shy',
                         `I want… I want us all to move to a beat. 
                         To tilt to the beat… in the dark. 
                         
                         Can we do that?`
                     ),
-                    pause(),
-                    dialog('Program', Emotion.Happy, `We can do that!`),
-                    dialog('Stage', Emotion.Kind, `START WITH MEEEEE`),
+                    null,
+                    dialog('Program', 'happy', `We can do that!`),
+                    dialog('Stage', 'kind', `START WITH MEEEEE`),
                     dialog(
                         'Evaluate',
-                        Emotion.Kind,
+                        'kind',
                         `Okay, @Stage, can you make it dark?`
                     ),
-                    dialog('Stage', Emotion.Kind, `DARK!`),
+                    dialog('Stage', 'kind', `DARK!`),
                     edit(EvaluateDance[0]),
-                    pause(),
+                    null,
                     dialog(
                         'Evaluate',
-                        Emotion.Kind,
+                        'kind',
                         `@StructureDefinition, I think we need a way to remember our places. Can you make a structure for us?`
                     ),
-                    dialog(
-                        'StructureDefinition',
-                        Emotion.Curious,
-                        `Like this?`
-                    ),
+                    dialog('StructureDefinition', 'curious', `Like this?`),
                     edit(EvaluateDance[1]),
-                    pause(),
+                    null,
                     dialog(
                         'Evaluate',
-                        Emotion.Kind,
+                        'kind',
                         `Yes… I also want us to rotate on the beat. 
                         
                         Can you remember a rotation too?`
                     ),
-                    dialog(
-                        'StructureDefinition',
-                        Emotion.Curious,
-                        `How about this?`
-                    ),
+                    dialog('StructureDefinition', 'curious', `How about this?`),
                     edit(EvaluateDance[2]),
-                    pause(),
+                    null,
                     dialog(
                         'Evaluate',
-                        Emotion.Happy,
+                        'happy',
                         `Yeah, like that. 
                         
                         Hm… oh, we need to be on stage. @TextType, would you mind making a list of everyone? We'll turn that into ⧼Character>s.`
                     ),
                     dialog(
                         'TextType',
-                        Emotion.Excited,
+                        'excited',
                         `My pleasure, my dear. Will this do?`
                     ),
-                    edit(EvaluateDance[3], true),
-                    pause(),
+                    conflict(EvaluateDance[3]),
+                    null,
                     dialog(
                         'Evaluate',
-                        Emotion.Excited,
+                        'excited',
                         `Yes, that's great! 
                         
                         We just need to make them into characters now. 
@@ -6905,47 +6705,43 @@ Docs can be
                     ),
                     dialog(
                         'ListType',
-                        Emotion.Happy,
+                        'happy',
                         `Translation, 1, 2, 3! Like this?`
                     ),
-                    edit(EvaluateDance[4], true),
-                    pause(),
+                    conflict(EvaluateDance[4]),
+                    null,
                     dialog(
                         'Evaluate',
-                        Emotion.Happy,
+                        'happy',
                         `Splendid! 
                         
                         Now we need us on stage. 
                         Can we translate the characters into @Phrase? Maybe in a @Free @Group?`
                     ),
-                    dialog('ListType', Emotion.Kind, `One more time!`),
-                    dialog('Phrase', Emotion.Kind, `All the attention!`),
-                    dialog(
-                        'Group',
-                        Emotion.Kind,
-                        `Come on everyone, places please…`
-                    ),
+                    dialog('ListType', 'kind', `One more time!`),
+                    dialog('Phrase', 'kind', `All the attention!`),
+                    dialog('Group', 'kind', `Come on everyone, places please…`),
                     edit(EvaluateDance[5]),
-                    pause(),
+                    null,
                     dialog(
                         'Evaluate',
-                        Emotion.Confused,
+                        'confused',
                         `Oh… where are we? Oh! We need color. 
                         
                         @Pose, can we be white?`
                     ),
                     edit(EvaluateDance[6]),
-                    pause(),
+                    null,
                     dialog(
                         'Evaluate',
-                        Emotion.Surprised,
+                        'surprised',
                         `Oops, we're all on top of each other! We need starting places. Let's tap into @Random?`
                     ),
                     edit(EvaluateDance[7]),
-                    pause(),
+                    null,
                     dialog(
                         'Evaluate',
-                        Emotion.Happy,
+                        'happy',
                         `Yay! 
                         
                         Now we just need to move. 
@@ -6953,55 +6749,55 @@ Docs can be
                     ),
                     dialog(
                         'Reaction',
-                        Emotion.Kind,
+                        'kind',
                         `I can change it! 
                         
                         We need a @Time stream, but we also need to change the characters. 
                         But what should the next value be?`
                     ),
                     edit(EvaluateDance[8]),
-                    pause(),
+                    null,
                     dialog(
                         'Evaluate',
-                        Emotion.Eager,
+                        'eager',
                         `I guess we need some way of moving us on each beat. 
                         
                         @StructureDefinition, can we make a move function that chooses a new place and rotation?`
                     ),
                     dialog(
                         'StructureDefinition',
-                        Emotion.Sad,
+                        'sad',
                         `I don't know how to make a function…`
                     ),
-                    pause(),
-                    dialog('Evaluate', Emotion.Sad, `…`),
-                    dialog('FunctionDefinition', Emotion.Happy, `I can help.`),
-                    dialog('Evaluate', Emotion.Happy, `…`),
+                    null,
+                    dialog('Evaluate', 'sad', `…`),
+                    dialog('FunctionDefinition', 'happy', `I can help.`),
+                    dialog('Evaluate', 'happy', `…`),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Happy,
+                        'happy',
                         `Sometimes… I just need you to know how amazing you are. And sometimes that means leaving. Look at what you're creating here…`
                     ),
                     dialog(
                         'Evaluate',
-                        Emotion.Happy,
+                        'happy',
                         `I … I am creating something. 
                         We are creating something… but we can't create it without out. 
                         
                         Will you help?`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Eager,
+                        'eager',
                         `Of course. 
                         A ⧼move⧽ function, coming right up. I'll start it, you finish it…`
                     ),
                     edit(EvaluateDance[9]),
-                    pause(),
+                    null,
                     dialog(
                         'Evaluate',
-                        Emotion.Confused,
+                        'confused',
                         `Thank you @FunctionDefinition. 
                         
                         They're not moving… Oh right, ⧼move⧽ didn't change anything! 
@@ -7012,10 +6808,10 @@ Docs can be
                         `
                     ),
                     edit(EvaluateDance[10]),
-                    pause(),
+                    null,
                     dialog(
                         'Evaluate',
-                        Emotion.Confused,
+                        'confused',
                         `Hmm… still not moving. 
                         
                         Oh! 
@@ -7025,42 +6821,42 @@ Docs can be
                     ),
                     dialog(
                         'ListType',
-                        Emotion.Excited,
+                        'excited',
                         `Translating with your help!`
                     ),
                     edit(EvaluateDance[11]),
-                    pause(),
+                    null,
                     dialog(
                         'Evaluate',
-                        Emotion.Confused,
+                        'confused',
                         `We're so choppy. 
                         
                         Oh, @Phrase, we forgot to set a move @Pose and duration. 
                         Can you choose something smaller than the @Time tick, so we move and then rest a bit?`
                     ),
                     edit(EvaluateDance[12]),
-                    pause(),
+                    null,
                     dialog(
                         'Evaluate',
-                        Emotion.Excited,
+                        'excited',
                         `We're dancing! We're really dancing. We did it!`
                     ),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `We just forgot one person...`
                     ),
-                    dialog('Evaluate', Emotion.Excited, `Who?`),
+                    dialog('Evaluate', 'excited', `Who?`),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `Our director!
                         They should get to dance with us.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Evaluate',
-                        Emotion.Excited,
+                        'excited',
                         `Oh yes, of course!
                         
                         How about we let them make the music?
@@ -7069,69 +6865,69 @@ Docs can be
                         
                         That way, we're turn turn white hot when our director makes noise!`
                     ),
-                    dialog('Phrase', Emotion.Kind, `Excellent idea!`),
+                    dialog('Phrase', 'kind', `Excellent idea!`),
                     edit(EvaluateDance[13]),
-                    pause(),
-                    output(EvaluateDance[13]),
-                    dialog('ListType', Emotion.Excited, `1, 2, 3, 1, 2, 3`),
-                    dialog('BooleanType', Emotion.Excited, `Move!`),
-                    dialog('TextType', Emotion.Excited, `Elation!`),
+                    null,
+                    fit(EvaluateDance[13]),
+                    dialog('ListType', 'excited', `1, 2, 3, 1, 2, 3`),
+                    dialog('BooleanType', 'excited', `Move!`),
+                    dialog('TextType', 'excited', `Elation!`),
                     dialog(
                         'Conditional',
-                        Emotion.Excited,
+                        'excited',
                         `What is dancing, really?`
                     ),
-                    dialog('Changed', Emotion.Excited, `Boom, boom, boom`),
+                    dialog('Changed', 'excited', `Boom, boom, boom`),
                     dialog(
                         'MeasurementType',
-                        Emotion.Excited,
+                        'excited',
                         `left 5 degrees, up 1 meter`
                     ),
-                    dialog('Phrase', Emotion.Excited, `Marvelous!`),
-                    dialog('Sequence', Emotion.Excited, `The feeling!`),
-                    dialog('Group', Emotion.Excited, `Together now!`),
-                    dialog('Stage', Emotion.Excited, `BOOM BOOM BOOM`),
-                    dialog('NoneType', Emotion.Excited, `…`),
+                    dialog('Phrase', 'excited', `Marvelous!`),
+                    dialog('Sequence', 'excited', `The feeling!`),
+                    dialog('Group', 'excited', `Together now!`),
+                    dialog('Stage', 'excited', `BOOM BOOM BOOM`),
+                    dialog('NoneType', 'excited', `…`),
                     dialog(
                         'StructureDefinition',
-                        Emotion.Excited,
+                        'excited',
                         `Remember to move!`
                     ),
-                    dialog('Bind', Emotion.Excited, `Characters!`),
-                    pause(),
+                    dialog('Bind', 'excited', `Characters!`),
+                    null,
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Kind,
+                        'kind',
                         `You did it @Evaluate! 
                         
                         This was your vision.`
                     ),
                     dialog(
                         'Evaluate',
-                        Emotion.Kind,
+                        'kind',
                         `I… I did do it. 
                         
                         But we also did it together.`
                     ),
-                    pause(),
+                    null,
                     dialog(
                         'Program',
-                        Emotion.Curious,
+                        'curious',
                         `Did we just put on our own performance?`
                     ),
-                    dialog('Reaction', Emotion.Eager, `I think we did…`),
+                    dialog('Reaction', 'eager', `I think we did…`),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Serious,
+                        'serious',
                         `We did… but we couldn't have done it without our new director friend. 
                         
                         They broke our silence, they reminded us why we're expressions, together.`
                     ),
-                    pause(),
-                    output(`Phrase("?")`),
+                    null,
+                    fit(`Phrase("?")`),
                     dialog(
                         'FunctionDefinition',
-                        Emotion.Excited,
+                        'excited',
                         `So, sparkly new director, what shall we say?`
                     ),
                 ],

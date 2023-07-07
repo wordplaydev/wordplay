@@ -216,7 +216,7 @@ export default class Token extends Node {
     getGlyphs() {
         return {
             symbols: this.getText(),
-            emotion: Emotion.Cheerful,
+            emotion: Emotion.cheerful,
         };
     }
 }

@@ -112,7 +112,7 @@
             class="glyph"
             data-id={glyph.index}
             style:font-size="{glyph.size}pt"
-            >{glyph.glyph}<Eyes invert={false} emotion={Emotion.Neutral} /></div
+            >{glyph.glyph}<Eyes invert={false} emotion={Emotion.neutral} /></div
         >
     {/each}
 </div>

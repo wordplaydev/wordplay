@@ -213,7 +213,7 @@ export default class UnaryOperation extends Expression {
     getGlyphs() {
         return {
             symbols: this.operator.getText(),
-            emotion: Emotion.Kind,
+            emotion: Emotion.kind,
         };
     }
 }
