@@ -14,7 +14,9 @@
         "preview": "vite preview",
         "stage": "firebase use dev && firebase deploy",
         "release": "firebase use prod && firebase deploy",
-        "schemas": "npx ts-json-schema-generator --tsconfig tsconfig.json --path 'src/tutorial/Tutorial.ts' --type 'Tutorial' --out static/locales/Tutorial.json"
+        "tutorial-schema": "npx ts-json-schema-generator --tsconfig tsconfig.json --path 'src/tutorial/Tutorial.ts' --type 'Tutorial' --out static/locales/Tutorial.json",
+        "locale-schema": "npx ts-json-schema-generator --tsconfig tsconfig.json --path 'src/locale/Locale.ts' --type 'Locale' --out static/locales/Locale.json",
+        "schemas": "npm run tutorial-schema && npm run locale-schema"
     },
     "devDependencies": {
         "@sveltejs/adapter-static": "^2",

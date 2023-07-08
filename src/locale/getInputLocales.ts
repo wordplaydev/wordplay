@@ -4,7 +4,7 @@ import type Doc from '@nodes/Doc';
 import Names from '@nodes/Names';
 import Docs from '@nodes/Docs';
 import { localeToLanguage } from './localeToLanguage';
-import type { NameAndDoc } from './Locale';
+import { toDocString, type NameAndDoc } from './Locale';
 import type Locale from './Locale';
 import { parseLocaleDoc } from '@parser/Parser';
 
@@ -22,7 +22,7 @@ export function getInputLocales(
             if (binds[index] === undefined)
                 binds[index] = { docs: [], names: [] };
             binds[index].docs.push(
-                parseLocaleDoc(input.doc).withLanguage(
+                parseLocaleDoc(toDocString(input.doc)).withLanguage(
                     localeToLanguage(translation)
                 )
             );

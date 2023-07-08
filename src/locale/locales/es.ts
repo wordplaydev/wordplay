@@ -1,6 +1,7 @@
 import type Locale from '../Locale';
 
 const es: Locale = {
+    $schema: '../Locale.json',
     language: 'es',
     wordplay: 'PalabraJugar',
     tbd: 'no escrito',

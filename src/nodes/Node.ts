@@ -5,7 +5,7 @@ import type Spaces from '@parser/Spaces';
 import type Type from './Type';
 import type Token from './Token';
 import type Locale from '@locale/Locale';
-import type { Template, DocString, NodeText } from '@locale/Locale';
+import type { Template, NodeText, DocText } from '@locale/Locale';
 import type Glyph from '../lore/Glyph';
 import type Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';
@@ -654,7 +654,7 @@ export default abstract class Node {
         return [] as TemplateInput[];
     }
 
-    getDoc(locale: Locale): DocString {
+    getDoc(locale: Locale): DocText {
         return this.getNodeLocale(locale).doc;
     }
 

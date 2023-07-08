@@ -1,0 +1,5062 @@
+{
+  "$ref": "#/definitions/Locale",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "ConceptText<1,0>": {
+      "$ref": "#/definitions/NameAndDoc"
+    },
+    "ConflictText": {
+      "additionalProperties": false,
+      "properties": {
+        "primary": {
+          "$ref": "#/definitions/Template"
+        },
+        "secondary": {
+          "$ref": "#/definitions/Template"
+        }
+      },
+      "required": [
+        "primary",
+        "secondary"
+      ],
+      "type": "object"
+    },
+    "DocText": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      ]
+    },
+    "FunctionText<[]>": {
+      "additionalProperties": false,
+      "properties": {
+        "doc": {
+          "$ref": "#/definitions/DocText"
+        },
+        "inputs": {
+          "maxItems": 0,
+          "minItems": 0,
+          "type": "array"
+        },
+        "name": {
+          "$ref": "#/definitions/NameText"
+        }
+      },
+      "required": [
+        "name",
+        "doc",
+        "inputs"
+      ],
+      "type": "object"
+    },
+    "FunctionText<[def-alias-1127088073-242-312-1127088073-0-32615,def-alias-1127088073-242-312-1127088073-0-32615]>": {
+      "additionalProperties": false,
+      "properties": {
+        "doc": {
+          "$ref": "#/definitions/DocText"
+        },
+        "inputs": {
+          "items": {
+            "$ref": "#/definitions/NameAndDoc"
+          },
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
+        "name": {
+          "$ref": "#/definitions/NameText"
+        }
+      },
+      "required": [
+        "name",
+        "doc",
+        "inputs"
+      ],
+      "type": "object"
+    },
+    "FunctionText<[def-alias-1127088073-242-312-1127088073-0-32615]>": {
+      "additionalProperties": false,
+      "properties": {
+        "doc": {
+          "$ref": "#/definitions/DocText"
+        },
+        "inputs": {
+          "items": {
+            "$ref": "#/definitions/NameAndDoc"
+          },
+          "maxItems": 1,
+          "minItems": 1,
+          "type": "array"
+        },
+        "name": {
+          "$ref": "#/definitions/NameText"
+        }
+      },
+      "required": [
+        "name",
+        "doc",
+        "inputs"
+      ],
+      "type": "object"
+    },
+    "InputTexts": {
+      "additionalProperties": false,
+      "properties": {
+        "Button": {
+          "additionalProperties": false,
+          "properties": {
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "down": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "names": {
+              "$ref": "#/definitions/NameText"
+            }
+          },
+          "required": [
+            "doc",
+            "down",
+            "names"
+          ],
+          "type": "object"
+        },
+        "Camera": {
+          "additionalProperties": false,
+          "properties": {
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "frequency": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "height": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "names": {
+              "$ref": "#/definitions/NameText"
+            },
+            "width": {
+              "$ref": "#/definitions/NameAndDoc"
+            }
+          },
+          "required": [
+            "doc",
+            "frequency",
+            "height",
+            "names",
+            "width"
+          ],
+          "type": "object"
+        },
+        "Choice": {
+          "$ref": "#/definitions/ConceptText%3C1%2C0%3E"
+        },
+        "Key": {
+          "additionalProperties": false,
+          "properties": {
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "down": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "key": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "names": {
+              "$ref": "#/definitions/NameText"
+            }
+          },
+          "required": [
+            "doc",
+            "down",
+            "key",
+            "names"
+          ],
+          "type": "object"
+        },
+        "Mic": {
+          "additionalProperties": false,
+          "properties": {
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "frequency": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "names": {
+              "$ref": "#/definitions/NameText"
+            }
+          },
+          "required": [
+            "doc",
+            "frequency",
+            "names"
+          ],
+          "type": "object"
+        },
+        "Motion": {
+          "additionalProperties": false,
+          "properties": {
+            "bounciness": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "gravity": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "mass": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "names": {
+              "$ref": "#/definitions/NameText"
+            },
+            "type": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "vangle": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "vx": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "vy": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "vz": {
+              "$ref": "#/definitions/NameAndDoc"
+            }
+          },
+          "required": [
+            "bounciness",
+            "doc",
+            "gravity",
+            "mass",
+            "names",
+            "type",
+            "vangle",
+            "vx",
+            "vy",
+            "vz"
+          ],
+          "type": "object"
+        },
+        "Pointer": {
+          "$ref": "#/definitions/ConceptText%3C1%2C0%3E"
+        },
+        "Random": {
+          "additionalProperties": false,
+          "properties": {
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "max": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "min": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "names": {
+              "$ref": "#/definitions/NameText"
+            }
+          },
+          "required": [
+            "doc",
+            "max",
+            "min",
+            "names"
+          ],
+          "type": "object"
+        },
+        "Reaction": {
+          "$ref": "#/definitions/ConceptText%3C1%2C0%3E"
+        },
+        "Time": {
+          "additionalProperties": false,
+          "properties": {
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "frequency": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "names": {
+              "$ref": "#/definitions/NameText"
+            }
+          },
+          "required": [
+            "doc",
+            "frequency",
+            "names"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "Random",
+        "Choice",
+        "Button",
+        "Pointer",
+        "Key",
+        "Time",
+        "Mic",
+        "Camera",
+        "Reaction",
+        "Motion"
+      ],
+      "type": "object"
+    },
+    "InternalConflictText": {
+      "$ref": "#/definitions/Template"
+    },
+    "Locale": {
+      "additionalProperties": false,
+      "description": "Represents a complete translation for Wordplay, including every user interface label, every description, etc. All of these fields must be included in order for a translation to be complete.",
+      "properties": {
+        "$schema": {
+          "description": "A path to the generated JSON schema that mirrors this type, for validation and auto-complete",
+          "type": "string"
+        },
+        "animation": {
+          "additionalProperties": false,
+          "properties": {
+            "bounce": {
+              "additionalProperties": false,
+              "properties": {
+                "doc": {
+                  "$ref": "#/definitions/DocText"
+                },
+                "height": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText"
+                }
+              },
+              "required": [
+                "doc",
+                "height",
+                "names"
+              ],
+              "type": "object"
+            },
+            "fadein": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "popup": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "shake": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "spin": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "sway": {
+              "additionalProperties": false,
+              "properties": {
+                "angle": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText"
+                }
+              },
+              "required": [
+                "angle",
+                "doc",
+                "names"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "sway",
+            "bounce",
+            "spin",
+            "fadein",
+            "popup",
+            "shake"
+          ],
+          "type": "object"
+        },
+        "caret": {
+          "additionalProperties": false,
+          "description": "A way to say \"before [description]\"",
+          "properties": {
+            "before": {
+              "$ref": "#/definitions/Template"
+            },
+            "inside": {
+              "$ref": "#/definitions/Template"
+            }
+          },
+          "required": [
+            "before",
+            "inside"
+          ],
+          "type": "object"
+        },
+        "conflict": {
+          "additionalProperties": false,
+          "properties": {
+            "BorrowCycle": {
+              "$ref": "#/definitions/InternalConflictText",
+              "description": "$1: borrow that had a cycle"
+            },
+            "DisallowedInputs": {
+              "$ref": "#/definitions/InternalConflictText"
+            },
+            "DuplicateName": {
+              "$ref": "#/definitions/ConflictText",
+              "description": "$1: The name that shadowed this one"
+            },
+            "DuplicateShare": {
+              "$ref": "#/definitions/ConflictText",
+              "description": "$1: The duplicate"
+            },
+            "DuplicateTypeVariable": {
+              "$ref": "#/definitions/ConflictText",
+              "description": "$1: The duplicate"
+            },
+            "ExpectedBooleanCondition": {
+              "$ref": "#/definitions/ConflictText",
+              "description": "$1: The non-boolean expression"
+            },
+            "ExpectedColumnType": {
+              "$ref": "#/definitions/InternalConflictText",
+              "description": "$: The missing column"
+            },
+            "ExpectedEndingExpression": {
+              "$ref": "#/definitions/InternalConflictText"
+            },
+            "ExpectedSelectName": {
+              "$ref": "#/definitions/InternalConflictText",
+              "description": "$1: The select expression"
+            },
+            "ExpectedUpdateBind": {
+              "$ref": "#/definitions/InternalConflictText"
+            },
+            "IgnoredExpression": {
+              "$ref": "#/definitions/ConflictText"
+            },
+            "ImpossibleType": {
+              "$ref": "#/definitions/InternalConflictText"
+            },
+            "IncompatibleBind": {
+              "$ref": "#/definitions/ConflictText",
+              "description": "$1: Expected $2: Given"
+            },
+            "IncompatibleCellType": {
+              "$ref": "#/definitions/ConflictText",
+              "description": "$1: Expected $2: Given"
+            },
+            "IncompatibleInput": {
+              "$ref": "#/definitions/ConflictText",
+              "description": "$1: Expected $2: Given"
+            },
+            "IncompatibleKey": {
+              "$ref": "#/definitions/ConflictText",
+              "description": "$1: Expected $2: Given"
+            },
+            "IncompleteImplementation": {
+              "$ref": "#/definitions/InternalConflictText"
+            },
+            "InputListMustBeLast": {
+              "$ref": "#/definitions/InternalConflictText"
+            },
+            "InvalidLanguage": {
+              "$ref": "#/definitions/InternalConflictText"
+            },
+            "InvalidRow": {
+              "$ref": "#/definitions/InternalConflictText"
+            },
+            "InvalidTypeInput": {
+              "$ref": "#/definitions/ConflictText",
+              "description": "$1: Definition $2: Type"
+            },
+            "InvalidTypeName": {
+              "$ref": "#/definitions/InternalConflictText",
+              "description": "$1: Invalid type"
+            },
+            "MisplacedConversion": {
+              "$ref": "#/definitions/InternalConflictText"
+            },
+            "MisplacedInput": {
+              "$ref": "#/definitions/InternalConflictText"
+            },
+            "MisplacedShare": {
+              "$ref": "#/definitions/InternalConflictText"
+            },
+            "MisplacedThis": {
+              "$ref": "#/definitions/InternalConflictText"
+            },
+            "MissingCell": {
+              "$ref": "#/definitions/ConflictText",
+              "description": "$1: Column $2: Row"
+            },
+            "MissingInput": {
+              "$ref": "#/definitions/ConflictText",
+              "description": "$1: Missing input $2: Evaluate that is missing input"
+            },
+            "MissingLanguage": {
+              "$ref": "#/definitions/InternalConflictText"
+            },
+            "MissingShareLanguages": {
+              "$ref": "#/definitions/InternalConflictText"
+            },
+            "NoExpression": {
+              "$ref": "#/definitions/InternalConflictText"
+            },
+            "NotAMap": {
+              "$ref": "#/definitions/ConflictText",
+              "description": "$1: Expression that's not a map"
+            },
+            "NotANumber": {
+              "$ref": "#/definitions/InternalConflictText"
+            },
+            "NotAnInterface": {
+              "$ref": "#/definitions/InternalConflictText"
+            },
+            "NotInstantiable": {
+              "$ref": "#/definitions/InternalConflictText"
+            },
+            "OrderOfOperations": {
+              "$ref": "#/definitions/InternalConflictText"
+            },
+            "Placeholder": {
+              "$ref": "#/definitions/InternalConflictText"
+            },
+            "ReferenceCycle": {
+              "$ref": "#/definitions/InternalConflictText",
+              "description": "$1: The name that depends on itself"
+            },
+            "RequiredAfterOptional": {
+              "$ref": "#/definitions/InternalConflictText"
+            },
+            "UnclosedDelimiter": {
+              "$ref": "#/definitions/InternalConflictText",
+              "description": "$1: Unclosed token $2: Opening delimiter"
+            },
+            "UnexpectedEtc": {
+              "$ref": "#/definitions/InternalConflictText"
+            },
+            "UnexpectedInput": {
+              "$ref": "#/definitions/ConflictText",
+              "description": "$1: Evaluate with unexected input $2: Unexpected input"
+            },
+            "UnexpectedTypeVariable": {
+              "$ref": "#/definitions/InternalConflictText"
+            },
+            "UnimplementedInterface": {
+              "$ref": "#/definitions/InternalConflictText",
+              "description": "$1: Interface $2: Function"
+            },
+            "UnknownBorrow": {
+              "$ref": "#/definitions/InternalConflictText"
+            },
+            "UnknownColumn": {
+              "$ref": "#/definitions/InternalConflictText"
+            },
+            "UnknownConversion": {
+              "$ref": "#/definitions/InternalConflictText",
+              "description": "$1: From type $2: To type"
+            },
+            "UnknownInput": {
+              "$ref": "#/definitions/InternalConflictText"
+            },
+            "UnknownName": {
+              "$ref": "#/definitions/InternalConflictText",
+              "description": "$1: Scope"
+            },
+            "Unnamed": {
+              "$ref": "#/definitions/InternalConflictText"
+            },
+            "UnparsableConflict": {
+              "$ref": "#/definitions/InternalConflictText",
+              "description": "$1: True if expression, false if type"
+            },
+            "UnusedBind": {
+              "$ref": "#/definitions/InternalConflictText"
+            }
+          },
+          "required": [
+            "BorrowCycle",
+            "ReferenceCycle",
+            "DisallowedInputs",
+            "DuplicateName",
+            "DuplicateShare",
+            "DuplicateTypeVariable",
+            "ExpectedBooleanCondition",
+            "ExpectedColumnType",
+            "ExpectedEndingExpression",
+            "ExpectedSelectName",
+            "ExpectedUpdateBind",
+            "IgnoredExpression",
+            "IncompleteImplementation",
+            "IncompatibleBind",
+            "IncompatibleCellType",
+            "IncompatibleInput",
+            "IncompatibleKey",
+            "ImpossibleType",
+            "InvalidLanguage",
+            "InvalidRow",
+            "InvalidTypeInput",
+            "MisplacedConversion",
+            "MisplacedInput",
+            "MisplacedShare",
+            "MisplacedThis",
+            "MissingCell",
+            "MissingInput",
+            "MissingLanguage",
+            "MissingShareLanguages",
+            "NoExpression",
+            "NotAMap",
+            "NotANumber",
+            "NotAnInterface",
+            "NotInstantiable",
+            "OrderOfOperations",
+            "Placeholder",
+            "RequiredAfterOptional",
+            "UnclosedDelimiter",
+            "UnexpectedEtc",
+            "UnexpectedInput",
+            "UnexpectedTypeVariable",
+            "UnimplementedInterface",
+            "UnknownBorrow",
+            "UnknownColumn",
+            "UnknownConversion",
+            "UnknownInput",
+            "UnknownName",
+            "InvalidTypeName",
+            "Unnamed",
+            "UnparsableConflict",
+            "UnusedBind",
+            "InputListMustBeLast"
+          ],
+          "type": "object"
+        },
+        "data": {
+          "additionalProperties": false,
+          "properties": {
+            "boolean": {
+              "type": "string"
+            },
+            "exception": {
+              "type": "string"
+            },
+            "function": {
+              "type": "string"
+            },
+            "index": {
+              "type": "string"
+            },
+            "key": {
+              "type": "string"
+            },
+            "list": {
+              "type": "string"
+            },
+            "map": {
+              "type": "string"
+            },
+            "measurement": {
+              "type": "string"
+            },
+            "none": {
+              "type": "string"
+            },
+            "query": {
+              "type": "string"
+            },
+            "row": {
+              "type": "string"
+            },
+            "set": {
+              "type": "string"
+            },
+            "stream": {
+              "type": "string"
+            },
+            "streamdefinition": {
+              "type": "string"
+            },
+            "structure": {
+              "type": "string"
+            },
+            "table": {
+              "type": "string"
+            },
+            "text": {
+              "type": "string"
+            },
+            "value": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "value",
+            "boolean",
+            "table",
+            "list",
+            "map",
+            "text",
+            "measurement",
+            "function",
+            "none",
+            "exception",
+            "row",
+            "set",
+            "structure",
+            "streamdefinition",
+            "stream",
+            "index",
+            "query",
+            "key"
+          ],
+          "type": "object"
+        },
+        "evaluation": {
+          "additionalProperties": false,
+          "properties": {
+            "done": {
+              "$ref": "#/definitions/Template"
+            },
+            "unevaluated": {
+              "$ref": "#/definitions/Template"
+            }
+          },
+          "required": [
+            "done",
+            "unevaluated"
+          ],
+          "type": "object"
+        },
+        "exceptions": {
+          "additionalProperties": false,
+          "properties": {
+            "blank": {
+              "$ref": "#/definitions/Template",
+              "description": "No inputs"
+            },
+            "cycle": {
+              "$ref": "#/definitions/Template",
+              "description": "$1: Borrow that it depends on"
+            },
+            "function": {
+              "$ref": "#/definitions/Template",
+              "description": "$1: Name of function not found in scope"
+            },
+            "functionlimit": {
+              "$ref": "#/definitions/Template",
+              "description": "$1: The function that was evaluated too many times"
+            },
+            "name": {
+              "$ref": "#/definitions/Template",
+              "description": "$1: Scope in which name was not found"
+            },
+            "placeholder": {
+              "$ref": "#/definitions/Template",
+              "description": "No inputs"
+            },
+            "steplimit": {
+              "$ref": "#/definitions/Template",
+              "description": "No inputs"
+            },
+            "type": {
+              "$ref": "#/definitions/Template",
+              "description": "$1 = expected type $2 = received type"
+            },
+            "unparsable": {
+              "$ref": "#/definitions/Template",
+              "description": "No inputs"
+            },
+            "value": {
+              "$ref": "#/definitions/Template",
+              "description": "No inputs"
+            }
+          },
+          "required": [
+            "blank",
+            "function",
+            "name",
+            "cycle",
+            "functionlimit",
+            "steplimit",
+            "type",
+            "placeholder",
+            "unparsable",
+            "value"
+          ],
+          "type": "object"
+        },
+        "input": {
+          "$ref": "#/definitions/InputTexts"
+        },
+        "language": {
+          "description": "An ISO 639-1 language code",
+          "type": [
+            "string"
+          ]
+        },
+        "motto": {
+          "description": "The motto for Wordplay on the landing page.",
+          "type": "string"
+        },
+        "native": {
+          "additionalProperties": false,
+          "properties": {
+            "bool": {
+              "additionalProperties": false,
+              "properties": {
+                "conversion": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "text": {
+                      "$ref": "#/definitions/DocText"
+                    }
+                  },
+                  "required": [
+                    "text"
+                  ],
+                  "type": "object"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText"
+                },
+                "function": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "and": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-242-312-1127088073-0-32615%5D%3E"
+                    },
+                    "equals": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-242-312-1127088073-0-32615%5D%3E"
+                    },
+                    "not": {
+                      "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
+                    },
+                    "notequal": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-242-312-1127088073-0-32615%5D%3E"
+                    },
+                    "or": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-242-312-1127088073-0-32615%5D%3E"
+                    }
+                  },
+                  "required": [
+                    "and",
+                    "or",
+                    "not",
+                    "equals",
+                    "notequal"
+                  ],
+                  "type": "object"
+                },
+                "name": {
+                  "$ref": "#/definitions/NameText"
+                }
+              },
+              "required": [
+                "doc",
+                "name",
+                "function",
+                "conversion"
+              ],
+              "type": "object"
+            },
+            "list": {
+              "additionalProperties": false,
+              "properties": {
+                "conversion": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "set": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "text": {
+                      "$ref": "#/definitions/DocText"
+                    }
+                  },
+                  "required": [
+                    "text",
+                    "set"
+                  ],
+                  "type": "object"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText"
+                },
+                "function": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "add": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-242-312-1127088073-0-32615%5D%3E"
+                    },
+                    "all": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "doc": {
+                          "$ref": "#/definitions/DocText"
+                        },
+                        "inputs": {
+                          "items": {
+                            "$ref": "#/definitions/NameAndDoc"
+                          },
+                          "maxItems": 1,
+                          "minItems": 1,
+                          "type": "array"
+                        },
+                        "name": {
+                          "$ref": "#/definitions/NameText"
+                        },
+                        "value": {
+                          "$ref": "#/definitions/NameAndDoc"
+                        }
+                      },
+                      "required": [
+                        "doc",
+                        "inputs",
+                        "name",
+                        "value"
+                      ],
+                      "type": "object"
+                    },
+                    "append": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-242-312-1127088073-0-32615%5D%3E"
+                    },
+                    "combine": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "combination": {
+                          "$ref": "#/definitions/NameAndDoc"
+                        },
+                        "doc": {
+                          "$ref": "#/definitions/DocText"
+                        },
+                        "index": {
+                          "$ref": "#/definitions/NameAndDoc"
+                        },
+                        "inputs": {
+                          "items": {
+                            "$ref": "#/definitions/NameAndDoc"
+                          },
+                          "maxItems": 2,
+                          "minItems": 2,
+                          "type": "array"
+                        },
+                        "name": {
+                          "$ref": "#/definitions/NameText"
+                        },
+                        "next": {
+                          "$ref": "#/definitions/NameAndDoc"
+                        }
+                      },
+                      "required": [
+                        "combination",
+                        "doc",
+                        "index",
+                        "inputs",
+                        "name",
+                        "next"
+                      ],
+                      "type": "object"
+                    },
+                    "equals": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-242-312-1127088073-0-32615%5D%3E"
+                    },
+                    "filter": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "doc": {
+                          "$ref": "#/definitions/DocText"
+                        },
+                        "inputs": {
+                          "items": {
+                            "$ref": "#/definitions/NameAndDoc"
+                          },
+                          "maxItems": 1,
+                          "minItems": 1,
+                          "type": "array"
+                        },
+                        "name": {
+                          "$ref": "#/definitions/NameText"
+                        },
+                        "value": {
+                          "$ref": "#/definitions/NameAndDoc"
+                        }
+                      },
+                      "required": [
+                        "doc",
+                        "inputs",
+                        "name",
+                        "value"
+                      ],
+                      "type": "object"
+                    },
+                    "find": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "doc": {
+                          "$ref": "#/definitions/DocText"
+                        },
+                        "inputs": {
+                          "items": {
+                            "$ref": "#/definitions/NameAndDoc"
+                          },
+                          "maxItems": 1,
+                          "minItems": 1,
+                          "type": "array"
+                        },
+                        "name": {
+                          "$ref": "#/definitions/NameText"
+                        },
+                        "value": {
+                          "$ref": "#/definitions/NameAndDoc"
+                        }
+                      },
+                      "required": [
+                        "doc",
+                        "inputs",
+                        "name",
+                        "value"
+                      ],
+                      "type": "object"
+                    },
+                    "first": {
+                      "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
+                    },
+                    "has": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-242-312-1127088073-0-32615%5D%3E"
+                    },
+                    "join": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-242-312-1127088073-0-32615%5D%3E"
+                    },
+                    "last": {
+                      "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
+                    },
+                    "length": {
+                      "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
+                    },
+                    "notequals": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-242-312-1127088073-0-32615%5D%3E"
+                    },
+                    "random": {
+                      "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
+                    },
+                    "replace": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-242-312-1127088073-0-32615%2Cdef-alias-1127088073-242-312-1127088073-0-32615%5D%3E"
+                    },
+                    "reverse": {
+                      "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
+                    },
+                    "sans": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-242-312-1127088073-0-32615%5D%3E"
+                    },
+                    "sansAll": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-242-312-1127088073-0-32615%5D%3E"
+                    },
+                    "sansFirst": {
+                      "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
+                    },
+                    "sansLast": {
+                      "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
+                    },
+                    "translate": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "doc": {
+                          "$ref": "#/definitions/DocText"
+                        },
+                        "index": {
+                          "$ref": "#/definitions/NameAndDoc"
+                        },
+                        "inputs": {
+                          "items": {
+                            "$ref": "#/definitions/NameAndDoc"
+                          },
+                          "maxItems": 1,
+                          "minItems": 1,
+                          "type": "array"
+                        },
+                        "name": {
+                          "$ref": "#/definitions/NameText"
+                        },
+                        "value": {
+                          "$ref": "#/definitions/NameAndDoc"
+                        }
+                      },
+                      "required": [
+                        "doc",
+                        "index",
+                        "inputs",
+                        "name",
+                        "value"
+                      ],
+                      "type": "object"
+                    },
+                    "until": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "doc": {
+                          "$ref": "#/definitions/DocText"
+                        },
+                        "inputs": {
+                          "items": {
+                            "$ref": "#/definitions/NameAndDoc"
+                          },
+                          "maxItems": 1,
+                          "minItems": 1,
+                          "type": "array"
+                        },
+                        "name": {
+                          "$ref": "#/definitions/NameText"
+                        },
+                        "value": {
+                          "$ref": "#/definitions/NameAndDoc"
+                        }
+                      },
+                      "required": [
+                        "doc",
+                        "inputs",
+                        "name",
+                        "value"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "add",
+                    "append",
+                    "replace",
+                    "length",
+                    "random",
+                    "first",
+                    "last",
+                    "has",
+                    "join",
+                    "sansFirst",
+                    "sansLast",
+                    "sans",
+                    "sansAll",
+                    "reverse",
+                    "equals",
+                    "notequals",
+                    "translate",
+                    "filter",
+                    "all",
+                    "until",
+                    "find",
+                    "combine"
+                  ],
+                  "type": "object"
+                },
+                "kind": {
+                  "$ref": "#/definitions/NameText"
+                },
+                "name": {
+                  "$ref": "#/definitions/NameText"
+                },
+                "out": {
+                  "$ref": "#/definitions/NameText"
+                },
+                "outofbounds": {
+                  "$ref": "#/definitions/NameText"
+                }
+              },
+              "required": [
+                "doc",
+                "name",
+                "kind",
+                "out",
+                "outofbounds",
+                "function",
+                "conversion"
+              ],
+              "type": "object"
+            },
+            "map": {
+              "additionalProperties": false,
+              "properties": {
+                "conversion": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "list": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "set": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "text": {
+                      "$ref": "#/definitions/DocText"
+                    }
+                  },
+                  "required": [
+                    "text",
+                    "set",
+                    "list"
+                  ],
+                  "type": "object"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText"
+                },
+                "function": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "equals": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-242-312-1127088073-0-32615%5D%3E"
+                    },
+                    "filter": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "doc": {
+                          "$ref": "#/definitions/DocText"
+                        },
+                        "inputs": {
+                          "items": {
+                            "$ref": "#/definitions/NameAndDoc"
+                          },
+                          "maxItems": 1,
+                          "minItems": 1,
+                          "type": "array"
+                        },
+                        "key": {
+                          "$ref": "#/definitions/NameAndDoc"
+                        },
+                        "name": {
+                          "$ref": "#/definitions/NameText"
+                        },
+                        "value": {
+                          "$ref": "#/definitions/NameAndDoc"
+                        }
+                      },
+                      "required": [
+                        "doc",
+                        "inputs",
+                        "key",
+                        "name",
+                        "value"
+                      ],
+                      "type": "object"
+                    },
+                    "notequals": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-242-312-1127088073-0-32615%5D%3E"
+                    },
+                    "remove": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-242-312-1127088073-0-32615%5D%3E"
+                    },
+                    "set": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-242-312-1127088073-0-32615%2Cdef-alias-1127088073-242-312-1127088073-0-32615%5D%3E"
+                    },
+                    "translate": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "doc": {
+                          "$ref": "#/definitions/DocText"
+                        },
+                        "inputs": {
+                          "items": {
+                            "$ref": "#/definitions/NameAndDoc"
+                          },
+                          "maxItems": 1,
+                          "minItems": 1,
+                          "type": "array"
+                        },
+                        "key": {
+                          "$ref": "#/definitions/NameAndDoc"
+                        },
+                        "name": {
+                          "$ref": "#/definitions/NameText"
+                        },
+                        "value": {
+                          "$ref": "#/definitions/NameAndDoc"
+                        }
+                      },
+                      "required": [
+                        "doc",
+                        "inputs",
+                        "key",
+                        "name",
+                        "value"
+                      ],
+                      "type": "object"
+                    },
+                    "unset": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-242-312-1127088073-0-32615%5D%3E"
+                    }
+                  },
+                  "required": [
+                    "equals",
+                    "notequals",
+                    "set",
+                    "unset",
+                    "remove",
+                    "filter",
+                    "translate"
+                  ],
+                  "type": "object"
+                },
+                "key": {
+                  "$ref": "#/definitions/NameText"
+                },
+                "name": {
+                  "$ref": "#/definitions/NameText"
+                },
+                "result": {
+                  "$ref": "#/definitions/NameText"
+                },
+                "value": {
+                  "$ref": "#/definitions/NameText"
+                }
+              },
+              "required": [
+                "doc",
+                "name",
+                "key",
+                "value",
+                "result",
+                "function",
+                "conversion"
+              ],
+              "type": "object"
+            },
+            "measurement": {
+              "additionalProperties": false,
+              "properties": {
+                "conversion": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "Gm2m": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "Mm2m": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "Tm2m": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "cm2in": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "cm2m": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "day2s": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "dm2m": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "ft2m": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "g2kg": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "g2mg": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "g2oz": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "h2s": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "in2cm": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "kg2g": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "km2m": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "km2mi": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "lb2oz": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "list": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "m2Gm": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "m2Mm": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "m2Tm": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "m2cm": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "m2dm": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "m2ft": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "m2km": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "m2micro": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "m2mm": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "m2nm": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "m2pm": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "mg2g": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "mi2km": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "micro2m": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "min2s": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "mm2m": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "ms2s": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "nm2m": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "oz2g": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "oz2lb": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "pm2m": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "s2day": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "s2h": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "s2m": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "s2ms": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "s2wk": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "s2year": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "text": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "wk2s": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "yr2s": {
+                      "$ref": "#/definitions/DocText"
+                    }
+                  },
+                  "required": [
+                    "text",
+                    "list",
+                    "s2m",
+                    "s2h",
+                    "s2day",
+                    "s2wk",
+                    "s2year",
+                    "s2ms",
+                    "ms2s",
+                    "min2s",
+                    "h2s",
+                    "day2s",
+                    "wk2s",
+                    "yr2s",
+                    "m2pm",
+                    "m2nm",
+                    "m2micro",
+                    "m2mm",
+                    "m2cm",
+                    "m2dm",
+                    "m2km",
+                    "m2Mm",
+                    "m2Gm",
+                    "m2Tm",
+                    "pm2m",
+                    "nm2m",
+                    "micro2m",
+                    "mm2m",
+                    "cm2m",
+                    "dm2m",
+                    "km2m",
+                    "Mm2m",
+                    "Gm2m",
+                    "Tm2m",
+                    "km2mi",
+                    "mi2km",
+                    "cm2in",
+                    "in2cm",
+                    "m2ft",
+                    "ft2m",
+                    "g2mg",
+                    "mg2g",
+                    "g2kg",
+                    "kg2g",
+                    "g2oz",
+                    "oz2g",
+                    "oz2lb",
+                    "lb2oz"
+                  ],
+                  "type": "object"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText"
+                },
+                "function": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "absolute": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-242-312-1127088073-0-32615%5D%3E"
+                    },
+                    "add": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-242-312-1127088073-0-32615%5D%3E"
+                    },
+                    "cos": {
+                      "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
+                    },
+                    "divide": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-242-312-1127088073-0-32615%5D%3E"
+                    },
+                    "equal": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-242-312-1127088073-0-32615%5D%3E"
+                    },
+                    "greaterOrEqual": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-242-312-1127088073-0-32615%5D%3E"
+                    },
+                    "greaterThan": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-242-312-1127088073-0-32615%5D%3E"
+                    },
+                    "lessOrEqual": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-242-312-1127088073-0-32615%5D%3E"
+                    },
+                    "lessThan": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-242-312-1127088073-0-32615%5D%3E"
+                    },
+                    "multiply": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-242-312-1127088073-0-32615%5D%3E"
+                    },
+                    "notequal": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-242-312-1127088073-0-32615%5D%3E"
+                    },
+                    "power": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-242-312-1127088073-0-32615%5D%3E"
+                    },
+                    "remainder": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-242-312-1127088073-0-32615%5D%3E"
+                    },
+                    "root": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-242-312-1127088073-0-32615%5D%3E"
+                    },
+                    "sin": {
+                      "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
+                    },
+                    "subtract": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-242-312-1127088073-0-32615%5D%3E"
+                    },
+                    "truncate": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-242-312-1127088073-0-32615%5D%3E"
+                    }
+                  },
+                  "required": [
+                    "add",
+                    "subtract",
+                    "multiply",
+                    "divide",
+                    "remainder",
+                    "truncate",
+                    "absolute",
+                    "power",
+                    "root",
+                    "lessThan",
+                    "greaterThan",
+                    "lessOrEqual",
+                    "greaterOrEqual",
+                    "equal",
+                    "notequal",
+                    "cos",
+                    "sin"
+                  ],
+                  "type": "object"
+                },
+                "name": {
+                  "$ref": "#/definitions/NameText"
+                }
+              },
+              "required": [
+                "doc",
+                "name",
+                "function",
+                "conversion"
+              ],
+              "type": "object"
+            },
+            "none": {
+              "additionalProperties": false,
+              "properties": {
+                "conversion": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "text": {
+                      "$ref": "#/definitions/DocText"
+                    }
+                  },
+                  "required": [
+                    "text"
+                  ],
+                  "type": "object"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText"
+                },
+                "function": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "equals": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-242-312-1127088073-0-32615%5D%3E"
+                    },
+                    "notequals": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-242-312-1127088073-0-32615%5D%3E"
+                    }
+                  },
+                  "required": [
+                    "equals",
+                    "notequals"
+                  ],
+                  "type": "object"
+                },
+                "name": {
+                  "$ref": "#/definitions/NameText"
+                }
+              },
+              "required": [
+                "doc",
+                "name",
+                "function",
+                "conversion"
+              ],
+              "type": "object"
+            },
+            "set": {
+              "additionalProperties": false,
+              "properties": {
+                "conversion": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "list": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "text": {
+                      "$ref": "#/definitions/DocText"
+                    }
+                  },
+                  "required": [
+                    "text",
+                    "list"
+                  ],
+                  "type": "object"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText"
+                },
+                "function": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "add": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-242-312-1127088073-0-32615%5D%3E"
+                    },
+                    "difference": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-242-312-1127088073-0-32615%5D%3E"
+                    },
+                    "equals": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-242-312-1127088073-0-32615%5D%3E"
+                    },
+                    "filter": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "doc": {
+                          "$ref": "#/definitions/DocText"
+                        },
+                        "inputs": {
+                          "items": {
+                            "$ref": "#/definitions/NameAndDoc"
+                          },
+                          "maxItems": 1,
+                          "minItems": 1,
+                          "type": "array"
+                        },
+                        "name": {
+                          "$ref": "#/definitions/NameText"
+                        },
+                        "value": {
+                          "$ref": "#/definitions/NameAndDoc"
+                        }
+                      },
+                      "required": [
+                        "doc",
+                        "inputs",
+                        "name",
+                        "value"
+                      ],
+                      "type": "object"
+                    },
+                    "intersection": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-242-312-1127088073-0-32615%5D%3E"
+                    },
+                    "notequals": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-242-312-1127088073-0-32615%5D%3E"
+                    },
+                    "remove": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-242-312-1127088073-0-32615%5D%3E"
+                    },
+                    "translate": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "doc": {
+                          "$ref": "#/definitions/DocText"
+                        },
+                        "inputs": {
+                          "items": {
+                            "$ref": "#/definitions/NameAndDoc"
+                          },
+                          "maxItems": 1,
+                          "minItems": 1,
+                          "type": "array"
+                        },
+                        "name": {
+                          "$ref": "#/definitions/NameText"
+                        },
+                        "value": {
+                          "$ref": "#/definitions/NameAndDoc"
+                        }
+                      },
+                      "required": [
+                        "doc",
+                        "inputs",
+                        "name",
+                        "value"
+                      ],
+                      "type": "object"
+                    },
+                    "union": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-242-312-1127088073-0-32615%5D%3E"
+                    }
+                  },
+                  "required": [
+                    "equals",
+                    "notequals",
+                    "add",
+                    "remove",
+                    "union",
+                    "intersection",
+                    "difference",
+                    "filter",
+                    "translate"
+                  ],
+                  "type": "object"
+                },
+                "kind": {
+                  "$ref": "#/definitions/NameText"
+                },
+                "name": {
+                  "$ref": "#/definitions/NameText"
+                }
+              },
+              "required": [
+                "doc",
+                "name",
+                "kind",
+                "function",
+                "conversion"
+              ],
+              "type": "object"
+            },
+            "text": {
+              "additionalProperties": false,
+              "properties": {
+                "conversion": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "number": {
+                      "$ref": "#/definitions/DocText"
+                    },
+                    "text": {
+                      "$ref": "#/definitions/DocText"
+                    }
+                  },
+                  "required": [
+                    "text",
+                    "number"
+                  ],
+                  "type": "object"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText"
+                },
+                "function": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "combine": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-242-312-1127088073-0-32615%5D%3E"
+                    },
+                    "equals": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-242-312-1127088073-0-32615%5D%3E"
+                    },
+                    "has": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-242-312-1127088073-0-32615%5D%3E"
+                    },
+                    "length": {
+                      "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
+                    },
+                    "notequals": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-242-312-1127088073-0-32615%5D%3E"
+                    },
+                    "repeat": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-242-312-1127088073-0-32615%5D%3E"
+                    },
+                    "segment": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-242-312-1127088073-0-32615%5D%3E"
+                    }
+                  },
+                  "required": [
+                    "length",
+                    "equals",
+                    "notequals",
+                    "repeat",
+                    "segment",
+                    "combine",
+                    "has"
+                  ],
+                  "type": "object"
+                },
+                "name": {
+                  "$ref": "#/definitions/NameText"
+                }
+              },
+              "required": [
+                "doc",
+                "name",
+                "function",
+                "conversion"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "bool",
+            "none",
+            "text",
+            "measurement",
+            "list",
+            "set",
+            "map"
+          ],
+          "type": "object"
+        },
+        "node": {
+          "$ref": "#/definitions/NodeTexts"
+        },
+        "output": {
+          "$ref": "#/definitions/OutputTexts"
+        },
+        "step": {
+          "additionalProperties": false,
+          "properties": {
+            "check": {
+              "$ref": "#/definitions/Template"
+            },
+            "evaluate": {
+              "$ref": "#/definitions/Template"
+            },
+            "halt": {
+              "$ref": "#/definitions/Template"
+            },
+            "initialize": {
+              "$ref": "#/definitions/Template"
+            },
+            "jump": {
+              "$ref": "#/definitions/Template"
+            },
+            "jumpif": {
+              "$ref": "#/definitions/Template",
+              "description": "$1: true if jumping"
+            },
+            "next": {
+              "$ref": "#/definitions/Template"
+            },
+            "stream": {
+              "$ref": "#/definitions/Template"
+            }
+          },
+          "required": [
+            "stream",
+            "jump",
+            "jumpif",
+            "halt",
+            "initialize",
+            "evaluate",
+            "next",
+            "check"
+          ],
+          "type": "object"
+        },
+        "tbd": {
+          "description": "The placeholder string indicating that a locale string is not yet written",
+          "type": "string"
+        },
+        "terminology": {
+          "additionalProperties": false,
+          "properties": {
+            "act": {
+              "type": "string"
+            },
+            "changed": {
+              "description": "How to describe output that has changed",
+              "type": "string"
+            },
+            "code": {
+              "type": "string"
+            },
+            "decide": {
+              "type": "string"
+            },
+            "entered": {
+              "description": "How to describe output that has entered for the first time",
+              "type": "string"
+            },
+            "group": {
+              "type": "string"
+            },
+            "input": {
+              "type": "string"
+            },
+            "name": {
+              "description": "How to refer to names that things have",
+              "type": "string"
+            },
+            "output": {
+              "type": "string"
+            },
+            "phrase": {
+              "type": "string"
+            },
+            "project": {
+              "type": "string"
+            },
+            "scene": {
+              "type": "string"
+            },
+            "source": {
+              "type": "string"
+            },
+            "start": {
+              "description": "What to call the main source in a project.",
+              "type": "string"
+            },
+            "store": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string"
+            },
+            "verse": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "store",
+            "code",
+            "decide",
+            "project",
+            "source",
+            "input",
+            "output",
+            "act",
+            "scene",
+            "phrase",
+            "group",
+            "verse",
+            "type",
+            "start",
+            "entered",
+            "changed",
+            "name"
+          ],
+          "type": "object"
+        },
+        "token": {
+          "additionalProperties": false,
+          "properties": {
+            "Access": {
+              "type": "string"
+            },
+            "Base": {
+              "type": "string"
+            },
+            "BinaryOperator": {
+              "type": "string"
+            },
+            "Bind": {
+              "type": "string"
+            },
+            "Bold": {
+              "type": "string"
+            },
+            "Boolean": {
+              "type": "string"
+            },
+            "BooleanType": {
+              "type": "string"
+            },
+            "Borrow": {
+              "type": "string"
+            },
+            "Change": {
+              "type": "string"
+            },
+            "Concept": {
+              "type": "string"
+            },
+            "Conditional": {
+              "type": "string"
+            },
+            "Convert": {
+              "type": "string"
+            },
+            "Decimal": {
+              "type": "string"
+            },
+            "Delete": {
+              "type": "string"
+            },
+            "Doc": {
+              "type": "string"
+            },
+            "End": {
+              "type": "string"
+            },
+            "Etc": {
+              "type": "string"
+            },
+            "EvalClose": {
+              "type": "string"
+            },
+            "EvalOpen": {
+              "type": "string"
+            },
+            "ExampleClose": {
+              "type": "string"
+            },
+            "ExampleOpen": {
+              "type": "string"
+            },
+            "Extra": {
+              "type": "string"
+            },
+            "Function": {
+              "type": "string"
+            },
+            "Infinity": {
+              "type": "string"
+            },
+            "Initial": {
+              "type": "string"
+            },
+            "Insert": {
+              "type": "string"
+            },
+            "Italic": {
+              "type": "string"
+            },
+            "JapaneseNumeral": {
+              "type": "string"
+            },
+            "Language": {
+              "type": "string"
+            },
+            "Light": {
+              "type": "string"
+            },
+            "Link": {
+              "type": "string"
+            },
+            "ListClose": {
+              "type": "string"
+            },
+            "ListOpen": {
+              "type": "string"
+            },
+            "Name": {
+              "type": "string"
+            },
+            "None": {
+              "type": "string"
+            },
+            "NoneType": {
+              "type": "string"
+            },
+            "Number": {
+              "type": "string"
+            },
+            "NumberType": {
+              "type": "string"
+            },
+            "Pi": {
+              "type": "string"
+            },
+            "Placeholder": {
+              "type": "string"
+            },
+            "Previous": {
+              "type": "string"
+            },
+            "RomanNumeral": {
+              "type": "string"
+            },
+            "Select": {
+              "type": "string"
+            },
+            "Separator": {
+              "type": "string"
+            },
+            "SetClose": {
+              "type": "string"
+            },
+            "SetOpen": {
+              "type": "string"
+            },
+            "Share": {
+              "type": "string"
+            },
+            "Stream": {
+              "type": "string"
+            },
+            "TableClose": {
+              "type": "string"
+            },
+            "TableOpen": {
+              "type": "string"
+            },
+            "TagClose": {
+              "type": "string"
+            },
+            "TagOpen": {
+              "type": "string"
+            },
+            "TemplateBetween": {
+              "type": "string"
+            },
+            "TemplateClose": {
+              "type": "string"
+            },
+            "TemplateOpen": {
+              "type": "string"
+            },
+            "Text": {
+              "type": "string"
+            },
+            "This": {
+              "type": "string"
+            },
+            "Type": {
+              "type": "string"
+            },
+            "TypeClose": {
+              "type": "string"
+            },
+            "TypeOpen": {
+              "type": "string"
+            },
+            "TypeOperator": {
+              "type": "string"
+            },
+            "URL": {
+              "type": "string"
+            },
+            "UnaryOperator": {
+              "type": "string"
+            },
+            "Underline": {
+              "type": "string"
+            },
+            "Union": {
+              "type": "string"
+            },
+            "Unknown": {
+              "type": "string"
+            },
+            "Update": {
+              "type": "string"
+            },
+            "Words": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "EvalOpen",
+            "EvalClose",
+            "SetOpen",
+            "SetClose",
+            "ListOpen",
+            "ListClose",
+            "TagOpen",
+            "TagClose",
+            "Bind",
+            "Access",
+            "Function",
+            "Borrow",
+            "Share",
+            "Convert",
+            "Doc",
+            "Words",
+            "Link",
+            "Italic",
+            "Underline",
+            "Light",
+            "Bold",
+            "Extra",
+            "Concept",
+            "URL",
+            "ExampleOpen",
+            "ExampleClose",
+            "None",
+            "Type",
+            "TypeOperator",
+            "TypeOpen",
+            "TypeClose",
+            "Separator",
+            "Language",
+            "BooleanType",
+            "NumberType",
+            "JapaneseNumeral",
+            "RomanNumeral",
+            "Pi",
+            "Infinity",
+            "NoneType",
+            "TableOpen",
+            "TableClose",
+            "Select",
+            "Insert",
+            "Update",
+            "Delete",
+            "Union",
+            "Stream",
+            "Change",
+            "Initial",
+            "Previous",
+            "Placeholder",
+            "Etc",
+            "This",
+            "UnaryOperator",
+            "BinaryOperator",
+            "Conditional",
+            "Text",
+            "TemplateOpen",
+            "TemplateBetween",
+            "TemplateClose",
+            "Number",
+            "Decimal",
+            "Base",
+            "Boolean",
+            "Name",
+            "Unknown",
+            "End"
+          ],
+          "type": "object"
+        },
+        "transform": {
+          "additionalProperties": false,
+          "properties": {
+            "add": {
+              "$ref": "#/definitions/Template",
+              "description": "$1: node description"
+            },
+            "append": {
+              "$ref": "#/definitions/Template",
+              "description": "$1: node description"
+            },
+            "remove": {
+              "$ref": "#/definitions/Template",
+              "description": "$1: node description"
+            },
+            "replace": {
+              "$ref": "#/definitions/Template",
+              "description": "$1: node description or undefined"
+            }
+          },
+          "required": [
+            "add",
+            "append",
+            "remove",
+            "replace"
+          ],
+          "type": "object"
+        },
+        "ui": {
+          "additionalProperties": false,
+          "properties": {
+            "edit": {
+              "additionalProperties": false,
+              "properties": {
+                "bind": {
+                  "type": "string"
+                },
+                "unwrap": {
+                  "type": "string"
+                },
+                "wrap": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "wrap",
+                "unwrap",
+                "bind"
+              ],
+              "type": "object"
+            },
+            "error": {
+              "additionalProperties": false,
+              "properties": {
+                "tutorial": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "tutorial"
+              ],
+              "type": "object"
+            },
+            "feedback": {
+              "additionalProperties": false,
+              "properties": {
+                "unknownProject": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "unknownProject"
+              ],
+              "type": "object"
+            },
+            "headers": {
+              "additionalProperties": false,
+              "properties": {
+                "editing": {
+                  "type": "string"
+                },
+                "examples": {
+                  "type": "string"
+                },
+                "learn": {
+                  "type": "string"
+                },
+                "projects": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "learn",
+                "editing",
+                "projects",
+                "examples"
+              ],
+              "type": "object"
+            },
+            "labels": {
+              "additionalProperties": false,
+              "properties": {
+                "anonymous": {
+                  "description": "Shown when using an anonymous account",
+                  "type": "string"
+                },
+                "computed": {
+                  "description": "Shown in the output palette when the output(s) selected have expressions that are not editable using the editor.",
+                  "type": "string"
+                },
+                "default": {
+                  "description": "Shown in the output palette when the output(s) selected have no value set, but have a default",
+                  "type": "string"
+                },
+                "inherited": {
+                  "description": "Shown in the output palette when a value is unset but is inherited",
+                  "type": "string"
+                },
+                "learn": {
+                  "type": "string"
+                },
+                "mixed": {
+                  "description": "Shown in the output palette when multiple outputs are selected but they have unequal values.",
+                  "type": "string"
+                },
+                "nodoc": {
+                  "type": "string"
+                },
+                "notContent": {
+                  "description": "Shown in the output palette when a list of content is isn't valid",
+                  "type": "string"
+                },
+                "notSequence": {
+                  "description": "Shown in the output palette when a sequence isn't valid",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "learn",
+                "nodoc",
+                "mixed",
+                "computed",
+                "default",
+                "inherited",
+                "notSequence",
+                "notContent",
+                "anonymous"
+              ],
+              "type": "object"
+            },
+            "login": {
+              "additionalProperties": false,
+              "properties": {
+                "anonymousPrompt": {
+                  "type": "string"
+                },
+                "emailFailure": {
+                  "type": "string"
+                },
+                "enterEmail": {
+                  "type": "string"
+                },
+                "expiredFailure": {
+                  "type": "string"
+                },
+                "failure": {
+                  "type": "string"
+                },
+                "header": {
+                  "type": "string"
+                },
+                "invalidFailure": {
+                  "type": "string"
+                },
+                "logout": {
+                  "type": "string"
+                },
+                "offline": {
+                  "type": "string"
+                },
+                "prompt": {
+                  "type": "string"
+                },
+                "sent": {
+                  "type": "string"
+                },
+                "submit": {
+                  "type": "string"
+                },
+                "success": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "header",
+                "prompt",
+                "anonymousPrompt",
+                "enterEmail",
+                "submit",
+                "sent",
+                "success",
+                "failure",
+                "expiredFailure",
+                "invalidFailure",
+                "emailFailure",
+                "logout",
+                "offline"
+              ],
+              "type": "object"
+            },
+            "placeholders": {
+              "additionalProperties": false,
+              "properties": {
+                "code": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "expression": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "percent": {
+                  "type": "string"
+                },
+                "project": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "code",
+                "expression",
+                "type",
+                "percent",
+                "name",
+                "project",
+                "email"
+              ],
+              "type": "object"
+            },
+            "prompt": {
+              "additionalProperties": false,
+              "properties": {
+                "deleteProject": {
+                  "type": "string"
+                },
+                "deleteSource": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "deleteSource",
+                "deleteProject"
+              ],
+              "type": "object"
+            },
+            "section": {
+              "additionalProperties": false,
+              "properties": {
+                "conflicts": {
+                  "type": "string"
+                },
+                "editor": {
+                  "type": "string"
+                },
+                "output": {
+                  "type": "string"
+                },
+                "palette": {
+                  "type": "string"
+                },
+                "project": {
+                  "type": "string"
+                },
+                "timeline": {
+                  "type": "string"
+                },
+                "toolbar": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "project",
+                "conflicts",
+                "timeline",
+                "toolbar",
+                "output",
+                "palette",
+                "editor"
+              ],
+              "type": "object"
+            },
+            "tiles": {
+              "additionalProperties": false,
+              "properties": {
+                "docs": {
+                  "type": "string"
+                },
+                "output": {
+                  "type": "string"
+                },
+                "palette": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "output",
+                "docs",
+                "palette"
+              ],
+              "type": "object"
+            },
+            "tooltip": {
+              "additionalProperties": false,
+              "properties": {
+                "addGroup": {
+                  "type": "string"
+                },
+                "addPhrase": {
+                  "type": "string"
+                },
+                "addPose": {
+                  "type": "string"
+                },
+                "addSource": {
+                  "type": "string"
+                },
+                "animate": {
+                  "type": "string"
+                },
+                "back": {
+                  "type": "string"
+                },
+                "backInput": {
+                  "type": "string"
+                },
+                "chooserExpand": {
+                  "type": "string"
+                },
+                "close": {
+                  "type": "string"
+                },
+                "collapse": {
+                  "type": "string"
+                },
+                "dark": {
+                  "type": "string"
+                },
+                "deleteProject": {
+                  "type": "string"
+                },
+                "deleteSource": {
+                  "type": "string"
+                },
+                "editContent": {
+                  "type": "string"
+                },
+                "editProject": {
+                  "type": "string"
+                },
+                "expand": {
+                  "type": "string"
+                },
+                "fit": {
+                  "type": "string"
+                },
+                "forward": {
+                  "type": "string"
+                },
+                "forwardInput": {
+                  "type": "string"
+                },
+                "freeform": {
+                  "type": "string"
+                },
+                "fullscreen": {
+                  "type": "string"
+                },
+                "grid": {
+                  "type": "string"
+                },
+                "home": {
+                  "type": "string"
+                },
+                "horizontal": {
+                  "type": "string"
+                },
+                "language": {
+                  "type": "string"
+                },
+                "moveContentDown": {
+                  "type": "string"
+                },
+                "moveContentUp": {
+                  "type": "string"
+                },
+                "movePoseDown": {
+                  "type": "string"
+                },
+                "movePoseUp": {
+                  "type": "string"
+                },
+                "newProject": {
+                  "type": "string"
+                },
+                "nextLesson": {
+                  "type": "string"
+                },
+                "nextLessonStep": {
+                  "type": "string"
+                },
+                "no": {
+                  "type": "string"
+                },
+                "out": {
+                  "type": "string"
+                },
+                "paint": {
+                  "type": "string"
+                },
+                "pause": {
+                  "type": "string"
+                },
+                "place": {
+                  "type": "string"
+                },
+                "play": {
+                  "type": "string"
+                },
+                "present": {
+                  "type": "string"
+                },
+                "previousLesson": {
+                  "type": "string"
+                },
+                "previousLessonStep": {
+                  "type": "string"
+                },
+                "removeContent": {
+                  "type": "string"
+                },
+                "removePose": {
+                  "type": "string"
+                },
+                "reset": {
+                  "type": "string"
+                },
+                "revert": {
+                  "type": "string"
+                },
+                "revertProject": {
+                  "type": "string"
+                },
+                "sequence": {
+                  "type": "string"
+                },
+                "set": {
+                  "type": "string"
+                },
+                "settings": {
+                  "type": "string"
+                },
+                "start": {
+                  "type": "string"
+                },
+                "vertical": {
+                  "type": "string"
+                },
+                "yes": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "yes",
+                "no",
+                "play",
+                "pause",
+                "back",
+                "backInput",
+                "out",
+                "start",
+                "forward",
+                "forwardInput",
+                "present",
+                "reset",
+                "home",
+                "revert",
+                "set",
+                "fullscreen",
+                "collapse",
+                "expand",
+                "close",
+                "language",
+                "horizontal",
+                "vertical",
+                "freeform",
+                "fit",
+                "grid",
+                "addPose",
+                "removePose",
+                "movePoseUp",
+                "movePoseDown",
+                "addGroup",
+                "addPhrase",
+                "removeContent",
+                "moveContentUp",
+                "moveContentDown",
+                "editContent",
+                "sequence",
+                "animate",
+                "addSource",
+                "deleteSource",
+                "deleteProject",
+                "editProject",
+                "settings",
+                "newProject",
+                "dark",
+                "chooserExpand",
+                "place",
+                "paint",
+                "nextLesson",
+                "previousLesson",
+                "nextLessonStep",
+                "previousLessonStep",
+                "revertProject"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "placeholders",
+            "tooltip",
+            "prompt",
+            "labels",
+            "tiles",
+            "headers",
+            "section",
+            "feedback",
+            "login",
+            "edit",
+            "error"
+          ],
+          "type": "object"
+        },
+        "welcome": {
+          "description": "Used to address someone or say hi, on the login screen.",
+          "type": "string"
+        },
+        "wordplay": {
+          "description": "The name of the Wordplay project",
+          "type": "string"
+        }
+      },
+      "required": [
+        "$schema",
+        "language",
+        "tbd",
+        "wordplay",
+        "welcome",
+        "motto",
+        "terminology",
+        "caret",
+        "data",
+        "evaluation",
+        "token",
+        "node",
+        "native",
+        "exceptions",
+        "conflict",
+        "step",
+        "transform",
+        "ui",
+        "input",
+        "output",
+        "animation"
+      ],
+      "type": "object"
+    },
+    "NameAndDoc": {
+      "additionalProperties": false,
+      "properties": {
+        "doc": {
+          "$ref": "#/definitions/DocText"
+        },
+        "names": {
+          "$ref": "#/definitions/NameText"
+        }
+      },
+      "required": [
+        "names",
+        "doc"
+      ],
+      "type": "object"
+    },
+    "NameText": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      ]
+    },
+    "NodeText": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "$ref": "#/definitions/Template"
+        },
+        "doc": {
+          "$ref": "#/definitions/DocText"
+        },
+        "emotion": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "doc",
+        "emotion"
+      ],
+      "type": "object"
+    },
+    "NodeTexts": {
+      "additionalProperties": false,
+      "properties": {
+        "AnyType": {
+          "$ref": "#/definitions/NodeText"
+        },
+        "BinaryOperation": {
+          "additionalProperties": false,
+          "description": "Start $1: left expression Finish $1: result",
+          "properties": {
+            "description": {
+              "$ref": "#/definitions/Template"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "emotion": {
+              "type": "string"
+            },
+            "finish": {
+              "$ref": "#/definitions/Template"
+            },
+            "name": {
+              "type": "string"
+            },
+            "right": {
+              "$ref": "#/definitions/Template"
+            },
+            "start": {
+              "$ref": "#/definitions/Template"
+            }
+          },
+          "required": [
+            "description",
+            "doc",
+            "emotion",
+            "finish",
+            "name",
+            "right",
+            "start"
+          ],
+          "type": "object"
+        },
+        "Bind": {
+          "additionalProperties": false,
+          "description": "Start $1: bind evaluating Finish $1: resulting value $2: names bound",
+          "properties": {
+            "description": {
+              "$ref": "#/definitions/Template"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "emotion": {
+              "type": "string"
+            },
+            "finish": {
+              "$ref": "#/definitions/Template"
+            },
+            "name": {
+              "type": "string"
+            },
+            "start": {
+              "$ref": "#/definitions/Template"
+            }
+          },
+          "required": [
+            "description",
+            "doc",
+            "emotion",
+            "finish",
+            "name",
+            "start"
+          ],
+          "type": "object"
+        },
+        "Block": {
+          "additionalProperties": false,
+          "description": "Description $1: # of statements Start No inputs Finish $1: Resulting value",
+          "properties": {
+            "description": {
+              "$ref": "#/definitions/Template"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "emotion": {
+              "type": "string"
+            },
+            "finish": {
+              "$ref": "#/definitions/Template"
+            },
+            "name": {
+              "type": "string"
+            },
+            "start": {
+              "$ref": "#/definitions/Template"
+            },
+            "statement": {
+              "$ref": "#/definitions/Template"
+            }
+          },
+          "required": [
+            "description",
+            "doc",
+            "emotion",
+            "finish",
+            "name",
+            "start",
+            "statement"
+          ],
+          "type": "object"
+        },
+        "BooleanLiteral": {
+          "additionalProperties": false,
+          "description": "Description $1: true if true, false otherwise",
+          "properties": {
+            "description": {
+              "$ref": "#/definitions/Template"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "emotion": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "start": {
+              "$ref": "#/definitions/Template"
+            }
+          },
+          "required": [
+            "description",
+            "doc",
+            "emotion",
+            "name",
+            "start"
+          ],
+          "type": "object"
+        },
+        "BooleanType": {
+          "$ref": "#/definitions/NodeText"
+        },
+        "Borrow": {
+          "additionalProperties": false,
+          "description": "Start $1: source $2: name borrowed",
+          "properties": {
+            "bind": {
+              "$ref": "#/definitions/Template"
+            },
+            "description": {
+              "$ref": "#/definitions/Template"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "emotion": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "source": {
+              "$ref": "#/definitions/Template"
+            },
+            "start": {
+              "$ref": "#/definitions/Template"
+            },
+            "version": {
+              "$ref": "#/definitions/Template"
+            }
+          },
+          "required": [
+            "bind",
+            "description",
+            "doc",
+            "emotion",
+            "name",
+            "source",
+            "start",
+            "version"
+          ],
+          "type": "object"
+        },
+        "Changed": {
+          "additionalProperties": false,
+          "description": "Start $1: stream that changed",
+          "properties": {
+            "description": {
+              "$ref": "#/definitions/Template"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "emotion": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "start": {
+              "$ref": "#/definitions/Template"
+            },
+            "stream": {
+              "$ref": "#/definitions/Template"
+            }
+          },
+          "required": [
+            "description",
+            "doc",
+            "emotion",
+            "name",
+            "start",
+            "stream"
+          ],
+          "type": "object"
+        },
+        "ConceptLink": {
+          "$ref": "#/definitions/NodeText"
+        },
+        "Conditional": {
+          "additionalProperties": false,
+          "description": "Start $1: condition to check Finish $1: resulting value",
+          "properties": {
+            "condition": {
+              "$ref": "#/definitions/Template"
+            },
+            "description": {
+              "$ref": "#/definitions/Template"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "emotion": {
+              "type": "string"
+            },
+            "finish": {
+              "$ref": "#/definitions/Template"
+            },
+            "name": {
+              "type": "string"
+            },
+            "no": {
+              "$ref": "#/definitions/Template"
+            },
+            "start": {
+              "$ref": "#/definitions/Template"
+            },
+            "yes": {
+              "$ref": "#/definitions/Template"
+            }
+          },
+          "required": [
+            "condition",
+            "description",
+            "doc",
+            "emotion",
+            "finish",
+            "name",
+            "no",
+            "start",
+            "yes"
+          ],
+          "type": "object"
+        },
+        "ConversionDefinition": {
+          "additionalProperties": false,
+          "properties": {
+            "description": {
+              "$ref": "#/definitions/Template"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "emotion": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "start": {
+              "$ref": "#/definitions/Template"
+            }
+          },
+          "required": [
+            "description",
+            "doc",
+            "emotion",
+            "name",
+            "start"
+          ],
+          "type": "object"
+        },
+        "ConversionType": {
+          "$ref": "#/definitions/NodeText"
+        },
+        "Convert": {
+          "additionalProperties": false,
+          "description": "Start $1: expression to convert Finish $1: resulting value",
+          "properties": {
+            "description": {
+              "$ref": "#/definitions/Template"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "emotion": {
+              "type": "string"
+            },
+            "finish": {
+              "$ref": "#/definitions/Template"
+            },
+            "name": {
+              "type": "string"
+            },
+            "start": {
+              "$ref": "#/definitions/Template"
+            }
+          },
+          "required": [
+            "description",
+            "doc",
+            "emotion",
+            "finish",
+            "name",
+            "start"
+          ],
+          "type": "object"
+        },
+        "CycleType": {
+          "$ref": "#/definitions/NodeText"
+        },
+        "Delete": {
+          "additionalProperties": false,
+          "description": "Start $1: table expression Finish $1: resulting value",
+          "properties": {
+            "description": {
+              "$ref": "#/definitions/Template"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "emotion": {
+              "type": "string"
+            },
+            "finish": {
+              "$ref": "#/definitions/Template"
+            },
+            "name": {
+              "type": "string"
+            },
+            "start": {
+              "$ref": "#/definitions/Template"
+            }
+          },
+          "required": [
+            "description",
+            "doc",
+            "emotion",
+            "finish",
+            "name",
+            "start"
+          ],
+          "type": "object"
+        },
+        "Dimension": {
+          "$ref": "#/definitions/NodeText"
+        },
+        "Doc": {
+          "$ref": "#/definitions/NodeText"
+        },
+        "Docs": {
+          "$ref": "#/definitions/NodeText"
+        },
+        "DocumentedExpression": {
+          "additionalProperties": false,
+          "properties": {
+            "description": {
+              "$ref": "#/definitions/Template"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "emotion": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "start": {
+              "$ref": "#/definitions/Template"
+            }
+          },
+          "required": [
+            "description",
+            "doc",
+            "emotion",
+            "name",
+            "start"
+          ],
+          "type": "object"
+        },
+        "Evaluate": {
+          "additionalProperties": false,
+          "description": "Descriptionn $1: name of function being evaluated Start no inputs Finish $1: resulting value",
+          "properties": {
+            "description": {
+              "$ref": "#/definitions/Template"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "emotion": {
+              "type": "string"
+            },
+            "finish": {
+              "$ref": "#/definitions/Template"
+            },
+            "function": {
+              "$ref": "#/definitions/Template"
+            },
+            "input": {
+              "$ref": "#/definitions/Template"
+            },
+            "name": {
+              "type": "string"
+            },
+            "start": {
+              "$ref": "#/definitions/Template"
+            }
+          },
+          "required": [
+            "description",
+            "doc",
+            "emotion",
+            "finish",
+            "function",
+            "input",
+            "name",
+            "start"
+          ],
+          "type": "object"
+        },
+        "Example": {
+          "$ref": "#/definitions/NodeText"
+        },
+        "ExceptionType": {
+          "$ref": "#/definitions/NodeText"
+        },
+        "ExpressionPlaceholder": {
+          "additionalProperties": false,
+          "description": "Description $1: type or undefined",
+          "properties": {
+            "description": {
+              "$ref": "#/definitions/Template"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "emotion": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "placeholder": {
+              "$ref": "#/definitions/Template"
+            },
+            "start": {
+              "$ref": "#/definitions/Template"
+            }
+          },
+          "required": [
+            "description",
+            "doc",
+            "emotion",
+            "name",
+            "placeholder",
+            "start"
+          ],
+          "type": "object"
+        },
+        "FunctionDefinition": {
+          "additionalProperties": false,
+          "description": "Description $1: function name in locale",
+          "properties": {
+            "description": {
+              "$ref": "#/definitions/Template"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "emotion": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "start": {
+              "$ref": "#/definitions/Template"
+            }
+          },
+          "required": [
+            "description",
+            "doc",
+            "emotion",
+            "name",
+            "start"
+          ],
+          "type": "object"
+        },
+        "FunctionDefinitionType": {
+          "$ref": "#/definitions/NodeText"
+        },
+        "FunctionType": {
+          "$ref": "#/definitions/NodeText"
+        },
+        "HOF": {
+          "additionalProperties": false,
+          "description": "Finish $1: resulting value",
+          "properties": {
+            "description": {
+              "$ref": "#/definitions/Template"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "emotion": {
+              "type": "string"
+            },
+            "finish": {
+              "$ref": "#/definitions/Template"
+            },
+            "name": {
+              "type": "string"
+            },
+            "start": {
+              "$ref": "#/definitions/Template"
+            }
+          },
+          "required": [
+            "description",
+            "doc",
+            "emotion",
+            "finish",
+            "name",
+            "start"
+          ],
+          "type": "object"
+        },
+        "Initial": {
+          "$ref": "#/definitions/NodeText"
+        },
+        "Insert": {
+          "additionalProperties": false,
+          "description": "Start $1: table expression Finish $1: resulting value",
+          "properties": {
+            "description": {
+              "$ref": "#/definitions/Template"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "emotion": {
+              "type": "string"
+            },
+            "finish": {
+              "$ref": "#/definitions/Template"
+            },
+            "name": {
+              "type": "string"
+            },
+            "start": {
+              "$ref": "#/definitions/Template"
+            }
+          },
+          "required": [
+            "description",
+            "doc",
+            "emotion",
+            "finish",
+            "name",
+            "start"
+          ],
+          "type": "object"
+        },
+        "Is": {
+          "additionalProperties": false,
+          "description": "Start $1: expression Finish $1: result $2: type",
+          "properties": {
+            "description": {
+              "$ref": "#/definitions/Template"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "emotion": {
+              "type": "string"
+            },
+            "finish": {
+              "$ref": "#/definitions/Template"
+            },
+            "name": {
+              "type": "string"
+            },
+            "start": {
+              "$ref": "#/definitions/Template"
+            }
+          },
+          "required": [
+            "description",
+            "doc",
+            "emotion",
+            "finish",
+            "name",
+            "start"
+          ],
+          "type": "object"
+        },
+        "KeyValue": {
+          "$ref": "#/definitions/NodeText"
+        },
+        "Language": {
+          "$ref": "#/definitions/NodeText"
+        },
+        "ListAccess": {
+          "additionalProperties": false,
+          "description": "Start $1: list Finish $1: resulting value",
+          "properties": {
+            "description": {
+              "$ref": "#/definitions/Template"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "emotion": {
+              "type": "string"
+            },
+            "finish": {
+              "$ref": "#/definitions/Template"
+            },
+            "name": {
+              "type": "string"
+            },
+            "start": {
+              "$ref": "#/definitions/Template"
+            }
+          },
+          "required": [
+            "description",
+            "doc",
+            "emotion",
+            "finish",
+            "name",
+            "start"
+          ],
+          "type": "object"
+        },
+        "ListLiteral": {
+          "additionalProperties": false,
+          "description": "Description $1: item count Finish $1: resulting value",
+          "properties": {
+            "description": {
+              "$ref": "#/definitions/Template"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "emotion": {
+              "type": "string"
+            },
+            "finish": {
+              "$ref": "#/definitions/Template"
+            },
+            "item": {
+              "$ref": "#/definitions/Template"
+            },
+            "name": {
+              "type": "string"
+            },
+            "start": {
+              "$ref": "#/definitions/Template"
+            }
+          },
+          "required": [
+            "description",
+            "doc",
+            "emotion",
+            "finish",
+            "item",
+            "name",
+            "start"
+          ],
+          "type": "object"
+        },
+        "ListType": {
+          "$ref": "#/definitions/NodeText",
+          "description": "Description $1: Type or undefined"
+        },
+        "MapLiteral": {
+          "additionalProperties": false,
+          "description": "Finish $1: resulting value",
+          "properties": {
+            "description": {
+              "$ref": "#/definitions/Template"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "emotion": {
+              "type": "string"
+            },
+            "finish": {
+              "$ref": "#/definitions/Template"
+            },
+            "name": {
+              "type": "string"
+            },
+            "start": {
+              "$ref": "#/definitions/Template"
+            }
+          },
+          "required": [
+            "description",
+            "doc",
+            "emotion",
+            "finish",
+            "name",
+            "start"
+          ],
+          "type": "object"
+        },
+        "MapType": {
+          "$ref": "#/definitions/NodeText",
+          "description": "Description $1: Key type or undefined $2: Map type or undefined"
+        },
+        "MeasurementLiteral": {
+          "additionalProperties": false,
+          "description": "Description $1: number $1: unit Start $1: the node",
+          "properties": {
+            "description": {
+              "$ref": "#/definitions/Template"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "emotion": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "start": {
+              "$ref": "#/definitions/Template"
+            }
+          },
+          "required": [
+            "description",
+            "doc",
+            "emotion",
+            "name",
+            "start"
+          ],
+          "type": "object"
+        },
+        "MeasurementType": {
+          "$ref": "#/definitions/NodeText"
+        },
+        "Name": {
+          "$ref": "#/definitions/NodeText",
+          "description": "Description $1: name or undefined"
+        },
+        "NameType": {
+          "$ref": "#/definitions/NodeText",
+          "description": "Description $1: Type name"
+        },
+        "Names": {
+          "$ref": "#/definitions/NodeText"
+        },
+        "NativeExpression": {
+          "additionalProperties": false,
+          "properties": {
+            "description": {
+              "$ref": "#/definitions/Template"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "emotion": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "start": {
+              "$ref": "#/definitions/Template"
+            }
+          },
+          "required": [
+            "description",
+            "doc",
+            "emotion",
+            "name",
+            "start"
+          ],
+          "type": "object"
+        },
+        "NeverType": {
+          "$ref": "#/definitions/NodeText"
+        },
+        "NoExpressionType": {
+          "$ref": "#/definitions/NodeText"
+        },
+        "NoneLiteral": {
+          "additionalProperties": false,
+          "properties": {
+            "description": {
+              "$ref": "#/definitions/Template"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "emotion": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "start": {
+              "$ref": "#/definitions/Template"
+            }
+          },
+          "required": [
+            "description",
+            "doc",
+            "emotion",
+            "name",
+            "start"
+          ],
+          "type": "object"
+        },
+        "NoneType": {
+          "$ref": "#/definitions/NodeText"
+        },
+        "NotAType": {
+          "$ref": "#/definitions/NodeText",
+          "description": "Description $1: Type expected"
+        },
+        "NotEnclosedType": {
+          "$ref": "#/definitions/NodeText"
+        },
+        "NotImplementedType": {
+          "$ref": "#/definitions/NodeText"
+        },
+        "Paragraph": {
+          "$ref": "#/definitions/NodeText"
+        },
+        "Previous": {
+          "additionalProperties": false,
+          "description": "Start $1: the stream expression being checked Finish $1: resulting value",
+          "properties": {
+            "description": {
+              "$ref": "#/definitions/Template"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "emotion": {
+              "type": "string"
+            },
+            "finish": {
+              "$ref": "#/definitions/Template"
+            },
+            "name": {
+              "type": "string"
+            },
+            "start": {
+              "$ref": "#/definitions/Template"
+            }
+          },
+          "required": [
+            "description",
+            "doc",
+            "emotion",
+            "finish",
+            "name",
+            "start"
+          ],
+          "type": "object"
+        },
+        "Program": {
+          "additionalProperties": false,
+          "description": "Start $1: a stream that changed Finish $1: resulting value",
+          "properties": {
+            "description": {
+              "$ref": "#/definitions/Template"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "emotion": {
+              "type": "string"
+            },
+            "finish": {
+              "$ref": "#/definitions/Template"
+            },
+            "name": {
+              "type": "string"
+            },
+            "start": {
+              "$ref": "#/definitions/Template"
+            }
+          },
+          "required": [
+            "description",
+            "doc",
+            "emotion",
+            "finish",
+            "name",
+            "start"
+          ],
+          "type": "object"
+        },
+        "PropertyBind": {
+          "additionalProperties": false,
+          "description": "Finish $1: revised property $1: revised value",
+          "properties": {
+            "description": {
+              "$ref": "#/definitions/Template"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "emotion": {
+              "type": "string"
+            },
+            "finish": {
+              "$ref": "#/definitions/Template"
+            },
+            "name": {
+              "type": "string"
+            },
+            "start": {
+              "$ref": "#/definitions/Template"
+            }
+          },
+          "required": [
+            "description",
+            "doc",
+            "emotion",
+            "finish",
+            "name",
+            "start"
+          ],
+          "type": "object"
+        },
+        "PropertyReference": {
+          "additionalProperties": false,
+          "description": "Finish $1: revised property $1: revised value",
+          "properties": {
+            "description": {
+              "$ref": "#/definitions/Template"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "emotion": {
+              "type": "string"
+            },
+            "finish": {
+              "$ref": "#/definitions/Template"
+            },
+            "name": {
+              "type": "string"
+            },
+            "property": {
+              "$ref": "#/definitions/Template"
+            },
+            "start": {
+              "$ref": "#/definitions/Template"
+            }
+          },
+          "required": [
+            "description",
+            "doc",
+            "emotion",
+            "finish",
+            "name",
+            "property",
+            "start"
+          ],
+          "type": "object"
+        },
+        "Reaction": {
+          "additionalProperties": false,
+          "description": "Finish $1: resulting value",
+          "properties": {
+            "condition": {
+              "$ref": "#/definitions/Template"
+            },
+            "description": {
+              "$ref": "#/definitions/Template"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "emotion": {
+              "type": "string"
+            },
+            "finish": {
+              "$ref": "#/definitions/Template"
+            },
+            "initial": {
+              "$ref": "#/definitions/Template"
+            },
+            "name": {
+              "type": "string"
+            },
+            "next": {
+              "$ref": "#/definitions/Template"
+            },
+            "start": {
+              "$ref": "#/definitions/Template"
+            }
+          },
+          "required": [
+            "condition",
+            "description",
+            "doc",
+            "emotion",
+            "finish",
+            "initial",
+            "name",
+            "next",
+            "start"
+          ],
+          "type": "object"
+        },
+        "Reference": {
+          "additionalProperties": false,
+          "description": "Description $1: the name Start $1: the name being resolved",
+          "properties": {
+            "description": {
+              "$ref": "#/definitions/Template"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "emotion": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "start": {
+              "$ref": "#/definitions/Template"
+            }
+          },
+          "required": [
+            "description",
+            "doc",
+            "emotion",
+            "name",
+            "start"
+          ],
+          "type": "object"
+        },
+        "Row": {
+          "$ref": "#/definitions/NodeText"
+        },
+        "Select": {
+          "additionalProperties": false,
+          "description": "Finish $1: the table $1: the result",
+          "properties": {
+            "description": {
+              "$ref": "#/definitions/Template"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "emotion": {
+              "type": "string"
+            },
+            "finish": {
+              "$ref": "#/definitions/Template"
+            },
+            "name": {
+              "type": "string"
+            },
+            "start": {
+              "$ref": "#/definitions/Template"
+            }
+          },
+          "required": [
+            "description",
+            "doc",
+            "emotion",
+            "finish",
+            "name",
+            "start"
+          ],
+          "type": "object"
+        },
+        "SetLiteral": {
+          "additionalProperties": false,
+          "description": "Finish $1: the new set",
+          "properties": {
+            "description": {
+              "$ref": "#/definitions/Template"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "emotion": {
+              "type": "string"
+            },
+            "finish": {
+              "$ref": "#/definitions/Template"
+            },
+            "name": {
+              "type": "string"
+            },
+            "start": {
+              "$ref": "#/definitions/Template"
+            }
+          },
+          "required": [
+            "description",
+            "doc",
+            "emotion",
+            "finish",
+            "name",
+            "start"
+          ],
+          "type": "object"
+        },
+        "SetOrMapAccess": {
+          "additionalProperties": false,
+          "description": "Finish $1: the set/map value",
+          "properties": {
+            "description": {
+              "$ref": "#/definitions/Template"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "emotion": {
+              "type": "string"
+            },
+            "finish": {
+              "$ref": "#/definitions/Template"
+            },
+            "name": {
+              "type": "string"
+            },
+            "start": {
+              "$ref": "#/definitions/Template"
+            }
+          },
+          "required": [
+            "description",
+            "doc",
+            "emotion",
+            "finish",
+            "name",
+            "start"
+          ],
+          "type": "object"
+        },
+        "SetType": {
+          "$ref": "#/definitions/NodeText",
+          "description": "Description $1: Type or undefined"
+        },
+        "Source": {
+          "$ref": "#/definitions/NodeText"
+        },
+        "StreamDefinition": {
+          "additionalProperties": false,
+          "properties": {
+            "description": {
+              "$ref": "#/definitions/Template"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "emotion": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "start": {
+              "$ref": "#/definitions/Template"
+            }
+          },
+          "required": [
+            "description",
+            "doc",
+            "emotion",
+            "name",
+            "start"
+          ],
+          "type": "object"
+        },
+        "StreamDefinitionType": {
+          "$ref": "#/definitions/NodeText"
+        },
+        "StreamType": {
+          "$ref": "#/definitions/NodeText"
+        },
+        "StructureDefinition": {
+          "additionalProperties": false,
+          "description": "Description $1: name of the structure",
+          "properties": {
+            "description": {
+              "$ref": "#/definitions/Template"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "emotion": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "start": {
+              "$ref": "#/definitions/Template"
+            }
+          },
+          "required": [
+            "description",
+            "doc",
+            "emotion",
+            "name",
+            "start"
+          ],
+          "type": "object"
+        },
+        "StructureDefinitionType": {
+          "$ref": "#/definitions/NodeText"
+        },
+        "TableLiteral": {
+          "additionalProperties": false,
+          "description": "Finish $1: resulting table",
+          "properties": {
+            "description": {
+              "$ref": "#/definitions/Template"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "emotion": {
+              "type": "string"
+            },
+            "finish": {
+              "$ref": "#/definitions/Template"
+            },
+            "item": {
+              "$ref": "#/definitions/Template"
+            },
+            "name": {
+              "type": "string"
+            },
+            "start": {
+              "$ref": "#/definitions/Template"
+            }
+          },
+          "required": [
+            "description",
+            "doc",
+            "emotion",
+            "finish",
+            "item",
+            "name",
+            "start"
+          ],
+          "type": "object"
+        },
+        "TableType": {
+          "$ref": "#/definitions/NodeText"
+        },
+        "Template": {
+          "additionalProperties": false,
+          "properties": {
+            "description": {
+              "$ref": "#/definitions/Template"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "emotion": {
+              "type": "string"
+            },
+            "finish": {
+              "$ref": "#/definitions/Template"
+            },
+            "name": {
+              "type": "string"
+            },
+            "start": {
+              "$ref": "#/definitions/Template"
+            }
+          },
+          "required": [
+            "description",
+            "doc",
+            "emotion",
+            "finish",
+            "name",
+            "start"
+          ],
+          "type": "object"
+        },
+        "TextLiteral": {
+          "additionalProperties": false,
+          "description": "Description $1: the text",
+          "properties": {
+            "description": {
+              "$ref": "#/definitions/Template"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "emotion": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "start": {
+              "$ref": "#/definitions/Template"
+            }
+          },
+          "required": [
+            "description",
+            "doc",
+            "emotion",
+            "name",
+            "start"
+          ],
+          "type": "object"
+        },
+        "TextType": {
+          "$ref": "#/definitions/NodeText",
+          "description": "Description $1: Concrete type or undefined"
+        },
+        "This": {
+          "additionalProperties": false,
+          "description": "Finish $1: resulting value",
+          "properties": {
+            "description": {
+              "$ref": "#/definitions/Template"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "emotion": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "start": {
+              "$ref": "#/definitions/Template"
+            }
+          },
+          "required": [
+            "description",
+            "doc",
+            "emotion",
+            "name",
+            "start"
+          ],
+          "type": "object"
+        },
+        "Token": {
+          "$ref": "#/definitions/NodeText",
+          "description": "Description $1: token label $1: token text"
+        },
+        "TypeInputs": {
+          "$ref": "#/definitions/NodeText"
+        },
+        "TypePlaceholder": {
+          "$ref": "#/definitions/NodeText"
+        },
+        "TypeVariable": {
+          "$ref": "#/definitions/NodeText"
+        },
+        "TypeVariables": {
+          "$ref": "#/definitions/NodeText"
+        },
+        "UnaryOperation": {
+          "additionalProperties": false,
+          "description": "Description $1: the operator Finish $1: resulting value",
+          "properties": {
+            "description": {
+              "$ref": "#/definitions/Template"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "emotion": {
+              "type": "string"
+            },
+            "finish": {
+              "$ref": "#/definitions/Template"
+            },
+            "name": {
+              "type": "string"
+            },
+            "start": {
+              "$ref": "#/definitions/Template"
+            }
+          },
+          "required": [
+            "description",
+            "doc",
+            "emotion",
+            "finish",
+            "name",
+            "start"
+          ],
+          "type": "object"
+        },
+        "UnionType": {
+          "$ref": "#/definitions/NodeText",
+          "description": "Description $1: left $2: right"
+        },
+        "Unit": {
+          "$ref": "#/definitions/NodeText",
+          "description": "Description $1: unit description"
+        },
+        "UnknownNameType": {
+          "$ref": "#/definitions/NodeText",
+          "description": "Description $1: Name that's not known or undefined"
+        },
+        "UnknownType": {
+          "additionalProperties": false,
+          "properties": {
+            "connector": {
+              "type": "string"
+            },
+            "description": {
+              "$ref": "#/definitions/Template"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "emotion": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "unknown": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "connector",
+            "description",
+            "doc",
+            "emotion",
+            "name",
+            "unknown"
+          ],
+          "type": "object"
+        },
+        "UnknownVariableType": {
+          "$ref": "#/definitions/NodeText"
+        },
+        "UnparsableExpression": {
+          "additionalProperties": false,
+          "properties": {
+            "description": {
+              "$ref": "#/definitions/Template"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "emotion": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "start": {
+              "$ref": "#/definitions/Template"
+            }
+          },
+          "required": [
+            "description",
+            "doc",
+            "emotion",
+            "name",
+            "start"
+          ],
+          "type": "object"
+        },
+        "UnparsableType": {
+          "$ref": "#/definitions/NodeText"
+        },
+        "Update": {
+          "additionalProperties": false,
+          "description": "Start $1: the table Finish $1: resulting value",
+          "properties": {
+            "description": {
+              "$ref": "#/definitions/Template"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "emotion": {
+              "type": "string"
+            },
+            "finish": {
+              "$ref": "#/definitions/Template"
+            },
+            "name": {
+              "type": "string"
+            },
+            "start": {
+              "$ref": "#/definitions/Template"
+            }
+          },
+          "required": [
+            "description",
+            "doc",
+            "emotion",
+            "finish",
+            "name",
+            "start"
+          ],
+          "type": "object"
+        },
+        "VariableType": {
+          "$ref": "#/definitions/NodeText"
+        },
+        "WebLink": {
+          "$ref": "#/definitions/NodeText"
+        },
+        "Words": {
+          "$ref": "#/definitions/NodeText"
+        }
+      },
+      "required": [
+        "Dimension",
+        "Doc",
+        "Docs",
+        "KeyValue",
+        "Language",
+        "Name",
+        "Names",
+        "Row",
+        "Token",
+        "TypeInputs",
+        "TypeVariable",
+        "TypeVariables",
+        "Paragraph",
+        "WebLink",
+        "ConceptLink",
+        "Words",
+        "Example",
+        "BinaryOperation",
+        "Bind",
+        "Block",
+        "BooleanLiteral",
+        "Borrow",
+        "Changed",
+        "Conditional",
+        "ConversionDefinition",
+        "Convert",
+        "Delete",
+        "DocumentedExpression",
+        "Evaluate",
+        "ExpressionPlaceholder",
+        "FunctionDefinition",
+        "HOF",
+        "Insert",
+        "Initial",
+        "Is",
+        "ListAccess",
+        "ListLiteral",
+        "MapLiteral",
+        "MeasurementLiteral",
+        "NativeExpression",
+        "NoneLiteral",
+        "Previous",
+        "Program",
+        "PropertyBind",
+        "PropertyReference",
+        "Reaction",
+        "Reference",
+        "Select",
+        "SetLiteral",
+        "SetOrMapAccess",
+        "Source",
+        "StreamDefinition",
+        "StructureDefinition",
+        "TableLiteral",
+        "Template",
+        "TextLiteral",
+        "This",
+        "UnaryOperation",
+        "UnparsableExpression",
+        "Update",
+        "AnyType",
+        "BooleanType",
+        "ConversionType",
+        "ExceptionType",
+        "FunctionDefinitionType",
+        "FunctionType",
+        "ListType",
+        "MapType",
+        "MeasurementType",
+        "NameType",
+        "NeverType",
+        "NoneType",
+        "NotAType",
+        "SetType",
+        "StreamDefinitionType",
+        "StreamType",
+        "StructureDefinitionType",
+        "TableType",
+        "TextType",
+        "TypePlaceholder",
+        "UnknownNameType",
+        "UnknownType",
+        "UnionType",
+        "UnparsableType",
+        "Unit",
+        "VariableType",
+        "CycleType",
+        "UnknownVariableType",
+        "NoExpressionType",
+        "NotEnclosedType",
+        "NotImplementedType"
+      ],
+      "type": "object"
+    },
+    "OutputTexts": {
+      "additionalProperties": false,
+      "properties": {
+        "Arrangement": {
+          "$ref": "#/definitions/ConceptText%3C1%2C0%3E"
+        },
+        "Color": {
+          "additionalProperties": false,
+          "properties": {
+            "chroma": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "hue": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "lightness": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "names": {
+              "$ref": "#/definitions/NameText"
+            }
+          },
+          "required": [
+            "chroma",
+            "doc",
+            "hue",
+            "lightness",
+            "names"
+          ],
+          "type": "object"
+        },
+        "Easing": {
+          "additionalProperties": false,
+          "properties": {
+            "cautious": {
+              "$ref": "#/definitions/NameText"
+            },
+            "pokey": {
+              "$ref": "#/definitions/NameText"
+            },
+            "straight": {
+              "$ref": "#/definitions/NameText"
+            },
+            "zippy": {
+              "$ref": "#/definitions/NameText"
+            }
+          },
+          "required": [
+            "straight",
+            "pokey",
+            "cautious",
+            "zippy"
+          ],
+          "type": "object"
+        },
+        "Free": {
+          "additionalProperties": false,
+          "properties": {
+            "description": {
+              "$ref": "#/definitions/Template",
+              "description": "$1: output count"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "names": {
+              "$ref": "#/definitions/NameText"
+            }
+          },
+          "required": [
+            "description",
+            "doc",
+            "names"
+          ],
+          "type": "object"
+        },
+        "Grid": {
+          "additionalProperties": false,
+          "properties": {
+            "cellHeight": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "cellWidth": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "columns": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "description": {
+              "$ref": "#/definitions/Template",
+              "description": "$1: rows $2: columns"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "names": {
+              "$ref": "#/definitions/NameText"
+            },
+            "padding": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "rows": {
+              "$ref": "#/definitions/NameAndDoc"
+            }
+          },
+          "required": [
+            "cellHeight",
+            "cellWidth",
+            "columns",
+            "description",
+            "doc",
+            "names",
+            "padding",
+            "rows"
+          ],
+          "type": "object"
+        },
+        "Group": {
+          "additionalProperties": false,
+          "properties": {
+            "content": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "layout": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "names": {
+              "$ref": "#/definitions/NameText"
+            }
+          },
+          "required": [
+            "content",
+            "doc",
+            "layout",
+            "names"
+          ],
+          "type": "object"
+        },
+        "Phrase": {
+          "additionalProperties": false,
+          "properties": {
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "names": {
+              "$ref": "#/definitions/NameText"
+            },
+            "text": {
+              "$ref": "#/definitions/NameAndDoc"
+            }
+          },
+          "required": [
+            "doc",
+            "names",
+            "text"
+          ],
+          "type": "object"
+        },
+        "Place": {
+          "additionalProperties": false,
+          "properties": {
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "names": {
+              "$ref": "#/definitions/NameText"
+            },
+            "x": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "y": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "z": {
+              "$ref": "#/definitions/NameAndDoc"
+            }
+          },
+          "required": [
+            "doc",
+            "names",
+            "x",
+            "y",
+            "z"
+          ],
+          "type": "object"
+        },
+        "Pose": {
+          "additionalProperties": false,
+          "properties": {
+            "color": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "duration": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "flipx": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "flipy": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "names": {
+              "$ref": "#/definitions/NameText"
+            },
+            "offset": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "opacity": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "scale": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "style": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "tilt": {
+              "$ref": "#/definitions/NameAndDoc"
+            }
+          },
+          "required": [
+            "color",
+            "doc",
+            "duration",
+            "flipx",
+            "flipy",
+            "names",
+            "offset",
+            "opacity",
+            "scale",
+            "style",
+            "tilt"
+          ],
+          "type": "object"
+        },
+        "Rectangle": {
+          "additionalProperties": false,
+          "properties": {
+            "bottom": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "left": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "names": {
+              "$ref": "#/definitions/NameText"
+            },
+            "right": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "top": {
+              "$ref": "#/definitions/NameAndDoc"
+            }
+          },
+          "required": [
+            "bottom",
+            "doc",
+            "left",
+            "names",
+            "right",
+            "top"
+          ],
+          "type": "object"
+        },
+        "Row": {
+          "additionalProperties": false,
+          "properties": {
+            "description": {
+              "$ref": "#/definitions/Template",
+              "description": "$1 total count $2 phrase count $3 group count"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "names": {
+              "$ref": "#/definitions/NameText"
+            },
+            "padding": {
+              "$ref": "#/definitions/NameAndDoc"
+            }
+          },
+          "required": [
+            "description",
+            "doc",
+            "names",
+            "padding"
+          ],
+          "type": "object"
+        },
+        "Sequence": {
+          "additionalProperties": false,
+          "properties": {
+            "count": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "names": {
+              "$ref": "#/definitions/NameText"
+            },
+            "poses": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "timing": {
+              "$ref": "#/definitions/NameAndDoc"
+            }
+          },
+          "required": [
+            "count",
+            "doc",
+            "names",
+            "poses",
+            "timing"
+          ],
+          "type": "object"
+        },
+        "Shape": {
+          "$ref": "#/definitions/ConceptText%3C1%2C0%3E"
+        },
+        "Stack": {
+          "additionalProperties": false,
+          "properties": {
+            "description": {
+              "$ref": "#/definitions/Template",
+              "description": "$1 total count $2 phrase count $3 group count"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "names": {
+              "$ref": "#/definitions/NameText"
+            },
+            "padding": {
+              "$ref": "#/definitions/NameAndDoc"
+            }
+          },
+          "required": [
+            "description",
+            "doc",
+            "names",
+            "padding"
+          ],
+          "type": "object"
+        },
+        "Stage": {
+          "additionalProperties": false,
+          "properties": {
+            "background": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "content": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "description": {
+              "$ref": "#/definitions/Template"
+            },
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "frame": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "names": {
+              "$ref": "#/definitions/NameText"
+            }
+          },
+          "required": [
+            "background",
+            "content",
+            "description",
+            "doc",
+            "frame",
+            "names"
+          ],
+          "type": "object"
+        },
+        "Type": {
+          "additionalProperties": false,
+          "properties": {
+            "doc": {
+              "$ref": "#/definitions/DocText"
+            },
+            "duration": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "enter": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "exit": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "family": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "move": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "name": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "names": {
+              "$ref": "#/definitions/NameText"
+            },
+            "place": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "rest": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "rotation": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "selectable": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "size": {
+              "$ref": "#/definitions/NameAndDoc"
+            },
+            "style": {
+              "$ref": "#/definitions/NameAndDoc"
+            }
+          },
+          "required": [
+            "doc",
+            "duration",
+            "enter",
+            "exit",
+            "family",
+            "move",
+            "name",
+            "names",
+            "place",
+            "rest",
+            "rotation",
+            "selectable",
+            "size",
+            "style"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "Type",
+        "Group",
+        "Phrase",
+        "Stage",
+        "Arrangement",
+        "Shape",
+        "Rectangle",
+        "Pose",
+        "Sequence",
+        "Color",
+        "Place",
+        "Row",
+        "Stack",
+        "Grid",
+        "Free",
+        "Easing"
+      ],
+      "type": "object"
+    },
+    "Template": {
+      "type": "string"
+    }
+  }
+}

@@ -5,7 +5,6 @@ import Token from '../nodes/Token';
 import TokenType from '../nodes/TokenType';
 
 export type Template = string;
-export type DocString = string;
 
 export type NameAndDoc = {
     names: NameText;
@@ -30,7 +29,7 @@ export type NodeText = {
     /* A description of what the node is. More specific than a name. If not provided, name is used. */
     description: Template;
     /* Documentation text that appears in the documentation view */
-    doc: DocString;
+    doc: DocText;
     /* The emotion that should be conveyed in animations of the node type */
     emotion: `${Emotion}`;
 };
@@ -54,7 +53,11 @@ export type FunctionText<Inputs> = {
 
 export type NameText = string | string[];
 
-export type DocText = string;
+export type DocText = string | string[];
+
+export function toDocString(doc: DocText) {
+    return Array.isArray(doc) ? doc.join('\n\n') : doc;
+}
 
 export function getFirstName(name: NameText) {
     return typeof name === 'string' ? name : name[0];
@@ -77,7 +80,9 @@ export function getTokenLabel(token: Node, translation: Locale): string {
  * including every user interface label, every description, etc.
  * All of these fields must be included in order for a translation to be complete.
  **/
-type Locale = {
+export type Locale = {
+    /** A path to the generated JSON schema that mirrors this type, for validation and auto-complete */
+    $schema: string;
     /** An ISO 639-1 language code */
     language: LanguageCode;
     /** The placeholder string indicating that a locale string is not yet written */

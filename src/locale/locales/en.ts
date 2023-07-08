@@ -1,6 +1,7 @@
 import type Locale from '../Locale';
 
 const en: Locale = {
+    $schema: '../Locale.json',
     language: 'en',
     tbd: 'TBD',
     wordplay: 'Wordplay',
@@ -2135,5 +2136,11 @@ greeting('kitty')⧽
         },
     },
 };
+
+// const div = document.createElement('pre');
+// const json = JSON.stringify(en, null, 2);
+// for (const line of json.split('\n'))
+//     div.appendChild(document.createTextNode(line));
+// document.body.appendChild(div);
 
 export default en;
