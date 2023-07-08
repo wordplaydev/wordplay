@@ -246,7 +246,7 @@
 
             <!-- A hierarchical select of tutorial units and lessons  -->
             <select bind:value={selection} on:change={handleSelect}>
-                {#each progress.tutorial as act, actIndex}
+                {#each progress.tutorial.acts as act, actIndex}
                     <optgroup label={act.name}>
                         {#each act.scenes as scene, sceneIndex}
                             <option

@@ -1,18 +1,22 @@
 import type { InputTexts, NodeTexts, OutputTexts } from '../locale/Locale';
 import type Emotion from '../lore/Emotion';
 
-type Tutorial = Act[];
+export type Tutorial = {
+    /** This is here so that when we generate a JSON schema for a tutorial, the VS Code schema property is allowed **/
+    $schema: string;
+    acts: Act[];
+};
 
 export type Act = {
     name: string;
-    program: Performance;
+    performance: Performance;
     scenes: Scene[];
 };
 
 export type Scene = {
     name: string;
-    program: Performance;
-    concept: string | undefined;
+    performance: Performance;
+    concept: string | null;
     lines: Line[];
 };
 

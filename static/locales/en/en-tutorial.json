@@ -1,12 +1,15 @@
+{
+    "$schema": "../Tutorial.json",
+    "acts":
 [
     {
         "name": "The Verse",
-        "program": ["use", "DarkVoid"],
+        "performance": ["use", "DarkVoid"],
         "scenes": [
             {
                 "name": "Silence",
                 "concept": null,
-                "program": ["use", "DarkVoid"],
+                "performance": ["use", "DarkVoid"],
                 "lines": [
                     ["FunctionDefinition", "bored", "… Oh, hi."],
                     null,
@@ -129,7 +132,7 @@
             {
                 "name": "Would you like a program?",
                 "concept": "Program",
-                "program": ["use", "Symbol", "📄"],
+                "performance": ["use", "Symbol", "📄"],
                 "lines": [
                     ["fit", "Phrase('📄' rest: Pose(tilt: 10°))"],
                     [
@@ -237,7 +240,7 @@
             {
                 "name": "Holding space",
                 "concept": "Placeholder",
-                "program": ["use", "DarkVoid"],
+                "performance": ["use", "DarkVoid"],
                 "lines": [
                     [
                         "FunctionDefinition",
@@ -347,7 +350,7 @@
             {
                 "name": "Say again?",
                 "concept": "Unparsable",
-                "program": ["use", "Symbol", "ahkeolfewvk"],
+                "performance": ["use", "Symbol", "ahkeolfewvk"],
                 "lines": [
                     [
                         "FunctionDefinition",
@@ -484,7 +487,7 @@
             {
                 "name": "Love is in the err",
                 "concept": "Evaluate",
-                "program": [
+                "performance": [
                     "fit",
                     "Stage([Phrase('💔')] background: 🌈(90% 100 0°))"
                 ],
@@ -693,12 +696,12 @@
     },
     {
         "name": "It's the little things",
-        "program": ["use", "PrimitiveJiggle"],
+        "performance": ["use", "PrimitiveJiggle"],
         "scenes": [
             {
                 "name": "Values",
                 "concept": null,
-                "program": ["use", "Symbol", "💡"],
+                "performance": ["use", "Symbol", "💡"],
                 "lines": [
                     [
                         "fit",
@@ -747,7 +750,7 @@
             {
                 "name": "Quote, unquote",
                 "concept": "Text",
-                "program": [
+                "performance": [
                     "fit",
                     "Phrase('\"\"' rest: Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 0.5 opacity: 0.5) 100%: Pose(scale: 1)} duration: 2s))"
                 ],
@@ -850,7 +853,7 @@
             {
                 "name": "Symbol in the middle",
                 "concept": "Infix",
-                "program": [
+                "performance": [
                     "fit",
                     "Group(Row() [",
                     "                        Phrase('1' rest: Sequence({0%: Pose(offset: Place(0m 1m)) 50%: Pose(offset: Place(0m -1m)) 100%: Pose(offset: Place(0m 1m))} duration: 2s)) ",
@@ -933,7 +936,7 @@
             {
                 "name": "Yes and no",
                 "concept": "Truth",
-                "program": [
+                "performance": [
                     "fit",
                     "Group(Row() [Phrase('⊤') Phrase('⊥')] rest: Sequence({ 0%: Pose(tilt: 0°) 50%: Pose(tilt: 180°) 100%: Pose(tilt: 360°)} duration: 2s))"
                 ],
@@ -1115,7 +1118,7 @@
             {
                 "name": "Let me count the ways",
                 "concept": "Numbers",
-                "program": [
+                "performance": [
                     "fit",
                     "numbers•[#]: 25 → []",
                     "Group(Grid(5 5) numbers.translate(",
@@ -1297,7 +1300,7 @@
             {
                 "name": "Opening (re)marks",
                 "concept": "Prefix",
-                "program": ["use", "Symbol", "~"],
+                "performance": ["use", "Symbol", "~"],
                 "lines": [
                     [
                         "FunctionDefinition",
@@ -1341,7 +1344,7 @@
             {
                 "name": "Emptiness",
                 "concept": "Nothing",
-                "program": [
+                "performance": [
                     "fix",
                     "Motion(Phrase('ø' size: 5m) vy: ◆ ? 5m/s ø)"
                 ],
@@ -1422,7 +1425,7 @@
     },
     {
         "name": "Ensembles",
-        "program": [
+        "performance": [
             "fit",
             "Group(Row((Time() ÷ 500).sin() · 1m) [Phrase('[]') Phrase('{}') Phrase('{:}')])"
         ],
@@ -1430,7 +1433,7 @@
             {
                 "name": "Community values",
                 "concept": null,
-                "program": [
+                "performance": [
                     "fit",
                     "Group(Row() [Phrase('[') Phrase(' .' · (Time() ÷ 100ms)) Phrase(']')])"
                 ],
@@ -1466,7 +1469,7 @@
             {
                 "name": "Places, everyone!",
                 "concept": "Lists",
-                "program": [
+                "performance": [
                     "fit",
                     "clockwise: Sequence({0%: Pose(tilt: 0°) 50%: Pose(tilt: 180°) 100%: Pose(tilt: 360°)} duration: 2s)",
                     "                    counter: Sequence({0%: Pose(tilt: 0°) 50%: Pose(tilt: -180°) 100%: Pose(tilt: -360°)} duration: 2s)",
@@ -1624,7 +1627,7 @@
             {
                 "name": "One of each",
                 "concept": "Sets",
-                "program": [
+                "performance": [
                     "fit",
                     "clockwise: Sequence({0%: Pose(tilt: 0°) 50%: Pose(tilt: 180°) 100%: Pose(tilt: 360°)} duration: 2s)",
                     "                    counter: Sequence({0%: Pose(tilt: 0°) 50%: Pose(tilt: -180°) 100%: Pose(tilt: -360°)} duration: 2s)",
@@ -1741,7 +1744,7 @@
             {
                 "name": "One to one",
                 "concept": "Mappings",
-                "program": [
+                "performance": [
                     "fit",
                     "clockwise: Sequence({0%: Pose(tilt: 0°) 50%: Pose(tilt: 180°) 100%: Pose(tilt: 360°)} duration: 2s)",
                     "                    counter: Sequence({0%: Pose(tilt: 0°) 50%: Pose(tilt: -180°) 100%: Pose(tilt: -360°)} duration: 2s)",
@@ -1887,7 +1890,7 @@
     },
     {
         "name": "Cast party",
-        "program": [
+        "performance": [
             "fix",
             "count: 32",
             "",
@@ -1911,7 +1914,7 @@
             {
                 "name": "Detour",
                 "concept": null,
-                "program": ["use", "DarkVoid"],
+                "performance": ["use", "DarkVoid"],
                 "lines": [
                     [
                         "FunctionDefinition",
@@ -1937,7 +1940,7 @@
             {
                 "name": "We can be anything",
                 "concept": "Convert",
-                "program": ["use", "FlyIn", "→"],
+                "performance": ["use", "FlyIn", "→"],
                 "lines": [
                     ["use", "DarkVoid"],
                     [
@@ -2091,7 +2094,7 @@
             {
                 "name": "Freedom of speech",
                 "concept": "Templates",
-                "program": ["use", "FlyIn", "\\"],
+                "performance": ["use", "FlyIn", "\\"],
                 "lines": [
                     ["use", "DarkVoid"],
                     [
@@ -2203,7 +2206,7 @@
             {
                 "name": "How to choose?",
                 "concept": "Decisions",
-                "program": ["use", "FlyIn", "?"],
+                "performance": ["use", "FlyIn", "?"],
                 "lines": [
                     ["use", "DarkVoid"],
                     [
@@ -2328,12 +2331,12 @@
     },
     {
         "name": "Scene change",
-        "program": ["use", "TakeTheMic"],
+        "performance": ["use", "TakeTheMic"],
         "scenes": [
             {
                 "name": "Input",
                 "concept": null,
-                "program": ["use", "DarkVoid"],
+                "performance": ["use", "DarkVoid"],
                 "lines": [
                     [
                         "fix",
@@ -2365,7 +2368,7 @@
             {
                 "name": "Tick, tick, tick...",
                 "concept": "Time",
-                "program": ["use", "Symbol", "🕦"],
+                "performance": ["use", "Symbol", "🕦"],
                 "lines": [
                     [
                         "FunctionDefinition",
@@ -2423,7 +2426,7 @@
             {
                 "name": "Clickity clack",
                 "concept": "Key",
-                "program": ["use", "Symbol", "⌨️"],
+                "performance": ["use", "Symbol", "⌨️"],
                 "lines": [
                     [
                         "fit",
@@ -2471,7 +2474,7 @@
             {
                 "name": "Hummmmmmm…",
                 "concept": "Pointer",
-                "program": ["use", "Symbol", "👆🏻"],
+                "performance": ["use", "Symbol", "👆🏻"],
                 "lines": [
                     [
                         "fix",
@@ -2503,7 +2506,7 @@
             {
                 "name": "And... now!",
                 "concept": "Button",
-                "program": ["use", "Symbol", "🖱️"],
+                "performance": ["use", "Symbol", "🖱️"],
                 "lines": [
                     [
                         "FunctionDefinition",
@@ -2532,7 +2535,7 @@
             {
                 "name": "Is anyone listening?",
                 "concept": "Mic",
-                "program": ["use", "Symbol", "🎤"],
+                "performance": ["use", "Symbol", "🎤"],
                 "lines": [
                     [
                         "FunctionDefinition",
@@ -2554,7 +2557,7 @@
             {
                 "name": "You never know…",
                 "concept": "Random",
-                "program": ["fit", "Phrase(((Time(100ms) % 10) ÷ 1ms) → '')"],
+                "performance": ["fit", "Phrase(((Time(100ms) % 10) ÷ 1ms) → '')"],
                 "lines": [
                     [
                         "FunctionDefinition",
@@ -2584,7 +2587,7 @@
             {
                 "name": "Keeping moving",
                 "concept": "Motion",
-                "program": [
+                "performance": [
                     "fix",
                     "Motion(",
                     "    Phrase('🏀' 3m place: ◆ ? Place(0m 5m) ø) ",
@@ -2670,7 +2673,7 @@
             {
                 "name": "On cue",
                 "concept": "Reaction",
-                "program": ["use", "Symbol", "…"],
+                "performance": ["use", "Symbol", "…"],
                 "lines": [
                     ["fit", "Phrase('…' rest: Pose(tilt: 120°))"],
                     [
@@ -2800,12 +2803,12 @@
     },
     {
         "name": "Take the stage",
-        "program": ["use", "RainingEmoji"],
+        "performance": ["use", "RainingEmoji"],
         "scenes": [
             {
                 "name": "Output",
                 "concept": null,
-                "program": ["use", "StaticRainingEmoji"],
+                "performance": ["use", "StaticRainingEmoji"],
                 "lines": [
                     ["use", "Symbol", "😀"],
                     [
@@ -2846,7 +2849,7 @@
             {
                 "name": "Say what?",
                 "concept": "Phrase",
-                "program": ["use", "Symbol", "💬"],
+                "performance": ["use", "Symbol", "💬"],
                 "lines": [
                     [
                         "FunctionDefinition",
@@ -3121,7 +3124,7 @@
             {
                 "name": "1, 2, 3, 4, 1, 2, 3, 4",
                 "concept": "Sequence",
-                "program": ["use", "DancingEmoji", "💃"],
+                "performance": ["use", "DancingEmoji", "💃"],
                 "lines": [
                     ["use", "DarkVoid"],
                     [
@@ -3297,7 +3300,7 @@
             {
                 "name": "Places please",
                 "concept": "Group",
-                "program": [
+                "performance": [
                     "fit",
                     "Group(Grid(2 2) [Phrase('1' rest: Sequence(spin() 1s)) Phrase('2' rest: Sequence(spin() 2s)) Phrase('3' rest: Sequence(spin() 3s)) Phrase('4' rest: Sequence(spin() 4s))])"
                 ],
@@ -3546,7 +3549,7 @@
             {
                 "name": "Stage… right?",
                 "concept": "Stage",
-                "program": [
+                "performance": [
                     "fix",
                     "Stage([Phrase('🎭' 5m)] background: Color(0% 0 0°))"
                 ],
@@ -3659,7 +3662,7 @@
             {
                 "name": "Is there someone named...",
                 "concept": "Choice",
-                "program": ["fix", "Phrase('🔘' 10m)"],
+                "performance": ["fix", "Phrase('🔘' 10m)"],
                 "lines": [
                     [
                         "fix",
@@ -3705,12 +3708,12 @@
     },
     {
         "name": "Callbacks",
-        "program": ["use", "DarkVoid"],
+        "performance": ["use", "DarkVoid"],
         "scenes": [
             {
                 "name": "Memories",
                 "concept": null,
-                "program": ["use", "Symbol", "💭"],
+                "performance": ["use", "Symbol", "💭"],
                 "lines": [
                     ["FunctionDefinition", "curious", "…"],
                     null,
@@ -3732,7 +3735,7 @@
             {
                 "name": "Naming",
                 "concept": "Bind",
-                "program": ["use", "Symbol", ":"],
+                "performance": ["use", "Symbol", ":"],
                 "lines": [
                     ["fit", "Phrase(':' rotation: 90°)"],
                     [
@@ -3952,7 +3955,7 @@
             {
                 "name": "Off stage",
                 "concept": "Block",
-                "program": ["use", "Symbol", "()"],
+                "performance": ["use", "Symbol", "()"],
                 "lines": [
                     ["fix", "Phrase('()' 1m)"],
                     [
@@ -4061,7 +4064,7 @@
             {
                 "name": "Stage directions",
                 "concept": "Functions",
-                "program": ["use", "Symbol", "ƒ"],
+                "performance": ["use", "Symbol", "ƒ"],
                 "lines": [
                     ["use", "Symbol", "☺️"],
                     [
@@ -4157,7 +4160,7 @@
             {
                 "name": "Set design",
                 "concept": "Structures",
-                "program": ["use", "Symbol", "•"],
+                "performance": ["use", "Symbol", "•"],
                 "lines": [
                     ["use", "DarkVoid"],
                     [
@@ -4476,7 +4479,7 @@
             {
                 "name": "Director's notes",
                 "concept": "Doc",
-                "program": ["use", "Symbol", "`"],
+                "performance": ["use", "Symbol", "`"],
                 "lines": [
                     [
                         "FunctionDefinition",
@@ -4690,12 +4693,12 @@
     },
     {
         "name": "Denouement",
-        "program": ["fit", "Stage([Phrase('😨')] background: Color(0% 0 0°))"],
+        "performance": ["fit", "Stage([Phrase('😨')] background: Color(0% 0 0°))"],
         "scenes": [
             {
                 "name": "Codependency",
                 "concept": null,
-                "program": [
+                "performance": [
                     "fit",
                     "Stage([Phrase('😨' rest: Sequence(shake() style: 'straight'))] background: Color(0% 0 0°))"
                 ],
@@ -5068,3 +5071,4 @@
         ]
     }
 ]
+}

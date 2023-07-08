@@ -23,7 +23,7 @@ import { Languages, type WritingLayout } from '../locale/LanguageCode';
 import SupportedLocales from '../locale/locales';
 import Progress from '../tutorial/Progress';
 import Arrangement from './Arrangement';
-import type { Act } from '../tutorial/Tutorial';
+import type { Tutorial } from '../tutorial/Tutorial';
 
 const PROJECTS_KEY = 'projects';
 const LAYOUTS_KEY = 'layouts';
@@ -233,7 +233,7 @@ export class Creator {
         this.saveConfig(TUTORIAL_KEY, value);
     }
 
-    getTutorialProgress(tutorial: Act[]) {
+    getTutorialProgress(tutorial: Tutorial) {
         return new Progress(
             tutorial,
             this.config.tutorial.act,

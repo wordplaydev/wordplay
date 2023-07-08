@@ -1,11 +1,11 @@
 import UnicodeString from '../models/UnicodeString';
-import type Spaces from '@parser/Spaces';
-import type Locale from '@locale/Locale';
+import type Spaces from '../parser/Spaces';
+import type Locale from '../locale/Locale';
 import Node, { type Replacement } from './Node';
 import TokenType from './TokenType';
 import Emotion from '../lore/Emotion';
 import Purpose from '../concepts/Purpose';
-import { getTokenLabel, type Template } from '@locale/Locale';
+import { getTokenLabel, type Template } from '../locale/Locale';
 import type Root from './Root';
 import { REVERSE_TEXT_DELIMITERS, TEXT_DELIMITERS } from '../parser/Tokenizer';
 import { Languages } from '../locale/LanguageCode';

@@ -13,7 +13,8 @@
         "build": "npm run env && vite build",
         "preview": "vite preview",
         "stage": "firebase use dev && firebase deploy",
-        "release": "firebase use prod && firebase deploy"
+        "release": "firebase use prod && firebase deploy",
+        "schemas": "npx ts-json-schema-generator --tsconfig tsconfig.json --path 'src/tutorial/Tutorial.ts' --type 'Tutorial' --out static/locales/Tutorial.json"
     },
     "devDependencies": {
         "@sveltejs/adapter-static": "^2",

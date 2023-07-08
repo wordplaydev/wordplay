@@ -1,7 +1,7 @@
 import type LanguageCode from './LanguageCode';
-import type Node from '@nodes/Node';
+import type Node from '../nodes/Node';
 import type Emotion from '../lore/Emotion';
-import Token from '@nodes/Token';
+import Token from '../nodes/Token';
 import TokenType from '../nodes/TokenType';
 
 export type Template = string;

@@ -267,10 +267,11 @@ export default class Evaluator {
     getSourceValueBefore(source: Source, stepIndex: number) {
         const indexedValues = this.sourceValues.get(source);
         if (indexedValues === undefined) return undefined;
-        const latestValue = indexedValues.findLast(
-            (val) => val.stepNumber <= stepIndex
-        );
-        return latestValue === undefined ? undefined : latestValue.value;
+        for (let index = indexedValues.length - 1; index >= 0; index--) {
+            const val = indexedValues[index];
+            if (val.stepNumber <= stepIndex) return val.value;
+        }
+        return undefined;
     }
 
     getStepCount() {
@@ -875,11 +876,11 @@ export default class Evaluator {
     // STREAM AND REACTION MANAGMEENT
 
     getReactionPriorTo(stepIndex: StepNumber): StreamChange | undefined {
-        return (
-            this.reactions.findLast(
-                (change) => change.stepIndex <= stepIndex
-            ) ?? this.reactions[0]
-        );
+        for (let index = this.reactions.length - 1; index >= 0; index--) {
+            const change = this.reactions[index];
+            if (change.stepIndex <= stepIndex) return change;
+        }
+        return this.reactions[0];
     }
 
     isInitialEvaluation() {

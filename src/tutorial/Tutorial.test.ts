@@ -28,17 +28,17 @@ function check(line: Line): boolean {
 
 // Build a list of all programs in the supported locales
 const programs = Tutorials.map((tutorial) =>
-    tutorial
+    tutorial.acts
         .map((act) => {
             const programs = [
                 // Verify act programs
-                ...(check(act.program)
-                    ? [act.program.slice(1).join('\n')]
+                ...(check(act.performance)
+                    ? [act.performance.slice(1).join('\n')]
                     : []),
                 // Verify scene programs
                 ...act.scenes
-                    .filter((scene) => check(scene.program))
-                    .map((scene) => scene.program.slice(1).join('\n'))
+                    .filter((scene) => check(scene.performance))
+                    .map((scene) => scene.performance.slice(1).join('\n'))
                     .flat(),
                 // Verify all programs in the scenes
                 ...act.scenes
@@ -86,7 +86,7 @@ test.each(programs.map((code) => [code]))(
 
 // Build a list of all concept links
 const lines = Tutorials.map((tutorial) =>
-    tutorial
+    tutorial.acts
         .map((act) => [
             // Across all scenes
             ...act.scenes

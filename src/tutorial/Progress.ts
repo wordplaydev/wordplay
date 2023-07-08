@@ -20,15 +20,16 @@ export default class Progress {
 
     constructor(tutorial: Tutorial, act: number, scene: number, pause: number) {
         this.tutorial = tutorial;
+        const acts = tutorial.acts;
 
         // Account for invalid acts, scenes, and pauses.
-        act = act < 0 ? 0 : act >= tutorial.length ? tutorial.length : act;
-        const scenes = act === 0 ? 0 : tutorial[act - 1].scenes.length;
+        act = act < 0 ? 0 : act >= acts.length ? acts.length : act;
+        const scenes = act === 0 ? 0 : acts[act - 1].scenes.length;
         scene = scene < 0 ? 0 : scene > scenes ? scenes : scene;
         const pauses =
             act === 0 || scene === 0
                 ? 0
-                : tutorial[act - 1].scenes[scene - 1].lines.filter(
+                : acts[act - 1].scenes[scene - 1].lines.filter(
                       (line) => line === null
                   ).length + 1;
         pause = pause < 0 ? 0 : pause > pauses ? pauses : pause;
@@ -39,7 +40,7 @@ export default class Progress {
     }
 
     getAct(): Act | undefined {
-        return this.tutorial[this.act - 1];
+        return this.tutorial.acts[this.act - 1];
     }
 
     getScene(): Scene | undefined {
@@ -73,7 +74,7 @@ export default class Progress {
         const code =
             scene && line !== undefined
                 ? scene.lines[line]
-                : scene?.program ?? act?.program ?? undefined;
+                : scene?.performance ?? act?.performance ?? undefined;
         return Array.isArray(code) &&
             PerformanceMode.includes(code[0] as PeformanceModeType)
             ? (code as Performance)
@@ -171,7 +172,7 @@ export default class Progress {
         if (this.act + direction === 0)
             return new Progress(this.tutorial, 0, 0, 0);
         const actIndex = this.act - 1 + direction;
-        const nextAct = this.tutorial[actIndex];
+        const nextAct = this.tutorial.acts[actIndex];
         if (nextAct === undefined) return undefined;
         else
             return new Progress(

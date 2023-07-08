@@ -1,0 +1,251 @@
+{
+  "$ref": "#/definitions/Tutorial",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "Act": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "performance": {
+          "$ref": "#/definitions/Performance"
+        },
+        "scenes": {
+          "items": {
+            "$ref": "#/definitions/Scene"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "name",
+        "performance",
+        "scenes"
+      ],
+      "type": "object"
+    },
+    "Character": {
+      "enum": [
+        "Dimension",
+        "Doc",
+        "Docs",
+        "KeyValue",
+        "Language",
+        "Name",
+        "Names",
+        "Row",
+        "Token",
+        "TypeInputs",
+        "TypeVariable",
+        "TypeVariables",
+        "Paragraph",
+        "WebLink",
+        "ConceptLink",
+        "Words",
+        "Example",
+        "BinaryOperation",
+        "Bind",
+        "Block",
+        "BooleanLiteral",
+        "Borrow",
+        "Changed",
+        "Conditional",
+        "ConversionDefinition",
+        "Convert",
+        "Delete",
+        "DocumentedExpression",
+        "Evaluate",
+        "ExpressionPlaceholder",
+        "FunctionDefinition",
+        "HOF",
+        "Insert",
+        "Initial",
+        "Is",
+        "ListAccess",
+        "ListLiteral",
+        "MapLiteral",
+        "MeasurementLiteral",
+        "NativeExpression",
+        "NoneLiteral",
+        "Previous",
+        "Program",
+        "PropertyBind",
+        "PropertyReference",
+        "Reaction",
+        "Reference",
+        "Select",
+        "SetLiteral",
+        "SetOrMapAccess",
+        "Source",
+        "StreamDefinition",
+        "StructureDefinition",
+        "TableLiteral",
+        "Template",
+        "TextLiteral",
+        "This",
+        "UnaryOperation",
+        "UnparsableExpression",
+        "Update",
+        "AnyType",
+        "BooleanType",
+        "ConversionType",
+        "ExceptionType",
+        "FunctionDefinitionType",
+        "FunctionType",
+        "ListType",
+        "MapType",
+        "MeasurementType",
+        "NameType",
+        "NeverType",
+        "NoneType",
+        "NotAType",
+        "SetType",
+        "StreamDefinitionType",
+        "StreamType",
+        "StructureDefinitionType",
+        "TableType",
+        "TextType",
+        "TypePlaceholder",
+        "UnknownNameType",
+        "UnknownType",
+        "UnionType",
+        "UnparsableType",
+        "Unit",
+        "VariableType",
+        "CycleType",
+        "UnknownVariableType",
+        "NoExpressionType",
+        "NotEnclosedType",
+        "NotImplementedType",
+        "Random",
+        "Choice",
+        "Button",
+        "Pointer",
+        "Key",
+        "Time",
+        "Mic",
+        "Camera",
+        "Motion",
+        "Type",
+        "Group",
+        "Phrase",
+        "Stage",
+        "Arrangement",
+        "Shape",
+        "Rectangle",
+        "Pose",
+        "Sequence",
+        "Color",
+        "Place",
+        "Stack",
+        "Grid",
+        "Free",
+        "Easing",
+        "⊤",
+        "⊥"
+      ],
+      "type": "string"
+    },
+    "Dialog": {
+      "additionalItems": {
+        "type": "string"
+      },
+      "items": [
+        {
+          "$ref": "#/definitions/Character"
+        },
+        {
+          "type": "string"
+        }
+      ],
+      "minItems": 2,
+      "type": "array"
+    },
+    "Line": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/Dialog"
+        },
+        {
+          "$ref": "#/definitions/Performance"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "PeformanceModeType": {
+      "enum": [
+        "fit",
+        "fix",
+        "edit",
+        "conflict",
+        "use"
+      ],
+      "type": "string"
+    },
+    "Performance": {
+      "additionalItems": {
+        "type": "string"
+      },
+      "items": [
+        {
+          "$ref": "#/definitions/PeformanceModeType"
+        }
+      ],
+      "minItems": 1,
+      "type": "array"
+    },
+    "Scene": {
+      "additionalProperties": false,
+      "properties": {
+        "concept": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "lines": {
+          "items": {
+            "$ref": "#/definitions/Line"
+          },
+          "type": "array"
+        },
+        "name": {
+          "type": "string"
+        },
+        "performance": {
+          "$ref": "#/definitions/Performance"
+        }
+      },
+      "required": [
+        "name",
+        "performance",
+        "concept",
+        "lines"
+      ],
+      "type": "object"
+    },
+    "Tutorial": {
+      "additionalProperties": false,
+      "properties": {
+        "$schema": {
+          "description": "This is here so that when we generate a JSON schema for a tutorial, the VS Code schema property is allowed *",
+          "type": "string"
+        },
+        "acts": {
+          "items": {
+            "$ref": "#/definitions/Act"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "$schema",
+        "acts"
+      ],
+      "type": "object"
+    }
+  }
+}
