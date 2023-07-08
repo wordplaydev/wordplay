@@ -4,10 +4,10 @@
     import { goto } from '$app/navigation';
     import { page } from '$app/stores';
     import { creator } from '../../db/Creator';
-    import Page from '@components/app/Page.svelte';
-    import type { Tutorial } from '../../locale/Locale';
     import { onMount } from 'svelte';
-    import Loading from '../../components/app/Loading.svelte';
+    import Loading from '@components/app/Loading.svelte';
+    import type Tutorial from '../../tutorial/Tutorial';
+    import Page from '@components/app/Page.svelte';
 
     let tutorial: Tutorial | undefined | null = undefined;
 

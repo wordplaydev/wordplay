@@ -1,15 +1,11 @@
 import { test, expect } from 'vitest';
 import Project from '../models/Project';
 import Source from '../nodes/Source';
-import type {
-    TutorialPerformance,
-    Dialog,
-    Tutorial,
-    Line,
-} from '../locale/Locale';
 import { parseDoc, toTokens } from '../parser/Parser';
 import ConceptLink from '../nodes/ConceptLink';
 import en from '../locale/locales/en';
+import type { Dialog, Line, Performance } from './Tutorial';
+import type Tutorial from './Tutorial';
 
 const SupportedLanguages = ['en'];
 
@@ -26,7 +22,7 @@ const Tutorials = await Promise.all(
 function check(line: Line): boolean {
     return (
         line !== null &&
-        ['fit', 'fix', 'edit'].includes((line as TutorialPerformance)[0])
+        ['fit', 'fix', 'edit'].includes((line as Performance)[0])
     );
 }
 
@@ -51,7 +47,7 @@ const programs = Tutorials.map((tutorial) =>
                     // Flatten them into a list of lines
                     .flat()
                     // Filter out anything that's not code, that has an intentional conflict, or is an performance import
-                    .filter((line): line is TutorialPerformance => check(line))
+                    .filter((line): line is Performance => check(line))
                     // Map the code onto their start source code
                     .map((performance) => performance.slice(1).join('\n'))
                     .flat(),

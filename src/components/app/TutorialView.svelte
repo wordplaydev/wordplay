@@ -25,12 +25,12 @@
     import type ConceptIndex from '../../concepts/ConceptIndex';
     import { writable, type Writable } from 'svelte/store';
     import { tick } from 'svelte';
-    import type { TutorialPerformance, Dialog } from '../../locale/Locale';
     import { goto } from '$app/navigation';
     import ConceptLink from '../../nodes/ConceptLink';
     import TutorialHighlight from './TutorialHighlight.svelte';
     import Emotion from '../../lore/Emotion';
     import { Performances } from '../../tutorial/Performances';
+    import type { Dialog, Performance } from '../../tutorial/Tutorial';
 
     export let progress: Progress;
     export let navigate: (progress: Progress) => void;
@@ -88,7 +88,7 @@
         The keyed each below should only update when it's different code,
         not just when it's assigned.
     */
-    let performance: TutorialPerformance;
+    let performance: Performance;
     $: {
         let newPerformance = progress.getPerformance();
         console.log(newPerformance);

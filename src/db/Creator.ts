@@ -22,8 +22,8 @@ import type LanguageCode from '../locale/LanguageCode';
 import { Languages, type WritingLayout } from '../locale/LanguageCode';
 import SupportedLocales from '../locale/locales';
 import Progress from '../tutorial/Progress';
-import type { Act } from '../locale/Locale';
 import Arrangement from './Arrangement';
+import type { Act } from '../tutorial/Tutorial';
 
 const PROJECTS_KEY = 'projects';
 const LAYOUTS_KEY = 'layouts';

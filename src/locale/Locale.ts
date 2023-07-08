@@ -1186,48 +1186,4 @@ export type InputTexts = {
     };
 };
 
-export type UnitText = {
-    name: string;
-    overview: Dialog[];
-};
-
-export type Character =
-    | keyof NodeTexts
-    | keyof InputTexts
-    | keyof OutputTexts
-    | '⊤'
-    | '⊥';
-
-export type Dialog = [Character, `${Emotion}`, ...string[]];
-
-export type TutorialPerformance = [TutorialPeformanceModeType, ...string[]];
-
-export const TutorialPerformanceMode = [
-    'fit',
-    'fix',
-    'edit',
-    'conflict',
-    'use',
-] as const;
-
-export type TutorialPeformanceModeType =
-    (typeof TutorialPerformanceMode)[number];
-
-export type Tutorial = Act[];
-
-export type Act = {
-    name: string;
-    program: TutorialPerformance;
-    scenes: Scene[];
-};
-
-export type Line = Dialog | TutorialPerformance | null;
-
-export type Scene = {
-    name: string;
-    program: TutorialPerformance;
-    concept: string | undefined;
-    lines: Line[];
-};
-
 export default Locale;

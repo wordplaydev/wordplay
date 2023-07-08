@@ -1,13 +1,13 @@
 import type { TutorialProgress } from '../db/Creator';
 import {
-    TutorialPerformanceMode,
+    PerformanceMode,
     type Act,
-    type TutorialPerformance,
-    type Dialog,
     type Scene,
-    type Tutorial,
-    type TutorialPeformanceModeType,
-} from '../locale/Locale';
+    type PeformanceModeType,
+    type Performance,
+    type Dialog,
+} from './Tutorial';
+import type Tutorial from './Tutorial';
 
 export default class Progress {
     readonly tutorial: Tutorial;
@@ -59,16 +59,14 @@ export default class Progress {
             if (line === null) pause++;
             else if (
                 line !== null &&
-                TutorialPerformanceMode.includes(
-                    line[0] as TutorialPeformanceModeType
-                )
+                PerformanceMode.includes(line[0] as PeformanceModeType)
             )
                 code = i;
         }
         return code;
     }
 
-    getPerformance(): TutorialPerformance | undefined {
+    getPerformance(): Performance | undefined {
         const act = this.getAct();
         const scene = this.getScene();
         const line = this.getPerformanceLine();
@@ -77,10 +75,8 @@ export default class Progress {
                 ? scene.lines[line]
                 : scene?.program ?? act?.program ?? undefined;
         return Array.isArray(code) &&
-            TutorialPerformanceMode.includes(
-                code[0] as TutorialPeformanceModeType
-            )
-            ? (code as TutorialPerformance)
+            PerformanceMode.includes(code[0] as PeformanceModeType)
+            ? (code as Performance)
             : undefined;
     }
 
@@ -99,9 +95,7 @@ export default class Progress {
             if (
                 pause === this.pause &&
                 line !== null &&
-                !TutorialPerformanceMode.includes(
-                    line[0] as TutorialPeformanceModeType
-                )
+                !PerformanceMode.includes(line[0] as PeformanceModeType)
             )
                 dialog.push(line as Dialog);
         }
