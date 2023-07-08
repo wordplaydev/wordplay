@@ -47,13 +47,13 @@ export default class Insert extends Expression {
             {
                 name: 'table',
                 types: [Expression],
-                label: (translation: Locale) => translation.data.table,
+                label: (translation: Locale) => translation.term.table,
             },
             { name: 'insert', types: [Token] },
             {
                 name: 'row',
                 types: [Row],
-                label: (translation: Locale) => translation.data.row,
+                label: (translation: Locale) => translation.term.row,
             },
         ];
     }

@@ -15,7 +15,7 @@ export default class ValueException extends Exception {
     getDescription(locale: Locale) {
         return concretize(
             locale,
-            locale.exceptions.value,
+            locale.exception.value,
             new NodeLink(
                 this.expression,
                 locale,

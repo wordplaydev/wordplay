@@ -287,7 +287,7 @@ export class Creator {
         const newProject = new Project(
             null,
             '',
-            new Source(locale.terminology.start, ''),
+            new Source(locale.term.start, ''),
             [],
             undefined,
             uid ? [uid] : []

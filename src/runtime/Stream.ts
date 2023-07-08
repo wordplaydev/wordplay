@@ -45,7 +45,7 @@ export default abstract class Stream<
             translation,
             this.definition.docs
                 ?.getLocale(translation.language)
-                ?.getFirstParagraph() ?? translation.data.stream
+                ?.getFirstParagraph() ?? translation.term.stream
         );
     }
 

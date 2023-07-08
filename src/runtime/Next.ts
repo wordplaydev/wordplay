@@ -20,7 +20,7 @@ export default class Next extends Step {
         return this.action?.call(undefined, evaluator);
     }
 
-    getExplanations(translation: Locale) {
-        return Description.as(translation.step.next);
+    getExplanations(locale: Locale) {
+        return Description.as(locale.evaluate.next);
     }
 }

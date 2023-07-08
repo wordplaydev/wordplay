@@ -45,7 +45,7 @@ export default class FunctionException extends Exception {
 
         return concretize(
             locale,
-            locale.exceptions.function,
+            locale.exception.function,
             // Wrap the node containing the name in a link
             new NodeLink(
                 name,

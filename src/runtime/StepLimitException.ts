@@ -12,6 +12,6 @@ export default class StepLimitException extends Exception {
     }
 
     getDescription(locale: Locale) {
-        return concretize(locale, locale.exceptions.steplimit);
+        return concretize(locale, locale.exception.steplimit);
     }
 }

@@ -130,7 +130,7 @@ export function addContent(
         Reference.make(
             PhraseType.names.getLocaleText(get(creator).getLanguages())
         ),
-        [TextLiteral.make(get(creator).getLocale().welcome)]
+        [TextLiteral.make(get(creator).getLocale().ui.phrases.welcome)]
     );
     reviseContent(projects, project, list, [
         ...list.values.slice(0, index + 1),

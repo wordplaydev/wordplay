@@ -45,7 +45,7 @@ export default class Conversion extends Primitive {
     }
 
     getDescription(translation: Locale) {
-        return Description.as(translation.data.function);
+        return Description.as(translation.term.function);
     }
 
     getSize() {

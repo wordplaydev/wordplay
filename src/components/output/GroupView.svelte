@@ -55,8 +55,8 @@
         $creator.getLocales().map((t) => t.language)
     )}
     aria-roledescription={group instanceof Group
-        ? $creator.getLocale().terminology.group
-        : $creator.getLocale().terminology.verse}
+        ? $creator.getLocale().term.group
+        : $creator.getLocale().term.verse}
     aria-hidden={empty ? 'true' : null}
     class="output group {group.constructor.name}"
     class:selected={selected && !root}

@@ -150,7 +150,7 @@
         role="button"
         aria-hidden={empty ? 'true' : null}
         aria-disabled={!selectable}
-        aria-roledescription={$creator.getLocale().terminology.phrase}
+        aria-roledescription={$creator.getLocale().term.phrase}
         class="output phrase"
         class:selected
         tabIndex={interactive && ((!empty && selectable) || editing) ? 0 : null}

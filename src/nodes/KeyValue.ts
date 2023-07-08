@@ -31,13 +31,13 @@ export default class KeyValue extends Node {
             {
                 name: 'key',
                 types: [Expression],
-                label: (translation: Locale) => translation.data.key,
+                label: (translation: Locale) => translation.term.key,
             },
             { name: 'bind', types: [Token] },
             {
                 name: 'value',
                 types: [Expression],
-                label: (translation: Locale) => translation.data.value,
+                label: (translation: Locale) => translation.term.value,
             },
         ];
     }

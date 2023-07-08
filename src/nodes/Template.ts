@@ -56,7 +56,7 @@ export default class Template extends Expression {
             {
                 name: 'expressions',
                 types: [[Expression, Token]],
-                label: (translation: Locale) => translation.data.text,
+                label: (translation: Locale) => translation.term.text,
             },
             { name: 'format', types: [Language, undefined] },
         ];

@@ -946,13 +946,13 @@
                     >
                         {#if enteredDescription.length > 0}
                             <p
-                                >{$creator.getLocale().terminology.entered}
+                                >{$creator.getLocale().term.entered}
                                 {enteredDescription}</p
                             >
                         {/if}
                         {#if changedDescription.length > 0}
                             <p
-                                >{$creator.getLocale().terminology.changed}
+                                >{$creator.getLocale().term.changed}
                                 {changedDescription}</p
                             >
                         {/if}

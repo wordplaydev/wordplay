@@ -66,7 +66,7 @@ export default class ListAccess extends Expression {
             {
                 name: 'list',
                 types: [Expression],
-                label: (translation: Locale) => translation.data.list,
+                label: (translation: Locale) => translation.term.list,
                 // Must be a list
                 getType: () => ListType.make(),
             },
@@ -74,7 +74,7 @@ export default class ListAccess extends Expression {
             {
                 name: 'index',
                 types: [Expression],
-                label: (translation: Locale) => translation.data.index,
+                label: (translation: Locale) => translation.term.index,
                 // Must be a number
                 getType: () => MeasurementType.make(),
             },

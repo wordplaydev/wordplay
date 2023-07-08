@@ -14,6 +14,6 @@ export default class BlankException extends Exception {
     }
 
     getDescription(translation: Locale) {
-        return concretize(translation, translation.exceptions.blank);
+        return concretize(translation, translation.exception.blank);
     }
 }

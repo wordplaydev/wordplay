@@ -5,7 +5,7 @@ import Node, { type Replacement } from './Node';
 import TokenType from './TokenType';
 import Emotion from '../lore/Emotion';
 import Purpose from '../concepts/Purpose';
-import { getTokenLabel, type Template } from '../locale/Locale';
+import type { Template } from '../locale/Locale';
 import type Root from './Root';
 import { REVERSE_TEXT_DELIMITERS, TEXT_DELIMITERS } from '../parser/Tokenizer';
 import { Languages } from '../locale/LanguageCode';
@@ -219,4 +219,16 @@ export default class Token extends Node {
             emotion: Emotion.cheerful,
         };
     }
+}
+
+export function getTokenLabel(token: Node, translation: Locale): string {
+    if (!(token instanceof Token)) return token.getLabel(translation);
+
+    const tokenType = Object.entries(TokenType).find(
+        ([, val]) => val === token.types[0]
+    );
+    const tokenLabel = tokenType
+        ? translation.token[tokenType[0] as keyof typeof TokenType]
+        : '';
+    return tokenLabel;
 }

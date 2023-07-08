@@ -42,13 +42,13 @@ export default class Delete extends Expression {
             {
                 name: 'table',
                 types: [Expression],
-                label: (translation: Locale) => translation.data.table,
+                label: (translation: Locale) => translation.term.table,
             },
             { name: 'del', types: [Token] },
             {
                 name: 'query',
                 types: [Expression],
-                label: (translation: Locale) => translation.data.query,
+                label: (translation: Locale) => translation.term.query,
                 // Must be a boolean
                 getType: () => BooleanType.make(),
             },

@@ -47,7 +47,7 @@ export default class Table extends Value {
     }
 
     getDescription(translation: Locale) {
-        return concretize(translation, translation.data.table);
+        return concretize(translation, translation.term.table);
     }
 
     getSize() {

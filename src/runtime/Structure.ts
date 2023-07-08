@@ -113,7 +113,7 @@ export default class Structure extends Value {
     }
 
     getDescription(translation: Locale) {
-        return Description.as(translation.data.structure);
+        return Description.as(translation.term.structure);
     }
 
     /**

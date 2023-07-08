@@ -29,7 +29,7 @@ export default class None extends Primitive {
     }
 
     getDescription(translation: Locale) {
-        return Description.as(translation.data.none);
+        return Description.as(translation.term.none);
     }
 
     getSize() {

@@ -5,9 +5,7 @@ const es: Locale = {
     language: 'es',
     wordplay: 'PalabraJugar',
     tbd: 'no escrito',
-    welcome: 'hola',
-    motto: 'Donde las palabras cobran vida',
-    terminology: {
+    term: {
         store: 'datos',
         decide: 'decidir',
         code: 'código',
@@ -25,12 +23,6 @@ const es: Locale = {
         entered: 'ingresó',
         changed: 'cambiada',
         name: 'nombre',
-    },
-    caret: {
-        before: 'antes de $1',
-        inside: 'dentro de $1',
-    },
-    data: {
         value: 'avaluar',
         text: 'texto',
         boolean: 'booleano',
@@ -50,9 +42,17 @@ const es: Locale = {
         set: 'set',
         key: 'clave',
     },
-    evaluation: {
+    evaluate: {
         unevaluated: 'el nodo seleccionado no evaluó',
         done: 'terminado de evaluar',
+        stream: '$?',
+        jump: '$?',
+        jumpif: '$?',
+        halt: '$?',
+        initialize: '$?',
+        evaluate: '$?',
+        next: '$?',
+        check: '$?',
     },
     token: {
         EvalOpen: 'evaluación abierta',
@@ -1263,7 +1263,7 @@ const es: Locale = {
             },
         },
     },
-    exceptions: {
+    exception: {
         blank: '¡Estoy tan emocionada de montar un espectáculo contigo! ¿Por dónde deberíamos empezar?',
         function: '$?',
         name: '$?',
@@ -1371,23 +1371,19 @@ const es: Locale = {
         UnparsableConflict: '$?',
         UnusedBind: '$?',
     },
-    step: {
-        stream: '$?',
-        jump: '$?',
-        jumpif: '$?',
-        halt: '$?',
-        initialize: '$?',
-        evaluate: '$?',
-        next: '$?',
-        check: '$?',
-    },
-    transform: {
+    edit: {
+        before: 'antes de $1',
+        inside: 'dentro de $1',
         add: '$?',
         append: '$?',
         remove: '$?',
         replace: '$?',
     },
     ui: {
+        phrases: {
+            welcome: 'hola',
+            motto: 'Donde las palabras cobran vida',
+        },
         placeholders: {
             code: 'code',
             expression: 'value',
@@ -1731,33 +1727,33 @@ const es: Locale = {
             pokey: 'lenta',
             zippy: 'enérgico',
         },
-    },
-    animation: {
-        sway: {
-            doc: '$?',
-            names: ['vaivén'],
-            angle: { doc: '$?', names: ['ángulo'] },
-        },
-        bounce: {
-            doc: '$?',
-            names: ['rebotar'],
-            height: { doc: '$?', names: ['altura'] },
-        },
-        spin: {
-            doc: '$?',
-            names: ['girar'],
-        },
-        fadein: {
-            doc: '$?',
-            names: ['revelar'],
-        },
-        popup: {
-            doc: '$?',
-            names: ['surgir'],
-        },
-        shake: {
-            doc: '$?',
-            names: ['agitar'],
+        sequence: {
+            sway: {
+                doc: '$?',
+                names: ['vaivén'],
+                angle: { doc: '$?', names: ['ángulo'] },
+            },
+            bounce: {
+                doc: '$?',
+                names: ['rebotar'],
+                height: { doc: '$?', names: ['altura'] },
+            },
+            spin: {
+                doc: '$?',
+                names: ['girar'],
+            },
+            fadein: {
+                doc: '$?',
+                names: ['revelar'],
+            },
+            popup: {
+                doc: '$?',
+                names: ['surgir'],
+            },
+            shake: {
+                doc: '$?',
+                names: ['agitar'],
+            },
         },
     },
 };

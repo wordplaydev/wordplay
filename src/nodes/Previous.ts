@@ -57,7 +57,7 @@ export default class Previous extends Expression {
             {
                 name: 'stream',
                 types: [Expression],
-                label: (translation: Locale) => translation.data.stream,
+                label: (translation: Locale) => translation.term.stream,
                 // Must be a stream
                 getType: () => StreamType.make(new AnyType()),
             },
@@ -65,7 +65,7 @@ export default class Previous extends Expression {
             {
                 name: 'index',
                 types: [Expression],
-                label: (translation: Locale) => translation.data.index,
+                label: (translation: Locale) => translation.term.index,
                 // Must be a number
                 getType: () => MeasurementType.make(),
             },

@@ -50,18 +50,18 @@ export default class Select extends Expression {
             {
                 name: 'table',
                 types: [Expression],
-                label: (translation: Locale) => translation.data.table,
+                label: (translation: Locale) => translation.term.table,
             },
             { name: 'select', types: [Token] },
             {
                 name: 'row',
                 types: [Row],
-                label: (translation: Locale) => translation.data.row,
+                label: (translation: Locale) => translation.term.row,
             },
             {
                 name: 'query',
                 types: [Expression],
-                label: (translation: Locale) => translation.data.query,
+                label: (translation: Locale) => translation.term.query,
             },
         ];
     }

@@ -899,7 +899,7 @@
         $creator.reviseProject(
             project,
             project.withNewSource(
-                `${$creator.getLocale().terminology.source}${
+                `${$creator.getLocale().term.source}${
                     project.supplements.length + 1
                 }`
             )

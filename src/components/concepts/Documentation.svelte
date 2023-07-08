@@ -286,29 +286,29 @@
             {/key}
         {:else if $index}
             <ConceptsView
-                category={$creator.getLocale().terminology.project}
+                category={$creator.getLocale().term.project}
                 concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Project)}
             />
             <ConceptsView
-                category={$creator.getLocale().terminology.code}
+                category={$creator.getLocale().term.code}
                 concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Compute)}
                 selectable={true}
             />
             <ConceptsView
-                category={$creator.getLocale().terminology.store}
+                category={$creator.getLocale().term.store}
                 concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Store)}
             />
             <ConceptsView
-                category={$creator.getLocale().terminology.decide}
+                category={$creator.getLocale().term.decide}
                 concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Decide)}
                 selectable={true}
             />
             <ConceptsView
-                category={$creator.getLocale().terminology.input}
+                category={$creator.getLocale().term.input}
                 concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Input)}
             />
             <ConceptsView
-                category={$creator.getLocale().terminology.output}
+                category={$creator.getLocale().term.output}
                 concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Output)}
             />
         {/if}

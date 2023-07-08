@@ -46,7 +46,7 @@ export default class StructureDefinitionValue extends Primitive {
     }
 
     getDescription(translation: Locale) {
-        return concretize(translation, translation.data.function);
+        return concretize(translation, translation.term.function);
     }
 
     getSize() {

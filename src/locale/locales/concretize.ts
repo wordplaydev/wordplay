@@ -117,9 +117,9 @@ function parse(
                 const idMatch = template.matches(/^\w+/);
                 if (idMatch !== null) {
                     template.next(idMatch[0].length);
-                    const id = idMatch[0] as keyof Locale['terminology'];
-                    const phrase = Object.hasOwn(locale.terminology, id)
-                        ? locale.terminology[id]
+                    const id = idMatch[0] as keyof Locale['term'];
+                    const phrase = Object.hasOwn(locale.term, id)
+                        ? locale.term[id]
                         : '-';
                     description = description.with(phrase);
                 }

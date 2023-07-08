@@ -13,7 +13,7 @@ export default class KeepStream extends Step {
         return undefined;
     }
 
-    getExplanations(translation: Locale) {
-        return concretize(translation, translation.step.stream);
+    getExplanations(locale: Locale) {
+        return concretize(locale, locale.evaluate.stream);
     }
 }

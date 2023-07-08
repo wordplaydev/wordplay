@@ -119,7 +119,7 @@
     $: defaultProject = new Project(
         progress.getProjectID(),
         scene ? scene.name : act ? act.name : $creator.getLocale().wordplay,
-        new Source($creator.getLocale().terminology.start, source),
+        new Source($creator.getLocale().term.start, source),
         [],
         undefined,
         $user ? [$user.uid] : [],
@@ -199,12 +199,12 @@
                 <div class="title play">{$creator.getLocale().wordplay}</div>
             {:else if scene === undefined}
                 <div class="title act"
-                    >{$creator.getLocale().terminology.act}
+                    >{$creator.getLocale().term.act}
                     {progress.act}<p><em>{act.name}</em></p></div
                 >
             {:else if dialog === undefined}
                 <div class="title scene"
-                    >{$creator.getLocale().terminology.scene}
+                    >{$creator.getLocale().term.scene}
                     {progress.scene}<p><em>{scene.name}</em></p
                     >{#if scene.concept}<em>{scene.concept}</em>{/if}</div
                 >

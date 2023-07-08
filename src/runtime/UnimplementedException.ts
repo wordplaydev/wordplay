@@ -16,7 +16,7 @@ export default class UnimplementedException extends Exception {
     getDescription(locale: Locale) {
         return concretize(
             locale,
-            locale.exceptions.placeholder,
+            locale.exception.placeholder,
             new NodeLink(
                 this.placeholder,
                 locale,

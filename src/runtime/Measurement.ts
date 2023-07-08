@@ -229,7 +229,7 @@ export default class Measurement extends Primitive {
     }
 
     getDescription(translation: Locale) {
-        return Description.as(translation.data.measurement);
+        return Description.as(translation.term.measurement);
     }
 
     getSize() {

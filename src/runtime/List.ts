@@ -129,7 +129,7 @@ export default class List extends Primitive {
     }
 
     getDescription(translation: Locale) {
-        return Description.as(translation.data.list);
+        return Description.as(translation.term.list);
     }
 
     getSize() {

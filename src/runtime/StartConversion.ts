@@ -21,6 +21,6 @@ export default class StartConversion extends Step {
     }
 
     getExplanations(locale: Locale) {
-        return concretize(locale, locale.step.evaluate);
+        return concretize(locale, locale.evaluate.evaluate);
     }
 }

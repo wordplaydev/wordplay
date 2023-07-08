@@ -1,4 +1,6 @@
-import type { InputTexts, NodeTexts, OutputTexts } from '../locale/Locale';
+import type InputTexts from '@locale/InputTexts';
+import type OutputTexts from '@locale/OutputTexts';
+import type NodeTexts from '@locale/NodeTexts';
 import type Emotion from '../lore/Emotion';
 
 export type Tutorial = {

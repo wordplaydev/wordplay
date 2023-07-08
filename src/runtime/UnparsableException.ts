@@ -17,7 +17,7 @@ export default class UnparsableException extends Exception {
     getDescription(locale: Locale) {
         return concretize(
             locale,
-            locale.exceptions.unparsable,
+            locale.exception.unparsable,
             new NodeLink(
                 this.unparsable,
                 locale,

@@ -62,13 +62,11 @@
                             ? $creator
                                   .getLocales()
                                   .map((t) =>
-                                      Description.as(t.evaluation.unevaluated)
+                                      Description.as(t.evaluate.unevaluated)
                                   )
                             : $creator
                                   .getLocales()
-                                  .map((t) =>
-                                      Description.as(t.evaluation.done)
-                                  ),
+                                  .map((t) => Description.as(t.evaluate.done)),
                         kind: 'step',
                         position: getPosition(view),
                     },

@@ -38,7 +38,7 @@ export default class TableLiteral extends Expression {
             {
                 name: 'type',
                 types: [TableType],
-                label: (translation: Locale) => translation.data.table,
+                label: (translation: Locale) => translation.term.table,
             },
             { name: 'rows', types: [[Row]] },
         ];

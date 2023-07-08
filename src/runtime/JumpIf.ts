@@ -41,7 +41,7 @@ export default class JumpIf extends Step {
         const val = evaluator.peekValue();
         return concretize(
             locale,
-            locale.step.jumpif,
+            locale.evaluate.jumpif,
             val instanceof Bool && val.bool === this.yes
         );
     }

@@ -21,7 +21,7 @@ export default class TypeException extends Exception {
     getDescription(locale: Locale) {
         return concretize(
             locale,
-            locale.exceptions.type,
+            locale.exception.type,
             new NodeLink(
                 this.expected,
                 locale,

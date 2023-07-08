@@ -106,7 +106,7 @@ export default class Set extends Primitive {
     }
 
     getDescription(translation: Locale) {
-        return Description.as(translation.data.set);
+        return Description.as(translation.term.set);
     }
 
     getSize() {

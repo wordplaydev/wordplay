@@ -17,7 +17,7 @@ export default class CycleException extends Exception {
     getDescription(locale: Locale) {
         return concretize(
             locale,
-            locale.exceptions.cycle,
+            locale.exception.cycle,
             new NodeLink(
                 this.borrow,
                 locale,

@@ -16,7 +16,7 @@
 <Background />
 <Page>
     <Lead>{$creator.getLocale().wordplay}</Lead>
-    <p>{$creator.getLocale().motto}</p>
+    <p>{$creator.getLocale().ui.phrases.motto}</p>
     {#if PUBLIC_CONTEXT === 'prod'}
         <p
             >Coming Fall 2023. Write <a href="https://amyjko.com">Amy</a> for details.</p

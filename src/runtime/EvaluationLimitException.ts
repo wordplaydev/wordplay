@@ -27,7 +27,7 @@ export default class EvaluationLimitException extends Exception {
 
         return concretize(
             locale,
-            locale.exceptions.functionlimit,
+            locale.exception.functionlimit,
             new NodeLink(
                 mostFrequent,
                 locale,

@@ -108,7 +108,7 @@
 <Page>
     <div class="login">
         {#if $user && !$user.isAnonymous}
-            <Lead>{$creator.getLocale().welcome} {$user.email}</Lead>
+            <Lead>{$creator.getLocale().ui.phrases.welcome} {$user.email}</Lead>
             <Button tip={$creator.getLocale().ui.login.logout} action={logout}
                 >{$creator.getLocale().ui.login.logout}</Button
             >

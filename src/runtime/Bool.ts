@@ -66,7 +66,7 @@ export default class Bool extends Primitive {
     }
 
     getDescription(translation: Locale) {
-        return Description.as(translation.data.boolean);
+        return Description.as(translation.term.boolean);
     }
 
     getSize() {

@@ -124,7 +124,7 @@ export default class Map extends Primitive {
     }
 
     getDescription(translation: Locale) {
-        return Description.as(translation.data.map);
+        return Description.as(translation.term.map);
     }
 
     getSize() {

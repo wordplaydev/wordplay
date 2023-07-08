@@ -70,7 +70,7 @@ export default class Text extends Primitive {
     }
 
     getDescription(translation: Locale) {
-        return Description.as(translation.data.text);
+        return Description.as(translation.term.text);
     }
 
     getSize() {

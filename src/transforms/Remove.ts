@@ -90,7 +90,7 @@ export default class Remove extends Transform {
     getDescription(locale: Locale) {
         return concretize(
             locale,
-            locale.transform.remove,
+            locale.edit.remove,
             this.getNewNode().getLabel(locale)
         );
     }

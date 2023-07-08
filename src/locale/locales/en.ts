@@ -5,9 +5,7 @@ const en: Locale = {
     language: 'en',
     tbd: 'TBD',
     wordplay: 'Wordplay',
-    welcome: 'hello',
-    motto: 'Where words come to life',
-    terminology: {
+    term: {
         store: 'bind',
         code: 'evaluate',
         decide: 'decide',
@@ -25,12 +23,6 @@ const en: Locale = {
         entered: 'new',
         changed: 'changed',
         name: 'name',
-    },
-    caret: {
-        before: 'before $1',
-        inside: 'inside $1',
-    },
-    data: {
         value: 'value',
         text: 'text',
         boolean: 'boolean',
@@ -50,9 +42,17 @@ const en: Locale = {
         set: 'set',
         key: 'key',
     },
-    evaluation: {
+    evaluate: {
         unevaluated: 'the selected node did not evaluate',
         done: 'done evaluating',
+        stream: 'keeping the stream instead of getting its latest value',
+        jump: 'jumping past code',
+        jumpif: '$1 ?? [jumping over code | not jumping over code]',
+        halt: 'encountered exception, stopping',
+        initialize: 'preparing to process items',
+        evaluate: 'starting evaluation',
+        next: 'apply the function to the next item',
+        check: 'check the result',
     },
     token: {
         EvalOpen: 'evaluation open',
@@ -1612,7 +1612,7 @@ greeting('kitty')⧽
             },
         },
     },
-    exceptions: {
+    exception: {
         blank: "I'm so excited to put on a show with you! Where should we start?",
         function: "Oops, I don't know how to $1",
         name: 'I feel... unbound, with no value. Am I supposed to have a value in $1 ?? [ $1 | this @Block ]?',
@@ -1730,23 +1730,19 @@ greeting('kitty')⧽
         UnusedBind: `Hey, can I help? No one is saying my name :(`,
         InputListMustBeLast: 'list of inputs must be last',
     },
-    step: {
-        stream: 'keeping the stream instead of getting its latest value',
-        jump: 'jumping past code',
-        jumpif: '$1 ?? [jumping over code | not jumping over code]',
-        halt: 'encountered exception, stopping',
-        initialize: 'preparing to process items',
-        evaluate: 'starting evaluation',
-        next: 'apply the function to the next item',
-        check: 'check the result',
-    },
-    transform: {
+    edit: {
+        before: 'before $1',
+        inside: 'inside $1',
         add: 'add $1',
         append: 'append $1',
         remove: 'remove $1',
         replace: 'replace with $1 ?? [$1|nothing]',
     },
     ui: {
+        phrases: {
+            welcome: 'hello',
+            motto: 'Where words come to life',
+        },
         placeholders: {
             code: 'code',
             expression: 'value',
@@ -2106,33 +2102,33 @@ greeting('kitty')⧽
             pokey: 'pokey',
             zippy: 'zippy',
         },
-    },
-    animation: {
-        sway: {
-            doc: '$?',
-            names: ['sway'],
-            angle: { doc: '$?', names: ['angle'] },
-        },
-        bounce: {
-            doc: '$?',
-            names: ['bounce'],
-            height: { doc: '$?', names: ['height'] },
-        },
-        spin: {
-            doc: '$?',
-            names: ['spin'],
-        },
-        fadein: {
-            doc: '$?',
-            names: ['fadein'],
-        },
-        popup: {
-            doc: '$?',
-            names: ['popup'],
-        },
-        shake: {
-            doc: '$?',
-            names: ['shake'],
+        sequence: {
+            sway: {
+                doc: '$?',
+                names: ['sway'],
+                angle: { doc: '$?', names: ['angle'] },
+            },
+            bounce: {
+                doc: '$?',
+                names: ['bounce'],
+                height: { doc: '$?', names: ['height'] },
+            },
+            spin: {
+                doc: '$?',
+                names: ['spin'],
+            },
+            fadein: {
+                doc: '$?',
+                names: ['fadein'],
+            },
+            popup: {
+                doc: '$?',
+                names: ['popup'],
+            },
+            shake: {
+                doc: '$?',
+                names: ['shake'],
+            },
         },
     },
 };

@@ -25,7 +25,7 @@ export default class NameException extends Exception {
     getDescription(locale: Locale) {
         return concretize(
             locale,
-            locale.exceptions.name,
+            locale.exception.name,
             this.name
                 ? new NodeLink(
                       this.name,

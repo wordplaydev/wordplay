@@ -20,7 +20,7 @@ export default class Check extends Step {
         return this.action?.call(undefined, evaluator);
     }
 
-    getExplanations(translation: Locale) {
-        return concretize(translation, translation.step.check);
+    getExplanations(locale: Locale) {
+        return concretize(locale, locale.evaluate.check);
     }
 }

@@ -24,6 +24,6 @@ export default class Jump extends Step {
     }
 
     getExplanations(locale: Locale) {
-        return concretize(locale, locale.step.jump);
+        return concretize(locale, locale.evaluate.jump);
     }
 }
