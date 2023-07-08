@@ -1,36 +1,59 @@
 import { test, expect } from 'vitest';
-import SupportedLocales from '../locales';
-import Project from '../../models/Project';
-import Source from '../../nodes/Source';
-import type { Code, Dialog } from '../Locale';
-import { parseDoc, toTokens } from '../../parser/Parser';
-import ConceptLink from '../../nodes/ConceptLink';
-import en from './en';
+import Project from '../models/Project';
+import Source from '../nodes/Source';
+import type {
+    TutorialPerformance,
+    Dialog,
+    Tutorial,
+    Line,
+} from '../locale/Locale';
+import { parseDoc, toTokens } from '../parser/Parser';
+import ConceptLink from '../nodes/ConceptLink';
+import en from '../locale/locales/en';
+
+const SupportedLanguages = ['en'];
+
+const Tutorials = await Promise.all(
+    SupportedLanguages.map(async (lang) => {
+        const tut = await fetch(
+            `http://localhost:5173/locales/${lang}/${lang}-tutorial.json`
+        );
+        const json = await tut.json();
+        return json as Tutorial;
+    })
+);
+
+function check(line: Line): boolean {
+    return (
+        line !== null &&
+        ['fit', 'fix', 'edit'].includes((line as TutorialPerformance)[0])
+    );
+}
 
 // Build a list of all programs in the supported locales
-const programs = SupportedLocales.map((locale) =>
-    locale.tutorial
+const programs = Tutorials.map((tutorial) =>
+    tutorial
         .map((act) => {
             const programs = [
                 // Verify act programs
-                act.program.sources[0],
+                ...(check(act.program)
+                    ? [act.program.slice(1).join('\n')]
+                    : []),
                 // Verify scene programs
-                ...act.scenes.map((scene) => scene.program.sources[0]).flat(),
+                ...act.scenes
+                    .filter((scene) => check(scene.program))
+                    .map((scene) => scene.program.slice(1).join('\n'))
+                    .flat(),
                 // Verify all programs in the scenes
                 ...act.scenes
                     // Map act's scenes to lines
                     .map((scene) => scene.lines)
                     // Flatten them into a list of lines
                     .flat()
-                    // Filter out anything that's not code
-                    .filter(
-                        (line): line is Code =>
-                            line !== null &&
-                            Object.hasOwn(line, 'sources') &&
-                            (line as Code).conflicted === false
-                    )
+                    // Filter out anything that's not code, that has an intentional conflict, or is an performance import
+                    .filter((line): line is TutorialPerformance => check(line))
                     // Map the code onto their start source code
-                    .map((code) => code.sources[0])
+                    .map((performance) => performance.slice(1).join('\n'))
                     .flat(),
             ];
             return programs;
@@ -66,8 +89,8 @@ test.each(programs.map((code) => [code]))(
 );
 
 // Build a list of all concept links
-const lines = SupportedLocales.map((locale) =>
-    locale.tutorial
+const lines = Tutorials.map((tutorial) =>
+    tutorial
         .map((act) => [
             // Across all scenes
             ...act.scenes
@@ -82,7 +105,7 @@ const lines = SupportedLocales.map((locale) =>
                 )
                 // Map each line of dialog to a flat list of concepts in the dialog
                 .map((line) =>
-                    parseDoc(toTokens('`' + line.text + '`'))
+                    parseDoc(toTokens('`' + line.slice(2).join('\n\n') + '`'))
                         .nodes()
                         .filter(
                             (node): node is ConceptLink =>

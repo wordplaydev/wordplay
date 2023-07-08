@@ -1,5 +1,4 @@
 import type Locale from '../Locale';
-import tutorial from './en-tutorial';
 
 const en: Locale = {
     language: 'en',
@@ -1870,6 +1869,9 @@ greeting('kitty')⧽
             unwrap: 'unwrap',
             bind: 'name this expression',
         },
+        error: {
+            tutorial: "We weren't able to find a tutorial for this language.",
+        },
     },
     input: {
         Random: {
@@ -2132,7 +2134,6 @@ greeting('kitty')⧽
             names: ['shake'],
         },
     },
-    tutorial: tutorial,
 };
 
 export default en;

@@ -1,5 +1,13 @@
 import type { TutorialProgress } from '../db/Creator';
-import type { Act, Code, Dialog, Scene, Tutorial } from '../locale/Locale';
+import {
+    TutorialPerformanceMode,
+    type Act,
+    type TutorialPerformance,
+    type Dialog,
+    type Scene,
+    type Tutorial,
+    type TutorialPeformanceModeType,
+} from '../locale/Locale';
 
 export default class Progress {
     readonly tutorial: Tutorial;
@@ -40,7 +48,7 @@ export default class Progress {
     }
 
     /** Get the latest code before the current pause */
-    getCodeLine(): number | undefined {
+    getPerformanceLine(): number | undefined {
         const scene = this.getScene();
         if (scene === undefined) return undefined;
 
@@ -49,21 +57,30 @@ export default class Progress {
         for (let i = 0; i < scene.lines.length && pause < this.pause; i++) {
             const line = scene.lines[i];
             if (line === null) pause++;
-            else if (typeof line === 'object' && 'sources' in line) code = i;
+            else if (
+                line !== null &&
+                TutorialPerformanceMode.includes(
+                    line[0] as TutorialPeformanceModeType
+                )
+            )
+                code = i;
         }
         return code;
     }
 
-    getCode(): Code | undefined {
+    getPerformance(): TutorialPerformance | undefined {
         const act = this.getAct();
         const scene = this.getScene();
-        const line = this.getCodeLine();
+        const line = this.getPerformanceLine();
         const code =
             scene && line !== undefined
                 ? scene.lines[line]
                 : scene?.program ?? act?.program ?? undefined;
-        return code !== null && typeof code === 'object' && 'sources' in code
-            ? code
+        return Array.isArray(code) &&
+            TutorialPerformanceMode.includes(
+                code[0] as TutorialPeformanceModeType
+            )
+            ? (code as TutorialPerformance)
             : undefined;
     }
 
@@ -81,18 +98,19 @@ export default class Progress {
 
             if (
                 pause === this.pause &&
-                typeof line === 'object' &&
                 line !== null &&
-                'text' in line
+                !TutorialPerformanceMode.includes(
+                    line[0] as TutorialPeformanceModeType
+                )
             )
-                dialog.push(line);
+                dialog.push(line as Dialog);
         }
         return dialog;
     }
 
     /** Generate a project ID suitable for this point in the tutorial. We save code for each */
     getProjectID() {
-        return `${this.act}-${this.scene}-${this.getCodeLine()}`;
+        return `${this.act}-${this.scene}-${this.getPerformanceLine()}`;
     }
 
     toObject(): TutorialProgress {

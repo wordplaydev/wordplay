@@ -1508,6 +1508,9 @@ const es: Locale = {
             unwrap: 'desenvolver',
             bind: 'nombra esta expresión',
         },
+        error: {
+            tutorial: '$?',
+        },
     },
     input: {
         Random: {
@@ -1756,7 +1759,6 @@ const es: Locale = {
             names: ['agitar'],
         },
     },
-    tutorial: [],
 };
 
 export default es;

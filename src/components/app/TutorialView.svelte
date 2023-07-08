@@ -25,11 +25,12 @@
     import type ConceptIndex from '../../concepts/ConceptIndex';
     import { writable, type Writable } from 'svelte/store';
     import { tick } from 'svelte';
-    import type { Code, Dialog } from '../../locale/Locale';
+    import type { TutorialPerformance, Dialog } from '../../locale/Locale';
     import { goto } from '$app/navigation';
     import ConceptLink from '../../nodes/ConceptLink';
     import TutorialHighlight from './TutorialHighlight.svelte';
     import Emotion from '../../lore/Emotion';
+    import { Performances } from '../../tutorial/Performances';
 
     export let progress: Progress;
     export let navigate: (progress: Progress) => void;
@@ -57,7 +58,9 @@
     let turns: { speech: Doc; spaces: Spaces; dialog: Dialog }[] = [];
     $: turns = dialog
         ? dialog.map((line) => {
-              const tokens = toTokens('`' + line.text + '`');
+              const [, , ...text] = line;
+              // Convert the list of paragraphs into a single doc.
+              const tokens = toTokens('`' + text.join('\n\n') + '`');
               return {
                   speech: parseDoc(tokens),
                   spaces: tokens.getSpaces(),
@@ -85,46 +88,43 @@
         The keyed each below should only update when it's different code,
         not just when it's assigned.
     */
-    let code: Code;
+    let performance: TutorialPerformance;
     $: {
-        let newCode = progress.getCode();
-        if (newCode !== undefined && newCode !== code) {
+        let newPerformance = progress.getPerformance();
+        console.log(newPerformance);
+        if (newPerformance !== undefined && newPerformance !== performance) {
             // Reset the concept path when code changes.
             conceptPath.set([]);
-            code = newCode;
+            performance = newPerformance;
         }
-        if (code === undefined) {
-            code = {
-                sources: ['Stage()'],
-                fit: true,
-                edit: false,
-                conflicted: false,
-            };
+        if (performance === undefined) {
+            performance = ['fit', 'Stage()'];
         }
     }
 
-    // Figure out the default project to show.
-    $: defaultProject =
-        code.sources.length > 0
-            ? new Project(
-                  progress.getProjectID(),
-                  scene
-                      ? scene.name
-                      : act
-                      ? act.name
-                      : $creator.getLocale().wordplay,
-                  new Source(
-                      $creator.getLocale().terminology.start,
-                      code.sources[0]
-                  ),
-                  code.sources
-                      .slice(1)
-                      .map((source, index) => new Source(`${index}`, source)),
+    $: performanceType = performance[0];
+    $: editable = performanceType === 'edit' || performanceType === 'conflict';
+    $: fit = performanceType === 'fit' || performanceType === 'use';
+    // A "use" performance? Find it in Performances.
+    // Anything else? Take all the lines of source and join them together.
+    $: source =
+        performanceType === 'use'
+            ? Performances[performance[1] as keyof typeof Performances].apply(
                   undefined,
-                  $user ? [$user.uid] : [],
-                  false
+                  performance.slice(2) as any
               )
-            : undefined;
+            : performance.slice(1).join('\n');
+
+    // Figure out the default project to show.
+    $: defaultProject = new Project(
+        progress.getProjectID(),
+        scene ? scene.name : act ? act.name : $creator.getLocale().wordplay,
+        new Source($creator.getLocale().terminology.start, source),
+        [],
+        undefined,
+        $user ? [$user.uid] : [],
+        false
+    );
 
     // Start with the default project.
     $: project = defaultProject;
@@ -214,14 +214,14 @@
                         <!-- First speaker is always function, alternating speakers are the concept we're learning about. -->
                         <Speech
                             glyph={$conceptsStore
-                                ?.getConceptByName(turn.dialog.concept)
+                                ?.getConceptByName(turn.dialog[0])
                                 ?.getGlyphs($creator.getLanguages()) ?? {
-                                symbols: turn.dialog.concept,
+                                symbols: turn.dialog[0],
                             }}
-                            right={turn.dialog.concept === 'FunctionDefinition'}
+                            right={turn.dialog[0] === 'FunctionDefinition'}
                             baseline
                             scroll={false}
-                            emotion={Emotion[turn.dialog.emotion]}
+                            emotion={Emotion[turn.dialog[1]]}
                         >
                             <DocHtmlView
                                 doc={turn.speech}
@@ -288,16 +288,16 @@
     </div>
     <!-- Create a new view from scratch when the code changes -->
     <!-- Autofocus the main editor if it's currently focused -->
-    {#key code}
+    {#key performance}
         {#if project}
-            {#if scene && code}
+            {#if scene && performance}
                 <div class="project"
                     ><ProjectView
                         {project}
                         original={defaultProject}
                         bind:index={concepts}
-                        editable={code.edit}
-                        fit={code.fit}
+                        {editable}
+                        {fit}
                         autofocus={document.activeElement !== view}
                     /></div
                 >{:else}<PlayView {project} />{/if}

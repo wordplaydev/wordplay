@@ -5,9 +5,27 @@
     import { page } from '$app/stores';
     import { creator } from '../../db/Creator';
     import Page from '@components/app/Page.svelte';
+    import type { Tutorial } from '../../locale/Locale';
+    import { onMount } from 'svelte';
+    import Loading from '../../components/app/Loading.svelte';
 
-    // Set the tutorial based on the preferred locale.
-    $: tutorial = $creator.getLocale().tutorial;
+    let tutorial: Tutorial | undefined | null = undefined;
+
+    $: language = $creator.getLocale().language;
+
+    onMount(async () => {
+        try {
+            // Load the locale's tutorial
+            const response = await fetch(
+                `/locales/${language}/${language}-tutorial.json`
+            );
+            tutorial = await response.json();
+        } catch (err) {
+            // Couldn't load it? Show an error.
+            tutorial = null;
+        }
+    });
+
     // Set progress if URL indicates one.
     $: {
         // Figure out where we are in the tutorial.
@@ -15,6 +33,7 @@
         const scene = $page.url.searchParams.get('scene');
         const pause = $page.url.searchParams.get('pause');
         if (
+            tutorial &&
             act !== null &&
             isFinite(parseInt(act)) &&
             scene !== null &&
@@ -42,8 +61,14 @@
 </script>
 
 <Page>
-    <TutorialView
-        progress={$creator.getTutorialProgress(tutorial)}
-        {navigate}
-    />
+    {#if tutorial === undefined}
+        <Loading />
+    {:else if tutorial === null}
+        {$creator.getLocale().ui.error.tutorial}
+    {:else}
+        <TutorialView
+            progress={$creator.getTutorialProgress(tutorial)}
+            {navigate}
+        />
+    {/if}
 </Page>

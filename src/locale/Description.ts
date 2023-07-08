@@ -4,7 +4,14 @@ import type NodeLink from './NodeLink';
 import type ValueLink from './ValueLink';
 import type { TemplateInput } from './locales/concretize';
 
-export type DescriptionPart = string | NodeLink | ValueLink | ConceptLink;
+export type DescriptionPart =
+    | string
+    | number
+    | boolean
+    | undefined
+    | NodeLink
+    | ValueLink
+    | ConceptLink;
 
 export default class Description {
     readonly parts: DescriptionPart[];
@@ -30,12 +37,14 @@ export default class Description {
     with(part: TemplateInput) {
         return new Description([
             ...this.parts,
-            ...(Array.isArray(part) ? part : [part]),
+            ...(part instanceof Description ? part.parts : [part]),
         ]);
     }
 
     toString() {
-        return this.parts.map((part) => part.toString()).join('');
+        return this.parts
+            .map((part) => (part === undefined ? '?' : part.toString()))
+            .join('');
     }
 
     static as(part: DescriptionPart) {

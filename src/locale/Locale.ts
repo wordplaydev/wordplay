@@ -653,6 +653,9 @@ type Locale = {
             unwrap: string;
             bind: string;
         };
+        error: {
+            tutorial: string;
+        };
     };
     input: InputTexts;
     output: OutputTexts;
@@ -664,7 +667,6 @@ type Locale = {
         popup: NameAndDoc;
         shake: NameAndDoc;
     };
-    tutorial: Tutorial;
 };
 
 export type NodeTexts = {
@@ -1196,83 +1198,36 @@ export type Character =
     | '⊤'
     | '⊥';
 
-export type Dialog = {
-    concept: Character;
-    emotion: `${Emotion}`;
-    text: string;
-};
+export type Dialog = [Character, `${Emotion}`, ...string[]];
+
+export type TutorialPerformance = [TutorialPeformanceModeType, ...string[]];
+
+export const TutorialPerformanceMode = [
+    'fit',
+    'fix',
+    'edit',
+    'conflict',
+    'use',
+] as const;
+
+export type TutorialPeformanceModeType =
+    (typeof TutorialPerformanceMode)[number];
 
 export type Tutorial = Act[];
 
 export type Act = {
     name: string;
-    program: Code;
+    program: TutorialPerformance;
     scenes: Scene[];
 };
 
-export type Line = Dialog | Code | null;
+export type Line = Dialog | TutorialPerformance | null;
 
 export type Scene = {
     name: string;
-    program: Code;
+    program: TutorialPerformance;
     concept: string | undefined;
     lines: Line[];
 };
-
-export type Code = {
-    /** The source files for the project */
-    sources: string[];
-    /** Fits viewport to output if true */
-    fit: boolean;
-    /** Shows code if true, otherwise output only */
-    edit: boolean;
-    /** True if the conflicts are intentional. Used to filter out intentioally conflicted programs in testing */
-    conflicted: boolean;
-};
-
-export function dialog(
-    concept: Character,
-    emotion: `${Emotion}`,
-    text: string
-): Dialog {
-    return {
-        concept,
-        emotion,
-        text,
-    };
-}
-
-function code(
-    source: string,
-    fit: boolean,
-    edit: boolean,
-    conflicted: boolean = false
-): Code {
-    return {
-        sources: [source],
-        fit,
-        edit,
-        conflicted,
-    };
-}
-
-export function fit(source: string): Code {
-    return code(source, true, false, false);
-}
-
-export function fixed(source: string): Code {
-    return code(source, false, false, false);
-}
-export function edit(source: string): Code {
-    return code(source, true, true, false);
-}
-
-export function conflict(source: string): Code {
-    return code(source, true, true, true);
-}
-
-export function symbol(symbol: string) {
-    return fit(`Phrase("${symbol}")`);
-}
 
 export default Locale;

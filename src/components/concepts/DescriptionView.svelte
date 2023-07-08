@@ -17,9 +17,10 @@
         {#if part instanceof NodeLink}<strong>{part.getDescription()}</strong
             >{:else if part instanceof ValueLink}<strong
                 ><ValueView value={part.value} /></strong
-            >{:else if part instanceof ConceptLink}<ConceptLinkUI
-                link={part}
-            />{:else}{@html parseRichText(part).toHTML()}{/if}
+            >{:else if part instanceof ConceptLink}<ConceptLinkUI link={part} />
+        {:else}{@html parseRichText(
+                part === undefined ? '?' : part.toString()
+            ).toHTML()}{/if}
     {/each}
 {:else}
     {@html parseRichText(description).toHTML()}
