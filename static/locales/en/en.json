@@ -40,18 +40,6 @@
         "set": "set",
         "key": "key"
     },
-    "evaluate": {
-        "unevaluated": "the selected node did not evaluate",
-        "done": "done evaluating",
-        "stream": "keeping the stream instead of getting its latest value",
-        "jump": "jumping past code",
-        "jumpif": "$1 ?? [jumping over code | not jumping over code]",
-        "halt": "encountered exception, stopping",
-        "initialize": "preparing to process items",
-        "evaluate": "starting evaluation",
-        "next": "apply the function to the next item",
-        "check": "check the result"
-    },
     "token": {
         "EvalOpen": "evaluation open",
         "EvalClose": "evaluation close",
@@ -417,7 +405,7 @@
         },
         "Conditional": {
             "name": "conditional",
-            "description": "",
+            "description": "conditional",
             "emotion": "curious",
             "doc": [
                 "",
@@ -1498,18 +1486,6 @@
             "conversion": { "text": "$?", "set": "$?", "list": "$?" }
         }
     },
-    "exception": {
-        "blank": "I'm so excited to put on a show with you! Where should we start?",
-        "function": "Oops, I don't know how to $1",
-        "name": "I feel... unbound, with no value. Am I supposed to have a value in $1 ?? [ $1 | this @Block ]?",
-        "cycle": "$1 depends on itself",
-        "functionlimit": "I evaluated too many functions, especially $1",
-        "steplimit": "I evaluated too many steps in this function",
-        "type": "I expected a $1 but received $2",
-        "placeholder": "I don't know what to do here!!",
-        "unparsable": "???",
-        "value": "Oh no! I expected a value, but I didn't get one"
-    },
     "conflict": {
         "BorrowCycle": "this depends on $1, which depends on this $source, so the $program can't be evaluated",
         "ReferenceCycle": "$1 depends on itself, so there's no way to evaluate it.",
@@ -1606,6 +1582,30 @@
         "UnusedBind": "Hey, can I help? No one is saying my name :(",
         "InputListMustBeLast": "list of inputs must be last"
     },
+    "evaluate": {
+        "unevaluated": "the selected node did not evaluate",
+        "done": "done evaluating",
+        "stream": "keeping the stream instead of getting its latest value",
+        "jump": "jumping past code",
+        "jumpif": "$1 ?? [jumping over code | not jumping over code]",
+        "halt": "encountered exception, stopping",
+        "initialize": "preparing to process items",
+        "evaluate": "starting evaluation",
+        "next": "apply the function to the next item",
+        "check": "check the result"
+    },
+    "exception": {
+        "blank": "I'm so excited to put on a show with you! Where should we start?",
+        "function": "Oops, I don't know how to $1",
+        "name": "I feel... unbound, with no value. Am I supposed to have a value in $1 ?? [ $1 | this @Block ]?",
+        "cycle": "$1 depends on itself",
+        "functionlimit": "I evaluated too many functions, especially $1",
+        "steplimit": "I evaluated too many steps in this function",
+        "type": "I expected a $1 but received $2",
+        "placeholder": "I don't know what to do here!!",
+        "unparsable": "???",
+        "value": "Oh no! I expected a value, but I didn't get one"
+    },
     "edit": {
         "before": "before $1",
         "inside": "inside $1",
@@ -1614,129 +1614,7 @@
         "remove": "remove $1",
         "replace": "replace with $1 ?? [$1|nothing]"
     },
-    "ui": {
-        "phrases": {
-            "welcome": "hello",
-            "motto": "Where words come to life"
-        },
-        "placeholders": {
-            "code": "code",
-            "expression": "value",
-            "type": "type",
-            "percent": "percent",
-            "name": "name",
-            "project": "untitled",
-            "email": "email"
-        },
-        "tooltip": {
-            "yes": "confirm",
-            "no": "cancel",
-            "play": "evaluate the $program fully",
-            "pause": "evaluate the $program one step at a time",
-            "back": "back one step",
-            "backInput": "back one input",
-            "out": "step out of this function",
-            "forward": "forward one step",
-            "forwardInput": "forward one input",
-            "present": "to the present",
-            "start": "to the beginning",
-            "reset": "restart the evaluation of the performance from the beginning.",
-            "home": "return home",
-            "revert": "revert to default",
-            "set": "edit this property",
-            "fullscreen": "fill the browser with this window",
-            "collapse": "collapse window",
-            "expand": "expand window",
-            "close": "close this performance",
-            "language": "change preferred languages",
-            "horizontal": "switch to horizontal arrangement",
-            "vertical": "switch to vertical arrangement",
-            "freeform": "switch to free form arrangement",
-            "fit": "fit to content",
-            "grid": "show/hide grid",
-            "addPose": "add pose",
-            "removePose": "remove pose",
-            "movePoseUp": "move pose up",
-            "movePoseDown": "move pose down",
-            "addPhrase": "add a phrase after this",
-            "addGroup": "add a group after this",
-            "removeContent": "remove this content",
-            "moveContentUp": "move this content up",
-            "moveContentDown": "move this content down",
-            "editContent": "edit this content",
-            "sequence": "convert to a sequence",
-            "animate": "toggle animations on/off",
-            "addSource": "create a new $source",
-            "deleteSource": "remove this $source",
-            "deleteProject": "delete this performance",
-            "editProject": "edit this performance",
-            "settings": "show settings",
-            "newProject": "new performance",
-            "dark": "toggle dark mode on, off, and default",
-            "chooserExpand": "expand/collapse",
-            "place": "place output",
-            "paint": "paint output",
-            "nextLesson": "next lesson",
-            "previousLesson": "previous lesson",
-            "nextLessonStep": "next step",
-            "previousLessonStep": "previous step",
-            "revertProject": "revert to original code"
-        },
-        "prompt": { "deleteSource": "delete", "deleteProject": "delete" },
-        "labels": {
-            "learn": "learn more …",
-            "nodoc": "Who am I? What am I? What is my purpose?",
-            "mixed": "mixed",
-            "computed": "computed",
-            "default": "default",
-            "inherited": "inherited",
-            "notSequence": "not a sequence",
-            "notContent": "not a content list",
-            "anonymous": "anonymous"
-        },
-        "tiles": { "output": "💬", "docs": "📕", "palette": "🎨" },
-        "headers": {
-            "learn": "Learn",
-            "editing": "edit me!",
-            "projects": "Performances",
-            "examples": "Examples"
-        },
-        "section": {
-            "project": "performance",
-            "conflicts": "conflicts",
-            "timeline": "timeline",
-            "toolbar": "toolbar",
-            "output": "output",
-            "palette": "palette",
-            "editor": "code editor"
-        },
-        "feedback": {
-            "unknownProject": "There's no performance with this ID."
-        },
-        "login": {
-            "header": "Login",
-            "prompt": "Log in to access your performances.",
-            "anonymousPrompt": "Your performances are saved on this device. Create an account to save them online.",
-            "submit": "send a login email",
-            "enterEmail": "It looks like you're logging in on a different device. Can you enter your email again?",
-            "sent": "Check your email for a link.",
-            "success": "Account created!",
-            "failure": "Couldn't reach the database",
-            "expiredFailure": "This link expired.",
-            "invalidFailure": "This link isn't valid.",
-            "emailFailure": "This email wasn't valid.",
-            "logout": "logout",
-            "offline": "You appear to be offline."
-        },
-        "edit": {
-            "wrap": "parentheize",
-            "unwrap": "unwrap",
-            "bind": "name this expression"
-        },
-        "error": {
-            "tutorial": "We weren't able to find a tutorial for this language."
-        }
-    },
+
     "input": {
         "Random": {
             "doc": "$?",
@@ -1929,6 +1807,129 @@
             "fadein": { "doc": "$?", "names": ["fadein"] },
             "popup": { "doc": "$?", "names": ["popup"] },
             "shake": { "doc": "$?", "names": ["shake"] }
+        }
+    },
+    "ui": {
+        "phrases": {
+            "welcome": "hello",
+            "motto": "Where words come to life"
+        },
+        "placeholders": {
+            "code": "code",
+            "expression": "value",
+            "type": "type",
+            "percent": "percent",
+            "name": "name",
+            "project": "untitled",
+            "email": "email"
+        },
+        "tooltip": {
+            "yes": "confirm",
+            "no": "cancel",
+            "play": "evaluate the $program fully",
+            "pause": "evaluate the $program one step at a time",
+            "back": "back one step",
+            "backInput": "back one input",
+            "out": "step out of this function",
+            "forward": "forward one step",
+            "forwardInput": "forward one input",
+            "present": "to the present",
+            "start": "to the beginning",
+            "reset": "restart the evaluation of the performance from the beginning.",
+            "home": "return home",
+            "revert": "revert to default",
+            "set": "edit this property",
+            "fullscreen": "fill the browser with this window",
+            "collapse": "collapse window",
+            "expand": "expand window",
+            "close": "close this performance",
+            "language": "change preferred languages",
+            "horizontal": "switch to horizontal arrangement",
+            "vertical": "switch to vertical arrangement",
+            "freeform": "switch to free form arrangement",
+            "fit": "fit to content",
+            "grid": "show/hide grid",
+            "addPose": "add pose",
+            "removePose": "remove pose",
+            "movePoseUp": "move pose up",
+            "movePoseDown": "move pose down",
+            "addPhrase": "add a phrase after this",
+            "addGroup": "add a group after this",
+            "removeContent": "remove this content",
+            "moveContentUp": "move this content up",
+            "moveContentDown": "move this content down",
+            "editContent": "edit this content",
+            "sequence": "convert to a sequence",
+            "animate": "toggle animations on/off",
+            "addSource": "create a new $source",
+            "deleteSource": "remove this $source",
+            "deleteProject": "delete this performance",
+            "editProject": "edit this performance",
+            "settings": "show settings",
+            "newProject": "new performance",
+            "dark": "toggle dark mode on, off, and default",
+            "chooserExpand": "expand/collapse",
+            "place": "place output",
+            "paint": "paint output",
+            "nextLesson": "next lesson",
+            "previousLesson": "previous lesson",
+            "nextLessonStep": "next step",
+            "previousLessonStep": "previous step",
+            "revertProject": "revert to original code"
+        },
+        "prompt": { "deleteSource": "delete", "deleteProject": "delete" },
+        "labels": {
+            "learn": "learn more …",
+            "nodoc": "Who am I? What am I? What is my purpose?",
+            "mixed": "mixed",
+            "computed": "computed",
+            "default": "default",
+            "inherited": "inherited",
+            "notSequence": "not a sequence",
+            "notContent": "not a content list",
+            "anonymous": "anonymous"
+        },
+        "tiles": { "output": "💬", "docs": "📕", "palette": "🎨" },
+        "headers": {
+            "learn": "Learn",
+            "editing": "edit me!",
+            "projects": "Performances",
+            "examples": "Examples"
+        },
+        "section": {
+            "project": "performance",
+            "conflicts": "conflicts",
+            "timeline": "timeline",
+            "toolbar": "toolbar",
+            "output": "output",
+            "palette": "palette",
+            "editor": "code editor"
+        },
+        "feedback": {
+            "unknownProject": "There's no performance with this ID."
+        },
+        "login": {
+            "header": "Login",
+            "prompt": "Log in to access your performances.",
+            "anonymousPrompt": "Your performances are saved on this device. Create an account to save them online.",
+            "submit": "send a login email",
+            "enterEmail": "It looks like you're logging in on a different device. Can you enter your email again?",
+            "sent": "Check your email for a link.",
+            "success": "Account created!",
+            "failure": "Couldn't reach the database",
+            "expiredFailure": "This link expired.",
+            "invalidFailure": "This link isn't valid.",
+            "emailFailure": "This email wasn't valid.",
+            "logout": "logout",
+            "offline": "You appear to be offline."
+        },
+        "edit": {
+            "wrap": "parentheize",
+            "unwrap": "unwrap",
+            "bind": "name this expression"
+        },
+        "error": {
+            "tutorial": "We weren't able to find a tutorial for this language."
         }
     }
 }

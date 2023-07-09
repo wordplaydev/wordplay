@@ -44,7 +44,7 @@ say(0, 'Checking locale files for problems!');
 
 fs.readdirSync(path.join('static', 'locales'), { withFileTypes: true }).forEach(
     (file) => {
-        if (file.isDirectory()) {
+        if (file.isDirectory() && file.name !== 'example') {
             const language = file.name;
             say(1, `Let's inspect ${chalk.blue(language)}`);
             // Make sure there's a locale file.
