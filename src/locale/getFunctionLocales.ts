@@ -10,7 +10,7 @@ export function getFunctionLocales(
 ) {
     return {
         docs: getDocLocales(locales, (t) => select(t).doc),
-        names: getNameLocales(locales, (t) => select(t).name),
+        names: getNameLocales(locales, (t) => select(t).names),
         inputs: getInputLocales(locales, (t) => select(t).inputs),
     };
 }

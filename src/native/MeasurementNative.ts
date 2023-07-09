@@ -164,7 +164,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.Measurement.function.subtract.name
+                        (t) => t.native.Measurement.function.subtract.names
                     ),
                     undefined,
                     [

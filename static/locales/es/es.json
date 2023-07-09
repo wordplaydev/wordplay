@@ -774,23 +774,23 @@
             "function": {
                 "and": {
                     "doc": "$?",
-                    "name": "y",
+                    "names": "y",
                     "inputs": [{ "doc": "$?", "names": "value" }]
                 },
                 "or": {
                     "doc": "$?",
-                    "name": "o",
+                    "names": "o",
                     "inputs": [{ "doc": "$?", "names": "value" }]
                 },
-                "not": { "doc": "$?", "name": "no", "inputs": [] },
+                "not": { "doc": "$?", "names": "no", "inputs": [] },
                 "equals": {
                     "doc": "$?",
-                    "name": "igual",
+                    "names": "igual",
                     "inputs": [{ "doc": "$?", "names": "value" }]
                 },
                 "notequal": {
                     "doc": "$?",
-                    "name": "noIgual",
+                    "names": "noIgual",
                     "inputs": [{ "doc": "$?", "names": "value" }]
                 }
             },
@@ -802,12 +802,12 @@
             "function": {
                 "equals": {
                     "doc": "$?",
-                    "name": ["=", "equals"],
+                    "names": ["=", "equals"],
                     "inputs": [{ "doc": "$?", "names": "value" }]
                 },
                 "notequals": {
                     "doc": "$?",
-                    "name": "≠",
+                    "names": "≠",
                     "inputs": [{ "doc": "$?", "names": "value" }]
                 }
             },
@@ -817,35 +817,35 @@
             "doc": "$?",
             "name": "text",
             "function": {
-                "length": { "doc": "$?", "name": "length", "inputs": [] },
+                "length": { "doc": "$?", "names": "length", "inputs": [] },
                 "equals": {
                     "doc": "$?",
-                    "name": ["=", "equals"],
+                    "names": ["=", "equals"],
                     "inputs": [{ "doc": "$?", "names": "value" }]
                 },
                 "notequals": {
                     "doc": "$?",
-                    "name": "≠",
+                    "names": "≠",
                     "inputs": [{ "doc": "$?", "names": "value" }]
                 },
                 "repeat": {
                     "doc": "$?",
-                    "name": "repetir",
+                    "names": "repetir",
                     "inputs": [{ "doc": "$?", "names": "contar" }]
                 },
                 "segment": {
                     "doc": "$?",
-                    "name": ["segmentar"],
+                    "names": ["segmentar"],
                     "inputs": [{ "doc": "$?", "names": "delimitador" }]
                 },
                 "combine": {
                     "doc": "$?",
-                    "name": "combinar",
+                    "names": "combinar",
                     "inputs": [{ "doc": "$?", "names": "texto" }]
                 },
                 "has": {
                     "doc": "$?",
-                    "name": ["tiene"],
+                    "names": ["tiene"],
                     "inputs": [{ "doc": "$?", "names": "texto" }]
                 }
             },
@@ -857,81 +857,85 @@
             "function": {
                 "add": {
                     "doc": "$?",
-                    "name": "add",
+                    "names": "add",
                     "inputs": [{ "doc": "$?", "names": "number" }]
                 },
                 "subtract": {
                     "doc": "$?",
-                    "name": "subtract",
+                    "names": "subtract",
                     "inputs": [{ "doc": "$?", "names": "number" }]
                 },
                 "multiply": {
                     "doc": "$?",
-                    "name": "multiplicar",
+                    "names": "multiplicar",
                     "inputs": [{ "doc": "$?", "names": "number" }]
                 },
                 "divide": {
                     "doc": "$?",
-                    "name": ["÷", "divide"],
+                    "names": ["÷", "divide"],
                     "inputs": [{ "doc": "$?", "names": "number" }]
                 },
                 "remainder": {
                     "doc": "$?",
-                    "name": "remainder",
+                    "names": "remainder",
                     "inputs": [{ "doc": "$?", "names": "number" }]
                 },
                 "truncate": {
                     "doc": "$?",
-                    "name": ["truncate"],
+                    "names": ["truncate"],
                     "inputs": [{ "doc": "$?", "names": "number" }]
                 },
                 "absolute": {
                     "doc": "$?",
-                    "name": ["absolute"],
+                    "names": ["absolute"],
                     "inputs": [{ "doc": "$?", "names": "number" }]
                 },
                 "power": {
                     "doc": "$?",
-                    "name": ["^", "power"],
+                    "names": ["^", "power"],
                     "inputs": [{ "doc": "$?", "names": "number" }]
                 },
                 "root": {
                     "doc": "$?",
-                    "name": ["√", "root"],
+                    "names": ["√", "root"],
                     "inputs": [{ "doc": "$?", "names": "number" }]
                 },
                 "lessThan": {
                     "doc": "$?",
-                    "name": ["<", "lessthan"],
+                    "names": ["<", "lessthan"],
                     "inputs": [{ "doc": "$?", "names": "number" }]
                 },
                 "lessOrEqual": {
                     "doc": "$?",
-                    "name": ["≤", "lessorequal"],
+                    "names": ["≤", "lessorequal"],
                     "inputs": [{ "doc": "$?", "names": "number" }]
                 },
                 "greaterThan": {
                     "doc": "$?",
-                    "name": [">", "greaterthan"],
+                    "names": [">", "greaterthan"],
                     "inputs": [{ "doc": "$?", "names": "number" }]
                 },
                 "greaterOrEqual": {
                     "doc": "$?",
-                    "name": ["≥", "greaterorequal"],
+                    "names": ["≥", "greaterorequal"],
                     "inputs": [{ "doc": "$?", "names": "number" }]
                 },
                 "equal": {
                     "doc": "$?",
-                    "name": "equal",
+                    "names": "equal",
                     "inputs": [{ "doc": "$?", "names": "number" }]
                 },
                 "notequal": {
                     "doc": "$?",
-                    "name": "≠",
+                    "names": "≠",
                     "inputs": [{ "doc": "$?", "names": "number" }]
                 },
-                "cos": { "doc": "$?", "name": ["cos", "cosine"], "inputs": [] },
-                "sin": { "doc": "$?", "name": ["sin", "sine"], "inputs": [] }
+                "cos": {
+                    "doc": "$?",
+                    "names": ["cos", "cosine"],
+                    "inputs": []
+                },
+                "sin": { "doc": "$?", "names": ["sin", "sine"], "inputs": [] }
             },
             "conversion": {
                 "text": "$?",
@@ -993,97 +997,97 @@
             "function": {
                 "add": {
                     "doc": "$?",
-                    "name": "agregar",
+                    "names": "agregar",
                     "inputs": [{ "doc": "$?", "names": "item" }]
                 },
                 "append": {
                     "doc": "$?",
-                    "name": "adjuntar",
+                    "names": "adjuntar",
                     "inputs": [{ "doc": "$?", "names": "list" }]
                 },
                 "replace": {
                     "doc": "$?",
-                    "name": ["reemplazar"],
+                    "names": ["reemplazar"],
                     "inputs": [
                         { "doc": "$?", "names": "index" },
                         { "doc": "$?", "names": "value" }
                     ]
                 },
-                "length": { "doc": "$?", "name": "longitud", "inputs": [] },
-                "random": { "doc": "$?", "name": "azar", "inputs": [] },
-                "first": { "doc": "$?", "name": "primera", "inputs": [] },
-                "last": { "doc": "$?", "name": "última", "inputs": [] },
+                "length": { "doc": "$?", "names": "longitud", "inputs": [] },
+                "random": { "doc": "$?", "names": "azar", "inputs": [] },
+                "first": { "doc": "$?", "names": "primera", "inputs": [] },
+                "last": { "doc": "$?", "names": "última", "inputs": [] },
                 "has": {
                     "doc": "$?",
-                    "name": "tiene",
+                    "names": "tiene",
                     "inputs": [{ "doc": "$?", "names": "item" }]
                 },
                 "join": {
                     "doc": "$?",
-                    "name": "unirse",
+                    "names": "unirse",
                     "inputs": [{ "doc": "$?", "names": "separator" }]
                 },
                 "sansFirst": {
                     "doc": "$?",
-                    "name": "sinPrimero",
+                    "names": "sinPrimero",
                     "inputs": []
                 },
-                "sansLast": { "doc": "$?", "name": "sinÚltima", "inputs": [] },
+                "sansLast": { "doc": "$?", "names": "sinÚltima", "inputs": [] },
                 "sans": {
                     "doc": "$?",
-                    "name": "sans",
+                    "names": "sans",
                     "inputs": [{ "doc": "$?", "names": "value" }]
                 },
                 "sansAll": {
                     "doc": "$?",
-                    "name": "sinTodo",
+                    "names": "sinTodo",
                     "inputs": [{ "doc": "$?", "names": "value" }]
                 },
-                "reverse": { "doc": "$?", "name": "inversa", "inputs": [] },
+                "reverse": { "doc": "$?", "names": "inversa", "inputs": [] },
                 "equals": {
                     "doc": "$?",
-                    "name": ["=", "equals"],
+                    "names": ["=", "equals"],
                     "inputs": [{ "doc": "$?", "names": "list" }]
                 },
                 "notequals": {
                     "doc": "$?",
-                    "name": "≠",
+                    "names": "≠",
                     "inputs": [{ "doc": "$?", "names": "list" }]
                 },
                 "translate": {
                     "doc": "$?",
-                    "name": "traducir",
+                    "names": "traducir",
                     "inputs": [{ "doc": "$?", "names": "translator" }],
                     "value": { "doc": "$?", "names": "item" },
                     "index": { "doc": "$?", "names": "index" }
                 },
                 "filter": {
                     "doc": "$?",
-                    "name": "filtrar",
+                    "names": "filtrar",
                     "inputs": [{ "doc": "$?", "names": "checker" }],
                     "value": { "doc": "$?", "names": "item" }
                 },
                 "all": {
                     "doc": "$?",
-                    "name": "todos",
+                    "names": "todos",
                     "inputs": [{ "doc": "$?", "names": "checker" }],
                     "value": { "doc": "$?", "names": "item" }
                 },
                 "until": {
                     "doc": "$?",
-                    "name": "hasta",
+                    "names": "hasta",
                     "inputs": [{ "doc": "$?", "names": "checker" }],
                     "value": { "doc": "$?", "names": "item" }
                 },
                 "find": {
                     "doc": "$?",
-                    "name": "encontrar",
+                    "names": "encontrar",
                     "inputs": [{ "doc": "$?", "names": "checker" }],
                     "value": { "doc": "$?", "names": "item" }
                 },
                 "combine": {
                     "doc": "$?",
-                    "name": "combinar",
+                    "names": "combinar",
                     "inputs": [
                         { "doc": "$?", "names": "inicial" },
                         { "doc": "$?", "names": "combinador" }
@@ -1102,48 +1106,48 @@
             "function": {
                 "equals": {
                     "doc": "$?",
-                    "name": ["=", "equals"],
+                    "names": ["=", "equals"],
                     "inputs": [{ "doc": "$?", "names": "set" }]
                 },
                 "notequals": {
                     "doc": "$?",
-                    "name": "≠",
+                    "names": "≠",
                     "inputs": [{ "doc": "$?", "names": "set" }]
                 },
                 "add": {
                     "doc": "$?",
-                    "name": ["add", "+"],
+                    "names": ["add", "+"],
                     "inputs": [{ "doc": "$?", "names": "set" }]
                 },
                 "remove": {
                     "doc": "$?",
-                    "name": ["remove", "-"],
+                    "names": ["remove", "-"],
                     "inputs": [{ "doc": "$?", "names": "set" }]
                 },
                 "union": {
                     "doc": "$?",
-                    "name": ["union", "∪"],
+                    "names": ["union", "∪"],
                     "inputs": [{ "doc": "$?", "names": "set" }]
                 },
                 "intersection": {
                     "doc": "$?",
-                    "name": ["intersection", "∩"],
+                    "names": ["intersection", "∩"],
                     "inputs": [{ "doc": "$?", "names": "set" }]
                 },
                 "difference": {
                     "doc": "$?",
-                    "name": "difference",
+                    "names": "difference",
                     "inputs": [{ "doc": "$?", "names": "set" }]
                 },
                 "filter": {
                     "doc": "$?",
-                    "name": "filter",
+                    "names": "filter",
                     "inputs": [{ "doc": "$?", "names": "checker" }],
                     "value": { "doc": "$?", "names": "value" }
                 },
                 "translate": {
                     "doc": "$?",
-                    "name": "translate",
+                    "names": "translate",
                     "inputs": [{ "doc": "$?", "names": "lisetst" }],
                     "value": { "doc": "$?", "names": "value" }
                 }
@@ -1159,17 +1163,17 @@
             "function": {
                 "equals": {
                     "doc": "$?",
-                    "name": ["=", "equals"],
+                    "names": ["=", "equals"],
                     "inputs": [{ "doc": "$?", "names": "value" }]
                 },
                 "notequals": {
                     "doc": "$?",
-                    "name": "≠",
+                    "names": "≠",
                     "inputs": [{ "doc": "$?", "names": "value" }]
                 },
                 "set": {
                     "doc": "$?",
-                    "name": "set",
+                    "names": "set",
                     "inputs": [
                         { "doc": "$?", "names": "key" },
                         { "doc": "$?", "names": "value" }
@@ -1177,24 +1181,24 @@
                 },
                 "unset": {
                     "doc": "$?",
-                    "name": "unset",
+                    "names": "unset",
                     "inputs": [{ "doc": "$?", "names": "key" }]
                 },
                 "remove": {
                     "doc": "$?",
-                    "name": "remove",
+                    "names": "remove",
                     "inputs": [{ "doc": "$?", "names": "value" }]
                 },
                 "filter": {
                     "doc": "$?",
-                    "name": "filter",
+                    "names": "filter",
                     "inputs": [{ "doc": "$?", "names": "checker" }],
                     "key": { "doc": "$?", "names": "key" },
                     "value": { "doc": "$?", "names": "value" }
                 },
                 "translate": {
                     "doc": "$?",
-                    "name": "translate",
+                    "names": "translate",
                     "inputs": [{ "doc": "$?", "names": "translator" }],
                     "key": { "doc": "$?", "names": "key" },
                     "value": { "doc": "$?", "names": "value" }

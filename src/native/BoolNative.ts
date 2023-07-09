@@ -73,7 +73,7 @@ export default function bootstrapBool(locales: Locale[]) {
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.Boolean.function.and.name
+                        (t) => t.native.Boolean.function.and.names
                     ),
                     getInputLocales(
                         locales,
@@ -88,7 +88,7 @@ export default function bootstrapBool(locales: Locale[]) {
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.Boolean.function.or.name
+                        (t) => t.native.Boolean.function.or.names
                     ),
                     getInputLocales(
                         locales,
@@ -103,7 +103,7 @@ export default function bootstrapBool(locales: Locale[]) {
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.Boolean.function.not.name
+                        (t) => t.native.Boolean.function.not.names
                     ),
                     undefined,
                     [],
@@ -130,7 +130,7 @@ export default function bootstrapBool(locales: Locale[]) {
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.Boolean.function.equals.name
+                        (t) => t.native.Boolean.function.equals.names
                     ),
                     getInputLocales(
                         locales,
@@ -146,7 +146,7 @@ export default function bootstrapBool(locales: Locale[]) {
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.Boolean.function.notequal.name
+                        (t) => t.native.Boolean.function.notequal.names
                     ),
                     getInputLocales(
                         locales,

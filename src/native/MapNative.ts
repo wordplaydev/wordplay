@@ -144,7 +144,7 @@ export default function bootstrapMap(locales: Locale[]) {
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.Map.function.equals.name
+                        (t) => t.native.Map.function.equals.names
                     ),
                     undefined,
                     [
@@ -180,7 +180,7 @@ export default function bootstrapMap(locales: Locale[]) {
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.Map.function.notequals.name
+                        (t) => t.native.Map.function.notequals.names
                     ),
                     undefined,
                     [
@@ -217,7 +217,7 @@ export default function bootstrapMap(locales: Locale[]) {
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.Map.function.set.name
+                        (t) => t.native.Map.function.set.names
                     ),
                     undefined,
                     [
@@ -265,7 +265,7 @@ export default function bootstrapMap(locales: Locale[]) {
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.Map.function.unset.name
+                        (t) => t.native.Map.function.unset.names
                     ),
                     undefined,
                     [
@@ -299,7 +299,7 @@ export default function bootstrapMap(locales: Locale[]) {
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.Map.function.remove.name
+                        (t) => t.native.Map.function.remove.names
                     ),
                     undefined,
                     [
@@ -336,7 +336,7 @@ export default function bootstrapMap(locales: Locale[]) {
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.Map.function.filter.name
+                        (t) => t.native.Map.function.filter.names
                     ),
                     undefined,
                     [
@@ -367,7 +367,7 @@ export default function bootstrapMap(locales: Locale[]) {
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.Map.function.translate.name
+                        (t) => t.native.Map.function.translate.names
                     ),
                     TypeVariables.make([translateTypeVariable]),
                     [

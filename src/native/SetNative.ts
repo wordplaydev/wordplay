@@ -99,7 +99,7 @@ export default function bootstrapSet(locales: Locale[]) {
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.Set.function.equals.name
+                        (t) => t.native.Set.function.equals.names
                     ),
                     undefined,
                     [
@@ -133,7 +133,7 @@ export default function bootstrapSet(locales: Locale[]) {
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.Set.function.notequals.name
+                        (t) => t.native.Set.function.notequals.names
                     ),
                     undefined,
                     [
@@ -168,7 +168,7 @@ export default function bootstrapSet(locales: Locale[]) {
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.Set.function.add.name
+                        (t) => t.native.Set.function.add.names
                     ),
                     undefined,
                     [
@@ -202,7 +202,7 @@ export default function bootstrapSet(locales: Locale[]) {
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.Set.function.remove.name
+                        (t) => t.native.Set.function.remove.names
                     ),
                     undefined,
                     [
@@ -238,7 +238,7 @@ export default function bootstrapSet(locales: Locale[]) {
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.Set.function.union.name
+                        (t) => t.native.Set.function.union.names
                     ),
                     undefined,
                     [
@@ -273,7 +273,7 @@ export default function bootstrapSet(locales: Locale[]) {
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.Set.function.intersection.name
+                        (t) => t.native.Set.function.intersection.names
                     ),
                     undefined,
                     [
@@ -310,7 +310,7 @@ export default function bootstrapSet(locales: Locale[]) {
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.Set.function.difference.name
+                        (t) => t.native.Set.function.difference.names
                     ),
                     undefined,
                     [
@@ -347,7 +347,7 @@ export default function bootstrapSet(locales: Locale[]) {
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.Set.function.filter.name
+                        (t) => t.native.Set.function.filter.names
                     ),
                     undefined,
                     [

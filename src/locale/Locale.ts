@@ -46,7 +46,7 @@ export type NameAndDoc = {
 };
 
 export type FunctionText<Inputs> = {
-    name: NameText;
+    names: NameText;
     doc: DocText;
     inputs: Inputs;
 };
