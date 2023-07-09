@@ -27,7 +27,7 @@ import Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';
 import StreamToken from './StreamToken';
 import generalize from './generalize';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export default class Reaction extends Expression {
     readonly initial: Expression;

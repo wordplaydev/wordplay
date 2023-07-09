@@ -2,7 +2,7 @@ import type ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import type TypePlaceholder from '@nodes/TypePlaceholder';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export default class Placeholder extends Conflict {
     readonly placeholder: ExpressionPlaceholder | TypePlaceholder;

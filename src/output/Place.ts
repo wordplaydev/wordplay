@@ -9,14 +9,17 @@ import Measurement from '../runtime/Measurement';
 import Evaluation from '../runtime/Evaluation';
 import Structure from '../runtime/Structure';
 import Unit from '../nodes/Unit';
+import type Locale from '../locale/Locale';
 
-export const PlaceType = toStructure(`
-    ${getBind((t) => t.output.Place, '•')}(
-        ${getBind((t) => t.output.Place.x)}•#m: 0m
-        ${getBind((t) => t.output.Place.y)}•#m: 0m
-        ${getBind((t) => t.output.Place.z)}•#m: 0m
+export function createPlaceType(locales: Locale[]) {
+    return toStructure(`
+    ${getBind(locales, (t) => t.output.Place, '•')}(
+        ${getBind(locales, (t) => t.output.Place.x)}•#m: 0m
+        ${getBind(locales, (t) => t.output.Place.y)}•#m: 0m
+        ${getBind(locales, (t) => t.output.Place.z)}•#m: 0m
     )
 `);
+}
 
 export default class Place extends Output {
     readonly x: number;
@@ -88,6 +91,7 @@ export function createPlaceStructure(
     const creator = evaluator.getMain();
 
     const place = new Map<Names, Value>();
+    const PlaceType = evaluator.project.shares.output.place;
     place.set(
         PlaceType.inputs[0].names,
         new Measurement(creator, x, Unit.make(['m']))

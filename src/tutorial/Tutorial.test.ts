@@ -3,9 +3,12 @@ import Project from '../models/Project';
 import Source from '../nodes/Source';
 import { parseDoc, toTokens } from '../parser/Parser';
 import ConceptLink from '../nodes/ConceptLink';
-import en from '../locale/locales/en';
 import type { Dialog, Line, Performance } from './Tutorial';
 import type Tutorial from './Tutorial';
+import { getDefaultNative } from '../native/Native';
+
+const native = await getDefaultNative();
+const locale = native.locales[0];
 
 const SupportedLanguages = ['en'];
 
@@ -64,7 +67,8 @@ test.each(programs.map((code) => [code]))(
             null,
             'test',
             new Source('start', code),
-            []
+            [],
+            native
         );
         project.analyze();
         project.getAnalysis();
@@ -123,9 +127,9 @@ const lines = Tutorials.map((tutorial) =>
 
 test.each(lines)(`Verify concepts in @%s`, (id: string) => {
     expect(
-        Object.hasOwn(en.node, id) ||
-            Object.hasOwn(en.input, id) ||
-            Object.hasOwn(en.output, id) ||
+        Object.hasOwn(locale.node, id) ||
+            Object.hasOwn(locale.input, id) ||
+            Object.hasOwn(locale.output, id) ||
             id === 'UI'
     ).toBeTruthy();
 });

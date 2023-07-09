@@ -33,7 +33,7 @@ import InternalException from '@runtime/InternalException';
 import Glyphs from '../lore/Glyphs';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import Block from './Block';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export default class FunctionDefinition extends Expression {
     readonly docs?: Docs;

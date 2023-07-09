@@ -1,6 +1,8 @@
 import { test, expect } from 'vitest';
 import concretize, { type TemplateInput } from './concretize';
-import en from './en';
+import getDefaultLocale from './getDefaultLocale';
+
+const locale = await getDefaultLocale(true);
 
 test.each([
     ['', 'TBD', []],
@@ -23,5 +25,5 @@ test.each([
         [undefined, 1],
     ],
 ])('%s => %s', (template: string, result: string, inputs: TemplateInput[]) => {
-    expect(concretize(en, template, ...inputs).toString()).toBe(result);
+    expect(concretize(locale, template, ...inputs).toString()).toBe(result);
 });

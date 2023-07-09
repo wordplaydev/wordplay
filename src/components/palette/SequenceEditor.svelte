@@ -3,11 +3,17 @@
     import OutputPropertyValueSet from '@transforms/OutputPropertyValueSet';
     import PaletteProperty from './PaletteProperty.svelte';
     import type Project from '@models/Project';
-    import SequenceProperties from '@transforms/SequenceProperties';
     import type OutputExpression from '@transforms/OutputExpression';
+    import { creator } from '../../db/Creator';
+    import getSequenceProperties from '../../transforms/SequenceProperties';
 
     export let project: Project;
     export let outputs: OutputExpression[];
+
+    $: SequenceProperties = getSequenceProperties(
+        project,
+        $creator.getLocale()
+    );
 
     // Create a mapping from pose properties to values
     let propertyValues: Map<OutputProperty, OutputPropertyValueSet>;

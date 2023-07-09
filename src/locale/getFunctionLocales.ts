@@ -5,11 +5,12 @@ import type { FunctionText } from './Locale';
 import type Locale from './Locale';
 
 export function getFunctionLocales(
+    locales: Locale[],
     select: (translation: Locale) => FunctionText<any>
 ) {
     return {
-        docs: getDocLocales((t) => select(t).doc),
-        names: getNameLocales((t) => select(t).name),
-        inputs: getInputLocales((t) => select(t).inputs),
+        docs: getDocLocales(locales, (t) => select(t).doc),
+        names: getNameLocales(locales, (t) => select(t).name),
+        inputs: getInputLocales(locales, (t) => select(t).inputs),
     };
 }

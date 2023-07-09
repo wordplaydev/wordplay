@@ -1,5 +1,4 @@
 import Name from '@nodes/Name';
-import SupportedLocales from './locales';
 import type Doc from '@nodes/Doc';
 import Names from '@nodes/Names';
 import Docs from '@nodes/Docs';
@@ -9,13 +8,14 @@ import type Locale from './Locale';
 import { parseLocaleDoc } from '@parser/Parser';
 
 export function getInputLocales(
+    locales: Locale[],
     select: (translation: Locale) => NameAndDoc[]
 ): { docs: Docs; names: Names }[] {
     // Make a list of docs and names by bind index.
     const binds: { docs: Doc[]; names: Name[] }[] = [];
 
     // Convert each translation into names and docs for each input.
-    for (const [translation, inputs] of SupportedLocales.map(
+    for (const [translation, inputs] of locales.map(
         (translation) => [translation, select(translation)] as const
     )) {
         inputs.forEach((input, index) => {

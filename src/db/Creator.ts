@@ -24,6 +24,8 @@ import SupportedLocales from '../locale/locales';
 import Progress from '../tutorial/Progress';
 import Arrangement from './Arrangement';
 import type { Tutorial } from '../tutorial/Tutorial';
+import { bootstrap, Native } from '../native/Native';
+import getDefaultLocale from '../locale/getDefaultLocale';
 
 const PROJECTS_KEY = 'projects';
 const LAYOUTS_KEY = 'layouts';
@@ -104,6 +106,12 @@ export class Creator {
         tutorial: TutorialDefault,
     };
 
+    /** The locales loaded */
+    private locales: Record<LanguageCode, Locale> = {};
+
+    /** The native bindings, localized with the currently selected locales */
+    private native: Native;
+
     /** The current list of projects. */
     private projects: Map<
         string,
@@ -131,10 +139,36 @@ export class Creator {
     private authUnsubscribe: Unsubscribe | undefined = undefined;
     private projectsQueryUnsubscribe: Unsubscribe | undefined = undefined;
 
-    constructor() {
+    constructor(defaultLocale: Locale) {
         this.projects = new Map();
         this.configStore = writable(this);
         this.projectsStore = writable(this);
+
+        // Store the default locale
+        this.locales[defaultLocale.language] = defaultLocale;
+
+        // Generate a native binding based on it
+        this.native = bootstrap([defaultLocale]);
+
+        // Fetch any unloaded locales
+        this.loadLocales(this.getLanguages());
+    }
+
+    async loadLocales(languages: LanguageCode[]) {
+        // Asynchronously load all unloaded
+        await Promise.all(
+            languages.map(async (lang) => {
+                // If we don't already have it, load it.
+                if (!Object.hasOwn(this.locales, lang)) {
+                    const raw = await fetch(`/locales/${lang}/${lang}.json`);
+                    const json = await raw.json();
+                    this.locales[lang] = json;
+                }
+            })
+        );
+
+        // Update the native bindings to include all locales
+        this.native = bootstrap(this.getLocales());
     }
 
     getLayout() {
@@ -177,33 +211,36 @@ export class Creator {
 
     getMissingLanguages() {
         return this.getLanguages().filter(
-            (lang) => !SupportedLocales.some((trans) => trans.language === lang)
+            (lang) => !SupportedLocales.some((trans) => trans === lang)
         );
     }
 
-    getLocales() {
-        // Map preferred languages into translations, filtering out missing translations.
-        const languages = this.getLanguages();
-
-        const translations: Locale[] = languages
-            .map((lang) => {
-                const translationsInLanguage = SupportedLocales.filter(
-                    (translation) => translation.language === lang
-                );
-                return translationsInLanguage[0] ?? undefined;
-            })
-            .filter((trans): trans is Locale => trans !== undefined);
-
-        return translations.length === 0 ? [SupportedLocales[0]] : translations;
+    getLocales(): Locale[] {
+        // Map preferred languages into locales, filtering out missing locales.
+        return this.getLanguages()
+            .filter((lang) => SupportedLocales.includes(lang))
+            .map((lang) => this.locales[lang])
+            .filter((locale) => locale !== undefined);
     }
 
-    getLocale() {
+    getLocale(): Locale {
         return this.getLocales()[0];
     }
 
-    setLanguages(languages: LanguageCode[]) {
+    getNative(): Native {
+        return this.native;
+    }
+
+    async setLanguages(languages: LanguageCode[]) {
+        // Try to load locales for the requested languages
+        await this.loadLocales(languages);
+
+        // Update the configuration with the new languages, regardless of whether we successfully loaded them.
         this.config.languages = languages;
         this.saveConfig(LANGUAGES_KEY, languages);
+
+        // Update the native bindings
+        this.native = bootstrap(this.getLocales());
     }
 
     getWritingDirection() {
@@ -272,7 +309,8 @@ export class Creator {
             );
             if (projectDoc.exists()) {
                 const project = Project.fromObject(
-                    projectDoc.data() as SerializedProject
+                    projectDoc.data() as SerializedProject,
+                    this.native
                 );
                 this.addProject(project);
                 return project;
@@ -289,6 +327,7 @@ export class Creator {
             '',
             new Source(locale.term.start, ''),
             [],
+            this.native,
             undefined,
             uid ? [uid] : []
         );
@@ -510,7 +549,7 @@ export class Creator {
         const data = getLocalValue<SerializedProject[]>(PROJECTS_KEY);
         if (data)
             this.setProjects(
-                data.map((project) => Project.fromObject(project))
+                data.map((project) => Project.fromObject(project, this.native))
             );
 
         this.config.arrangement =
@@ -578,7 +617,7 @@ export class Creator {
                           });
                           this.setProjects(
                               projects.map((project) =>
-                                  Project.fromObject(project)
+                                  Project.fromObject(project, this.native)
                               ),
                               false
                           );
@@ -620,7 +659,9 @@ export class Creator {
     }
 }
 
-const db = new Creator();
+const en = await getDefaultLocale();
+
+const db = new Creator(en);
 export const creator = db.getConfigStore();
 export const projects = db.getProjectsStore();
 export const status = db.getSaveStatusStore();

@@ -2,7 +2,7 @@ import Conflict from './Conflict';
 import type Type from '@nodes/Type';
 import type Is from '@nodes/Is';
 import type Locale from '@locale/Locale';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export class ImpossibleType extends Conflict {
     readonly is: Is;

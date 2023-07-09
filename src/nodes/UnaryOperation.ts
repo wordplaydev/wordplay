@@ -25,7 +25,7 @@ import FunctionValue from '../runtime/FunctionValue';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import AnyType from './AnyType';
 import FunctionType from './FunctionType';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export default class UnaryOperation extends Expression {
     readonly operator: Token;

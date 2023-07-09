@@ -11,18 +11,22 @@ import { getBind } from '@locale/getBind';
 import type LanguageCode from '@locale/LanguageCode';
 import Evaluate from '@nodes/Evaluate';
 import Reference from '@nodes/Reference';
+import type Locale from '../locale/Locale';
+import type Project from '../models/Project';
 
-export const PoseType = toStructure(`
-    ${getBind((t) => t.output.Pose, '•')}(
-        ${getBind((t) => t.output.Pose.color)}•Color|ø: ø
-        ${getBind((t) => t.output.Pose.opacity)}•%|ø: ø
-        ${getBind((t) => t.output.Pose.offset)}•Place|ø: ø
-        ${getBind((t) => t.output.Pose.tilt)}•#°|ø: ø
-        ${getBind((t) => t.output.Pose.scale)}•#|ø: ø
-        ${getBind((t) => t.output.Pose.flipx)}•?|ø: ø
-        ${getBind((t) => t.output.Pose.flipy)}•?|ø: ø
+export function createPoseType(locales: Locale[]) {
+    return toStructure(`
+    ${getBind(locales, (t) => t.output.Pose, '•')}(
+        ${getBind(locales, (t) => t.output.Pose.color)}•Color|ø: ø
+        ${getBind(locales, (t) => t.output.Pose.opacity)}•%|ø: ø
+        ${getBind(locales, (t) => t.output.Pose.offset)}•Place|ø: ø
+        ${getBind(locales, (t) => t.output.Pose.tilt)}•#°|ø: ø
+        ${getBind(locales, (t) => t.output.Pose.scale)}•#|ø: ø
+        ${getBind(locales, (t) => t.output.Pose.flipx)}•?|ø: ø
+        ${getBind(locales, (t) => t.output.Pose.flipy)}•?|ø: ø
     )
 `);
+}
 
 export default class Pose extends Output {
     readonly color?: Color;
@@ -88,8 +92,16 @@ export default class Pose extends Output {
     }
 }
 
-export function toPose(value: Value | undefined): Pose | undefined {
-    if (!(value instanceof Structure && value.type === PoseType))
+export function toPose(
+    project: Project,
+    value: Value | undefined
+): Pose | undefined {
+    if (
+        !(
+            value instanceof Structure &&
+            value.type === project.shares.output.pose
+        )
+    )
         return undefined;
 
     const color = toColor(value.resolve('color'));
@@ -103,7 +115,8 @@ export function toPose(value: Value | undefined): Pose | undefined {
     return new Pose(value, color, opacity, offset, tilt, scale, flipx, flipy);
 }
 
-export function createPoseLiteral(languages: LanguageCode[]) {
+export function createPoseLiteral(project: Project, languages: LanguageCode[]) {
+    const PoseType = project.shares.output.pose;
     return Evaluate.make(
         Reference.make(PoseType.names.getLocaleText(languages), PoseType),
         []

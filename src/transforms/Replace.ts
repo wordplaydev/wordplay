@@ -6,7 +6,7 @@ import type LanguageCode from '@locale/LanguageCode';
 import Refer from './Refer';
 import type Context from '@nodes/Context';
 import type Locale from '@locale/Locale';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 import Description from '../locale/Description';
 
 export default class Replace<NodeType extends Node> extends Transform {

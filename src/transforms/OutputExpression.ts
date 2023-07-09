@@ -1,8 +1,5 @@
 import type Project from '../models/Project';
 import Evaluate from '../nodes/Evaluate';
-import { GroupType } from '@output/Group';
-import { PhraseType } from '@output/Phrase';
-import { StageType } from '@output/Stage';
 import StructureDefinition from '@nodes/StructureDefinition';
 import Expression from '@nodes/Expression';
 import type Value from '@runtime/Value';
@@ -10,14 +7,12 @@ import Bind from '@nodes/Bind';
 import Literal from '@nodes/Literal';
 import Measurement from '@runtime/Measurement';
 import Text from '@runtime/Text';
-import { ColorType } from '@output/Color';
-import { PoseType } from '../output/Pose';
-import { SequenceType } from '@output/Sequence';
 import type OutputProperty from './OutputProperty';
-import TypeOutputProperties from './TypeOutputProperties';
-import GroupProperties from './GroupProperties';
-import PhraseProperties from './PhraseProperties';
-import StageProperties from './StageProperties';
+import getStageProperties from './StageProperties';
+import getGroupProperties from './GroupProperties';
+import getPhraseProperties from './PhraseProperties';
+import getTypeOutputProperties from './TypeOutputProperties';
+
 /**
  * Represents the value of a property. If given is true, it means its set explicitly.
  * If false, it means that it's the default value defined on the output type.
@@ -30,14 +25,6 @@ export type OutputPropertyValue = {
     given: boolean;
     value: Value | undefined;
 };
-
-const SupportedTypes: StructureDefinition[] = [
-    StageType,
-    GroupType,
-    PhraseType,
-    PoseType,
-    SequenceType,
-];
 
 /**
  * A wrapper for Evaluate nodes that represent output.
@@ -66,7 +53,11 @@ export default class OutputExpression {
         const context = this.project.getNodeContext(this.node);
         const fun = this.node.getFunction(context);
         return fun instanceof StructureDefinition &&
-            SupportedTypes.includes(fun)
+            (fun === this.project.shares.output.stage ||
+                fun === this.project.shares.output.group ||
+                fun === this.project.shares.output.phrase ||
+                fun === this.project.shares.output.pose ||
+                fun === this.project.shares.output.sequence)
             ? fun
             : undefined;
     }
@@ -82,19 +73,22 @@ export default class OutputExpression {
         const type = this.getType();
 
         // We handle pose types differently, so we return an empty list here.
-        return type === PoseType
+        return type === this.project.shares.output.pose
             ? []
             : // For all other types, we create a list of editable properties.
               [
                   // Add output type specific properties first
-                  ...(type === PhraseType
-                      ? PhraseProperties
-                      : type === GroupType
-                      ? GroupProperties
-                      : type === StageType
-                      ? StageProperties
+                  ...(type === this.project.shares.output.phrase
+                      ? getPhraseProperties(this.project.native.locales[0])
+                      : type === this.project.shares.output.group
+                      ? getGroupProperties(this.project)
+                      : type === this.project.shares.output.stage
+                      ? getStageProperties(this.project)
                       : []),
-                  ...TypeOutputProperties,
+                  ...getTypeOutputProperties(
+                      this.project,
+                      this.project.native.locales[0]
+                  ),
               ];
     }
 
@@ -161,7 +155,7 @@ export default class OutputExpression {
             value.value instanceof Evaluate &&
             value.value.getFunction(
                 this.project.getNodeContext(value.value)
-            ) === ColorType
+            ) === this.project.shares.output.color
             ? value.value
             : undefined;
     }

@@ -5,7 +5,7 @@ import type Token from '@nodes/Token';
 import Value from './Value';
 import NodeLink from '@locale/NodeLink';
 import ValueLink from '@locale/ValueLink';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export default class NameException extends Exception {
     readonly name: Token | undefined;

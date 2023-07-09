@@ -14,9 +14,7 @@
     import Note from '../widgets/Note.svelte';
     import NodeView from '../editor/NodeView.svelte';
     import Evaluate from '@nodes/Evaluate';
-    import { PoseType } from '@output/Pose';
     import PoseEditor from './PoseEditor.svelte';
-    import { SequenceType } from '@output/Sequence';
     import SequenceEditor from './SequenceEditor.svelte';
     import SequencePosesEditor from './SequencePosesEditor.svelte';
     import ContentEditor from './ContentEditor.svelte';
@@ -96,13 +94,13 @@
             <BindCheckbox {property} {values} />
         {:else if property.type === 'pose'}
             {@const expression = values.getExpression()}
-            {#if expression instanceof Evaluate && expression.is(PoseType, project.getNodeContext(expression))}
+            {#if expression instanceof Evaluate && expression.is(project.shares.output.pose, project.getNodeContext(expression))}
                 <PoseEditor
                     {project}
                     outputs={values.getOutputExpressions(project)}
                     sequence={false}
                 />
-            {:else if expression instanceof Evaluate && expression.is(SequenceType, project.getNodeContext(expression))}
+            {:else if expression instanceof Evaluate && expression.is(project.shares.output.sequence, project.getNodeContext(expression))}
                 <SequenceEditor
                     {project}
                     outputs={values.getOutputExpressions(project)}

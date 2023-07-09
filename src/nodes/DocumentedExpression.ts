@@ -11,7 +11,7 @@ import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import AtomicExpression from './AtomicExpression';
 import Glyphs from '../lore/Glyphs';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export default class DocumentedExpression extends AtomicExpression {
     readonly docs: Docs;

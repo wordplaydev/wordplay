@@ -3,7 +3,7 @@ import type Value from '@runtime/Value';
 import type Color from './Color';
 import Fonts from '../native/Fonts';
 import Text from '@runtime/Text';
-import TypeOutput, { TypeOutputInputs } from './TypeOutput';
+import TypeOutput, { createTypeOutputInputs } from './TypeOutput';
 import type RenderContext from './RenderContext';
 import type Place from './Place';
 import List from '@runtime/List';
@@ -13,16 +13,19 @@ import getTextMetrics from './getTextMetrics';
 import parseRichText, { RichNode, TextNode } from './parseRichText';
 import type Sequence from './Sequence';
 import { PX_PER_METER, sizeToPx } from './outputToCSS';
-import type LanguageCode from '@locale/LanguageCode';
 import { getBind } from '@locale/getBind';
 import { getStyle } from './toTypeOutput';
 import type { NameGenerator } from './Stage';
+import type Locale from '../locale/Locale';
+import type Project from '../models/Project';
 
-export const PhraseType = toStructure(`
-    ${getBind((t) => t.output.Phrase, '•')} Type(
-        ${getBind((t) => t.output.Phrase.text)}•""|[""]
-        ${TypeOutputInputs}
+export function createPhraseType(locales: Locale[]) {
+    return toStructure(`
+    ${getBind(locales, (t) => t.output.Phrase, '•')} Type(
+        ${getBind(locales, (t) => t.output.Phrase.text)}•""|[""]
+        ${createTypeOutputInputs(locales)}
     )`);
+}
 
 export default class Phrase extends TypeOutput {
     readonly text: TextLang[];
@@ -91,7 +94,7 @@ export default class Phrase extends TypeOutput {
         const renderedSize = this.size ?? context.size;
 
         // Get the preferred text
-        const text = this.getDescription(context.languages);
+        const text = this.getDescription(context.locales);
 
         // Parse the text as rich text nodes.
         const rich = parsed
@@ -157,13 +160,15 @@ export default class Phrase extends TypeOutput {
         return undefined;
     }
 
-    getDescription(languages: LanguageCode[]) {
+    getDescription(locales: Locale[]) {
         // Convert the preferred languages into matching text, filtering unmatched languages, and choosing the
         // first match. If no match, default to the first text.
         return (
             (
-                languages
-                    .map((lang) => this.text.find((text) => lang === text.lang))
+                locales
+                    .map((locale) =>
+                        this.text.find((text) => locale.language === text.lang)
+                    )
                     .filter(
                         (text): text is TextLang => text !== undefined
                     )[0] ?? this.text[0]
@@ -185,6 +190,7 @@ export function toFont(value: Value | undefined): string | undefined {
 }
 
 export function toPhrase(
+    project: Project,
     value: Value | undefined,
     namer: NameGenerator | undefined
 ): Phrase | undefined {
@@ -205,7 +211,7 @@ export function toPhrase(
         exit,
         duration,
         style,
-    } = getStyle(value);
+    } = getStyle(project, value);
 
     return texts !== undefined &&
         duration !== undefined &&

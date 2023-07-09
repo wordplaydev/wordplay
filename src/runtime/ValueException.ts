@@ -3,7 +3,7 @@ import type Evaluator from './Evaluator';
 import type Locale from '@locale/Locale';
 import type Expression from '@nodes/Node';
 import NodeLink from '@locale/NodeLink';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export default class ValueException extends Exception {
     readonly expression: Expression;

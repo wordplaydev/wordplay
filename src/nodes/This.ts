@@ -25,7 +25,7 @@ import { UnenclosedType } from './UnenclosedType';
 import Glyphs from '../lore/Glyphs';
 import { PROPERTY_SYMBOL } from '../parser/Symbols';
 import TokenType from './TokenType';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 type ThisStructure = StructureDefinition | ConversionDefinition | Reaction;
 

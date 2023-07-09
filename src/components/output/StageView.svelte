@@ -8,7 +8,7 @@
     import { PX_PER_METER, rootScale, toCSS } from '@output/outputToCSS';
     import Place from '@output/Place';
     import Evaluate from '@nodes/Evaluate';
-    import { DefaultFont, DefaultSize, StageType } from '@output/Stage';
+    import { DefaultFont, DefaultSize } from '@output/Stage';
     import Key from '@input/Key';
     import Pointer from '@input/Pointer';
     import Button from '@input/Button';
@@ -90,9 +90,7 @@
                   .filter(
                       (output): output is Phrase => output instanceof Phrase
                   )
-                  .map((output) =>
-                      output.getDescription($creator.getLanguages())
-                  )
+                  .map((output) => output.getDescription($creator.getLocales()))
                   .join(', ')
             : '';
 
@@ -108,10 +106,10 @@
                         : previouslyPresent.get(name);
                 if (!entered.has(name)) {
                     const previousText = previous
-                        ?.getDescription($creator.getLanguages())
+                        ?.getDescription($creator.getLocales())
                         .toString();
                     const currentText = output
-                        .getDescription($creator.getLanguages())
+                        .getDescription($creator.getLocales())
                         .toString();
                     if (
                         previousText !== currentText &&
@@ -244,7 +242,7 @@
     $: context = new RenderContext(
         verse.font ?? DefaultFont,
         verse.size ?? DefaultSize,
-        $creator.getLanguages(),
+        $creator.getLocales(),
         $loadedFonts,
         $creator.getAnimationFactor()
     );
@@ -391,6 +389,7 @@
                     : // If there's selected output, it's the first output selected
                     $selectedOutput && $selectedOutput.length > 0
                     ? getPlace(
+                          $creator.getNative(),
                           $selectedOutput[0],
                           evaluator.project.getNodeContext($selectedOutput[0])
                       )
@@ -523,7 +522,7 @@
                     $selectedOutput &&
                     $selectedOutput.length > 0 &&
                     !$selectedOutput[0].is(
-                        StageType,
+                        project.shares.output.stage,
                         project.getNodeContext($selectedOutput[0])
                     )
                 ) {

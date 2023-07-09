@@ -15,7 +15,7 @@ import Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';
 import { TEXT_DELIMITERS } from '../parser/Tokenizer';
 import { TEMPLATE_SYMBOL } from '../parser/Symbols';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export const ESCAPE_REGEX = /\\(.)/g;
 

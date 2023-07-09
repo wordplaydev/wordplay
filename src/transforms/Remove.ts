@@ -4,7 +4,7 @@ import Node from '@nodes/Node';
 import Caret from '../components/editor/util/Caret';
 import type Context from '@nodes/Context';
 import type Locale from '@locale/Locale';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 /**
  * Remove a node from sequence of nodes in a parent.

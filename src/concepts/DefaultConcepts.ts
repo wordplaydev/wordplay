@@ -1,12 +1,3 @@
-import {
-    BoolDefinition,
-    ListDefinition,
-    MapDefinition,
-    MeasurementDefinition,
-    NoneDefinition,
-    SetDefinition,
-    TextDefinition,
-} from '../native/NativeBindings';
 import Bind from '@nodes/Bind';
 import Block from '@nodes/Block';
 import BooleanLiteral from '@nodes/BooleanLiteral';
@@ -37,21 +28,11 @@ import Template from '@nodes/Template';
 import TextLiteral from '@nodes/TextLiteral';
 import TextType from '@nodes/TextType';
 import TypePlaceholder from '@nodes/TypePlaceholder';
-import {
-    GroupTypes,
-    AppearanceTypes,
-    AnimationTypes,
-    ArrangementTypes,
-    ShapeTypes,
-} from '@runtime/DefaultShares';
 import type Concept from './Concept';
 import NodeConcept from './NodeConcept';
 import FunctionConcept from './FunctionConcept';
 import StructureConcept from './StructureConcept';
 import Purpose from './Purpose';
-import { PhraseType } from '../output/Phrase';
-import { GroupType } from '../output/Group';
-import { PoseType } from '../output/Pose';
 import type Node from '../nodes/Node';
 import AnyType from '../nodes/AnyType';
 import BinaryOperation from '../nodes/BinaryOperation';
@@ -84,9 +65,8 @@ import UnaryOperation from '../nodes/UnaryOperation';
 import UnionType from '../nodes/UnionType';
 import WebLink from '../nodes/WebLink';
 import UnparsableExpression from '../nodes/UnparsableExpression';
-import { ArrangementType } from '../output/Arrangement';
-import { ShapeType } from '../output/Shapes';
 import Unit from '../nodes/Unit';
+import type { Native } from '../native/Native';
 
 /** These are ordered by appearance in the docs. */
 const template: Node[] = [
@@ -245,14 +225,15 @@ export function getNodeConcepts(context: Context): NodeConcept[] {
 }
 
 export function getNativeConcepts(
+    native: Native,
     languages: LanguageCode[],
     context: Context
 ): StructureConcept[] {
     return [
         new StructureConcept(
             Purpose.Store,
-            BoolDefinition,
-            BoolDefinition,
+            native.getPrimitiveDefinition('boolean'),
+            native.getPrimitiveDefinition('boolean'),
             BooleanType.make(),
             [BooleanLiteral.make(true), BooleanLiteral.make(false)],
             languages,
@@ -260,8 +241,8 @@ export function getNativeConcepts(
         ),
         new StructureConcept(
             Purpose.Store,
-            TextDefinition,
-            TextDefinition,
+            native.getPrimitiveDefinition('text'),
+            native.getPrimitiveDefinition('text'),
             TextType.make(),
             [TextLiteral.make(''), Template.make()],
             languages,
@@ -269,8 +250,8 @@ export function getNativeConcepts(
         ),
         new StructureConcept(
             Purpose.Store,
-            MeasurementDefinition,
-            MeasurementDefinition,
+            native.getPrimitiveDefinition('measurement'),
+            native.getPrimitiveDefinition('measurement'),
             MeasurementType.make(),
             [
                 MeasurementLiteral.make(0),
@@ -282,8 +263,8 @@ export function getNativeConcepts(
         ),
         new StructureConcept(
             Purpose.Store,
-            ListDefinition,
-            ListDefinition,
+            native.getPrimitiveDefinition('list'),
+            native.getPrimitiveDefinition('list'),
             ListType.make(),
             [ListLiteral.make([])],
             languages,
@@ -291,8 +272,8 @@ export function getNativeConcepts(
         ),
         new StructureConcept(
             Purpose.Store,
-            SetDefinition,
-            SetDefinition,
+            native.getPrimitiveDefinition('set'),
+            native.getPrimitiveDefinition('set'),
             SetType.make(),
             [SetLiteral.make([])],
             languages,
@@ -300,8 +281,8 @@ export function getNativeConcepts(
         ),
         new StructureConcept(
             Purpose.Store,
-            MapDefinition,
-            MapDefinition,
+            native.getPrimitiveDefinition('map'),
+            native.getPrimitiveDefinition('map'),
             MapType.make(),
             [MapLiteral.make([])],
             languages,
@@ -309,8 +290,8 @@ export function getNativeConcepts(
         ),
         new StructureConcept(
             Purpose.Store,
-            NoneDefinition,
-            NoneDefinition,
+            native.getPrimitiveDefinition('none'),
+            native.getPrimitiveDefinition('none'),
             NoneType.make(),
             [NoneLiteral.make()],
             languages,
@@ -351,47 +332,11 @@ export function getOutputConcepts(
     context: Context
 ): Concept[] {
     return [
-        ...AppearanceTypes.map((def) =>
+        ...Object.values(context.project.shares.output).map((def) =>
             getStructureOrFunctionConcept(
                 def,
                 Purpose.Output,
-                PhraseType,
-                languages,
-                context
-            )
-        ),
-        ...GroupTypes.map((def) =>
-            getStructureOrFunctionConcept(
-                def,
-                Purpose.Output,
-                GroupType,
-                languages,
-                context
-            )
-        ),
-        ...ArrangementTypes.map((def) =>
-            getStructureOrFunctionConcept(
-                def,
-                Purpose.Output,
-                ArrangementType,
-                languages,
-                context
-            )
-        ),
-        ...ShapeTypes.map((def) =>
-            getStructureOrFunctionConcept(
-                def,
-                Purpose.Output,
-                ShapeType,
-                languages,
-                context
-            )
-        ),
-        ...AnimationTypes.map((def) =>
-            getStructureOrFunctionConcept(
-                def,
-                Purpose.Output,
-                PoseType,
+                undefined,
                 languages,
                 context
             )

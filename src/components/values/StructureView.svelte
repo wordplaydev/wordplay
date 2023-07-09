@@ -11,7 +11,7 @@
     import type Structure from '@runtime/Structure';
     import SymbolView from './SymbolView.svelte';
     import ValueView from './ValueView.svelte';
-    import { ColorType, toColor } from '../../output/Color';
+    import { toColor } from '../../output/Color';
     import Expandable from './Expandable.svelte';
     import { creator } from '../../db/Creator';
 
@@ -34,7 +34,7 @@
                     new None(value.type)}
             />{#if index < value.type.inputs.length - 1}{' '}{/if}{/each}</svelte:fragment
     ><svelte:fragment slot="collapsed"
-        >{#if value.is(ColorType)}<span
+        >{#if value.is(value.context.getEvaluator().project.shares.output.color)}<span
                 class="color"
                 style:background-color={toColor(value)?.toCSS()}
                 >&ZeroWidthSpace;</span

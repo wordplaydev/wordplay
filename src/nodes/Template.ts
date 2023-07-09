@@ -21,7 +21,7 @@ import Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';
 import { TEMPLATE_SYMBOL } from '../parser/Symbols';
 import { undelimited, unescaped } from './TextLiteral';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export type TemplatePart = Expression | Token;
 

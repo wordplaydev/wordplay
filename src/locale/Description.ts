@@ -2,7 +2,7 @@ import type ConceptLink from '../nodes/ConceptLink';
 import type LanguageCode from './LanguageCode';
 import type NodeLink from './NodeLink';
 import type ValueLink from './ValueLink';
-import type { TemplateInput } from './locales/concretize';
+import type { TemplateInput } from './concretize';
 
 export type DescriptionPart =
     | string

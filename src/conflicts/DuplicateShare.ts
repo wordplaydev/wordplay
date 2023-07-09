@@ -3,7 +3,7 @@ import type Context from '@nodes/Context';
 import NodeLink from '@locale/NodeLink';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export class DuplicateShare extends Conflict {
     readonly share: Bind;

@@ -11,14 +11,18 @@ import MeasurementLiteral from '../nodes/MeasurementLiteral';
 import Reference from '../nodes/Reference';
 import type LanguageCode from '../locale/LanguageCode';
 import Unit from '../nodes/Unit';
+import type Locale from '../locale/Locale';
+import type Project from '../models/Project';
 
-export const ColorType = toStructure(`
-    ${getBind((t) => t.output.Color, TYPE_SYMBOL)}(
-        ${getBind((t) => t.output.Color.lightness)}•%
-        ${getBind((t) => t.output.Color.chroma)}•#
-        ${getBind((t) => t.output.Color.hue)}•#°
+export function createColorType(locales: Locale[]) {
+    return toStructure(`
+    ${getBind(locales, (t) => t.output.Color, TYPE_SYMBOL)}(
+        ${getBind(locales, (t) => t.output.Color.lightness)}•%
+        ${getBind(locales, (t) => t.output.Color.chroma)}•#
+        ${getBind(locales, (t) => t.output.Color.hue)}•#°
     )
 `);
+}
 
 export default class Color extends Output {
     readonly lightness: Decimal;
@@ -57,11 +61,13 @@ export default class Color extends Output {
 }
 
 export function createColorLiteral(
+    project: Project,
     languages: LanguageCode[],
     lightness: number,
     chroma: number,
     hue: number
 ) {
+    const ColorType = project.shares.output.color;
     return Evaluate.make(
         Reference.make(ColorType.names.getLocaleText(languages), ColorType),
         [

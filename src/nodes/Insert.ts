@@ -25,7 +25,7 @@ import UnimplementedException from '@runtime/UnimplementedException';
 import NodeLink from '@locale/NodeLink';
 import Glyphs from '../lore/Glyphs';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export default class Insert extends Expression {
     readonly table: Expression;

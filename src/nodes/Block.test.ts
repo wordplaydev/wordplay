@@ -6,6 +6,9 @@ import Block from './Block';
 import { test, expect } from 'vitest';
 import Evaluate from './Evaluate';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
+import { getDefaultNative } from '../native/Native';
+
+const native = await getDefaultNative();
 
 test.each([
     ['(1)', '()', Block, ExpectedEndingExpression],
@@ -20,5 +23,5 @@ test.each([
 );
 
 test.each([['b: (a: 5\na)\nb', '5']])('Expect %s to be %s', (code, value) => {
-    expect(Evaluator.evaluateCode(code)?.toString()).toBe(value);
+    expect(Evaluator.evaluateCode(native, code)?.toString()).toBe(value);
 });

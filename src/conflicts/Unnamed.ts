@@ -1,7 +1,7 @@
 import type Name from '@nodes/Name';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export default class Unnamed extends Conflict {
     readonly alias: Name;

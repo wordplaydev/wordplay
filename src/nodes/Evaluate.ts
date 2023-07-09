@@ -52,7 +52,7 @@ import Glyphs from '../lore/Glyphs';
 import FunctionType from './FunctionType';
 import AnyType from './AnyType';
 import { NotAType } from './NotAType';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 type Mapping = {
     expected: Bind;

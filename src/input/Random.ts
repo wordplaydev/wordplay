@@ -12,6 +12,7 @@ import StreamType from '@nodes/StreamType';
 import Measurement from '@runtime/Measurement';
 import Unit from '@nodes/Unit';
 import createStreamEvaluator from './createStreamEvaluator';
+import type Locale from '../locale/Locale';
 
 export const FREQUENCY = 33;
 
@@ -24,7 +25,11 @@ export default class Random extends Stream<Measurement> {
         min: number | undefined,
         max: number | undefined
     ) {
-        super(evaluator, RandomDefinition, Random.next(evaluator, min, max));
+        super(
+            evaluator,
+            evaluator.project.shares.input.random,
+            Random.next(evaluator, min, max)
+        );
 
         this.min = min;
         this.max = max;
@@ -82,40 +87,42 @@ export default class Random extends Stream<Measurement> {
     }
 }
 
-const MinBind = Bind.make(
-    getDocLocales((t) => t.input.Random.min.doc),
-    getNameLocales((t) => t.input.Random.min.names),
-    UnionType.make(MeasurementType.make(Unit.Wildcard), NoneType.make()),
-    // Default to nothing
-    NoneLiteral.make()
-);
+export function createRandomDefinition(locales: Locale[]) {
+    const MinBind = Bind.make(
+        getDocLocales(locales, (t) => t.input.Random.min.doc),
+        getNameLocales(locales, (t) => t.input.Random.min.names),
+        UnionType.make(MeasurementType.make(Unit.Wildcard), NoneType.make()),
+        // Default to nothing
+        NoneLiteral.make()
+    );
 
-const MaxBind = Bind.make(
-    getDocLocales((t) => t.input.Random.max.doc),
-    getNameLocales((t) => t.input.Random.max.names),
-    UnionType.make(MeasurementType.make(Unit.Wildcard), NoneType.make()),
-    // Default to nothing
-    NoneLiteral.make()
-);
+    const MaxBind = Bind.make(
+        getDocLocales(locales, (t) => t.input.Random.max.doc),
+        getNameLocales(locales, (t) => t.input.Random.max.names),
+        UnionType.make(MeasurementType.make(Unit.Wildcard), NoneType.make()),
+        // Default to nothing
+        NoneLiteral.make()
+    );
 
-export const RandomDefinition = StreamDefinition.make(
-    getDocLocales((t) => t.input.Random.doc),
-    getNameLocales((t) => t.input.Random.names),
-    [MinBind, MaxBind],
-    createStreamEvaluator(
-        MeasurementType.make(),
-        Random,
-        (evaluation) =>
-            new Random(
-                evaluation.getEvaluator(),
-                evaluation.get(MinBind.names, Measurement)?.toNumber(),
-                evaluation.get(MaxBind.names, Measurement)?.toNumber()
-            ),
-        (stream, evaluation) =>
-            stream.setRange(
-                evaluation.get(MinBind.names, Measurement)?.toNumber(),
-                evaluation.get(MaxBind.names, Measurement)?.toNumber()
-            )
-    ),
-    MeasurementType.make()
-);
+    return StreamDefinition.make(
+        getDocLocales(locales, (t) => t.input.Random.doc),
+        getNameLocales(locales, (t) => t.input.Random.names),
+        [MinBind, MaxBind],
+        createStreamEvaluator(
+            MeasurementType.make(),
+            Random,
+            (evaluation) =>
+                new Random(
+                    evaluation.getEvaluator(),
+                    evaluation.get(MinBind.names, Measurement)?.toNumber(),
+                    evaluation.get(MaxBind.names, Measurement)?.toNumber()
+                ),
+            (stream, evaluation) =>
+                stream.setRange(
+                    evaluation.get(MinBind.names, Measurement)?.toNumber(),
+                    evaluation.get(MaxBind.names, Measurement)?.toNumber()
+                )
+        ),
+        MeasurementType.make()
+    );
+}

@@ -6,11 +6,13 @@ import Output from './Output';
 import type RenderContext from './RenderContext';
 import type Place from './Place';
 import type TypeOutput from './TypeOutput';
-import type LanguageCode from '@locale/LanguageCode';
+import type Locale from '../locale/Locale';
 
-export const ArrangementType = toStructure(`
-    ${getBind((t) => t.output.Arrangement, TYPE_SYMBOL)}()
+export function createArrangementType(locales: Locale[]) {
+    return toStructure(`
+    ${getBind(locales, (t) => t.output.Arrangement, TYPE_SYMBOL)}()
 `);
+}
 
 export default abstract class Arrangement extends Output {
     constructor(value: Value) {
@@ -33,6 +35,6 @@ export default abstract class Arrangement extends Output {
 
     abstract getDescription(
         output: (TypeOutput | null)[],
-        languages: LanguageCode[]
+        locales: Locale[]
     ): string;
 }

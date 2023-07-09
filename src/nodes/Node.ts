@@ -12,7 +12,7 @@ import type Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type Root from './Root';
 import type Description from '../locale/Description';
-import concretize, { type TemplateInput } from '../locale/locales/concretize';
+import concretize, { type TemplateInput } from '../locale/concretize';
 
 /* A global ID for nodes, for helping index them */
 let NODE_ID_COUNTER = 0;
@@ -330,7 +330,9 @@ export default abstract class Node {
         }
 
         // Finally, add project and native level definitions.
-        definitions = definitions.concat(context.project.getDefaultShares());
+        definitions = definitions.concat(
+            context.project.getDefaultShares().all
+        );
 
         // Cache the definitions for later.
         context.definitions.set(this, definitions);

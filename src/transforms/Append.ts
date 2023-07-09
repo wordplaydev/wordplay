@@ -6,7 +6,7 @@ import Refer from './Refer';
 import Caret from '../components/editor/util/Caret';
 import type Context from '@nodes/Context';
 import type Locale from '@locale/Locale';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export default class Append<NodeType extends Node> extends Transform {
     readonly parent: Node;

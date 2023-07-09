@@ -4,6 +4,9 @@ import Source from '@nodes/Source';
 import EvaluationLimitException from './EvaluationLimitException';
 import StepLimitException from './StepLimitException';
 import Evaluator from './Evaluator';
+import { getDefaultNative } from '../native/Native';
+
+const native = await getDefaultNative();
 
 test.each([0, 1, 10, 15])('Step back %i', (steps: number) => {
     const fib = `
@@ -12,7 +15,7 @@ test.each([0, 1, 10, 15])('Step back %i', (steps: number) => {
     `;
 
     const source = new Source('test', fib);
-    const project = new Project(null, 'test', source, []);
+    const project = new Project(null, 'test', source, [], native);
     const evaluator = new Evaluator(project);
     evaluator.start();
     const stepIndex = evaluator.getStepIndex();
@@ -35,7 +38,7 @@ test('Too many steps', () => {
     `;
 
     const source = new Source('test', fib);
-    const project = new Project(null, 'test', source, []);
+    const project = new Project(null, 'test', source, [], native);
     const evaluator = new Evaluator(project);
     evaluator.start();
     expect(evaluator.getLatestSourceValue(source)).toBeInstanceOf(
@@ -50,7 +53,7 @@ test('Too many evaluations', () => {
     `;
 
     const source = new Source('test', fib);
-    const project = new Project(null, 'test', source, []);
+    const project = new Project(null, 'test', source, [], native);
     const evaluator = new Evaluator(project);
     evaluator.start();
     expect(evaluator.getLatestSourceValue(source)).toBeInstanceOf(

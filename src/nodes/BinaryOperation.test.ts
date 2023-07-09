@@ -5,6 +5,9 @@ import BinaryOperation from './BinaryOperation';
 import { FALSE_SYMBOL } from '@parser/Symbols';
 import { OR_SYMBOL } from '@parser/Symbols';
 import IncompatibleInput from '@conflicts/IncompatibleInput';
+import { getDefaultNative } from '../native/Native';
+
+const native = await getDefaultNative();
 
 test.each([
     ['1 · 5', '1 · ""', BinaryOperation, IncompatibleInput],
@@ -39,5 +42,5 @@ test.each([
     ['⊤ & ~⊤', '⊥'],
     ['~(⊤ & ⊤)', '⊥'],
 ])('Expect %s to be %s', (code, value) => {
-    expect(Evaluator.evaluateCode(code)?.toString()).toBe(value);
+    expect(Evaluator.evaluateCode(native, code)?.toString()).toBe(value);
 });

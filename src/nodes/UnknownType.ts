@@ -6,7 +6,7 @@ import Type from './Type';
 import { UNKNOWN_SYMBOL } from '../parser/Symbols';
 import Glyphs from '../lore/Glyphs';
 import type Description from '../locale/Description';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export default abstract class UnknownType<
     ExpressionType extends Node

@@ -3,24 +3,26 @@ import type Value from '@runtime/Value';
 import type Color from './Color';
 import type TypeOutput from './TypeOutput';
 import type RenderContext from './RenderContext';
-import type LanguageCode from '@locale/LanguageCode';
-import { getPreferredLocale } from '@locale/getPreferredLocales';
 import { getBind } from '@locale/getBind';
 import Arrangement from './Arrangement';
 import Measurement from '../runtime/Measurement';
 import Place from './Place';
 import None from '../runtime/None';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
+import type Locale from '../locale/Locale';
+import type Project from '../models/Project';
 
-export const GridType = toStructure(`
-    ${getBind((t) => t.output.Grid, '•')} Arrangement(
-        ${getBind((t) => t.output.Grid.rows)}•#
-        ${getBind((t) => t.output.Grid.columns)}•#
-        ${getBind((t) => t.output.Grid.padding)}•#m: 1m
-        ${getBind((t) => t.output.Grid.cellWidth)}•#m|ø: ø
-        ${getBind((t) => t.output.Grid.cellHeight)}•#m|ø: ø
+export function createGridType(locales: Locale[]) {
+    return toStructure(`
+    ${getBind(locales, (t) => t.output.Grid, '•')} Arrangement(
+        ${getBind(locales, (t) => t.output.Grid.rows)}•#
+        ${getBind(locales, (t) => t.output.Grid.columns)}•#
+        ${getBind(locales, (t) => t.output.Grid.padding)}•#m: 1m
+        ${getBind(locales, (t) => t.output.Grid.cellWidth)}•#m|ø: ø
+        ${getBind(locales, (t) => t.output.Grid.cellHeight)}•#m|ø: ø
     )
 `);
+}
 
 export class Grid extends Arrangement {
     readonly rows: number;
@@ -151,19 +153,23 @@ export class Grid extends Arrangement {
         return undefined;
     }
 
-    getDescription(output: TypeOutput[], languages: LanguageCode[]) {
-        const locale = getPreferredLocale(languages);
+    getDescription(_: TypeOutput[], locales: Locale[]) {
         return concretize(
-            locale,
-            locale.output.Grid.description,
+            locales[0],
+            locales[0].output.Grid.description,
             this.rows,
             this.columns
         ).toString();
     }
 }
 
-export function toGrid(value: Value | undefined): Grid | undefined {
+export function toGrid(
+    project: Project,
+    value: Value | undefined
+): Grid | undefined {
     if (value === undefined) return undefined;
+
+    const GridType = project.shares.output.grid;
     const rows = value.resolve(GridType.inputs[0].names.getNames()[0]);
     const columns = value.resolve(GridType.inputs[1].names.getNames()[0]);
     const padding = value.resolve(GridType.inputs[2].names.getNames()[0]);

@@ -2,7 +2,7 @@ import type Expression from '@nodes/Expression';
 import Conflict from './Conflict';
 import type Locale from '@locale/Locale';
 import type Block from '../nodes/Block';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export class IgnoredExpression extends Conflict {
     readonly block: Block;

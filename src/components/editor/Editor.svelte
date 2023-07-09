@@ -57,16 +57,13 @@
     } from './Drag';
     import Menu from './util/Menu';
     import Evaluate from '@nodes/Evaluate';
-    import { PhraseType } from '@output/Phrase';
-    import { GroupType } from '@output/Group';
-    import { StageType } from '@output/Stage';
     import type Evaluator from '@runtime/Evaluator';
     import { TAB_WIDTH } from '../../parser/Spaces';
     import PlaceholderView from './PlaceholderView.svelte';
     import Expression from '../../nodes/Expression';
     import { TYPE_SYMBOL } from '../../parser/Symbols';
     import { creator } from '../../db/Creator';
-    import concretize from '../../locale/locales/concretize';
+    import concretize from '../../locale/concretize';
 
     export let evaluator: Evaluator;
     export let project: Project;
@@ -251,9 +248,9 @@
             $caret.position instanceof Evaluate &&
             $caret.position.isOneOf(
                 project.getNodeContext($caret.position),
-                PhraseType,
-                GroupType,
-                StageType
+                project.shares.output.phrase,
+                project.shares.output.group,
+                project.shares.output.stage
             )
         )
             setSelectedOutput(selectedOutputPaths, project, [$caret.position]);

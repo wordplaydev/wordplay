@@ -24,7 +24,7 @@ import type LanguageCode from '@locale/LanguageCode';
 import TokenType from './TokenType';
 import Glyphs from '../lore/Glyphs';
 import BlankException from '../runtime/BlankException';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export default class Program extends Expression {
     readonly docs?: Docs;

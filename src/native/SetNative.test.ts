@@ -1,5 +1,8 @@
 import { test, expect } from 'vitest';
 import Evaluator from '@runtime/Evaluator';
+import { getDefaultNative } from './Native';
+
+const native = await getDefaultNative();
 
 test.each([
     ['{1 2 3}.add(1)', '{1 2 3}'],
@@ -10,5 +13,5 @@ test.each([
     ['{1 2 3}.difference({3 4 5})', '{1 2}'],
     ['{1 2 3}.filter(ƒ(v) v % 2 = 1)', '{1 3}'],
 ])('Expect %s to be %s', (code, value) => {
-    expect(Evaluator.evaluateCode(code)?.toString()).toBe(value);
+    expect(Evaluator.evaluateCode(native, code)?.toString()).toBe(value);
 });

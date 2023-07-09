@@ -4,7 +4,7 @@ import type Value from './Value';
 import type Locale from '@locale/Locale';
 import type ConversionDefinition from '@nodes/ConversionDefinition';
 import type Convert from '@nodes/Convert';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export default class StartConversion extends Step {
     readonly convert: Convert;

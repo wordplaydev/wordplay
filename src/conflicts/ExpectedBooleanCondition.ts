@@ -5,7 +5,7 @@ import NodeLink from '@locale/NodeLink';
 import type Locale from '@locale/Locale';
 import type Reaction from '../nodes/Reaction';
 import Conflict from './Conflict';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export default class ExpectedBooleanCondition extends Conflict {
     readonly conditional: Conditional | Reaction;

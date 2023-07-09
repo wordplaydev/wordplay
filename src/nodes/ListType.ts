@@ -78,7 +78,7 @@ export default class ListType extends NativeType {
     }
 
     resolveTypeVariable(name: string, context: Context): Type | undefined {
-        const listDef = context.native.getListDefinition();
+        const listDef = context.native.getPrimitiveDefinition('list');
         return listDef.types !== undefined &&
             listDef.types.hasVariableNamed(name)
             ? this.type

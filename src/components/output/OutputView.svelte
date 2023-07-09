@@ -33,7 +33,7 @@
     let evaluation = getEvaluation();
     let keyboardEditIdle = getKeyboardEditIdle();
 
-    $: verse = latest === undefined ? undefined : toStage(latest);
+    $: verse = latest === undefined ? undefined : toStage(project, latest);
     $: background =
         $keyboardEditIdle && latest instanceof Exception
             ? 'var(--wordplay-error)'

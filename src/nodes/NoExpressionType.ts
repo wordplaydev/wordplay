@@ -1,7 +1,7 @@
 import type Locale from '@locale/Locale';
 import type Expression from './Expression';
 import UnknownType from './UnknownType';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export default class NoExpressionType extends UnknownType<Expression> {
     constructor(expression: Expression) {

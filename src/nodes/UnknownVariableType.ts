@@ -1,7 +1,7 @@
 import UnknownType from './UnknownType';
 import type { EvaluationType } from './Generics';
 import type Locale from '@locale/Locale';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export class UnknownVariableType extends UnknownType<EvaluationType> {
     constructor(evaluate: EvaluationType) {

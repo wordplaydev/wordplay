@@ -7,6 +7,9 @@ import { getEditsAt } from './Autocomplete';
 import type Node from '@nodes/Node';
 import MeasurementLiteral from '@nodes/MeasurementLiteral';
 import Add from '@transforms/Add';
+import { getDefaultNative } from '@native/Native';
+
+const native = await getDefaultNative();
 
 test.each([
     ['a: 1\na +**', undefined, Replace, 'a'],
@@ -39,7 +42,7 @@ test.each([
                 code.substring(insertionPoint + 2);
 
         const source = new Source('test', code);
-        const project = new Project(null, 'test', source, []);
+        const project = new Project(null, 'test', source, [], native);
         let resolvedPosition =
             position === undefined
                 ? insertionPoint

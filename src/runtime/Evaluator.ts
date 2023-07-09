@@ -10,7 +10,6 @@ import Value from './Value';
 import Exception from './Exception';
 import ValueException from './ValueException';
 import type Type from '@nodes/Type';
-import type NativeInterface from '../native/NativeInterface';
 import Source from '@nodes/Source';
 import type Names from '@nodes/Names';
 import Expression from '@nodes/Expression';
@@ -22,7 +21,6 @@ import ConversionDefinition from '@nodes/ConversionDefinition';
 import Context from '@nodes/Context';
 
 // Import this last, after everything else, to avoid cycles.
-import Native from '../native/NativeBindings';
 import { MAX_STREAM_LENGTH } from './Stream';
 import Start from './Start';
 import Finish from './Finish';
@@ -32,6 +30,7 @@ import TypeException from './TypeException';
 import Random from '../input/Random';
 import TemporalStream from './TemporalStream';
 import StartFinish from './StartFinish';
+import type { Native } from '../native/Native';
 
 /** Anything that wants to listen to changes in the state of this evaluator */
 export type EvaluationObserver = () => void;
@@ -202,6 +201,7 @@ export default class Evaluator {
      * This is primarily used for testing.
      */
     static evaluateCode(
+        native: Native,
         main: string,
         supplements?: string[]
     ): Value | undefined {
@@ -212,7 +212,8 @@ export default class Evaluator {
             source,
             (supplements ?? []).map(
                 (code, index) => new Source(`sup${index + 1}`, code)
-            )
+            ),
+            native
         );
         return new Evaluator(project).getInitialValue();
     }
@@ -238,8 +239,8 @@ export default class Evaluator {
     getMode(): Mode {
         return this.mode;
     }
-    getNative(): NativeInterface {
-        return Native;
+    getNative(): Native {
+        return this.project.native;
     }
     getCurrentStep() {
         return this.evaluations[0]?.currentStep();

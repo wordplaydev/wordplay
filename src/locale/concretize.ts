@@ -1,7 +1,7 @@
-import Description from '../Description';
-import type Locale from '../Locale';
-import type NodeLink from '../NodeLink';
-import type ValueLink from '../ValueLink';
+import Description from './Description';
+import type Locale from './Locale';
+import type NodeLink from './NodeLink';
+import type ValueLink from './ValueLink';
 
 export type TemplateInput =
     | number

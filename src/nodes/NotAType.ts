@@ -3,9 +3,9 @@ import UnknownType from './UnknownType';
 import type Locale from '@locale/Locale';
 import type Expression from './Expression';
 import type Context from './Context';
-import type { TemplateInput } from '../locale/locales/concretize';
+import type { TemplateInput } from '../locale/concretize';
 import NodeLink from '../locale/NodeLink';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export class NotAType extends UnknownType<Expression> {
     readonly given: Type;

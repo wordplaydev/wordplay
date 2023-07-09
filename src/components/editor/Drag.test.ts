@@ -8,6 +8,9 @@ import { parseExpression, toTokens } from '@parser/Parser';
 import MeasurementLiteral from '@nodes/MeasurementLiteral';
 import ListLiteral from '@nodes/ListLiteral';
 import Token from '@nodes/Token';
+import { getDefaultNative } from '../../native/Native';
+
+const native = await getDefaultNative();
 
 test.each([
     // Replace placeholder with rootless expression
@@ -100,7 +103,13 @@ test.each([
         supplementExpected?: string
     ) => {
         const sources = source.map((s) => new Source('test', s));
-        const project = new Project(null, 'test', sources[0], sources.slice(1));
+        const project = new Project(
+            null,
+            'test',
+            sources[0],
+            sources.slice(1),
+            native
+        );
         const [newProject] = dropNodeOnSource(
             project,
             sources[0],

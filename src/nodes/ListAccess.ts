@@ -28,7 +28,7 @@ import type { NativeTypeName } from '../native/NativeConstants';
 import Purpose from '../concepts/Purpose';
 import None from '../runtime/None';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export default class ListAccess extends Expression {
     readonly list: Expression;

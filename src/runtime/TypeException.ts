@@ -5,7 +5,7 @@ import ValueLink from '@locale/ValueLink';
 import type Evaluator from './Evaluator';
 import Exception from './Exception';
 import type Value from './Value';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export default class TypeException extends Exception {
     readonly expected: Type;

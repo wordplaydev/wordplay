@@ -24,7 +24,7 @@ import UnclosedDelimiter from '../conflicts/UnclosedDelimiter';
 import SetCloseToken from './SetCloseToken';
 import type Conflict from '../conflicts/Conflict';
 import generalize from './generalize';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export default class SetLiteral extends Expression {
     readonly open: Token;

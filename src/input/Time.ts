@@ -13,6 +13,7 @@ import Measurement from '../runtime/Measurement';
 import { getDocLocales } from '../locale/getDocLocales';
 import { getNameLocales } from '../locale/getNameLocales';
 import createStreamEvaluator from './createStreamEvaluator';
+import type Locale from '../locale/Locale';
 
 const DEFAULT_FREQUENCY = 33;
 
@@ -24,7 +25,7 @@ export default class Time extends TemporalStream<Measurement> {
     constructor(evaluator: Evaluator, frequency: number = DEFAULT_FREQUENCY) {
         super(
             evaluator,
-            TimeDefinition,
+            evaluator.project.shares.input.time,
             new Measurement(evaluator.getMain(), 0, Unit.make(['ms']))
         );
         this.frequency = frequency;
@@ -70,34 +71,39 @@ export default class Time extends TemporalStream<Measurement> {
     }
 }
 
-const TimeType = MeasurementType.make(Unit.make(['ms']));
+export function createTimeDefinition(locale: Locale[]) {
+    const TimeType = MeasurementType.make(Unit.make(['ms']));
 
-const FrequencyBind = Bind.make(
-    getDocLocales((t) => t.input.Time.frequency.doc),
-    getNameLocales((t) => t.input.Time.frequency.names),
-    UnionType.make(MeasurementType.make(Unit.make(['ms'])), NoneType.make()),
-    // Default to nothing
-    NoneLiteral.make()
-);
+    const FrequencyBind = Bind.make(
+        getDocLocales(locale, (t) => t.input.Time.frequency.doc),
+        getNameLocales(locale, (t) => t.input.Time.frequency.names),
+        UnionType.make(
+            MeasurementType.make(Unit.make(['ms'])),
+            NoneType.make()
+        ),
+        // Default to nothing
+        NoneLiteral.make()
+    );
 
-export const TimeDefinition = StreamDefinition.make(
-    getDocLocales((t) => t.input.Time.doc),
-    getNameLocales((t) => t.input.Time.names),
-    [FrequencyBind],
-    createStreamEvaluator(
-        TimeType.clone(),
-        Time,
-        (evaluation) =>
-            new Time(
-                evaluation.getEvaluator(),
-                evaluation.get(FrequencyBind.names, Measurement)?.toNumber()
-            ),
-        (stream, evaluation) => {
-            stream.setFrequency(
-                evaluation.get(FrequencyBind.names, Measurement)?.toNumber()
-            );
-        }
-    ),
+    return StreamDefinition.make(
+        getDocLocales(locale, (t) => t.input.Time.doc),
+        getNameLocales(locale, (t) => t.input.Time.names),
+        [FrequencyBind],
+        createStreamEvaluator(
+            TimeType.clone(),
+            Time,
+            (evaluation) =>
+                new Time(
+                    evaluation.getEvaluator(),
+                    evaluation.get(FrequencyBind.names, Measurement)?.toNumber()
+                ),
+            (stream, evaluation) => {
+                stream.setFrequency(
+                    evaluation.get(FrequencyBind.names, Measurement)?.toNumber()
+                );
+            }
+        ),
 
-    TimeType.clone()
-);
+        TimeType.clone()
+    );
+}

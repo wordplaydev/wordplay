@@ -22,7 +22,7 @@ import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';
 import generalize from './generalize';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export default class ListLiteral extends Expression {
     readonly open: Token;

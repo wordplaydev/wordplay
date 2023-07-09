@@ -5,7 +5,7 @@
     import type Project from '@models/Project';
     import MapLiteral from '@nodes/MapLiteral';
     import MeasurementLiteral from '@nodes/MeasurementLiteral';
-    import { createPoseLiteral, PoseType } from '@output/Pose';
+    import { createPoseLiteral } from '@output/Pose';
     import Evaluate from '@nodes/Evaluate';
     import OutputExpression from '@transforms/OutputExpression';
     import Unit from '@nodes/Unit';
@@ -25,7 +25,10 @@
                 kv instanceof KeyValue &&
                 kv.key instanceof MeasurementLiteral &&
                 kv.value instanceof Evaluate &&
-                kv.value.is(PoseType, project.getNodeContext(kv.value))
+                kv.value.is(
+                    project.shares.output.pose,
+                    project.getNodeContext(kv.value)
+                )
         );
 
     function revisePercent(kv: KeyValue | Expression, percent: string) {
@@ -47,7 +50,7 @@
                         ? kv.key.number.getText().replace('%', '')
                         : 0
                 ),
-                createPoseLiteral($creator.getLanguages())
+                createPoseLiteral(project, $creator.getLanguages())
             ),
             ...map.values.slice(index + 1),
         ] as KeyValue[]);

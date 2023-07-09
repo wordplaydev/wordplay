@@ -3,7 +3,7 @@ import NodeLink from '@locale/NodeLink';
 import type Locale from '@locale/Locale';
 import type Evaluator from './Evaluator';
 import Exception from './Exception';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export default class CycleException extends Exception {
     readonly borrow: Borrow;

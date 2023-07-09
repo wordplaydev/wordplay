@@ -6,7 +6,7 @@ import Bool from './Bool';
 import type Evaluator from './Evaluator';
 import Step from './Step';
 import type Value from './Value';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export default class JumpIf extends Step {
     readonly conditional: Conditional | BinaryOperation;

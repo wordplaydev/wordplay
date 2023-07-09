@@ -6,7 +6,7 @@ import type { EvaluationNode } from './Evaluation';
 import NodeLink from '@locale/NodeLink';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import StructureDefinition from '@nodes/StructureDefinition';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export default class EvaluationLimitException extends Exception {
     readonly node: Node;

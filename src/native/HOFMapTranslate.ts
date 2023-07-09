@@ -34,7 +34,7 @@ export default class HOFMapTranslate extends HOF {
     }
 
     computeType(context: Context): Type {
-        const typeVar = context.native.getMapDefinition().types
+        const typeVar = context.native.getPrimitiveDefinition('map').types
             ?.variables[0] as TypeVariable;
         return ListType.make(
             new NameType(typeVar.getNames()[0], undefined, typeVar)

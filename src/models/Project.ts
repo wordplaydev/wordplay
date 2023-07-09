@@ -8,8 +8,6 @@ import Source from '@nodes/Source';
 import Node from '@nodes/Node';
 import HOF from '../native/HOF';
 import FunctionDefinitionType from '@nodes/FunctionDefinitionType';
-import Native from '../native/NativeBindings';
-import DefaultShares, { DefaultRoots } from '@runtime/DefaultShares';
 import Context from '@nodes/Context';
 import type { SharedDefinition } from '@nodes/Borrow';
 import PropertyReference from '@nodes/PropertyReference';
@@ -17,14 +15,13 @@ import type Bind from '@nodes/Bind';
 import Reference from '@nodes/Reference';
 import type LanguageCode from '@locale/LanguageCode';
 import type StreamDefinition from '@nodes/StreamDefinition';
-import { StageType } from '../output/Stage';
-import { GroupType } from '../output/Group';
-import { PhraseType } from '../output/Phrase';
 import { v4 as uuidv4 } from 'uuid';
 import { parseNames, toTokens } from '../parser/Parser';
-import type Root from '../nodes/Root';
+import Root from '../nodes/Root';
 import type { Path } from '../nodes/Root';
 import type { CaretPosition } from '../components/editor/util/Caret';
+import type { Native } from '../native/Native';
+import type createDefaultShares from '../runtime/createDefaultShares';
 
 export type SerializedSource = {
     names: string;
@@ -91,6 +88,12 @@ export default class Project {
     /** An index of each source in the project */
     readonly roots: Root[];
 
+    /** Default shares */
+    readonly shares: ReturnType<typeof createDefaultShares>;
+
+    /** The localized native bindings */
+    readonly native: Native;
+
     /** Conflicts. */
     analyzed: 'unanalyzed' | 'analyzing' | 'analyzed' = 'unanalyzed';
     analysis: Analysis = {
@@ -106,6 +109,7 @@ export default class Project {
         name: string,
         main: Source,
         supplements: Source[],
+        native: Native,
         carets: SerializedCarets | undefined = undefined,
         uids: string[] = [],
         listed: boolean = true
@@ -119,6 +123,11 @@ export default class Project {
         this.main = main;
         this.supplements = supplements.slice();
 
+        this.native = native;
+
+        // Initialize default shares
+        this.shares = native.shares;
+
         // Remember the carets
         this.carets =
             carets === undefined
@@ -127,10 +136,11 @@ export default class Project {
                   })
                 : carets;
 
+        // Initialize roots for all definitions that can be referenced.
         this.roots = [
             ...this.getSources().map((source) => source.root),
-            ...Native.roots,
-            ...DefaultRoots,
+            ...native.roots,
+            ...this.shares.all.map((share) => new Root(share)),
         ];
     }
 
@@ -140,6 +150,7 @@ export default class Project {
             this.name,
             this.main,
             this.supplements,
+            this.native,
             this.carets,
             this.uids,
             this.listed
@@ -188,7 +199,7 @@ export default class Project {
     }
 
     getDefaultShares() {
-        return DefaultShares;
+        return this.shares;
     }
 
     getContext(source: Source) {
@@ -221,7 +232,7 @@ export default class Project {
         );
     }
     getNative() {
-        return Native;
+        return this.native;
     }
 
     getAnalysis() {
@@ -415,7 +426,7 @@ export default class Project {
         }
 
         // Do any of the implicit shares match?
-        const defaultMatch = DefaultShares.find((s) => s.hasName(source));
+        const defaultMatch = this.shares.all.find((s) => s.hasName(source));
 
         return defaultMatch === undefined
             ? undefined
@@ -451,6 +462,7 @@ export default class Project {
             this.name,
             this.main,
             this.supplements,
+            this.native,
             this.carets,
             this.uids,
             this.listed
@@ -463,6 +475,7 @@ export default class Project {
             name,
             this.main,
             this.supplements,
+            this.native,
             this.carets,
             this.uids,
             this.listed
@@ -479,6 +492,7 @@ export default class Project {
             this.name,
             this.main,
             this.supplements,
+            this.native,
             this.carets.map((c) =>
                 c.source === source
                     ? {
@@ -501,6 +515,7 @@ export default class Project {
             this.name,
             this.main,
             this.supplements.filter((s) => s !== source),
+            this.native,
             this.carets.filter((c) => c.source !== source),
             this.uids,
             this.listed
@@ -525,6 +540,7 @@ export default class Project {
             this.name,
             newMain,
             newSupplements,
+            this.native,
             this.carets.map((caret) => {
                 // See if the caret's source was replaced.
                 const replacement = replacements.find(
@@ -595,6 +611,7 @@ export default class Project {
             this.name,
             this.main,
             [...this.supplements, newSource],
+            this.native,
             [...this.carets, { source: newSource, caret: 0 }],
             this.uids
         );
@@ -608,6 +625,7 @@ export default class Project {
                   this.name,
                   this.main,
                   this.supplements,
+                  this.native,
                   this.carets,
                   [...this.uids, uid],
                   this.listed
@@ -648,13 +666,22 @@ export default class Project {
             .filter((node): node is Evaluate => node instanceof Evaluate);
         return [
             ...evaluates.filter((evaluate) =>
-                evaluate.is(StageType, this.getNodeContext(evaluate))
+                evaluate.is(
+                    this.shares.output.stage,
+                    this.getNodeContext(evaluate)
+                )
             ),
             ...evaluates.filter((evaluate) =>
-                evaluate.is(GroupType, this.getNodeContext(evaluate))
+                evaluate.is(
+                    this.shares.output.group,
+                    this.getNodeContext(evaluate)
+                )
             ),
             ...evaluates.filter((evaluate) =>
-                evaluate.is(PhraseType, this.getNodeContext(evaluate))
+                evaluate.is(
+                    this.shares.output.phrase,
+                    this.getNodeContext(evaluate)
+                )
             ),
         ];
     }
@@ -675,7 +702,7 @@ export default class Project {
         return new Source(parseNames(toTokens(source.names)), source.code);
     }
 
-    static fromObject(project: SerializedProject) {
+    static fromObject(project: SerializedProject, native: Native) {
         const sources = project.sources.map((source) =>
             Project.sourceToSource(source)
         );
@@ -685,6 +712,7 @@ export default class Project {
             project.name,
             sources[0],
             sources.slice(1),
+            native,
             project.sources.map((s, index) => {
                 return { source: sources[index], caret: s.caret };
             }),

@@ -28,7 +28,7 @@ import Glyphs from '../lore/Glyphs';
 import { NotAType } from './NotAType';
 import ConversionType from './ConversionType';
 import NeverType from './NeverType';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export default class Convert extends Expression {
     readonly expression: Expression;

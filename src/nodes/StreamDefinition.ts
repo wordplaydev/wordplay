@@ -25,7 +25,7 @@ import StreamDefinitionValue from '../runtime/StreamDefinitionValue';
 import type TypeSet from './TypeSet';
 import StreamDefinitionType from './StreamDefinitionType';
 import Glyphs from '../lore/Glyphs';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export default class StreamDefinition extends Expression {
     readonly docs?: Docs;

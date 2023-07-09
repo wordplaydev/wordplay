@@ -11,7 +11,7 @@ import { REVERSE_TEXT_DELIMITERS, TEXT_DELIMITERS } from '../parser/Tokenizer';
 import { Languages } from '../locale/LanguageCode';
 import type Definition from './Definition';
 import type Context from './Context';
-import type { TemplateInput } from '../locale/locales/concretize';
+import type { TemplateInput } from '../locale/concretize';
 
 export default class Token extends Node {
     /** The one or more types of token this might represent. This is narrowed during parsing to one.*/

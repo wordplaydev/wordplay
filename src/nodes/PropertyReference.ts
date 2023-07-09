@@ -31,7 +31,7 @@ import Glyphs from '../lore/Glyphs';
 import UnimplementedException from '../runtime/UnimplementedException';
 import Purpose from '../concepts/Purpose';
 import { UnknownName } from '../conflicts/UnknownName';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export default class PropertyReference extends Expression {
     readonly structure: Expression;

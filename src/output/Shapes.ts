@@ -5,19 +5,25 @@ import type Value from '../runtime/Value';
 import { getBind } from '../locale/getBind';
 import { toDecimal } from './Stage';
 import { PX_PER_METER } from './outputToCSS';
+import type Locale from '../locale/Locale';
+import type Project from '../models/Project';
 
-export const ShapeType = toStructure(`
-    ${getBind((t) => t.output.Shape, TYPE_SYMBOL)}()
+export function createShapeType(locales: Locale[]) {
+    return toStructure(`
+    ${getBind(locales, (t) => t.output.Shape, TYPE_SYMBOL)}()
 `);
+}
 
-export const RectangleType = toStructure(`
-    ${getBind((t) => t.output.Rectangle, '•')} Shape(
-        ${getBind((t) => t.output.Rectangle.left)}•#m
-        ${getBind((t) => t.output.Rectangle.top)}•#m
-        ${getBind((t) => t.output.Rectangle.right)}•#m
-        ${getBind((t) => t.output.Rectangle.bottom)}•#m
+export function createRectangleType(locales: Locale[]) {
+    return toStructure(`
+    ${getBind(locales, (t) => t.output.Rectangle, '•')} Shape(
+        ${getBind(locales, (t) => t.output.Rectangle.left)}•#m
+        ${getBind(locales, (t) => t.output.Rectangle.top)}•#m
+        ${getBind(locales, (t) => t.output.Rectangle.right)}•#m
+        ${getBind(locales, (t) => t.output.Rectangle.bottom)}•#m
     )
 `);
+}
 
 export abstract class Shape {
     constructor() {}
@@ -87,9 +93,9 @@ export class Rectangle extends Shape {
     }
 }
 
-export function toShape(value: Value | undefined) {
+export function toShape(project: Project, value: Value | undefined) {
     if (!(value instanceof Structure)) return undefined;
-    if (value.is(RectangleType)) {
+    if (value.is(project.shares.output.rectangle)) {
         const left = toDecimal(value.resolve('left'))?.toNumber();
         const top = toDecimal(value.resolve('top'))?.toNumber();
         const right = toDecimal(value.resolve('right'))?.toNumber();
@@ -104,5 +110,3 @@ export function toShape(value: Value | undefined) {
     }
     return undefined;
 }
-
-export const Shapes = [ShapeType, RectangleType];

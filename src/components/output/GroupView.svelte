@@ -51,9 +51,7 @@
 
 <div
     role={!group.selectable ? 'presentation' : 'group'}
-    aria-label={group.getDescription(
-        $creator.getLocales().map((t) => t.language)
-    )}
+    aria-label={group.getDescription($creator.getLocales())}
     aria-roledescription={group instanceof Group
         ? $creator.getLocale().term.group
         : $creator.getLocale().term.verse}

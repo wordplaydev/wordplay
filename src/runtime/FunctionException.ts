@@ -10,7 +10,7 @@ import type Locale from '@locale/Locale';
 import type Evaluator from './Evaluator';
 import Exception from './Exception';
 import type Value from './Value';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export default class FunctionException extends Exception {
     readonly subject: Value | undefined;

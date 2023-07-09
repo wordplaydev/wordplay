@@ -6,7 +6,7 @@ import type TypeSet from '@nodes/TypeSet';
 import type Evaluator from '@runtime/Evaluator';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export default abstract class HOF extends Expression {
     getGrammar() {

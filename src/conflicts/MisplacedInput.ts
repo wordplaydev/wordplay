@@ -5,7 +5,7 @@ import type FunctionDefinition from '@nodes/FunctionDefinition';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import type Locale from '@locale/Locale';
 import type StreamDefinition from '../nodes/StreamDefinition';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export default class MisplacedInput extends Conflict {
     readonly func: FunctionDefinition | StructureDefinition | StreamDefinition;

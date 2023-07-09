@@ -1,5 +1,4 @@
 import type Name from '@nodes/Name';
-import SupportedLocales from './locales';
 import Names from '@nodes/Names';
 import Docs from '@nodes/Docs';
 import { localeToLanguage } from './localeToLanguage';
@@ -9,10 +8,11 @@ import { getInputNames } from './getInputLocales';
 import { parseLocaleDoc } from '@parser/Parser';
 
 export function getBind(
+    locales: Locale[],
     select: (translation: Locale) => NameAndDoc,
     separator: string = ' '
 ): string {
-    const inputs = SupportedLocales.map(
+    const inputs = locales.map(
         (translation) => [translation, select(translation)] as const
     );
     return (

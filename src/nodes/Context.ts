@@ -1,5 +1,4 @@
 import type Node from './Node';
-import type NativeInterface from '../native/NativeInterface';
 import type Project from '../models/Project';
 import type Source from './Source';
 import type Type from './Type';
@@ -9,12 +8,13 @@ import type Reference from './Reference';
 import type PropertyReference from './PropertyReference';
 import type Definition from './Definition';
 import type StreamDefinition from './StreamDefinition';
+import type { Native } from '../native/Native';
 
 /** Passed around during type inference and conflict detection to facilitate program analysis and cycle-detection. */
 export default class Context {
     readonly project: Project;
     readonly source: Source;
-    readonly native: NativeInterface;
+    readonly native: Native;
 
     readonly stack: Node[] = [];
     readonly types: Map<Node, Type> = new Map();

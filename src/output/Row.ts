@@ -4,20 +4,22 @@ import type Color from './Color';
 import type TypeOutput from './TypeOutput';
 import type RenderContext from './RenderContext';
 import Place from './Place';
-import type LanguageCode from '@locale/LanguageCode';
-import { getPreferredLocale } from '@locale/getPreferredLocales';
 import { getBind } from '@locale/getBind';
 import Measurement from '../runtime/Measurement';
 import Arrangement from './Arrangement';
 import Group from './Group';
 import Phrase from './Phrase';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
+import type Locale from '../locale/Locale';
+import type Project from '../models/Project';
 
-export const RowType = toStructure(`
-    ${getBind((t) => t.output.Row, '•')} Arrangement(
-        ${getBind((t) => t.output.Row.padding)}•#m: 1m
+export function createRowType(locales: Locale[]) {
+    return toStructure(`
+    ${getBind(locales, (t) => t.output.Row, '•')} Arrangement(
+        ${getBind(locales, (t) => t.output.Row.padding)}•#m: 1m
     )
 `);
+}
 
 export class Row extends Arrangement {
     readonly padding: number;
@@ -95,11 +97,10 @@ export class Row extends Arrangement {
         return undefined;
     }
 
-    getDescription(output: TypeOutput[], languages: LanguageCode[]) {
-        const locale = getPreferredLocale(languages);
+    getDescription(output: TypeOutput[], locales: Locale[]) {
         return concretize(
-            locale,
-            locale.output.Row.description,
+            locales[0],
+            locales[0].output.Row.description,
             output.length,
             output.filter((o) => o instanceof Phrase).length,
             output.filter((o) => o instanceof Group).length
@@ -107,8 +108,13 @@ export class Row extends Arrangement {
     }
 }
 
-export function toRow(value: Value | undefined): Row | undefined {
+export function toRow(
+    project: Project,
+    value: Value | undefined
+): Row | undefined {
     if (value === undefined) return undefined;
-    const padding = value.resolve(RowType.inputs[0].names.getNames()[0]);
+    const padding = value.resolve(
+        project.shares.output.row.inputs[0].names.getNames()[0]
+    );
     return padding instanceof Measurement ? new Row(value, padding) : undefined;
 }

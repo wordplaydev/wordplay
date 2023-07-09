@@ -1,7 +1,7 @@
 import type ConversionDefinition from '@nodes/ConversionDefinition';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export class MisplacedConversion extends Conflict {
     readonly conversion: ConversionDefinition;

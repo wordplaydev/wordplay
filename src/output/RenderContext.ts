@@ -1,22 +1,22 @@
-import type LanguageCode from '@locale/LanguageCode';
+import type Locale from '../locale/Locale';
 
 export default class RenderContext {
     readonly font: string;
     readonly size: number;
-    readonly languages: LanguageCode[];
+    readonly locales: Locale[];
     readonly fonts: Set<string>;
     readonly animationFactor: number;
 
     constructor(
         font: string,
         size: number,
-        languages: LanguageCode[],
+        locales: Locale[],
         fonts: Set<string>,
         animationFactor: number
     ) {
         this.font = font;
         this.size = size;
-        this.languages = languages;
+        this.locales = locales;
         this.fonts = fonts;
         this.animationFactor = animationFactor;
     }
@@ -25,7 +25,7 @@ export default class RenderContext {
         return new RenderContext(
             font ?? this.font,
             size ?? this.size,
-            this.languages,
+            this.locales,
             this.fonts,
             this.animationFactor
         );

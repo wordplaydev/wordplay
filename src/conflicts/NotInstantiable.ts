@@ -3,7 +3,7 @@ import type FunctionDefinition from '@nodes/FunctionDefinition';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export default class NotInstantiable extends Conflict {
     readonly evaluate: Evaluate;

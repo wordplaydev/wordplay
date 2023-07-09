@@ -21,7 +21,7 @@ import AtomicExpression from './AtomicExpression';
 import type { Template } from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import type Root from './Root';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 import NodeLink from '../locale/NodeLink';
 
 export default class ExpressionPlaceholder extends AtomicExpression {

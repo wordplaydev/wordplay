@@ -14,7 +14,7 @@ import Literal from './Literal';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export default class BooleanLiteral extends Literal {
     readonly value: Token;

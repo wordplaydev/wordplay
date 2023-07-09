@@ -1,7 +1,7 @@
 import type Borrow from '@nodes/Borrow';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export class UnknownBorrow extends Conflict {
     readonly borrow: Borrow;

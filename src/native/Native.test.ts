@@ -1,17 +1,18 @@
 import { test, expect } from 'vitest';
 import Source from '@nodes/Source';
 import Context from '@nodes/Context';
-import DefaultShares from '@runtime/DefaultShares';
-import Native from './NativeBindings';
 import type Node from '@nodes/Node';
 import UnusedBind from '@conflicts/UnusedBind';
 import UnparsableType from '@nodes/UnparsableType';
 import UnparsableExpression from '@nodes/UnparsableExpression';
 import Project from '../models/Project';
 import Example from '../nodes/Example';
+import { getDefaultNative } from './Native';
+
+const native = await getDefaultNative();
 
 const source = new Source('native', '');
-const project = new Project(null, 'test', source, []);
+const project = new Project(null, 'test', source, [], native);
 const context = new Context(project, source);
 
 function checkNativeNodes(nodes: Node[]) {
@@ -63,8 +64,12 @@ function checkNativeNodes(nodes: Node[]) {
                                 50
                             )}\nPrimary node: ${conflictingNodes.primary.node.toWordplay()}\n\t${
                             conflict.constructor.name
-                        }`
+                        }\n${conflictingNodes.primary.explanation(
+                            native.locales[0],
+                            context
+                        )}`
                     );
+                    console.log(context.getRoot(node));
 
                     expect(conflicts).toHaveLength(0);
                 }
@@ -75,16 +80,16 @@ function checkNativeNodes(nodes: Node[]) {
 
 test("Verify that native structures don't have parsing errors or conflicts.", () => {
     // Check native structures
-    checkNativeNodes(Object.values(Native.structureDefinitionsByName));
+    checkNativeNodes(Object.values(native.structureDefinitionsByName));
 
     // Check native functions
-    for (const funs of Object.values(Native.functionsByType))
+    for (const funs of Object.values(native.functionsByType))
         checkNativeNodes(Object.values(funs));
 
     // Check native conversions
-    for (const funs of Object.values(Native.conversionsByType))
+    for (const funs of Object.values(native.conversionsByType))
         checkNativeNodes(Object.values(funs));
 
     // Check default definition shares.
-    checkNativeNodes(DefaultShares);
+    checkNativeNodes(project.shares.all);
 });

@@ -302,9 +302,9 @@ export default class Evaluation {
     }
 
     resolveDefault(name: string): Value | undefined {
-        const def = this.#evaluator.project
-            .getDefaultShares()
-            .find((def) => def.hasName(name));
+        const def = this.#evaluator.project.shares.all.find((def) =>
+            def.hasName(name)
+        );
 
         // Any of the defaults match? Wrap them in values.
         if (def instanceof FunctionDefinition)

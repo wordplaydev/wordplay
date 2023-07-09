@@ -8,7 +8,7 @@ import StructureDefinition from '@nodes/StructureDefinition';
 import List from '@runtime/List';
 import Text from '@runtime/Text';
 import Set from '@runtime/Set';
-import { createNativeConversion, createNativeFunction } from './NativeBindings';
+import { createNativeConversion, createNativeFunction } from './Native';
 import HOFSetFilter from './HOFSetFilter';
 import Bool from '@runtime/Bool';
 import type Value from '@runtime/Value';
@@ -18,17 +18,27 @@ import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
 import TypeVariable from '@nodes/TypeVariable';
 import type Expression from '../nodes/Expression';
+import type Locale from '../locale/Locale';
 
-export default function bootstrapSet() {
-    const SetTypeVariableNames = getNameLocales((t) => t.native.set.kind);
+export default function bootstrapSet(locales: Locale[]) {
+    const SetTypeVariableNames = getNameLocales(
+        locales,
+        (t) => t.native.set.kind
+    );
     const SetTypeVariable = new TypeVariable(SetTypeVariableNames);
 
     const setFilterHOFType = FunctionType.make(
         undefined,
         [
             Bind.make(
-                getDocLocales((t) => t.native.set.function.filter.value.doc),
-                getNameLocales((t) => t.native.set.function.filter.value.names),
+                getDocLocales(
+                    locales,
+                    (t) => t.native.set.function.filter.value.doc
+                ),
+                getNameLocales(
+                    locales,
+                    (t) => t.native.set.function.filter.value.names
+                ),
                 SetTypeVariable.getReference()
             ),
         ],
@@ -36,36 +46,43 @@ export default function bootstrapSet() {
     );
 
     const equalsFunctionNames = getNameLocales(
+        locales,
         (t) => t.native.set.function.equals.inputs[0].names
     );
 
     const notEqualFunctionNames = getNameLocales(
+        locales,
         (t) => t.native.set.function.notequals.inputs[0].names
     );
 
     const addFunctionNames = getNameLocales(
+        locales,
         (t) => t.native.set.function.add.inputs[0].names
     );
 
     const removeFunctionNames = getNameLocales(
+        locales,
         (t) => t.native.set.function.remove.inputs[0].names
     );
 
     const unionFunctionNames = getNameLocales(
+        locales,
         (t) => t.native.set.function.union.inputs[0].names
     );
 
     const intersectionFunctionNames = getNameLocales(
+        locales,
         (t) => t.native.set.function.intersection.inputs[0].names
     );
 
     const differenceFunctionNames = getNameLocales(
+        locales,
         (t) => t.native.set.function.difference.inputs[0].names
     );
 
     return StructureDefinition.make(
-        getDocLocales((t) => t.native.set.doc),
-        getNameLocales((t) => t.native.set.name),
+        getDocLocales(locales, (t) => t.native.set.doc),
+        getNameLocales(locales, (t) => t.native.set.name),
         // No interfaces
         [],
         // One type variable
@@ -76,12 +93,19 @@ export default function bootstrapSet() {
         new Block(
             [
                 createNativeFunction(
-                    getDocLocales((t) => t.native.set.function.equals.doc),
-                    getNameLocales((t) => t.native.set.function.equals.name),
+                    getDocLocales(
+                        locales,
+                        (t) => t.native.set.function.equals.doc
+                    ),
+                    getNameLocales(
+                        locales,
+                        (t) => t.native.set.function.equals.name
+                    ),
                     undefined,
                     [
                         Bind.make(
                             getDocLocales(
+                                locales,
                                 (t) =>
                                     t.native.set.function.equals.inputs[0].doc
                             ),
@@ -103,12 +127,19 @@ export default function bootstrapSet() {
                     }
                 ),
                 createNativeFunction(
-                    getDocLocales((t) => t.native.set.function.notequals.doc),
-                    getNameLocales((t) => t.native.set.function.notequals.name),
+                    getDocLocales(
+                        locales,
+                        (t) => t.native.set.function.notequals.doc
+                    ),
+                    getNameLocales(
+                        locales,
+                        (t) => t.native.set.function.notequals.name
+                    ),
                     undefined,
                     [
                         Bind.make(
                             getDocLocales(
+                                locales,
                                 (t) =>
                                     t.native.set.function.notequals.inputs[0]
                                         .doc
@@ -131,12 +162,19 @@ export default function bootstrapSet() {
                     }
                 ),
                 createNativeFunction(
-                    getDocLocales((t) => t.native.set.function.add.doc),
-                    getNameLocales((t) => t.native.set.function.add.name),
+                    getDocLocales(
+                        locales,
+                        (t) => t.native.set.function.add.doc
+                    ),
+                    getNameLocales(
+                        locales,
+                        (t) => t.native.set.function.add.name
+                    ),
                     undefined,
                     [
                         Bind.make(
                             getDocLocales(
+                                locales,
                                 (t) => t.native.set.function.add.inputs[0].doc
                             ),
                             addFunctionNames,
@@ -158,12 +196,19 @@ export default function bootstrapSet() {
                     }
                 ),
                 createNativeFunction(
-                    getDocLocales((t) => t.native.set.function.remove.doc),
-                    getNameLocales((t) => t.native.set.function.remove.name),
+                    getDocLocales(
+                        locales,
+                        (t) => t.native.set.function.remove.doc
+                    ),
+                    getNameLocales(
+                        locales,
+                        (t) => t.native.set.function.remove.name
+                    ),
                     undefined,
                     [
                         Bind.make(
                             getDocLocales(
+                                locales,
                                 (t) =>
                                     t.native.set.function.remove.inputs[0].doc
                             ),
@@ -187,12 +232,19 @@ export default function bootstrapSet() {
                     }
                 ),
                 createNativeFunction(
-                    getDocLocales((t) => t.native.set.function.union.doc),
-                    getNameLocales((t) => t.native.set.function.union.name),
+                    getDocLocales(
+                        locales,
+                        (t) => t.native.set.function.union.doc
+                    ),
+                    getNameLocales(
+                        locales,
+                        (t) => t.native.set.function.union.name
+                    ),
                     undefined,
                     [
                         Bind.make(
                             getDocLocales(
+                                locales,
                                 (t) => t.native.set.function.union.inputs[0].doc
                             ),
                             unionFunctionNames,
@@ -216,15 +268,18 @@ export default function bootstrapSet() {
                 ),
                 createNativeFunction(
                     getDocLocales(
+                        locales,
                         (t) => t.native.set.function.intersection.doc
                     ),
                     getNameLocales(
+                        locales,
                         (t) => t.native.set.function.intersection.name
                     ),
                     undefined,
                     [
                         Bind.make(
                             getDocLocales(
+                                locales,
                                 (t) =>
                                     t.native.set.function.intersection.inputs[0]
                                         .doc
@@ -249,14 +304,19 @@ export default function bootstrapSet() {
                     }
                 ),
                 createNativeFunction(
-                    getDocLocales((t) => t.native.set.function.difference.doc),
+                    getDocLocales(
+                        locales,
+                        (t) => t.native.set.function.difference.doc
+                    ),
                     getNameLocales(
+                        locales,
                         (t) => t.native.set.function.difference.name
                     ),
                     undefined,
                     [
                         Bind.make(
                             getDocLocales(
+                                locales,
                                 (t) =>
                                     t.native.set.function.difference.inputs[0]
                                         .doc
@@ -281,16 +341,24 @@ export default function bootstrapSet() {
                     }
                 ),
                 FunctionDefinition.make(
-                    getDocLocales((t) => t.native.set.function.filter.doc),
-                    getNameLocales((t) => t.native.set.function.filter.name),
+                    getDocLocales(
+                        locales,
+                        (t) => t.native.set.function.filter.doc
+                    ),
+                    getNameLocales(
+                        locales,
+                        (t) => t.native.set.function.filter.name
+                    ),
                     undefined,
                     [
                         Bind.make(
                             getDocLocales(
+                                locales,
                                 (t) =>
                                     t.native.set.function.filter.inputs[0].doc
                             ),
                             getNameLocales(
+                                locales,
                                 (t) =>
                                     t.native.set.function.filter.inputs[0].names
                             ),
@@ -302,14 +370,14 @@ export default function bootstrapSet() {
                 ),
 
                 createNativeConversion(
-                    getDocLocales((t) => t.native.set.conversion.text),
+                    getDocLocales(locales, (t) => t.native.set.conversion.text),
                     '{}',
                     "''",
                     (requestor: Expression, val: Set) =>
                         new Text(requestor, val.toString())
                 ),
                 createNativeConversion(
-                    getDocLocales((t) => t.native.set.conversion.list),
+                    getDocLocales(locales, (t) => t.native.set.conversion.list),
                     '{}',
                     '[]',
                     (requestor: Expression, val: Set) =>

@@ -3,7 +3,7 @@ import type Locale from '@locale/Locale';
 import type Evaluator from './Evaluator';
 import Step from './Step';
 import type Value from './Value';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export default class Jump extends Step {
     readonly count: number;

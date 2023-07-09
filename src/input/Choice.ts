@@ -7,6 +7,7 @@ import TextType from '../nodes/TextType';
 import Text from '../runtime/Text';
 import StreamType from '../nodes/StreamType';
 import createStreamEvaluator from './createStreamEvaluator';
+import type Locale from '../locale/Locale';
 
 /** A series of selected output, chosen by mouse or keyboard, allowing for programs that work for both mouse and keyboard. */
 export default class Choice extends Stream<Text> {
@@ -15,7 +16,11 @@ export default class Choice extends Stream<Text> {
     on: boolean = true;
 
     constructor(evaluator: Evaluator) {
-        super(evaluator, ChoiceDefinition, new Text(evaluator.getMain(), ''));
+        super(
+            evaluator,
+            evaluator.project.shares.input.choice,
+            new Text(evaluator.getMain(), '')
+        );
 
         this.evaluator = evaluator;
     }
@@ -39,15 +44,17 @@ export default class Choice extends Stream<Text> {
     }
 }
 
-export const ChoiceDefinition = StreamDefinition.make(
-    getDocLocales((t) => t.input.Choice.doc),
-    getNameLocales((t) => t.input.Choice.names),
-    [],
-    createStreamEvaluator(
-        TextType.make(),
-        Choice,
-        (evaluation) => new Choice(evaluation.getEvaluator()),
-        (stream) => stream.configure()
-    ),
-    TextType.make()
-);
+export function createChoiceDefinition(locales: Locale[]) {
+    return StreamDefinition.make(
+        getDocLocales(locales, (t) => t.input.Choice.doc),
+        getNameLocales(locales, (t) => t.input.Choice.names),
+        [],
+        createStreamEvaluator(
+            TextType.make(),
+            Choice,
+            (evaluation) => new Choice(evaluation.getEvaluator()),
+            (stream) => stream.configure()
+        ),
+        TextType.make()
+    );
+}

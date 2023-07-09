@@ -37,7 +37,7 @@ export default class HOFSetFilter extends HOF {
 
     computeType(context: Context): Type {
         // Get the type variable of set to make this, so we use whatever name it has.
-        const typeVar = context.native.getSetDefinition().types
+        const typeVar = context.native.getPrimitiveDefinition('set').types
             ?.variables[0] as TypeVariable;
         return SetType.make(
             new NameType(typeVar.getNames()[0], undefined, typeVar)

@@ -4,7 +4,7 @@ import Exception from './Exception';
 import type Expression from '@nodes/Expression';
 import NodeLink from '@locale/NodeLink';
 import type Token from '@nodes/Token';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export default class UnimplementedException extends Exception {
     readonly placeholder: Expression | Token;

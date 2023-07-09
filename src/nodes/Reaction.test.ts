@@ -6,6 +6,9 @@ import type Value from '@runtime/Value';
 import Time from '../input/Time';
 import type Expression from './Expression';
 import Evaluator from '../runtime/Evaluator';
+import { getDefaultNative } from '../native/Native';
+
+const native = await getDefaultNative();
 
 const makeOne = (creator: Expression) => Time.make(creator, 1);
 
@@ -37,7 +40,7 @@ test.each([
     ) => {
         // Make the project
         const source = new Source('test', code);
-        const project = new Project(null, 'test', source, []);
+        const project = new Project(null, 'test', source, [], native);
         const evaluator = new Evaluator(project);
 
         evaluator.start();

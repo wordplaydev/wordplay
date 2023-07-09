@@ -2,7 +2,7 @@ import Exception from './Exception';
 import type Evaluator from './Evaluator';
 import type Locale from '@locale/Locale';
 import type Node from '@nodes/Node';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export default class StepLimitException extends Exception {
     readonly node: Node;

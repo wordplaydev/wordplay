@@ -1,6 +1,6 @@
 import Structure from '@runtime/Structure';
 import type Value from '@runtime/Value';
-import TypeOutput, { TypeOutputInputs } from './TypeOutput';
+import TypeOutput, { createTypeOutputInputs } from './TypeOutput';
 import type RenderContext from './RenderContext';
 import Phrase from './Phrase';
 import Color from './Color';
@@ -10,8 +10,6 @@ import Measurement from '@runtime/Measurement';
 import Decimal from 'decimal.js';
 import { toColor } from './Color';
 import List from '@runtime/List';
-import type LanguageCode from '@locale/LanguageCode';
-import { getPreferredLocale } from '@locale/getPreferredLocales';
 import { getBind } from '@locale/getBind';
 import Bool from '../runtime/Bool';
 import { getStyle, toTypeOutput, toTypeOutputList } from './toTypeOutput';
@@ -20,19 +18,26 @@ import Pose from './Pose';
 import type Sequence from './Sequence';
 import Group from './Group';
 import { toShape, type Shape } from './Shapes';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
+import type Locale from '../locale/Locale';
+import type Project from '../models/Project';
 
 export const DefaultFont = `'Noto Sans', 'Noto Color Emoji'`;
 export const DefaultSize = 1;
 
-export const StageType = toStructure(`
-    ${getBind((t) => t.output.Stage, '•')} Type(
-        ${getBind((t) => t.output.Stage.content)}•[Type]
-        ${getBind((t) => t.output.Stage.background)}•Color: Color(100 0 0°)
-        ${getBind((t) => t.output.Stage.frame)}•Shape|ø: ø
-        ${TypeOutputInputs}
+export function createStageType(locales: Locale[]) {
+    return toStructure(`
+    ${getBind(locales, (t) => t.output.Stage, '•')} Type(
+        ${getBind(locales, (t) => t.output.Stage.content)}•[Type]
+        ${getBind(
+            locales,
+            (t) => t.output.Stage.background
+        )}•Color: Color(100 0 0°)
+        ${getBind(locales, (t) => t.output.Stage.frame)}•Shape|ø: ø
+        ${createTypeOutputInputs(locales)}
     )
 `);
+}
 
 export default class Stage extends TypeOutput {
     readonly content: (TypeOutput | null)[];
@@ -129,11 +134,10 @@ export default class Stage extends TypeOutput {
         return undefined;
     }
 
-    getDescription(languages: LanguageCode[]) {
-        const locale = getPreferredLocale(languages);
+    getDescription(locales: Locale[]) {
         return concretize(
-            locale,
-            locale.output.Stage.description,
+            locales[0],
+            locales[0].output.Stage.description,
             this.content.length,
             this.content.filter((o) => o instanceof Phrase).length,
             this.content.filter((o) => o instanceof Group).length
@@ -173,20 +177,20 @@ export class NameGenerator {
     }
 }
 
-export function toStage(value: Value): Stage | undefined {
+export function toStage(project: Project, value: Value): Stage | undefined {
     if (!(value instanceof Structure)) return undefined;
 
     // Create a name generator to guarantee unique default names for all TypeOutput.
     const namer = new NameGenerator();
 
-    if (value.type === StageType) {
+    if (value.type === project.shares.output.stage) {
         const possibleGroups = value.resolve('content');
         const content =
             possibleGroups instanceof List
-                ? toTypeOutputList(possibleGroups, namer)
-                : toTypeOutput(possibleGroups, namer);
+                ? toTypeOutputList(project, possibleGroups, namer)
+                : toTypeOutput(project, possibleGroups, namer);
         const background = toColor(value.resolve('background'));
-        const frame = toShape(value.resolve('frame'));
+        const frame = toShape(project, value.resolve('frame'));
 
         const {
             size,
@@ -201,7 +205,7 @@ export function toStage(value: Value): Stage | undefined {
             exit,
             duration,
             style,
-        } = getStyle(value);
+        } = getStyle(project, value);
 
         return content !== undefined &&
             background !== undefined &&
@@ -229,7 +233,7 @@ export function toStage(value: Value): Stage | undefined {
     }
     // Try converting it to a group and wrapping it in a Stage.
     else {
-        const type = toTypeOutput(value, namer);
+        const type = toTypeOutput(project, value, namer);
         return type === undefined
             ? undefined
             : new Stage(

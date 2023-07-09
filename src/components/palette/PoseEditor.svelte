@@ -1,22 +1,23 @@
 <script lang="ts">
     import type OutputProperty from '@transforms/OutputProperty';
     import OutputPropertyValueSet from '@transforms/OutputPropertyValueSet';
-    import PoseProperties from '@transforms/PoseProperties';
     import PaletteProperty from './PaletteProperty.svelte';
     import type Project from '@models/Project';
     import type OutputExpression from '@transforms/OutputExpression';
     import Button from '../widgets/Button.svelte';
-    import { SequenceType } from '@output/Sequence';
     import Evaluate from '@nodes/Evaluate';
     import Reference from '@nodes/Reference';
     import MapLiteral from '@nodes/MapLiteral';
     import KeyValue from '@nodes/KeyValue';
     import MeasurementLiteral from '@nodes/MeasurementLiteral';
     import { creator } from '../../db/Creator';
+    import getPoseProperties from '@transforms/PoseProperties';
 
     export let project: Project;
     export let outputs: OutputExpression[];
     export let sequence: boolean;
+
+    $: PoseProperties = getPoseProperties(project, $creator.getLocale());
 
     // Create a mapping from pose properties to values
     let propertyValues: Map<OutputProperty, OutputPropertyValueSet>;
@@ -39,10 +40,10 @@
                 output.node,
                 Evaluate.make(
                     Reference.make(
-                        SequenceType.names.getLocaleText(
+                        project.shares.output.sequence.names.getLocaleText(
                             $creator.getLanguages()
                         ),
-                        SequenceType
+                        project.shares.output.sequence
                     ),
                     [
                         MapLiteral.make([
@@ -64,7 +65,7 @@
     {/each}
     {#if !sequence}
         <Button tip={$creator.getLocale().ui.tooltip.sequence} action={convert}
-            >{SequenceType.getNames()[0]}</Button
+            >{project.shares.output.sequence.getNames()[0]}</Button
         >
     {/if}
 </div>

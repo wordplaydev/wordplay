@@ -13,18 +13,24 @@ import Measurement from '../runtime/Measurement';
 import Transition from './Transition';
 import type Place from './Place';
 import type { TransitionSequence } from './OutputAnimation';
-import en from '@locale/locales/en';
+import type Locale from '../locale/Locale';
+import type Project from '../models/Project';
 
-export const SequenceType = toStructure(`
-    ${getBind((t) => t.output.Sequence, TYPE_SYMBOL)}(
-        ${getBind((t) => t.output.Sequence.poses)}•{ % : Pose }
-        ${getBind((t) => t.output.Type.duration)}•#s: 0.25s
-        ${getBind((t) => t.output.Type.style)}•${Object.values(en.output.Easing)
-    .map((id) => `"${id}"`)
-    .join('|')}: "zippy"
-        ${getBind((t) => t.output.Sequence.count)}•1x|2x|3x|4x|5x: 1x
+export function createSequenceType(locales: Locale[]) {
+    return toStructure(`
+    ${getBind(locales, (t) => t.output.Sequence, TYPE_SYMBOL)}(
+        ${getBind(locales, (t) => t.output.Sequence.poses)}•{ % : Pose }
+        ${getBind(locales, (t) => t.output.Type.duration)}•#s: 0.25s
+        ${getBind(locales, (t) => t.output.Type.style)}•${locales
+        .map((locale) =>
+            Object.values(locale.output.Easing).map((id) => `"${id}"`)
+        )
+        .flat()
+        .join('|')}: "zippy"
+        ${getBind(locales, (t) => t.output.Sequence.count)}•1x|2x|3x|4x|5x: 1x
     )
 `);
+}
 
 type SequenceStep = { percent: number; pose: Pose };
 
@@ -126,8 +132,13 @@ export default class Sequence extends Output {
     }
 }
 
-export function toSequence(value: Value | undefined) {
-    if (!(value instanceof Structure && value.type === SequenceType))
+export function toSequence(project: Project, value: Value | undefined) {
+    if (
+        !(
+            value instanceof Structure &&
+            value.type === project.shares.output.sequence
+        )
+    )
         return undefined;
 
     const count = toDecimal(value.resolve('count'));
@@ -142,7 +153,7 @@ export function toSequence(value: Value | undefined) {
 
     for (const [key, value] of poses.values) {
         const percent = key instanceof Measurement ? key.toNumber() : undefined;
-        const pose = toPose(value);
+        const pose = toPose(project, value);
         if (percent !== undefined && pose !== undefined)
             steps.push({ percent, pose });
     }

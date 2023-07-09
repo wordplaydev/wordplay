@@ -26,7 +26,7 @@ import NodeLink from '@locale/NodeLink';
 import Glyphs from '../lore/Glyphs';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import { NotAType } from './NotAType';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export default class Select extends Expression {
     readonly table: Expression;

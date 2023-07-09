@@ -30,7 +30,7 @@ import Emotion from '../lore/Emotion';
 import Evaluate from './Evaluate';
 import StreamDefinitionType from './StreamDefinitionType';
 import TokenType from './TokenType';
-import concretize, { type TemplateInput } from '../locale/locales/concretize';
+import concretize, { type TemplateInput } from '../locale/concretize';
 
 /**
  * A reference to some Definition. Can optionally take the definition which it refers,

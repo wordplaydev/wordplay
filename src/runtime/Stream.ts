@@ -8,7 +8,7 @@ import type { NativeTypeName } from '../native/NativeConstants';
 import type Locale from '@locale/Locale';
 import type StreamDefinition from '../nodes/StreamDefinition';
 import type Expression from '../nodes/Expression';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export const MAX_STREAM_LENGTH = 256;
 

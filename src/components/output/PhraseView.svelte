@@ -38,7 +38,7 @@
     $: visible = place.z > focus.z;
 
     // Get the phrase's text in the preferred language
-    $: text = phrase.getDescription($creator.getLanguages());
+    $: text = phrase.getDescription($creator.getLocales());
     $: empty = phrase.isEmpty();
     $: selectable = phrase.selectable && !empty;
 

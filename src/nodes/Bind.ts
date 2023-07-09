@@ -44,7 +44,7 @@ import type { EvaluatorNode } from '../runtime/Evaluation';
 import type Reaction from './Reaction';
 import Evaluate from './Evaluate';
 import FunctionType from './FunctionType';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export default class Bind extends Expression {
     readonly docs?: Docs;

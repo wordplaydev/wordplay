@@ -23,7 +23,7 @@ import Glyphs from '../lore/Glyphs';
 import TokenType from './TokenType';
 import { TYPE_SYMBOL } from '../parser/Symbols';
 import Purpose from '../concepts/Purpose';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export default class Is extends Expression {
     readonly expression: Expression;

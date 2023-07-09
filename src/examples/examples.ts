@@ -1,6 +1,5 @@
 import Project from '../models/Project';
 import Source from '@nodes/Source';
-
 import WhatWord from './WhatWord.wp?raw';
 import Listen from './Listen.wp?raw';
 import Talk from './Talk.wp?raw';
@@ -28,19 +27,21 @@ import Greeting from './Greeting.wp?raw';
 import Catch from './Catch.wp?raw';
 import { parseNames, toTokens } from '../parser/Parser';
 import type Names from '../nodes/Names';
+import type { Native } from '../native/Native';
 
 export type Stuff = { name: string; sources: { names: Names; code: string }[] };
 
-export function projectFromText(project: string): Project {
-    return makeProject(wpToStuff(project));
+export function projectFromText(project: string, native: Native): Project {
+    return makeProject(wpToStuff(project), native);
 }
 
-export function makeProject(stuff: Stuff) {
+export function makeProject(stuff: Stuff, native: Native) {
     return new Project(
         stuff.name,
         stuff.name,
         new Source(stuff.sources[0].names, stuff.sources[0].code),
-        stuff.sources.slice(1).map((s) => new Source(s.names, s.code))
+        stuff.sources.slice(1).map((s) => new Source(s.names, s.code)),
+        native
     );
 }
 

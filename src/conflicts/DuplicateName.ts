@@ -3,7 +3,7 @@ import type Name from '@nodes/Name';
 import type Locale from '@locale/Locale';
 import NodeLink from '@locale/NodeLink';
 import type Context from '@nodes/Context';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export default class DuplicateName extends Conflict {
     readonly name: Name;

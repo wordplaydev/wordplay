@@ -23,7 +23,7 @@ import AtomicExpression from './AtomicExpression';
 import InternalException from '@runtime/InternalException';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export default class ConversionDefinition extends AtomicExpression {
     readonly docs: Docs | undefined;

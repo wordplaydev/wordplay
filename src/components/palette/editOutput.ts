@@ -5,17 +5,12 @@ import Expression from '@nodes/Expression';
 import MeasurementLiteral from '@nodes/MeasurementLiteral';
 import Reference from '@nodes/Reference';
 import Unit from '@nodes/Unit';
-import { PlaceType } from '@output/Place';
 import type LanguageCode from '@locale/LanguageCode';
 import type { Creator } from '../../db/Creator';
 import UnaryOperation from '../../nodes/UnaryOperation';
 import Decimal from 'decimal.js';
-import { PhraseType } from '../../output/Phrase';
 import TextLiteral from '../../nodes/TextLiteral';
 import ListLiteral from '../../nodes/ListLiteral';
-import { GroupType } from '../../output/Group';
-import { RowType } from '../../output/Row';
-import { StageType } from '../../output/Stage';
 import { toExpression } from '../../parser/Parser';
 import { creator } from '../../db/Creator';
 import { get } from 'svelte/store';
@@ -46,6 +41,8 @@ export default function moveOutput(
     vertical: number,
     relative: boolean
 ) {
+    const PlaceType = project.shares.output.place;
+
     projects.reviseProjectNodes(
         project,
         evaluates.map((evaluate) => {
@@ -125,6 +122,9 @@ export function addContent(
     index: number,
     phrase: boolean
 ) {
+    const PhraseType = project.shares.output.phrase;
+    const GroupType = project.shares.output.group;
+    const RowType = project.shares.output.row;
     const languages = get(creator).getLanguages();
     const newPhrase = Evaluate.make(
         Reference.make(
@@ -203,6 +203,8 @@ export function addStageContent(
     project: Project,
     content: Expression
 ) {
+    const StageType = project.shares.output.stage;
+
     // Find the verse in the project.
     let verse: Evaluate | undefined = getStage(project);
 
@@ -225,6 +227,8 @@ export function addStageContent(
 }
 
 export function getStage(project: Project): Evaluate | undefined {
+    const StageType = project.shares.output.stage;
+
     for (const source of project.getSources()) {
         const context = project.getContext(source);
         const verse = source.expression

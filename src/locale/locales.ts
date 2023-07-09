@@ -1,8 +1,6 @@
-import eng from './locales/en';
-import spa from './locales/es';
-import type Locale from './Locale';
+import type LanguageCode from './LanguageCode';
 
 /** A list of translations officially supported by Wordplay. */
-const SupportedLocales: Locale[] = [eng, spa];
+const SupportedLocales: LanguageCode[] = ['en', 'es'];
 
 export default SupportedLocales;

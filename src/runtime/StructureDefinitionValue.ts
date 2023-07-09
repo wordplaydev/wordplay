@@ -7,7 +7,7 @@ import { TYPE_SYMBOL } from '@parser/Symbols';
 import type LanguageCode from '@locale/LanguageCode';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type Locale from '@locale/Locale';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export default class StructureDefinitionValue extends Primitive {
     /** The definition from the AST. */

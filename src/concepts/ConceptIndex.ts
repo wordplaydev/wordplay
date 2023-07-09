@@ -19,7 +19,6 @@ import {
 import type TypeSet from '@nodes/TypeSet';
 import type StreamDefinition from '../nodes/StreamDefinition';
 import NodeConcept from './NodeConcept';
-import { StreamDefinitions } from '../runtime/DefaultShares';
 
 export default class ConceptIndex {
     readonly concepts: Concept[];
@@ -119,11 +118,14 @@ export default class ConceptIndex {
             );
         }
 
-        const streams = StreamDefinitions.map((def) => makeStreamConcept(def));
+        const streams = Object.values(project.shares.input).map((def) =>
+            makeStreamConcept(def)
+        );
 
         const constructs = getNodeConcepts(project.getContext(project.main));
 
         const native = getNativeConcepts(
+            project.native,
             languages,
             project.getContext(project.main)
         );

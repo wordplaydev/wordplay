@@ -4,7 +4,7 @@ import type NameType from '@nodes/NameType';
 import NodeLink from '@locale/NodeLink';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export class UnknownTypeName extends Conflict {
     readonly name: NameType;

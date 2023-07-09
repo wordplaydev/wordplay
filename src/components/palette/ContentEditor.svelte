@@ -3,8 +3,6 @@
     import Evaluate from '@nodes/Evaluate';
     import Button from '../widgets/Button.svelte';
     import Note from '../widgets/Note.svelte';
-    import { GroupType } from '@output/Group';
-    import { PhraseType } from '@output/Phrase';
     import RootView from '../project/RootView.svelte';
     import {
         getSelectedOutputPaths,
@@ -25,8 +23,14 @@
         list.values.every(
             (value) =>
                 value instanceof Evaluate &&
-                (value.is(PhraseType, project.getNodeContext(value)) ||
-                    value.is(GroupType, project.getNodeContext(value)))
+                (value.is(
+                    project.shares.output.phrase,
+                    project.getNodeContext(value)
+                ) ||
+                    value.is(
+                        project.shares.output.group,
+                        project.getNodeContext(value)
+                    ))
         );
 
     function editContent(index: number) {
@@ -85,7 +89,8 @@
                               list?.values.length ?? 1 - 1,
                               true
                           )
-                        : undefined}>+{PhraseType.getNames()[0]}</Button
+                        : undefined}
+                >+{project.shares.output.phrase.getNames()[0]}</Button
             >
             <Button
                 tip={$creator.getLocale().ui.tooltip.addGroup}
@@ -98,7 +103,8 @@
                               list?.values.length ?? 1 - 1,
                               false
                           )
-                        : undefined}>+{GroupType.getNames()[0]}</Button
+                        : undefined}
+                >+{project.shares.output.group.getNames()[0]}</Button
             ></div
         >
     {:else}

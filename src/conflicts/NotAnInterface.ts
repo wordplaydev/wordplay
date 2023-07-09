@@ -2,7 +2,7 @@ import Conflict from './Conflict';
 import type Reference from '@nodes/Reference';
 import type Definition from '@nodes/Definition';
 import type Locale from '@locale/Locale';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export default class NotAnInterface extends Conflict {
     readonly def: Definition;

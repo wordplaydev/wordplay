@@ -1,7 +1,7 @@
 import type Bind from '@nodes/Bind';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export class MissingShareLanguages extends Conflict {
     readonly share: Bind;

@@ -1,7 +1,7 @@
 import UnknownType from './UnknownType';
 import type This from './This';
 import type Locale from '@locale/Locale';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export class UnenclosedType extends UnknownType<This> {
     constructor(dis: This) {

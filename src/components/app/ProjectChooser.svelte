@@ -42,7 +42,9 @@
     }
 
     /** Create some example projects */
-    const exampleProjects = examples.map((example) => makeProject(example));
+    const exampleProjects = examples.map((example) =>
+        makeProject(example, $creator.getNative())
+    );
 </script>
 
 <Lead>{$creator.getLocale().ui.headers.projects}</Lead>

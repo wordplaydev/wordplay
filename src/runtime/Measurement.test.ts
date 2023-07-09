@@ -3,6 +3,9 @@ import { parseMeasurement, toTokens } from '@parser/Parser';
 import { FALSE_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
 import Evaluator from './Evaluator';
 import Measurement from './Measurement';
+import { getDefaultNative } from '../native/Native';
+
+const native = await getDefaultNative();
 
 test.each([
     // Test JavaScript number translation.
@@ -84,7 +87,7 @@ test.each([
     ['-2.1 ÷ 0.1', '-21'],
     ['2.1 ÷ -0.1', '-21'],
 ])('Expect %s to be %s', (code, value) => {
-    expect(Evaluator.evaluateCode(code)?.toString()).toBe(value);
+    expect(Evaluator.evaluateCode(native, code)?.toString()).toBe(value);
 });
 
 test.each([
@@ -98,7 +101,7 @@ test.each([
     ['2m ^ 2', '4m^2'],
     ['2m/s ^ 2', '4m^2/s^2'],
 ])('Expect %s to be %s', (code, value) => {
-    expect(Evaluator.evaluateCode(code)?.toString()).toBe(value);
+    expect(Evaluator.evaluateCode(native, code)?.toString()).toBe(value);
 });
 
 test.each([
@@ -164,5 +167,5 @@ test.each([
     ['1kg→#oz', '35.274oz'],
     ['1000mg→#lb', '0.002204625lb'],
 ])('Expect %s to be %s', (code, value) => {
-    expect(Evaluator.evaluateCode(code)?.toString()).toBe(value);
+    expect(Evaluator.evaluateCode(native, code)?.toString()).toBe(value);
 });

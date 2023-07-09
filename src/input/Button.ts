@@ -11,13 +11,18 @@ import BooleanLiteral from '@nodes/BooleanLiteral';
 import Bool from '@runtime/Bool';
 import StreamType from '@nodes/StreamType';
 import createStreamEvaluator from './createStreamEvaluator';
+import type Locale from '../locale/Locale';
 
 export default class Button extends Stream<Bool> {
     on: boolean = false;
     down: boolean | undefined;
 
     constructor(evaluator: Evaluator, down: boolean | undefined) {
-        super(evaluator, ButtonDefinition, new Bool(evaluator.getMain(), true));
+        super(
+            evaluator,
+            evaluator.project.shares.input.button,
+            new Bool(evaluator.getMain(), true)
+        );
 
         this.down = down;
     }
@@ -43,28 +48,29 @@ export default class Button extends Stream<Bool> {
     }
 }
 
-const DownBind = Bind.make(
-    getDocLocales((t) => t.input.Button.down.doc),
-    getNameLocales((t) => t.input.Button.down.names),
-    UnionType.make(BooleanType.make(), NoneType.make()),
-    // Default to true
-    BooleanLiteral.make(true)
-);
-
-export const ButtonDefinition = StreamDefinition.make(
-    getDocLocales((t) => t.input.Button.doc),
-    getNameLocales((t) => t.input.Button.names),
-    [DownBind],
-    createStreamEvaluator(
-        BooleanType.make(),
-        Button,
-        (evaluation) =>
-            new Button(
-                evaluation.getEvaluator(),
-                evaluation.get(DownBind.names, Bool)?.bool
-            ),
-        (stream, evaluation) =>
-            stream.setDown(evaluation.get(DownBind.names, Bool)?.bool)
-    ),
-    BooleanType.make()
-);
+export function createButtonDefinition(locales: Locale[]) {
+    const DownBind = Bind.make(
+        getDocLocales(locales, (t) => t.input.Button.down.doc),
+        getNameLocales(locales, (t) => t.input.Button.down.names),
+        UnionType.make(BooleanType.make(), NoneType.make()),
+        // Default to true
+        BooleanLiteral.make(true)
+    );
+    return StreamDefinition.make(
+        getDocLocales(locales, (t) => t.input.Button.doc),
+        getNameLocales(locales, (t) => t.input.Button.names),
+        [DownBind],
+        createStreamEvaluator(
+            BooleanType.make(),
+            Button,
+            (evaluation) =>
+                new Button(
+                    evaluation.getEvaluator(),
+                    evaluation.get(DownBind.names, Bool)?.bool
+                ),
+            (stream, evaluation) =>
+                stream.setDown(evaluation.get(DownBind.names, Bool)?.bool)
+        ),
+        BooleanType.make()
+    );
+}

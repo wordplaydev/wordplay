@@ -38,7 +38,7 @@ import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import { SHARE_SYMBOL } from '../parser/Symbols';
 import TokenType from './TokenType';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export default class StructureDefinition extends AtomicExpression {
     readonly docs: Docs | undefined;

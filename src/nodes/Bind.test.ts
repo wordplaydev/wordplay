@@ -6,6 +6,9 @@ import Evaluator from '@runtime/Evaluator';
 import Bind from './Bind';
 import { MisplacedShare } from '@conflicts/MisplacedShare';
 import { MissingShareLanguages } from '@conflicts/MissingShareLanguages';
+import { getDefaultNative } from '../native/Native';
+
+const native = await getDefaultNative();
 
 test.each([
     ['a•#: 1\na', 'a•"": 1\na', Bind, IncompatibleBind],
@@ -22,5 +25,5 @@ test.each([
 );
 
 test.each([['a: 5\na', '5']])('Expect %s to be %s', (code, value) => {
-    expect(Evaluator.evaluateCode(code)?.toString()).toBe(value);
+    expect(Evaluator.evaluateCode(native, code)?.toString()).toBe(value);
 });

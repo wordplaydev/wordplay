@@ -4,20 +4,22 @@ import type Color from './Color';
 import type TypeOutput from './TypeOutput';
 import type RenderContext from './RenderContext';
 import Place from './Place';
-import type LanguageCode from '@locale/LanguageCode';
-import { getPreferredLocale } from '@locale/getPreferredLocales';
 import { getBind } from '@locale/getBind';
 import Arrangement from './Arrangement';
 import Measurement from '../runtime/Measurement';
 import Phrase from './Phrase';
 import Group from './Group';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
+import type Locale from '../locale/Locale';
+import type Project from '../models/Project';
 
-export const StackType = toStructure(`
-    ${getBind((t) => t.output.Stack, '•')} Arrangement(
-        ${getBind((t) => t.output.Stack.padding)}•#m: 1m
+export function createStackType(locales: Locale[]) {
+    return toStructure(`
+    ${getBind(locales, (t) => t.output.Stack, '•')} Arrangement(
+        ${getBind(locales, (t) => t.output.Stack.padding)}•#m: 1m
     )
 `);
+}
 
 export class Stack extends Arrangement {
     readonly padding: number;
@@ -100,11 +102,10 @@ export class Stack extends Arrangement {
         return undefined;
     }
 
-    getDescription(output: TypeOutput[], languages: LanguageCode[]) {
-        const locale = getPreferredLocale(languages);
+    getDescription(output: TypeOutput[], locales: Locale[]) {
         return concretize(
-            locale,
-            locale.output.Stack.description,
+            locales[0],
+            locales[0].output.Stack.description,
             output.length,
             output.filter((o) => o instanceof Phrase).length,
             output.filter((o) => o instanceof Group).length
@@ -112,9 +113,14 @@ export class Stack extends Arrangement {
     }
 }
 
-export function toStack(value: Value | undefined): Stack | undefined {
+export function toStack(
+    project: Project,
+    value: Value | undefined
+): Stack | undefined {
     if (value === undefined) return undefined;
-    const padding = value.resolve(StackType.inputs[0].names.getNames()[0]);
+    const padding = value.resolve(
+        project.shares.output.stack.inputs[0].names.getNames()[0]
+    );
     return padding instanceof Measurement
         ? new Stack(value, padding)
         : undefined;

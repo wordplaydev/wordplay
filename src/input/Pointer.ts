@@ -9,11 +9,14 @@ import StreamDefinition from '@nodes/StreamDefinition';
 import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
 import StructureDefinitionType from '@nodes/StructureDefinitionType';
-import { PlaceType } from '@output/Place';
 import StreamType from '@nodes/StreamType';
 import createStreamEvaluator from './createStreamEvaluator';
+import type Locale from '../locale/Locale';
+import type Type from '../nodes/Type';
+import type StructureDefinition from '../nodes/StructureDefinition';
 
 function position(evaluator: Evaluator, x: number, y: number) {
+    const PlaceType = evaluator.project.shares.output.place;
     const bindings = new Map<Names, Value>();
     bindings.set(
         PlaceType.inputs[0].names,
@@ -35,7 +38,11 @@ export default class Pointer extends Stream<Structure> {
     on: boolean = false;
 
     constructor(evaluator: Evaluator) {
-        super(evaluator, PointerDefinition, position(evaluator, 0, 0));
+        super(
+            evaluator,
+            evaluator.project.shares.input.pointer,
+            position(evaluator, 0, 0)
+        );
 
         this.evaluator = evaluator;
     }
@@ -51,20 +58,30 @@ export default class Pointer extends Stream<Structure> {
         this.on = false;
     }
 
-    getType() {
-        return StreamType.make(new StructureDefinitionType(PlaceType, []));
+    getType(): Type {
+        return StreamType.make(
+            new StructureDefinitionType(
+                this.evaluator.project.shares.output.place,
+                []
+            )
+        );
     }
 }
 
-export const PointerDefinition = StreamDefinition.make(
-    getDocLocales((t) => t.input.Pointer.doc),
-    getNameLocales((t) => t.input.Pointer.names),
-    [],
-    createStreamEvaluator(
-        new StructureDefinitionType(PlaceType),
-        Pointer,
-        (evaluation) => new Pointer(evaluation.getEvaluator()),
-        () => {}
-    ),
-    new StructureDefinitionType(PlaceType)
-);
+export function createPointerDefinition(
+    locales: Locale[],
+    PlaceType: StructureDefinition
+) {
+    return StreamDefinition.make(
+        getDocLocales(locales, (t) => t.input.Pointer.doc),
+        getNameLocales(locales, (t) => t.input.Pointer.names),
+        [],
+        createStreamEvaluator(
+            new StructureDefinitionType(PlaceType),
+            Pointer,
+            (evaluation) => new Pointer(evaluation.getEvaluator()),
+            () => {}
+        ),
+        new StructureDefinitionType(PlaceType)
+    );
+}

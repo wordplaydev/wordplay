@@ -11,6 +11,7 @@ import NoneType from '../nodes/NoneType';
 import MeasurementLiteral from '../nodes/MeasurementLiteral';
 import Measurement from '../runtime/Measurement';
 import createStreamEvaluator from './createStreamEvaluator';
+import type Locale from '../locale/Locale';
 
 const FFT_SIZE = 32;
 const DEFAULT_FREQUENCY = 33;
@@ -31,7 +32,7 @@ export default class Mic extends TemporalStream<Measurement> {
     constructor(evaluator: Evaluator, frequency: number | undefined) {
         super(
             evaluator,
-            MicDefinition,
+            evaluator.project.shares.input.mic,
             new Measurement(evaluator.getMain(), 100)
         );
         this.frequency = frequency ?? DEFAULT_FREQUENCY;
@@ -113,30 +114,35 @@ export default class Mic extends TemporalStream<Measurement> {
     }
 }
 
-const FrequencyBind = Bind.make(
-    getDocLocales((t) => t.input.Mic.frequency.doc),
-    getNameLocales((t) => t.input.Mic.frequency.names),
-    UnionType.make(MeasurementType.make(Unit.make(['ms'])), NoneType.make()),
-    // Default to nothing
-    MeasurementLiteral.make(33, Unit.make(['ms']))
-);
+export function createMicDefinition(locales: Locale[]) {
+    const FrequencyBind = Bind.make(
+        getDocLocales(locales, (t) => t.input.Mic.frequency.doc),
+        getNameLocales(locales, (t) => t.input.Mic.frequency.names),
+        UnionType.make(
+            MeasurementType.make(Unit.make(['ms'])),
+            NoneType.make()
+        ),
+        // Default to nothing
+        MeasurementLiteral.make(33, Unit.make(['ms']))
+    );
 
-export const MicDefinition = StreamDefinition.make(
-    getDocLocales((t) => t.input.Mic.doc),
-    getNameLocales((t) => t.input.Mic.names),
-    [FrequencyBind],
-    createStreamEvaluator(
-        MeasurementType.make(),
-        Mic,
-        (evaluation) =>
-            new Mic(
-                evaluation.getEvaluator(),
-                evaluation.get(FrequencyBind.names, Measurement)?.toNumber()
-            ),
-        (stream, evaluation) =>
-            stream.setFrequency(
-                evaluation.get(FrequencyBind.names, Measurement)?.toNumber()
-            )
-    ),
-    MeasurementType.make()
-);
+    return StreamDefinition.make(
+        getDocLocales(locales, (t) => t.input.Mic.doc),
+        getNameLocales(locales, (t) => t.input.Mic.names),
+        [FrequencyBind],
+        createStreamEvaluator(
+            MeasurementType.make(),
+            Mic,
+            (evaluation) =>
+                new Mic(
+                    evaluation.getEvaluator(),
+                    evaluation.get(FrequencyBind.names, Measurement)?.toNumber()
+                ),
+            (stream, evaluation) =>
+                stream.setFrequency(
+                    evaluation.get(FrequencyBind.names, Measurement)?.toNumber()
+                )
+        ),
+        MeasurementType.make()
+    );
+}

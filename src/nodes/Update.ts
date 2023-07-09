@@ -24,7 +24,7 @@ import type Locale from '@locale/Locale';
 import NodeLink from '@locale/NodeLink';
 import Glyphs from '../lore/Glyphs';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export default class Update extends Expression {
     readonly table: Expression;

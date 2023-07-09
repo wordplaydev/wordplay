@@ -13,6 +13,7 @@ import Text from '../runtime/Text';
 import Bool from '../runtime/Bool';
 import StreamType from '../nodes/StreamType';
 import createStreamEvaluator from './createStreamEvaluator';
+import type Locale from '../locale/Locale';
 
 export default class Key extends Stream<Text> {
     readonly evaluator: Evaluator;
@@ -22,7 +23,11 @@ export default class Key extends Stream<Text> {
     down: boolean | undefined;
 
     constructor(evaluator: Evaluator, key: string | undefined, down: boolean) {
-        super(evaluator, KeyDefinition, new Text(evaluator.getMain(), ''));
+        super(
+            evaluator,
+            evaluator.project.shares.input.key,
+            new Text(evaluator.getMain(), '')
+        );
 
         this.evaluator = evaluator;
         this.key = key;
@@ -56,40 +61,42 @@ export default class Key extends Stream<Text> {
     }
 }
 
-const keyBind = Bind.make(
-    getDocLocales((t) => t.input.Key.key.doc),
-    getNameLocales((t) => t.input.Key.key.names),
-    UnionType.make(TextType.make(), NoneType.make()),
-    // Default to none, allowing all keys
-    NoneLiteral.make()
-);
+export function createKeyDefinition(locales: Locale[]) {
+    const keyBind = Bind.make(
+        getDocLocales(locales, (t) => t.input.Key.key.doc),
+        getNameLocales(locales, (t) => t.input.Key.key.names),
+        UnionType.make(TextType.make(), NoneType.make()),
+        // Default to none, allowing all keys
+        NoneLiteral.make()
+    );
 
-const downBind = Bind.make(
-    getDocLocales((t) => t.input.Key.down.doc),
-    getNameLocales((t) => t.input.Key.down.names),
-    UnionType.make(BooleanType.make(), NoneType.make()),
-    // Default to all events
-    NoneLiteral.make()
-);
+    const downBind = Bind.make(
+        getDocLocales(locales, (t) => t.input.Key.down.doc),
+        getNameLocales(locales, (t) => t.input.Key.down.names),
+        UnionType.make(BooleanType.make(), NoneType.make()),
+        // Default to all events
+        NoneLiteral.make()
+    );
 
-export const KeyDefinition = StreamDefinition.make(
-    getDocLocales((t) => t.input.Key.doc),
-    getNameLocales((t) => t.input.Key.names),
-    [keyBind, downBind],
-    createStreamEvaluator(
-        TextType.make(),
-        Key,
-        (evaluation) =>
-            new Key(
-                evaluation.getEvaluator(),
-                evaluation.get(keyBind.names, Text)?.text,
-                evaluation.get(downBind.names, Bool)?.bool ?? true
-            ),
-        (stream, evaluation) =>
-            stream.configure(
-                evaluation.get(keyBind.names, Text)?.text,
-                evaluation.get(downBind.names, Bool)?.bool ?? true
-            )
-    ),
-    TextType.make()
-);
+    return StreamDefinition.make(
+        getDocLocales(locales, (t) => t.input.Key.doc),
+        getNameLocales(locales, (t) => t.input.Key.names),
+        [keyBind, downBind],
+        createStreamEvaluator(
+            TextType.make(),
+            Key,
+            (evaluation) =>
+                new Key(
+                    evaluation.getEvaluator(),
+                    evaluation.get(keyBind.names, Text)?.text,
+                    evaluation.get(downBind.names, Bool)?.bool ?? true
+                ),
+            (stream, evaluation) =>
+                stream.configure(
+                    evaluation.get(keyBind.names, Text)?.text,
+                    evaluation.get(downBind.names, Bool)?.bool ?? true
+                )
+        ),
+        TextType.make()
+    );
+}

@@ -7,7 +7,6 @@
     import type OutputPropertyValueSet from '@transforms/OutputPropertyValueSet';
     import ColorChooser from '../widgets/ColorChooser.svelte';
     import type OutputProperty from '../../transforms/OutputProperty';
-    import { ColorType } from '../../output/Color';
     import { getProject, getSelectedOutput } from '../project/Contexts';
     import { creator } from '../../db/Creator';
 
@@ -27,7 +26,10 @@
 
         // Make a Color evaluation corresponding to the new value
         const replacement = Evaluate.make(
-            Reference.make(ColorType.names.getNames()[0], ColorType),
+            Reference.make(
+                $project.shares.output.color.names.getNames()[0],
+                $project.shares.output.color
+            ),
             [
                 MeasurementLiteral.make(l + '%'),
                 MeasurementLiteral.make(c),

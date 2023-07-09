@@ -74,7 +74,7 @@ export default class SetType extends NativeType {
     }
 
     resolveTypeVariable(name: string, context: Context): Type | undefined {
-        const setDef = context.native.getSetDefinition();
+        const setDef = context.native.getPrimitiveDefinition('set');
         return setDef.types !== undefined &&
             setDef.types.hasVariableNamed(name) &&
             this.key instanceof Type

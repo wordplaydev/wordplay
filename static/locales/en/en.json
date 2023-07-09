@@ -1600,7 +1600,7 @@
         "UnknownColumn": "I don't know a column by this name",
         "UnknownConversion": "I couldn'tn find a way to make $1 into a $2",
         "UnknownInput": "I don't know of an input by this name",
-        "UnknownName": "No one has this name in $1 ?? [ $1 | this @Block ]",
+        "UnknownName": "No one has name $1 in $2 ?? [$2|this @Block]",
         "InvalidTypeName": "type names can only refer to structures or type variables, but this refers to a $1",
         "Unnamed": "ahh, I need a name!",
         "UnparsableConflict": "(@FunctionDefinition here, @UnparsableExpression doesn't know what kind of $1 ?? [ expression | type ] this is)",

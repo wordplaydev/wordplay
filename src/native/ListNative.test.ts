@@ -1,5 +1,8 @@
 import { test, expect } from 'vitest';
 import Evaluator from '@runtime/Evaluator';
+import { getDefaultNative } from './Native';
+
+const native = await getDefaultNative();
 
 test.each([
     ['[1 2 3].add(4)', '[1 2 3 4]'],
@@ -21,5 +24,5 @@ test.each([
     ['[1 2 3 4 5 6 7 8 9].combine(0 ƒ(sum v) sum + v) ', '45'],
     ["[1 2 3].join(', ')", '"1, 2, 3"'],
 ])('Expect %s to be %s', (code, value) => {
-    expect(Evaluator.evaluateCode(code)?.toString()).toBe(value);
+    expect(Evaluator.evaluateCode(native, code)?.toString()).toBe(value);
 });

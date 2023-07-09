@@ -4,16 +4,17 @@ import type Color from './Color';
 import type TypeOutput from './TypeOutput';
 import type RenderContext from './RenderContext';
 import Place from './Place';
-import type LanguageCode from '@locale/LanguageCode';
-import { getPreferredLocale } from '@locale/getPreferredLocales';
 import { getBind } from '@locale/getBind';
 import Arrangement from './Arrangement';
 import Phrase from './Phrase';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
+import type Locale from '../locale/Locale';
 
-export const FreeType = toStructure(`
-    ${getBind((t) => t.output.Free, '•')} Arrangement()
+export function createFreeType(locales: Locale[]) {
+    return toStructure(`
+    ${getBind(locales, (t) => t.output.Free, '•')} Arrangement()
 `);
+}
 
 export class Free extends Arrangement {
     constructor(value: Value) {
@@ -61,11 +62,10 @@ export class Free extends Arrangement {
         return undefined;
     }
 
-    getDescription(output: TypeOutput[], languages: LanguageCode[]) {
-        const locale = getPreferredLocale(languages);
+    getDescription(output: TypeOutput[], locales: Locale[]) {
         return concretize(
-            locale,
-            locale.output.Free.description,
+            locales[0],
+            locales[0].output.Free.description,
             output.length
         ).toString();
     }

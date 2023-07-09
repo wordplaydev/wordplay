@@ -1,7 +1,7 @@
 import type Block from '@nodes/Block';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export class ExpectedEndingExpression extends Conflict {
     readonly block: Block;

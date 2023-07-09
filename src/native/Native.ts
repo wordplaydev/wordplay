@@ -1,4 +1,3 @@
-import type NativeInterface from './NativeInterface';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import NativeExpression from './NativeExpression';
 import type Context from '@nodes/Context';
@@ -23,8 +22,28 @@ import type Docs from '@nodes/Docs';
 import type Names from '@nodes/Names';
 import type Expression from '@nodes/Expression';
 import Root from '../nodes/Root';
+import type Locale from '../locale/Locale';
+import getDefaultLocale from '../locale/getDefaultLocale';
+import createDefaultShares from '../runtime/createDefaultShares';
 
-export class NativeBindings implements NativeInterface {
+export class Native {
+    readonly locales: Locale[];
+    readonly shares: ReturnType<typeof createDefaultShares>;
+
+    constructor(locales: Locale[]) {
+        this.locales = locales;
+
+        this.addStructure('none', bootstrapNone(locales));
+        this.addStructure('boolean', bootstrapBool(locales));
+        this.addStructure('text', bootstrapText(locales));
+        this.addStructure('list', bootstrapList(locales));
+        this.addStructure('measurement', bootstrapMeasurement(locales));
+        this.addStructure('set', bootstrapSet(locales));
+        this.addStructure('map', bootstrapMap(locales));
+
+        this.shares = createDefaultShares(locales);
+    }
+
     readonly functionsByType: Record<
         string,
         Record<string, FunctionDefinition>
@@ -108,16 +127,8 @@ export class NativeBindings implements NativeInterface {
         return Object.values(this.structureDefinitionsByName);
     }
 
-    getSetDefinition() {
-        return SetDefinition;
-    }
-
-    getListDefinition() {
-        return ListDefinition;
-    }
-
-    getMapDefinition() {
-        return MapDefinition;
+    getPrimitiveDefinition(name: NativeTypeName) {
+        return this.structureDefinitionsByName[name];
     }
 }
 
@@ -172,22 +183,13 @@ export function createNativeConversion<ValueType extends Value>(
     );
 }
 
-const Native = new NativeBindings();
+export function bootstrap(locales: Locale[]) {
+    const native = new Native(locales);
 
-export const NoneDefinition = bootstrapNone();
-export const BoolDefinition = bootstrapBool();
-export const TextDefinition = bootstrapText();
-export const ListDefinition = bootstrapList();
-export const MeasurementDefinition = bootstrapMeasurement();
-export const SetDefinition = bootstrapSet();
-export const MapDefinition = bootstrapMap();
+    return native;
+}
 
-Native.addStructure('none', NoneDefinition);
-Native.addStructure('boolean', BoolDefinition);
-Native.addStructure('text', TextDefinition);
-Native.addStructure('list', ListDefinition);
-Native.addStructure('measurement', MeasurementDefinition);
-Native.addStructure('set', SetDefinition);
-Native.addStructure('map', MapDefinition);
-
-export default Native;
+/** Use for tests to get the default (English) locale. */
+export async function getDefaultNative() {
+    return bootstrap([await getDefaultLocale(true)]);
+}

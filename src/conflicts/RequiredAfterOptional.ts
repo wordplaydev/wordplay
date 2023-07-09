@@ -1,7 +1,7 @@
 import Conflict from './Conflict';
 import type Bind from '@nodes/Bind';
 import type Locale from '@locale/Locale';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export default class RequiredAfterOptional extends Conflict {
     readonly bind: Bind;

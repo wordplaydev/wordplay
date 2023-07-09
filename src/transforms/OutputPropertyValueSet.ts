@@ -11,7 +11,6 @@ import type { OutputPropertyValue } from './OutputExpression';
 import type OutputProperty from './OutputProperty';
 import MapLiteral from '../nodes/MapLiteral';
 import ListLiteral from '../nodes/ListLiteral';
-import { PlaceType } from '../output/Place';
 import type Bind from '../nodes/Bind';
 import type { Creator } from '../db/Creator';
 
@@ -123,7 +122,7 @@ export default class OutputPropertyValueSet {
     getPlace(project: Project) {
         const expr = this.getExpression();
         return expr instanceof Evaluate &&
-            expr.is(PlaceType, project.getNodeContext(expr))
+            expr.is(project.shares.output.place, project.getNodeContext(expr))
             ? expr
             : undefined;
     }

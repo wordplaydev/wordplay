@@ -9,7 +9,7 @@ import type Locale from '@locale/Locale';
 import NodeLink from '@locale/NodeLink';
 import type Context from '@nodes/Context';
 import type StreamDefinition from '../nodes/StreamDefinition';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export default class UnexpectedInputs extends Conflict {
     readonly func: FunctionDefinition | StructureDefinition | StreamDefinition;

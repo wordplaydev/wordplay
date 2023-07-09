@@ -13,14 +13,12 @@
 
     $: languages = $creator.getLanguages();
 
-    const supportedLanguages = SupportedLocales.map((t) => t.language);
-
     // The choices are all the languages, sorted in English alphabetical order, with supported languages first
     $: languageChoices = [
-        ...supportedLanguages,
+        ...SupportedLocales,
         ...Array.from(
             new Set([...(Object.keys(Languages) as LanguageCode[])])
-        ).filter((lang) => !supportedLanguages.includes(lang)),
+        ).filter((lang) => !SupportedLocales.includes(lang)),
     ];
 
     function select(language: LanguageCode, append: boolean) {
@@ -64,7 +62,7 @@
 <dialog bind:this={element} class="language-preferences">
     <div class="languages">
         {#each languageChoices as lang}
-            {@const supported = supportedLanguages.includes(lang)}
+            {@const supported = SupportedLocales.includes(lang)}
             <span
                 role="button"
                 tabindex={0}

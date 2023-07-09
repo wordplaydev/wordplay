@@ -105,7 +105,7 @@ export default class MapType extends NativeType {
     }
 
     resolveTypeVariable(name: string, context: Context): Type | undefined {
-        const mapDef = context.native.getMapDefinition();
+        const mapDef = context.native.getPrimitiveDefinition('map');
         return mapDef.types !== undefined &&
             mapDef.types.variables[0].hasName(name) &&
             this.key instanceof Type

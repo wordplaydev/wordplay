@@ -13,27 +13,15 @@ import Structure from '@runtime/Structure';
 import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
 import createStreamEvaluator from './createStreamEvaluator';
-import TypeOutput, { TypeType } from '../output/TypeOutput';
+import type TypeOutput from '../output/TypeOutput';
 import type Value from '../runtime/Value';
 import { toTypeOutput } from '../output/toTypeOutput';
-import en from '../locale/locales/en';
 import Evaluate from '../nodes/Evaluate';
-import TextLiteral from '../nodes/TextLiteral';
-import Reference from '../nodes/Reference';
 import ValueException from '../runtime/ValueException';
 import UnionType from '../nodes/UnionType';
 import NoneLiteral from '../nodes/NoneLiteral';
-import { PhraseType } from '../output/Phrase';
-
-const PlaceName =
-    typeof en.output.Type.place.names === 'string'
-        ? en.output.Type.place.names
-        : en.output.Type.place.names[0];
-
-const RotationName =
-    typeof en.output.Type.rotation.names === 'string'
-        ? en.output.Type.rotation.names
-        : en.output.Type.rotation.names[0];
+import type Locale from '../locale/Locale';
+import type StructureDefinition from '../nodes/StructureDefinition';
 
 export default class Motion extends TemporalStream<Value> {
     type: TypeOutput;
@@ -66,7 +54,7 @@ export default class Motion extends TemporalStream<Value> {
         bounciness: number | undefined,
         gravity: number | undefined
     ) {
-        super(evaluator, MotionDefinition, type.value);
+        super(evaluator, evaluator.project.shares.input.motion, type.value);
 
         this.type = type;
 
@@ -147,6 +135,18 @@ export default class Motion extends TemporalStream<Value> {
                 type.creator instanceof Evaluate
                     ? type.creator
                     : this.definition;
+
+            const en = this.evaluator.project.native.locales[0];
+            const PlaceName =
+                typeof en.output.Type.place.names === 'string'
+                    ? en.output.Type.place.names
+                    : en.output.Type.place.names[0];
+
+            const RotationName =
+                typeof en.output.Type.rotation.names === 'string'
+                    ? en.output.Type.rotation.names
+                    : en.output.Type.rotation.names[0];
+
             // Create a new type output with an updated place.
             const revised = type
                 .withValue(
@@ -179,117 +179,134 @@ const SpeedType = MeasurementType.make(SpeedUnit);
 const AngleSpeedUnit = Unit.make(['°'], ['s']);
 const AngleSpeedType = MeasurementType.make(AngleSpeedUnit);
 
-const TypeBind = Bind.make(
-    getDocLocales((t) => t.input.Motion.type.doc),
-    getNameLocales((t) => t.input.Motion.type.names),
-    new StructureDefinitionType(TypeType),
-    Evaluate.make(Reference.make('Phrase'), [TextLiteral.make('⚽️')])
-);
+export function createMotionDefinition(
+    locales: Locale[],
+    TypeType: StructureDefinition,
+    PhraseType: StructureDefinition
+) {
+    const TypeBind = Bind.make(
+        getDocLocales(locales, (t) => t.input.Motion.type.doc),
+        getNameLocales(locales, (t) => t.input.Motion.type.names),
+        new StructureDefinitionType(TypeType)
+    );
 
-const VXBind = Bind.make(
-    getDocLocales((t) => t.input.Motion.vx.doc),
-    getNameLocales((t) => t.input.Motion.vx.names),
-    UnionType.orNone(SpeedType.clone()),
-    NoneLiteral.make()
-);
+    const VXBind = Bind.make(
+        getDocLocales(locales, (t) => t.input.Motion.vx.doc),
+        getNameLocales(locales, (t) => t.input.Motion.vx.names),
+        UnionType.orNone(SpeedType.clone()),
+        NoneLiteral.make()
+    );
 
-const VYBind = Bind.make(
-    getDocLocales((t) => t.input.Motion.vy.doc),
-    getNameLocales((t) => t.input.Motion.vy.names),
-    UnionType.orNone(SpeedType.clone()),
-    NoneLiteral.make()
-);
+    const VYBind = Bind.make(
+        getDocLocales(locales, (t) => t.input.Motion.vy.doc),
+        getNameLocales(locales, (t) => t.input.Motion.vy.names),
+        UnionType.orNone(SpeedType.clone()),
+        NoneLiteral.make()
+    );
 
-const VZBind = Bind.make(
-    getDocLocales((t) => t.input.Motion.vz.doc),
-    getNameLocales((t) => t.input.Motion.vz.names),
-    UnionType.orNone(SpeedType.clone()),
-    NoneLiteral.make()
-);
+    const VZBind = Bind.make(
+        getDocLocales(locales, (t) => t.input.Motion.vz.doc),
+        getNameLocales(locales, (t) => t.input.Motion.vz.names),
+        UnionType.orNone(SpeedType.clone()),
+        NoneLiteral.make()
+    );
 
-const VAngleBind = Bind.make(
-    getDocLocales((t) => t.input.Motion.vangle.doc),
-    getNameLocales((t) => t.input.Motion.vangle.names),
-    UnionType.orNone(AngleSpeedType.clone()),
-    NoneLiteral.make()
-);
+    const VAngleBind = Bind.make(
+        getDocLocales(locales, (t) => t.input.Motion.vangle.doc),
+        getNameLocales(locales, (t) => t.input.Motion.vangle.names),
+        UnionType.orNone(AngleSpeedType.clone()),
+        NoneLiteral.make()
+    );
 
-const MassBind = Bind.make(
-    getDocLocales((t) => t.input.Motion.mass.doc),
-    getNameLocales((t) => t.input.Motion.mass.names),
-    UnionType.orNone(MeasurementType.make(Unit.make(['kg']))),
-    // Default to 1kg.
-    MeasurementLiteral.make(1, Unit.make(['kg']))
-);
+    const MassBind = Bind.make(
+        getDocLocales(locales, (t) => t.input.Motion.mass.doc),
+        getNameLocales(locales, (t) => t.input.Motion.mass.names),
+        UnionType.orNone(MeasurementType.make(Unit.make(['kg']))),
+        // Default to 1kg.
+        MeasurementLiteral.make(1, Unit.make(['kg']))
+    );
 
-const BouncinessBind = Bind.make(
-    getDocLocales((t) => t.input.Motion.bounciness.doc),
-    getNameLocales((t) => t.input.Motion.bounciness.names),
-    UnionType.orNone(MeasurementType.make()),
-    MeasurementLiteral.make(0.75)
-);
+    const BouncinessBind = Bind.make(
+        getDocLocales(locales, (t) => t.input.Motion.bounciness.doc),
+        getNameLocales(locales, (t) => t.input.Motion.bounciness.names),
+        UnionType.orNone(MeasurementType.make()),
+        MeasurementLiteral.make(0.75)
+    );
 
-const GravityBind = Bind.make(
-    getDocLocales((t) => t.input.Motion.gravity.doc),
-    getNameLocales((t) => t.input.Motion.gravity.names),
-    UnionType.orNone(MeasurementType.make(Unit.make(['m'], ['s', 's']))),
-    MeasurementLiteral.make(15, Unit.make(['m'], ['s', 's']))
-);
+    const GravityBind = Bind.make(
+        getDocLocales(locales, (t) => t.input.Motion.gravity.doc),
+        getNameLocales(locales, (t) => t.input.Motion.gravity.names),
+        UnionType.orNone(MeasurementType.make(Unit.make(['m'], ['s', 's']))),
+        MeasurementLiteral.make(15, Unit.make(['m'], ['s', 's']))
+    );
 
-const type = new StructureDefinitionType(PhraseType);
+    const type = new StructureDefinitionType(PhraseType);
 
-export const MotionDefinition = StreamDefinition.make(
-    getDocLocales((t) => t.input.Motion.doc),
-    getNameLocales((t) => t.input.Motion.names),
-    [
-        TypeBind,
-        VXBind,
-        VYBind,
-        VZBind,
-        VAngleBind,
-        MassBind,
-        BouncinessBind,
-        GravityBind,
-    ],
-    createStreamEvaluator<Motion>(
-        type.clone(),
-        Motion,
-        (evaluation) => {
-            const type = toTypeOutput(
-                evaluation.get(TypeBind.names, Structure)
-            );
-            return type
-                ? new Motion(
-                      evaluation.getEvaluator(),
-                      type,
-                      evaluation.get(VXBind.names, Measurement)?.toNumber(),
-                      evaluation.get(VYBind.names, Measurement)?.toNumber(),
-                      evaluation.get(VZBind.names, Measurement)?.toNumber(),
-                      evaluation.get(VAngleBind.names, Measurement)?.toNumber(),
-                      evaluation.get(MassBind.names, Measurement)?.toNumber(),
-                      evaluation
-                          .get(BouncinessBind.names, Measurement)
-                          ?.toNumber(),
-                      evaluation.get(GravityBind.names, Measurement)?.toNumber()
-                  )
-                : new ValueException(
-                      evaluation.getEvaluator(),
-                      evaluation.getCreator()
-                  );
-        },
-        (stream, evaluation) => {
-            stream.update(
-                // Not valid type output? Revert to the current value.
-                toTypeOutput(evaluation.get(TypeBind.names, Structure)),
-                evaluation.get(VXBind.names, Measurement)?.toNumber(),
-                evaluation.get(VYBind.names, Measurement)?.toNumber(),
-                evaluation.get(VZBind.names, Measurement)?.toNumber(),
-                evaluation.get(VAngleBind.names, Measurement)?.toNumber(),
-                evaluation.get(MassBind.names, Measurement)?.toNumber(),
-                evaluation.get(BouncinessBind.names, Measurement)?.toNumber(),
-                evaluation.get(GravityBind.names, Measurement)?.toNumber()
-            );
-        }
-    ),
-    type.clone()
-);
+    return StreamDefinition.make(
+        getDocLocales(locales, (t) => t.input.Motion.doc),
+        getNameLocales(locales, (t) => t.input.Motion.names),
+        [
+            TypeBind,
+            VXBind,
+            VYBind,
+            VZBind,
+            VAngleBind,
+            MassBind,
+            BouncinessBind,
+            GravityBind,
+        ],
+        createStreamEvaluator<Motion>(
+            type.clone(),
+            Motion,
+            (evaluation) => {
+                const type = toTypeOutput(
+                    evaluation.getEvaluator().project,
+                    evaluation.get(TypeBind.names, Structure)
+                );
+                return type
+                    ? new Motion(
+                          evaluation.getEvaluator(),
+                          type,
+                          evaluation.get(VXBind.names, Measurement)?.toNumber(),
+                          evaluation.get(VYBind.names, Measurement)?.toNumber(),
+                          evaluation.get(VZBind.names, Measurement)?.toNumber(),
+                          evaluation
+                              .get(VAngleBind.names, Measurement)
+                              ?.toNumber(),
+                          evaluation
+                              .get(MassBind.names, Measurement)
+                              ?.toNumber(),
+                          evaluation
+                              .get(BouncinessBind.names, Measurement)
+                              ?.toNumber(),
+                          evaluation
+                              .get(GravityBind.names, Measurement)
+                              ?.toNumber()
+                      )
+                    : new ValueException(
+                          evaluation.getEvaluator(),
+                          evaluation.getCreator()
+                      );
+            },
+            (stream, evaluation) => {
+                stream.update(
+                    // Not valid type output? Revert to the current value.
+                    toTypeOutput(
+                        evaluation.getEvaluator().project,
+                        evaluation.get(TypeBind.names, Structure)
+                    ),
+                    evaluation.get(VXBind.names, Measurement)?.toNumber(),
+                    evaluation.get(VYBind.names, Measurement)?.toNumber(),
+                    evaluation.get(VZBind.names, Measurement)?.toNumber(),
+                    evaluation.get(VAngleBind.names, Measurement)?.toNumber(),
+                    evaluation.get(MassBind.names, Measurement)?.toNumber(),
+                    evaluation
+                        .get(BouncinessBind.names, Measurement)
+                        ?.toNumber(),
+                    evaluation.get(GravityBind.names, Measurement)?.toNumber()
+                );
+            }
+        ),
+        type.clone()
+    );
+}

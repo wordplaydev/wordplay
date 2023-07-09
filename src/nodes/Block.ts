@@ -26,7 +26,7 @@ import NoExpressionType from './NoExpressionType';
 import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export enum BlockKind {
     Root = 'root',

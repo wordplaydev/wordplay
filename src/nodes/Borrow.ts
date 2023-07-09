@@ -32,7 +32,7 @@ import NodeLink from '@locale/NodeLink';
 import StreamDefinition from './StreamDefinition';
 import StreamDefinitionValue from '../runtime/StreamDefinitionValue';
 import Glyphs from '../lore/Glyphs';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export type SharedDefinition =
     | Source

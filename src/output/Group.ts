@@ -8,18 +8,21 @@ import type Pose from './Pose';
 import type RenderContext from './RenderContext';
 import type Sequence from './Sequence';
 import type TextLang from './TextLang';
-import TypeOutput, { TypeOutputInputs } from './TypeOutput';
-import type LanguageCode from '@locale/LanguageCode';
+import TypeOutput, { createTypeOutputInputs } from './TypeOutput';
 import { getStyle, toArrangement, toTypeOutputList } from './toTypeOutput';
 import { TYPE_SYMBOL } from '../parser/Symbols';
 import type { NameGenerator } from './Stage';
+import type Locale from '../locale/Locale';
+import type Project from '../models/Project';
 
-export const GroupType = toStructure(`
-    ${getBind((t) => t.output.Group, TYPE_SYMBOL)} Type(
-        ${getBind((t) => t.output.Group.layout)}•Arrangement
-        ${getBind((t) => t.output.Group.content)}•[Type|ø]
-        ${TypeOutputInputs}
+export function createGroupType(locales: Locale[]) {
+    return toStructure(`
+    ${getBind(locales, (t) => t.output.Group, TYPE_SYMBOL)} Type(
+        ${getBind(locales, (t) => t.output.Group.layout)}•Arrangement
+        ${getBind(locales, (t) => t.output.Group.content)}•[Type|ø]
+        ${createTypeOutputInputs(locales)}
     )`);
+}
 
 export default class Group extends TypeOutput {
     readonly content: (TypeOutput | null)[];
@@ -84,8 +87,8 @@ export default class Group extends TypeOutput {
         throw new Error('Method not implemented.');
     }
 
-    getDescription(languages: LanguageCode[]) {
-        return this.layout.getDescription(this.content, languages);
+    getDescription(locales: Locale[]) {
+        return this.layout.getDescription(this.content, locales);
     }
 
     isEmpty() {
@@ -94,13 +97,14 @@ export default class Group extends TypeOutput {
 }
 
 export function toGroup(
+    project: Project,
     value: Value | undefined,
     namer?: NameGenerator
 ): Group | undefined {
     if (value === undefined) return undefined;
 
-    const layout = toArrangement(value.resolve('layout'));
-    const content = toTypeOutputList(value.resolve('content'), namer);
+    const layout = toArrangement(project, value.resolve('layout'));
+    const content = toTypeOutputList(project, value.resolve('content'), namer);
 
     const {
         size,
@@ -115,7 +119,7 @@ export function toGroup(
         exit,
         duration,
         style,
-    } = getStyle(value);
+    } = getStyle(project, value);
 
     return layout &&
         content &&

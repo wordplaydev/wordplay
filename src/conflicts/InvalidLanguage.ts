@@ -2,7 +2,7 @@ import type Language from '@nodes/Language';
 import type Token from '@nodes/Token';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export default class InvalidLanguage extends Conflict {
     readonly language: Language;

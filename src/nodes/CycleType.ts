@@ -2,7 +2,7 @@ import type Node from './Node';
 import UnknownType from './UnknownType';
 import type Expression from './Expression';
 import type Locale from '@locale/Locale';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export default class CycleType extends UnknownType<Expression> {
     readonly cycle: Node[];

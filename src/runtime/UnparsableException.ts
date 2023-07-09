@@ -3,7 +3,7 @@ import Exception from './Exception';
 import type Locale from '@locale/Locale';
 import type Expression from '@nodes/Expression';
 import NodeLink from '@locale/NodeLink';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export default class UnparsableException extends Exception {
     readonly unparsable: Expression;

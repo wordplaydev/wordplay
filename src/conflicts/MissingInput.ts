@@ -10,7 +10,7 @@ import type Token from '@nodes/Token';
 import type Context from '@nodes/Context';
 import NodeLink from '@locale/NodeLink';
 import type StreamDefinition from '../nodes/StreamDefinition';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 
 export default class MissingInput extends Conflict {
     readonly func: FunctionDefinition | StructureDefinition | StreamDefinition;

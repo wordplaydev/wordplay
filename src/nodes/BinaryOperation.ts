@@ -35,7 +35,7 @@ import FunctionValue from '../runtime/FunctionValue';
 import Glyphs from '../lore/Glyphs';
 import FunctionType from './FunctionType';
 import AnyType from './AnyType';
-import concretize from '../locale/locales/concretize';
+import concretize from '../locale/concretize';
 import Description from '../locale/Description';
 
 export default class BinaryOperation extends Expression {
