@@ -22,6 +22,10 @@ export default class ConceptLink extends Node {
         );
     }
 
+    getName() {
+        return this.concept.getText().slice(1);
+    }
+
     getGrammar(): Field[] {
         return [{ name: 'concept', types: [Token] }];
     }

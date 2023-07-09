@@ -49,15 +49,24 @@ export default function concretize(
     template: string,
     ...inputs: TemplateInput[]
 ): Description {
-    // Not written? Return the TBD string.
-    if (template === '' || template === '$?') return Description.as(locale.tbd);
-
     return (
-        parse(locale, new Template(template), ...inputs) ?? Description.as('-')
+        concretizeOrUndefined(locale, template, ...inputs) ??
+        Description.as('-')
     );
 }
 
-function parse(
+export function concretizeOrUndefined(
+    locale: Locale,
+    template: string,
+    ...inputs: TemplateInput[]
+) {
+    // Not written? Return the TBD string.
+    if (template === '' || template === '$?') return Description.as(locale.tbd);
+
+    return parseTemplate(locale, new Template(template), ...inputs);
+}
+
+export function parseTemplate(
     locale: Locale,
     template: Template,
     ...inputs: TemplateInput[]
@@ -157,7 +166,7 @@ function parseConditional(
     template.next(1);
 
     // Parse the yes value.
-    const yesDescription = parse(locale, template, ...inputs);
+    const yesDescription = parseTemplate(locale, template, ...inputs);
     if (yesDescription === undefined) return undefined;
 
     // Read until a |
@@ -169,7 +178,7 @@ function parseConditional(
     template.next();
 
     // Parse the no value.
-    const noDescription = parse(locale, template, ...inputs);
+    const noDescription = parseTemplate(locale, template, ...inputs);
     if (noDescription === undefined) return undefined;
 
     // Read until a ]

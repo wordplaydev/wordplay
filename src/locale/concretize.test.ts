@@ -17,6 +17,7 @@ test.each([
         'To create a new performance, click here.',
         [],
     ],
+    ['I am $1 ??', '-', []],
     ['I received $1 ?? [$1|nothing]', 'I received nothing', [undefined]],
     ['I received $1 ?? [$1|nothing]', 'I received 1', [1]],
     [

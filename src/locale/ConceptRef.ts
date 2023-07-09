@@ -1,4 +1,4 @@
-export default class ConceptLink {
+export default class ConceptRef {
     readonly concept: string;
 
     constructor(concept: string) {

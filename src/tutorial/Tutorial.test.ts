@@ -6,21 +6,23 @@ import ConceptLink from '../nodes/ConceptLink';
 import type { Dialog, Line, Performance } from './Tutorial';
 import type Tutorial from './Tutorial';
 import { getDefaultNative } from '../native/Native';
+import SupportedLanguages from '../locale/SupportedLanguages';
 
 const native = await getDefaultNative();
 const locale = native.locales[0];
 
-const SupportedLanguages = ['en'];
-
-const Tutorials = await Promise.all(
-    SupportedLanguages.map(async (lang) => {
-        const tut = await fetch(
-            `http://localhost:5173/locales/${lang}/${lang}-tutorial.json`
-        );
-        const json = await tut.json();
-        return json as Tutorial;
-    })
-);
+const Tutorials = (
+    await Promise.all(
+        SupportedLanguages.map(async (lang) => {
+            const tut = await fetch(
+                `http://localhost:5173/locales/${lang}/${lang}-tutorial.json`
+            );
+            if (tut.status !== 200) return undefined;
+            const json = await tut.json();
+            return json as Tutorial;
+        })
+    )
+).filter((tutorial): tutorial is Tutorial => tutorial !== undefined);
 
 function check(line: Line): boolean {
     return (

@@ -23,9 +23,7 @@
         else {
             // Remove the link symbol
             const id =
-                link instanceof ConceptLink
-                    ? link.concept.getText().slice(1)
-                    : link.concept;
+                link instanceof ConceptLink ? link.getName() : link.concept;
             // Split the name by /
             const names = id.split('/');
             // See if it's a UI reference
