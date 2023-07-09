@@ -133,10 +133,8 @@ export function undelimited(text: string) {
     return text.substring(
         1,
         text.length -
-            (Object.hasOwn(
-                TEXT_DELIMITERS,
-                text.length === 0 ? '' : text.charAt(text.length - 1)
-            ) || text.charAt(text.length - 1) === TEMPLATE_SYMBOL
+            (TEXT_DELIMITERS[text.charAt(0)] === text.charAt(text.length - 1) ||
+            text.charAt(text.length - 1) === TEMPLATE_SYMBOL
                 ? 1
                 : 0)
     );
