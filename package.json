@@ -16,7 +16,19 @@
         "release": "firebase use prod && firebase deploy",
         "tutorial-schema": "npx ts-json-schema-generator --tsconfig tsconfig.json --path 'src/tutorial/Tutorial.ts' --type 'Tutorial' --out static/locales/Tutorial.json",
         "locale-schema": "npx ts-json-schema-generator --tsconfig tsconfig.json --path 'src/locale/Locale.ts' --type 'Locale' --out static/locales/Locale.json",
-        "schemas": "npm run tutorial-schema && npm run locale-schema"
+        "schemas": "npm run tutorial-schema && npm run locale-schema",
+        "verify-locales": "npx tsx verify-locales.ts",
+        "locales": "npm-watch verify-locales"
+    },
+    "watch": {
+        "verify-locales": {
+            "patterns": [
+                "static/locales",
+                "verify-locales.ts"
+            ],
+            "extensions": "json,ts",
+            "quiet": true
+        }
     },
     "devDependencies": {
         "@sveltejs/adapter-static": "^2",
@@ -26,8 +38,10 @@
         "@types/uuid": "^9",
         "@typescript-eslint/eslint-plugin": "^5",
         "@typescript-eslint/parser": "^5",
+        "chalk": "^5.3.0",
         "eslint": "^8",
         "eslint-plugin-svelte": "^2.32.2",
+        "npm-watch": "^0.11.0",
         "prettier": "2",
         "prettier-plugin-svelte": "^2",
         "svelte": "^4",
@@ -36,6 +50,7 @@
         "svelte-preprocess": "^5",
         "ts-jest": "^29.1",
         "tslib": "^2.6",
+        "tsx": "^3.12.7",
         "typescript": "^5",
         "vite": "^4.4.0",
         "vitest": "^0"

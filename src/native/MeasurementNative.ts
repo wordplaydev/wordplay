@@ -29,7 +29,7 @@ import type Locale from '../locale/Locale';
 export default function bootstrapMeasurement(locales: Locale[]) {
     const subtractNames = getNameLocales(
         locales,
-        (t) => t.native.measurement.function.subtract.inputs[0].names
+        (t) => t.native.Measurement.function.subtract.inputs[0].names
     );
 
     function createBinaryOp(
@@ -140,8 +140,8 @@ export default function bootstrapMeasurement(locales: Locale[]) {
     }
 
     return StructureDefinition.make(
-        getDocLocales(locales, (t) => t.native.measurement.doc),
-        getNameLocales(locales, (t) => t.native.measurement.name),
+        getDocLocales(locales, (t) => t.native.Measurement.doc),
+        getNameLocales(locales, (t) => t.native.Measurement.name),
         [],
         undefined,
         [],
@@ -150,7 +150,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createBinaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.measurement.function.add
+                        (t) => t.native.Measurement.function.add
                     ),
                     MeasurementType.make((left) => left),
                     // The output's type should be the left's type
@@ -160,11 +160,11 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 FunctionDefinition.make(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.function.subtract.doc
+                        (t) => t.native.Measurement.function.subtract.doc
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.measurement.function.subtract.name
+                        (t) => t.native.Measurement.function.subtract.name
                     ),
                     undefined,
                     [
@@ -173,7 +173,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                             getDocLocales(
                                 locales,
                                 (t) =>
-                                    t.native.measurement.function.subtract
+                                    t.native.Measurement.function.subtract
                                         .inputs[0].doc
                             ),
                             subtractNames,
@@ -215,7 +215,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createBinaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.measurement.function.multiply
+                        (t) => t.native.Measurement.function.multiply
                     ),
                     // The operand's type can be any unitless measurement
                     MeasurementType.wildcard(),
@@ -229,7 +229,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createBinaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.measurement.function.divide
+                        (t) => t.native.Measurement.function.divide
                     ),
                     MeasurementType.wildcard(),
                     MeasurementType.make((left, right) =>
@@ -241,7 +241,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createBinaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.measurement.function.remainder
+                        (t) => t.native.Measurement.function.remainder
                     ),
                     MeasurementType.wildcard(),
                     MeasurementType.make((left) => left),
@@ -252,7 +252,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createUnaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.measurement.function.truncate
+                        (t) => t.native.Measurement.function.truncate
                     ),
                     MeasurementType.wildcard(),
                     (requestor, left) => left.floor(requestor)
@@ -260,7 +260,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createUnaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.measurement.function.absolute
+                        (t) => t.native.Measurement.function.absolute
                     ),
                     MeasurementType.wildcard(),
                     (requestor, left) => left.absolute(requestor)
@@ -268,7 +268,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createBinaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.measurement.function.power
+                        (t) => t.native.Measurement.function.power
                     ),
                     MeasurementType.wildcard(),
                     MeasurementType.make((left, right, constant) => {
@@ -283,7 +283,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createBinaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.measurement.function.root
+                        (t) => t.native.Measurement.function.root
                     ),
                     MeasurementType.wildcard(),
                     MeasurementType.make((left, right, constant) => {
@@ -298,7 +298,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createBinaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.measurement.function.lessThan
+                        (t) => t.native.Measurement.function.lessThan
                     ),
                     MeasurementType.make((unit) => unit),
                     BooleanType.make(),
@@ -307,7 +307,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createBinaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.measurement.function.greaterThan
+                        (t) => t.native.Measurement.function.greaterThan
                     ),
                     MeasurementType.make((unit) => unit),
                     BooleanType.make(),
@@ -317,7 +317,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createBinaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.measurement.function.lessOrEqual
+                        (t) => t.native.Measurement.function.lessOrEqual
                     ),
                     MeasurementType.make((unit) => unit),
                     BooleanType.make(),
@@ -331,7 +331,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createBinaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.measurement.function.greaterOrEqual
+                        (t) => t.native.Measurement.function.greaterOrEqual
                     ),
                     MeasurementType.make((unit) => unit),
                     BooleanType.make(),
@@ -345,7 +345,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createBinaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.measurement.function.equal
+                        (t) => t.native.Measurement.function.equal
                     ),
                     MeasurementType.make((unit) => unit),
                     BooleanType.make(),
@@ -355,7 +355,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createBinaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.measurement.function.notequal
+                        (t) => t.native.Measurement.function.notequal
                     ),
                     MeasurementType.make((unit) => unit),
                     BooleanType.make(),
@@ -367,7 +367,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createUnaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.measurement.function.cos
+                        (t) => t.native.Measurement.function.cos
                     ),
                     MeasurementType.make((unit) => unit),
                     (requestor, left) => left.cos(requestor)
@@ -375,7 +375,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createUnaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.measurement.function.sin
+                        (t) => t.native.Measurement.function.sin
                     ),
                     MeasurementType.make((unit) => unit),
                     (requestor, left) => left.sin(requestor)
@@ -384,7 +384,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.conversion.text
+                        (t) => t.native.Measurement.conversion.text
                     ),
                     '#?',
                     "''",
@@ -394,7 +394,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.conversion.list
+                        (t) => t.native.Measurement.conversion.list
                     ),
                     '#',
                     '[]',
@@ -412,7 +412,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.conversion.s2m
+                        (t) => t.native.Measurement.conversion.s2m
                     ),
                     '#s',
                     '#min',
@@ -429,7 +429,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.conversion.s2h
+                        (t) => t.native.Measurement.conversion.s2h
                     ),
                     '#s',
                     '#h',
@@ -446,7 +446,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.conversion.s2day
+                        (t) => t.native.Measurement.conversion.s2day
                     ),
                     '#s',
                     '#day',
@@ -463,7 +463,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.conversion.s2wk
+                        (t) => t.native.Measurement.conversion.s2wk
                     ),
                     '#s',
                     '#wk',
@@ -480,7 +480,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.conversion.s2year
+                        (t) => t.native.Measurement.conversion.s2year
                     ),
                     '#s',
                     '#yr',
@@ -497,7 +497,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.conversion.s2ms
+                        (t) => t.native.Measurement.conversion.s2ms
                     ),
                     '#s',
                     '#ms',
@@ -514,7 +514,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.conversion.ms2s
+                        (t) => t.native.Measurement.conversion.ms2s
                     ),
                     '#ms',
                     '#s',
@@ -531,7 +531,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.conversion.min2s
+                        (t) => t.native.Measurement.conversion.min2s
                     ),
                     '#min',
                     '#s',
@@ -548,7 +548,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.conversion.h2s
+                        (t) => t.native.Measurement.conversion.h2s
                     ),
                     '#h',
                     '#s',
@@ -565,7 +565,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.conversion.day2s
+                        (t) => t.native.Measurement.conversion.day2s
                     ),
                     '#day',
                     '#s',
@@ -582,7 +582,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.conversion.wk2s
+                        (t) => t.native.Measurement.conversion.wk2s
                     ),
                     '#wk',
                     '#s',
@@ -599,7 +599,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.conversion.yr2s
+                        (t) => t.native.Measurement.conversion.yr2s
                     ),
                     '#yr',
                     '#s',
@@ -618,7 +618,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.conversion.m2pm
+                        (t) => t.native.Measurement.conversion.m2pm
                     ),
                     '#m',
                     '#pm',
@@ -635,7 +635,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.conversion.m2nm
+                        (t) => t.native.Measurement.conversion.m2nm
                     ),
                     '#m',
                     '#nm',
@@ -652,7 +652,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.conversion.m2micro
+                        (t) => t.native.Measurement.conversion.m2micro
                     ),
                     '#m',
                     '#µm',
@@ -669,7 +669,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.conversion.m2mm
+                        (t) => t.native.Measurement.conversion.m2mm
                     ),
                     '#m',
                     '#mm',
@@ -686,7 +686,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.conversion.m2cm
+                        (t) => t.native.Measurement.conversion.m2cm
                     ),
 
                     '#m',
@@ -704,7 +704,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.conversion.m2dm
+                        (t) => t.native.Measurement.conversion.m2dm
                     ),
                     '#m',
                     '#dm',
@@ -721,7 +721,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.conversion.m2km
+                        (t) => t.native.Measurement.conversion.m2km
                     ),
                     '#m',
                     '#km',
@@ -738,7 +738,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.conversion.m2Mm
+                        (t) => t.native.Measurement.conversion.m2Mm
                     ),
                     '#m',
                     '#Mm',
@@ -755,7 +755,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.conversion.m2Gm
+                        (t) => t.native.Measurement.conversion.m2Gm
                     ),
                     '#m',
                     '#Gm',
@@ -772,7 +772,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.conversion.m2Tm
+                        (t) => t.native.Measurement.conversion.m2Tm
                     ),
                     '#m',
                     '#Tm',
@@ -789,7 +789,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.conversion.pm2m
+                        (t) => t.native.Measurement.conversion.pm2m
                     ),
                     '#pm',
                     '#m',
@@ -806,7 +806,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.conversion.nm2m
+                        (t) => t.native.Measurement.conversion.nm2m
                     ),
                     '#nm',
                     '#m',
@@ -823,7 +823,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.conversion.micro2m
+                        (t) => t.native.Measurement.conversion.micro2m
                     ),
                     '#µm',
                     '#m',
@@ -840,7 +840,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.conversion.mm2m
+                        (t) => t.native.Measurement.conversion.mm2m
                     ),
                     '#mm',
                     '#m',
@@ -857,7 +857,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.conversion.cm2m
+                        (t) => t.native.Measurement.conversion.cm2m
                     ),
                     '#cm',
                     '#m',
@@ -874,7 +874,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.conversion.dm2m
+                        (t) => t.native.Measurement.conversion.dm2m
                     ),
                     '#dm',
                     '#m',
@@ -891,7 +891,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.conversion.km2m
+                        (t) => t.native.Measurement.conversion.km2m
                     ),
                     '#km',
                     '#m',
@@ -908,7 +908,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.conversion.Mm2m
+                        (t) => t.native.Measurement.conversion.Mm2m
                     ),
                     '#Mm',
                     '#m',
@@ -925,7 +925,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.conversion.Gm2m
+                        (t) => t.native.Measurement.conversion.Gm2m
                     ),
                     '#Gm',
                     '#m',
@@ -942,7 +942,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.conversion.Tm2m
+                        (t) => t.native.Measurement.conversion.Tm2m
                     ),
                     '#Tm',
                     '#m',
@@ -961,7 +961,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.conversion.km2mi
+                        (t) => t.native.Measurement.conversion.km2mi
                     ),
                     '#km',
                     '#mi',
@@ -978,7 +978,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.conversion.mi2km
+                        (t) => t.native.Measurement.conversion.mi2km
                     ),
                     '#mi',
                     '#km',
@@ -995,7 +995,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.conversion.cm2in
+                        (t) => t.native.Measurement.conversion.cm2in
                     ),
                     '#cm',
                     '#in',
@@ -1012,7 +1012,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.conversion.in2cm
+                        (t) => t.native.Measurement.conversion.in2cm
                     ),
                     '#in',
                     '#cm',
@@ -1029,7 +1029,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.conversion.m2ft
+                        (t) => t.native.Measurement.conversion.m2ft
                     ),
                     '#m',
                     '#ft',
@@ -1046,7 +1046,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.conversion.ft2m
+                        (t) => t.native.Measurement.conversion.ft2m
                     ),
                     '#ft',
                     '#m',
@@ -1065,7 +1065,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.conversion.g2mg
+                        (t) => t.native.Measurement.conversion.g2mg
                     ),
                     '#g',
                     '#mg',
@@ -1082,7 +1082,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.conversion.mg2g
+                        (t) => t.native.Measurement.conversion.mg2g
                     ),
                     '#mg',
                     '#g',
@@ -1099,7 +1099,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.conversion.g2kg
+                        (t) => t.native.Measurement.conversion.g2kg
                     ),
                     '#g',
                     '#kg',
@@ -1116,7 +1116,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.conversion.kg2g
+                        (t) => t.native.Measurement.conversion.kg2g
                     ),
                     '#kg',
                     '#g',
@@ -1133,7 +1133,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.conversion.g2oz
+                        (t) => t.native.Measurement.conversion.g2oz
                     ),
                     '#g',
                     '#oz',
@@ -1150,7 +1150,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.conversion.oz2g
+                        (t) => t.native.Measurement.conversion.oz2g
                     ),
                     '#oz',
                     '#g',
@@ -1167,7 +1167,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.conversion.oz2lb
+                        (t) => t.native.Measurement.conversion.oz2lb
                     ),
                     '#oz',
                     '#lb',
@@ -1184,7 +1184,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.measurement.conversion.lb2oz
+                        (t) => t.native.Measurement.conversion.lb2oz
                     ),
                     '#lb',
                     '#oz',

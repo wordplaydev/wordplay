@@ -31,15 +31,21 @@ export default class ConceptLink extends Node {
         const [name, prop] = this.getName().split('/');
 
         // See which section of the locale has the concept name, if any.
-        const section = [locale.node, locale.input, locale.output].find((c) =>
-            Object.hasOwn(c, name)
-        ) as Record<string, any>;
+        const section = [
+            locale.node,
+            locale.input,
+            locale.output,
+            locale.native,
+        ].find((c) => c.hasOwnProperty(name)) as Record<string, any>;
 
         // Valid if we found it, and no property was specified, or it was, and the concept has it.
         return (
             name === 'UI' ||
             (section !== undefined &&
-                (prop === undefined || Object.hasOwn(section[name], prop)))
+                (prop === undefined ||
+                    section[name].hasOwnProperty(prop) ||
+                    (section === locale.native &&
+                        section[name].function.hasOwnProperty(prop))))
         );
     }
 

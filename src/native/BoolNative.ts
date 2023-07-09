@@ -59,8 +59,8 @@ export default function bootstrapBool(locales: Locale[]) {
     }
 
     return StructureDefinition.make(
-        getDocLocales(locales, (t) => t.native.bool.doc),
-        getNameLocales(locales, (t) => t.native.bool.name),
+        getDocLocales(locales, (t) => t.native.Boolean.doc),
+        getNameLocales(locales, (t) => t.native.Boolean.name),
         [],
         undefined,
         [],
@@ -69,41 +69,41 @@ export default function bootstrapBool(locales: Locale[]) {
                 createBooleanFunction(
                     getDocLocales(
                         locales,
-                        (t) => t.native.bool.function.and.doc
+                        (t) => t.native.Boolean.function.and.doc
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.bool.function.and.name
+                        (t) => t.native.Boolean.function.and.name
                     ),
                     getInputLocales(
                         locales,
-                        (t) => t.native.bool.function.and.inputs
+                        (t) => t.native.Boolean.function.and.inputs
                     ),
                     (requestor, left, right) => left.and(requestor, right)
                 ),
                 createBooleanFunction(
                     getDocLocales(
                         locales,
-                        (t) => t.native.bool.function.or.doc
+                        (t) => t.native.Boolean.function.or.doc
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.bool.function.or.name
+                        (t) => t.native.Boolean.function.or.name
                     ),
                     getInputLocales(
                         locales,
-                        (t) => t.native.bool.function.or.inputs
+                        (t) => t.native.Boolean.function.or.inputs
                     ),
                     (requestor, left, right) => left.or(requestor, right)
                 ),
                 FunctionDefinition.make(
                     getDocLocales(
                         locales,
-                        (t) => t.native.bool.function.not.doc
+                        (t) => t.native.Boolean.function.not.doc
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.bool.function.not.name
+                        (t) => t.native.Boolean.function.not.name
                     ),
                     undefined,
                     [],
@@ -126,15 +126,15 @@ export default function bootstrapBool(locales: Locale[]) {
                 createBooleanFunction(
                     getDocLocales(
                         locales,
-                        (t) => t.native.bool.function.equals.doc
+                        (t) => t.native.Boolean.function.equals.doc
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.bool.function.equals.name
+                        (t) => t.native.Boolean.function.equals.name
                     ),
                     getInputLocales(
                         locales,
-                        (t) => t.native.bool.function.equals.inputs
+                        (t) => t.native.Boolean.function.equals.inputs
                     ),
                     (requestor, left, right) =>
                         new Bool(requestor, left.isEqualTo(right))
@@ -142,15 +142,15 @@ export default function bootstrapBool(locales: Locale[]) {
                 createBooleanFunction(
                     getDocLocales(
                         locales,
-                        (t) => t.native.bool.function.notequal.doc
+                        (t) => t.native.Boolean.function.notequal.doc
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.bool.function.notequal.name
+                        (t) => t.native.Boolean.function.notequal.name
                     ),
                     getInputLocales(
                         locales,
-                        (t) => t.native.bool.function.notequal.inputs
+                        (t) => t.native.Boolean.function.notequal.inputs
                     ),
                     (requestor, left, right) =>
                         new Bool(requestor, !left.isEqualTo(right))
@@ -158,7 +158,7 @@ export default function bootstrapBool(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.bool.conversion.text
+                        (t) => t.native.Boolean.conversion.text
                     ),
                     '?',
                     "''",

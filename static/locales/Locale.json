@@ -718,7 +718,7 @@
         "native": {
           "additionalProperties": false,
           "properties": {
-            "bool": {
+            "Boolean": {
               "additionalProperties": false,
               "properties": {
                 "conversion": {
@@ -776,7 +776,7 @@
               ],
               "type": "object"
             },
-            "list": {
+            "List": {
               "additionalProperties": false,
               "properties": {
                 "conversion": {
@@ -1086,7 +1086,7 @@
               ],
               "type": "object"
             },
-            "map": {
+            "Map": {
               "additionalProperties": false,
               "properties": {
                 "conversion": {
@@ -1232,7 +1232,7 @@
               ],
               "type": "object"
             },
-            "measurement": {
+            "Measurement": {
               "additionalProperties": false,
               "properties": {
                 "conversion": {
@@ -1526,7 +1526,7 @@
               ],
               "type": "object"
             },
-            "none": {
+            "None": {
               "additionalProperties": false,
               "properties": {
                 "conversion": {
@@ -1572,7 +1572,7 @@
               ],
               "type": "object"
             },
-            "set": {
+            "Set": {
               "additionalProperties": false,
               "properties": {
                 "conversion": {
@@ -1706,7 +1706,7 @@
               ],
               "type": "object"
             },
-            "text": {
+            "Text": {
               "additionalProperties": false,
               "properties": {
                 "conversion": {
@@ -1778,13 +1778,13 @@
             }
           },
           "required": [
-            "bool",
-            "none",
-            "text",
-            "measurement",
-            "list",
-            "set",
-            "map"
+            "Boolean",
+            "None",
+            "Text",
+            "Measurement",
+            "List",
+            "Set",
+            "Map"
           ],
           "type": "object"
         },
@@ -4966,10 +4966,10 @@
         "native",
         "exception",
         "conflict",
-        "edit",
-        "ui",
         "input",
-        "output"
+        "output",
+        "edit",
+        "ui"
       ],
       "type": "object"
     },

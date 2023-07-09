@@ -1,7 +1,7 @@
 import type { DocText, NameText, FunctionText, NameAndDoc } from './Locale';
 
 type NativeTexts = {
-    bool: {
+    Boolean: {
         doc: DocText;
         name: NameText;
         function: {
@@ -15,7 +15,7 @@ type NativeTexts = {
             text: DocText;
         };
     };
-    none: {
+    None: {
         doc: DocText;
         name: NameText;
         function: {
@@ -26,7 +26,7 @@ type NativeTexts = {
             text: DocText;
         };
     };
-    text: {
+    Text: {
         doc: DocText;
         name: NameText;
         function: {
@@ -43,7 +43,7 @@ type NativeTexts = {
             number: DocText;
         };
     };
-    measurement: {
+    Measurement: {
         doc: DocText;
         name: NameText;
         function: {
@@ -116,7 +116,7 @@ type NativeTexts = {
             lb2oz: DocText;
         };
     };
-    list: {
+    List: {
         doc: DocText;
         name: NameText;
         kind: NameText;
@@ -166,7 +166,7 @@ type NativeTexts = {
             set: DocText;
         };
     };
-    set: {
+    Set: {
         doc: DocText;
         name: NameText;
         kind: NameText;
@@ -190,7 +190,7 @@ type NativeTexts = {
             list: DocText;
         };
     };
-    map: {
+    Map: {
         doc: DocText;
         name: NameText;
         key: NameText;

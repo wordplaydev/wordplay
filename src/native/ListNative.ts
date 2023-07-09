@@ -33,7 +33,7 @@ import type Expression from '../nodes/Expression';
 import type Locale from '../locale/Locale';
 
 export default function bootstrapList(locales: Locale[]) {
-    const ListTypeVarNames = getNameLocales(locales, (t) => t.native.list.kind);
+    const ListTypeVarNames = getNameLocales(locales, (t) => t.native.List.kind);
     const ListTypeVariable = new TypeVariable(ListTypeVarNames);
     const DefaultListTypeVarName =
         ListTypeVarNames.names[0].getName() as string;
@@ -47,7 +47,7 @@ export default function bootstrapList(locales: Locale[]) {
     }
 
     const translateTypeVariable = new TypeVariable(
-        getNameLocales(locales, (t) => t.native.list.out)
+        getNameLocales(locales, (t) => t.native.List.out)
     );
 
     const listTranslateHOFType = FunctionType.make(
@@ -56,11 +56,11 @@ export default function bootstrapList(locales: Locale[]) {
             Bind.make(
                 getDocLocales(
                     locales,
-                    (t) => t.native.list.function.translate.value.doc
+                    (t) => t.native.List.function.translate.value.doc
                 ),
                 getNameLocales(
                     locales,
-                    (t) => t.native.list.function.translate.value.names
+                    (t) => t.native.List.function.translate.value.names
                 ),
                 // The type is a type variable, so we refer to it.
                 new NameType(
@@ -72,11 +72,11 @@ export default function bootstrapList(locales: Locale[]) {
             Bind.make(
                 getDocLocales(
                     locales,
-                    (t) => t.native.list.function.translate.index.doc
+                    (t) => t.native.List.function.translate.index.doc
                 ),
                 getNameLocales(
                     locales,
-                    (t) => t.native.list.function.translate.index.names
+                    (t) => t.native.List.function.translate.index.names
                 ),
                 MeasurementType.make()
             ),
@@ -90,11 +90,11 @@ export default function bootstrapList(locales: Locale[]) {
             Bind.make(
                 getDocLocales(
                     locales,
-                    (t) => t.native.list.function.filter.value.doc
+                    (t) => t.native.List.function.filter.value.doc
                 ),
                 getNameLocales(
                     locales,
-                    (t) => t.native.list.function.filter.value.names
+                    (t) => t.native.List.function.filter.value.names
                 ),
                 getListTypeVariableReference()
             ),
@@ -108,11 +108,11 @@ export default function bootstrapList(locales: Locale[]) {
             Bind.make(
                 getDocLocales(
                     locales,
-                    (t) => t.native.list.function.all.value.doc
+                    (t) => t.native.List.function.all.value.doc
                 ),
                 getNameLocales(
                     locales,
-                    (t) => t.native.list.function.all.value.names
+                    (t) => t.native.List.function.all.value.names
                 ),
                 getListTypeVariableReference()
             ),
@@ -126,11 +126,11 @@ export default function bootstrapList(locales: Locale[]) {
             Bind.make(
                 getDocLocales(
                     locales,
-                    (t) => t.native.list.function.until.value.doc
+                    (t) => t.native.List.function.until.value.doc
                 ),
                 getNameLocales(
                     locales,
-                    (t) => t.native.list.function.until.value.names
+                    (t) => t.native.List.function.until.value.names
                 ),
                 BooleanType.make()
             ),
@@ -144,11 +144,11 @@ export default function bootstrapList(locales: Locale[]) {
             Bind.make(
                 getDocLocales(
                     locales,
-                    (t) => t.native.list.function.find.value.doc
+                    (t) => t.native.List.function.find.value.doc
                 ),
                 getNameLocales(
                     locales,
-                    (t) => t.native.list.function.find.value.names
+                    (t) => t.native.List.function.find.value.names
                 ),
                 BooleanType.make()
             ),
@@ -157,7 +157,7 @@ export default function bootstrapList(locales: Locale[]) {
     );
 
     const combineTypeVariable = new TypeVariable(
-        getNameLocales(locales, (t) => t.native.list.out)
+        getNameLocales(locales, (t) => t.native.List.out)
     );
 
     const listCombineHOFType = FunctionType.make(
@@ -166,33 +166,33 @@ export default function bootstrapList(locales: Locale[]) {
             Bind.make(
                 getDocLocales(
                     locales,
-                    (t) => t.native.list.function.combine.combination.doc
+                    (t) => t.native.List.function.combine.combination.doc
                 ),
                 getNameLocales(
                     locales,
-                    (t) => t.native.list.function.combine.combination.names
+                    (t) => t.native.List.function.combine.combination.names
                 ),
                 combineTypeVariable.getReference()
             ),
             Bind.make(
                 getDocLocales(
                     locales,
-                    (t) => t.native.list.function.combine.next.doc
+                    (t) => t.native.List.function.combine.next.doc
                 ),
                 getNameLocales(
                     locales,
-                    (t) => t.native.list.function.combine.next.names
+                    (t) => t.native.List.function.combine.next.names
                 ),
                 getListTypeVariableReference()
             ),
             Bind.make(
                 getDocLocales(
                     locales,
-                    (t) => t.native.list.function.combine.index.doc
+                    (t) => t.native.List.function.combine.index.doc
                 ),
                 getNameLocales(
                     locales,
-                    (t) => t.native.list.function.combine.index.names
+                    (t) => t.native.List.function.combine.index.names
                 ),
                 MeasurementType.make()
             ),
@@ -202,51 +202,51 @@ export default function bootstrapList(locales: Locale[]) {
 
     const addInputNames = getNameLocales(
         locales,
-        (t) => t.native.list.function.add.inputs[0].names
+        (t) => t.native.List.function.add.inputs[0].names
     );
 
     const hasInputNames = getNameLocales(
         locales,
-        (t) => t.native.list.function.has.inputs[0].names
+        (t) => t.native.List.function.has.inputs[0].names
     );
 
     const joinInputNames = getNameLocales(
         locales,
-        (t) => t.native.list.function.join.inputs[0].names
+        (t) => t.native.List.function.join.inputs[0].names
     );
 
     const sansInputNames = getNameLocales(
         locales,
-        (t) => t.native.list.function.sans.inputs[0].names
+        (t) => t.native.List.function.sans.inputs[0].names
     );
 
     const sansAllInputNames = getNameLocales(
         locales,
-        (t) => t.native.list.function.sansAll.inputs[0].names
+        (t) => t.native.List.function.sansAll.inputs[0].names
     );
 
     const equalsInputNames = getNameLocales(
         locales,
-        (t) => t.native.list.function.equals.inputs[0].names
+        (t) => t.native.List.function.equals.inputs[0].names
     );
 
     const notequalsInputNames = getNameLocales(
         locales,
-        (t) => t.native.list.function.notequals.inputs[0].names
+        (t) => t.native.List.function.notequals.inputs[0].names
     );
 
     const replaceIndexNames = getNameLocales(
         locales,
-        (t) => t.native.list.function.replace.inputs[0].names
+        (t) => t.native.List.function.replace.inputs[0].names
     );
     const replaceValueNames = getNameLocales(
         locales,
-        (t) => t.native.list.function.replace.inputs[1].names
+        (t) => t.native.List.function.replace.inputs[1].names
     );
 
     return StructureDefinition.make(
-        getDocLocales(locales, (t) => t.native.list.doc),
-        getNameLocales(locales, (t) => t.native.list.name),
+        getDocLocales(locales, (t) => t.native.List.doc),
+        getNameLocales(locales, (t) => t.native.List.name),
         [],
         TypeVariables.make([ListTypeVariable]),
         [],
@@ -256,18 +256,18 @@ export default function bootstrapList(locales: Locale[]) {
                 createNativeFunction(
                     getDocLocales(
                         locales,
-                        (t) => t.native.list.function.add.doc
+                        (t) => t.native.List.function.add.doc
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.list.function.add.name
+                        (t) => t.native.List.function.add.name
                     ),
                     undefined,
                     [
                         Bind.make(
                             getDocLocales(
                                 locales,
-                                (t) => t.native.list.function.add.inputs[0].doc
+                                (t) => t.native.List.function.add.inputs[0].doc
                             ),
                             addInputNames,
                             getListTypeVariableReference()
@@ -290,11 +290,11 @@ export default function bootstrapList(locales: Locale[]) {
                 createNativeFunction(
                     getDocLocales(
                         locales,
-                        (t) => t.native.list.function.replace.doc
+                        (t) => t.native.List.function.replace.doc
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.list.function.replace.name
+                        (t) => t.native.List.function.replace.name
                     ),
                     undefined,
                     [
@@ -302,7 +302,7 @@ export default function bootstrapList(locales: Locale[]) {
                             getDocLocales(
                                 locales,
                                 (t) =>
-                                    t.native.list.function.replace.inputs[0].doc
+                                    t.native.List.function.replace.inputs[0].doc
                             ),
                             replaceIndexNames,
                             MeasurementType.make()
@@ -311,7 +311,7 @@ export default function bootstrapList(locales: Locale[]) {
                             getDocLocales(
                                 locales,
                                 (t) =>
-                                    t.native.list.function.replace.inputs[1].doc
+                                    t.native.List.function.replace.inputs[1].doc
                             ),
                             replaceValueNames,
                             getListTypeVariableReference()
@@ -339,11 +339,11 @@ export default function bootstrapList(locales: Locale[]) {
                 createNativeFunction(
                     getDocLocales(
                         locales,
-                        (t) => t.native.list.function.append.doc
+                        (t) => t.native.List.function.append.doc
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.list.function.append.name
+                        (t) => t.native.List.function.append.name
                     ),
                     undefined,
                     [
@@ -351,7 +351,7 @@ export default function bootstrapList(locales: Locale[]) {
                             getDocLocales(
                                 locales,
                                 (t) =>
-                                    t.native.list.function.append.inputs[0].doc
+                                    t.native.List.function.append.inputs[0].doc
                             ),
                             addInputNames,
                             ListType.make(getListTypeVariableReference())
@@ -379,11 +379,11 @@ export default function bootstrapList(locales: Locale[]) {
                 createNativeFunction(
                     getDocLocales(
                         locales,
-                        (t) => t.native.list.function.length.doc
+                        (t) => t.native.List.function.length.doc
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.list.function.length.name
+                        (t) => t.native.List.function.length.name
                     ),
                     undefined,
                     [],
@@ -403,11 +403,11 @@ export default function bootstrapList(locales: Locale[]) {
                 createNativeFunction(
                     getDocLocales(
                         locales,
-                        (t) => t.native.list.function.random.doc
+                        (t) => t.native.List.function.random.doc
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.list.function.random.name
+                        (t) => t.native.List.function.random.name
                     ),
                     undefined,
                     [],
@@ -437,11 +437,11 @@ export default function bootstrapList(locales: Locale[]) {
                 createNativeFunction(
                     getDocLocales(
                         locales,
-                        (t) => t.native.list.function.first.doc
+                        (t) => t.native.List.function.first.doc
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.list.function.first.name
+                        (t) => t.native.List.function.first.name
                     ),
                     undefined,
                     [],
@@ -464,18 +464,18 @@ export default function bootstrapList(locales: Locale[]) {
                 createNativeFunction(
                     getDocLocales(
                         locales,
-                        (t) => t.native.list.function.has.doc
+                        (t) => t.native.List.function.has.doc
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.list.function.has.name
+                        (t) => t.native.List.function.has.name
                     ),
                     undefined,
                     [
                         Bind.make(
                             getDocLocales(
                                 locales,
-                                (t) => t.native.list.function.has.inputs[0].doc
+                                (t) => t.native.List.function.has.inputs[0].doc
                             ),
                             hasInputNames,
                             getListTypeVariableReference()
@@ -499,18 +499,18 @@ export default function bootstrapList(locales: Locale[]) {
                 createNativeFunction(
                     getDocLocales(
                         locales,
-                        (t) => t.native.list.function.join.doc
+                        (t) => t.native.List.function.join.doc
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.list.function.join.name
+                        (t) => t.native.List.function.join.name
                     ),
                     undefined,
                     [
                         Bind.make(
                             getDocLocales(
                                 locales,
-                                (t) => t.native.list.function.join.inputs[0].doc
+                                (t) => t.native.List.function.join.inputs[0].doc
                             ),
                             joinInputNames,
                             TextType.make()
@@ -533,11 +533,11 @@ export default function bootstrapList(locales: Locale[]) {
                 createNativeFunction(
                     getDocLocales(
                         locales,
-                        (t) => t.native.list.function.last.doc
+                        (t) => t.native.List.function.last.doc
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.list.function.last.name
+                        (t) => t.native.List.function.last.name
                     ),
                     undefined,
                     [],
@@ -557,11 +557,11 @@ export default function bootstrapList(locales: Locale[]) {
                 createNativeFunction(
                     getDocLocales(
                         locales,
-                        (t) => t.native.list.function.sansFirst.doc
+                        (t) => t.native.List.function.sansFirst.doc
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.list.function.sansFirst.name
+                        (t) => t.native.List.function.sansFirst.name
                     ),
                     undefined,
                     [],
@@ -582,11 +582,11 @@ export default function bootstrapList(locales: Locale[]) {
                 createNativeFunction(
                     getDocLocales(
                         locales,
-                        (t) => t.native.list.function.sansLast.doc
+                        (t) => t.native.List.function.sansLast.doc
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.list.function.sansLast.name
+                        (t) => t.native.List.function.sansLast.name
                     ),
                     undefined,
                     [],
@@ -606,18 +606,18 @@ export default function bootstrapList(locales: Locale[]) {
                 createNativeFunction(
                     getDocLocales(
                         locales,
-                        (t) => t.native.list.function.sans.doc
+                        (t) => t.native.List.function.sans.doc
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.list.function.sans.name
+                        (t) => t.native.List.function.sans.name
                     ),
                     undefined,
                     [
                         Bind.make(
                             getDocLocales(
                                 locales,
-                                (t) => t.native.list.function.sans.inputs[0].doc
+                                (t) => t.native.List.function.sans.inputs[0].doc
                             ),
                             sansInputNames,
                             getListTypeVariableReference()
@@ -640,11 +640,11 @@ export default function bootstrapList(locales: Locale[]) {
                 createNativeFunction(
                     getDocLocales(
                         locales,
-                        (t) => t.native.list.function.sansAll.doc
+                        (t) => t.native.List.function.sansAll.doc
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.list.function.sansAll.name
+                        (t) => t.native.List.function.sansAll.name
                     ),
                     undefined,
                     [
@@ -652,7 +652,7 @@ export default function bootstrapList(locales: Locale[]) {
                             getDocLocales(
                                 locales,
                                 (t) =>
-                                    t.native.list.function.sansAll.inputs[0].doc
+                                    t.native.List.function.sansAll.inputs[0].doc
                             ),
                             sansAllInputNames,
                             getListTypeVariableReference()
@@ -675,11 +675,11 @@ export default function bootstrapList(locales: Locale[]) {
                 createNativeFunction(
                     getDocLocales(
                         locales,
-                        (t) => t.native.list.function.reverse.doc
+                        (t) => t.native.List.function.reverse.doc
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.list.function.reverse.name
+                        (t) => t.native.List.function.reverse.name
                     ),
                     undefined,
                     [],
@@ -699,11 +699,11 @@ export default function bootstrapList(locales: Locale[]) {
                 FunctionDefinition.make(
                     getDocLocales(
                         locales,
-                        (t) => t.native.list.function.equals.doc
+                        (t) => t.native.List.function.equals.doc
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.list.function.equals.name
+                        (t) => t.native.List.function.equals.name
                     ),
                     undefined,
                     [
@@ -711,7 +711,7 @@ export default function bootstrapList(locales: Locale[]) {
                             getDocLocales(
                                 locales,
                                 (t) =>
-                                    t.native.list.function.equals.inputs[0].doc
+                                    t.native.List.function.equals.inputs[0].doc
                             ),
                             equalsInputNames,
                             ListType.make()
@@ -742,11 +742,11 @@ export default function bootstrapList(locales: Locale[]) {
                 FunctionDefinition.make(
                     getDocLocales(
                         locales,
-                        (t) => t.native.list.function.notequals.doc
+                        (t) => t.native.List.function.notequals.doc
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.list.function.notequals.name
+                        (t) => t.native.List.function.notequals.name
                     ),
                     undefined,
                     [
@@ -754,7 +754,7 @@ export default function bootstrapList(locales: Locale[]) {
                             getDocLocales(
                                 locales,
                                 (t) =>
-                                    t.native.list.function.notequals.inputs[0]
+                                    t.native.List.function.notequals.inputs[0]
                                         .doc
                             ),
                             notequalsInputNames,
@@ -787,11 +787,11 @@ export default function bootstrapList(locales: Locale[]) {
                 FunctionDefinition.make(
                     getDocLocales(
                         locales,
-                        (t) => t.native.list.function.translate.doc
+                        (t) => t.native.List.function.translate.doc
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.list.function.translate.name
+                        (t) => t.native.List.function.translate.name
                     ),
                     TypeVariables.make([translateTypeVariable]),
                     [
@@ -799,13 +799,13 @@ export default function bootstrapList(locales: Locale[]) {
                             getDocLocales(
                                 locales,
                                 (t) =>
-                                    t.native.list.function.translate.inputs[0]
+                                    t.native.List.function.translate.inputs[0]
                                         .doc
                             ),
                             getNameLocales(
                                 locales,
                                 (t) =>
-                                    t.native.list.function.translate.inputs[0]
+                                    t.native.List.function.translate.inputs[0]
                                         .names
                             ),
                             listTranslateHOFType
@@ -817,11 +817,11 @@ export default function bootstrapList(locales: Locale[]) {
                 FunctionDefinition.make(
                     getDocLocales(
                         locales,
-                        (t) => t.native.list.function.filter.doc
+                        (t) => t.native.List.function.filter.doc
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.list.function.filter.name
+                        (t) => t.native.List.function.filter.name
                     ),
                     undefined,
                     [
@@ -829,12 +829,12 @@ export default function bootstrapList(locales: Locale[]) {
                             getDocLocales(
                                 locales,
                                 (t) =>
-                                    t.native.list.function.filter.inputs[0].doc
+                                    t.native.List.function.filter.inputs[0].doc
                             ),
                             getNameLocales(
                                 locales,
                                 (t) =>
-                                    t.native.list.function.filter.inputs[0]
+                                    t.native.List.function.filter.inputs[0]
                                         .names
                             ),
                             listFilterHOFType
@@ -846,23 +846,23 @@ export default function bootstrapList(locales: Locale[]) {
                 FunctionDefinition.make(
                     getDocLocales(
                         locales,
-                        (t) => t.native.list.function.all.doc
+                        (t) => t.native.List.function.all.doc
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.list.function.all.name
+                        (t) => t.native.List.function.all.name
                     ),
                     undefined,
                     [
                         Bind.make(
                             getDocLocales(
                                 locales,
-                                (t) => t.native.list.function.all.inputs[0].doc
+                                (t) => t.native.List.function.all.inputs[0].doc
                             ),
                             getNameLocales(
                                 locales,
                                 (t) =>
-                                    t.native.list.function.all.inputs[0].names
+                                    t.native.List.function.all.inputs[0].names
                             ),
                             listAllHOFType
                         ),
@@ -873,11 +873,11 @@ export default function bootstrapList(locales: Locale[]) {
                 FunctionDefinition.make(
                     getDocLocales(
                         locales,
-                        (t) => t.native.list.function.until.doc
+                        (t) => t.native.List.function.until.doc
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.list.function.until.name
+                        (t) => t.native.List.function.until.name
                     ),
                     undefined,
                     [
@@ -885,12 +885,12 @@ export default function bootstrapList(locales: Locale[]) {
                             getDocLocales(
                                 locales,
                                 (t) =>
-                                    t.native.list.function.until.inputs[0].doc
+                                    t.native.List.function.until.inputs[0].doc
                             ),
                             getNameLocales(
                                 locales,
                                 (t) =>
-                                    t.native.list.function.until.inputs[0].names
+                                    t.native.List.function.until.inputs[0].names
                             ),
                             listUntilHOFType
                         ),
@@ -901,23 +901,23 @@ export default function bootstrapList(locales: Locale[]) {
                 FunctionDefinition.make(
                     getDocLocales(
                         locales,
-                        (t) => t.native.list.function.find.doc
+                        (t) => t.native.List.function.find.doc
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.list.function.find.name
+                        (t) => t.native.List.function.find.name
                     ),
                     undefined,
                     [
                         Bind.make(
                             getDocLocales(
                                 locales,
-                                (t) => t.native.list.function.find.inputs[0].doc
+                                (t) => t.native.List.function.find.inputs[0].doc
                             ),
                             getNameLocales(
                                 locales,
                                 (t) =>
-                                    t.native.list.function.find.inputs[0].names
+                                    t.native.List.function.find.inputs[0].names
                             ),
                             listFindHOFType
                         ),
@@ -931,11 +931,11 @@ export default function bootstrapList(locales: Locale[]) {
                 FunctionDefinition.make(
                     getDocLocales(
                         locales,
-                        (t) => t.native.list.function.combine.doc
+                        (t) => t.native.List.function.combine.doc
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.list.function.combine.name
+                        (t) => t.native.List.function.combine.name
                     ),
                     TypeVariables.make([combineTypeVariable]),
                     [
@@ -943,12 +943,12 @@ export default function bootstrapList(locales: Locale[]) {
                             getDocLocales(
                                 locales,
                                 (t) =>
-                                    t.native.list.function.combine.inputs[0].doc
+                                    t.native.List.function.combine.inputs[0].doc
                             ),
                             getNameLocales(
                                 locales,
                                 (t) =>
-                                    t.native.list.function.combine.inputs[0]
+                                    t.native.List.function.combine.inputs[0]
                                         .names
                             )
                         ),
@@ -956,12 +956,12 @@ export default function bootstrapList(locales: Locale[]) {
                             getDocLocales(
                                 locales,
                                 (t) =>
-                                    t.native.list.function.combine.inputs[1].doc
+                                    t.native.List.function.combine.inputs[1].doc
                             ),
                             getNameLocales(
                                 locales,
                                 (t) =>
-                                    t.native.list.function.combine.inputs[1]
+                                    t.native.List.function.combine.inputs[1]
                                         .names
                             ),
                             listCombineHOFType
@@ -973,7 +973,7 @@ export default function bootstrapList(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.list.conversion.text
+                        (t) => t.native.List.conversion.text
                     ),
                     '[]',
                     "''",
@@ -981,7 +981,7 @@ export default function bootstrapList(locales: Locale[]) {
                         new Text(requestor, val.toString())
                 ),
                 createNativeConversion(
-                    getDocLocales(locales, (t) => t.native.list.conversion.set),
+                    getDocLocales(locales, (t) => t.native.List.conversion.set),
                     '[]',
                     '{}',
                     (requestor: Expression, val: List) =>

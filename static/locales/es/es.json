@@ -768,7 +768,7 @@
         }
     },
     "native": {
-        "bool": {
+        "Boolean": {
             "doc": "$?",
             "name": "bool",
             "function": {
@@ -796,7 +796,7 @@
             },
             "conversion": { "text": "$?" }
         },
-        "none": {
+        "None": {
             "doc": "$?",
             "name": "none",
             "function": {
@@ -813,7 +813,7 @@
             },
             "conversion": { "text": "$?" }
         },
-        "text": {
+        "Text": {
             "doc": "$?",
             "name": "text",
             "function": {
@@ -851,7 +851,7 @@
             },
             "conversion": { "text": "$?", "number": "$?" }
         },
-        "measurement": {
+        "Measurement": {
             "doc": "$?",
             "name": "number",
             "function": {
@@ -984,7 +984,7 @@
                 "lb2oz": "$?"
             }
         },
-        "list": {
+        "List": {
             "doc": "$?",
             "name": "list",
             "kind": "Kind",
@@ -1095,7 +1095,7 @@
             },
             "conversion": { "text": "$?", "set": "$?" }
         },
-        "set": {
+        "Set": {
             "doc": "$?",
             "name": "set",
             "kind": "Kind",
@@ -1150,7 +1150,7 @@
             },
             "conversion": { "text": "$?", "list": "$?" }
         },
-        "map": {
+        "Map": {
             "doc": "$?",
             "name": "map",
             "key": "Key",

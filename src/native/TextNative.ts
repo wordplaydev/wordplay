@@ -24,31 +24,31 @@ import type Locale from '../locale/Locale';
 export default function bootstrapText(locales: Locale[]) {
     const equalsNames = getNameLocales(
         locales,
-        (t) => t.native.text.function.equals.inputs[0].names
+        (t) => t.native.Text.function.equals.inputs[0].names
     );
     const notEqualsNames = getNameLocales(
         locales,
-        (t) => t.native.text.function.notequals.inputs[0].names
+        (t) => t.native.Text.function.notequals.inputs[0].names
     );
 
     const countNames = getNameLocales(
         locales,
-        (t) => t.native.text.function.repeat.inputs[0].names
+        (t) => t.native.Text.function.repeat.inputs[0].names
     );
 
     const segmentDelimiterNames = getNameLocales(
         locales,
-        (t) => t.native.text.function.segment.inputs[0].names
+        (t) => t.native.Text.function.segment.inputs[0].names
     );
 
     const combineNames = getNameLocales(
         locales,
-        (t) => t.native.text.function.combine.inputs[0].names
+        (t) => t.native.Text.function.combine.inputs[0].names
     );
 
     const hasNames = getNameLocales(
         locales,
-        (t) => t.native.text.function.has.inputs[0].names
+        (t) => t.native.Text.function.has.inputs[0].names
     );
 
     function createTextFunction(
@@ -86,8 +86,8 @@ export default function bootstrapText(locales: Locale[]) {
     }
 
     return StructureDefinition.make(
-        getDocLocales(locales, (t) => t.native.text.doc),
-        getNameLocales(locales, (t) => t.native.text.name),
+        getDocLocales(locales, (t) => t.native.Text.doc),
+        getNameLocales(locales, (t) => t.native.Text.name),
         [],
         undefined,
         [],
@@ -96,7 +96,7 @@ export default function bootstrapText(locales: Locale[]) {
                 createTextFunction(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.text.function.length
+                        (t) => t.native.Text.function.length
                     ),
                     [],
                     MeasurementType.make(),
@@ -105,14 +105,14 @@ export default function bootstrapText(locales: Locale[]) {
                 createTextFunction(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.text.function.repeat
+                        (t) => t.native.Text.function.repeat
                     ),
                     [
                         Bind.make(
                             getDocLocales(
                                 locales,
                                 (t) =>
-                                    t.native.text.function.repeat.inputs[0].doc
+                                    t.native.Text.function.repeat.inputs[0].doc
                             ),
                             countNames,
                             MeasurementType.make()
@@ -136,14 +136,14 @@ export default function bootstrapText(locales: Locale[]) {
                 createTextFunction(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.text.function.equals
+                        (t) => t.native.Text.function.equals
                     ),
                     [
                         Bind.make(
                             getDocLocales(
                                 locales,
                                 (t) =>
-                                    t.native.text.function.equals.inputs[0].doc
+                                    t.native.Text.function.equals.inputs[0].doc
                             ),
                             equalsNames,
                             TextType.make()
@@ -166,14 +166,14 @@ export default function bootstrapText(locales: Locale[]) {
                 createTextFunction(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.text.function.notequals
+                        (t) => t.native.Text.function.notequals
                     ),
                     [
                         Bind.make(
                             getDocLocales(
                                 locales,
                                 (t) =>
-                                    t.native.text.function.notequals.inputs[0]
+                                    t.native.Text.function.notequals.inputs[0]
                                         .doc
                             ),
                             notEqualsNames,
@@ -196,14 +196,14 @@ export default function bootstrapText(locales: Locale[]) {
                 createTextFunction(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.text.function.segment
+                        (t) => t.native.Text.function.segment
                     ),
                     [
                         Bind.make(
                             getDocLocales(
                                 locales,
                                 (t) =>
-                                    t.native.text.function.segment.inputs[0].doc
+                                    t.native.Text.function.segment.inputs[0].doc
                             ),
                             segmentDelimiterNames,
                             TextType.make()
@@ -229,14 +229,14 @@ export default function bootstrapText(locales: Locale[]) {
                 createTextFunction(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.text.function.combine
+                        (t) => t.native.Text.function.combine
                     ),
                     [
                         Bind.make(
                             getDocLocales(
                                 locales,
                                 (t) =>
-                                    t.native.text.function.combine.inputs[0].doc
+                                    t.native.Text.function.combine.inputs[0].doc
                             ),
                             combineNames,
                             TextType.make()
@@ -257,13 +257,13 @@ export default function bootstrapText(locales: Locale[]) {
                 createTextFunction(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.text.function.has
+                        (t) => t.native.Text.function.has
                     ),
                     [
                         Bind.make(
                             getDocLocales(
                                 locales,
-                                (t) => t.native.text.function.has.inputs[0].doc
+                                (t) => t.native.Text.function.has.inputs[0].doc
                             ),
                             hasNames,
                             TextType.make()
@@ -284,7 +284,7 @@ export default function bootstrapText(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.text.conversion.text
+                        (t) => t.native.Text.conversion.text
                     ),
                     '""',
                     '[""]',
@@ -299,7 +299,7 @@ export default function bootstrapText(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.text.conversion.number
+                        (t) => t.native.Text.conversion.number
                     ),
                     '""',
                     '#',
