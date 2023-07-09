@@ -12,6 +12,18 @@ import Project from './src/models/Project';
 import Source from './src/nodes/Source';
 import { Native } from './src/native/Native';
 import Node from './src/nodes/Node';
+import Ajv from 'ajv';
+
+// Read in and compile the two schema
+
+const localeSchema = JSON.parse(
+    fs.readFileSync('static/schemas/Locale.json', 'utf8')
+);
+const tutorialSchema = JSON.parse(
+    fs.readFileSync('static/schemas/Tutorial.json', 'utf8')
+);
+
+const ajv = new Ajv({ strictTuples: false });
 
 chalk.level = 1;
 const log = console.log;
@@ -63,7 +75,20 @@ fs.readdirSync(path.join('static', 'locales'), { withFileTypes: true }).forEach(
                     );
                 }
 
-                if (locale) verifyLocale(locale);
+                if (locale) {
+                    const validate = ajv.compile(localeSchema);
+                    const valid = validate(locale);
+                    if (!valid && validate.errors) {
+                        bad(2, "Locale isn't valid");
+                        for (const error of validate.errors) {
+                            if (error.message)
+                                bad(
+                                    3,
+                                    `${error.instancePath}: ${error.message}`
+                                );
+                        }
+                    } else verifyLocale(locale);
+                }
 
                 // Make sure there's a tutorial file.
                 const tutorialPath = path.join(
@@ -95,7 +120,21 @@ fs.readdirSync(path.join('static', 'locales'), { withFileTypes: true }).forEach(
                         );
                     }
 
-                    if (tutorial) verifyTutorial(locale, tutorial);
+                    if (tutorial) {
+                        const validate = ajv.compile(tutorialSchema);
+                        const valid = validate(tutorial);
+                        if (!valid && validate.errors) {
+                            bad(2, "Tutorial isn't valid");
+                            for (const error of validate.errors) {
+                                if (error.message)
+                                    bad(
+                                        3,
+                                        `${error.instancePath}: ${error.message}`
+                                    );
+                            }
+                        }
+                        verifyTutorial(locale, tutorial);
+                    }
                 }
             }
         }

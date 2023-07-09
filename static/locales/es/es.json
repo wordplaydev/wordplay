@@ -1,5 +1,5 @@
 {
-    "$schema": "../Locale.json",
+    "$schema": "../../schemas/Locale.json",
     "language": "es",
     "wordplay": "PalabraJugar",
     "tbd": "no escrito",

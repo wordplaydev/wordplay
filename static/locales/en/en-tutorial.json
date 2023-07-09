@@ -1,5 +1,5 @@
 {
-    "$schema": "../Tutorial.json",
+    "$schema": "../../schemas/Tutorial.json",
     "acts": [
         {
             "name": "The Verse",
