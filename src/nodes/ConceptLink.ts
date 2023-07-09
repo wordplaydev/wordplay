@@ -37,8 +37,9 @@ export default class ConceptLink extends Node {
 
         // Valid if we found it, and no property was specified, or it was, and the concept has it.
         return (
-            section !== undefined &&
-            (prop === undefined || Object.hasOwn(section[name], prop))
+            name === 'UI' ||
+            (section !== undefined &&
+                (prop === undefined || Object.hasOwn(section[name], prop)))
         );
     }
 
