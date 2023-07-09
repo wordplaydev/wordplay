@@ -20,7 +20,7 @@ import type Locale from '../locale/Locale';
 import type { LayoutObject } from '../components/project/Layout';
 import type LanguageCode from '../locale/LanguageCode';
 import { Languages, type WritingLayout } from '../locale/LanguageCode';
-import SupportedLocales from '../locale/locales';
+import SupportedLanguages from '../locale/SupportedLanguages';
 import Progress from '../tutorial/Progress';
 import Arrangement from './Arrangement';
 import type { Tutorial } from '../tutorial/Tutorial';
@@ -211,14 +211,14 @@ export class Creator {
 
     getMissingLanguages() {
         return this.getLanguages().filter(
-            (lang) => !SupportedLocales.some((trans) => trans === lang)
+            (lang) => !SupportedLanguages.some((trans) => trans === lang)
         );
     }
 
     getLocales(): Locale[] {
         // Map preferred languages into locales, filtering out missing locales.
         return this.getLanguages()
-            .filter((lang) => SupportedLocales.includes(lang))
+            .filter((lang) => SupportedLanguages.includes(lang))
             .map((lang) => this.locales[lang])
             .filter((locale) => locale !== undefined);
     }

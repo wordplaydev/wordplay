@@ -4,7 +4,7 @@
     import Button from '../widgets/Button.svelte';
     import type LanguageCode from '@locale/LanguageCode';
     import { getLanguageName, Languages } from '@locale/LanguageCode';
-    import SupportedLocales from '@locale/locales';
+    import SupportedLocales from '@locale/SupportedLanguages';
     import { tick } from 'svelte';
     import { creator } from '../../db/Creator';
 

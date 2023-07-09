@@ -1,6 +1,6 @@
 import type LanguageCode from './LanguageCode';
 
 /** A list of translations officially supported by Wordplay. */
-const SupportedLocales: LanguageCode[] = ['en', 'es'];
+const SupportedLanguages: LanguageCode[] = ['en', 'es'];
 
-export default SupportedLocales;
+export default SupportedLanguages;
