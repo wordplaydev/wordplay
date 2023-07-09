@@ -25,14 +25,14 @@ export type Locale = {
     /** The placeholder string indicating that a locale string is not yet written */
     tbd: string;
     term: TermTexts;
-    evaluate: EvaluationTexts;
     token: Record<keyof typeof TokenType, string>;
     node: NodeTexts;
     native: NativeTexts;
-    exception: ExceptionTexts;
-    conflict: ConflictTexts;
     input: InputTexts;
     output: OutputTexts;
+    evaluate: EvaluationTexts;
+    exception: ExceptionTexts;
+    conflict: ConflictTexts;
     ui: UITexts;
 };
 
