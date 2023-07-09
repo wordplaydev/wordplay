@@ -1,3 +1,5 @@
+import type EditTexts from './EditTexts';
+
 type UITexts = {
     phrases: {
         /** Used to address someone or say hi, on the login screen. */
@@ -128,11 +130,7 @@ type UITexts = {
         logout: string;
         offline: string;
     };
-    edit: {
-        wrap: string;
-        unwrap: string;
-        bind: string;
-    };
+    edit: EditTexts;
     error: {
         tutorial: string;
     };

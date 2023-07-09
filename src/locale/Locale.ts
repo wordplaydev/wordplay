@@ -8,7 +8,6 @@ import type ConflictTexts from './ConflictTexts';
 import type InputTexts from './InputTexts';
 import type ExceptionTexts from './ExceptionTexts';
 import type EvaluationTexts from './EvaluationTexts';
-import type EditTexts from './EditTexts';
 import type TermTexts from './TermTexts';
 
 /**
@@ -34,7 +33,6 @@ export type Locale = {
     conflict: ConflictTexts;
     input: InputTexts;
     output: OutputTexts;
-    edit: EditTexts;
     ui: UITexts;
 };
 
