@@ -5,7 +5,7 @@ Hi! Wordplay is a web-based programming language, IDE, and platform for creaing 
 # Contributing
 
 Wordplay is looking for people to help with **localization**.
-Review our [guide](https://github.com/github/codeql/blob/main/CONTRIBUTING.md) to get started.
+Review our [guide](https://github.com/amyjko/wordplay/blob/main/CONTRIBUTING.md) to get started.
 
 # History
 
