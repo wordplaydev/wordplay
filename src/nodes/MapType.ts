@@ -13,7 +13,7 @@ import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
-import NodeLink from '../locale/NodeLink';
+import NodeLink from '../locale/NodeRef';
 
 export default class MapType extends NativeType {
     readonly open: Token;

@@ -20,7 +20,7 @@ import Bool from '@runtime/Bool';
 import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import AtomicExpression from './AtomicExpression';
-import NodeLink from '@locale/NodeLink';
+import NodeLink from '@locale/NodeRef';
 import BooleanType from './BooleanType';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';

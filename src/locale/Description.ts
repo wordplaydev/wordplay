@@ -1,7 +1,8 @@
-import type ConceptLink from '../nodes/ConceptLink';
+import ConceptRegEx from '../parser/ConceptRegEx';
+import ConceptRef from './ConceptRef';
 import type LanguageCode from './LanguageCode';
-import type NodeLink from './NodeLink';
-import type ValueLink from './ValueLink';
+import type NodeRef from './NodeRef';
+import type ValueRef from './ValueRef';
 import type { TemplateInput } from './concretize';
 
 export type DescriptionPart =
@@ -9,15 +10,41 @@ export type DescriptionPart =
     | number
     | boolean
     | undefined
-    | NodeLink
-    | ValueLink
-    | ConceptLink;
+    | NodeRef
+    | ValueRef
+    | ConceptRef;
 
 export default class Description {
     readonly parts: DescriptionPart[];
 
     constructor(parts: DescriptionPart[]) {
-        this.parts = parts;
+        // Translate any parts that refer to concept links as concept links.
+        this.parts = parts.reduce(
+            (list: DescriptionPart[], part: DescriptionPart) => {
+                if (typeof part === 'string' && part.indexOf('@') >= 0) {
+                    const items: DescriptionPart[] = [];
+                    let index = 0;
+                    for (const match of part.matchAll(
+                        new RegExp(ConceptRegEx, 'g')
+                    )) {
+                        // Add the part before the match if it's not empty.
+                        const before = part.substring(index, match.index);
+                        if (before.length > 0) items.push(before);
+                        const concept = match[0];
+                        // Advance the index by the length of the before and the concept.
+                        index += before.length + concept.length;
+                        // Add a concept link for the match.
+                        items.push(new ConceptRef(concept.substring(1)));
+                    }
+                    // Add the remainder of the string to the list.
+                    const rest = part.substring(index);
+                    if (rest.length > 0) items.push(rest);
+
+                    return [...list, ...items];
+                } else return [...list, part];
+            },
+            []
+        );
     }
 
     getTextContaining(
@@ -49,31 +76,5 @@ export default class Description {
 
     static as(part: DescriptionPart) {
         return new Description([part]);
-        // // Translate any parts that refer to concept links as concept links.
-        // return new Description(
-        //     parts.reduce((list: DescriptionPart[], part: DescriptionPart) => {
-        //         if (typeof part === 'string' && part.indexOf('@') >= 0) {
-        //             const items: DescriptionPart[] = [];
-        //             let index = 0;
-        //             for (const match of part.matchAll(
-        //                 new RegExp(ConceptRegEx, 'g')
-        //             )) {
-        //                 // Add the part before the match if it's not empty.
-        //                 const before = part.substring(index, match.index);
-        //                 if (before.length > 0) items.push(before);
-        //                 const concept = match[0];
-        //                 // Advance the index by the length of the before and the concept.
-        //                 index += before.length + concept.length;
-        //                 // Add a concept link for the match.
-        //                 items.push(ConceptLink.make(concept.substring(1)));
-        //             }
-        //             // Add the remainder of the string to the list.
-        //             const rest = part.substring(index);
-        //             if (rest.length > 0) items.push(rest);
-
-        //             return [...list, ...items];
-        //         } else return [...list, part];
-        //     }, [])
-        // );
     }
 }

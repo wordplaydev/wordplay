@@ -2,7 +2,7 @@ import type Context from '@nodes/Context';
 import type Expression from '@nodes/Expression';
 import type TableType from '@nodes/TableType';
 import type Type from '@nodes/Type';
-import NodeLink from '@locale/NodeLink';
+import NodeLink from '@locale/NodeRef';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 import concretize from '../locale/concretize';

@@ -1,7 +1,7 @@
 import Conflict from './Conflict';
 import type Name from '@nodes/Name';
 import type Locale from '@locale/Locale';
-import NodeLink from '@locale/NodeLink';
+import NodeLink from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import concretize from '../locale/concretize';
 

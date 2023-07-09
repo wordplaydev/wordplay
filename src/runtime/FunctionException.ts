@@ -5,7 +5,7 @@ import PropertyReference from '@nodes/PropertyReference';
 import Reference from '@nodes/Reference';
 import Token from '@nodes/Token';
 import UnaryOperation from '@nodes/UnaryOperation';
-import NodeLink from '@locale/NodeLink';
+import NodeLink from '@locale/NodeRef';
 import type Locale from '@locale/Locale';
 import type Evaluator from './Evaluator';
 import Exception from './Exception';

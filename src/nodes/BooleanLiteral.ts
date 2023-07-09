@@ -9,7 +9,7 @@ import type TypeSet from './TypeSet';
 import TokenType from './TokenType';
 import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
-import NodeLink from '@locale/NodeLink';
+import NodeLink from '@locale/NodeRef';
 import Literal from './Literal';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';

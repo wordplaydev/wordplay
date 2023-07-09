@@ -25,7 +25,7 @@ import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import AtomicExpression from './AtomicExpression';
 import NameException from '@runtime/NameException';
-import NodeLink from '@locale/NodeLink';
+import NodeLink from '@locale/NodeRef';
 import Emotion from '../lore/Emotion';
 import Evaluate from './Evaluate';
 import StreamDefinitionType from './StreamDefinitionType';

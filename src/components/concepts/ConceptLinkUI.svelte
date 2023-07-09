@@ -4,8 +4,9 @@
     import Concept from '@concepts/Concept';
     import { creator } from '../../db/Creator';
     import TutorialHighlight from '../app/TutorialHighlight.svelte';
+    import type ConceptRef from '../../locale/ConceptRef';
 
-    export let link: ConceptLink | Concept;
+    export let link: ConceptRef | ConceptLink | Concept;
     export let salient: boolean = true;
     export let label: string | undefined = undefined;
 
@@ -21,7 +22,10 @@
         // Try to resolve the concept in the index
         else {
             // Remove the link symbol
-            const id = link.concept.getText().slice(1);
+            const id =
+                link instanceof ConceptLink
+                    ? link.concept.getText().slice(1)
+                    : link.concept;
             // Split the name by /
             const names = id.split('/');
             // See if it's a UI reference

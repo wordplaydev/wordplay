@@ -4,7 +4,7 @@ import type Program from '@nodes/Program';
 import Conflict from './Conflict';
 import type Locale from '@locale/Locale';
 import type Context from '@nodes/Context';
-import NodeLink from '@locale/NodeLink';
+import NodeLink from '@locale/NodeRef';
 import concretize from '../locale/concretize';
 
 export class BorrowCycle extends Conflict {

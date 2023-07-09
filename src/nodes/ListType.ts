@@ -9,7 +9,7 @@ import type TypeSet from './TypeSet';
 import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
-import NodeLink from '../locale/NodeLink';
+import NodeLink from '../locale/NodeRef';
 
 export default class ListType extends NativeType {
     readonly open: Token;

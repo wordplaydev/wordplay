@@ -23,7 +23,7 @@ import type Value from '@runtime/Value';
 import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import StartConversion from '@runtime/StartConversion';
-import NodeLink from '@locale/NodeLink';
+import NodeLink from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
 import { NotAType } from './NotAType';
 import ConversionType from './ConversionType';

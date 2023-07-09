@@ -1,7 +1,7 @@
 import type Type from '@nodes/Type';
-import NodeLink from '@locale/NodeLink';
+import NodeLink from '@locale/NodeRef';
 import type Locale from '@locale/Locale';
-import ValueLink from '@locale/ValueLink';
+import ValueLink from '@locale/ValueRef';
 import type Evaluator from './Evaluator';
 import Exception from './Exception';
 import type Value from './Value';

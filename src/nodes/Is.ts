@@ -18,7 +18,7 @@ import TypeSet from './TypeSet';
 import Start from '@runtime/Start';
 import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
-import NodeLink from '@locale/NodeLink';
+import NodeLink from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
 import TokenType from './TokenType';
 import { TYPE_SYMBOL } from '../parser/Symbols';

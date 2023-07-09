@@ -1,7 +1,7 @@
 import type Context from '@nodes/Context';
 import type SetOrMapAccess from '@nodes/SetOrMapAccess';
 import type Type from '@nodes/Type';
-import NodeLink from '@locale/NodeLink';
+import NodeLink from '@locale/NodeRef';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 import concretize from '../locale/concretize';

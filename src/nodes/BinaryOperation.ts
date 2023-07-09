@@ -29,7 +29,7 @@ import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import type { Template } from '@locale/Locale';
 import StartEvaluation from '@runtime/StartEvaluation';
-import NodeLink from '@locale/NodeLink';
+import NodeLink from '@locale/NodeRef';
 import Emotion from '../lore/Emotion';
 import FunctionValue from '../runtime/FunctionValue';
 import Glyphs from '../lore/Glyphs';

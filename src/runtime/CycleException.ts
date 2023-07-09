@@ -1,5 +1,5 @@
 import type Borrow from '@nodes/Borrow';
-import NodeLink from '@locale/NodeLink';
+import NodeLink from '@locale/NodeRef';
 import type Locale from '@locale/Locale';
 import type Evaluator from './Evaluator';
 import Exception from './Exception';

@@ -23,7 +23,7 @@ import UnionType from './UnionType';
 import NoneType from './NoneType';
 import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
-import NodeLink from '@locale/NodeLink';
+import NodeLink from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import { NotAType } from './NotAType';

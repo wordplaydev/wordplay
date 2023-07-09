@@ -2,7 +2,7 @@ import Conflict from './Conflict';
 import type Node from '@nodes/Node';
 import type Token from '@nodes/Token';
 import type Locale from '@locale/Locale';
-import NodeLink from '@locale/NodeLink';
+import NodeLink from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import concretize from '../locale/concretize';
 

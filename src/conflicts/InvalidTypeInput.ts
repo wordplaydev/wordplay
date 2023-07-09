@@ -4,7 +4,7 @@ import type FunctionDefinition from '@nodes/FunctionDefinition';
 import type NameType from '@nodes/NameType';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import type Type from '@nodes/Type';
-import NodeLink from '@locale/NodeLink';
+import NodeLink from '@locale/NodeRef';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 import concretize from '../locale/concretize';

@@ -23,7 +23,7 @@ import SetCloseToken from './SetCloseToken';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
-import NodeLink from '@locale/NodeLink';
+import NodeLink from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
 import type { NativeTypeName } from '../native/NativeConstants';
 import Purpose from '../concepts/Purpose';

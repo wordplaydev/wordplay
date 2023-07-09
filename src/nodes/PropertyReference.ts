@@ -26,7 +26,7 @@ import NameType from './NameType';
 import UnknownNameType from './UnknownNameType';
 import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
-import NodeLink from '@locale/NodeLink';
+import NodeLink from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
 import UnimplementedException from '../runtime/UnimplementedException';
 import Purpose from '../concepts/Purpose';

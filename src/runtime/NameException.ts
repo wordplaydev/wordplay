@@ -3,8 +3,8 @@ import type Evaluator from './Evaluator';
 import type Locale from '@locale/Locale';
 import type Token from '@nodes/Token';
 import Value from './Value';
-import NodeLink from '@locale/NodeLink';
-import ValueLink from '@locale/ValueLink';
+import NodeLink from '@locale/NodeRef';
+import ValueLink from '@locale/ValueRef';
 import concretize from '../locale/concretize';
 
 export default class NameException extends Exception {

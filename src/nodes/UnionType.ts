@@ -13,7 +13,7 @@ import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import NoneType from './NoneType';
 import Glyphs from '../lore/Glyphs';
-import NodeLink from '../locale/NodeLink';
+import NodeLink from '../locale/NodeRef';
 
 export default class UnionType extends Type {
     readonly left: Type;

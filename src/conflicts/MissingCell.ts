@@ -2,7 +2,7 @@ import type Bind from '@nodes/Bind';
 import type Context from '@nodes/Context';
 import type Row from '@nodes/Row';
 import type TableType from '@nodes/TableType';
-import NodeLink from '@locale/NodeLink';
+import NodeLink from '@locale/NodeRef';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 import concretize from '../locale/concretize';

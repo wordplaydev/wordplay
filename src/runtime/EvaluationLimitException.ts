@@ -3,7 +3,7 @@ import type Evaluator from './Evaluator';
 import type Locale from '@locale/Locale';
 import type Node from '@nodes/Node';
 import type { EvaluationNode } from './Evaluation';
-import NodeLink from '@locale/NodeLink';
+import NodeLink from '@locale/NodeRef';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import StructureDefinition from '@nodes/StructureDefinition';
 import concretize from '../locale/concretize';
