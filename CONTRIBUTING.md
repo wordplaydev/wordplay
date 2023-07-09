@@ -131,12 +131,18 @@ Finally, a scenes `lines`: this is a list of one of three kinds of things:
 ### Verifying
 
 So you've written a bit of translation and want to make sure you followed all the rules above?
-No worries, we wrote a little tool to help you find problems.
+
+First, you can rely on VS Code to catch some things.
+For example, it will do autocomplete and highlight any errors with your file's structure, using a schema that we wrote to specify what makes a valid locale or tutorial file.
+That should help with editing.
+
+But VS Code can't check everything, so we wrote a little tool to help you find more subtle problems.
 In the terminal, just type
 
 `npm run locales`
 
-And a little program will run (and re-run) every time you save your locale or tutorial files, and tell you about any problems, including unwritten strings, code with errors, invalid formatting, invalid concept links, and more. Keep chipping away at your translation until there are no more problems.
+And a little program will run (and re-run) every time you save your locale or tutorial files, and tell you about any problems, including unwritten strings, code with errors, invalid formatting, invalid concept links, and more.
+Keep chipping away at your translation until there are no more problems.
 
 ### Submitting
 
