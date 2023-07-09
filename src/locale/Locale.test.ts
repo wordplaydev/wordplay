@@ -43,85 +43,86 @@ function pathToString(locale: Locale, path: string[]) {
     return `${locale.language} -> ${path.join(' -> ')}`;
 }
 
-test.each([...locales])('Verify locale $language', (locale) => {
-    // Get the key/value pairs
-    const pairs: [string[], string, string][] = [];
-    getKeyTemplatePairs([], locale, pairs);
+test.each([...locales])(
+    'Verify locale $language is complete and free of errors',
+    (locale) => {
+        // Get the key/value pairs
+        const pairs: [string[], string, string][] = [];
+        getKeyTemplatePairs([], locale, pairs);
 
-    // Check each one.
-    for (const [path, key, value] of pairs) {
-        // If the key suggests that it's documentation, try to parse it as a doc and
-        // see if it has any tokens of unknown type or unparsable expressions or types.
-        if (key === 'doc') {
-            const doc = parseDoc(toTokens('`' + value + '`'));
-            const unknownTokens = doc
-                .leaves()
-                .filter(
-                    (node) =>
-                        node instanceof Token && node.is(TokenType.Unknown)
-                );
-
-            expect(
-                unknownTokens.length,
-                `Found invalid tokens in ${pathToString(
-                    locale,
-                    path
-                )}: ${unknownTokens.join(', ')}`
-            ).toBe(0);
-
-            const missingConcepts = doc.nodes().filter((node) => {
-                if (node instanceof ConceptLink) {
-                    const name = node.getName();
-                    return (
-                        !Object.hasOwn(locale.node, name) &&
-                        !Object.hasOwn(locale.input, name) &&
-                        !Object.hasOwn(locale.output, name)
+        // Check each one.
+        for (const [path, key, value] of pairs) {
+            // If the key suggests that it's documentation, try to parse it as a doc and
+            // see if it has any tokens of unknown type or unparsable expressions or types.
+            if (key === 'doc') {
+                const doc = parseDoc(toTokens('`' + value + '`'));
+                const unknownTokens = doc
+                    .leaves()
+                    .filter(
+                        (node) =>
+                            node instanceof Token && node.is(TokenType.Unknown)
                     );
-                } else return false;
-            });
 
-            expect(
-                missingConcepts.length,
-                `Found unknown concept name ${pathToString(
-                    locale,
-                    path
-                )}: ${missingConcepts.map((u) => u.toWordplay()).join(', ')}`
-            ).toBe(0);
+                expect(
+                    unknownTokens.length,
+                    `Found invalid tokens in ${pathToString(
+                        locale,
+                        path
+                    )}: ${unknownTokens.join(', ')}`
+                ).toBe(0);
 
-            // const unparsables = doc
-            //     .nodes()
-            //     .filter(
-            //         (node) =>
-            //             node instanceof UnparsableExpression ||
-            //             node instanceof UnparsableType
-            //     );
+                const missingConcepts = doc
+                    .nodes()
+                    .filter(
+                        (node) =>
+                            node instanceof ConceptLink && !node.isValid(locale)
+                    );
 
-            // expect(
-            //     unparsables.length,
-            //     `Found unparsables in code inside ${pathToString(
-            //         locale,
-            //         path
-            //     )}: "${unparsables.map((u) => u.toWordplay()).join(', ')}"`
-            // ).toBe(0);
+                expect(
+                    missingConcepts.length,
+                    `Found unknown concept name ${pathToString(
+                        locale,
+                        path
+                    )}: ${missingConcepts
+                        .map((u) => u.toWordplay())
+                        .join(', ')}`
+                ).toBe(0);
+
+                // const unparsables = doc
+                //     .nodes()
+                //     .filter(
+                //         (node) =>
+                //             node instanceof UnparsableExpression ||
+                //             node instanceof UnparsableType
+                //     );
+
+                // expect(
+                //     unparsables.length,
+                //     `Found unparsables in code inside ${pathToString(
+                //         locale,
+                //         path
+                //     )}: "${unparsables.map((u) => u.toWordplay()).join(', ')}"`
+                // ).toBe(0);
+            }
+            // If it's not a doc, assume it's a template string and try to parse it as a template.
+            // If we can't, complain.
+            else {
+                const description = concretizeOrUndefined(locale, value);
+                expect(
+                    description,
+                    `String at ${pathToString(
+                        locale,
+                        path
+                    )} is has unparsable template string "${value}"`
+                ).toBeDefined();
+            }
         }
-        // If it's not a doc, assume it's a template string and try to parse it as a template.
-        // If we can't, complain.
-        else {
-            const description = concretizeOrUndefined(locale, value);
-            expect(
-                description,
-                `String at ${pathToString(
-                    locale,
-                    path
-                )} is has unparsable template string "${value}"`
-            ).toBeDefined();
-        }
+
+        let unwritten = pairs.filter(([, , value]) => value === '$?').length;
+
+        expect(
+            unwritten,
+            `Locale has ${unwritten} unwritten "$?" strings. Keep writing!`
+        ).toBe(0);
     }
-
-    let unwritten = pairs.filter(([, , value]) => value === '$?').length;
-
-    expect(
-        unwritten,
-        `Locale has ${unwritten} unwritten "$?" strings. Keep writing!`
-    ).toBe(0);
-});
+);

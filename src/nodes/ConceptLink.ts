@@ -26,6 +26,22 @@ export default class ConceptLink extends Node {
         return this.concept.getText().slice(1);
     }
 
+    /** Is valid if it refers to a concept key in the given Locale */
+    isValid(locale: Locale) {
+        const [name, prop] = this.getName().split('/');
+
+        // See which section of the locale has the concept name, if any.
+        const section = [locale.node, locale.input, locale.output].find((c) =>
+            Object.hasOwn(c, name)
+        ) as Record<string, any>;
+
+        // Valid if we found it, and no property was specified, or it was, and the concept has it.
+        return (
+            section !== undefined &&
+            (prop === undefined || Object.hasOwn(section[name], prop))
+        );
+    }
+
     getGrammar(): Field[] {
         return [{ name: 'concept', types: [Token] }];
     }
