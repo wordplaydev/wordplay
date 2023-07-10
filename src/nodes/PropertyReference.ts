@@ -307,4 +307,10 @@ export default class PropertyReference extends Expression {
     getGlyphs() {
         return Glyphs.Reference;
     }
+
+    getDescriptionInputs(locale: Locale, context: Context) {
+        return [
+            this.name ? new NodeLink(this.name, locale, context) : undefined,
+        ];
+    }
 }

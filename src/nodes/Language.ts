@@ -82,9 +82,8 @@ export default class Language extends Node {
     getDescriptionInputs(locale: Locale, _: Context) {
         return [
             this.lang
-                ? Languages[this.lang.getText()]?.name ??
-                  locale.node.Language.description
-                : locale.node.Language.description,
+                ? Languages[this.lang.getText()]?.name ?? undefined
+                : undefined,
         ];
     }
 

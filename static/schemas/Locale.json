@@ -18,6 +18,30 @@
       ],
       "type": "object"
     },
+    "DescriptiveNodeText": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "$ref": "#/definitions/Template"
+        },
+        "doc": {
+          "$ref": "#/definitions/DocText"
+        },
+        "emotion": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "description",
+        "doc",
+        "emotion",
+        "name"
+      ],
+      "type": "object"
+    },
     "DocText": {
       "anyOf": [
         {
@@ -1426,9 +1450,6 @@
                   ],
                   "type": "object"
                 },
-                "description": {
-                  "$ref": "#/definitions/Template"
-                },
                 "doc": {
                   "$ref": "#/definitions/DocText"
                 },
@@ -1450,7 +1471,6 @@
               },
               "required": [
                 "conflict",
-                "description",
                 "doc",
                 "emotion",
                 "finish",
@@ -1462,7 +1482,7 @@
             },
             "Bind": {
               "additionalProperties": false,
-              "description": "Start $1: bind evaluating Finish $1: resulting value $2: names bound",
+              "description": "Description $1: name bound Start $1: bind evaluating Finish $1: resulting value $2: names bound",
               "properties": {
                 "conflict": {
                   "additionalProperties": false,
@@ -1700,9 +1720,6 @@
               "additionalProperties": false,
               "description": "Start $1: stream that changed",
               "properties": {
-                "description": {
-                  "$ref": "#/definitions/Template"
-                },
                 "doc": {
                   "$ref": "#/definitions/DocText"
                 },
@@ -1724,7 +1741,6 @@
                 }
               },
               "required": [
-                "description",
                 "doc",
                 "emotion",
                 "keep",
@@ -1735,7 +1751,8 @@
               "type": "object"
             },
             "ConceptLink": {
-              "$ref": "#/definitions/NodeText"
+              "$ref": "#/definitions/DescriptiveNodeText",
+              "description": "Description $1: the concept name"
             },
             "Conditional": {
               "additionalProperties": false,
@@ -1760,9 +1777,6 @@
                     "ExpectedBooleanCondition"
                   ],
                   "type": "object"
-                },
-                "description": {
-                  "$ref": "#/definitions/Template"
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText"
@@ -1794,7 +1808,6 @@
                 "afterthen",
                 "condition",
                 "conflict",
-                "description",
                 "doc",
                 "else",
                 "emotion",
@@ -1821,9 +1834,6 @@
                   ],
                   "type": "object"
                 },
-                "description": {
-                  "$ref": "#/definitions/Template"
-                },
                 "doc": {
                   "$ref": "#/definitions/DocText"
                 },
@@ -1839,7 +1849,6 @@
               },
               "required": [
                 "conflict",
-                "description",
                 "doc",
                 "emotion",
                 "name",
@@ -1867,9 +1876,6 @@
                   ],
                   "type": "object"
                 },
-                "description": {
-                  "$ref": "#/definitions/Template"
-                },
                 "doc": {
                   "$ref": "#/definitions/DocText"
                 },
@@ -1888,7 +1894,6 @@
               },
               "required": [
                 "conflict",
-                "description",
                 "doc",
                 "emotion",
                 "finish",
@@ -1898,15 +1903,12 @@
               "type": "object"
             },
             "CycleType": {
-              "$ref": "#/definitions/NodeText"
+              "$ref": "#/definitions/DescriptiveNodeText"
             },
             "Delete": {
               "additionalProperties": false,
               "description": "Start $1: table expression Finish $1: resulting value",
               "properties": {
-                "description": {
-                  "$ref": "#/definitions/Template"
-                },
                 "doc": {
                   "$ref": "#/definitions/DocText"
                 },
@@ -1924,7 +1926,6 @@
                 }
               },
               "required": [
-                "description",
                 "doc",
                 "emotion",
                 "finish",
@@ -1934,7 +1935,7 @@
               "type": "object"
             },
             "Dimension": {
-              "$ref": "#/definitions/NodeText"
+              "$ref": "#/definitions/DescriptiveNodeText"
             },
             "Doc": {
               "$ref": "#/definitions/NodeText"
@@ -1945,9 +1946,6 @@
             "DocumentedExpression": {
               "additionalProperties": false,
               "properties": {
-                "description": {
-                  "$ref": "#/definitions/Template"
-                },
                 "doc": {
                   "$ref": "#/definitions/DocText"
                 },
@@ -1962,7 +1960,6 @@
                 }
               },
               "required": [
-                "description",
                 "doc",
                 "emotion",
                 "name",
@@ -2196,9 +2193,6 @@
                 "check": {
                   "$ref": "#/definitions/Template"
                 },
-                "description": {
-                  "$ref": "#/definitions/Template"
-                },
                 "doc": {
                   "$ref": "#/definitions/DocText"
                 },
@@ -2223,7 +2217,6 @@
               },
               "required": [
                 "check",
-                "description",
                 "doc",
                 "emotion",
                 "finish",
@@ -2241,9 +2234,6 @@
               "additionalProperties": false,
               "description": "Start $1: table expression Finish $1: resulting value",
               "properties": {
-                "description": {
-                  "$ref": "#/definitions/Template"
-                },
                 "doc": {
                   "$ref": "#/definitions/DocText"
                 },
@@ -2261,7 +2251,6 @@
                 }
               },
               "required": [
-                "description",
                 "doc",
                 "emotion",
                 "finish",
@@ -2272,7 +2261,7 @@
             },
             "Is": {
               "additionalProperties": false,
-              "description": "Start $1: expression Finish $1: result $2: type",
+              "description": "Description $1: The type being checked for Start $1: expression Finish $1: result $2: type",
               "properties": {
                 "conflict": {
                   "additionalProperties": false,
@@ -2378,9 +2367,6 @@
               "additionalProperties": false,
               "description": "Start $1: list Finish $1: resulting value",
               "properties": {
-                "description": {
-                  "$ref": "#/definitions/Template"
-                },
                 "doc": {
                   "$ref": "#/definitions/DocText"
                 },
@@ -2398,7 +2384,6 @@
                 }
               },
               "required": [
-                "description",
                 "doc",
                 "emotion",
                 "finish",
@@ -2445,7 +2430,7 @@
               "type": "object"
             },
             "ListType": {
-              "$ref": "#/definitions/NodeText",
+              "$ref": "#/definitions/DescriptiveNodeText",
               "description": "Description $1: Type or undefined"
             },
             "MapLiteral": {
@@ -2496,7 +2481,7 @@
               "type": "object"
             },
             "MapType": {
-              "$ref": "#/definitions/NodeText",
+              "$ref": "#/definitions/DescriptiveNodeText",
               "description": "Description $1: Key type or undefined $2: Map type or undefined"
             },
             "MeasurementLiteral": {
@@ -2545,7 +2530,7 @@
               "$ref": "#/definitions/NodeText"
             },
             "Name": {
-              "$ref": "#/definitions/NodeText",
+              "$ref": "#/definitions/DescriptiveNodeText",
               "description": "Description $1: name or undefined"
             },
             "NameType": {
@@ -2593,9 +2578,6 @@
             "NativeExpression": {
               "additionalProperties": false,
               "properties": {
-                "description": {
-                  "$ref": "#/definitions/Template"
-                },
                 "doc": {
                   "$ref": "#/definitions/DocText"
                 },
@@ -2610,7 +2592,6 @@
                 }
               },
               "required": [
-                "description",
                 "doc",
                 "emotion",
                 "name",
@@ -2627,9 +2608,6 @@
             "NoneLiteral": {
               "additionalProperties": false,
               "properties": {
-                "description": {
-                  "$ref": "#/definitions/Template"
-                },
                 "doc": {
                   "$ref": "#/definitions/DocText"
                 },
@@ -2644,7 +2622,6 @@
                 }
               },
               "required": [
-                "description",
                 "doc",
                 "emotion",
                 "name",
@@ -2656,7 +2633,7 @@
               "$ref": "#/definitions/NodeText"
             },
             "NotAType": {
-              "$ref": "#/definitions/NodeText",
+              "$ref": "#/definitions/DescriptiveNodeText",
               "description": "Description $1: Type expected"
             },
             "NotEnclosedType": {
@@ -2672,9 +2649,6 @@
               "additionalProperties": false,
               "description": "Start $1: the stream expression being checked Finish $1: resulting value",
               "properties": {
-                "description": {
-                  "$ref": "#/definitions/Template"
-                },
                 "doc": {
                   "$ref": "#/definitions/DocText"
                 },
@@ -2692,7 +2666,6 @@
                 }
               },
               "required": [
-                "description",
                 "doc",
                 "emotion",
                 "finish",
@@ -2705,9 +2678,6 @@
               "additionalProperties": false,
               "description": "Start $1: a stream that changed Finish $1: resulting value",
               "properties": {
-                "description": {
-                  "$ref": "#/definitions/Template"
-                },
                 "doc": {
                   "$ref": "#/definitions/DocText"
                 },
@@ -2761,7 +2731,6 @@
                 }
               },
               "required": [
-                "description",
                 "doc",
                 "done",
                 "emotion",
@@ -2776,7 +2745,7 @@
             },
             "PropertyBind": {
               "additionalProperties": false,
-              "description": "Finish $1: revised property $1: revised value",
+              "description": "Description $1: the name being refined Finish $1: revised property $1: revised value",
               "properties": {
                 "description": {
                   "$ref": "#/definitions/Template"
@@ -2851,9 +2820,6 @@
                 "condition": {
                   "$ref": "#/definitions/Template"
                 },
-                "description": {
-                  "$ref": "#/definitions/Template"
-                },
                 "doc": {
                   "$ref": "#/definitions/DocText"
                 },
@@ -2878,7 +2844,6 @@
               },
               "required": [
                 "condition",
-                "description",
                 "doc",
                 "emotion",
                 "finish",
@@ -2978,9 +2943,6 @@
                   ],
                   "type": "object"
                 },
-                "description": {
-                  "$ref": "#/definitions/Template"
-                },
                 "doc": {
                   "$ref": "#/definitions/DocText"
                 },
@@ -2993,7 +2955,6 @@
               },
               "required": [
                 "conflict",
-                "description",
                 "doc",
                 "emotion",
                 "name"
@@ -3017,9 +2978,6 @@
                   ],
                   "type": "object"
                 },
-                "description": {
-                  "$ref": "#/definitions/Template"
-                },
                 "doc": {
                   "$ref": "#/definitions/DocText"
                 },
@@ -3038,7 +2996,6 @@
               },
               "required": [
                 "conflict",
-                "description",
                 "doc",
                 "emotion",
                 "finish",
@@ -3097,9 +3054,6 @@
                   ],
                   "type": "object"
                 },
-                "description": {
-                  "$ref": "#/definitions/Template"
-                },
                 "doc": {
                   "$ref": "#/definitions/DocText"
                 },
@@ -3118,7 +3072,6 @@
               },
               "required": [
                 "conflict",
-                "description",
                 "doc",
                 "emotion",
                 "finish",
@@ -3128,7 +3081,7 @@
               "type": "object"
             },
             "SetType": {
-              "$ref": "#/definitions/NodeText",
+              "$ref": "#/definitions/DescriptiveNodeText",
               "description": "Description $1: Type or undefined"
             },
             "Source": {
@@ -3137,9 +3090,6 @@
             "StreamDefinition": {
               "additionalProperties": false,
               "properties": {
-                "description": {
-                  "$ref": "#/definitions/Template"
-                },
                 "doc": {
                   "$ref": "#/definitions/DocText"
                 },
@@ -3154,7 +3104,6 @@
                 }
               },
               "required": [
-                "description",
                 "doc",
                 "emotion",
                 "name",
@@ -3228,7 +3177,7 @@
             },
             "TableLiteral": {
               "additionalProperties": false,
-              "description": "Finish $1: resulting table",
+              "description": "Description $1: the number of rows Finish $1: resulting table",
               "properties": {
                 "description": {
                   "$ref": "#/definitions/Template"
@@ -3279,9 +3228,6 @@
                   ],
                   "type": "object"
                 },
-                "description": {
-                  "$ref": "#/definitions/Template"
-                },
                 "doc": {
                   "$ref": "#/definitions/DocText"
                 },
@@ -3294,7 +3240,6 @@
               },
               "required": [
                 "conflict",
-                "description",
                 "doc",
                 "emotion",
                 "name"
@@ -3304,9 +3249,6 @@
             "Template": {
               "additionalProperties": false,
               "properties": {
-                "description": {
-                  "$ref": "#/definitions/Template"
-                },
                 "doc": {
                   "$ref": "#/definitions/DocText"
                 },
@@ -3324,7 +3266,6 @@
                 }
               },
               "required": [
-                "description",
                 "doc",
                 "emotion",
                 "finish",
@@ -3363,7 +3304,7 @@
               "type": "object"
             },
             "TextType": {
-              "$ref": "#/definitions/NodeText",
+              "$ref": "#/definitions/DescriptiveNodeText",
               "description": "Description $1: Concrete type or undefined"
             },
             "This": {
@@ -3382,9 +3323,6 @@
                   ],
                   "type": "object"
                 },
-                "description": {
-                  "$ref": "#/definitions/Template"
-                },
                 "doc": {
                   "$ref": "#/definitions/DocText"
                 },
@@ -3400,7 +3338,6 @@
               },
               "required": [
                 "conflict",
-                "description",
                 "doc",
                 "emotion",
                 "name",
@@ -3409,8 +3346,8 @@
               "type": "object"
             },
             "Token": {
-              "$ref": "#/definitions/NodeText",
-              "description": "Description $1: token label $1: token text"
+              "$ref": "#/definitions/DescriptiveNodeText",
+              "description": "Description $1: token label $2: token text"
             },
             "TypeInputs": {
               "$ref": "#/definitions/NodeText"
@@ -3434,9 +3371,6 @@
                   ],
                   "type": "object"
                 },
-                "description": {
-                  "$ref": "#/definitions/Template"
-                },
                 "doc": {
                   "$ref": "#/definitions/DocText"
                 },
@@ -3449,7 +3383,6 @@
               },
               "required": [
                 "conflict",
-                "description",
                 "doc",
                 "emotion",
                 "name"
@@ -3493,15 +3426,15 @@
               "type": "object"
             },
             "UnionType": {
-              "$ref": "#/definitions/NodeText",
+              "$ref": "#/definitions/DescriptiveNodeText",
               "description": "Description $1: left $2: right"
             },
             "Unit": {
-              "$ref": "#/definitions/NodeText",
+              "$ref": "#/definitions/DescriptiveNodeText",
               "description": "Description $1: unit description"
             },
             "UnknownNameType": {
-              "$ref": "#/definitions/NodeText",
+              "$ref": "#/definitions/DescriptiveNodeText",
               "description": "Description $1: Name that's not known or undefined"
             },
             "UnknownType": {
@@ -3509,9 +3442,6 @@
               "properties": {
                 "connector": {
                   "type": "string"
-                },
-                "description": {
-                  "$ref": "#/definitions/Template"
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText"
@@ -3528,7 +3458,6 @@
               },
               "required": [
                 "connector",
-                "description",
                 "doc",
                 "emotion",
                 "name",
@@ -3560,9 +3489,6 @@
                   ],
                   "type": "object"
                 },
-                "description": {
-                  "$ref": "#/definitions/Template"
-                },
                 "doc": {
                   "$ref": "#/definitions/DocText"
                 },
@@ -3591,7 +3517,6 @@
               },
               "required": [
                 "conflict",
-                "description",
                 "doc",
                 "emotion",
                 "exception",
@@ -3624,9 +3549,6 @@
                   ],
                   "type": "object"
                 },
-                "description": {
-                  "$ref": "#/definitions/Template"
-                },
                 "doc": {
                   "$ref": "#/definitions/DocText"
                 },
@@ -3645,7 +3567,6 @@
               },
               "required": [
                 "conflict",
-                "description",
                 "doc",
                 "emotion",
                 "finish",
@@ -3658,7 +3579,8 @@
               "$ref": "#/definitions/NodeText"
             },
             "WebLink": {
-              "$ref": "#/definitions/NodeText"
+              "$ref": "#/definitions/DescriptiveNodeText",
+              "description": "Description $1: the url"
             },
             "Words": {
               "$ref": "#/definitions/NodeText"
@@ -5362,9 +5284,6 @@
     "NodeText": {
       "additionalProperties": false,
       "properties": {
-        "description": {
-          "$ref": "#/definitions/Template"
-        },
         "doc": {
           "$ref": "#/definitions/DocText"
         },
@@ -5377,7 +5296,6 @@
       },
       "required": [
         "name",
-        "description",
         "doc",
         "emotion"
       ],

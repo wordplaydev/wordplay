@@ -170,4 +170,8 @@ export default class TableLiteral extends Expression {
     getGlyphs() {
         return Glyphs.Table;
     }
+
+    getDescriptionInputs() {
+        return [this.rows.length];
+    }
 }

@@ -21,6 +21,7 @@ import IncompatibleBind from '../conflicts/IncompatibleBind';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import concretize from '../locale/concretize';
+import NodeLink from '../locale/NodeRef';
 
 export default class PropertyBind extends Expression {
     readonly reference: PropertyReference;
@@ -158,5 +159,13 @@ export default class PropertyBind extends Expression {
 
     getGlyphs() {
         return Glyphs.Bind;
+    }
+
+    getDescriptionInputs(locale: Locale, context: Context) {
+        return [
+            this.reference.name
+                ? new NodeLink(this.reference.name, locale, context)
+                : undefined,
+        ];
     }
 }

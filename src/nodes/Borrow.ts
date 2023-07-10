@@ -73,19 +73,18 @@ export default class Borrow extends AtomicExpression {
                 name: 'source',
                 types: [Token, undefined],
                 space: true,
-                label: (translation: Locale) => translation.node.Borrow.source,
+                label: (locale: Locale) => locale.node.Borrow.source,
             },
             { name: 'dot', types: [Token, undefined] },
             {
                 name: 'name',
                 types: [Token, undefined],
-                label: (translation: Locale) =>
-                    translation.node.Borrow.description,
+                label: (locale: Locale) => locale.node.Borrow.name,
             },
             {
                 name: 'version',
                 types: [Token, undefined],
-                label: (translation: Locale) => translation.node.Borrow.version,
+                label: (locale: Locale) => locale.node.Borrow.version,
             },
         ];
     }
@@ -277,5 +276,9 @@ export default class Borrow extends AtomicExpression {
 
     getGlyphs() {
         return Glyphs.Borrow;
+    }
+
+    getDescriptionInputs(_: Locale, __: Context) {
+        return [this.name?.getText()];
     }
 }

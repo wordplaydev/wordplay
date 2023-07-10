@@ -97,8 +97,8 @@ export default class Initial extends AtomicExpression {
         return translation.node.Initial;
     }
 
-    getStartExplanations(translation: Locale) {
-        return concretize(translation, translation.node.Initial.description);
+    getStartExplanations(locale: Locale) {
+        return concretize(locale, locale.node.Initial.name);
     }
 
     getGlyphs() {

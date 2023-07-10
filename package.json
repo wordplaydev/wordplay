@@ -29,6 +29,13 @@
             ],
             "extensions": "json,ts",
             "quiet": true
+        },
+        "schemas": {
+            "patterns": [
+                "src/locale/*.ts"
+            ],
+            "extensions": "ts",
+            "quiet": true
         }
     },
     "devDependencies": {

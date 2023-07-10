@@ -6,7 +6,7 @@ import type Type from './Type';
 import type Token from './Token';
 import type Locale from '@locale/Locale';
 import type { Template, DocText } from '@locale/Locale';
-import type { NodeText } from '@locale/NodeText';
+import type { DescriptiveNodeText, NodeText } from '@locale/NodeTexts';
 import type Glyph from '../lore/Glyph';
 import type Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';
@@ -642,10 +642,12 @@ export default abstract class Node {
      * Given a translation and a context, generate a description of the node.
      * */
     getDescription(locale: Locale, context: Context): Description {
-        const trans = this.getNodeLocale(locale);
+        const text = this.getNodeLocale(locale);
         return concretize(
             locale,
-            trans.description,
+            text.hasOwnProperty('description')
+                ? (text as DescriptiveNodeText).description
+                : text.name,
             ...this.getDescriptionInputs(locale, context)
         );
     }
@@ -670,7 +672,7 @@ export default abstract class Node {
         return undefined;
     }
 
-    abstract getNodeLocale(translation: Locale): NodeText;
+    abstract getNodeLocale(translation: Locale): NodeText | DescriptiveNodeText;
 
     /** Provide localized labels for any child that can be a placeholder. */
     getChildPlaceholderLabel(

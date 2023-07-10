@@ -9,6 +9,6 @@ export default class UnimplementedType extends UnknownType<Expression> {
     }
 
     getReason(locale: Locale) {
-        return concretize(locale, locale.node.NotImplementedType.description);
+        return concretize(locale, locale.node.NotImplementedType.name);
     }
 }

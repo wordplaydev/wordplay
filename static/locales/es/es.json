@@ -118,19 +118,16 @@
         },
         "Doc": {
             "name": "documentación",
-            "description": "$?",
             "emotion": "neutral",
             "doc": "$?"
         },
         "Docs": {
             "name": "lista de documentación",
-            "description": "$?",
             "emotion": "neutral",
             "doc": "$?"
         },
         "KeyValue": {
             "name": "par clave/valor",
-            "description": "$?",
             "emotion": "neutral",
             "doc": "$?"
         },
@@ -152,13 +149,11 @@
         },
         "Names": {
             "name": "lista de nombres",
-            "description": "$?",
             "emotion": "neutral",
             "doc": "$?"
         },
         "Row": {
             "name": "la hilera",
-            "description": "$?",
             "emotion": "neutral",
             "doc": "$?",
             "conflict": {
@@ -175,13 +170,11 @@
         },
         "TypeInputs": {
             "name": "lista de variable de tipo",
-            "description": "$?",
             "emotion": "neutral",
             "doc": "$?"
         },
         "TypeVariable": {
             "name": "variable de tipo",
-            "description": "$?",
             "emotion": "neutral",
             "doc": "$?",
             "conflict": {
@@ -190,13 +183,11 @@
         },
         "TypeVariables": {
             "name": "lista de variable de tipo",
-            "description": "$?",
             "emotion": "neutral",
             "doc": "$?"
         },
         "Paragraph": {
             "name": "párrafo",
-            "description": "$?",
             "emotion": "neutral",
             "doc": "$?"
         },
@@ -214,19 +205,16 @@
         },
         "Words": {
             "name": "palabras",
-            "description": "$?",
             "emotion": "neutral",
             "doc": "$?"
         },
         "Example": {
             "name": "ejemplo",
-            "description": "$?",
             "emotion": "neutral",
             "doc": "$?"
         },
         "BinaryOperation": {
             "name": "operación binaria",
-            "description": "$?",
             "emotion": "neutral",
             "doc": "$?",
             "right": "input",
@@ -293,7 +281,6 @@
         },
         "Changed": {
             "name": "Cambiada",
-            "description": "$?",
             "emotion": "neutral",
             "doc": "$?",
             "start": "$?",
@@ -302,7 +289,6 @@
         },
         "Conditional": {
             "name": "condicional",
-            "description": "",
             "emotion": "neutral",
             "doc": [
                 "¿Alguna vez pensaste en cómo decidimos?",
@@ -332,7 +318,6 @@
         },
         "ConversionDefinition": {
             "name": "conversión",
-            "description": "$?",
             "emotion": "neutral",
             "doc": "$?",
             "start": "$?",
@@ -342,7 +327,6 @@
         },
         "Convert": {
             "name": "convertir",
-            "description": "$?",
             "emotion": "neutral",
             "doc": "$?",
             "start": "$?",
@@ -353,7 +337,6 @@
         },
         "Delete": {
             "name": "delete row",
-            "description": "$?",
             "emotion": "neutral",
             "doc": "$?",
             "start": "$?",
@@ -361,7 +344,6 @@
         },
         "DocumentedExpression": {
             "name": "expresión documentada",
-            "description": "$?",
             "emotion": "neutral",
             "doc": "$?",
             "start": "$?"
@@ -416,7 +398,6 @@
         },
         "HOF": {
             "name": "función de orden superior",
-            "description": "$?",
             "emotion": "neutral",
             "doc": "$?",
             "start": "$?",
@@ -427,13 +408,11 @@
         },
         "Initial": {
             "name": "evaluación inicial",
-            "description": "$?",
             "emotion": "neutral",
             "doc": "$?"
         },
         "Insert": {
             "name": "insertar",
-            "description": "$?",
             "emotion": "neutral",
             "doc": "$?",
             "start": "$?",
@@ -455,7 +434,6 @@
         },
         "ListAccess": {
             "name": "acceso a la lista",
-            "description": "",
             "emotion": "neutral",
             "doc": "$?",
             "start": "$?",
@@ -493,21 +471,18 @@
         },
         "NativeExpression": {
             "name": "expresión incorporada",
-            "description": "$?",
             "emotion": "neutral",
             "doc": "$?",
             "start": "$?"
         },
         "NoneLiteral": {
             "name": "nada",
-            "description": "$?",
             "emotion": "neutral",
             "doc": "$?",
             "start": "$?"
         },
         "Previous": {
             "name": "previa",
-            "description": "$?",
             "emotion": "neutral",
             "doc": "$?",
             "start": "$?",
@@ -515,7 +490,6 @@
         },
         "Program": {
             "name": "programa",
-            "description": "",
             "emotion": "neutral",
             "doc": "$?",
             "unevaluated": "el nodo seleccionado no evaluó",
@@ -549,7 +523,6 @@
         },
         "Reaction": {
             "name": "reacción",
-            "description": "$?",
             "emotion": "neutral",
             "doc": "$?",
             "start": "$?",
@@ -575,7 +548,6 @@
         },
         "Select": {
             "name": "seleccionar",
-            "description": "$?",
             "emotion": "neutral",
             "doc": "$?",
             "start": "$?",
@@ -594,7 +566,6 @@
         },
         "SetOrMapAccess": {
             "name": "acceso al conjunto/mapa",
-            "description": "$?",
             "emotion": "neutral",
             "doc": "$?",
             "start": "$?",
@@ -605,13 +576,11 @@
         },
         "Source": {
             "name": "documento",
-            "description": "$?",
             "emotion": "neutral",
             "doc": "$?"
         },
         "StreamDefinition": {
             "name": "arroyo",
-            "description": "$?",
             "emotion": "neutral",
             "doc": "defines a stream of values.",
             "start": "define this stream type"
@@ -640,7 +609,6 @@
         },
         "Template": {
             "name": "plantilla de texto",
-            "description": "$?",
             "emotion": "neutral",
             "doc": "$?",
             "start": "$?",
@@ -655,7 +623,6 @@
         },
         "This": {
             "name": "esta",
-            "description": "$?",
             "emotion": "neutral",
             "doc": "$?",
             "start": "$?",
@@ -673,7 +640,6 @@
         },
         "UnparsableExpression": {
             "name": "no analizable",
-            "description": "$?",
             "emotion": "neutral",
             "doc": "$?",
             "start": "cannot evaluate unparsable code",
@@ -687,7 +653,6 @@
         },
         "Update": {
             "name": "update rows",
-            "description": "$?",
             "emotion": "neutral",
             "doc": "$?",
             "start": "$?",
@@ -699,37 +664,31 @@
         },
         "AnyType": {
             "name": "tipo de cualquier",
-            "description": "",
             "emotion": "neutral",
             "doc": "$?"
         },
         "BooleanType": {
             "name": "tipo de booleano",
-            "description": "",
             "emotion": "neutral",
             "doc": "$?"
         },
         "ConversionType": {
             "name": "tipo de conversión",
-            "description": "",
             "emotion": "neutral",
             "doc": "$?"
         },
         "ExceptionType": {
             "name": "tipo de excepción",
-            "description": "",
             "emotion": "neutral",
             "doc": "$?"
         },
         "FunctionDefinitionType": {
             "name": "tipo de función",
-            "description": "$?",
             "emotion": "neutral",
             "doc": "$?"
         },
         "FunctionType": {
             "name": "tipo de función",
-            "description": "$?",
             "emotion": "neutral",
             "doc": "$?"
         },
@@ -747,7 +706,6 @@
         },
         "MeasurementType": {
             "name": "tipo de número",
-            "description": "$?",
             "emotion": "neutral",
             "doc": "$?"
         },
@@ -762,13 +720,11 @@
         },
         "NeverType": {
             "name": "tipo de nunca",
-            "description": "",
             "emotion": "neutral",
             "doc": "$?"
         },
         "NoneType": {
             "name": "tipo de nada",
-            "description": "",
             "emotion": "neutral",
             "doc": "$?"
         },
@@ -780,25 +736,21 @@
         },
         "StreamDefinitionType": {
             "name": "streamtipo de arroyo",
-            "description": "$?",
             "emotion": "neutral",
             "doc": "$?"
         },
         "StreamType": {
             "name": "streamtipo de arroyo",
-            "description": "$?",
             "emotion": "neutral",
             "doc": "$?"
         },
         "StructureDefinitionType": {
             "name": "tipo de estructura",
-            "description": "$?",
             "emotion": "neutral",
             "doc": "$?"
         },
         "UnknownType": {
             "name": "desconocida",
-            "description": "$?",
             "unknown": "$?",
             "connector": "$?",
             "emotion": "neutral",
@@ -806,7 +758,6 @@
         },
         "TableType": {
             "name": "tipo de tabla",
-            "description": "",
             "emotion": "neutral",
             "doc": "$?",
             "conflict": {
@@ -821,7 +772,6 @@
         },
         "TypePlaceholder": {
             "name": "tipo de marcador de posición",
-            "description": "$?",
             "emotion": "neutral",
             "doc": "$?"
         },
@@ -839,13 +789,11 @@
         },
         "UnparsableType": {
             "name": "tipo no analizable",
-            "description": "",
             "emotion": "neutral",
             "doc": "$?"
         },
         "VariableType": {
             "name": "tipo variable",
-            "description": "",
             "emotion": "neutral",
             "doc": "$?"
         },
@@ -857,7 +805,6 @@
         },
         "UnknownVariableType": {
             "name": "tipo de variable desconocido",
-            "description": "$?",
             "emotion": "neutral",
             "doc": "$?"
         },
@@ -869,19 +816,16 @@
         },
         "NoExpressionType": {
             "name": "tipo sin expresión",
-            "description": "",
             "emotion": "neutral",
             "doc": "$?"
         },
         "NotEnclosedType": {
             "name": "no en estructura, conversión o reacción",
-            "description": "",
             "emotion": "neutral",
             "doc": "$?"
         },
         "NotImplementedType": {
             "name": "typo sin implementado",
-            "description": "",
             "emotion": "neutral",
             "doc": "$?"
         },

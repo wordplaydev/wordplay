@@ -9,6 +9,6 @@ export class UnenclosedType extends UnknownType<This> {
     }
 
     getReason(locale: Locale) {
-        return concretize(locale, locale.node.NotEnclosedType.description);
+        return concretize(locale, locale.node.NotEnclosedType.name);
     }
 }

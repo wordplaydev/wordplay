@@ -112,7 +112,7 @@
     "node": {
         "Dimension": {
             "name": "dimension",
-            "description": "number",
+            "description": "dimension",
             "emotion": "serious",
             "doc": [
                 "I am a /unit of measurement/, like ⧼1m⧽, ⧼10s⧽, ⧼100g⧽, or any other scientific unit. I'm happy to be any unit want to make up too, like ⧼17apple⧽.",
@@ -122,7 +122,6 @@
         },
         "Doc": {
             "name": "documentation",
-            "description": "documentation",
             "emotion": "serious",
             "doc": [
                 "$?",
@@ -133,19 +132,17 @@
         },
         "Docs": {
             "name": "documentation list",
-            "description": "documentation list",
             "emotion": "serious",
             "doc": "$?a list of documentation"
         },
         "KeyValue": {
             "name": "key/value pair",
-            "description": "key/value pair",
             "emotion": "kind",
             "doc": "$?represents a single mapping in a map between a key and a value."
         },
         "Language": {
             "name": "language tag",
-            "description": "language",
+            "description": "language $1 ?? [$1|unknown]",
             "emotion": "eager",
             "doc": [
                 "$?Why hello! ",
@@ -178,8 +175,7 @@
             ]
         },
         "Names": {
-            "name": "$name list",
-            "description": "$name list",
+            "name": "name list",
             "emotion": "kind",
             "doc": [
                 "$?",
@@ -191,7 +187,6 @@
         },
         "Row": {
             "name": "row",
-            "description": "row",
             "emotion": "angry",
             "doc": "$?a row of values, matching a table definition",
             "conflict": {
@@ -211,13 +206,11 @@
         },
         "TypeInputs": {
             "name": "type inputs",
-            "description": "type inputs",
             "emotion": "curious",
             "doc": "$?a list of types given to a @FunctionDefinition or @StructureDefinition"
         },
         "TypeVariable": {
             "name": "type variable",
-            "description": "type variable",
             "emotion": "curious",
             "doc": "$?a placeholder for a type used in a @FunctionDefinition or @StructureDefinition",
             "conflict": {
@@ -229,37 +222,33 @@
         },
         "TypeVariables": {
             "name": "type variables",
-            "description": "type variables",
             "emotion": "curious",
             "doc": "$?a list of @TypeVariable"
         },
         "Paragraph": {
             "name": "paragraph",
-            "description": "paragraph",
             "emotion": "serious",
             "doc": "$?a formatted list of words, links, and example code"
         },
         "WebLink": {
             "name": "link",
-            "description": "link",
+            "description": "link $1",
             "emotion": "serious",
             "doc": "$?a link to something on the web"
         },
         "ConceptLink": {
             "name": "concept",
-            "description": "concept",
+            "description": "concept $1",
             "emotion": "serious",
             "doc": "$?a link to a concept in Wordplay"
         },
         "Words": {
             "name": "words",
-            "description": "words",
             "emotion": "serious",
             "doc": "$?words that are part of @Doc"
         },
         "Example": {
             "name": "example",
-            "description": "example",
             "emotion": "serious",
             "doc": [
                 "You can put a $program in any documentation to format some text as $program, or to illustrate how to use some code. \nIf you put it on it's own line, it will be displayed in a fancy box and show the result of evaluating the $program.\nLike this:",
@@ -269,7 +258,6 @@
         },
         "BinaryOperation": {
             "name": "binary operation",
-            "description": "operator",
             "emotion": "insecure",
             "doc": [
                 "Sometimes when I'm evaluating a @FunctionDefinition with just one value on the left and one value on the right, I like to use this form, instead of @Evaluate.",
@@ -286,7 +274,7 @@
         },
         "Bind": {
             "name": "bind",
-            "description": "bind",
+            "description": "bind $1",
             "emotion": "bored",
             "doc": [
                 "Hello!",
@@ -433,7 +421,7 @@
         },
         "Borrow": {
             "name": "borrow",
-            "description": "borrow",
+            "description": "borrow $1 ?? [$1|missing name]",
             "emotion": "excited",
             "doc": "$?Use a binding from another $source or performance.",
             "start": "borrowing $2 from $1",
@@ -450,7 +438,6 @@
         },
         "Changed": {
             "name": "changed",
-            "description": "changed",
             "emotion": "curious",
             "doc": "$?true if a stream caused a $program to re-evaluate",
             "start": "check if $1 caused this $program to reevaluate",
@@ -459,7 +446,6 @@
         },
         "Conditional": {
             "name": "conditional",
-            "description": "conditional",
             "emotion": "curious",
             "doc": [
                 "",
@@ -492,7 +478,6 @@
         },
         "ConversionDefinition": {
             "name": "conversion",
-            "description": "conversion",
             "emotion": "excited",
             "doc": "$?define a conversion from one value type to another",
             "start": "define this conversion",
@@ -502,7 +487,6 @@
         },
         "Convert": {
             "name": "convert",
-            "description": "converts a value to a different type",
             "emotion": "cheerful",
             "doc": [
                 "",
@@ -523,7 +507,6 @@
         },
         "Delete": {
             "name": "delete",
-            "description": "delete",
             "emotion": "angry",
             "doc": "$?delete rows from a table",
             "start": "evaluate $1 first",
@@ -531,14 +514,13 @@
         },
         "DocumentedExpression": {
             "name": "documented expression",
-            "description": "documented expression",
             "emotion": "serious",
             "doc": "$?",
             "start": "evaluate the documented expression"
         },
         "Evaluate": {
             "name": "evaluate",
-            "description": "evaluate $1 ?? [$1|anonymous function]",
+            "description": "evaluate $1 ?? [$1|anonymous]",
             "emotion": "shy",
             "doc": [
                 "",
@@ -623,7 +605,6 @@
         },
         "HOF": {
             "name": "higher order function",
-            "description": "higher order function",
             "emotion": "kind",
             "doc": "$?",
             "start": "evaluating the function given",
@@ -634,13 +615,11 @@
         },
         "Initial": {
             "name": "initial evaluation",
-            "description": "initial evaluation",
             "emotion": "curious",
             "doc": "$?"
         },
         "Insert": {
             "name": "insert",
-            "description": "insert",
             "emotion": "angry",
             "doc": "$?",
             "start": "evaluate $1 first",
@@ -662,7 +641,6 @@
         },
         "ListAccess": {
             "name": "list access",
-            "description": "",
             "emotion": "cheerful",
             "doc": "$?",
             "start": "evaluate $1 first",
@@ -738,14 +716,12 @@
         },
         "NativeExpression": {
             "name": "built-in expression",
-            "description": "built-in expression",
             "emotion": "neutral",
             "doc": "$?",
             "start": "evaluate the built-in expression"
         },
         "NoneLiteral": {
-            "name": "nothing",
-            "description": "nothing",
+            "name": "none",
             "emotion": "neutral",
             "doc": [
                 "/Hi, @FunctionDefinition here. @NoneLiteral doesn't like to say much, so I'll translate./",
@@ -759,7 +735,6 @@
         },
         "Previous": {
             "name": "previous",
-            "description": "previous",
             "emotion": "curious",
             "doc": "$?",
             "start": "first get $1",
@@ -767,7 +742,6 @@
         },
         "Program": {
             "name": "program",
-            "description": "$program",
             "emotion": "serious",
             "doc": [
                 "You know how @Block evaluates a list of expressions, and evaluates to the last one in its list? ",
@@ -790,7 +764,7 @@
         },
         "PropertyBind": {
             "name": "refine",
-            "description": "refine",
+            "description": "refine $1 ?? [$1|missing name]",
             "emotion": "kind",
             "doc": "$?",
             "start": "get the $structure",
@@ -798,7 +772,7 @@
         },
         "PropertyReference": {
             "name": "property access",
-            "description": "property access",
+            "description": "property $1 ?? [$1|missing name]",
             "emotion": "kind",
             "doc": "$?",
             "start": "first get the value",
@@ -807,7 +781,6 @@
         },
         "Reaction": {
             "name": "reaction",
-            "description": "reaction",
             "emotion": "excited",
             "doc": "A reaction to a stream change.",
             "start": "first check if the stream has changed",
@@ -833,7 +806,6 @@
         },
         "Select": {
             "name": "select",
-            "description": "select",
             "emotion": "angry",
             "doc": "$?",
             "start": "evaluate $1 first",
@@ -865,7 +837,6 @@
         },
         "SetOrMapAccess": {
             "name": "set/map access",
-            "description": "set/map access",
             "emotion": "kind",
             "doc": "$?",
             "start": "evaluate the set first",
@@ -879,13 +850,11 @@
         },
         "Source": {
             "name": "document",
-            "description": "document",
             "emotion": "serious",
             "doc": "$?"
         },
         "StreamDefinition": {
             "name": "stream",
-            "description": "stream",
             "emotion": "curious",
             "doc": "$?defines a stream of values.",
             "start": "define this stream type"
@@ -905,7 +874,7 @@
         },
         "TableLiteral": {
             "name": "table",
-            "description": "table",
+            "description": "$1 row table",
             "emotion": "angry",
             "doc": "$?",
             "item": "row",
@@ -914,7 +883,6 @@
         },
         "Template": {
             "name": "text template",
-            "description": "text template",
             "emotion": "serious",
             "doc": [
                 "I can be placed inside @TextLiteral to combine text and other values into a larger text value.",
@@ -940,7 +908,6 @@
         },
         "This": {
             "name": "this",
-            "description": "this",
             "emotion": "kind",
             "doc": "$?",
             "start": "evaluated to $1",
@@ -964,7 +931,6 @@
         },
         "UnparsableExpression": {
             "name": "unparsable",
-            "description": "unparseable",
             "emotion": "excited",
             "doc": [
                 "(Hi @FunctionDefinition here. I'm translating for @UnparsableExpression, since they're often hard to interpret.)",
@@ -985,7 +951,6 @@
         },
         "Update": {
             "name": "update rows",
-            "description": "update rows",
             "emotion": "angry",
             "doc": "$?",
             "start": "evaluate $1 first",
@@ -999,38 +964,32 @@
             }
         },
         "AnyType": {
-            "name": "any",
-            "description": "any",
+            "name": "any type",
             "emotion": "curious",
             "doc": "represents any possible type"
         },
         "BooleanType": {
             "name": "boolean",
-            "description": "boolean",
             "emotion": "precise",
             "doc": "a true or false value"
         },
         "ConversionType": {
             "name": "conversion",
-            "description": "conversion",
             "emotion": "curious",
             "doc": "a type of function that converts values of one type to another "
         },
         "ExceptionType": {
             "name": "exception",
-            "description": "exception",
             "emotion": "curious",
             "doc": "$?"
         },
         "FunctionDefinitionType": {
             "name": "function",
-            "description": "function",
             "emotion": "curious",
             "doc": "$?"
         },
         "FunctionType": {
             "name": "function",
-            "description": "function",
             "emotion": "curious",
             "doc": "$?"
         },
@@ -1048,7 +1007,6 @@
         },
         "MeasurementType": {
             "name": "number",
-            "description": "number",
             "emotion": "precise",
             "doc": "$?"
         },
@@ -1063,13 +1021,11 @@
         },
         "NeverType": {
             "name": "never",
-            "description": "",
             "emotion": "curious",
             "doc": "$?"
         },
         "NoneType": {
             "name": "nothing",
-            "description": "",
             "emotion": "neutral",
             "doc": "$?"
         },
@@ -1080,26 +1036,22 @@
             "doc": "$?"
         },
         "StreamDefinitionType": {
-            "name": "stream",
-            "description": "stream type",
+            "name": "stream definition",
             "emotion": "curious",
             "doc": "$?"
         },
         "StreamType": {
-            "name": "stream",
-            "description": "stream type",
+            "name": "stream type",
             "emotion": "curious",
             "doc": "$?"
         },
         "StructureDefinitionType": {
-            "name": "structure",
-            "description": "structure",
+            "name": "structure type",
             "emotion": "kind",
             "doc": "$?"
         },
         "UnknownType": {
-            "name": "unknown",
-            "description": "unknown type",
+            "name": "unknown type",
             "unknown": "unknown",
             "connector": ", because",
             "emotion": "curious",
@@ -1107,7 +1059,6 @@
         },
         "TableType": {
             "name": "table",
-            "description": "table",
             "emotion": "angry",
             "doc": "$?",
             "conflict": {
@@ -1121,8 +1072,7 @@
             "doc": "$?"
         },
         "TypePlaceholder": {
-            "name": "placeholder",
-            "description": "placeholder",
+            "name": "type placeholder",
             "emotion": "curious",
             "doc": "$?"
         },
@@ -1140,13 +1090,11 @@
         },
         "UnparsableType": {
             "name": "unparsable",
-            "description": "",
             "emotion": "curious",
             "doc": "$?"
         },
         "VariableType": {
-            "name": "variable",
-            "description": "",
+            "name": "variable type",
             "emotion": "curious",
             "doc": "$?"
         },
@@ -1158,7 +1106,6 @@
         },
         "UnknownVariableType": {
             "name": "unknown variable",
-            "description": "",
             "emotion": "curious",
             "doc": "$?"
         },
@@ -1170,19 +1117,16 @@
         },
         "NoExpressionType": {
             "name": "non-expression",
-            "description": "",
             "emotion": "curious",
             "doc": "$?"
         },
         "NotEnclosedType": {
             "name": "not in $structure, $conversion, or $reaction",
-            "description": "",
             "emotion": "curious",
             "doc": "$?"
         },
         "NotImplementedType": {
             "name": "unimplemented",
-            "description": "",
             "emotion": "curious",
             "doc": "$?"
         },

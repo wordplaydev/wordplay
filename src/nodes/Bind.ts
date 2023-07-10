@@ -481,10 +481,7 @@ export default class Bind extends Expression {
     }
 
     getDescriptionInputs(locale: Locale) {
-        return [
-            this.names.getLocaleName(locale.language)?.getName() ??
-                locale.node.Bind.description,
-        ];
+        return [this.names.getLocaleName(locale.language)?.getName()];
     }
 
     getGlyphs() {

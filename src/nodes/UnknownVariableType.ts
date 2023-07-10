@@ -9,6 +9,6 @@ export class UnknownVariableType extends UnknownType<EvaluationType> {
     }
 
     getReason(locale: Locale) {
-        return concretize(locale, locale.node.UnknownVariableType.description);
+        return concretize(locale, locale.node.UnknownVariableType.name);
     }
 }

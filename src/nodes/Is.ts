@@ -181,4 +181,8 @@ export default class Is extends Expression {
     getGlyphs() {
         return Glyphs.Type;
     }
+
+    getDescriptionInputs(locale: Locale, context: Context) {
+        return [new NodeLink(this.type, locale, context)];
+    }
 }

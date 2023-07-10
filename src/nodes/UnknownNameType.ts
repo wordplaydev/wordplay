@@ -21,7 +21,7 @@ export default class UnknownNameType extends UnknownType<Node> {
     }
 
     getReason(locale: Locale) {
-        return concretize(locale, locale.node.UnknownNameType.description);
+        return concretize(locale, locale.node.UnknownNameType.name);
     }
 
     getDescriptionInputs(_: Locale, __: Context): TemplateInput[] {

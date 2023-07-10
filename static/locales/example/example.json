@@ -2,7 +2,6 @@
     "$schema": "../../schemas/Locale.json",
     "language": "$?",
     "wordplay": "$?",
-    "tbd": "$?",
     "term": {
         "store": "$?",
         "decide": "$?",
@@ -39,18 +38,6 @@
         "row": "$?",
         "set": "$?",
         "key": "$?"
-    },
-    "evaluate": {
-        "unevaluated": "$?",
-        "done": "$?",
-        "stream": "$?",
-        "jump": "$?",
-        "jumpif": "$?",
-        "halt": "$?",
-        "initialize": "$?",
-        "evaluate": "$?",
-        "next": "$?",
-        "check": "$?"
     },
     "token": {
         "EvalOpen": "$?",
@@ -131,19 +118,16 @@
         },
         "Doc": {
             "name": "$?",
-            "description": "$?",
             "emotion": "$?",
             "doc": "$?"
         },
         "Docs": {
             "name": "$?",
-            "description": "$?",
             "emotion": "$?",
             "doc": "$?"
         },
         "KeyValue": {
             "name": "$?",
-            "description": "$?",
             "emotion": "$?",
             "doc": "$?"
         },
@@ -151,7 +135,11 @@
             "name": "$?",
             "description": "$?",
             "emotion": "$?",
-            "doc": "$?"
+            "doc": "$?",
+            "conflict": {
+                "InvalidLanguage": "$?",
+                "MissingLanguage": "$?"
+            }
         },
         "Name": {
             "name": "$?",
@@ -161,15 +149,18 @@
         },
         "Names": {
             "name": "$?",
-            "description": "$?",
             "emotion": "$?",
             "doc": "$?"
         },
         "Row": {
             "name": "$?",
-            "description": "$?",
             "emotion": "$?",
-            "doc": "$?"
+            "doc": "$?",
+            "conflict": {
+                "InvalidRow": "$?",
+                "MissingCell": { "primary": "$?", "secondary": "$?" },
+                "UnknownColumn": "$?"
+            }
         },
         "Token": {
             "name": "$?",
@@ -179,25 +170,24 @@
         },
         "TypeInputs": {
             "name": "$?",
-            "description": "$?",
             "emotion": "$?",
             "doc": "$?"
         },
         "TypeVariable": {
             "name": "$?",
-            "description": "$?",
             "emotion": "$?",
-            "doc": "$?"
+            "doc": "$?",
+            "conflict": {
+                "DuplicateTypeVariable": { "primary": "$?", "secondary": "$?" }
+            }
         },
         "TypeVariables": {
             "name": "$?",
-            "description": "$?",
             "emotion": "$?",
             "doc": "$?"
         },
         "Paragraph": {
             "name": "$?",
-            "description": "$?",
             "emotion": "$?",
             "doc": "$?"
         },
@@ -215,24 +205,24 @@
         },
         "Words": {
             "name": "$?",
-            "description": "$?",
             "emotion": "$?",
             "doc": "$?"
         },
         "Example": {
             "name": "$?",
-            "description": "$?",
             "emotion": "$?",
             "doc": "$?"
         },
         "BinaryOperation": {
             "name": "$?",
-            "description": "$?",
             "emotion": "$?",
             "doc": "$?",
             "right": "$?",
             "start": "$?",
-            "finish": "$?"
+            "finish": "$?",
+            "conflict": {
+                "OrderOfOperations": "$?"
+            }
         },
         "Bind": {
             "name": "$?",
@@ -240,7 +230,17 @@
             "emotion": "$?",
             "doc": "$?",
             "start": "$?",
-            "finish": "$?"
+            "finish": "$?",
+            "conflict": {
+                "DuplicateName": { "primary": "$?", "secondary": "$?" },
+                "DuplicateShare": { "primary": "$?", "secondary": "$?" },
+                "IncompatibleBind": { "primary": "$?", "secondary": "$?" },
+                "MisplacedShare": "$?",
+                "MissingShareLanguages": "$?",
+                "RequiredAfterOptional": "$?",
+                "UnexpectedEtc": "$?",
+                "UnusedBind": "$?"
+            }
         },
         "Block": {
             "name": "$?",
@@ -249,7 +249,11 @@
             "doc": "$?",
             "statement": "$?",
             "start": "$?",
-            "finish": "$?"
+            "finish": "$?",
+            "conflict": {
+                "ExpectedEndingExpression": "$?",
+                "IgnoredExpression": { "primary": "$?", "secondary": "$?" }
+            }
         },
         "BooleanLiteral": {
             "name": "$?",
@@ -266,45 +270,73 @@
             "start": "$?",
             "source": "$?",
             "bind": "$?",
-            "version": "$?"
+            "version": "$?",
+            "conflict": {
+                "UnknownBorrow": "$?",
+                "BorrowCycle": "$?"
+            },
+            "exception": {
+                "CycleException": "$?"
+            }
         },
         "Changed": {
             "name": "$?",
-            "description": "$?",
             "emotion": "$?",
             "doc": "$?",
             "start": "$?",
+            "keep": "$?",
             "stream": "$?"
         },
         "Conditional": {
             "name": "$?",
-            "description": "",
+            "emotion": "$?",
+            "doc": [
+                "¿Alguna vez pensaste en cómo decidimos?",
+                "Pienso mucho en eso.",
+                "Tantas decisiones en la vida pueden ser tan complicadas.",
+                "A veces siento mucha presión para decidir, ya que soy el único en este mundo que puede decidir.",
+                "Me siento abrumado, así que he tratado de simplificar las cosas.",
+                "Primero, solo considero dos opciones: ⧼⊤⧽ y ⧼⊥⧽.",
+                "Si es ⧼⊤⧽, entonces evalúo mi código *sí*. Si es ⧼⊥⧽, entonces evalúo mi código *no*.",
+                "Sé que las decisiones rara vez son tan simples, pero dividir el mundo en estos binarios me facilita las cosas.",
+                "Sí, no, si, si no, esto, aquello.",
+                "Es mi pequeña forma de mantener las cosas organizadas, incluso ante tanta complejidad."
+            ],
+            "start": "$?",
+            "afterthen": "$?",
+            "else": "$?",
+            "finish": "$?",
+            "condition": "$?",
+            "yes": "$?",
+            "no": "$?",
+            "conflict": {
+                "ExpectedBooleanCondition": {
+                    "primary": "$?",
+                    "secondary": "$?"
+                }
+            }
+        },
+        "ConversionDefinition": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?",
+            "conflict": {
+                "MisplacedConversion": "$?"
+            }
+        },
+        "Convert": {
+            "name": "$?",
             "emotion": "$?",
             "doc": "$?",
             "start": "$?",
             "finish": "$?",
-            "condition": "$?",
-            "yes": "$?",
-            "no": "$?"
-        },
-        "ConversionDefinition": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "start": "$?"
-        },
-        "Convert": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "start": "$?",
-            "finish": "$?"
+            "conflict": {
+                "UnknownConversion": "$?"
+            }
         },
         "Delete": {
             "name": "$?",
-            "description": "$?",
             "emotion": "$?",
             "doc": "$?",
             "start": "$?",
@@ -312,7 +344,6 @@
         },
         "DocumentedExpression": {
             "name": "$?",
-            "description": "$?",
             "emotion": "$?",
             "doc": "$?",
             "start": "$?"
@@ -323,9 +354,23 @@
             "emotion": "$?",
             "doc": "$?",
             "start": "$?",
+            "evaluate": "$?",
             "finish": "$?",
             "function": "$?",
-            "input": "$?"
+            "input": "$?",
+            "conflict": {
+                "IncompatibleInput": { "primary": "$?", "secondary": "$?" },
+                "UnexpectedTypeInput": { "primary": "$?", "secondary": "$?" },
+                "MisplacedInput": "$?",
+                "MissingInput": { "primary": "$?", "secondary": "$?" },
+                "NotInstantiable": "$?",
+                "UnexpectedInput": { "primary": "$?", "secondary": "$?" },
+                "UnknownInput": { "primary": "$?", "secondary": "$?" },
+                "InputListMustBeLast": "$?"
+            },
+            "exception": {
+                "FunctionException": "$?"
+            }
         },
         "ExpressionPlaceholder": {
             "name": "$?",
@@ -333,32 +378,41 @@
             "emotion": "$?",
             "doc": "$?",
             "start": "$?",
-            "placeholder": "$?"
+            "placeholder": "$?",
+            "conflict": {
+                "Placeholder": "$?"
+            },
+            "exception": {
+                "UnimplementedException": "$?"
+            }
         },
         "FunctionDefinition": {
             "name": "$?",
             "description": "$?",
             "emotion": "$?",
             "doc": "$?",
-            "start": "$?"
+            "start": "$?",
+            "conflict": {
+                "NoExpression": "$?"
+            }
         },
         "HOF": {
             "name": "$?",
-            "description": "$?",
             "emotion": "$?",
             "doc": "$?",
             "start": "$?",
+            "initialize": "$?",
+            "next": "$?",
+            "check": "$?",
             "finish": "$?"
         },
         "Initial": {
             "name": "$?",
-            "description": "$?",
             "emotion": "$?",
             "doc": "$?"
         },
         "Insert": {
             "name": "$?",
-            "description": "$?",
             "emotion": "$?",
             "doc": "$?",
             "start": "$?",
@@ -370,11 +424,16 @@
             "emotion": "$?",
             "doc": "$?",
             "start": "$?",
-            "finish": "$?"
+            "finish": "$?",
+            "conflict": {
+                "ImpossibleType": "$?"
+            },
+            "exception": {
+                "TypeException": "$?"
+            }
         },
         "ListAccess": {
             "name": "$?",
-            "description": "",
             "emotion": "$?",
             "doc": "$?",
             "start": "$?",
@@ -395,32 +454,35 @@
             "emotion": "$?",
             "doc": "$?",
             "start": "$?",
-            "finish": "$?"
+            "finish": "$?",
+            "conflict": {
+                "NotAKeyValue": { "primary": "$?", "secondary": "$?" }
+            }
         },
         "MeasurementLiteral": {
             "name": "$?",
             "description": "$?",
             "emotion": "$?",
             "doc": "$?",
-            "start": "$?"
+            "start": "$?",
+            "conflict": {
+                "NotANumber": "$?"
+            }
         },
         "NativeExpression": {
             "name": "$?",
-            "description": "$?",
             "emotion": "$?",
             "doc": "$?",
             "start": "$?"
         },
         "NoneLiteral": {
             "name": "$?",
-            "description": "$?",
             "emotion": "$?",
             "doc": "$?",
             "start": "$?"
         },
         "Previous": {
             "name": "$?",
-            "description": "$?",
             "emotion": "$?",
             "doc": "$?",
             "start": "$?",
@@ -428,11 +490,19 @@
         },
         "Program": {
             "name": "$?",
-            "description": "",
             "emotion": "$?",
             "doc": "$?",
+            "unevaluated": "$?",
             "start": "$?",
-            "finish": "$?"
+            "halt": "$?",
+            "finish": "$?",
+            "done": "$?",
+            "exception": {
+                "BlankException": "$?",
+                "EvaluationLimitException": "$?",
+                "StepLimitException": "$?",
+                "ValueException": "$?"
+            }
         },
         "PropertyBind": {
             "name": "$?",
@@ -453,7 +523,6 @@
         },
         "Reaction": {
             "name": "$?",
-            "description": "$?",
             "emotion": "$?",
             "doc": "$?",
             "start": "$?",
@@ -467,15 +536,25 @@
             "description": "$?",
             "emotion": "$?",
             "doc": "$?",
-            "start": "$?"
+            "start": "$?",
+            "conflict": {
+                "UnknownName": "$?",
+                "ReferenceCycle": "$?",
+                "UnexpectedTypeVariable": "$?"
+            },
+            "exception": {
+                "NameException": "$?"
+            }
         },
         "Select": {
             "name": "$?",
-            "description": "$?",
             "emotion": "$?",
             "doc": "$?",
             "start": "$?",
-            "finish": "$?"
+            "finish": "$?",
+            "conflict": {
+                "ExpectedSelectName": "$?"
+            }
         },
         "SetLiteral": {
             "name": "$?",
@@ -487,21 +566,21 @@
         },
         "SetOrMapAccess": {
             "name": "$?",
-            "description": "$?",
             "emotion": "$?",
             "doc": "$?",
             "start": "$?",
-            "finish": "$?"
+            "finish": "$?",
+            "conflict": {
+                "IncompatibleKey": { "primary": "$?", "secondary": "$?" }
+            }
         },
         "Source": {
             "name": "$?",
-            "description": "$?",
             "emotion": "$?",
             "doc": "$?"
         },
         "StreamDefinition": {
             "name": "$?",
-            "description": "$?",
             "emotion": "$?",
             "doc": "$?",
             "start": "$?"
@@ -511,7 +590,13 @@
             "description": "$?",
             "emotion": "$?",
             "doc": "$?",
-            "start": "$?"
+            "start": "$?",
+            "conflict": {
+                "DisallowedInputs": "$?",
+                "IncompleteImplementation": "$?",
+                "NotAnInterface": "$?",
+                "UnimplementedInterface": "$?"
+            }
         },
         "TableLiteral": {
             "name": "$?",
@@ -524,7 +609,6 @@
         },
         "Template": {
             "name": "$?",
-            "description": "$?",
             "emotion": "$?",
             "doc": "$?",
             "start": "$?",
@@ -539,10 +623,12 @@
         },
         "This": {
             "name": "$?",
-            "description": "$?",
             "emotion": "$?",
             "doc": "$?",
-            "start": "$?"
+            "start": "$?",
+            "conflict": {
+                "MisplacedThis": "$?"
+            }
         },
         "UnaryOperation": {
             "name": "$?",
@@ -554,52 +640,55 @@
         },
         "UnparsableExpression": {
             "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "start": "$?"
-        },
-        "Update": {
-            "name": "$?",
-            "description": "$?",
             "emotion": "$?",
             "doc": "$?",
             "start": "$?",
-            "finish": "$?"
+            "conflict": {
+                "UnparsableConflict": "$?",
+                "UnclosedDelimiter": "$?"
+            },
+            "exception": {
+                "UnparsableException": "$?"
+            }
+        },
+        "Update": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?",
+            "finish": "$?",
+            "conflict": {
+                "ExpectedUpdateBind": "$?",
+                "IncompatibleCellType": { "primary": "$?", "secondary": "$?" }
+            }
         },
         "AnyType": {
             "name": "$?",
-            "description": "",
             "emotion": "$?",
             "doc": "$?"
         },
         "BooleanType": {
             "name": "$?",
-            "description": "",
             "emotion": "$?",
             "doc": "$?"
         },
         "ConversionType": {
             "name": "$?",
-            "description": "",
             "emotion": "$?",
             "doc": "$?"
         },
         "ExceptionType": {
             "name": "$?",
-            "description": "",
             "emotion": "$?",
             "doc": "$?"
         },
         "FunctionDefinitionType": {
             "name": "$?",
-            "description": "$?",
             "emotion": "$?",
             "doc": "$?"
         },
         "FunctionType": {
             "name": "$?",
-            "description": "$?",
             "emotion": "$?",
             "doc": "$?"
         },
@@ -617,7 +706,6 @@
         },
         "MeasurementType": {
             "name": "$?",
-            "description": "$?",
             "emotion": "$?",
             "doc": "$?"
         },
@@ -625,17 +713,18 @@
             "name": "$?",
             "description": "$?",
             "emotion": "$?",
-            "doc": "$?"
+            "doc": "$?",
+            "conflict": {
+                "UnknownTypeName": "$?"
+            }
         },
         "NeverType": {
             "name": "$?",
-            "description": "",
             "emotion": "$?",
             "doc": "$?"
         },
         "NoneType": {
             "name": "$?",
-            "description": "",
             "emotion": "$?",
             "doc": "$?"
         },
@@ -647,25 +736,21 @@
         },
         "StreamDefinitionType": {
             "name": "$?",
-            "description": "$?",
             "emotion": "$?",
             "doc": "$?"
         },
         "StreamType": {
             "name": "$?",
-            "description": "$?",
             "emotion": "$?",
             "doc": "$?"
         },
         "StructureDefinitionType": {
             "name": "$?",
-            "description": "$?",
             "emotion": "$?",
             "doc": "$?"
         },
         "UnknownType": {
             "name": "$?",
-            "description": "$?",
             "unknown": "$?",
             "connector": "$?",
             "emotion": "$?",
@@ -673,9 +758,11 @@
         },
         "TableType": {
             "name": "$?",
-            "description": "",
             "emotion": "$?",
-            "doc": "$?"
+            "doc": "$?",
+            "conflict": {
+                "ExpectedColumnType": "$?"
+            }
         },
         "TextType": {
             "name": "$?",
@@ -685,7 +772,6 @@
         },
         "TypePlaceholder": {
             "name": "$?",
-            "description": "$?",
             "emotion": "$?",
             "doc": "$?"
         },
@@ -703,13 +789,11 @@
         },
         "UnparsableType": {
             "name": "$?",
-            "description": "",
             "emotion": "$?",
             "doc": "$?"
         },
         "VariableType": {
             "name": "$?",
-            "description": "",
             "emotion": "$?",
             "doc": "$?"
         },
@@ -721,7 +805,6 @@
         },
         "UnknownVariableType": {
             "name": "$?",
-            "description": "$?",
             "emotion": "$?",
             "doc": "$?"
         },
@@ -733,19 +816,16 @@
         },
         "NoExpressionType": {
             "name": "$?",
-            "description": "",
             "emotion": "$?",
             "doc": "$?"
         },
         "NotEnclosedType": {
             "name": "$?",
-            "description": "",
             "emotion": "$?",
             "doc": "$?"
         },
         "NotImplementedType": {
             "name": "$?",
-            "description": "",
             "emotion": "$?",
             "doc": "$?"
         },
@@ -763,23 +843,23 @@
             "function": {
                 "and": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 },
                 "or": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 },
-                "not": { "doc": "$?", "name": "$?", "inputs": [] },
+                "not": { "doc": "$?", "names": "$?", "inputs": [] },
                 "equals": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 },
                 "notequal": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 }
             },
@@ -791,12 +871,12 @@
             "function": {
                 "equals": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": ["=", "equals"],
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 },
                 "notequals": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 }
             },
@@ -806,35 +886,35 @@
             "doc": "$?",
             "name": "$?",
             "function": {
-                "length": { "doc": "$?", "name": "$?", "inputs": [] },
+                "length": { "doc": "$?", "names": "$?", "inputs": [] },
                 "equals": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": ["=", "equals"],
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 },
                 "notequals": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 },
                 "repeat": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 },
                 "segment": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": ["segmentar"],
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 },
                 "combine": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 },
                 "has": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": ["tiene"],
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 }
             },
@@ -846,81 +926,85 @@
             "function": {
                 "add": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 },
                 "subtract": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 },
                 "multiply": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 },
                 "divide": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": ["÷", "divide"],
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 },
                 "remainder": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 },
                 "truncate": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": ["truncate"],
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 },
                 "absolute": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": ["absolute"],
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 },
                 "power": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": ["^", "power"],
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 },
                 "root": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": ["√", "root"],
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 },
                 "lessThan": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": ["<", "lessthan"],
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 },
                 "lessOrEqual": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": ["≤", "lessorequal"],
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 },
                 "greaterThan": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": [">", "greaterthan"],
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 },
                 "greaterOrEqual": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": ["≥", "greaterorequal"],
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 },
                 "equal": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 },
                 "notequal": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 },
-                "cos": { "doc": "$?", "name": "$?", "inputs": [] },
-                "sin": { "doc": "$?", "name": "$?", "inputs": [] }
+                "cos": {
+                    "doc": "$?",
+                    "names": ["cos", "cosine"],
+                    "inputs": []
+                },
+                "sin": { "doc": "$?", "names": ["sin", "sine"], "inputs": [] }
             },
             "conversion": {
                 "text": "$?",
@@ -982,97 +1066,97 @@
             "function": {
                 "add": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 },
                 "append": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 },
                 "replace": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": ["reemplazar"],
                     "inputs": [
                         { "doc": "$?", "names": "$?" },
                         { "doc": "$?", "names": "$?" }
                     ]
                 },
-                "length": { "doc": "$?", "name": "$?", "inputs": [] },
-                "random": { "doc": "$?", "name": "$?", "inputs": [] },
-                "first": { "doc": "$?", "name": "$?", "inputs": [] },
-                "last": { "doc": "$?", "name": "$?", "inputs": [] },
+                "length": { "doc": "$?", "names": "$?", "inputs": [] },
+                "random": { "doc": "$?", "names": "$?", "inputs": [] },
+                "first": { "doc": "$?", "names": "$?", "inputs": [] },
+                "last": { "doc": "$?", "names": "$?", "inputs": [] },
                 "has": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 },
                 "join": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 },
                 "sansFirst": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": "$?",
                     "inputs": []
                 },
-                "sansLast": { "doc": "$?", "name": "$?", "inputs": [] },
+                "sansLast": { "doc": "$?", "names": "$?", "inputs": [] },
                 "sans": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 },
                 "sansAll": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 },
-                "reverse": { "doc": "$?", "name": "$?", "inputs": [] },
+                "reverse": { "doc": "$?", "names": "$?", "inputs": [] },
                 "equals": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": ["=", "equals"],
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 },
                 "notequals": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 },
                 "translate": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }],
                     "value": { "doc": "$?", "names": "$?" },
                     "index": { "doc": "$?", "names": "$?" }
                 },
                 "filter": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }],
                     "value": { "doc": "$?", "names": "$?" }
                 },
                 "all": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }],
                     "value": { "doc": "$?", "names": "$?" }
                 },
                 "until": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }],
                     "value": { "doc": "$?", "names": "$?" }
                 },
                 "find": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }],
                     "value": { "doc": "$?", "names": "$?" }
                 },
                 "combine": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": "$?",
                     "inputs": [
                         { "doc": "$?", "names": "$?" },
                         { "doc": "$?", "names": "$?" }
@@ -1091,48 +1175,48 @@
             "function": {
                 "equals": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": ["=", "equals"],
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 },
                 "notequals": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 },
                 "add": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": ["add", "+"],
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 },
                 "remove": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": ["remove", "-"],
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 },
                 "union": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": ["union", "∪"],
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 },
                 "intersection": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": ["intersection", "∩"],
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 },
                 "difference": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 },
                 "filter": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }],
                     "value": { "doc": "$?", "names": "$?" }
                 },
                 "translate": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }],
                     "value": { "doc": "$?", "names": "$?" }
                 }
@@ -1148,17 +1232,17 @@
             "function": {
                 "equals": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": ["=", "equals"],
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 },
                 "notequals": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 },
                 "set": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": "$?",
                     "inputs": [
                         { "doc": "$?", "names": "$?" },
                         { "doc": "$?", "names": "$?" }
@@ -1166,24 +1250,24 @@
                 },
                 "unset": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 },
                 "remove": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 },
                 "filter": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }],
                     "key": { "doc": "$?", "names": "$?" },
                     "value": { "doc": "$?", "names": "$?" }
                 },
                 "translate": {
                     "doc": "$?",
-                    "name": "$?",
+                    "names": "$?",
                     "inputs": [{ "doc": "$?", "names": "$?" }],
                     "key": { "doc": "$?", "names": "$?" },
                     "value": { "doc": "$?", "names": "$?" }
@@ -1192,79 +1276,186 @@
             "conversion": { "text": "$?", "set": "$?", "list": "$?" }
         }
     },
-    "exception": {
-        "blank": "$?",
-        "function": "$?",
-        "name": "$?",
-        "cycle": "$?",
-        "functionlimit": "$?",
-        "steplimit": "$?",
-        "type": "$?",
-        "placeholder": "$?",
-        "unparsable": "$?",
-        "value": "$?"
+    "input": {
+        "Random": {
+            "doc": "$?",
+            "names": ["Azar"],
+            "min": { "names": "$?", "doc": "$?" },
+            "max": { "names": "$?", "doc": "$?" }
+        },
+        "Choice": { "doc": "$?", "names": ["Selección", "Elección"] },
+        "Button": {
+            "doc": "$?",
+            "names": ["Botón"],
+            "down": { "names": "$?", "doc": "$?" }
+        },
+        "Pointer": { "doc": "$?", "names": ["Puntero"] },
+        "Key": {
+            "doc": "$?",
+            "names": ["Teclado"],
+            "key": { "names": "$?", "doc": "$?" },
+            "down": { "names": "$?", "doc": "$?" }
+        },
+        "Time": {
+            "doc": "$?",
+            "names": ["Tiempo"],
+            "frequency": { "names": ["frecuencia"], "doc": "$?" }
+        },
+        "Mic": {
+            "doc": "$?",
+            "names": ["Micrófono", "🎤"],
+            "frequency": { "names": ["frecuencia"], "doc": "$?" }
+        },
+        "Camera": {
+            "doc": "$?",
+            "names": ["Cámara"],
+            "width": { "names": ["ancho"], "doc": "$?" },
+            "height": { "names": ["altura"], "doc": "$?" },
+            "frequency": { "names": ["frecuencia"], "doc": "$?" }
+        },
+        "Reaction": { "names": "$?", "doc": "$?" },
+        "Motion": {
+            "names": "$?",
+            "doc": "$?",
+            "type": { "doc": "$?", "names": "$?" },
+            "vx": { "doc": "$?", "names": "$?" },
+            "vy": { "doc": "$?", "names": "$?" },
+            "vz": { "doc": "$?", "names": "$?" },
+            "vangle": { "doc": "$?", "names": "$?" },
+            "mass": { "doc": "$?", "names": "$?" },
+            "bounciness": { "doc": "$?", "names": "$?" },
+            "gravity": { "doc": "$?", "names": "$?" }
+        }
     },
-    "conflict": {
-        "BorrowCycle": "$?",
-        "ReferenceCycle": "$?",
-        "DisallowedInputs": "$?",
-        "DuplicateName": { "primary": "$?", "secondary": "$?" },
-        "DuplicateShare": { "primary": "$?", "secondary": "$?" },
-        "DuplicateTypeVariable": { "primary": "$?", "secondary": "$?" },
-        "ExpectedBooleanCondition": { "primary": "$?", "secondary": "$?" },
-        "ExpectedColumnType": "$?",
-        "ExpectedEndingExpression": "$?",
-        "ExpectedSelectName": "$?",
-        "ExpectedUpdateBind": "$?",
-        "IgnoredExpression": { "primary": "$?", "secondary": "$?" },
-        "IncompleteImplementation": "$?",
-        "IncompatibleBind": { "primary": "$?", "secondary": "$?" },
-        "IncompatibleCellType": { "primary": "$?", "secondary": "$?" },
-        "IncompatibleInput": { "primary": "$?", "secondary": "$?" },
-        "IncompatibleKey": { "primary": "$?", "secondary": "$?" },
-        "ImpossibleType": "$?",
-        "InputListMustBeLast": "$?",
-        "InvalidLanguage": "$?",
-        "InvalidRow": "$?",
-        "InvalidTypeInput": { "primary": "$?", "secondary": "$?" },
-        "MisplacedConversion": "$?",
-        "MisplacedInput": "$?",
-        "MisplacedShare": "$?",
-        "MisplacedThis": "$?",
-        "MissingCell": { "primary": "$?", "secondary": "$?" },
-        "MissingInput": { "primary": "$?", "secondary": "$?" },
-        "MissingLanguage": "$?",
-        "MissingShareLanguages": "$?",
-        "NoExpression": "$?",
-        "NotAMap": { "primary": "$?", "secondary": "$?" },
-        "NotANumber": "$?",
-        "NotAnInterface": "$?",
-        "NotInstantiable": "$?",
-        "OrderOfOperations": "$?",
-        "Placeholder": "$?",
-        "RequiredAfterOptional": "$?",
-        "UnclosedDelimiter": "$?",
-        "UnexpectedEtc": "$?",
-        "UnexpectedInput": { "primary": "$?", "secondary": "$?" },
-        "UnexpectedTypeVariable": "$?",
-        "UnimplementedInterface": "$?",
-        "UnknownBorrow": "$?",
-        "UnknownColumn": "$?",
-        "UnknownConversion": "$?",
-        "UnknownInput": "$?",
-        "UnknownName": "$?",
-        "InvalidTypeName": "$?",
-        "Unnamed": "$?",
-        "UnparsableConflict": "$?",
-        "UnusedBind": "$?"
-    },
-    "edit": {
-        "before": "$?",
-        "inside": "$?",
-        "add": "$?",
-        "append": "$?",
-        "remove": "$?",
-        "replace": "$?"
+    "output": {
+        "Type": {
+            "names": "$?",
+            "doc": "$?",
+            "size": { "doc": "$?", "names": "$?" },
+            "family": { "doc": "$?", "names": "$?" },
+            "place": { "doc": "$?", "names": "$?" },
+            "rotation": { "doc": "$?", "names": "$?" },
+            "name": { "doc": "$?", "names": "$?" },
+            "selectable": { "doc": "$?", "names": "$?" },
+            "enter": { "doc": "$?", "names": "$?" },
+            "rest": { "doc": "$?", "names": "$?" },
+            "move": { "doc": "$?", "names": "$?" },
+            "exit": { "doc": "$?", "names": "$?" },
+            "duration": { "doc": "$?", "names": ["duración"] },
+            "style": { "doc": "$?", "names": "$?" }
+        },
+        "Stage": {
+            "names": "$?",
+            "doc": "$?",
+            "description": "$?",
+            "content": { "doc": "$?", "names": "$?" },
+            "background": { "doc": "$?", "names": "$?" },
+            "frame": { "doc": "$?", "names": "$?" }
+        },
+        "Group": {
+            "names": "$?",
+            "doc": "$?",
+            "content": { "doc": "$?", "names": "$?" },
+            "layout": { "doc": "$?", "names": "$?" }
+        },
+        "Phrase": {
+            "names": ["💬", "Frase"],
+            "doc": "$?",
+            "text": { "doc": "$?", "names": "$?" }
+        },
+        "Arrangement": { "names": ["Arrangement"], "doc": "$?" },
+        "Row": {
+            "names": ["Fila"],
+            "doc": "$?",
+            "description": "$?",
+            "padding": { "doc": "$?", "names": "$?" }
+        },
+        "Stack": {
+            "names": "$?",
+            "doc": "$?",
+            "description": "$?",
+            "padding": { "doc": "$?", "names": "$?" }
+        },
+        "Grid": {
+            "names": "$?",
+            "doc": "$?",
+            "description": "$?",
+            "rows": { "doc": "$?", "names": "$?" },
+            "columns": { "doc": "$?", "names": "$?" },
+            "padding": { "doc": "$?", "names": "$?" },
+            "cellWidth": { "doc": "$?", "names": "$?" },
+            "cellHeight": { "doc": "$?", "names": "$?" }
+        },
+        "Free": {
+            "names": "$?",
+            "doc": "$?",
+            "description": "$?"
+        },
+        "Shape": { "names": "$?", "doc": "$?" },
+        "Rectangle": {
+            "names": "$?",
+            "doc": "$?",
+            "left": { "doc": "$?", "names": "$?" },
+            "top": { "doc": "$?", "names": "$?" },
+            "right": { "doc": "$?", "names": "$?" },
+            "bottom": { "doc": "$?", "names": "$?" }
+        },
+        "Pose": {
+            "names": "$?",
+            "doc": "$?",
+            "duration": { "doc": "$?", "names": "$?" },
+            "style": { "doc": "$?", "names": "$?" },
+            "color": { "doc": "$?", "names": "$?" },
+            "opacity": { "doc": "$?", "names": "$?" },
+            "offset": { "doc": "$?", "names": "$?" },
+            "tilt": { "doc": "$?", "names": "$?" },
+            "scale": { "doc": "$?", "names": "$?" },
+            "flipx": { "doc": "$?", "names": "$?" },
+            "flipy": { "doc": "$?", "names": "$?" }
+        },
+        "Color": {
+            "names": "$?",
+            "doc": "$?",
+            "lightness": { "doc": "$?", "names": ["luminosidad"] },
+            "chroma": { "doc": "$?", "names": ["croma"] },
+            "hue": { "doc": "$?", "names": ["matiz"] }
+        },
+        "Sequence": {
+            "names": "$?",
+            "doc": "$?",
+            "timing": { "doc": "$?", "names": "$?" },
+            "count": { "doc": "$?", "names": "$?" },
+            "poses": { "doc": "$?", "names": "$?" }
+        },
+        "Place": {
+            "names": ["Posición"],
+            "doc": "$?",
+            "x": { "doc": "$?", "names": "$?" },
+            "y": { "doc": "$?", "names": "$?" },
+            "z": { "doc": "$?", "names": "$?" }
+        },
+        "Easing": {
+            "straight": "$?",
+            "cautious": "$?",
+            "pokey": "$?",
+            "zippy": "$?"
+        },
+        "sequence": {
+            "sway": {
+                "doc": "$?",
+                "names": ["vaivén"],
+                "angle": { "doc": "$?", "names": ["ángulo"] }
+            },
+            "bounce": {
+                "doc": "$?",
+                "names": ["rebotar"],
+                "height": { "doc": "$?", "names": ["altura"] }
+            },
+            "spin": { "doc": "$?", "names": ["girar"] },
+            "fadein": { "doc": "$?", "names": ["revelar"] },
+            "popup": { "doc": "$?", "names": ["surgir"] },
+            "shake": { "doc": "$?", "names": ["agitar"] }
+        }
     },
     "ui": {
         "phrases": {
@@ -1272,6 +1463,7 @@
             "motto": "$?"
         },
         "placeholders": {
+            "unwritten": "$?",
             "code": "$?",
             "expression": "$?",
             "type": "$?",
@@ -1379,191 +1571,16 @@
             "offline": "$?"
         },
         "edit": {
+            "before": "$?",
+            "inside": "$?",
+            "add": "$?",
+            "append": "$?",
+            "remove": "$?",
+            "replace": "$?",
             "wrap": "$?",
             "unwrap": "$?",
             "bind": "$?"
         },
         "error": { "tutorial": "$?" }
-    },
-    "input": {
-        "Random": {
-            "doc": "$?",
-            "names": "$?",
-            "min": { "names": "$?", "doc": "$?" },
-            "max": { "names": "$?", "doc": "$?" }
-        },
-        "Choice": { "doc": "$?", "names": "$?" },
-        "Button": {
-            "doc": "$?",
-            "names": "$?",
-            "down": { "names": "$?", "doc": "$?" }
-        },
-        "Pointer": { "doc": "$?", "names": "$?" },
-        "Key": {
-            "doc": "$?",
-            "names": "$?",
-            "key": { "names": "$?", "doc": "$?" },
-            "down": { "names": "$?", "doc": "$?" }
-        },
-        "Time": {
-            "doc": "$?",
-            "names": "$?",
-            "frequency": { "names": "$?", "doc": "$?" }
-        },
-        "Mic": {
-            "doc": "$?",
-            "names": "$?",
-            "frequency": { "names": "$?", "doc": "$?" }
-        },
-        "Camera": {
-            "doc": "$?",
-            "names": "$?",
-            "width": { "names": "$?", "doc": "$?" },
-            "height": { "names": "$?", "doc": "$?" },
-            "frequency": { "names": "$?", "doc": "$?" }
-        },
-        "Reaction": { "names": "$?", "doc": "$?" },
-        "Motion": {
-            "names": "$?",
-            "doc": "$?",
-            "type": { "doc": "$?", "names": "$?" },
-            "vx": { "doc": "$?", "names": "$?" },
-            "vy": { "doc": "$?", "names": "$?" },
-            "vz": { "doc": "$?", "names": "$?" },
-            "vangle": { "doc": "$?", "names": "$?" },
-            "mass": { "doc": "$?", "names": "$?" },
-            "bounciness": { "doc": "$?", "names": "$?" },
-            "gravity": { "doc": "$?", "names": "$?" }
-        }
-    },
-    "output": {
-        "Type": {
-            "names": "$?",
-            "doc": "$?",
-            "size": { "doc": "$?", "names": "$?" },
-            "family": { "doc": "$?", "names": "$?" },
-            "place": { "doc": "$?", "names": "$?" },
-            "rotation": { "doc": "$?", "names": "$?" },
-            "name": { "doc": "$?", "names": "$?" },
-            "selectable": { "doc": "$?", "names": "$?" },
-            "enter": { "doc": "$?", "names": "$?" },
-            "rest": { "doc": "$?", "names": "$?" },
-            "move": { "doc": "$?", "names": "$?" },
-            "exit": { "doc": "$?", "names": "$?" },
-            "duration": { "doc": "$?", "names": "$?" },
-            "style": { "doc": "$?", "names": "$?" }
-        },
-        "Stage": {
-            "names": "$?",
-            "doc": "$?",
-            "description": "$?",
-            "content": { "doc": "$?", "names": "$?" },
-            "background": { "doc": "$?", "names": "$?" },
-            "frame": { "doc": "$?", "names": "$?" }
-        },
-        "Group": {
-            "names": "$?",
-            "doc": "$?",
-            "content": { "doc": "$?", "names": "$?" },
-            "layout": { "doc": "$?", "names": "$?" }
-        },
-        "Phrase": {
-            "names": "$?",
-            "doc": "$?",
-            "text": { "doc": "$?", "names": "$?" }
-        },
-        "Arrangement": { "names": "$?", "doc": "$?" },
-        "Row": {
-            "names": "$?",
-            "doc": "$?",
-            "description": "$?",
-            "padding": { "doc": "$?", "names": "$?" }
-        },
-        "Stack": {
-            "names": "$?",
-            "doc": "$?",
-            "description": "$?",
-            "padding": { "doc": "$?", "names": "$?" }
-        },
-        "Grid": {
-            "names": "$?",
-            "doc": "$?",
-            "description": "$?",
-            "rows": { "doc": "$?", "names": "$?" },
-            "columns": { "doc": "$?", "names": "$?" },
-            "padding": { "doc": "$?", "names": "$?" },
-            "cellWidth": { "doc": "$?", "names": "$?" },
-            "cellHeight": { "doc": "$?", "names": "$?" }
-        },
-        "Free": {
-            "names": "$?",
-            "doc": "$?",
-            "description": "$?"
-        },
-        "Shape": { "names": "$?", "doc": "$?" },
-        "Rectangle": {
-            "names": "$?",
-            "doc": "$?",
-            "left": { "doc": "$?", "names": "$?" },
-            "top": { "doc": "$?", "names": "$?" },
-            "right": { "doc": "$?", "names": "$?" },
-            "bottom": { "doc": "$?", "names": "$?" }
-        },
-        "Pose": {
-            "names": "$?",
-            "doc": "$?",
-            "duration": { "doc": "$?", "names": "$?" },
-            "style": { "doc": "$?", "names": "$?" },
-            "color": { "doc": "$?", "names": "$?" },
-            "opacity": { "doc": "$?", "names": "$?" },
-            "offset": { "doc": "$?", "names": "$?" },
-            "tilt": { "doc": "$?", "names": "$?" },
-            "scale": { "doc": "$?", "names": "$?" },
-            "flipx": { "doc": "$?", "names": "$?" },
-            "flipy": { "doc": "$?", "names": "$?" }
-        },
-        "Color": {
-            "names": "$?",
-            "doc": "$?",
-            "lightness": { "doc": "$?", "names": "$?" },
-            "chroma": { "doc": "$?", "names": "$?" },
-            "hue": { "doc": "$?", "names": "$?" }
-        },
-        "Sequence": {
-            "names": "$?",
-            "doc": "$?",
-            "timing": { "doc": "$?", "names": "$?" },
-            "count": { "doc": "$?", "names": "$?" },
-            "poses": { "doc": "$?", "names": "$?" }
-        },
-        "Place": {
-            "names": "$?",
-            "doc": "$?",
-            "x": { "doc": "$?", "names": "$?" },
-            "y": { "doc": "$?", "names": "$?" },
-            "z": { "doc": "$?", "names": "$?" }
-        },
-        "Easing": {
-            "straight": "$?",
-            "cautious": "$?",
-            "pokey": "$?",
-            "zippy": "$?"
-        },
-        "sequence": {
-            "sway": {
-                "doc": "$?",
-                "names": "$?",
-                "angle": { "doc": "$?", "names": "$?" }
-            },
-            "bounce": {
-                "doc": "$?",
-                "names": "$?",
-                "height": { "doc": "$?", "names": "$?" }
-            },
-            "spin": { "doc": "$?", "names": "$?" },
-            "fadein": { "doc": "$?", "names": "$?" },
-            "popup": { "doc": "$?", "names": "$?" },
-            "shake": { "doc": "$?", "names": "$?" }
-        }
     }
 }

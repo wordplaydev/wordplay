@@ -10,6 +10,8 @@ import {
 import Node, { type Field, type Replacement } from './Node';
 import Token from './Token';
 import TokenType from './TokenType';
+import type { TemplateInput } from '../locale/concretize';
+import type Context from './Context';
 
 export default class WebLink extends Node {
     readonly open: Token;
@@ -78,5 +80,9 @@ export default class WebLink extends Node {
 
     getGlyphs() {
         return Glyphs.Link;
+    }
+
+    getDescriptionInputs(_: Locale, __: Context): TemplateInput[] {
+        return [this.url?.getText()];
     }
 }

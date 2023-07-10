@@ -9,6 +9,6 @@ export default class NoExpressionType extends UnknownType<Expression> {
     }
 
     getReason(locale: Locale) {
-        return concretize(locale, locale.node.NoExpressionType.description);
+        return concretize(locale, locale.node.NoExpressionType.name);
     }
 }

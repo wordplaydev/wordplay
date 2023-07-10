@@ -1,5 +1,19 @@
-import type { NodeText } from './NodeText';
-import type { Template } from './Locale';
+import type { DocText, Template } from './Locale';
+import type Emotion from '../lore/Emotion';
+
+export type NodeText = {
+    /* The name that should be used to refer to the node type */
+    name: string;
+    /* Documentation text that appears in the documentation view */
+    doc: DocText;
+    /* The emotion that should be conveyed in animations of the node type */
+    emotion: `${Emotion}`;
+};
+
+export type DescriptiveNodeText = NodeText & {
+    /* A precise description of the node's contents, more specific than a name. If not provided, name is used. */
+    description: Template;
+};
 
 export interface AtomicExpressionText {
     start: Template;
@@ -21,11 +35,11 @@ export interface Exceptions<T> {
 }
 
 type NodeTexts = {
-    Dimension: NodeText;
+    Dimension: DescriptiveNodeText;
     Doc: NodeText;
     Docs: NodeText;
     KeyValue: NodeText;
-    Language: NodeText &
+    Language: DescriptiveNodeText &
         Conflicts<{
             InvalidLanguage: InternalConflictText;
             MissingLanguage: InternalConflictText;
@@ -34,7 +48,7 @@ type NodeTexts = {
      * Description
      * $1: name or undefined
      */
-    Name: NodeText;
+    Name: DescriptiveNodeText;
     Names: NodeText;
     Row: NodeText &
         Conflicts<{
@@ -49,9 +63,9 @@ type NodeTexts = {
     /**
      * Description
      * $1: token label
-     * $1: token text
+     * $2: token text
      */
-    Token: NodeText;
+    Token: DescriptiveNodeText;
     TypeInputs: NodeText;
     TypeVariable: NodeText &
         Conflicts<{
@@ -60,8 +74,16 @@ type NodeTexts = {
         }>;
     TypeVariables: NodeText;
     Paragraph: NodeText;
-    WebLink: NodeText;
-    ConceptLink: NodeText;
+    /**
+     * Description
+     * $1: the url
+     */
+    WebLink: DescriptiveNodeText;
+    /**
+     * Description
+     * $1: the concept name
+     */
+    ConceptLink: DescriptiveNodeText;
     Words: NodeText;
     Example: NodeText;
     /**
@@ -75,13 +97,15 @@ type NodeTexts = {
             right: Template;
         } & Conflicts<{ OrderOfOperations: InternalConflictText }>;
     /**
+     * Description
+     * $1: name bound
      * Start
      * $1: bind evaluating
      * Finish
      * $1: resulting value
      * $2: names bound
      */
-    Bind: NodeText &
+    Bind: DescriptiveNodeText &
         ExpressionText &
         Conflicts<{
             /** $1: The name that shadowed this one */
@@ -107,7 +131,7 @@ type NodeTexts = {
      * Finish
      * $1: Resulting value
      */
-    Block: NodeText &
+    Block: DescriptiveNodeText &
         ExpressionText & {
             statement: Template;
         } & Conflicts<{
@@ -118,13 +142,13 @@ type NodeTexts = {
      * Description
      * $1: true if true, false otherwise
      */
-    BooleanLiteral: NodeText & AtomicExpressionText;
+    BooleanLiteral: DescriptiveNodeText & AtomicExpressionText;
     /**
      * Start
      * $1: source
      * $2: name borrowed
      */
-    Borrow: NodeText &
+    Borrow: DescriptiveNodeText &
         AtomicExpressionText & {
             source: Template;
             bind: Template;
@@ -202,7 +226,7 @@ type NodeTexts = {
      * Finish
      * $1: resulting value
      */
-    Evaluate: NodeText &
+    Evaluate: DescriptiveNodeText &
         ExpressionText & {
             /** What to say after inputs are done evaluating, right before starting evaluation the function */
             evaluate: Template;
@@ -242,7 +266,7 @@ type NodeTexts = {
      * Description
      * $1: type or undefined
      */
-    ExpressionPlaceholder: NodeText &
+    ExpressionPlaceholder: DescriptiveNodeText &
         AtomicExpressionText & {
             placeholder: Template;
         } & Conflicts<{ Placeholder: InternalConflictText }> &
@@ -254,7 +278,7 @@ type NodeTexts = {
      * Description
      * $1: function name in locale
      */
-    FunctionDefinition: NodeText &
+    FunctionDefinition: DescriptiveNodeText &
         AtomicExpressionText &
         Conflicts<{
             NoExpression: InternalConflictText;
@@ -278,13 +302,15 @@ type NodeTexts = {
     Insert: NodeText & ExpressionText;
     Initial: NodeText;
     /**
+     * Description
+     * $1: The type being checked for
      * Start
      * $1: expression
      * Finish
      * $1: result
      * $2: type
      */
-    Is: NodeText &
+    Is: DescriptiveNodeText &
         ExpressionText &
         Conflicts<{ ImpossibleType: InternalConflictText }> &
         Exceptions<{
@@ -307,7 +333,7 @@ type NodeTexts = {
      * Finish
      * $1: resulting value
      */
-    ListLiteral: NodeText &
+    ListLiteral: DescriptiveNodeText &
         ExpressionText & {
             item: Template;
         };
@@ -315,7 +341,7 @@ type NodeTexts = {
      * Finish
      * $1: resulting value
      */
-    MapLiteral: NodeText &
+    MapLiteral: DescriptiveNodeText &
         ExpressionText &
         Conflicts<{
             /**
@@ -330,7 +356,7 @@ type NodeTexts = {
      * Start
      * $1: the node
      */
-    MeasurementLiteral: NodeText &
+    MeasurementLiteral: DescriptiveNodeText &
         AtomicExpressionText &
         Conflicts<{ NotANumber: InternalConflictText }>;
     NativeExpression: NodeText & AtomicExpressionText;
@@ -362,17 +388,19 @@ type NodeTexts = {
             ValueException: Template;
         }>;
     /**
+     * Description
+     * $1: the name being refined
      * Finish
      * $1: revised property
      * $1: revised value
      */
-    PropertyBind: NodeText & ExpressionText;
+    PropertyBind: DescriptiveNodeText & ExpressionText;
     /**
      * Finish
      * $1: revised property
      * $1: revised value
      */
-    PropertyReference: NodeText &
+    PropertyReference: DescriptiveNodeText &
         ExpressionText & {
             property: Template;
         };
@@ -392,7 +420,7 @@ type NodeTexts = {
      * Start
      * $1: the name being resolved
      */
-    Reference: NodeText &
+    Reference: DescriptiveNodeText &
         AtomicExpressionText & {
             name: Template;
         } & Conflicts</** $1: The name that depends on itself */
@@ -423,7 +451,7 @@ type NodeTexts = {
      * Finish
      * $1: the new set
      */
-    SetLiteral: NodeText & ExpressionText;
+    SetLiteral: DescriptiveNodeText & ExpressionText;
     /**
      * Finish
      * $1: the set/map value
@@ -443,7 +471,7 @@ type NodeTexts = {
      * Description
      * $1: name of the structure
      */
-    StructureDefinition: NodeText &
+    StructureDefinition: DescriptiveNodeText &
         AtomicExpressionText &
         Conflicts<{
             DisallowedInputs: InternalConflictText;
@@ -456,10 +484,12 @@ type NodeTexts = {
             UnimplementedInterface: InternalConflictText;
         }>;
     /**
+     * Description
+     * $1: the number of rows
      * Finish
      * $1: resulting table
      */
-    TableLiteral: NodeText &
+    TableLiteral: DescriptiveNodeText &
         ExpressionText & {
             item: Template;
         };
@@ -468,7 +498,7 @@ type NodeTexts = {
      * Description
      * $1: the text
      */
-    TextLiteral: NodeText & AtomicExpressionText;
+    TextLiteral: DescriptiveNodeText & AtomicExpressionText;
     /**
      * Finish
      * $1: resulting value
@@ -482,7 +512,7 @@ type NodeTexts = {
      * Finish
      * $1: resulting value
      */
-    UnaryOperation: NodeText & ExpressionText;
+    UnaryOperation: DescriptiveNodeText & ExpressionText;
     UnparsableExpression: NodeText &
         AtomicExpressionText &
         Conflicts<{
@@ -526,19 +556,19 @@ type NodeTexts = {
      * Description
      * $1: Type or undefined
      */
-    ListType: NodeText;
+    ListType: DescriptiveNodeText;
     /**
      * Description
      * $1: Key type or undefined
      * $2: Map type or undefined
      */
-    MapType: NodeText;
+    MapType: DescriptiveNodeText;
     MeasurementType: NodeText;
     /**
      * Description
      * $1: Type name
      */
-    NameType: NodeText &
+    NameType: DescriptiveNodeText &
         Conflicts<{
             /**
              * $1: Invalid type
@@ -551,12 +581,12 @@ type NodeTexts = {
      * Description
      * $1: Type expected
      */
-    NotAType: NodeText;
+    NotAType: DescriptiveNodeText;
     /**
      * Description
      * $1: Type or undefined
      */
-    SetType: NodeText;
+    SetType: DescriptiveNodeText;
     StreamDefinitionType: NodeText;
     StreamType: NodeText;
     StructureDefinitionType: NodeText;
@@ -569,28 +599,28 @@ type NodeTexts = {
      * Description
      * $1: Concrete type or undefined
      */
-    TextType: NodeText;
+    TextType: DescriptiveNodeText;
     TypePlaceholder: NodeText;
     /**
      * Description
      * $1: Name that's not known or undefined
      */
-    UnknownNameType: NodeText;
+    UnknownNameType: DescriptiveNodeText;
     UnknownType: NodeText & { unknown: string; connector: string };
     /**
      * Description
      * $1: left
      * $2: right
      */
-    UnionType: NodeText;
+    UnionType: DescriptiveNodeText;
     UnparsableType: NodeText;
     /**
      * Description
      * $1: unit description
      */
-    Unit: NodeText;
+    Unit: DescriptiveNodeText;
     VariableType: NodeText;
-    CycleType: NodeText;
+    CycleType: DescriptiveNodeText;
     UnknownVariableType: NodeText;
     NoExpressionType: NodeText;
     NotEnclosedType: NodeText;
