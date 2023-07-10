@@ -189,53 +189,59 @@
             "description": "$1 ?? [$1 | unnamed]",
             "emotion": "kind",
             "doc": [
-                "$?",
-                "Identifies code.",
-                "names are used to represent some value in a $program, such as a function, $structure type, or a binding in a block. ",
-                "They're a helpful way of giving a shorthand label to some value or way of computing or storing values. ",
-                "Names can be optionally tagged with a language; this is helpful when sharing code, since the language might use to name a function might not be known to people who want to use it. ",
-                "Translating names makes shared code more globally useful."
+                "I identify a value, and am a helpful way of giving a shorthand label to something that was hard to evaluate, or that you don't want to have to evaluate over and over.",
+                "@Bind gives me my name like this:",
+                "⧼hi: 5⧽",
+                "I only ever represent one value, and once I have it, I can't change. For example, if you tried to do this with @Bind, we would complain.",
+                "⧼hi: 5\nhi: 3⧽",
+                "All you have to do to get my value is have @Reference or @PropertyReference use name. Here, @Bind names me, then @Reference get the value I was given.",
+                "⧼hi: 5\nhi⧽",
+                "Because @Bind can show up in so many places, I can show up in many places. I was in a @Block above, but I can be in a @FunctionDefinition. Here I am naming a message temporarily:",
+                "⧼ƒ say(message•'') message⧽",
+                "I get defined inside @FunctionDefinition, and then as soon as the function is done evaluating, I go away.",
+                "You can use @Language to indicate what language my name is in. This is helpful when sharing your performance with others, in case they want to read your program."
             ]
         },
         "Names": {
             "name": "name list",
             "emotion": "kind",
             "doc": [
-                "$?",
-                "Defines a list of names some code is known by.",
-                "Names are separated by ⧼,⧽ symbols. ",
-                "Having multiple names is most helpful when you want to use multiple languages.",
-                ""
+                "I'm a list of @Name, useful when you want to give a value multiple names, often with different @Language.",
+                "Names are separated by ⧼,⧽ symbols. For example, here's @Bind giving a value multiple @Name",
+                "⧼hi/en,hello/en,hola/es: 'welcome'⧽"
             ]
         },
         "Row": {
             "name": "row",
             "emotion": "angry",
-            "doc": "$?a row of values, matching a table definition",
+            "doc": "$?",
             "conflict": {
-                "InvalidRow": "I'm missing one or more columns",
+                "InvalidRow": "$? I'm missing one or more columns",
                 "MissingCell": {
-                    "primary": "I'm missing column $1",
-                    "secondary": "I'm required, but $2 didn't provide it"
+                    "primary": "$? I'm missing column $1",
+                    "secondary": "$? I'm required, but $2 didn't provide it"
                 },
-                "UnknownColumn": "I don't know a column by this name"
+                "UnknownColumn": "$? I don't know a column by this name"
             }
         },
         "Token": {
             "name": "token",
             "description": "$1 $2",
             "emotion": "neutral",
-            "doc": "$?the smallest group of symbols in a performance"
+            "doc": [
+                "How did you find me?",
+                "I am the smallest possible part of a performance. I am the substrate from which all characters in the Verse are made. I am the atomic particle of our choreography."
+            ]
         },
         "TypeInputs": {
             "name": "type inputs",
             "emotion": "curious",
-            "doc": "$?a list of types given to a @FunctionDefinition or @StructureDefinition"
+            "doc": "$? a list of types given to a @FunctionDefinition or @StructureDefinition"
         },
         "TypeVariable": {
             "name": "type variable",
             "emotion": "curious",
-            "doc": "$?a placeholder for a type used in a @FunctionDefinition or @StructureDefinition",
+            "doc": "$? a placeholder for a type used in a @FunctionDefinition or @StructureDefinition",
             "conflict": {
                 "DuplicateTypeVariable": {
                     "primary": "I have the same name as $1",
@@ -246,37 +252,59 @@
         "TypeVariables": {
             "name": "type variables",
             "emotion": "curious",
-            "doc": "$?a list of @TypeVariable"
+            "doc": "$? a list of @TypeVariable"
         },
         "Paragraph": {
             "name": "paragraph",
             "emotion": "serious",
-            "doc": "$?a formatted list of words, links, and example code"
+            "doc": [
+                "I'm a series of @Words, @ConceptLink, @WebLink, and @Example, separated by a blank line, and inside @Doc.",
+                "All you need to do to write me is write a bunch of words in a @Doc:",
+                "⧼`I am a paragraph in a doc.`'one paragraph'⧽",
+                "If you want multiple paragraphs, just put in blank lines.",
+                "⧼`Paragraph 1.\n\nParagraph 2.\n\nParagraph 3.`'three paragraphs'⧽"
+            ]
         },
         "WebLink": {
             "name": "link",
             "description": "link $1",
             "emotion": "serious",
-            "doc": "$?a link to something on the web"
+            "doc": [
+                "I am a link to something on the internet. I just need a description and a URL:",
+                "⧼`I am a <link@https://wordplay.dev> in a doc`\n'link example'⧽",
+                "If anyone selects me, I'll open a new window to the URL."
+            ]
         },
         "ConceptLink": {
             "name": "concept",
             "description": "concept $1",
             "emotion": "serious",
-            "doc": "$?a link to a concept in Wordplay"
+            "doc": [
+                "I'm a link to Verse character. I'm helpful when you want to write a @Doc and refer to one of us.",
+                "For example, say you wanted to talk about @Evaluate, and how awesome they are. You could write:",
+                "⧼`You know, @Evaluate is pretty awesome.`\n'look, a concept link!'⧽",
+                "When the @Doc you wrote appears here, it'll show a link to the concept."
+            ]
         },
         "Words": {
             "name": "words",
             "emotion": "serious",
-            "doc": "$?words that are part of @Doc"
+            "doc": [
+                "I'm any words you like in a @Doc. For example:",
+                "⧼`May the Force be with you.`\n'just some words!'⧽",
+                "Sometimes though, you might want to use the special characters that @Doc uses /as/ words. For example:",
+                "⧼`My friends use @@, //, **, ||, and other symbols.`\n'using special characters!'⧽",
+                "If you just repeat those special characters, you'll get the character instead of their special meaning."
+            ]
         },
         "Example": {
             "name": "example",
             "emotion": "serious",
             "doc": [
-                "You can put a $program in any documentation to format some text as $program, or to illustrate how to use some code. \nIf you put it on it's own line, it will be displayed in a fancy box and show the result of evaluating the $program.\nLike this:",
-                "⧼\"My example is cute\"⧽",
-                ""
+                "I'm an example performance, helpful for writing @Doc that explains how to use something!",
+                "⧼`Here's an example of adding: ⧼1 + 1⧽`'example code'⧽",
+                "If you put me in a paragraph all alone, I'll show up in a fancy box and show the result of evaluating me.",
+                "⧼`Here's an example of adding:\n\n⧼1 + 1⧽`⧽"
             ]
         },
         "BinaryOperation": {

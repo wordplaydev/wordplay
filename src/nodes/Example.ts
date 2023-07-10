@@ -4,9 +4,9 @@ import Node, { type Field, type Replacement } from './Node';
 import Program from './Program';
 import Token from './Token';
 import Glyphs from '../lore/Glyphs';
-import EvalOpenToken from './EvalOpenToken';
-import EvalCloseToken from './EvalCloseToken';
 import Purpose from '../concepts/Purpose';
+import TokenType from './TokenType';
+import { EXAMPLE_CLOSE_SYMBOL, EXAMPLE_OPEN_SYMBOL } from '../parser/Symbols';
 
 export default class Example extends Node {
     readonly open: Token;
@@ -22,7 +22,11 @@ export default class Example extends Node {
     }
 
     static make(program: Program) {
-        return new Example(new EvalOpenToken(), program, new EvalCloseToken());
+        return new Example(
+            new Token(EXAMPLE_OPEN_SYMBOL, TokenType.ExampleOpen),
+            program,
+            new Token(EXAMPLE_CLOSE_SYMBOL, TokenType.ExampleClose)
+        );
     }
 
     getGrammar(): Field[] {
@@ -54,6 +58,6 @@ export default class Example extends Node {
     }
 
     getGlyphs() {
-        return Glyphs.Evaluate;
+        return Glyphs.Example;
     }
 }

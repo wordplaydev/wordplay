@@ -118,6 +118,7 @@ const template: Node[] = [
 
     // Bindings
     Name.make('@'),
+    Names.make(['a', 'b']),
     Bind.make(
         undefined,
         Names.make([PLACEHOLDER_SYMBOL]),
@@ -208,9 +209,11 @@ const template: Node[] = [
         Doc.make([new Paragraph([Words.make()])]),
     ]),
     ConceptLink.make(PLACEHOLDER_SYMBOL),
-    WebLink.make('wordplay', 'http://wordplay.dev'),
+    WebLink.make('🔗', 'http://wordplay.dev'),
     Language.make('en'),
     Example.make(Program.make()),
+    new Paragraph([Words.make()]),
+    Words.make(),
     new UnparsableExpression([]),
 ];
 

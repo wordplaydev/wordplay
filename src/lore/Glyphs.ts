@@ -8,6 +8,8 @@ import {
     ETC_SYMBOL,
     EVAL_CLOSE_SYMBOL,
     EVAL_OPEN_SYMBOL,
+    EXAMPLE_CLOSE_SYMBOL,
+    EXAMPLE_OPEN_SYMBOL,
     EXCEPTION_SYMBOL,
     FALSE_SYMBOL,
     FUNCTION_SYMBOL,
@@ -57,6 +59,9 @@ const GlyphSet = {
     },
     Name: {
         symbols: '@',
+    },
+    Names: {
+        symbols: '@,@',
     },
     Reference: {
         symbols: PROPERTY_SYMBOL,
@@ -161,6 +166,9 @@ const GlyphSet = {
     },
     VariableType: {
         symbols: TYPE_OPEN_SYMBOL + TYPE_CLOSE_SYMBOL,
+    },
+    Example: {
+        symbols: EXAMPLE_OPEN_SYMBOL + EXAMPLE_CLOSE_SYMBOL,
     },
     Exception: {
         symbols: EXCEPTION_SYMBOL,

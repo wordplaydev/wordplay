@@ -1413,7 +1413,11 @@ export function parseDoc(tokens: Tokens): Doc {
     const open = tokens.read(TokenType.Doc);
     const content: Paragraph[] = [];
 
-    while (tokens.nextIsnt(TokenType.Doc)) content.push(parseParagraph(tokens));
+    while (
+        tokens.nextIsnt(TokenType.Doc) &&
+        tokens.nextIsnt(TokenType.ExampleClose)
+    )
+        content.push(parseParagraph(tokens));
 
     const close = tokens.readIf(TokenType.Doc);
     const lang = tokens.nextIs(TokenType.Language)
