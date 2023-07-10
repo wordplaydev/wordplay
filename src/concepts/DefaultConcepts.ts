@@ -69,6 +69,7 @@ import Unit from '../nodes/Unit';
 import type { Native } from '../native/Native';
 import Docs from '../nodes/Docs';
 import Name from '../nodes/Name';
+import DocumentedExpression from '../nodes/DocumentedExpression';
 
 /** These are ordered by appearance in the docs. */
 const template: Node[] = [
@@ -204,6 +205,10 @@ const template: Node[] = [
 
     // Documentation
     Doc.make([new Paragraph([Words.make()])]),
+    new DocumentedExpression(
+        new Docs([Doc.make([new Paragraph([Words.make()])])]),
+        ExpressionPlaceholder.make()
+    ),
     new Docs([
         Doc.make([new Paragraph([Words.make()])]),
         Doc.make([new Paragraph([Words.make()])]),

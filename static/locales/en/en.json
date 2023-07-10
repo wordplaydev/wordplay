@@ -511,15 +511,20 @@
         "Delete": {
             "name": "delete",
             "emotion": "angry",
-            "doc": "$?delete rows from a table",
+            "doc": "$? delete rows from a table",
             "start": "evaluate $1 first",
             "finish": "evaluated to table without row $1"
         },
         "DocumentedExpression": {
             "name": "documented expression",
-            "emotion": "serious",
-            "doc": "$?",
-            "start": "evaluate the documented expression"
+            "emotion": "eager",
+            "doc": [
+                "I'm any expression, but with a @Doc!",
+                "To make me, just put a @Doc before an expression, and you'll get me:",
+                "⧼doubleplus: 1\n(2 · doubleplus) + \n`Let's make it just a little bit bigger`\n1⧽",
+                "I'm useful for making a comment on some part of a program."
+            ],
+            "start": "let's evaluate the expression"
         },
         "Evaluate": {
             "name": "evaluate",

@@ -87,6 +87,6 @@ export default class DocumentedExpression extends AtomicExpression {
     }
 
     getGlyphs() {
-        return Glyphs.Doc;
+        return Glyphs.DocumentedExpression;
     }
 }

@@ -190,6 +190,9 @@ const GlyphSet = {
     Doc: {
         symbols: DOCS_SYMBOL + DOCS_SYMBOL,
     },
+    DocumentedExpression: {
+        symbols: DOCS_SYMBOL + DOCS_SYMBOL + PLACEHOLDER_SYMBOL,
+    },
     Link: {
         symbols: LINK_SYMBOL,
     },
