@@ -79,14 +79,13 @@ You'll see different sections of this file:
     -   Nodes that can be evaluated have a `start` and `finish`, which appear in the interface during step by step evaluation, and describe what the node is doing to start evaluation and finish it. Some nodes only have a `start`, because `finish` would be redundant.
     -   Some nodes have additional descriptions for details they contain, like a list's "item". These appear in placeholders and autocomplete.
     -   Some nodes have a set of `conflict` phrases. These are essentially error messages that appear when there is an inconsistency on that particular kind of program content. Each conflict's `primary` text is written in the voice of the node on which the conflict occurs. If there is a `secondary`` phrase, it should be written in a generic voice, and generally be the opposite of the primary statement. This allows for the portrayal of a conflict between the two nodes.
+    -   Some nodes have a set of `exception` phraes. These are shown when the node halts a program unexpectedly, usually due to a conflict. They are shown inside of program output. They should be phrased consistently with conflicts that create them, and in the voice of the node.
 
 -   `native` describes the basic data types in Wordplay, including `name` and `doc`, just as in the `node` section. They also include `name` and `doc` for any functions and conversions that they have.
 
 -   `input` and `output` describes input streams available in Wordplay, including their `name`, `doc`, and any `name` and `doc` for inputs that they take.
 
 -   `evaluate` includes phrases to describe how steps of a program are evaluated. These appear when stepping through a program, one part at a time, and also are given to screen readers to speak. They're similar to the `start` and `finish` in `node`.
-
--   `exception` are the phrases that are shown when a program halts unexpectedly, usually due to a conflict. They are shown inside of program output.
 
 -   `ui` are phrases that appear in tooltips, screen reader descriptions, and headers in the interface. These are the easiest to find.
 

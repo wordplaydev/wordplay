@@ -138,6 +138,7 @@ export default class Previous extends Expression {
 
         if (!(stream instanceof Stream))
             return new TypeException(
+                this,
                 evaluator,
                 StreamType.make(new AnyType()),
                 value

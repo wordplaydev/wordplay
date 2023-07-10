@@ -150,7 +150,12 @@ export default class Borrow extends AtomicExpression {
         if (source === undefined) {
             // If there's no source and there's no definition, return an exception.
             if (definition === undefined)
-                return new NameException(this.borrow, undefined, evaluator);
+                return new NameException(
+                    this,
+                    this.borrow,
+                    undefined,
+                    evaluator
+                );
 
             // Otherwise, bind the definition in the current evaluation, wrapping it in a value if necessary.
             const value =
@@ -194,7 +199,12 @@ export default class Borrow extends AtomicExpression {
             const value = evaluator.popValue(this);
             if (this.name === undefined) {
                 if (source === undefined)
-                    return new NameException(this.source, undefined, evaluator);
+                    return new NameException(
+                        this,
+                        this.source,
+                        undefined,
+                        evaluator
+                    );
                 evaluator.bind(source.names, value);
             }
             // Bind the share if we're binding a share.
@@ -202,11 +212,16 @@ export default class Borrow extends AtomicExpression {
                 const name = this.name.getText();
                 const value = evaluator.getLastEvaluation()?.resolve(name);
                 if (definition === undefined || value === undefined)
-                    return new NameException(this.name, undefined, evaluator);
+                    return new NameException(
+                        this,
+                        this.name,
+                        undefined,
+                        evaluator
+                    );
                 evaluator.bind(definition.names, value);
             }
             return value;
-        } else return new UnimplementedException(evaluator, this.borrow);
+        } else return new UnimplementedException(evaluator, this);
     }
 
     computeType(context: Context): Type {

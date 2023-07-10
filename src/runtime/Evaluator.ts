@@ -690,12 +690,12 @@ export default class Evaluator {
             this.evaluations.length > MAX_CALL_STACK_DEPTH
                 ? new EvaluationLimitException(
                       this,
-                      evaluation.getCreator(),
+                      this.project.main.expression,
                       this.evaluations.map((e) => e.getDefinition())
                   )
                 : // If it seems like we're evaluating something very time consuming, halt.
                 this.#totalStepCount > MAX_STEP_COUNT
-                ? new StepLimitException(this, evaluation.getCreator())
+                ? new StepLimitException(this, this.project.main.expression)
                 : // Otherwise, step the current evaluation and get it's value
                   evaluation.step(this);
 
@@ -1275,6 +1275,6 @@ export default class Evaluator {
     ) {
         return value === undefined || value instanceof Evaluation
             ? new ValueException(this, expression)
-            : new TypeException(this, expected, value);
+            : new TypeException(expression, this, expected, value);
     }
 }

@@ -1,19 +1,23 @@
 import Exception from './Exception';
 import type Evaluator from './Evaluator';
 import type Locale from '@locale/Locale';
-import type Node from '@nodes/Node';
 import type { EvaluationNode } from './Evaluation';
 import NodeLink from '@locale/NodeRef';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import StructureDefinition from '@nodes/StructureDefinition';
 import concretize from '../locale/concretize';
+import type Program from '../nodes/Program';
 
 export default class EvaluationLimitException extends Exception {
-    readonly node: Node;
+    readonly program: Program;
     readonly functions: EvaluationNode[];
-    constructor(evaluator: Evaluator, node: Node, functions: EvaluationNode[]) {
-        super(evaluator);
-        this.node = node;
+    constructor(
+        evaluator: Evaluator,
+        node: Program,
+        functions: EvaluationNode[]
+    ) {
+        super(node, evaluator);
+        this.program = node;
         this.functions = functions;
     }
 
@@ -27,7 +31,7 @@ export default class EvaluationLimitException extends Exception {
 
         return concretize(
             locale,
-            locale.exception.functionlimit,
+            locale.node.Program.exception.EvaluationLimitException,
             new NodeLink(
                 mostFrequent,
                 locale,

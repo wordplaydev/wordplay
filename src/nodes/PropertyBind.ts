@@ -116,6 +116,7 @@ export default class PropertyBind extends Expression {
 
         if (newStructure === undefined)
             return new NameException(
+                this.reference,
                 this.reference.name.name,
                 subject,
                 evaluator

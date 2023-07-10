@@ -53,20 +53,24 @@
                         text: $evaluation?.step
                             ? $creator
                                   .getLocales()
-                                  .map((trans) =>
+                                  .map((locale) =>
                                       (
                                           $evaluation?.step as Step
-                                      ).getExplanations(trans, evaluator)
+                                      ).getExplanations(locale, evaluator)
                                   )
                             : evaluator.steppedToNode() && evaluator.isDone()
                             ? $creator
                                   .getLocales()
-                                  .map((t) =>
-                                      Description.as(t.evaluate.unevaluated)
+                                  .map((locale) =>
+                                      Description.as(
+                                          locale.evaluate.unevaluated
+                                      )
                                   )
                             : $creator
                                   .getLocales()
-                                  .map((t) => Description.as(t.evaluate.done)),
+                                  .map((locale) =>
+                                      Description.as(locale.evaluate.done)
+                                  ),
                         kind: 'step',
                         position: getPosition(view),
                     },

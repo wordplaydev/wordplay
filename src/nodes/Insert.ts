@@ -118,6 +118,7 @@ export default class Insert extends Expression {
                       new Halt(
                           (evaluator) =>
                               new TypeException(
+                                  this,
                                   evaluator,
                                   TableType.make([]),
                                   evaluator.popValue(this)

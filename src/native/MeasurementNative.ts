@@ -65,19 +65,20 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                     // It should be impossible for the left to be a Measurement, but the type system doesn't know it.
                     if (!(left instanceof Measurement))
                         return evaluation.getValueOrTypeException(
-                            requestor,
+                            evaluation.getDefinition(),
                             MeasurementType.make(),
                             left
                         );
 
                     if (!(right instanceof Measurement))
                         return evaluation.getValueOrTypeException(
-                            requestor,
+                            evaluation.getDefinition(),
                             MeasurementType.make(),
                             right
                         );
                     if (requireEqualUnits && !left.unit.isEqualTo(right.unit))
                         return new TypeException(
+                            evaluation.getDefinition(),
                             evaluation.getEvaluator(),
                             left.getType(),
                             right
@@ -85,6 +86,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                     return (
                         expression(requestor, left, right) ??
                         new TypeException(
+                            evaluation.getDefinition(),
                             evaluation.getEvaluator(),
                             left.getType(),
                             right
@@ -201,6 +203,7 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                                 !(right instanceof Measurement)
                             )
                                 return new TypeException(
+                                    evaluation.getDefinition(),
                                     evaluation.getEvaluator(),
                                     left.getType(),
                                     right

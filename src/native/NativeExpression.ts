@@ -59,6 +59,7 @@ export default class NativeExpression extends AtomicExpression {
         const evaluation = evaluator.getCurrentEvaluation();
         return evaluation === undefined
             ? new InternalException(
+                  this,
                   evaluator,
                   'there is no evaluation, which should be impossible'
               )

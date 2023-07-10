@@ -287,6 +287,7 @@ export default class FunctionDefinition extends Expression {
         const value =
             context === undefined
                 ? new InternalException(
+                      this,
                       evaluator,
                       'there is no evaluation, which should be impossible'
                   )

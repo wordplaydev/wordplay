@@ -6,13 +6,19 @@ import type Evaluator from './Evaluator';
 import Exception from './Exception';
 import type Value from './Value';
 import concretize from '../locale/concretize';
+import type Expression from '../nodes/Expression';
 
 export default class TypeException extends Exception {
     readonly expected: Type;
     readonly received: Value;
 
-    constructor(evaluator: Evaluator, expected: Type, received: Value) {
-        super(evaluator);
+    constructor(
+        expression: Expression,
+        evaluator: Evaluator,
+        expected: Type,
+        received: Value
+    ) {
+        super(expression, evaluator);
 
         this.expected = expected;
         this.received = received;
@@ -21,7 +27,7 @@ export default class TypeException extends Exception {
     getDescription(locale: Locale) {
         return concretize(
             locale,
-            locale.exception.type,
+            locale.node.Is.exception.TypeException,
             new NodeLink(
                 this.expected,
                 locale,

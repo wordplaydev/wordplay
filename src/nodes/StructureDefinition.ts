@@ -392,6 +392,7 @@ export default class StructureDefinition extends AtomicExpression {
             return def;
         } else
             return new InternalException(
+                this,
                 evaluator,
                 'there is no evaluation, which should be impossible'
             );

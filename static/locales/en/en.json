@@ -444,6 +444,9 @@
             "conflict": {
                 "UnknownBorrow": "I don't know a $souce by this name",
                 "BorrowCycle": "this depends on $1, which depends on this $source, so the $program can't be evaluated"
+            },
+            "exception": {
+                "CycleException": "$1 depends on itself"
             }
         },
         "Changed": {
@@ -578,6 +581,9 @@
                     "secondary": "I don't think I belong here"
                 },
                 "InputListMustBeLast": "list of inputs must be last"
+            },
+            "exception": {
+                "FunctionException": "Oops, I don't know how to $1"
             }
         },
         "ExpressionPlaceholder": {
@@ -597,6 +603,9 @@
             "placeholder": "expression",
             "conflict": {
                 "Placeholder": "Can someone take my place? I don't know what to do."
+            },
+            "exception": {
+                "UnimplementedException": "I don't know what to do here!!"
             }
         },
         "FunctionDefinition": {
@@ -640,6 +649,9 @@
             "finish": "$1 ?? [ value is $2 | value is not $2 ]",
             "conflict": {
                 "ImpossibleType": "this can never be this type"
+            },
+            "exception": {
+                "TypeException": "I expected a $1 but received $2"
             }
         },
         "ListAccess": {
@@ -759,7 +771,13 @@
                 ""
             ],
             "start": "$1 ?? [ stream changed, reevaluating | evaluating for the first time ]",
-            "finish": "I evaluated to $1"
+            "finish": "I evaluated to $1",
+            "exception": {
+                "BlankException": "I'm so excited to put on a show with you! Where should we start?",
+                "EvaluationLimitException": "I evaluated too many functions, especially $1",
+                "StepLimitException": "I evaluated too many steps in this function",
+                "ValueException": "Oh no! I expected a value, but I didn't get one"
+            }
         },
         "PropertyBind": {
             "name": "refine",
@@ -799,6 +817,9 @@
                 "UnknownName": "I don't know what I refer to  in $2 ?? [$2|this @Block]",
                 "ReferenceCycle": "$1 depends on itself, so there's no way to evaluate it.",
                 "UnexpectedTypeVariable": "type inputs not allowed on type variables"
+            },
+            "exception": {
+                "NameException": "I feel... unbound, with no value. Am I supposed to have a value in $1 ?? [ $1 | this @Block ]?"
             }
         },
         "Select": {
@@ -948,6 +969,9 @@
             "conflict": {
                 "UnparsableConflict": "(@FunctionDefinition here, @UnparsableExpression doesn't know what kind of $1 ?? [ expression | type ] this is)",
                 "UnclosedDelimiter": "I expected $2 sometime after $1"
+            },
+            "exception": {
+                "UnparsableException": "???"
             }
         },
         "Update": {
@@ -1651,18 +1675,6 @@
         "evaluate": "starting evaluation",
         "next": "apply the function to the next item",
         "check": "check the result"
-    },
-    "exception": {
-        "blank": "I'm so excited to put on a show with you! Where should we start?",
-        "function": "Oops, I don't know how to $1",
-        "name": "I feel... unbound, with no value. Am I supposed to have a value in $1 ?? [ $1 | this @Block ]?",
-        "cycle": "$1 depends on itself",
-        "functionlimit": "I evaluated too many functions, especially $1",
-        "steplimit": "I evaluated too many steps in this function",
-        "type": "I expected a $1 but received $2",
-        "placeholder": "I don't know what to do here!!",
-        "unparsable": "???",
-        "value": "Oh no! I expected a value, but I didn't get one"
     },
     "input": {
         "Random": {

@@ -1,17 +1,20 @@
 import Exception from './Exception';
 import type Evaluator from './Evaluator';
 import type Locale from '@locale/Locale';
-import type Node from '@nodes/Node';
 import concretize from '../locale/concretize';
+import type Program from '../nodes/Program';
 
 export default class StepLimitException extends Exception {
-    readonly node: Node;
-    constructor(evaluator: Evaluator, node: Node) {
-        super(evaluator);
-        this.node = node;
+    readonly program: Program;
+    constructor(evaluator: Evaluator, program: Program) {
+        super(program, evaluator);
+        this.program = program;
     }
 
     getDescription(locale: Locale) {
-        return concretize(locale, locale.exception.steplimit);
+        return concretize(
+            locale,
+            locale.node.Program.exception.StepLimitException
+        );
     }
 }

@@ -23,7 +23,7 @@ export default class FunctionException extends Exception {
         subject: Value | undefined,
         verb: string
     ) {
-        super(evaluator);
+        super(node, evaluator);
 
         this.node = node;
         this.subject = subject;
@@ -45,7 +45,7 @@ export default class FunctionException extends Exception {
 
         return concretize(
             locale,
-            locale.exception.function,
+            locale.node.Evaluate.exception.FunctionException,
             // Wrap the node containing the name in a link
             new NodeLink(
                 name,

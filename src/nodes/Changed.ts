@@ -113,6 +113,7 @@ export default class Changed extends AtomicExpression {
         // No stream source? Exception time.
         if (stream === undefined)
             return new TypeException(
+                this,
                 evaluator,
                 StreamType.make(new AnyType()),
                 value

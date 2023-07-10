@@ -70,6 +70,7 @@ export default class HOFListCombine extends HOF {
                 const combination = this.getInput(0, evaluator);
                 if (combination === undefined)
                     return new InternalException(
+                        this,
                         evaluator,
                         "list.combine() is missing it's list for some reason"
                     );
@@ -115,7 +116,12 @@ export default class HOFListCombine extends HOF {
                             )
                         );
                     } else
-                        return new TypeException(evaluator, this.hofType, list);
+                        return new TypeException(
+                            this,
+                            evaluator,
+                            this.hofType,
+                            list
+                        );
                 }
                 return undefined;
             }),

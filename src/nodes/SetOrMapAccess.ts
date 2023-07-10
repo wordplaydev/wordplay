@@ -167,6 +167,7 @@ export default class SetOrMapAccess extends Expression {
 
         if (!(setOrMap instanceof Set || setOrMap instanceof Map))
             return new TypeException(
+                this,
                 evaluator,
                 UnionType.make(SetType.make(), MapType.make()),
                 setOrMap

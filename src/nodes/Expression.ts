@@ -70,13 +70,13 @@ export default abstract class Expression extends Node {
     abstract getFinish(): Node;
 
     abstract getStartExplanations(
-        translation: Locale,
+        locale: Locale,
         context: Context,
         evaluator: Evaluator
     ): Description;
 
     abstract getFinishExplanations(
-        translation: Locale,
+        locale: Locale,
         context: Context,
         evaluator: Evaluator
     ): Description;

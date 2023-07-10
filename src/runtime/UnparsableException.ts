@@ -9,7 +9,7 @@ export default class UnparsableException extends Exception {
     readonly unparsable: Expression;
 
     constructor(evaluator: Evaluator, unparsable: Expression) {
-        super(evaluator);
+        super(unparsable, evaluator);
 
         this.unparsable = unparsable;
     }
@@ -17,7 +17,7 @@ export default class UnparsableException extends Exception {
     getDescription(locale: Locale) {
         return concretize(
             locale,
-            locale.exception.unparsable,
+            locale.node.UnparsableExpression.exception.UnparsableException,
             new NodeLink(
                 this.unparsable,
                 locale,

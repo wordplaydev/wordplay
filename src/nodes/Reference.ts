@@ -237,7 +237,7 @@ export default class Reference extends AtomicExpression {
         // Search for the name in the given evaluation context.
         return (
             evaluator.resolve(this.name.getText()) ??
-            new NameException(this.name, undefined, evaluator)
+            new NameException(this, this.name, undefined, evaluator)
         );
     }
 

@@ -3,20 +3,19 @@ import type Evaluator from './Evaluator';
 import Exception from './Exception';
 import type Expression from '@nodes/Expression';
 import NodeLink from '@locale/NodeRef';
-import type Token from '@nodes/Token';
 import concretize from '../locale/concretize';
 
 export default class UnimplementedException extends Exception {
-    readonly placeholder: Expression | Token;
-    constructor(evaluator: Evaluator, placeholder: Expression | Token) {
-        super(evaluator);
+    readonly placeholder: Expression;
+    constructor(evaluator: Evaluator, placeholder: Expression) {
+        super(placeholder, evaluator);
         this.placeholder = placeholder;
     }
 
     getDescription(locale: Locale) {
         return concretize(
             locale,
-            locale.exception.placeholder,
+            locale.node.ExpressionPlaceholder.exception.UnimplementedException,
             new NodeLink(
                 this.placeholder,
                 locale,

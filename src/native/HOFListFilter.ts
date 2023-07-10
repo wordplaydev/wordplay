@@ -96,6 +96,7 @@ export default class HOFListMap extends HOF {
                             );
                         } else
                             return new TypeException(
+                                this,
                                 evaluator,
                                 this.hofType,
                                 index
@@ -168,7 +169,11 @@ export default class HOFListMap extends HOF {
         // Evaluate to the filtered list.
         return (
             evaluator.resolve(LIST) ??
-            new InternalException(evaluator, 'there should be a list to return')
+            new InternalException(
+                this,
+                evaluator,
+                'there should be a list to return'
+            )
         );
     }
 }

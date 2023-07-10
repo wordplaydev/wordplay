@@ -4,13 +4,14 @@ import type Step from './Step';
 import type Evaluator from './Evaluator';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type Node from '@nodes/Node';
+import type Expression from '../nodes/Expression';
 
 export default abstract class Exception extends Primitive {
     readonly evaluator: Evaluator;
     readonly step?: Step;
 
-    constructor(evaluator: Evaluator) {
-        super(evaluator.getCurrentStep()?.node ?? evaluator.getMain());
+    constructor(creator: Expression, evaluator: Evaluator) {
+        super(creator);
 
         this.evaluator = evaluator;
         this.step = evaluator.getCurrentStep();

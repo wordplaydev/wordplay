@@ -287,6 +287,9 @@
             "conflict": {
                 "UnknownBorrow": "$?",
                 "BorrowCycle": "this depends on $1, which depends on this $source, so the $program can't be evaluated"
+            },
+            "exception": {
+                "CycleException": "$?"
             }
         },
         "Changed": {
@@ -379,6 +382,9 @@
                 "UnexpectedInput": { "primary": "$?", "secondary": "$?" },
                 "UnknownInput": { "primary": "$?", "secondary": "$?" },
                 "InputListMustBeLast": "$?"
+            },
+            "exception": {
+                "FunctionException": "$?"
             }
         },
         "ExpressionPlaceholder": {
@@ -390,6 +396,9 @@
             "placeholder": "$?",
             "conflict": {
                 "Placeholder": "$?"
+            },
+            "exception": {
+                "UnimplementedException": "I don't know what to do here!!"
             }
         },
         "FunctionDefinition": {
@@ -433,6 +442,9 @@
             "finish": "$?",
             "conflict": {
                 "ImpossibleType": "$?"
+            },
+            "exception": {
+                "TypeException": "$?"
             }
         },
         "ListAccess": {
@@ -501,7 +513,13 @@
             "emotion": "neutral",
             "doc": "$?",
             "start": "$?",
-            "finish": "$?"
+            "finish": "$?",
+            "exception": {
+                "BlankException": "¡Estoy tan emocionada de montar un espectáculo contigo! ¿Por dónde deberíamos empezar?",
+                "EvaluationLimitException": "$?",
+                "StepLimitException": "$?",
+                "ValueException": "$?"
+            }
         },
         "PropertyBind": {
             "name": "refinar",
@@ -541,6 +559,9 @@
                 "UnknownName": "$?",
                 "ReferenceCycle": "$?",
                 "UnexpectedTypeVariable": "$?"
+            },
+            "exception": {
+                "NameException": "I feel... unbound, with no value. Am I supposed to have a value in $1 ?? [ $1 | this @Block ]?"
             }
         },
         "Select": {
@@ -650,6 +671,9 @@
             "conflict": {
                 "UnparsableConflict": "$?",
                 "UnclosedDelimiter": "$?"
+            },
+            "exception": {
+                "UnparsableException": "$?"
             }
         },
         "Update": {
@@ -1491,18 +1515,6 @@
         "evaluate": "$?",
         "next": "$?",
         "check": "$?"
-    },
-    "exception": {
-        "blank": "¡Estoy tan emocionada de montar un espectáculo contigo! ¿Por dónde deberíamos empezar?",
-        "function": "$?",
-        "name": "$?",
-        "cycle": "$?",
-        "functionlimit": "$?",
-        "steplimit": "$?",
-        "type": "$?",
-        "placeholder": "$?",
-        "unparsable": "$?",
-        "value": "$?"
     },
     "ui": {
         "phrases": {

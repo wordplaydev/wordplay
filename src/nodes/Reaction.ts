@@ -176,6 +176,7 @@ export default class Reaction extends Expression {
                     return new ValueException(evaluator, this);
                 else if (!(value instanceof Bool))
                     return new TypeException(
+                        this,
                         evaluator,
                         BooleanType.make(),
                         value

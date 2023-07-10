@@ -119,7 +119,7 @@ export default class This extends AtomicExpression {
         // Otherwise, this means something else.
         return (
             evaluator.getThis(this) ??
-            new NameException(this.dis, undefined, evaluator)
+            new NameException(this, this.dis, undefined, evaluator)
         );
     }
 

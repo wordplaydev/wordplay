@@ -6,17 +6,19 @@ import Value from './Value';
 import NodeLink from '@locale/NodeRef';
 import ValueLink from '@locale/ValueRef';
 import concretize from '../locale/concretize';
+import type Expression from '../nodes/Expression';
 
 export default class NameException extends Exception {
     readonly name: Token | undefined;
     readonly scope: Value | undefined;
 
     constructor(
+        reference: Expression,
         name: Token | undefined,
         scope: Value | undefined,
         evaluator: Evaluator
     ) {
-        super(evaluator);
+        super(reference, evaluator);
 
         this.name = name;
         this.scope = scope;
@@ -25,7 +27,7 @@ export default class NameException extends Exception {
     getDescription(locale: Locale) {
         return concretize(
             locale,
-            locale.exception.name,
+            locale.node.Reference.exception.NameException,
             this.name
                 ? new NodeLink(
                       this.name,

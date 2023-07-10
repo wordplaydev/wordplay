@@ -105,6 +105,7 @@ export default class HOFListAll extends HOF {
                 const index = evaluator.resolve(INDEX);
                 if (!(index instanceof Measurement))
                     return new TypeException(
+                        this,
                         evaluator,
                         MeasurementType.make(),
                         matched

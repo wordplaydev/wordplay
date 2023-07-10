@@ -149,7 +149,12 @@ export default class Evaluation {
     ) {
         return value === undefined || value instanceof Evaluation
             ? new ValueException(this.getEvaluator(), expression)
-            : new TypeException(this.getEvaluator(), expected, value);
+            : new TypeException(
+                  expression,
+                  this.getEvaluator(),
+                  expected,
+                  value
+              );
     }
 
     /**
@@ -268,7 +273,12 @@ export default class Evaluation {
             expected !== undefined &&
             !expected.accepts(value.getType(this.#context), this.#context)
         )
-            return new TypeException(this.#evaluator, expected, value);
+            return new TypeException(
+                requestor,
+                this.#evaluator,
+                expected,
+                value
+            );
         else return value;
     }
 

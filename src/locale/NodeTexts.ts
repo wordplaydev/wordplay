@@ -16,6 +16,10 @@ export interface Conflicts<T> {
 export type InternalConflictText = Template;
 export type ConflictText = { primary: Template; secondary: Template };
 
+export interface Exceptions<T> {
+    exception: T;
+}
+
 type NodeTexts = {
     Dimension: NodeText;
     Doc: NodeText;
@@ -129,6 +133,10 @@ type NodeTexts = {
             UnknownBorrow: InternalConflictText;
             /** $1: borrow that had a cycle */
             BorrowCycle: InternalConflictText;
+        }> &
+        Exceptions<{
+            /** $1: Borrow that it depends on */
+            CycleException: Template;
         }>;
 
     /**
@@ -217,6 +225,10 @@ type NodeTexts = {
             UnexpectedInput: ConflictText;
             UnknownInput: ConflictText;
             InputListMustBeLast: InternalConflictText;
+        }> &
+        Exceptions<{
+            /** $1: Name of function not found in scope */
+            FunctionException: Template;
         }>;
     /**
      * Description
@@ -225,7 +237,11 @@ type NodeTexts = {
     ExpressionPlaceholder: NodeText &
         AtomicExpressionText & {
             placeholder: Template;
-        } & Conflicts<{ Placeholder: InternalConflictText }>;
+        } & Conflicts<{ Placeholder: InternalConflictText }> &
+        Exceptions<{
+            /** No inputs */
+            UnimplementedException: Template;
+        }>;
     /**
      * Description
      * $1: function name in locale
@@ -257,7 +273,14 @@ type NodeTexts = {
      */
     Is: NodeText &
         ExpressionText &
-        Conflicts<{ ImpossibleType: InternalConflictText }>;
+        Conflicts<{ ImpossibleType: InternalConflictText }> &
+        Exceptions<{
+            /**
+             * $1 = expected type
+             * $2 = received type
+             */
+            TypeException: Template;
+        }>;
     /**
      * Start
      * $1: list
@@ -312,7 +335,16 @@ type NodeTexts = {
      * Finish
      * $1: resulting value
      */
-    Program: NodeText & ExpressionText;
+    Program: NodeText &
+        ExpressionText &
+        Exceptions<{
+            /** No inputs */ BlankException: Template;
+            /** $1: The function that was evaluated too many times */
+            EvaluationLimitException: Template;
+            /** No inputs */
+            StepLimitException: Template;
+            ValueException: Template;
+        }>;
     /**
      * Finish
      * $1: revised property
@@ -355,6 +387,10 @@ type NodeTexts = {
             UnknownName: InternalConflictText;
             ReferenceCycle: InternalConflictText;
             UnexpectedTypeVariable: InternalConflictText;
+        }> &
+        Exceptions<{
+            /** $1: Scope in which name was not found */
+            NameException: Template;
         }>;
     /**
      * Finish
@@ -443,6 +479,10 @@ type NodeTexts = {
              * $2: Opening delimiter
              * */
             UnclosedDelimiter: InternalConflictText;
+        }> &
+        Exceptions<{
+            /** No inputs */
+            UnparsableException: Template;
         }>;
     /**
      * Start

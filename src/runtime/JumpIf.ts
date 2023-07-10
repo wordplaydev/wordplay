@@ -1,4 +1,3 @@
-import type BinaryOperation from '@nodes/BinaryOperation';
 import BooleanType from '@nodes/BooleanType';
 import type Conditional from '@nodes/Conditional';
 import type Locale from '@locale/Locale';
@@ -9,17 +8,12 @@ import type Value from './Value';
 import concretize from '../locale/concretize';
 
 export default class JumpIf extends Step {
-    readonly conditional: Conditional | BinaryOperation;
+    readonly conditional: Conditional;
     readonly peek: boolean;
     readonly yes: boolean;
     readonly count: number;
 
-    constructor(
-        count: number,
-        peek: boolean,
-        yes: boolean,
-        node: Conditional | BinaryOperation
-    ) {
+    constructor(count: number, peek: boolean, yes: boolean, node: Conditional) {
         super(node);
 
         this.count = count;

@@ -9,7 +9,7 @@ export default class CycleException extends Exception {
     readonly borrow: Borrow;
 
     constructor(evaluator: Evaluator, borrow: Borrow) {
-        super(evaluator);
+        super(borrow, evaluator);
 
         this.borrow = borrow;
     }
@@ -17,7 +17,7 @@ export default class CycleException extends Exception {
     getDescription(locale: Locale) {
         return concretize(
             locale,
-            locale.exception.cycle,
+            locale.node.Borrow.exception.CycleException,
             new NodeLink(
                 this.borrow,
                 locale,

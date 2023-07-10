@@ -95,6 +95,7 @@ export default class HOFMapFilter extends HOF {
                     }
                 } else
                     return new InternalException(
+                        this,
                         evaluator,
                         'map filter does not have valid index, map, or checker'
                     );
@@ -109,6 +110,7 @@ export default class HOFMapFilter extends HOF {
                 const index = evaluator.resolve(INDEX);
                 if (!(index instanceof Measurement))
                     return new InternalException(
+                        this,
                         evaluator,
                         'map filter problem'
                     );
@@ -116,6 +118,7 @@ export default class HOFMapFilter extends HOF {
                 const map = evaluator.getCurrentEvaluation()?.getClosure();
                 if (!(map instanceof MapValue))
                     return new InternalException(
+                        this,
                         evaluator,
                         'map filter problem'
                     );
@@ -124,11 +127,13 @@ export default class HOFMapFilter extends HOF {
                 const newMap = evaluator.resolve(MAP);
                 if (!(include instanceof Bool))
                     return new InternalException(
+                        this,
                         evaluator,
                         'map filter problem'
                     );
                 else if (!(newMap instanceof MapValue))
                     return new InternalException(
+                        this,
                         evaluator,
                         'map filter problem'
                     );

@@ -8,12 +8,15 @@ export default class BlankException extends Exception {
     readonly program: Program;
 
     constructor(evaluator: Evaluator, program: Program) {
-        super(evaluator);
+        super(program, evaluator);
 
         this.program = program;
     }
 
     getDescription(translation: Locale) {
-        return concretize(translation, translation.exception.blank);
+        return concretize(
+            translation,
+            translation.node.Program.exception.BlankException
+        );
     }
 }

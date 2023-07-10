@@ -24,6 +24,7 @@ import InternalException from '@runtime/InternalException';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import concretize from '../locale/concretize';
+import type Value from '../runtime/Value';
 
 export default class ConversionDefinition extends AtomicExpression {
     readonly docs: Docs | undefined;
@@ -140,10 +141,11 @@ export default class ConversionDefinition extends AtomicExpression {
         return [new StartFinish(this)];
     }
 
-    evaluate(evaluator: Evaluator) {
+    evaluate(evaluator: Evaluator): Value {
         const context = evaluator.getCurrentEvaluation();
         if (context === undefined)
             return new InternalException(
+                this,
                 evaluator,
                 'there is no evaluation, which should be impossible'
             );
