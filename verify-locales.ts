@@ -249,7 +249,7 @@ function verifyLocale(locale: Locale) {
         }
     }
 
-    let unwritten = pairs.filter(([, , value]) => value === '$?');
+    let unwritten = pairs.filter(([, , value]) => value.startsWith('$?'));
 
     if (unwritten.length > 0)
         bad(

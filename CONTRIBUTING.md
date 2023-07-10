@@ -89,7 +89,7 @@ You'll see different sections of this file:
 
 All strings in the locale file support a **template** syntax, which allows for a few kinds of dynamic behavior.
 
--   **Unwritten**. To indicate that the string has not yet been written, write an `""` or `"$?"`. This will help you keep track of what's not yet written.
+-   **Unwritten**. To indicate that the string has not yet been written, write an `""` or `"$?"` at the beginning of it. This will help you keep track of what's not yet written.
 -   **Inputs**. Some strings take inputs, as noted in their documentation. To refer to an input value, use a $, followed by the number of the input desired, starting from 1. For example, if a string took one input, and that input happened to be `Amy` you could say `"Hello, my name is $1"` and that would generate the text `"Hello, my name is Amy"` at runtime.
 -   **Terminology** Remember the `term` field above? To refer to a term, `$` followed by any number of word characters (in regex, `/\$\w/`). `"To create a new $program, click here."`
 -   **Conditions** To conditionally select a string, use `??`, followed by an input that is either a boolean or possibly undefined value, and true and false cases:
