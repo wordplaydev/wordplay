@@ -120,7 +120,7 @@ const GlyphSet = {
         symbols: QUESTION_SYMBOL,
     },
     BooleanLiteral: {
-        symbols: TRUE_SYMBOL + FALSE_SYMBOL,
+        symbols: FUNCTION_SYMBOL,
     },
     BooleanType: {
         symbols: TRUE_SYMBOL + FALSE_SYMBOL,

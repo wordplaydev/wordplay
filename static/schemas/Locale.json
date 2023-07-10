@@ -1770,7 +1770,7 @@
                   "properties": {
                     "ExpectedBooleanCondition": {
                       "$ref": "#/definitions/ConflictText",
-                      "description": "$1: The non-boolean expression"
+                      "description": "$1: The non-boolean expression Example: 1 ?'yes' 'no'"
                     }
                   },
                   "required": [

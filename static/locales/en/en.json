@@ -417,13 +417,9 @@
             "description": "$1 ?? [true|false]",
             "emotion": "precise",
             "doc": [
-                "",
-                "We are ⧼⊤⧽ and ⧼⊥⧽.",
-                "We represent true and false.",
-                "True is not false and false is not true.",
-                "Use our functions to reason about truth.",
-                "But leave ambiguity out of it.",
-                ""
+                "⧼⊤⧽ and ⧼⊥⧽ are how we make @Boolean in the Verse!",
+                "Past directors have had lots of ways of typing them.",
+                "Some use the keyboard (/ctrl+9/ for ⧼⊤⧽ and /ctrl+0/ for ⧼⊥⧽). Some use the symbol chooser in the editor. Or you can drag them from here."
             ],
             "start": "$1!"
         },
@@ -431,14 +427,14 @@
             "name": "borrow",
             "description": "borrow $1 ?? [$1|missing name]",
             "emotion": "excited",
-            "doc": "$?Use a binding from another $source or performance.",
+            "doc": "$? Use a binding from another $source or performance.",
             "start": "borrowing $2 from $1",
             "source": "$source",
             "bind": "name",
             "version": "version",
             "conflict": {
                 "UnknownBorrow": "I don't know a $souce by this name",
-                "BorrowCycle": "this depends on $1, which depends on this $source, so the $program can't be evaluated"
+                "BorrowCycle": "this depends on $1, which depends on this $source, so the program can't be evaluated"
             },
             "exception": {
                 "CycleException": "$1 depends on itself"
@@ -446,41 +442,38 @@
         },
         "Changed": {
             "name": "changed",
-            "emotion": "curious",
-            "doc": "$?true if a stream caused a $program to re-evaluate",
-            "start": "check if $1 caused this $program to reevaluate",
-            "keep": "keeping the stream instead of getting its latest value",
+            "emotion": "serious",
+            "doc": [
+                "I check if a stream caused @Program to reevaluate, and make a @Boolean. Like this",
+                "⧼∆ Time()⧽",
+                "I'm really helpful when you want something to change only if a stream changed.",
+                "That's it."
+            ],
+            "start": "let's see if $1 changed…",
+            "keep": "getting the stream…",
             "stream": "stream"
         },
         "Conditional": {
             "name": "conditional",
             "emotion": "curious",
             "doc": [
-                "",
-                "Did you ever think about how we decide? ",
-                "I think about that a lot. ",
-                "So many decisions in life can be so complicated. ",
-                "Sometimes I feel a lot of pressure to decide, since I'm the only one in this world who gets to decide.",
-                "I get overwhelmed, and so I've tried to simplify things. ",
-                "@BooleanLiteral helps see that I could reduce everything to just two options: ⧼⊤⧽ and ⧼⊥⧽.",
-                "If it's ⧼⊤⧽, then I evaluate my *yes* code. If it's ⧼⊥⧽, then I evaluate my *no* code.",
-                "I know that decisions are rarely this simple, but breaking down the world into these two options makes things easier for me.",
-                "It's my little way of keeping things organized, even in the face of so much complexity.",
-                "Yes, no, if, else, this, that.",
-                "Hm, I'm starting to sound like @BooleanLiteral...",
-                ""
+                "I think I'm supposed to make decisions? Like this?",
+                "⧼number: -100\nnumber < 0 ? 'negative' 'positive'⧽",
+                "But have you ever thought about how we decide?",
+                "Doesn't it seem like decisions should be more nuanced than just yes or no? Is deciding between ⧼⊤⧽ and ⧼⊥⧽ all there is?",
+                "Aren't you worried that if these are the only kind of decisions we can make, we'll be missing some important context about the world?"
             ],
             "start": "let's see if $1 is true",
             "else": "$1 ?? [jumping over code | not jumping over code]",
-            "afterthen": "jumping past code",
-            "finish": "it's $1 value!",
+            "afterthen": "done with yes, let's skip no?",
+            "finish": "I guess it's $1?",
             "condition": "condition",
             "yes": "yes",
             "no": "no",
             "conflict": {
                 "ExpectedBooleanCondition": {
-                    "primary": "I can't choose between yes and no with a $1. Can you give me a @TextType?",
-                    "secondary": "I wish I evaluated to a @TextType, but I'm a $1"
+                    "primary": "How can I choose yes and no with a $1? No really, how?",
+                    "secondary": "I think @Conditional wanted me to be a @Boolean, but I'm a $1."
                 }
             }
         },
@@ -1148,8 +1141,10 @@
     "native": {
         "Boolean": {
             "doc": [
-                "We are single true or false value.",
-                "We are the simplest value type, since we can only be one of two values, (⊤) and (⊥)."
+                "This is We are ⧼⊤⧽ and ⧼⊥⧽. This is how you write us.",
+                "We are true and false.",
+                "⧼⊤⧽ is not false. ⧼⊥⧽ is not true.",
+                "See @Boolean for how to use us to reason."
             ],
             "name": ["⊤⊥", "Boolean"],
             "function": {

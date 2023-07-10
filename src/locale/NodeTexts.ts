@@ -189,7 +189,10 @@ type NodeTexts = {
             yes: Template;
             no: Template;
         } & Conflicts<{
-            /** $1: The non-boolean expression */
+            /**
+             * $1: The non-boolean expression
+             * Example: 1 ?'yes' 'no'
+             */
             ExpectedBooleanCondition: ConflictText;
         }>;
     ConversionDefinition: NodeText &
