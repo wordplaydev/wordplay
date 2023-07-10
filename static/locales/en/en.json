@@ -311,16 +311,23 @@
             "name": "binary operation",
             "emotion": "insecure",
             "doc": [
-                "Sometimes when I'm evaluating a @FunctionDefinition with just one value on the left and one value on the right, I like to use this form, instead of @Evaluate.",
-                "⧼1 + 1⧽ is just so much simpler than ⧼1.+(1)⧽ or ⧼1.add(1)⧽. ",
-                "It makes everything a bit tidier, even though its basically the same thing.",
-                ""
+                "I'm @Evaluate, but in a simpler form, helpful when you want to use a @FunctionDefinition that takes two inputs.",
+                "For example, here's how you might use @Evaluate to add two numbers:",
+                "⧼1.+(1)⧽",
+                "Doesn't that look a little funny? It's not wrong: it just says get the add function on 1 and then evaluate it.",
+                "But it's much easier to use @BinaryOperation",
+                "⧼1 + 1⧽",
+                "This makes everythign a bit tidier, even though its basically the same thing.",
+                "There's only one thing to watch out for: when I'm in this form, I evaluate from left to right. That might be confusing if you're used to things like order of operations in mathematics.",
+                "It means that this evaluates in a way that you might not expect:",
+                "⧼1 + 2 · 3 + 4⧽",
+                "In math, multiplication would come first, and then addition, and so the result would be ⧼11⧽. But since I evaluate in reading order, the result is ⧼13⧽."
             ],
             "right": "input",
-            "start": "$1 first, then right",
-            "finish": "look, I made $1",
+            "start": "let's evaluate $1 first",
+            "finish": "look, I made $1!",
             "conflict": {
-                "OrderOfOperations": "I'll evalute left to right, unlike math; do you want to use @Block to specify a different order?"
+                "OrderOfOperations": "I evalute in reading order, not in math order of operations. Do you want to use @Block to specify the order I should evaluate in?"
             }
         },
         "Bind": {
