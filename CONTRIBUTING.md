@@ -124,6 +124,26 @@ Finally, a scenes `lines`: this is a list of one of three kinds of things:
     -   All remaining items are individual paragraphs that appear in a character's speech bubble. So if you want a new paragraph, add a separate string in the list. **Note**: all dialog is treated the same as `doc` fields in the locale, so you can format text in all the same ways, including rich text formatting, web links, concept links, and code examples.
 -   **Performance** Just like the performances in the `acts` and `scenes`. The key difference, however, is that these persist: whatever performance is included as a line will be shown until a new performance is reached in the play.
 
+#### Rich text
+
+All `doc` fields in the locale (and all dialog) can use the following formatting syntax:
+
+| Format         | Example                                              |
+| -------------- | ---------------------------------------------------- |
+| Light          | `\|I am light\|`                                     |
+| **Bold**       | `*I am bold*`                                        |
+| _Italic_       | `/I am italic/`                                      |
+| **Extra bold** | `^I am extra bold^`                                  |
+| Underline      | `_I am underlined_`                                  |
+| Concept link   | `I am a concept link to @Text`                       |
+| Web link       | `I am a web link to <wordplay@https://wordplay.dev>` |
+| New paragraph  | `\n\n`                                               |
+| Wordplay code  | `⧼1 + 1⧽`                                            |
+
+In the locale and tutorial files, you can also separate paragraphs by using an array of strings, where, each string is a paragraph: `["Paragraph one", "Paragraph two"]`.
+
+Code that is alone in a paragraph shows its output. Code that is inline in a paragraph just shows the code. Create multiline code either by using `\n` in a string, or for better readability, as an array of strings, where each string is on a line: `["a: 'line one'", "b: a + 'line two'"]`.
+
 ### Verifying
 
 So you've written a bit of translation and want to make sure you followed all the rules above?

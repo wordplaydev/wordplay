@@ -115,7 +115,7 @@
             "description": "number",
             "emotion": "serious",
             "doc": [
-                "I am a *unit of measurement*, like ⧼1m⧽, ⧼10s⧽, ⧼100g⧽, or any other scientific unit. I'm happy to be any unit want to make up too, like (17apple).",
+                "I am a /unit of measurement/, like ⧼1m⧽, ⧼10s⧽, ⧼100g⧽, or any other scientific unit. I'm happy to be any unit want to make up too, like (17apple).",
                 "I can be combined with other symbols to make compound units like ⧼9.8m/s^2⧽ or ⧼17apple/day⧽.",
                 "I must always follow a number. If I don't, I might be mistaken for a $name, which would be quite embarassing, because I name units, not values."
             ]
