@@ -2,7 +2,7 @@
     import ConceptLink from '../../nodes/ConceptLink';
     import Token from '../../nodes/Token';
     import WebLink from '../../nodes/WebLink';
-    import type Words from '../../nodes/Words';
+    import Words from '../../nodes/Words';
     import type Spaces from '../../parser/Spaces';
     import WebLinkHTMLView from './WebLinkHTMLView.svelte';
     import ConceptLinkUI from './ConceptLinkUI.svelte';
@@ -13,23 +13,21 @@
     export let spaces: Spaces;
 </script>
 
-<span class={words.getFormat()}>
-    {#each words.segments as segment, index}
-        {#if segment instanceof WebLink}<WebLinkHTMLView
+<span class={words.getFormat()}
+    >{#each words.segments as segment, index}{#if segment instanceof WebLink}<WebLinkHTMLView
                 link={segment}
                 {spaces}
-            />
-        {:else if segment instanceof ConceptLink}<ConceptLinkUI
+            />{:else if segment instanceof ConceptLink}<ConceptLinkUI
                 link={segment}
-            />
-        {:else if segment instanceof Example}<ExampleUI
+            />{:else if segment instanceof Example}<ExampleUI
                 example={segment}
                 {spaces}
                 evaluated={false}
                 inline={true}
-            />
-        {:else if segment instanceof Token}{#if index > 0 && spaces && spaces.getSpace(segment).length > 0}&nbsp;{/if}{segment.getText()}
-        {/if}
+            />{:else if segment instanceof Words}<svelte:self
+                words={segment}
+                {spaces}
+            />{:else if segment instanceof Token}{#if index > 0 && spaces && spaces.getSpace(segment).length > 0}&nbsp;{/if}{segment.getText()}{/if}
     {/each}</span
 >
 

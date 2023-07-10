@@ -154,12 +154,16 @@ export class Creator {
         this.loadLocales(this.getLanguages());
     }
 
-    async loadLocales(languages: LanguageCode[]) {
+    async refreshLocales() {
+        this.loadLocales(SupportedLanguages, true);
+    }
+
+    async loadLocales(languages: LanguageCode[], refresh: boolean = false) {
         // Asynchronously load all unloaded
         await Promise.all(
             languages.map(async (lang) => {
                 // If we don't already have it, load it.
-                if (!Object.hasOwn(this.locales, lang)) {
+                if (refresh || !Object.hasOwn(this.locales, lang)) {
                     const raw = await fetch(`/locales/${lang}/${lang}.json`);
                     const json = await raw.json();
                     this.locales[lang] = json;
@@ -169,6 +173,9 @@ export class Creator {
 
         // Update the native bindings to include all locales
         this.native = bootstrap(this.getLocales());
+
+        // Notify config listeners.
+        this.configStore.set(this);
     }
 
     getLayout() {
@@ -665,3 +672,9 @@ const db = new Creator(en);
 export const creator = db.getConfigStore();
 export const projects = db.getProjectsStore();
 export const status = db.getSaveStatusStore();
+
+if (import.meta.hot) {
+    import.meta.hot.on('locales-update', () => {
+        db.refreshLocales();
+    });
+}

@@ -13,7 +13,7 @@
 
     $: language = $creator.getLocale().language;
 
-    onMount(async () => {
+    async function loadTutorial() {
         try {
             // Load the locale's tutorial
             const response = await fetch(
@@ -24,7 +24,18 @@
             // Couldn't load it? Show an error.
             tutorial = null;
         }
+    }
+
+    onMount(async () => {
+        loadTutorial();
     });
+
+    // If hot module reloading, and there's a locale update, refresh the tutorial.
+    if (import.meta.hot) {
+        import.meta.hot.on('locales-update', () => {
+            loadTutorial();
+        });
+    }
 
     // Set progress if URL indicates one.
     $: {

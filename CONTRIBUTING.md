@@ -57,7 +57,13 @@ That means you're the first to work on it!
 You'll find a folder `static/locales/example` that contains templates to start from.
 Copy that folder and rename it and its files to the language code that you want to work on, or copy an existing locale and start from it (being careful to keep track of which strings aren't yet translated).
 
-Once you have a folder with the locale files for your language, there are a few things to know about how each is structured.
+The recommended editing setup is as follows:
+
+-   Have VS Code open with the locale file you're editing
+-   Open a terminal and run `npm run dev`; this will show a link like `http://localhost:5173`. Open that link in a web browser and you'll see the Wordplay application. Position the browser window side by side with VS Code.
+-   Edit your locale file. Every time you save (`cmd/ctrl + s`), the browser tab will refresh. This will let you iteratively write, save, and check formatting and appearance.
+
+Now, let's talk about how these files are structured!
 
 #### Locale files
 
