@@ -62,6 +62,7 @@ The recommended editing setup is as follows:
 -   Have VS Code open with the locale file you're editing
 -   Open a terminal and run `npm run dev`; this will show a link like `http://localhost:5173`. Open that link in a web browser and you'll see the Wordplay application. Position the browser window side by side with VS Code.
 -   Edit your locale file. Every time you save (`cmd/ctrl + s`), the browser tab will refresh. This will let you iteratively write, save, and check formatting and appearance.
+-   Find the concept you're editing in the documentation panel by searching for it's name. That'll help you see live updates on each save. For conflict messages, you should be able to find code examples that produce the conflict in the tooltips of the message.
 
 Now, let's talk about how these files are structured!
 
