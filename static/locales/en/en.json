@@ -531,23 +531,19 @@
             "description": "evaluate $1 ?? [$1|anonymous]",
             "emotion": "shy",
             "doc": [
-                "",
-                "Hi. Are you looking for me? I evaluate @FunctionDefinition.",
-                "For example, if you had this function, I could evaluate it like this:",
-                "⧼ƒ greeting(message•\"\")",
-                "\"Hello \" + message",
-                "greeting('kitty')⧽",
-                "Your function can come from anywhere. For example, @TextLiteral has functions. Like this:",
+                "Hi. I evaluate my dearest @FunctionDefinition. Like this:",
+                "⧼ƒ greeting(message•'')\ngreeting('kitty')⧽",
+                "Functions can come from anywhere. For example, @Text has functions. Like this:",
                 "⧼'kitty'.length()⧽",
-                "If a function has a single symbol name, you can work with @BinaryOperation.",
+                "If a function has a single symbol name, you can write me as a @BinaryOperation.",
                 "⧼'kitty' ⊆ 'itty'⧽",
-                "That does the same thing as :",
+                "That does the same thing as this:",
                 "⧼'kitty'.⊆('itty')⧽",
-                ""
+                "Of course, I'm nothing without @FunctionDefinition. All I do is give inputs to them and then follow their steps."
             ],
             "start": "let's evaluate the inputs first",
             "evaluate": "let's evaluate the function now",
-            "finish": "the function evaluated to $1",
+            "finish": "I evaluated to $1",
             "function": "function",
             "input": "input",
             "conflict": {
@@ -557,17 +553,17 @@
                 },
                 "UnexpectedTypeInput": {
                     "primary": "I wasn't expecting this type input",
-                    "secondary": "Am I supposed to be here?"
+                    "secondary": "am I supposed to be here?"
                 },
-                "MisplacedInput": "I think this input is misplaced. Check the order?",
+                "MisplacedInput": "this input is out of order.",
                 "MissingInput": {
                     "primary": "I need $1, can you add one?",
-                    "secondary": "This input is required, but $2 did not provide it"
+                    "secondary": "this input is required, but $2 didn't provide it"
                 },
-                "NotInstantiable": "cannot make this $structure because it refers to an interface",
+                "NotInstantiable": "I can't make this @StructureDefinition, it has unimplemented functions.",
                 "UnexpectedInput": {
                     "primary": "I didn't expect this input $2",
-                    "secondary": "Am I supposed to be here?"
+                    "secondary": "am I supposed to be here?"
                 },
                 "UnknownInput": {
                     "primary": "I don't know of an input by this name",
@@ -576,7 +572,7 @@
                 "InputListMustBeLast": "list of inputs must be last"
             },
             "exception": {
-                "FunctionException": "Oops, I don't know how to $1"
+                "FunctionException": "oops, I don't know how to $1"
             }
         },
         "ExpressionPlaceholder": {
@@ -584,21 +580,21 @@
             "description": "$1 ?? [$1|placeholder]",
             "emotion": "scared",
             "doc": [
-                "",
-                "I'm supposed to be an *expression*, but I really don't know how to do anything.",
-                "Directors usually use me to temporarily hold some space in a performance while they figure out what they want to do.",
-                "Like, if we were adding some numbers, I might take the place of a number (1 + _), or if someone was evaluating a function with @Evaluate, I might stand in for the function (_(1 2 3)).",
-                "But as soon as someone decides what to replace me with, I'm out.",
-                "Which is good, because I'm terrified of being on stage, let alone in @Program!",
-                ""
+                "I'm an *expression*, but not a real one… I just take the place of one.",
+                "I'm good if you don't know what to write yet. Like this:",
+                "⧼1 + _⧽",
+                "What are we adding? I don't know. You tell me.",
+                "Or if someone was evaluating a function with @Evaluate, I might stand in for the function",
+                "⧼_(1 2 3)⧽",
+                "I don't like being on @Stage!"
             ],
-            "start": "Stop the performance, I don't know what to do!",
+            "start": "eek, I don't know what to do!",
             "placeholder": "expression",
             "conflict": {
-                "Placeholder": "Can someone take my place? I don't know what to do."
+                "Placeholder": "can someone take my place?"
             },
             "exception": {
-                "UnimplementedException": "I don't know what to do here!!"
+                "UnimplementedException": "I don't know what to do!"
             }
         },
         "FunctionDefinition": {
