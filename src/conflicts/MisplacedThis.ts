@@ -15,7 +15,7 @@ export class MisplacedThis extends Conflict {
             primary: {
                 node: this.dis,
                 explanation: (locale: Locale) =>
-                    concretize(locale, locale.conflict.MisplacedThis),
+                    concretize(locale, locale.node.This.conflict.MisplacedThis),
             },
         };
     }

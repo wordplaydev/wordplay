@@ -17,7 +17,10 @@ export default class InputListMustBeLast extends Conflict {
             primary: {
                 node: this.bind,
                 explanation: (locale: Locale) =>
-                    concretize(locale, locale.conflict.InputListMustBeLast),
+                    concretize(
+                        locale,
+                        locale.node.Evaluate.conflict.InputListMustBeLast
+                    ),
             },
         };
     }

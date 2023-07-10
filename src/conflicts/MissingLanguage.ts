@@ -17,9 +17,12 @@ export default class MissingLanguage extends Conflict {
     getConflictingNodes() {
         return {
             primary: {
-                node: this.slash,
+                node: this.language,
                 explanation: (locale: Locale) =>
-                    concretize(locale, locale.conflict.MissingLanguage),
+                    concretize(
+                        locale,
+                        locale.node.Language.conflict.MissingLanguage
+                    ),
             },
         };
     }

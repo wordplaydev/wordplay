@@ -4,7 +4,6 @@ import type NativeTexts from './NativeTexts';
 import type NodeTexts from './NodeTexts';
 import type OutputTexts from './OutputTexts';
 import type UITexts from './UITexts';
-import type ConflictTexts from './ConflictTexts';
 import type InputTexts from './InputTexts';
 import type ExceptionTexts from './ExceptionTexts';
 import type EvaluationTexts from './EvaluationTexts';
@@ -32,7 +31,6 @@ export type Locale = {
     output: OutputTexts;
     evaluate: EvaluationTexts;
     exception: ExceptionTexts;
-    conflict: ConflictTexts;
     ui: UITexts;
 };
 

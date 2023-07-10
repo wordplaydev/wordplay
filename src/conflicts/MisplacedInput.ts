@@ -30,9 +30,12 @@ export default class MisplacedInput extends Conflict {
     getConflictingNodes() {
         return {
             primary: {
-                node: this.given.names,
+                node: this.evaluate,
                 explanation: (locale: Locale) =>
-                    concretize(locale, locale.conflict.MisplacedInput),
+                    concretize(
+                        locale,
+                        locale.node.Evaluate.conflict.MisplacedInput
+                    ),
             },
         };
     }

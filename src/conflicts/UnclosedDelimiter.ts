@@ -26,7 +26,8 @@ export default class UnclosedDelimiter extends Conflict {
                 explanation: (locale: Locale, context: Context) =>
                     concretize(
                         locale,
-                        locale.conflict.UnclosedDelimiter,
+                        locale.node.UnparsableExpression.conflict
+                            .UnclosedDelimiter,
                         new NodeLink(
                             this.open,
                             locale,

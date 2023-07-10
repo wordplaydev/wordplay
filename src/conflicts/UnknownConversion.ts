@@ -19,11 +19,11 @@ export class UnknownConversion extends Conflict {
     getConflictingNodes() {
         return {
             primary: {
-                node: this.convert.type,
+                node: this.convert,
                 explanation: (locale: Locale, context: Context) =>
                     concretize(
                         locale,
-                        locale.conflict.UnknownConversion,
+                        locale.node.Convert.conflict.UnknownConversion,
                         new NodeLink(this.expectedType, locale, context),
                         new NodeLink(this.convert.type, locale, context)
                     ),

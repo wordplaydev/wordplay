@@ -1,7 +1,7 @@
 import { test } from 'vitest';
-import InvalidTypeInput from '@conflicts/InvalidTypeInput';
+import UnexpectedTypeInput from '@conflicts/UnexpectedTypeInput';
 import { testConflict } from '@conflicts/TestUtilities';
-import { UnknownTypeName } from '@conflicts/InvalidTypeName';
+import { UnknownTypeName } from '@conflicts/UnknownTypeName';
 import NameType from './NameType';
 
 test.each([
@@ -15,7 +15,7 @@ test.each([
         '•Cat⸨T⸩() ()\na•Cat⸨#⸩: Cat(1)',
         '•Cat()\na•Cat⸨#⸩: Cat()',
         NameType,
-        InvalidTypeInput,
+        UnexpectedTypeInput,
     ],
 ])('Expect %s no conflicts, %s to have one', (good, bad, node, conflict) => {
     testConflict(good, bad, node, conflict);

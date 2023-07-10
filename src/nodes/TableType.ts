@@ -58,7 +58,7 @@ export default class TableType extends Type {
         // Columns must all have types.
         this.columns.forEach((column) => {
             if (column.getType(context) instanceof AnyType)
-                conflicts.push(new ExpectedColumnType(column));
+                conflicts.push(new ExpectedColumnType(this, column));
         });
 
         return conflicts;

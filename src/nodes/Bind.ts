@@ -218,7 +218,7 @@ export default class Bind extends Expression {
             const valueType = this.value.getType(context);
             if (!this.type.accepts(valueType, context))
                 conflicts.push(
-                    new IncompatibleBind(this.type, this.value, valueType)
+                    new IncompatibleBind(this, this.type, this.value, valueType)
                 );
         }
 
@@ -244,7 +244,7 @@ export default class Bind extends Expression {
 
                     if (defsWithName.length > 0)
                         conflicts.push(
-                            new DuplicateName(name, defsWithName[0])
+                            new DuplicateName(this, defsWithName[0])
                         );
                 }
             }

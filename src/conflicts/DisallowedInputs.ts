@@ -14,9 +14,13 @@ export class DisallowedInputs extends Conflict {
     getConflictingNodes() {
         return {
             primary: {
-                node: this.structure.names,
+                node: this.structure,
                 explanation: (locale: Locale) =>
-                    concretize(locale, locale.conflict.DisallowedInputs),
+                    concretize(
+                        locale,
+                        locale.node.StructureDefinition.conflict
+                            .DisallowedInputs
+                    ),
             },
         };
     }

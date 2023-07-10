@@ -17,9 +17,12 @@ export default class OrderOfOperations extends Conflict {
     getConflictingNodes() {
         return {
             primary: {
-                node: this.operation.operator,
+                node: this.operation,
                 explanation: (locale: Locale) =>
-                    concretize(locale, locale.conflict.OrderOfOperations),
+                    concretize(
+                        locale,
+                        locale.node.BinaryOperation.conflict.OrderOfOperations
+                    ),
             },
         };
     }

@@ -10,7 +10,7 @@ import MeasurementType from './MeasurementType';
 import SetType from './SetType';
 import MapType from './MapType';
 import UnknownInput from '@conflicts/UnknownInput';
-import InvalidTypeInput from '@conflicts/InvalidTypeInput';
+import UnexpectedTypeInput from '@conflicts/UnexpectedTypeInput';
 import { getDefaultNative } from '../native/Native';
 
 const native = await getDefaultNative();
@@ -70,7 +70,7 @@ test.each([
         '•Cat⸨Desire⸩()\nCat⸨#⸩()',
         '•Cat()\nCat⸨#⸩()',
         Evaluate,
-        InvalidTypeInput,
+        UnexpectedTypeInput,
     ],
     // A function has to exist on all possible types of an expression
     [

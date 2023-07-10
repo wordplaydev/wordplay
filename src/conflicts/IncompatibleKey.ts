@@ -21,11 +21,12 @@ export class IncompatibleKey extends Conflict {
     getConflictingNodes() {
         return {
             primary: {
-                node: this.access.key,
+                node: this.access,
                 explanation: (locale: Locale, context: Context) =>
                     concretize(
                         locale,
-                        locale.conflict.IncompatibleKey.primary,
+                        locale.node.SetOrMapAccess.conflict.IncompatibleKey
+                            .primary,
                         new NodeLink(this.expected, locale, context)
                     ),
             },
@@ -34,7 +35,8 @@ export class IncompatibleKey extends Conflict {
                 explanation: (locale: Locale, context: Context) =>
                     concretize(
                         locale,
-                        locale.conflict.IncompatibleKey.secondary,
+                        locale.node.SetOrMapAccess.conflict.IncompatibleKey
+                            .secondary,
                         new NodeLink(this.received, locale, context)
                     ),
             },

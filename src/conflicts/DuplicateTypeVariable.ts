@@ -23,7 +23,8 @@ export default class DuplicateTypeVariable extends Conflict {
                 explanation: (locale: Locale, context: Context) =>
                     concretize(
                         locale,
-                        locale.conflict.DuplicateTypeVariable.primary,
+                        locale.node.TypeVariable.conflict.DuplicateTypeVariable
+                            .primary,
                         new NodeLink(
                             this.duplicate,
                             locale,
@@ -37,7 +38,8 @@ export default class DuplicateTypeVariable extends Conflict {
                 explanation: (locale: Locale, context: Context) =>
                     concretize(
                         locale,
-                        locale.conflict.DuplicateTypeVariable.secondary,
+                        locale.node.TypeVariable.conflict.DuplicateTypeVariable
+                            .secondary,
                         new NodeLink(
                             this.typeVar,
                             locale,

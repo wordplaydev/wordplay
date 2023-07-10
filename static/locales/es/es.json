@@ -139,7 +139,11 @@
             "name": "lengua",
             "description": "$?",
             "emotion": "neutral",
-            "doc": "$?"
+            "doc": "$?",
+            "conflict": {
+                "InvalidLanguage": "$?",
+                "MissingLanguage": "$?"
+            }
         },
         "Name": {
             "name": "nombre",
@@ -157,7 +161,12 @@
             "name": "la hilera",
             "description": "$?",
             "emotion": "neutral",
-            "doc": "$?"
+            "doc": "$?",
+            "conflict": {
+                "InvalidRow": "$?",
+                "MissingCell": { "primary": "$?", "secondary": "$?" },
+                "UnknownColumn": "$?"
+            }
         },
         "Token": {
             "name": "token",
@@ -175,7 +184,10 @@
             "name": "variable de tipo",
             "description": "$?",
             "emotion": "neutral",
-            "doc": "$?"
+            "doc": "$?",
+            "conflict": {
+                "DuplicateTypeVariable": { "primary": "$?", "secondary": "$?" }
+            }
         },
         "TypeVariables": {
             "name": "lista de variable de tipo",
@@ -220,7 +232,10 @@
             "doc": "$?",
             "right": "input",
             "start": "$?",
-            "finish": "$?"
+            "finish": "$?",
+            "conflict": {
+                "OrderOfOperations": "$?"
+            }
         },
         "Bind": {
             "name": "nombrar",
@@ -228,7 +243,17 @@
             "emotion": "neutral",
             "doc": "$?",
             "start": "$?",
-            "finish": "$?"
+            "finish": "$?",
+            "conflict": {
+                "DuplicateName": { "primary": "$?", "secondary": "$?" },
+                "DuplicateShare": { "primary": "$?", "secondary": "$?" },
+                "IncompatibleBind": { "primary": "$?", "secondary": "$?" },
+                "MisplacedShare": "$?",
+                "MissingShareLanguages": "$?",
+                "RequiredAfterOptional": "$?",
+                "UnexpectedEtc": "$?",
+                "UnusedBind": "$?"
+            }
         },
         "Block": {
             "name": "block",
@@ -237,7 +262,11 @@
             "doc": "$?",
             "statement": "$?",
             "start": "$?",
-            "finish": "$?"
+            "finish": "$?",
+            "conflict": {
+                "ExpectedEndingExpression": "$?",
+                "IgnoredExpression": { "primary": "$?", "secondary": "$?" }
+            }
         },
         "BooleanLiteral": {
             "name": "boolean",
@@ -254,7 +283,11 @@
             "start": "$?",
             "source": "$?",
             "bind": "$?",
-            "version": "$?"
+            "version": "$?",
+            "conflict": {
+                "UnknownBorrow": "$?",
+                "BorrowCycle": "this depends on $1, which depends on this $source, so the $program can't be evaluated"
+            }
         },
         "Changed": {
             "name": "Cambiada",
@@ -284,14 +317,23 @@
             "finish": "$?",
             "condition": "$?",
             "yes": "$?",
-            "no": "$?"
+            "no": "$?",
+            "conflict": {
+                "ExpectedBooleanCondition": {
+                    "primary": "$?",
+                    "secondary": "$?"
+                }
+            }
         },
         "ConversionDefinition": {
             "name": "conversión",
             "description": "$?",
             "emotion": "neutral",
             "doc": "$?",
-            "start": "$?"
+            "start": "$?",
+            "conflict": {
+                "MisplacedConversion": "$?"
+            }
         },
         "Convert": {
             "name": "convertir",
@@ -299,7 +341,10 @@
             "emotion": "neutral",
             "doc": "$?",
             "start": "$?",
-            "finish": "$?"
+            "finish": "$?",
+            "conflict": {
+                "UnknownConversion": "$?"
+            }
         },
         "Delete": {
             "name": "delete row",
@@ -324,7 +369,17 @@
             "start": "$?",
             "finish": "$?",
             "function": "$?",
-            "input": "$?"
+            "input": "$?",
+            "conflict": {
+                "IncompatibleInput": { "primary": "$?", "secondary": "$?" },
+                "UnexpectedTypeInput": { "primary": "$?", "secondary": "$?" },
+                "MisplacedInput": "$?",
+                "MissingInput": { "primary": "$?", "secondary": "$?" },
+                "NotInstantiable": "$?",
+                "UnexpectedInput": { "primary": "$?", "secondary": "$?" },
+                "UnknownInput": { "primary": "$?", "secondary": "$?" },
+                "InputListMustBeLast": "$?"
+            }
         },
         "ExpressionPlaceholder": {
             "name": "marcador de posición",
@@ -332,14 +387,20 @@
             "emotion": "neutral",
             "doc": "$?",
             "start": "$?",
-            "placeholder": "$?"
+            "placeholder": "$?",
+            "conflict": {
+                "Placeholder": "$?"
+            }
         },
         "FunctionDefinition": {
             "name": "función",
             "description": "$?",
             "emotion": "neutral",
             "doc": "$?",
-            "start": "$?"
+            "start": "$?",
+            "conflict": {
+                "NoExpression": "$?"
+            }
         },
         "HOF": {
             "name": "función de orden superior",
@@ -369,7 +430,10 @@
             "emotion": "neutral",
             "doc": "$?",
             "start": "$?",
-            "finish": "$?"
+            "finish": "$?",
+            "conflict": {
+                "ImpossibleType": "$?"
+            }
         },
         "ListAccess": {
             "name": "acceso a la lista",
@@ -394,14 +458,20 @@
             "emotion": "neutral",
             "doc": "$?",
             "start": "$?",
-            "finish": "$?"
+            "finish": "$?",
+            "conflict": {
+                "NotAKeyValue": { "primary": "$?", "secondary": "$?" }
+            }
         },
         "MeasurementLiteral": {
             "name": "número",
             "description": "$?",
             "emotion": "neutral",
             "doc": "$?",
-            "start": "$?"
+            "start": "$?",
+            "conflict": {
+                "NotANumber": "$?"
+            }
         },
         "NativeExpression": {
             "name": "expresión incorporada",
@@ -466,7 +536,12 @@
             "description": "$?",
             "emotion": "neutral",
             "doc": "$?",
-            "start": "$?"
+            "start": "$?",
+            "conflict": {
+                "UnknownName": "$?",
+                "ReferenceCycle": "$?",
+                "UnexpectedTypeVariable": "$?"
+            }
         },
         "Select": {
             "name": "seleccionar",
@@ -474,7 +549,10 @@
             "emotion": "neutral",
             "doc": "$?",
             "start": "$?",
-            "finish": "$?"
+            "finish": "$?",
+            "conflict": {
+                "ExpectedSelectName": "$?"
+            }
         },
         "SetLiteral": {
             "name": "recopilación",
@@ -490,7 +568,10 @@
             "emotion": "neutral",
             "doc": "$?",
             "start": "$?",
-            "finish": "$?"
+            "finish": "$?",
+            "conflict": {
+                "IncompatibleKey": { "primary": "$?", "secondary": "$?" }
+            }
         },
         "Source": {
             "name": "documento",
@@ -510,7 +591,13 @@
             "description": "$?",
             "emotion": "neutral",
             "doc": "$?",
-            "start": "define this structure type"
+            "start": "define this structure type",
+            "conflict": {
+                "DisallowedInputs": "$?",
+                "IncompleteImplementation": "$?",
+                "NotAnInterface": "$?",
+                "UnimplementedInterface": "$?"
+            }
         },
         "TableLiteral": {
             "name": "tabla",
@@ -541,7 +628,10 @@
             "description": "$?",
             "emotion": "neutral",
             "doc": "$?",
-            "start": "$?"
+            "start": "$?",
+            "conflict": {
+                "MisplacedThis": "$?"
+            }
         },
         "UnaryOperation": {
             "name": "operación unaria",
@@ -556,7 +646,11 @@
             "description": "$?",
             "emotion": "neutral",
             "doc": "$?",
-            "start": "cannot evaluate unparsable code"
+            "start": "cannot evaluate unparsable code",
+            "conflict": {
+                "UnparsableConflict": "$?",
+                "UnclosedDelimiter": "$?"
+            }
         },
         "Update": {
             "name": "update rows",
@@ -564,7 +658,11 @@
             "emotion": "neutral",
             "doc": "$?",
             "start": "$?",
-            "finish": "$?"
+            "finish": "$?",
+            "conflict": {
+                "ExpectedUpdateBind": "$?",
+                "IncompatibleCellType": { "primary": "$?", "secondary": "$?" }
+            }
         },
         "AnyType": {
             "name": "tipo de cualquier",
@@ -624,7 +722,10 @@
             "name": "tipo de nombre",
             "description": "$?",
             "emotion": "neutral",
-            "doc": "$?"
+            "doc": "$?",
+            "conflict": {
+                "UnknownTypeName": "$?"
+            }
         },
         "NeverType": {
             "name": "tipo de nunca",
@@ -674,7 +775,10 @@
             "name": "tipo de tabla",
             "description": "",
             "emotion": "neutral",
-            "doc": "$?"
+            "doc": "$?",
+            "conflict": {
+                "ExpectedColumnType": "$?"
+            }
         },
         "TextType": {
             "name": "tipo de texto",
@@ -1375,60 +1479,6 @@
             "popup": { "doc": "$?", "names": ["surgir"] },
             "shake": { "doc": "$?", "names": ["agitar"] }
         }
-    },
-    "conflict": {
-        "BorrowCycle": "$?",
-        "ReferenceCycle": "$?",
-        "DisallowedInputs": "$?",
-        "DuplicateName": { "primary": "$?", "secondary": "$?" },
-        "DuplicateShare": { "primary": "$?", "secondary": "$?" },
-        "DuplicateTypeVariable": { "primary": "$?", "secondary": "$?" },
-        "ExpectedBooleanCondition": { "primary": "$?", "secondary": "$?" },
-        "ExpectedColumnType": "$?",
-        "ExpectedEndingExpression": "$?",
-        "ExpectedSelectName": "$?",
-        "ExpectedUpdateBind": "$?",
-        "IgnoredExpression": { "primary": "$?", "secondary": "$?" },
-        "IncompleteImplementation": "$?",
-        "IncompatibleBind": { "primary": "$?", "secondary": "$?" },
-        "IncompatibleCellType": { "primary": "$?", "secondary": "$?" },
-        "IncompatibleInput": { "primary": "$?", "secondary": "$?" },
-        "IncompatibleKey": { "primary": "$?", "secondary": "$?" },
-        "ImpossibleType": "$?",
-        "InputListMustBeLast": "$?",
-        "InvalidLanguage": "$?",
-        "InvalidRow": "$?",
-        "InvalidTypeInput": { "primary": "$?", "secondary": "$?" },
-        "MisplacedConversion": "$?",
-        "MisplacedInput": "$?",
-        "MisplacedShare": "$?",
-        "MisplacedThis": "$?",
-        "MissingCell": { "primary": "$?", "secondary": "$?" },
-        "MissingInput": { "primary": "$?", "secondary": "$?" },
-        "MissingLanguage": "$?",
-        "MissingShareLanguages": "$?",
-        "NoExpression": "$?",
-        "NotAMap": { "primary": "$?", "secondary": "$?" },
-        "NotANumber": "$?",
-        "NotAnInterface": "$?",
-        "NotInstantiable": "$?",
-        "OrderOfOperations": "$?",
-        "Placeholder": "$?",
-        "RequiredAfterOptional": "$?",
-        "UnclosedDelimiter": "$?",
-        "UnexpectedEtc": "$?",
-        "UnexpectedInput": { "primary": "$?", "secondary": "$?" },
-        "UnexpectedTypeVariable": "$?",
-        "UnimplementedInterface": "$?",
-        "UnknownBorrow": "$?",
-        "UnknownColumn": "$?",
-        "UnknownConversion": "$?",
-        "UnknownInput": "$?",
-        "UnknownName": "$?",
-        "InvalidTypeName": "$?",
-        "Unnamed": "$?",
-        "UnparsableConflict": "$?",
-        "UnusedBind": "$?"
     },
     "evaluate": {
         "unevaluated": "el nodo seleccionado no evaluó",

@@ -21,7 +21,7 @@ export default class ReferenceCycle extends Conflict {
                 explanation: (locale: Locale, context: Context) =>
                     concretize(
                         locale,
-                        locale.conflict.ReferenceCycle,
+                        locale.node.Reference.conflict.ReferenceCycle,
                         new NodeLink(
                             this.name,
                             locale,

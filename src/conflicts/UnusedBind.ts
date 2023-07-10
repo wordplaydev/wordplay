@@ -17,7 +17,7 @@ export default class UnusedBind extends Conflict {
             primary: {
                 node: this.bind.names,
                 explanation: (locale: Locale) =>
-                    concretize(locale, locale.conflict.UnusedBind),
+                    concretize(locale, locale.node.Bind.conflict.UnusedBind),
             },
         };
     }

@@ -96,7 +96,7 @@ export default class Select extends Expression {
         // The columns in a select must be names.
         this.row.cells.forEach((cell) => {
             if (!(cell instanceof Reference))
-                conflicts.push(new ExpectedSelectName(cell));
+                conflicts.push(new ExpectedSelectName(this, cell));
         });
 
         // The columns named must be names in the table's type.

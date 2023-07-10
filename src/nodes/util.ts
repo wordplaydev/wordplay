@@ -58,7 +58,7 @@ export function getEvaluationInputConflicts(inputs: Bind[]) {
                     (name) => name.getName() === sharedName?.getName()
                 );
                 if (thisName)
-                    conflicts.push(new DuplicateName(thisName, sharedName));
+                    conflicts.push(new DuplicateName(input, sharedName));
             }
         }
     }

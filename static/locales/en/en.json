@@ -159,7 +159,11 @@
                 "Or even @Doc!",
                 "There are lots of different two letter language codes.",
                 ""
-            ]
+            ],
+            "conflict": {
+                "InvalidLanguage": "I don't know this language",
+                "MissingLanguage": "Don't forget to give me a language!"
+            }
         },
         "Name": {
             "name": "name",
@@ -190,7 +194,15 @@
             "name": "row",
             "description": "row",
             "emotion": "angry",
-            "doc": "$?a row of values, matching a table definition"
+            "doc": "$?a row of values, matching a table definition",
+            "conflict": {
+                "InvalidRow": "I'm missing one or more columns",
+                "MissingCell": {
+                    "primary": "I'm missing column $1",
+                    "secondary": "I'm required, but $2 didn't provide it"
+                },
+                "UnknownColumn": "I don't know a column by this name"
+            }
         },
         "Token": {
             "name": "token",
@@ -208,7 +220,13 @@
             "name": "type variable",
             "description": "type variable",
             "emotion": "curious",
-            "doc": "$?a placeholder for a type used in a @FunctionDefinition or @StructureDefinition"
+            "doc": "$?a placeholder for a type used in a @FunctionDefinition or @StructureDefinition",
+            "conflict": {
+                "DuplicateTypeVariable": {
+                    "primary": "I have the same name as $1",
+                    "secondary": "I have the same name as $1"
+                }
+            }
         },
         "TypeVariables": {
             "name": "type variables",
@@ -262,7 +280,10 @@
             ],
             "right": "input",
             "start": "$1 first, then right",
-            "finish": "look, I made $1"
+            "finish": "look, I made $1",
+            "conflict": {
+                "OrderOfOperations": "I'll evalute left to right, unlike math; do you want to use @Block to specify a different order?"
+            }
         },
         "Bind": {
             "name": "bind",
@@ -304,7 +325,26 @@
                 ""
             ],
             "start": "Let's see what value we get from $1",
-            "finish": "Oh nice, I got $1! Let's name it $2"
+            "finish": "Oh nice, I got $1! Let's name it $2",
+            "conflict": {
+                "DuplicateName": {
+                    "primary": "Someone has my name, so I can't have this name.",
+                    "secondary": "this is overwritten by $1"
+                },
+                "DuplicateShare": {
+                    "primary": "I have the same name as $1, which makes what is shared ambiguous",
+                    "secondary": "I have has the same name as $1"
+                },
+                "IncompatibleBind": {
+                    "primary": "I'm supposed to be $1, but I'm $2",
+                    "secondary": "Hey, I got a $2 instead of a $1"
+                },
+                "MisplacedShare": "I can only be at the top level of a $program, not inside anything.",
+                "MissingShareLanguages": "If you want to share, say what language this is in, so others can find it if they know your language.",
+                "RequiredAfterOptional": "required inputs can't come after optional ones",
+                "UnexpectedEtc": "only functions can have variable length inputs",
+                "UnusedBind": "Hey, can I help? No one is saying my name :("
+            }
         },
         "Block": {
             "name": "block",
@@ -368,7 +408,14 @@
             ],
             "statement": "statement",
             "start": "Here we go with @Bind again, getting all excited about naming things",
-            "finish": "Finally done. The last thing I got was $1"
+            "finish": "Finally done. The last thing I got was $1",
+            "conflict": {
+                "ExpectedEndingExpression": "I need at least one expression.",
+                "IgnoredExpression": {
+                    "primary": "I'm going to use this value and ignore other ones above.",
+                    "secondary": "Why are you ignoring me, I want to help!"
+                }
+            }
         },
         "BooleanLiteral": {
             "name": "boolean",
@@ -393,7 +440,11 @@
             "start": "borrowing $2 from $1",
             "source": "$source",
             "bind": "name",
-            "version": "version"
+            "version": "version",
+            "conflict": {
+                "UnknownBorrow": "I don't know a $souce by this name",
+                "BorrowCycle": "this depends on $1, which depends on this $source, so the $program can't be evaluated"
+            }
         },
         "Changed": {
             "name": "changed",
@@ -426,14 +477,23 @@
             "finish": "it's $1 value!",
             "condition": "condition",
             "yes": "yes",
-            "no": "no"
+            "no": "no",
+            "conflict": {
+                "ExpectedBooleanCondition": {
+                    "primary": "I can't choose between yes and no with a $1. Can you give me a @TextType?",
+                    "secondary": "I wish I evaluated to a @TextType, but I'm a $1"
+                }
+            }
         },
         "ConversionDefinition": {
             "name": "conversion",
             "description": "conversion",
             "emotion": "excited",
             "doc": "$?define a conversion from one value type to another",
-            "start": "define this conversion"
+            "start": "define this conversion",
+            "conflict": {
+                "MisplacedConversion": "I'm not allowed here, only in a $structure."
+            }
         },
         "Convert": {
             "name": "convert",
@@ -451,7 +511,10 @@
                 ""
             ],
             "start": "let's get the value to convert from $1",
-            "finish": "I converted this to $1"
+            "finish": "I converted this to $1",
+            "conflict": {
+                "UnknownConversion": "I couldn'tn find a way to make $1 into a $2"
+            }
         },
         "Delete": {
             "name": "delete",
@@ -490,7 +553,32 @@
             "start": "let's evaluate the inputs first",
             "finish": "the function evaluated to $1",
             "function": "function",
-            "input": "input"
+            "input": "input",
+            "conflict": {
+                "IncompatibleInput": {
+                    "primary": "I'm supposed to be a $1, but I'm a $2",
+                    "secondary": "Umm, I got a $2 instead of a $1"
+                },
+                "UnexpectedTypeInput": {
+                    "primary": "I wasn't expecting this type input",
+                    "secondary": "Am I supposed to be here?"
+                },
+                "MisplacedInput": "I think this input is misplaced. Check the order?",
+                "MissingInput": {
+                    "primary": "I need $1, can you add one?",
+                    "secondary": "This input is required, but $2 did not provide it"
+                },
+                "NotInstantiable": "cannot make this $structure because it refers to an interface",
+                "UnexpectedInput": {
+                    "primary": "I didn't expect this input $2",
+                    "secondary": "Am I supposed to be here?"
+                },
+                "UnknownInput": {
+                    "primary": "I don't know of an input by this name",
+                    "secondary": "I don't think I belong here"
+                },
+                "InputListMustBeLast": "list of inputs must be last"
+            }
         },
         "ExpressionPlaceholder": {
             "name": "placeholder",
@@ -506,14 +594,20 @@
                 ""
             ],
             "start": "Stop the performance, I don't know what to do!",
-            "placeholder": "expression"
+            "placeholder": "expression",
+            "conflict": {
+                "Placeholder": "Can someone take my place? I don't know what to do."
+            }
         },
         "FunctionDefinition": {
             "name": "function",
             "description": "function $1",
             "emotion": "kind",
             "doc": "$?define a function that maps input values to an output value",
-            "start": "define this function"
+            "start": "define this function",
+            "conflict": {
+                "NoExpression": "What should my value be?"
+            }
         },
         "HOF": {
             "name": "higher order function",
@@ -543,7 +637,10 @@
             "emotion": "curious",
             "doc": "$?",
             "start": "evaluate $1 first",
-            "finish": "$1 ?? [ value is $2 | value is not $2 ]"
+            "finish": "$1 ?? [ value is $2 | value is not $2 ]",
+            "conflict": {
+                "ImpossibleType": "this can never be this type"
+            }
         },
         "ListAccess": {
             "name": "list access",
@@ -590,7 +687,13 @@
                 ""
             ],
             "start": "evaluate each key and value first",
-            "finish": "I connected everyone! $1"
+            "finish": "I connected everyone! $1",
+            "conflict": {
+                "NotAKeyValue": {
+                    "primary": "I'm a map, so everything you give me has to be in pairs.",
+                    "secondary": "Oops, I'm in a map without a partner!"
+                }
+            }
         },
         "MeasurementLiteral": {
             "name": "number",
@@ -610,7 +713,10 @@
                 "Just know that if you try to use my @FunctionDefinition on numbers with different units, I won't know what to do.",
                 "If they don't match, that might be a sign that there's something wrong with your performance."
             ],
-            "start": "evaluate to $1"
+            "start": "evaluate to $1",
+            "conflict": {
+                "NotANumber": "I'm not formatted correctly to be a number"
+            }
         },
         "NativeExpression": {
             "name": "built-in expression",
@@ -688,7 +794,12 @@
             "description": "$1",
             "emotion": "kind",
             "doc": "$?",
-            "start": "getting the value of $1"
+            "start": "getting the value of $1",
+            "conflict": {
+                "UnknownName": "I don't know what I refer to  in $2 ?? [$2|this @Block]",
+                "ReferenceCycle": "$1 depends on itself, so there's no way to evaluate it.",
+                "UnexpectedTypeVariable": "type inputs not allowed on type variables"
+            }
         },
         "Select": {
             "name": "select",
@@ -696,7 +807,10 @@
             "emotion": "angry",
             "doc": "$?",
             "start": "evaluate $1 first",
-            "finish": "evaluated to a new table with the selected rows, $1"
+            "finish": "evaluated to a new table with the selected rows, $1",
+            "conflict": {
+                "ExpectedSelectName": "I need at least one column name."
+            }
         },
         "SetLiteral": {
             "name": "set",
@@ -725,7 +839,13 @@
             "emotion": "kind",
             "doc": "$?",
             "start": "evaluate the set first",
-            "finish": "item in with key is $1"
+            "finish": "item in with key is $1",
+            "conflict": {
+                "IncompatibleKey": {
+                    "primary": "I expected a $1 key",
+                    "secondary": "I got a $2"
+                }
+            }
         },
         "Source": {
             "name": "document",
@@ -745,7 +865,13 @@
             "description": "structure $1",
             "emotion": "kind",
             "doc": "$?define a structure that stores values and functions on those values.",
-            "start": "define this $structure"
+            "start": "define this $structure",
+            "conflict": {
+                "DisallowedInputs": "I can't have inputs because one of or more of my functions isn't implemented",
+                "IncompleteImplementation": "My functions either need to all be implemented, or none be implemented. No messy mixtures!",
+                "NotAnInterface": "I am not an interface; a $structure can only implement interfaces, not other structures",
+                "UnimplementedInterface": "I implement $1 but haven't implemented $2"
+            }
         },
         "TableLiteral": {
             "name": "table",
@@ -787,7 +913,10 @@
             "description": "this",
             "emotion": "kind",
             "doc": "$?",
-            "start": "evaluated to $1"
+            "start": "evaluated to $1",
+            "conflict": {
+                "MisplacedThis": "I'm only allowed in a $structure, $conversion, or $reaction."
+            }
         },
         "UnaryOperation": {
             "name": "unary operation",
@@ -815,7 +944,11 @@
                 "You are the director after all, so only you know what you might have meant!",
                 ""
             ],
-            "start": "???"
+            "start": "???",
+            "conflict": {
+                "UnparsableConflict": "(@FunctionDefinition here, @UnparsableExpression doesn't know what kind of $1 ?? [ expression | type ] this is)",
+                "UnclosedDelimiter": "I expected $2 sometime after $1"
+            }
         },
         "Update": {
             "name": "update rows",
@@ -823,7 +956,14 @@
             "emotion": "angry",
             "doc": "$?",
             "start": "evaluate $1 first",
-            "finish": "evaluated to a new table with revised rows, $1"
+            "finish": "evaluated to a new table with revised rows, $1",
+            "conflict": {
+                "ExpectedUpdateBind": "I need a value for every column",
+                "IncompatibleCellType": {
+                    "primary": "I needed a $1, but got a $2",
+                    "secondary": "I got a $2"
+                }
+            }
         },
         "AnyType": {
             "name": "any",
@@ -883,7 +1023,10 @@
             "name": "structure",
             "description": "$1 type",
             "emotion": "curious",
-            "doc": "$?"
+            "doc": "$?",
+            "conflict": {
+                "UnknownTypeName": "type names can only refer to structures or type variables, but this refers to a $1"
+            }
         },
         "NeverType": {
             "name": "never",
@@ -933,7 +1076,10 @@
             "name": "table",
             "description": "table",
             "emotion": "angry",
-            "doc": "$?"
+            "doc": "$?",
+            "conflict": {
+                "ExpectedColumnType": "I need a column type"
+            }
         },
         "TextType": {
             "name": "text",
@@ -1493,102 +1639,6 @@
             },
             "conversion": { "text": "$?", "set": "$?", "list": "$?" }
         }
-    },
-    "conflict": {
-        "BorrowCycle": "this depends on $1, which depends on this $source, so the $program can't be evaluated",
-        "ReferenceCycle": "$1 depends on itself, so there's no way to evaluate it.",
-        "DisallowedInputs": "I can't have inputs because one of or more of my functions isn't implemented",
-        "DuplicateName": {
-            "primary": "Someone has my name, so I can't have this name.",
-            "secondary": "this is overwritten by $1"
-        },
-        "DuplicateShare": {
-            "primary": "I have the same name as $1, which makes what is shared ambiguous",
-            "secondary": "I have has the same name as $1"
-        },
-        "DuplicateTypeVariable": {
-            "primary": "I have the same name as $1",
-            "secondary": "I have the same name as $1"
-        },
-        "ExpectedBooleanCondition": {
-            "primary": "I can't choose between yes and no with a $1. Can you give me a @TextType?",
-            "secondary": "I wish I evaluated to a @TextType, but I'm a $1"
-        },
-        "ExpectedColumnType": "I need a column type",
-        "ExpectedEndingExpression": "I need at least one expression.",
-        "ExpectedSelectName": "I need at least one column name.",
-        "ExpectedUpdateBind": "I need a value for every column",
-        "IgnoredExpression": {
-            "primary": "I'm going to use this value and ignore other ones above.",
-            "secondary": "Why are you ignoring me, I want to help!"
-        },
-        "IncompleteImplementation": "My functions either need to all be implemented, or none be implemented. No messy mixtures!",
-        "IncompatibleBind": {
-            "primary": "I'm supposed to be $1, but I'm $2",
-            "secondary": "Hey, I got a $2 instead of a $1"
-        },
-        "IncompatibleCellType": {
-            "primary": "I needed a $1, but got a $2",
-            "secondary": "I got a $2"
-        },
-        "IncompatibleInput": {
-            "primary": "I'm supposed to be a $1, but I'm a $2",
-            "secondary": "Umm, I got a $2 instead of a $1"
-        },
-        "IncompatibleKey": {
-            "primary": "I expected a $1 key",
-            "secondary": "I got a $2"
-        },
-        "ImpossibleType": "this can never be this type",
-        "InvalidLanguage": "I don't know this language",
-        "InvalidRow": "I'm missing one or more columns",
-        "InvalidTypeInput": {
-            "primary": "I wasn't expecting this type input",
-            "secondary": "Am I supposed to be here?"
-        },
-        "MisplacedConversion": "I'm not allowed here, only in a $structure.",
-        "MisplacedInput": "I think this input is misplaced. Check the order?",
-        "MisplacedShare": "I can only be at the top level of a $program, not inside anything.",
-        "MisplacedThis": "I'm only allowed in a $structure, $conversion, or $reaction.",
-        "MissingCell": {
-            "primary": "I'm missing column $1",
-            "secondary": "I'm required, but $2 didn't provide it"
-        },
-        "MissingInput": {
-            "primary": "I need $1, can you add one?",
-            "secondary": "This input is required, but $2 did not provide it"
-        },
-        "MissingLanguage": "Don't forget to give me a language!",
-        "MissingShareLanguages": "If you want to share, say what language this is in, so others can find it if they know your language.",
-        "NoExpression": "What should my value be?",
-        "NotAMap": {
-            "primary": "I'm a map, so everything you give me has to be in pairs.",
-            "secondary": "Oops, I'm in a map without a partner!"
-        },
-        "NotANumber": "I'm not formatted correctly to be a number",
-        "NotAnInterface": "I am not an interface; a $structure can only implement interfaces, not other structures",
-        "NotInstantiable": "cannot make this $structure because it refers to an interface",
-        "OrderOfOperations": "I'll evalute left to right, unlike math; do you want to use @Block to specify a different order?",
-        "Placeholder": "Can someone take my place? I don't know what to do.",
-        "RequiredAfterOptional": "required inputs can't come after optional ones",
-        "UnclosedDelimiter": "I expected $2 sometime after $1",
-        "UnexpectedEtc": "only functions can have variable length inputs",
-        "UnexpectedInput": {
-            "primary": "I didn't expect this input $2",
-            "secondary": "Am I supposed to be here?"
-        },
-        "UnexpectedTypeVariable": "type inputs not allowed on type variables",
-        "UnimplementedInterface": "I implement $1 but haven't implemented $2",
-        "UnknownBorrow": "I don't know a $souce by this name",
-        "UnknownColumn": "I don't know a column by this name",
-        "UnknownConversion": "I couldn'tn find a way to make $1 into a $2",
-        "UnknownInput": "I don't know of an input by this name",
-        "UnknownName": "No one has name $1 in $2 ?? [$2|this @Block]",
-        "InvalidTypeName": "type names can only refer to structures or type variables, but this refers to a $1",
-        "Unnamed": "ahh, I need a name!",
-        "UnparsableConflict": "(@FunctionDefinition here, @UnparsableExpression doesn't know what kind of $1 ?? [ expression | type ] this is)",
-        "UnusedBind": "Hey, can I help? No one is saying my name :(",
-        "InputListMustBeLast": "list of inputs must be last"
     },
     "evaluate": {
         "unevaluated": "the selected node did not evaluate",

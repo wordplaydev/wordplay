@@ -19,7 +19,8 @@ export class UnparsableConflict extends Conflict {
                 explanation: (translation: Locale) =>
                     concretize(
                         translation,
-                        translation.conflict.UnparsableConflict,
+                        translation.node.UnparsableExpression.conflict
+                            .UnparsableConflict,
                         this.unparsable instanceof UnparsableExpression
                     ),
             },

@@ -19,7 +19,7 @@ export default class UnknownColumn extends Conflict {
             primary: {
                 node: this.cell,
                 explanation: (locale: Locale) =>
-                    concretize(locale, locale.conflict.UnknownColumn),
+                    concretize(locale, locale.node.Row.conflict.UnknownColumn),
             },
         };
     }

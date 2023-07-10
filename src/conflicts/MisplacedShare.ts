@@ -17,11 +17,11 @@ export class MisplacedShare extends Conflict {
     getConflictingNodes() {
         return {
             primary: {
-                node: this.share,
+                node: this.bind,
                 explanation: (translation: Locale) =>
                     concretize(
                         translation,
-                        translation.conflict.MisplacedShare
+                        translation.node.Bind.conflict.MisplacedShare
                     ),
             },
         };

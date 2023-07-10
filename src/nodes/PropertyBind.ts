@@ -68,7 +68,7 @@ export default class PropertyBind extends Expression {
 
         // If there's a type, the value must match.
         if (!propertyType.accepts(valueType, context))
-            return [new IncompatibleBind(propertyType, this, valueType)];
+            return [new IncompatibleBind(this, propertyType, this, valueType)];
 
         return [];
     }

@@ -16,7 +16,10 @@ export class NotANumber extends Conflict {
             primary: {
                 node: this.measurement,
                 explanation: (translation: Locale) =>
-                    concretize(translation, translation.conflict.NotANumber),
+                    concretize(
+                        translation,
+                        translation.node.MeasurementLiteral.conflict.NotANumber
+                    ),
             },
         };
     }

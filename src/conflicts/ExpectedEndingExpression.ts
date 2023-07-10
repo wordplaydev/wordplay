@@ -18,7 +18,7 @@ export class ExpectedEndingExpression extends Conflict {
                 explanation: (locale: Locale) =>
                     concretize(
                         locale,
-                        locale.conflict.ExpectedEndingExpression
+                        locale.node.Block.conflict.ExpectedEndingExpression
                     ),
             },
         };

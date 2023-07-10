@@ -14,11 +14,12 @@ export class IncompleteImplementation extends Conflict {
     getConflictingNodes() {
         return {
             primary: {
-                node: this.structure.names,
+                node: this.structure,
                 explanation: (locale: Locale) =>
                     concretize(
                         locale,
-                        locale.conflict.IncompleteImplementation
+                        locale.node.StructureDefinition.conflict
+                            .IncompleteImplementation
                     ),
             },
         };

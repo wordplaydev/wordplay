@@ -28,7 +28,8 @@ export default class ExpectedBooleanCondition extends Conflict {
                 explanation: (locale: Locale, context: Context) =>
                     concretize(
                         locale,
-                        locale.conflict.ExpectedBooleanCondition.primary,
+                        locale.node.Conditional.conflict
+                            .ExpectedBooleanCondition.primary,
                         new NodeLink(this.type, locale, context)
                     ),
             },
@@ -37,7 +38,8 @@ export default class ExpectedBooleanCondition extends Conflict {
                 explanation: (locale: Locale, context: Context) =>
                     concretize(
                         locale,
-                        locale.conflict.ExpectedBooleanCondition.secondary,
+                        locale.node.Conditional.conflict
+                            .ExpectedBooleanCondition.secondary,
                         new NodeLink(this.type, locale, context)
                     ),
             },

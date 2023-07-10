@@ -26,7 +26,7 @@ export class BorrowCycle extends Conflict {
                 explanation: (locale: Locale, context: Context) =>
                     concretize(
                         locale,
-                        locale.conflict.BorrowCycle,
+                        locale.node.Borrow.conflict.BorrowCycle,
                         new NodeLink(
                             this.borrow,
                             locale,

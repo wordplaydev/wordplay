@@ -9,7 +9,7 @@ import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 import concretize from '../locale/concretize';
 
-export default class InvalidTypeInput extends Conflict {
+export default class UnexpectedTypeInput extends Conflict {
     readonly evaluate: NameType | Evaluate;
     readonly type: Type;
     readonly definition: StructureDefinition | FunctionDefinition;
@@ -32,7 +32,8 @@ export default class InvalidTypeInput extends Conflict {
                 explanation: (locale: Locale, context: Context) =>
                     concretize(
                         locale,
-                        locale.conflict.InvalidTypeInput.primary,
+                        locale.node.Evaluate.conflict.UnexpectedTypeInput
+                            .primary,
                         new NodeLink(
                             this.definition.names,
                             locale,
@@ -46,7 +47,8 @@ export default class InvalidTypeInput extends Conflict {
                 explanation: (locale: Locale, context: Context) =>
                     concretize(
                         locale,
-                        locale.conflict.InvalidTypeInput.secondary,
+                        locale.node.Evaluate.conflict.UnexpectedTypeInput
+                            .secondary,
                         new NodeLink(this.type, locale, context)
                     ),
             },

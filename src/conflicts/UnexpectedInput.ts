@@ -30,11 +30,11 @@ export default class UnexpectedInputs extends Conflict {
     getConflictingNodes() {
         return {
             primary: {
-                node: this.input,
+                node: this.evaluate,
                 explanation: (locale: Locale, context: Context) =>
                     concretize(
                         locale,
-                        locale.conflict.UnexpectedInput.primary,
+                        locale.node.Evaluate.conflict.UnexpectedInput.primary,
                         new NodeLink(
                             this.evaluate instanceof Evaluate
                                 ? this.evaluate.func
@@ -45,14 +45,11 @@ export default class UnexpectedInputs extends Conflict {
                     ),
             },
             secondary: {
-                node:
-                    this.evaluate instanceof Evaluate
-                        ? this.evaluate.func
-                        : this.evaluate.operator,
+                node: this.input,
                 explanation: (locale: Locale, context: Context) =>
                     concretize(
                         locale,
-                        locale.conflict.UnexpectedInput.secondary,
+                        locale.node.Evaluate.conflict.UnexpectedInput.secondary,
                         new NodeLink(this.input, locale, context)
                     ),
             },

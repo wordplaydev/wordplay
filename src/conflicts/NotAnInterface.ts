@@ -19,7 +19,10 @@ export default class NotAnInterface extends Conflict {
             primary: {
                 node: this.ref,
                 explanation: (locale: Locale) =>
-                    concretize(locale, locale.conflict.NotAnInterface),
+                    concretize(
+                        locale,
+                        locale.node.StructureDefinition.conflict.NotAnInterface
+                    ),
             },
         };
     }

@@ -20,7 +20,10 @@ export class UnknownBorrow extends Conflict {
                         ? this.borrow.borrow
                         : this.borrow.source,
                 explanation: (locale: Locale) =>
-                    concretize(locale, locale.conflict.UnknownBorrow),
+                    concretize(
+                        locale,
+                        locale.node.Borrow.conflict.UnknownBorrow
+                    ),
             },
         };
     }

@@ -16,9 +16,9 @@ export default class UnexpectedEtc extends Conflict {
     getConflictingNodes() {
         return {
             primary: {
-                node: this.etc,
+                node: this.bind,
                 explanation: (locale: Locale) =>
-                    concretize(locale, locale.conflict.UnexpectedEtc),
+                    concretize(locale, locale.node.Bind.conflict.UnexpectedEtc),
             },
         };
     }

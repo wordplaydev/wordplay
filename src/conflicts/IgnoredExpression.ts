@@ -21,7 +21,7 @@ export class IgnoredExpression extends Conflict {
                 explanation: (locale: Locale) =>
                     concretize(
                         locale,
-                        locale.conflict.IgnoredExpression.primary
+                        locale.node.Block.conflict.IgnoredExpression.primary
                     ),
             },
             secondary: {
@@ -29,7 +29,7 @@ export class IgnoredExpression extends Conflict {
                 explanation: (locale: Locale) =>
                     concretize(
                         locale,
-                        locale.conflict.IgnoredExpression.secondary
+                        locale.node.Block.conflict.IgnoredExpression.secondary
                     ),
             },
         };

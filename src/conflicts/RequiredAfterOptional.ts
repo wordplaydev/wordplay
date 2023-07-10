@@ -17,7 +17,10 @@ export default class RequiredAfterOptional extends Conflict {
             primary: {
                 node: this.bind,
                 explanation: (locale: Locale) =>
-                    concretize(locale, locale.conflict.RequiredAfterOptional),
+                    concretize(
+                        locale,
+                        locale.node.Bind.conflict.RequiredAfterOptional
+                    ),
             },
         };
     }

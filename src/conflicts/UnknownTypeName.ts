@@ -23,7 +23,7 @@ export class UnknownTypeName extends Conflict {
                 explanation: (locale: Locale, context: Context) =>
                     concretize(
                         locale,
-                        locale.conflict.InvalidTypeName,
+                        locale.node.NameType.conflict.UnknownTypeName,
                         new NodeLink(this.definition, locale, context)
                     ),
             },

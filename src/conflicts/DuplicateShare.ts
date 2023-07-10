@@ -21,7 +21,7 @@ export class DuplicateShare extends Conflict {
                 explanation: (locale: Locale, context: Context) =>
                     concretize(
                         locale,
-                        locale.conflict.DuplicateShare.primary,
+                        locale.node.Bind.conflict.DuplicateShare.primary,
                         new NodeLink(this.other, locale, context)
                     ),
             },
@@ -30,7 +30,7 @@ export class DuplicateShare extends Conflict {
                 explanation: (locale: Locale, context: Context) =>
                     concretize(
                         locale,
-                        locale.conflict.DuplicateShare.secondary,
+                        locale.node.Bind.conflict.DuplicateShare.secondary,
                         new NodeLink(this.other, locale, context)
                     ),
             },

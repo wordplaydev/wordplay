@@ -17,9 +17,9 @@ export class ImpossibleType extends Conflict {
     getConflictingNodes() {
         return {
             primary: {
-                node: this.is.expression,
+                node: this.is,
                 explanation: (locale: Locale) =>
-                    concretize(locale, locale.conflict.ImpossibleType),
+                    concretize(locale, locale.node.Is.conflict.ImpossibleType),
             },
         };
     }

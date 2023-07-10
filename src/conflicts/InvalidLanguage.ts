@@ -19,7 +19,10 @@ export default class InvalidLanguage extends Conflict {
             primary: {
                 node: this.code,
                 explanation: (locale: Locale) =>
-                    concretize(locale, locale.conflict.InvalidLanguage),
+                    concretize(
+                        locale,
+                        locale.node.Language.conflict.InvalidLanguage
+                    ),
             },
         };
     }

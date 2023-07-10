@@ -16,7 +16,7 @@ export default class InvalidRow extends Conflict {
             primary: {
                 node: this.row,
                 explanation: (locale: Locale) =>
-                    concretize(locale, locale.conflict.InvalidRow),
+                    concretize(locale, locale.node.Row.conflict.InvalidRow),
             },
         };
     }

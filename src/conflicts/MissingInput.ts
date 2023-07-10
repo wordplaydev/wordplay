@@ -34,11 +34,11 @@ export default class MissingInput extends Conflict {
     getConflictingNodes() {
         return {
             primary: {
-                node: this.last,
+                node: this.evaluate,
                 explanation: (locale: Locale, context: Context) =>
                     concretize(
                         locale,
-                        locale.conflict.MissingInput.primary,
+                        locale.node.Evaluate.conflict.MissingInput.primary,
                         new NodeLink(
                             this.input,
                             locale,
@@ -52,7 +52,7 @@ export default class MissingInput extends Conflict {
                 explanation: (locale: Locale, context: Context) =>
                     concretize(
                         locale,
-                        locale.conflict.MissingInput.secondary,
+                        locale.node.Evaluate.conflict.MissingInput.secondary,
                         new NodeLink(this.evaluate, locale, context)
                     ),
             },

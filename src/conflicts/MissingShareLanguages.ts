@@ -16,7 +16,10 @@ export class MissingShareLanguages extends Conflict {
             primary: {
                 node: this.share,
                 explanation: (locale: Locale) =>
-                    concretize(locale, locale.conflict.MissingShareLanguages),
+                    concretize(
+                        locale,
+                        locale.node.Bind.conflict.MissingShareLanguages
+                    ),
             },
         };
     }

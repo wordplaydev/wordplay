@@ -23,7 +23,7 @@ export class UnknownName extends Conflict {
                 explanation: (locale: Locale, context: Context) =>
                     concretize(
                         locale,
-                        locale.conflict.UnknownName,
+                        locale.node.Reference.conflict.UnknownName,
                         new NodeLink(
                             this.name,
                             locale,

@@ -101,7 +101,7 @@ export default class Update extends Expression {
                     cell.names.names.length === 1
                 )
             )
-                conflicts.push(new ExpectedUpdateBind(cell));
+                conflicts.push(new ExpectedUpdateBind(this, cell));
             else if (tableType instanceof TableType) {
                 const alias =
                     cell instanceof Bind && cell.names.names.length > 0

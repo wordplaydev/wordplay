@@ -25,7 +25,7 @@ export default class IncompatibleInput extends Conflict {
                 explanation: (locale: Locale, context: Context) =>
                     concretize(
                         locale,
-                        locale.conflict.IncompatibleInput.primary,
+                        locale.node.Evaluate.conflict.IncompatibleInput.primary,
                         new NodeLink(this.expectedType, locale, context),
                         new NodeLink(this.givenType, locale, context)
                     ),
@@ -35,7 +35,8 @@ export default class IncompatibleInput extends Conflict {
                 explanation: (locale: Locale, context: Context) =>
                     concretize(
                         locale,
-                        locale.conflict.IncompatibleInput.secondary,
+                        locale.node.Evaluate.conflict.IncompatibleInput
+                            .secondary,
                         new NodeLink(this.expectedType, locale, context),
                         new NodeLink(this.givenType, locale, context)
                     ),

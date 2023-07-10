@@ -27,7 +27,7 @@ export default class MissingCell extends Conflict {
                 explanation: (locale: Locale, context: Context) =>
                     concretize(
                         locale,
-                        locale.conflict.MissingCell.primary,
+                        locale.node.Row.conflict.MissingCell.primary,
                         new NodeLink(
                             this.column,
                             locale,
@@ -41,7 +41,7 @@ export default class MissingCell extends Conflict {
                 explanation: (locale: Locale, context: Context) =>
                     concretize(
                         locale,
-                        locale.conflict.MissingCell.secondary,
+                        locale.node.Row.conflict.MissingCell.secondary,
                         new NodeLink(this.row, locale, context)
                     ),
             },

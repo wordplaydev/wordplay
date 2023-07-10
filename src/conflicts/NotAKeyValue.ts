@@ -19,16 +19,19 @@ export class NotAKeyValue extends Conflict {
     getConflictingNodes() {
         return {
             primary: {
-                node: this.expression,
+                node: this.map,
                 explanation: (locale: Locale) =>
-                    concretize(locale, locale.conflict.NotAMap.primary),
+                    concretize(
+                        locale,
+                        locale.node.MapLiteral.conflict.NotAKeyValue.primary
+                    ),
             },
             secondary: {
-                node: this.map.open,
+                node: this.expression,
                 explanation: (locale: Locale, context: Context) =>
                     concretize(
                         locale,
-                        locale.conflict.NotAMap.secondary,
+                        locale.node.MapLiteral.conflict.NotAKeyValue.secondary,
                         new NodeLink(this.expression, locale, context)
                     ),
             },

@@ -9,19 +9,39 @@ export interface ExpressionText extends AtomicExpressionText {
     finish: Template;
 }
 
+export interface Conflicts<T> {
+    conflict: T;
+}
+
+export type InternalConflictText = Template;
+export type ConflictText = { primary: Template; secondary: Template };
+
 type NodeTexts = {
     Dimension: NodeText;
     Doc: NodeText;
     Docs: NodeText;
     KeyValue: NodeText;
-    Language: NodeText;
+    Language: NodeText &
+        Conflicts<{
+            InvalidLanguage: InternalConflictText;
+            MissingLanguage: InternalConflictText;
+        }>;
     /**
      * Description
      * $1: name or undefined
      */
     Name: NodeText;
     Names: NodeText;
-    Row: NodeText;
+    Row: NodeText &
+        Conflicts<{
+            InvalidRow: InternalConflictText;
+            /**
+             * $1: Column
+             * $2: Row
+             * */
+            MissingCell: ConflictText;
+            UnknownColumn: InternalConflictText;
+        }>;
     /**
      * Description
      * $1: token label
@@ -29,7 +49,11 @@ type NodeTexts = {
      */
     Token: NodeText;
     TypeInputs: NodeText;
-    TypeVariable: NodeText;
+    TypeVariable: NodeText &
+        Conflicts<{
+            /** $1: The duplicate */
+            DuplicateTypeVariable: ConflictText;
+        }>;
     TypeVariables: NodeText;
     Paragraph: NodeText;
     WebLink: NodeText;
@@ -45,7 +69,7 @@ type NodeTexts = {
     BinaryOperation: NodeText &
         ExpressionText & {
             right: Template;
-        };
+        } & Conflicts<{ OrderOfOperations: InternalConflictText }>;
     /**
      * Start
      * $1: bind evaluating
@@ -53,7 +77,24 @@ type NodeTexts = {
      * $1: resulting value
      * $2: names bound
      */
-    Bind: NodeText & ExpressionText;
+    Bind: NodeText &
+        ExpressionText &
+        Conflicts<{
+            /** $1: The name that shadowed this one */
+            DuplicateName: ConflictText;
+            /** $1: The duplicate */
+            DuplicateShare: ConflictText;
+            /**
+             * $1: Expected
+             * $2: Given
+             * */
+            IncompatibleBind: ConflictText;
+            MisplacedShare: InternalConflictText;
+            MissingShareLanguages: InternalConflictText;
+            RequiredAfterOptional: InternalConflictText;
+            UnexpectedEtc: InternalConflictText;
+            UnusedBind: InternalConflictText;
+        }>;
     /**
      * Description
      * $1: # of statements
@@ -65,7 +106,10 @@ type NodeTexts = {
     Block: NodeText &
         ExpressionText & {
             statement: Template;
-        };
+        } & Conflicts<{
+            ExpectedEndingExpression: InternalConflictText;
+            IgnoredExpression: ConflictText;
+        }>;
     /**
      * Description
      * $1: true if true, false otherwise
@@ -81,7 +125,12 @@ type NodeTexts = {
             source: Template;
             bind: Template;
             version: Template;
-        };
+        } & Conflicts<{
+            UnknownBorrow: InternalConflictText;
+            /** $1: borrow that had a cycle */
+            BorrowCycle: InternalConflictText;
+        }>;
+
     /**
      * Start
      * $1: stream that changed
@@ -101,15 +150,28 @@ type NodeTexts = {
             condition: Template;
             yes: Template;
             no: Template;
-        };
-    ConversionDefinition: NodeText & AtomicExpressionText;
+        } & Conflicts<{
+            /** $1: The non-boolean expression */
+            ExpectedBooleanCondition: ConflictText;
+        }>;
+    ConversionDefinition: NodeText &
+        AtomicExpressionText &
+        Conflicts<{ MisplacedConversion: InternalConflictText }>;
     /**
      * Start
      * $1: expression to convert
      * Finish
      * $1: resulting value
      */
-    Convert: NodeText & ExpressionText;
+    Convert: NodeText &
+        ExpressionText &
+        Conflicts<{
+            /**
+             * $1: From type
+             * $2: To type
+             * */
+            UnknownConversion: InternalConflictText;
+        }>;
     /**
      * Start
      * $1: table expression
@@ -130,7 +192,32 @@ type NodeTexts = {
         ExpressionText & {
             function: Template;
             input: Template;
-        };
+        } & Conflicts<{
+            /**
+             * $1: Expected
+             * $2: Given
+             * */
+            IncompatibleInput: ConflictText;
+            /**
+             * $1: Definition
+             * $2: Type
+             * */
+            UnexpectedTypeInput: ConflictText;
+            MisplacedInput: InternalConflictText;
+            /**
+             * $1: Missing input
+             * $2: Evaluate that is missing input
+             * */
+            MissingInput: ConflictText;
+            NotInstantiable: InternalConflictText;
+            /**
+             * $1: Evaluate with unexected input
+             * $2: Unexpected input
+             * */
+            UnexpectedInput: ConflictText;
+            UnknownInput: ConflictText;
+            InputListMustBeLast: InternalConflictText;
+        }>;
     /**
      * Description
      * $1: type or undefined
@@ -138,12 +225,16 @@ type NodeTexts = {
     ExpressionPlaceholder: NodeText &
         AtomicExpressionText & {
             placeholder: Template;
-        };
+        } & Conflicts<{ Placeholder: InternalConflictText }>;
     /**
      * Description
      * $1: function name in locale
      */
-    FunctionDefinition: NodeText & AtomicExpressionText;
+    FunctionDefinition: NodeText &
+        AtomicExpressionText &
+        Conflicts<{
+            NoExpression: InternalConflictText;
+        }>;
     /**
      * Finish
      * $1: resulting value
@@ -164,7 +255,9 @@ type NodeTexts = {
      * $1: result
      * $2: type
      */
-    Is: NodeText & ExpressionText;
+    Is: NodeText &
+        ExpressionText &
+        Conflicts<{ ImpossibleType: InternalConflictText }>;
     /**
      * Start
      * $1: list
@@ -186,7 +279,14 @@ type NodeTexts = {
      * Finish
      * $1: resulting value
      */
-    MapLiteral: NodeText & ExpressionText;
+    MapLiteral: NodeText &
+        ExpressionText &
+        Conflicts<{
+            /**
+             * $1: Expression that's not a map
+             * */
+            NotAKeyValue: ConflictText;
+        }>;
     /**
      * Description
      * $1: number
@@ -194,7 +294,9 @@ type NodeTexts = {
      * Start
      * $1: the node
      */
-    MeasurementLiteral: NodeText & AtomicExpressionText;
+    MeasurementLiteral: NodeText &
+        AtomicExpressionText &
+        Conflicts<{ NotANumber: InternalConflictText }>;
     NativeExpression: NodeText & AtomicExpressionText;
     NoneLiteral: NodeText & AtomicExpressionText;
     /**
@@ -245,13 +347,26 @@ type NodeTexts = {
     Reference: NodeText &
         AtomicExpressionText & {
             name: Template;
-        };
+        } & Conflicts</** $1: The name that depends on itself */
+        {
+            /**
+             * $1: Scope
+             * */
+            UnknownName: InternalConflictText;
+            ReferenceCycle: InternalConflictText;
+            UnexpectedTypeVariable: InternalConflictText;
+        }>;
     /**
      * Finish
      * $1: the table
      * $1: the result
      */
-    Select: NodeText & ExpressionText;
+    Select: NodeText &
+        ExpressionText &
+        Conflicts<{
+            /** $1: The select expression */
+            ExpectedSelectName: InternalConflictText;
+        }>;
     /**
      * Finish
      * $1: the new set
@@ -261,14 +376,33 @@ type NodeTexts = {
      * Finish
      * $1: the set/map value
      */
-    SetOrMapAccess: NodeText & ExpressionText;
+    SetOrMapAccess: NodeText &
+        ExpressionText &
+        Conflicts<{
+            /**
+             * $1: Expected
+             * $2: Given
+             * */
+            IncompatibleKey: ConflictText;
+        }>;
     Source: NodeText;
     StreamDefinition: NodeText & AtomicExpressionText;
     /**
      * Description
      * $1: name of the structure
      */
-    StructureDefinition: NodeText & AtomicExpressionText;
+    StructureDefinition: NodeText &
+        AtomicExpressionText &
+        Conflicts<{
+            DisallowedInputs: InternalConflictText;
+            IncompleteImplementation: InternalConflictText;
+            NotAnInterface: InternalConflictText;
+            /**
+             * $1: Interface
+             * $2: Function
+             * */
+            UnimplementedInterface: InternalConflictText;
+        }>;
     /**
      * Finish
      * $1: resulting table
@@ -287,7 +421,9 @@ type NodeTexts = {
      * Finish
      * $1: resulting value
      */
-    This: NodeText & AtomicExpressionText;
+    This: NodeText &
+        AtomicExpressionText &
+        Conflicts<{ MisplacedThis: InternalConflictText }>;
     /**
      * Description
      * $1: the operator
@@ -295,14 +431,35 @@ type NodeTexts = {
      * $1: resulting value
      */
     UnaryOperation: NodeText & ExpressionText;
-    UnparsableExpression: NodeText & AtomicExpressionText;
+    UnparsableExpression: NodeText &
+        AtomicExpressionText &
+        Conflicts<{
+            /**
+             * $1: True if expression, false if type
+             * */
+            UnparsableConflict: InternalConflictText;
+            /**
+             * $1: Unclosed token
+             * $2: Opening delimiter
+             * */
+            UnclosedDelimiter: InternalConflictText;
+        }>;
     /**
      * Start
      * $1: the table
      * Finish
      * $1: resulting value
      */
-    Update: NodeText & ExpressionText;
+    Update: NodeText &
+        ExpressionText &
+        Conflicts<{
+            ExpectedUpdateBind: InternalConflictText;
+            /**
+             * $1: Expected
+             * $2: Given
+             * */
+            IncompatibleCellType: ConflictText;
+        }>;
     AnyType: NodeText;
     BooleanType: NodeText;
     ConversionType: NodeText;
@@ -325,7 +482,13 @@ type NodeTexts = {
      * Description
      * $1: Type name
      */
-    NameType: NodeText;
+    NameType: NodeText &
+        Conflicts<{
+            /**
+             * $1: Invalid type
+             * */
+            UnknownTypeName: InternalConflictText;
+        }>;
     NeverType: NodeText;
     NoneType: NodeText;
     /**
@@ -341,7 +504,11 @@ type NodeTexts = {
     StreamDefinitionType: NodeText;
     StreamType: NodeText;
     StructureDefinitionType: NodeText;
-    TableType: NodeText;
+    TableType: NodeText &
+        Conflicts<{
+            /** $: The missing column */
+            ExpectedColumnType: InternalConflictText;
+        }>;
     /**
      * Description
      * $1: Concrete type or undefined

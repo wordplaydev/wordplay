@@ -34,7 +34,8 @@ export default class IncompatibleCellType extends Conflict {
                 explanation: (locale: Locale, context: Context) =>
                     concretize(
                         locale,
-                        locale.conflict.IncompatibleCellType.primary,
+                        locale.node.Update.conflict.IncompatibleCellType
+                            .primary,
                         new NodeLink(this.expected, locale, context)
                     ),
             },
@@ -43,7 +44,8 @@ export default class IncompatibleCellType extends Conflict {
                 explanation: (locale: Locale, context: Context) =>
                     concretize(
                         locale,
-                        locale.conflict.IncompatibleCellType.secondary,
+                        locale.node.Update.conflict.IncompatibleCellType
+                            .secondary,
                         new NodeLink(this.received, locale, context)
                     ),
             },

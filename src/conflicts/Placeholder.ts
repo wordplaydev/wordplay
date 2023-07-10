@@ -17,7 +17,11 @@ export default class Placeholder extends Conflict {
             primary: {
                 node: this.placeholder,
                 explanation: (translation: Locale) =>
-                    concretize(translation, translation.conflict.Placeholder),
+                    concretize(
+                        translation,
+                        translation.node.ExpressionPlaceholder.conflict
+                            .Placeholder
+                    ),
             },
         };
     }

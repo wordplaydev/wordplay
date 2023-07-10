@@ -25,9 +25,12 @@ export default class NotInstantiable extends Conflict {
     getConflictingNodes() {
         return {
             primary: {
-                node: this.evaluate.func,
+                node: this.evaluate,
                 explanation: (locale: Locale) =>
-                    concretize(locale, locale.conflict.NotInstantiable),
+                    concretize(
+                        locale,
+                        locale.node.Evaluate.conflict.NotInstantiable
+                    ),
             },
         };
     }

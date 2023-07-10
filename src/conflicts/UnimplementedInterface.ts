@@ -25,11 +25,12 @@ export class UnimplementedInterface extends Conflict {
     getConflictingNodes() {
         return {
             primary: {
-                node: this.structure.names,
+                node: this.structure,
                 explanation: (translation: Locale, context: Context) =>
                     concretize(
                         translation,
-                        translation.conflict.UnimplementedInterface,
+                        translation.node.StructureDefinition.conflict
+                            .UnimplementedInterface,
                         new NodeLink(
                             this.interfaceStructure,
                             translation,

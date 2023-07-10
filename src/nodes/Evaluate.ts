@@ -36,7 +36,7 @@ import Names from './Names';
 import EvalOpenToken from './EvalOpenToken';
 import EvalCloseToken from './EvalCloseToken';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
-import InvalidTypeInput from '@conflicts/InvalidTypeInput';
+import UnexpectedTypeInput from '@conflicts/UnexpectedTypeInput';
 import PropertyReference from './PropertyReference';
 import NeverType from './NeverType';
 import type { Replacement } from './Node';
@@ -466,7 +466,7 @@ export default class Evaluate extends Expression {
                 for (let index = 0; index < this.types.types.length; index++) {
                     if (index >= (expected?.variables.length ?? 0)) {
                         conflicts.push(
-                            new InvalidTypeInput(
+                            new UnexpectedTypeInput(
                                 this,
                                 this.types.types[index],
                                 fun

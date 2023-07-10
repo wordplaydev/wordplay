@@ -17,7 +17,11 @@ export default class NoExpression extends Conflict {
             primary: {
                 node: this.def.names,
                 explanation: (translation: Locale) =>
-                    concretize(translation, translation.conflict.NoExpression),
+                    concretize(
+                        translation,
+                        translation.node.FunctionDefinition.conflict
+                            .NoExpression
+                    ),
             },
         };
     }

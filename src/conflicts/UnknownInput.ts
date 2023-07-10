@@ -29,7 +29,19 @@ export default class UnknownInput extends Conflict {
             primary: {
                 node: this.given.names,
                 explanation: (translation: Locale) =>
-                    concretize(translation, translation.conflict.UnknownInput),
+                    concretize(
+                        translation,
+                        translation.node.Evaluate.conflict.UnknownInput.primary
+                    ),
+            },
+            secondary: {
+                node: this.given.names,
+                explanation: (translation: Locale) =>
+                    concretize(
+                        translation,
+                        translation.node.Evaluate.conflict.UnknownInput
+                            .secondary
+                    ),
             },
         };
     }

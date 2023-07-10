@@ -53,7 +53,7 @@
       ],
       "type": "object"
     },
-    "FunctionText<[def-alias-1127088073-1402-1472-1127088073-0-1889,def-alias-1127088073-1402-1472-1127088073-0-1889]>": {
+    "FunctionText<[def-alias-1127088073-1323-1393-1127088073-0-1810,def-alias-1127088073-1323-1393-1127088073-0-1810]>": {
       "additionalProperties": false,
       "properties": {
         "doc": {
@@ -78,7 +78,7 @@
       ],
       "type": "object"
     },
-    "FunctionText<[def-alias-1127088073-1402-1472-1127088073-0-1889]>": {
+    "FunctionText<[def-alias-1127088073-1323-1393-1127088073-0-1810]>": {
       "additionalProperties": false,
       "properties": {
         "doc": {
@@ -113,245 +113,6 @@
         "$schema": {
           "description": "A path to the generated JSON schema that mirrors this type, for validation and auto-complete",
           "type": "string"
-        },
-        "conflict": {
-          "additionalProperties": false,
-          "properties": {
-            "BorrowCycle": {
-              "$ref": "#/definitions/InternalConflictText",
-              "description": "$1: borrow that had a cycle"
-            },
-            "DisallowedInputs": {
-              "$ref": "#/definitions/InternalConflictText"
-            },
-            "DuplicateName": {
-              "$ref": "#/definitions/ConflictText",
-              "description": "$1: The name that shadowed this one"
-            },
-            "DuplicateShare": {
-              "$ref": "#/definitions/ConflictText",
-              "description": "$1: The duplicate"
-            },
-            "DuplicateTypeVariable": {
-              "$ref": "#/definitions/ConflictText",
-              "description": "$1: The duplicate"
-            },
-            "ExpectedBooleanCondition": {
-              "$ref": "#/definitions/ConflictText",
-              "description": "$1: The non-boolean expression"
-            },
-            "ExpectedColumnType": {
-              "$ref": "#/definitions/InternalConflictText",
-              "description": "$: The missing column"
-            },
-            "ExpectedEndingExpression": {
-              "$ref": "#/definitions/InternalConflictText"
-            },
-            "ExpectedSelectName": {
-              "$ref": "#/definitions/InternalConflictText",
-              "description": "$1: The select expression"
-            },
-            "ExpectedUpdateBind": {
-              "$ref": "#/definitions/InternalConflictText"
-            },
-            "IgnoredExpression": {
-              "$ref": "#/definitions/ConflictText"
-            },
-            "ImpossibleType": {
-              "$ref": "#/definitions/InternalConflictText"
-            },
-            "IncompatibleBind": {
-              "$ref": "#/definitions/ConflictText",
-              "description": "$1: Expected $2: Given"
-            },
-            "IncompatibleCellType": {
-              "$ref": "#/definitions/ConflictText",
-              "description": "$1: Expected $2: Given"
-            },
-            "IncompatibleInput": {
-              "$ref": "#/definitions/ConflictText",
-              "description": "$1: Expected $2: Given"
-            },
-            "IncompatibleKey": {
-              "$ref": "#/definitions/ConflictText",
-              "description": "$1: Expected $2: Given"
-            },
-            "IncompleteImplementation": {
-              "$ref": "#/definitions/InternalConflictText"
-            },
-            "InputListMustBeLast": {
-              "$ref": "#/definitions/InternalConflictText"
-            },
-            "InvalidLanguage": {
-              "$ref": "#/definitions/InternalConflictText"
-            },
-            "InvalidRow": {
-              "$ref": "#/definitions/InternalConflictText"
-            },
-            "InvalidTypeInput": {
-              "$ref": "#/definitions/ConflictText",
-              "description": "$1: Definition $2: Type"
-            },
-            "InvalidTypeName": {
-              "$ref": "#/definitions/InternalConflictText",
-              "description": "$1: Invalid type"
-            },
-            "MisplacedConversion": {
-              "$ref": "#/definitions/InternalConflictText"
-            },
-            "MisplacedInput": {
-              "$ref": "#/definitions/InternalConflictText"
-            },
-            "MisplacedShare": {
-              "$ref": "#/definitions/InternalConflictText"
-            },
-            "MisplacedThis": {
-              "$ref": "#/definitions/InternalConflictText"
-            },
-            "MissingCell": {
-              "$ref": "#/definitions/ConflictText",
-              "description": "$1: Column $2: Row"
-            },
-            "MissingInput": {
-              "$ref": "#/definitions/ConflictText",
-              "description": "$1: Missing input $2: Evaluate that is missing input"
-            },
-            "MissingLanguage": {
-              "$ref": "#/definitions/InternalConflictText"
-            },
-            "MissingShareLanguages": {
-              "$ref": "#/definitions/InternalConflictText"
-            },
-            "NoExpression": {
-              "$ref": "#/definitions/InternalConflictText"
-            },
-            "NotAMap": {
-              "$ref": "#/definitions/ConflictText",
-              "description": "$1: Expression that's not a map"
-            },
-            "NotANumber": {
-              "$ref": "#/definitions/InternalConflictText"
-            },
-            "NotAnInterface": {
-              "$ref": "#/definitions/InternalConflictText"
-            },
-            "NotInstantiable": {
-              "$ref": "#/definitions/InternalConflictText"
-            },
-            "OrderOfOperations": {
-              "$ref": "#/definitions/InternalConflictText"
-            },
-            "Placeholder": {
-              "$ref": "#/definitions/InternalConflictText"
-            },
-            "ReferenceCycle": {
-              "$ref": "#/definitions/InternalConflictText",
-              "description": "$1: The name that depends on itself"
-            },
-            "RequiredAfterOptional": {
-              "$ref": "#/definitions/InternalConflictText"
-            },
-            "UnclosedDelimiter": {
-              "$ref": "#/definitions/InternalConflictText",
-              "description": "$1: Unclosed token $2: Opening delimiter"
-            },
-            "UnexpectedEtc": {
-              "$ref": "#/definitions/InternalConflictText"
-            },
-            "UnexpectedInput": {
-              "$ref": "#/definitions/ConflictText",
-              "description": "$1: Evaluate with unexected input $2: Unexpected input"
-            },
-            "UnexpectedTypeVariable": {
-              "$ref": "#/definitions/InternalConflictText"
-            },
-            "UnimplementedInterface": {
-              "$ref": "#/definitions/InternalConflictText",
-              "description": "$1: Interface $2: Function"
-            },
-            "UnknownBorrow": {
-              "$ref": "#/definitions/InternalConflictText"
-            },
-            "UnknownColumn": {
-              "$ref": "#/definitions/InternalConflictText"
-            },
-            "UnknownConversion": {
-              "$ref": "#/definitions/InternalConflictText",
-              "description": "$1: From type $2: To type"
-            },
-            "UnknownInput": {
-              "$ref": "#/definitions/InternalConflictText"
-            },
-            "UnknownName": {
-              "$ref": "#/definitions/InternalConflictText",
-              "description": "$1: Scope"
-            },
-            "Unnamed": {
-              "$ref": "#/definitions/InternalConflictText"
-            },
-            "UnparsableConflict": {
-              "$ref": "#/definitions/InternalConflictText",
-              "description": "$1: True if expression, false if type"
-            },
-            "UnusedBind": {
-              "$ref": "#/definitions/InternalConflictText"
-            }
-          },
-          "required": [
-            "BorrowCycle",
-            "ReferenceCycle",
-            "DisallowedInputs",
-            "DuplicateName",
-            "DuplicateShare",
-            "DuplicateTypeVariable",
-            "ExpectedBooleanCondition",
-            "ExpectedColumnType",
-            "ExpectedEndingExpression",
-            "ExpectedSelectName",
-            "ExpectedUpdateBind",
-            "IgnoredExpression",
-            "IncompleteImplementation",
-            "IncompatibleBind",
-            "IncompatibleCellType",
-            "IncompatibleInput",
-            "IncompatibleKey",
-            "ImpossibleType",
-            "InvalidLanguage",
-            "InvalidRow",
-            "InvalidTypeInput",
-            "MisplacedConversion",
-            "MisplacedInput",
-            "MisplacedShare",
-            "MisplacedThis",
-            "MissingCell",
-            "MissingInput",
-            "MissingLanguage",
-            "MissingShareLanguages",
-            "NoExpression",
-            "NotAMap",
-            "NotANumber",
-            "NotAnInterface",
-            "NotInstantiable",
-            "OrderOfOperations",
-            "Placeholder",
-            "RequiredAfterOptional",
-            "UnclosedDelimiter",
-            "UnexpectedEtc",
-            "UnexpectedInput",
-            "UnexpectedTypeVariable",
-            "UnimplementedInterface",
-            "UnknownBorrow",
-            "UnknownColumn",
-            "UnknownConversion",
-            "UnknownInput",
-            "UnknownName",
-            "InvalidTypeName",
-            "Unnamed",
-            "UnparsableConflict",
-            "UnusedBind",
-            "InputListMustBeLast"
-          ],
-          "type": "object"
         },
         "evaluate": {
           "additionalProperties": false,
@@ -702,19 +463,19 @@
                   "additionalProperties": false,
                   "properties": {
                     "and": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1402-1472-1127088073-0-1889%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1323-1393-1127088073-0-1810%5D%3E"
                     },
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1402-1472-1127088073-0-1889%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1323-1393-1127088073-0-1810%5D%3E"
                     },
                     "not": {
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
                     },
                     "notequal": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1402-1472-1127088073-0-1889%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1323-1393-1127088073-0-1810%5D%3E"
                     },
                     "or": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1402-1472-1127088073-0-1889%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1323-1393-1127088073-0-1810%5D%3E"
                     }
                   },
                   "required": [
@@ -764,7 +525,7 @@
                   "additionalProperties": false,
                   "properties": {
                     "add": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1402-1472-1127088073-0-1889%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1323-1393-1127088073-0-1810%5D%3E"
                     },
                     "all": {
                       "additionalProperties": false,
@@ -796,7 +557,7 @@
                       "type": "object"
                     },
                     "append": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1402-1472-1127088073-0-1889%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1323-1393-1127088073-0-1810%5D%3E"
                     },
                     "combine": {
                       "additionalProperties": false,
@@ -836,7 +597,7 @@
                       "type": "object"
                     },
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1402-1472-1127088073-0-1889%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1323-1393-1127088073-0-1810%5D%3E"
                     },
                     "filter": {
                       "additionalProperties": false,
@@ -900,10 +661,10 @@
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
                     },
                     "has": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1402-1472-1127088073-0-1889%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1323-1393-1127088073-0-1810%5D%3E"
                     },
                     "join": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1402-1472-1127088073-0-1889%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1323-1393-1127088073-0-1810%5D%3E"
                     },
                     "last": {
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
@@ -912,22 +673,22 @@
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1402-1472-1127088073-0-1889%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1323-1393-1127088073-0-1810%5D%3E"
                     },
                     "random": {
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
                     },
                     "replace": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1402-1472-1127088073-0-1889%2Cdef-alias-1127088073-1402-1472-1127088073-0-1889%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1323-1393-1127088073-0-1810%2Cdef-alias-1127088073-1323-1393-1127088073-0-1810%5D%3E"
                     },
                     "reverse": {
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
                     },
                     "sans": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1402-1472-1127088073-0-1889%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1323-1393-1127088073-0-1810%5D%3E"
                     },
                     "sansAll": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1402-1472-1127088073-0-1889%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1323-1393-1127088073-0-1810%5D%3E"
                     },
                     "sansFirst": {
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
@@ -1078,7 +839,7 @@
                   "additionalProperties": false,
                   "properties": {
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1402-1472-1127088073-0-1889%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1323-1393-1127088073-0-1810%5D%3E"
                     },
                     "filter": {
                       "additionalProperties": false,
@@ -1114,13 +875,13 @@
                       "type": "object"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1402-1472-1127088073-0-1889%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1323-1393-1127088073-0-1810%5D%3E"
                     },
                     "remove": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1402-1472-1127088073-0-1889%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1323-1393-1127088073-0-1810%5D%3E"
                     },
                     "set": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1402-1472-1127088073-0-1889%2Cdef-alias-1127088073-1402-1472-1127088073-0-1889%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1323-1393-1127088073-0-1810%2Cdef-alias-1127088073-1323-1393-1127088073-0-1810%5D%3E"
                     },
                     "translate": {
                       "additionalProperties": false,
@@ -1156,7 +917,7 @@
                       "type": "object"
                     },
                     "unset": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1402-1472-1127088073-0-1889%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1323-1393-1127088073-0-1810%5D%3E"
                     }
                   },
                   "required": [
@@ -1404,55 +1165,55 @@
                   "additionalProperties": false,
                   "properties": {
                     "absolute": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1402-1472-1127088073-0-1889%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1323-1393-1127088073-0-1810%5D%3E"
                     },
                     "add": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1402-1472-1127088073-0-1889%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1323-1393-1127088073-0-1810%5D%3E"
                     },
                     "cos": {
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
                     },
                     "divide": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1402-1472-1127088073-0-1889%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1323-1393-1127088073-0-1810%5D%3E"
                     },
                     "equal": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1402-1472-1127088073-0-1889%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1323-1393-1127088073-0-1810%5D%3E"
                     },
                     "greaterOrEqual": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1402-1472-1127088073-0-1889%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1323-1393-1127088073-0-1810%5D%3E"
                     },
                     "greaterThan": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1402-1472-1127088073-0-1889%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1323-1393-1127088073-0-1810%5D%3E"
                     },
                     "lessOrEqual": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1402-1472-1127088073-0-1889%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1323-1393-1127088073-0-1810%5D%3E"
                     },
                     "lessThan": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1402-1472-1127088073-0-1889%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1323-1393-1127088073-0-1810%5D%3E"
                     },
                     "multiply": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1402-1472-1127088073-0-1889%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1323-1393-1127088073-0-1810%5D%3E"
                     },
                     "notequal": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1402-1472-1127088073-0-1889%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1323-1393-1127088073-0-1810%5D%3E"
                     },
                     "power": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1402-1472-1127088073-0-1889%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1323-1393-1127088073-0-1810%5D%3E"
                     },
                     "remainder": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1402-1472-1127088073-0-1889%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1323-1393-1127088073-0-1810%5D%3E"
                     },
                     "root": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1402-1472-1127088073-0-1889%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1323-1393-1127088073-0-1810%5D%3E"
                     },
                     "sin": {
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
                     },
                     "subtract": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1402-1472-1127088073-0-1889%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1323-1393-1127088073-0-1810%5D%3E"
                     },
                     "truncate": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1402-1472-1127088073-0-1889%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1323-1393-1127088073-0-1810%5D%3E"
                     }
                   },
                   "required": [
@@ -1510,10 +1271,10 @@
                   "additionalProperties": false,
                   "properties": {
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1402-1472-1127088073-0-1889%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1323-1393-1127088073-0-1810%5D%3E"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1402-1472-1127088073-0-1889%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1323-1393-1127088073-0-1810%5D%3E"
                     }
                   },
                   "required": [
@@ -1560,13 +1321,13 @@
                   "additionalProperties": false,
                   "properties": {
                     "add": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1402-1472-1127088073-0-1889%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1323-1393-1127088073-0-1810%5D%3E"
                     },
                     "difference": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1402-1472-1127088073-0-1889%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1323-1393-1127088073-0-1810%5D%3E"
                     },
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1402-1472-1127088073-0-1889%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1323-1393-1127088073-0-1810%5D%3E"
                     },
                     "filter": {
                       "additionalProperties": false,
@@ -1598,13 +1359,13 @@
                       "type": "object"
                     },
                     "intersection": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1402-1472-1127088073-0-1889%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1323-1393-1127088073-0-1810%5D%3E"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1402-1472-1127088073-0-1889%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1323-1393-1127088073-0-1810%5D%3E"
                     },
                     "remove": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1402-1472-1127088073-0-1889%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1323-1393-1127088073-0-1810%5D%3E"
                     },
                     "translate": {
                       "additionalProperties": false,
@@ -1636,7 +1397,7 @@
                       "type": "object"
                     },
                     "union": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1402-1472-1127088073-0-1889%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1323-1393-1127088073-0-1810%5D%3E"
                     }
                   },
                   "required": [
@@ -1694,25 +1455,25 @@
                   "additionalProperties": false,
                   "properties": {
                     "combine": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1402-1472-1127088073-0-1889%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1323-1393-1127088073-0-1810%5D%3E"
                     },
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1402-1472-1127088073-0-1889%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1323-1393-1127088073-0-1810%5D%3E"
                     },
                     "has": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1402-1472-1127088073-0-1889%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1323-1393-1127088073-0-1810%5D%3E"
                     },
                     "length": {
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1402-1472-1127088073-0-1889%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1323-1393-1127088073-0-1810%5D%3E"
                     },
                     "repeat": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1402-1472-1127088073-0-1889%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1323-1393-1127088073-0-1810%5D%3E"
                     },
                     "segment": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1402-1472-1127088073-0-1889%5D%3E"
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1323-1393-1127088073-0-1810%5D%3E"
                     }
                   },
                   "required": [
@@ -1760,6 +1521,18 @@
               "additionalProperties": false,
               "description": "Start $1: left expression Finish $1: result",
               "properties": {
+                "conflict": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "OrderOfOperations": {
+                      "$ref": "#/definitions/InternalConflictText"
+                    }
+                  },
+                  "required": [
+                    "OrderOfOperations"
+                  ],
+                  "type": "object"
+                },
                 "description": {
                   "$ref": "#/definitions/Template"
                 },
@@ -1783,6 +1556,7 @@
                 }
               },
               "required": [
+                "conflict",
                 "description",
                 "doc",
                 "emotion",
@@ -1797,6 +1571,49 @@
               "additionalProperties": false,
               "description": "Start $1: bind evaluating Finish $1: resulting value $2: names bound",
               "properties": {
+                "conflict": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "DuplicateName": {
+                      "$ref": "#/definitions/ConflictText",
+                      "description": "$1: The name that shadowed this one"
+                    },
+                    "DuplicateShare": {
+                      "$ref": "#/definitions/ConflictText",
+                      "description": "$1: The duplicate"
+                    },
+                    "IncompatibleBind": {
+                      "$ref": "#/definitions/ConflictText",
+                      "description": "$1: Expected $2: Given"
+                    },
+                    "MisplacedShare": {
+                      "$ref": "#/definitions/InternalConflictText"
+                    },
+                    "MissingShareLanguages": {
+                      "$ref": "#/definitions/InternalConflictText"
+                    },
+                    "RequiredAfterOptional": {
+                      "$ref": "#/definitions/InternalConflictText"
+                    },
+                    "UnexpectedEtc": {
+                      "$ref": "#/definitions/InternalConflictText"
+                    },
+                    "UnusedBind": {
+                      "$ref": "#/definitions/InternalConflictText"
+                    }
+                  },
+                  "required": [
+                    "DuplicateName",
+                    "DuplicateShare",
+                    "IncompatibleBind",
+                    "MisplacedShare",
+                    "MissingShareLanguages",
+                    "RequiredAfterOptional",
+                    "UnexpectedEtc",
+                    "UnusedBind"
+                  ],
+                  "type": "object"
+                },
                 "description": {
                   "$ref": "#/definitions/Template"
                 },
@@ -1817,6 +1634,7 @@
                 }
               },
               "required": [
+                "conflict",
                 "description",
                 "doc",
                 "emotion",
@@ -1830,6 +1648,22 @@
               "additionalProperties": false,
               "description": "Description $1: # of statements Start No inputs Finish $1: Resulting value",
               "properties": {
+                "conflict": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "ExpectedEndingExpression": {
+                      "$ref": "#/definitions/InternalConflictText"
+                    },
+                    "IgnoredExpression": {
+                      "$ref": "#/definitions/ConflictText"
+                    }
+                  },
+                  "required": [
+                    "ExpectedEndingExpression",
+                    "IgnoredExpression"
+                  ],
+                  "type": "object"
+                },
                 "description": {
                   "$ref": "#/definitions/Template"
                 },
@@ -1853,6 +1687,7 @@
                 }
               },
               "required": [
+                "conflict",
                 "description",
                 "doc",
                 "emotion",
@@ -1902,6 +1737,23 @@
                 "bind": {
                   "$ref": "#/definitions/Template"
                 },
+                "conflict": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "BorrowCycle": {
+                      "$ref": "#/definitions/InternalConflictText",
+                      "description": "$1: borrow that had a cycle"
+                    },
+                    "UnknownBorrow": {
+                      "$ref": "#/definitions/InternalConflictText"
+                    }
+                  },
+                  "required": [
+                    "UnknownBorrow",
+                    "BorrowCycle"
+                  ],
+                  "type": "object"
+                },
                 "description": {
                   "$ref": "#/definitions/Template"
                 },
@@ -1926,6 +1778,7 @@
               },
               "required": [
                 "bind",
+                "conflict",
                 "description",
                 "doc",
                 "emotion",
@@ -1979,6 +1832,19 @@
                 "condition": {
                   "$ref": "#/definitions/Template"
                 },
+                "conflict": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "ExpectedBooleanCondition": {
+                      "$ref": "#/definitions/ConflictText",
+                      "description": "$1: The non-boolean expression"
+                    }
+                  },
+                  "required": [
+                    "ExpectedBooleanCondition"
+                  ],
+                  "type": "object"
+                },
                 "description": {
                   "$ref": "#/definitions/Template"
                 },
@@ -2006,6 +1872,7 @@
               },
               "required": [
                 "condition",
+                "conflict",
                 "description",
                 "doc",
                 "emotion",
@@ -2020,6 +1887,18 @@
             "ConversionDefinition": {
               "additionalProperties": false,
               "properties": {
+                "conflict": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "MisplacedConversion": {
+                      "$ref": "#/definitions/InternalConflictText"
+                    }
+                  },
+                  "required": [
+                    "MisplacedConversion"
+                  ],
+                  "type": "object"
+                },
                 "description": {
                   "$ref": "#/definitions/Template"
                 },
@@ -2037,6 +1916,7 @@
                 }
               },
               "required": [
+                "conflict",
                 "description",
                 "doc",
                 "emotion",
@@ -2052,6 +1932,19 @@
               "additionalProperties": false,
               "description": "Start $1: expression to convert Finish $1: resulting value",
               "properties": {
+                "conflict": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "UnknownConversion": {
+                      "$ref": "#/definitions/InternalConflictText",
+                      "description": "$1: From type $2: To type"
+                    }
+                  },
+                  "required": [
+                    "UnknownConversion"
+                  ],
+                  "type": "object"
+                },
                 "description": {
                   "$ref": "#/definitions/Template"
                 },
@@ -2072,6 +1965,7 @@
                 }
               },
               "required": [
+                "conflict",
                 "description",
                 "doc",
                 "emotion",
@@ -2158,6 +2052,50 @@
               "additionalProperties": false,
               "description": "Descriptionn $1: name of function being evaluated Start no inputs Finish $1: resulting value",
               "properties": {
+                "conflict": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "IncompatibleInput": {
+                      "$ref": "#/definitions/ConflictText",
+                      "description": "$1: Expected $2: Given"
+                    },
+                    "InputListMustBeLast": {
+                      "$ref": "#/definitions/InternalConflictText"
+                    },
+                    "MisplacedInput": {
+                      "$ref": "#/definitions/InternalConflictText"
+                    },
+                    "MissingInput": {
+                      "$ref": "#/definitions/ConflictText",
+                      "description": "$1: Missing input $2: Evaluate that is missing input"
+                    },
+                    "NotInstantiable": {
+                      "$ref": "#/definitions/InternalConflictText"
+                    },
+                    "UnexpectedInput": {
+                      "$ref": "#/definitions/ConflictText",
+                      "description": "$1: Evaluate with unexected input $2: Unexpected input"
+                    },
+                    "UnexpectedTypeInput": {
+                      "$ref": "#/definitions/ConflictText",
+                      "description": "$1: Definition $2: Type"
+                    },
+                    "UnknownInput": {
+                      "$ref": "#/definitions/ConflictText"
+                    }
+                  },
+                  "required": [
+                    "IncompatibleInput",
+                    "UnexpectedTypeInput",
+                    "MisplacedInput",
+                    "MissingInput",
+                    "NotInstantiable",
+                    "UnexpectedInput",
+                    "UnknownInput",
+                    "InputListMustBeLast"
+                  ],
+                  "type": "object"
+                },
                 "description": {
                   "$ref": "#/definitions/Template"
                 },
@@ -2184,6 +2122,7 @@
                 }
               },
               "required": [
+                "conflict",
                 "description",
                 "doc",
                 "emotion",
@@ -2205,6 +2144,18 @@
               "additionalProperties": false,
               "description": "Description $1: type or undefined",
               "properties": {
+                "conflict": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "Placeholder": {
+                      "$ref": "#/definitions/InternalConflictText"
+                    }
+                  },
+                  "required": [
+                    "Placeholder"
+                  ],
+                  "type": "object"
+                },
                 "description": {
                   "$ref": "#/definitions/Template"
                 },
@@ -2225,6 +2176,7 @@
                 }
               },
               "required": [
+                "conflict",
                 "description",
                 "doc",
                 "emotion",
@@ -2238,6 +2190,18 @@
               "additionalProperties": false,
               "description": "Description $1: function name in locale",
               "properties": {
+                "conflict": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "NoExpression": {
+                      "$ref": "#/definitions/InternalConflictText"
+                    }
+                  },
+                  "required": [
+                    "NoExpression"
+                  ],
+                  "type": "object"
+                },
                 "description": {
                   "$ref": "#/definitions/Template"
                 },
@@ -2255,6 +2219,7 @@
                 }
               },
               "required": [
+                "conflict",
                 "description",
                 "doc",
                 "emotion",
@@ -2342,6 +2307,18 @@
               "additionalProperties": false,
               "description": "Start $1: expression Finish $1: result $2: type",
               "properties": {
+                "conflict": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "ImpossibleType": {
+                      "$ref": "#/definitions/InternalConflictText"
+                    }
+                  },
+                  "required": [
+                    "ImpossibleType"
+                  ],
+                  "type": "object"
+                },
                 "description": {
                   "$ref": "#/definitions/Template"
                 },
@@ -2362,6 +2339,7 @@
                 }
               },
               "required": [
+                "conflict",
                 "description",
                 "doc",
                 "emotion",
@@ -2375,7 +2353,45 @@
               "$ref": "#/definitions/NodeText"
             },
             "Language": {
-              "$ref": "#/definitions/NodeText"
+              "additionalProperties": false,
+              "properties": {
+                "conflict": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "InvalidLanguage": {
+                      "$ref": "#/definitions/InternalConflictText"
+                    },
+                    "MissingLanguage": {
+                      "$ref": "#/definitions/InternalConflictText"
+                    }
+                  },
+                  "required": [
+                    "InvalidLanguage",
+                    "MissingLanguage"
+                  ],
+                  "type": "object"
+                },
+                "description": {
+                  "$ref": "#/definitions/Template"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText"
+                },
+                "emotion": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "conflict",
+                "description",
+                "doc",
+                "emotion",
+                "name"
+              ],
+              "type": "object"
             },
             "ListAccess": {
               "additionalProperties": false,
@@ -2455,6 +2471,19 @@
               "additionalProperties": false,
               "description": "Finish $1: resulting value",
               "properties": {
+                "conflict": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "NotAKeyValue": {
+                      "$ref": "#/definitions/ConflictText",
+                      "description": "$1: Expression that's not a map"
+                    }
+                  },
+                  "required": [
+                    "NotAKeyValue"
+                  ],
+                  "type": "object"
+                },
                 "description": {
                   "$ref": "#/definitions/Template"
                 },
@@ -2475,6 +2504,7 @@
                 }
               },
               "required": [
+                "conflict",
                 "description",
                 "doc",
                 "emotion",
@@ -2492,6 +2522,18 @@
               "additionalProperties": false,
               "description": "Description $1: number $1: unit Start $1: the node",
               "properties": {
+                "conflict": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "NotANumber": {
+                      "$ref": "#/definitions/InternalConflictText"
+                    }
+                  },
+                  "required": [
+                    "NotANumber"
+                  ],
+                  "type": "object"
+                },
                 "description": {
                   "$ref": "#/definitions/Template"
                 },
@@ -2509,6 +2551,7 @@
                 }
               },
               "required": [
+                "conflict",
                 "description",
                 "doc",
                 "emotion",
@@ -2525,8 +2568,43 @@
               "description": "Description $1: name or undefined"
             },
             "NameType": {
-              "$ref": "#/definitions/NodeText",
-              "description": "Description $1: Type name"
+              "additionalProperties": false,
+              "description": "Description $1: Type name",
+              "properties": {
+                "conflict": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "UnknownTypeName": {
+                      "$ref": "#/definitions/InternalConflictText",
+                      "description": "$1: Invalid type"
+                    }
+                  },
+                  "required": [
+                    "UnknownTypeName"
+                  ],
+                  "type": "object"
+                },
+                "description": {
+                  "$ref": "#/definitions/Template"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText"
+                },
+                "emotion": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "conflict",
+                "description",
+                "doc",
+                "emotion",
+                "name"
+              ],
+              "type": "object"
             },
             "Names": {
               "$ref": "#/definitions/NodeText"
@@ -2794,6 +2872,27 @@
               "additionalProperties": false,
               "description": "Description $1: the name Start $1: the name being resolved",
               "properties": {
+                "conflict": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "ReferenceCycle": {
+                      "$ref": "#/definitions/InternalConflictText"
+                    },
+                    "UnexpectedTypeVariable": {
+                      "$ref": "#/definitions/InternalConflictText"
+                    },
+                    "UnknownName": {
+                      "$ref": "#/definitions/InternalConflictText",
+                      "description": "$1: Scope"
+                    }
+                  },
+                  "required": [
+                    "UnknownName",
+                    "ReferenceCycle",
+                    "UnexpectedTypeVariable"
+                  ],
+                  "type": "object"
+                },
                 "description": {
                   "$ref": "#/definitions/Template"
                 },
@@ -2811,6 +2910,7 @@
                 }
               },
               "required": [
+                "conflict",
                 "description",
                 "doc",
                 "emotion",
@@ -2820,12 +2920,68 @@
               "type": "object"
             },
             "Row": {
-              "$ref": "#/definitions/NodeText"
+              "additionalProperties": false,
+              "properties": {
+                "conflict": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "InvalidRow": {
+                      "$ref": "#/definitions/InternalConflictText"
+                    },
+                    "MissingCell": {
+                      "$ref": "#/definitions/ConflictText",
+                      "description": "$1: Column $2: Row"
+                    },
+                    "UnknownColumn": {
+                      "$ref": "#/definitions/InternalConflictText"
+                    }
+                  },
+                  "required": [
+                    "InvalidRow",
+                    "MissingCell",
+                    "UnknownColumn"
+                  ],
+                  "type": "object"
+                },
+                "description": {
+                  "$ref": "#/definitions/Template"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText"
+                },
+                "emotion": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "conflict",
+                "description",
+                "doc",
+                "emotion",
+                "name"
+              ],
+              "type": "object"
             },
             "Select": {
               "additionalProperties": false,
               "description": "Finish $1: the table $1: the result",
               "properties": {
+                "conflict": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "ExpectedSelectName": {
+                      "$ref": "#/definitions/InternalConflictText",
+                      "description": "$1: The select expression"
+                    }
+                  },
+                  "required": [
+                    "ExpectedSelectName"
+                  ],
+                  "type": "object"
+                },
                 "description": {
                   "$ref": "#/definitions/Template"
                 },
@@ -2846,6 +3002,7 @@
                 }
               },
               "required": [
+                "conflict",
                 "description",
                 "doc",
                 "emotion",
@@ -2892,6 +3049,19 @@
               "additionalProperties": false,
               "description": "Finish $1: the set/map value",
               "properties": {
+                "conflict": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "IncompatibleKey": {
+                      "$ref": "#/definitions/ConflictText",
+                      "description": "$1: Expected $2: Given"
+                    }
+                  },
+                  "required": [
+                    "IncompatibleKey"
+                  ],
+                  "type": "object"
+                },
                 "description": {
                   "$ref": "#/definitions/Template"
                 },
@@ -2912,6 +3082,7 @@
                 }
               },
               "required": [
+                "conflict",
                 "description",
                 "doc",
                 "emotion",
@@ -2966,6 +3137,31 @@
               "additionalProperties": false,
               "description": "Description $1: name of the structure",
               "properties": {
+                "conflict": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "DisallowedInputs": {
+                      "$ref": "#/definitions/InternalConflictText"
+                    },
+                    "IncompleteImplementation": {
+                      "$ref": "#/definitions/InternalConflictText"
+                    },
+                    "NotAnInterface": {
+                      "$ref": "#/definitions/InternalConflictText"
+                    },
+                    "UnimplementedInterface": {
+                      "$ref": "#/definitions/InternalConflictText",
+                      "description": "$1: Interface $2: Function"
+                    }
+                  },
+                  "required": [
+                    "DisallowedInputs",
+                    "IncompleteImplementation",
+                    "NotAnInterface",
+                    "UnimplementedInterface"
+                  ],
+                  "type": "object"
+                },
                 "description": {
                   "$ref": "#/definitions/Template"
                 },
@@ -2983,6 +3179,7 @@
                 }
               },
               "required": [
+                "conflict",
                 "description",
                 "doc",
                 "emotion",
@@ -3032,7 +3229,42 @@
               "type": "object"
             },
             "TableType": {
-              "$ref": "#/definitions/NodeText"
+              "additionalProperties": false,
+              "properties": {
+                "conflict": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "ExpectedColumnType": {
+                      "$ref": "#/definitions/InternalConflictText",
+                      "description": "$: The missing column"
+                    }
+                  },
+                  "required": [
+                    "ExpectedColumnType"
+                  ],
+                  "type": "object"
+                },
+                "description": {
+                  "$ref": "#/definitions/Template"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText"
+                },
+                "emotion": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "conflict",
+                "description",
+                "doc",
+                "emotion",
+                "name"
+              ],
+              "type": "object"
             },
             "Template": {
               "additionalProperties": false,
@@ -3103,6 +3335,18 @@
               "additionalProperties": false,
               "description": "Finish $1: resulting value",
               "properties": {
+                "conflict": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "MisplacedThis": {
+                      "$ref": "#/definitions/InternalConflictText"
+                    }
+                  },
+                  "required": [
+                    "MisplacedThis"
+                  ],
+                  "type": "object"
+                },
                 "description": {
                   "$ref": "#/definitions/Template"
                 },
@@ -3120,6 +3364,7 @@
                 }
               },
               "required": [
+                "conflict",
                 "description",
                 "doc",
                 "emotion",
@@ -3139,7 +3384,42 @@
               "$ref": "#/definitions/NodeText"
             },
             "TypeVariable": {
-              "$ref": "#/definitions/NodeText"
+              "additionalProperties": false,
+              "properties": {
+                "conflict": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "DuplicateTypeVariable": {
+                      "$ref": "#/definitions/ConflictText",
+                      "description": "$1: The duplicate"
+                    }
+                  },
+                  "required": [
+                    "DuplicateTypeVariable"
+                  ],
+                  "type": "object"
+                },
+                "description": {
+                  "$ref": "#/definitions/Template"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText"
+                },
+                "emotion": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "conflict",
+                "description",
+                "doc",
+                "emotion",
+                "name"
+              ],
+              "type": "object"
             },
             "TypeVariables": {
               "$ref": "#/definitions/NodeText"
@@ -3227,6 +3507,24 @@
             "UnparsableExpression": {
               "additionalProperties": false,
               "properties": {
+                "conflict": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "UnclosedDelimiter": {
+                      "$ref": "#/definitions/InternalConflictText",
+                      "description": "$1: Unclosed token $2: Opening delimiter"
+                    },
+                    "UnparsableConflict": {
+                      "$ref": "#/definitions/InternalConflictText",
+                      "description": "$1: True if expression, false if type"
+                    }
+                  },
+                  "required": [
+                    "UnparsableConflict",
+                    "UnclosedDelimiter"
+                  ],
+                  "type": "object"
+                },
                 "description": {
                   "$ref": "#/definitions/Template"
                 },
@@ -3244,6 +3542,7 @@
                 }
               },
               "required": [
+                "conflict",
                 "description",
                 "doc",
                 "emotion",
@@ -3259,6 +3558,23 @@
               "additionalProperties": false,
               "description": "Start $1: the table Finish $1: resulting value",
               "properties": {
+                "conflict": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "ExpectedUpdateBind": {
+                      "$ref": "#/definitions/InternalConflictText"
+                    },
+                    "IncompatibleCellType": {
+                      "$ref": "#/definitions/ConflictText",
+                      "description": "$1: Expected $2: Given"
+                    }
+                  },
+                  "required": [
+                    "ExpectedUpdateBind",
+                    "IncompatibleCellType"
+                  ],
+                  "type": "object"
+                },
                 "description": {
                   "$ref": "#/definitions/Template"
                 },
@@ -3279,6 +3595,7 @@
                 }
               },
               "required": [
+                "conflict",
                 "description",
                 "doc",
                 "emotion",
@@ -4955,14 +5272,13 @@
         "wordplay",
         "tbd",
         "term",
-        "evaluate",
         "token",
         "node",
         "native",
-        "exception",
-        "conflict",
         "input",
         "output",
+        "evaluate",
+        "exception",
         "ui"
       ],
       "type": "object"

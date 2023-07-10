@@ -4,12 +4,13 @@ import type Locale from '@locale/Locale';
 import NodeLink from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import concretize from '../locale/concretize';
+import type Bind from '../nodes/Bind';
 
 export default class DuplicateName extends Conflict {
-    readonly name: Name;
+    readonly name: Bind;
     readonly duplicate: Name;
 
-    constructor(name: Name, duplicate: Name) {
+    constructor(name: Bind, duplicate: Name) {
         super(true);
 
         this.name = name;
@@ -23,7 +24,7 @@ export default class DuplicateName extends Conflict {
                 explanation: (locale: Locale, context: Context) =>
                     concretize(
                         locale,
-                        locale.conflict.DuplicateName.primary,
+                        locale.node.Bind.conflict.DuplicateName.primary,
                         new NodeLink(
                             this.duplicate,
                             locale,
@@ -37,12 +38,12 @@ export default class DuplicateName extends Conflict {
                 explanation: (locale: Locale, context: Context) =>
                     concretize(
                         locale,
-                        locale.conflict.DuplicateName.secondary,
+                        locale.node.Bind.conflict.DuplicateName.secondary,
                         new NodeLink(
                             this.name,
                             locale,
                             context,
-                            this.name.getName()
+                            this.duplicate.getName()
                         )
                     ),
             },

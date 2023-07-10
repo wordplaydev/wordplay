@@ -1,5 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
-import { UnknownTypeName } from '@conflicts/InvalidTypeName';
+import { UnknownTypeName } from '@conflicts/UnknownTypeName';
 import Token from './Token';
 import Type from './Type';
 import TypeVariable from './TypeVariable';
@@ -9,7 +9,7 @@ import StructureDefinition from './StructureDefinition';
 import VariableType from './VariableType';
 import NameToken from './NameToken';
 import TypeInputs from './TypeInputs';
-import InvalidTypeInput from '@conflicts/InvalidTypeInput';
+import UnexpectedTypeInput from '@conflicts/UnexpectedTypeInput';
 import type TypeSet from './TypeSet';
 import type { NativeTypeName } from '../native/NativeConstants';
 import UnknownNameType from './UnknownNameType';
@@ -94,7 +94,7 @@ export default class NameType extends Type {
                 for (let index = 0; index < this.types.types.length; index++) {
                     if (index >= (expected?.variables.length ?? 0)) {
                         conflicts.push(
-                            new InvalidTypeInput(
+                            new UnexpectedTypeInput(
                                 this,
                                 this.types.types[index],
                                 def

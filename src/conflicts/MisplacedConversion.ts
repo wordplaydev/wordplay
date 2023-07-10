@@ -17,7 +17,11 @@ export class MisplacedConversion extends Conflict {
             primary: {
                 node: this.conversion,
                 explanation: (locale: Locale) =>
-                    concretize(locale, locale.conflict.MisplacedConversion),
+                    concretize(
+                        locale,
+                        locale.node.ConversionDefinition.conflict
+                            .MisplacedConversion
+                    ),
             },
         };
     }

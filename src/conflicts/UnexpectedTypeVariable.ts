@@ -16,7 +16,10 @@ export class UnexpectedTypeVariable extends Conflict {
             primary: {
                 node: this.name,
                 explanation: (locale: Locale) =>
-                    concretize(locale, locale.conflict.UnexpectedTypeVariable),
+                    concretize(
+                        locale,
+                        locale.node.Reference.conflict.UnexpectedTypeVariable
+                    ),
             },
         };
     }
