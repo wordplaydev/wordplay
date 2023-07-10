@@ -1,7 +1,7 @@
 import type Context from '@nodes/Context';
 import type SetOrMapAccess from '@nodes/SetOrMapAccess';
 import type Type from '@nodes/Type';
-import NodeLink from '@locale/NodeRef';
+import NodeRef from '@locale/NodeRef';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 import concretize from '../locale/concretize';
@@ -27,7 +27,7 @@ export class IncompatibleKey extends Conflict {
                         locale,
                         locale.node.SetOrMapAccess.conflict.IncompatibleKey
                             .primary,
-                        new NodeLink(this.expected, locale, context)
+                        new NodeRef(this.expected, locale, context)
                     ),
             },
             secondary: {
@@ -37,7 +37,7 @@ export class IncompatibleKey extends Conflict {
                         locale,
                         locale.node.SetOrMapAccess.conflict.IncompatibleKey
                             .secondary,
-                        new NodeLink(this.received, locale, context)
+                        new NodeRef(this.received, locale, context)
                     ),
             },
         };

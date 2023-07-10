@@ -566,7 +566,11 @@ type NodeTexts = {
      * $2: Map type or undefined
      */
     MapType: DescriptiveNodeText;
-    MeasurementType: NodeText;
+    /**
+     * Description
+     * $1: The unit or undefined
+     */
+    MeasurementType: DescriptiveNodeText;
     /**
      * Description
      * $1: Type name

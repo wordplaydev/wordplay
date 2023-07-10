@@ -12,7 +12,7 @@ import PlaceholderToken from './PlaceholderToken';
 import TokenType from './TokenType';
 import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
-import NodeLink from '@locale/NodeRef';
+import NodeRef from '@locale/NodeRef';
 import Literal from './Literal';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
@@ -118,7 +118,7 @@ export default class MeasurementLiteral extends Literal {
         return concretize(
             locale,
             locale.node.MeasurementLiteral.start,
-            new NodeLink(this.number, locale, context)
+            new NodeRef(this.number, locale, context)
         );
     }
 

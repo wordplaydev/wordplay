@@ -22,7 +22,7 @@ import type Evaluator from '@runtime/Evaluator';
 import UnknownNameType from './UnknownNameType';
 import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
-import NodeLink from '@locale/NodeRef';
+import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import { NotAType } from './NotAType';
@@ -207,7 +207,7 @@ export default class Select extends Expression {
         return concretize(
             locale,
             locale.node.Select.start,
-            new NodeLink(this.table, locale, context)
+            new NodeRef(this.table, locale, context)
         );
     }
 

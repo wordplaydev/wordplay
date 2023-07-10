@@ -2,7 +2,7 @@ import type Locale from '@locale/Locale';
 import type Evaluator from './Evaluator';
 import Exception from './Exception';
 import type Expression from '@nodes/Expression';
-import NodeLink from '@locale/NodeRef';
+import NodeRef from '@locale/NodeRef';
 import concretize from '../locale/concretize';
 
 export default class UnimplementedException extends Exception {
@@ -16,7 +16,7 @@ export default class UnimplementedException extends Exception {
         return concretize(
             locale,
             locale.node.ExpressionPlaceholder.exception.UnimplementedException,
-            new NodeLink(
+            new NodeRef(
                 this.placeholder,
                 locale,
                 this.getNodeContext(this.placeholder)

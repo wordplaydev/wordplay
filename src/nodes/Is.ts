@@ -18,7 +18,7 @@ import TypeSet from './TypeSet';
 import Start from '@runtime/Start';
 import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
-import NodeLink from '@locale/NodeRef';
+import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
 import TokenType from './TokenType';
 import { TYPE_SYMBOL } from '../parser/Symbols';
@@ -160,7 +160,7 @@ export default class Is extends Expression {
         return concretize(
             locale,
             locale.node.Is.start,
-            new NodeLink(this.expression, locale, context)
+            new NodeRef(this.expression, locale, context)
         );
     }
 
@@ -174,7 +174,7 @@ export default class Is extends Expression {
             locale,
             locale.node.Is.finish,
             result instanceof Bool && result.bool,
-            new NodeLink(this.type, locale, context)
+            new NodeRef(this.type, locale, context)
         );
     }
 
@@ -183,6 +183,6 @@ export default class Is extends Expression {
     }
 
     getDescriptionInputs(locale: Locale, context: Context) {
-        return [new NodeLink(this.type, locale, context)];
+        return [new NodeRef(this.type, locale, context)];
     }
 }

@@ -2,7 +2,7 @@ import type Bind from '@nodes/Bind';
 import type Context from '@nodes/Context';
 import type Row from '@nodes/Row';
 import type TableType from '@nodes/TableType';
-import NodeLink from '@locale/NodeRef';
+import NodeRef from '@locale/NodeRef';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 import concretize from '../locale/concretize';
@@ -28,7 +28,7 @@ export default class MissingCell extends Conflict {
                     concretize(
                         locale,
                         locale.node.Row.conflict.MissingCell.primary,
-                        new NodeLink(
+                        new NodeRef(
                             this.column,
                             locale,
                             context,
@@ -42,7 +42,7 @@ export default class MissingCell extends Conflict {
                     concretize(
                         locale,
                         locale.node.Row.conflict.MissingCell.secondary,
-                        new NodeLink(this.row, locale, context)
+                        new NodeRef(this.row, locale, context)
                     ),
             },
         };

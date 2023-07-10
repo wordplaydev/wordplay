@@ -1,7 +1,7 @@
 import type Context from '@nodes/Context';
 import type Token from '@nodes/Token';
 import type Type from '@nodes/Type';
-import NodeLink from '@locale/NodeRef';
+import NodeRef from '@locale/NodeRef';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 import concretize from '../locale/concretize';
@@ -24,14 +24,14 @@ export class UnknownName extends Conflict {
                     concretize(
                         locale,
                         locale.node.Reference.conflict.UnknownName,
-                        new NodeLink(
+                        new NodeRef(
                             this.name,
                             locale,
                             context,
                             this.name.getText()
                         ),
                         this.type
-                            ? new NodeLink(this.type, locale, context)
+                            ? new NodeRef(this.type, locale, context)
                             : undefined
                     ),
             },

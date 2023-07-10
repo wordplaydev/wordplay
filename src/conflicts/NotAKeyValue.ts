@@ -1,7 +1,7 @@
 import type Context from '@nodes/Context';
 import type Expression from '@nodes/Expression';
 import type MapLiteral from '@nodes/MapLiteral';
-import NodeLink from '@locale/NodeRef';
+import NodeRef from '@locale/NodeRef';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 import concretize from '../locale/concretize';
@@ -32,7 +32,7 @@ export class NotAKeyValue extends Conflict {
                     concretize(
                         locale,
                         locale.node.MapLiteral.conflict.NotAKeyValue.secondary,
-                        new NodeLink(this.expression, locale, context)
+                        new NodeRef(this.expression, locale, context)
                     ),
             },
         };

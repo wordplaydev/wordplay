@@ -3,7 +3,7 @@ import type Evaluator from './Evaluator';
 import type Locale from '@locale/Locale';
 import type Token from '@nodes/Token';
 import Value from './Value';
-import NodeLink from '@locale/NodeRef';
+import NodeRef from '@locale/NodeRef';
 import ValueLink from '@locale/ValueRef';
 import concretize from '../locale/concretize';
 import type Expression from '../nodes/Expression';
@@ -29,7 +29,7 @@ export default class NameException extends Exception {
             locale,
             locale.node.Reference.exception.NameException,
             this.name
-                ? new NodeLink(
+                ? new NodeRef(
                       this.name,
                       locale,
                       this.getNodeContext(this.name),

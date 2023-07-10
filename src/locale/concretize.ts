@@ -1,6 +1,6 @@
 import Description from './Description';
 import type Locale from './Locale';
-import type NodeLink from './NodeRef';
+import type NodeRef from './NodeRef';
 import type ValueLink from './ValueRef';
 
 export type TemplateInput =
@@ -8,7 +8,7 @@ export type TemplateInput =
     | boolean
     | string
     | undefined
-    | NodeLink
+    | NodeRef
     | ValueLink
     | Description;
 

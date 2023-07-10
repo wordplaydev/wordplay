@@ -28,7 +28,7 @@ import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import AtomicExpression from './AtomicExpression';
 import UnimplementedException from '@runtime/UnimplementedException';
-import NodeLink from '@locale/NodeRef';
+import NodeRef from '@locale/NodeRef';
 import StreamDefinition from './StreamDefinition';
 import StreamDefinitionValue from '../runtime/StreamDefinitionValue';
 import Glyphs from '../lore/Glyphs';
@@ -261,7 +261,7 @@ export default class Borrow extends AtomicExpression {
             locale,
             locale.node.Borrow.start,
             this.source
-                ? new NodeLink(
+                ? new NodeRef(
                       this.source,
                       locale,
                       context,
@@ -269,7 +269,7 @@ export default class Borrow extends AtomicExpression {
                   )
                 : undefined,
             this.name
-                ? new NodeLink(this.name, locale, context, this.name.getText())
+                ? new NodeRef(this.name, locale, context, this.name.getText())
                 : undefined
         );
     }

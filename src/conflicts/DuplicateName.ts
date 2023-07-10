@@ -1,7 +1,7 @@
 import Conflict from './Conflict';
 import type Name from '@nodes/Name';
 import type Locale from '@locale/Locale';
-import NodeLink from '@locale/NodeRef';
+import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import concretize from '../locale/concretize';
 import type Bind from '../nodes/Bind';
@@ -25,7 +25,7 @@ export default class DuplicateName extends Conflict {
                     concretize(
                         locale,
                         locale.node.Bind.conflict.DuplicateName.primary,
-                        new NodeLink(
+                        new NodeRef(
                             this.duplicate,
                             locale,
                             context,
@@ -39,7 +39,7 @@ export default class DuplicateName extends Conflict {
                     concretize(
                         locale,
                         locale.node.Bind.conflict.DuplicateName.secondary,
-                        new NodeLink(
+                        new NodeRef(
                             this.bind,
                             locale,
                             context,

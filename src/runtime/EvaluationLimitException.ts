@@ -2,7 +2,7 @@ import Exception from './Exception';
 import type Evaluator from './Evaluator';
 import type Locale from '@locale/Locale';
 import type { EvaluationNode } from './Evaluation';
-import NodeLink from '@locale/NodeRef';
+import NodeRef from '@locale/NodeRef';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import StructureDefinition from '@nodes/StructureDefinition';
 import concretize from '../locale/concretize';
@@ -32,7 +32,7 @@ export default class EvaluationLimitException extends Exception {
         return concretize(
             locale,
             locale.node.Program.exception.EvaluationLimitException,
-            new NodeLink(
+            new NodeRef(
                 mostFrequent,
                 locale,
                 this.getNodeContext(mostFrequent),

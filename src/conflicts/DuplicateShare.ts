@@ -1,6 +1,6 @@
 import type Bind from '@nodes/Bind';
 import type Context from '@nodes/Context';
-import NodeLink from '@locale/NodeRef';
+import NodeRef from '@locale/NodeRef';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 import concretize from '../locale/concretize';
@@ -22,7 +22,7 @@ export class DuplicateShare extends Conflict {
                     concretize(
                         locale,
                         locale.node.Bind.conflict.DuplicateShare.primary,
-                        new NodeLink(this.other, locale, context)
+                        new NodeRef(this.other, locale, context)
                     ),
             },
             secondary: {
@@ -31,7 +31,7 @@ export class DuplicateShare extends Conflict {
                     concretize(
                         locale,
                         locale.node.Bind.conflict.DuplicateShare.secondary,
-                        new NodeLink(this.other, locale, context)
+                        new NodeRef(this.other, locale, context)
                     ),
             },
         };

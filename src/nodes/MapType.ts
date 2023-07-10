@@ -13,7 +13,7 @@ import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
-import NodeLink from '../locale/NodeRef';
+import NodeRef from '../locale/NodeRef';
 
 export default class MapType extends NativeType {
     readonly open: Token;
@@ -127,8 +127,8 @@ export default class MapType extends NativeType {
 
     getDescriptionInputs(locale: Locale, context: Context) {
         return [
-            this.key ? new NodeLink(this.key, locale, context) : undefined,
-            this.value ? new NodeLink(this.value, locale, context) : undefined,
+            this.key ? new NodeRef(this.key, locale, context) : undefined,
+            this.value ? new NodeRef(this.value, locale, context) : undefined,
         ];
     }
 }

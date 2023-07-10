@@ -17,7 +17,7 @@ import UnimplementedException from '@runtime/UnimplementedException';
 import type Evaluator from '@runtime/Evaluator';
 import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
-import NodeLink from '@locale/NodeRef';
+import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import concretize from '../locale/concretize';
@@ -150,7 +150,7 @@ export default class Delete extends Expression {
         return concretize(
             locale,
             locale.node.Delete.start,
-            new NodeLink(this.table, locale, context)
+            new NodeRef(this.table, locale, context)
         );
     }
 

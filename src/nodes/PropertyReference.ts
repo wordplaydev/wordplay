@@ -26,7 +26,7 @@ import NameType from './NameType';
 import UnknownNameType from './UnknownNameType';
 import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
-import NodeLink from '@locale/NodeRef';
+import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
 import UnimplementedException from '../runtime/UnimplementedException';
 import Purpose from '../concepts/Purpose';
@@ -298,7 +298,7 @@ export default class PropertyReference extends Expression {
             locale,
             locale.node.PropertyReference.finish,
             this.name
-                ? new NodeLink(this.name, locale, context, this.name?.getName())
+                ? new NodeRef(this.name, locale, context, this.name?.getName())
                 : undefined,
             this.getValueIfDefined(locale, context, evaluator)
         );
@@ -310,7 +310,7 @@ export default class PropertyReference extends Expression {
 
     getDescriptionInputs(locale: Locale, context: Context) {
         return [
-            this.name ? new NodeLink(this.name, locale, context) : undefined,
+            this.name ? new NodeRef(this.name, locale, context) : undefined,
         ];
     }
 }

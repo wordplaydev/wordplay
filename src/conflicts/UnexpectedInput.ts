@@ -6,7 +6,7 @@ import type BinaryOperation from '@nodes/BinaryOperation';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
 import type Locale from '@locale/Locale';
-import NodeLink from '@locale/NodeRef';
+import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import type StreamDefinition from '../nodes/StreamDefinition';
 import concretize from '../locale/concretize';
@@ -35,7 +35,7 @@ export default class UnexpectedInputs extends Conflict {
                     concretize(
                         locale,
                         locale.node.Evaluate.conflict.UnexpectedInput.primary,
-                        new NodeLink(
+                        new NodeRef(
                             this.evaluate instanceof Evaluate
                                 ? this.evaluate.func
                                 : this.evaluate.operator,
@@ -50,7 +50,7 @@ export default class UnexpectedInputs extends Conflict {
                     concretize(
                         locale,
                         locale.node.Evaluate.conflict.UnexpectedInput.secondary,
-                        new NodeLink(this.input, locale, context)
+                        new NodeRef(this.input, locale, context)
                     ),
             },
         };

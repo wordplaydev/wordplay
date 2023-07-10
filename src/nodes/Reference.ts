@@ -25,7 +25,7 @@ import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import AtomicExpression from './AtomicExpression';
 import NameException from '@runtime/NameException';
-import NodeLink from '@locale/NodeRef';
+import NodeRef from '@locale/NodeRef';
 import Emotion from '../lore/Emotion';
 import Evaluate from './Evaluate';
 import StreamDefinitionType from './StreamDefinitionType';
@@ -257,7 +257,7 @@ export default class Reference extends AtomicExpression {
         return concretize(
             locale,
             locale.node.Reference.start,
-            new NodeLink(this.name, locale, context, this.name.getText())
+            new NodeRef(this.name, locale, context, this.name.getText())
         );
     }
 

@@ -22,7 +22,7 @@ import type { Template } from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import type Root from './Root';
 import concretize from '../locale/concretize';
-import NodeLink from '../locale/NodeRef';
+import NodeRef from '../locale/NodeRef';
 
 export default class ExpressionPlaceholder extends AtomicExpression {
     readonly placeholder: Token;
@@ -143,7 +143,7 @@ export default class ExpressionPlaceholder extends AtomicExpression {
 
     getDescriptionInput(locale: Locale, context: Context) {
         return [
-            this.type ? new NodeLink(this.type, locale, context) : undefined,
+            this.type ? new NodeRef(this.type, locale, context) : undefined,
         ];
     }
 

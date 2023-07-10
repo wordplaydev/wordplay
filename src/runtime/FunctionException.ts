@@ -5,7 +5,7 @@ import PropertyReference from '@nodes/PropertyReference';
 import Reference from '@nodes/Reference';
 import Token from '@nodes/Token';
 import UnaryOperation from '@nodes/UnaryOperation';
-import NodeLink from '@locale/NodeRef';
+import NodeRef from '@locale/NodeRef';
 import type Locale from '@locale/Locale';
 import type Evaluator from './Evaluator';
 import Exception from './Exception';
@@ -47,7 +47,7 @@ export default class FunctionException extends Exception {
             locale,
             locale.node.Evaluate.exception.FunctionException,
             // Wrap the node containing the name in a link
-            new NodeLink(
+            new NodeRef(
                 name,
                 locale,
                 this.evaluator.project.getNodeContext(this.node),
@@ -60,7 +60,7 @@ export default class FunctionException extends Exception {
             // Wrap the type, if there is one
             this.subject === undefined
                 ? undefined
-                : new NodeLink(
+                : new NodeRef(
                       this.subject.getType(
                           this.evaluator.project.getNodeContext(
                               this.subject.creator

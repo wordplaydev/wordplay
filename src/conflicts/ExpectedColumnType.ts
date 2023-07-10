@@ -1,6 +1,6 @@
 import type Bind from '@nodes/Bind';
 import type Context from '@nodes/Context';
-import NodeLink from '@locale/NodeRef';
+import NodeRef from '@locale/NodeRef';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 import concretize from '../locale/concretize';
@@ -24,7 +24,7 @@ export default class ExpectedColumnType extends Conflict {
                     concretize(
                         locale,
                         locale.node.TableType.conflict.ExpectedColumnType,
-                        new NodeLink(this.column, locale, context)
+                        new NodeRef(this.column, locale, context)
                     ),
             },
         };

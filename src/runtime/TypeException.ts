@@ -1,5 +1,5 @@
 import type Type from '@nodes/Type';
-import NodeLink from '@locale/NodeRef';
+import NodeRef from '@locale/NodeRef';
 import type Locale from '@locale/Locale';
 import ValueLink from '@locale/ValueRef';
 import type Evaluator from './Evaluator';
@@ -28,7 +28,7 @@ export default class TypeException extends Exception {
         return concretize(
             locale,
             locale.node.Is.exception.TypeException,
-            new NodeLink(
+            new NodeRef(
                 this.expected,
                 locale,
                 this.getNodeContext(this.expected)

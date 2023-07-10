@@ -22,7 +22,7 @@ import TypeException from '@runtime/TypeException';
 import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import UnimplementedException from '@runtime/UnimplementedException';
-import NodeLink from '@locale/NodeRef';
+import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import concretize from '../locale/concretize';
@@ -212,7 +212,7 @@ export default class Insert extends Expression {
         return concretize(
             locale,
             locale.node.Insert.start,
-            new NodeLink(this.table, locale, context)
+            new NodeRef(this.table, locale, context)
         );
     }
 

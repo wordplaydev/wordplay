@@ -2527,7 +2527,8 @@
               "type": "object"
             },
             "MeasurementType": {
-              "$ref": "#/definitions/NodeText"
+              "$ref": "#/definitions/DescriptiveNodeText",
+              "description": "Description $1: The unit or undefined"
             },
             "Name": {
               "$ref": "#/definitions/DescriptiveNodeText",

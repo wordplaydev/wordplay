@@ -1,5 +1,5 @@
 import type Borrow from '@nodes/Borrow';
-import NodeLink from '@locale/NodeRef';
+import NodeRef from '@locale/NodeRef';
 import type Locale from '@locale/Locale';
 import type Evaluator from './Evaluator';
 import Exception from './Exception';
@@ -18,7 +18,7 @@ export default class CycleException extends Exception {
         return concretize(
             locale,
             locale.node.Borrow.exception.CycleException,
-            new NodeLink(
+            new NodeRef(
                 this.borrow,
                 locale,
                 this.evaluator.project.getNodeContext(this.borrow),

@@ -1,7 +1,7 @@
 import Conflict from './Conflict';
 import type TypeVariable from '@nodes/TypeVariable';
 import type Locale from '@locale/Locale';
-import NodeLink from '@locale/NodeRef';
+import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import concretize from '../locale/concretize';
 
@@ -25,7 +25,7 @@ export default class DuplicateTypeVariable extends Conflict {
                         locale,
                         locale.node.TypeVariable.conflict.DuplicateTypeVariable
                             .primary,
-                        new NodeLink(
+                        new NodeRef(
                             this.duplicate,
                             locale,
                             context,
@@ -40,7 +40,7 @@ export default class DuplicateTypeVariable extends Conflict {
                         locale,
                         locale.node.TypeVariable.conflict.DuplicateTypeVariable
                             .secondary,
-                        new NodeLink(
+                        new NodeRef(
                             this.typeVar,
                             locale,
                             context,

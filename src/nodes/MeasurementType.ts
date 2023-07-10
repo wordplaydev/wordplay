@@ -15,6 +15,7 @@ import type TypeSet from './TypeSet';
 import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
+import NodeRef from '../locale/NodeRef';
 
 type UnitDeriver = (
     left: Unit,
@@ -194,5 +195,13 @@ export default class MeasurementType extends NativeType {
 
     getGlyphs() {
         return Glyphs.Measurement;
+    }
+
+    getDescriptionInputs(locale: Locale, context: Context) {
+        return [
+            this.unit instanceof Unit
+                ? new NodeRef(this.unit, locale, context)
+                : undefined,
+        ];
     }
 }

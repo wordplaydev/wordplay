@@ -2,7 +2,7 @@ import type Evaluator from './Evaluator';
 import Exception from './Exception';
 import type Locale from '@locale/Locale';
 import type Expression from '@nodes/Expression';
-import NodeLink from '@locale/NodeRef';
+import NodeRef from '@locale/NodeRef';
 import concretize from '../locale/concretize';
 
 export default class UnparsableException extends Exception {
@@ -18,7 +18,7 @@ export default class UnparsableException extends Exception {
         return concretize(
             locale,
             locale.node.UnparsableExpression.exception.UnparsableException,
-            new NodeLink(
+            new NodeRef(
                 this.unparsable,
                 locale,
                 this.getNodeContext(this.unparsable)

@@ -9,7 +9,7 @@ import type TypeSet from './TypeSet';
 import TokenType from './TokenType';
 import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
-import NodeLink from '@locale/NodeRef';
+import NodeRef from '@locale/NodeRef';
 import Literal from './Literal';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
@@ -95,7 +95,7 @@ export default class BooleanLiteral extends Literal {
         return concretize(
             locale,
             locale.node.BooleanLiteral.start,
-            new NodeLink(this.value, locale, context, this.value.getText())
+            new NodeRef(this.value, locale, context, this.value.getText())
         );
     }
 

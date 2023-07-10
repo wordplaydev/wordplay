@@ -2,7 +2,7 @@ import type Context from '@nodes/Context';
 import type Locale from './Locale';
 import type Node from '@nodes/Node';
 
-export default class NodeLink {
+export default class NodeRef {
     readonly node: Node;
     readonly locale: Locale;
     readonly context: Context;
@@ -21,7 +21,7 @@ export default class NodeLink {
     }
 
     as(description: string) {
-        return new NodeLink(this.node, this.locale, this.context, description);
+        return new NodeRef(this.node, this.locale, this.context, description);
     }
 
     getDescription(): string {

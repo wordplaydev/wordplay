@@ -13,7 +13,7 @@ import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import NoneType from './NoneType';
 import Glyphs from '../lore/Glyphs';
-import NodeLink from '../locale/NodeRef';
+import NodeRef from '../locale/NodeRef';
 
 export default class UnionType extends Type {
     readonly left: Type;
@@ -185,8 +185,8 @@ export default class UnionType extends Type {
 
     getDescriptionInputs(locale: Locale, context: Context) {
         return [
-            new NodeLink(this.left, locale, context),
-            new NodeLink(this.right, locale, context),
+            new NodeRef(this.left, locale, context),
+            new NodeRef(this.right, locale, context),
         ];
     }
 }

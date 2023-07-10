@@ -1,7 +1,7 @@
 import Conditional from '@nodes/Conditional';
 import type Context from '@nodes/Context';
 import type Type from '@nodes/Type';
-import NodeLink from '@locale/NodeRef';
+import NodeRef from '@locale/NodeRef';
 import type Locale from '@locale/Locale';
 import type Reaction from '../nodes/Reaction';
 import Conflict from './Conflict';
@@ -30,7 +30,7 @@ export default class ExpectedBooleanCondition extends Conflict {
                         locale,
                         locale.node.Conditional.conflict
                             .ExpectedBooleanCondition.primary,
-                        new NodeLink(this.type, locale, context)
+                        new NodeRef(this.type, locale, context)
                     ),
             },
             secondary: {
@@ -40,7 +40,7 @@ export default class ExpectedBooleanCondition extends Conflict {
                         locale,
                         locale.node.Conditional.conflict
                             .ExpectedBooleanCondition.secondary,
-                        new NodeLink(this.type, locale, context)
+                        new NodeRef(this.type, locale, context)
                     ),
             },
         };

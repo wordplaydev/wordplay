@@ -19,7 +19,7 @@ import UnknownNameType from './UnknownNameType';
 import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import StartEvaluation from '@runtime/StartEvaluation';
-import NodeLink from '@locale/NodeRef';
+import NodeRef from '@locale/NodeRef';
 import Emotion from '../lore/Emotion';
 import FunctionValue from '../runtime/FunctionValue';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
@@ -194,7 +194,7 @@ export default class UnaryOperation extends Expression {
         return concretize(
             locale,
             locale.node.UnaryOperation.start,
-            new NodeLink(this.operand, locale, context)
+            new NodeRef(this.operand, locale, context)
         );
     }
 

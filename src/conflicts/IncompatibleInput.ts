@@ -1,7 +1,7 @@
 import Conflict from './Conflict';
 import type Type from '@nodes/Type';
 import type Locale from '@locale/Locale';
-import NodeLink from '@locale/NodeRef';
+import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import type Node from '../nodes/Node';
 import concretize from '../locale/concretize';
@@ -26,8 +26,8 @@ export default class IncompatibleInput extends Conflict {
                     concretize(
                         locale,
                         locale.node.Evaluate.conflict.IncompatibleInput.primary,
-                        new NodeLink(this.expectedType, locale, context),
-                        new NodeLink(this.givenType, locale, context)
+                        new NodeRef(this.expectedType, locale, context),
+                        new NodeRef(this.givenType, locale, context)
                     ),
             },
             secondary: {
@@ -37,8 +37,8 @@ export default class IncompatibleInput extends Conflict {
                         locale,
                         locale.node.Evaluate.conflict.IncompatibleInput
                             .secondary,
-                        new NodeLink(this.expectedType, locale, context),
-                        new NodeLink(this.givenType, locale, context)
+                        new NodeRef(this.expectedType, locale, context),
+                        new NodeRef(this.givenType, locale, context)
                     ),
             },
         };

@@ -8,7 +8,7 @@ import type Locale from '@locale/Locale';
 import type Expression from '@nodes/Expression';
 import type Token from '@nodes/Token';
 import type Context from '@nodes/Context';
-import NodeLink from '@locale/NodeRef';
+import NodeRef from '@locale/NodeRef';
 import type StreamDefinition from '../nodes/StreamDefinition';
 import concretize from '../locale/concretize';
 
@@ -39,7 +39,7 @@ export default class MissingInput extends Conflict {
                     concretize(
                         locale,
                         locale.node.Evaluate.conflict.MissingInput.primary,
-                        new NodeLink(
+                        new NodeRef(
                             this.input,
                             locale,
                             context,
@@ -53,7 +53,7 @@ export default class MissingInput extends Conflict {
                     concretize(
                         locale,
                         locale.node.Evaluate.conflict.MissingInput.secondary,
-                        new NodeLink(this.evaluate, locale, context)
+                        new NodeRef(this.evaluate, locale, context)
                     ),
             },
         };

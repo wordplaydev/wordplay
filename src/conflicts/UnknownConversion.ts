@@ -1,7 +1,7 @@
 import type Context from '@nodes/Context';
 import type Convert from '@nodes/Convert';
 import type Type from '@nodes/Type';
-import NodeLink from '@locale/NodeRef';
+import NodeRef from '@locale/NodeRef';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 import concretize from '../locale/concretize';
@@ -24,8 +24,8 @@ export class UnknownConversion extends Conflict {
                     concretize(
                         locale,
                         locale.node.Convert.conflict.UnknownConversion,
-                        new NodeLink(this.expectedType, locale, context),
-                        new NodeLink(this.convert.type, locale, context)
+                        new NodeRef(this.expectedType, locale, context),
+                        new NodeRef(this.convert.type, locale, context)
                     ),
             },
         };

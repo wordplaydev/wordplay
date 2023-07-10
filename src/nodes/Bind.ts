@@ -37,7 +37,7 @@ import type Name from './Name';
 import DuplicateName from '@conflicts/DuplicateName';
 import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
-import NodeLink from '@locale/NodeRef';
+import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import type { EvaluatorNode } from '../runtime/Evaluation';
@@ -458,7 +458,7 @@ export default class Bind extends Expression {
             translation.node.Bind.start,
             this.value === undefined
                 ? undefined
-                : new NodeLink(this.value, translation, context)
+                : new NodeRef(this.value, translation, context)
         );
     }
 
@@ -471,7 +471,7 @@ export default class Bind extends Expression {
             translation,
             translation.node.Bind.finish,
             this.getValueIfDefined(translation, context, evaluator),
-            new NodeLink(
+            new NodeRef(
                 this.names,
                 translation,
                 context,

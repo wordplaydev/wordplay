@@ -23,7 +23,7 @@ import UnionType from './UnionType';
 import NoneType from './NoneType';
 import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
-import NodeLink from '@locale/NodeRef';
+import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import { NotAType } from './NotAType';
@@ -175,7 +175,7 @@ export default class Previous extends Expression {
         return concretize(
             locale,
             locale.node.Previous.start,
-            new NodeLink(this.stream, locale, context)
+            new NodeRef(this.stream, locale, context)
         );
     }
 

@@ -23,7 +23,7 @@ import SetCloseToken from './SetCloseToken';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
-import NodeLink from '@locale/NodeRef';
+import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
 import type { NativeTypeName } from '../native/NativeConstants';
 import Purpose from '../concepts/Purpose';
@@ -203,7 +203,7 @@ export default class SetOrMapAccess extends Expression {
         return concretize(
             locale,
             locale.node.SetOrMapAccess.start,
-            new NodeLink(this.setOrMap, locale, context)
+            new NodeRef(this.setOrMap, locale, context)
         );
     }
 

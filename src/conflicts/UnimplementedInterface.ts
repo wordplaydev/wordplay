@@ -1,7 +1,7 @@
 import type Context from '@nodes/Context';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
 import type StructureDefinition from '@nodes/StructureDefinition';
-import NodeLink from '@locale/NodeRef';
+import NodeRef from '@locale/NodeRef';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 import concretize from '../locale/concretize';
@@ -31,7 +31,7 @@ export class UnimplementedInterface extends Conflict {
                         translation,
                         translation.node.StructureDefinition.conflict
                             .UnimplementedInterface,
-                        new NodeLink(
+                        new NodeRef(
                             this.interfaceStructure,
                             translation,
                             context,
@@ -39,7 +39,7 @@ export class UnimplementedInterface extends Conflict {
                                 translation.language
                             )
                         ),
-                        new NodeLink(
+                        new NodeRef(
                             this.fun,
                             translation,
                             context,

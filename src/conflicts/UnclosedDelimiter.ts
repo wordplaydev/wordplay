@@ -2,7 +2,7 @@ import Conflict from './Conflict';
 import type Node from '@nodes/Node';
 import type Token from '@nodes/Token';
 import type Locale from '@locale/Locale';
-import NodeLink from '@locale/NodeRef';
+import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import concretize from '../locale/concretize';
 
@@ -28,13 +28,13 @@ export default class UnclosedDelimiter extends Conflict {
                         locale,
                         locale.node.UnparsableExpression.conflict
                             .UnclosedDelimiter,
-                        new NodeLink(
+                        new NodeRef(
                             this.open,
                             locale,
                             context,
                             this.open.getText()
                         ),
-                        new NodeLink(
+                        new NodeRef(
                             this.expected,
                             locale,
                             context,

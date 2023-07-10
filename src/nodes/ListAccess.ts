@@ -22,7 +22,7 @@ import MeasurementLiteral from './MeasurementLiteral';
 import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import { NotAType } from './NotAType';
-import NodeLink from '@locale/NodeRef';
+import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
 import type { NativeTypeName } from '../native/NativeConstants';
 import Purpose from '../concepts/Purpose';
@@ -199,7 +199,7 @@ export default class ListAccess extends Expression {
         return concretize(
             locale,
             locale.node.ListAccess.start,
-            new NodeLink(this.list, locale, context)
+            new NodeRef(this.list, locale, context)
         );
     }
 

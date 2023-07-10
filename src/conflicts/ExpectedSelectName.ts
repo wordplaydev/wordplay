@@ -1,6 +1,6 @@
 import type Context from '@nodes/Context';
 import type Expression from '@nodes/Expression';
-import NodeLink from '@locale/NodeRef';
+import NodeRef from '@locale/NodeRef';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 import concretize from '../locale/concretize';
@@ -25,7 +25,7 @@ export default class ExpectedSelectName extends Conflict {
                     concretize(
                         locale,
                         locale.node.Select.conflict.ExpectedSelectName,
-                        new NodeLink(this.cell, locale, context)
+                        new NodeRef(this.cell, locale, context)
                     ),
             },
         };

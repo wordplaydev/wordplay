@@ -23,7 +23,7 @@ import type Value from '@runtime/Value';
 import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import StartConversion from '@runtime/StartConversion';
-import NodeLink from '@locale/NodeRef';
+import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
 import { NotAType } from './NotAType';
 import ConversionType from './ConversionType';
@@ -113,7 +113,7 @@ export default class Convert extends Expression {
             !this.type.accepts(exprType, context) &&
             (conversionPath === undefined || conversionPath.length === 0)
         )
-            return [new UnknownConversion(this, this.type)];
+            return [new UnknownConversion(this, exprType)];
 
         return [];
     }
@@ -225,7 +225,7 @@ export default class Convert extends Expression {
         return concretize(
             locale,
             locale.node.Convert.start,
-            new NodeLink(this.expression, locale, context)
+            new NodeRef(this.expression, locale, context)
         );
     }
 

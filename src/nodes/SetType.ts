@@ -11,7 +11,7 @@ import type TypeSet from './TypeSet';
 import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
-import NodeLink from '../locale/NodeRef';
+import NodeRef from '../locale/NodeRef';
 
 export default class SetType extends NativeType {
     readonly open: Token;
@@ -91,6 +91,6 @@ export default class SetType extends NativeType {
     }
 
     getDescriptionInputs(locale: Locale, context: Context) {
-        return [this.key ? new NodeLink(this.key, locale, context) : undefined];
+        return [this.key ? new NodeRef(this.key, locale, context) : undefined];
     }
 }

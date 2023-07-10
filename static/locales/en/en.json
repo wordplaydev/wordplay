@@ -478,32 +478,34 @@
             }
         },
         "ConversionDefinition": {
-            "name": "conversion",
+            "name": "conversion definition",
             "emotion": "excited",
-            "doc": "$?define a conversion from one value type to another",
-            "start": "define this conversion",
+            "doc": [
+                "Ddue, I define conversions from one type to another! I go in @StructureDefinition, someting like this:",
+                "⧼•Cat(size•#kg) (\n  → #kg #lb size → #lb\n)\n\nCat(5kg)→lb⧽",
+                "See how I made it so ⧼Cat⧽ can be in pounds instead? Wicked!"
+            ],
+            "start": "let's remember this conversion",
             "conflict": {
-                "MisplacedConversion": "I'm not allowed here, only in a $structure."
+                "MisplacedConversion": "I can't be here, just in @StructureDefinition."
             }
         },
         "Convert": {
             "name": "convert",
             "emotion": "cheerful",
             "doc": [
-                "",
                 "Yo. I turn values from one type to another. Check it out:",
                 "⧼1 → \"\"⧽",
                 "⧼5s → #ms⧽",
                 "⧼\"hello\" → []⧽",
                 "You can even chain these together:",
                 "⧼\"hello\" → [] → {}⧽",
-                "Values have a set of @ConversionDefinition that are predefined, but if you make a @StructureDefinition for a new type of value, you can define your own.",
-                ""
+                "Values have a set of @ConversionDefinition that are predefined, but if you make a @StructureDefinition for a new type of value, you can define your own with @ConversionDefinition."
             ],
-            "start": "let's get the value to convert from $1",
-            "finish": "I converted this to $1",
+            "start": "get that value from $1!",
+            "finish": "Awesome, I made $1",
             "conflict": {
-                "UnknownConversion": "I couldn'tn find a way to make $1 into a $2"
+                "UnknownConversion": "Bummer, no way make $1 into $2"
             }
         },
         "Delete": {
@@ -1008,6 +1010,7 @@
         },
         "MeasurementType": {
             "name": "number",
+            "description": "$1 ?? [$1 | number]",
             "emotion": "precise",
             "doc": "$?"
         },

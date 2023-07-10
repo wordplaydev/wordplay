@@ -2,7 +2,7 @@ import Exception from './Exception';
 import type Evaluator from './Evaluator';
 import type Locale from '@locale/Locale';
 import type Expression from '@nodes/Expression';
-import NodeLink from '@locale/NodeRef';
+import NodeRef from '@locale/NodeRef';
 import concretize from '../locale/concretize';
 
 export default class ValueException extends Exception {
@@ -16,7 +16,7 @@ export default class ValueException extends Exception {
         return concretize(
             locale,
             locale.node.Program.exception.ValueException,
-            new NodeLink(
+            new NodeRef(
                 this.expression,
                 locale,
                 this.getNodeContext(this.expression)

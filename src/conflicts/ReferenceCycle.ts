@@ -1,6 +1,6 @@
 import type Context from '@nodes/Context';
 import type Reference from '@nodes/Reference';
-import NodeLink from '@locale/NodeRef';
+import NodeRef from '@locale/NodeRef';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 import concretize from '../locale/concretize';
@@ -22,7 +22,7 @@ export default class ReferenceCycle extends Conflict {
                     concretize(
                         locale,
                         locale.node.Reference.conflict.ReferenceCycle,
-                        new NodeLink(
+                        new NodeRef(
                             this.name,
                             locale,
                             context,

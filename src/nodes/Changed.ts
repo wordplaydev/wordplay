@@ -20,7 +20,7 @@ import Bool from '@runtime/Bool';
 import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import AtomicExpression from './AtomicExpression';
-import NodeLink from '@locale/NodeRef';
+import NodeRef from '@locale/NodeRef';
 import BooleanType from './BooleanType';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
@@ -148,7 +148,7 @@ export default class Changed extends AtomicExpression {
         return concretize(
             locale,
             locale.node.Changed.start,
-            new NodeLink(this.stream, locale, context)
+            new NodeRef(this.stream, locale, context)
         );
     }
 

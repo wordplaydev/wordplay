@@ -4,7 +4,7 @@ import type FunctionDefinition from '@nodes/FunctionDefinition';
 import type NameType from '@nodes/NameType';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import type Type from '@nodes/Type';
-import NodeLink from '@locale/NodeRef';
+import NodeRef from '@locale/NodeRef';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 import concretize from '../locale/concretize';
@@ -34,7 +34,7 @@ export default class UnexpectedTypeInput extends Conflict {
                         locale,
                         locale.node.Evaluate.conflict.UnexpectedTypeInput
                             .primary,
-                        new NodeLink(
+                        new NodeRef(
                             this.definition.names,
                             locale,
                             context,
@@ -49,7 +49,7 @@ export default class UnexpectedTypeInput extends Conflict {
                         locale,
                         locale.node.Evaluate.conflict.UnexpectedTypeInput
                             .secondary,
-                        new NodeLink(this.type, locale, context)
+                        new NodeRef(this.type, locale, context)
                     ),
             },
         };
