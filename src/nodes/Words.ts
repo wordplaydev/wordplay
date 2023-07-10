@@ -29,6 +29,14 @@ export default class Words extends Node {
         this.close = close;
     }
 
+    static make() {
+        return new Words(
+            undefined,
+            [new Token('…', TokenType.Words)],
+            undefined
+        );
+    }
+
     getGrammar(): Field[] {
         return [
             { name: 'open', types: [Token] },

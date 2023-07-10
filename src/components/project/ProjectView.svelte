@@ -1160,6 +1160,7 @@
                 <RootView
                     node={$dragged}
                     spaces={project.getSourceOf($dragged)?.spaces}
+                    localized
                 />
                 <div class="cursor">🐲</div>
             </div>

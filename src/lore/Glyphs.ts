@@ -2,7 +2,6 @@ import {
     BIND_SYMBOL,
     BORROW_SYMBOL,
     CHANGE_SYMBOL,
-    COMMA_SYMBOL,
     CONVERT_SYMBOL,
     DIFFERENCE_SYMBOL,
     DOCS_SYMBOL,
@@ -10,7 +9,6 @@ import {
     EVAL_CLOSE_SYMBOL,
     EVAL_OPEN_SYMBOL,
     EXCEPTION_SYMBOL,
-    EXPONENT_SYMBOL,
     FALSE_SYMBOL,
     FUNCTION_SYMBOL,
     INITIAL_SYMBOL,
@@ -58,7 +56,7 @@ const GlyphSet = {
         symbols: LANGUAGE_SYMBOL,
     },
     Name: {
-        symbols: COMMA_SYMBOL,
+        symbols: '@',
     },
     Reference: {
         symbols: PROPERTY_SYMBOL,
@@ -147,7 +145,7 @@ const GlyphSet = {
         symbols: TABLE_OPEN_SYMBOL + TABLE_CLOSE_SYMBOL,
     },
     Dimension: {
-        symbols: EXPONENT_SYMBOL,
+        symbols: MEASUREMENT_SYMBOL,
     },
     Placeholder: {
         symbols: PLACEHOLDER_SYMBOL,

@@ -5,11 +5,10 @@ import NameToken from './NameToken';
 import LanguageToken from './LanguageToken';
 import type Conflict from '@conflicts/Conflict';
 import { Languages } from '@locale/LanguageCode';
-import InvalidLanguage from '@conflicts/InvalidLanguage';
+import UnknownLanguage from '@conflicts/UnknownLanguage';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
-import type Context from './Context';
 
 export default class Language extends Node {
     readonly slash: Token;
@@ -54,7 +53,7 @@ export default class Language extends Node {
                 conflicts.push(new MissingLanguage(this, this.slash));
         } else {
             if (!(this.lang.getText() in Languages))
-                conflicts.push(new InvalidLanguage(this, this.lang));
+                conflicts.push(new UnknownLanguage(this, this.lang));
         }
 
         return conflicts;
@@ -79,7 +78,7 @@ export default class Language extends Node {
         return translation.node.Language;
     }
 
-    getDescriptionInputs(locale: Locale, _: Context) {
+    getDescriptionInputs() {
         return [
             this.lang
                 ? Languages[this.lang.getText()]?.name ?? undefined

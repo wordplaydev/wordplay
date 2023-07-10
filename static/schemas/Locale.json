@@ -2328,15 +2328,15 @@
                 "conflict": {
                   "additionalProperties": false,
                   "properties": {
-                    "InvalidLanguage": {
+                    "MissingLanguage": {
                       "$ref": "#/definitions/InternalConflictText"
                     },
-                    "MissingLanguage": {
+                    "UnknownLanguage": {
                       "$ref": "#/definitions/InternalConflictText"
                     }
                   },
                   "required": [
-                    "InvalidLanguage",
+                    "UnknownLanguage",
                     "MissingLanguage"
                   ],
                   "type": "object"

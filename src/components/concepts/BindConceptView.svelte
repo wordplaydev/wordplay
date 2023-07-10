@@ -15,6 +15,7 @@
     {#if concept.bind.value !== undefined}: <RootView
             node={concept.bind.value}
             inline
+            localized
         />{/if}
     <MissingLocalesView />
     {#each $creator.getLocales() as trans}

@@ -137,7 +137,7 @@
             "emotion": "neutral",
             "doc": "$?",
             "conflict": {
-                "InvalidLanguage": "$?",
+                "UnknownLanguage": "$?",
                 "MissingLanguage": "$?"
             }
         },

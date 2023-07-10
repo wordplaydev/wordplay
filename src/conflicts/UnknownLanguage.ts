@@ -4,7 +4,7 @@ import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 import concretize from '../locale/concretize';
 
-export default class InvalidLanguage extends Conflict {
+export default class UnknownLanguage extends Conflict {
     readonly language: Language;
     readonly code: Token;
 
@@ -17,11 +17,11 @@ export default class InvalidLanguage extends Conflict {
     getConflictingNodes() {
         return {
             primary: {
-                node: this.code,
+                node: this.language,
                 explanation: (locale: Locale) =>
                     concretize(
                         locale,
-                        locale.node.Language.conflict.InvalidLanguage
+                        locale.node.Language.conflict.UnknownLanguage
                     ),
             },
         };

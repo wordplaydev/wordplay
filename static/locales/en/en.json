@@ -115,50 +115,73 @@
             "description": "dimension",
             "emotion": "serious",
             "doc": [
-                "I am a /unit of measurement/, like ⧼1m⧽, ⧼10s⧽, ⧼100g⧽, or any other scientific unit. I'm happy to be any unit want to make up too, like ⧼17apple⧽.",
-                "I can be combined with other symbols to make compound units like ⧼9.8m/s^2⧽ or ⧼17apple/day⧽.",
-                "I must always follow a number. If I don't, I might be mistaken for a $name, which would be quite embarassing, because I name units, not values."
+                "I am a /unit of measurement/!",
+                "I can be any standardized units, like ⧼1m⧽, ⧼10s⧽, ⧼100g⧽, or any other scientific unit. I'm happy to be any unit want to make up too, like ⧼17apple⧽.",
+                "I can be combined with ⧼/⧽ to make ratio units like ⧼17apple/day⧽ and with ⧼^⧽ to make exponentional units like ⧼9.8m/s^2⧽",
+                "I must always come after a @Measurement. If I don't, I might be mistaken for @Reference, which would be quite embarassing!",
+                "I'm pretty good at finding inconsistencies between units too. For example, ⧼1cat + 1dog⧽ doesn't make any sense!",
+                "If you ever want to convert between different values of units, go talk to @Convert."
             ]
         },
         "Doc": {
             "name": "documentation",
             "emotion": "serious",
             "doc": [
-                "$?",
-                "Describes the purpose of some code.",
-                "It can precede any expression, but is most useful before definitions to explain how to use them. ",
-                "Documentation can be tagged with a language"
+                "I describe the purpose of code.",
+                "I can go before any expression:",
+                "⧼1 - `Is this really supposed to be 7?`7⧽",
+                "For example, you can place me before @Bind:",
+                "⧼`I measure how tall someone is`\nheight: 5m⧽",
+                "Or before a @FunctionDefinition:",
+                "⧼`I add two numbers`\nƒ sum(a•# b•#) a + b⧽",
+                "Or before a @StructureDefinition:",
+                "⧼`I remember people's name and favorite fruit`\n•Person(name•'' fruit•'')⧽",
+                "You can also place me at the very beginning of @Program to say what the whole performance is about",
+                "⧼`This program says hello`\n\n'hello!'⧽",
+                "You can give me a @Language to help others know what language I'm written in:",
+                "⧼`I'm an English doc`/en\nduration: 5s⧽",
+                "Did you know you can make a list of me? Go talk to @Docs."
             ]
         },
         "Docs": {
             "name": "documentation list",
             "emotion": "serious",
-            "doc": "$?a list of documentation"
+            "doc": [
+                "I'm a list of @Doc, useful when you have multiple translations of @Doc in different languages.",
+                "You don't have to do anything special to make a list. Just put a bunch of @Doc next to each other, like this:",
+                "⧼`Hello`/en\n`Hola`/es\ngreeting: '…'⧽"
+            ]
         },
         "KeyValue": {
             "name": "key/value pair",
             "emotion": "kind",
-            "doc": "$?represents a single mapping in a map between a key and a value."
+            "doc": [
+                "I'm a mapping from a *key* to a *value*, always in a @Map.",
+                "You can map any kind of value to any other. For example, here's a mappning of numbers:",
+                "⧼{1:1}⧽",
+                "Or a mapping from text to numbers:",
+                "⧼{'bunny':1}⧽"
+            ]
         },
         "Language": {
-            "name": "language tag",
+            "name": "language",
             "description": "language $1 ?? [$1|unknown]",
             "emotion": "eager",
             "doc": [
-                "$?Why hello! ",
-                "Have you ever wanted to make it *crystal clear* what lanugage something is? ",
+                "I'm a language tag and I work with @Name and @Doc!",
+                "I'm really good at making it *crystal clear* what lanugage something is written in.",
                 "That's what I do. Just a little slash, and a couple letters, and no one will ever be confused about what language some text is in.",
                 "For example, let's say you wanted to say my $name, but make it clear I'm in English:",
                 "⧼\"Language\"/en⧽",
                 "Or, suppose you wanted to do this for a @Name.",
-                "⧼sound/en: \"meow\"⧽",
+                "⧼sound/en: 'meow'⧽",
                 "Or even @Doc!",
-                "There are lots of different two letter language codes.",
-                ""
+                "⧼`Onomatopoeia`/en\nsound/en: \"meow\"⧽",
+                "There are many <2-letter language codes@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> that I understand. If you don't use one of those, I'll let you know."
             ],
             "conflict": {
-                "InvalidLanguage": "I don't know this language",
-                "MissingLanguage": "Don't forget to give me a language!"
+                "UnknownLanguage": "I don't know this language",
+                "MissingLanguage": "I'm missing a language. Can you add one?"
             }
         },
         "Name": {
@@ -1244,7 +1267,7 @@
             "function": {
                 "add": {
                     "doc": [
-                        "I take two @MeasurementType with the same @Unit and add them together, creating a new @MeasurementType of the same @Unit.",
+                        "I take two @Measurement with the same @Unit and add them together, creating a new @MeasurementType of the same @Unit.",
                         "For example:",
                         "⧼1 + 1⧽",
                         "⧼3cat + 5cat⧽",

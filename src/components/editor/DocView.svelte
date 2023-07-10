@@ -8,11 +8,11 @@
     export let node: Doc;
 </script>
 
-<span class="doc">
-    <NodeView node={node.open} /><NodeSequenceView
+<span class="doc"
+    ><NodeView node={node.open} /><NodeSequenceView
         nodes={node.paragraphs}
-    /><NodeView node={node.close} /><NodeView node={node.lang} />
-</span>
+    /><NodeView node={node.close} /><NodeView node={node.lang} /></span
+>
 
 <style>
     .doc {

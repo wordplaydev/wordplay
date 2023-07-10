@@ -74,7 +74,7 @@
                     tip={$creator.getLocale().ui.tooltip.editContent}
                     action={() => editContent(index)}>✎</Button
                 >
-                <RootView node={content} />
+                <RootView node={content} localized />
             </div>
         {/each}
         <div class="add">

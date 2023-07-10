@@ -41,7 +41,7 @@ type NodeTexts = {
     KeyValue: NodeText;
     Language: DescriptiveNodeText &
         Conflicts<{
-            InvalidLanguage: InternalConflictText;
+            UnknownLanguage: InternalConflictText;
             MissingLanguage: InternalConflictText;
         }>;
     /**

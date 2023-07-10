@@ -67,6 +67,8 @@ import WebLink from '../nodes/WebLink';
 import UnparsableExpression from '../nodes/UnparsableExpression';
 import Unit from '../nodes/Unit';
 import type { Native } from '../native/Native';
+import Docs from '../nodes/Docs';
+import Name from '../nodes/Name';
 
 /** These are ordered by appearance in the docs. */
 const template: Node[] = [
@@ -115,12 +117,14 @@ const template: Node[] = [
     Changed.make(ExpressionPlaceholder.make(StreamType.make())),
 
     // Bindings
+    Name.make('@'),
     Bind.make(
         undefined,
         Names.make([PLACEHOLDER_SYMBOL]),
         undefined,
         ExpressionPlaceholder.make()
     ),
+    Reference.make('_'),
     PropertyReference.make(
         ExpressionPlaceholder.make(),
         Reference.make(PLACEHOLDER_SYMBOL)
@@ -198,14 +202,10 @@ const template: Node[] = [
     ConversionType.make(TypePlaceholder.make(), TypePlaceholder.make()),
 
     // Documentation
-    Doc.make([
-        new Paragraph([
-            new Words(
-                undefined,
-                [new Token('TBD', TokenType.Words)],
-                undefined
-            ),
-        ]),
+    Doc.make([new Paragraph([Words.make()])]),
+    new Docs([
+        Doc.make([new Paragraph([Words.make()])]),
+        Doc.make([new Paragraph([Words.make()])]),
     ]),
     ConceptLink.make(PLACEHOLDER_SYMBOL),
     WebLink.make('wordplay', 'http://wordplay.dev'),

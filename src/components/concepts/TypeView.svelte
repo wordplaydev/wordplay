@@ -33,7 +33,8 @@
             on:keydown={(event) =>
                 concept && (event.key === 'Enter' || event.key === ' ')
                     ? navigate(concept)
-                    : undefined}><RootView node={type} inert inline /></span
+                    : undefined}
+            ><RootView node={type} inert inline localized /></span
         >{/each}
 </span>
 

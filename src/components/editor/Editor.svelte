@@ -1236,7 +1236,7 @@
         />
     {/each}
     <!-- Render the program -->
-    <RootView node={program} spaces={source.spaces} />
+    <RootView node={program} spaces={source.spaces} localized />
     <!-- Render highlights above the code -->
     {#each outlines as outline}
         <Highlight {...outline} types={outline.types} above={true} />

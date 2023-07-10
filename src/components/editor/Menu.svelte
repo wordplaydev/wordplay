@@ -75,6 +75,7 @@
                                 newParent.statements.length > 1
                                     ? newNode
                                     : newParent}
+                                localized
                             />
                         {:else}
                             <em>Remove</em>
