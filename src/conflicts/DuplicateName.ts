@@ -7,20 +7,20 @@ import concretize from '../locale/concretize';
 import type Bind from '../nodes/Bind';
 
 export default class DuplicateName extends Conflict {
-    readonly name: Bind;
+    readonly bind: Bind;
     readonly duplicate: Name;
 
     constructor(name: Bind, duplicate: Name) {
         super(true);
 
-        this.name = name;
+        this.bind = name;
         this.duplicate = duplicate;
     }
 
     getConflictingNodes() {
         return {
             primary: {
-                node: this.duplicate,
+                node: this.bind,
                 explanation: (locale: Locale, context: Context) =>
                     concretize(
                         locale,
@@ -34,13 +34,13 @@ export default class DuplicateName extends Conflict {
                     ),
             },
             secondary: {
-                node: this.name,
+                node: this.duplicate,
                 explanation: (locale: Locale, context: Context) =>
                     concretize(
                         locale,
                         locale.node.Bind.conflict.DuplicateName.secondary,
                         new NodeLink(
-                            this.name,
+                            this.bind,
                             locale,
                             context,
                             this.duplicate.getName()
