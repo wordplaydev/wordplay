@@ -44,7 +44,10 @@ export default class NodeConcept extends Concept {
     }
 
     getDocs(translation: Locale): [Doc, Spaces] | undefined {
-        const tokens = toTokens('`' + this.template.getDoc(translation) + '`');
+        const doc = this.template.getDoc(translation);
+        const tokens = toTokens(
+            '`' + (typeof doc === 'string' ? doc : doc.join('\n\n')) + '`'
+        );
         return [parseDoc(tokens), tokens.getSpaces()];
     }
 
