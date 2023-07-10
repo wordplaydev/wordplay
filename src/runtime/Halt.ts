@@ -23,6 +23,6 @@ export default class Halt extends Step {
     }
 
     getExplanations(locale: Locale) {
-        return concretize(locale, locale.evaluate.halt);
+        return concretize(locale, locale.node.Program.halt);
     }
 }

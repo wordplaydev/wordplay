@@ -454,6 +454,7 @@
             "emotion": "curious",
             "doc": "$?true if a stream caused a $program to re-evaluate",
             "start": "check if $1 caused this $program to reevaluate",
+            "keep": "keeping the stream instead of getting its latest value",
             "stream": "stream"
         },
         "Conditional": {
@@ -476,6 +477,8 @@
                 ""
             ],
             "start": "let's see if $1 is true",
+            "else": "$1 ?? [jumping over code | not jumping over code]",
+            "afterthen": "jumping past code",
             "finish": "it's $1 value!",
             "condition": "condition",
             "yes": "yes",
@@ -553,6 +556,7 @@
                 ""
             ],
             "start": "let's evaluate the inputs first",
+            "evaluate": "let's evaluate the function now",
             "finish": "the function evaluated to $1",
             "function": "function",
             "input": "input",
@@ -623,6 +627,9 @@
             "emotion": "kind",
             "doc": "$?",
             "start": "evaluating the function given",
+            "initialize": "preparing to process items",
+            "next": "apply the function to the next item",
+            "check": "check the result",
             "finish": "evaluated to $1"
         },
         "Initial": {
@@ -769,8 +776,11 @@
                 "If you don't give me a value to show on stage, I'll probably ask you for one.",
                 ""
             ],
+            "unevaluated": "the selected node did not evaluate",
             "start": "$1 ?? [ stream changed, reevaluating | evaluating for the first time ]",
+            "halt": "encountered exception, stopping",
             "finish": "I evaluated to $1",
+            "done": "done evaluating",
             "exception": {
                 "BlankException": "I'm so excited to put on a show with you! Where should we start?",
                 "EvaluationLimitException": "I evaluated too many functions, especially $1",
@@ -1662,18 +1672,6 @@
             },
             "conversion": { "text": "$?", "set": "$?", "list": "$?" }
         }
-    },
-    "evaluate": {
-        "unevaluated": "the selected node did not evaluate",
-        "done": "done evaluating",
-        "stream": "keeping the stream instead of getting its latest value",
-        "jump": "jumping past code",
-        "jumpif": "$1 ?? [jumping over code | not jumping over code]",
-        "halt": "encountered exception, stopping",
-        "initialize": "preparing to process items",
-        "evaluate": "starting evaluation",
-        "next": "apply the function to the next item",
-        "check": "check the result"
     },
     "input": {
         "Random": {

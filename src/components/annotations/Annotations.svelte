@@ -63,13 +63,13 @@
                                   .getLocales()
                                   .map((locale) =>
                                       Description.as(
-                                          locale.evaluate.unevaluated
+                                          locale.node.Program.unevaluated
                                       )
                                   )
                             : $creator
                                   .getLocales()
                                   .map((locale) =>
-                                      Description.as(locale.evaluate.done)
+                                      Description.as(locale.node.Program.done)
                                   ),
                         kind: 'step',
                         position: getPosition(view),

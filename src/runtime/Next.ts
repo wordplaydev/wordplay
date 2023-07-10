@@ -21,6 +21,6 @@ export default class Next extends Step {
     }
 
     getExplanations(locale: Locale) {
-        return Description.as(locale.evaluate.next);
+        return Description.as(locale.node.HOF.next);
     }
 }

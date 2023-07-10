@@ -145,6 +145,8 @@ type NodeTexts = {
      */
     Changed: NodeText &
         AtomicExpressionText & {
+            /** What to say after evaluating the stream, to keep the stream instead of the value. */
+            keep: Template;
             stream: Template;
         };
     /**
@@ -155,6 +157,10 @@ type NodeTexts = {
      */
     Conditional: NodeText &
         ExpressionText & {
+            /** $1: true if jumping to the "else" expression */
+            afterthen: Template;
+            /** jump after the "then" expression */
+            else: Template;
             condition: Template;
             yes: Template;
             no: Template;
@@ -198,6 +204,8 @@ type NodeTexts = {
      */
     Evaluate: NodeText &
         ExpressionText & {
+            /** What to say after inputs are done evaluating, right before starting evaluation the function */
+            evaluate: Template;
             function: Template;
             input: Template;
         } & Conflicts<{
@@ -255,7 +263,12 @@ type NodeTexts = {
      * Finish
      * $1: resulting value
      */
-    HOF: NodeText & ExpressionText;
+    HOF: NodeText &
+        ExpressionText & {
+            initialize: Template;
+            next: Template;
+            check: Template;
+        };
     /**
      * Start
      * $1: table expression
@@ -336,8 +349,11 @@ type NodeTexts = {
      * $1: resulting value
      */
     Program: NodeText &
-        ExpressionText &
-        Exceptions<{
+        ExpressionText & {
+            halt: Template;
+            done: Template;
+            unevaluated: Template;
+        } & Exceptions<{
             /** No inputs */ BlankException: Template;
             /** $1: The function that was evaluated too many times */
             EvaluationLimitException: Template;

@@ -18,6 +18,6 @@ export default class StartEvaluation extends Step {
     }
 
     getExplanations(locale: Locale) {
-        return concretize(locale, locale.evaluate.evaluate);
+        return concretize(locale, locale.node.Evaluate.evaluate);
     }
 }

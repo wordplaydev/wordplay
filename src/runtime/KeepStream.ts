@@ -14,6 +14,6 @@ export default class KeepStream extends Step {
     }
 
     getExplanations(locale: Locale) {
-        return concretize(locale, locale.evaluate.stream);
+        return concretize(locale, locale.node.Changed.keep);
     }
 }

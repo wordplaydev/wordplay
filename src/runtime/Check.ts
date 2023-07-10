@@ -21,6 +21,6 @@ export default class Check extends Step {
     }
 
     getExplanations(locale: Locale) {
-        return concretize(locale, locale.evaluate.check);
+        return concretize(locale, locale.node.HOF.check);
     }
 }

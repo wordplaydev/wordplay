@@ -297,6 +297,7 @@
             "emotion": "neutral",
             "doc": "$?",
             "start": "$?",
+            "keep": "$?",
             "stream": "$?"
         },
         "Conditional": {
@@ -316,6 +317,8 @@
                 "Es mi pequeña forma de mantener las cosas organizadas, incluso ante tanta complejidad."
             ],
             "start": "$?",
+            "afterthen": "$?",
+            "else": "$?",
             "finish": "$?",
             "condition": "$?",
             "yes": "$?",
@@ -369,6 +372,7 @@
             "emotion": "neutral",
             "doc": "$?",
             "start": "$?",
+            "evaluate": "$?",
             "finish": "$?",
             "function": "$?",
             "input": "$?",
@@ -416,6 +420,9 @@
             "emotion": "neutral",
             "doc": "$?",
             "start": "$?",
+            "initialize": "$?",
+            "next": "$?",
+            "check": "$?",
             "finish": "$?"
         },
         "Initial": {
@@ -511,8 +518,11 @@
             "description": "",
             "emotion": "neutral",
             "doc": "$?",
+            "unevaluated": "el nodo seleccionado no evaluó",
             "start": "$?",
+            "halt": "$?",
             "finish": "$?",
+            "done": "terminado de evaluar",
             "exception": {
                 "BlankException": "¡Estoy tan emocionada de montar un espectáculo contigo! ¿Por dónde deberíamos empezar?",
                 "EvaluationLimitException": "$?",
@@ -1502,18 +1512,6 @@
             "popup": { "doc": "$?", "names": ["surgir"] },
             "shake": { "doc": "$?", "names": ["agitar"] }
         }
-    },
-    "evaluate": {
-        "unevaluated": "el nodo seleccionado no evaluó",
-        "done": "terminado de evaluar",
-        "stream": "$?",
-        "jump": "$?",
-        "jumpif": "$?",
-        "halt": "$?",
-        "initialize": "$?",
-        "evaluate": "$?",
-        "next": "$?",
-        "check": "$?"
     },
     "ui": {
         "phrases": {

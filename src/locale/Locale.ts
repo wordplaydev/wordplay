@@ -5,7 +5,6 @@ import type NodeTexts from './NodeTexts';
 import type OutputTexts from './OutputTexts';
 import type UITexts from './UITexts';
 import type InputTexts from './InputTexts';
-import type EvaluationTexts from './EvaluationTexts';
 import type TermTexts from './TermTexts';
 
 /**
@@ -26,7 +25,6 @@ export type Locale = {
     native: NativeTexts;
     input: InputTexts;
     output: OutputTexts;
-    evaluate: EvaluationTexts;
     ui: UITexts;
 };
 
