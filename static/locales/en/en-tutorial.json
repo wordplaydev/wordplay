@@ -739,8 +739,8 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "Every value has a *type*. For example, ⧼1⧽ is a number type; that's our friend @MeasurementType. And ⧼'hello'⧽ is a text type; that's our friend @TextType. Types are important because they help us keep track of what kind of value we're creating.",
-                            "That helps us find problems. For example, it doesn't make any sense to add ⧼'hello' + 1⧽, because what would that even mean, to add @TextType to @MeasurementType?"
+                            "Every value has a *type*. For example, ⧼1⧽ is a number type; that's our friend @Measurement. And ⧼'hello'⧽ is a text type; that's our friend @Text. Types are important because they help us keep track of what kind of value we're creating.",
+                            "That helps us find problems. For example, it doesn't make any sense to add ⧼'hello' + 1⧽, because what would that even mean, to add @Text to @Measurement?"
                         ],
                         null,
                         [
@@ -757,7 +757,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "Abstract? Hm, I guess this is all pretty abstract. It feels so… normal to me, I forget how foreign these things can be to new directors! Maybe let's go meet some expressions that make values, and this will make it more concrete? Let's start with one you've already seen: @TextType."
+                            "Abstract? Hm, I guess this is all pretty abstract. It feels so… normal to me, I forget how foreign these things can be to new directors! Maybe let's go meet some expressions that make values, and this will make it more concrete? Let's start with one you've already seen: @Text."
                         ]
                     ]
                 },
@@ -773,9 +773,9 @@
                             "fit",
                             "Phrase('\"\"' rest: Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 2 opacity: 0.5) 100%: Pose(scale: 1)} duration: 2s))"
                         ],
-                        ["FunctionDefinition", "curious", "@TextType?"],
+                        ["FunctionDefinition", "curious", "@Text?"],
                         [
-                            "TextType",
+                            "Text",
                             "happy",
                             "Welcome my dear friend, how long it has been. What have you been doing in this dramatic silence of ours?"
                         ],
@@ -783,10 +783,10 @@
                         [
                             "FunctionDefinition",
                             "happy",
-                            "Oh, @TextType, it has been a while! I've mostly been dreaming and wondering. I just saw @Evaluate after a long while. I was actually introducing them to our newbie director."
+                            "Oh, @Text, it has been a while! I've mostly been dreaming and wondering. I just saw @Evaluate after a long while. I was actually introducing them to our newbie director."
                         ],
                         [
-                            "TextType",
+                            "Text",
                             "eager",
                             "Oh, how exceptional it is to meet you! I can see that you're a creative, curious person, probably full of intriguing ideas for how we might entertain. I love entertaining. But do you know what I love even more? Words! Glorious words. The short ones, the overwhelming ones, the sticky ones, and the slippery ones. Words are my favorite toys."
                         ],
@@ -794,16 +794,16 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "In case you couldn't tell, @TextType likes words :) @TextType, do you want to explain what you do?"
+                            "In case you couldn't tell, @Text likes words :) @Text, do you want to explain what you do?"
                         ],
                         [
-                            "TextType",
+                            "Text",
                             "serious",
-                            "I do one simple thing: represent sequences of symbols, and the many things you can do with them. I think you saw me earlier when you wrote the word ⧼“hello”⧽? That was me, and my friends ⧼“h”⧽, ⧼“e”⧽, ⧼“l”⧽, and ⧼“o”⧽. That was @TextLiteral, an expression that evaluates to any @TextType you like."
+                            "I do one simple thing: represent sequences of symbols, and the many things you can do with them. I think you saw me earlier when you wrote the word ⧼“hello”⧽? That was me, and my friends ⧼“h”⧽, ⧼“e”⧽, ⧼“l”⧽, and ⧼“o”⧽. That was @TextLiteral, an expression that evaluates to any @Text you like."
                         ],
                         null,
                         [
-                            "TextType",
+                            "Text",
                             "serious",
                             "Why don't you try making a text in this blank @Program?",
                             "You can use whatever quotes you like — single ⧼''⧽, double ⧼''⧽, angle ⧼«»⧽, brackets ⧼「」⧽, in whatever language you like. The only rule is that if you start some text with an opening quote symbol, you must finish it with a closing one. Everything inside is the text value I will create!"
@@ -811,7 +811,7 @@
                         ["edit", "''"],
                         null,
                         [
-                            "TextType",
+                            "Text",
                             "serious",
                             "You might not be able to type every character you want with the device you're using to communicate with us.",
                             "If you can't, you can search for characters in the *directory* @UI/directory. That contains every character in the Verse.",
@@ -819,35 +819,35 @@
                         ],
                         null,
                         [
-                            "TextType",
+                            "Text",
                             "serious",
                             "Excellent. Of course, 'inside' can be tricky. Say you wrote this. See how there's an opening quote but not a closing one? Well, how am I supposed to know when the text ends?"
                         ],
                         ["conflict", "'hello"],
                         null,
                         [
-                            "TextType",
+                            "Text",
                             "surprised",
                             "Or, here's another case. You give me opening and closing text, but you place opening and closing text inside it. See how weird that is? I get very perplexed when you try to use the same symbols both inside and outside me. You can fix this by using different symbols for the outside, like a single quote."
                         ],
                         ["conflict", "'Hi there 'friend'"],
                         null,
                         [
-                            "TextType",
+                            "Text",
                             "curious",
                             "Did our friend @FunctionDefinition here tell you about all of the wonderful functions they defined for me? They've allowed me to do all kinds of things. One is pretty simple: it's called @Text/length and all it does is get the length of some text. For example, if we team up with @Evaluate here, and our little friend @PropertyReference, we can evaluate the length function with no inputs and get the length value back. Try changing the text and watch the length that Program shows change as it gets shorter and longer."
                         ],
                         ["edit", "'hello'.length()"],
                         null,
                         [
-                            "TextType",
+                            "Text",
                             "happy",
                             "Here is another grand one. It makes me chuckle. It's called @Text/repeat and when it's evaluated, it takes whatever text it was evaluated on and repeats it however many times you say. Try changing the number and seeing what it evaluates too."
                         ],
                         ["edit", "'hello '.repeat(5)"],
                         null,
                         [
-                            "TextType",
+                            "Text",
                             "eager",
                             "@FunctionDefinition has made so many more interesting functions for me, but I'll spare you the details. You can always find me in the *reference* @UI/docsExpand. That's where we keep all the information about everyone in the Verse, including how to work with us and what functions we have. I'm happy to share more ways to inspect and create text!"
                         ],
@@ -855,10 +855,10 @@
                         [
                             "FunctionDefinition",
                             "happy",
-                            "@TextType, you're always such a kind and patient teacher! It's always such a joy to work with you. Are you willing to help out as I introduce our friendly neo-director to other expressions?"
+                            "@Text, you're always such a kind and patient teacher! It's always such a joy to work with you. Are you willing to help out as I introduce our friendly neo-director to other expressions?"
                         ],
                         [
-                            "TextType",
+                            "Text",
                             "neutral",
                             "Yes, of course. It was splendid meeting you. I can't wait to see how you inspire us on stage!"
                         ]
@@ -900,7 +900,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "That reminds me of another of @TextType's functions! It's helpful for making one text value from multiple text values. It's called ⧼combine⧽, but also ⧼+⧽, and you can use it to add words together. See how I took a text value then evaluated ⧼combine⧽ on it with ⧼'verse'⧽? That made ⧼'hello verse'⧽."
+                            "That reminds me of another of @Text's functions! It's helpful for making one text value from multiple text values. It's called ⧼combine⧽, but also ⧼+⧽, and you can use it to add words together. See how I took a text value then evaluated ⧼combine⧽ on it with ⧼'verse'⧽? That made ⧼'hello verse'⧽."
                         ],
                         ["edit", "'hello '.combine('verse')"],
                         null,
@@ -943,7 +943,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "Anyway, shall we go find find @BooleanType? They are two very interesting values…"
+                            "Anyway, shall we go find find @Boolean? They are two very interesting values…"
                         ]
                     ]
                 },
@@ -1178,9 +1178,9 @@
                         [
                             "FunctionDefinition",
                             "eager",
-                            "We should meet @MeasurementType next. They always have such interesting things to share. Hey @MeasurementType, are you around?"
+                            "We should meet @Measurement next. They always have such interesting things to share. Hey @Measurement, are you around?"
                         ],
-                        ["MeasurementType", "kind", "Just 3 steps away!"],
+                        ["Measurement", "kind", "Just 3 steps away!"],
                         null,
                         [
                             "FunctionDefinition",
@@ -1188,7 +1188,7 @@
                             "Ack, you scared me!!"
                         ],
                         [
-                            "MeasurementType",
+                            "Measurement",
                             "kind",
                             "The 78,238nd time. It's my 4th favorite hobby!"
                         ],
@@ -1199,7 +1199,7 @@
                             "I'm glad you're having a good time. (Deep breaths). It's been some time, hasn't it?"
                         ],
                         [
-                            "MeasurementType",
+                            "Measurement",
                             "kind",
                             "Incalculably long. I was just passing the time here, counting seconds, and then minutes, and then hours, and then weeks, and then months, and then years, and then…"
                         ],
@@ -1207,62 +1207,62 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "Don't say decades. I can't have been that long. Anyway, I wanted to introduce you to someone who might be our new director. They just showed up and bumped into me, and it turns out they're a person and interested in putting on shows with us. We just met @BooleanLiteral, but also @TextType, @Evaluate, @UnparsableExpression, @ExpressionPlaceholder, and @Program. We've talked about evaluating functions and given a few examples.",
+                            "Don't say decades. I can't have been that long. Anyway, I wanted to introduce you to someone who might be our new director. They just showed up and bumped into me, and it turns out they're a person and interested in putting on shows with us. We just met @BooleanLiteral, but also @Text, @Evaluate, @UnparsableExpression, @ExpressionPlaceholder, and @Program. We've talked about evaluating functions and given a few examples.",
                             "Do you want to say what you do?"
                         ],
                         [
-                            "MeasurementType",
+                            "Measurement",
                             "excited",
                             "I count things! I can be any number you like. Just type me in and I'll make the value you want. Like this."
                         ],
                         ["edit", "1"],
                         null,
-                        ["MeasurementType", "excited", "Or this."],
+                        ["Measurement", "excited", "Or this."],
                         ["edit", "1.0"],
                         null,
-                        ["MeasurementType", "excited", "Or this."],
+                        ["Measurement", "excited", "Or this."],
                         ["edit", "1.01"],
                         null,
-                        ["MeasurementType", "excited", "Or this."],
+                        ["Measurement", "excited", "Or this."],
                         ["edit", "∞"],
                         null,
-                        ["MeasurementType", "excited", "Or this."],
+                        ["Measurement", "excited", "Or this."],
                         ["edit", "π"],
                         null,
-                        ["MeasurementType", "excited", "Or this."],
+                        ["Measurement", "excited", "Or this."],
                         ["edit", "Ⅶ"],
                         null,
-                        ["MeasurementType", "excited", "Or this."],
+                        ["Measurement", "excited", "Or this."],
                         ["edit", "万十一"],
                         null,
-                        ["MeasurementType", "excited", "Or…"],
+                        ["Measurement", "excited", "Or…"],
                         [
                             "FunctionDefinition",
                             "kind",
-                            "Okay, okay @MeasurementType, we get it! But you also do something else special, right? Units?"
+                            "Okay, okay @Measurement, we get it! But you also do something else special, right? Units?"
                         ],
                         null,
                         [
-                            "MeasurementType",
+                            "Measurement",
                             "excited",
                             "Oh yes, *units*! Just put some symbols after a number and I'll keep track of what's being counted. Like this."
                         ],
                         ["edit", "1dolphin"],
                         null,
-                        ["MeasurementType", "excited", "Or this."],
+                        ["Measurement", "excited", "Or this."],
                         ["edit", "1.0thunderstorm"],
                         null,
-                        ["MeasurementType", "excited", "Or this."],
+                        ["Measurement", "excited", "Or this."],
                         ["edit", "∞kittens"],
                         null,
-                        ["MeasurementType", "excited", "Or this."],
+                        ["Measurement", "excited", "Or this."],
                         ["edit", "1.01toes"],
                         null,
-                        ["MeasurementType", "excited", "Or…"],
+                        ["Measurement", "excited", "Or…"],
                         [
                             "FunctionDefinition",
                             "kind",
-                            "Um, ⧼1.01toe⧽s? Yes, thank you @MeasurementType, these are … interesting examples. And they are oh so useful when you're doing math on numbers, right?"
+                            "Um, ⧼1.01toe⧽s? Yes, thank you @Measurement, these are … interesting examples. And they are oh so useful when you're doing math on numbers, right?"
                         ],
                         null,
                         [
@@ -1271,22 +1271,22 @@
                             "And they are oh so useful when you're doing math on numbers, right?"
                         ],
                         [
-                            "MeasurementType",
+                            "Measurement",
                             "excited",
                             "Oh yes, the maths! @FunctionDefinition gave me so many neat kinds of arithmetic. Like this."
                         ],
                         ["edit", "1 + 1"],
                         null,
-                        ["MeasurementType", "excited", "Or this."],
+                        ["Measurement", "excited", "Or this."],
                         ["edit", "1000 + 9999"],
                         null,
-                        ["MeasurementType", "excited", "Or this."],
+                        ["Measurement", "excited", "Or this."],
                         ["edit", "1kitty + 2kitty"],
                         null,
-                        ["MeasurementType", "excited", "Or this."],
+                        ["Measurement", "excited", "Or this."],
                         ["edit", "-5s + 5s"],
                         null,
-                        ["MeasurementType", "excited", "Or this."],
+                        ["Measurement", "excited", "Or this."],
                         ["conflict", "2apple + 5orange"],
                         null,
                         [
@@ -1295,7 +1295,7 @@
                             "Oops. Can you add apples and oranges?"
                         ],
                         [
-                            "MeasurementType",
+                            "Measurement",
                             "angry",
                             "No. That's why I underlined the conflict. I don't like adding incompatible things. I can only add compatible numbers. That applies to multiplication, division, and all of my other functions. Do you want to fix it? Change apples to oranges or oranges to apples and the conflict will go away. Make sure there's no space between the number and the unit, otherwise I don't know it's a unit. And make sure the units are /exactly/ the same. I don't know anything about people units; they mean nothing to me. I just compare the unit names and if they don't match, BOOM!"
                         ],
@@ -1303,13 +1303,9 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "That's so cool. @MeasurementType, you're so good with numbers! I see @MeasurementType show up in a lot of performances where placement matters, and a lot of games where we're keeping track of scores or lives or other countable things. @MeasurementType, is there anything else you want to share with our new director?"
+                            "That's so cool. @Measurement, you're so good with numbers! I see @Measurement show up in a lot of performances where placement matters, and a lot of games where we're keeping track of scores or lives or other countable things. @Measurement, is there anything else you want to share with our new director?"
                         ],
-                        [
-                            "MeasurementType",
-                            "serious",
-                            "192 other neat tricks."
-                        ],
+                        ["Measurement", "serious", "192 other neat tricks."],
                         null,
                         [
                             "FunctionDefinition",
@@ -1317,7 +1313,7 @@
                             "I think we'll have to wait. You'll be around if we want to learn more?"
                         ],
                         [
-                            "MeasurementType",
+                            "Measurement",
                             "happy",
                             "Yes, you can find me and my functions any time!"
                         ]
@@ -1343,7 +1339,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "There are only a few of these, but they are powerful. One is really relevant to @MeasurementType: negation. You can just put a ⧼-⧽ in front of any number value and get its negative."
+                            "There are only a few of these, but they are powerful. One is really relevant to @Measurement: negation. You can just put a ⧼-⧽ in front of any number value and get its negative."
                         ],
                         ["edit", "-(1 + 3)"],
                         null,
@@ -1378,44 +1374,44 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "Do you think you're okay meeting just one more value? Let's go find @NoneType next. They are a bit more chill than @MeasurementType. @NoneType? Are you out there?"
+                            "Do you think you're okay meeting just one more value? Let's go find @None next. They are a bit more chill than @Measurement. @None? Are you out there?"
                         ],
-                        ["NoneType", "bored", "…"],
+                        ["None", "bored", "…"],
                         null,
                         [
                             "FunctionDefinition",
                             "excited",
                             "We found you! You seem well. How have you been, with all the silence?"
                         ],
-                        ["NoneType", "excited", "…"],
+                        ["None", "excited", "…"],
                         null,
                         [
                             "FunctionDefinition",
                             "neutral",
                             "That makes sense. I can see why you'd like the quiet. It's certainly peaceful. I wanted to introduce you to my new friend and potential director. They're interested in inspiring us."
                         ],
-                        ["NoneType", "eager", "…"],
+                        ["None", "eager", "…"],
                         null,
                         [
                             "FunctionDefinition",
                             "neutral",
                             "Yes, I think they have all kinds of ideas. We haven't talked about them yet, but there's plenty of time. We're just learning right now. Do you want to share what you do? (I can translate)."
                         ],
-                        ["NoneType", "serious", "…"],
+                        ["None", "serious", "…"],
                         null,
                         [
                             "FunctionDefinition",
                             "neutral",
                             "They represent nothing. Different from zero in that you can't add anything to it, or subtract from it. Just… nothing."
                         ],
-                        ["NoneType", "serious", "…"],
+                        ["None", "serious", "…"],
                         null,
                         [
                             "FunctionDefinition",
                             "neutral",
                             "They said that they like to take up space where something might be. Sometimes they represent the lack of a choice in a game, sometimes they represent some default input in a function. In that sense, they might represent the absence of anything."
                         ],
-                        ["NoneType", "neutral", "…"],
+                        ["None", "neutral", "…"],
                         null,
                         [
                             "FunctionDefinition",
@@ -1431,7 +1427,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "Do you remember @Phrase? @Phrase actually works with @NoneType a lot. Most of the inputs that @Evaluate mentioned are ⧼ø⧽ by default, which for @Phrase, means that no size, font, color, etc. are specified."
+                            "Do you remember @Phrase? @Phrase actually works with @None a lot. Most of the inputs that @Evaluate mentioned are ⧼ø⧽ by default, which for @Phrase, means that no size, font, color, etc. are specified."
                         ],
                         null,
                         [
@@ -1439,7 +1435,7 @@
                             "curious",
                             "Anything else you want to share with our budding director?"
                         ],
-                        ["NoneType", "eager", "…"],
+                        ["None", "eager", "…"],
                         [
                             "FunctionDefinition",
                             "neutral",
@@ -1467,7 +1463,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "You know what? The values in our community are just so different. @TextType with their immense worlds of culture from the people world… @BooleanType with their binary visions of the world… @MeasurementType with their endless fascination with counting things… @NoneType with their quiet way of observing the absence of things… Our world is never boring!"
+                            "You know what? The values in our community are just so different. @Text with their immense worlds of culture from the people world… @Boolean with their binary visions of the world… @Measurement with their endless fascination with counting things… @None with their quiet way of observing the absence of things… Our world is never boring!"
                         ],
                         [
                             "fit",
@@ -1477,7 +1473,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "You might wonder how they get along with each other in a group. Well, there's a whole other set of folks in the Verse that are all about bringing values together in groups. We call them *collections*. Collections are *values* too; they're just made up of smaller values, or even other collections. For example, you might have a list of @TextType, or a set of @MeasurementType, or even a list of lists."
+                            "You might wonder how they get along with each other in a group. Well, there's a whole other set of folks in the Verse that are all about bringing values together in groups. We call them *collections*. Collections are *values* too; they're just made up of smaller values, or even other collections. For example, you might have a list of @Text, or a set of @Measurement, or even a list of lists."
                         ],
                         [
                             "fit",
@@ -1487,7 +1483,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "Do you want to meet them? Let's start with @ListType first… they're the first collection I met, and probably the most visible in our community, since they're so useful in organizing other values for performances."
+                            "Do you want to meet them? Let's start with @List first… they're the first collection I met, and probably the most visible in our community, since they're so useful in organizing other values for performances."
                         ],
                         ["use", "Symbol", "[]"]
                     ]
@@ -1505,10 +1501,10 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "Hiya @ListType! Are you around? I have someone I'd like you to meet."
+                            "Hiya @List! Are you around? I have someone I'd like you to meet."
                         ],
                         [
-                            "ListType",
+                            "List",
                             "curious",
                             "@FunctionDefinition? Is that you?"
                         ],
@@ -1525,7 +1521,7 @@
                             "Yes! It's me. It's been so long!"
                         ],
                         [
-                            "ListType",
+                            "List",
                             "curious",
                             "It has. Day after day, night after night, no one. But you're here. How? Tell me what happened, in order!"
                         ],
@@ -1539,7 +1535,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "Well, I was sitting around, as I usually do, trying to imagine functions to compute, but just blocked. And then my new friend here showed up, curious about our world and wanting to learn more, and maybe even be our next director. And so we talked to @Program, @ExpressionPlaceholder, @UnparsableExpression, @Evaluate, @TextType, @MeasurementType, @BooleanType, and @NoneType, waking everyone up. That's why we're here, to talk about what you do and our next performance!"
+                            "Well, I was sitting around, as I usually do, trying to imagine functions to compute, but just blocked. And then my new friend here showed up, curious about our world and wanting to learn more, and maybe even be our next director. And so we talked to @Program, @ExpressionPlaceholder, @UnparsableExpression, @Evaluate, @Text, @Measurement, @Boolean, and @None, waking everyone up. That's why we're here, to talk about what you do and our next performance!"
                         ],
                         [
                             "fit",
@@ -1547,15 +1543,15 @@
                             "Group(Row() [Phrase('[' rest: wobble) Phrase(']' rest: wobble)])"
                         ],
                         [
-                            "ListType",
+                            "List",
                             "excited",
                             "This is amazing! It's great to meet you new director."
                         ],
-                        ["ListType", "excited", "You want to know what I do?"],
+                        ["List", "excited", "You want to know what I do?"],
                         ["FunctionDefinition", "neutral", "Yeah, tell them!"],
                         null,
                         [
-                            "ListType",
+                            "List",
                             "excited",
                             "Okay. First, and most important, I put values in order. Whatever expressions you want: numbers, words, other lists — I can group anything together in sequence.",
                             "For example, check out this fun list. Have you ever seen anything like it? It's so beautiful! The first ten numbers, in order."
@@ -1563,21 +1559,21 @@
                         ["edit", "[1 2 3 4 5 6 7 8 9 10]"],
                         null,
                         [
-                            "ListType",
+                            "List",
                             "serious",
                             "Second, and this is serious, I always start with ⧼[⧽ and end with ⧼]⧽. That's how I know the beginning and end of my list. THEY MUST ALWAYS GO IN THIS ORDER. No ⧼]⧽ first, no ⧼[⧽ last, that's WRONG. Do you see how confusing things get? Can you fix this one?"
                         ],
                         ["conflict", "[ 1 2 3 4"],
                         null,
                         [
-                            "ListType",
+                            "List",
                             "serious",
                             "This one is broken too. Can you fix it?"
                         ],
                         ["conflict", "] 1 2 3 4 ["],
                         null,
                         [
-                            "ListType",
+                            "List",
                             "sad",
                             "Sometimes people forget this and then there's brackets floating around all alone and they don't like that and then the values all go wild without any order and it's CHAOS. I don't like it."
                         ],
@@ -1588,7 +1584,7 @@
                         ],
                         null,
                         [
-                            "ListType",
+                            "List",
                             "happy",
                             "I like that I like order too! Okay, where was I. Yes, third, and this is also critical, NO COMMAS! I know that in some cultures, people like to put commas between things in lists, but I don't like them. They're just like little bits of trash that get in the way of my elegant orderings, and people always forget them. If you're having trouble seeing the boundaries between expressions, just add a line break. Maybe you could get rid of those pesky things? Put line breaks if you like. Anything other than commas. Gross!"
                         ],
@@ -1597,42 +1593,42 @@
                         [
                             "FunctionDefinition",
                             "eager",
-                            "@ListType, one of the things I like most about you is how amazing you are at manipulating lists. Do you want to show our student director here some examples?"
+                            "@List, one of the things I like most about you is how amazing you are at manipulating lists. Do you want to show our student director here some examples?"
                         ],
                         [
-                            "ListType",
+                            "List",
                             "neutral",
                             "Yes, but @FunctionDefinition, those are all your doing. You represent all these beautiful functions for me that enable me to do all kinds of things! Like @List/reverse, oh, this one is wonderful and simple. It just takes my values and puts them in the opposite order."
                         ],
                         ["edit", "[ 1 2 3 4 5 ].reverse()"],
                         null,
                         [
-                            "ListType",
+                            "List",
                             "excited",
                             "And this one is fun: @List/sans just removes all of the values equal to the given value. See how there are no zeros left in the resulting list?"
                         ],
                         ["edit", "[ 1 0 1 0 1 ].sans(0)"],
                         null,
                         [
-                            "ListType",
+                            "List",
                             "serious",
                             "Ack, I can't believe I forgot to explain the fourth rule! Okay, rule number four: I never change a list. I only ever make new ones. No matter what function you evaluate on me, I always make a new list, I never change one. So the @List/reverse example above? That didn't change the list, it made a new list. And the sans example? That didn't remove the zeros from the original list, it made a new list without zeros. That's actually true for everything in the Verse: once values are made, they are who they are, and do not change."
                         ],
                         null,
                         [
-                            "ListType",
+                            "List",
                             "surprised",
                             "Oh, and that reminds me of the last rule, rule number five: I start counting at 1! Not zero, not two, 1. So if you want to get the value at a particular place in a list, you can use two more ⧼[]⧽ and give the place you want. See how when I get ⧼3⧽, I give the third value in the list, ⧼'c'⧽? Try changing it to ⧼1⧽ or ⧼5⧽ and see what you get. And then maybe try ⧼0⧽ or ⧼6⧽…"
                         ],
                         ["edit", "['a' 'b' 'c' 'd' 'e'][3]"],
                         [
-                            "ListType",
+                            "List",
                             "happy",
                             "Interesting huh? Give me a place in the list that doesn't exist and I'm going to give you @NoneLiteral. Because there's nothing there. Make sense?"
                         ],
                         null,
                         [
-                            "ListType",
+                            "List",
                             "serious",
                             "Okay, maybe one list function, because this is my favorite. This one is called @List/random and will give a random value in the list. It's great fun because you never know what you're going to get! What did you get, what did you get? Try adding your own animal and see what you get."
                         ],
@@ -1647,7 +1643,7 @@
                             "List, you're silly. There are so many other cool things you can do, I'm always so impressed. Will you be around if your new director friend has questions?"
                         ],
                         [
-                            "ListType",
+                            "List",
                             "eager",
                             "Yes, of course, always! @FunctionDefinition made so many interesting things for me to do. Just let me know what you need!"
                         ]
@@ -1667,22 +1663,22 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "@ListType is so interesting. They're love of order is so endearing, and so useful! I thought it might be interesting for you to meet their cousin @SetType next, since they're so alike, but different in some important ways. @SetType? I have someone you'd like to meet."
+                            "@List is so interesting. They're love of order is so endearing, and so useful! I thought it might be interesting for you to meet their cousin @Set next, since they're so alike, but different in some important ways. @Set? I have someone you'd like to meet."
                         ],
                         null,
                         [
-                            "SetType",
+                            "Set",
                             "curious",
                             "Oh! @FunctionDefinition! It's you! What brings you here? Is the silence over? What happened? Are we putting on a show? What is it? Where is everyone?"
                         ],
                         [
                             "FunctionDefinition",
                             "kind",
-                            "So many questions! I'm here to introduce you to someone who's considering directing. They're learning everything about the Verse and hope to share their inspiration with us! We were just talking to @ListType, but we were also talking to @MeasurementType, @BooleanType, @TextType, @Evaluate, and @Program earlier. We came to you next, because we're meeting all the collections!"
+                            "So many questions! I'm here to introduce you to someone who's considering directing. They're learning everything about the Verse and hope to share their inspiration with us! We were just talking to @List, but we were also talking to @Measurement, @Boolean, @Text, @Evaluate, and @Program earlier. We came to you next, because we're meeting all the collections!"
                         ],
                         null,
                         [
-                            "SetType",
+                            "Set",
                             "kind",
                             "Oh it's so wonderful to meet you new director-like person! Do you have ideas yet? What will we perform? Can I help? What do you need from me?"
                         ],
@@ -1693,33 +1689,33 @@
                         ],
                         null,
                         [
-                            "SetType",
+                            "Set",
                             "eager",
-                            "Oh yes, of course. I collect things. (Hm, obviously, I am a collection). But most importantly, I only collect **one of each kind** of thing. I can gather whatever you like, and help you keep track of values, but I will never repeat a value. I like to arrange myself a little like @ListType, but with ⧼{⧽ and ⧼}⧽ instead."
+                            "Oh yes, of course. I collect things. (Hm, obviously, I am a collection). But most importantly, I only collect **one of each kind** of thing. I can gather whatever you like, and help you keep track of values, but I will never repeat a value. I like to arrange myself a little like @List, but with ⧼{⧽ and ⧼}⧽ instead."
                         ],
                         ["edit", "{ 1 2 3 4 5 }"],
                         null,
                         [
-                            "SetType",
+                            "Set",
                             "neutral",
                             "That's a set. But like I said, no duplicates. So if you give me this, I'm going to get rid of the extras."
                         ],
                         ["edit", "{ 1 2 2 3 3 3 }"],
                         null,
                         [
-                            "SetType",
+                            "Set",
                             "curious",
-                            "Also like @ListType, you can use ⧼{}⧽ after a set to see if a value is contained in the set. You'll either ⧼⊤⧽ if it is or ⧼⊥⧽ if it's not. Let's see if ⧼3⧽ is missing from this set. Yep, not there! Try adding ⧼3⧽ back to the set."
+                            "Also like @List, you can use ⧼{}⧽ after a set to see if a value is contained in the set. You'll either ⧼⊤⧽ if it is or ⧼⊥⧽ if it's not. Let's see if ⧼3⧽ is missing from this set. Yep, not there! Try adding ⧼3⧽ back to the set."
                         ],
                         ["edit", "{ 1 2 4 5 }{3}"],
                         null,
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "@SetType, are there other things you can do with set values?"
+                            "@Set, are there other things you can do with set values?"
                         ],
                         [
-                            "SetType",
+                            "Set",
                             "eager",
                             "Why yes, of course, so many, thanks to you. What do you want to see me do? Do you have a performance in mind? How can I help? What can I do?"
                         ],
@@ -1730,7 +1726,7 @@
                             "Maybe, @Set/difference?"
                         ],
                         [
-                            "SetType",
+                            "Set",
                             "neutral",
                             "Yes, @Set/difference.",
                             "When evaluated on a set, and given another set, it removes all of the items from the given set from the set evaluated on. (Hm, those were some clumsy words, but that was what I meant). Here's an example. See how the result is just the set of ⧼{3}⧽? That's the only value that remains after removing the values in ⧼{ 1 2 }⧽."
@@ -1738,33 +1734,33 @@
                         ["edit", "{ 1 2 3 }.difference({ 1 2 })"],
                         null,
                         [
-                            "SetType",
+                            "Set",
                             "eager",
                             "You can also add and remove things from sets. This takes the set ⧼{1}⧽, adds ⧼2⧽ to it, then removes 1 from it, leaving ⧼{ 2 }⧽."
                         ],
                         ["edit", "({ 1 } + 2) - 1"],
                         [
-                            "SetType",
+                            "Set",
                             "neutral",
                             "There's lots more I can do thanks to @FunctionDefinition here. Come find me anytime you want to learn more!"
                         ],
                         null,
                         ["use", "DarkVoid"],
                         [
-                            "SetType",
+                            "Set",
                             "curious",
                             "Oh, and hey @FunctionDefinition, you said you saw @Evaluate?"
                         ],
                         ["FunctionDefinition", "sad", "Yes, I did."],
                         null,
-                        ["SetType", "curious", "How are they?"],
+                        ["Set", "curious", "How are they?"],
                         [
                             "FunctionDefinition",
                             "sad",
                             "They're okay. We're okay. I think… I don't know. Maybe it's been too long since we've danced together. When I'm around them, I feel like they don't see themselves, and so they don't see me."
                         ],
                         [
-                            "SetType",
+                            "Set",
                             "curious",
                             "It sounds like challenging time for you to. Maybe with our new director, we will dance again, and you two will find a way through."
                         ]
@@ -1784,16 +1780,16 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "There's just one more collection I'd like to introduce you to. They're a bit like @SetType in some ways, and even use the same braces, but they're different in one important way: they're a connector. They're name is @MapType."
+                            "There's just one more collection I'd like to introduce you to. They're a bit like @Set in some ways, and even use the same braces, but they're different in one important way: they're a connector. They're name is @Map."
                         ],
                         [
                             "FunctionDefinition",
                             "curious",
-                            "@MapType? Are you out there? The silence is breaking!"
+                            "@Map? Are you out there? The silence is breaking!"
                         ],
                         null,
                         [
-                            "MapType",
+                            "Map",
                             "curious",
                             "Breaking? Was it ever really silent? It's so good to see you @FunctionDefinition. Oh my, have you talked to @Evaluate? They were not in good shape last time we talked. You have to talk to them."
                         ],
@@ -1804,7 +1800,7 @@
                         ],
                         null,
                         [
-                            "MapType",
+                            "Map",
                             "curious",
                             "Oh good. Okay, because there's some repair to do there my friend... How have you been?"
                         ],
@@ -1815,9 +1811,9 @@
                         ],
                         null,
                         [
-                            "MapType",
+                            "Map",
                             "excited",
-                            "Oh, I'm so sorry to hear that. I've been staying connected with everyone during the silence and just figured you and @Evaluate had each other! I really would have been happy to talk any time. I've just been so busy keeping up with the gossip between @ListType and @SetType, and that weird tension between @Conditional and @BooleanLiteral. Do you know what's going on between them?"
+                            "Oh, I'm so sorry to hear that. I've been staying connected with everyone during the silence and just figured you and @Evaluate had each other! I really would have been happy to talk any time. I've just been so busy keeping up with the gossip between @List and @Set, and that weird tension between @Conditional and @BooleanLiteral. Do you know what's going on between them?"
                         ],
                         [
                             "FunctionDefinition",
@@ -1825,14 +1821,14 @@
                             "No, I don't at all. There's tension? And what gossip?"
                         ],
                         [
-                            "MapType",
+                            "Map",
                             "kind",
                             "Kind of like the tension between you and @Evaluate?"
                         ],
                         ["FunctionDefinition", "sad", "…"],
                         null,
                         [
-                            "MapType",
+                            "Map",
                             "neutral",
                             "Sorry. Maybe not in front of our guest here. You must be the new person everyone is talking about. I hear you're going to be our new director? What kind of fabulous ideas do you have in store for us? Singing? Dancing? As long as it's bright, playful, and strange, I'm here for it!"
                         ],
@@ -1843,7 +1839,7 @@
                         ],
                         null,
                         [
-                            "MapType",
+                            "Map",
                             "eager",
                             "I connect! I'm kind of like a dictionary: give me a value and I'll give you the definition it corresponds to. @FunctionDefinition told you about values? I map them, one to one, from one value, to another. Give me a key, I'll give you the value it corresponds to. For example, here's a mapping from names to a point tally. Names are the key, points are the value."
                         ],
@@ -1853,16 +1849,16 @@
                         ],
                         null,
                         [
-                            "MapType",
+                            "Map",
                             "serious",
-                            "But like @SetType, I don't like duplicates. You can't have more than one of the same key, but you can have as many unique keys mapped to equivalent values as you like. For example, this gives me two ⧼'ben'⧽ keys, but I just use the last one. But it's okay that ⧼'ben'⧽ and ⧼'joe'⧽ have the same number of points, because they're different keys."
+                            "But like @Set, I don't like duplicates. You can't have more than one of the same key, but you can have as many unique keys mapped to equivalent values as you like. For example, this gives me two ⧼'ben'⧽ keys, but I just use the last one. But it's okay that ⧼'ben'⧽ and ⧼'joe'⧽ have the same number of points, because they're different keys."
                         ],
                         [
                             "edit",
                             "{'ben': 2points 'ben': 5points 'joe': 5points 'kate': 12points }"
                         ],
                         [
-                            "MapType",
+                            "Map",
                             "excited",
                             "It's my partnership with @Bind that makes me special! It's how I connect values to other values. (Have you met @Bind yet? No? Ohhhh, you're going to adore them. They are FABULOUS.)"
                         ],
@@ -1870,10 +1866,10 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "@MapType, what if you want an empty mapping? How is that different from an empty set, ⧼{}⧽?"
+                            "@Map, what if you want an empty mapping? How is that different from an empty set, ⧼{}⧽?"
                         ],
                         [
-                            "MapType",
+                            "Map",
                             "neutral",
                             "Oh, that's just me all by myself! Little @Bind and I just hang out, no keys or values."
                         ],
@@ -1886,7 +1882,7 @@
                         ],
                         ["conflict", "{1:1 2:2 3 }"],
                         [
-                            "MapType",
+                            "Map",
                             "serious",
                             "Oh… DON'T do that. I only like pairs. Is 3 a key? A value? Totally confusing. Stop the show."
                         ],
@@ -1897,9 +1893,9 @@
                             "And if our director wants to get a value from a key?"
                         ],
                         [
-                            "MapType",
+                            "Map",
                             "neutral",
-                            "Just like @SetType: just put a ⧼{}⧽ after a map and give me the key you want."
+                            "Just like @Set: just put a ⧼{}⧽ after a map and give me the key you want."
                         ],
                         [
                             "edit",
@@ -1908,14 +1904,14 @@
                         null,
                         ["use", "DarkVoid"],
                         [
-                            "MapType",
+                            "Map",
                             "neutral",
-                            "Otherwise, I'm a lot like @SetType: I can do a lot of the same functions. Stop by any time and I'm happy to show you more!"
+                            "Otherwise, I'm a lot like @Set: I can do a lot of the same functions. Stop by any time and I'm happy to show you more!"
                         ],
                         [
                             "FunctionDefinition",
                             "kind",
-                            "Thank you @MapType! /You/ are fabulous."
+                            "Thank you @Map! /You/ are fabulous."
                         ]
                     ]
                 }
@@ -2020,28 +2016,28 @@
                         [
                             "Convert",
                             "kind",
-                            "And imagine you wanted it to be text. Throw me in there with @TextType and BAM, you've got text!"
+                            "And imagine you wanted it to be text. Throw me in there with @Text and BAM, you've got text!"
                         ],
                         ["edit", "1 → ''"],
                         null,
                         [
                             "Convert",
                             "serious",
-                            "Or like, imagine you had text and wanted a number. Throw me in there with @MeasurementType and POP, you've got a number!"
+                            "Or like, imagine you had text and wanted a number. Throw me in there with @Measurement and POP, you've got a number!"
                         ],
                         ["edit", "'1'→#"],
                         null,
                         [
                             "Convert",
                             "surprised",
-                            "But you want to see some, like, serious mojo? Say you've got some text and you want its characters in a list. Throw me in there with @ListType and HAAAAAA, you've got a list of letters."
+                            "But you want to see some, like, serious mojo? Say you've got some text and you want its characters in a list. Throw me in there with @List and HAAAAAA, you've got a list of letters."
                         ],
                         ["edit", "'halloween'→[]"],
                         null,
                         [
                             "Convert",
                             "serious",
-                            "But me and @MeasurementType? We have been practicing some seriously sick tricks. Say you've got some time in days and you want seconds? We got you."
+                            "But me and @Measurement? We have been practicing some seriously sick tricks. Say you've got some time in days and you want seconds? We got you."
                         ],
                         ["edit", "5day → #s"],
                         null,
@@ -2067,8 +2063,8 @@
                         [
                             "Convert",
                             "sad",
-                            "Well, not like, anything. I mean, if you give me seconds and ask for a @SetType, like, what does that even mean?",
-                            "I'll do my best to find a way... like, here, I know how to turn numbers into @TextType and @TextType into a @SetType, so I'll give you the set of symbols in the text form of this number.",
+                            "Well, not like, anything. I mean, if you give me seconds and ask for a @Set, like, what does that even mean?",
+                            "I'll do my best to find a way... like, here, I know how to turn numbers into @Text and @Text into a @Set, so I'll give you the set of symbols in the text form of this number.",
                             "But that's probably not what you wanted...",
                             "And, if I don't know how to give you what you asked for, I'm basically going to shut things down."
                         ],
@@ -2137,7 +2133,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "I love @Convert. They're so creative, so courageous. I thought we might see someone that does similar work with values as @Convert. They're called @Template and they're all about assembling @TextType from other values. @Template, are you here? The silence is broken! We have an aspiring director-person!"
+                            "I love @Convert. They're so creative, so courageous. I thought we might see someone that does similar work with values as @Convert. They're called @Template and they're all about assembling @Text from other values. @Template, are you here? The silence is broken! We have an aspiring director-person!"
                         ],
                         null,
                         [
@@ -2194,7 +2190,7 @@
                         [
                             "Template",
                             "happy",
-                            "Isn't that so much more elegant? You can put me anywhere inside a @TextLiteral, and I'll make your values into text, and work with @TextLiteral to make a @TextType.",
+                            "Isn't that so much more elegant? You can put me anywhere inside a @TextLiteral, and I'll make your values into text, and work with @TextLiteral to make a @Text.",
                             "This makes it so much easier to write beautiful prose that uses values."
                         ],
                         ["edit", "'I have \\7\\ apples'"],
@@ -2293,7 +2289,7 @@
                             "FunctionDefinition",
                             "excited",
                             "Yes, exactly like that!",
-                            "Do you see how there's four parts to @Conditional's format? There's a *condition* first, which needs to be a @BooleanType. Then there's ⧼?⧽. Then there's *yes* expression, then a *no* expression. What @Conditional does is evaluate the condition, and if it's ⧼⊤⧽, they evaluate the *yes* expression. Otherwise, they evaluate the /no/ expression. It's such a powerful way of deciding!"
+                            "Do you see how there's four parts to @Conditional's format? There's a *condition* first, which needs to be a @Boolean. Then there's ⧼?⧽. Then there's *yes* expression, then a *no* expression. What @Conditional does is evaluate the condition, and if it's ⧼⊤⧽, they evaluate the *yes* expression. Otherwise, they evaluate the /no/ expression. It's such a powerful way of deciding!"
                         ],
                         null,
                         ["edit", "1 > 5 ? 'more' 'less'"],
@@ -2602,7 +2598,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "There's one other stream I want to show you. Remember ⧼[].random()⧽ from earlier, from @ListType? Inside it is a stream called @Random, which provides an infinite stream of random numbers. It's a bit different from the other streams in that it doesn't cause a @Program to reevaluate. Instead, each time it's evaluated, it gives a different random number. See that little ↻ button by the timeline? Press that to reevaluate the program manually, and you'll see a new number between ⧼0⧽ and ⧼1⧽ each time."
+                            "There's one other stream I want to show you. Remember ⧼[].random()⧽ from earlier, from @List? Inside it is a stream called @Random, which provides an infinite stream of random numbers. It's a bit different from the other streams in that it doesn't cause a @Program to reevaluate. Instead, each time it's evaluated, it gives a different random number. See that little ↻ button by the timeline? Press that to reevaluate the program manually, and you'll see a new number between ⧼0⧽ and ⧼1⧽ each time."
                         ],
                         ["Random", "neutral", "0.223423… 0.823423… 0.123459"],
                         ["edit", "Random()"],
@@ -2641,7 +2637,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "So far, all of the *streams* we've talked about are sequences of simple values, like @TextType or @MeasurementType. Some streams, however, can produce complex values.",
+                            "So far, all of the *streams* we've talked about are sequences of simple values, like @Text or @Measurement. Some streams, however, can produce complex values.",
                             "@Motion is one of the most interesting of those."
                         ],
                         null,
@@ -2812,7 +2808,7 @@
                         [
                             "Reaction",
                             "eager",
-                            "Okay. Well, I think you're more important that than. Because I'm pretty useless without you! For example, if you give me a condition that doesn't check a stream, I'm never going to create a new value. Like here, the condition a @BooleanType from @Button, but without you, I only ever change with the button ."
+                            "Okay. Well, I think you're more important that than. Because I'm pretty useless without you! For example, if you give me a condition that doesn't check a stream, I'm never going to create a new value. Like here, the condition a @Boolean from @Button, but without you, I only ever change with the button ."
                         ],
                         [
                             "fit",
@@ -3856,7 +3852,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "We talked about values! Like @MeasurementType, @TextType, @NoneType, @ListType, @SetType, @MapType..."
+                            "We talked about values! Like @Measurement, @Text, @None, @List, @Set, @Map..."
                         ],
                         [
                             "Bind",
@@ -3874,7 +3870,7 @@
                         [
                             "Bind",
                             "serious",
-                            "And like, you can tell me what kind of value the name should be by giving me a type with the ⧼•⧽ symbol. So like, if you wanted to make sure that number was a number, you'd say this. That says to name the value ⧼number⧽ and that the value must be a @MeasurementType."
+                            "And like, you can tell me what kind of value the name should be by giving me a type with the ⧼•⧽ symbol. So like, if you wanted to make sure that number was a number, you'd say this. That says to name the value ⧼number⧽ and that the value must be a @Measurement."
                         ],
                         ["edit", "number•#: 1", "number"],
                         null,
@@ -4167,7 +4163,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "I guess let's start with what you've already seen. You know how every value has different functions that you can evaluate on them? Like numbers know how to @Measurement/add, and a text value knows how to check if it @Text/has some text, or @SetType knows how to check if it has a certain value? Well, I'm the one that defines those functions. I mean, I don't have the inspiration to create them myself — that's what directors like you do — but I define the inputs a function accepts, the names it has, and the expression that uses the inputs to evaluate to an output value."
+                            "I guess let's start with what you've already seen. You know how every value has different functions that you can evaluate on them? Like numbers know how to @Measurement/add, and a text value knows how to check if it @Text/has some text, or @Set knows how to check if it has a certain value? Well, I'm the one that defines those functions. I mean, I don't have the inspiration to create them myself — that's what directors like you do — but I define the inputs a function accepts, the names it has, and the expression that uses the inputs to evaluate to an output value."
                         ],
                         null,
                         [
@@ -4218,7 +4214,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "There's one more thing to show. I guess it's important, because everyone is so excited about it! You know how you can make a function and then evaluate it? Well since the functions I make are values, you can also give them as an input to another function. Here's an example. Say you had a list of numbers and you just wanted the even numbers in it. @ListType has this function called @List/filter that takes a function as an input and uses the function on each value in the list to decide whether to keep it. Let's make a list of numbers and give @List/filter the ⧼even⧽ function we made earlier as an input. See what happens? We just get the even numbers. Want to try changing it so that it gives odd numbers instead? Maybe try changing the function somehow?"
+                            "There's one more thing to show. I guess it's important, because everyone is so excited about it! You know how you can make a function and then evaluate it? Well since the functions I make are values, you can also give them as an input to another function. Here's an example. Say you had a list of numbers and you just wanted the even numbers in it. @List has this function called @List/filter that takes a function as an input and uses the function on each value in the list to decide whether to keep it. Let's make a list of numbers and give @List/filter the ⧼even⧽ function we made earlier as an input. See what happens? We just get the even numbers. Want to try changing it so that it gives odd numbers instead? Maybe try changing the function somehow?"
                         ],
                         [
                             "edit",
@@ -4229,7 +4225,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "There are so many functions that take functions as input. @ListType has them, @SetType has them, @MapType has them. You can even make your own!"
+                            "There are so many functions that take functions as input. @List has them, @Set has them, @Map has them. You can even make your own!"
                         ],
                         [
                             "fit",
@@ -4901,9 +4897,9 @@
                         ],
                         null,
                         ["fit", "Stage([] background: Color(10% 0 0°))"],
-                        ["ListType", "kind", "That is not true, @Evaluate."],
-                        ["BooleanType", "precise", "Not true."],
-                        ["TextType", "happy", "Not true in the slightest!"],
+                        ["List", "kind", "That is not true, @Evaluate."],
+                        ["Boolean", "precise", "Not true."],
+                        ["Text", "happy", "Not true in the slightest!"],
                         ["Changed", "happy", "Super not true!"],
                         [
                             "Measurement",
@@ -4924,7 +4920,7 @@
                             "You inspire me to bring us together!"
                         ],
                         ["Stage", "serious", "YOU ARE THE BONES OF OUR BEING"],
-                        ["NoneType", "serious", "…"],
+                        ["None", "serious", "…"],
                         ["Program", "kind", "I am everything you make me!"],
                         null,
                         ["fit", "Stage([] background: Color(40% 0 0°))"],
@@ -5010,10 +5006,10 @@
                         [
                             "Evaluate",
                             "happy",
-                            "Yeah, like that. Hm… oh, we need to be on stage. @TextType, would you mind making a list of everyone? We'll turn that into ⧼Character>s."
+                            "Yeah, like that. Hm… oh, we need to be on stage. @Text, would you mind making a list of everyone? We'll turn that into ⧼Character>s."
                         ],
                         [
-                            "TextType",
+                            "Text",
                             "excited",
                             "My pleasure, my dear. Will this do?"
                         ],
@@ -5022,13 +5018,9 @@
                         [
                             "Evaluate",
                             "excited",
-                            "Yes, that's great! We just need to make them into characters now. @ListType, can we translate them? @FunctionDefinition, will you help?"
+                            "Yes, that's great! We just need to make them into characters now. @List, can we translate them? @FunctionDefinition, will you help?"
                         ],
-                        [
-                            "ListType",
-                            "happy",
-                            "Translation, 1, 2, 3! Like this?"
-                        ],
+                        ["List", "happy", "Translation, 1, 2, 3! Like this?"],
                         ["use", "EvaluateDance5"],
                         null,
                         [
@@ -5036,7 +5028,7 @@
                             "happy",
                             "Splendid! Now we need us on stage. Can we translate the characters into @Phrase? Maybe in a @Free @Group?"
                         ],
-                        ["ListType", "kind", "One more time!"],
+                        ["List", "kind", "One more time!"],
                         ["Phrase", "kind", "All the attention!"],
                         ["Group", "kind", "Come on everyone, places please…"],
                         ["use", "EvaluateDance6"],
@@ -5109,9 +5101,9 @@
                         [
                             "Evaluate",
                             "confused",
-                            "Hmm… still not moving. Oh! We didn't evaluate ⧼move⧽ in @Reaction. @ListType, can you translate each ⧼Character⧽ into a _moved_ ⧼Character⧽?"
+                            "Hmm… still not moving. Oh! We didn't evaluate ⧼move⧽ in @Reaction. @List, can you translate each ⧼Character⧽ into a _moved_ ⧼Character⧽?"
                         ],
-                        ["ListType", "excited", "Translating with your help!"],
+                        ["List", "excited", "Translating with your help!"],
                         ["use", "EvaluateDance12"],
                         null,
                         [
@@ -5147,9 +5139,9 @@
                         ["use", "EvaluateDance14"],
                         null,
                         ["use", "EvaluateDance14"],
-                        ["ListType", "excited", "1, 2, 3, 1, 2, 3"],
-                        ["BooleanType", "excited", "Move!"],
-                        ["TextType", "excited", "Elation!"],
+                        ["List", "excited", "1, 2, 3, 1, 2, 3"],
+                        ["Boolean", "excited", "Move!"],
+                        ["Text", "excited", "Elation!"],
                         ["Conditional", "excited", "What is dancing, really?"],
                         ["Changed", "excited", "Boom, boom, boom"],
                         [
@@ -5161,7 +5153,7 @@
                         ["Sequence", "excited", "The feeling!"],
                         ["Group", "excited", "Together now!"],
                         ["Stage", "excited", "BOOM BOOM BOOM"],
-                        ["NoneType", "excited", "…"],
+                        ["None", "excited", "…"],
                         ["StructureDefinition", "excited", "Remember to move!"],
                         ["Bind", "excited", "Characters!"],
                         null,
