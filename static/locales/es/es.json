@@ -2,7 +2,6 @@
     "$schema": "../../schemas/Locale.json",
     "language": "es",
     "wordplay": "PalabraJugar",
-    "tbd": "no escrito",
     "term": {
         "store": "datos",
         "decide": "decidir",
@@ -1522,6 +1521,7 @@
             "motto": "Donde las palabras cobran vida"
         },
         "placeholders": {
+            "unwritten": "no escrito",
             "code": "code",
             "expression": "value",
             "type": "type",

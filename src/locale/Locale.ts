@@ -20,8 +20,6 @@ export type Locale = {
     language: LanguageCode;
     /** The name of the platform */
     wordplay: string;
-    /** The placeholder string indicating that a locale string is not yet written */
-    tbd: string;
     term: TermTexts;
     token: Record<keyof typeof TokenType, string>;
     node: NodeTexts;

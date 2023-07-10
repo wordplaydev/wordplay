@@ -2,7 +2,6 @@
     "$schema": "../../schemas/Locale.json",
     "language": "en",
     "wordplay": "Wordplay",
-    "tbd": "TBD",
     "term": {
         "store": "bind",
         "code": "evaluate",
@@ -1876,6 +1875,7 @@
             "motto": "Where words come to life"
         },
         "placeholders": {
+            "unwritten": "no escrito",
             "code": "code",
             "expression": "value",
             "type": "type",

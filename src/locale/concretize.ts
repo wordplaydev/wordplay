@@ -61,7 +61,8 @@ export function concretizeOrUndefined(
     ...inputs: TemplateInput[]
 ) {
     // Not written? Return the TBD string.
-    if (template === '' || template === '$?') return Description.as(locale.tbd);
+    if (template === '' || template === '$?')
+        return Description.as(locale.ui.placeholders.unwritten);
 
     return parseTemplate(locale, new Template(template), ...inputs);
 }
