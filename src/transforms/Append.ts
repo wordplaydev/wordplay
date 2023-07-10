@@ -94,7 +94,7 @@ export default class Append<NodeType extends Node> extends Transform {
             this.insertion instanceof Refer
                 ? this.insertion.getNode([locale.language])
                 : this.getNewNode([locale.language]);
-        return concretize(locale, locale.edit.append, node.getLabel(locale));
+        return concretize(locale, locale.ui.edit.append, node.getLabel(locale));
     }
 
     getNewNode(languages: LanguageCode[]): Node {

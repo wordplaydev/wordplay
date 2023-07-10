@@ -75,7 +75,7 @@ export default class Add<NodeType extends Node> extends Transform {
             this.child instanceof Refer
                 ? this.child.getNode([locale.language])
                 : this.getNewNode([locale.language]);
-        return concretize(locale, locale.edit.add, node.getLabel(locale));
+        return concretize(locale, locale.ui.edit.add, node.getLabel(locale));
     }
 
     equals(transform: Transform) {

@@ -81,7 +81,7 @@ export default class Replace<NodeType extends Node> extends Transform {
                 : this.getNewNode([translation.language]);
         return concretize(
             translation,
-            translation.edit.replace,
+            translation.ui.edit.replace,
             node?.getLabel(translation)
         );
     }

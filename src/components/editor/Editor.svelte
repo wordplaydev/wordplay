@@ -1298,13 +1298,13 @@
                     : $caret.tokenExcludingSpace
                     ? concretize(
                           $creator.getLocale(),
-                          $creator.getLocale().edit.before,
+                          $creator.getLocale().ui.edit.before,
                           source.code.at($caret.position) ?? ''
                       )
                     : $caret.tokenIncludingSpace
                     ? concretize(
                           $creator.getLocale(),
-                          $creator.getLocale().edit.before,
+                          $creator.getLocale().ui.edit.before,
                           $caret.tokenIncludingSpace.getDescription(
                               $creator.getLocale(),
                               project.getNodeContext($caret.tokenIncludingSpace)
