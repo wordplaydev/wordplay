@@ -4,27 +4,28 @@ import Token from './Token';
 import type Locale from '@locale/Locale';
 import { DOCS_SYMBOL } from '@parser/Symbols';
 import TokenType from './TokenType';
-import Paragraph from './Paragraph';
+import type Paragraph from './Paragraph';
 import Words from './Words';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
+import Markup from './Markup';
 
 export default class Doc extends Node {
     readonly open: Token;
-    readonly paragraphs: Paragraph[];
+    readonly markup: Markup;
     readonly close: Token | undefined;
     readonly lang?: Language;
 
     constructor(
         open: Token,
-        content: Paragraph[],
+        markup: Markup,
         close: Token | undefined,
         lang: Language | undefined
     ) {
         super();
 
         this.open = open;
-        this.paragraphs = content;
+        this.markup = markup;
         this.close = close;
         this.lang = lang;
 
@@ -34,7 +35,7 @@ export default class Doc extends Node {
     static make(content: Paragraph[]) {
         return new Doc(
             new Token(DOCS_SYMBOL, TokenType.Doc),
-            content,
+            new Markup(content),
             new Token(DOCS_SYMBOL, TokenType.Doc),
             undefined
         );
@@ -43,7 +44,7 @@ export default class Doc extends Node {
     getGrammar() {
         return [
             { name: 'open', types: [Token] },
-            { name: 'paragraphs', types: [[Paragraph]] },
+            { name: 'markup', types: [Markup] },
             { name: 'close', types: [Token] },
             { name: 'lang', types: [Language, undefined] },
         ];
@@ -52,7 +53,7 @@ export default class Doc extends Node {
     clone(replace?: Replacement) {
         return new Doc(
             this.replaceChild('open', this.open, replace),
-            this.replaceChild('paragraphs', this.paragraphs, replace),
+            this.replaceChild('markup', this.markup, replace),
             this.replaceChild('close', this.close, replace),
             this.replaceChild('lang', this.lang, replace)
         ) as this;
@@ -63,11 +64,11 @@ export default class Doc extends Node {
     }
 
     withLanguage(language: Language) {
-        return new Doc(this.open, this.paragraphs, this.close, language);
+        return new Doc(this.open, this.markup, this.close, language);
     }
 
     getFirstParagraph(): string {
-        const first: Paragraph | undefined = this.paragraphs[0];
+        const first: Paragraph | undefined = this.markup.paragraphs[0];
         return first === undefined
             ? ''
             : (first.nodes((n) => n instanceof Words) as Words[])
@@ -80,7 +81,7 @@ export default class Doc extends Node {
     }
 
     getMatchingText(text: string): [string, number] | undefined {
-        const wordsWithText = this.paragraphs
+        const wordsWithText = this.markup.paragraphs
             .reduce(
                 (nodes: Node[], paragraph: Paragraph) => [
                     ...nodes,

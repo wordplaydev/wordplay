@@ -168,22 +168,10 @@
             "emotion": "neutral",
             "doc": "$?"
         },
-        "TypeInputs": {
-            "name": "lista de variable de tipo",
-            "emotion": "neutral",
-            "doc": "$?"
-        },
-        "TypeVariable": {
-            "name": "variable de tipo",
-            "emotion": "neutral",
-            "doc": "$?",
-            "conflict": {
-                "DuplicateTypeVariable": { "primary": "$?", "secondary": "$?" }
-            }
-        },
-        "TypeVariables": {
-            "name": "lista de variable de tipo",
-            "emotion": "neutral",
+        "Markup": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
             "doc": "$?"
         },
         "Paragraph": {
@@ -785,6 +773,24 @@
         "Unit": {
             "name": "unidad de medida",
             "description": "$1",
+            "emotion": "neutral",
+            "doc": "$?"
+        },
+        "TypeInputs": {
+            "name": "lista de variable de tipo",
+            "emotion": "neutral",
+            "doc": "$?"
+        },
+        "TypeVariable": {
+            "name": "variable de tipo",
+            "emotion": "neutral",
+            "doc": "$?",
+            "conflict": {
+                "DuplicateTypeVariable": { "primary": "$?", "secondary": "$?" }
+            }
+        },
+        "TypeVariables": {
+            "name": "lista de variable de tipo",
             "emotion": "neutral",
             "doc": "$?"
         },

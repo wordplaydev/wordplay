@@ -2484,6 +2484,10 @@
               "$ref": "#/definitions/DescriptiveNodeText",
               "description": "Description $1: Key type or undefined $2: Map type or undefined"
             },
+            "Markup": {
+              "$ref": "#/definitions/DescriptiveNodeText",
+              "description": "Description $: paragraph count"
+            },
             "MeasurementLiteral": {
               "additionalProperties": false,
               "description": "Description $1: number $1: unit Start $1: the node",
@@ -3626,6 +3630,7 @@
             "ListAccess",
             "ListLiteral",
             "MapLiteral",
+            "Markup",
             "MeasurementLiteral",
             "NativeExpression",
             "NoneLiteral",

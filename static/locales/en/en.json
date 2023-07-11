@@ -153,7 +153,7 @@
             ]
         },
         "KeyValue": {
-            "name": "key/value pair",
+            "name": "mapping",
             "emotion": "kind",
             "doc": [
                 "I'm a mapping from a *key* to a *value*, always in a @Map.",
@@ -273,6 +273,14 @@
                 "I am a link to something on the internet. I just need a description and a URL:",
                 "⧼`I am a <link@https://wordplay.dev> in a doc`\n'link example'⧽",
                 "If anyone selects me, I'll open a new window to the URL."
+            ]
+        },
+        "Markup": {
+            "name": "markup",
+            "description": "$1 paragraphs",
+            "emotion": "serious",
+            "doc": [
+                "I'm a list of paragraphs, using the many kinds of markup available in documentation, such as @Words, @WebLink, @ConceptLink, and @Example."
             ]
         },
         "ConceptLink": {

@@ -72,6 +72,7 @@ import WordsView from '../WordsView.svelte';
 import ExampleView from '../ExampleView.svelte';
 import PropertyBindView from '../PropertyBindView.svelte';
 import InitialView from '../InitialView.svelte';
+import MarkupView from '../MarkupView.svelte';
 
 import type Node from '@nodes/Node';
 import Program from '@nodes/Program';
@@ -147,6 +148,7 @@ import Words from '@nodes/Words';
 import Example from '@nodes/Example';
 import PropertyBind from '@nodes/PropertyBind';
 import Initial from '@nodes/Initial';
+import Markup from '@nodes/Markup';
 
 const nodeToView = new Map<Function, ConstructorOfATypedSvelteComponent>();
 nodeToView.set(Program, ProgramView);
@@ -159,6 +161,7 @@ nodeToView.set(ConceptLink, ConceptLinkView);
 nodeToView.set(Words, WordsView);
 nodeToView.set(DocumentedExpression, DocumentedExpressionView);
 nodeToView.set(Example, ExampleView);
+nodeToView.set(Markup, MarkupView);
 
 nodeToView.set(Borrow, BorrowView);
 

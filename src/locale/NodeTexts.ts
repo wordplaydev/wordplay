@@ -354,6 +354,11 @@ type NodeTexts = {
         }>;
     /**
      * Description
+     * $: paragraph count
+     */
+    Markup: DescriptiveNodeText;
+    /**
+     * Description
      * $1: number
      * $1: unit
      * Start

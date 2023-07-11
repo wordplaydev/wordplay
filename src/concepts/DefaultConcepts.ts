@@ -173,7 +173,7 @@ const template: Node[] = [
     // Maps
     MapLiteral.make([]),
     KeyValue.make(ExpressionPlaceholder.make(), ExpressionPlaceholder.make()),
-    MapType.make(),
+    MapType.make(TypePlaceholder.make(), TypePlaceholder.make()),
 
     // Sets
     SetType.make(),
@@ -299,7 +299,7 @@ export function getNativeConcepts(
             Purpose.Store,
             native.getPrimitiveDefinition('map'),
             native.getPrimitiveDefinition('map'),
-            MapType.make(),
+            MapType.make(TypePlaceholder.make(), TypePlaceholder.make()),
             [MapLiteral.make([])],
             languages,
             context

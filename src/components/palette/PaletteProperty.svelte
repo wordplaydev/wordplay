@@ -36,7 +36,6 @@
     <h3 class="name"
         >{#if bindConcept}<ConceptLinkUI
                 link={bindConcept}
-                salient={false}
             />{:else}&mdash;{/if}</h3
     >
     {#if values.areSet()}

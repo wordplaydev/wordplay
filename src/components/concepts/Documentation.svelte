@@ -25,13 +25,13 @@
     import type Node from '@nodes/Node';
     import NodeConceptView from './NodeConceptView.svelte';
     import Purpose from '@concepts/Purpose';
-    import DescriptionView from './DescriptionView.svelte';
     import { tick } from 'svelte';
     import TextField from '../widgets/TextField.svelte';
     import type Project from '../../models/Project';
     import { creator } from '../../db/Creator';
     import getScrollParent from '../util/getScrollParent';
     import Note from '../widgets/Note.svelte';
+    import ConceptLinkUI from './ConceptLinkUI.svelte';
 
     export let project: Project;
 
@@ -202,17 +202,11 @@
             <Button tip={$creator.getLocale().ui.tooltip.back} action={back}
                 >←</Button
             >
-            <Note
-                >{#each $path as concept, index}{#if index > 0}
-                        …
-                    {/if}<DescriptionView
-                        description={concept.getName(
-                            $creator.getLocale(),
-                            false
-                        )}
-                    />
-                {/each}</Note
-            >
+            {#each $path as concept, index}{#if index > 0}…{/if}<ConceptLinkUI
+                    link={concept}
+                    symbolic={false}
+                />
+            {/each}
         </span>
     {/if}
 </div>

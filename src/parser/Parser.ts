@@ -78,6 +78,7 @@ import Words, { type Segment } from '@nodes/Words';
 import Example from '@nodes/Example';
 import PropertyBind from '../nodes/PropertyBind';
 import Initial from '../nodes/Initial';
+import Markup from '../nodes/Markup';
 
 export enum SyntacticConflict {
     EXPECTED_BORRW_NAME,
@@ -1411,19 +1412,24 @@ function parseDocs(tokens: Tokens): Docs | undefined {
 
 export function parseDoc(tokens: Tokens): Doc {
     const open = tokens.read(TokenType.Doc);
-    const content: Paragraph[] = [];
-
-    while (
-        tokens.nextIsnt(TokenType.Doc) &&
-        tokens.nextIsnt(TokenType.ExampleClose)
-    )
-        content.push(parseParagraph(tokens));
+    const content = parseMarkup(tokens);
 
     const close = tokens.readIf(TokenType.Doc);
     const lang = tokens.nextIs(TokenType.Language)
         ? parseLanguage(tokens)
         : undefined;
     return new Doc(open, content, close, lang);
+}
+
+export function parseMarkup(tokens: Tokens): Markup {
+    const content: Paragraph[] = [];
+    while (
+        tokens.hasNext() &&
+        tokens.nextIsnt(TokenType.Doc) &&
+        tokens.nextIsnt(TokenType.ExampleClose)
+    )
+        content.push(parseParagraph(tokens));
+    return new Markup(content);
 }
 
 export function parseLocaleDoc(doc: string) {

@@ -1,7 +1,6 @@
 <svelte:options immutable />
 
 <script lang="ts">
-    import type Doc from '@nodes/Doc';
     import WebLink from '@nodes/WebLink';
     import Words from '@nodes/Words';
     import ConceptLink from '@nodes/ConceptLink';
@@ -12,12 +11,13 @@
     import { creator } from '../../db/Creator';
     import WebLinkHTMLView from './WebLinkHTMLView.svelte';
     import WordsHTMLView from './WordsHTMLView.svelte';
+    import type Markup from '../../nodes/Markup';
 
-    export let doc: Doc;
+    export let markup: Markup;
     export let spaces: Spaces;
 </script>
 
-{#each doc.paragraphs as paragraph, index}<p
+{#each markup.paragraphs as paragraph, index}<p
         class="paragraph"
         class:animated={$creator.getAnimationFactor() > 0}
         style="--delay:{$creator.getAnimationDuration() * index * 0.5}ms"

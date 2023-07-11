@@ -47,7 +47,7 @@
                 : ''}"
         >
             {#if concept}
-                <ConceptLinkUI link={concept} salient={false} label={symbols} />
+                <ConceptLinkUI link={concept} label={symbols} />
             {:else}
                 {symbols}
             {/if}

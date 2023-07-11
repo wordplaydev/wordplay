@@ -543,9 +543,9 @@ test('Types', () => {
 test('plain docs', () => {
     const doc = parseDoc(toTokens('`this is what I am.`'));
     expect(doc).toBeInstanceOf(Doc);
-    expect(doc.paragraphs[0]).toBeInstanceOf(Paragraph);
-    expect(doc.paragraphs[0].content[0]).toBeInstanceOf(Words);
-    expect(doc.paragraphs[0].content.length).toBe(1);
+    expect(doc.markup.paragraphs[0]).toBeInstanceOf(Paragraph);
+    expect(doc.markup.paragraphs[0].content[0]).toBeInstanceOf(Words);
+    expect(doc.markup.paragraphs[0].content.length).toBe(1);
 });
 
 test('multi-paragraph docs', () => {
@@ -553,9 +553,9 @@ test('multi-paragraph docs', () => {
         toTokens('`this is what I am.\n\nthis is another point.`')
     );
     expect(doc).toBeInstanceOf(Doc);
-    expect(doc.paragraphs[0]).toBeInstanceOf(Paragraph);
-    expect(doc.paragraphs[1]).toBeInstanceOf(Paragraph);
-    expect(doc.paragraphs.length).toBe(2);
+    expect(doc.markup.paragraphs[0]).toBeInstanceOf(Paragraph);
+    expect(doc.markup.paragraphs[1]).toBeInstanceOf(Paragraph);
+    expect(doc.markup.paragraphs.length).toBe(2);
 });
 
 test('linked docs', () => {
@@ -563,13 +563,14 @@ test('linked docs', () => {
         toTokens('`go see more at <wikipedia@https://wikipedia.org>.`')
     );
     expect(doc).toBeInstanceOf(Doc);
-    expect(doc.paragraphs[0]).toBeInstanceOf(Paragraph);
-    expect((doc.paragraphs[0].content[0] as Words).segments[1]).toBeInstanceOf(
-        WebLink
-    );
+    expect(doc.markup.paragraphs[0]).toBeInstanceOf(Paragraph);
+    expect(
+        (doc.markup.paragraphs[0].content[0] as Words).segments[1]
+    ).toBeInstanceOf(WebLink);
     expect(
         (
-            (doc.paragraphs[0].content[0] as Words).segments[1] as WebLink
+            (doc.markup.paragraphs[0].content[0] as Words)
+                .segments[1] as WebLink
         ).url?.getText()
     ).toBe('https://wikipedia.org');
 });
@@ -579,16 +580,18 @@ test('docs in docs', () => {
         toTokens("`This is a doc: ⧼`my doc`⧽. Don't you see it?`")
     );
     expect(doc).toBeInstanceOf(Doc);
-    expect(doc.paragraphs[0]).toBeInstanceOf(Paragraph);
-    expect(doc.paragraphs[0].content[0]).toBeInstanceOf(Words);
-    expect((doc.paragraphs[0].content[0] as Words).segments[0]).toBeInstanceOf(
-        Token
+    expect(doc.markup.paragraphs[0]).toBeInstanceOf(Paragraph);
+    expect(doc.markup.paragraphs[0].content[0]).toBeInstanceOf(Words);
+    expect(
+        (doc.markup.paragraphs[0].content[0] as Words).segments[0]
+    ).toBeInstanceOf(Token);
+    expect(
+        (doc.markup.paragraphs[0].content[0] as Words).segments[1]
+    ).toBeInstanceOf(Example);
+    expect(
+        (doc.markup.paragraphs[0].content[0] as Words).segments[2]
+    ).toBeInstanceOf(Token);
+    expect((doc.markup.paragraphs[0].content[0] as Words).segments.length).toBe(
+        3
     );
-    expect((doc.paragraphs[0].content[0] as Words).segments[1]).toBeInstanceOf(
-        Example
-    );
-    expect((doc.paragraphs[0].content[0] as Words).segments[2]).toBeInstanceOf(
-        Token
-    );
-    expect((doc.paragraphs[0].content[0] as Words).segments.length).toBe(3);
 });

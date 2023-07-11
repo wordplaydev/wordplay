@@ -3,7 +3,7 @@
     import type Concept from '@concepts/Concept';
     import CodeView from './CodeView.svelte';
     import MissingLocalesView from './MissingLocalesView.svelte';
-    import DocHTMLView from './DocHTMLView.svelte';
+    import MarkupHTMLView from './MarkupHTMLView.svelte';
     import Speech from '../lore/Speech.svelte';
     import { creator } from '../../db/Creator';
     import type Type from '../../nodes/Type';
@@ -21,10 +21,6 @@
 >
     {#if header}
         <CodeView {concept} {type} {node} describe={false} />
-        <!-- {#each $preferredLocales as translation, index}
-                {#if index > 0}/{/if}
-                <DescriptionView description={concept.getName(translation)} />
-            {/each} -->
     {/if}
 
     <Speech glyph={concept.getGlyphs($creator.getLanguages())} below={header}>
@@ -35,7 +31,7 @@
                 undefined,
             ]}
             {#if doc && spaces}
-                <DocHTMLView {doc} {spaces} />
+                <MarkupHTMLView markup={doc.markup} {spaces} />
             {:else}
                 {locale.ui.labels.nodoc}
             {/if}

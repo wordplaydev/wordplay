@@ -65,6 +65,7 @@
         "ListAccess",
         "ListLiteral",
         "MapLiteral",
+        "Markup",
         "MeasurementLiteral",
         "NativeExpression",
         "NoneLiteral",

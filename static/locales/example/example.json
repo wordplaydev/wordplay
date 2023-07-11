@@ -186,6 +186,12 @@
             "emotion": "$?",
             "doc": "$?"
         },
+        "Markup": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
         "Paragraph": {
             "name": "$?",
             "emotion": "$?",

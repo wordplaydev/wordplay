@@ -4,7 +4,6 @@
     import { getConceptPath } from '../project/Contexts';
     import type Node from '@nodes/Node';
     import TypeView from './TypeView.svelte';
-    import DescriptionView from './DescriptionView.svelte';
     import { toClipboard } from '../editor/util/Clipboard';
     import { creator } from '../../db/Creator';
     import type Type from '../../nodes/Type';
@@ -73,7 +72,7 @@
                     : undefined}
         >
             {#if description}
-                <DescriptionView {description} />
+                {description}
             {/if}
         </div>
     {/if}

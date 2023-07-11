@@ -17,10 +17,9 @@
     import Button from '../widgets/Button.svelte';
     import Source from '../../nodes/Source';
     import { creator, projects } from '../../db/Creator';
-    import type Doc from '../../nodes/Doc';
     import type Spaces from '../../parser/Spaces';
-    import { parseDoc, toTokens } from '../../parser/Parser';
-    import DocHtmlView from '../concepts/DocHTMLView.svelte';
+    import { parseMarkup, toTokens } from '../../parser/Parser';
+    import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
     import { setContext } from 'svelte';
     import type ConceptIndex from '../../concepts/ConceptIndex';
     import { writable, type Writable } from 'svelte/store';
@@ -31,6 +30,7 @@
     import Emotion from '../../lore/Emotion';
     import { Performances } from '../../tutorial/Performances';
     import type { Dialog, Performance } from '../../tutorial/Tutorial';
+    import type Markup from '../../nodes/Markup';
 
     export let progress: Progress;
     export let navigate: (progress: Progress) => void;
@@ -55,14 +55,14 @@
     $: dialog = progress.getDialog();
 
     /** Convert the instructions into a sequence of docs/space pairs */
-    let turns: { speech: Doc; spaces: Spaces; dialog: Dialog }[] = [];
+    let turns: { speech: Markup; spaces: Spaces; dialog: Dialog }[] = [];
     $: turns = dialog
         ? dialog.map((line) => {
               const [, , ...text] = line;
               // Convert the list of paragraphs into a single doc.
-              const tokens = toTokens('`' + text.join('\n\n') + '`');
+              const tokens = toTokens(text.join('\n\n'));
               return {
-                  speech: parseDoc(tokens),
+                  speech: parseMarkup(tokens),
                   spaces: tokens.getSpaces(),
                   dialog: line,
               };
@@ -224,8 +224,8 @@
                             scroll={false}
                             emotion={Emotion[turn.dialog[1]]}
                         >
-                            <DocHtmlView
-                                doc={turn.speech}
+                            <MarkupHTMLView
+                                markup={turn.speech}
                                 spaces={turn.spaces}
                             />
                         </Speech>

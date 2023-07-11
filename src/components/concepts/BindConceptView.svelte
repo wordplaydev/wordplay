@@ -3,7 +3,7 @@
     import Speech from '../lore/Speech.svelte';
     import { creator } from '../../db/Creator';
     import MissingLocalesView from './MissingLocalesView.svelte';
-    import DocHTMLView from './DocHTMLView.svelte';
+    import MarkupHTMLView from './MarkupHTMLView.svelte';
     import TypeView from './TypeView.svelte';
     import RootView from '../project/RootView.svelte';
 
@@ -24,7 +24,7 @@
             undefined,
         ]}
         {#if doc && spaces}
-            <DocHTMLView {doc} {spaces} />
+            <MarkupHTMLView markup={doc.markup} {spaces} />
         {:else}
             {trans.ui.labels.nodoc}
         {/if}

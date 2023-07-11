@@ -7,8 +7,8 @@
     import type ConceptRef from '../../locale/ConceptRef';
 
     export let link: ConceptRef | ConceptLink | Concept;
-    export let salient: boolean = true;
     export let label: string | undefined = undefined;
+    export let symbolic: boolean = true;
 
     // Resolve the concept
     let index = getConceptIndex();
@@ -82,13 +82,12 @@
 {#if concept}<span
         role="button"
         class="interactive"
-        class:salient
         tabindex="0"
         on:pointerdown={navigate}
         on:keydown={(event) =>
             event.key == ' ' || event.key === 'Enter' ? navigate() : undefined}
-        >{#if label}{label}{:else}{longName}{#if symbolicName !== longName}<sub
-                    >{symbolicName}</sub
+        >{#if label}{label}{:else}<span class="long">{longName}</span
+            >{#if symbolicName !== longName && symbolic}<sub>{symbolicName}</sub
                 >{/if}{/if}</span
     >{:else if ui}<TutorialHighlight
     />{:else if link instanceof ConceptLink}<span>{link.concept.getText()}</span
@@ -97,13 +96,10 @@
 <style>
     span {
         display: inline-block;
+        font-style: italic;
     }
 
-    .salient {
-        font-weight: bold;
-    }
-
-    span.interactive {
+    span.interactive .long {
         text-decoration: underline;
         text-decoration-color: var(--wordplay-highlight);
     }
