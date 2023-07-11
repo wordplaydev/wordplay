@@ -653,11 +653,19 @@
             "name": "is",
             "description": "is",
             "emotion": "curious",
-            "doc": "$?",
-            "start": "evaluate $1 first",
+            "doc": [
+                "You know what? There are so many kinds of values that mean so many different things. I help figure out what they are.",
+                "For example, suppose you had a mystery value. I can tell you whether it's a @Measurement, giving you a @Boolean:",
+                "⧼mystery: 'secret!'\nmystery•#⧽",
+                "It's not a number, so I made ⧼⊥⧽. But if we check if it's @TextType?",
+                "⧼mystery: 'secret!'\nmystery•''⧽",
+                "We get ⧼⊤⧽!",
+                "I'm really helpful when you need to know whether some @Name has a value of a particular kind."
+            ],
+            "start": "let's get the value of $1 first",
             "finish": "$1 ?? [ value is $2 | value is not $2 ]",
             "conflict": {
-                "ImpossibleType": "this can never be this type"
+                "ImpossibleType": "this can't ever be this type"
             },
             "exception": {
                 "TypeException": "I expected a $1 but received $2"
