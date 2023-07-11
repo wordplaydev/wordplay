@@ -170,7 +170,7 @@ export default class Token extends Node {
                 def = parent.getCorrespondingDefinition(context);
                 if (def) {
                     text =
-                        def.names.getEmojiName() ??
+                        def.names.getSymbolicName() ??
                         def.names.getLocaleText(
                             translations.map((t) => t.language)
                         );

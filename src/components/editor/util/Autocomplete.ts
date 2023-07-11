@@ -950,7 +950,7 @@ function toEvaluateReplacement(
     const reference = Reference.make(fun.getNames()[0], fun);
 
     // Use a binary op if it's binary.
-    const op = fun.names.getEmojiName();
+    const op = fun.names.getSymbolicName();
     const evaluate =
         fun.inputs.length === 1 && op !== undefined
             ? new BinaryOperation(

@@ -94,7 +94,7 @@ export default class Names extends Node {
     }
 
     /** Returns a single grapheme name if there is one. */
-    getEmojiName() {
+    getSymbolicName() {
         return this.names.find((name) => name.isSymbolic())?.getName();
     }
 
