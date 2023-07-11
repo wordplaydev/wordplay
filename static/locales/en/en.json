@@ -601,21 +601,36 @@
             "name": "function",
             "description": "function $1",
             "emotion": "kind",
-            "doc": "$?define a function that maps input values to an output value",
-            "start": "define this function",
+            "doc": [
+                "Hi again! I take some inputs, then evaluate an expression using them, producing an output.",
+                "Here's a simple example:",
+                "⧼ƒ repeat(message•'') message · 5\nrepeat('hi')⧽",
+                "That function takes one input, ⧼message⧽, and uses the @Text/repeat function to repeat the message five times.",
+                "I'm really helpful if you want to evaluate something over and over, but with different inputs!",
+                "I do have lots of other little tricks. For example, I don't have to have a name. Here, I'm just going directly to @Evaluate as a value.",
+                "⧼(ƒ(message•'') message · 5)('hi')⧽",
+                "Or, here's a function that takes any number of inputs, using the ⧼…⧽ character after an input name.",
+                "⧼ƒ yes(messages…•'') messages.sans('no')\nyes('yes' 'yes' 'no' 'yes' 'no')⧽",
+                "See how it took all the 'no's and got rid of them? That's because messages is a @List, and so we could use @List/sansAll.",
+                "Sometimes you might want to make it clear what kind of value I produce. To do that, add an @Is after the list of inputs:",
+                "⧼ƒ add(x•# y•#)•'' x + y⧽",
+                "You might notice a problem with this one: it says it evaluates to @Text, but it takes two @Measurement. I can tell you when things are inconsistent!",
+                "Of course, I'm not really useful at all without @Evaluate; they bring me to life."
+            ],
+            "start": "let's make this function!",
             "conflict": {
-                "NoExpression": "What should my value be?"
+                "NoExpression": "I need an expression to evaluate, can you add one?"
             }
         },
         "HOF": {
             "name": "higher order function",
             "emotion": "kind",
-            "doc": "$?",
+            "doc": "I'm a very special kind of @FunctionDefinition that operates on lists of things. You don't need to know anything about me, other than I make functions like @List/translate possible. ",
             "start": "evaluating the function given",
-            "initialize": "preparing to process items",
-            "next": "apply the function to the next item",
-            "check": "check the result",
-            "finish": "evaluated to $1"
+            "initialize": "preparing to step through items",
+            "next": "applying the function to the next item",
+            "check": "deciding whether to continue",
+            "finish": "I evaluated to $1"
         },
         "Initial": {
             "name": "initial evaluation",
@@ -988,35 +1003,35 @@
             "doc": "$?"
         },
         "FunctionDefinitionType": {
-            "name": "function",
+            "name": "function type",
             "emotion": "curious",
             "doc": "$?"
         },
         "FunctionType": {
-            "name": "function",
+            "name": "function type",
             "emotion": "curious",
             "doc": "$?"
         },
         "ListType": {
-            "name": "list",
+            "name": "list type",
             "description": "$1 ?? [list of $1|list]",
             "emotion": "cheerful",
             "doc": "$?"
         },
         "MapType": {
-            "name": "map",
+            "name": "map type",
             "description": "map from $1 ?? [$1|any] to $2 ?? [$2|any]",
             "emotion": "kind",
             "doc": "$?"
         },
         "MeasurementType": {
-            "name": "number",
+            "name": "measurement type",
             "description": "$1 ?? [$1 | number]",
             "emotion": "precise",
             "doc": "$?"
         },
         "NameType": {
-            "name": "structure",
+            "name": "name type",
             "description": "$1 type",
             "emotion": "curious",
             "doc": "$?",
@@ -1025,23 +1040,23 @@
             }
         },
         "NeverType": {
-            "name": "never",
+            "name": "never type",
             "emotion": "curious",
             "doc": "$?"
         },
         "NoneType": {
-            "name": "nothing",
+            "name": "none type",
             "emotion": "neutral",
             "doc": "$?"
         },
         "SetType": {
-            "name": "set",
+            "name": "set type",
             "description": "$1 ?? [$1|anything] set type",
             "emotion": "kind",
             "doc": "$?"
         },
         "StreamDefinitionType": {
-            "name": "stream definition",
+            "name": "stream definition type",
             "emotion": "curious",
             "doc": "$?"
         },
@@ -1051,7 +1066,7 @@
             "doc": "$?"
         },
         "StructureDefinitionType": {
-            "name": "structure type",
+            "name": "structure definition type",
             "emotion": "kind",
             "doc": "$?"
         },
@@ -1063,7 +1078,7 @@
             "doc": "$?"
         },
         "TableType": {
-            "name": "table",
+            "name": "table type",
             "emotion": "angry",
             "doc": "$?",
             "conflict": {
@@ -1071,18 +1086,18 @@
             }
         },
         "TextType": {
-            "name": "text",
+            "name": "text type",
             "description": "$1 ?? [$1|text]",
             "emotion": "happy",
             "doc": "$?"
         },
         "TypePlaceholder": {
-            "name": "type placeholder",
+            "name": "placeholder type",
             "emotion": "curious",
             "doc": "$?"
         },
         "UnionType": {
-            "name": "option",
+            "name": "option type",
             "description": "$1 | $2",
             "emotion": "curious",
             "doc": "$?"
@@ -1094,7 +1109,7 @@
             "doc": "$?"
         },
         "UnparsableType": {
-            "name": "unparsable",
+            "name": "unparsable type",
             "emotion": "curious",
             "doc": "$?"
         },
@@ -1104,24 +1119,24 @@
             "doc": "$?"
         },
         "CycleType": {
-            "name": "cycle",
+            "name": "cycle type",
             "description": "depends on itself",
             "emotion": "curious",
             "doc": "$?"
         },
         "UnknownVariableType": {
-            "name": "unknown variable",
+            "name": "unknown variable type",
             "emotion": "curious",
             "doc": "$?"
         },
         "NotAType": {
-            "name": "unexpected",
+            "name": "unexpected type",
             "description": "not a $1",
             "emotion": "curious",
             "doc": "$?"
         },
         "NoExpressionType": {
-            "name": "non-expression",
+            "name": "non-expression type",
             "emotion": "curious",
             "doc": "$?"
         },
