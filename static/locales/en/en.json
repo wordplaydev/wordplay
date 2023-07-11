@@ -674,9 +674,12 @@
         "ListAccess": {
             "name": "list access",
             "emotion": "cheerful",
-            "doc": "$?",
-            "start": "evaluate $1 first",
-            "finish": "item at index is $1"
+            "doc": [
+                "I work closely with @List to help them get values at a particular position. So like, if you had a list, and you wanted its second item, you'd write:",
+                "⧼list: ['bird' 'duck' 'fish' 'snake']\nlist[2]⧽"
+            ],
+            "start": "let's get the list $1 first",
+            "finish": "the item is $2!"
         },
         "ListLiteral": {
             "name": "list",

@@ -216,6 +216,6 @@ export default class ListAccess extends Expression {
     }
 
     getGlyphs() {
-        return Glyphs.List;
+        return Glyphs.ListAccess;
     }
 }

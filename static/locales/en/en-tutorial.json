@@ -1618,7 +1618,7 @@
                         [
                             "List",
                             "surprised",
-                            "Oh, and that reminds me of the last rule, rule number five: I start counting at 1! Not zero, not two, 1. So if you want to get the value at a particular place in a list, you can use two more ⧼[]⧽ and give the place you want. See how when I get ⧼3⧽, I give the third value in the list, ⧼'c'⧽? Try changing it to ⧼1⧽ or ⧼5⧽ and see what you get. And then maybe try ⧼0⧽ or ⧼6⧽…"
+                            "Oh, and that reminds me of the last rule, rule number five: I start counting at 1! Not zero, not two, 1. So if you want to get the value at a particular place in a list, you can use two more ⧼[]⧽ to make a @ListAccess and give the place you want. See how when I get ⧼3⧽, I give the third value in the list, ⧼'c'⧽? Try changing it to ⧼1⧽ or ⧼5⧽ and see what you get. And then maybe try ⧼0⧽ or ⧼6⧽…"
                         ],
                         ["edit", "['a' 'b' 'c' 'd' 'e'][3]"],
                         [

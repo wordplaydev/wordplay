@@ -143,6 +143,9 @@ const GlyphSet = {
     List: {
         symbols: LIST_OPEN_SYMBOL + LIST_CLOSE_SYMBOL,
     },
+    ListAccess: {
+        symbols: PLACEHOLDER_SYMBOL + LIST_OPEN_SYMBOL + LIST_CLOSE_SYMBOL,
+    },
     Set: {
         symbols: SET_OPEN_SYMBOL + SET_CLOSE_SYMBOL,
     },
