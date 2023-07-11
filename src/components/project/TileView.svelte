@@ -188,7 +188,7 @@
     >
         <!-- Render the toolbar -->
         <div class="controls">
-            <div class="name">
+            <div class="name" class:source={tile.isSource()}>
                 {#if tile.isSource()}
                     <TextField
                         text={tile.name}
@@ -363,6 +363,9 @@
 
     .name {
         margin-right: auto;
+    }
+
+    .name.source {
         color: var(--wordplay-foreground);
     }
 </style>
