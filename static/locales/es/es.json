@@ -736,6 +736,7 @@
         },
         "StructureDefinitionType": {
             "name": "tipo de estructura",
+            "description": "$1",
             "emotion": "neutral",
             "doc": "$?"
         },

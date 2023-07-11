@@ -1092,6 +1092,7 @@
         },
         "StructureDefinitionType": {
             "name": "structure definition type",
+            "description": "$1",
             "emotion": "kind",
             "doc": "$?"
         },

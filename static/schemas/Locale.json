@@ -3182,7 +3182,8 @@
               "type": "object"
             },
             "StructureDefinitionType": {
-              "$ref": "#/definitions/NodeText"
+              "$ref": "#/definitions/DescriptiveNodeText",
+              "description": "Description $1: Name of structure"
             },
             "TableLiteral": {
               "additionalProperties": false,

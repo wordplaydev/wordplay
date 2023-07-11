@@ -36,7 +36,6 @@ import Glyphs from '../lore/Glyphs';
 import FunctionType from './FunctionType';
 import AnyType from './AnyType';
 import concretize from '../locale/concretize';
-import Description from '../locale/Description';
 
 export default class BinaryOperation extends Expression {
     readonly left: Expression;
@@ -390,10 +389,6 @@ export default class BinaryOperation extends Expression {
             translation.node.BinaryOperation.finish,
             this.getValueIfDefined(translation, context, evaluator)
         );
-    }
-
-    getDescription(): Description {
-        return Description.as(this.operator.getText());
     }
 
     getGlyphs() {

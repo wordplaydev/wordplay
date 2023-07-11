@@ -9,7 +9,6 @@ import type Definition from './Definition';
 import type Node from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
-import Description from '../locale/Description';
 
 export const STRUCTURE_NATIVE_TYPE_NAME = 'structure';
 
@@ -109,17 +108,15 @@ export default class StructureDefinitionType extends Type {
         return this.structure.getNames()[0];
     }
 
-    getDescription(translation: Locale) {
-        return Description.as(
-            this.structure.names.getLocaleText(translation.language)
-        );
-    }
-
     getNodeLocale(translation: Locale) {
         return translation.node.StructureDefinitionType;
     }
 
     getGlyphs() {
         return Glyphs.Type;
+    }
+
+    getDescriptionInputs(locale: Locale) {
+        return [this.structure.names.getLocaleText(locale.language)];
     }
 }

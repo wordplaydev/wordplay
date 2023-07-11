@@ -754,6 +754,7 @@
         },
         "StructureDefinitionType": {
             "name": "$?",
+            "description": "$1",
             "emotion": "$?",
             "doc": "$?"
         },

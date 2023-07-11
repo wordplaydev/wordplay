@@ -603,7 +603,11 @@ type NodeTexts = {
     SetType: DescriptiveNodeText;
     StreamDefinitionType: NodeText;
     StreamType: NodeText;
-    StructureDefinitionType: NodeText;
+    /**
+     * Description
+     * $1: Name of structure
+     */
+    StructureDefinitionType: DescriptiveNodeText;
     TableType: NodeText &
         Conflicts<{
             /** $: The missing column */
