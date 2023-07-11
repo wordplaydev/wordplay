@@ -28,6 +28,10 @@ Let's start with some key principles and then we'll get into the technical detai
 
 If all of those sound right to you, and you're still excited to contribute, let's get started!
 
+### Learning
+
+Before y ou start localizing, we highly recommend you go through the Wordplay tutorial first. It's linked to on the front page, and will teach you everything about the language that you might need to know to help write a great translation.
+
 ### Setup
 
 Until we manage to build some better web-based tools for localization, contributing localizations currently requires using the tools that software developers use to build Wordplay.
