@@ -52,9 +52,12 @@
 <section class="palette" aria-label={$creator.getLocale().ui.section.palette}>
     <Speech
         glyph={{
-            symbols: outputs
-                .map((output) => output.node.func.toWordplay())
-                .join(', '),
+            symbols:
+                outputs.length === 0
+                    ? '🎨'
+                    : outputs
+                          .map((output) => output.node.func.toWordplay())
+                          .join(', '),
         }}
         concept={outputs.length > 1 || definition === undefined
             ? undefined
@@ -73,7 +76,7 @@
     {#each Array.from(propertyValues.entries()) as [property, values]}
         <PaletteProperty {project} {property} {values} />
     {:else}
-        <div class="large" role="presentation">💬</div>
+        <div class="large" role="presentation">🖌️</div>
     {/each}
 </section>
 

@@ -363,5 +363,6 @@
 
     .name {
         margin-right: auto;
+        color: var(--wordplay-foreground);
     }
 </style>

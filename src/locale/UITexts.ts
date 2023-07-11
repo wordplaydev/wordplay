@@ -94,11 +94,6 @@ type UITexts = {
         /** Shown when using an anonymous account */
         anonymous: string;
     };
-    tiles: {
-        output: string;
-        docs: string;
-        palette: string;
-    };
     headers: {
         learn: string;
         editing: string;

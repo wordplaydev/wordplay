@@ -60,3 +60,7 @@ export const UNPARSABLE_SYMBOL = '🤷🏻‍♀️';
 export const SOURCE_SYMBOL = '📄';
 export const NATIVE_SYMBOL = '🤫';
 export const DEGREE_SYMBOL = '°';
+
+export const STAGE_SYMBOL = '🎭';
+export const PALETTE_SYMBOL = '🎨';
+export const DOCUMENTATION_SYMBOL = '📕';

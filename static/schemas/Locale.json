@@ -4985,26 +4985,6 @@
               ],
               "type": "object"
             },
-            "tiles": {
-              "additionalProperties": false,
-              "properties": {
-                "docs": {
-                  "type": "string"
-                },
-                "output": {
-                  "type": "string"
-                },
-                "palette": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "output",
-                "docs",
-                "palette"
-              ],
-              "type": "object"
-            },
             "tooltip": {
               "additionalProperties": false,
               "properties": {
@@ -5228,7 +5208,6 @@
             "tooltip",
             "prompt",
             "labels",
-            "tiles",
             "headers",
             "section",
             "feedback",

@@ -72,6 +72,11 @@
     import { creator } from '../../db/Creator';
     import Arrangement from '../../db/Arrangement';
     import Glyphs from '../../lore/Glyphs';
+    import {
+        DOCUMENTATION_SYMBOL,
+        PALETTE_SYMBOL,
+        STAGE_SYMBOL,
+    } from '../../parser/Symbols';
 
     export let project: Project;
     export let original: Project | undefined = undefined;
@@ -315,7 +320,7 @@
                     : [
                           new Tile(
                               OutputID,
-                              $creator.getLocale().ui.tiles.output,
+                              STAGE_SYMBOL,
                               Content.Output,
                               Mode.Expanded,
                               undefined,
@@ -331,7 +336,7 @@
                           ),
                           new Tile(
                               PaletteID,
-                              $creator.getLocale().ui.tiles.palette,
+                              PALETTE_SYMBOL,
                               Content.Palette,
                               Mode.Collapsed,
                               undefined,
@@ -339,7 +344,7 @@
                           ),
                           new Tile(
                               DocsID,
-                              $creator.getLocale().ui.tiles.docs,
+                              DOCUMENTATION_SYMBOL,
                               Content.Documentation,
                               Mode.Collapsed,
                               undefined,

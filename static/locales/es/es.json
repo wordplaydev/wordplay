@@ -1539,7 +1539,6 @@
             "notContent": "$?",
             "anonymous": "$?"
         },
-        "tiles": { "output": "💬", "docs": "📕", "palette": "🎨" },
         "headers": {
             "learn": "$?",
             "editing": "¡edítame!",
