@@ -120,7 +120,7 @@
 
     .description {
         margin-left: var(--wordplay-spacing);
-        margin-top: var(--wordplay-spacing);
+        margin-top: calc(var(--wordplay-spacing) / 2);
     }
 
     .description:focus {

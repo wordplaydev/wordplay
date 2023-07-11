@@ -115,8 +115,7 @@
         transform: scale(1.1, 0.9) translateY(0);
     }
     30% {
-        transform: scale(0.9, 1.1)
-            translateY(calc(-1 * var(--bounce-height)));
+        transform: scale(0.9, 1.1) translateY(calc(-1 * var(--bounce-height)));
     }
     50% {
         transform: scale(1.05, 0.95) translateY(0);
@@ -245,17 +244,17 @@ h3:not(:first-child) {
 }
 
 h1 {
-    font-size: large;
+    font-size: 20pt;
     font-weight: bold;
 }
 
 h2 {
-    font-size: medium;
+    font-size: 18pt;
     font-weight: bold;
 }
 
 h3 {
-    font-size: medium;
+    font-size: 16pt;
     font-style: italic;
     font-weight: normal;
 }
@@ -279,7 +278,6 @@ a:focus {
     outline: none;
     text-decoration: underline;
     text-decoration-thickness: var(--wordplay-focus-width);
-
 }
 
 a:hover {

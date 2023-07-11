@@ -11,7 +11,7 @@
 <style>
     div {
         font-style: italic;
-        font-size: small;
+        font-size: 14pt;
         color: var(--wordplay-disabled-color);
     }
 
