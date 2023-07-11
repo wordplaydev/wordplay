@@ -50,6 +50,6 @@ export default class BooleanType extends NativeType {
     }
 
     getGlyphs() {
-        return Glyphs.Bool;
+        return Glyphs.BooleanType;
     }
 }

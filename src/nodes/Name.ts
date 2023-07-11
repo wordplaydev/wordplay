@@ -13,6 +13,7 @@ import Purpose from '../concepts/Purpose';
 import type Context from './Context';
 import type Definition from './Definition';
 import Evaluate from './Evaluate';
+import ReservedSymbols from '../parser/ReservedSymbols';
 
 export default class Name extends Node {
     readonly separator: Token | undefined;
@@ -93,8 +94,16 @@ export default class Name extends Node {
               );
     }
 
-    isEmoji() {
-        return this.name && this.name.text.getLength() === 1;
+    /** Symbolic if it matches the binary op regex  */
+    isSymbolic() {
+        return (
+            this.name &&
+            (this.name.text.getLength() === 1 ||
+                this.name.text
+                    .getText()
+                    .split('')
+                    .every((c) => ReservedSymbols.includes(c)))
+        );
     }
 
     getName(): string | undefined {

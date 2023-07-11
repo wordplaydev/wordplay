@@ -95,7 +95,7 @@ export default class Names extends Node {
 
     /** Returns a single grapheme name if there is one. */
     getEmojiName() {
-        return this.names.find((name) => name.isEmoji())?.getName();
+        return this.names.find((name) => name.isSymbolic())?.getName();
     }
 
     getLocaleText(
@@ -116,7 +116,7 @@ export default class Names extends Node {
             return (
                 lang !== undefined &&
                 languages.includes(lang) &&
-                (symbolic || !name.isEmoji())
+                (symbolic || !name.isSymbolic())
             );
         });
         return (

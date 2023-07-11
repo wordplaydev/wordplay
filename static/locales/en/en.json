@@ -686,7 +686,7 @@
             "emotion": "eager",
             "doc": [
                 "Do you know how to make a @List? I'm how!",
-                "You can put anything in me: @Boolean, @Measurement, @Text, @None, even other @List, @Set, @Map, or any expression. Here's a simple one",
+                "You can put anything in me: @Boolean, @Measurement, @Text, @None, even other @List, @Set, @Map, or any expression. Here's a simple one:",
                 "⧼['apple' 'banana' 'mango']⧽",
                 "What makes me special is that I keep things in order and I number everything from 1 to however many items are in me. For example, the three words in this list are numbered 1, 2, and 3. You can get values that I'm storing with @ListAccess, using their number.",
                 "For example, the second value in this list is ⧼['banana']⧽",

@@ -115,9 +115,6 @@ const GlyphSet = {
     Type: {
         symbols: TYPE_SYMBOL,
     },
-    Bool: {
-        symbols: QUESTION_SYMBOL,
-    },
     BooleanLiteral: {
         symbols: TRUE_SYMBOL + FALSE_SYMBOL,
     },

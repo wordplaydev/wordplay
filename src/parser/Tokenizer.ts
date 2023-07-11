@@ -1,14 +1,12 @@
 import Token from '@nodes/Token';
 import TokenType from '@nodes/TokenType';
 import {
-    BASE_SYMBOL,
     BIND_SYMBOL,
     QUESTION_SYMBOL,
     BORROW_SYMBOL,
     CHANGE_SYMBOL,
     CONVERT_SYMBOL,
     DOCS_SYMBOL,
-    ETC_SYMBOL,
     EVAL_CLOSE_SYMBOL,
     EVAL_OPEN_SYMBOL,
     FALSE_SYMBOL,
@@ -35,7 +33,6 @@ import {
     TABLE_OPEN_SYMBOL,
     TAG_CLOSE_SYMBOL,
     TAG_OPEN_SYMBOL,
-    TEMPLATE_SYMBOL,
     TRUE_SYMBOL,
     TYPE_CLOSE_SYMBOL,
     TYPE_OPEN_SYMBOL,
@@ -53,44 +50,7 @@ import {
 } from './Symbols';
 import TokenList from './TokenList';
 import ConceptRegEx from './ConceptRegEx';
-
-const RESERVED_SYMBOLS = [
-    TEMPLATE_SYMBOL,
-    EVAL_OPEN_SYMBOL,
-    EVAL_CLOSE_SYMBOL,
-    LIST_OPEN_SYMBOL,
-    LIST_CLOSE_SYMBOL,
-    SET_OPEN_SYMBOL,
-    SET_CLOSE_SYMBOL,
-    TYPE_OPEN_SYMBOL,
-    TYPE_CLOSE_SYMBOL,
-    TABLE_OPEN_SYMBOL,
-    TABLE_CLOSE_SYMBOL,
-    TAG_OPEN_SYMBOL,
-    TAG_CLOSE_SYMBOL,
-    LINK_SYMBOL,
-    BIND_SYMBOL,
-    PROPERTY_SYMBOL,
-    BASE_SYMBOL,
-    FUNCTION_SYMBOL,
-    BORROW_SYMBOL,
-    SHARE_SYMBOL,
-    DOCS_SYMBOL,
-    NONE_SYMBOL,
-    TYPE_SYMBOL,
-    STREAM_SYMBOL,
-    PREVIOUS_SYMBOL,
-    CONVERT_SYMBOL,
-    PLACEHOLDER_SYMBOL,
-    ETC_SYMBOL,
-    TRUE_SYMBOL,
-    FALSE_SYMBOL,
-    NOT_SYMBOL,
-    LANGUAGE_SYMBOL,
-    COMMA_SYMBOL,
-    EXAMPLE_OPEN_SYMBOL,
-    EXAMPLE_CLOSE_SYMBOL,
-];
+import ReservedSymbols from './ReservedSymbols';
 
 const TEXT_SEPARATORS = '\'‘’"“”„«»‹›「」『』';
 const UNARY_OPERATORS = `${NOT_SYMBOL}${NEGATE_SYMBOL}`;
@@ -129,7 +89,7 @@ export const WordsRegEx = new RegExp(
     'u'
 );
 
-export const NameRegExPattern = `^[^\n\t ${RESERVED_SYMBOLS.map((s) =>
+export const NameRegExPattern = `^[^\n\t ${ReservedSymbols.map((s) =>
     escapeRegexCharacter(s)
 ).join('')}${TEXT_SEPARATORS}${BINARY_OPERATORS}]+`;
 export const NameRegEx = new RegExp(NameRegExPattern, 'u');
