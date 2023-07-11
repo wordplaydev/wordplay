@@ -314,8 +314,8 @@
         padding-right: var(--wordplay-spacing);
         padding-bottom: 0;
 
-        color: var(--wordplay-disabled-color);
-        fill: var(--wordplay-disabled-color);
+        color: var(--wordplay-inactive-color);
+        fill: var(--wordplay-inactive-color);
         gap: var(--wordplay-spacing);
     }
 

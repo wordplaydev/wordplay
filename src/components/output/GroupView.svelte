@@ -153,7 +153,7 @@
 
     :global(.verse.editing.interactive) .group:not(.selected):not(.root) {
         outline: var(--wordplay-border-width) dotted
-            var(--wordplay-disabled-color);
+            var(--wordplay-inactive-color);
     }
 
     :global(.verse.editing.interactive) .group.selected {

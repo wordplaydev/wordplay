@@ -15,7 +15,7 @@
 
 <style>
     .placeholder :global(.token-view) {
-        color: var(--wordplay-disabled-color);
+        color: var(--wordplay-inactive-color);
         font-style: italic;
     }
 

@@ -229,7 +229,7 @@
 
     :global(.verse.editing.interactive) :not(.selected) {
         outline: var(--wordplay-border-width) dotted
-            var(--wordplay-disabled-color);
+            var(--wordplay-inactive-color);
     }
 
     input {

@@ -65,7 +65,7 @@
     }
 
     .untitled {
-        color: var(--wordplay-disabled-color);
+        color: var(--wordplay-inactive-color);
     }
 
     .preview {

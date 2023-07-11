@@ -88,6 +88,6 @@
 
     .button.active {
         transform: scale(0.75);
-        color: var(--wordplay-disabled-color);
+        color: var(--wordplay-inactive-color);
     }
 </style>

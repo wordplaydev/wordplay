@@ -12,7 +12,7 @@
     div {
         font-style: italic;
         font-size: 14pt;
-        color: var(--wordplay-disabled-color);
+        color: var(--wordplay-inactive-color);
     }
 
     .center {

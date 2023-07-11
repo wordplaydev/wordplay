@@ -121,7 +121,7 @@
         color: var(--color-pink);
     }
     .token-category-placeholder {
-        color: var(--wordplay-disabled-color);
+        color: var(--wordplay-inactive-color);
     }
 
     .token-view.newline {

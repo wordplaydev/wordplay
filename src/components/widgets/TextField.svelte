@@ -72,7 +72,7 @@
     }
 
     input.border {
-        border-bottom: var(--wordplay-disabled-color) solid
+        border-bottom: var(--wordplay-inactive-color) solid
             var(--wordplay-border-width);
     }
 
@@ -93,7 +93,7 @@
     }
 
     input::placeholder {
-        color: var(--wordplay-disabled-color);
+        color: var(--wordplay-inactive-color);
         font-style: italic;
         opacity: 1;
     }

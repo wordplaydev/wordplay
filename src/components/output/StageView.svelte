@@ -284,7 +284,7 @@
                 -contentBounds.top + contentBounds.height / 2,
                 z
             );
-            // If we're currently fitting to content, just make the adjusted focus the same in case the setting is disabled.
+            // If we're currently fitting to content, just make the adjusted focus the same in case the setting is inactive.
             // This ensures we start from where we left off.
             adjustedFocus = fitFocus;
         }
@@ -1013,9 +1013,9 @@
     .gridline {
         position: absolute;
         border-style: solid;
-        border-color: var(--wordplay-disabled-color);
+        border-color: var(--wordplay-inactive-color);
         border: none;
-        background: var(--wordplay-disabled-color);
+        background: var(--wordplay-inactive-color);
     }
 
     .horizontal {

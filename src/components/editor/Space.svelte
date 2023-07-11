@@ -63,7 +63,7 @@
 <style>
     /* Make space visible, but just so. */
     .space {
-        color: var(--wordplay-disabled-color);
+        color: var(--wordplay-inactive-color);
     }
 
     /* If the space is in something dragged, hide it */

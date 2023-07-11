@@ -18,7 +18,7 @@
     --wordplay-highlight: var(--color-yellow);
     --wordplay-error: var(--color-orange);
     --wordplay-warning: var(--color-yellow);
-    --wordplay-disabled-color: var(--color-dark-grey);
+    --wordplay-inactive-color: var(--color-light-grey);
     --wordplay-doc-color: var(--color-purple);
     --wordplay-relation-color: var(--color-orange);
     --wordplay-operator-color: var(--color-orange);
@@ -64,7 +64,7 @@
     --wordplay-highlight: var(--color-yellow);
     --wordplay-error: var(--color-orange);
     --wordplay-warning: var(--color-yellow);
-    --wordplay-disabled-color: var(--color-light-grey);
+    --wordplay-inactive-color: var(--color-light-grey);
     --wordplay-doc-color: var(--color-purple);
     --wordplay-relation-color: var(--color-orange);
     --wordplay-operator-color: var(--color-orange);

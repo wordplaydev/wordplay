@@ -25,6 +25,6 @@
     }
 
     [type='checkbox']:checked {
-        background: var(--wordplay-disabled-color);
+        background: var(--wordplay-inactive-color);
     }
 </style>

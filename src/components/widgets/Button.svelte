@@ -9,7 +9,7 @@
     export let classes: string | undefined = undefined;
 </script>
 
-<!-- Note that we don't disable the button using disabled because that makes
+<!-- Note that we don't make the button inactive using "disabled" because that makes
     it invisible to screen readers. -->
 <button
     class:stretch
@@ -53,7 +53,7 @@
     [aria-disabled='true'] {
         cursor: default;
         background: none;
-        color: var(--wordplay-disabled-color);
+        color: var(--wordplay-inactive-color);
     }
 
     button:focus {

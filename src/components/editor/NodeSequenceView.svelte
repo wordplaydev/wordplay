@@ -98,6 +98,6 @@
 <style>
     .count {
         font-size: x-small;
-        color: var(--wordplay-disabled-color);
+        color: var(--wordplay-inactive-color);
     }
 </style>

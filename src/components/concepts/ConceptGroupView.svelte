@@ -59,7 +59,7 @@
     .expander {
         text-align: center;
         cursor: pointer;
-        color: var(--wordplay-disabled-color);
+        color: var(--wordplay-inactive-color);
     }
 
     .expander {
