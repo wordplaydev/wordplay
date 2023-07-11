@@ -1102,12 +1102,10 @@
                     $creator.reviseProject(project, project.withName(name))}
             />
             {#each layout.getNonSources() as tile}
-                {#if tile.isCollapsed()}
-                    <NonSourceTileToggle
-                        {tile}
-                        on:toggle={() => toggleTile(tile)}
-                    />
-                {/if}
+                <NonSourceTileToggle
+                    {tile}
+                    on:toggle={() => toggleTile(tile)}
+                />
             {/each}
             {#each project.getSources() as source, index}
                 {@const tile = layout.getTileWithID(Layout.getSourceID(index))}
