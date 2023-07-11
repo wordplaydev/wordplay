@@ -72,6 +72,8 @@
 
     {#each Array.from(propertyValues.entries()) as [property, values]}
         <PaletteProperty {project} {property} {values} />
+    {:else}
+        <div class="large" role="presentation">💬</div>
     {/each}
 </section>
 
@@ -92,5 +94,14 @@
 
     .palette:focus {
         outline: none;
+    }
+
+    .large {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        font-size: 160pt;
+        justify-content: center;
+        color: var(--wordplay-inactive-color);
     }
 </style>
