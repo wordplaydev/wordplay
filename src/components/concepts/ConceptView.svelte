@@ -20,13 +20,11 @@
     transition:slide|local={{ duration: $creator.getAnimationDuration() }}
 >
     {#if header}
-        <h1
-            ><CodeView {concept} {type} {node} describe={false} />
-            <!-- {#each $preferredLocales as translation, index}
+        <CodeView {concept} {type} {node} describe={false} />
+        <!-- {#each $preferredLocales as translation, index}
                 {#if index > 0}/{/if}
                 <DescriptionView description={concept.getName(translation)} />
             {/each} -->
-        </h1>
     {/if}
 
     <Speech glyph={concept.getGlyphs($creator.getLanguages())} below={header}>

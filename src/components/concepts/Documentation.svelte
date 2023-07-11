@@ -191,6 +191,31 @@
 <!-- Drop what's being dragged if the window loses focus. -->
 <svelte:window on:blur={() => dragged.set(undefined)} />
 
+<div class="header">
+    <TextField placeholder={'🔍'} bind:text={query} fill />
+    {#if currentConcept}
+        <span class="path">
+            {#if $path.length > 1}
+                <Button tip={$creator.getLocale().ui.tooltip.home} action={home}
+                    >⇤</Button
+                >{/if}
+            <Button tip={$creator.getLocale().ui.tooltip.back} action={back}
+                >←</Button
+            >
+            <Note
+                >{#each $path as concept, index}{#if index > 0}
+                        …
+                    {/if}<DescriptionView
+                        description={concept.getName(
+                            $creator.getLocale(),
+                            false
+                        )}
+                    />
+                {/each}</Note
+            >
+        </span>
+    {/if}
+</div>
 <section
     class="palette"
     aria-label={$creator.getLocale().ui.section.palette}
@@ -198,29 +223,6 @@
     on:pointerup={handleDrop}
     bind:this={view}
 >
-    <div class="header">
-        <TextField placeholder={'🔍'} bind:text={query} fill />
-        {#if currentConcept}
-            <span class="path">
-                <Button tip={$creator.getLocale().ui.tooltip.home} action={home}
-                    >🏠</Button
-                >
-                <Button tip={$creator.getLocale().ui.tooltip.back} action={back}
-                    >👈</Button
-                >
-                <Note
-                    >{#each $path as concept, index}
-                        {#if index > 0}&nbsp;&mdash;&nbsp;{/if}<DescriptionView
-                            description={concept.getName(
-                                $creator.getLocale(),
-                                false
-                            )}
-                        />
-                    {/each}</Note
-                >
-            </span>
-        {/if}
-    </div>
     <div class="content">
         <!-- Search results are prioritized over a selected concept -->
         {#if results}
@@ -232,13 +234,15 @@
                 />
                 <!-- Show the matching text -->
                 {#each text as [match, index]}
-                    <p class="result"
-                        >{match.substring(0, index)}<span class="match"
-                            >{match.substring(
-                                index,
-                                index + query.length
-                            )}</span
-                        >{match.substring(index + query.length)}</p
+                    <p class="result">
+                        <Note
+                            >{match.substring(0, index)}<span class="match"
+                                >{match.substring(
+                                    index,
+                                    index + query.length
+                                )}</span
+                            >{match.substring(index + query.length)}</Note
+                        ></p
                     >
                 {/each}
             {:else}
@@ -346,6 +350,11 @@
         display: flex;
         flex-direction: column;
         gap: var(--wordplay-spacing);
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        margin-left: calc(var(--wordplay-spacing) / 2);
+        margin-right: calc(var(--wordplay-spacing) / 2);
     }
 
     .path {
@@ -359,6 +368,8 @@
 
     .result {
         font-style: italic;
+        margin-top: var(--wordplay-spacing);
+        margin-left: var(--wordplay-spacing);
     }
 
     .match {

@@ -3,7 +3,6 @@
     import RootView from '../project/RootView.svelte';
     import { getConceptPath } from '../project/Contexts';
     import type Node from '@nodes/Node';
-    import Note from '../widgets/Note.svelte';
     import TypeView from './TypeView.svelte';
     import DescriptionView from './DescriptionView.svelte';
     import { toClipboard } from '../editor/util/Clipboard';
@@ -73,11 +72,9 @@
                     ? select(event)
                     : undefined}
         >
-            <Note>
-                {#if description}
-                    <DescriptionView {description} />
-                {/if}</Note
-            >
+            {#if description}
+                <DescriptionView {description} />
+            {/if}
         </div>
     {/if}
 </div>
@@ -134,11 +131,13 @@
     }
 
     .description.selectable {
-        color: var(--wordplay-highlight);
+        text-decoration: underline;
+        text-decoration-color: var(--wordplay-highlight);
     }
 
     .description.selectable:hover {
         text-decoration: underline;
+        text-decoration-color: var(--wordplay-highlight);
         text-decoration-thickness: var(--wordplay-focus-width);
     }
 
