@@ -105,6 +105,7 @@
         width: 100%;
         height: 100%;
         --radius: 0.25em;
+        pointer-events: none;
     }
 
     .eye {

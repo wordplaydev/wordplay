@@ -42,7 +42,9 @@
 >
     {#key glyph}
         <div
-            class="glyphs {renderedEmotion ? `emotion-${renderedEmotion}` : ''}"
+            class="glyphs {symbols.length >= 3 ? 'small' : ''} {renderedEmotion
+                ? `emotion-${renderedEmotion}`
+                : ''}"
         >
             {#if concept}
                 <ConceptLinkUI link={concept} salient={false} label={symbols} />
@@ -103,18 +105,18 @@
         font-family: var(--wordplay-code-font);
         position: relative;
         margin-right: auto;
+        font-size: 2em;
+    }
+
+    .glyphs.small {
+        font-size: 1em;
     }
 
     .row .glyphs {
-        font-size: 2em;
         max-width: 4em;
         flex-shrink: 0;
         text-align: center;
         word-break: break-all;
-    }
-
-    .column .glyphs {
-        font-size: 2em;
     }
 
     .scroller {
