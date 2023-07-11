@@ -4749,11 +4749,15 @@
                 },
                 "projects": {
                   "type": "string"
+                },
+                "select": {
+                  "type": "string"
                 }
               },
               "required": [
                 "learn",
                 "editing",
+                "select",
                 "projects",
                 "examples"
               ],

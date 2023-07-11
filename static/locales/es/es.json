@@ -706,6 +706,7 @@
         },
         "MeasurementType": {
             "name": "tipo de número",
+            "description": "$1 ?? [$1 | number]",
             "emotion": "neutral",
             "doc": "$?"
         },
@@ -1542,6 +1543,7 @@
         "headers": {
             "learn": "$?",
             "editing": "¡edítame!",
+            "select": "$?",
             "projects": "Funcións",
             "examples": "ejemplos"
         },

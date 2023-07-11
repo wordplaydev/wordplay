@@ -1930,9 +1930,10 @@
             "notContent": "not a content list",
             "anonymous": "anonymous"
         },
-        "tiles": { "output": "💬", "docs": "📕", "palette": "🎨" },
+        "tiles": { "output": "🎭", "docs": "📕", "palette": "🎨" },
         "headers": {
             "learn": "Learn",
+            "select": "select a 💬, 🔳, or 🎭 to edit!",
             "editing": "edit me!",
             "projects": "Performances",
             "examples": "Examples"

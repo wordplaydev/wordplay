@@ -293,6 +293,10 @@
         border-right: var(--wordplay-border-color) solid 1px;
     }
 
+    .tile.vertical.palette {
+        border-bottom: var(--wordplay-border-color) solid 1px;
+    }
+
     .tile.horizontal:not(:last-child) {
         border-right: var(--wordplay-border-color) solid 1px;
     }

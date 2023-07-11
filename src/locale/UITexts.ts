@@ -102,6 +102,7 @@ type UITexts = {
     headers: {
         learn: string;
         editing: string;
+        select: string;
         projects: string;
         examples: string;
     };

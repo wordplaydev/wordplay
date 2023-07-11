@@ -516,7 +516,7 @@
             if ($selectedOutput && $selectedOutput.length > 0) {
                 if (palette.mode === Mode.Collapsed)
                     setMode(palette, Mode.Expanded);
-            } else setMode(palette, Mode.Collapsed);
+            }
         }
     }
 

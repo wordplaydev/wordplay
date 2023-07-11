@@ -62,7 +62,11 @@
     >
         {$creator
             .getLocales()
-            .map((t) => t.ui.headers.editing)
+            .map((t) =>
+                propertyValues.size === 0
+                    ? t.ui.headers.select
+                    : t.ui.headers.editing
+            )
             .join(' ')}
     </Speech>
 
