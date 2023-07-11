@@ -35,7 +35,6 @@ import {
     TABLE_CLOSE_SYMBOL,
     TABLE_OPEN_SYMBOL,
     TEMPLATE_SYMBOL,
-    TEXT_SYMBOL,
     TRUE_SYMBOL,
     TYPE_CLOSE_SYMBOL,
     TYPE_OPEN_SYMBOL,
@@ -120,7 +119,7 @@ const GlyphSet = {
         symbols: QUESTION_SYMBOL,
     },
     BooleanLiteral: {
-        symbols: FUNCTION_SYMBOL,
+        symbols: TRUE_SYMBOL + FALSE_SYMBOL,
     },
     BooleanType: {
         symbols: TRUE_SYMBOL + FALSE_SYMBOL,
@@ -129,12 +128,15 @@ const GlyphSet = {
         symbols: NONE_SYMBOL,
     },
     TextLiteral: {
-        symbols: TEXT_SYMBOL + TEXT_SYMBOL,
+        symbols: FUNCTION_SYMBOL,
     },
     Template: {
         symbols: TEMPLATE_SYMBOL,
     },
     Map: {
+        symbols: SET_OPEN_SYMBOL + BIND_SYMBOL + SET_CLOSE_SYMBOL,
+    },
+    MapLiteral: {
         symbols: SET_OPEN_SYMBOL + BIND_SYMBOL + SET_CLOSE_SYMBOL,
     },
     Measurement: {

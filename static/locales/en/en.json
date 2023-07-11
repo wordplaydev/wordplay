@@ -417,9 +417,8 @@
             "description": "$1 ?? [true|false]",
             "emotion": "precise",
             "doc": [
-                "⧼⊤⧽ and ⧼⊥⧽ are how we make @Boolean in the Verse!",
-                "Past directors have had lots of ways of typing them.",
-                "Some use the keyboard (/ctrl+9/ for ⧼⊤⧽ and /ctrl+0/ for ⧼⊥⧽). Some use the symbol chooser in the editor. Or you can drag them from here."
+                "How do you make a @Boolean? Just ⧼⊤⧽ and ⧼⊥⧽, nothing more, nothing less.",
+                "Some use the keyboard (/ctrl+9/ for ⧼⊤⧽ and /ctrl+0/ for ⧼⊥⧽). Some use the symbol chooser in the editor. Or you can drag us from here."
             ],
             "start": "$1!"
         },
@@ -686,17 +685,17 @@
             "description": "$1 item list",
             "emotion": "eager",
             "doc": [
-                "I'm a list of expressions! You can put anything in me: @BooleanLiteral, @MeasurementLiteral, @TextLiteral, @NoneLiteral, even other @ListLiteral, @SetLiteral, @MapLiteral, and more.",
-                "What makes me special is that I keep things in order and I number everything from 1 to however many items are in me.",
-                "For example, the three words in this list are numbered 1, 2, and 3.",
+                "Do you know how to make a @List? I'm how!",
+                "You can put anything in me: @Boolean, @Measurement, @Text, @None, even other @List, @Set, @Map, or any expression. Here's a simple one",
                 "⧼['apple' 'banana' 'mango']⧽",
-                "You can get values that I'm storing by their number.",
+                "What makes me special is that I keep things in order and I number everything from 1 to however many items are in me. For example, the three words in this list are numbered 1, 2, and 3. You can get values that I'm storing with @ListAccess, using their number.",
                 "For example, the second value in this list is ⧼['banana']⧽",
                 "⧼['apple' 'banana' 'mango'][2]⧽",
-                ""
+                "I really can have anything in me. Look at this list, with @Text, @Measurement, and @Time!",
+                "⧼['apple' 10 + 10 Time()]⧽"
             ],
             "start": "let's evaluate the items first",
-            "finish": "evaluated to list $1",
+            "finish": "I made a me! $1",
             "item": "item"
         },
         "MapLiteral": {
