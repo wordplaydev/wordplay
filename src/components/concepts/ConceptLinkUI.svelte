@@ -108,7 +108,8 @@
     }
 
     span.interactive {
-        text-shadow: 1px 1px 2px var(--wordplay-highlight);
+        text-decoration: underline;
+        text-decoration-color: var(--wordplay-highlight);
     }
 
     span.interactive:hover {
