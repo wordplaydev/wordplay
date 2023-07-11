@@ -633,9 +633,14 @@
             "finish": "I evaluated to $1"
         },
         "Initial": {
-            "name": "initial evaluation",
+            "name": "start",
             "emotion": "curious",
-            "doc": "$?"
+            "doc": [
+                "I tell you whether the current evaluation of @Program is the first one, evaluating to a @Boolean. For example:",
+                "⧼◆ ? Time() 'hi'⧽",
+                "You didn't see it, but the first evaluation was a time, but then all future time ticks, I was ⧼⊥⧽, so @Conditional made ⧼⊤⧽.",
+                "I'm really helpful if you're working with a stream and you only want to do something the first time -- or never on the first time!"
+            ]
         },
         "Insert": {
             "name": "insert",
