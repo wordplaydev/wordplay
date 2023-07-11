@@ -17,8 +17,7 @@
     export let spaces: Spaces;
 </script>
 
-{#each doc.paragraphs as paragraph, index}
-    <p
+{#each doc.paragraphs as paragraph, index}<p
         class="paragraph"
         class:animated={$creator.getAnimationFactor() > 0}
         style="--delay:{$creator.getAnimationDuration() * index * 0.5}ms"
@@ -38,9 +37,8 @@
                     {spaces}
                 />
             {/if}
-        {/each}
-    </p>
-{/each}
+        {/each}</p
+    >{/each}
 
 <style>
     .paragraph.animated {

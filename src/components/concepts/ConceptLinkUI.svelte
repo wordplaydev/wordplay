@@ -79,8 +79,7 @@
     }
 </script>
 
-{#if concept}
-    <span
+{#if concept}<span
         role="button"
         class="interactive"
         class:salient
@@ -90,13 +89,10 @@
             event.key == ' ' || event.key === 'Enter' ? navigate() : undefined}
         >{#if label}{label}{:else}{longName}{#if symbolicName !== longName}<sub
                     >{symbolicName}</sub
-                >{/if}{/if}
-    </span>
-{:else if ui}
-    <TutorialHighlight />
-{:else if link instanceof ConceptLink}
-    <span>{link.concept.getText()}</span>
-{/if}
+                >{/if}{/if}</span
+    >{:else if ui}<TutorialHighlight
+    />{:else if link instanceof ConceptLink}<span>{link.concept.getText()}</span
+    >{/if}
 
 <style>
     span {

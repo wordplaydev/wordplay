@@ -27,8 +27,7 @@
             />{:else if segment instanceof Words}<svelte:self
                 words={segment}
                 {spaces}
-            />{:else if segment instanceof Token}{#if index > 0 && spaces && spaces.getSpace(segment).length > 0}&nbsp;{/if}{segment.getText()}{/if}
-    {/each}</span
+            />{:else if segment instanceof Token}{#if index > 0 && spaces.getSpace(segment).length > 0}&nbsp;{/if}{segment.getText()}{/if}{/each}</span
 >
 
 <style>
