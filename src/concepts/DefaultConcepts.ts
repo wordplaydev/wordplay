@@ -36,7 +36,11 @@ import Purpose from './Purpose';
 import type Node from '../nodes/Node';
 import AnyType from '../nodes/AnyType';
 import BinaryOperation from '../nodes/BinaryOperation';
-import { PLACEHOLDER_SYMBOL, SUM_SYMBOL } from '../parser/Symbols';
+import {
+    CONVERT_SYMBOL,
+    PLACEHOLDER_SYMBOL,
+    SUM_SYMBOL,
+} from '../parser/Symbols';
 import ConceptLink from '../nodes/ConceptLink';
 import ConversionType from '../nodes/ConversionType';
 import Dimension from '../nodes/Dimension';
@@ -70,6 +74,9 @@ import type { Native } from '../native/Native';
 import Docs from '../nodes/Docs';
 import Name from '../nodes/Name';
 import DocumentedExpression from '../nodes/DocumentedExpression';
+import ListCloseToken from '../nodes/ListCloseToken';
+import EvalOpenToken from '../nodes/EvalOpenToken';
+import SetCloseToken from '../nodes/SetCloseToken';
 
 /** These are ordered by appearance in the docs. */
 const template: Node[] = [
@@ -219,7 +226,12 @@ const template: Node[] = [
     Example.make(Program.make()),
     new Paragraph([Words.make()]),
     Words.make(),
-    new UnparsableExpression([]),
+    new UnparsableExpression([
+        new ListCloseToken(),
+        new EvalOpenToken(),
+        new SetCloseToken(),
+        new Token(CONVERT_SYMBOL, TokenType.Convert),
+    ]),
 ];
 
 export function getNodeConcepts(context: Context): NodeConcept[] {
