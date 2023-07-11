@@ -50,8 +50,8 @@ export default class BindConcept extends Concept {
         return this.bind.hasName(name);
     }
 
-    getDocs(translation: Locale): [Doc, Spaces] | undefined {
-        const doc = this.bind.docs?.getLocale(translation.language);
+    getDocs(locale: Locale): [Doc, Spaces] | undefined {
+        const doc = this.bind.docs?.getLocale(locale.language);
         return doc ? [doc, this.context.source.spaces] : undefined;
     }
 

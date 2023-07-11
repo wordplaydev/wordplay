@@ -31,15 +31,15 @@
 
     <Speech glyph={concept.getGlyphs($creator.getLanguages())} below={header}>
         <MissingLocalesView />
-        {#each $creator.getLocales() as trans}
-            {@const [doc, spaces] = concept.getDocs(trans) ?? [
+        {#each $creator.getLocales() as locale}
+            {@const [doc, spaces] = concept.getDocs(locale) ?? [
                 undefined,
                 undefined,
             ]}
             {#if doc && spaces}
                 <DocHTMLView {doc} {spaces} />
             {:else}
-                {trans.ui.labels.nodoc}
+                {locale.ui.labels.nodoc}
             {/if}
         {:else}
             {#each $creator.getLocales() as trans}

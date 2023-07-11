@@ -662,7 +662,7 @@
                 "I'm really helpful when you need to know whether some @Name has a value of a particular kind."
             ],
             "start": "let's get the value of $1 first",
-            "finish": "$1 ?? [ value is $2 | value is not $2 ]",
+            "finish": "$1 ?? [value is $2|value is not $2]",
             "conflict": {
                 "ImpossibleType": "this can't ever be this type"
             },
@@ -967,7 +967,7 @@
             "name": "unparsable",
             "emotion": "excited",
             "doc": [
-                "(Hi @FunctionDefinition here. I'm translating for @UnparsableExpression, since they're often hard to interpret.)",
+                "/Hi @FunctionDefinition here. I'm translating for @UnparsableExpression, since they're often hard to interpret./",
                 "Not every expression has meaning on stage.",
                 "In fact, there are all kinds of things you can say that don't make any sense at all.",
                 "When you do, I show up. I'll try to guess what you might have meant, but it's up to you to fix it.",

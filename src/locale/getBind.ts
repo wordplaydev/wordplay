@@ -17,9 +17,9 @@ export function getBind(
     );
     return (
         new Docs(
-            inputs.map(([translation, input]) =>
+            inputs.map(([locale, input]) =>
                 parseLocaleDoc(toDocString(input.doc)).withLanguage(
-                    localeToLanguage(translation)
+                    localeToLanguage(locale)
                 )
             )
         ).toWordplay() +

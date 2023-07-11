@@ -43,11 +43,10 @@ export default class NodeConcept extends Concept {
         return match ? match[0] === name || match[1].name === name : false;
     }
 
-    getDocs(translation: Locale): [Doc, Spaces] | undefined {
-        const doc = this.template.getDoc(translation);
-        const tokens = toTokens(
-            '`' + (typeof doc === 'string' ? doc : doc.join('\n\n')) + '`'
-        );
+    getDocs(locale: Locale): [Doc, Spaces] | undefined {
+        const docs = this.template.getDoc(locale);
+        const doc = typeof docs === 'string' ? docs : docs.join('\n\n');
+        const tokens = toTokens('`' + doc + '`');
         return [parseDoc(tokens), tokens.getSpaces()];
     }
 
