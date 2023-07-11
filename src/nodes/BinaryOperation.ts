@@ -402,4 +402,8 @@ export default class BinaryOperation extends Expression {
             emotion: Emotion.kind,
         };
     }
+
+    getDescriptionInputs() {
+        return [this.operator.getText()];
+    }
 }

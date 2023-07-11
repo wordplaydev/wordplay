@@ -87,12 +87,14 @@ type NodeTexts = {
     Words: NodeText;
     Example: NodeText;
     /**
+     * Description
+     * $1: the operator
      * Start
      * $1: left expression
      * Finish
      * $1: result
      */
-    BinaryOperation: NodeText &
+    BinaryOperation: DescriptiveNodeText &
         ExpressionText & {
             right: Template;
         } & Conflicts<{ OrderOfOperations: InternalConflictText }>;

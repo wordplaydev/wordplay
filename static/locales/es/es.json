@@ -203,6 +203,7 @@
         },
         "BinaryOperation": {
             "name": "operación binaria",
+            "description": "operación $1",
             "emotion": "neutral",
             "doc": "$?",
             "right": "input",

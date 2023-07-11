@@ -317,6 +317,7 @@
         },
         "BinaryOperation": {
             "name": "binary operation",
+            "description": "$1 operation",
             "emotion": "insecure",
             "doc": [
                 "I'm @Evaluate, but in a simpler form, helpful when you want to use a @FunctionDefinition that takes two inputs.",

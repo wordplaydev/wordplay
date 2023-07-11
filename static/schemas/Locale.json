@@ -1436,7 +1436,7 @@
             },
             "BinaryOperation": {
               "additionalProperties": false,
-              "description": "Start $1: left expression Finish $1: result",
+              "description": "Description $1: the operator Start $1: left expression Finish $1: result",
               "properties": {
                 "conflict": {
                   "additionalProperties": false,
@@ -1449,6 +1449,9 @@
                     "OrderOfOperations"
                   ],
                   "type": "object"
+                },
+                "description": {
+                  "$ref": "#/definitions/Template"
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText"
@@ -1471,6 +1474,7 @@
               },
               "required": [
                 "conflict",
+                "description",
                 "doc",
                 "emotion",
                 "finish",

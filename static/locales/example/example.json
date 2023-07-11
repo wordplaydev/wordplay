@@ -221,6 +221,7 @@
         },
         "BinaryOperation": {
             "name": "$?",
+            "description": "$?",
             "emotion": "$?",
             "doc": "$?",
             "right": "$?",
