@@ -480,13 +480,14 @@
             "name": "conversion definition",
             "emotion": "excited",
             "doc": [
-                "Ddue, I define conversions from one type to another! I go in @StructureDefinition, someting like this:",
-                "⧼•Cat(size•#kg) (\n  → #kg #lb size → #lb\n)\n\nCat(5kg)→lb⧽",
-                "See how I made it so ⧼Cat⧽ can be in pounds instead? Wicked!"
+                "Dude, I define conversions from one type to another! I go in @Block, someting like this:",
+                "⧼→ #kitty #cat . ÷ 2\n6kitty→#cat⧽",
+                "See how I turned kitties into cats? Wicked!",
+                "You might be wondering what that ⧼.⧽ is doing there. That represents the value being converted. I use that because the value has no name otherwise."
             ],
-            "start": "let's remember this conversion",
+            "start": "awesome, a new conversion!",
             "conflict": {
-                "MisplacedConversion": "I can't be here, just in @StructureDefinition."
+                "MisplacedConversion": "whoa, I can't be here, just in @Block."
             }
         },
         "Convert": {

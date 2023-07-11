@@ -69,7 +69,7 @@ export default class ConversionDefinition extends AtomicExpression {
     getGrammar() {
         return [
             { name: 'docs', types: [Docs, undefined] },
-            { name: 'arrow', types: [Token], space: true },
+            { name: 'arrow', types: [Token] },
             { name: 'input', types: [Type], space: true },
             { name: 'output', types: [Type], space: true },
             {
