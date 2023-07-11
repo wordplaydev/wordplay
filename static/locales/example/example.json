@@ -706,6 +706,7 @@
         },
         "MeasurementType": {
             "name": "$?",
+            "description": "$?",
             "emotion": "$?",
             "doc": "$?"
         },
@@ -1542,6 +1543,7 @@
         "headers": {
             "learn": "$?",
             "editing": "$?",
+            "select": "$?",
             "projects": "$?",
             "examples": "$?"
         },
