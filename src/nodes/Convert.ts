@@ -10,7 +10,6 @@ import Evaluation from '@runtime/Evaluation';
 import type Context from './Context';
 import type Bind from './Bind';
 import type TypeSet from './TypeSet';
-import FunctionException from '@runtime/FunctionException';
 import Exception from '@runtime/Exception';
 import ConversionDefinition from './ConversionDefinition';
 import Halt from '@runtime/Halt';
@@ -29,6 +28,7 @@ import { NotAType } from './NotAType';
 import ConversionType from './ConversionType';
 import NeverType from './NeverType';
 import concretize from '../locale/concretize';
+import ConversionException from '../runtime/ConversionException';
 
 export default class Convert extends Expression {
     readonly expression: Expression;
@@ -138,12 +138,10 @@ export default class Convert extends Expression {
     }
 
     compile(context: Context): Step[] {
+        const fromType = this.expression.getType(context);
         // If the type of value is already the type of the requested conversion, then just leave the value on the stack and do nothing.
         // Otherwise, identify the series of conversions that will achieve the right output type.
-        const conversions = this.type.accepts(
-            this.expression.getType(context),
-            context
-        )
+        const conversions = this.type.accepts(fromType, context)
             ? []
             : this.getConversionSequence(context);
 
@@ -155,16 +153,15 @@ export default class Convert extends Expression {
             (conversions.length === 0 &&
                 !this.type.accepts(this.expression.getType(context), context))
                 ? [
-                      new Halt(
-                          (evaluator) =>
-                              new FunctionException(
-                                  evaluator,
-                                  this,
-                                  evaluator.peekValue(),
-                                  this.type.toWordplay()
-                              ),
-                          this
-                      ),
+                      new Halt((evaluator) => {
+                          const value = evaluator.popValue(this);
+                          return new ConversionException(
+                              evaluator,
+                              this,
+                              value,
+                              this.type
+                          );
+                      }, this),
                   ]
                 : conversions.map(
                       (conversion) => new StartConversion(this, conversion)

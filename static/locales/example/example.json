@@ -353,6 +353,9 @@
             "finish": "$?",
             "conflict": {
                 "UnknownConversion": "$?"
+            },
+            "exception": {
+                "ConversionException": "$?"
             }
         },
         "Delete": {

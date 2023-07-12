@@ -575,7 +575,7 @@ export default class Evaluate extends Expression {
                             evaluator,
                             this,
                             undefined,
-                            this.func.toWordplay()
+                            this.func
                         ),
                     this
                 ),
@@ -654,7 +654,7 @@ export default class Evaluate extends Expression {
                 evaluator,
                 this,
                 definitionValue,
-                this.func.toWordplay()
+                this.func
             );
 
         // Pop as many values as the definition requires, or the number of inputs provided, whichever is larger.

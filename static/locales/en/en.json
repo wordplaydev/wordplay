@@ -534,6 +534,9 @@
             "finish": "Awesome, I made $1",
             "conflict": {
                 "UnknownConversion": "Bummer, no way make $1 into $2"
+            },
+            "exception": {
+                "ConversionException": "I don't know how to convert from $1 to $2"
             }
         },
         "Delete": {
@@ -600,7 +603,7 @@
                 "InputListMustBeLast": "list of inputs must be last"
             },
             "exception": {
-                "FunctionException": "oops, I don't know how to $1"
+                "FunctionException": "oh no, $1 isn't a function in $2[$2|this @Block]!"
             }
         },
         "ExpressionPlaceholder": {

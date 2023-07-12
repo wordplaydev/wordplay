@@ -279,12 +279,7 @@ export default class BinaryOperation extends Expression {
             !(functionValue instanceof FunctionValue) ||
             !(functionValue.definition.expression !== undefined)
         )
-            return new FunctionException(
-                evaluator,
-                this,
-                left,
-                this.getOperator()
-            );
+            return new FunctionException(evaluator, this, left, this.operator);
 
         const fun = functionValue.definition;
 

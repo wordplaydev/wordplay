@@ -232,6 +232,13 @@ type NodeTexts = {
              * $2: To type
              * */
             UnknownConversion: InternalConflictText;
+        }> &
+        Exceptions<{
+            /**
+             * $1: From type
+             * $2: To type
+             */
+            ConversionException: Template;
         }>;
     /**
      * Start
@@ -282,7 +289,10 @@ type NodeTexts = {
             InputListMustBeLast: InternalConflictText;
         }> &
         Exceptions<{
-            /** $1: Name of function not found in scope */
+            /**
+             * $1: Expression that didn't produce a function
+             * $2: Scope not found in, or undefined
+             */
             FunctionException: Template;
         }>;
     /**

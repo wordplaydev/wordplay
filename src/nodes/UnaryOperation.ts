@@ -135,12 +135,7 @@ export default class UnaryOperation extends Expression {
             !(fun instanceof FunctionValue) ||
             fun.definition.expression === undefined
         )
-            return new FunctionException(
-                evaluator,
-                this,
-                value,
-                this.getOperator()
-            );
+            return new FunctionException(evaluator, this, value, this.operator);
 
         // Start the function's expression.
         evaluator.startEvaluation(
