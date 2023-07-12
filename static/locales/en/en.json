@@ -787,14 +787,10 @@
             "name": "none",
             "emotion": "neutral",
             "doc": [
-                "/Hi, @FunctionDefinition here. @NoneLiteral doesn't like to say much, so I'll translate./",
-                "@NoneLiteral represents the absence of anything. ",
-                "It's a way of saying \"There is no value\". ",
-                "You'll find it in many @FunctionDefinition that have optional inputs, such as @Phrase.",
-                "It's only equal to itself.            ",
-                ""
+                "/Hi, @FunctionDefinition here. @NoneLiteral doesn't like to say much, so I'll interpret./",
+                "I am @None. I also create @None. And that's not nothing."
             ],
-            "start": "…"
+            "start": "… ø"
         },
         "Previous": {
             "name": "previous",
