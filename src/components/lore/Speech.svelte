@@ -155,7 +155,6 @@
         border-color: transparent var(--wordplay-background);
         display: block;
         width: 0;
-        z-index: 1;
         margin-top: calc(-1 * var(--tail-width));
         left: calc(-1 * var(--tail-width));
         top: 50%;
@@ -175,7 +174,6 @@
         border-color: transparent var(--wordplay-border-color);
         display: block;
         width: 0;
-        z-index: 0;
         margin-top: calc(
             -1 * (var(--tail-width) + var(--wordplay-border-width))
         );
@@ -195,7 +193,6 @@
         border-color: transparent var(--wordplay-background);
         display: block;
         width: 0;
-        z-index: 1;
         margin-top: calc(-1 * var(--tail-width));
         right: calc(-1 * var(--tail-width));
         top: 50%;
@@ -215,7 +212,6 @@
         border-color: transparent var(--wordplay-border-color);
         display: block;
         width: 0;
-        z-index: 0;
         margin-top: calc(
             -1 * (var(--tail-width) + var(--wordplay-border-width))
         );
@@ -237,7 +233,6 @@
         border-color: var(--wordplay-background) transparent;
         display: block;
         width: 0;
-        z-index: 1;
         top: calc(-1 * var(--tail-width));
         left: calc(2 * var(--tail-width));
     }
@@ -251,7 +246,6 @@
         border-color: var(--wordplay-border-color) transparent;
         display: block;
         width: 0;
-        z-index: 0;
         top: calc(-1 * (var(--tail-width) + var(--wordplay-border-width)));
         left: calc(2 * var(--tail-width) - 1 * var(--wordplay-border-width));
     }
