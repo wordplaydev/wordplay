@@ -60,12 +60,8 @@
                     concept={$index?.getNodeConcept(annotation.node)}
                     invert
                 >
-                    {#each annotation.text as markup}
-                        {#if markup.spaces}
-                            <p>
-                                <MarkupHTMLView {markup} />
-                            </p>
-                        {/if}
+                    {#each annotation.messages as markup}
+                        <MarkupHTMLView {markup} />
                     {/each}
                 </Speech>
             </div>

@@ -2,7 +2,7 @@
     export type AnnotationInfo = {
         node: Node;
         element: Element | null;
-        text: Markup[];
+        messages: Markup[];
         kind: 'step' | 'primary' | 'secondary' | 'minor';
         position?: Position | undefined;
     };
@@ -51,7 +51,7 @@
                     {
                         node: node,
                         element: view,
-                        text: $evaluation?.step
+                        messages: $evaluation?.step
                             ? $creator
                                   .getLocales()
                                   .map((locale) =>
@@ -96,11 +96,11 @@
                         {
                             node: primary.node,
                             element: getNodeView(primary.node),
-                            text: $creator
+                            messages: $creator
                                 .getLocales()
-                                .map((trans) =>
+                                .map((locale) =>
                                     primary.explanation(
-                                        trans,
+                                        locale,
                                         project.getNodeContext(primary.node) ??
                                             project.getContext(project.main)
                                     )
@@ -115,22 +115,15 @@
                                   {
                                       node: secondary.node,
                                       element: getNodeView(secondary.node),
-                                      text: $creator
+                                      messages: $creator
                                           .getLocales()
-                                          .map((trans) =>
+                                          .map((locale) =>
                                               secondary.explanation(
-                                                  trans,
+                                                  locale,
                                                   project.getNodeContext(
                                                       secondary.node
-                                                  ) ??
-                                                      project.getContext(
-                                                          project.main
-                                                      )
+                                                  )
                                               )
-                                          )
-                                          .filter(
-                                              (ex): ex is Markup =>
-                                                  ex !== undefined
                                           ),
                                       kind: 'secondary' as const,
                                   },

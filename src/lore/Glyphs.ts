@@ -155,6 +155,9 @@ const GlyphSet = {
     Set: {
         symbols: SET_OPEN_SYMBOL + SET_CLOSE_SYMBOL,
     },
+    SetOrMapAccess: {
+        symbols: SET_OPEN_SYMBOL + SET_CLOSE_SYMBOL,
+    },
     Table: {
         symbols: TABLE_OPEN_SYMBOL + TABLE_CLOSE_SYMBOL,
     },

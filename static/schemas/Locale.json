@@ -4746,12 +4746,22 @@
             "error": {
               "additionalProperties": false,
               "properties": {
+                "template": {
+                  "description": "The placeholder string indicating that a template string could not be parsed",
+                  "type": "string"
+                },
                 "tutorial": {
+                  "type": "string"
+                },
+                "unwritten": {
+                  "description": "The placeholder string indicating that a locale string is not yet written",
                   "type": "string"
                 }
               },
               "required": [
-                "tutorial"
+                "tutorial",
+                "unwritten",
+                "template"
               ],
               "type": "object"
             },
@@ -4947,10 +4957,6 @@
                 },
                 "type": {
                   "type": "string"
-                },
-                "unwritten": {
-                  "description": "The placeholder string indicating that a locale string is not yet written",
-                  "type": "string"
                 }
               },
               "required": [
@@ -4960,8 +4966,7 @@
                 "percent",
                 "name",
                 "project",
-                "email",
-                "unwritten"
+                "email"
               ],
               "type": "object"
             },

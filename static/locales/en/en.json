@@ -921,13 +921,19 @@
         "SetOrMapAccess": {
             "name": "set/map access",
             "emotion": "kind",
-            "doc": "$?",
-            "start": "evaluate the set first",
-            "finish": "item in with key is $1",
+            "doc": [
+                "I can see if a @Set or @Map has a value or key.",
+                "It's not too hard. Like this:",
+                "⧼faves: {'duck' 'goose' 'monkey'}\nfaves{'mouse'}⧽",
+                "Or this, with a @Map:",
+                "⧼faves: {'mac and cheese': 5stars 'cereal': 2stars 'gruel': 1stars}\nfaves{'gruel'}⧽"
+            ],
+            "start": "what's the set or map?",
+            "finish": "the value is $1",
             "conflict": {
                 "IncompatibleKey": {
                     "primary": "I expected a $1 key",
-                    "secondary": "I got a $2"
+                    "secondary": "I got a $3 instead of a $2"
                 }
             }
         },
@@ -1904,7 +1910,6 @@
             "motto": "Where words come to life"
         },
         "placeholders": {
-            "unwritten": "TBD",
             "code": "code",
             "expression": "value",
             "type": "type",
@@ -2025,7 +2030,9 @@
             "bind": "name this expression"
         },
         "error": {
-            "tutorial": "We weren't able to find a tutorial for this language."
+            "tutorial": "We weren't able to find a tutorial for this language.",
+            "unwritten": "TBD",
+            "template": "This template couldn't be parsed: $1"
         }
     }
 }

@@ -73,6 +73,7 @@ import DocumentedExpression from '../nodes/DocumentedExpression';
 import ListCloseToken from '../nodes/ListCloseToken';
 import EvalOpenToken from '../nodes/EvalOpenToken';
 import SetCloseToken from '../nodes/SetCloseToken';
+import SetOrMapAccess from '../nodes/SetOrMapAccess';
 
 /** These are ordered by appearance in the docs. */
 const templates: Node[] = [
@@ -174,6 +175,10 @@ const templates: Node[] = [
     ),
     SetLiteral.make([]),
     MapLiteral.make([]),
+    SetOrMapAccess.make(
+        ExpressionPlaceholder.make(SetType.make()),
+        ExpressionPlaceholder.make()
+    ),
     KeyValue.make(ExpressionPlaceholder.make(), ExpressionPlaceholder.make()),
 
     StructureDefinition.make(

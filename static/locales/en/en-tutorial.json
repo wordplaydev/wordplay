@@ -1705,7 +1705,7 @@
                         [
                             "Set",
                             "curious",
-                            "Also like @List, you can use ⧼{}⧽ after a set to see if a value is contained in the set. You'll either ⧼⊤⧽ if it is or ⧼⊥⧽ if it's not. Let's see if ⧼3⧽ is missing from this set. Yep, not there! Try adding ⧼3⧽ back to the set."
+                            "Also like @List, you can work with @SetOrMapAccess to see if a value is contained in the set. You'll either ⧼⊤⧽ if it is or ⧼⊥⧽ if it's not. Let's see if ⧼3⧽ is missing from this set. Yep, not there! Try adding ⧼3⧽ back to the set."
                         ],
                         ["edit", "{ 1 2 4 5 }{3}"],
                         null,

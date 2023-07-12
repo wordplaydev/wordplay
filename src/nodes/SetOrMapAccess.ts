@@ -220,6 +220,6 @@ export default class SetOrMapAccess extends Expression {
     }
 
     getGlyphs() {
-        return Glyphs.Set;
+        return Glyphs.SetOrMapAccess;
     }
 }

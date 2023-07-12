@@ -15,8 +15,6 @@ type UITexts = {
         name: string;
         project: string;
         email: string;
-        /** The placeholder string indicating that a locale string is not yet written */
-        unwritten: string;
     };
     tooltip: {
         yes: string;
@@ -131,6 +129,10 @@ type UITexts = {
     edit: EditTexts;
     error: {
         tutorial: string;
+        /** The placeholder string indicating that a locale string is not yet written */
+        unwritten: string;
+        /** The placeholder string indicating that a template string could not be parsed */
+        template: string;
     };
 };
 

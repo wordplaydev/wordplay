@@ -37,7 +37,8 @@ export class IncompatibleKey extends Conflict {
                         locale,
                         locale.node.SetOrMapAccess.conflict.IncompatibleKey
                             .secondary,
-                        new NodeRef(this.received, locale, context)
+                        new NodeRef(this.received, locale, context),
+                        new NodeRef(this.expected, locale, context)
                     ),
             },
         };

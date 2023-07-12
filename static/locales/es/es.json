@@ -1486,7 +1486,6 @@
             "motto": "Donde las palabras cobran vida"
         },
         "placeholders": {
-            "unwritten": "no escrito",
             "code": "code",
             "expression": "value",
             "type": "type",
@@ -1604,6 +1603,10 @@
             "unwrap": "desenvolver",
             "bind": "nombra esta expresión"
         },
-        "error": { "tutorial": "$?" }
+        "error": {
+            "tutorial": "$?",
+            "unwritten": "no escrito",
+            "template": "$?"
+        }
     }
 }

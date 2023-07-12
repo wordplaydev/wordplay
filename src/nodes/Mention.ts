@@ -65,7 +65,7 @@ export default class Mention extends Content {
         // Is it a number? Resolve to an input.
         const numberMatch = name.match(/^[0-9]+/);
         if (name === '?')
-            return new Token(locale.ui.placeholders.unwritten, TokenType.Words);
+            return new Token(locale.ui.error.unwritten, TokenType.Words);
         else if (numberMatch !== null) {
             // Find the corresponding input
             const number = parseInt(numberMatch[0]);

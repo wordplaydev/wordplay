@@ -5,10 +5,8 @@ import Purpose from '../concepts/Purpose';
 import Content from './Content';
 import type { TemplateInput } from '../locale/concretize';
 import type { Replacement } from './Node';
-import Words from './Words';
-import Token from './Token';
-import TokenType from './TokenType';
 import type Spaces from '../parser/Spaces';
+import { toMarkup } from '../parser/Parser';
 
 /**
  * To refer to an input, use a $, followed by the number of the input desired,
@@ -30,15 +28,8 @@ export default class Markup extends Content {
     }
 
     static words(text: string) {
-        return new Markup([
-            new Paragraph([
-                new Words(
-                    undefined,
-                    [new Token(text, TokenType.Words)],
-                    undefined
-                ),
-            ]),
-        ]);
+        const [markup] = toMarkup(text);
+        return markup;
     }
 
     getGrammar() {

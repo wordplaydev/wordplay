@@ -1486,7 +1486,6 @@
             "motto": "$?"
         },
         "placeholders": {
-            "unwritten": "$?",
             "code": "$?",
             "expression": "$?",
             "type": "$?",
@@ -1604,6 +1603,6 @@
             "unwrap": "$?",
             "bind": "$?"
         },
-        "error": { "tutorial": "$?" }
+        "error": { "tutorial": "$?", "unwritten": "$?", "template": "$?" }
     }
 }

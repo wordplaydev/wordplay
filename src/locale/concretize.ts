@@ -35,7 +35,7 @@ export type TemplateInput =
  * and true and false cases
  *
  *      "I received $1 ?? [$1 | nothing]"
- *      "I received $1 ?? [$2 ?? [$1 | $2] | nothing]"
+ *      "I received $1 ?? [$2 ?? [$1 | $2] | nothinge]"
  *
  * To indicate that you want a literal reserved symbol, use two of them:
  *
@@ -52,7 +52,7 @@ export default function concretize(
     return (
         concretizeOrUndefined(locale, template, ...inputs) ??
         // Create a representation of a template that couldn't be concretized.
-        Markup.words('-')
+        Markup.words(`${locale.ui.error.template}: ${template}`)
     );
 }
 
@@ -63,7 +63,7 @@ export function concretizeOrUndefined(
 ): Markup | undefined {
     // Not written? Return the TBD string.
     if (template === '' || template === '$?')
-        return Markup.words(locale.ui.placeholders.unwritten);
+        return Markup.words(locale.ui.error.unwritten);
 
     const [markup] = toMarkup(template);
     return markup.concretize(locale, inputs);
