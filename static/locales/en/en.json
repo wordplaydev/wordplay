@@ -735,7 +735,7 @@
             "description": "$1 pairing map",
             "emotion": "kind",
             "doc": [
-                "I bring characters together, one to another, with mapping from *keys* to *values*.",
+                "I bring characters together to create @Map, providing pairs of *keys* to *values*.",
                 "My keys can be any kind of value, and my values can be any kind of value.",
                 "Some people like to think of my like an index, or a dictionary, where you give me something, and I give you what it's mapped to.",
                 "For example, here's a mapping from numbers to their number words:",
@@ -760,22 +760,21 @@
             "description": "$1 $2",
             "emotion": "excited",
             "doc": [
-                "I can be any number you like and even a number with units, if you like.",
-                "That's basically an infinite number of numbers.",
-                "And an infinite number of units!",
-                "And an infinite number of number/unit pairs…",
+                "I create @Measurement, with any number of units you can imagine!",
                 "Here are my top 5:",
                 "⧼0⧽",
                 "⧼1story⧽",
                 "⧼πpie⧽",
                 "⧼∞rock⧽",
-                "⧼1000000dollar⧽",
-                "Just know that if you try to use my @FunctionDefinition on numbers with different units, I won't know what to do.",
-                "If they don't match, that might be a sign that there's something wrong with your performance."
+                "⧼1000000hugs⧽",
+                "That's basically an infinite number of numbers.",
+                "And an infinite number of units!",
+                "And an infinite number of number/unit pairs…",
+                "Check out @Measurement to see the many @FunctionDefinition."
             ],
-            "start": "evaluate to $1",
+            "start": "$1!",
             "conflict": {
-                "NotANumber": "I'm not formatted correctly to be a number"
+                "NotANumber": "I thought I knew all the numbers, but I don't know this one"
             }
         },
         "NativeExpression": {

@@ -15,7 +15,6 @@ import type Locale from '@locale/Locale';
 import NodeRef from '@locale/NodeRef';
 import Literal from './Literal';
 import Glyphs from '../lore/Glyphs';
-import Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type Decimal from 'decimal.js';
 import concretize, { type TemplateInput } from '../locale/concretize';
@@ -59,10 +58,6 @@ export default class MeasurementLiteral extends Literal {
             this.replaceChild('number', this.number, replace),
             this.replaceChild('unit', this.unit, replace)
         ) as this;
-    }
-
-    getPurpose() {
-        return Purpose.Bind;
     }
 
     getAffiliatedType(): NativeTypeName | undefined {

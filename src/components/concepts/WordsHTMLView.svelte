@@ -11,6 +11,7 @@
     >{#each words.segments as segment}<SegmentHTMLView
             {segment}
             {spaces}
+            alone={false}
         />{/each}</span
 >
 
