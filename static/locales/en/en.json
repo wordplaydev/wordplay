@@ -909,12 +909,22 @@
             "name": "structure",
             "description": "structure $1",
             "emotion": "kind",
-            "doc": "$?define a structure that stores values and functions on those values.",
-            "start": "define this $structure",
+            "doc": [
+                "Why hello, how are you? Me? I'm great. I love to define structures that store values and function, so as long as I get to do that all day, I'm happy.",
+                "I work like this:",
+                "⧼•Pizza(\ningredients•['']\nsize•#in\n) (\n\tƒ cost() size · 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost()⧽",
+                "See how that works? I defined ⧼Pizza⧽, which has two inputs, ⧼ingredients⧽ (a list of @Text) and ⧼size⧽ (a number in inches).",
+                "Inside, @FunctionDefinition made a function that evaluates the cost of a pizza, assuming $$10 per inch.",
+                "I don't need to have @FunctionDefinition in me. I can just be inputs.",
+                "⧼•Pizza(\ningredients•['']\nsize•#in\n)⧽",
+                "I can also have @Bind inside, so we could evaluate the cost in advance.",
+                "⧼•Pizza(\ningredients•['']\nsize•#in\n) (\n\tcost: size · 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost⧽"
+            ],
+            "start": "let's define this lovely $tructure",
             "conflict": {
-                "DisallowedInputs": "I can't have inputs because one of or more of my functions isn't implemented",
-                "IncompleteImplementation": "My functions either need to all be implemented, or none be implemented. No messy mixtures!",
-                "NotAnInterface": "I am not an interface; a $structure can only implement interfaces, not other structures",
+                "DisallowedInputs": "I can't have inputs because one of or more of my interface functions isn't implemented",
+                "IncompleteImplementation": "my functions either need to all be implemented, or none be implemented. No messy mixtures!",
+                "NotAnInterface": "I am not an interface; a structure can only implement interfaces, not other structures",
                 "UnimplementedInterface": "I implement $1 but haven't implemented $2"
             }
         },
