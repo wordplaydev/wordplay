@@ -7,7 +7,7 @@
         "evaluate": "evaluate",
         "decide": "decide",
         "project": "performance",
-        "document": "document",
+        "document": "explain",
         "source": "source",
         "input": "input",
         "output": "output",
@@ -55,7 +55,7 @@
         "Borrow": "borrow",
         "Share": "share",
         "Convert": "convert",
-        "Doc": "documentation",
+        "Doc": "explanation",
         "Words": "words",
         "Link": "web link",
         "Italic": "italic",
@@ -127,7 +127,7 @@
             ]
         },
         "Doc": {
-            "name": "documentation",
+            "name": "explanation",
             "emotion": "serious",
             "doc": [
                 "I describe the purpose of code.",
@@ -147,7 +147,7 @@
             ]
         },
         "Docs": {
-            "name": "documentation list",
+            "name": "explanation list",
             "emotion": "serious",
             "doc": [
                 "I'm a list of @Doc, useful when you have multiple translations of @Doc in different languages.",
@@ -262,7 +262,7 @@
             "description": "$1 paragraphs",
             "emotion": "serious",
             "doc": [
-                "I'm a list of paragraphs, using the many kinds of markup available in documentation, such as @Words, @WebLink, @ConceptLink, and @Example."
+                "I'm a list of paragraphs, using the many kinds of markup available in explanations, such as @Words, @WebLink, @ConceptLink, and @Example."
             ]
         },
         "Paragraph": {
@@ -331,7 +331,7 @@
             "name": "branch",
             "emotion": "serious",
             "doc": [
-                "I'm a way of choosing between two segments of documentation based on whether a documentation input value is defined or true.",
+                "I'm a way of choosing between two segments of explanation based on whether a explanation input value is defined or true.",
                 "This is mostly an internal feature though, so you shouldn't need to know it."
             ]
         },
@@ -546,7 +546,7 @@
             "finish": "evaluated to table without row $1"
         },
         "DocumentedExpression": {
-            "name": "documented expression",
+            "name": "explained expression",
             "emotion": "eager",
             "doc": [
                 "I'm any expression, but with a @Doc!",
@@ -939,7 +939,7 @@
             }
         },
         "Source": {
-            "name": "document",
+            "name": "named program",
             "emotion": "curious",
             "doc": [
                 "Oh, you know @Program? I help you name them. Think of me like the window around a @Program, and the name you give them.",
