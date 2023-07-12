@@ -25,7 +25,7 @@
         "text": "text",
         "boolean": "boolean",
         "map": "map",
-        "measurement": "number",
+        "number": "number",
         "function": "function",
         "exception": "exception",
         "table": "table",
@@ -1072,7 +1072,7 @@
             "doc": "$?"
         },
         "NumberType": {
-            "name": "measurement type",
+            "name": "number type",
             "description": "$1[$1 | number]",
             "emotion": "precise",
             "doc": "$?"

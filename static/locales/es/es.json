@@ -25,7 +25,7 @@
         "text": "texto",
         "boolean": "booleano",
         "map": "par",
-        "measurement": "número",
+        "number": "número",
         "function": "función",
         "exception": "excepción",
         "table": "tabla",

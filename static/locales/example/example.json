@@ -25,7 +25,7 @@
         "text": "$?",
         "boolean": "$?",
         "map": "$?",
-        "measurement": "$?",
+        "number": "$?",
         "function": "$?",
         "exception": "$?",
         "table": "$?",

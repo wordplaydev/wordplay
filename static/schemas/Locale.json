@@ -4300,14 +4300,14 @@
             "map": {
               "type": "string"
             },
-            "measurement": {
-              "type": "string"
-            },
             "name": {
               "description": "How to refer to names that things have",
               "type": "string"
             },
             "none": {
+              "type": "string"
+            },
+            "number": {
               "type": "string"
             },
             "output": {
@@ -4388,7 +4388,7 @@
             "list",
             "map",
             "text",
-            "measurement",
+            "number",
             "function",
             "none",
             "exception",

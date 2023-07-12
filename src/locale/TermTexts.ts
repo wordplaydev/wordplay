@@ -27,7 +27,7 @@ type TermTexts = {
     list: string;
     map: string;
     text: string;
-    measurement: string;
+    number: string;
     function: string;
     none: string;
     exception: string;
