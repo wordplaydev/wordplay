@@ -25,17 +25,24 @@
         $creator.getNative()
     );
     let value: Value | undefined = undefined;
-    $: evaluator = evaluated ? new Evaluator(project) : undefined;
+    let evaluator: Evaluator | undefined;
+    $: {
+        if (evaluator) evaluator.ignore(update);
+
+        if (evaluated) {
+            evaluator = new Evaluator(project);
+            evaluator.observe(update);
+            evaluator.start();
+        } else {
+            evaluator = undefined;
+        }
+    }
 
     function update() {
         if (evaluator) value = evaluator.getLatestSourceValue(project.main);
     }
 
     onMount(() => {
-        if (evaluator) {
-            evaluator.observe(update);
-            evaluator.start();
-        }
         return () => {
             if (evaluator) {
                 evaluator.stop();
