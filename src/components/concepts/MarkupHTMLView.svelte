@@ -16,7 +16,11 @@
             class:animated={$creator.getAnimationFactor() > 0}
             style="--delay:{$creator.getAnimationDuration() * index * 0.5}ms"
             >{#each paragraph.segments as segment}
-                <SegmentHTMLView {segment} {spaces} />
+                <SegmentHTMLView
+                    {segment}
+                    {spaces}
+                    alone={paragraph.segments.length === 1}
+                />
             {/each}</p
         >{/each}
 {:else}

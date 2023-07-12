@@ -18,6 +18,8 @@
 
     export let segment: Segment;
     export let spaces: Spaces;
+    /** True if this is the only segment in a paragraph*/
+    export let alone: boolean;
 </script>
 
 {#if segment instanceof WebLink}<WebLinkHTMLView
@@ -26,8 +28,8 @@
     />{:else if segment instanceof Example}<ExampleUI
         example={segment}
         {spaces}
-        evaluated={false}
-        inline={true}
+        evaluated={alone}
+        inline={!alone}
     />{:else if segment instanceof ConceptLink}<ConceptLinkUI
         link={segment}
     />{:else if segment instanceof Words}<WordsHTMLView
