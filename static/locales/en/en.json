@@ -979,15 +979,18 @@
         "UnaryOperation": {
             "name": "unary operation",
             "description": "$1",
-            "emotion": "insecure",
+            "emotion": "kind",
             "doc": [
                 "Did you know that when I'm evaluating a @FunctionDefinition with just one value, and the name of the @FunctionDefinition is just a single symbol, you can put the name before the input?",
-                "Like, ⧼-(1 + 1)⧽ or ⧼~⊥⧽, for example. Those are much easier to read than ⧼(1 + 1).negate()⧽ or ⧼⊥.not()⧽.",
+                "Like this:",
+                "⧼-(1 + 1)⧽",
+                "Or this:",
+                "⧼~⊥⧽",
+                "Those are much easier to read than ⧼(1 + 1).negate()⧽ or ⧼⊥.not()⧽, aren't they?",
                 "You don't have to write me that way, but it might be easier overall.",
-                "There's only one rule: you can't put any space between the name and the value. Otherwise you might be making a @Reference or @BinaryOperation.",
-                ""
+                "There's only one rule: you can't put any space between the name and the value. Otherwise you might be making a @Reference or @BinaryOperation."
             ],
-            "start": "evaluate the expression",
+            "start": "what's the value?",
             "finish": "I made it $1"
         },
         "UnparsableExpression": {
