@@ -9,12 +9,12 @@
     import Example from '../../nodes/Example';
     import ExampleUI from './ExampleUI.svelte';
     import NodeRef from '../../locale/NodeRef';
-    import NodeView from '../editor/NodeView.svelte';
     import ValueRef from '../../locale/ValueRef';
     import ValueView from '../values/ValueView.svelte';
     import ConceptRef from '../../locale/ConceptRef';
     import type { Segment } from '../../nodes/Paragraph';
     import WordsHTMLView from './WordsHTMLView.svelte';
+    import RootView from '../project/RootView.svelte';
 
     export let segment: Segment;
     export let spaces: Spaces;
@@ -35,8 +35,9 @@
     />{:else if segment instanceof Words}<WordsHTMLView
         words={segment}
         {spaces}
-    />{:else if segment instanceof NodeRef}<NodeView
+    />{:else if segment instanceof NodeRef}<RootView
         node={segment.node}
+        inline
     />{:else if segment instanceof ValueRef}<strong
         ><ValueView value={segment.value} /></strong
     >{:else if segment instanceof ConceptRef}<ConceptLinkUI

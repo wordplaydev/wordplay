@@ -873,16 +873,21 @@
         "Reference": {
             "name": "reference",
             "description": "$1",
-            "emotion": "kind",
-            "doc": "$?",
-            "start": "getting the value of $1",
+            "emotion": "shy",
+            "doc": [
+                "You know how @Bind gives things @Name? I'm how you refer to them. I see if any @Bind has that name, if so, give you its value. Like this:",
+                "⧼parrot: 'polly'\nparrot⧽",
+                "If I don't find the name, then I don't know what to do.",
+                "⧼parrot: 'polly'\nperry⧽"
+            ],
+            "start": "what value does $1 have?",
             "conflict": {
-                "UnknownName": "I don't know what I refer to  in $2[$2|this @Block]",
-                "ReferenceCycle": "$1 depends on itself, so there's no way to evaluate it.",
-                "UnexpectedTypeVariable": "type inputs not allowed on type variables"
+                "UnknownName": "I don't know anyone named $1 in $2[$2|this @Block]",
+                "ReferenceCycle": "um, $1's value depends on itself, so how do I know what value to give it?",
+                "UnexpectedTypeVariable": "I don't now what to do with these type inputs"
             },
             "exception": {
-                "NameException": "I feel... unbound, with no value. Am I supposed to have a value in $2[ $2| this @Block]?"
+                "NameException": "I don't know anyone named $1 in $2[$2|this @Block]…"
             }
         },
         "Select": {

@@ -257,7 +257,7 @@ export default class Reference extends AtomicExpression {
         return concretize(
             locale,
             locale.node.Reference.start,
-            new NodeRef(this.name, locale, context, this.name.getText())
+            new NodeRef(this.name, locale, context)
         );
     }
 
