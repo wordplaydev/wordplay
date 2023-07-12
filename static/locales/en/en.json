@@ -733,27 +733,25 @@
         "MapLiteral": {
             "name": "map",
             "description": "$1 pairing map",
-            "emotion": "excited",
+            "emotion": "kind",
             "doc": [
-                "I'm a mapping from keys to values. ",
-                "My keys can be any kind of value, and my values can be any kind of value. ",
-                "I work with @Bind to connect values.",
+                "I bring characters together, one to another, with mapping from *keys* to *values*.",
+                "My keys can be any kind of value, and my values can be any kind of value.",
                 "Some people like to think of my like an index, or a dictionary, where you give me something, and I give you what it's mapped to.",
                 "For example, here's a mapping from numbers to their number words:",
                 "⧼{1: 'one' 2: 'two' 3: 'three'}⧽",
-                "If you wanted to check what something is mapped to, just give me the key and I'll give you the value:",
+                "If you wanted to check what something is mapped to, you can give @SetOrMapAccess, a key and they'll give you the value:",
                 "⧼{1: 'one' 2: 'two' 3: 'three'}{1}⧽",
-                "If I don't have it, I'll give you @NoneLiteral.",
+                "If there is no matching key, I'll give you @None.",
                 "⧼{1: 'one' 2: 'two' 3: 'three'}{0}⧽",
-                "I have many, many @FunctionDefinition for adding things to a mapping, removing things, getting the set of keys or values, and more.",
-                ""
+                "See @Map for all of the wonderful function s@FunctionDefinition for adding things to a mapping, removing things, getting the set of keys or values, and more."
             ],
-            "start": "evaluate each key and value first",
-            "finish": "I connected everyone! $1",
+            "start": "let's evaluate the keys and values first",
+            "finish": "I connected everyone, $1",
             "conflict": {
                 "NotAKeyValue": {
-                    "primary": "I'm a map, so everything you give me has to be in pairs.",
-                    "secondary": "Oops, I'm in a map without a partner!"
+                    "primary": "one of my keys is missing a value",
+                    "secondary": "oops, where's my value?"
                 }
             }
         },
