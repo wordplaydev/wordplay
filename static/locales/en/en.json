@@ -964,7 +964,7 @@
             "description": "text $1",
             "emotion": "serious",
             "doc": [
-                "I can be any text you like, and use any of these text symbols: ⧼\"\"⧽, ⧼“”⧽, ⧼„“⧽, ⧼''⧽, ⧼‘’⧽, ⧼‹›⧽, ⧼«»⧽, ⧼「」⧽, or ⧼『'⧽.",
+                "I can be any text you like, and use any of these text symbols: ⧼\"\"⧽, ⧼“”⧽, ⧼„“⧽, ⧼''⧽, ⧼‘’⧽, ⧼‹›⧽, ⧼«»⧽, ⧼「」⧽, or ⧼『』⧽.",
                 "Just remember to close me if you open me, and use the matching symbol.",
                 "Otherwise I won't know that you're done with your words."
             ],
