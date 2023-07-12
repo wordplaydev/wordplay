@@ -225,7 +225,7 @@ export default class Number extends Primitive {
     }
 
     getDescription(locale: Locale) {
-        return concretize(locale, locale.term.measurement);
+        return concretize(locale, locale.term.number);
     }
 
     getSize() {
