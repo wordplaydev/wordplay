@@ -7,6 +7,7 @@ import FunctionDefinition from '@nodes/FunctionDefinition';
 import StructureDefinition from '@nodes/StructureDefinition';
 import concretize from '../locale/concretize';
 import type Program from '../nodes/Program';
+import StreamDefinition from '../nodes/StreamDefinition';
 
 export default class EvaluationLimitException extends Exception {
     readonly program: Program;
@@ -33,13 +34,14 @@ export default class EvaluationLimitException extends Exception {
             locale,
             locale.node.Program.exception.EvaluationLimitException,
             new NodeRef(
-                mostFrequent,
-                locale,
-                this.getNodeContext(mostFrequent),
                 mostFrequent instanceof FunctionDefinition ||
-                mostFrequent instanceof StructureDefinition
-                    ? mostFrequent.names.getLocaleText([locale.language])
-                    : undefined
+                mostFrequent instanceof StructureDefinition ||
+                mostFrequent instanceof StreamDefinition
+                    ? mostFrequent.names.getLocaleName(locale.language) ??
+                      mostFrequent
+                    : mostFrequent,
+                locale,
+                this.getNodeContext(mostFrequent)
             )
         );
     }

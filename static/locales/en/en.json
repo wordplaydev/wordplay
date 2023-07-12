@@ -808,22 +808,24 @@
             "name": "program",
             "emotion": "serious",
             "doc": [
+                "I'm where a performance begins and ends, containing all of the other characters that choregraph a show.",
                 "You know how @Block evaluates a list of expressions, and evaluates to the last one in its list? ",
-                "I'm the same, but rather than giving my value to whatever expression I'm in, I put the value on stage.",
+                "I'm the same, but rather than giving my value to whatever expression I'm in, I put the value on @Stage.",
                 "The value can be anything: a @MeasurementLiteral, @TextLiteral, or @BooleanLiteral, a @ListLiteral, @SetLiteral, @MapLiteral, or even something more complex, like a @Phrase, @Group, or @Stage.",
-                "If you don't give me a value to show on stage, I'll probably ask you for one.",
-                ""
+                "If you don't give me a value to show on stage, I'll ask you for one.",
+                "If there's a problem during a performance, I'll show that problem.",
+                "And if your performance depends on a *stream*, I'll reevaluate every time that stream changes."
             ],
-            "unevaluated": "the selected node did not evaluate",
-            "start": "$1[ stream changed, reevaluating | evaluating for the first time ]",
+            "unevaluated": "the node you chose didn't evaluate",
+            "start": "$1[a stream changed!|it's my first evaluation]",
             "halt": "encountered exception, stopping",
-            "finish": "I evaluated to $1",
-            "done": "done evaluating",
+            "finish": "all done, I evaluated to $1",
+            "done": "there's nothing evaluating",
             "exception": {
-                "BlankException": "I'm excited to put on a show with you! Where should we start?",
-                "EvaluationLimitException": "I evaluated too many functions, especially $1",
-                "StepLimitException": "I evaluated too many steps in this function",
-                "ValueException": "Oh no! I expected a value, but I didn't get one"
+                "BlankException": "Let's put on a show! Where should we start?",
+                "EvaluationLimitException": "@Evaluate and I are tired of evaluating, especially $1.\n\nIs it possible that $1 is evaluating itself forever, without ever stopping?",
+                "StepLimitException": "there are so. many. steps -- too many to finish! Can you make the performance simpler?",
+                "ValueException": "oh no, someone excepted a value but didn't get one…"
             }
         },
         "PropertyBind": {

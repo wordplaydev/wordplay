@@ -10,22 +10,16 @@
     $: spaces = markup.spaces;
 </script>
 
-{#if spaces}
-    {#each markup.paragraphs as paragraph, index}<p
+{#if spaces}{#each markup.paragraphs as paragraph, index}<p
             class="paragraph"
             class:animated={$creator.getAnimationFactor() > 0}
             style="--delay:{$creator.getAnimationDuration() * index * 0.5}ms"
-            >{#each paragraph.segments as segment}
-                <SegmentHTMLView
+            >{#each paragraph.segments as segment}<SegmentHTMLView
                     {segment}
                     {spaces}
                     alone={paragraph.segments.length === 1}
-                />
-            {/each}</p
-        >{/each}
-{:else}
-    missing spaces
-{/if}
+                />{/each}</p
+        >{/each}{:else}missing spaces{/if}
 
 <style>
     .paragraph.animated {
