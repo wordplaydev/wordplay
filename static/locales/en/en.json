@@ -950,8 +950,8 @@
         "StreamDefinition": {
             "name": "stream",
             "emotion": "curious",
-            "doc": "$?defines a stream of values.",
-            "start": "define this stream type"
+            "doc": "I /think/ I'm supposed make new streams. But I really don't know ho to do that. For now, I guess just use the streams that exist?",
+            "start": "create this new kind of stream"
         },
         "StructureDefinition": {
             "name": "structure",
