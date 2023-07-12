@@ -857,9 +857,15 @@
         "Reaction": {
             "name": "reaction",
             "emotion": "excited",
-            "doc": "A reaction to a stream change.",
-            "start": "first check if the stream has changed",
-            "finish": "the stream value is currently $1",
+            "doc": [
+                "Streams are so awesome! I can make new ones based on when they change, which is super cool!",
+                "Like, if you wanted @Time to tick, but like, to show words instead of numbers, you could do something like this:",
+                "⧼time: Time(1000ms)\n'start' … ∆ time … ((time % 2) = 0ms) ? 'even' 'odd'⧽",
+                "That's like saying \"/begin with the word 'start' and then if time changes, change to either even or odd, based on the time./\"",
+                "So I'm like a stream to, but one based on other streams. Wicked, huh?"
+            ],
+            "start": "let's see if we should update the stream",
+            "finish": "the new stream value is $1",
             "initial": "initial",
             "condition": "condition",
             "next": "next"
