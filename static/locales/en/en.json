@@ -905,21 +905,18 @@
             "description": "$1 items",
             "emotion": "eager",
             "doc": [
-                "I'm a set. That means I can contain any number of values, including zero values. You can make me like this:",
+                "I make @Set! That means I can contain any number of values, including no values. You can make me like this:",
                 "⧼{1 2 3}⧽",
                 "I'm really good if you want to keep a collection of things without duplicates.",
                 "That means I only contain one of each value. If you give me values I already have, I'll ignore the extras.",
                 "For example, this set has many duplicates:",
                 "⧼{1 1 2 2 3 3}⧽",
                 "I evaluate it to just ⧼{1 2 3}⧽.",
-                "If you want to see if I have a value, you can check like this:",
-                "⧼mysterySet{3}⧽",
-                "I also have so many @FunctionDefinition to add, remove, combine, analyze, and convert my collection of values.",
-                "You should be able to find whatever you need amo",
-                ""
+                "Talk to @Set to see all the cool @FunctionDefinition for adding, removing, combining, and analyzing @Set.",
+                "You can also meet @SetOrMapAccess to get values out of a @Set."
             ],
-            "start": "let's evaluate the values first",
-            "finish": "I created a set $1"
+            "start": "let's evaluate the values first!",
+            "finish": "I made a set $1!"
         },
         "SetOrMapAccess": {
             "name": "set/map access",
