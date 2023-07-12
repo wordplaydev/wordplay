@@ -2,6 +2,7 @@ type TermTexts = {
     bind: string;
     evaluate: string;
     decide: string;
+    document: string;
     project: string;
     source: string;
     input: string;

@@ -25,6 +25,7 @@ import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Root from './Root';
 import Markup from './Markup';
+import Purpose from '../concepts/Purpose';
 
 /** A document representing executable Wordplay code and it's various metadata, such as conflicts, tokens, and evaulator. */
 export default class Source extends Expression {
@@ -631,5 +632,9 @@ export default class Source extends Expression {
 
     getGlyphs() {
         return Glyphs.Source;
+    }
+
+    getPurpose() {
+        return Purpose.Document;
     }
 }

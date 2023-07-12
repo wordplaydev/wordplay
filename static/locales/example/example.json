@@ -6,6 +6,7 @@
         "evaluate": "$?",
         "bind": "$?",
         "decide": "$?",
+        "document": "$?",
         "project": "$?",
         "source": "$?",
         "input": "$?",

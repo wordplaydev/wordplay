@@ -74,6 +74,7 @@ import ListCloseToken from '../nodes/ListCloseToken';
 import EvalOpenToken from '../nodes/EvalOpenToken';
 import SetCloseToken from '../nodes/SetCloseToken';
 import SetOrMapAccess from '../nodes/SetOrMapAccess';
+import Source from '../nodes/Source';
 
 /** These are ordered by appearance in the docs. */
 const templates: Node[] = [
@@ -104,8 +105,11 @@ const templates: Node[] = [
         ExpressionPlaceholder.make()
     ),
     ExpressionPlaceholder.make(),
-    Program.make(),
     Convert.make(ExpressionPlaceholder.make(), TypePlaceholder.make()),
+
+    // Project
+    Program.make(),
+    new Source('?', ''),
 
     // Decisions
     Conditional.make(

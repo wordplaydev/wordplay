@@ -4266,6 +4266,9 @@
             "decide": {
               "type": "string"
             },
+            "document": {
+              "type": "string"
+            },
             "entered": {
               "description": "How to describe output that has entered for the first time",
               "type": "string"
@@ -4364,6 +4367,7 @@
             "bind",
             "evaluate",
             "decide",
+            "document",
             "project",
             "source",
             "input",

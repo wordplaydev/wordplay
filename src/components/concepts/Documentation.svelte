@@ -314,6 +314,12 @@
                 category={$creator.getLocale().term.output}
                 concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Output)}
             />
+            <ConceptsView
+                category={$creator.getLocale().term.document}
+                concepts={$index.getPrimaryConceptsWithPurpose(
+                    Purpose.Document
+                )}
+            />
         {/if}
     </div>
 </section>

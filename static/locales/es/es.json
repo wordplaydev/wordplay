@@ -6,6 +6,7 @@
         "evaluate": "código",
         "bind": "datos",
         "decide": "decidir",
+        "document": "$?",
         "project": "función",
         "source": "fuente",
         "input": "input",
