@@ -413,7 +413,7 @@ type NodeTexts = {
      * $1: the name being refined
      * Finish
      * $1: revised property
-     * $1: revised value
+     * $2: revised value
      */
     PropertyBind: DescriptiveNodeText & ExpressionText;
     /**

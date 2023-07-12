@@ -2766,7 +2766,7 @@
             },
             "PropertyBind": {
               "additionalProperties": false,
-              "description": "Description $1: the name being refined Finish $1: revised property $1: revised value",
+              "description": "Description $1: the name being refined Finish $1: revised property $2: revised value",
               "properties": {
                 "description": {
                   "$ref": "#/definitions/Template"

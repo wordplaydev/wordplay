@@ -832,9 +832,14 @@
             "name": "refine",
             "description": "refine $1[$1|missing name]",
             "emotion": "kind",
-            "doc": "$?",
-            "start": "get the $structure",
-            "finish": "I created a new $structure $1 set to $2"
+            "doc": [
+                "Sometimes when you make a @StructureDefinition, you want to change the tiniest thing about it, without having to make a new one with all the same values.",
+                "For example, what if you were keeping a record of cats, but then wanted to create a copy of a cat with a different hobby? I can help you change it:",
+                "⧼•Cat(name•'' color•'' hobby•'')\n\nkitty: Cat('sprinkles' 'orange' 'licking')\nkitty.hobby:'purring'⧽",
+                "That's so much easier than making a whole new ⧼Cat⧽ with the same values except for the hobby, isn't it?"
+            ],
+            "start": "first let's get the value",
+            "finish": "I copied the structure, but with $1 as $2"
         },
         "PropertyReference": {
             "name": "property access",

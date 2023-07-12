@@ -153,6 +153,9 @@ export default class PropertyBind extends Expression {
         return concretize(
             locale,
             locale.node.PropertyBind.finish,
+            this.reference.name
+                ? new NodeRef(this.reference.name, locale, context)
+                : undefined,
             this.getValueIfDefined(locale, context, evaluator)
         );
     }
