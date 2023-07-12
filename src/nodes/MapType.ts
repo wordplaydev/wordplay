@@ -12,7 +12,6 @@ import type TypeSet from './TypeSet';
 import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
-import Purpose from '../concepts/Purpose';
 import NodeRef from '../locale/NodeRef';
 
 export default class MapType extends NativeType {
@@ -68,10 +67,6 @@ export default class MapType extends NativeType {
             this.replaceChild('value', this.value, replace),
             this.replaceChild('close', this.close, replace)
         ) as this;
-    }
-
-    getPurpose() {
-        return Purpose.Bind;
     }
 
     computeConflicts(): Conflict[] {

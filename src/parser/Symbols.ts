@@ -26,7 +26,7 @@ export const STREAM_SYMBOL = '…';
 export const CHANGE_SYMBOL = '∆';
 export const INITIAL_SYMBOL = '◆';
 export const PREVIOUS_SYMBOL = '←';
-export const TEXT_SYMBOL = "''";
+export const TEXT_SYMBOL = "'";
 // ⊤⊥
 export const TRUE_SYMBOL = '⊤';
 export const FALSE_SYMBOL = '⊥';

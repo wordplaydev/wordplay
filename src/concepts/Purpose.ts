@@ -1,5 +1,6 @@
 enum Purpose {
     Bind = 'bind',
+    Type = 'type',
     Evaluate = 'evaluate',
     Value = 'value',
     Input = 'input',

@@ -134,6 +134,14 @@ const templates: Node[] = [
         ExpressionPlaceholder.make()
     ),
     Reference.make('_'),
+    StructureDefinition.make(
+        undefined,
+        Names.make(['_']),
+        [],
+        undefined,
+        [],
+        Block.make([ExpressionPlaceholder.make()])
+    ),
     PropertyReference.make(
         ExpressionPlaceholder.make(),
         Reference.make(PLACEHOLDER_SYMBOL)
@@ -167,32 +175,17 @@ const templates: Node[] = [
     FunctionType.make(undefined, [], TypePlaceholder.make()),
 
     // Values
-    TextLiteral.make(''),
-    MeasurementLiteral.make(0),
-    BooleanLiteral.make(true),
-    NoneLiteral.make(),
     Template.make(),
-    ListLiteral.make([]),
     ListAccess.make(
         ExpressionPlaceholder.make(ListType.make()),
         ExpressionPlaceholder.make()
     ),
-    SetLiteral.make([]),
-    MapLiteral.make([]),
+    KeyValue.make(ExpressionPlaceholder.make(), ExpressionPlaceholder.make()),
     SetOrMapAccess.make(
         ExpressionPlaceholder.make(SetType.make()),
         ExpressionPlaceholder.make()
     ),
-    KeyValue.make(ExpressionPlaceholder.make(), ExpressionPlaceholder.make()),
 
-    StructureDefinition.make(
-        undefined,
-        Names.make(['_']),
-        [],
-        undefined,
-        [],
-        Block.make([ExpressionPlaceholder.make()])
-    ),
     This.make(),
 
     // Streams
@@ -243,16 +236,7 @@ export function getNativeConcepts(
 ): StructureConcept[] {
     return [
         new StructureConcept(
-            Purpose.Bind,
-            native.getPrimitiveDefinition('boolean'),
-            native.getPrimitiveDefinition('boolean'),
-            BooleanType.make(),
-            [BooleanLiteral.make(true), BooleanLiteral.make(false)],
-            languages,
-            context
-        ),
-        new StructureConcept(
-            Purpose.Bind,
+            Purpose.Value,
             native.getPrimitiveDefinition('text'),
             native.getPrimitiveDefinition('text'),
             TextType.make(),
@@ -261,7 +245,7 @@ export function getNativeConcepts(
             context
         ),
         new StructureConcept(
-            Purpose.Bind,
+            Purpose.Value,
             native.getPrimitiveDefinition('measurement'),
             native.getPrimitiveDefinition('measurement'),
             MeasurementType.make(),
@@ -274,7 +258,16 @@ export function getNativeConcepts(
             context
         ),
         new StructureConcept(
-            Purpose.Bind,
+            Purpose.Value,
+            native.getPrimitiveDefinition('boolean'),
+            native.getPrimitiveDefinition('boolean'),
+            BooleanType.make(),
+            [BooleanLiteral.make(true), BooleanLiteral.make(false)],
+            languages,
+            context
+        ),
+        new StructureConcept(
+            Purpose.Value,
             native.getPrimitiveDefinition('list'),
             native.getPrimitiveDefinition('list'),
             ListType.make(),
@@ -283,7 +276,7 @@ export function getNativeConcepts(
             context
         ),
         new StructureConcept(
-            Purpose.Bind,
+            Purpose.Value,
             native.getPrimitiveDefinition('set'),
             native.getPrimitiveDefinition('set'),
             SetType.make(),
@@ -292,7 +285,7 @@ export function getNativeConcepts(
             context
         ),
         new StructureConcept(
-            Purpose.Bind,
+            Purpose.Value,
             native.getPrimitiveDefinition('map'),
             native.getPrimitiveDefinition('map'),
             MapType.make(TypePlaceholder.make(), TypePlaceholder.make()),
@@ -301,7 +294,7 @@ export function getNativeConcepts(
             context
         ),
         new StructureConcept(
-            Purpose.Bind,
+            Purpose.Value,
             native.getPrimitiveDefinition('none'),
             native.getPrimitiveDefinition('none'),
             NoneType.make(),

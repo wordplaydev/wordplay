@@ -121,7 +121,7 @@
                 "I am a /unit of measurement/!",
                 "I can be any standardized units, like ⧼1m⧽, ⧼10s⧽, ⧼100g⧽, or any other scientific unit. I'm happy to be any unit want to make up too, like ⧼17apple⧽.",
                 "I can be combined with ⧼/⧽ to make ratio units like ⧼17apple/day⧽ and with ⧼^⧽ to make exponentional units like ⧼9.8m/s^2⧽",
-                "I must always come after a @Measurement. If I don't, I might be mistaken for @Reference, which would be quite embarassing!",
+                "I must always come after a @Number. If I don't, I might be mistaken for @Reference, which would be quite embarassing!",
                 "I'm pretty good at finding inconsistencies between units too. For example, ⧼1cat + 1dog⧽ doesn't make any sense!",
                 "If you ever want to convert between different values of units, go talk to @Convert."
             ]
@@ -445,10 +445,7 @@
             "name": "boolean",
             "description": "$1[true|false]",
             "emotion": "precise",
-            "doc": [
-                "How do you make a @Boolean? Just ⧼⊤⧽ and ⧼⊥⧽, nothing more, nothing less.",
-                "Some use the keyboard (/ctrl+9/ for ⧼⊤⧽ and /ctrl+0/ for ⧼⊥⧽). Some use the symbol chooser in the editor. Or you can drag us from here."
-            ],
+            "doc": "See @Boolean.",
             "start": "$1!"
         },
         "Borrow": {
@@ -644,7 +641,7 @@
                 "See how it took all the 'no's and got rid of them? That's because messages is a @List, and so we could use @List/sansAll.",
                 "Sometimes you might want to make it clear what kind of value I produce. To do that, add an @Is after the list of inputs:",
                 "⧼ƒ add(x•# y•#)•'' x + y⧽",
-                "You might notice a problem with this one: it says it evaluates to @Text, but it takes two @Measurement. I can tell you when things are inconsistent!",
+                "You might notice a problem with this one: it says it evaluates to @Text, but it takes two @Number. I can tell you when things are inconsistent!",
                 "Of course, I'm not really useful at all without @Evaluate; they bring me to life."
             ],
             "start": "let's make this function!",
@@ -685,7 +682,7 @@
             "emotion": "curious",
             "doc": [
                 "You know what? There are so many kinds of values that mean so many different things. I help figure out what they are.",
-                "For example, suppose you had a mystery value. I can tell you whether it's a @Measurement, giving you a @Boolean:",
+                "For example, suppose you had a mystery value. I can tell you whether it's a @Number, giving you a @Boolean:",
                 "⧼mystery: 'secret!'\nmystery•#⧽",
                 "It's not a number, so I made ⧼⊥⧽. But if we check if it's @TextType?",
                 "⧼mystery: 'secret!'\nmystery•''⧽",
@@ -717,12 +714,12 @@
             "emotion": "eager",
             "doc": [
                 "Do you know how to make a @List? I'm how!",
-                "You can put anything in me: @Boolean, @Measurement, @Text, @None, even other @List, @Set, @Map, or any expression. Here's a simple one:",
+                "You can put anything in me: @Boolean, @Number, @Text, @None, even other @List, @Set, @Map, or any expression. Here's a simple one:",
                 "⧼['apple' 'banana' 'mango']⧽",
                 "What makes me special is that I keep things in order and I number everything from 1 to however many items are in me. For example, the three words in this list are numbered 1, 2, and 3. You can get values that I'm storing with @ListAccess, using their number.",
                 "For example, the second value in this list is ⧼['banana']⧽",
                 "⧼['apple' 'banana' 'mango'][2]⧽",
-                "I really can have anything in me. Look at this list, with @Text, @Measurement, and @Time!",
+                "I really can have anything in me. Look at this list, with @Text, @Number, and @Time!",
                 "⧼['apple' 10 + 10 Time()]⧽"
             ],
             "start": "let's evaluate the items first",
@@ -758,19 +755,7 @@
             "name": "number",
             "description": "$1 $2",
             "emotion": "excited",
-            "doc": [
-                "I create @Measurement, with any number of units you can imagine!",
-                "Here are my top 5:",
-                "⧼0⧽",
-                "⧼1story⧽",
-                "⧼πpie⧽",
-                "⧼∞rock⧽",
-                "⧼1000000hugs⧽",
-                "That's basically an infinite number of numbers.",
-                "And an infinite number of units!",
-                "And an infinite number of number/unit pairs…",
-                "Check out @Measurement to see the many @FunctionDefinition."
-            ],
+            "doc": "See @Number.",
             "start": "$1!",
             "conflict": {
                 "NotANumber": "I thought I knew all the numbers, but I don't know this one"
@@ -785,10 +770,7 @@
         "NoneLiteral": {
             "name": "none",
             "emotion": "neutral",
-            "doc": [
-                "/Hi, @FunctionDefinition here. @NoneLiteral doesn't like to say much, so I'll interpret./",
-                "I am @None. I also create @None. And that's not nothing."
-            ],
+            "doc": "See @None.",
             "start": "… ø"
         },
         "Previous": {
@@ -812,7 +794,7 @@
                 "I'm where a performance begins and ends, containing all of the other characters that choregraph a show.",
                 "You know how @Block evaluates a list of expressions, and evaluates to the last one in its list? ",
                 "I'm the same, but rather than giving my value to whatever expression I'm in, I put the value on @Stage.",
-                "The value can be anything: a @MeasurementLiteral, @TextLiteral, or @BooleanLiteral, a @ListLiteral, @SetLiteral, @MapLiteral, or even something more complex, like a @Phrase, @Group, or @Stage.",
+                "The value can be anything: a @Number, @Text, or @Boolean, a @List, @Set, @Map, or even something more complex, like a @Phrase, @Group, or @Stage.",
                 "If you don't give me a value to show on stage, I'll ask you for one.",
                 "If there's a problem during a performance, I'll show that problem.",
                 "And if your performance depends on a *stream*, I'll reevaluate every time that stream changes."
@@ -976,13 +958,13 @@
             "finish": "evaluated to new table $1"
         },
         "Template": {
-            "name": "text template",
+            "name": "template",
             "emotion": "serious",
             "doc": [
-                "I can be placed inside @TextLiteral to combine text and other values into a larger text value.",
+                "I can be placed inside @Text to combine text and other values into a larger text value.",
                 "For instance, consider this:",
                 "⧼\"Here are some sums \\1 + 2\\, \\2 + 3\\, \\3 + 4\\\"⧽",
-                "See how elegantly I just evaluated those sums, and placed them inside the @TextLiteral?",
+                "See how elegantly I just evaluated those sums, and placed them inside the @Text?",
                 "You can use me instead of adding @TextType together.",
                 ""
             ],
@@ -993,11 +975,7 @@
             "name": "text",
             "description": "text $1",
             "emotion": "serious",
-            "doc": [
-                "I can be any text you like, and use any of these text symbols: ⧼\"\"⧽, ⧼“”⧽, ⧼„“⧽, ⧼''⧽, ⧼‘’⧽, ⧼‹›⧽, ⧼«»⧽, ⧼「」⧽, or ⧼『』⧽.",
-                "Just remember to close me if you open me, and use the matching symbol.",
-                "Otherwise I won't know that you're done with your words."
-            ],
+            "doc": "See @Text?",
             "start": "let's make text"
         },
         "This": {
@@ -1236,10 +1214,8 @@
     "native": {
         "Boolean": {
             "doc": [
-                "This is We are ⧼⊤⧽ and ⧼⊥⧽. This is how you write us.",
-                "We are true and false.",
-                "⧼⊤⧽ is not false. ⧼⊥⧽ is not true.",
-                "See @Boolean for how to use us to reason."
+                "How do you make a @Boolean? Just ⧼⊤⧽ and ⧼⊥⧽, nothing more, nothing less.",
+                "Some use the keyboard (/ctrl+9/ for ⧼⊤⧽ and /ctrl+0/ for ⧼⊥⧽). Some use the symbol chooser in the editor. Or you can drag us from here."
             ],
             "name": ["⊤⊥", "Boolean"],
             "function": {
@@ -1269,9 +1245,8 @@
         },
         "None": {
             "doc": [
-                "I am nothing",
-                "I am special because I am only equal to me.",
-                "I can only ever be me and only ever want to be me!"
+                "/Hi, @FunctionDefinition here. @NoneLiteral doesn't like to say much, so I'll interpret./",
+                "I am @None. I also create @None. And that's not nothing."
             ],
             "name": ["ø", "None"],
             "function": {
@@ -1290,8 +1265,9 @@
         },
         "Text": {
             "doc": [
-                "We are any words imaginable.",
-                "We can represent ideas, stories, words, and more, and even represent other types of values, but as text."
+                "I can be any text you like, and use any of these text symbols: ⧼\"\"⧽, ⧼“”⧽, ⧼„“⧽, ⧼''⧽, ⧼‘’⧽, ⧼‹›⧽, ⧼«»⧽, ⧼「」⧽, or ⧼『』⧽.",
+                "Just remember to close me if you open me, and use the matching symbol.",
+                "Otherwise I won't know that you're done with your words."
             ],
             "name": ["''", "Text"],
             "function": {
@@ -1335,14 +1311,25 @@
         },
         "Measurement": {
             "doc": [
+                "I create @Number, with any number of units you can imagine!",
+                "Here are my top 5:",
+                "⧼0⧽",
+                "⧼1story⧽",
+                "⧼πpie⧽",
+                "⧼∞rock⧽",
+                "⧼1000000hugs⧽",
+                "That's basically an infinite number of numbers.",
+                "And an infinite number of units!",
+                "And an infinite number of number/unit pairs…",
+                "Check out @Number to see the many @FunctionDefinition.",
                 "We are any number imaginable, even with units.",
                 "We can be integers, real numbers, negative, positive, fractional, decimal. We can be Arabic numbers (123), Roman numerals (ⅩⅩⅩⅠⅩ), Japanese numerals (二十), and more."
             ],
-            "name": ["#", "Measurement"],
+            "name": ["#", "Number"],
             "function": {
                 "add": {
                     "doc": [
-                        "I take two @Measurement with the same @Unit and add them together, creating a new @MeasurementType of the same @Unit.",
+                        "I take two @Number with the same @Unit and add them together, creating a new @NumberType of the same @Unit.",
                         "For example:",
                         "⧼1 + 1⧽",
                         "⧼3cat + 5cat⧽",
@@ -1488,7 +1475,7 @@
                 "We group values in sequence.",
                 "Keeping this in order is our mission; but we can only do that if we stay together ([])."
             ],
-            "name": ["[]", "List"],
+            "name": ["[]", "list"],
             "kind": "Kind",
             "out": "Result",
             "outofbounds": "outofbounds",

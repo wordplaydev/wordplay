@@ -29,7 +29,7 @@ export default class TypeVariable extends Node {
     }
 
     getPurpose() {
-        return Purpose.Bind;
+        return Purpose.Type;
     }
 
     getReference(): NameType {

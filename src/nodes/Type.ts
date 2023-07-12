@@ -13,7 +13,7 @@ export default abstract class Type extends Node {
     }
 
     getPurpose() {
-        return Purpose.Bind;
+        return Purpose.Type;
     }
 
     /**

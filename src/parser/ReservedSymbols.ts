@@ -30,6 +30,7 @@ import {
     TAG_CLOSE_SYMBOL,
     TAG_OPEN_SYMBOL,
     TEMPLATE_SYMBOL,
+    TEXT_SYMBOL,
     TRUE_SYMBOL,
     TYPE_CLOSE_SYMBOL,
     TYPE_OPEN_SYMBOL,
@@ -72,6 +73,7 @@ const ReservedSymbols = [
     COMMA_SYMBOL,
     EXAMPLE_OPEN_SYMBOL,
     EXAMPLE_CLOSE_SYMBOL,
+    TEXT_SYMBOL,
 ];
 
 export default ReservedSymbols;

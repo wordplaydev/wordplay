@@ -315,6 +315,10 @@
                 concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Output)}
             />
             <ConceptsView
+                category={$creator.getLocale().term.type}
+                concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Type)}
+            />
+            <ConceptsView
                 category={$creator.getLocale().term.document}
                 concepts={$index.getPrimaryConceptsWithPurpose(
                     Purpose.Document

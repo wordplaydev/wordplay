@@ -91,7 +91,7 @@ export default class SetOrMapAccess extends Expression {
     }
 
     getPurpose(): Purpose {
-        return Purpose.Bind;
+        return Purpose.Value;
     }
 
     getAffiliatedType(): NativeTypeName | undefined {

@@ -137,11 +137,11 @@ export default class ConceptIndex {
 
         return new ConceptIndex(
             [
+                ...native,
                 ...projectStructures,
                 ...projectFunctions,
                 ...projectBinds,
                 ...constructs,
-                ...native,
                 ...output,
                 ...streams,
             ],

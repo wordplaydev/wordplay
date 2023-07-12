@@ -739,8 +739,8 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "Every value has a *type*. For example, ⧼1⧽ is a number type; that's our friend @Measurement. And ⧼'hello'⧽ is a text type; that's our friend @Text. Types are important because they help us keep track of what kind of value we're creating.",
-                            "That helps us find problems. For example, it doesn't make any sense to add ⧼'hello' + 1⧽, because what would that even mean, to add @Text to @Measurement?"
+                            "Every value has a *type*. For example, ⧼1⧽ is a number type; that's our friend @Number. And ⧼'hello'⧽ is a text type; that's our friend @Text. Types are important because they help us keep track of what kind of value we're creating.",
+                            "That helps us find problems. For example, it doesn't make any sense to add ⧼'hello' + 1⧽, because what would that even mean, to add @Text to @Number?"
                         ],
                         null,
                         [
@@ -1178,7 +1178,7 @@
                         [
                             "FunctionDefinition",
                             "eager",
-                            "We should meet @Measurement next. They always have such interesting things to share. Hey @Measurement, are you around?"
+                            "We should meet @Number next. They always have such interesting things to share. Hey @Number, are you around?"
                         ],
                         ["Measurement", "kind", "Just 3 steps away!"],
                         null,
@@ -1239,7 +1239,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "Okay, okay @Measurement, we get it! But you also do something else special, right? Units?"
+                            "Okay, okay @Number, we get it! But you also do something else special, right? Units?"
                         ],
                         null,
                         [
@@ -1262,7 +1262,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "Um, ⧼1.01toe⧽s? Yes, thank you @Measurement, these are … interesting examples. And they are oh so useful when you're doing math on numbers, right?"
+                            "Um, ⧼1.01toe⧽s? Yes, thank you @Number, these are … interesting examples. And they are oh so useful when you're doing math on numbers, right?"
                         ],
                         null,
                         [
@@ -1303,7 +1303,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "That's so cool. @Measurement, you're so good with numbers! I see @Measurement show up in a lot of performances where placement matters, and a lot of games where we're keeping track of scores or lives or other countable things. @Measurement, is there anything else you want to share with our new director?"
+                            "That's so cool. @Number, you're so good with numbers! I see @Number show up in a lot of performances where placement matters, and a lot of games where we're keeping track of scores or lives or other countable things. @Number, is there anything else you want to share with our new director?"
                         ],
                         ["Measurement", "serious", "192 other neat tricks."],
                         null,
@@ -1339,7 +1339,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "There are only a few of these, but they are powerful. One is really relevant to @Measurement: negation. You can just put a ⧼-⧽ in front of any number value and get its negative."
+                            "There are only a few of these, but they are powerful. One is really relevant to @Number: negation. You can just put a ⧼-⧽ in front of any number value and get its negative."
                         ],
                         ["edit", "-(1 + 3)"],
                         null,
@@ -1374,7 +1374,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "Do you think you're okay meeting just one more value? Let's go find @None next. They are a bit more chill than @Measurement. @None? Are you out there?"
+                            "Do you think you're okay meeting just one more value? Let's go find @None next. They are a bit more chill than @Number. @None? Are you out there?"
                         ],
                         ["None", "bored", "…"],
                         null,
@@ -1463,7 +1463,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "You know what? The values in our community are just so different. @Text with their immense worlds of culture from the people world… @Boolean with their binary visions of the world… @Measurement with their endless fascination with counting things… @None with their quiet way of observing the absence of things… Our world is never boring!"
+                            "You know what? The values in our community are just so different. @Text with their immense worlds of culture from the people world… @Boolean with their binary visions of the world… @Number with their endless fascination with counting things… @None with their quiet way of observing the absence of things… Our world is never boring!"
                         ],
                         [
                             "fit",
@@ -1473,7 +1473,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "You might wonder how they get along with each other in a group. Well, there's a whole other set of folks in the Verse that are all about bringing values together in groups. We call them *collections*. Collections are *values* too; they're just made up of smaller values, or even other collections. For example, you might have a list of @Text, or a set of @Measurement, or even a list of lists."
+                            "You might wonder how they get along with each other in a group. Well, there's a whole other set of folks in the Verse that are all about bringing values together in groups. We call them *collections*. Collections are *values* too; they're just made up of smaller values, or even other collections. For example, you might have a list of @Text, or a set of @Number, or even a list of lists."
                         ],
                         [
                             "fit",
@@ -1535,7 +1535,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "Well, I was sitting around, as I usually do, trying to imagine functions to compute, but just blocked. And then my new friend here showed up, curious about our world and wanting to learn more, and maybe even be our next director. And so we talked to @Program, @ExpressionPlaceholder, @UnparsableExpression, @Evaluate, @Text, @Measurement, @Boolean, and @None, waking everyone up. That's why we're here, to talk about what you do and our next performance!"
+                            "Well, I was sitting around, as I usually do, trying to imagine functions to compute, but just blocked. And then my new friend here showed up, curious about our world and wanting to learn more, and maybe even be our next director. And so we talked to @Program, @ExpressionPlaceholder, @UnparsableExpression, @Evaluate, @Text, @Number, @Boolean, and @None, waking everyone up. That's why we're here, to talk about what you do and our next performance!"
                         ],
                         [
                             "fit",
@@ -1674,7 +1674,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "So many questions! I'm here to introduce you to someone who's considering directing. They're learning everything about the Verse and hope to share their inspiration with us! We were just talking to @List, but we were also talking to @Measurement, @Boolean, @Text, @Evaluate, and @Program earlier. We came to you next, because we're meeting all the collections!"
+                            "So many questions! I'm here to introduce you to someone who's considering directing. They're learning everything about the Verse and hope to share their inspiration with us! We were just talking to @List, but we were also talking to @Number, @Boolean, @Text, @Evaluate, and @Program earlier. We came to you next, because we're meeting all the collections!"
                         ],
                         null,
                         [
@@ -2023,7 +2023,7 @@
                         [
                             "Convert",
                             "serious",
-                            "Or like, imagine you had text and wanted a number. Throw me in there with @Measurement and POP, you've got a number!"
+                            "Or like, imagine you had text and wanted a number. Throw me in there with @Number and POP, you've got a number!"
                         ],
                         ["edit", "'1'→#"],
                         null,
@@ -2037,7 +2037,7 @@
                         [
                             "Convert",
                             "serious",
-                            "But me and @Measurement? We have been practicing some seriously sick tricks. Say you've got some time in days and you want seconds? We got you."
+                            "But me and @Number? We have been practicing some seriously sick tricks. Say you've got some time in days and you want seconds? We got you."
                         ],
                         ["edit", "5day → #s"],
                         null,
@@ -2429,7 +2429,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "But we can use all of the wonderful characters we've met to transform time further. For example, what if we wanted to know if time was a multiple of ⧼2⧽? We could use @Measurement/remainder, which gets the remainder of a division. If the remainder is zero, we'll evaluate to ⧼⊤⧽ and ⧼⊥⧽ otherwise. See how it changes back and forth between ⧼⊤⧽ and ⧼⊥⧽? It's so magical."
+                            "But we can use all of the wonderful characters we've met to transform time further. For example, what if we wanted to know if time was a multiple of ⧼2⧽? We could use @Number/remainder, which gets the remainder of a division. If the remainder is zero, we'll evaluate to ⧼⊤⧽ and ⧼⊥⧽ otherwise. See how it changes back and forth between ⧼⊤⧽ and ⧼⊥⧽? It's so magical."
                         ],
                         ["Time", "neutral", "tick… tick… tick… tick… tick…"],
                         ["edit", "(Time(1000ms) % 5) = 2ms"],
@@ -2637,7 +2637,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "So far, all of the *streams* we've talked about are sequences of simple values, like @Text or @Measurement. Some streams, however, can produce complex values.",
+                            "So far, all of the *streams* we've talked about are sequences of simple values, like @Text or @Number. Some streams, however, can produce complex values.",
                             "@Motion is one of the most interesting of those."
                         ],
                         null,
@@ -3456,7 +3456,7 @@
                         [
                             "Group",
                             "serious",
-                            "But sometimes we all need a little space. So you can give @Stack some padding. Try changing the padding to a different @MeasurementLiteral!"
+                            "But sometimes we all need a little space. So you can give @Stack some padding. Try changing the padding to a different @NumberLiteral!"
                         ],
                         [
                             "edit",
@@ -3852,7 +3852,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "We talked about values! Like @Measurement, @Text, @None, @List, @Set, @Map..."
+                            "We talked about values! Like @Number, @Text, @None, @List, @Set, @Map..."
                         ],
                         [
                             "Bind",
@@ -3870,7 +3870,7 @@
                         [
                             "Bind",
                             "serious",
-                            "And like, you can tell me what kind of value the name should be by giving me a type with the ⧼•⧽ symbol. So like, if you wanted to make sure that number was a number, you'd say this. That says to name the value ⧼number⧽ and that the value must be a @Measurement."
+                            "And like, you can tell me what kind of value the name should be by giving me a type with the ⧼•⧽ symbol. So like, if you wanted to make sure that number was a number, you'd say this. That says to name the value ⧼number⧽ and that the value must be a @Number."
                         ],
                         ["edit", "number•#: 1", "number"],
                         null,
@@ -4163,7 +4163,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "I guess let's start with what you've already seen. You know how every value has different functions that you can evaluate on them? Like numbers know how to @Measurement/add, and a text value knows how to check if it @Text/has some text, or @Set knows how to check if it has a certain value? Well, I'm the one that defines those functions. I mean, I don't have the inspiration to create them myself — that's what directors like you do — but I define the inputs a function accepts, the names it has, and the expression that uses the inputs to evaluate to an output value."
+                            "I guess let's start with what you've already seen. You know how every value has different functions that you can evaluate on them? Like numbers know how to @Number/add, and a text value knows how to check if it @Text/has some text, or @Set knows how to check if it has a certain value? Well, I'm the one that defines those functions. I mean, I don't have the inspiration to create them myself — that's what directors like you do — but I define the inputs a function accepts, the names it has, and the expression that uses the inputs to evaluate to an output value."
                         ],
                         null,
                         [
@@ -4177,7 +4177,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "So here's a more useful example. You know odd and even numbers? I once had a director that wanted to check if a number was even (divisible by 2, I think that means?), and so they wrote this. This is a function called ⧼even⧽ that takes a single number called… ⧼number⧽. You need to tell me what kind of value each input is, so @Evaluate can make sure that anything evaluating the function is sending the right kind of value. Then, it takes the number, divides it by two, gets the remainder (with the @Measurement/remainder), and then checks if the remainder is equal to ⧼0⧽, with @Measurement/equal. So the whole function ends up either evaluating to ⧼⊤⧽ or ⧼⊥⧽. For example, this evaluation of even evaluated to ⧼⊥⧽ because ⧼3⧽ is odd. Try using the rewind buttons to see how it works."
+                            "So here's a more useful example. You know odd and even numbers? I once had a director that wanted to check if a number was even (divisible by 2, I think that means?), and so they wrote this. This is a function called ⧼even⧽ that takes a single number called… ⧼number⧽. You need to tell me what kind of value each input is, so @Evaluate can make sure that anything evaluating the function is sending the right kind of value. Then, it takes the number, divides it by two, gets the remainder (with the @Number/remainder), and then checks if the remainder is equal to ⧼0⧽, with @Number/equal. So the whole function ends up either evaluating to ⧼⊤⧽ or ⧼⊥⧽. For example, this evaluation of even evaluated to ⧼⊥⧽ because ⧼3⧽ is odd. Try using the rewind buttons to see how it works."
                         ],
                         [
                             "edit",
@@ -4909,7 +4909,7 @@
                         [
                             "Phrase",
                             "kind",
-                            "@Measurement is right @Evaluate, you are fabulous in fifty ways."
+                            "@Number is right @Evaluate, you are fabulous in fifty ways."
                         ],
                         ["Sequence", "happy", "I spin when I see you!"],
                         [
