@@ -1,12 +1,12 @@
 enum Purpose {
-    Store = 'store',
-    Compute = 'compute',
+    Bind = 'bind',
+    Evaluate = 'evaluate',
+    Value = 'value',
     Input = 'input',
     Output = 'output',
     Decide = 'decide',
     Convert = 'convert',
     Project = 'project',
-    Type = 'type',
     Document = 'document',
     Represent = 'represent',
 }

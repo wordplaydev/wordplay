@@ -75,7 +75,7 @@ import EvalOpenToken from '../nodes/EvalOpenToken';
 import SetCloseToken from '../nodes/SetCloseToken';
 
 /** These are ordered by appearance in the docs. */
-const template: Node[] = [
+const templates: Node[] = [
     // Evaluation
     Evaluate.make(ExpressionPlaceholder.make(), []),
     FunctionDefinition.make(
@@ -95,6 +95,7 @@ const template: Node[] = [
         ExpressionPlaceholder.make()
     ),
     Block.make([ExpressionPlaceholder.make()]),
+    Convert.make(ExpressionPlaceholder.make(), TypePlaceholder.make()),
     ConversionDefinition.make(
         undefined,
         new TypePlaceholder(),
@@ -111,18 +112,16 @@ const template: Node[] = [
         ExpressionPlaceholder.make(),
         ExpressionPlaceholder.make()
     ),
-    Is.make(ExpressionPlaceholder.make(), TypePlaceholder.make()),
     Reaction.make(
         ExpressionPlaceholder.make(),
         ExpressionPlaceholder.make(BooleanType.make()),
         ExpressionPlaceholder.make()
     ),
+    Is.make(ExpressionPlaceholder.make(), TypePlaceholder.make()),
     Initial.make(),
     Changed.make(ExpressionPlaceholder.make(StreamType.make())),
 
-    // Bindings
-    Name.make('@'),
-    Names.make(['a', 'b']),
+    // Bind
     Bind.make(
         undefined,
         Names.make([PLACEHOLDER_SYMBOL]),
@@ -142,46 +141,40 @@ const template: Node[] = [
         PLACEHOLDER_SYMBOL,
         ExpressionPlaceholder.make()
     ),
+    Name.make('@'),
+    Names.make(['a', 'b']),
 
-    Convert.make(ExpressionPlaceholder.make(), TypePlaceholder.make()),
+    // Types
+    BooleanType.make(),
+    TextType.make(),
+    MeasurementType.make(),
+    Unit.make(['unit']),
+    ListType.make(),
+    SetType.make(),
+    NoneType.make(),
+    MapType.make(TypePlaceholder.make(), TypePlaceholder.make()),
+    UnionType.make(TypePlaceholder.make(), TypePlaceholder.make()),
+    TypeInputs.make([]),
+    TypeVariables.make([]),
+    ConversionType.make(TypePlaceholder.make(), TypePlaceholder.make()),
     Dimension.make(false, PLACEHOLDER_SYMBOL, 1),
     new AnyType(),
     FunctionType.make(undefined, [], TypePlaceholder.make()),
 
-    // Boolean
-    BooleanType.make(),
-    BooleanLiteral.make(true),
-
-    // Measurements
-    MeasurementType.make(),
-    MeasurementLiteral.make(0),
-    Unit.make(['unit']),
-
-    // Text
-    TextType.make(),
+    // Values
     TextLiteral.make(''),
+    MeasurementLiteral.make(0),
+    BooleanLiteral.make(true),
+    NoneLiteral.make(),
     Template.make(),
-
-    // List
-    ListType.make(),
     ListLiteral.make([]),
     ListAccess.make(
         ExpressionPlaceholder.make(ListType.make()),
         ExpressionPlaceholder.make()
     ),
-
-    // Maps
+    SetLiteral.make([]),
     MapLiteral.make([]),
     KeyValue.make(ExpressionPlaceholder.make(), ExpressionPlaceholder.make()),
-    MapType.make(TypePlaceholder.make(), TypePlaceholder.make()),
-
-    // Sets
-    SetType.make(),
-    SetLiteral.make([]),
-
-    // None
-    NoneType.make(),
-    NoneLiteral.make(),
 
     StructureDefinition.make(
         undefined,
@@ -199,12 +192,6 @@ const template: Node[] = [
         ExpressionPlaceholder.make(StreamType.make()),
         ExpressionPlaceholder.make(MeasurementType.make())
     ),
-
-    // Types
-    TypeInputs.make([]),
-    TypeVariables.make([]),
-    UnionType.make(TypePlaceholder.make(), TypePlaceholder.make()),
-    ConversionType.make(TypePlaceholder.make(), TypePlaceholder.make()),
 
     // Documentation
     Doc.make([new Paragraph([Words.make()])]),
@@ -231,7 +218,7 @@ const template: Node[] = [
 ];
 
 export function getNodeConcepts(context: Context): NodeConcept[] {
-    return template.map((node) => {
+    return templates.map((node) => {
         const typeName = node.getAffiliatedType();
         const type = typeName
             ? context.native.getStructureDefinition(typeName)
@@ -247,7 +234,7 @@ export function getNativeConcepts(
 ): StructureConcept[] {
     return [
         new StructureConcept(
-            Purpose.Store,
+            Purpose.Bind,
             native.getPrimitiveDefinition('boolean'),
             native.getPrimitiveDefinition('boolean'),
             BooleanType.make(),
@@ -256,7 +243,7 @@ export function getNativeConcepts(
             context
         ),
         new StructureConcept(
-            Purpose.Store,
+            Purpose.Bind,
             native.getPrimitiveDefinition('text'),
             native.getPrimitiveDefinition('text'),
             TextType.make(),
@@ -265,7 +252,7 @@ export function getNativeConcepts(
             context
         ),
         new StructureConcept(
-            Purpose.Store,
+            Purpose.Bind,
             native.getPrimitiveDefinition('measurement'),
             native.getPrimitiveDefinition('measurement'),
             MeasurementType.make(),
@@ -278,7 +265,7 @@ export function getNativeConcepts(
             context
         ),
         new StructureConcept(
-            Purpose.Store,
+            Purpose.Bind,
             native.getPrimitiveDefinition('list'),
             native.getPrimitiveDefinition('list'),
             ListType.make(),
@@ -287,7 +274,7 @@ export function getNativeConcepts(
             context
         ),
         new StructureConcept(
-            Purpose.Store,
+            Purpose.Bind,
             native.getPrimitiveDefinition('set'),
             native.getPrimitiveDefinition('set'),
             SetType.make(),
@@ -296,7 +283,7 @@ export function getNativeConcepts(
             context
         ),
         new StructureConcept(
-            Purpose.Store,
+            Purpose.Bind,
             native.getPrimitiveDefinition('map'),
             native.getPrimitiveDefinition('map'),
             MapType.make(TypePlaceholder.make(), TypePlaceholder.make()),
@@ -305,7 +292,7 @@ export function getNativeConcepts(
             context
         ),
         new StructureConcept(
-            Purpose.Store,
+            Purpose.Bind,
             native.getPrimitiveDefinition('none'),
             native.getPrimitiveDefinition('none'),
             NoneType.make(),

@@ -32,7 +32,7 @@ export default class TypeInputs extends Node {
     }
 
     getPurpose() {
-        return Purpose.Type;
+        return Purpose.Evaluate;
     }
 
     getGrammar() {

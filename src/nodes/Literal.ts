@@ -4,6 +4,7 @@ import type Step from '@runtime/Step';
 import type Value from '@runtime/Value';
 import AtomicExpression from './AtomicExpression';
 import type Expression from './Expression';
+import Purpose from '../concepts/Purpose';
 
 export default abstract class Literal extends AtomicExpression {
     constructor() {
@@ -16,6 +17,10 @@ export default abstract class Literal extends AtomicExpression {
 
     compile(): Step[] {
         return [new StartFinish(this)];
+    }
+
+    getPurpose() {
+        return Purpose.Value;
     }
 
     evaluate(_: Evaluator, prior: Value | undefined): Value {

@@ -11,7 +11,6 @@ import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import Literal from './Literal';
 import Emotion from '../lore/Emotion';
-import Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';
 import { TEXT_DELIMITERS } from '../parser/Tokenizer';
 import { TEMPLATE_SYMBOL } from '../parser/Symbols';
@@ -55,10 +54,6 @@ export default class TextLiteral extends Literal {
             this.replaceChild('text', this.text, replace),
             this.replaceChild('format', this.format, replace)
         ) as this;
-    }
-
-    getPurpose() {
-        return Purpose.Store;
     }
 
     getAffiliatedType(): NativeTypeName {

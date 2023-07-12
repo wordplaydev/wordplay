@@ -43,7 +43,7 @@ export default class Row extends Node {
     }
 
     getPurpose() {
-        return Purpose.Store;
+        return Purpose.Bind;
     }
 
     allBinds() {

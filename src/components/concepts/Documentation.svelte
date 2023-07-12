@@ -288,18 +288,23 @@
                 concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Project)}
             />
             <ConceptsView
-                category={$creator.getLocale().term.code}
-                concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Compute)}
+                category={$creator.getLocale().term.value}
+                concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Value)}
+            />
+            <ConceptsView
+                category={$creator.getLocale().term.evaluate}
+                concepts={$index.getPrimaryConceptsWithPurpose(
+                    Purpose.Evaluate
+                )}
                 selectable={true}
             />
             <ConceptsView
-                category={$creator.getLocale().term.store}
-                concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Store)}
+                category={$creator.getLocale().term.bind}
+                concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Bind)}
             />
             <ConceptsView
                 category={$creator.getLocale().term.decide}
                 concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Decide)}
-                selectable={true}
             />
             <ConceptsView
                 category={$creator.getLocale().term.input}

@@ -4248,6 +4248,9 @@
             "act": {
               "type": "string"
             },
+            "bind": {
+              "type": "string"
+            },
             "boolean": {
               "type": "string"
             },
@@ -4255,14 +4258,14 @@
               "description": "How to describe output that has changed",
               "type": "string"
             },
-            "code": {
-              "type": "string"
-            },
             "decide": {
               "type": "string"
             },
             "entered": {
               "description": "How to describe output that has entered for the first time",
+              "type": "string"
+            },
+            "evaluate": {
               "type": "string"
             },
             "exception": {
@@ -4327,9 +4330,6 @@
               "description": "What to call the main source in a project.",
               "type": "string"
             },
-            "store": {
-              "type": "string"
-            },
             "stream": {
               "type": "string"
             },
@@ -4356,8 +4356,8 @@
             }
           },
           "required": [
-            "store",
-            "code",
+            "bind",
+            "evaluate",
             "decide",
             "project",
             "source",

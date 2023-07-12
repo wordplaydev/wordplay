@@ -36,33 +36,33 @@ export default function createDefaultShares(locales: Locale[]) {
     const ColorType = createColorType(locales);
 
     const OutputTypes = {
+        phrase: createPhraseType(locales),
         pose: createPoseType(locales),
         sequence: createSequenceType(locales),
-        type: createTypeType(locales),
-        phrase: createPhraseType(locales),
         group: createGroupType(locales),
         stage: createStageType(locales),
-        color: ColorType,
-        place: PlaceType,
-        shape: createShapeType(locales),
-        rectangle: createRectangleType(locales),
-        arrangement: createArrangementType(locales),
         stack: createStackType(locales),
         row: createRowType(locales),
         grid: createGridType(locales),
         free: createFreeType(locales),
+        color: ColorType,
+        place: PlaceType,
+        rectangle: createRectangleType(locales),
+        arrangement: createArrangementType(locales),
+        type: createTypeType(locales),
+        shape: createShapeType(locales),
     };
 
     const InputTypes = {
         time: createTimeType(locales),
-        choice: createChoiceType(locales),
-        key: createKeyType(locales),
-        pointer: createPointerType(locales, PlaceType),
-        button: createButtonType(locales),
         random: createRandomType(locales),
+        choice: createChoiceType(locales),
+        motion: createMotionType(locales, OutputTypes.type, OutputTypes.phrase),
+        key: createKeyType(locales),
+        button: createButtonType(locales),
+        pointer: createPointerType(locales, PlaceType),
         mic: createMicType(locales),
         camera: createCameraType(locales, ColorType),
-        motion: createMotionType(locales, OutputTypes.type, OutputTypes.phrase),
     };
 
     const Sequences = {

@@ -3,9 +3,9 @@
     "language": "$?",
     "wordplay": "$?",
     "term": {
-        "store": "$?",
+        "evaluate": "$?",
+        "bind": "$?",
         "decide": "$?",
-        "code": "$?",
         "project": "$?",
         "source": "$?",
         "input": "$?",

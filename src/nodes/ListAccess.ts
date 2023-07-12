@@ -92,7 +92,7 @@ export default class ListAccess extends Expression {
     }
 
     getPurpose(): Purpose {
-        return Purpose.Store;
+        return Purpose.Bind;
     }
 
     getAffiliatedType(): NativeTypeName | undefined {

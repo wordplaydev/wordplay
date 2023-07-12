@@ -62,7 +62,7 @@ export default class MeasurementLiteral extends Literal {
     }
 
     getPurpose() {
-        return Purpose.Store;
+        return Purpose.Bind;
     }
 
     getAffiliatedType(): NativeTypeName | undefined {

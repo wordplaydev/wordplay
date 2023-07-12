@@ -1,6 +1,6 @@
 type TermTexts = {
-    store: string;
-    code: string;
+    bind: string;
+    evaluate: string;
     decide: string;
     project: string;
     source: string;

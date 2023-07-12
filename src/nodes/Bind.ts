@@ -154,7 +154,7 @@ export default class Bind extends Expression {
     }
 
     getPurpose() {
-        return Purpose.Store;
+        return Purpose.Bind;
     }
 
     isEvaluationInvolved() {

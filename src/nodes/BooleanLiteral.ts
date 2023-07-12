@@ -12,7 +12,6 @@ import type Locale from '@locale/Locale';
 import NodeRef from '@locale/NodeRef';
 import Literal from './Literal';
 import Glyphs from '../lore/Glyphs';
-import Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';
 import concretize from '../locale/concretize';
 
@@ -44,10 +43,6 @@ export default class BooleanLiteral extends Literal {
         return new BooleanLiteral(
             this.replaceChild('value', this.value, replace)
         ) as this;
-    }
-
-    getPurpose() {
-        return Purpose.Store;
     }
 
     getAffiliatedType(): NativeTypeName | undefined {

@@ -71,7 +71,7 @@ export default class Template extends Expression {
     }
 
     getPurpose() {
-        return Purpose.Store;
+        return Purpose.Value;
     }
 
     getAffiliatedType(): NativeTypeName | undefined {

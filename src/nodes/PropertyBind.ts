@@ -59,7 +59,7 @@ export default class PropertyBind extends Expression {
     }
 
     getPurpose() {
-        return Purpose.Store;
+        return Purpose.Bind;
     }
 
     computeConflicts(context: Context): Conflict[] {

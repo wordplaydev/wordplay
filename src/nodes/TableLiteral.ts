@@ -45,7 +45,7 @@ export default class TableLiteral extends Expression {
     }
 
     getPurpose() {
-        return Purpose.Store;
+        return Purpose.Bind;
     }
 
     computeConflicts(context: Context): Conflict[] {

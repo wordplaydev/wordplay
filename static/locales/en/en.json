@@ -3,8 +3,8 @@
     "language": "en",
     "wordplay": "Wordplay",
     "term": {
-        "store": "bind",
-        "code": "evaluate",
+        "bind": "bind",
+        "evaluate": "evaluate",
         "decide": "decide",
         "project": "performance",
         "source": "source",

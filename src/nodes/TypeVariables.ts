@@ -51,7 +51,7 @@ export default class TypeVariables extends Node {
     }
 
     getPurpose() {
-        return Purpose.Type;
+        return Purpose.Bind;
     }
 
     computeConflicts() {

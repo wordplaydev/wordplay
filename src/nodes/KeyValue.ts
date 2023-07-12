@@ -52,7 +52,7 @@ export default class KeyValue extends Node {
     }
 
     getPurpose(): Purpose {
-        return Purpose.Store;
+        return Purpose.Bind;
     }
 
     getAffiliatedType(): NativeTypeName | undefined {

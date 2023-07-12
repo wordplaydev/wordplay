@@ -71,7 +71,7 @@ export default class MapType extends NativeType {
     }
 
     getPurpose() {
-        return Purpose.Store;
+        return Purpose.Bind;
     }
 
     computeConflicts(): Conflict[] {

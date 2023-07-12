@@ -17,7 +17,7 @@ export default abstract class Expression extends Node {
     }
 
     getPurpose() {
-        return Purpose.Compute;
+        return Purpose.Evaluate;
     }
 
     /**

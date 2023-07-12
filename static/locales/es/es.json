@@ -3,9 +3,9 @@
     "language": "es",
     "wordplay": "PalabraJugar",
     "term": {
-        "store": "datos",
+        "evaluate": "código",
+        "bind": "datos",
         "decide": "decidir",
-        "code": "código",
         "project": "función",
         "source": "fuente",
         "input": "input",

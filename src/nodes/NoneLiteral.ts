@@ -11,7 +11,6 @@ import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import Literal from './Literal';
 import Glyphs from '../lore/Glyphs';
-import Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';
 import concretize from '../locale/concretize';
 
@@ -38,10 +37,6 @@ export default class NoneLiteral extends Literal {
         return new NoneLiteral(
             this.replaceChild('none', this.none, replace)
         ) as this;
-    }
-
-    getPurpose() {
-        return Purpose.Store;
     }
 
     getAffiliatedType(): NativeTypeName | undefined {
