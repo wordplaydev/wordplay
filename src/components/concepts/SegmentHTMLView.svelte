@@ -41,6 +41,6 @@
         ><ValueView value={segment.value} /></strong
     >{:else if segment instanceof ConceptRef}<ConceptLinkUI
         link={segment}
-    />{:else if segment instanceof Token}{#if spaces.getSpace(segment).length > 0}&nbsp;{/if}{segment
+    />{:else if segment instanceof Token}{#if /^[ ]+$/.test(spaces.getSpace(segment))}&nbsp;{/if}{segment
         .getText()
         .replaceAll('--', '—')}{/if}
