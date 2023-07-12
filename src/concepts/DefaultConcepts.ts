@@ -14,8 +14,8 @@ import ListLiteral from '@nodes/ListLiteral';
 import ListType from '@nodes/ListType';
 import MapLiteral from '@nodes/MapLiteral';
 import MapType from '@nodes/MapType';
-import MeasurementLiteral from '@nodes/MeasurementLiteral';
-import MeasurementType from '@nodes/MeasurementType';
+import NumberLiteral from '@nodes/NumberLiteral';
+import NumberType from '@nodes/NumberType';
 import Names from '@nodes/Names';
 import NoneLiteral from '@nodes/NoneLiteral';
 import NoneType from '@nodes/NoneType';
@@ -160,7 +160,7 @@ const templates: Node[] = [
     // Types
     BooleanType.make(),
     TextType.make(),
-    MeasurementType.make(),
+    NumberType.make(),
     Unit.make(['unit']),
     ListType.make(),
     SetType.make(),
@@ -192,7 +192,7 @@ const templates: Node[] = [
     StreamType.make(),
     Previous.make(
         ExpressionPlaceholder.make(StreamType.make()),
-        ExpressionPlaceholder.make(MeasurementType.make())
+        ExpressionPlaceholder.make(NumberType.make())
     ),
 
     // Documentation
@@ -248,11 +248,11 @@ export function getNativeConcepts(
             Purpose.Value,
             native.getPrimitiveDefinition('measurement'),
             native.getPrimitiveDefinition('measurement'),
-            MeasurementType.make(),
+            NumberType.make(),
             [
-                MeasurementLiteral.make(0),
-                MeasurementLiteral.make('π'),
-                MeasurementLiteral.make('∞'),
+                NumberLiteral.make(0),
+                NumberLiteral.make('π'),
+                NumberLiteral.make('∞'),
             ],
             languages,
             context

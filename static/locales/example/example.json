@@ -481,7 +481,7 @@
                 "NotAKeyValue": { "primary": "$?", "secondary": "$?" }
             }
         },
-        "MeasurementLiteral": {
+        "NumberLiteral": {
             "name": "$?",
             "description": "$?",
             "emotion": "$?",
@@ -726,7 +726,7 @@
             "emotion": "$?",
             "doc": "$?"
         },
-        "MeasurementType": {
+        "NumberType": {
             "name": "$?",
             "description": "$?",
             "emotion": "$?",
@@ -944,7 +944,7 @@
             },
             "conversion": { "text": "$?", "number": "$?" }
         },
-        "Measurement": {
+        "Number": {
             "doc": "$?",
             "name": "$?",
             "function": {

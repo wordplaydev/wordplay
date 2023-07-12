@@ -3,7 +3,7 @@ import { parseExpression, toTokens } from '@parser/Parser';
 import Bind from './Bind';
 import Docs from './Docs';
 import Language from './Language';
-import MeasurementLiteral from './MeasurementLiteral';
+import NumberLiteral from './NumberLiteral';
 import Reference from './Reference';
 import Token from './Token';
 
@@ -22,15 +22,15 @@ test.each([
 
 test.each([
     // Replace Node with node
-    ['1 + 2', MeasurementLiteral, 1, '3', '1 + 3'],
-    ['1 + 2 + 3', MeasurementLiteral, 2, '4', '1 + 2 + 4'],
+    ['1 + 2', NumberLiteral, 1, '3', '1 + 3'],
+    ['1 + 2 + 3', NumberLiteral, 2, '4', '1 + 2 + 4'],
     // Replace Node with undefined
     ['"Hi"/en', Language, 0, undefined, '"Hi"'],
     ['`Hi`/en(1)', Docs, 0, undefined, '(1)'],
     // Remove Node in list
-    ['[ 1 2 3 ]', MeasurementLiteral, 0, undefined, '[ 2 3 ]'],
+    ['[ 1 2 3 ]', NumberLiteral, 0, undefined, '[ 2 3 ]'],
     // Replace Node in list
-    ['[ 1 2 3 ]', MeasurementLiteral, 0, '4', '[ 4 2 3 ]'],
+    ['[ 1 2 3 ]', NumberLiteral, 0, '4', '[ 4 2 3 ]'],
     // Set field to node
     ['1 + 2', 'left', 0, '3', '3 + 2'],
     // Set field to undefined

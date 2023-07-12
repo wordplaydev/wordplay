@@ -14,7 +14,7 @@ import FunctionValue from '@runtime/FunctionValue';
 import Initialize from '@runtime/Initialize';
 import InternalException from '@runtime/InternalException';
 import MapValue from '@runtime/Map';
-import Measurement from '@runtime/Measurement';
+import Number from '@runtime/Number';
 import Next from '@runtime/Next';
 import Start from '@runtime/Start';
 import type Step from '@runtime/Step';
@@ -48,7 +48,7 @@ export default class HOFMapFilter extends HOF {
             new Start(this),
             // Initialize an iterator and an empty list in this scope.
             new Initialize(this, (evaluator) => {
-                evaluator.bind(INDEX, new Measurement(this, 1));
+                evaluator.bind(INDEX, new Number(this, 1));
                 evaluator.bind(MAP, new MapValue(this, []));
                 return undefined;
             }),
@@ -58,7 +58,7 @@ export default class HOFMapFilter extends HOF {
                 const checker = this.getInput(0, evaluator);
                 // If the index is past the last index of the list, jump to the end.
                 if (
-                    index instanceof Measurement &&
+                    index instanceof Number &&
                     map instanceof MapValue &&
                     checker instanceof FunctionValue &&
                     checker.definition.expression !== undefined &&
@@ -108,7 +108,7 @@ export default class HOFMapFilter extends HOF {
 
                 // Get the current index.
                 const index = evaluator.resolve(INDEX);
-                if (!(index instanceof Measurement))
+                if (!(index instanceof Number))
                     return new InternalException(
                         this,
                         evaluator,
@@ -147,10 +147,7 @@ export default class HOFMapFilter extends HOF {
                 }
 
                 // Increment the counter
-                evaluator.bind(
-                    INDEX,
-                    index.add(this, new Measurement(this, 1))
-                );
+                evaluator.bind(INDEX, index.add(this, new Number(this, 1)));
 
                 // Jump to the conditional
                 evaluator.jump(-2);

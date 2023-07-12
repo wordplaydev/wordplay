@@ -5,7 +5,7 @@ import { dropNodeOnSource, InsertionPoint } from './Drag';
 import type Node from '@nodes/Node';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import { parseExpression, toTokens } from '@parser/Parser';
-import MeasurementLiteral from '@nodes/MeasurementLiteral';
+import NumberLiteral from '@nodes/NumberLiteral';
 import ListLiteral from '@nodes/ListLiteral';
 import Token from '@nodes/Token';
 import { getDefaultNative } from '../../native/Native';
@@ -26,14 +26,14 @@ test.each([
     // Replace placeholder with expression from same source
     [
         ['1 + _\n2'],
-        (sources: Source[]) => sources[0].find(MeasurementLiteral, 1),
+        (sources: Source[]) => sources[0].find(NumberLiteral, 1),
         (sources: Source[]) => sources[0].find(ExpressionPlaceholder),
         '1 + 2\n',
     ],
     // Replace placeholder with expression from other source
     [
         ['1 + _', '2'],
-        (sources: Source[]) => sources[1].find<Node>(MeasurementLiteral),
+        (sources: Source[]) => sources[1].find<Node>(NumberLiteral),
         (sources: Source[]) =>
             sources[0].nodes(
                 (node) => node instanceof ExpressionPlaceholder
@@ -61,7 +61,7 @@ test.each([
     // Insertion expression from source in expression
     [
         ['[ 1 3 4 5 ]\n2'],
-        (sources) => sources[0].find(MeasurementLiteral, 4),
+        (sources) => sources[0].find(NumberLiteral, 4),
         (sources) => {
             const node = sources[0].find<ListLiteral>(ListLiteral);
             return new InsertionPoint(
@@ -78,7 +78,7 @@ test.each([
     // Insert expression from other source in expression
     [
         ['[ 1 3 4 5 ]', '2'],
-        (sources) => sources[1].find(MeasurementLiteral),
+        (sources) => sources[1].find(NumberLiteral),
         (sources) => {
             const node = sources[0].find<ListLiteral>(ListLiteral);
             return new InsertionPoint(

@@ -2,7 +2,7 @@ import type Project from '../models/Project';
 import Evaluate from '@nodes/Evaluate';
 import type Expression from '@nodes/Expression';
 import Bool from '@runtime/Bool';
-import Measurement from '../runtime/Measurement';
+import Number from '../runtime/Number';
 import Text from '@runtime/Text';
 import type Value from '@runtime/Value';
 import type LanguageCode from '@locale/LanguageCode';
@@ -96,7 +96,7 @@ export default class OutputPropertyValueSet {
 
     getNumber() {
         const value = this.getValue();
-        return value instanceof Measurement ? value.toNumber() : undefined;
+        return value instanceof Number ? value.toNumber() : undefined;
     }
 
     getText() {

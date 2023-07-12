@@ -12,7 +12,7 @@ import ValueException from './ValueException';
 import TypeException from './TypeException';
 import Structure from './Structure';
 import Primitive from './Primitive';
-import Measurement from './Measurement';
+import Number from './Number';
 import type Node from '@nodes/Node';
 import Names from '@nodes/Names';
 import type Expression from '@nodes/Expression';
@@ -345,7 +345,7 @@ export default class Evaluation {
     getThis(requestor: Node): Value | undefined {
         const context = this.#closure;
         if (context instanceof Structure) return context;
-        else if (context instanceof Measurement)
+        else if (context instanceof Number)
             return context.unitless(this.#evaluationNode);
         else if (context instanceof Primitive) return context;
         else if (context instanceof Evaluation)

@@ -1,7 +1,7 @@
 import { SupportedFonts } from '@native/Fonts';
 import Evaluate from '@nodes/Evaluate';
 import type Expression from '@nodes/Expression';
-import MeasurementLiteral from '@nodes/MeasurementLiteral';
+import NumberLiteral from '@nodes/NumberLiteral';
 import TextLiteral from '@nodes/TextLiteral';
 import Unit from '@nodes/Unit';
 import { createPoseLiteral } from '@output/Pose';
@@ -34,8 +34,8 @@ export function getDurationProperty(locale: Locale): OutputProperty {
         type: new OutputPropertyRange(0, 2, 0.25, 's', 2),
         required: false,
         inherited: false,
-        editable: (expr) => expr instanceof MeasurementLiteral,
-        create: () => MeasurementLiteral.make(0.25, Unit.make(['s'])),
+        editable: (expr) => expr instanceof NumberLiteral,
+        create: () => NumberLiteral.make(0.25, Unit.make(['s'])),
     };
 }
 
@@ -75,8 +75,8 @@ export default function getTypeOutputProperties(
             type: new OutputPropertyRange(0.25, 32, 0.25, 'm'),
             required: false,
             inherited: true,
-            editable: (expr) => expr instanceof MeasurementLiteral,
-            create: () => MeasurementLiteral.make(1, Unit.make(['m'])),
+            editable: (expr) => expr instanceof NumberLiteral,
+            create: () => NumberLiteral.make(1, Unit.make(['m'])),
         },
         {
             name: getFirstName(locale.output.Type.family.names),
@@ -118,8 +118,8 @@ export default function getTypeOutputProperties(
             type: new OutputPropertyRange(0, 360, 1, '°'),
             required: false,
             inherited: false,
-            editable: (expr) => expr instanceof MeasurementLiteral,
-            create: () => MeasurementLiteral.make(0, Unit.make(['°'])),
+            editable: (expr) => expr instanceof NumberLiteral,
+            create: () => NumberLiteral.make(0, Unit.make(['°'])),
         },
         getDurationProperty(locale),
         getStyleProperty(locale),

@@ -5,7 +5,7 @@ import Source from '@nodes/Source';
 import Replace from '@transforms/Replace';
 import { getEditsAt } from './Autocomplete';
 import type Node from '@nodes/Node';
-import MeasurementLiteral from '@nodes/MeasurementLiteral';
+import NumberLiteral from '@nodes/NumberLiteral';
 import Add from '@transforms/Add';
 import { getDefaultNative } from '@native/Native';
 
@@ -22,7 +22,7 @@ test.each([
     [
         `c: 1\n1 + 2`,
         (node: Node) =>
-            node instanceof MeasurementLiteral && node.toWordplay() === '2',
+            node instanceof NumberLiteral && node.toWordplay() === '2',
         Replace,
         'c',
     ],

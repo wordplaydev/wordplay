@@ -3,13 +3,13 @@ import TemporalStream from '../runtime/TemporalStream';
 import StreamDefinition from '../nodes/StreamDefinition';
 import { getDocLocales } from '../locale/getDocLocales';
 import { getNameLocales } from '../locale/getNameLocales';
-import MeasurementType from '../nodes/MeasurementType';
+import NumberType from '../nodes/NumberType';
 import Bind from '../nodes/Bind';
 import UnionType from '../nodes/UnionType';
 import Unit from '../nodes/Unit';
 import NoneType from '../nodes/NoneType';
-import MeasurementLiteral from '../nodes/MeasurementLiteral';
-import Measurement from '../runtime/Measurement';
+import NumberLiteral from '../nodes/NumberLiteral';
+import Number from '../runtime/Number';
 import createStreamEvaluator from './createStreamEvaluator';
 import type Locale from '../locale/Locale';
 
@@ -18,7 +18,7 @@ const DEFAULT_FREQUENCY = 33;
 
 // A helpful article on getting raw data streams:
 // https://stackoverflow.com/questions/69237143/how-do-i-get-the-audio-frequency-from-my-mic-using-javascript
-export default class Mic extends TemporalStream<Measurement> {
+export default class Mic extends TemporalStream<Number> {
     stream: MediaStream | undefined;
     source: MediaStreamAudioSourceNode | undefined;
     context: AudioContext | undefined;
@@ -33,14 +33,14 @@ export default class Mic extends TemporalStream<Measurement> {
         super(
             evaluator,
             evaluator.project.shares.input.mic,
-            new Measurement(evaluator.getMain(), 100)
+            new Number(evaluator.getMain(), 100)
         );
         this.frequency = frequency ?? DEFAULT_FREQUENCY;
     }
 
     // Compute the maximum frequency in the same and convert it to a percentage.
     percent(frequencies: number[]) {
-        return new Measurement(
+        return new Number(
             this.creator,
             Math.floor((100 * Math.max.apply(undefined, frequencies)) / 256)
         );
@@ -110,7 +110,7 @@ export default class Mic extends TemporalStream<Measurement> {
     }
 
     getType() {
-        return MeasurementType.make();
+        return NumberType.make();
     }
 }
 
@@ -118,12 +118,9 @@ export function createMicDefinition(locales: Locale[]) {
     const FrequencyBind = Bind.make(
         getDocLocales(locales, (t) => t.input.Mic.frequency.doc),
         getNameLocales(locales, (t) => t.input.Mic.frequency.names),
-        UnionType.make(
-            MeasurementType.make(Unit.make(['ms'])),
-            NoneType.make()
-        ),
+        UnionType.make(NumberType.make(Unit.make(['ms'])), NoneType.make()),
         // Default to nothing
-        MeasurementLiteral.make(33, Unit.make(['ms']))
+        NumberLiteral.make(33, Unit.make(['ms']))
     );
 
     return StreamDefinition.make(
@@ -131,18 +128,18 @@ export function createMicDefinition(locales: Locale[]) {
         getNameLocales(locales, (t) => t.input.Mic.names),
         [FrequencyBind],
         createStreamEvaluator(
-            MeasurementType.make(),
+            NumberType.make(),
             Mic,
             (evaluation) =>
                 new Mic(
                     evaluation.getEvaluator(),
-                    evaluation.get(FrequencyBind.names, Measurement)?.toNumber()
+                    evaluation.get(FrequencyBind.names, Number)?.toNumber()
                 ),
             (stream, evaluation) =>
                 stream.setFrequency(
-                    evaluation.get(FrequencyBind.names, Measurement)?.toNumber()
+                    evaluation.get(FrequencyBind.names, Number)?.toNumber()
                 )
         ),
-        MeasurementType.make()
+        NumberType.make()
     );
 }

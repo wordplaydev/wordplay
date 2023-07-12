@@ -1,6 +1,6 @@
 import BooleanLiteral from '../nodes/BooleanLiteral';
 import Evaluate from '../nodes/Evaluate';
-import MeasurementLiteral from '../nodes/MeasurementLiteral';
+import NumberLiteral from '../nodes/NumberLiteral';
 import Reference from '../nodes/Reference';
 import Unit from '../nodes/Unit';
 import { createColorLiteral } from '../output/Color';
@@ -30,24 +30,24 @@ export default function getPoseProperties(
             type: new OutputPropertyRange(0, 1, 0.05, '%', 2),
             required: false,
             inherited: false,
-            editable: (expr) => expr instanceof MeasurementLiteral,
-            create: () => MeasurementLiteral.make(1),
+            editable: (expr) => expr instanceof NumberLiteral,
+            create: () => NumberLiteral.make(1),
         },
         {
             name: getFirstName(locale.output.Pose.scale.names),
             type: new OutputPropertyRange(0, 10, 0.25, '', 2),
             required: false,
             inherited: false,
-            editable: (expr) => expr instanceof MeasurementLiteral,
-            create: () => MeasurementLiteral.make(1),
+            editable: (expr) => expr instanceof NumberLiteral,
+            create: () => NumberLiteral.make(1),
         },
         {
             name: getFirstName(locale.output.Pose.tilt.names),
             type: new OutputPropertyRange(0, 360, 1, '°'),
             required: false,
             inherited: false,
-            editable: (expr) => expr instanceof MeasurementLiteral,
-            create: () => MeasurementLiteral.make(0, Unit.make(['°'])),
+            editable: (expr) => expr instanceof NumberLiteral,
+            create: () => NumberLiteral.make(0, Unit.make(['°'])),
         },
         {
             name: getFirstName(locale.output.Pose.offset.names),

@@ -3,11 +3,11 @@
     import TextField from '../widgets/TextField.svelte';
     import type Evaluate from '../../nodes/Evaluate';
     import type Project from '@models/Project';
-    import Measurement from '@runtime/Measurement';
-    import MeasurementLiteral from '@nodes/MeasurementLiteral';
+    import Number from '@runtime/Number';
+    import NumberLiteral from '@nodes/NumberLiteral';
     import Unit from '@nodes/Unit';
     import Note from '../widgets/Note.svelte';
-    import { getMeasurement } from './editOutput';
+    import { getNumber } from './editOutput';
     import Expression from '../../nodes/Expression';
     import { creator } from '../../db/Creator';
 
@@ -15,7 +15,7 @@
     export let place: Evaluate | undefined;
 
     function valid(val: string) {
-        return !Measurement.fromUnknown(val).isNaN();
+        return !Number.fromUnknown(val).isNaN();
     }
 
     function handleChange(dimension: string, value: string) {
@@ -29,7 +29,7 @@
                     dimension,
                     value.length === 0
                         ? undefined
-                        : MeasurementLiteral.make(value, Unit.make(['m'])),
+                        : NumberLiteral.make(value, Unit.make(['m'])),
                     project.getNodeContext(place)
                 ),
             ],
@@ -45,7 +45,7 @@
         )?.given}
         <!-- Get the measurement literal, if there is one -->
         {@const value =
-            given instanceof Expression ? getMeasurement(given) : undefined}
+            given instanceof Expression ? getNumber(given) : undefined}
         <div class="dimension">
             {#if value}
                 <TextField

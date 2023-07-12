@@ -7,8 +7,8 @@ import Borrow from '@nodes/Borrow';
 import Doc from '@nodes/Doc';
 import FunctionType from '@nodes/FunctionType';
 import ListType from '@nodes/ListType';
-import MeasurementLiteral from '@nodes/MeasurementLiteral';
-import MeasurementType from '@nodes/MeasurementType';
+import NumberLiteral from '@nodes/NumberLiteral';
+import NumberType from '@nodes/NumberType';
 import NameType from '@nodes/NameType';
 import NoneType from '@nodes/NoneType';
 import {
@@ -113,12 +113,12 @@ test('Parse binds', () => {
     expect((valuedName as Bind).names.names[0]).toBeInstanceOf(Name);
     expect((valuedName as Bind).names.names[0].getName()).toBe('a');
     expect((valuedName as Bind).names.names[0].lang).toBe(undefined);
-    expect((valuedName as Bind).value).toBeInstanceOf(MeasurementLiteral);
+    expect((valuedName as Bind).value).toBeInstanceOf(NumberLiteral);
 
     const typedValuedName = parseBind(toTokens('a•#: 1'));
     expect(typedValuedName).toBeInstanceOf(Bind);
-    expect((typedValuedName as Bind).type).toBeInstanceOf(MeasurementType);
-    expect((typedValuedName as Bind).value).toBeInstanceOf(MeasurementLiteral);
+    expect((typedValuedName as Bind).type).toBeInstanceOf(NumberType);
+    expect((typedValuedName as Bind).value).toBeInstanceOf(NumberLiteral);
 
     const aliasedTypedValuedName = parseBind(toTokens('a/en, b/es•#: 1'));
     expect(aliasedTypedValuedName).toBeInstanceOf(Bind);
@@ -129,11 +129,9 @@ test('Parse binds', () => {
     expect((aliasedTypedValuedName as Bind).names.names[0].getLanguage()).toBe(
         'en'
     );
-    expect((aliasedTypedValuedName as Bind).type).toBeInstanceOf(
-        MeasurementType
-    );
+    expect((aliasedTypedValuedName as Bind).type).toBeInstanceOf(NumberType);
     expect((aliasedTypedValuedName as Bind).value).toBeInstanceOf(
-        MeasurementLiteral
+        NumberLiteral
     );
 
     const documentedName = parseBind(
@@ -160,22 +158,20 @@ test('Parse expressions', () => {
     expect((bool as BooleanLiteral).value.is(TokenType.Boolean)).toBe(true);
 
     const sec = parseExpression(toTokens('1s'));
-    expect(sec).toBeInstanceOf(MeasurementLiteral);
-    expect((sec as MeasurementLiteral).unit?.toWordplay()).toBe('s');
+    expect(sec).toBeInstanceOf(NumberLiteral);
+    expect((sec as NumberLiteral).unit?.toWordplay()).toBe('s');
 
     const speed = parseExpression(toTokens('1m/s'));
-    expect(speed).toBeInstanceOf(MeasurementLiteral);
-    expect((speed as MeasurementLiteral).unit?.toWordplay()).toBe('m/s');
+    expect(speed).toBeInstanceOf(NumberLiteral);
+    expect((speed as NumberLiteral).unit?.toWordplay()).toBe('m/s');
 
     const denom = parseExpression(toTokens('1/s'));
-    expect(denom).toBeInstanceOf(MeasurementLiteral);
-    expect((denom as MeasurementLiteral).unit?.toWordplay()).toBe('/s');
+    expect(denom).toBeInstanceOf(NumberLiteral);
+    expect((denom as NumberLiteral).unit?.toWordplay()).toBe('/s');
 
     const product = parseExpression(toTokens('1cat^2·dog/s'));
-    expect(product).toBeInstanceOf(MeasurementLiteral);
-    expect((product as MeasurementLiteral).unit?.toWordplay()).toBe(
-        'cat^2·dog/s'
-    );
+    expect(product).toBeInstanceOf(NumberLiteral);
+    expect((product as NumberLiteral).unit?.toWordplay()).toBe('cat^2·dog/s');
 
     const text = parseExpression(toTokens('«hola»'));
     expect(text).toBeInstanceOf(TextLiteral);
@@ -254,13 +250,11 @@ test('Parse expressions', () => {
 
     const previous = parseExpression(toTokens('a←1'));
     expect(previous).toBeInstanceOf(Previous);
-    expect((previous as Previous).index).toBeInstanceOf(MeasurementLiteral);
+    expect((previous as Previous).index).toBeInstanceOf(NumberLiteral);
 
     const binary = parseExpression(toTokens('1 + 2 + 3 + 4'));
     expect(binary).toBeInstanceOf(BinaryOperation);
-    expect((binary as BinaryOperation).right).toBeInstanceOf(
-        MeasurementLiteral
-    );
+    expect((binary as BinaryOperation).right).toBeInstanceOf(NumberLiteral);
     expect((binary as BinaryOperation).left).toBeInstanceOf(BinaryOperation);
     expect(
         ((binary as BinaryOperation).left as BinaryOperation).left
@@ -270,7 +264,7 @@ test('Parse expressions', () => {
             ((binary as BinaryOperation).left as BinaryOperation)
                 .left as BinaryOperation
         ).left
-    ).toBeInstanceOf(MeasurementLiteral);
+    ).toBeInstanceOf(NumberLiteral);
 
     const negativeInLists = parseExpression(toTokens('[1 -2]'));
     expect((negativeInLists as ListLiteral).values.length).toBe(2);
@@ -304,7 +298,7 @@ test('Parse expressions', () => {
     const withOutputType = parseExpression(toTokens('ƒ() •# _'));
     expect(withOutputType).toBeInstanceOf(FunctionDefinition);
     expect((withOutputType as FunctionDefinition).output).toBeInstanceOf(
-        MeasurementType
+        NumberType
     );
 
     const withBody = parseExpression(toTokens('ƒ(a b) •# a + b'));
@@ -492,10 +486,10 @@ test('Types', () => {
     expect(bool).toBeInstanceOf(BooleanType);
 
     const number = parseType(toTokens('#'));
-    expect(number).toBeInstanceOf(MeasurementType);
+    expect(number).toBeInstanceOf(NumberType);
 
     const specificNumber = parseType(toTokens('1'));
-    expect(specificNumber).toBeInstanceOf(MeasurementType);
+    expect(specificNumber).toBeInstanceOf(NumberType);
 
     const text = parseType(toTokens("''"));
     expect(text).toBeInstanceOf(TextType);
@@ -511,7 +505,7 @@ test('Types', () => {
 
     const map = parseType(toTokens("{'':#}"));
     expect(map).toBeInstanceOf(MapType);
-    expect((map as MapType).value).toBeInstanceOf(MeasurementType);
+    expect((map as MapType).value).toBeInstanceOf(NumberType);
 
     const table = parseType(toTokens("⎡# '' Cat⎦"));
     expect(table).toBeInstanceOf(TableType);
@@ -533,7 +527,7 @@ test('Types', () => {
     const union = parseType(toTokens('Cat|#'));
     expect(union).toBeInstanceOf(UnionType);
     expect((union as UnionType).left).toBeInstanceOf(NameType);
-    expect((union as UnionType).right).toBeInstanceOf(MeasurementType);
+    expect((union as UnionType).right).toBeInstanceOf(NumberType);
 
     const hmm = parseType(toTokens('/'));
     expect(hmm).toBeInstanceOf(UnparsableType);

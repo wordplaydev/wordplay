@@ -1,7 +1,7 @@
 <script lang="ts">
     import Dimension from '@nodes/Dimension';
     import Evaluate from '@nodes/Evaluate';
-    import MeasurementLiteral from '@nodes/MeasurementLiteral';
+    import NumberLiteral from '@nodes/NumberLiteral';
     import Reference from '@nodes/Reference';
     import Unit from '@nodes/Unit';
     import type OutputPropertyValueSet from '@transforms/OutputPropertyValueSet';
@@ -31,9 +31,9 @@
                 $project.shares.output.color
             ),
             [
-                MeasurementLiteral.make(l + '%'),
-                MeasurementLiteral.make(c),
-                MeasurementLiteral.make(
+                NumberLiteral.make(l + '%'),
+                NumberLiteral.make(c),
+                NumberLiteral.make(
                     h,
                     new Unit(undefined, [Dimension.make(false, '°', 1)])
                 ),
@@ -60,7 +60,7 @@
                     $project.getNodeContext(val.expression)
                 );
                 const number =
-                    mapping && mapping.given instanceof MeasurementLiteral
+                    mapping && mapping.given instanceof NumberLiteral
                         ? mapping.given.getValue().toNumber() *
                           (name === 'lightness' ? 100 : 1)
                         : undefined;

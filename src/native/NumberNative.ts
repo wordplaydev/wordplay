@@ -2,7 +2,7 @@ import Bind from '@nodes/Bind';
 import Block, { BlockKind } from '@nodes/Block';
 import BooleanType from '@nodes/BooleanType';
 import FunctionDefinition from '@nodes/FunctionDefinition';
-import MeasurementType from '@nodes/MeasurementType';
+import NumberType from '@nodes/NumberType';
 import NoneLiteral from '@nodes/NoneLiteral';
 import NoneType from '@nodes/NoneType';
 import StructureDefinition from '@nodes/StructureDefinition';
@@ -10,7 +10,7 @@ import type Type from '@nodes/Type';
 import UnionType from '@nodes/UnionType';
 import Unit from '@nodes/Unit';
 import Bool from '@runtime/Bool';
-import Measurement from '@runtime/Measurement';
+import Number from '@runtime/Number';
 import Text from '@runtime/Text';
 import TypeException from '@runtime/TypeException';
 import type Value from '@runtime/Value';
@@ -26,10 +26,10 @@ import { getNameLocales } from '@locale/getNameLocales';
 import type Expression from '../nodes/Expression';
 import type Locale from '../locale/Locale';
 
-export default function bootstrapMeasurement(locales: Locale[]) {
+export default function bootstrapNumber(locales: Locale[]) {
     const subtractNames = getNameLocales(
         locales,
-        (t) => t.native.Measurement.function.subtract.inputs[0].names
+        (t) => t.native.Number.function.subtract.inputs[0].names
     );
 
     function createBinaryOp(
@@ -42,8 +42,8 @@ export default function bootstrapMeasurement(locales: Locale[]) {
         outputType: Type,
         expression: (
             requestor: Expression,
-            left: Measurement,
-            right: Measurement
+            left: Number,
+            right: Number
         ) => Value | undefined,
         requireEqualUnits: boolean = true
     ) {
@@ -54,46 +54,41 @@ export default function bootstrapMeasurement(locales: Locale[]) {
             translations.inputs.map((i) =>
                 Bind.make(i.docs, i.names, inputType)
             ),
-            new NativeExpression(
-                MeasurementType.make(),
-                (requestor, evaluation) => {
-                    const left: Value | Evaluation | undefined =
-                        evaluation.getClosure();
-                    const right = evaluation.resolve(
-                        translations.inputs[0].names
+            new NativeExpression(NumberType.make(), (requestor, evaluation) => {
+                const left: Value | Evaluation | undefined =
+                    evaluation.getClosure();
+                const right = evaluation.resolve(translations.inputs[0].names);
+                // It should be impossible for the left to be a Number, but the type system doesn't know it.
+                if (!(left instanceof Number))
+                    return evaluation.getValueOrTypeException(
+                        evaluation.getDefinition(),
+                        NumberType.make(),
+                        left
                     );
-                    // It should be impossible for the left to be a Measurement, but the type system doesn't know it.
-                    if (!(left instanceof Measurement))
-                        return evaluation.getValueOrTypeException(
-                            evaluation.getDefinition(),
-                            MeasurementType.make(),
-                            left
-                        );
 
-                    if (!(right instanceof Measurement))
-                        return evaluation.getValueOrTypeException(
-                            evaluation.getDefinition(),
-                            MeasurementType.make(),
-                            right
-                        );
-                    if (requireEqualUnits && !left.unit.isEqualTo(right.unit))
-                        return new TypeException(
-                            evaluation.getDefinition(),
-                            evaluation.getEvaluator(),
-                            left.getType(),
-                            right
-                        );
-                    return (
-                        expression(requestor, left, right) ??
-                        new TypeException(
-                            evaluation.getDefinition(),
-                            evaluation.getEvaluator(),
-                            left.getType(),
-                            right
-                        )
+                if (!(right instanceof Number))
+                    return evaluation.getValueOrTypeException(
+                        evaluation.getDefinition(),
+                        NumberType.make(),
+                        right
                     );
-                }
-            ),
+                if (requireEqualUnits && !left.unit.isEqualTo(right.unit))
+                    return new TypeException(
+                        evaluation.getDefinition(),
+                        evaluation.getEvaluator(),
+                        left.getType(),
+                        right
+                    );
+                return (
+                    expression(requestor, left, right) ??
+                    new TypeException(
+                        evaluation.getDefinition(),
+                        evaluation.getEvaluator(),
+                        left.getType(),
+                        right
+                    )
+                );
+            }),
             outputType
         );
     }
@@ -105,45 +100,39 @@ export default function bootstrapMeasurement(locales: Locale[]) {
             inputs: { docs: Docs; names: Names }[];
         },
         outputType: Type,
-        expression: (
-            requestor: Expression,
-            left: Measurement
-        ) => Value | undefined
+        expression: (requestor: Expression, left: Number) => Value | undefined
     ) {
         return FunctionDefinition.make(
             translations.docs,
             translations.names,
             undefined,
             [],
-            new NativeExpression(
-                MeasurementType.make(),
-                (requestor, evaluation) => {
-                    const left: Value | Evaluation | undefined =
-                        evaluation.getClosure();
-                    // It should be impossible for the left to be a Measurement, but the type system doesn't know it.
-                    if (!(left instanceof Measurement))
-                        return evaluation.getValueOrTypeException(
-                            requestor,
-                            MeasurementType.make(),
-                            left
-                        );
-                    return (
-                        expression(requestor, left) ??
-                        evaluation.getValueOrTypeException(
-                            requestor,
-                            MeasurementType.make(),
-                            undefined
-                        )
+            new NativeExpression(NumberType.make(), (requestor, evaluation) => {
+                const left: Value | Evaluation | undefined =
+                    evaluation.getClosure();
+                // It should be impossible for the left to be a Number, but the type system doesn't know it.
+                if (!(left instanceof Number))
+                    return evaluation.getValueOrTypeException(
+                        requestor,
+                        NumberType.make(),
+                        left
                     );
-                }
-            ),
+                return (
+                    expression(requestor, left) ??
+                    evaluation.getValueOrTypeException(
+                        requestor,
+                        NumberType.make(),
+                        undefined
+                    )
+                );
+            }),
             outputType
         );
     }
 
     return StructureDefinition.make(
-        getDocLocales(locales, (t) => t.native.Measurement.doc),
-        getNameLocales(locales, (t) => t.native.Measurement.name),
+        getDocLocales(locales, (t) => t.native.Number.doc),
+        getNameLocales(locales, (t) => t.native.Number.name),
         [],
         undefined,
         [],
@@ -152,21 +141,21 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createBinaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.Measurement.function.add
+                        (t) => t.native.Number.function.add
                     ),
-                    MeasurementType.make((left) => left),
+                    NumberType.make((left) => left),
                     // The output's type should be the left's type
-                    MeasurementType.make((left) => left),
+                    NumberType.make((left) => left),
                     (requestor, left, right) => left.add(requestor, right)
                 ),
                 FunctionDefinition.make(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.function.subtract.doc
+                        (t) => t.native.Number.function.subtract.doc
                     ),
                     getNameLocales(
                         locales,
-                        (t) => t.native.Measurement.function.subtract.names
+                        (t) => t.native.Number.function.subtract.names
                     ),
                     undefined,
                     [
@@ -175,32 +164,32 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                             getDocLocales(
                                 locales,
                                 (t) =>
-                                    t.native.Measurement.function.subtract
-                                        .inputs[0].doc
+                                    t.native.Number.function.subtract.inputs[0]
+                                        .doc
                             ),
                             subtractNames,
                             UnionType.make(
                                 NoneType.None,
-                                MeasurementType.make((left) => left)
+                                NumberType.make((left) => left)
                             ),
                             NoneLiteral.make()
                         ),
                     ],
                     new NativeExpression(
-                        MeasurementType.make(),
+                        NumberType.make(),
                         (requestor, evaluation) => {
                             const left = evaluation.getClosure();
                             const right = evaluation.resolve(subtractNames);
-                            // It should be impossible for the left to be a Measurement, but the type system doesn't know it.
-                            if (!(left instanceof Measurement))
+                            // It should be impossible for the left to be a Number, but the type system doesn't know it.
+                            if (!(left instanceof Number))
                                 return evaluation.getValueOrTypeException(
                                     requestor,
-                                    MeasurementType.make(),
+                                    NumberType.make(),
                                     left
                                 );
                             if (
                                 right !== undefined &&
-                                !(right instanceof Measurement)
+                                !(right instanceof Number)
                             )
                                 return new TypeException(
                                     evaluation.getDefinition(),
@@ -213,17 +202,17 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                                 : left.subtract(requestor, right);
                         }
                     ),
-                    MeasurementType.make((left) => left)
+                    NumberType.make((left) => left)
                 ),
                 createBinaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.Measurement.function.multiply
+                        (t) => t.native.Number.function.multiply
                     ),
                     // The operand's type can be any unitless measurement
-                    MeasurementType.wildcard(),
+                    NumberType.wildcard(),
                     // The output's type is is the unit's product
-                    MeasurementType.make((left, right) =>
+                    NumberType.make((left, right) =>
                         right ? left.product(right) : left
                     ),
                     (requestor, left, right) => left.multiply(requestor, right),
@@ -232,10 +221,10 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createBinaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.Measurement.function.divide
+                        (t) => t.native.Number.function.divide
                     ),
-                    MeasurementType.wildcard(),
-                    MeasurementType.make((left, right) =>
+                    NumberType.wildcard(),
+                    NumberType.make((left, right) =>
                         right ? left.quotient(right) : left
                     ),
                     (requestor, left, right) => left.divide(requestor, right),
@@ -244,10 +233,10 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createBinaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.Measurement.function.remainder
+                        (t) => t.native.Number.function.remainder
                     ),
-                    MeasurementType.wildcard(),
-                    MeasurementType.make((left) => left),
+                    NumberType.wildcard(),
+                    NumberType.make((left) => left),
                     (requestor, left, right) =>
                         left.remainder(requestor, right),
                     false
@@ -255,26 +244,26 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createUnaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.Measurement.function.truncate
+                        (t) => t.native.Number.function.truncate
                     ),
-                    MeasurementType.wildcard(),
+                    NumberType.wildcard(),
                     (requestor, left) => left.floor(requestor)
                 ),
                 createUnaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.Measurement.function.absolute
+                        (t) => t.native.Number.function.absolute
                     ),
-                    MeasurementType.wildcard(),
+                    NumberType.wildcard(),
                     (requestor, left) => left.absolute(requestor)
                 ),
                 createBinaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.Measurement.function.power
+                        (t) => t.native.Number.function.power
                     ),
-                    MeasurementType.wildcard(),
-                    MeasurementType.make((left, right, constant) => {
+                    NumberType.wildcard(),
+                    NumberType.make((left, right, constant) => {
                         right;
                         return constant === undefined
                             ? Unit.Empty
@@ -286,10 +275,10 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createBinaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.Measurement.function.root
+                        (t) => t.native.Number.function.root
                     ),
-                    MeasurementType.wildcard(),
-                    MeasurementType.make((left, right, constant) => {
+                    NumberType.wildcard(),
+                    NumberType.make((left, right, constant) => {
                         right;
                         return constant === undefined
                             ? Unit.Empty
@@ -301,18 +290,18 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createBinaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.Measurement.function.lessThan
+                        (t) => t.native.Number.function.lessThan
                     ),
-                    MeasurementType.make((unit) => unit),
+                    NumberType.make((unit) => unit),
                     BooleanType.make(),
                     (requestor, left, right) => left.lessThan(requestor, right)
                 ),
                 createBinaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.Measurement.function.greaterThan
+                        (t) => t.native.Number.function.greaterThan
                     ),
-                    MeasurementType.make((unit) => unit),
+                    NumberType.make((unit) => unit),
                     BooleanType.make(),
                     (requestor, left, right) =>
                         left.greaterThan(requestor, right)
@@ -320,9 +309,9 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createBinaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.Measurement.function.lessOrEqual
+                        (t) => t.native.Number.function.lessOrEqual
                     ),
-                    MeasurementType.make((unit) => unit),
+                    NumberType.make((unit) => unit),
                     BooleanType.make(),
                     (requestor, left, right) =>
                         new Bool(
@@ -334,9 +323,9 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createBinaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.Measurement.function.greaterOrEqual
+                        (t) => t.native.Number.function.greaterOrEqual
                     ),
-                    MeasurementType.make((unit) => unit),
+                    NumberType.make((unit) => unit),
                     BooleanType.make(),
                     (requestor, left, right) =>
                         new Bool(
@@ -348,9 +337,9 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createBinaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.Measurement.function.equal
+                        (t) => t.native.Number.function.equal
                     ),
-                    MeasurementType.make((unit) => unit),
+                    NumberType.make((unit) => unit),
                     BooleanType.make(),
                     (requestor, left, right) =>
                         new Bool(requestor, left.isEqualTo(right))
@@ -358,9 +347,9 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createBinaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.Measurement.function.notequal
+                        (t) => t.native.Number.function.notequal
                     ),
-                    MeasurementType.make((unit) => unit),
+                    NumberType.make((unit) => unit),
                     BooleanType.make(),
                     (requestor, left, right) =>
                         new Bool(requestor, !left.isEqualTo(right))
@@ -370,43 +359,43 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createUnaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.Measurement.function.cos
+                        (t) => t.native.Number.function.cos
                     ),
-                    MeasurementType.make((unit) => unit),
+                    NumberType.make((unit) => unit),
                     (requestor, left) => left.cos(requestor)
                 ),
                 createUnaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.Measurement.function.sin
+                        (t) => t.native.Number.function.sin
                     ),
-                    MeasurementType.make((unit) => unit),
+                    NumberType.make((unit) => unit),
                     (requestor, left) => left.sin(requestor)
                 ),
 
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.conversion.text
+                        (t) => t.native.Number.conversion.text
                     ),
                     '#?',
                     "''",
-                    (requestor: Expression, val: Measurement) =>
+                    (requestor: Expression, val: Number) =>
                         new Text(requestor, val.toString())
                 ),
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.conversion.list
+                        (t) => t.native.Number.conversion.list
                     ),
                     '#',
                     '[]',
-                    (requestor: Expression, val: Measurement) => {
+                    (requestor: Expression, val: Number) => {
                         const list = [];
                         const max = val.toNumber();
                         if (max < 0) return new List(requestor, []);
                         for (let i = 1; i <= val.toNumber(); i++)
-                            list.push(new Measurement(requestor, i));
+                            list.push(new Number(requestor, i));
                         return new List(requestor, list);
                     }
                 ),
@@ -415,48 +404,40 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.conversion.s2m
+                        (t) => t.native.Number.conversion.s2m
                     ),
                     '#s',
                     '#min',
-                    (requestor: Expression, val: Measurement) =>
+                    (requestor: Expression, val: Number) =>
                         val.divide(
                             requestor,
-                            new Measurement(
-                                requestor,
-                                60,
-                                Unit.make(['s'], ['min'])
-                            )
+                            new Number(requestor, 60, Unit.make(['s'], ['min']))
                         )
                 ),
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.conversion.s2h
+                        (t) => t.native.Number.conversion.s2h
                     ),
                     '#s',
                     '#h',
-                    (requestor: Expression, val: Measurement) =>
+                    (requestor: Expression, val: Number) =>
                         val.divide(
                             requestor,
-                            new Measurement(
-                                requestor,
-                                3600,
-                                Unit.make(['s'], ['h'])
-                            )
+                            new Number(requestor, 3600, Unit.make(['s'], ['h']))
                         )
                 ),
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.conversion.s2day
+                        (t) => t.native.Number.conversion.s2day
                     ),
                     '#s',
                     '#day',
-                    (requestor: Expression, val: Measurement) =>
+                    (requestor: Expression, val: Number) =>
                         val.divide(
                             requestor,
-                            new Measurement(
+                            new Number(
                                 requestor,
                                 86400,
                                 Unit.make(['s'], ['day'])
@@ -466,14 +447,14 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.conversion.s2wk
+                        (t) => t.native.Number.conversion.s2wk
                     ),
                     '#s',
                     '#wk',
-                    (requestor: Expression, val: Measurement) =>
+                    (requestor: Expression, val: Number) =>
                         val.divide(
                             requestor,
-                            new Measurement(
+                            new Number(
                                 requestor,
                                 604800,
                                 Unit.make(['s'], ['wk'])
@@ -483,14 +464,14 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.conversion.s2year
+                        (t) => t.native.Number.conversion.s2year
                     ),
                     '#s',
                     '#yr',
-                    (requestor: Expression, val: Measurement) =>
+                    (requestor: Expression, val: Number) =>
                         val.divide(
                             requestor,
-                            new Measurement(
+                            new Number(
                                 requestor,
                                 31449600,
                                 Unit.make(['s'], ['yr'])
@@ -500,14 +481,14 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.conversion.s2ms
+                        (t) => t.native.Number.conversion.s2ms
                     ),
                     '#s',
                     '#ms',
-                    (requestor: Expression, val: Measurement) =>
+                    (requestor: Expression, val: Number) =>
                         val.multiply(
                             requestor,
-                            new Measurement(
+                            new Number(
                                 requestor,
                                 1000,
                                 Unit.make(['s'], ['ms'])
@@ -517,14 +498,14 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.conversion.ms2s
+                        (t) => t.native.Number.conversion.ms2s
                     ),
                     '#ms',
                     '#s',
-                    (requestor: Expression, val: Measurement) =>
+                    (requestor: Expression, val: Number) =>
                         val.divide(
                             requestor,
-                            new Measurement(
+                            new Number(
                                 requestor,
                                 1000,
                                 Unit.make(['ms'], ['s'])
@@ -534,48 +515,40 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.conversion.min2s
+                        (t) => t.native.Number.conversion.min2s
                     ),
                     '#min',
                     '#s',
-                    (requestor: Expression, val: Measurement) =>
+                    (requestor: Expression, val: Number) =>
                         val.multiply(
                             requestor,
-                            new Measurement(
-                                requestor,
-                                60,
-                                Unit.make(['s'], ['min'])
-                            )
+                            new Number(requestor, 60, Unit.make(['s'], ['min']))
                         )
                 ),
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.conversion.h2s
+                        (t) => t.native.Number.conversion.h2s
                     ),
                     '#h',
                     '#s',
-                    (requestor: Expression, val: Measurement) =>
+                    (requestor: Expression, val: Number) =>
                         val.multiply(
                             requestor,
-                            new Measurement(
-                                requestor,
-                                3600,
-                                Unit.make(['s'], ['h'])
-                            )
+                            new Number(requestor, 3600, Unit.make(['s'], ['h']))
                         )
                 ),
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.conversion.day2s
+                        (t) => t.native.Number.conversion.day2s
                     ),
                     '#day',
                     '#s',
-                    (requestor: Expression, val: Measurement) =>
+                    (requestor: Expression, val: Number) =>
                         val.multiply(
                             requestor,
-                            new Measurement(
+                            new Number(
                                 requestor,
                                 86400,
                                 Unit.make(['s'], ['day'])
@@ -585,14 +558,14 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.conversion.wk2s
+                        (t) => t.native.Number.conversion.wk2s
                     ),
                     '#wk',
                     '#s',
-                    (requestor: Expression, val: Measurement) =>
+                    (requestor: Expression, val: Number) =>
                         val.multiply(
                             requestor,
-                            new Measurement(
+                            new Number(
                                 requestor,
                                 604800,
                                 Unit.make(['s'], ['wk'])
@@ -602,14 +575,14 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.conversion.yr2s
+                        (t) => t.native.Number.conversion.yr2s
                     ),
                     '#yr',
                     '#s',
-                    (requestor: Expression, val: Measurement) =>
+                    (requestor: Expression, val: Number) =>
                         val.multiply(
                             requestor,
-                            new Measurement(
+                            new Number(
                                 requestor,
                                 31449600,
                                 Unit.make(['s'], ['yr'])
@@ -621,14 +594,14 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.conversion.m2pm
+                        (t) => t.native.Number.conversion.m2pm
                     ),
                     '#m',
                     '#pm',
-                    (requestor: Expression, val: Measurement) =>
+                    (requestor: Expression, val: Number) =>
                         val.multiply(
                             requestor,
-                            new Measurement(
+                            new Number(
                                 requestor,
                                 1000000000000,
                                 Unit.make(['pm'], ['m'])
@@ -638,14 +611,14 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.conversion.m2nm
+                        (t) => t.native.Number.conversion.m2nm
                     ),
                     '#m',
                     '#nm',
-                    (requestor: Expression, val: Measurement) =>
+                    (requestor: Expression, val: Number) =>
                         val.multiply(
                             requestor,
-                            new Measurement(
+                            new Number(
                                 requestor,
                                 1000000000,
                                 Unit.make(['nm'], ['m'])
@@ -655,14 +628,14 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.conversion.m2micro
+                        (t) => t.native.Number.conversion.m2micro
                     ),
                     '#m',
                     '#µm',
-                    (requestor: Expression, val: Measurement) =>
+                    (requestor: Expression, val: Number) =>
                         val.multiply(
                             requestor,
-                            new Measurement(
+                            new Number(
                                 requestor,
                                 1000000,
                                 Unit.make(['µm'], ['m'])
@@ -672,14 +645,14 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.conversion.m2mm
+                        (t) => t.native.Number.conversion.m2mm
                     ),
                     '#m',
                     '#mm',
-                    (requestor: Expression, val: Measurement) =>
+                    (requestor: Expression, val: Number) =>
                         val.multiply(
                             requestor,
-                            new Measurement(
+                            new Number(
                                 requestor,
                                 1000,
                                 Unit.make(['mm'], ['m'])
@@ -689,49 +662,41 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.conversion.m2cm
+                        (t) => t.native.Number.conversion.m2cm
                     ),
 
                     '#m',
                     '#cm',
-                    (requestor: Expression, val: Measurement) =>
+                    (requestor: Expression, val: Number) =>
                         val.multiply(
                             requestor,
-                            new Measurement(
-                                requestor,
-                                100,
-                                Unit.make(['cm'], ['m'])
-                            )
+                            new Number(requestor, 100, Unit.make(['cm'], ['m']))
                         )
                 ),
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.conversion.m2dm
+                        (t) => t.native.Number.conversion.m2dm
                     ),
                     '#m',
                     '#dm',
-                    (requestor: Expression, val: Measurement) =>
+                    (requestor: Expression, val: Number) =>
                         val.multiply(
                             requestor,
-                            new Measurement(
-                                requestor,
-                                10,
-                                Unit.make(['dm'], ['m'])
-                            )
+                            new Number(requestor, 10, Unit.make(['dm'], ['m']))
                         )
                 ),
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.conversion.m2km
+                        (t) => t.native.Number.conversion.m2km
                     ),
                     '#m',
                     '#km',
-                    (requestor: Expression, val: Measurement) =>
+                    (requestor: Expression, val: Number) =>
                         val.divide(
                             requestor,
-                            new Measurement(
+                            new Number(
                                 requestor,
                                 1000,
                                 Unit.make(['m'], ['km'])
@@ -741,14 +706,14 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.conversion.m2Mm
+                        (t) => t.native.Number.conversion.m2Mm
                     ),
                     '#m',
                     '#Mm',
-                    (requestor: Expression, val: Measurement) =>
+                    (requestor: Expression, val: Number) =>
                         val.divide(
                             requestor,
-                            new Measurement(
+                            new Number(
                                 requestor,
                                 1000000,
                                 Unit.make(['m'], ['Mm'])
@@ -758,14 +723,14 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.conversion.m2Gm
+                        (t) => t.native.Number.conversion.m2Gm
                     ),
                     '#m',
                     '#Gm',
-                    (requestor: Expression, val: Measurement) =>
+                    (requestor: Expression, val: Number) =>
                         val.divide(
                             requestor,
-                            new Measurement(
+                            new Number(
                                 requestor,
                                 1000000000,
                                 Unit.make(['m'], ['Gm'])
@@ -775,14 +740,14 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.conversion.m2Tm
+                        (t) => t.native.Number.conversion.m2Tm
                     ),
                     '#m',
                     '#Tm',
-                    (requestor: Expression, val: Measurement) =>
+                    (requestor: Expression, val: Number) =>
                         val.divide(
                             requestor,
-                            new Measurement(
+                            new Number(
                                 requestor,
                                 1000000000000,
                                 Unit.make(['m'], ['Tm'])
@@ -792,14 +757,14 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.conversion.pm2m
+                        (t) => t.native.Number.conversion.pm2m
                     ),
                     '#pm',
                     '#m',
-                    (requestor: Expression, val: Measurement) =>
+                    (requestor: Expression, val: Number) =>
                         val.divide(
                             requestor,
-                            new Measurement(
+                            new Number(
                                 requestor,
                                 1000000000000,
                                 Unit.make(['pm'], ['m'])
@@ -809,14 +774,14 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.conversion.nm2m
+                        (t) => t.native.Number.conversion.nm2m
                     ),
                     '#nm',
                     '#m',
-                    (requestor: Expression, val: Measurement) =>
+                    (requestor: Expression, val: Number) =>
                         val.divide(
                             requestor,
-                            new Measurement(
+                            new Number(
                                 requestor,
                                 1000000000,
                                 Unit.make(['nm'], ['m'])
@@ -826,14 +791,14 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.conversion.micro2m
+                        (t) => t.native.Number.conversion.micro2m
                     ),
                     '#µm',
                     '#m',
-                    (requestor: Expression, val: Measurement) =>
+                    (requestor: Expression, val: Number) =>
                         val.divide(
                             requestor,
-                            new Measurement(
+                            new Number(
                                 requestor,
                                 1000000,
                                 Unit.make(['µm'], ['m'])
@@ -843,14 +808,14 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.conversion.mm2m
+                        (t) => t.native.Number.conversion.mm2m
                     ),
                     '#mm',
                     '#m',
-                    (requestor: Expression, val: Measurement) =>
+                    (requestor: Expression, val: Number) =>
                         val.divide(
                             requestor,
-                            new Measurement(
+                            new Number(
                                 requestor,
                                 1000,
                                 Unit.make(['mm'], ['m'])
@@ -860,48 +825,40 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.conversion.cm2m
+                        (t) => t.native.Number.conversion.cm2m
                     ),
                     '#cm',
                     '#m',
-                    (requestor: Expression, val: Measurement) =>
+                    (requestor: Expression, val: Number) =>
                         val.divide(
                             requestor,
-                            new Measurement(
-                                requestor,
-                                100,
-                                Unit.make(['cm'], ['m'])
-                            )
+                            new Number(requestor, 100, Unit.make(['cm'], ['m']))
                         )
                 ),
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.conversion.dm2m
+                        (t) => t.native.Number.conversion.dm2m
                     ),
                     '#dm',
                     '#m',
-                    (requestor: Expression, val: Measurement) =>
+                    (requestor: Expression, val: Number) =>
                         val.divide(
                             requestor,
-                            new Measurement(
-                                requestor,
-                                10,
-                                Unit.make(['dm'], ['m'])
-                            )
+                            new Number(requestor, 10, Unit.make(['dm'], ['m']))
                         )
                 ),
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.conversion.km2m
+                        (t) => t.native.Number.conversion.km2m
                     ),
                     '#km',
                     '#m',
-                    (requestor: Expression, val: Measurement) =>
+                    (requestor: Expression, val: Number) =>
                         val.multiply(
                             requestor,
-                            new Measurement(
+                            new Number(
                                 requestor,
                                 1000,
                                 Unit.make(['m'], ['km'])
@@ -911,14 +868,14 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.conversion.Mm2m
+                        (t) => t.native.Number.conversion.Mm2m
                     ),
                     '#Mm',
                     '#m',
-                    (requestor: Expression, val: Measurement) =>
+                    (requestor: Expression, val: Number) =>
                         val.multiply(
                             requestor,
-                            new Measurement(
+                            new Number(
                                 requestor,
                                 1000000,
                                 Unit.make(['m'], ['Mm'])
@@ -928,14 +885,14 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.conversion.Gm2m
+                        (t) => t.native.Number.conversion.Gm2m
                     ),
                     '#Gm',
                     '#m',
-                    (requestor: Expression, val: Measurement) =>
+                    (requestor: Expression, val: Number) =>
                         val.multiply(
                             requestor,
-                            new Measurement(
+                            new Number(
                                 requestor,
                                 1000000000,
                                 Unit.make(['m'], ['Gm'])
@@ -945,14 +902,14 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.conversion.Tm2m
+                        (t) => t.native.Number.conversion.Tm2m
                     ),
                     '#Tm',
                     '#m',
-                    (requestor: Expression, val: Measurement) =>
+                    (requestor: Expression, val: Number) =>
                         val.divide(
                             requestor,
-                            new Measurement(
+                            new Number(
                                 requestor,
                                 1000000000000,
                                 Unit.make(['m'], ['Tm'])
@@ -964,14 +921,14 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.conversion.km2mi
+                        (t) => t.native.Number.conversion.km2mi
                     ),
                     '#km',
                     '#mi',
-                    (requestor: Expression, val: Measurement) =>
+                    (requestor: Expression, val: Number) =>
                         val.multiply(
                             requestor,
-                            new Measurement(
+                            new Number(
                                 requestor,
                                 0.621371,
                                 Unit.make(['mi'], ['km'])
@@ -981,14 +938,14 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.conversion.mi2km
+                        (t) => t.native.Number.conversion.mi2km
                     ),
                     '#mi',
                     '#km',
-                    (requestor: Expression, val: Measurement) =>
+                    (requestor: Expression, val: Number) =>
                         val.divide(
                             requestor,
-                            new Measurement(
+                            new Number(
                                 requestor,
                                 0.621371,
                                 Unit.make(['mi'], ['km'])
@@ -998,14 +955,14 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.conversion.cm2in
+                        (t) => t.native.Number.conversion.cm2in
                     ),
                     '#cm',
                     '#in',
-                    (requestor: Expression, val: Measurement) =>
+                    (requestor: Expression, val: Number) =>
                         val.multiply(
                             requestor,
-                            new Measurement(
+                            new Number(
                                 requestor,
                                 0.393701,
                                 Unit.make(['in'], ['cm'])
@@ -1015,14 +972,14 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.conversion.in2cm
+                        (t) => t.native.Number.conversion.in2cm
                     ),
                     '#in',
                     '#cm',
-                    (requestor: Expression, val: Measurement) =>
+                    (requestor: Expression, val: Number) =>
                         val.divide(
                             requestor,
-                            new Measurement(
+                            new Number(
                                 requestor,
                                 0.393701,
                                 Unit.make(['in'], ['cm'])
@@ -1032,14 +989,14 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.conversion.m2ft
+                        (t) => t.native.Number.conversion.m2ft
                     ),
                     '#m',
                     '#ft',
-                    (requestor: Expression, val: Measurement) =>
+                    (requestor: Expression, val: Number) =>
                         val.multiply(
                             requestor,
-                            new Measurement(
+                            new Number(
                                 requestor,
                                 0.3048,
                                 Unit.make(['ft'], ['km'])
@@ -1049,14 +1006,14 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.conversion.ft2m
+                        (t) => t.native.Number.conversion.ft2m
                     ),
                     '#ft',
                     '#m',
-                    (requestor: Expression, val: Measurement) =>
+                    (requestor: Expression, val: Number) =>
                         val.divide(
                             requestor,
-                            new Measurement(
+                            new Number(
                                 requestor,
                                 0.3048,
                                 Unit.make(['ft'], ['km'])
@@ -1068,14 +1025,14 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.conversion.g2mg
+                        (t) => t.native.Number.conversion.g2mg
                     ),
                     '#g',
                     '#mg',
-                    (requestor: Expression, val: Measurement) =>
+                    (requestor: Expression, val: Number) =>
                         val.multiply(
                             requestor,
-                            new Measurement(
+                            new Number(
                                 requestor,
                                 1000,
                                 Unit.make(['mg'], ['g'])
@@ -1085,14 +1042,14 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.conversion.mg2g
+                        (t) => t.native.Number.conversion.mg2g
                     ),
                     '#mg',
                     '#g',
-                    (requestor: Expression, val: Measurement) =>
+                    (requestor: Expression, val: Number) =>
                         val.divide(
                             requestor,
-                            new Measurement(
+                            new Number(
                                 requestor,
                                 1000,
                                 Unit.make(['mg'], ['g'])
@@ -1102,14 +1059,14 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.conversion.g2kg
+                        (t) => t.native.Number.conversion.g2kg
                     ),
                     '#g',
                     '#kg',
-                    (requestor: Expression, val: Measurement) =>
+                    (requestor: Expression, val: Number) =>
                         val.divide(
                             requestor,
-                            new Measurement(
+                            new Number(
                                 requestor,
                                 1000,
                                 Unit.make(['g'], ['kg'])
@@ -1119,14 +1076,14 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.conversion.kg2g
+                        (t) => t.native.Number.conversion.kg2g
                     ),
                     '#kg',
                     '#g',
-                    (requestor: Expression, val: Measurement) =>
+                    (requestor: Expression, val: Number) =>
                         val.multiply(
                             requestor,
-                            new Measurement(
+                            new Number(
                                 requestor,
                                 1000,
                                 Unit.make(['g'], ['kg'])
@@ -1136,14 +1093,14 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.conversion.g2oz
+                        (t) => t.native.Number.conversion.g2oz
                     ),
                     '#g',
                     '#oz',
-                    (requestor: Expression, val: Measurement) =>
+                    (requestor: Expression, val: Number) =>
                         val.multiply(
                             requestor,
-                            new Measurement(
+                            new Number(
                                 requestor,
                                 0.035274,
                                 Unit.make(['oz'], ['g'])
@@ -1153,14 +1110,14 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.conversion.oz2g
+                        (t) => t.native.Number.conversion.oz2g
                     ),
                     '#oz',
                     '#g',
-                    (requestor: Expression, val: Measurement) =>
+                    (requestor: Expression, val: Number) =>
                         val.divide(
                             requestor,
-                            new Measurement(
+                            new Number(
                                 requestor,
                                 0.035274,
                                 Unit.make(['oz'], ['g'])
@@ -1170,14 +1127,14 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.conversion.oz2lb
+                        (t) => t.native.Number.conversion.oz2lb
                     ),
                     '#oz',
                     '#lb',
-                    (requestor: Expression, val: Measurement) =>
+                    (requestor: Expression, val: Number) =>
                         val.multiply(
                             requestor,
-                            new Measurement(
+                            new Number(
                                 requestor,
                                 0.0625,
                                 Unit.make(['lb'], ['oz'])
@@ -1187,14 +1144,14 @@ export default function bootstrapMeasurement(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Measurement.conversion.lb2oz
+                        (t) => t.native.Number.conversion.lb2oz
                     ),
                     '#lb',
                     '#oz',
-                    (requestor: Expression, val: Measurement) =>
+                    (requestor: Expression, val: Number) =>
                         val.divide(
                             requestor,
-                            new Measurement(
+                            new Number(
                                 requestor,
                                 0.0625,
                                 Unit.make(['lb'], ['oz'])

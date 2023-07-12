@@ -6,7 +6,7 @@ import Phrase from './Phrase';
 import Color from './Color';
 import Place from './Place';
 import toStructure from '../native/toStructure';
-import Measurement from '@runtime/Measurement';
+import Number from '@runtime/Number';
 import Decimal from 'decimal.js';
 import { toColor } from './Color';
 import List from '@runtime/List';
@@ -263,7 +263,7 @@ export function toStage(project: Project, value: Value): Stage | undefined {
 }
 
 export function toDecimal(value: Value | undefined): Decimal | undefined {
-    return value instanceof Measurement ? value.num : undefined;
+    return value instanceof Number ? value.num : undefined;
 }
 
 export function toBoolean(value: Value | undefined): boolean | undefined {

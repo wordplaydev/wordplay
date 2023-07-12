@@ -2,14 +2,14 @@ import type Evaluator from '@runtime/Evaluator';
 import TemporalStream from '../runtime/TemporalStream';
 import type Expression from '../nodes/Expression';
 import Bind from '../nodes/Bind';
-import MeasurementType from '../nodes/MeasurementType';
+import NumberType from '../nodes/NumberType';
 import NoneLiteral from '../nodes/NoneLiteral';
 import NoneType from '../nodes/NoneType';
 import StreamDefinition from '../nodes/StreamDefinition';
 import StreamType from '../nodes/StreamType';
 import UnionType from '../nodes/UnionType';
 import Unit from '../nodes/Unit';
-import Measurement from '../runtime/Measurement';
+import Number from '../runtime/Number';
 import { getDocLocales } from '../locale/getDocLocales';
 import { getNameLocales } from '../locale/getNameLocales';
 import createStreamEvaluator from './createStreamEvaluator';
@@ -17,7 +17,7 @@ import type Locale from '../locale/Locale';
 
 const DEFAULT_FREQUENCY = 33;
 
-export default class Time extends TemporalStream<Measurement> {
+export default class Time extends TemporalStream<Number> {
     firstTime: number | undefined = undefined;
     frequency: number = 33;
     lastTime: DOMHighResTimeStamp | undefined = undefined;
@@ -26,7 +26,7 @@ export default class Time extends TemporalStream<Measurement> {
         super(
             evaluator,
             evaluator.project.shares.input.time,
-            new Measurement(evaluator.getMain(), 0, Unit.make(['ms']))
+            new Number(evaluator.getMain(), 0, Unit.make(['ms']))
         );
         this.frequency = frequency;
     }
@@ -63,24 +63,21 @@ export default class Time extends TemporalStream<Measurement> {
     }
 
     static make(creator: Expression, time: number) {
-        return new Measurement(creator, time, Unit.make(['ms']));
+        return new Number(creator, time, Unit.make(['ms']));
     }
 
     getType() {
-        return StreamType.make(MeasurementType.make(Unit.make(['ms'])));
+        return StreamType.make(NumberType.make(Unit.make(['ms'])));
     }
 }
 
 export function createTimeDefinition(locale: Locale[]) {
-    const TimeType = MeasurementType.make(Unit.make(['ms']));
+    const TimeType = NumberType.make(Unit.make(['ms']));
 
     const FrequencyBind = Bind.make(
         getDocLocales(locale, (t) => t.input.Time.frequency.doc),
         getNameLocales(locale, (t) => t.input.Time.frequency.names),
-        UnionType.make(
-            MeasurementType.make(Unit.make(['ms'])),
-            NoneType.make()
-        ),
+        UnionType.make(NumberType.make(Unit.make(['ms'])), NoneType.make()),
         // Default to nothing
         NoneLiteral.make()
     );
@@ -95,11 +92,11 @@ export function createTimeDefinition(locale: Locale[]) {
             (evaluation) =>
                 new Time(
                     evaluation.getEvaluator(),
-                    evaluation.get(FrequencyBind.names, Measurement)?.toNumber()
+                    evaluation.get(FrequencyBind.names, Number)?.toNumber()
                 ),
             (stream, evaluation) => {
                 stream.setFrequency(
-                    evaluation.get(FrequencyBind.names, Measurement)?.toNumber()
+                    evaluation.get(FrequencyBind.names, Number)?.toNumber()
                 );
             }
         ),

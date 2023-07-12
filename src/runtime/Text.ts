@@ -1,6 +1,6 @@
 import Language from '@nodes/Language';
 import TextType from '@nodes/TextType';
-import Measurement from './Measurement';
+import Number from './Number';
 import Primitive from './Primitive';
 import type Value from './Value';
 import type { NativeTypeName } from '../native/NativeConstants';
@@ -35,7 +35,7 @@ export default class Text extends Primitive {
 
     /* The number of graphemes in the text (not the number of code points). */
     length(requestor: Expression) {
-        return new Measurement(requestor, [...this.text].length);
+        return new Number(requestor, [...this.text].length);
     }
 
     repeat(requestor: Expression, count: number) {

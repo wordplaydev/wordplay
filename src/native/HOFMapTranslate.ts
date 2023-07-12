@@ -2,7 +2,7 @@ import Bind from '@nodes/Bind';
 import type FunctionType from '@nodes/FunctionType';
 import ListType from '@nodes/ListType';
 import MapType from '@nodes/MapType';
-import MeasurementType from '@nodes/MeasurementType';
+import NumberType from '@nodes/NumberType';
 import NameType from '@nodes/NameType';
 import type Type from '@nodes/Type';
 import Evaluation from '@runtime/Evaluation';
@@ -10,7 +10,7 @@ import type Evaluator from '@runtime/Evaluator';
 import Finish from '@runtime/Finish';
 import FunctionValue from '@runtime/FunctionValue';
 import MapValue from '@runtime/Map';
-import Measurement from '@runtime/Measurement';
+import Number from '@runtime/Number';
 import Start from '@runtime/Start';
 import type Step from '@runtime/Step';
 import type Value from '@runtime/Value';
@@ -46,7 +46,7 @@ export default class HOFMapTranslate extends HOF {
             new Start(this),
             // Initialize an iterator and an empty list in this scope.
             new Initialize(this, (evaluator) => {
-                evaluator.bind(INDEX, new Measurement(this, 1));
+                evaluator.bind(INDEX, new Number(this, 1));
                 evaluator.bind(MAP, new MapValue(this, []));
                 return undefined;
             }),
@@ -54,10 +54,10 @@ export default class HOFMapTranslate extends HOF {
                 const index = evaluator.resolve(INDEX);
                 const map = evaluator.getCurrentEvaluation()?.getClosure();
                 // If the index is past the last index of the list, jump to the end.
-                if (!(index instanceof Measurement))
+                if (!(index instanceof Number))
                     return evaluator.getValueOrTypeException(
                         this,
-                        MeasurementType.make(),
+                        NumberType.make(),
                         index
                     );
                 else if (!(map instanceof MapValue))
@@ -117,10 +117,10 @@ export default class HOFMapTranslate extends HOF {
 
                 // Get the index
                 const index = evaluator.resolve(INDEX);
-                if (!(index instanceof Measurement))
+                if (!(index instanceof Number))
                     return evaluator.getValueOrTypeException(
                         this,
-                        MeasurementType.make(),
+                        NumberType.make(),
                         index
                     );
 
@@ -151,10 +151,7 @@ export default class HOFMapTranslate extends HOF {
                     );
 
                 // Increment the counter
-                evaluator.bind(
-                    INDEX,
-                    index.add(this, new Measurement(this, 1))
-                );
+                evaluator.bind(INDEX, index.add(this, new Number(this, 1)));
 
                 // Jump to the conditional
                 evaluator.jump(-2);

@@ -1,7 +1,7 @@
 import ListType from '@nodes/ListType';
 import Bool from './Bool';
 import Text from './Text';
-import Measurement from './Measurement';
+import Number from './Number';
 import None from './None';
 import Primitive from './Primitive';
 import type Value from './Value';
@@ -27,7 +27,7 @@ export default class List extends Primitive {
         return this.values;
     }
 
-    get(index: Measurement) {
+    get(index: Number) {
         const num = index.toNumber();
         const value =
             num === 0 ? undefined : this.values.at(num > 0 ? num - 1 : num);
@@ -35,7 +35,7 @@ export default class List extends Primitive {
     }
 
     length(requestor: Expression) {
-        return new Measurement(requestor, this.values.length);
+        return new Number(requestor, this.values.length);
     }
 
     has(requestor: Expression, value: Value) {
@@ -66,7 +66,7 @@ export default class List extends Primitive {
         return new List(requestor, [...this.values, value]);
     }
 
-    replace(requestor: Expression, index: Measurement, value: Value) {
+    replace(requestor: Expression, index: Number, value: Value) {
         const copy = this.values.slice();
         const num = index.toNumber();
         if (!isNaN(num) && num >= 1 && num <= copy.length)

@@ -1,8 +1,8 @@
 import { test, expect } from 'vitest';
-import { parseMeasurement, toTokens } from '@parser/Parser';
+import { parseNumber, toTokens } from '@parser/Parser';
 import { FALSE_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
 import Evaluator from './Evaluator';
-import Measurement from './Measurement';
+import Number from './Number';
 import { getDefaultNative } from '../native/Native';
 
 const native = await getDefaultNative();
@@ -39,8 +39,8 @@ test.each([
     // Bases
     ['2;10101.01', '21.25'],
 ])('%s should be %s', (text, value) => {
-    const literal = parseMeasurement(toTokens(text));
-    expect(new Measurement(literal, literal.number).toString()).toBe(value);
+    const literal = parseNumber(toTokens(text));
+    expect(new Number(literal, literal.number).toString()).toBe(value);
 });
 
 test.each([

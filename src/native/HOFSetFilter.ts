@@ -2,7 +2,7 @@ import Bind from '@nodes/Bind';
 import BooleanType from '@nodes/BooleanType';
 import type Context from '@nodes/Context';
 import type FunctionType from '@nodes/FunctionType';
-import MeasurementType from '@nodes/MeasurementType';
+import NumberType from '@nodes/NumberType';
 import Names from '@nodes/Names';
 import NameType from '@nodes/NameType';
 import SetType from '@nodes/SetType';
@@ -15,7 +15,7 @@ import type Evaluator from '@runtime/Evaluator';
 import Finish from '@runtime/Finish';
 import FunctionValue from '@runtime/FunctionValue';
 import Initialize from '@runtime/Initialize';
-import Measurement from '@runtime/Measurement';
+import Number from '@runtime/Number';
 import Next from '@runtime/Next';
 import Set from '@runtime/Set';
 import Start from '@runtime/Start';
@@ -49,7 +49,7 @@ export default class HOFSetFilter extends HOF {
             new Start(this),
             // Initialize an iterator and an empty list in this scope.
             new Initialize(this, (evaluator) => {
-                evaluator.bind(INDEX, new Measurement(this, 1));
+                evaluator.bind(INDEX, new Number(this, 1));
                 evaluator.bind(SET, new Set(this, []));
                 return undefined;
             }),
@@ -57,10 +57,10 @@ export default class HOFSetFilter extends HOF {
                 const index = evaluator.resolve(INDEX);
                 const set = evaluator.getCurrentEvaluation()?.getClosure();
                 // If the index is past the last index of the list, jump to the end.
-                if (!(index instanceof Measurement))
+                if (!(index instanceof Number))
                     return evaluator.getValueOrTypeException(
                         this,
-                        MeasurementType.make(),
+                        NumberType.make(),
                         index
                     );
                 else if (!(set instanceof Set))
@@ -114,10 +114,10 @@ export default class HOFSetFilter extends HOF {
 
                 // Get the current index.
                 const index = evaluator.resolve(INDEX);
-                if (!(index instanceof Measurement))
+                if (!(index instanceof Number))
                     return evaluator.getValueOrTypeException(
                         this,
-                        MeasurementType.make(),
+                        NumberType.make(),
                         index
                     );
 
@@ -144,10 +144,7 @@ export default class HOFSetFilter extends HOF {
                     );
 
                 // Increment the counter
-                evaluator.bind(
-                    INDEX,
-                    index.add(this, new Measurement(this, 1))
-                );
+                evaluator.bind(INDEX, index.add(this, new Number(this, 1)));
 
                 // Jump to the conditional
                 evaluator.jump(-2);

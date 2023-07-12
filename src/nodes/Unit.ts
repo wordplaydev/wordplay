@@ -7,7 +7,7 @@ import { PRODUCT_SYMBOL } from '@parser/Symbols';
 import Dimension from './Dimension';
 import Token from './Token';
 import Type from './Type';
-import Measurement from '@runtime/Measurement';
+import Number from '@runtime/Number';
 import type TypeSet from './TypeSet';
 import type { NativeTypeName } from '../native/NativeConstants';
 import LanguageToken from './LanguageToken';
@@ -51,7 +51,7 @@ export default class Unit extends Type {
                 const exp =
                     dim.exponent === undefined
                         ? 1
-                        : Measurement.fromToken(dim.exponent).toNumber();
+                        : Number.fromToken(dim.exponent).toNumber();
                 const current = this.exponents.get(name);
                 this.exponents.set(name, (current ?? 0) + exp);
             }
@@ -60,7 +60,7 @@ export default class Unit extends Type {
                 const exp =
                     dim.exponent === undefined
                         ? -1
-                        : -Measurement.fromToken(dim.exponent).toNumber();
+                        : -Number.fromToken(dim.exponent).toNumber();
                 const current = this.exponents.get(name);
                 this.exponents.set(name, (current ?? 0) + exp);
             }
@@ -312,7 +312,7 @@ export default class Unit extends Type {
     getDescriptionInputs(locale: Locale) {
         return [
             this.exponents.size === 0
-                ? locale.native.Measurement.name[0]
+                ? locale.native.Number.name[0]
                 : this.toWordplay(),
         ];
     }

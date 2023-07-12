@@ -9,7 +9,7 @@ import { toPose } from './Pose';
 import { toDecimal } from './Stage';
 import Text from '../runtime/Text';
 import Map from '../runtime/Map';
-import Measurement from '../runtime/Measurement';
+import Number from '../runtime/Number';
 import Transition from './Transition';
 import type Place from './Place';
 import type { TransitionSequence } from './OutputAnimation';
@@ -152,7 +152,7 @@ export function toSequence(project: Project, value: Value | undefined) {
     const steps: SequenceStep[] = [];
 
     for (const [key, value] of poses.values) {
-        const percent = key instanceof Measurement ? key.toNumber() : undefined;
+        const percent = key instanceof Number ? key.toNumber() : undefined;
         const pose = toPose(project, value);
         if (percent !== undefined && pose !== undefined)
             steps.push({ percent, pose });

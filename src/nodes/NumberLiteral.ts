@@ -1,6 +1,6 @@
-import Measurement from '@runtime/Measurement';
+import Number from '@runtime/Number';
 import type Conflict from '@conflicts/Conflict';
-import MeasurementType from './MeasurementType';
+import NumberType from './NumberType';
 import Token from './Token';
 import type Type from './Type';
 import Unit from './Unit';
@@ -19,7 +19,7 @@ import type { NativeTypeName } from '../native/NativeConstants';
 import type Decimal from 'decimal.js';
 import concretize, { type TemplateInput } from '../locale/concretize';
 
-export default class MeasurementLiteral extends Literal {
+export default class NumberLiteral extends Literal {
     readonly number: Token;
     readonly unit: Unit;
 
@@ -35,7 +35,7 @@ export default class MeasurementLiteral extends Literal {
     }
 
     static make(number?: number | string, unit?: Unit) {
-        return new MeasurementLiteral(
+        return new NumberLiteral(
             number === undefined
                 ? new PlaceholderToken()
                 : new Token(
@@ -54,7 +54,7 @@ export default class MeasurementLiteral extends Literal {
     }
 
     clone(replace?: Replacement) {
-        return new MeasurementLiteral(
+        return new NumberLiteral(
             this.replaceChild('number', this.number, replace),
             this.replaceChild('unit', this.unit, replace)
         ) as this;
@@ -74,13 +74,13 @@ export default class MeasurementLiteral extends Literal {
     }
 
     computeType(): Type {
-        return new MeasurementType(this.number, this.unit);
+        return new NumberType(this.number, this.unit);
     }
 
     getValue() {
-        if (this.#cache) return new Measurement(this, this.#cache, this.unit);
+        if (this.#cache) return new Number(this, this.#cache, this.unit);
         else {
-            const value = new Measurement(this, this.number, this.unit);
+            const value = new Number(this, this.number, this.unit);
             this.#cache = value.num;
             return value;
         }
@@ -106,19 +106,19 @@ export default class MeasurementLiteral extends Literal {
     }
 
     getNodeLocale(translation: Locale) {
-        return translation.node.MeasurementLiteral;
+        return translation.node.NumberLiteral;
     }
 
     getStartExplanations(locale: Locale, context: Context) {
         return concretize(
             locale,
-            locale.node.MeasurementLiteral.start,
+            locale.node.NumberLiteral.start,
             new NodeRef(this.number, locale, context)
         );
     }
 
     getGlyphs() {
-        return Glyphs.Measurement;
+        return Glyphs.Number;
     }
 
     getDescriptionInputs(_: Locale, __: Context): TemplateInput[] {

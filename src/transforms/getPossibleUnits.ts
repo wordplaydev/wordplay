@@ -1,5 +1,5 @@
 import type Project from '../models/Project';
-import MeasurementType from '@nodes/MeasurementType';
+import NumberType from '@nodes/NumberType';
 import Unit from '@nodes/Unit';
 
 export function getPossibleUnits(project: Project) {
@@ -34,7 +34,7 @@ function getUnitsInConversions(project: Project) {
         .getStructureDefinition('measurement')
         ?.getAllConversions()
         .map((conversion) =>
-            conversion.output instanceof MeasurementType &&
+            conversion.output instanceof NumberType &&
             conversion.output.unit instanceof Unit
                 ? conversion.output.unit
                 : undefined

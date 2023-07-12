@@ -9,7 +9,7 @@
     import Reference from '@nodes/Reference';
     import MapLiteral from '@nodes/MapLiteral';
     import KeyValue from '@nodes/KeyValue';
-    import MeasurementLiteral from '@nodes/MeasurementLiteral';
+    import NumberLiteral from '@nodes/NumberLiteral';
     import { creator } from '../../db/Creator';
     import getPoseProperties from '@transforms/PoseProperties';
 
@@ -48,7 +48,7 @@
                     [
                         MapLiteral.make([
                             KeyValue.make(
-                                MeasurementLiteral.make('0%'),
+                                NumberLiteral.make('0%'),
                                 output.node
                             ),
                         ]),

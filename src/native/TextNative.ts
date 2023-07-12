@@ -1,6 +1,6 @@
 import Bind from '@nodes/Bind';
 import BooleanType from '@nodes/BooleanType';
-import MeasurementType from '@nodes/MeasurementType';
+import NumberType from '@nodes/NumberType';
 import TextType from '@nodes/TextType';
 import type Type from '@nodes/Type';
 import Bool from '@runtime/Bool';
@@ -9,7 +9,7 @@ import type Value from '@runtime/Value';
 import { createNativeConversion, createNativeFunction } from './Native';
 import Text from '@runtime/Text';
 import StructureDefinition from '@nodes/StructureDefinition';
-import Measurement from '@runtime/Measurement';
+import Number from '@runtime/Number';
 import List from '@runtime/List';
 import Block, { BlockKind } from '@nodes/Block';
 import type Docs from '@nodes/Docs';
@@ -99,7 +99,7 @@ export default function bootstrapText(locales: Locale[]) {
                         (t) => t.native.Text.function.length
                     ),
                     [],
-                    MeasurementType.make(),
+                    NumberType.make(),
                     (requestor, text) => text.length(requestor)
                 ),
                 createTextFunction(
@@ -115,19 +115,16 @@ export default function bootstrapText(locales: Locale[]) {
                                     t.native.Text.function.repeat.inputs[0].doc
                             ),
                             countNames,
-                            MeasurementType.make()
+                            NumberType.make()
                         ),
                     ],
                     TextType.make(),
                     (requestor, text, evaluation) => {
                         const count = evaluation.resolve(countNames);
-                        if (
-                            count === undefined ||
-                            !(count instanceof Measurement)
-                        )
+                        if (count === undefined || !(count instanceof Number))
                             return evaluation.getValueOrTypeException(
                                 requestor,
-                                MeasurementType.make(),
+                                NumberType.make(),
                                 count
                             );
                         return text.repeat(requestor, count.num.toNumber());
@@ -304,7 +301,7 @@ export default function bootstrapText(locales: Locale[]) {
                     '""',
                     '#',
                     (requestor: Expression, val: Text) =>
-                        new Measurement(requestor, val.text)
+                        new Number(requestor, val.text)
                 ),
             ],
             BlockKind.Creator

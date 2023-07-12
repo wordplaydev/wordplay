@@ -1,6 +1,6 @@
 import type Context from './Context';
 import ListType from './ListType';
-import MeasurementType from './MeasurementType';
+import NumberType from './NumberType';
 import TextType from './TextType';
 import type Type from './Type';
 import UnionType from './UnionType';
@@ -14,19 +14,19 @@ export default function generalize(types: Type, context: Context) {
         if (possible.every((type) => type instanceof TextType))
             types = TextType.make();
         // All numbers with equivalent units? Generalize to a number with the unit.
-        else if (possible.every((type) => type instanceof MeasurementType)) {
+        else if (possible.every((type) => type instanceof NumberType)) {
             const first = possible[0];
-            if (first instanceof MeasurementType) {
+            if (first instanceof NumberType) {
                 if (
                     possible.every(
                         (type) =>
-                            type instanceof MeasurementType &&
+                            type instanceof NumberType &&
                             type.unit instanceof Unit &&
                             first.unit instanceof Unit &&
                             type.unit.isEqualTo(first.unit)
                     )
                 )
-                    types = MeasurementType.make(first.unit);
+                    types = NumberType.make(first.unit);
             }
         } else if (possible.every((type) => type instanceof ListType)) {
             types = ListType.make(
@@ -41,7 +41,7 @@ export default function generalize(types: Type, context: Context) {
             );
         }
     } else if (types instanceof TextType) types = TextType.make();
-    else if (types instanceof MeasurementType) types = MeasurementType.make();
+    else if (types instanceof NumberType) types = NumberType.make();
 
     return types;
 }

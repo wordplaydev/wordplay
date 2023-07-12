@@ -6,7 +6,7 @@ import Evaluator from '@runtime/Evaluator';
 import Evaluate from './Evaluate';
 import MissingInput from '@conflicts/MissingInput';
 import MisplacedInput from '@conflicts/MisplacedInput';
-import MeasurementType from './MeasurementType';
+import NumberType from './NumberType';
 import SetType from './SetType';
 import MapType from './MapType';
 import UnknownInput from '@conflicts/UnknownInput';
@@ -138,13 +138,13 @@ test.each([
 
 test('Test generics', () => {
     // Get the type from the evaluation's type input.
-    testTypes('ƒ test⸨T⸩(a•T) a\ntest⸨#⸩(1)', MeasurementType);
+    testTypes('ƒ test⸨T⸩(a•T) a\ntest⸨#⸩(1)', NumberType);
     // Make sure it works for multiple inputs.
-    testTypes("ƒ test⸨T U V⸩(a•V) a\ntest⸨# '' #⸩(1)", MeasurementType);
+    testTypes("ƒ test⸨T U V⸩(a•V) a\ntest⸨# '' #⸩(1)", NumberType);
     // Infer the type from an input.
-    testTypes('ƒ test⸨T⸩(a•T) a\ntest(1)', MeasurementType);
+    testTypes('ƒ test⸨T⸩(a•T) a\ntest(1)', NumberType);
     // Infer from lists
-    testTypes('[ 1 2 3 ].random()', MeasurementType);
+    testTypes('[ 1 2 3 ].random()', NumberType);
     // Infer from sets
     testTypes('{ 1 2 3 }.remove(1)', SetType);
     // Infer from map higher order function
@@ -155,13 +155,13 @@ test('Test generics', () => {
         •Cat⸨Kind⸩(a•Kind)
         Cat⸨""⸩("hi").a.length()
     `,
-        MeasurementType
+        NumberType
     );
 
     // Infer from map keys
     // testTypes("{ 1:'a' 2:'b' 3:'c' }→{}", SetType);
     // testTypes("{ 1:'a' 2:'b' 3:'c' }→{}→[]", ListType);
-    // testTypes("{ 1:'a' 2:'b' 3:'c' }→{}→[][1]", MeasurementType);
+    // testTypes("{ 1:'a' 2:'b' 3:'c' }→{}→[][1]", NumberType);
     // Infer from map values
     // testTypes("{ 1:'a' 2:'b' 3:'c' }→[][1]", TextType);
 });

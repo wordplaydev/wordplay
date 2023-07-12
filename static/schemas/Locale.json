@@ -872,7 +872,53 @@
               ],
               "type": "object"
             },
-            "Measurement": {
+            "None": {
+              "additionalProperties": false,
+              "properties": {
+                "conversion": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "text": {
+                      "$ref": "#/definitions/DocText"
+                    }
+                  },
+                  "required": [
+                    "text"
+                  ],
+                  "type": "object"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText"
+                },
+                "function": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "equals": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1053-1123-1127088073-0-1540%5D%3E"
+                    },
+                    "notequals": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1053-1123-1127088073-0-1540%5D%3E"
+                    }
+                  },
+                  "required": [
+                    "equals",
+                    "notequals"
+                  ],
+                  "type": "object"
+                },
+                "name": {
+                  "$ref": "#/definitions/NameText"
+                }
+              },
+              "required": [
+                "doc",
+                "name",
+                "function",
+                "conversion"
+              ],
+              "type": "object"
+            },
+            "Number": {
               "additionalProperties": false,
               "properties": {
                 "conversion": {
@@ -1166,52 +1212,6 @@
               ],
               "type": "object"
             },
-            "None": {
-              "additionalProperties": false,
-              "properties": {
-                "conversion": {
-                  "additionalProperties": false,
-                  "properties": {
-                    "text": {
-                      "$ref": "#/definitions/DocText"
-                    }
-                  },
-                  "required": [
-                    "text"
-                  ],
-                  "type": "object"
-                },
-                "doc": {
-                  "$ref": "#/definitions/DocText"
-                },
-                "function": {
-                  "additionalProperties": false,
-                  "properties": {
-                    "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1053-1123-1127088073-0-1540%5D%3E"
-                    },
-                    "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1053-1123-1127088073-0-1540%5D%3E"
-                    }
-                  },
-                  "required": [
-                    "equals",
-                    "notequals"
-                  ],
-                  "type": "object"
-                },
-                "name": {
-                  "$ref": "#/definitions/NameText"
-                }
-              },
-              "required": [
-                "doc",
-                "name",
-                "function",
-                "conversion"
-              ],
-              "type": "object"
-            },
             "Set": {
               "additionalProperties": false,
               "properties": {
@@ -1421,7 +1421,7 @@
             "Boolean",
             "None",
             "Text",
-            "Measurement",
+            "Number",
             "List",
             "Set",
             "Map"
@@ -2500,51 +2500,6 @@
               "$ref": "#/definitions/DescriptiveNodeText",
               "description": "Description $: paragraph count"
             },
-            "MeasurementLiteral": {
-              "additionalProperties": false,
-              "properties": {
-                "conflict": {
-                  "additionalProperties": false,
-                  "properties": {
-                    "NotANumber": {
-                      "$ref": "#/definitions/InternalConflictText"
-                    }
-                  },
-                  "required": [
-                    "NotANumber"
-                  ],
-                  "type": "object"
-                },
-                "description": {
-                  "$ref": "#/definitions/Template"
-                },
-                "doc": {
-                  "$ref": "#/definitions/DocText"
-                },
-                "emotion": {
-                  "type": "string"
-                },
-                "name": {
-                  "type": "string"
-                },
-                "start": {
-                  "$ref": "#/definitions/Template"
-                }
-              },
-              "required": [
-                "conflict",
-                "description",
-                "doc",
-                "emotion",
-                "name",
-                "start"
-              ],
-              "type": "object"
-            },
-            "MeasurementType": {
-              "$ref": "#/definitions/DescriptiveNodeText",
-              "description": "Description $1: The unit or undefined"
-            },
             "Mention": {
               "$ref": "#/definitions/DescriptiveNodeText",
               "description": "Description $1: the name or number mentioned"
@@ -2661,6 +2616,51 @@
             },
             "NotImplementedType": {
               "$ref": "#/definitions/NodeText"
+            },
+            "NumberLiteral": {
+              "additionalProperties": false,
+              "properties": {
+                "conflict": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "NotANumber": {
+                      "$ref": "#/definitions/InternalConflictText"
+                    }
+                  },
+                  "required": [
+                    "NotANumber"
+                  ],
+                  "type": "object"
+                },
+                "description": {
+                  "$ref": "#/definitions/Template"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText"
+                },
+                "emotion": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "start": {
+                  "$ref": "#/definitions/Template"
+                }
+              },
+              "required": [
+                "conflict",
+                "description",
+                "doc",
+                "emotion",
+                "name",
+                "start"
+              ],
+              "type": "object"
+            },
+            "NumberType": {
+              "$ref": "#/definitions/DescriptiveNodeText",
+              "description": "Description $1: The unit or undefined"
             },
             "Paragraph": {
               "$ref": "#/definitions/NodeText",
@@ -3650,7 +3650,7 @@
             "ListAccess",
             "ListLiteral",
             "MapLiteral",
-            "MeasurementLiteral",
+            "NumberLiteral",
             "NativeExpression",
             "NoneLiteral",
             "Previous",
@@ -3680,7 +3680,7 @@
             "FunctionType",
             "ListType",
             "MapType",
-            "MeasurementType",
+            "NumberType",
             "NameType",
             "NeverType",
             "NoneType",

@@ -2,7 +2,7 @@ import Bind from '@nodes/Bind';
 import type Context from '@nodes/Context';
 import type FunctionType from '@nodes/FunctionType';
 import ListType from '@nodes/ListType';
-import MeasurementType from '@nodes/MeasurementType';
+import NumberType from '@nodes/NumberType';
 import Names from '@nodes/Names';
 import type Type from '@nodes/Type';
 import Check from '@runtime/Check';
@@ -12,7 +12,7 @@ import Finish from '@runtime/Finish';
 import FunctionValue from '@runtime/FunctionValue';
 import Initialize from '@runtime/Initialize';
 import List from '@runtime/List';
-import Measurement from '@runtime/Measurement';
+import Number from '@runtime/Number';
 import Next from '@runtime/Next';
 import Start from '@runtime/Start';
 import type Step from '@runtime/Step';
@@ -43,7 +43,7 @@ export default class HOFListTranslate extends HOF {
             new Start(this),
             // Initialize an iterator and an empty list in this scope.
             new Initialize(this, (evaluator) => {
-                evaluator.bind(INDEX, new Measurement(this, 1));
+                evaluator.bind(INDEX, new Number(this, 1));
                 evaluator.bind(LIST, new List(this, []));
                 return undefined;
             }),
@@ -51,10 +51,10 @@ export default class HOFListTranslate extends HOF {
                 const index = evaluator.resolve(INDEX);
                 const list = evaluator.getCurrentEvaluation()?.getClosure();
                 // If the index is past the last index of the list, jump to the end.
-                if (!(index instanceof Measurement))
+                if (!(index instanceof Number))
                     return evaluator.getValueOrTypeException(
                         this,
-                        MeasurementType.make(),
+                        NumberType.make(),
                         index
                     );
                 else if (!(list instanceof List))
@@ -125,15 +125,12 @@ export default class HOFListTranslate extends HOF {
 
                 // Increment the counter
                 const index = evaluator.resolve(INDEX);
-                if (index instanceof Measurement)
-                    evaluator.bind(
-                        INDEX,
-                        index.add(this, new Measurement(this, 1))
-                    );
+                if (index instanceof Number)
+                    evaluator.bind(INDEX, index.add(this, new Number(this, 1)));
                 else
                     return evaluator.getValueOrTypeException(
                         this,
-                        MeasurementType.make(),
+                        NumberType.make(),
                         index
                     );
 

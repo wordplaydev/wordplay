@@ -7,7 +7,7 @@ import ColorJS from 'colorjs.io';
 import { TYPE_SYMBOL } from '@parser/Symbols';
 import { getBind } from '@locale/getBind';
 import Evaluate from '../nodes/Evaluate';
-import MeasurementLiteral from '../nodes/MeasurementLiteral';
+import NumberLiteral from '../nodes/NumberLiteral';
 import Reference from '../nodes/Reference';
 import type LanguageCode from '../locale/LanguageCode';
 import Unit from '../nodes/Unit';
@@ -71,9 +71,9 @@ export function createColorLiteral(
     return Evaluate.make(
         Reference.make(ColorType.names.getLocaleText(languages), ColorType),
         [
-            MeasurementLiteral.make(lightness),
-            MeasurementLiteral.make(chroma),
-            MeasurementLiteral.make(hue, Unit.make(['°'])),
+            NumberLiteral.make(lightness),
+            NumberLiteral.make(chroma),
+            NumberLiteral.make(hue, Unit.make(['°'])),
         ]
     );
 }

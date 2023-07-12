@@ -18,8 +18,8 @@ import FunctionDefinition from '@nodes/FunctionDefinition';
 import Template from '@nodes/Template';
 import UnionType from '@nodes/UnionType';
 import NoneLiteral from '@nodes/NoneLiteral';
-import MeasurementLiteral from '@nodes/MeasurementLiteral';
-import MeasurementType from '@nodes/MeasurementType';
+import NumberLiteral from '@nodes/NumberLiteral';
+import NumberType from '@nodes/NumberType';
 import TextLiteral from '@nodes/TextLiteral';
 import NameType from '@nodes/NameType';
 import NoneType from '@nodes/NoneType';
@@ -611,7 +611,7 @@ function parseAtomicExpression(tokens: Tokens): Expression {
             ? new BooleanLiteral(tokens.read(TokenType.Boolean))
             : // Numbers with units
             tokens.nextIs(TokenType.Number)
-            ? parseMeasurement(tokens)
+            ? parseNumber(tokens)
             : // Text with optional formats
             tokens.nextIs(TokenType.Text)
             ? parseText(tokens)
@@ -732,14 +732,14 @@ function parseNone(tokens: Tokens): NoneLiteral {
 }
 
 /** NUMBER :: number name? */
-export function parseMeasurement(tokens: Tokens): MeasurementLiteral {
+export function parseNumber(tokens: Tokens): NumberLiteral {
     const number = tokens.read(TokenType.Number);
     const unit =
         tokens.nextIsOneOf(TokenType.Name, TokenType.Language) &&
         tokens.nextLacksPrecedingSpace()
             ? parseUnit(tokens)
             : undefined;
-    return new MeasurementLiteral(number, unit ?? Unit.Empty);
+    return new NumberLiteral(number, unit ?? Unit.Empty);
 }
 
 /** UNIT :: DIMENSION (·DIMENSION)* (/ DIMENSION (·DIMENSION*))? */
@@ -1209,7 +1209,7 @@ export function parseType(tokens: Tokens, isExpression: boolean = false): Type {
         ? new BooleanType(tokens.read(TokenType.BooleanType))
         : tokens.nextIs(TokenType.BinaryOperator, '%') ||
           tokens.nextIsOneOf(TokenType.Number, TokenType.NumberType)
-        ? parseMeasurementType(tokens)
+        ? parseNumberType(tokens)
         : tokens.nextIs(TokenType.Text)
         ? parseTextType(tokens)
         : tokens.nextIs(TokenType.None)
@@ -1255,9 +1255,9 @@ function parseTextType(tokens: Tokens): TextType {
 }
 
 /** NUMBER_TYPE :: #NAME? */
-function parseMeasurementType(tokens: Tokens): MeasurementType {
+function parseNumberType(tokens: Tokens): NumberType {
     if (tokens.nextIs(TokenType.BinaryOperator, '%'))
-        return new MeasurementType(tokens.read(TokenType.BinaryOperator));
+        return new NumberType(tokens.read(TokenType.BinaryOperator));
 
     const number = tokens.nextIs(TokenType.Number)
         ? tokens.read(TokenType.Number)
@@ -1270,7 +1270,7 @@ function parseMeasurementType(tokens: Tokens): MeasurementType {
         ) && tokens.nextLacksPrecedingSpace()
             ? parseUnit(tokens)
             : undefined;
-    return new MeasurementType(number, unit);
+    return new NumberType(number, unit);
 }
 
 /** NONE_TYPE :: !NAME? */

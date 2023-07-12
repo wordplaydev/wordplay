@@ -6,7 +6,7 @@ import type RenderContext from './RenderContext';
 import Place from './Place';
 import { getBind } from '@locale/getBind';
 import Arrangement from './Arrangement';
-import Measurement from '../runtime/Measurement';
+import Number from '../runtime/Number';
 import Phrase from './Phrase';
 import Group from './Group';
 import concretize from '../locale/concretize';
@@ -24,7 +24,7 @@ export function createStackType(locales: Locale[]) {
 export class Stack extends Arrangement {
     readonly padding: number;
 
-    constructor(value: Value, padding: Measurement) {
+    constructor(value: Value, padding: Number) {
         super(value);
         this.padding = padding.toNumber();
     }
@@ -121,7 +121,5 @@ export function toStack(
     const padding = value.resolve(
         project.shares.output.stack.inputs[0].names.getNames()[0]
     );
-    return padding instanceof Measurement
-        ? new Stack(value, padding)
-        : undefined;
+    return padding instanceof Number ? new Stack(value, padding) : undefined;
 }

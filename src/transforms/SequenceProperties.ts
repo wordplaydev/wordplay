@@ -1,6 +1,6 @@
 import KeyValue from '../nodes/KeyValue';
 import MapLiteral from '../nodes/MapLiteral';
-import MeasurementLiteral from '../nodes/MeasurementLiteral';
+import NumberLiteral from '../nodes/NumberLiteral';
 import Unit from '../nodes/Unit';
 import { createPoseLiteral } from '../output/Pose';
 import type { Locale, NameText } from '../locale/Locale';
@@ -27,11 +27,11 @@ export default function getSequenceProperties(
             create: (languages) =>
                 MapLiteral.make([
                     KeyValue.make(
-                        MeasurementLiteral.make('0%'),
+                        NumberLiteral.make('0%'),
                         createPoseLiteral(project, languages)
                     ),
                     KeyValue.make(
-                        MeasurementLiteral.make('100%'),
+                        NumberLiteral.make('100%'),
                         createPoseLiteral(project, languages)
                     ),
                 ]),
@@ -43,8 +43,8 @@ export default function getSequenceProperties(
             type: new OutputPropertyRange(1, 5, 1, 'x', 0),
             required: false,
             inherited: false,
-            editable: (expr) => expr instanceof MeasurementLiteral,
-            create: () => MeasurementLiteral.make(1, Unit.make(['x'])),
+            editable: (expr) => expr instanceof NumberLiteral,
+            create: () => NumberLiteral.make(1, Unit.make(['x'])),
         },
     ];
 }

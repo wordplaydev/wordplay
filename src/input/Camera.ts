@@ -3,13 +3,13 @@ import TemporalStream from '../runtime/TemporalStream';
 import StreamDefinition from '../nodes/StreamDefinition';
 import { getDocLocales } from '../locale/getDocLocales';
 import { getNameLocales } from '../locale/getNameLocales';
-import MeasurementType from '../nodes/MeasurementType';
+import NumberType from '../nodes/NumberType';
 import Bind from '../nodes/Bind';
 import UnionType from '../nodes/UnionType';
 import Unit from '../nodes/Unit';
 import NoneType from '../nodes/NoneType';
-import MeasurementLiteral from '../nodes/MeasurementLiteral';
-import Measurement from '../runtime/Measurement';
+import NumberLiteral from '../nodes/NumberLiteral';
+import Number from '../runtime/Number';
 import createStreamEvaluator from './createStreamEvaluator';
 import StructureDefinitionType from '../nodes/StructureDefinitionType';
 import List from '../runtime/List';
@@ -125,7 +125,7 @@ export default class Camera extends TemporalStream<List> {
                     // Lightness
                     bindings.set(
                         ColorType.inputs[0],
-                        new Measurement(
+                        new Number(
                             this.creator,
                             Math.round(lch.coords[0]) / 100
                         )
@@ -133,12 +133,12 @@ export default class Camera extends TemporalStream<List> {
                     // Chroma
                     bindings.set(
                         ColorType.inputs[1],
-                        new Measurement(this.creator, Math.round(lch.coords[1]))
+                        new Number(this.creator, Math.round(lch.coords[1]))
                     );
                     // Hue
                     bindings.set(
                         ColorType.inputs[2],
-                        new Measurement(this.creator, Math.round(lch.coords[2]))
+                        new Number(this.creator, Math.round(lch.coords[2]))
                     );
 
                     // Convert it to a Color value.
@@ -271,7 +271,7 @@ export default class Camera extends TemporalStream<List> {
     }
 
     getType() {
-        return MeasurementType.make();
+        return NumberType.make();
     }
 }
 
@@ -290,31 +290,22 @@ export function createCameraDefinition(
     const WidthBind = Bind.make(
         getDocLocales(locales, (t) => t.input.Camera.width.doc),
         getNameLocales(locales, (t) => t.input.Camera.width.names),
-        UnionType.make(
-            MeasurementType.make(Unit.make(['px'])),
-            NoneType.make()
-        ),
-        MeasurementLiteral.make(DEFAULT_WIDTH, Unit.make(['px']))
+        UnionType.make(NumberType.make(Unit.make(['px'])), NoneType.make()),
+        NumberLiteral.make(DEFAULT_WIDTH, Unit.make(['px']))
     );
 
     const HeightBind = Bind.make(
         getDocLocales(locales, (t) => t.input.Camera.height.doc),
         getNameLocales(locales, (t) => t.input.Camera.height.names),
-        UnionType.make(
-            MeasurementType.make(Unit.make(['px'])),
-            NoneType.make()
-        ),
-        MeasurementLiteral.make(DEFAULT_HEIGHT, Unit.make(['px']))
+        UnionType.make(NumberType.make(Unit.make(['px'])), NoneType.make()),
+        NumberLiteral.make(DEFAULT_HEIGHT, Unit.make(['px']))
     );
 
     const FrequencyBind = Bind.make(
         getDocLocales(locales, (t) => t.input.Camera.frequency.doc),
         getNameLocales(locales, (t) => t.input.Camera.frequency.names),
-        UnionType.make(
-            MeasurementType.make(Unit.make(['ms'])),
-            NoneType.make()
-        ),
-        MeasurementLiteral.make(DEFAULT_FREQUENCY, Unit.make(['ms']))
+        UnionType.make(NumberType.make(Unit.make(['ms'])), NoneType.make()),
+        NumberLiteral.make(DEFAULT_FREQUENCY, Unit.make(['ms']))
     );
 
     return StreamDefinition.make(
@@ -327,25 +318,23 @@ export function createCameraDefinition(
             (evaluation) =>
                 new Camera(
                     evaluation.getEvaluator(),
-                    evaluation.get(WidthBind.names, Measurement)?.toNumber() ??
+                    evaluation.get(WidthBind.names, Number)?.toNumber() ??
                         DEFAULT_FREQUENCY,
-                    evaluation.get(HeightBind.names, Measurement)?.toNumber() ??
+                    evaluation.get(HeightBind.names, Number)?.toNumber() ??
                         DEFAULT_WIDTH,
-                    evaluation
-                        .get(FrequencyBind.names, Measurement)
-                        ?.toNumber() ?? DEFAULT_HEIGHT
+                    evaluation.get(FrequencyBind.names, Number)?.toNumber() ??
+                        DEFAULT_HEIGHT
                 ),
             (stream, evaluation) => {
                 stream.frequency =
-                    evaluation.get(WidthBind.names, Measurement)?.toNumber() ??
+                    evaluation.get(WidthBind.names, Number)?.toNumber() ??
                     DEFAULT_WIDTH;
                 stream.frequency =
-                    evaluation.get(HeightBind.names, Measurement)?.toNumber() ??
+                    evaluation.get(HeightBind.names, Number)?.toNumber() ??
                     DEFAULT_HEIGHT;
                 stream.frequency =
-                    evaluation
-                        .get(FrequencyBind.names, Measurement)
-                        ?.toNumber() ?? DEFAULT_FREQUENCY;
+                    evaluation.get(FrequencyBind.names, Number)?.toNumber() ??
+                    DEFAULT_FREQUENCY;
             }
         ),
         frameType.clone()

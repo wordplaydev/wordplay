@@ -5,7 +5,7 @@ import Output from './Output';
 import { toDecimal } from './Stage';
 import type Evaluator from '../runtime/Evaluator';
 import type Names from '../nodes/Names';
-import Measurement from '../runtime/Measurement';
+import Number from '../runtime/Number';
 import Evaluation from '../runtime/Evaluation';
 import Structure from '../runtime/Structure';
 import Unit from '../nodes/Unit';
@@ -94,15 +94,15 @@ export function createPlaceStructure(
     const PlaceType = evaluator.project.shares.output.place;
     place.set(
         PlaceType.inputs[0].names,
-        new Measurement(creator, x, Unit.make(['m']))
+        new Number(creator, x, Unit.make(['m']))
     );
     place.set(
         PlaceType.inputs[1].names,
-        new Measurement(creator, y, Unit.make(['m']))
+        new Number(creator, y, Unit.make(['m']))
     );
     place.set(
         PlaceType.inputs[2].names,
-        new Measurement(creator, z, Unit.make(['m']))
+        new Number(creator, z, Unit.make(['m']))
     );
 
     const evaluation = new Evaluation(

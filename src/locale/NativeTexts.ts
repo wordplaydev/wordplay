@@ -43,7 +43,7 @@ type NativeTexts = {
             number: DocText;
         };
     };
-    Measurement: {
+    Number: {
         doc: DocText;
         name: NameText;
         function: {

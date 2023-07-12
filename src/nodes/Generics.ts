@@ -6,7 +6,7 @@ import Expression from './Expression';
 import type FunctionDefinition from './FunctionDefinition';
 import FunctionDefinitionType from './FunctionDefinitionType';
 import FunctionType from './FunctionType';
-import MeasurementType from './MeasurementType';
+import NumberType from './NumberType';
 import NameType from './NameType';
 import PropertyReference from './PropertyReference';
 import StreamDefinition from './StreamDefinition';
@@ -59,8 +59,8 @@ export default function getConcreteExpectedType(
         return getConcreteTypeVariable(type, definition, evaluation, context);
 
     // If the type itself is number with a derived unit, concretize it.
-    if (type instanceof MeasurementType && type.hasDerivedUnit())
-        return getConcreteMeasurementInput(type, evaluation, context);
+    if (type instanceof NumberType && type.hasDerivedUnit())
+        return getConcreteNumberInput(type, evaluation, context);
 
     // If the type is some other type, but contains one of the above, concretize them and construct a new compound type.
     // We do this in a loop since each time we clone the type, the abstract types that have yet to be concretized
@@ -69,8 +69,8 @@ export default function getConcreteExpectedType(
         const abstractTypes = type.nodes(
             (n) =>
                 (n instanceof NameType && n.isTypeVariable(context)) ||
-                (n instanceof MeasurementType && n.hasDerivedUnit())
-        ) as (NameType | MeasurementType)[];
+                (n instanceof NumberType && n.hasDerivedUnit())
+        ) as (NameType | NumberType)[];
         const nextAbstractType = abstractTypes[0];
         // If there's another abstract type, resolve it.
         if (nextAbstractType) {
@@ -82,7 +82,7 @@ export default function getConcreteExpectedType(
                           evaluation,
                           context
                       )
-                    : getConcreteMeasurementInput(
+                    : getConcreteNumberInput(
                           nextAbstractType,
                           evaluation,
                           context
@@ -104,8 +104,8 @@ export default function getConcreteExpectedType(
  * @param evaluation The evaluation processing the given input type
  * @param context The context in which we're evaluating.
  */
-function getConcreteMeasurementInput(
-    type: MeasurementType,
+function getConcreteNumberInput(
+    type: NumberType,
     evaluation: EvaluationType,
     context: Context
 ) {

@@ -1180,7 +1180,7 @@
                             "eager",
                             "We should meet @Number next. They always have such interesting things to share. Hey @Number, are you around?"
                         ],
-                        ["Measurement", "kind", "Just 3 steps away!"],
+                        ["Number", "kind", "Just 3 steps away!"],
                         null,
                         [
                             "FunctionDefinition",
@@ -1188,7 +1188,7 @@
                             "Ack, you scared me!!"
                         ],
                         [
-                            "Measurement",
+                            "Number",
                             "kind",
                             "The 78,238nd time. It's my 4th favorite hobby!"
                         ],
@@ -1199,7 +1199,7 @@
                             "I'm glad you're having a good time. (Deep breaths). It's been some time, hasn't it?"
                         ],
                         [
-                            "Measurement",
+                            "Number",
                             "kind",
                             "Incalculably long. I was just passing the time here, counting seconds, and then minutes, and then hours, and then weeks, and then months, and then years, and then…"
                         ],
@@ -1211,31 +1211,31 @@
                             "Do you want to say what you do?"
                         ],
                         [
-                            "Measurement",
+                            "Number",
                             "excited",
                             "I count things! I can be any number you like. Just type me in and I'll make the value you want. Like this."
                         ],
                         ["edit", "1"],
                         null,
-                        ["Measurement", "excited", "Or this."],
+                        ["Number", "excited", "Or this."],
                         ["edit", "1.0"],
                         null,
-                        ["Measurement", "excited", "Or this."],
+                        ["Number", "excited", "Or this."],
                         ["edit", "1.01"],
                         null,
-                        ["Measurement", "excited", "Or this."],
+                        ["Number", "excited", "Or this."],
                         ["edit", "∞"],
                         null,
-                        ["Measurement", "excited", "Or this."],
+                        ["Number", "excited", "Or this."],
                         ["edit", "π"],
                         null,
-                        ["Measurement", "excited", "Or this."],
+                        ["Number", "excited", "Or this."],
                         ["edit", "Ⅶ"],
                         null,
-                        ["Measurement", "excited", "Or this."],
+                        ["Number", "excited", "Or this."],
                         ["edit", "万十一"],
                         null,
-                        ["Measurement", "excited", "Or…"],
+                        ["Number", "excited", "Or…"],
                         [
                             "FunctionDefinition",
                             "kind",
@@ -1243,22 +1243,22 @@
                         ],
                         null,
                         [
-                            "Measurement",
+                            "Number",
                             "excited",
                             "Oh yes, *units*! Just put some symbols after a number and I'll keep track of what's being counted. Like this."
                         ],
                         ["edit", "1dolphin"],
                         null,
-                        ["Measurement", "excited", "Or this."],
+                        ["Number", "excited", "Or this."],
                         ["edit", "1.0thunderstorm"],
                         null,
-                        ["Measurement", "excited", "Or this."],
+                        ["Number", "excited", "Or this."],
                         ["edit", "∞kittens"],
                         null,
-                        ["Measurement", "excited", "Or this."],
+                        ["Number", "excited", "Or this."],
                         ["edit", "1.01toes"],
                         null,
-                        ["Measurement", "excited", "Or…"],
+                        ["Number", "excited", "Or…"],
                         [
                             "FunctionDefinition",
                             "kind",
@@ -1271,22 +1271,22 @@
                             "And they are oh so useful when you're doing math on numbers, right?"
                         ],
                         [
-                            "Measurement",
+                            "Number",
                             "excited",
                             "Oh yes, the maths! @FunctionDefinition gave me so many neat kinds of arithmetic. Like this."
                         ],
                         ["edit", "1 + 1"],
                         null,
-                        ["Measurement", "excited", "Or this."],
+                        ["Number", "excited", "Or this."],
                         ["edit", "1000 + 9999"],
                         null,
-                        ["Measurement", "excited", "Or this."],
+                        ["Number", "excited", "Or this."],
                         ["edit", "1kitty + 2kitty"],
                         null,
-                        ["Measurement", "excited", "Or this."],
+                        ["Number", "excited", "Or this."],
                         ["edit", "-5s + 5s"],
                         null,
-                        ["Measurement", "excited", "Or this."],
+                        ["Number", "excited", "Or this."],
                         ["conflict", "2apple + 5orange"],
                         null,
                         [
@@ -1295,7 +1295,7 @@
                             "Oops. Can you add apples and oranges?"
                         ],
                         [
-                            "Measurement",
+                            "Number",
                             "angry",
                             "No. That's why I underlined the conflict. I don't like adding incompatible things. I can only add compatible numbers. That applies to multiplication, division, and all of my other functions. Do you want to fix it? Change apples to oranges or oranges to apples and the conflict will go away. Make sure there's no space between the number and the unit, otherwise I don't know it's a unit. And make sure the units are /exactly/ the same. I don't know anything about people units; they mean nothing to me. I just compare the unit names and if they don't match, BOOM!"
                         ],
@@ -1305,7 +1305,7 @@
                             "neutral",
                             "That's so cool. @Number, you're so good with numbers! I see @Number show up in a lot of performances where placement matters, and a lot of games where we're keeping track of scores or lives or other countable things. @Number, is there anything else you want to share with our new director?"
                         ],
-                        ["Measurement", "serious", "192 other neat tricks."],
+                        ["Number", "serious", "192 other neat tricks."],
                         null,
                         [
                             "FunctionDefinition",
@@ -1313,7 +1313,7 @@
                             "I think we'll have to wait. You'll be around if we want to learn more?"
                         ],
                         [
-                            "Measurement",
+                            "Number",
                             "happy",
                             "Yes, you can find me and my functions any time!"
                         ]
@@ -4900,7 +4900,7 @@
                         ["Text", "happy", "Not true in the slightest!"],
                         ["Changed", "happy", "Super not true!"],
                         [
-                            "Measurement",
+                            "Number",
                             "serious",
                             "1) You basically run our performances, 2) @Evaluate would be useless without you, 3) you literally transform things into entirely new values, 4) you come in so many different forms, 5) you give all of us purpose, 6) we all look up to you for guidance…"
                         ],
@@ -5142,11 +5142,7 @@
                         ["Text", "excited", "Elation!"],
                         ["Conditional", "excited", "What is dancing, really?"],
                         ["Changed", "excited", "Boom, boom, boom"],
-                        [
-                            "Measurement",
-                            "excited",
-                            "left 5 degrees, up 1 meter"
-                        ],
+                        ["Number", "excited", "left 5 degrees, up 1 meter"],
                         ["Phrase", "excited", "Marvelous!"],
                         ["Sequence", "excited", "The feeling!"],
                         ["Group", "excited", "Together now!"],

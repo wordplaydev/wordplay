@@ -1,11 +1,11 @@
 import type Conflict from '@conflicts/Conflict';
 import Expression from './Expression';
-import MeasurementType from './MeasurementType';
+import NumberType from './NumberType';
 import Token from './Token';
 import type Type from './Type';
 import type Evaluator from '@runtime/Evaluator';
 import type Value from '@runtime/Value';
-import Measurement from '@runtime/Measurement';
+import Number from '@runtime/Number';
 import type Step from '@runtime/Step';
 import Finish from '@runtime/Finish';
 import type Context from './Context';
@@ -66,7 +66,7 @@ export default class Previous extends Expression {
                 types: [Expression],
                 label: (translation: Locale) => translation.term.index,
                 // Must be a number
-                getType: () => MeasurementType.make(),
+                getType: () => NumberType.make(),
             },
         ];
     }
@@ -87,16 +87,9 @@ export default class Previous extends Expression {
             return [new IncompatibleInput(this, valueType, StreamType.make())];
 
         const indexType = this.index.getType(context);
-        if (
-            !(indexType instanceof MeasurementType) ||
-            indexType.unit !== undefined
-        )
+        if (!(indexType instanceof NumberType) || indexType.unit !== undefined)
             return [
-                new IncompatibleInput(
-                    this.index,
-                    indexType,
-                    MeasurementType.make()
-                ),
+                new IncompatibleInput(this.index, indexType, NumberType.make()),
             ];
 
         return [];
@@ -126,9 +119,8 @@ export default class Previous extends Expression {
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
         if (prior) return prior;
 
-        const index = evaluator.popValue(this, MeasurementType.make());
-        if (!(index instanceof Measurement) || !index.num.isInteger())
-            return index;
+        const index = evaluator.popValue(this, NumberType.make());
+        if (!(index instanceof Number) || !index.num.isInteger()) return index;
 
         // Get the stream value.
         const value = evaluator.popValue(this);

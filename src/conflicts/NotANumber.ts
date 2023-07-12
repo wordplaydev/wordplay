@@ -1,12 +1,12 @@
-import type MeasurementLiteral from '@nodes/MeasurementLiteral';
+import type NumberLiteral from '@nodes/NumberLiteral';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 import concretize from '../locale/concretize';
 
 export class NotANumber extends Conflict {
-    readonly measurement: MeasurementLiteral;
+    readonly measurement: NumberLiteral;
 
-    constructor(measurement: MeasurementLiteral) {
+    constructor(measurement: NumberLiteral) {
         super(false);
         this.measurement = measurement;
     }
@@ -18,7 +18,7 @@ export class NotANumber extends Conflict {
                 explanation: (translation: Locale) =>
                     concretize(
                         translation,
-                        translation.node.MeasurementLiteral.conflict.NotANumber
+                        translation.node.NumberLiteral.conflict.NotANumber
                     ),
             },
         };

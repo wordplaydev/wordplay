@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { parseMeasurement, toTokens } from '@parser/Parser';
+    import { parseNumber, toTokens } from '@parser/Parser';
     import Slider from '../widgets/Slider.svelte';
     import type OutputPropertyValues from '@transforms/OutputPropertyValueSet';
     import type OutputPropertyRange from '@transforms/OutputPropertyRange';
@@ -22,7 +22,7 @@
             $project.getBindReplacements(
                 values.getExpressions(),
                 property.name,
-                parseMeasurement(toTokens(newValue + range.unit))
+                parseNumber(toTokens(newValue + range.unit))
             )
         );
     }

@@ -3,20 +3,20 @@ import Stream from '@runtime/Stream';
 import StreamDefinition from '@nodes/StreamDefinition';
 import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
-import MeasurementType from '@nodes/MeasurementType';
+import NumberType from '@nodes/NumberType';
 import Bind from '@nodes/Bind';
 import UnionType from '@nodes/UnionType';
 import NoneType from '@nodes/NoneType';
 import NoneLiteral from '@nodes/NoneLiteral';
 import StreamType from '@nodes/StreamType';
-import Measurement from '@runtime/Measurement';
+import Number from '@runtime/Number';
 import Unit from '@nodes/Unit';
 import createStreamEvaluator from './createStreamEvaluator';
 import type Locale from '../locale/Locale';
 
 export const FREQUENCY = 33;
 
-export default class Random extends Stream<Measurement> {
+export default class Random extends Stream<Number> {
     min: number | undefined;
     max: number | undefined;
 
@@ -45,7 +45,7 @@ export default class Random extends Stream<Measurement> {
         min: number | undefined,
         max: number | undefined
     ) {
-        return new Measurement(
+        return new Number(
             evaluator.getMain(),
             min === undefined
                 ? max === undefined
@@ -83,7 +83,7 @@ export default class Random extends Stream<Measurement> {
     stop() {}
 
     getType() {
-        return StreamType.make(MeasurementType.make());
+        return StreamType.make(NumberType.make());
     }
 }
 
@@ -91,7 +91,7 @@ export function createRandomDefinition(locales: Locale[]) {
     const MinBind = Bind.make(
         getDocLocales(locales, (t) => t.input.Random.min.doc),
         getNameLocales(locales, (t) => t.input.Random.min.names),
-        UnionType.make(MeasurementType.make(Unit.Wildcard), NoneType.make()),
+        UnionType.make(NumberType.make(Unit.Wildcard), NoneType.make()),
         // Default to nothing
         NoneLiteral.make()
     );
@@ -99,7 +99,7 @@ export function createRandomDefinition(locales: Locale[]) {
     const MaxBind = Bind.make(
         getDocLocales(locales, (t) => t.input.Random.max.doc),
         getNameLocales(locales, (t) => t.input.Random.max.names),
-        UnionType.make(MeasurementType.make(Unit.Wildcard), NoneType.make()),
+        UnionType.make(NumberType.make(Unit.Wildcard), NoneType.make()),
         // Default to nothing
         NoneLiteral.make()
     );
@@ -109,20 +109,20 @@ export function createRandomDefinition(locales: Locale[]) {
         getNameLocales(locales, (t) => t.input.Random.names),
         [MinBind, MaxBind],
         createStreamEvaluator(
-            MeasurementType.make(),
+            NumberType.make(),
             Random,
             (evaluation) =>
                 new Random(
                     evaluation.getEvaluator(),
-                    evaluation.get(MinBind.names, Measurement)?.toNumber(),
-                    evaluation.get(MaxBind.names, Measurement)?.toNumber()
+                    evaluation.get(MinBind.names, Number)?.toNumber(),
+                    evaluation.get(MaxBind.names, Number)?.toNumber()
                 ),
             (stream, evaluation) =>
                 stream.setRange(
-                    evaluation.get(MinBind.names, Measurement)?.toNumber(),
-                    evaluation.get(MaxBind.names, Measurement)?.toNumber()
+                    evaluation.get(MinBind.names, Number)?.toNumber(),
+                    evaluation.get(MaxBind.names, Number)?.toNumber()
                 )
         ),
-        MeasurementType.make()
+        NumberType.make()
     );
 }

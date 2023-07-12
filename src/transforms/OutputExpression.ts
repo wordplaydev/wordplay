@@ -5,7 +5,7 @@ import Expression from '@nodes/Expression';
 import type Value from '@runtime/Value';
 import Bind from '@nodes/Bind';
 import Literal from '@nodes/Literal';
-import Measurement from '@runtime/Measurement';
+import Number from '@runtime/Number';
 import Text from '@runtime/Text';
 import type OutputProperty from './OutputProperty';
 import getStageProperties from './StageProperties';
@@ -136,7 +136,7 @@ export default class OutputExpression {
 
     getNumberProperty(name: string): number | undefined {
         const value = this.getPropertyValue(name);
-        return value !== undefined && value.value instanceof Measurement
+        return value !== undefined && value.value instanceof Number
             ? value.value.toNumber()
             : undefined;
         // return unit === '%' && number !== undefined ? number * 100 : number;

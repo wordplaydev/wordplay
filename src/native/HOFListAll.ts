@@ -2,14 +2,14 @@ import Bind from '@nodes/Bind';
 import BooleanType from '@nodes/BooleanType';
 import type FunctionType from '@nodes/FunctionType';
 import ListType from '@nodes/ListType';
-import MeasurementType from '@nodes/MeasurementType';
+import NumberType from '@nodes/NumberType';
 import Bool from '@runtime/Bool';
 import Evaluation from '@runtime/Evaluation';
 import type Evaluator from '@runtime/Evaluator';
 import Finish from '@runtime/Finish';
 import FunctionValue from '@runtime/FunctionValue';
 import List from '@runtime/List';
-import Measurement from '@runtime/Measurement';
+import Number from '@runtime/Number';
 import Start from '@runtime/Start';
 import type Step from '@runtime/Step';
 import TypeException from '@runtime/TypeException';
@@ -37,7 +37,7 @@ export default class HOFListAll extends HOF {
         return [
             new Start(this),
             new Initialize(this, (evaluator) => {
-                evaluator.bind(INDEX, new Measurement(this, 1));
+                evaluator.bind(INDEX, new Number(this, 1));
                 return undefined;
             }),
             new Next(this, (evaluator) => {
@@ -45,10 +45,10 @@ export default class HOFListAll extends HOF {
                 const index = evaluator.resolve(INDEX);
                 const list = evaluation?.getClosure();
                 // If the index is past the last index of the list, jump to the end.
-                if (!(index instanceof Measurement))
+                if (!(index instanceof Number))
                     return evaluator.getValueOrTypeException(
                         this,
-                        MeasurementType.make(),
+                        NumberType.make(),
                         index
                     );
                 else if (!(list instanceof List))
@@ -103,20 +103,17 @@ export default class HOFListAll extends HOF {
 
                 // Get the current index
                 const index = evaluator.resolve(INDEX);
-                if (!(index instanceof Measurement))
+                if (!(index instanceof Number))
                     return new TypeException(
                         this,
                         evaluator,
-                        MeasurementType.make(),
+                        NumberType.make(),
                         matched
                     );
 
                 // If it matched, increment and jump to the conditional.
                 if (matched.bool) {
-                    evaluator.bind(
-                        INDEX,
-                        index.add(this, new Measurement(this, 1))
-                    );
+                    evaluator.bind(INDEX, index.add(this, new Number(this, 1)));
                     evaluator.jump(-2);
                 }
                 // Otherwise, go to the last step and fail.
@@ -132,10 +129,10 @@ export default class HOFListAll extends HOF {
 
         // Get the index and list.
         const index = evaluator.resolve(INDEX);
-        if (!(index instanceof Measurement))
+        if (!(index instanceof Number))
             return evaluator.getValueOrTypeException(
                 this,
-                MeasurementType.make(),
+                NumberType.make(),
                 index
             );
         const list = evaluator.getCurrentEvaluation()?.getClosure();

@@ -3,7 +3,7 @@ import BooleanType from '@nodes/BooleanType';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import FunctionType from '@nodes/FunctionType';
 import ListType from '@nodes/ListType';
-import MeasurementType from '@nodes/MeasurementType';
+import NumberType from '@nodes/NumberType';
 import NameType from '@nodes/NameType';
 import NoneType from '@nodes/NoneType';
 import TextType from '@nodes/TextType';
@@ -23,7 +23,7 @@ import NativeHOFListUntil from './HOFListUntil';
 import Set from '@runtime/Set';
 import StructureDefinition from '@nodes/StructureDefinition';
 import Block, { BlockKind } from '@nodes/Block';
-import Measurement from '@runtime/Measurement';
+import Number from '@runtime/Number';
 import type Evaluation from '@runtime/Evaluation';
 import TypeVariables from '@nodes/TypeVariables';
 import { getDocLocales } from '@locale/getDocLocales';
@@ -78,7 +78,7 @@ export default function bootstrapList(locales: Locale[]) {
                     locales,
                     (t) => t.native.List.function.translate.index.names
                 ),
-                MeasurementType.make()
+                NumberType.make()
             ),
         ],
         translateTypeVariable.getReference()
@@ -194,7 +194,7 @@ export default function bootstrapList(locales: Locale[]) {
                     locales,
                     (t) => t.native.List.function.combine.index.names
                 ),
-                MeasurementType.make()
+                NumberType.make()
             ),
         ],
         combineTypeVariable.getReference()
@@ -305,7 +305,7 @@ export default function bootstrapList(locales: Locale[]) {
                                     t.native.List.function.replace.inputs[0].doc
                             ),
                             replaceIndexNames,
-                            MeasurementType.make()
+                            NumberType.make()
                         ),
                         Bind.make(
                             getDocLocales(
@@ -324,7 +324,7 @@ export default function bootstrapList(locales: Locale[]) {
                         const value = evaluation.resolve(replaceValueNames);
                         if (
                             list instanceof List &&
-                            index instanceof Measurement &&
+                            index instanceof Number &&
                             value !== undefined
                         )
                             return list.replace(requestor, index, value);
@@ -387,7 +387,7 @@ export default function bootstrapList(locales: Locale[]) {
                     ),
                     undefined,
                     [],
-                    MeasurementType.make(),
+                    NumberType.make(),
                     (requestor, evaluation) => {
                         const list: Value | Evaluation | undefined =
                             evaluation.getClosure();
@@ -419,7 +419,7 @@ export default function bootstrapList(locales: Locale[]) {
                                 .getEvaluator()
                                 .random.latest();
                             return list.get(
-                                new Measurement(
+                                new Number(
                                     evaluation.getEvaluator().getMain(),
                                     Math.floor(
                                         random.toNumber() * list.values.length

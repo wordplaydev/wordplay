@@ -24,7 +24,7 @@ import UnknownNameType from './UnknownNameType';
 import NeverType from './NeverType';
 import type Definition from './Definition';
 import TokenType from './TokenType';
-import MeasurementType from './MeasurementType';
+import NumberType from './NumberType';
 import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import type { Template } from '@locale/Locale';
@@ -105,7 +105,7 @@ export default class BinaryOperation extends Expression {
                         return new NeverType();
                     const type = fun.inputs[0].getType(context);
                     // If this is a measurement type, pass along this binary op so that we can infer units.
-                    return type instanceof MeasurementType
+                    return type instanceof NumberType
                         ? type.withOp(this)
                         : type;
                 },

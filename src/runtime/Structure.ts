@@ -6,7 +6,7 @@ import Evaluation, { type EvaluatorNode } from './Evaluation';
 import type Evaluator from './Evaluator';
 import FunctionValue from './FunctionValue';
 import Value from './Value';
-import Measurement from './Measurement';
+import Number from './Number';
 import Text from './Text';
 import Bool from './Bool';
 import type Names from '@nodes/Names';
@@ -78,9 +78,9 @@ export default class Structure extends Value {
             : new FunctionValue(nativeFun, this);
     }
 
-    getMeasurement(name: string): number | undefined {
+    getNumber(name: string): number | undefined {
         const measurement = this.resolve(name);
-        if (measurement instanceof Measurement) return measurement.toNumber();
+        if (measurement instanceof Number) return measurement.toNumber();
         return undefined;
     }
 

@@ -14,7 +14,7 @@ import { MisplacedThis } from '@conflicts/MisplacedThis';
 import StructureDefinitionType from './StructureDefinitionType';
 import NameException from '@runtime/NameException';
 import ConversionDefinition from './ConversionDefinition';
-import MeasurementType from './MeasurementType';
+import NumberType from './NumberType';
 import StartFinish from '@runtime/StartFinish';
 import Reaction from './Reaction';
 import ValueException from '@runtime/ValueException';
@@ -82,8 +82,8 @@ export default class This extends AtomicExpression {
             : // Conversion definitions have the input type
             structure instanceof ConversionDefinition
             ? // We strip the unit from this in order to provide a scalar for conversion.
-              structure.input instanceof MeasurementType
-                ? MeasurementType.make()
+              structure.input instanceof NumberType
+                ? NumberType.make()
                 : structure.input
             : // Reactions have the reaction's value type
             structure instanceof Reaction

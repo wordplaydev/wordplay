@@ -4,7 +4,7 @@ import type Context from './Context';
 import Token from './Token';
 import type Evaluator from '@runtime/Evaluator';
 import type Step from '@runtime/Step';
-import Measurement from '@runtime/Measurement';
+import Number from '@runtime/Number';
 import Unit from './Unit';
 import TokenType from './TokenType';
 import { BORROW_SYMBOL } from '@parser/Symbols';
@@ -241,7 +241,7 @@ export default class Borrow extends AtomicExpression {
     getVersion() {
         return this.version === undefined
             ? undefined
-            : new Measurement(this, this.version, Unit.Empty).toNumber();
+            : new Number(this, this.version, Unit.Empty).toNumber();
     }
 
     getStart() {

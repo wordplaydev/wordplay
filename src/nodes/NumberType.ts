@@ -7,8 +7,8 @@ import Unit from './Unit';
 import BinaryOperation from './BinaryOperation';
 import NativeType from './NativeType';
 import UnaryOperation from './UnaryOperation';
-import MeasurementLiteral from './MeasurementLiteral';
-import Measurement from '@runtime/Measurement';
+import NumberLiteral from './NumberLiteral';
+import Number from '@runtime/Number';
 import Evaluate from './Evaluate';
 import PropertyReference from './PropertyReference';
 import type TypeSet from './TypeSet';
@@ -23,7 +23,7 @@ type UnitDeriver = (
     constant: number | undefined
 ) => Unit;
 
-export default class MeasurementType extends NativeType {
+export default class NumberType extends NativeType {
     readonly number: Token;
     readonly unit: Unit | UnitDeriver;
 
@@ -47,7 +47,7 @@ export default class MeasurementType extends NativeType {
         unit?: Unit | UnitDeriver,
         op?: BinaryOperation | UnaryOperation | Evaluate
     ) {
-        return new MeasurementType(
+        return new NumberType(
             new Token(MEASUREMENT_SYMBOL, TokenType.NumberType),
             unit ?? Unit.Empty,
             op
@@ -55,7 +55,7 @@ export default class MeasurementType extends NativeType {
     }
 
     static wildcard() {
-        return MeasurementType.make(Unit.Wildcard);
+        return NumberType.make(Unit.Wildcard);
     }
 
     getGrammar() {
@@ -66,7 +66,7 @@ export default class MeasurementType extends NativeType {
     }
 
     clone(replace?: Replacement) {
-        return new MeasurementType(
+        return new NumberType(
             this.replaceChild('number', this.number, replace),
             this.unit === undefined || this.unit instanceof Function
                 ? this.unit
@@ -88,11 +88,11 @@ export default class MeasurementType extends NativeType {
     }
 
     withOp(op: BinaryOperation | UnaryOperation | Evaluate) {
-        return new MeasurementType(this.number, this.unit, op);
+        return new NumberType(this.number, this.unit, op);
     }
 
-    withUnit(unit: Unit): MeasurementType {
-        return new MeasurementType(this.number, unit);
+    withUnit(unit: Unit): NumberType {
+        return new NumberType(this.number, unit);
     }
 
     acceptsAll(types: TypeSet, context: Context): boolean {
@@ -102,7 +102,7 @@ export default class MeasurementType extends NativeType {
         // See if all of the possible types are compatible.
         for (const possibleType of types.set) {
             // Not a measurement type? Not compatible.
-            if (!(possibleType instanceof MeasurementType)) return false;
+            if (!(possibleType instanceof NumberType)) return false;
 
             // If it is a measurement type, get it's unit.
             const thatUnit = possibleType.concreteUnit(context);
@@ -134,7 +134,7 @@ export default class MeasurementType extends NativeType {
         // If the unit is derived, then there must be an operation for it.
         if (this.op === undefined) {
             console.error(
-                "MeasurementType with derived unit didn't receive an operator, so unit can't be derived."
+                "NumberType with derived unit didn't receive an operator, so unit can't be derived."
             );
             return Unit.Empty;
         }
@@ -156,27 +156,24 @@ export default class MeasurementType extends NativeType {
                 : undefined;
 
         // If either type isn't a measurement type — which shouldn't be possible for binary operations or evaluates — then we just return a blank unit.
-        if (!(leftType instanceof MeasurementType)) return Unit.Empty;
+        if (!(leftType instanceof NumberType)) return Unit.Empty;
         if (
             !(this.op instanceof UnaryOperation) &&
-            !(rightType instanceof MeasurementType)
+            !(rightType instanceof NumberType)
         )
             return Unit.Empty;
 
         // Get the constant from the right if available.
         const constant =
             this.op instanceof BinaryOperation &&
-            this.op.right instanceof MeasurementLiteral
-                ? new Measurement(
-                      this.op.right,
-                      this.op.right.number
-                  ).toNumber()
+            this.op.right instanceof NumberLiteral
+                ? new Number(this.op.right, this.op.right.number).toNumber()
                 : undefined;
 
         // Recursively concretize the left and right units and pass them to the derive the concrete unit.
         return this.unit(
             leftType.concreteUnit(context),
-            rightType instanceof MeasurementType
+            rightType instanceof NumberType
                 ? rightType.concreteUnit(context)
                 : undefined,
             constant
@@ -190,11 +187,11 @@ export default class MeasurementType extends NativeType {
     }
 
     getNodeLocale(translation: Locale) {
-        return translation.node.MeasurementType;
+        return translation.node.NumberType;
     }
 
     getGlyphs() {
-        return Glyphs.Measurement;
+        return Glyphs.Number;
     }
 
     getDescriptionInputs(locale: Locale, context: Context) {

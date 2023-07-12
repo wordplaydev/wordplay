@@ -143,7 +143,7 @@ const GlyphSet = {
     MapLiteral: {
         symbols: SET_OPEN_SYMBOL + BIND_SYMBOL + SET_CLOSE_SYMBOL,
     },
-    Measurement: {
+    Number: {
         symbols: MEASUREMENT_SYMBOL,
     },
     List: {

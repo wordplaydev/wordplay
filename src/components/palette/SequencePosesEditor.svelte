@@ -4,7 +4,7 @@
     import PoseEditor from './PoseEditor.svelte';
     import type Project from '@models/Project';
     import MapLiteral from '@nodes/MapLiteral';
-    import MeasurementLiteral from '@nodes/MeasurementLiteral';
+    import NumberLiteral from '@nodes/NumberLiteral';
     import { createPoseLiteral } from '@output/Pose';
     import Evaluate from '@nodes/Evaluate';
     import OutputExpression from '@transforms/OutputExpression';
@@ -23,7 +23,7 @@
         map.values.every(
             (kv) =>
                 kv instanceof KeyValue &&
-                kv.key instanceof MeasurementLiteral &&
+                kv.key instanceof NumberLiteral &&
                 kv.value instanceof Evaluate &&
                 kv.value.is(
                     project.shares.output.pose,
@@ -33,7 +33,7 @@
 
     function revisePercent(kv: KeyValue | Expression, percent: string) {
         let text = percent.replace('%', '');
-        const number = MeasurementLiteral.make(text, Unit.make(['%']));
+        const number = NumberLiteral.make(text, Unit.make(['%']));
         if (kv instanceof KeyValue && number.isInteger())
             $creator.reviseProjectNodes(project, [[kv.key, number]]);
     }
@@ -44,9 +44,8 @@
         revise([
             ...map.values.slice(0, index + 1),
             KeyValue.make(
-                MeasurementLiteral.make(
-                    kv instanceof KeyValue &&
-                        kv.key instanceof MeasurementLiteral
+                NumberLiteral.make(
+                    kv instanceof KeyValue && kv.key instanceof NumberLiteral
                         ? kv.key.number.getText().replace('%', '')
                         : 0
                 ),
@@ -107,8 +106,7 @@
                                 if (
                                     previous &&
                                     previous instanceof KeyValue &&
-                                    previous.key instanceof
-                                        MeasurementLiteral &&
+                                    previous.key instanceof NumberLiteral &&
                                     number / 100 <
                                         previous.key.getValue().num.toNumber()
                                 )
@@ -116,7 +114,7 @@
                                 if (
                                     next &&
                                     next instanceof KeyValue &&
-                                    next.key instanceof MeasurementLiteral &&
+                                    next.key instanceof NumberLiteral &&
                                     number / 100 >
                                         next.key.getValue().num.toNumber()
                                 )

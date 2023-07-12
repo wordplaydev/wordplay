@@ -2,7 +2,7 @@ import type Context from '@nodes/Context';
 import SetType from '@nodes/SetType';
 import UnionType from '@nodes/UnionType';
 import Bool from './Bool';
-import Measurement from './Measurement';
+import Number from './Number';
 import Primitive from './Primitive';
 import type Value from './Value';
 import type LanguageCode from '@locale/LanguageCode';
@@ -26,7 +26,7 @@ export default class Set extends Primitive {
     }
 
     size(requestor: Expression) {
-        return new Measurement(requestor, this.values.length);
+        return new Number(requestor, this.values.length);
     }
 
     has(requestor: Expression, key: Value) {

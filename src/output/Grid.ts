@@ -5,7 +5,7 @@ import type TypeOutput from './TypeOutput';
 import type RenderContext from './RenderContext';
 import { getBind } from '@locale/getBind';
 import Arrangement from './Arrangement';
-import Measurement from '../runtime/Measurement';
+import Number from '../runtime/Number';
 import Place from './Place';
 import None from '../runtime/None';
 import concretize from '../locale/concretize';
@@ -33,22 +33,20 @@ export class Grid extends Arrangement {
 
     constructor(
         value: Value,
-        rows: Measurement,
-        columns: Measurement,
-        padding: Measurement,
-        cellWidth: Measurement | None,
-        cellHeight: Measurement | None
+        rows: Number,
+        columns: Number,
+        padding: Number,
+        cellWidth: Number | None,
+        cellHeight: Number | None
     ) {
         super(value);
         this.rows = Math.max(1, rows.toNumber());
         this.columns = Math.max(1, columns.toNumber());
         this.padding = padding.toNumber();
         this.cellWidth =
-            cellWidth instanceof Measurement ? cellWidth.toNumber() : undefined;
+            cellWidth instanceof Number ? cellWidth.toNumber() : undefined;
         this.cellHeight =
-            cellHeight instanceof Measurement
-                ? cellHeight.toNumber()
-                : undefined;
+            cellHeight instanceof Number ? cellHeight.toNumber() : undefined;
     }
 
     getLayout(outputs: (TypeOutput | null)[], context: RenderContext) {
@@ -175,11 +173,11 @@ export function toGrid(
     const padding = value.resolve(GridType.inputs[2].names.getNames()[0]);
     const cellWidth = value.resolve(GridType.inputs[3].names.getNames()[0]);
     const cellHeight = value.resolve(GridType.inputs[4].names.getNames()[0]);
-    return rows instanceof Measurement &&
-        columns instanceof Measurement &&
-        padding instanceof Measurement &&
-        (cellWidth instanceof Measurement || cellWidth instanceof None) &&
-        (cellHeight instanceof Measurement || cellHeight instanceof None)
+    return rows instanceof Number &&
+        columns instanceof Number &&
+        padding instanceof Number &&
+        (cellWidth instanceof Number || cellWidth instanceof None) &&
+        (cellHeight instanceof Number || cellHeight instanceof None)
         ? new Grid(value, rows, columns, padding, cellWidth, cellHeight)
         : undefined;
 }

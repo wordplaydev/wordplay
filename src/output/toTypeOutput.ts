@@ -15,7 +15,7 @@ import { NameGenerator, toBoolean, toDecimal, toStage } from './Stage';
 import { toPlace } from './Place';
 import { toPose } from './Pose';
 import { toSequence } from './Sequence';
-import Measurement from '../runtime/Measurement';
+import Number from '../runtime/Number';
 import Text from '../runtime/Text';
 import { toGrid } from './Grid';
 import None from '../runtime/None';
@@ -125,8 +125,7 @@ export function getStyle(
         enter,
         move,
         exit,
-        duration:
-            duration instanceof Measurement ? duration.toNumber() : undefined,
+        duration: duration instanceof Number ? duration.toNumber() : undefined,
         style: style instanceof Text ? style.text : undefined,
     };
 }

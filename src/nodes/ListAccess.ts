@@ -1,13 +1,13 @@
 import type Conflict from '@conflicts/Conflict';
 import Expression from './Expression';
 import ListType from './ListType';
-import MeasurementType from './MeasurementType';
+import NumberType from './NumberType';
 import Token from './Token';
 import Type from './Type';
 import type Evaluator from '@runtime/Evaluator';
 import type Value from '@runtime/Value';
 import List from '@runtime/List';
-import Measurement from '@runtime/Measurement';
+import Number from '@runtime/Number';
 import type Step from '@runtime/Step';
 import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
@@ -18,7 +18,7 @@ import type Bind from './Bind';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import ListOpenToken from './ListOpenToken';
 import ListCloseToken from './ListCloseToken';
-import MeasurementLiteral from './MeasurementLiteral';
+import NumberLiteral from './NumberLiteral';
 import type { Replacement } from './Node';
 import type Locale from '@locale/Locale';
 import { NotAType } from './NotAType';
@@ -76,7 +76,7 @@ export default class ListAccess extends Expression {
                 types: [Expression],
                 label: (translation: Locale) => translation.term.index,
                 // Must be a number
-                getType: () => MeasurementType.make(),
+                getType: () => NumberType.make(),
             },
             { name: 'close', types: [Token] },
         ];
@@ -116,15 +116,11 @@ export default class ListAccess extends Expression {
         const indexType = this.index.getType(context);
 
         if (
-            !(indexType instanceof MeasurementType) ||
+            !(indexType instanceof NumberType) ||
             (indexType.unit instanceof Unit && !indexType.unit.isUnitless())
         )
             conflicts.push(
-                new IncompatibleInput(
-                    this.index,
-                    indexType,
-                    MeasurementType.make()
-                )
+                new IncompatibleInput(this.index, indexType, NumberType.make())
             );
 
         return conflicts;
@@ -136,7 +132,7 @@ export default class ListAccess extends Expression {
         if (listType instanceof ListType && listType.type instanceof Type) {
             if (
                 listType.length !== undefined &&
-                this.index instanceof MeasurementLiteral &&
+                this.index instanceof NumberLiteral &&
                 this.index.getValue().num.greaterThanOrEqualTo(1) &&
                 this.index.getValue().num.lessThanOrEqualTo(listType.length)
             )
@@ -168,8 +164,8 @@ export default class ListAccess extends Expression {
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
         if (prior) return prior;
 
-        const index = evaluator.popValue(this, MeasurementType.make());
-        if (!(index instanceof Measurement) || !index.num.isInteger())
+        const index = evaluator.popValue(this, NumberType.make());
+        if (!(index instanceof Number) || !index.num.isInteger())
             return new None(this);
 
         const list = evaluator.popValue(this, ListType.make());

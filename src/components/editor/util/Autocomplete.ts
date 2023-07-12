@@ -30,7 +30,7 @@ import Token from '@nodes/Token';
 import Dimension from '@nodes/Dimension';
 import Type from '@nodes/Type';
 import BooleanType from '@nodes/BooleanType';
-import MeasurementType from '@nodes/MeasurementType';
+import NumberType from '@nodes/NumberType';
 import TextType from '@nodes/TextType';
 import ListType from '@nodes/ListType';
 import SetType from '@nodes/SetType';
@@ -705,9 +705,9 @@ function getPossibleNodes(
             return [
                 BooleanType.make(),
                 ...[
-                    MeasurementType.make(),
+                    NumberType.make(),
                     ...getPossibleUnits(context.project).map((u) =>
-                        MeasurementType.make(u)
+                        NumberType.make(u)
                     ),
                 ],
                 ...[
@@ -799,7 +799,7 @@ function getPostfixEdits(context: Context, expr: Expression): Transform[] {
                       ),
                   ]
                 : []),
-            ...(type instanceof MeasurementType
+            ...(type instanceof NumberType
                 ? [
                       new Replace(
                           context,
@@ -821,7 +821,7 @@ function getPostfixEdits(context: Context, expr: Expression): Transform[] {
                           expr,
                           ListAccess.make(
                               expr,
-                              ExpressionPlaceholder.make(MeasurementType.make())
+                              ExpressionPlaceholder.make(NumberType.make())
                           )
                       ),
                   ]

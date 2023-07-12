@@ -1,7 +1,7 @@
 import type Context from '@nodes/Context';
 import MapType from '@nodes/MapType';
 import UnionType from '@nodes/UnionType';
-import Measurement from './Measurement';
+import Number from './Number';
 import None from './None';
 import Primitive from './Primitive';
 import type Value from './Value';
@@ -32,7 +32,7 @@ export default class Map extends Primitive {
     }
 
     size(requestor: Expression) {
-        return new Measurement(requestor, this.values.length);
+        return new Number(requestor, this.values.length);
     }
 
     has(requestor: Expression, key: Value) {

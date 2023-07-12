@@ -2,7 +2,7 @@ import Evaluate from '@nodes/Evaluate';
 import type Project from '@models/Project';
 import Bind from '@nodes/Bind';
 import Expression from '@nodes/Expression';
-import MeasurementLiteral from '@nodes/MeasurementLiteral';
+import NumberLiteral from '@nodes/NumberLiteral';
 import Reference from '@nodes/Reference';
 import Unit from '@nodes/Unit';
 import type LanguageCode from '@locale/LanguageCode';
@@ -15,15 +15,15 @@ import { toExpression } from '../../parser/Parser';
 import { creator } from '../../db/Creator';
 import { get } from 'svelte/store';
 
-export function getMeasurement(given: Expression): number | undefined {
+export function getNumber(given: Expression): number | undefined {
     const measurement =
-        given instanceof MeasurementLiteral
+        given instanceof NumberLiteral
             ? given
-            : given instanceof Bind && given.value instanceof MeasurementLiteral
+            : given instanceof Bind && given.value instanceof NumberLiteral
             ? given.value
             : given instanceof UnaryOperation &&
               given.isNegation() &&
-              given.operand instanceof MeasurementLiteral
+              given.operand instanceof NumberLiteral
             ? given.operand
             : undefined;
     return measurement
@@ -65,12 +65,9 @@ export default function moveOutput(
             const y = place?.getMappingFor('y', ctx)?.given;
             const z = place?.getMappingFor('z', ctx)?.given;
 
-            const xValue =
-                x instanceof Expression ? getMeasurement(x) : undefined;
-            const yValue =
-                y instanceof Expression ? getMeasurement(y) : undefined;
-            const zValue =
-                z instanceof Expression ? getMeasurement(z) : undefined;
+            const xValue = x instanceof Expression ? getNumber(x) : undefined;
+            const yValue = y instanceof Expression ? getNumber(y) : undefined;
+            const zValue = z instanceof Expression ? getNumber(z) : undefined;
 
             return [
                 evaluate,
@@ -85,7 +82,7 @@ export default function moveOutput(
                             // If coordinate is computed, and not a literal, don't change it.
                             x instanceof Expression && xValue === undefined
                                 ? x
-                                : MeasurementLiteral.make(
+                                : NumberLiteral.make(
                                       relative
                                           ? new Decimal(xValue ?? 0)
                                                 .add(horizontal)
@@ -95,7 +92,7 @@ export default function moveOutput(
                                   ),
                             y instanceof Expression && yValue === undefined
                                 ? y
-                                : MeasurementLiteral.make(
+                                : NumberLiteral.make(
                                       relative
                                           ? new Decimal(yValue ?? 0)
                                                 .add(vertical)
@@ -105,7 +102,7 @@ export default function moveOutput(
                                   ),
                             z instanceof Expression && zValue !== undefined
                                 ? z
-                                : MeasurementLiteral.make(0, Unit.make(['m'])),
+                                : NumberLiteral.make(0, Unit.make(['m'])),
                         ]
                     ),
                     ctx

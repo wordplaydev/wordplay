@@ -377,7 +377,7 @@ type NodeTexts = {
              * */
             NotAKeyValue: ConflictText;
         }>;
-    MeasurementLiteral: DescriptiveNodeText &
+    NumberLiteral: DescriptiveNodeText &
         AtomicExpressionText &
         Conflicts<{ NotANumber: InternalConflictText }>;
     NativeExpression: NodeText & AtomicExpressionText;
@@ -588,7 +588,7 @@ type NodeTexts = {
      * Description
      * $1: The unit or undefined
      */
-    MeasurementType: DescriptiveNodeText;
+    NumberType: DescriptiveNodeText;
     /**
      * Description
      * $1: Type name

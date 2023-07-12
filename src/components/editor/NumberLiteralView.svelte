@@ -1,10 +1,10 @@
 <svelte:options immutable={true} />
 
 <script lang="ts">
-    import type MeasurementLiteral from '@nodes/MeasurementLiteral';
+    import type NumberLiteral from '@nodes/NumberLiteral';
     import NodeView from './NodeView.svelte';
 
-    export let node: MeasurementLiteral;
+    export let node: NumberLiteral;
 </script>
 
 <NodeView node={node.number} /><NodeView node={node.unit} small />

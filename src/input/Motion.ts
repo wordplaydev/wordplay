@@ -2,13 +2,13 @@ import type Evaluator from '@runtime/Evaluator';
 import { createPlaceStructure } from '@output/Place';
 import TemporalStream from '@runtime/TemporalStream';
 import Bind from '@nodes/Bind';
-import MeasurementLiteral from '@nodes/MeasurementLiteral';
-import MeasurementType from '@nodes/MeasurementType';
+import NumberLiteral from '@nodes/NumberLiteral';
+import NumberType from '@nodes/NumberType';
 import StreamDefinition from '@nodes/StreamDefinition';
 import StreamType from '@nodes/StreamType';
 import StructureDefinitionType from '@nodes/StructureDefinitionType';
 import Unit from '@nodes/Unit';
-import Measurement from '@runtime/Measurement';
+import Number from '@runtime/Number';
 import Structure from '@runtime/Structure';
 import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
@@ -157,11 +157,7 @@ export default class Motion extends TemporalStream<Value> {
                 ?.withValue(
                     creator,
                     RotationName,
-                    new Measurement(
-                        this.definition,
-                        this.angle,
-                        Unit.make(['°'])
-                    )
+                    new Number(this.definition, this.angle, Unit.make(['°']))
                 );
 
             // Finally, add the new place to the stream.
@@ -170,14 +166,14 @@ export default class Motion extends TemporalStream<Value> {
     }
 
     getType() {
-        return StreamType.make(MeasurementType.make(Unit.make(['ms'])));
+        return StreamType.make(NumberType.make(Unit.make(['ms'])));
     }
 }
 
 const SpeedUnit = Unit.make(['m'], ['s']);
-const SpeedType = MeasurementType.make(SpeedUnit);
+const SpeedType = NumberType.make(SpeedUnit);
 const AngleSpeedUnit = Unit.make(['°'], ['s']);
-const AngleSpeedType = MeasurementType.make(AngleSpeedUnit);
+const AngleSpeedType = NumberType.make(AngleSpeedUnit);
 
 export function createMotionDefinition(
     locales: Locale[],
@@ -221,23 +217,23 @@ export function createMotionDefinition(
     const MassBind = Bind.make(
         getDocLocales(locales, (t) => t.input.Motion.mass.doc),
         getNameLocales(locales, (t) => t.input.Motion.mass.names),
-        UnionType.orNone(MeasurementType.make(Unit.make(['kg']))),
+        UnionType.orNone(NumberType.make(Unit.make(['kg']))),
         // Default to 1kg.
-        MeasurementLiteral.make(1, Unit.make(['kg']))
+        NumberLiteral.make(1, Unit.make(['kg']))
     );
 
     const BouncinessBind = Bind.make(
         getDocLocales(locales, (t) => t.input.Motion.bounciness.doc),
         getNameLocales(locales, (t) => t.input.Motion.bounciness.names),
-        UnionType.orNone(MeasurementType.make()),
-        MeasurementLiteral.make(0.75)
+        UnionType.orNone(NumberType.make()),
+        NumberLiteral.make(0.75)
     );
 
     const GravityBind = Bind.make(
         getDocLocales(locales, (t) => t.input.Motion.gravity.doc),
         getNameLocales(locales, (t) => t.input.Motion.gravity.names),
-        UnionType.orNone(MeasurementType.make(Unit.make(['m'], ['s', 's']))),
-        MeasurementLiteral.make(15, Unit.make(['m'], ['s', 's']))
+        UnionType.orNone(NumberType.make(Unit.make(['m'], ['s', 's']))),
+        NumberLiteral.make(15, Unit.make(['m'], ['s', 's']))
     );
 
     const type = new StructureDefinitionType(PhraseType);
@@ -267,21 +263,15 @@ export function createMotionDefinition(
                     ? new Motion(
                           evaluation.getEvaluator(),
                           type,
-                          evaluation.get(VXBind.names, Measurement)?.toNumber(),
-                          evaluation.get(VYBind.names, Measurement)?.toNumber(),
-                          evaluation.get(VZBind.names, Measurement)?.toNumber(),
+                          evaluation.get(VXBind.names, Number)?.toNumber(),
+                          evaluation.get(VYBind.names, Number)?.toNumber(),
+                          evaluation.get(VZBind.names, Number)?.toNumber(),
+                          evaluation.get(VAngleBind.names, Number)?.toNumber(),
+                          evaluation.get(MassBind.names, Number)?.toNumber(),
                           evaluation
-                              .get(VAngleBind.names, Measurement)
+                              .get(BouncinessBind.names, Number)
                               ?.toNumber(),
-                          evaluation
-                              .get(MassBind.names, Measurement)
-                              ?.toNumber(),
-                          evaluation
-                              .get(BouncinessBind.names, Measurement)
-                              ?.toNumber(),
-                          evaluation
-                              .get(GravityBind.names, Measurement)
-                              ?.toNumber()
+                          evaluation.get(GravityBind.names, Number)?.toNumber()
                       )
                     : new ValueException(
                           evaluation.getEvaluator(),
@@ -295,15 +285,13 @@ export function createMotionDefinition(
                         evaluation.getEvaluator().project,
                         evaluation.get(TypeBind.names, Structure)
                     ),
-                    evaluation.get(VXBind.names, Measurement)?.toNumber(),
-                    evaluation.get(VYBind.names, Measurement)?.toNumber(),
-                    evaluation.get(VZBind.names, Measurement)?.toNumber(),
-                    evaluation.get(VAngleBind.names, Measurement)?.toNumber(),
-                    evaluation.get(MassBind.names, Measurement)?.toNumber(),
-                    evaluation
-                        .get(BouncinessBind.names, Measurement)
-                        ?.toNumber(),
-                    evaluation.get(GravityBind.names, Measurement)?.toNumber()
+                    evaluation.get(VXBind.names, Number)?.toNumber(),
+                    evaluation.get(VYBind.names, Number)?.toNumber(),
+                    evaluation.get(VZBind.names, Number)?.toNumber(),
+                    evaluation.get(VAngleBind.names, Number)?.toNumber(),
+                    evaluation.get(MassBind.names, Number)?.toNumber(),
+                    evaluation.get(BouncinessBind.names, Number)?.toNumber(),
+                    evaluation.get(GravityBind.names, Number)?.toNumber()
                 );
             }
         ),

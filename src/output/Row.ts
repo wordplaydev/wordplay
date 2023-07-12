@@ -5,7 +5,7 @@ import type TypeOutput from './TypeOutput';
 import type RenderContext from './RenderContext';
 import Place from './Place';
 import { getBind } from '@locale/getBind';
-import Measurement from '../runtime/Measurement';
+import Number from '../runtime/Number';
 import Arrangement from './Arrangement';
 import Group from './Group';
 import Phrase from './Phrase';
@@ -24,7 +24,7 @@ export function createRowType(locales: Locale[]) {
 export class Row extends Arrangement {
     readonly padding: number;
 
-    constructor(value: Value, padding: Measurement) {
+    constructor(value: Value, padding: Number) {
         super(value);
 
         this.padding = padding.toNumber();
@@ -116,5 +116,5 @@ export function toRow(
     const padding = value.resolve(
         project.shares.output.row.inputs[0].names.getNames()[0]
     );
-    return padding instanceof Measurement ? new Row(value, padding) : undefined;
+    return padding instanceof Number ? new Row(value, padding) : undefined;
 }

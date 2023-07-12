@@ -1,7 +1,7 @@
 import Bind from '../nodes/Bind';
 import FunctionDefinition from '../nodes/FunctionDefinition';
-import MeasurementLiteral from '../nodes/MeasurementLiteral';
-import MeasurementType from '../nodes/MeasurementType';
+import NumberLiteral from '../nodes/NumberLiteral';
+import NumberType from '../nodes/NumberType';
 import Unit from '../nodes/Unit';
 import { parseExpression, toTokens } from '../parser/Parser';
 import { getDocLocales } from '../locale/getDocLocales';
@@ -20,8 +20,8 @@ export function createSway(locales: Locale[]) {
                     locales,
                     (t) => t.output.sequence.sway.angle.names
                 ),
-                MeasurementType.make(Unit.make(['°'])),
-                MeasurementLiteral.make(2, Unit.make(['°']))
+                NumberType.make(Unit.make(['°'])),
+                NumberLiteral.make(2, Unit.make(['°']))
             ),
         ],
         parseExpression(
@@ -49,8 +49,8 @@ export function createBounce(locales: Locale[]) {
                     locales,
                     (t) => t.output.sequence.bounce.height.names
                 ),
-                MeasurementType.make(Unit.make(['m'])),
-                MeasurementLiteral.make(2, Unit.make(['m']))
+                NumberType.make(Unit.make(['m'])),
+                NumberLiteral.make(2, Unit.make(['m']))
             ),
         ],
         parseExpression(

@@ -5,7 +5,7 @@ import Bool from './Bool';
 import None from './None';
 import Decimal from 'decimal.js';
 import Primitive from './Primitive';
-import MeasurementType from '@nodes/MeasurementType';
+import NumberType from '@nodes/NumberType';
 import type Value from './Value';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type Locale from '@locale/Locale';
@@ -16,7 +16,7 @@ import concretize from '../locale/concretize';
  * If all of it's parts are empty, it is not a number.
  * If it's numerator
  */
-export default class Measurement extends Primitive {
+export default class Number extends Primitive {
     readonly num: Decimal;
     readonly unit: Unit;
 
@@ -35,7 +35,7 @@ export default class Measurement extends Primitive {
         }
         // If the number is a token, convert it to a Decimal.
         else if (number instanceof Token) {
-            this.num = Measurement.fromToken(number);
+            this.num = Number.fromToken(number);
         }
         // If it's a Javascript floating point, convert.
         else if (typeof number === 'number') {
@@ -43,7 +43,7 @@ export default class Measurement extends Primitive {
         }
         // If it's a string, try to convert it from one of our known formats to decimal.
         else if (typeof number === 'string') {
-            this.num = Measurement.fromUnknown(number);
+            this.num = Number.fromUnknown(number);
         }
         // Otherwise, we don't know what it is.
         else {
@@ -117,71 +117,67 @@ export default class Measurement extends Primitive {
         return this.num.toNumber();
     }
 
-    root(requestor: Expression, operand: Measurement): Measurement {
-        return new Measurement(
+    root(requestor: Expression, operand: Number): Number {
+        return new Number(
             requestor,
             this.num.pow(new Decimal(1).div(operand.num)),
             this.unit.root(operand.num.toNumber())
         );
     }
 
-    negate(requestor: Expression): Measurement {
-        return new Measurement(requestor, this.num.neg(), this.unit);
+    negate(requestor: Expression): Number {
+        return new Number(requestor, this.num.neg(), this.unit);
     }
 
-    absolute(requestor: Expression): Measurement {
-        return new Measurement(requestor, this.num.abs(), this.unit);
+    absolute(requestor: Expression): Number {
+        return new Number(requestor, this.num.abs(), this.unit);
     }
 
-    add(requestor: Expression, operand: Measurement): Measurement {
-        return new Measurement(requestor, this.num.add(operand.num), this.unit);
+    add(requestor: Expression, operand: Number): Number {
+        return new Number(requestor, this.num.add(operand.num), this.unit);
     }
 
-    subtract(requestor: Expression, operand: Measurement): Measurement {
-        return new Measurement(requestor, this.num.sub(operand.num), this.unit);
+    subtract(requestor: Expression, operand: Number): Number {
+        return new Number(requestor, this.num.sub(operand.num), this.unit);
     }
 
-    multiply(requestor: Expression, operand: Measurement): Measurement {
-        return new Measurement(
+    multiply(requestor: Expression, operand: Number): Number {
+        return new Number(
             requestor,
             this.num.times(operand.num),
             this.unit.product(operand.unit)
         );
     }
 
-    divide(requestor: Expression, divisor: Measurement): Measurement | None {
+    divide(requestor: Expression, divisor: Number): Number | None {
         return divisor.num.isZero()
             ? new None(requestor)
-            : new Measurement(
+            : new Number(
                   requestor,
                   this.num.dividedBy(divisor.num),
                   this.unit.quotient(divisor.unit)
               );
     }
 
-    remainder(requestor: Expression, divisor: Measurement): Measurement | None {
+    remainder(requestor: Expression, divisor: Number): Number | None {
         return divisor.num.isZero()
             ? new None(requestor)
-            : new Measurement(
-                  requestor,
-                  this.num.modulo(divisor.num),
-                  this.unit
-              );
+            : new Number(requestor, this.num.modulo(divisor.num), this.unit);
     }
 
-    floor(requestor: Expression): Measurement | None {
-        return new Measurement(requestor, this.num.floor(), this.unit);
+    floor(requestor: Expression): Number | None {
+        return new Number(requestor, this.num.floor(), this.unit);
     }
 
     isEqualTo(operand: Value): boolean {
         return (
-            operand instanceof Measurement &&
+            operand instanceof Number &&
             this.num.equals(operand.num) &&
             this.unit.isEqualTo(operand.unit)
         );
     }
 
-    greaterThan(requestor: Expression, operand: Measurement): Bool {
+    greaterThan(requestor: Expression, operand: Number): Bool {
         return new Bool(
             requestor,
             this.num.greaterThan(operand.num) &&
@@ -189,15 +185,15 @@ export default class Measurement extends Primitive {
         );
     }
 
-    lessThan(requestor: Expression, operand: Measurement): Bool {
+    lessThan(requestor: Expression, operand: Number): Bool {
         return new Bool(
             requestor,
             this.num.lessThan(operand.num) && this.unit.isEqualTo(operand.unit)
         );
     }
 
-    power(requestor: Expression, operand: Measurement) {
-        return new Measurement(
+    power(requestor: Expression, operand: Number) {
+        return new Number(
             requestor,
             this.num.pow(operand.num),
             this.unit.power(operand.num.toNumber())
@@ -205,23 +201,23 @@ export default class Measurement extends Primitive {
     }
 
     cos(requestor: Expression) {
-        return new Measurement(requestor, this.num.cos(), this.unit);
+        return new Number(requestor, this.num.cos(), this.unit);
     }
 
     sin(requestor: Expression) {
-        return new Measurement(requestor, this.num.sin(), this.unit);
+        return new Number(requestor, this.num.sin(), this.unit);
     }
 
     getType() {
-        return MeasurementType.make(this.unit);
+        return NumberType.make(this.unit);
     }
 
     getNativeTypeName(): NativeTypeName {
         return 'measurement';
     }
 
-    unitless(requestor: Expression): Measurement {
-        return new Measurement(requestor, this.num);
+    unitless(requestor: Expression): Number {
+        return new Number(requestor, this.num);
     }
 
     toWordplay(): string {
@@ -308,7 +304,7 @@ function convertBase(text: string): Decimal {
                     ? 14
                     : d === 'F'
                     ? 15
-                    : Number(d)
+                    : parseInt(d)
             );
         if (integralDigits.find((d) => d >= base) !== undefined) {
             return new Decimal(NaN);
@@ -342,7 +338,7 @@ function convertBase(text: string): Decimal {
                             ? 14
                             : d === 'F'
                             ? 15
-                            : Number(d)
+                            : parseInt(d)
                     );
                 while (fractionalDigits.length > 0) {
                     const digit = fractionalDigits.shift() as number;

@@ -712,16 +712,7 @@
             "name": "list",
             "description": "$1 item list",
             "emotion": "eager",
-            "doc": [
-                "Do you know how to make a @List? I'm how!",
-                "You can put anything in me: @Boolean, @Number, @Text, @None, even other @List, @Set, @Map, or any expression. Here's a simple one:",
-                "⧼['apple' 'banana' 'mango']⧽",
-                "What makes me special is that I keep things in order and I number everything from 1 to however many items are in me. For example, the three words in this list are numbered 1, 2, and 3. You can get values that I'm storing with @ListAccess, using their number.",
-                "For example, the second value in this list is ⧼['banana']⧽",
-                "⧼['apple' 'banana' 'mango'][2]⧽",
-                "I really can have anything in me. Look at this list, with @Text, @Number, and @Time!",
-                "⧼['apple' 10 + 10 Time()]⧽"
-            ],
+            "doc": "See @List.",
             "start": "let's evaluate the items first",
             "finish": "I made a me! $1",
             "item": "item"
@@ -730,18 +721,7 @@
             "name": "map",
             "description": "$1 pairing map",
             "emotion": "kind",
-            "doc": [
-                "I bring characters together to create @Map, providing pairs of *keys* to *values*.",
-                "My keys can be any kind of value, and my values can be any kind of value.",
-                "Some people like to think of my like an index, or a dictionary, where you give me something, and I give you what it's mapped to.",
-                "For example, here's a mapping from numbers to their number words:",
-                "⧼{1: 'one' 2: 'two' 3: 'three'}⧽",
-                "If you wanted to check what something is mapped to, you can give @SetOrMapAccess, a key and they'll give you the value:",
-                "⧼{1: 'one' 2: 'two' 3: 'three'}{1}⧽",
-                "If there is no matching key, I'll give you @None.",
-                "⧼{1: 'one' 2: 'two' 3: 'three'}{0}⧽",
-                "See @Map for all of the wonderful function s@FunctionDefinition for adding things to a mapping, removing things, getting the set of keys or values, and more."
-            ],
+            "doc": "See @Map.",
             "start": "let's evaluate the keys and values first",
             "finish": "I connected everyone, $1",
             "conflict": {
@@ -751,7 +731,7 @@
                 }
             }
         },
-        "MeasurementLiteral": {
+        "NumberLiteral": {
             "name": "number",
             "description": "$1 $2",
             "emotion": "excited",
@@ -887,17 +867,7 @@
             "name": "set",
             "description": "$1 items",
             "emotion": "eager",
-            "doc": [
-                "I make @Set! That means I can contain any number of values, including no values. You can make me like this:",
-                "⧼{1 2 3}⧽",
-                "I'm really good if you want to keep a collection of things without duplicates.",
-                "That means I only contain one of each value. If you give me values I already have, I'll ignore the extras.",
-                "For example, this set has many duplicates:",
-                "⧼{1 1 2 2 3 3}⧽",
-                "I evaluate it to just ⧼{1 2 3}⧽.",
-                "Talk to @Set to see all the cool @FunctionDefinition for adding, removing, combining, and analyzing @Set.",
-                "You can also meet @SetOrMapAccess to get values out of a @Set."
-            ],
+            "doc": "See @Set.",
             "start": "let's evaluate the values first!",
             "finish": "I made a set $1!"
         },
@@ -1077,7 +1047,7 @@
             "emotion": "kind",
             "doc": "$?"
         },
-        "MeasurementType": {
+        "NumberType": {
             "name": "measurement type",
             "description": "$1[$1 | number]",
             "emotion": "precise",
@@ -1309,7 +1279,7 @@
             },
             "conversion": { "text": "$?", "number": "$?" }
         },
-        "Measurement": {
+        "Number": {
             "doc": [
                 "I create @Number, with any number of units you can imagine!",
                 "Here are my top 5:",
@@ -1472,10 +1442,16 @@
         },
         "List": {
             "doc": [
-                "We group values in sequence.",
-                "Keeping this in order is our mission; but we can only do that if we stay together ([])."
+                "Do you know how to make a @List? I'm how!",
+                "You can put anything in me: @Boolean, @Number, @Text, @None, even other @List, @Set, @Map, or any expression. Here's a simple one:",
+                "⧼['apple' 'banana' 'mango']⧽",
+                "What makes me special is that I keep things in order and I number everything from 1 to however many items are in me. For example, the three words in this list are numbered 1, 2, and 3. You can get values that I'm storing with @ListAccess, using their number.",
+                "For example, the second value in this list is ⧼['banana']⧽",
+                "⧼['apple' 'banana' 'mango'][2]⧽",
+                "I really can have anything in me. Look at this list, with @Text, @Number, and @Time!",
+                "⧼['apple' 10 + 10 Time()]⧽"
             ],
-            "name": ["[]", "list"],
+            "name": ["[]", "List"],
             "kind": "Kind",
             "out": "Result",
             "outofbounds": "outofbounds",
@@ -1590,8 +1566,15 @@
         },
         "Set": {
             "doc": [
-                "We group unique values in no particular order.",
-                "We don't like it when there's more than one value of a particular kind! Everything must be unique."
+                "I make @Set! That means I can contain any number of values, including no values. You can make me like this:",
+                "⧼{1 2 3}⧽",
+                "I'm really good if you want to keep a collection of things without duplicates.",
+                "That means I only contain one of each value. If you give me values I already have, I'll ignore the extras.",
+                "For example, this set has many duplicates:",
+                "⧼{1 1 2 2 3 3}⧽",
+                "I evaluate it to just ⧼{1 2 3}⧽.",
+                "Talk to @Set to see all the cool @FunctionDefinition for adding, removing, combining, and analyzing @Set.",
+                "You can also meet @SetOrMapAccess to get values out of a @Set."
             ],
             "name": ["{}", "Set"],
             "kind": "Kind",
@@ -1648,8 +1631,16 @@
         },
         "Map": {
             "doc": [
-                "We map one set of values to another set of values.",
-                "Everything inside us must be connected, but to only one thing."
+                "I bring characters together to create @Map, providing pairs of *keys* to *values*.",
+                "My keys can be any kind of value, and my values can be any kind of value.",
+                "Some people like to think of my like an index, or a dictionary, where you give me something, and I give you what it's mapped to.",
+                "For example, here's a mapping from numbers to their number words:",
+                "⧼{1: 'one' 2: 'two' 3: 'three'}⧽",
+                "If you wanted to check what something is mapped to, you can give @SetOrMapAccess, a key and they'll give you the value:",
+                "⧼{1: 'one' 2: 'two' 3: 'three'}{1}⧽",
+                "If there is no matching key, I'll give you @None.",
+                "⧼{1: 'one' 2: 'two' 3: 'three'}{0}⧽",
+                "See @Map for all of the wonderful function s@FunctionDefinition for adding things to a mapping, removing things, getting the set of keys or values, and more."
             ],
             "name": ["{:}", "Map"],
             "key": "Key",

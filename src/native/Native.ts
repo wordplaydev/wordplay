@@ -12,7 +12,7 @@ import bootstrapNone from './NoneNative';
 import bootstrapBool from './BoolNative';
 import bootstrapText from './TextNative';
 import bootstrapList from './ListNative';
-import bootstrapMeasurement from './MeasurementNative';
+import bootstrapNumber from './NumberNative';
 import bootstrapSet from './SetNative';
 import bootstrapMap from './MapNative';
 import Block from '@nodes/Block';
@@ -37,7 +37,7 @@ export class Native {
         this.addStructure('boolean', bootstrapBool(locales));
         this.addStructure('text', bootstrapText(locales));
         this.addStructure('list', bootstrapList(locales));
-        this.addStructure('measurement', bootstrapMeasurement(locales));
+        this.addStructure('measurement', bootstrapNumber(locales));
         this.addStructure('set', bootstrapSet(locales));
         this.addStructure('map', bootstrapMap(locales));
 
