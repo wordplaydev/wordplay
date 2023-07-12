@@ -819,7 +819,7 @@
             "finish": "I evaluated to $1",
             "done": "done evaluating",
             "exception": {
-                "BlankException": "I'm so excited to put on a show with you! Where should we start?",
+                "BlankException": "I'm excited to put on a show with you! Where should we start?",
                 "EvaluationLimitException": "I evaluated too many functions, especially $1",
                 "StepLimitException": "I evaluated too many steps in this function",
                 "ValueException": "Oh no! I expected a value, but I didn't get one"
