@@ -1,11 +1,12 @@
 import Expression from './Expression';
-import Node, { type Replacement } from './Node';
+import type { Replacement } from './Node';
 import Token from './Token';
 import BindToken from './BindToken';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';
+import Node from './Node';
 
 export default class KeyValue extends Node {
     readonly key: Expression;

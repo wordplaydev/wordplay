@@ -1720,6 +1720,9 @@
               ],
               "type": "object"
             },
+            "Branch": {
+              "$ref": "#/definitions/NodeText"
+            },
             "Changed": {
               "additionalProperties": false,
               "description": "Start $1: stream that changed",
@@ -2494,7 +2497,6 @@
             },
             "MeasurementLiteral": {
               "additionalProperties": false,
-              "description": "Description $1: number $1: unit Start $1: the node",
               "properties": {
                 "conflict": {
                   "additionalProperties": false,
@@ -2537,6 +2539,10 @@
             "MeasurementType": {
               "$ref": "#/definitions/DescriptiveNodeText",
               "description": "Description $1: The unit or undefined"
+            },
+            "Mention": {
+              "$ref": "#/definitions/DescriptiveNodeText",
+              "description": "Description $1: the name or number mentioned"
             },
             "Name": {
               "$ref": "#/definitions/DescriptiveNodeText",
@@ -2652,7 +2658,8 @@
               "$ref": "#/definitions/NodeText"
             },
             "Paragraph": {
-              "$ref": "#/definitions/NodeText"
+              "$ref": "#/definitions/NodeText",
+              "description": "Description $1: number $1: unit Start $1: the node"
             },
             "Previous": {
               "additionalProperties": false,
@@ -3609,11 +3616,14 @@
             "TypeInputs",
             "TypeVariable",
             "TypeVariables",
+            "Markup",
             "Paragraph",
             "WebLink",
             "ConceptLink",
             "Words",
             "Example",
+            "Mention",
+            "Branch",
             "BinaryOperation",
             "Bind",
             "Block",
@@ -3635,7 +3645,6 @@
             "ListAccess",
             "ListLiteral",
             "MapLiteral",
-            "Markup",
             "MeasurementLiteral",
             "NativeExpression",
             "NoneLiteral",
@@ -4412,6 +4421,9 @@
             "Borrow": {
               "type": "string"
             },
+            "Branch": {
+              "type": "string"
+            },
             "Change": {
               "type": "string"
             },
@@ -4485,6 +4497,9 @@
               "type": "string"
             },
             "ListOpen": {
+              "type": "string"
+            },
+            "Mention": {
               "type": "string"
             },
             "Name": {
@@ -4620,6 +4635,8 @@
             "URL",
             "ExampleOpen",
             "ExampleClose",
+            "Mention",
+            "Branch",
             "None",
             "Type",
             "TypeOperator",

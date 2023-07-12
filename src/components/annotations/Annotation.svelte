@@ -2,7 +2,7 @@
     import { afterUpdate } from 'svelte';
     import { fade } from 'svelte/transition';
     import type { AnnotationInfo } from './Annotations.svelte';
-    import DescriptionView from '@components/concepts/DescriptionView.svelte';
+    import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
     import Speech from '../lore/Speech.svelte';
     import { getConceptIndex } from '../project/Contexts';
     import { creator } from '../../db/Creator';
@@ -60,10 +60,12 @@
                     concept={$index?.getNodeConcept(annotation.node)}
                     invert
                 >
-                    {#each annotation.text as description}
-                        <p>
-                            <DescriptionView {description} />
-                        </p>
+                    {#each annotation.text as markup}
+                        {#if markup.spaces}
+                            <p>
+                                <MarkupHTMLView {markup} />
+                            </p>
+                        {/if}
                     {/each}
                 </Speech>
             </div>

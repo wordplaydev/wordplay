@@ -1,14 +1,16 @@
 import type Conflict from '@conflicts/Conflict';
 import type Locale from '@locale/Locale';
-import Node, { type Field, type Replacement } from './Node';
+import type { Field, Replacement } from './Node';
 import Program from './Program';
 import Token from './Token';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import TokenType from './TokenType';
 import { EXAMPLE_CLOSE_SYMBOL, EXAMPLE_OPEN_SYMBOL } from '../parser/Symbols';
+import Content from './Content';
+import type { TemplateInput } from '../locale/concretize';
 
-export default class Example extends Node {
+export default class Example extends Content {
     readonly open: Token;
     readonly program: Program;
     readonly close: Token | undefined;
@@ -59,5 +61,13 @@ export default class Example extends Node {
 
     getGlyphs() {
         return Glyphs.Example;
+    }
+
+    concretize(_: Locale, __: TemplateInput[]): Example {
+        return this;
+    }
+
+    toText() {
+        return this.toWordplay();
     }
 }

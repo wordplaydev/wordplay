@@ -1,5 +1,6 @@
 import Language from './Language';
-import Node, { type Replacement } from './Node';
+import Node from './Node';
+import type { Replacement } from './Node';
 import Token from './Token';
 import type Locale from '@locale/Locale';
 import { DOCS_SYMBOL } from '@parser/Symbols';
@@ -72,7 +73,7 @@ export default class Doc extends Node {
         return first === undefined
             ? ''
             : (first.nodes((n) => n instanceof Words) as Words[])
-                  .map((w) => w.getText())
+                  .map((w) => w.toText())
                   .join();
     }
 

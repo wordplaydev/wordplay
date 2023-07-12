@@ -66,6 +66,8 @@
         "URL": "$?",
         "ExampleOpen": "$?",
         "ExampleClose": "$?",
+        "Mention": "$?",
+        "Branch": "$?",
         "None": "$?",
         "Type": "$?",
         "TypeOperator": "$?",
@@ -215,6 +217,17 @@
             "doc": "$?"
         },
         "Example": {
+            "name": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "Mention": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "Branch": {
             "name": "$?",
             "emotion": "$?",
             "doc": "$?"

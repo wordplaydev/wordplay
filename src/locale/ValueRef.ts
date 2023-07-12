@@ -2,7 +2,7 @@ import type Context from '@nodes/Context';
 import type Locale from './Locale';
 import type Value from '@runtime/Value';
 
-export default class ValueLink {
+export default class ValueRef {
     readonly value: Value;
     readonly translation: Locale;
     readonly context: Context;
@@ -15,5 +15,13 @@ export default class ValueLink {
 
     getDescription() {
         return this.value.toString();
+    }
+
+    toWordplay() {
+        return this.getDescription();
+    }
+
+    toText() {
+        return this.getDescription();
     }
 }

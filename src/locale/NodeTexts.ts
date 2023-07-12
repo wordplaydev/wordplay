@@ -73,6 +73,18 @@ type NodeTexts = {
             DuplicateTypeVariable: ConflictText;
         }>;
     TypeVariables: NodeText;
+    /**
+     * Description
+     * $: paragraph count
+     */
+    Markup: DescriptiveNodeText;
+    /**
+     * Description
+     * $1: number
+     * $1: unit
+     * Start
+     * $1: the node
+     */
     Paragraph: NodeText;
     /**
      * Description
@@ -86,6 +98,12 @@ type NodeTexts = {
     ConceptLink: DescriptiveNodeText;
     Words: NodeText;
     Example: NodeText;
+    /**
+     * Description
+     * $1: the name or number mentioned
+     */
+    Mention: DescriptiveNodeText;
+    Branch: NodeText;
     /**
      * Description
      * $1: the operator
@@ -354,18 +372,6 @@ type NodeTexts = {
              * */
             NotAKeyValue: ConflictText;
         }>;
-    /**
-     * Description
-     * $: paragraph count
-     */
-    Markup: DescriptiveNodeText;
-    /**
-     * Description
-     * $1: number
-     * $1: unit
-     * Start
-     * $1: the node
-     */
     MeasurementLiteral: DescriptiveNodeText &
         AtomicExpressionText &
         Conflicts<{ NotANumber: InternalConflictText }>;

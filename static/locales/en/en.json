@@ -31,7 +31,7 @@
         "none": "none",
         "list": "list",
         "stream": "stream",
-        "structure": "$structure",
+        "structure": "structure",
         "streamdefinition": "stream definition",
         "index": "index",
         "query": "query",
@@ -66,6 +66,8 @@
         "URL": "URL",
         "ExampleOpen": "example open",
         "ExampleClose": "example close",
+        "Mention": "mention",
+        "Branch": "branch",
         "None": "nothing",
         "Type": "type",
         "TypeOperator": "is",
@@ -165,7 +167,7 @@
         },
         "Language": {
             "name": "language",
-            "description": "language $1 ?? [$1|unknown]",
+            "description": "language $1[$1|unknown]",
             "emotion": "eager",
             "doc": [
                 "I'm a language tag and I work with @Name and @Doc!",
@@ -186,7 +188,7 @@
         },
         "Name": {
             "name": "name",
-            "description": "$1 ?? [$1 | unnamed]",
+            "description": "$1[$1 | unnamed]",
             "emotion": "kind",
             "doc": [
                 "I identify a value, and am a helpful way of giving a shorthand label to something that was hard to evaluate, or that you don't want to have to evaluate over and over.",
@@ -254,6 +256,14 @@
             "emotion": "curious",
             "doc": "$? a list of @TypeVariable"
         },
+        "Markup": {
+            "name": "markup",
+            "description": "$1 paragraphs",
+            "emotion": "serious",
+            "doc": [
+                "I'm a list of paragraphs, using the many kinds of markup available in documentation, such as @Words, @WebLink, @ConceptLink, and @Example."
+            ]
+        },
         "Paragraph": {
             "name": "paragraph",
             "emotion": "serious",
@@ -273,14 +283,6 @@
                 "I am a link to something on the internet. I just need a description and a URL:",
                 "⧼`I am a <link@https://wordplay.dev> in a doc`\n'link example'⧽",
                 "If anyone selects me, I'll open a new window to the URL."
-            ]
-        },
-        "Markup": {
-            "name": "markup",
-            "description": "$1 paragraphs",
-            "emotion": "serious",
-            "doc": [
-                "I'm a list of paragraphs, using the many kinds of markup available in documentation, such as @Words, @WebLink, @ConceptLink, and @Example."
             ]
         },
         "ConceptLink": {
@@ -313,6 +315,23 @@
                 "⧼`Here's an example of adding: ⧼1 + 1⧽`'example code'⧽",
                 "If you put me in a paragraph all alone, I'll show up in a fancy box and show the result of evaluating me.",
                 "⧼`Here's an example of adding:\n\n⧼1 + 1⧽`⧽"
+            ]
+        },
+        "Mention": {
+            "name": "mention",
+            "description": "mention $1",
+            "emotion": "serious",
+            "doc": [
+                "I'm a reference to either terminology ⧼$program⧽ or a dynamic input ⧼$1⧽.",
+                "This is mostly an internal feature though, so you shouldn't need to know it."
+            ]
+        },
+        "Branch": {
+            "name": "branch",
+            "emotion": "serious",
+            "doc": [
+                "I'm a way of choosing between two segments of documentation based on whether a documentation input value is defined or true.",
+                "This is mostly an internal feature though, so you shouldn't need to know it."
             ]
         },
         "BinaryOperation": {
@@ -423,7 +442,7 @@
         },
         "BooleanLiteral": {
             "name": "boolean",
-            "description": "$1 ?? [true|false]",
+            "description": "$1[true|false]",
             "emotion": "precise",
             "doc": [
                 "How do you make a @Boolean? Just ⧼⊤⧽ and ⧼⊥⧽, nothing more, nothing less.",
@@ -433,7 +452,7 @@
         },
         "Borrow": {
             "name": "borrow",
-            "description": "borrow $1 ?? [$1|missing name]",
+            "description": "borrow $1[$1|missing name]",
             "emotion": "excited",
             "doc": "$? Use a binding from another $source or performance.",
             "start": "borrowing $2 from $1",
@@ -441,7 +460,7 @@
             "bind": "name",
             "version": "version",
             "conflict": {
-                "UnknownBorrow": "I don't know a $souce by this name",
+                "UnknownBorrow": "I don't know a $source by this name",
                 "BorrowCycle": "this depends on $1, which depends on this $source, so the program can't be evaluated"
             },
             "exception": {
@@ -472,7 +491,7 @@
                 "Aren't you worried that if these are the only kind of decisions we can make, we'll be missing some important context about the world?"
             ],
             "start": "let's see if $1 is true",
-            "else": "$1 ?? [jumping over code | not jumping over code]",
+            "else": "$1[jumping over code | not jumping over code]",
             "afterthen": "done with yes, let's skip no?",
             "finish": "I guess it's $1?",
             "condition": "condition",
@@ -537,7 +556,7 @@
         },
         "Evaluate": {
             "name": "evaluate",
-            "description": "evaluate $1 ?? [$1|anonymous]",
+            "description": "evaluate $1[$1|anonymous]",
             "emotion": "shy",
             "doc": [
                 "Hi. I evaluate my dearest @FunctionDefinition. Like this:",
@@ -586,7 +605,7 @@
         },
         "ExpressionPlaceholder": {
             "name": "placeholder",
-            "description": "$1 ?? [$1|placeholder]",
+            "description": "$1[$1|placeholder]",
             "emotion": "scared",
             "doc": [
                 "I'm an *expression*, but not a real one… I just take the place of one.",
@@ -672,7 +691,7 @@
                 "I'm really helpful when you need to know whether some @Name has a value of a particular kind."
             ],
             "start": "let's get the value of $1 first",
-            "finish": "$1 ?? [value is $2|value is not $2]",
+            "finish": "$1[value is $2|value is not $2]",
             "conflict": {
                 "ImpossibleType": "this can't ever be this type"
             },
@@ -795,7 +814,7 @@
                 ""
             ],
             "unevaluated": "the selected node did not evaluate",
-            "start": "$1 ?? [ stream changed, reevaluating | evaluating for the first time ]",
+            "start": "$1[ stream changed, reevaluating | evaluating for the first time ]",
             "halt": "encountered exception, stopping",
             "finish": "I evaluated to $1",
             "done": "done evaluating",
@@ -808,7 +827,7 @@
         },
         "PropertyBind": {
             "name": "refine",
-            "description": "refine $1 ?? [$1|missing name]",
+            "description": "refine $1[$1|missing name]",
             "emotion": "kind",
             "doc": "$?",
             "start": "get the $structure",
@@ -816,7 +835,7 @@
         },
         "PropertyReference": {
             "name": "property access",
-            "description": "property $1 ?? [$1|missing name]",
+            "description": "property $1[$1|missing name]",
             "emotion": "kind",
             "doc": "$?",
             "start": "first get the value",
@@ -840,12 +859,12 @@
             "doc": "$?",
             "start": "getting the value of $1",
             "conflict": {
-                "UnknownName": "I don't know what I refer to  in $2 ?? [$2|this @Block]",
+                "UnknownName": "I don't know what I refer to  in $2[$2|this @Block]",
                 "ReferenceCycle": "$1 depends on itself, so there's no way to evaluate it.",
                 "UnexpectedTypeVariable": "type inputs not allowed on type variables"
             },
             "exception": {
-                "NameException": "I feel... unbound, with no value. Am I supposed to have a value in $1 ?? [ $1 | this @Block ]?"
+                "NameException": "I feel... unbound, with no value. Am I supposed to have a value in $2[ $2| this @Block]?"
             }
         },
         "Select": {
@@ -956,7 +975,7 @@
             "doc": "$?",
             "start": "evaluated to $1",
             "conflict": {
-                "MisplacedThis": "I'm only allowed in a $structure, $conversion, or $reaction."
+                "MisplacedThis": "I'm only allowed in a $structure, conversion, or reaction."
             }
         },
         "UnaryOperation": {
@@ -986,7 +1005,7 @@
             ],
             "start": "???",
             "conflict": {
-                "UnparsableConflict": "@FunctionDefinition here, @UnparsableExpression doesn't know what kind of $1 ?? [ expression | type ] this is/",
+                "UnparsableConflict": "@FunctionDefinition here, @UnparsableExpression doesn't know what kind of $1[ expression | type ] this is/",
                 "UnclosedDelimiter": "I expected $2 sometime after $1"
             },
             "exception": {
@@ -1039,19 +1058,19 @@
         },
         "ListType": {
             "name": "list type",
-            "description": "$1 ?? [list of $1|list]",
+            "description": "$1[list of $1|list]",
             "emotion": "cheerful",
             "doc": "$?"
         },
         "MapType": {
             "name": "map type",
-            "description": "map from $1 ?? [$1|any] to $2 ?? [$2|any]",
+            "description": "map from $1[$1|any] to $2[$2|any]",
             "emotion": "kind",
             "doc": "$?"
         },
         "MeasurementType": {
             "name": "measurement type",
-            "description": "$1 ?? [$1 | number]",
+            "description": "$1[$1 | number]",
             "emotion": "precise",
             "doc": "$?"
         },
@@ -1076,7 +1095,7 @@
         },
         "SetType": {
             "name": "set type",
-            "description": "$1 ?? [$1|anything] set type",
+            "description": "$1[$1|anything] set type",
             "emotion": "kind",
             "doc": "$?"
         },
@@ -1113,7 +1132,7 @@
         },
         "TextType": {
             "name": "text type",
-            "description": "$1 ?? [$1|text]",
+            "description": "$1[$1|text]",
             "emotion": "happy",
             "doc": "$?"
         },
@@ -1167,7 +1186,7 @@
             "doc": "$?"
         },
         "NotEnclosedType": {
-            "name": "not in $structure, $conversion, or $reaction",
+            "name": "not in $structure, conversion, or reaction",
             "emotion": "curious",
             "doc": "$?"
         },
@@ -1178,7 +1197,7 @@
         },
         "UnknownNameType": {
             "name": "unknown name",
-            "description": "$1 ?? [$1 isn't defined | a name wasn't given]",
+            "description": "$1[$1 isn't defined | a name wasn't given]",
             "emotion": "curious",
             "doc": "$?"
         }
@@ -1877,8 +1896,8 @@
         "tooltip": {
             "yes": "confirm",
             "no": "cancel",
-            "play": "evaluate the $program fully",
-            "pause": "evaluate the $program one step at a time",
+            "play": "evaluate the program fully",
+            "pause": "evaluate the program one step at a time",
             "back": "back one step",
             "backInput": "back one input",
             "out": "step out of this function",
@@ -1980,7 +1999,7 @@
             "add": "add $1",
             "append": "append $1",
             "remove": "remove $1",
-            "replace": "replace with $1 ?? [$1|nothing]",
+            "replace": "replace with $1[$1|nothing]",
             "wrap": "parentheize",
             "unwrap": "unwrap",
             "bind": "name this expression"

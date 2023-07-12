@@ -1,10 +1,11 @@
-import Node, { type Replacement } from './Node';
+import type { Replacement } from './Node';
 import Names from './Names';
 import type LanguageCode from '@locale/LanguageCode';
 import type Locale from '@locale/Locale';
 import NameType from './NameType';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
+import Node from './Node';
 
 export default class TypeVariable extends Node {
     readonly names: Names;

@@ -3,7 +3,7 @@ import type Evaluator from './Evaluator';
 import type Value from './Value';
 import type Expression from '@nodes/Expression';
 import type Locale from '@locale/Locale';
-import Description from '../locale/Description';
+import concretize from '../locale/concretize';
 
 export default class Next extends Step {
     action?: (evaluator: Evaluator) => Value | undefined;
@@ -21,6 +21,6 @@ export default class Next extends Step {
     }
 
     getExplanations(locale: Locale) {
-        return Description.as(locale.node.HOF.next);
+        return concretize(locale, locale.node.HOF.next);
     }
 }

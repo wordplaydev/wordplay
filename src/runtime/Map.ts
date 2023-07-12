@@ -14,7 +14,7 @@ import {
 import type { NativeTypeName } from '../native/NativeConstants';
 import type Locale from '@locale/Locale';
 import type Expression from '../nodes/Expression';
-import Description from '../locale/Description';
+import concretize from '../locale/concretize';
 
 export default class Map extends Primitive {
     readonly values: [Value, Value][];
@@ -123,8 +123,8 @@ export default class Map extends Primitive {
             .join(' ')}${SET_CLOSE_SYMBOL}`;
     }
 
-    getDescription(translation: Locale) {
-        return Description.as(translation.term.map);
+    getDescription(locale: Locale) {
+        return concretize(locale, locale.term.map);
     }
 
     getSize() {

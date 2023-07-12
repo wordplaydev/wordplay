@@ -4,7 +4,7 @@ import type Locale from '@locale/Locale';
 import type Token from '@nodes/Token';
 import Value from './Value';
 import NodeRef from '@locale/NodeRef';
-import ValueLink from '@locale/ValueRef';
+import ValueRef from '@locale/ValueRef';
 import concretize from '../locale/concretize';
 import type Expression from '../nodes/Expression';
 
@@ -37,7 +37,7 @@ export default class NameException extends Exception {
                   )
                 : undefined,
             this.scope instanceof Value
-                ? new ValueLink(
+                ? new ValueRef(
                       this.scope,
                       locale,
                       this.getNodeContext(this.scope.creator)

@@ -3,7 +3,7 @@ import type Evaluator from './Evaluator';
 import type Value from './Value';
 import type Expression from '@nodes/Expression';
 import type Locale from '@locale/Locale';
-import type Description from '../locale/Description';
+import type Markup from '../nodes/Markup';
 
 /** Represents one step a compiled program's execution. */
 export default abstract class Step {
@@ -16,10 +16,7 @@ export default abstract class Step {
 
     abstract evaluate(evaluator: Evaluator): Value | undefined;
 
-    abstract getExplanations(
-        translation: Locale,
-        evaluator: Evaluator
-    ): Description;
+    abstract getExplanations(translation: Locale, evaluator: Evaluator): Markup;
 
     toString() {
         return `${this.constructor.name} (${this.node.constructor.name}) ${

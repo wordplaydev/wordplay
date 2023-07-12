@@ -1,7 +1,7 @@
 import Exception from './Exception';
 import type Evaluator from './Evaluator';
-import Description from '../locale/Description';
 import type Expression from '../nodes/Expression';
+import Markup from '../nodes/Markup';
 
 export default class InternalException extends Exception {
     readonly reason: string;
@@ -11,6 +11,6 @@ export default class InternalException extends Exception {
     }
 
     getDescription() {
-        return Description.as(this.reason);
+        return Markup.words(this.reason);
     }
 }

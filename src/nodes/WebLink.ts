@@ -7,13 +7,14 @@ import {
     TAG_CLOSE_SYMBOL,
     TAG_OPEN_SYMBOL,
 } from '../parser/Symbols';
-import Node, { type Field, type Replacement } from './Node';
+import type { Field, Replacement } from './Node';
 import Token from './Token';
 import TokenType from './TokenType';
 import type { TemplateInput } from '../locale/concretize';
 import type Context from './Context';
+import Content from './Content';
 
-export default class WebLink extends Node {
+export default class WebLink extends Content {
     readonly open: Token;
     readonly description: Token | undefined;
     readonly at: Token | undefined;
@@ -84,5 +85,13 @@ export default class WebLink extends Node {
 
     getDescriptionInputs(_: Locale, __: Context): TemplateInput[] {
         return [this.url?.getText()];
+    }
+
+    concretize(_: Locale, __: TemplateInput[]): WebLink {
+        return this;
+    }
+
+    toText() {
+        return this.description?.getText() ?? '';
     }
 }

@@ -24,7 +24,7 @@
             undefined,
         ]}
         {#if doc && spaces}
-            <MarkupHTMLView markup={doc.markup} {spaces} />
+            <MarkupHTMLView markup={doc.markup} />
         {:else}
             {trans.ui.labels.nodoc}
         {/if}

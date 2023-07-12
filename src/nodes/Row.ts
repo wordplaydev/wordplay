@@ -1,10 +1,11 @@
-import Node, { type Replacement } from './Node';
+import type { Replacement } from './Node';
 import Token from './Token';
 import Bind from './Bind';
 import Expression from './Expression';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
+import Node from './Node';
 
 export default class Row extends Node {
     readonly open: Token;

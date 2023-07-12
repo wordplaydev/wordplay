@@ -15,6 +15,7 @@
     import type Value from '@runtime/Value';
     import Space from './Space.svelte';
     import Token from '../../nodes/Token';
+    import concretize from '../../locale/concretize';
 
     export let node: Node | undefined;
     export let small: boolean = false;
@@ -24,10 +25,13 @@
 
     $: description =
         node && $evaluation && translations && translations.length > 0
-            ? node.getDescription(
-                  translations[0],
-                  $evaluation.evaluator.project.getNodeContext(node)
-              )
+            ? node
+                  .getDescription(
+                      concretize,
+                      translations[0],
+                      $evaluation.evaluator.project.getNodeContext(node)
+                  )
+                  .toText()
             : null;
 
     let value: Value | undefined;

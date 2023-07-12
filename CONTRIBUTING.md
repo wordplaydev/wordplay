@@ -141,7 +141,6 @@ All `doc` fields in the locale (and all dialog) can use the following formatting
 
 | Format         | Example                                              |
 | -------------- | ---------------------------------------------------- |
-| Light          | `\|I am light\|`                                     |
 | **Bold**       | `*I am bold*`                                        |
 | _Italic_       | `/I am italic/`                                      |
 | **Extra bold** | `^I am extra bold^`                                  |

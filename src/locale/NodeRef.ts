@@ -1,6 +1,7 @@
 import type Context from '@nodes/Context';
 import type Locale from './Locale';
 import type Node from '@nodes/Node';
+import concretize from './concretize';
 
 export default class NodeRef {
     readonly node: Node;
@@ -27,11 +28,21 @@ export default class NodeRef {
     getDescription(): string {
         return (
             this.description ??
-            this.node.getDescription(this.locale, this.context).toString()
+            this.node
+                .getDescription(concretize, this.locale, this.context)
+                .toText()
         );
     }
 
     toString(): string {
+        return this.getDescription();
+    }
+
+    toWordplay() {
+        return this.getDescription();
+    }
+
+    toText() {
         return this.getDescription();
     }
 }

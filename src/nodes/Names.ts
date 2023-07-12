@@ -1,4 +1,4 @@
-import Node, { type Replacement } from './Node';
+import type { Replacement } from './Node';
 import type LanguageCode from '@locale/LanguageCode';
 import Name from './Name';
 import Token from './Token';
@@ -9,6 +9,7 @@ import Language from './Language';
 import type Locale from '@locale/Locale';
 import Purpose from '../concepts/Purpose';
 import Emotion from '../lore/Emotion';
+import Node from './Node';
 
 export default class Names extends Node {
     readonly names: Name[];

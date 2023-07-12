@@ -1,7 +1,7 @@
 import type Type from '@nodes/Type';
 import NodeRef from '@locale/NodeRef';
 import type Locale from '@locale/Locale';
-import ValueLink from '@locale/ValueRef';
+import ValueRef from '@locale/ValueRef';
 import type Evaluator from './Evaluator';
 import Exception from './Exception';
 import type Value from './Value';
@@ -33,7 +33,7 @@ export default class TypeException extends Exception {
                 locale,
                 this.getNodeContext(this.expected)
             ),
-            new ValueLink(
+            new ValueRef(
                 this.received,
                 locale,
                 this.getNodeContext(this.received.creator)

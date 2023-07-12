@@ -9,7 +9,7 @@ import Primitive from './Primitive';
 import type Value from './Value';
 import type Locale from '@locale/Locale';
 import type Expression from '../nodes/Expression';
-import Description from '../locale/Description';
+import concretize from '../locale/concretize';
 
 export default class Bool extends Primitive {
     readonly bool: boolean;
@@ -65,8 +65,8 @@ export default class Bool extends Primitive {
         return val instanceof Bool && this.bool === val.bool;
     }
 
-    getDescription(translation: Locale) {
-        return Description.as(translation.term.boolean);
+    getDescription(locale: Locale) {
+        return concretize(locale, locale.term.boolean);
     }
 
     getSize() {

@@ -19,7 +19,7 @@ import {
 import type { NativeTypeName } from '../native/NativeConstants';
 import type Locale from '@locale/Locale';
 import type Expression from '../nodes/Expression';
-import Description from '../locale/Description';
+import concretize from '../locale/concretize';
 
 export default class Structure extends Value {
     readonly type: StructureDefinition;
@@ -112,8 +112,8 @@ export default class Structure extends Value {
         )}${EVAL_OPEN_SYMBOL}${bindings.join(' ')}${EVAL_CLOSE_SYMBOL}`;
     }
 
-    getDescription(translation: Locale) {
-        return Description.as(translation.term.structure);
+    getDescription(locale: Locale) {
+        return concretize(locale, locale.term.structure);
     }
 
     /**

@@ -47,12 +47,7 @@ export const PRODUCT_SYMBOL = '·';
 export const QUOTIENT_SYMBOL = '÷';
 export const SUM_SYMBOL = '+';
 export const DIFFERENCE_SYMBOL = '-';
-export const LINK_SYMBOL = '@';
-export const UNDERSCORE_SYMBOL = '_';
-export const ITALIC_SYMBOL = '/';
-export const LIGHT_SYMBOL = '|';
-export const BOLD_SYMBOL = '*';
-export const EXTRA_SYMBOL = '^';
+
 export const UNKNOWN_SYMBOL = '⁇';
 export const EXCEPTION_SYMBOL = '!';
 export const NEVER_SYMBOL = '🚫';
@@ -60,6 +55,13 @@ export const UNPARSABLE_SYMBOL = '🤷🏻‍♀️';
 export const SOURCE_SYMBOL = '📄';
 export const NATIVE_SYMBOL = '🤫';
 export const DEGREE_SYMBOL = '°';
+
+export const LINK_SYMBOL = '@';
+export const UNDERSCORE_SYMBOL = '_';
+export const ITALIC_SYMBOL = '/';
+export const BOLD_SYMBOL = '*';
+export const EXTRA_SYMBOL = '^';
+export const MENTION_SYMBOL = '$';
 
 export const STAGE_SYMBOL = '🎭';
 export const PALETTE_SYMBOL = '🎨';

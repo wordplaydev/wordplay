@@ -18,7 +18,7 @@
     import Source from '../../nodes/Source';
     import { creator, projects } from '../../db/Creator';
     import type Spaces from '../../parser/Spaces';
-    import { parseMarkup, toTokens } from '../../parser/Parser';
+    import { toMarkup } from '../../parser/Parser';
     import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
     import { setContext } from 'svelte';
     import type ConceptIndex from '../../concepts/ConceptIndex';
@@ -60,10 +60,10 @@
         ? dialog.map((line) => {
               const [, , ...text] = line;
               // Convert the list of paragraphs into a single doc.
-              const tokens = toTokens(text.join('\n\n'));
+              const [markup, spaces] = toMarkup(text.join('\n\n'));
               return {
-                  speech: parseMarkup(tokens),
-                  spaces: tokens.getSpaces(),
+                  speech: markup,
+                  spaces: spaces,
                   dialog: line,
               };
           })
@@ -224,10 +224,7 @@
                             scroll={false}
                             emotion={Emotion[turn.dialog[1]]}
                         >
-                            <MarkupHTMLView
-                                markup={turn.speech}
-                                spaces={turn.spaces}
-                            />
+                            <MarkupHTMLView markup={turn.speech} />
                         </Speech>
                     {/each}
                 {/key}

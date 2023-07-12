@@ -1,7 +1,8 @@
-import Description from './Description';
+import Markup from '../nodes/Markup';
+import { toMarkup } from '../parser/Parser';
 import type Locale from './Locale';
 import type NodeRef from './NodeRef';
-import type ValueLink from './ValueRef';
+import type ValueRef from './ValueRef';
 
 export type TemplateInput =
     | number
@@ -9,8 +10,7 @@ export type TemplateInput =
     | string
     | undefined
     | NodeRef
-    | ValueLink
-    | Description;
+    | ValueRef;
 
 /**
  * Takes a localization templae and converts it to a concrete string.
@@ -48,10 +48,11 @@ export default function concretize(
     locale: Locale,
     template: string,
     ...inputs: TemplateInput[]
-): Description {
+): Markup {
     return (
         concretizeOrUndefined(locale, template, ...inputs) ??
-        Description.as('-')
+        // Create a representation of a template that couldn't be concretized.
+        Markup.words('-')
     );
 }
 
@@ -59,170 +60,11 @@ export function concretizeOrUndefined(
     locale: Locale,
     template: string,
     ...inputs: TemplateInput[]
-) {
+): Markup | undefined {
     // Not written? Return the TBD string.
     if (template === '' || template === '$?')
-        return Description.as(locale.ui.placeholders.unwritten);
+        return Markup.words(locale.ui.placeholders.unwritten);
 
-    return parseTemplate(locale, new Template(template), ...inputs);
-}
-
-export function parseTemplate(
-    locale: Locale,
-    template: Template,
-    ...inputs: TemplateInput[]
-): Description | undefined {
-    let description = new Description([]);
-
-    while (
-        !template.empty() &&
-        template.isnt('|') &&
-        template.isnt(']') &&
-        template.isnt('[')
-    ) {
-        // Handle the four escape characters
-        if (template.is('$$')) {
-            template.next(2);
-            description = description.with('$');
-        } else if (template.is('[[')) {
-            template.next(2);
-            description = description.with('[');
-        } else if (template.is(']]')) {
-            template.next(2);
-            description = description.with(']');
-        } else if (template.is('||')) {
-            template.next(2);
-            description = description.with('|');
-        }
-        // Handle $
-        else if (template.is('$')) {
-            // Read the $.
-            template.next();
-            // Is it a number? Resolve to an input.
-            const numberMatch = template.matches(/^[0-9]+/);
-            if (numberMatch !== null) {
-                // Read the match
-                template.next(numberMatch[0].length);
-                // Find the corresponding input
-                const number = parseInt(numberMatch[0]);
-                const input = inputs[number - 1];
-
-                // If there's a conditional after, parse one of those. Otherwise, just add the input.
-                const conditionMatch = template.matches(/^\s+\?\?/);
-                if (conditionMatch !== null) {
-                    template.next(conditionMatch[0].length);
-                    const value = parseConditional(
-                        input === true || input !== undefined,
-                        locale,
-                        template,
-                        ...inputs
-                    );
-                    if (value) description = description.with(value);
-                    else return undefined;
-                }
-                // Otherwise, just add the text
-                else description = description.with(input);
-            } else {
-                // Is it a sequence of non-whitespace characters?
-                const idMatch = template.matches(/^\w+/);
-                if (idMatch !== null) {
-                    template.next(idMatch[0].length);
-                    const id = idMatch[0] as keyof Locale['term'];
-                    const phrase = Object.hasOwn(locale.term, id)
-                        ? locale.term[id]
-                        : '-';
-                    description = description.with(phrase);
-                }
-            }
-        }
-        // Read the next character
-        else {
-            let text = '';
-            while (
-                !template.empty() &&
-                template.isnt('$') &&
-                template.isnt(']') &&
-                template.isnt('|')
-            )
-                text += template.next();
-            description = description.with(text);
-        }
-    }
-
-    return description;
-}
-
-function parseConditional(
-    yes: boolean,
-    locale: Locale,
-    template: Template,
-    ...inputs: TemplateInput[]
-): Description | undefined {
-    // Read until a [
-    while (!template.empty() && template.isnt('[')) template.next();
-
-    // Error if there isn't one.
-    if (template.empty() || template.isnt('[')) return undefined;
-    // Read the bracket
-    template.next(1);
-
-    // Parse the yes value.
-    const yesDescription = parseTemplate(locale, template, ...inputs);
-    if (yesDescription === undefined) return undefined;
-
-    // Read until a |
-    while (!template.empty() && template.isnt('|')) template.next();
-
-    // Error if there isn't one.
-    if (template.empty() || template.isnt('|')) return undefined;
-    // Read the |
-    template.next();
-
-    // Parse the no value.
-    const noDescription = parseTemplate(locale, template, ...inputs);
-    if (noDescription === undefined) return undefined;
-
-    // Read until a ]
-    while (!template.empty() && template.isnt(']')) template.next();
-
-    // Error if there isn't one.
-    if (template.empty() || template.isnt(']')) return undefined;
-    // Read the bracket
-    template.next();
-
-    return yes ? yesDescription : noDescription;
-}
-
-class Template {
-    text: string;
-
-    constructor(text: string) {
-        this.text = text;
-    }
-
-    next(len: number = 1): string {
-        const c = this.peek();
-        this.text = this.text.substring(len);
-        return c;
-    }
-
-    peek(): string {
-        return this.text.charAt(0);
-    }
-
-    empty(): boolean {
-        return this.text.length === 0;
-    }
-
-    is(s: string): boolean {
-        return this.text.startsWith(s);
-    }
-
-    matches(re: RegExp) {
-        return this.text.match(re);
-    }
-
-    isnt(s: string): boolean {
-        return !this.text.startsWith(s);
-    }
+    const [markup] = toMarkup(template);
+    return markup.concretize(locale, inputs);
 }

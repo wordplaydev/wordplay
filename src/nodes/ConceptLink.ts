@@ -1,13 +1,15 @@
 import type Conflict from '@conflicts/Conflict';
 import type Locale from '@locale/Locale';
-import Node, { type Field, type Replacement } from './Node';
+import type { Field, Replacement } from './Node';
 import Token from './Token';
 import Glyphs from '../lore/Glyphs';
 import { LINK_SYMBOL } from '../parser/Symbols';
 import TokenType from './TokenType';
 import Purpose from '../concepts/Purpose';
+import Content from './Content';
+import type { TemplateInput } from '../locale/concretize';
 
-export default class ConceptLink extends Node {
+export default class ConceptLink extends Content {
     readonly concept: Token;
 
     constructor(concept: Token) {
@@ -73,5 +75,13 @@ export default class ConceptLink extends Node {
 
     getGlyphs() {
         return Glyphs.Link;
+    }
+
+    concretize(_: Locale, __: TemplateInput[]): ConceptLink {
+        return this;
+    }
+
+    toText() {
+        return this.toWordplay();
     }
 }

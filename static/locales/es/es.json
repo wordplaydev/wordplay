@@ -66,6 +66,8 @@
         "URL": "URL",
         "ExampleOpen": "ejemplo abierta",
         "ExampleClose": "ejemplo cerrar",
+        "Mention": "mencionar",
+        "Branch": "elegir",
         "None": "nada",
         "Type": "tipo",
         "TypeOperator": "es",
@@ -201,6 +203,17 @@
             "emotion": "neutral",
             "doc": "$?"
         },
+        "Mention": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?"
+        },
+        "Branch": {
+            "name": "$?",
+            "emotion": "serious",
+            "doc": "$?"
+        },
         "BinaryOperation": {
             "name": "operación binaria",
             "description": "operación $1",
@@ -262,7 +275,7 @@
             "version": "$?",
             "conflict": {
                 "UnknownBorrow": "$?",
-                "BorrowCycle": "this depends on $1, which depends on this $source, so the $program can't be evaluated"
+                "BorrowCycle": "$?"
             },
             "exception": {
                 "CycleException": "$?"

@@ -2,7 +2,6 @@ import {
     BOLD_SYMBOL,
     EXTRA_SYMBOL,
     ITALIC_SYMBOL,
-    LIGHT_SYMBOL,
     UNDERSCORE_SYMBOL,
 } from '../parser/Symbols';
 
@@ -138,24 +137,6 @@ class UnderlineNode extends Node {
     }
 }
 
-class LightNode extends Node {
-    constructor(children: Node[]) {
-        super(children);
-    }
-    getRichTextMarker() {
-        return LIGHT_SYMBOL;
-    }
-    getHTMLOpenMarker() {
-        return "<span class='light'>";
-    }
-    getHTMLCloseMarker() {
-        return '</span>';
-    }
-    getWeight(): undefined | number {
-        return 300;
-    }
-}
-
 class BoldNode extends Node {
     constructor(children: Node[]) {
         super(children);
@@ -220,9 +201,7 @@ function parseNodes(symbols: string[], awaiting?: string): Node[] {
     ) {
         const next = symbols[0];
         const repeated = next === symbols[1];
-        if (next === LIGHT_SYMBOL && !repeated)
-            children.push(parseLight(symbols));
-        else if (next === BOLD_SYMBOL && !repeated)
+        if (next === BOLD_SYMBOL && !repeated)
             children.push(parseBold(symbols));
         else if (next === EXTRA_SYMBOL && !repeated)
             children.push(parseExtra(symbols));
@@ -232,8 +211,7 @@ function parseNodes(symbols: string[], awaiting?: string): Node[] {
             children.push(parseItalic(symbols));
         else if (
             repeated &&
-            (next === LIGHT_SYMBOL ||
-                next === BOLD_SYMBOL ||
+            (next === BOLD_SYMBOL ||
                 next === EXTRA_SYMBOL ||
                 next === UNDERSCORE_SYMBOL ||
                 next === ITALIC_SYMBOL)
@@ -248,7 +226,6 @@ function parseNodes(symbols: string[], awaiting?: string): Node[] {
                 symbols.length > 0 &&
                 symbol !== EXTRA_SYMBOL &&
                 symbol !== BOLD_SYMBOL &&
-                symbol !== LIGHT_SYMBOL &&
                 symbol !== ITALIC_SYMBOL &&
                 symbol !== UNDERSCORE_SYMBOL
             ) {
@@ -273,13 +250,6 @@ function parseUnderline(symbols: string[]): UnderlineNode {
     const nodes = parseNodes(symbols, UNDERSCORE_SYMBOL);
     symbols.shift();
     return new UnderlineNode(nodes);
-}
-
-function parseLight(symbols: string[]): LightNode {
-    symbols.shift();
-    const nodes = parseNodes(symbols, LIGHT_SYMBOL);
-    symbols.shift();
-    return new LightNode(nodes);
 }
 
 function parseBold(symbols: string[]): BoldNode {

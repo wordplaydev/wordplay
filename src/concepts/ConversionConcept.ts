@@ -11,6 +11,7 @@ import type Spaces from '../parser/Spaces';
 import Concept from './Concept';
 import Purpose from './Purpose';
 import type StructureConcept from './StructureConcept';
+import concretize from '../locale/concretize';
 
 export default class ConversionConcept extends Concept {
     /** The function this concept represents. */
@@ -56,7 +57,9 @@ export default class ConversionConcept extends Concept {
     }
 
     getName(locale: Locale) {
-        return this.definition.getDescription(locale, this.context).toString();
+        return this.definition
+            .getDescription(concretize, locale, this.context)
+            .toText();
     }
 
     getRepresentation() {

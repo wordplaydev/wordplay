@@ -5,7 +5,7 @@ import type LanguageCode from '@locale/LanguageCode';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type Locale from '@locale/Locale';
 import type Expression from '../nodes/Expression';
-import type Description from '../locale/Description';
+import type Markup from '../nodes/Markup';
 
 /** Used to uniquely distinguish values. */
 let VALUE_ID = 0;
@@ -35,7 +35,7 @@ export default abstract class Value {
 
     abstract isEqualTo(value: Value): boolean;
 
-    abstract getDescription(translation: Locale): Description;
+    abstract getDescription(translation: Locale): Markup;
 
     /**
      * Should returns a rough estimate of how much memory this value uses.

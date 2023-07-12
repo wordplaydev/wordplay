@@ -11,8 +11,8 @@ import type Glyph from '../lore/Glyph';
 import type Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type Root from './Root';
-import type Description from '../locale/Description';
-import concretize, { type TemplateInput } from '../locale/concretize';
+import type { TemplateInput } from '../locale/concretize';
+import type Markup from './Markup';
 
 /* A global ID for nodes, for helping index them */
 let NODE_ID_COUNTER = 0;
@@ -26,7 +26,7 @@ export type Field = {
     types: FieldType[];
     /** A description of the field for the UI */
     label?: (
-        translation: Locale,
+        locale: Locale,
         child: Node,
         context: Context,
         root: Root
@@ -51,6 +51,12 @@ export type Replacement = {
     original: Node | Node[] | string;
     replacement: FieldValue;
 };
+
+export type Concretizer = (
+    locale: Locale,
+    template: string,
+    ...inputs: TemplateInput[]
+) => Markup;
 
 export default abstract class Node {
     /* A unique ID to represent this node in memory. */
@@ -632,7 +638,7 @@ export default abstract class Node {
     abstract getGlyphs(): Glyph;
 
     /**
-     * Given a translation, get the node's static label
+     * Given a locale, get the node's static label
      * */
     getLabel(locale: Locale): string {
         return this.getNodeLocale(locale).name;
@@ -641,9 +647,13 @@ export default abstract class Node {
     /**
      * Given a translation and a context, generate a description of the node.
      * */
-    getDescription(locale: Locale, context: Context): Description {
+    getDescription(
+        concretizer: Concretizer,
+        locale: Locale,
+        context: Context
+    ): Markup {
         const text = this.getNodeLocale(locale);
-        return concretize(
+        return concretizer(
             locale,
             text.hasOwnProperty('description')
                 ? (text as DescriptiveNodeText).description
@@ -672,7 +682,7 @@ export default abstract class Node {
         return undefined;
     }
 
-    abstract getNodeLocale(translation: Locale): NodeText | DescriptiveNodeText;
+    abstract getNodeLocale(locale: Locale): NodeText | DescriptiveNodeText;
 
     /** Provide localized labels for any child that can be a placeholder. */
     getChildPlaceholderLabel(

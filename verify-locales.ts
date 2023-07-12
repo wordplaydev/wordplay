@@ -237,7 +237,13 @@ function verifyLocale(locale: Locale) {
         // If it's not a doc, assume it's a template string and try to parse it as a template.
         // If we can't, complain.
         else {
-            const description = concretizeOrUndefined(locale, value);
+            const description = concretizeOrUndefined(
+                locale,
+                value,
+                'test',
+                'test',
+                'test'
+            );
             if (description === undefined)
                 bad(
                     2,

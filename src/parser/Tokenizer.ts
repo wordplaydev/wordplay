@@ -44,9 +44,9 @@ import {
     EXAMPLE_CLOSE_SYMBOL,
     ITALIC_SYMBOL,
     UNDERSCORE_SYMBOL,
-    LIGHT_SYMBOL,
     BOLD_SYMBOL,
     EXTRA_SYMBOL,
+    MENTION_SYMBOL,
 } from './Symbols';
 import TokenList from './TokenList';
 import ConceptRegEx from './ConceptRegEx';
@@ -71,20 +71,32 @@ export const DOC_SPECIAL_CHARACTERS = [
     TAG_CLOSE_SYMBOL,
     ITALIC_SYMBOL,
     UNDERSCORE_SYMBOL,
-    LIGHT_SYMBOL,
     BOLD_SYMBOL,
     EXTRA_SYMBOL,
     DOCS_SYMBOL,
+    MENTION_SYMBOL,
+    LIST_OPEN_SYMBOL,
+    OR_SYMBOL,
+    LIST_CLOSE_SYMBOL,
 ];
 
 /** Words are any sequence of characters that aren't special characters, unless those special characters are repeated, indicating an escape. */
 export const WordsRegEx = new RegExp(
     `^(${DOC_SPECIAL_CHARACTERS.map((c) => {
         const escape =
-            c === '/' || c === '|' || c === '*' || c === '^' ? '\\' : '';
+            c === '/' ||
+            c === '|' ||
+            c === '*' ||
+            c === '^' ||
+            c === '$' ||
+            c === OR_SYMBOL ||
+            c === LIST_OPEN_SYMBOL ||
+            c === LIST_CLOSE_SYMBOL
+                ? '\\'
+                : '';
         return `${escape}${c}${escape}${c}|`;
     }).join('')}[^\n${DOC_SPECIAL_CHARACTERS.map(
-        (c) => `${c === '/' ? '\\' : ''}${c}`
+        (c) => `${c === '/' || c === '[' || c === ']' ? '\\' : ''}${c}`
     ).join('')}])+`,
     'u'
 );
@@ -144,6 +156,10 @@ const patterns = [
     {
         pattern: STREAM_SYMBOL,
         types: [TokenType.Stream, TokenType.Etc],
+    },
+    {
+        pattern: /^\$[a-zA-Z0-9?]+/,
+        types: [TokenType.Mention],
     },
     { pattern: INITIAL_SYMBOL, types: [TokenType.Initial] },
     { pattern: CHANGE_SYMBOL, types: [TokenType.Change] },

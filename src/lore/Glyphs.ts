@@ -19,6 +19,7 @@ import {
     LIST_CLOSE_SYMBOL,
     LIST_OPEN_SYMBOL,
     MEASUREMENT_SYMBOL,
+    MENTION_SYMBOL,
     NATIVE_SYMBOL,
     NEVER_SYMBOL,
     NONE_SYMBOL,
@@ -67,6 +68,9 @@ const GlyphSet = {
     },
     Bind: {
         symbols: BIND_SYMBOL,
+    },
+    Branch: {
+        symbols: LIST_OPEN_SYMBOL + OR_SYMBOL + LIST_CLOSE_SYMBOL,
     },
     This: {
         symbols: PROPERTY_SYMBOL,
@@ -159,6 +163,9 @@ const GlyphSet = {
     },
     Placeholder: {
         symbols: PLACEHOLDER_SYMBOL,
+    },
+    Mention: {
+        symbols: MENTION_SYMBOL,
     },
     Never: {
         symbols: NEVER_SYMBOL,

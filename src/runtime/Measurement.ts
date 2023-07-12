@@ -10,7 +10,7 @@ import type Value from './Value';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type Locale from '@locale/Locale';
 import type Expression from '../nodes/Expression';
-import Description from '../locale/Description';
+import concretize from '../locale/concretize';
 
 /** A decimal number with a unit.
  * If all of it's parts are empty, it is not a number.
@@ -228,8 +228,8 @@ export default class Measurement extends Primitive {
         return `${this.num.toString()}${this.unit.toString()}`;
     }
 
-    getDescription(translation: Locale) {
-        return Description.as(translation.term.measurement);
+    getDescription(locale: Locale) {
+        return concretize(locale, locale.term.measurement);
     }
 
     getSize() {

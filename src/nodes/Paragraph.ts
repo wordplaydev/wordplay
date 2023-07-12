@@ -3,24 +3,40 @@ import type Locale from '@locale/Locale';
 import ConceptLink from './ConceptLink';
 import type Example from './Example';
 import WebLink from './WebLink';
-import Node, { type Field, type Replacement } from './Node';
+import type { Field, Replacement } from './Node';
 import Words from './Words';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
+import Content from './Content';
+import type { TemplateInput } from '../locale/concretize';
+import Token from './Token';
+import type Mention from './Mention';
+import NodeRef from '../locale/NodeRef';
+import ValueRef from '../locale/ValueRef';
+import type Branch from './Branch';
 
-export type Content = Words | WebLink | ConceptLink | Example;
+export type NodeSegment =
+    | Token
+    | Words
+    | WebLink
+    | ConceptLink
+    | Example
+    | Mention
+    | Branch;
 
-export default class Paragraph extends Node {
-    readonly content: Content[];
+export type Segment = NodeSegment | ValueRef | NodeRef;
 
-    constructor(content: Content[]) {
+export default class Paragraph extends Content {
+    readonly segments: Segment[];
+
+    constructor(segments: Segment[]) {
         super();
 
-        this.content = content;
+        this.segments = segments;
     }
 
     getGrammar(): Field[] {
-        return [{ name: 'content', types: [[Words, WebLink, ConceptLink]] }];
+        return [{ name: 'segments', types: [[Words, WebLink, ConceptLink]] }];
     }
 
     computeConflicts(): void | Conflict[] {
@@ -29,8 +45,14 @@ export default class Paragraph extends Node {
 
     clone(replace?: Replacement | undefined): this {
         return new Paragraph(
-            this.replaceChild('content', this.content, replace)
+            this.replaceChild('segments', this.getNodeSegments(), replace)
         ) as this;
+    }
+
+    getNodeSegments() {
+        return this.segments.filter(
+            (s) => s instanceof Content
+        ) as NodeSegment[];
     }
 
     getPurpose() {
@@ -43,5 +65,20 @@ export default class Paragraph extends Node {
 
     getGlyphs() {
         return Glyphs.Paragraph;
+    }
+
+    concretize(locale: Locale, inputs: TemplateInput[]): Paragraph | undefined {
+        const concreteSegments = this.segments.map((c) =>
+            c instanceof Token || c instanceof ValueRef || c instanceof NodeRef
+                ? c
+                : c.concretize(locale, inputs)
+        );
+        return concreteSegments.some((s) => s === undefined)
+            ? undefined
+            : new Paragraph(concreteSegments as Segment[]);
+    }
+
+    toText() {
+        return this.segments.map((s) => s.toText()).join('');
     }
 }

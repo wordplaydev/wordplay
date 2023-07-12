@@ -7,4 +7,4 @@
     export let node: Paragraph;
 </script>
 
-<NodeSequenceView nodes={node.content} />
+<NodeSequenceView nodes={node.getNodeSegments()} />

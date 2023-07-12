@@ -8,25 +8,37 @@
     import ConceptLinkUI from './ConceptLinkUI.svelte';
     import Example from '../../nodes/Example';
     import ExampleUI from './ExampleUI.svelte';
+    import NodeRef from '../../locale/NodeRef';
+    import NodeView from '../editor/NodeView.svelte';
+    import ValueRef from '../../locale/ValueRef';
+    import ValueView from '../values/ValueView.svelte';
+    import ConceptRef from '../../locale/ConceptRef';
 
     export let words: Words;
     export let spaces: Spaces;
 </script>
 
 <span class={words.getFormat()}
-    >{#each words.segments as segment, index}{#if segment instanceof WebLink}<WebLinkHTMLView
+    >{#each words.segments as segment, index}
+        {#if segment instanceof WebLink}<WebLinkHTMLView
                 link={segment}
                 {spaces}
-            />{:else if segment instanceof ConceptLink}<ConceptLinkUI
-                link={segment}
             />{:else if segment instanceof Example}<ExampleUI
                 example={segment}
                 {spaces}
                 evaluated={false}
                 inline={true}
+            />{:else if segment instanceof ConceptLink}<ConceptLinkUI
+                link={segment}
             />{:else if segment instanceof Words}<svelte:self
                 words={segment}
                 {spaces}
+            />{:else if segment instanceof NodeRef}<NodeView
+                node={segment.node}
+            />{:else if segment instanceof ValueRef}<strong
+                ><ValueView value={segment.value} /></strong
+            >{:else if segment instanceof ConceptRef}<ConceptLinkUI
+                link={segment}
             />{:else if segment instanceof Token}{#if index > 0 && spaces.getSpace(segment).length > 0}&nbsp;{/if}{segment.getText()}{/if}{/each}</span
 >
 

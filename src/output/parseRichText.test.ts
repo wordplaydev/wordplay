@@ -5,7 +5,6 @@ test.each([
     ['hello', 'hello'],
     ['hello _world_', 'hello <u>world</u>'],
     ['hello /world/', 'hello <em>world</em>'],
-    ['hello |world|', "hello <span class='light'>world</span>"],
     ['hello *world*', 'hello <strong>world</strong>'],
     ['hello ^world^', "hello <span class='extra'>world</span>"],
     ['hello /*wor*ld/!', 'hello <em><strong>wor</strong>ld</em>!'],

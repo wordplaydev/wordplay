@@ -26,6 +26,8 @@ enum TokenType {
     URL = 'http...',
     ExampleOpen = '⧼',
     ExampleClose = '⧽',
+    Mention = '$',
+    Branch = '??',
 
     None = 'ø',
     Type = '•',

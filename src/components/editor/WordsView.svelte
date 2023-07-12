@@ -3,20 +3,15 @@
 <script lang="ts">
     import type Words from '@nodes/Words';
     import NodeView from './NodeView.svelte';
-    import { getCaret } from '../project/Contexts';
     import NodeSequenceView from './NodeSequenceView.svelte';
 
     export let node: Words;
-
-    let caret = getCaret();
-
-    $: editing = $caret?.isIn(node);
 </script>
 
 <span class={node.getFormat()}
-    >{#if editing}<NodeView node={node.open} />{/if}<NodeSequenceView
-        nodes={node.segments}
-    />{#if editing}<NodeView node={node.close} />{/if}
+    ><NodeView node={node.open} /><NodeSequenceView
+        nodes={node.getNodeSegments()}
+    /><NodeView node={node.close} />
 </span>
 
 <style>

@@ -1,4 +1,4 @@
-import Node, { type Replacement } from './Node';
+import Node, { type Concretizer, type Replacement } from './Node';
 import Token from './Token';
 import { EXPONENT_SYMBOL } from '@parser/Symbols';
 import { PRODUCT_SYMBOL } from '@parser/Symbols';
@@ -7,8 +7,8 @@ import NameToken from './NameToken';
 import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
-import Description from '../locale/Description';
 import type Context from './Context';
+import Markup from './Markup';
 
 export default class Dimension extends Node {
     readonly product: Token | undefined;
@@ -82,9 +82,9 @@ export default class Dimension extends Node {
         return translation.node.Dimension;
     }
 
-    getDescription(locale: Locale, _: Context): Description {
+    getDescription(_: Concretizer, locale: Locale, __: Context) {
         const dim = this.getName();
-        return Description.as(
+        return Markup.words(
             {
                 pm: 'picometers',
                 nm: 'nanometers',

@@ -1,5 +1,6 @@
 import MissingLanguage from '@conflicts/MissingLanguage';
-import Node, { type Replacement } from './Node';
+import Node from './Node';
+import type { Replacement } from './Node';
 import Token from './Token';
 import NameToken from './NameToken';
 import LanguageToken from './LanguageToken';

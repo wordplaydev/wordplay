@@ -6,7 +6,7 @@
     import ValueView from '../values/ValueView.svelte';
     import type Source from '@nodes/Source';
     import StageView from './StageView.svelte';
-    import DescriptionView from '@components/concepts/DescriptionView.svelte';
+    import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
     import Speech from '../lore/Speech.svelte';
     import {
         getConceptIndex,
@@ -16,6 +16,7 @@
     import type Evaluator from '@runtime/Evaluator';
     import type PaintingConfiguration from './PaintingConfiguration';
     import { creator } from '../../db/Creator';
+    import concretize from '../../locale/concretize';
 
     export let project: Project;
     export let evaluator: Evaluator;
@@ -61,9 +62,9 @@
                     glyph={latest.creator.getGlyphs()}
                     concept={$index?.getNodeConcept(latest.creator)}
                     invert
-                    >{#each $creator.getLocales() as translation}
-                        <DescriptionView
-                            description={latest.getDescription(translation)}
+                    >{#each $creator.getLocales() as locale}
+                        <MarkupHTMLView
+                            markup={latest.getDescription(locale)}
                         />
                     {/each}</Speech
                 >{/if}
@@ -86,9 +87,11 @@
                                 : latest
                                       .getType(project.getContext(source))
                                       .getDescription(
+                                          concretize,
                                           translation,
                                           project.getContext(source)
                                       )
+                                      .toText()
                         )}</h2
                 >
                 <p><ValueView value={latest} /></p>

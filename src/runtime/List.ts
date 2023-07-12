@@ -12,7 +12,7 @@ import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from '@parser/Symbols';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type Locale from '@locale/Locale';
 import type Expression from '../nodes/Expression';
-import Description from '../locale/Description';
+import concretize from '../locale/concretize';
 
 export default class List extends Primitive {
     readonly values: Value[] = [];
@@ -128,8 +128,8 @@ export default class List extends Primitive {
             .join(' ')}${LIST_CLOSE_SYMBOL}`;
     }
 
-    getDescription(translation: Locale) {
-        return Description.as(translation.term.list);
+    getDescription(locale: Locale) {
+        return concretize(locale, locale.term.list);
     }
 
     getSize() {

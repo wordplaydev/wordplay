@@ -1,4 +1,4 @@
-import Node, { type Replacement } from './Node';
+import type { Replacement } from './Node';
 import Token from './Token';
 import type Conflict from '@conflicts/Conflict';
 import Language from './Language';
@@ -14,6 +14,7 @@ import type Context from './Context';
 import type Definition from './Definition';
 import Evaluate from './Evaluate';
 import ReservedSymbols from '../parser/ReservedSymbols';
+import Node from './Node';
 
 export default class Name extends Node {
     readonly separator: Token | undefined;

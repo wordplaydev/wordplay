@@ -4720,10 +4720,9 @@
                             "`Docs can be ",
                             "/italic/, ",
                             "_underlined_, ",
-                            "|light|, ",
                             "*bold*, or ",
                             "^extra bold^.`",
-                            "'fancy'"
+                            "'fancy!'"
                         ],
                         null,
                         [
@@ -4737,7 +4736,6 @@
                             "Docs can be ",
                             "  /italic/ (//), ",
                             "  _underlined_ (__), ",
-                            "  |light| (||), ",
                             "  *bold* (**), or ",
                             "  ^extra bold^ (^^).`",
                             "'fancy'"

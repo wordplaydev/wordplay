@@ -6,7 +6,7 @@ import Value from './Value';
 import { CONVERT_SYMBOL } from '@parser/Symbols';
 import type { NativeTypeName } from '../native/NativeConstants';
 import type Locale from '@locale/Locale';
-import Description from '../locale/Description';
+import concretize from '../locale/concretize';
 
 export default class Conversion extends Primitive {
     /** The definition from the AST. */
@@ -44,8 +44,8 @@ export default class Conversion extends Primitive {
         );
     }
 
-    getDescription(translation: Locale) {
-        return Description.as(translation.term.function);
+    getDescription(locale: Locale) {
+        return concretize(locale, locale.term.function);
     }
 
     getSize() {

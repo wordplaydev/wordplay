@@ -2,17 +2,22 @@ import type Conflict from '@conflicts/Conflict';
 import type Locale from '@locale/Locale';
 import Purpose from '../concepts/Purpose';
 import Glyphs from '../lore/Glyphs';
-import Node, { type Field, type Replacement } from './Node';
+import type { Field, Replacement } from './Node';
 import Token from './Token';
 import TokenType from './TokenType';
 import { unescaped } from './TextLiteral';
 import Example from './Example';
 import WebLink from './WebLink';
 import ConceptLink from './ConceptLink';
+import Content from './Content';
+import type { TemplateInput } from '../locale/concretize';
+import type { NodeSegment, Segment } from './Paragraph';
+import NodeRef from '../locale/NodeRef';
+import ValueRef from '../locale/ValueRef';
 
-export type Segment = Token | Words | WebLink | ConceptLink | Example;
+export type Format = 'italic' | 'underline' | 'light' | 'bold' | 'extra';
 
-export default class Words extends Node {
+export default class Words extends Content {
     readonly open: Token | undefined;
     readonly segments: Segment[];
     readonly close: Token | undefined;
@@ -52,9 +57,15 @@ export default class Words extends Node {
     clone(replace?: Replacement | undefined): this {
         return new Words(
             this.replaceChild('open', this.open, replace),
-            this.replaceChild('segments', this.segments, replace),
+            this.replaceChild('segments', this.getNodeSegments(), replace),
             this.replaceChild('close', this.close, replace)
         ) as this;
+    }
+
+    getNodeSegments() {
+        return this.segments.filter(
+            (s) => s instanceof Content || s instanceof Token
+        ) as NodeSegment[];
     }
 
     getPurpose() {
@@ -65,13 +76,7 @@ export default class Words extends Node {
         return translation.node.Words;
     }
 
-    getFormat():
-        | 'italic'
-        | 'underline'
-        | 'light'
-        | 'bold'
-        | 'extra'
-        | undefined {
+    getFormat(): Format | undefined {
         return this.open === undefined
             ? undefined
             : this.open.is(TokenType.Italic)
@@ -85,12 +90,6 @@ export default class Words extends Node {
             : 'extra';
     }
 
-    getText() {
-        return unescaped(
-            this.segments.map((segment) => segment.toWordplay()).join('')
-        );
-    }
-
     containsText(text: string): boolean {
         return this.segments.some(
             (segment) => segment instanceof Words && segment.containsText(text)
@@ -99,5 +98,22 @@ export default class Words extends Node {
 
     getGlyphs() {
         return Glyphs.Words;
+    }
+
+    concretize(locale: Locale, inputs: TemplateInput[]): Words | undefined {
+        const concrete = this.segments.map((c) =>
+            c instanceof Token || c instanceof ValueRef || c instanceof NodeRef
+                ? c
+                : c.concretize(locale, inputs)
+        );
+        return concrete.some((s) => s === undefined)
+            ? undefined
+            : new Words(this.open, concrete as Segment[], this.close);
+    }
+
+    toText(): string {
+        return unescaped(
+            this.segments.map((segment) => segment.toText()).join('')
+        );
     }
 }

@@ -123,6 +123,11 @@ test('Tokenize docs', () => {
             .map((t) => t.toWordplay())
             .join(' ')
     ).toBe('` hello  < link @ https://amyjko.com > ` ');
+    expect(
+        tokens('`this is $1 [hi|no]`')
+            .map((t) => t.toWordplay())
+            .join('/')
+    ).toBe('`/this is /$1/ /[/hi/|/no/]/`/');
 });
 
 test('Tokenize text', () => {

@@ -7,9 +7,9 @@ import type Step from '@runtime/Step';
 import type Bind from './Bind';
 import type TypeSet from './TypeSet';
 import type Locale from '@locale/Locale';
-import ValueLink from '@locale/ValueRef';
+import ValueRef from '@locale/ValueRef';
 import Purpose from '../concepts/Purpose';
-import type Description from '../locale/Description';
+import type Markup from './Markup';
 
 export default abstract class Expression extends Node {
     constructor() {
@@ -73,13 +73,13 @@ export default abstract class Expression extends Node {
         locale: Locale,
         context: Context,
         evaluator: Evaluator
-    ): Description;
+    ): Markup;
 
     abstract getFinishExplanations(
         locale: Locale,
         context: Context,
         evaluator: Evaluator
-    ): Description;
+    ): Markup;
 
     /** Utility function for getting an optional result   */
     getValueIfDefined(
@@ -88,6 +88,6 @@ export default abstract class Expression extends Node {
         evaluator: Evaluator
     ) {
         const value = evaluator.peekValue();
-        return value ? new ValueLink(value, translation, context) : undefined;
+        return value ? new ValueRef(value, translation, context) : undefined;
     }
 }

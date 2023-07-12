@@ -70,15 +70,16 @@ import DocumentedExpression from '@nodes/DocumentedExpression';
 import TypeVariables from '@nodes/TypeVariables';
 import TypeVariable from '@nodes/TypeVariable';
 import Changed from '@nodes/Changed';
-import Paragraph from '@nodes/Paragraph';
-import type { Content } from '@nodes/Paragraph';
+import Paragraph, { type Segment } from '@nodes/Paragraph';
 import WebLink from '@nodes/WebLink';
 import ConceptLink from '@nodes/ConceptLink';
-import Words, { type Segment } from '@nodes/Words';
+import Words from '@nodes/Words';
 import Example from '@nodes/Example';
 import PropertyBind from '../nodes/PropertyBind';
 import Initial from '../nodes/Initial';
 import Markup from '../nodes/Markup';
+import Mention from '../nodes/Mention';
+import Branch from '../nodes/Branch';
 
 export enum SyntacticConflict {
     EXPECTED_BORRW_NAME,
@@ -293,6 +294,11 @@ export function toProgram(code: string): Program {
 export function toTokens(code: string): Tokens {
     const tokens = tokenize(code);
     return new Tokens(tokens.getTokens(), tokens.getSpaces());
+}
+
+export function toMarkup(template: string): [Markup, Spaces] {
+    const tokens = toTokens(DOCS_SYMBOL + template + DOCS_SYMBOL);
+    return [parseDoc(tokens).markup, tokens.getSpaces()];
 }
 
 export function toExpression(code: string): Expression {
@@ -1421,15 +1427,30 @@ export function parseDoc(tokens: Tokens): Doc {
     return new Doc(open, content, close, lang);
 }
 
+function nextIsContent(tokens: Tokens) {
+    return tokens.nextIsOneOf(
+        TokenType.Words,
+        TokenType.TagOpen,
+        TokenType.Concept,
+        TokenType.ExampleOpen,
+        TokenType.Mention,
+        TokenType.Italic,
+        TokenType.Bold,
+        TokenType.Underline,
+        TokenType.Extra
+    );
+}
+
 export function parseMarkup(tokens: Tokens): Markup {
     const content: Paragraph[] = [];
     while (
         tokens.hasNext() &&
         tokens.nextIsnt(TokenType.Doc) &&
-        tokens.nextIsnt(TokenType.ExampleClose)
+        tokens.nextIsnt(TokenType.ExampleClose) &&
+        nextIsContent(tokens)
     )
         content.push(parseParagraph(tokens));
-    return new Markup(content);
+    return new Markup(content, tokens.getSpaces());
 }
 
 export function parseLocaleDoc(doc: string) {
@@ -1437,11 +1458,15 @@ export function parseLocaleDoc(doc: string) {
 }
 
 function parseParagraph(tokens: Tokens): Paragraph {
-    const content: Content[] = [];
+    const content: Segment[] = [];
 
     // Read until hitting two newlines or a closing doc symbol.
     // Stop the paragraph if the content we just parsed has a Words with two or more line breaks.
-    while (tokens.hasNext() && tokens.nextIsnt(TokenType.Doc)) {
+    while (
+        tokens.hasNext() &&
+        tokens.nextIsnt(TokenType.Doc) &&
+        nextIsContent(tokens)
+    ) {
         content.push(parseSegment(tokens));
         if (tokens.nextHasMoreThanOneLineBreak()) break;
     }
@@ -1450,12 +1475,16 @@ function parseParagraph(tokens: Tokens): Paragraph {
 }
 
 function parseSegment(tokens: Tokens) {
-    return tokens.nextIs(TokenType.TagOpen)
+    return tokens.nextIs(TokenType.Words)
+        ? tokens.read(TokenType.Words)
+        : tokens.nextIs(TokenType.TagOpen)
         ? parseWebLink(tokens)
         : tokens.nextIs(TokenType.Concept)
         ? parseConceptLink(tokens)
         : tokens.nextIs(TokenType.ExampleOpen)
         ? parseExample(tokens)
+        : tokens.nextIs(TokenType.Mention)
+        ? parseMention(tokens)
         : parseWords(tokens);
 }
 
@@ -1477,7 +1506,6 @@ function parseConceptLink(tokens: Tokens): ConceptLink {
 const FORMATS = [
     TokenType.Italic,
     TokenType.Underline,
-    TokenType.Light,
     TokenType.Bold,
     TokenType.Extra,
 ];
@@ -1499,7 +1527,8 @@ function parseWords(tokens: Tokens): Words {
     while (
         tokens.hasNext() &&
         tokens.nextIsnt(TokenType.Doc) &&
-        (format === undefined || !tokens.nextIs(format))
+        (format === undefined || !tokens.nextIs(format)) &&
+        nextIsContent(tokens)
     ) {
         segments.push(
             tokens.nextIs(TokenType.Words)
@@ -1521,4 +1550,21 @@ function parseExample(tokens: Tokens): Example {
     const close = tokens.readIf(TokenType.ExampleClose);
 
     return new Example(open, program, close);
+}
+
+function parseMention(tokens: Tokens): Mention | Branch {
+    const name = tokens.read();
+    const mention = new Mention(name);
+
+    if (tokens.nextIs(TokenType.ListOpen)) return parseBranch(mention, tokens);
+    else return mention;
+}
+
+function parseBranch(mention: Mention, tokens: Tokens): Branch {
+    const open = tokens.read(TokenType.ListOpen);
+    const yes = parseWords(tokens);
+    const bar = tokens.read(TokenType.Union);
+    const no = parseWords(tokens);
+    const close = tokens.read(TokenType.ListClose);
+    return new Branch(mention, open, yes, bar, no, close);
 }

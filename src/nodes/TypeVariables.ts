@@ -1,4 +1,4 @@
-import Node, { type Replacement } from './Node';
+import type { Replacement } from './Node';
 import Token from './Token';
 import TokenType from './TokenType';
 import { TYPE_CLOSE_SYMBOL, TYPE_OPEN_SYMBOL } from '@parser/Symbols';
@@ -9,6 +9,7 @@ import type Locale from '@locale/Locale';
 import DuplicateTypeVariable from '@conflicts/DuplicateTypeVariable';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
+import Node from './Node';
 
 export default class TypeVariables extends Node {
     readonly open: Token;

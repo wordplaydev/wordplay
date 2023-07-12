@@ -6,7 +6,7 @@ import { FUNCTION_SYMBOL } from '@parser/Symbols';
 import type Evaluation from './Evaluation';
 import Value from './Value';
 import type Locale from '@locale/Locale';
-import Description from '../locale/Description';
+import concretize from '../locale/concretize';
 
 // We could have just called this Function, but Javascript claims that globally.
 export default class FunctionValue extends Value {
@@ -54,8 +54,8 @@ export default class FunctionValue extends Value {
         );
     }
 
-    getDescription(translation: Locale) {
-        return Description.as(translation.term.function);
+    getDescription(locale: Locale) {
+        return concretize(locale, locale.term.function);
     }
 
     getSize() {

@@ -5,7 +5,7 @@ import type { NativeTypeName } from '../native/NativeConstants';
 import Primitive from './Primitive';
 import type Locale from '@locale/Locale';
 import type Expression from '../nodes/Expression';
-import Description from '../locale/Description';
+import concretize from '../locale/concretize';
 
 export default class None extends Primitive {
     constructor(creator: Expression) {
@@ -28,8 +28,8 @@ export default class None extends Primitive {
         return NONE_SYMBOL;
     }
 
-    getDescription(translation: Locale) {
-        return Description.as(translation.term.none);
+    getDescription(locale: Locale) {
+        return concretize(locale, locale.term.none);
     }
 
     getSize() {

@@ -1290,10 +1290,13 @@
                 >{$caret.position instanceof Node
                     ? $caret.position.getLabel($creator.getLocale()) +
                       ', ' +
-                      $caret.position.getDescription(
-                          $creator.getLocale(),
-                          project.getNodeContext($caret.position)
-                      ) +
+                      $caret.position
+                          .getDescription(
+                              concretize,
+                              $creator.getLocale(),
+                              project.getNodeContext($caret.position)
+                          )
+                          .toText() +
                       (caretExpressionType ? `, ${caretExpressionType}` : '')
                     : $caret.tokenExcludingSpace
                     ? concretize(
@@ -1305,10 +1308,15 @@
                     ? concretize(
                           $creator.getLocale(),
                           $creator.getLocale().ui.edit.before,
-                          $caret.tokenIncludingSpace.getDescription(
-                              $creator.getLocale(),
-                              project.getNodeContext($caret.tokenIncludingSpace)
-                          )
+                          $caret.tokenIncludingSpace
+                              .getDescription(
+                                  concretize,
+                                  $creator.getLocale(),
+                                  project.getNodeContext(
+                                      $caret.tokenIncludingSpace
+                                  )
+                              )
+                              .toText()
                       )
                     : ''}</div
             ></div

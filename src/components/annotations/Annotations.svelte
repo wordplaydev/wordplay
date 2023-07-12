@@ -2,7 +2,7 @@
     export type AnnotationInfo = {
         node: Node;
         element: Element | null;
-        text: Description[];
+        text: Markup[];
         kind: 'step' | 'primary' | 'secondary' | 'minor';
         position?: Position | undefined;
     };
@@ -20,7 +20,8 @@
     import type Project from '../../models/Project';
     import { getEvaluation } from '../project/Contexts';
     import { creator } from '../../db/Creator';
-    import Description from '../../locale/Description';
+    import type Markup from '../../nodes/Markup';
+    import concretize from '../../locale/concretize';
 
     export let project: Project;
     export let evaluator: Evaluator;
@@ -62,14 +63,18 @@
                             ? $creator
                                   .getLocales()
                                   .map((locale) =>
-                                      Description.as(
+                                      concretize(
+                                          locale,
                                           locale.node.Program.unevaluated
                                       )
                                   )
                             : $creator
                                   .getLocales()
                                   .map((locale) =>
-                                      Description.as(locale.node.Program.done)
+                                      concretize(
+                                          locale,
+                                          locale.node.Program.done
+                                      )
                                   ),
                         kind: 'step',
                         position: getPosition(view),
@@ -124,7 +129,7 @@
                                               )
                                           )
                                           .filter(
-                                              (ex): ex is Description =>
+                                              (ex): ex is Markup =>
                                                   ex !== undefined
                                           ),
                                       kind: 'secondary' as const,
