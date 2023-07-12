@@ -778,10 +778,10 @@
             }
         },
         "NativeExpression": {
-            "name": "built-in expression",
+            "name": "internal expression",
             "emotion": "neutral",
-            "doc": "$?",
-            "start": "evaluate the built-in expression"
+            "doc": "How did you find me? I'm an expression that only the original creators use. To learn more about me, you'll need to talk to them.",
+            "start": "secret expression"
         },
         "NoneLiteral": {
             "name": "none",
