@@ -27,6 +27,7 @@ import Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';
 import generalize from './generalize';
 import concretize from '../locale/concretize';
+import ValueException from '../runtime/ValueException';
 
 export default class MapLiteral extends Expression {
     readonly open: Token;
@@ -166,6 +167,8 @@ export default class MapLiteral extends Expression {
         for (let i = 0; i < this.values.length; i++) {
             const value = evaluator.popValue(this);
             const key = evaluator.popValue(this);
+            if (value instanceof ValueException) return value;
+            if (key instanceof ValueException) return value;
             values.unshift([key, value]);
         }
         return new Map(this, values);
