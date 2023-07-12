@@ -1733,27 +1733,18 @@
                 "emotion": {
                   "type": "string"
                 },
-                "keep": {
-                  "$ref": "#/definitions/Template",
-                  "description": "What to say after evaluating the stream, to keep the stream instead of the value."
-                },
                 "name": {
                   "type": "string"
                 },
                 "start": {
-                  "$ref": "#/definitions/Template"
-                },
-                "stream": {
                   "$ref": "#/definitions/Template"
                 }
               },
               "required": [
                 "doc",
                 "emotion",
-                "keep",
                 "name",
-                "start",
-                "stream"
+                "start"
               ],
               "type": "object"
             },

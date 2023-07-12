@@ -11,7 +11,6 @@ import Finish from '@runtime/Finish';
 import type Context from './Context';
 import StreamType from './StreamType';
 import Stream from '@runtime/Stream';
-import KeepStream from '@runtime/KeepStream';
 import type Bind from './Bind';
 import type TypeSet from './TypeSet';
 import TypeException from '@runtime/TypeException';
@@ -119,7 +118,6 @@ export default class Previous extends Expression {
         return [
             new Start(this),
             ...this.stream.compile(context),
-            new KeepStream(this),
             ...this.index.compile(context),
             new Finish(this),
         ];
@@ -132,7 +130,9 @@ export default class Previous extends Expression {
         if (!(index instanceof Measurement) || !index.num.isInteger())
             return index;
 
-        const value = evaluator.popValue(this, StreamType.make(new AnyType()));
+        // Get the stream value.
+        const value = evaluator.popValue(this);
+
         // Get the stream the value came from.
         const stream = evaluator.getStreamResolved(value);
 

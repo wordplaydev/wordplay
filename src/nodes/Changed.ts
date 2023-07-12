@@ -8,7 +8,6 @@ import type Step from '@runtime/Step';
 import Finish from '@runtime/Finish';
 import type Context from './Context';
 import StreamType from './StreamType';
-import KeepStream from '@runtime/KeepStream';
 import type Bind from './Bind';
 import type TypeSet from './TypeSet';
 import TypeException from '@runtime/TypeException';
@@ -97,7 +96,6 @@ export default class Changed extends AtomicExpression {
         return [
             new Start(this),
             ...this.stream.compile(context),
-            new KeepStream(this),
             new Finish(this),
         ];
     }

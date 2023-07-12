@@ -303,9 +303,7 @@
             "name": "$?",
             "emotion": "$?",
             "doc": "$?",
-            "start": "$?",
-            "keep": "$?",
-            "stream": "$?"
+            "start": "$?"
         },
         "Conditional": {
             "name": "$?",

@@ -476,9 +476,7 @@
                 "I'm really helpful when you want something to change only if a stream changed.",
                 "That's it."
             ],
-            "start": "let's see if $1 changed…",
-            "keep": "getting the stream…",
-            "stream": "stream"
+            "start": "let's see if $1 changed…"
         },
         "Conditional": {
             "name": "conditional",
@@ -794,8 +792,15 @@
         },
         "Previous": {
             "name": "previous",
-            "emotion": "curious",
-            "doc": "$?",
+            "emotion": "serious",
+            "doc": [
+                "Have you ever wanted to remember the past?",
+                "I am the Verse's official record keeper. Give me a stream and a number to look backwards and I'll tell you what that stream's value was in history.",
+                "For example, here's what @Time it was five ticks ago:",
+                "⧼Time(1000ms)←5⧽",
+                "See how it's @None for 5 seconds, then suddenly a previous time?",
+                "I'm helpful when you want to create performances that depend on the past."
+            ],
             "start": "first get $1",
             "finish": "evaluated to stream value $1"
         },

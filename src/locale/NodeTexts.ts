@@ -187,12 +187,7 @@ type NodeTexts = {
      * Start
      * $1: stream that changed
      */
-    Changed: NodeText &
-        AtomicExpressionText & {
-            /** What to say after evaluating the stream, to keep the stream instead of the value. */
-            keep: Template;
-            stream: Template;
-        };
+    Changed: NodeText & AtomicExpressionText;
     /**
      * Start
      * $1: condition to check

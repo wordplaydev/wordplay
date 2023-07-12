@@ -285,9 +285,7 @@
             "name": "Cambiada",
             "emotion": "neutral",
             "doc": "$?",
-            "start": "$?",
-            "keep": "$?",
-            "stream": "$?"
+            "start": "$?"
         },
         "Conditional": {
             "name": "condicional",
