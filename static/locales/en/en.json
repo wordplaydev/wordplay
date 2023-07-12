@@ -932,7 +932,7 @@
             "name": "table",
             "description": "$1 row table",
             "emotion": "angry",
-            "doc": "$?",
+            "doc": "See @Table",
             "item": "row",
             "start": "first evaluate the rows",
             "finish": "evaluated to new table $1"
@@ -960,11 +960,20 @@
         },
         "This": {
             "name": "this",
-            "emotion": "kind",
-            "doc": "$?",
+            "emotion": "serious",
+            "doc": [
+                "Sometimes, it's helpful to refer to a value implicilty, rather than having to name it.",
+                "For example, suppose you wanted to make a new @ConversionDefinition, which doesn't name the value being convered. You can just refer to it with me:",
+                "⧼→ #rainbows #joys . · 1000000joys\n2rainbows → #joys⧽",
+                "See me there, representing the number of rainbows?",
+                "Or suppose you wanted to make a @Reaction, but not have to name the most recent value:",
+                "⧼2 … ∆ Time(1000ms) … . · 2⧽",
+                "Check me out, representing the previous reaction value.",
+                "I don't show up often, but when I do, I can really help a value get out of a @Bind!"
+            ],
             "start": "evaluated to $1",
             "conflict": {
-                "MisplacedThis": "I'm only allowed in a $structure, conversion, or reaction."
+                "MisplacedThis": "I'm only allowed in a structure, conversion, or reaction."
             }
         },
         "UnaryOperation": {
