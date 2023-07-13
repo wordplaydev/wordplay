@@ -19,7 +19,7 @@
     import StreamConcept from '@concepts/StreamConcept';
     import CodeView from './CodeView.svelte';
     import ConversionConcept from '@concepts/ConversionConcept';
-    import ConversionConceptView from './ConversionConceptView.svelte';
+    import ConceptView from './ConceptView.svelte';
     import StreamConceptView from './StreamConceptView.svelte';
     import NodeConcept from '@concepts/NodeConcept';
     import type Node from '@nodes/Node';
@@ -269,7 +269,7 @@
                         />
                     {/if}
                 {:else if currentConcept instanceof ConversionConcept}
-                    <ConversionConceptView concept={currentConcept} />
+                    <ConceptView concept={currentConcept} />
                 {:else if currentConcept instanceof StreamConcept}
                     <StreamConceptView concept={currentConcept} />
                 {:else if currentConcept instanceof NodeConcept}
