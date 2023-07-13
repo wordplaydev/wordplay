@@ -31,6 +31,7 @@
     import { Performances } from '../../tutorial/Performances';
     import type { Dialog, Performance } from '../../tutorial/Tutorial';
     import type Markup from '../../nodes/Markup';
+    import Arrangement from '../../db/Arrangement';
 
     export let progress: Progress;
     export let navigate: (progress: Progress) => void;
@@ -184,7 +185,10 @@
     }}
 />
 
-<section class="tutorial">
+<section
+    class="tutorial"
+    class:vertical={$creator.getArrangement() === Arrangement.vertical}
+>
     <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
     <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
     <div
@@ -318,6 +322,10 @@
         bottom: 0;
     }
 
+    .tutorial.vertical {
+        flex-direction: column-reverse;
+    }
+
     .title {
         display: flex;
         flex-direction: column;
@@ -363,6 +371,11 @@
             var(--wordplay-border-color);
         border-left: var(--wordplay-border-width) solid
             var(--wordplay-border-color);
+    }
+
+    .vertical .dialog {
+        height: 30%;
+        width: 100%;
     }
 
     .dialog:focus {
