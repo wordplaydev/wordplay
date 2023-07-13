@@ -13,7 +13,3 @@ export async function getLocale(
     if (response.status !== 200) return undefined;
     return (await response.json()) as Locale;
 }
-
-export default async function getDefaultLocale(test: boolean = false) {
-    return getLocale('en', test) as Promise<Locale>;
-}

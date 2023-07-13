@@ -15,7 +15,6 @@ import Node from './src/nodes/Node';
 import Ajv from 'ajv';
 
 // Read in and compile the two schema
-
 const localeSchema = JSON.parse(
     fs.readFileSync('static/schemas/Locale.json', 'utf8')
 );
@@ -49,12 +48,15 @@ fs.readdirSync(path.join('static', 'locales'), { withFileTypes: true }).forEach(
             say(1, `Let's inspect ${chalk.blue(language)}`);
             // Make sure there's a locale file.
 
-            const stringsPath = path.join(
-                'static',
-                'locales',
-                language,
-                `${language}.json`
-            );
+            const stringsPath =
+                language === 'en'
+                    ? path.join('src', 'locale', 'en.json')
+                    : path.join(
+                          'static',
+                          'locales',
+                          language,
+                          `${language}.json`
+                      );
 
             let stringsData: string | undefined;
             try {

@@ -23,6 +23,7 @@
     "watch": {
         "verify-locales": {
             "patterns": [
+                "src/locale/en.json",
                 "static/locales",
                 "static/schemas",
                 "verify-locales.ts"

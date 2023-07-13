@@ -25,7 +25,7 @@ import Progress from '../tutorial/Progress';
 import Arrangement from './Arrangement';
 import type { Tutorial } from '../tutorial/Tutorial';
 import { bootstrap, Native } from '../native/Native';
-import getDefaultLocale from '../locale/getDefaultLocale';
+import en from '../locale/en.json';
 
 const PROJECTS_KEY = 'projects';
 const LAYOUTS_KEY = 'layouts';
@@ -666,9 +666,7 @@ export class Creator {
     }
 }
 
-const en = await getDefaultLocale();
-
-const db = new Creator(en);
+const db = new Creator(en as Locale);
 export const creator = db.getConfigStore();
 export const projects = db.getProjectsStore();
 export const status = db.getSaveStatusStore();

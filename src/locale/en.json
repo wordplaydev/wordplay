@@ -1,5 +1,5 @@
 {
-    "$schema": "../../schemas/Locale.json",
+    "$schema": "../../static/schemas/Locale.json",
     "language": "en",
     "wordplay": "Wordplay",
     "term": {
@@ -920,7 +920,7 @@
                 "I can also have @Bind inside, so we could evaluate the cost in advance.",
                 "⧼•Pizza(\ningredients•['']\nsize•#in\n) (\n\tcost: size · 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost⧽"
             ],
-            "start": "let's define this lovely $tructure",
+            "start": "let's define this lovely structure",
             "conflict": {
                 "DisallowedInputs": "I can't have inputs because one of or more of my interface functions isn't implemented",
                 "IncompleteImplementation": "my functions either need to all be implemented, or none be implemented. No messy mixtures!",
@@ -932,7 +932,7 @@
             "name": "table",
             "description": "$1 row table",
             "emotion": "angry",
-            "doc": "See @Table",
+            "doc": "See Table.",
             "item": "row",
             "start": "first evaluate the rows",
             "finish": "evaluated to new table $1"

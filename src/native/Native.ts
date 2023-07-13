@@ -23,8 +23,8 @@ import type Names from '@nodes/Names';
 import type Expression from '@nodes/Expression';
 import Root from '../nodes/Root';
 import type Locale from '../locale/Locale';
-import getDefaultLocale from '../locale/getDefaultLocale';
 import createDefaultShares from '../runtime/createDefaultShares';
+import locale from '../locale/en.json';
 
 export class Native {
     readonly locales: Locale[];
@@ -191,5 +191,5 @@ export function bootstrap(locales: Locale[]) {
 
 /** Use for tests to get the default (English) locale. */
 export async function getDefaultNative() {
-    return bootstrap([await getDefaultLocale(true)]);
+    return bootstrap([locale as Locale]);
 }
