@@ -105,8 +105,8 @@ export default class HOFListMap extends HOF {
             // Save the translated value and then jump to the conditional.
             new Check(this, (evaluator) => {
                 // Get the boolean from the function evaluation.
-                const include = evaluator.popValue(this, BooleanType.make());
-                if (!(include instanceof Bool)) return include;
+                const stop = evaluator.popValue(this, BooleanType.make());
+                if (!(stop instanceof Bool)) return stop;
 
                 // Get the current index.
                 const index = evaluator.resolve(INDEX);
@@ -127,11 +127,11 @@ export default class HOFListMap extends HOF {
                     );
 
                 const newList = evaluator.resolve(LIST);
-                if (!(include instanceof Bool))
+                if (!(stop instanceof Bool))
                     return evaluator.getValueOrTypeException(
                         this,
                         BooleanType.make(),
-                        include
+                        stop
                     );
                 else if (!(newList instanceof List))
                     return evaluator.getValueOrTypeException(
@@ -141,7 +141,7 @@ export default class HOFListMap extends HOF {
                     );
                 else {
                     // If the include decided yes, append the value.
-                    if (include.bool) {
+                    if (!stop.bool) {
                         const listValue = list.get(index);
                         evaluator.bind(LIST, newList.add(this, listValue));
                     }

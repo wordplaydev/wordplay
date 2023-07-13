@@ -1305,7 +1305,7 @@
                 },
                 "notequal": {
                     "doc": "True if both are opposites.",
-                    "names": ["≠"],
+                    "names": ["≠", "notequal"],
                     "inputs": [
                         { "doc": "The other value to check.", "names": "value" }
                     ]
@@ -1329,7 +1329,7 @@
                 },
                 "notequals": {
                     "doc": "Is another value /not/ nothing?",
-                    "names": "≠",
+                    "names": ["≠", "notequal"],
                     "inputs": [{ "doc": "The other value.", "names": "value" }]
                 }
             },
@@ -1661,7 +1661,7 @@
                         "⧼1 ≠ 2⧽",
                         "⧼2 ≠ 2⧽"
                     ],
-                    "names": "≠",
+                    "names": ["≠", "notequal"],
                     "inputs": [
                         {
                             "doc": "The @Number to compare me to.",
@@ -1733,14 +1733,16 @@
         },
         "List": {
             "doc": [
-                "Do you know how to make a @List? I'm how!",
+                "I'm a sequence of values, of any kind!",
                 "You can put anything in me: @Boolean, @Number, @Text, @None, even other @List, @Set, @Map, or any expression. Here's a simple one:",
                 "⧼['apple' 'banana' 'mango']⧽",
-                "What makes me special is that I keep things in order and I number everything from 1 to however many items are in me. For example, the three words in this list are numbered 1, 2, and 3. You can get values that I'm storing with @ListAccess, using their number.",
+                "What makes me special is that I keep things in order and I number everything from 1 to however many items are in me.",
+                "My items are numbered, starting from 1. You can get values that I'm storing with @ListAccess, using their number:",
                 "For example, the second value in this list is ⧼['banana']⧽",
                 "⧼['apple' 'banana' 'mango'][2]⧽",
-                "I really can have anything in me. Look at this list, with @Text, @Number, and @Time!",
-                "⧼['apple' 10 + 10 Time()]⧽"
+                "I can have anything in me. Look at this list, with @Text, @Number, and @Time!",
+                "⧼['apple' 10 + 10 Time()]⧽",
+                "I can do call kinds of exiting things with my @FunctionDefinition!"
             ],
             "name": ["[]", "List"],
             "kind": "Kind",
@@ -1748,40 +1750,93 @@
             "outofbounds": "outofbounds",
             "function": {
                 "add": {
-                    "doc": "$?",
-                    "names": "add",
-                    "inputs": [{ "doc": "$?", "names": "item" }]
+                    "doc": [
+                        "I create a new @List with the given item.",
+                        "⧼['apple' 'banana' 'mango'].add('watermelon')⧽"
+                    ],
+                    "names": ["add"],
+                    "inputs": [
+                        {
+                            "doc": "I the value you want to add.",
+                            "names": "item"
+                        }
+                    ]
                 },
                 "append": {
-                    "doc": "$?",
-                    "names": ["+", "append"],
-                    "inputs": [{ "doc": "$?", "names": "list" }]
+                    "doc": [
+                        "I create a new @List with my values, then all the values of the given @List.",
+                        "⧼['apple' 'banana' 'mango'].append(['watermelon' 'starfruit'])⧽"
+                    ],
+                    "names": ["append"],
+                    "inputs": [
+                        { "doc": "The list of values to add.", "names": "list" }
+                    ]
                 },
                 "replace": {
-                    "doc": "$?",
+                    "doc": [
+                        "I create a new list that replaces the value at the given index with the given value.",
+                        "⧼['apple' 'banana' 'mango'].replace(1 'kiwi')⧽"
+                    ],
                     "names": ["replace"],
                     "inputs": [
-                        { "doc": "$?", "names": "index" },
-                        { "doc": "$?", "names": "value" }
+                        {
+                            "doc": "The index of the value to replace",
+                            "names": "index"
+                        },
+                        { "doc": "The replacement value", "names": "value" }
                     ]
                 },
                 "length": {
-                    "doc": "$?",
+                    "doc": "The @Number of items in me.",
                     "names": ["📏", "length"],
                     "inputs": []
                 },
-                "random": { "doc": "$?", "names": "random", "inputs": [] },
-                "first": { "doc": "$?", "names": "first", "inputs": [] },
-                "last": { "doc": "$?", "names": "last", "inputs": [] },
+                "random": {
+                    "doc": [
+                        "A randonly selected one of my items, or @None if I'm empty.",
+                        "⧼['apple' 'banana' 'mango'].random()⧽"
+                    ],
+                    "names": "random",
+                    "inputs": []
+                },
+                "first": {
+                    "doc": [
+                        "The first item in me, or @None if I'm empty.",
+                        "⧼['apple' 'banana' 'mango'].first()⧽"
+                    ],
+                    "names": "first",
+                    "inputs": []
+                },
+                "last": {
+                    "doc": [
+                        "The last item in me, or @None if I'm empty.",
+                        "⧼['apple' 'banana' 'mango'].first()⧽"
+                    ],
+                    "names": "last",
+                    "inputs": []
+                },
                 "has": {
-                    "doc": "$?",
+                    "doc": [
+                        "⧼⊤⧽ if I have an item equal to the given item in me.",
+                        "⧼['apple' 'banana' 'mango'].has('banana')⧽"
+                    ],
                     "names": "has",
-                    "inputs": [{ "doc": "$?", "names": "item" }]
+                    "inputs": [
+                        { "doc": "The value to search for.", "names": "item" }
+                    ]
                 },
                 "join": {
-                    "doc": "$?",
+                    "doc": [
+                        "I combine the items in my list into @Text, separated by the given separator @Text.",
+                        "⧼['apple' 'banana' 'mango'].join(', ')⧽"
+                    ],
                     "names": "join",
-                    "inputs": [{ "doc": "$?", "names": "separator" }]
+                    "inputs": [
+                        {
+                            "doc": "The text to separate the items by, optionally empty.",
+                            "names": "separator"
+                        }
+                    ]
                 },
                 "sansFirst": {
                     "doc": "$?",
@@ -1790,67 +1845,188 @@
                 },
                 "sansLast": { "doc": "$?", "names": "sansLast", "inputs": [] },
                 "sans": {
-                    "doc": "$?",
+                    "doc": [
+                        "Me, but without the first occurences of the given value.",
+                        "⧼['apple' 'banana' 'mango' 'apple'].sans('apple')⧽"
+                    ],
                     "names": "sans",
-                    "inputs": [{ "doc": "$?", "names": "value" }]
+                    "inputs": [
+                        {
+                            "doc": "The value to remove the first occurence of.",
+                            "names": "value"
+                        }
+                    ]
                 },
                 "sansAll": {
-                    "doc": "$?",
+                    "doc": [
+                        "Me, but without all occurences of the given value.",
+                        "⧼['apple' 'banana' 'mango' 'apple'].sans('apple')⧽"
+                    ],
                     "names": "sansAll",
-                    "inputs": [{ "doc": "$?", "names": "value" }]
+                    "inputs": [
+                        {
+                            "doc": "The value to remove all occurences of from the list.",
+                            "names": "value"
+                        }
+                    ]
                 },
-                "reverse": { "doc": "$?", "names": "reverse", "inputs": [] },
+                "reverse": {
+                    "doc": [
+                        "Me, but in reverse!",
+                        "⧼['apple' 'banana' 'mango'].reverse()⧽"
+                    ],
+                    "names": "reverse",
+                    "inputs": []
+                },
                 "equals": {
-                    "doc": "$?",
+                    "doc": [
+                        "⧼⊤⧽ if my items and order are the exact same as the given @List.",
+                        "⧼['apple' 'banana' 'mango'] = ['apple' 'mango' 'banana']⧽"
+                    ],
                     "names": ["=", "equals"],
-                    "inputs": [{ "doc": "$?", "names": "list" }]
+                    "inputs": [
+                        {
+                            "doc": "The @List to compare me to.",
+                            "names": "list"
+                        }
+                    ]
                 },
                 "notequals": {
-                    "doc": "$?",
-                    "names": "≠",
-                    "inputs": [{ "doc": "$?", "names": "list" }]
+                    "doc": [
+                        "⧼⊤⧽ if my items and order are /not/ the exact same as the given @List.",
+                        "⧼['apple' 'banana' 'mango'] ≠ ['apple' 'mango' 'banana']⧽"
+                    ],
+                    "names": ["≠", "notequal"],
+                    "inputs": [
+                        {
+                            "doc": "The @List to compare me to.",
+                            "names": "list"
+                        }
+                    ]
                 },
                 "translate": {
-                    "doc": "$?",
+                    "doc": [
+                        "Give me a @FunctionDefinition that takes a value and optional index as input and produces a value, and I'll evaluate it on each of my items, translating my values into new values.",
+                        "For example, imagine I was a list of @Number and you wanted to double all of them:",
+                        "⧼[2 4 6 8].translate(ƒ(num•#) num · 2)⧽"
+                    ],
                     "names": "translate",
-                    "inputs": [{ "doc": "$?", "names": "translator" }],
-                    "value": { "doc": "$?", "names": "item" },
-                    "index": { "doc": "$?", "names": "index" }
+                    "inputs": [
+                        {
+                            "doc": "The @FunctionDefinition that will translate each item.",
+                            "names": "translator"
+                        }
+                    ],
+                    "value": {
+                        "doc": "The item being translated.",
+                        "names": "item"
+                    },
+                    "index": {
+                        "doc": "The index of the item being translated.",
+                        "names": "index"
+                    }
                 },
                 "filter": {
-                    "doc": "$?",
+                    "doc": [
+                        "Give me a @FunctionDefinition that takes a value and optional index as input and produces a @Boolean, and I'll create a new list that only includes the items that result ⧼⊤⧽.",
+                        "For example, imagine I was a list of @Number and you only wanted the positive ones:",
+                        "⧼[2 -4 8 -16].filter(ƒ(num•#) num ≥ 0)⧽"
+                    ],
                     "names": "filter",
-                    "inputs": [{ "doc": "$?", "names": "checker" }],
-                    "value": { "doc": "$?", "names": "item" }
+                    "inputs": [
+                        {
+                            "doc": "A @FunctionDefinition that checks each item, producing ⧼⊤⧽ if it should be kept.",
+                            "names": "checker"
+                        }
+                    ],
+                    "value": {
+                        "doc": "The item being checked.",
+                        "names": "item"
+                    }
                 },
                 "all": {
-                    "doc": "$?",
+                    "doc": [
+                        "Give me a @FunctionDefinition that takes a value as input and produces a @Boolean if it matches some condition. I'll create ⧼⊤⧽ if all the items match the condition.",
+                        "For example, imagine I was a list of @Number and you wanted to know if everything was positive:",
+                        "⧼[2 -4 8 -16].all(ƒ(num•#) num ≥ 0)⧽"
+                    ],
                     "names": "all",
-                    "inputs": [{ "doc": "$?", "names": "checker" }],
-                    "value": { "doc": "$?", "names": "item" }
+                    "inputs": [
+                        {
+                            "doc": "The @FunctionDefinition that produces ⧼⊤⧽ if an item satisfies your condition.",
+                            "names": "checker"
+                        }
+                    ],
+                    "value": {
+                        "doc": "The item being checked.",
+                        "names": "item"
+                    }
                 },
                 "until": {
-                    "doc": "$?",
+                    "doc": [
+                        "Give me a @FunctionDefinition that takes a value as input and produces a @Boolean if it matches some condition. I'll create a new @List that contains all the items until the condition isn't met.",
+                        "For example, imagine I was a list of @Text animals and you wanted everything up until ⧼'rat'⧽ was found:",
+                        "⧼['cat' 'dog' 'rat' 'mouse' 'pony'].until(ƒ(animal•'') animal = 'rat')⧽"
+                    ],
                     "names": "until",
-                    "inputs": [{ "doc": "$?", "names": "checker" }],
-                    "value": { "doc": "$?", "names": "item" }
+                    "inputs": [
+                        {
+                            "doc": "The @FunctionDefinition that produces ⧼⊤⧽ if I should stop including items.",
+                            "names": "checker"
+                        }
+                    ],
+                    "value": {
+                        "doc": "The item being checked.",
+                        "names": "item"
+                    }
                 },
                 "find": {
-                    "doc": "$?",
+                    "doc": [
+                        "Give me a @FunctionDefinition that takes a value as input and produces a @Boolean if it matches some criteria, and I'll evaluate to the matching item.",
+                        "For example, imagine you wanted to find the first animal that had the vowel ⧼'e'⧽:",
+                        "⧼['cat' 'dog' 'rat' 'mouse' 'pony'].find(ƒ(animal•'') animal.has('e'))⧽"
+                    ],
                     "names": "find",
-                    "inputs": [{ "doc": "$?", "names": "checker" }],
-                    "value": { "doc": "$?", "names": "item" }
+                    "inputs": [
+                        {
+                            "doc": "The @FunctionDefinition that produces ⧼⊤⧽ if it matches your search criteria.",
+                            "names": "checker"
+                        }
+                    ],
+                    "value": {
+                        "doc": "The item being checked.",
+                        "names": "item"
+                    }
                 },
                 "combine": {
-                    "doc": "$?",
+                    "doc": [
+                        "Give me a @FunctionDefinition that takes the most recent combination and a next value, and creates a next combination, and I'll move from the first to last of my items, creating successive combinations, and evaluating to the final combination your @FunctionDefinition evaluates to.",
+                        "This is really helpful for combining all of the items in me into a single value. For example, imagine you wanted to add a list of numbers:",
+                        "⧼[3 9 2 8 1 4].combine(0 ƒ(sum•# number•#) sum + number)⧽"
+                    ],
                     "names": "combine",
                     "inputs": [
-                        { "doc": "$?", "names": "initial" },
-                        { "doc": "$?", "names": "combiner" }
+                        {
+                            "doc": "The starting combination.",
+                            "names": "initial"
+                        },
+                        {
+                            "doc": "The @FunctionDefinition that takes the latest combination and the next value and produces the next combination.",
+                            "names": "combiner"
+                        }
                     ],
-                    "combination": { "doc": "$?", "names": "combination" },
-                    "next": { "doc": "$?", "names": "next" },
-                    "index": { "doc": "$?", "names": "index" }
+                    "combination": {
+                        "doc": "The current combination",
+                        "names": "combination"
+                    },
+                    "next": {
+                        "doc": "The next item to combine.",
+                        "names": "next"
+                    },
+                    "index": {
+                        "doc": "The index of the next item",
+                        "names": "index"
+                    }
                 }
             },
             "conversion": {
@@ -1880,7 +2056,7 @@
                 },
                 "notequals": {
                     "doc": "$?",
-                    "names": "≠",
+                    "names": ["≠", "notequal"],
                     "inputs": [{ "doc": "$?", "names": "set" }]
                 },
                 "add": {
@@ -1951,7 +2127,7 @@
                 },
                 "notequals": {
                     "doc": "$?",
-                    "names": "≠",
+                    "names": ["≠", "notequal"],
                     "inputs": [{ "doc": "$?", "names": "value" }]
                 },
                 "set": {
