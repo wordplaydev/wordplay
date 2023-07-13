@@ -210,7 +210,7 @@ type NodeTexts = {
              */
             ExpectedBooleanCondition: ConflictText;
         }>;
-    ConversionDefinition: NodeText &
+    ConversionDefinition: DescriptiveNodeText &
         AtomicExpressionText &
         Conflicts<{ MisplacedConversion: InternalConflictText }>;
     /**

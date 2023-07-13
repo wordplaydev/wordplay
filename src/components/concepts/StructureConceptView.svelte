@@ -51,23 +51,23 @@
         {/each}
     {/if}
 
-    <h2>inputs</h2>
-    {#each concept.inputs as bind, index}
-        <div id="input-{index}">
-            <BindConceptView concept={bind} />
-        </div>
-    {:else}
-        <Note>&mdash;</Note>
-    {/each}
+    {#if concept.inputs.length > 0}
+        <h2>inputs</h2>
+        {#each concept.inputs as bind, index}
+            <div id="input-{index}">
+                <BindConceptView concept={bind} />
+            </div>
+        {/each}
+    {/if}
 
-    <h2>properties</h2>
-    {#each concept.properties as bind, index}
-        <div id="property-{index + concept.inputs.length}">
-            <BindConceptView concept={bind} />
-        </div>
-    {:else}
-        <Note>&mdash;</Note>
-    {/each}
+    {#if concept.properties.length > 0}
+        <h2>properties</h2>
+        {#each concept.properties as bind, index}
+            <div id="property-{index + concept.inputs.length}">
+                <BindConceptView concept={bind} />
+            </div>
+        {/each}
+    {/if}
 
     <h2>functions</h2>
     {#each concept.functions as fun}

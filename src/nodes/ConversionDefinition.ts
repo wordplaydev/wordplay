@@ -25,6 +25,7 @@ import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import concretize from '../locale/concretize';
 import type Value from '../runtime/Value';
+import NodeRef from '../locale/NodeRef';
 
 export default class ConversionDefinition extends AtomicExpression {
     readonly docs: Docs | undefined;
@@ -188,5 +189,12 @@ export default class ConversionDefinition extends AtomicExpression {
 
     getGlyphs() {
         return Glyphs.Conversion;
+    }
+
+    getDescriptionInputs(locale: Locale, context: Context) {
+        return [
+            new NodeRef(this.input, locale, context),
+            new NodeRef(this.output, locale, context),
+        ];
     }
 }

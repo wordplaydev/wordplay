@@ -337,6 +337,7 @@
         },
         "ConversionDefinition": {
             "name": "$?",
+            "description": "$1 → $2",
             "emotion": "$?",
             "doc": "$?",
             "start": "$?",

@@ -502,6 +502,7 @@
         },
         "ConversionDefinition": {
             "name": "conversion definition",
+            "description": "$1 → $2",
             "emotion": "excited",
             "doc": [
                 "Dude, I define conversions from one type to another! I go in @Block, someting like this:",
@@ -1186,7 +1187,7 @@
             "emotion": "curious",
             "doc": [
                 "Who should I represent, A or B or something else? I can never decide!",
-                "⧼indecision•''|#|{ø}: 'I don't know!'⧽"
+                "⧼indecision•''|#|{ø}: \"I don't know!\"⧽"
             ]
         },
         "Unit": {
@@ -1195,7 +1196,7 @@
             "emotion": "precise",
             "doc": [
                 "I represent any unit a @Number might have, including no unit, to the most complicated unit you can imagine. Like gravity, for example:",
-                "⧼gravity•m/s^2: 9.8m/s^2",
+                "⧼gravity•m/s^2: 9.8m/s^2⧽",
                 "I show up in @Bind, but also right after @Number. I help make sure that numbers are of the same kinds, and will definitely tell you if they aren't, in case its a mistake!"
             ]
         },
@@ -1251,34 +1252,68 @@
     "native": {
         "Boolean": {
             "doc": [
-                "How do you make a @Boolean? Just ⧼⊤⧽ and ⧼⊥⧽, nothing more, nothing less.",
-                "Some use the keyboard (/ctrl+9/ for ⧼⊤⧽ and /ctrl+0/ for ⧼⊥⧽). Some use the symbol chooser in the editor. Or you can drag us from here."
+                "We are ⧼⊤⧽ and ⧼⊥⧽. ⧼⊤⧽ is true. ⧼⊥⧽ is false. ⧼⊤⧽ is not ⧼⊥⧽; ⧼⊥⧽ is not ⧼⊤⧽. This is how it is.",
+                "How do you make us? Just ⧼⊤⧽ and ⧼⊥⧽, nothing more, nothing less.",
+                "Some use the keyboard (/ctrl+9/ for ⧼⊤⧽ and /ctrl+0/ for ⧼⊥⧽). Some use the character search at the bottom of the editor. Or you can drag us from here.",
+                "Check out our @FunctionDefinition below. They're very logical."
             ],
             "name": ["⊤⊥", "Boolean"],
             "function": {
                 "and": {
-                    "doc": "$?",
+                    "doc": [
+                        "Evaluates to ⧼⊤⧽ *only* when both values are ⧼⊤⧽. Helpful for determining if many things are all true. There are only four possible outcomes",
+                        "⧼⊤ & ⊤⧽",
+                        "⧼⊤ & ⊥⧽",
+                        "⧼⊥ & ⊤⧽",
+                        "⧼⊥ & ⊥⧽"
+                    ],
                     "names": ["&", "and"],
-                    "inputs": [{ "doc": "$?", "names": "value" }]
+                    "inputs": [
+                        {
+                            "doc": "The other @Boolean to check. If the first is ⧼⊥⧽, it doesn't matter what this is, the function will evaluate to ⧼⊥⧽.",
+                            "names": "value"
+                        }
+                    ]
                 },
                 "or": {
-                    "doc": "$?",
+                    "doc": [
+                        "Evaluates to ⧼⊤⧽ when *either* value are ⧼⊤⧽. Helpful for determining if one of many things are true. There are only four possible outcomes",
+                        "⧼⊤ | ⊤⧽",
+                        "⧼⊤ | ⊥⧽",
+                        "⧼⊥ | ⊤⧽",
+                        "⧼⊥ | ⊥⧽"
+                    ],
                     "names": ["|", "or"],
-                    "inputs": [{ "doc": "$?", "names": "value" }]
+                    "inputs": [
+                        {
+                            "doc": "The other @Boolean to check. If the first is ⧼⊥⧽, the function will only evaluate to ⧼⊤⧽ if this is ⧼⊤⧽.",
+                            "names": "value"
+                        }
+                    ]
                 },
-                "not": { "doc": "$?", "names": ["~", "not"], "inputs": [] },
+                "not": {
+                    "doc": "Gets the opposite of itself: if ⧼⊤⧽, it gives ⧼⊥⧽, if ⧼⊥⧽, it gives ⧼⊤⧽.",
+                    "names": ["~", "not"],
+                    "inputs": []
+                },
                 "equals": {
-                    "doc": "$?",
+                    "doc": "True if both are ⧼⊤⧽ or both are ⧼⊥⧽.",
                     "names": ["=", "equals"],
-                    "inputs": [{ "doc": "$?", "names": "value" }]
+                    "inputs": [
+                        { "doc": "The other value to check.", "names": "value" }
+                    ]
                 },
                 "notequal": {
-                    "doc": "$?",
+                    "doc": "True if both are opposites.",
                     "names": ["≠"],
-                    "inputs": [{ "doc": "$?", "names": "value" }]
+                    "inputs": [
+                        { "doc": "The other value to check.", "names": "value" }
+                    ]
                 }
             },
-            "conversion": { "text": "$?" }
+            "conversion": {
+                "text": "Converts a @Boolean to the equivalent @Text values, ⧼'⊤'⧽ and ⧼'⊥'⧽"
+            }
         },
         "None": {
             "doc": [

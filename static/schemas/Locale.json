@@ -1832,6 +1832,9 @@
                   ],
                   "type": "object"
                 },
+                "description": {
+                  "$ref": "#/definitions/Template"
+                },
                 "doc": {
                   "$ref": "#/definitions/DocText"
                 },
@@ -1847,6 +1850,7 @@
               },
               "required": [
                 "conflict",
+                "description",
                 "doc",
                 "emotion",
                 "name",

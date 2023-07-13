@@ -319,6 +319,7 @@
         },
         "ConversionDefinition": {
             "name": "conversión",
+            "description": "$1 → $2",
             "emotion": "neutral",
             "doc": "$?",
             "start": "$?",
