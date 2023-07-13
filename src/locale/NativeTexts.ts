@@ -39,7 +39,7 @@ type NativeTexts = {
             has: FunctionText<[NameAndDoc]>;
         };
         conversion: {
-            text: DocText;
+            list: DocText;
             number: DocText;
         };
     };

@@ -1404,17 +1404,33 @@
                     ]
                 },
                 "combine": {
-                    "doc": "$?",
+                    "doc": [
+                        "Sometimes it's helpful to combine to @Text into one. Give me another @Text and I'll make a new text that joins us together:",
+                        "⧼'hello ' + 'verse'⧽"
+                    ],
                     "names": ["+", "combine"],
-                    "inputs": [{ "doc": "$?", "names": "text" }]
+                    "inputs": [
+                        { "doc": "The @Text to append.", "names": "text" }
+                    ]
                 },
                 "has": {
-                    "doc": "$?",
+                    "doc": [
+                        "⧼⊤⧽ if the given @Text appears in me.",
+                        "⧼'did you find what you were looking for?'.has('you')⧽"
+                    ],
                     "names": ["⊆", "has"],
-                    "inputs": [{ "doc": "$?", "names": "text" }]
+                    "inputs": [
+                        {
+                            "doc": "The @Text to search for in me.",
+                            "names": "text"
+                        }
+                    ]
                 }
             },
-            "conversion": { "text": "$?", "number": "$?" }
+            "conversion": {
+                "list": "Splits the text into a list of individual characters.",
+                "number": "Converts text into a @Number, and if it's not a number, a not a number value."
+            }
         },
         "Number": {
             "doc": [

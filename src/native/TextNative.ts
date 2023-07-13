@@ -284,7 +284,7 @@ export default function bootstrapText(locales: Locale[]) {
                 createNativeConversion(
                     getDocLocales(
                         locales,
-                        (t) => t.native.Text.conversion.text
+                        (t) => t.native.Text.conversion.list
                     ),
                     '""',
                     '[""]',

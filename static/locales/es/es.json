@@ -943,7 +943,7 @@
                     "inputs": [{ "doc": "$?", "names": "texto" }]
                 }
             },
-            "conversion": { "text": "$?", "number": "$?" }
+            "conversion": { "list": "$?", "number": "$?" }
         },
         "Number": {
             "doc": "$?",

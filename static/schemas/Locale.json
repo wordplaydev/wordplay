@@ -1352,15 +1352,15 @@
                 "conversion": {
                   "additionalProperties": false,
                   "properties": {
-                    "number": {
+                    "list": {
                       "$ref": "#/definitions/DocText"
                     },
-                    "text": {
+                    "number": {
                       "$ref": "#/definitions/DocText"
                     }
                   },
                   "required": [
-                    "text",
+                    "list",
                     "number"
                   ],
                   "type": "object"
