@@ -26,7 +26,7 @@
     const bounds = 0.2;
     const glyphs = new UnicodeString(
         '😀മAあ韓नेئبअขማঅবাংབོދިεفગુע中رšՀꆈᓄქ'
-    ).getSegments();
+    ).getGraphemes();
 
     let mounted = false;
     let previousTime: DOMHighResTimeStamp | undefined = undefined;

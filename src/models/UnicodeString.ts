@@ -11,7 +11,7 @@ export default class UnicodeString {
         this.text = text.normalize();
     }
 
-    getSegments() {
+    getGraphemes() {
         if (this._segments === undefined)
             this._segments = [
                 ...Array.from(Segmenter.segment(this.text)).map(
@@ -34,44 +34,44 @@ export default class UnicodeString {
     }
 
     withPreviousGraphemeReplaced(char: string, position: number) {
-        return position < 0 || position > this.getSegments().length
+        return position < 0 || position > this.getGraphemes().length
             ? undefined
             : new UnicodeString(
                   [
-                      ...this.getSegments()
+                      ...this.getGraphemes()
                           .slice(0, position - 1)
                           .join(''),
                       char,
-                      ...this.getSegments().slice(position),
+                      ...this.getGraphemes().slice(position),
                   ].join('')
               );
     }
 
     withGraphemesAt(graphemes: string, position: number) {
-        return position < 0 || position > this.getSegments().length
+        return position < 0 || position > this.getGraphemes().length
             ? undefined
             : new UnicodeString(
                   [
-                      ...this.getSegments().slice(0, position).join(''),
+                      ...this.getGraphemes().slice(0, position).join(''),
                       graphemes,
-                      ...this.getSegments().slice(position),
+                      ...this.getGraphemes().slice(position),
                   ].join('')
               );
     }
 
     withoutGraphemeAt(position: number) {
-        return position < 0 || position >= this.getSegments().length
+        return position < 0 || position >= this.getGraphemes().length
             ? undefined
             : new UnicodeString(
                   [
-                      ...this.getSegments().slice(0, position),
-                      ...this.getSegments().slice(position + 1),
+                      ...this.getGraphemes().slice(0, position),
+                      ...this.getGraphemes().slice(position + 1),
                   ].join('')
               );
     }
 
     withoutGraphemesBetween(start: number, endExclusive: number) {
-        const segments = this.getSegments();
+        const segments = this.getGraphemes();
         return start < 0 ||
             endExclusive < 0 ||
             start > segments.length ||
@@ -90,7 +90,7 @@ export default class UnicodeString {
     }
 
     getLength() {
-        return this.getSegments().length;
+        return this.getGraphemes().length;
     }
 
     getLines() {
@@ -98,14 +98,44 @@ export default class UnicodeString {
     }
 
     substring(start: number, end: number) {
-        return new UnicodeString(this.getSegments().slice(start, end).join(''));
+        return new UnicodeString(
+            this.getGraphemes().slice(start, end).join('')
+        );
+    }
+
+    split(delimiter: string): string[] {
+        const delimiterGraphemes = new UnicodeString(delimiter).getGraphemes();
+        let graphemes = this.getGraphemes();
+        const segments: string[] = [];
+        let current: string = '';
+        while (graphemes.length > 0) {
+            // Is the next sequence a delimter match?
+            if (
+                graphemes.length >= delimiterGraphemes.length &&
+                delimiterGraphemes.every(
+                    (grapheme, index) => graphemes[index] === grapheme
+                )
+            ) {
+                if (delimiterGraphemes.length === 0)
+                    current = current + graphemes[0];
+                graphemes = graphemes.slice(
+                    Math.max(1, delimiterGraphemes.length)
+                );
+                segments.push(current);
+                current = '';
+            } else {
+                current += graphemes.shift();
+            }
+        }
+        if (current.length > 0) segments.push(current);
+        return segments;
     }
 
     at(position: number) {
-        const segments = this.getSegments();
+        const segments = this.getGraphemes();
         return position < 0 || position >= segments.length
             ? undefined
-            : this.getSegments()[position];
+            : this.getGraphemes()[position];
     }
 
     is(text: string) {

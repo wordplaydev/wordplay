@@ -9,6 +9,7 @@ import type Expression from '../nodes/Expression';
 import List from './List';
 import Bool from './Bool';
 import concretize from '../locale/concretize';
+import UnicodeString from '../models/UnicodeString';
 
 export default class Text extends Primitive {
     readonly text: string;
@@ -45,7 +46,9 @@ export default class Text extends Primitive {
     segment(requestor: Expression, delimiter: Text) {
         return new List(
             requestor,
-            this.text.split(delimiter.text).map((s) => new Text(requestor, s))
+            new UnicodeString(this.text)
+                .split(delimiter.text)
+                .map((s) => new Text(requestor, s))
         );
     }
 

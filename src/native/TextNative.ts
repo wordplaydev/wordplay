@@ -127,7 +127,10 @@ export default function bootstrapText(locales: Locale[]) {
                                 NumberType.make(),
                                 count
                             );
-                        return text.repeat(requestor, count.num.toNumber());
+                        return text.repeat(
+                            requestor,
+                            Math.max(0, Math.floor(count.num.toNumber()))
+                        );
                     }
                 ),
                 createTextFunction(

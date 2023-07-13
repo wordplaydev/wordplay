@@ -1340,35 +1340,68 @@
         "Text": {
             "doc": [
                 "I can be any text you like, from any language, and using any of these symbols opening and closing symbols: ⧼\"\"⧽, ⧼“”⧽, ⧼„“⧽, ⧼''⧽, ⧼‘’⧽, ⧼‹›⧽, ⧼«»⧽, ⧼「」⧽, or ⧼『』⧽.",
+                "To illustrate, consider these beautiful phrases",
+                "⧼“There are only two ways to live your life. One is as though nothing is a miracle. The other is as though everything is a miracle.”⧽",
+                "⧼『一日三秋』⧽",
                 "Just remember to close me if you open me, and use the matching symbol. Otherwise I won't know that you're done with your words.",
                 "Otherwise, there just so many glorious functions that @FunctionDefinition made for me to do all kinds of things with words!"
             ],
             "name": ["''", "Text"],
             "function": {
                 "length": {
-                    "doc": "$?",
+                    "doc": [
+                        "Evaluates to number of legible characters in the text; one letter is one character, one emoji is one character, etc. For example:",
+                        "⧼'hello'.length()⧽",
+                        "⧼'🐈📚'.length()⧽"
+                    ],
                     "names": ["📏", "length"],
                     "inputs": []
                 },
                 "equals": {
-                    "doc": "$?",
+                    "doc": "⧼⊤⧽ if I am the same character sequence as the given @Text.",
                     "names": ["=", "equals"],
-                    "inputs": [{ "doc": "$?", "names": "value" }]
+                    "inputs": [
+                        { "doc": "The @Text to compare.", "names": "value" }
+                    ]
                 },
                 "notequals": {
-                    "doc": "$?",
+                    "doc": "⧼⊤⧽ if I am /not/ the same character sequence as the given @Text.",
                     "names": "≠",
-                    "inputs": [{ "doc": "$?", "names": "value" }]
+                    "inputs": [
+                        { "doc": "The @Text to compare", "names": "value" }
+                    ]
                 },
                 "repeat": {
-                    "doc": "$?",
+                    "doc": [
+                        "I make a new @Text that's me, repeated the number of times of ⧼count⧽:",
+                        "⧼'hi ' · 5⧽",
+                        "If you give me a fractional @Number, I ignore the fraction:",
+                        "⧼'hi ' · 5.5⧽",
+                        "If you give me a negative @Number or zero, I give an empty @Text.",
+                        "⧼'hi ' · -5⧽"
+                    ],
                     "names": ["·", "🔁", "repeat"],
-                    "inputs": [{ "doc": "$?", "names": "count" }]
+                    "inputs": [
+                        {
+                            "doc": "The number of times to repeat myself in the new text.",
+                            "names": "count"
+                        }
+                    ]
                 },
                 "segment": {
-                    "doc": "$?",
+                    "doc": [
+                        "I divide myself into a @List of @Text, using the given @Text as a separator, and removing the separators. For example:",
+                        "⧼'apples, oranges, grapes' ÷ ', '⧽",
+                        "If the separator is an empty @Text, I divide myself into characters:",
+                        "⧼'🖌️🏠🥸' ÷ ''⧽"
+                    ],
                     "names": ["÷", "segment"],
-                    "inputs": [{ "doc": "$?", "names": "delimiter" }]
+                    "inputs": [
+                        {
+                            "doc": "The @Text to use as a separator.",
+                            "names": "delimiter"
+                        }
+                    ]
                 },
                 "combine": {
                     "doc": "$?",
