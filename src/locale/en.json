@@ -945,8 +945,7 @@
                 "For instance, consider this:",
                 "⧼\"Here are some sums \\1 + 2\\, \\2 + 3\\, \\3 + 4\\\"⧽",
                 "See how elegantly I just evaluated those sums, and placed them inside the @Text?",
-                "You can use me instead of adding @TextType together.",
-                ""
+                "I'm very helpful when you want to combine some @Text and other values."
             ],
             "start": "let us evaluate each expression in the text",
             "finish": "let us combine the text"
@@ -1032,12 +1031,16 @@
         "AnyType": {
             "name": "any type",
             "emotion": "curious",
-            "doc": "represents any possible type"
+            "doc": "I represent any any possible type. Sometimes I show up because I don't know what kind of value something is, so it could be anything."
         },
         "BooleanType": {
             "name": "boolean",
-            "emotion": "precise",
-            "doc": "a true or false value"
+            "emotion": "kind",
+            "doc": [
+                "I work with @Bind to declare that a name is a @Boolean value. Like this:",
+                "⧼hungry•?: 'jello'⧽",
+                "If you want to be sure that something is @Boolean, use me, and I'll check!"
+            ]
         },
         "ConversionType": {
             "name": "conversion",

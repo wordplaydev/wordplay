@@ -123,7 +123,7 @@ const GlyphSet = {
         symbols: TRUE_SYMBOL + FALSE_SYMBOL,
     },
     BooleanType: {
-        symbols: TRUE_SYMBOL + FALSE_SYMBOL,
+        symbols: QUESTION_SYMBOL,
     },
     None: {
         symbols: NONE_SYMBOL,

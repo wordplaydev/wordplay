@@ -81,7 +81,8 @@ export default class Markup extends Content {
             .flat()
             .filter(
                 (n): n is Token => n instanceof Token && n.is(TokenType.Words)
-            );
+            )
+            .filter((w) => w.getText().indexOf(text) >= 0);
 
         return wordsWithText.length === 0
             ? undefined
