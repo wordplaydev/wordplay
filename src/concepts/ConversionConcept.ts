@@ -6,12 +6,11 @@ import type Node from '@nodes/Node';
 import type Locale from '@locale/Locale';
 import Emotion from '../lore/Emotion';
 import Glyphs from '../lore/Glyphs';
-import type Doc from '../nodes/Doc';
-import type Spaces from '../parser/Spaces';
 import Concept from './Concept';
 import Purpose from './Purpose';
 import type StructureConcept from './StructureConcept';
 import concretize from '../locale/concretize';
+import type Markup from '../nodes/Markup';
 
 export default class ConversionConcept extends Concept {
     /** The function this concept represents. */
@@ -51,9 +50,9 @@ export default class ConversionConcept extends Concept {
         return false;
     }
 
-    getDocs(translation: Locale): [Doc, Spaces] | undefined {
+    getDocs(translation: Locale): Markup | undefined {
         const doc = this.definition.docs?.getLocale(translation.language);
-        return doc ? [doc, this.context.source.spaces] : undefined;
+        return doc?.markup;
     }
 
     getName(locale: Locale) {

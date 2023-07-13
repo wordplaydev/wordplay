@@ -8,12 +8,11 @@ import type Locale from '@locale/Locale';
 import Purpose from './Purpose';
 import type StreamDefinition from '../nodes/StreamDefinition';
 import Emotion from '../lore/Emotion';
-import type Doc from '../nodes/Doc';
-import type Spaces from '../parser/Spaces';
 import BindConcept from './BindConcept';
 import type StructureConcept from './StructureConcept';
 import Evaluate from '../nodes/Evaluate';
 import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
+import type Markup from '../nodes/Markup';
 
 export default class StreamConcept extends Concept {
     /** The type this concept represents. */
@@ -62,9 +61,9 @@ export default class StreamConcept extends Concept {
         return this.definition.names.hasName(name);
     }
 
-    getDocs(translation: Locale): [Doc, Spaces] | undefined {
+    getDocs(translation: Locale): Markup | undefined {
         const doc = this.definition.docs?.getLocale(translation.language);
-        return doc ? [doc, this.context.source.spaces] : undefined;
+        return doc?.markup;
     }
 
     getName(translation: Locale, symbolic: boolean) {

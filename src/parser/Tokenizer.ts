@@ -80,6 +80,16 @@ export const DOC_SPECIAL_CHARACTERS = [
     LIST_CLOSE_SYMBOL,
 ];
 
+export function unescapeDocSymbols(text: string) {
+    if (text.includes('$$')) {
+        console.log('hi');
+    }
+    return DOC_SPECIAL_CHARACTERS.reduce(
+        (literal, special) => literal.replaceAll(special + special, special),
+        text
+    );
+}
+
 /** Words are any sequence of characters that aren't special characters, unless those special characters are repeated, indicating an escape. */
 export const WordsRegEx = new RegExp(
     `^(${DOC_SPECIAL_CHARACTERS.map((c) => {

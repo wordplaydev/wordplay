@@ -17,9 +17,8 @@ import type Locale from '@locale/Locale';
 import type Purpose from './Purpose';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import Emotion from '../lore/Emotion';
-import type Doc from '../nodes/Doc';
-import type Spaces from '../parser/Spaces';
 import FunctionType from '../nodes/FunctionType';
+import type Markup from '../nodes/Markup';
 
 export default class FunctionConcept extends Concept {
     /** The function this concept represents. */
@@ -108,9 +107,9 @@ export default class FunctionConcept extends Concept {
         return this.definition.names.hasName(name);
     }
 
-    getDocs(translation: Locale): [Doc, Spaces] | undefined {
+    getDocs(translation: Locale): Markup | undefined {
         const doc = this.definition.docs?.getLocale(translation.language);
-        return doc ? [doc, this.context.source.spaces] : undefined;
+        return doc?.markup;
     }
 
     getName(translation: Locale) {

@@ -15,8 +15,7 @@ import type LanguageCode from '@locale/LanguageCode';
 import type Locale from '@locale/Locale';
 import type Purpose from './Purpose';
 import Emotion from '../lore/Emotion';
-import type Doc from '../nodes/Doc';
-import type Spaces from '../parser/Spaces';
+import type Markup from '../nodes/Markup';
 
 export default class StructureConcept extends Concept {
     /** The type this concept represents. */
@@ -138,9 +137,9 @@ export default class StructureConcept extends Concept {
         return this.definition.names.hasName(name);
     }
 
-    getDocs(translation: Locale): [Doc, Spaces] | undefined {
+    getDocs(translation: Locale): Markup | undefined {
         const doc = this.definition.docs?.getLocale(translation.language);
-        return doc ? [doc, this.context.source.spaces] : undefined;
+        return doc?.markup;
     }
 
     getName(translation: Locale, symbolic: boolean) {

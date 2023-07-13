@@ -7,6 +7,8 @@ import type { TemplateInput } from '../locale/concretize';
 import type { Replacement } from './Node';
 import type Spaces from '../parser/Spaces';
 import { toMarkup } from '../parser/Parser';
+import Token from './Token';
+import TokenType from './TokenType';
 
 /**
  * To refer to an input, use a $, followed by the number of the input desired,
@@ -68,6 +70,28 @@ export default class Markup extends Content {
         return concrete.some((p) => p === undefined)
             ? undefined
             : new Markup(concrete as Paragraph[], this.spaces);
+    }
+
+    getMatchingText(
+        text: string,
+        locale: Locale[]
+    ): [string, number] | undefined {
+        const wordsWithText = this.paragraphs
+            .map((p) => p.nodes())
+            .flat()
+            .filter(
+                (n): n is Token => n instanceof Token && n.is(TokenType.Words)
+            );
+
+        return wordsWithText.length === 0
+            ? undefined
+            : [
+                  wordsWithText[0].getText(),
+                  wordsWithText[0]
+                      .getText()
+                      .toLocaleLowerCase(locale.map((l) => l.language))
+                      .indexOf(text),
+              ];
     }
 
     toText() {

@@ -26,12 +26,9 @@
     <Speech glyph={concept.getGlyphs($creator.getLanguages())} below={header}>
         <MissingLocalesView />
         {#each $creator.getLocales() as locale}
-            {@const [doc, spaces] = concept.getDocs(locale) ?? [
-                undefined,
-                undefined,
-            ]}
-            {#if doc && spaces}
-                <MarkupHTMLView markup={doc.markup} />
+            {@const markup = concept.getDocs(locale)}
+            {#if markup}
+                <MarkupHTMLView {markup} />
             {:else}
                 {locale.ui.labels.nodoc}
             {/if}

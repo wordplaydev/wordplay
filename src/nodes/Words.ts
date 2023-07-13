@@ -14,6 +14,7 @@ import type { TemplateInput } from '../locale/concretize';
 import type { NodeSegment, Segment } from './Paragraph';
 import NodeRef from '../locale/NodeRef';
 import ValueRef from '../locale/ValueRef';
+import { unescapeDocSymbols } from '../parser/Tokenizer';
 
 export type Format = 'italic' | 'underline' | 'light' | 'bold' | 'extra';
 
@@ -101,10 +102,12 @@ export default class Words extends Content {
     }
 
     concretize(locale: Locale, inputs: TemplateInput[]): Words | undefined {
-        const concrete = this.segments.map((c) =>
-            c instanceof Token || c instanceof ValueRef || c instanceof NodeRef
-                ? c
-                : c.concretize(locale, inputs)
+        const concrete = this.segments.map((content) =>
+            content instanceof ValueRef || content instanceof NodeRef
+                ? content
+                : content instanceof Token // Replace all repeated special characters with single special characters.
+                ? content.withText(unescapeDocSymbols(content.getText()))
+                : content.concretize(locale, inputs)
         );
         return concrete.some((s) => s === undefined)
             ? undefined

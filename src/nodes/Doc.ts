@@ -81,36 +81,6 @@ export default class Doc extends Node {
         return this.lang === undefined ? undefined : this.lang.getLanguage();
     }
 
-    getMatchingText(text: string): [string, number] | undefined {
-        const wordsWithText = this.markup.paragraphs
-            .reduce(
-                (nodes: Node[], paragraph: Paragraph) => [
-                    ...nodes,
-                    ...paragraph.nodes(),
-                ],
-                []
-            )
-            .filter(
-                (n): n is Token => n instanceof Token && n.is(TokenType.Words)
-            )
-            .filter(
-                (w) =>
-                    w
-                        .getText()
-                        .toLocaleLowerCase(this.lang?.getLanguageCode())
-                        .indexOf(text) >= 0
-            );
-        return wordsWithText.length === 0
-            ? undefined
-            : [
-                  wordsWithText[0].getText(),
-                  wordsWithText[0]
-                      .getText()
-                      .toLocaleLowerCase(this.lang?.getLanguageCode())
-                      .indexOf(text),
-              ];
-    }
-
     computeConflicts() {}
 
     getNodeLocale(translation: Locale) {

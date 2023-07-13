@@ -7,8 +7,7 @@ import Concept from './Concept';
 import type Locale from '@locale/Locale';
 import type Purpose from './Purpose';
 import Emotion from '../lore/Emotion';
-import type Doc from '../nodes/Doc';
-import type Spaces from '../parser/Spaces';
+import type Markup from '../nodes/Markup';
 
 export default class BindConcept extends Concept {
     /** The type this concept represents. */
@@ -50,9 +49,9 @@ export default class BindConcept extends Concept {
         return this.bind.hasName(name);
     }
 
-    getDocs(locale: Locale): [Doc, Spaces] | undefined {
+    getDocs(locale: Locale): Markup | undefined {
         const doc = this.bind.docs?.getLocale(locale.language);
-        return doc ? [doc, this.context.source.spaces] : undefined;
+        return doc?.markup;
     }
 
     getName(translation: Locale, symbolic: boolean) {

@@ -52,14 +52,6 @@ export default class Docs extends Node {
         return translation.node.Docs;
     }
 
-    getWordsWithText(text: string) {
-        return this.docs
-            .map((doc) => doc.getMatchingText(text))
-            .filter(
-                (match): match is [string, number] => match !== undefined
-            )[0];
-    }
-
     getGlyphs() {
         return Glyphs.Doc;
     }

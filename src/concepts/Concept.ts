@@ -1,4 +1,3 @@
-import type Doc from '@nodes/Doc';
 import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
 import type Locale from '@locale/Locale';
@@ -6,8 +5,8 @@ import type Purpose from './Purpose';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import type Glyph from '../lore/Glyph';
 import type LanguageCode from '../locale/LanguageCode';
-import type Spaces from '../parser/Spaces';
 import type Emotion from '../lore/Emotion';
+import type Markup from '../nodes/Markup';
 
 /**
  * Represents some part of the Wordplay language, API, or example ecosystem.
@@ -65,7 +64,7 @@ export default abstract class Concept {
     /**
      * Returns, if available, documentation for the concept.
      */
-    abstract getDocs(translation: Locale): [Doc, Spaces] | undefined;
+    abstract getDocs(translation: Locale): Markup | undefined;
 
     /**
      * Provides a set of Nodes that could be rendered in the UI.
@@ -91,18 +90,18 @@ export default abstract class Concept {
      * Should return true if anything about the concept matches the query text.
      */
     getTextMatching(
-        translation: Locale,
+        locale: Locale,
         query: string
     ): [string, number, number] | undefined {
-        const name = this.getName(translation, false);
-        const lowerDescription = name.toLocaleLowerCase(translation.language);
+        const name = this.getName(locale, false);
+        const lowerDescription = name.toLocaleLowerCase(locale.language);
         const index = lowerDescription.indexOf(query);
         // Return name match at priority 1
         if (index >= 0) return [name, index, 1];
-        const [doc] = this.getDocs(translation) ?? [undefined];
+        const markup = this.getDocs(locale);
         // If the name doesn't match, see if a doc does
-        if (doc) {
-            const [match, index] = doc.getMatchingText(query) ?? [
+        if (markup) {
+            const [match, index] = markup.getMatchingText(query, [locale]) ?? [
                 undefined,
                 undefined,
             ];

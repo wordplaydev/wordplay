@@ -19,12 +19,9 @@
         />{/if}
     <MissingLocalesView />
     {#each $creator.getLocales() as trans}
-        {@const [doc, spaces] = concept.getDocs(trans) ?? [
-            undefined,
-            undefined,
-        ]}
-        {#if doc && spaces}
-            <MarkupHTMLView markup={doc.markup} />
+        {@const markup = concept.getDocs(trans)}
+        {#if markup}
+            <MarkupHTMLView {markup} />
         {:else}
             {trans.ui.labels.nodoc}
         {/if}

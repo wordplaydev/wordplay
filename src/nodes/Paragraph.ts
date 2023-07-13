@@ -14,6 +14,7 @@ import type Mention from './Mention';
 import NodeRef from '../locale/NodeRef';
 import ValueRef from '../locale/ValueRef';
 import type Branch from './Branch';
+import { unescapeDocSymbols } from '../parser/Tokenizer';
 
 export type NodeSegment =
     | Token
@@ -68,10 +69,12 @@ export default class Paragraph extends Content {
     }
 
     concretize(locale: Locale, inputs: TemplateInput[]): Paragraph | undefined {
-        const concreteSegments = this.segments.map((c) =>
-            c instanceof Token || c instanceof ValueRef || c instanceof NodeRef
-                ? c
-                : c.concretize(locale, inputs)
+        const concreteSegments = this.segments.map((content) =>
+            content instanceof ValueRef || content instanceof NodeRef
+                ? content
+                : content instanceof Token // Replace all repeated special characters with single special characters.
+                ? content.withText(unescapeDocSymbols(content.getText()))
+                : content.concretize(locale, inputs)
         );
         return concreteSegments.some((s) => s === undefined)
             ? undefined

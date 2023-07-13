@@ -5,9 +5,8 @@ import type Locale from '@locale/Locale';
 import { parseDoc, toTokens } from '@parser/Parser';
 import type Purpose from './Purpose';
 import type StructureDefinition from '@nodes/StructureDefinition';
-import type Spaces from '../parser/Spaces';
-import type Doc from '../nodes/Doc';
 import type Emotion from '../lore/Emotion';
+import type Markup from '../nodes/Markup';
 
 export default class NodeConcept extends Concept {
     readonly template: Node;
@@ -43,11 +42,11 @@ export default class NodeConcept extends Concept {
         return match ? match[0] === name || match[1].name === name : false;
     }
 
-    getDocs(locale: Locale): [Doc, Spaces] | undefined {
+    getDocs(locale: Locale): Markup | undefined {
         const docs = this.template.getDoc(locale);
         const doc = typeof docs === 'string' ? docs : docs.join('\n\n');
         const tokens = toTokens('`' + doc + '`');
-        return [parseDoc(tokens), tokens.getSpaces()];
+        return parseDoc(tokens).markup.concretize(locale, []);
     }
 
     getName(locale: Locale, symbolic: boolean) {
