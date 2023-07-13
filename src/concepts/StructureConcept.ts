@@ -137,9 +137,9 @@ export default class StructureConcept extends Concept {
         return this.definition.names.hasName(name);
     }
 
-    getDocs(translation: Locale): Markup | undefined {
-        const doc = this.definition.docs?.getLocale(translation.language);
-        return doc?.markup;
+    getDocs(locale: Locale): Markup | undefined {
+        const doc = this.definition.docs?.getLocale(locale.language);
+        return doc?.markup.concretize(locale, []);
     }
 
     getName(translation: Locale, symbolic: boolean) {

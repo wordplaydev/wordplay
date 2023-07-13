@@ -50,9 +50,9 @@ export default class ConversionConcept extends Concept {
         return false;
     }
 
-    getDocs(translation: Locale): Markup | undefined {
-        const doc = this.definition.docs?.getLocale(translation.language);
-        return doc?.markup;
+    getDocs(locale: Locale): Markup | undefined {
+        const doc = this.definition.docs?.getLocale(locale.language);
+        return doc?.markup?.concretize(locale, []);
     }
 
     getName(locale: Locale) {

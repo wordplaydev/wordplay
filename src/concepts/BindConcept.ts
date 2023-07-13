@@ -51,7 +51,7 @@ export default class BindConcept extends Concept {
 
     getDocs(locale: Locale): Markup | undefined {
         const doc = this.bind.docs?.getLocale(locale.language);
-        return doc?.markup;
+        return doc?.markup?.concretize(locale, []);
     }
 
     getName(translation: Locale, symbolic: boolean) {
