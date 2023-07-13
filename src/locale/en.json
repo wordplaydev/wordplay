@@ -2168,16 +2168,17 @@
         },
         "Map": {
             "doc": [
-                "I bring characters together to create @Map, providing pairs of *keys* to *values*.",
+                "I bring values together, mapping *keys* to *values*. For example:",
+                "⧼{'amy': 6points 'tony':3points 'shiela': 8points}⧽",
                 "My keys can be any kind of value, and my values can be any kind of value.",
                 "Some people like to think of my like an index, or a dictionary, where you give me something, and I give you what it's mapped to.",
-                "For example, here's a mapping from numbers to their number words:",
-                "⧼{1: 'one' 2: 'two' 3: 'three'}⧽",
                 "If you wanted to check what something is mapped to, you can give @SetOrMapAccess, a key and they'll give you the value:",
-                "⧼{1: 'one' 2: 'two' 3: 'three'}{1}⧽",
+                "⧼{'amy': 6points 'tony':3points 'shiela': 8points}{'amy'}⧽",
                 "If there is no matching key, I'll give you @None.",
-                "⧼{1: 'one' 2: 'two' 3: 'three'}{0}⧽",
-                "See @Map for all of the wonderful function s@FunctionDefinition for adding things to a mapping, removing things, getting the set of keys or values, and more."
+                "⧼{'amy': 6points 'tony':3points 'shiela': 8points}{'jen'}⧽",
+                "You can also make an empty map like this:",
+                "⧼{:}⧽",
+                "I know how to many wonderful things with my pairings."
             ],
             "name": ["{:}", "Map"],
             "key": "Key",
@@ -2185,46 +2186,106 @@
             "result": "Result",
             "function": {
                 "equals": {
-                    "doc": "$?",
+                    "doc": [
+                        "⧼{⊤}⧽ if my pairings are the exact same as the given @Map's.",
+                        "⧼{1:1 2:2} = {1:1 2:3}⧽"
+                    ],
                     "names": ["=", "equals"],
-                    "inputs": [{ "doc": "$?", "names": "value" }]
+                    "inputs": [
+                        {
+                            "doc": "The @Map to compare me to.",
+                            "names": "value"
+                        }
+                    ]
                 },
                 "notequals": {
-                    "doc": "$?",
+                    "doc": [
+                        "⧼{⊤}⧽ if my pairings are /not/ the exact same as the given @Map's.",
+                        "⧼{1:1 2:2} ≠ {1:1 2:3}⧽"
+                    ],
                     "names": ["≠", "notequal"],
-                    "inputs": [{ "doc": "$?", "names": "value" }]
+                    "inputs": [
+                        {
+                            "doc": "The @Map to compare me to.",
+                            "names": "value"
+                        }
+                    ]
                 },
                 "set": {
-                    "doc": "$?",
-                    "names": "set",
+                    "doc": [
+                        "I'll make a new @Map with all the same pairings, but with the new pairing you give me. If I already have the key, I'll pair it to the new value.",
+                        "⧼{'amy': 6points 'tony':3points}.pair('jen' 0points)⧽"
+                    ],
+                    "names": "pair",
                     "inputs": [
-                        { "doc": "$?", "names": "key" },
-                        { "doc": "$?", "names": "value" }
+                        { "doc": "Key to pair with a value.", "names": "key" },
+                        {
+                            "doc": "The value to pair with the key",
+                            "names": "value"
+                        }
                     ]
                 },
                 "unset": {
-                    "doc": "$?",
-                    "names": "unset",
-                    "inputs": [{ "doc": "$?", "names": "key" }]
+                    "doc": [
+                        "I'll make a new @Map without the key you give me, removing its pairing.",
+                        "⧼{'amy': 6points 'tony':3points}.unpair('amy')⧽"
+                    ],
+                    "names": "unpair",
+                    "inputs": [{ "doc": "The key to forget.", "names": "key" }]
                 },
                 "remove": {
-                    "doc": "$?",
+                    "doc": [
+                        "I'll create a new @Map without any keys that have the value.",
+                        "⧼{'amy': 0points 'jen': 0points 'tony':3points}.remove(0points)⧽"
+                    ],
                     "names": "remove",
-                    "inputs": [{ "doc": "$?", "names": "value" }]
+                    "inputs": [
+                        {
+                            "doc": "The value to remove from me, along with any keys its paired to.",
+                            "names": "value"
+                        }
+                    ]
                 },
                 "filter": {
-                    "doc": "$?",
+                    "doc": [
+                        "Give me a @FunctionDefinition that takes a key and value and evaluates to ⧼⊤⧽ if a pairing should be kept. I'll create a new @Map that meets your criteria.",
+                        "For example, here we want to keep any pairings that are Amy or have more than zero points.",
+                        "⧼{'amy': 0points 'jen': 0points 'tony':3points}.filter(ƒ(key•'' value•#points) (key = 'amy') | (value > 0points))⧽"
+                    ],
                     "names": "filter",
-                    "inputs": [{ "doc": "$?", "names": "checker" }],
-                    "key": { "doc": "$?", "names": "key" },
-                    "value": { "doc": "$?", "names": "value" }
+                    "inputs": [
+                        {
+                            "doc": "The @FunctionDefinition that decides whether to keep a pairing.",
+                            "names": "checker"
+                        }
+                    ],
+                    "key": { "doc": "The key being checked.", "names": "key" },
+                    "value": {
+                        "doc": "The value being checked.",
+                        "names": "value"
+                    }
                 },
                 "translate": {
-                    "doc": "$?",
+                    "doc": [
+                        "Give me a @FunctionDefinition that takes a key and value and evaluates the value to a new value. I'll create a new @Map with the same keys but updated values.",
+                        "For example, let's give everyone one point since they've been so nice.",
+                        "⧼{'amy': 5points 'jen': 3points 'tony': 0points}.translate(ƒ(key•'' value•#points) value + 1points)⧽"
+                    ],
                     "names": "translate",
-                    "inputs": [{ "doc": "$?", "names": "translator" }],
-                    "key": { "doc": "$?", "names": "key" },
-                    "value": { "doc": "$?", "names": "value" }
+                    "inputs": [
+                        {
+                            "doc": "The @FunctionDefinition that translates each value.",
+                            "names": "translator"
+                        }
+                    ],
+                    "key": {
+                        "doc": "The key of the value being translated.",
+                        "names": "key"
+                    },
+                    "value": {
+                        "doc": "The value being translated.",
+                        "names": "value"
+                    }
                 }
             },
             "conversion": {
