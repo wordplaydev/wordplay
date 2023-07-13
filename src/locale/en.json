@@ -1444,9 +1444,17 @@
                 "That's basically an infinite number of numbers.",
                 "And an infinite number of units!",
                 "And an infinite number of number/unit pairs…",
-                "Check out @Number to see the many @FunctionDefinition.",
-                "We are any number imaginable, even with units.",
-                "We can be integers, real numbers, negative, positive, fractional, decimal. We can be Arabic numbers (123), Roman numerals (ⅩⅩⅩⅠⅩ), Japanese numerals (二十), and more."
+                "I can be integers, real numbers, negative, positive, fractional, decimal, even not a number.",
+                "And you can write me with many different number systems, including Arabic ⧼123⧽, Roman ⧼ⅩⅩⅩⅠⅩ⧽, Japanese ⧼二十⧽, and more:",
+                "⧼1 + Ⅰ + 一⧽",
+                "You can also write me in bases 2 to 16 by putting a base number like this:",
+                "⧼2;11111111⧽",
+                "⧼10;255⧽",
+                "⧼16;FF⧽",
+                "There is one special number called NaN that is possible when you write something that isn't a number:",
+                "⧼2;22⧽",
+                "There is no digit '2' in base 2, so it's not a valid number. NaN will also show up if you try to convert non-number text to number",
+                "⧼'hi'→#⧽"
             ],
             "name": ["#", "Number"],
             "function": {
@@ -1457,12 +1465,11 @@
                         "⧼1 + 1⧽",
                         "⧼3cat + 5cat⧽",
                         "If the units don't match, I halt the show.",
-                        "⧼3cat + 5dog⧽",
-                        ""
+                        "⧼3cat + 5dog⧽"
                     ],
                     "names": ["+", "add"],
                     "inputs": [
-                        { "doc": "I'm the number to add.", "names": "number" }
+                        { "doc": "The @Number to add.", "names": "number" }
                     ]
                 },
                 "subtract": {
@@ -1543,7 +1550,7 @@
                 "sin": { "doc": "$?", "names": ["sin", "sine"], "inputs": [] }
             },
             "conversion": {
-                "text": "A @Text representation of my digits.",
+                "text": "An Arabic @Text representation of my digits.",
                 "list": "A list of the numbers 1 to whatever number is given, such as\n⧼10→[]⧽.",
                 "s2m": "Seconds to minutes",
                 "s2h": "Seconds to hours",
