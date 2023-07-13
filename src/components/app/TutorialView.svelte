@@ -264,8 +264,8 @@
             </select>
             <Note
                 >{#if act !== undefined}{act.name}{/if}
-                {#if act !== undefined && scene !== undefined}<br
-                    />{scene.concept ?? scene.name}{/if}
+                {#if act !== undefined && scene !== undefined}{#if $creator.getArrangement() !== Arrangement.vertical}<br
+                        />{/if}{scene.concept ?? scene.name}{/if}
                 {#if act !== undefined && scene !== undefined && progress.pause > 0}
                     <span class="progress"
                         >&ndash; {progress.pause} /
@@ -315,11 +315,12 @@
     .tutorial {
         display: flex;
         flex-direction: row;
-        position: absolute;
-        left: 0;
-        top: 0;
-        right: 0;
-        bottom: 0;
+        align-items: center;
+        justify-content: center;
+        flex: 1;
+        min-height: 0;
+        min-width: 0;
+        width: 100%;
     }
 
     .tutorial.vertical {
@@ -360,12 +361,13 @@
     }
 
     .dialog {
+        height: 100%;
         width: 30%;
+        min-width: 30%;
         display: flex;
         flex-direction: column;
+        min-height: 0;
         gap: var(--wordplay-spacing);
-        flex-shrink: 0;
-        flex-grow: 0;
         align-items: flex-start;
         border-right: var(--wordplay-border-width) solid
             var(--wordplay-border-color);
@@ -374,8 +376,10 @@
     }
 
     .vertical .dialog {
-        height: 30%;
+        height: 20%;
         width: 100%;
+        min-height: 30%;
+        min-width: 0;
     }
 
     .dialog:focus {
@@ -411,6 +415,12 @@
         display: flex;
         flex-direction: row;
         flex-grow: 1;
+        min-width: 0;
+        width: 100%;
+    }
+
+    .vertical .project {
+        min-height: 0;
     }
 
     .progress {
