@@ -42,13 +42,13 @@ fade/en,descolorar/es,يختفي/ar: Pose(opacity: 0)
 screen/en,cine/es,إظهار/ar: 
   state.status = "start" ? 
     Group(⬇() [
-      	💬(["What***Word***"/en "Que***Palabra***"/es "اي كلمة"/ar] 
+      	💬(["What*Word*"/en "Que*Palabra*"/es "اي كلمة"/ar] 
         	3m 
         	place: 📍(z: -1m) 
         	enter: Pose(opacity: 0%)
         	rest: Sequence(sway() 1s)
       )
-      	💬(["press ***space*** to begin"/en "presiona espacio para comenzar"/es "اضغط على *** مسافة *** للبدء"/ar])
+      	💬(["press *space* to begin"/en "presiona espacio para comenzar"/es "اضغط على * مسافة * للبدء"/ar])
     ]
     	exit: fade
   )
@@ -57,9 +57,9 @@ screen/en,cine/es,إظهار/ar:
       		board 
       		💬(
         		[
-          		"You lost. Press **space** to play again."/en 
-          		"Perdiste. Presiona **espacio** para volver a jugar"/es
-          		"لقد خسرت. اضغط على ** مسافة ** للعب مرة أخرى."/ar
+          		"You lost. Press *space* to play again."/en 
+          		"Perdiste. Presiona *espacio* para volver a jugar"/es
+          		"لقد خسرت. اضغط على * مسافة * للعب مرة أخرى."/ar
         ] 
         		enter: Pose(tilt: 0°) 
         		rest: Pose(tilt: -5°)
