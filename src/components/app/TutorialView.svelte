@@ -91,7 +91,6 @@
     let performance: Performance;
     $: {
         let newPerformance = progress.getPerformance();
-        console.log(newPerformance);
         if (newPerformance !== undefined && newPerformance !== performance) {
             // Reset the concept path when code changes.
             conceptPath.set([]);

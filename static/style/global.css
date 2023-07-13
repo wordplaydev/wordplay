@@ -33,7 +33,7 @@
     --wordplay-editor-radius: 3px;
     --wordplay-spacing: 0.5em;
     --wordplay-font-weight: 500;
-    --wordplay-font-size: 16pt;
+    --wordplay-font-size: 14pt;
     --wordplay-border-width: 1px;
     --wordplay-focus-width: 4px;
     --wordplay-border-radius: 5px;
@@ -244,17 +244,17 @@ h3:not(:first-child) {
 }
 
 h1 {
-    font-size: 20pt;
+    font-size: calc(var(--wordplay-font-size) + 3pt);
     font-weight: bold;
 }
 
 h2 {
-    font-size: 18pt;
+    font-size: calc(var(--wordplay-font-size) + 1pt);
     font-weight: bold;
 }
 
 h3 {
-    font-size: 16pt;
+    font-size: var(--wordplay-font-size);
     font-style: italic;
     font-weight: normal;
 }

@@ -6,7 +6,7 @@
 
 <style>
     p {
-        font-size: 200%;
+        font-size: 8vw;
         margin-bottom: var(--wordplay-spacing);
     }
 </style>
