@@ -75,6 +75,7 @@ import EvalOpenToken from '../nodes/EvalOpenToken';
 import SetCloseToken from '../nodes/SetCloseToken';
 import SetOrMapAccess from '../nodes/SetOrMapAccess';
 import Source from '../nodes/Source';
+import NameType from '../nodes/NameType';
 
 /** These are ordered by appearance in the docs. */
 const templates: Node[] = [
@@ -167,6 +168,7 @@ const templates: Node[] = [
     NoneType.make(),
     MapType.make(TypePlaceholder.make(), TypePlaceholder.make()),
     UnionType.make(TypePlaceholder.make(), TypePlaceholder.make()),
+    NameType.make('_'),
     TypeInputs.make([]),
     TypeVariables.make([]),
     ConversionType.make(TypePlaceholder.make(), TypePlaceholder.make()),

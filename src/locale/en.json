@@ -1044,47 +1044,68 @@
         },
         "ConversionType": {
             "name": "conversion",
-            "emotion": "curious",
-            "doc": "a type of function that converts values of one type to another "
+            "emotion": "serious",
+            "doc": [
+                "I work with @Bind to indicate that a name is a @ConversionDefinition. You probably don't need to use me, because not a lot of people pass me around as a value, but if you did, I would look like this:",
+                "⧼magic•?→'': → ? '' . ? 'yep' 'nope'⧽"
+            ]
         },
         "ExceptionType": {
             "name": "exception",
-            "emotion": "curious",
-            "doc": "$?"
+            "emotion": "neutral",
+            "doc": "I represent an exception. There's no way to tell bind that I am one, because exceptions only ever halt @Program, so you can't use them as values."
         },
         "FunctionDefinitionType": {
             "name": "function type",
-            "emotion": "curious",
-            "doc": "$?"
+            "emotion": "happy",
+            "doc": [
+                "I represent a @FunctionDefinition. I'm really helpful if you want to say what kind of function a @Bind holds! Like this:",
+                "⧼math•ƒ (# # # #) #?: ƒ interesting(a•# b•# c•# d•#) a + b + c + d⧽"
+            ]
         },
         "FunctionType": {
             "name": "function type",
             "emotion": "curious",
-            "doc": "$?"
+            "doc": [
+                "I represent a @FunctionDefinition. I'm really helpful if you want to say what kind of function a @Bind holds! Like this:",
+                "⧼math•ƒ (# # # #) #?: ƒ interesting(a•# b•# c•# d•#) a + b + c + d⧽"
+            ]
         },
         "ListType": {
             "name": "list type",
             "description": "$1[list of $1|list]",
             "emotion": "cheerful",
-            "doc": "$?"
+            "doc": [
+                "I am /such/ a fan of @List. I get to tell @Bind what kind of list they are! Like this, I'm saying that it's a list of @Number:",
+                "⧼things•[#]: [ 1 2 3 4 5 ]⧽"
+            ]
         },
         "MapType": {
             "name": "map type",
             "description": "map from $1[$1|any] to $2[$2|any]",
             "emotion": "kind",
-            "doc": "$?"
+            "doc": [
+                "Do you know how awesome @Map is? Like really awesome. I tell @Bind what kind of map they are all the time, like this map of numbers to lists:",
+                "⧼stuff•{'':[]}: {}⧽"
+            ]
         },
         "NumberType": {
             "name": "number type",
             "description": "$1[$1 | number]",
             "emotion": "precise",
-            "doc": "$?"
+            "doc": [
+                "You know what @Bind should be? A @Number. Because numbers are the best.",
+                "⧼count•#: 17⧽"
+            ]
         },
         "NameType": {
             "name": "name type",
             "description": "$1 type",
             "emotion": "curious",
-            "doc": "$?",
+            "doc": [
+                "I represent a @StructureDefinition by it's name. So like, if you had a structure like this, you could make a @Bind that stores the values it creates.",
+                "⧼•Friend(name•'')\nbestie•Friend: Friend('Jonah')⧽"
+            ],
             "conflict": {
                 "UnknownTypeName": "type names can only refer to structures or type variables, but this refers to a $1"
             }
@@ -1092,46 +1113,55 @@
         "NeverType": {
             "name": "never type",
             "emotion": "curious",
-            "doc": "$?"
+            "doc": "I represent a type that is impossible. Like when you ask @Is if something is a @Number, but it can never be a number."
         },
         "NoneType": {
             "name": "none type",
             "emotion": "neutral",
-            "doc": "$?"
+            "doc": [
+                "@None is the best nothing there is, and I am their faithful representative.",
+                "⧼space•ø: ø⧽"
+            ]
         },
         "SetType": {
             "name": "set type",
             "description": "$1[$1|anything] set type",
             "emotion": "kind",
-            "doc": "$?"
+            "doc": [
+                "@Set is the BEST, like seriously. I'm telling @Bind all the time, make things a set of something!",
+                "⧼unique•{''}: {'something' 'anything' 'someone'}⧽"
+            ]
         },
         "StreamDefinitionType": {
             "name": "stream definition type",
-            "emotion": "curious",
-            "doc": "$?"
+            "emotion": "angry",
+            "doc": "I represent a stream you have defined, which isn't possible, so why are you even reading this?"
         },
         "StreamType": {
             "name": "stream type",
             "emotion": "curious",
-            "doc": "$?"
+            "doc": [
+                "I celebrate the beauty and meaning of streams… by telling @Bind to store them:",
+                "⧼time•…#ms: Time()⧽"
+            ]
         },
         "StructureDefinitionType": {
             "name": "structure definition type",
             "description": "$1",
             "emotion": "kind",
-            "doc": "$?"
+            "doc": "I am an internal type to represent the type of default value types."
         },
         "UnknownType": {
             "name": "unknown type",
             "unknown": "unknown",
             "connector": ", because",
             "emotion": "curious",
-            "doc": "$?"
+            "doc": "Umm... I don't know what I represent, but I really am curious. Do you know? It seems like we should know. You might need to tell us if we can't figure it out."
         },
         "TableType": {
             "name": "table type",
             "emotion": "angry",
-            "doc": "$?",
+            "doc": "I represent a Table.",
             "conflict": {
                 "ExpectedColumnType": "I need a column type"
             }
@@ -1140,72 +1170,82 @@
             "name": "text type",
             "description": "$1[$1|text]",
             "emotion": "happy",
-            "doc": "$?"
+            "doc": [
+                "I fabulously represent the most fabulous kind of value there is, @Text.",
+                "⧼story•'': 'Once upon a time...'⧽"
+            ]
         },
         "TypePlaceholder": {
             "name": "placeholder type",
-            "emotion": "curious",
-            "doc": "$?"
+            "emotion": "eager",
+            "doc": "I hope to represent a type some day, kind of like my bestie @ExpressionPlaceholder represents an expression! Will you help me decide what kind?"
         },
         "UnionType": {
             "name": "option type",
             "description": "$1 | $2",
             "emotion": "curious",
-            "doc": "$?"
+            "doc": [
+                "Who should I represent, A or B or something else? I can never decide!",
+                "⧼indecision•''|#|{ø}: 'I don't know!'⧽"
+            ]
         },
         "Unit": {
             "name": "unit",
             "description": "$1",
             "emotion": "precise",
-            "doc": "$?"
+            "doc": [
+                "I represent any unit a @Number might have, including no unit, to the most complicated unit you can imagine. Like gravity, for example:",
+                "⧼gravity•m/s^2: 9.8m/s^2",
+                "I show up in @Bind, but also right after @Number. I help make sure that numbers are of the same kinds, and will definitely tell you if they aren't, in case its a mistake!"
+            ]
         },
         "UnparsableType": {
             "name": "unparsable type",
             "emotion": "curious",
-            "doc": "$?"
+            "doc": "I represent the type of an unknown expression. I show up when you try to use that expression for something."
         },
         "VariableType": {
             "name": "variable type",
             "emotion": "curious",
-            "doc": "$?"
+            "doc": "Do you know @TypeVariable, and how they represent some unknown kind of value? I represent them in all negotiations between values."
         },
         "CycleType": {
             "name": "cycle type",
             "description": "depends on itself",
             "emotion": "curious",
-            "doc": "$?"
+            "doc": "Sometimes values depend on themselves, and so we don't know what kind of value they are. I represent that situation."
         },
         "UnknownVariableType": {
             "name": "unknown variable type",
             "emotion": "curious",
-            "doc": "$?"
+            "doc": "Sometimes we try to guess what kind of value something is; I show up when we don't know."
         },
         "NotAType": {
             "name": "unexpected type",
             "description": "not a $1",
             "emotion": "curious",
-            "doc": "$?"
+            "doc": "Sometimes we know what kind of value something should be. Like @ListAccess needs a @Number. If we don't get it, I represent that something is a type other than what we expected."
         },
         "NoExpressionType": {
-            "name": "non-expression type",
-            "emotion": "curious",
-            "doc": "$?"
+            "name": "no expression type",
+            "emotion": "angry",
+            "doc": "You know how @Block needs at least one expression? I'm what you get when you don't give one. So give one!"
         },
         "NotEnclosedType": {
-            "name": "not in $structure, conversion, or reaction",
+            "name": "not in structure, conversion, or reaction",
             "emotion": "curious",
-            "doc": "$?"
+            "doc": "@This, as neat as they are, only belongs in particular places. I show up when they get lost, and so no one knows what value they represent."
         },
         "NotImplementedType": {
             "name": "unimplemented",
             "emotion": "curious",
-            "doc": "$?"
+            "doc": "When you use @ExpressionPlaceholder, but don't say what type they are, I'm the type you get. Deal with it!"
         },
         "UnknownNameType": {
             "name": "unknown name",
             "description": "$1[$1 isn't defined | a name wasn't given]",
             "emotion": "curious",
-            "doc": "$?"
+            "doc": "You know how sometimes @Reference and @PropertyReference don't know the name you're talking about? I'm around when that happens, to represent that we don't know who you're talking about."
         }
     },
     "native": {
