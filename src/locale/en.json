@@ -1339,9 +1339,9 @@
         },
         "Text": {
             "doc": [
-                "I can be any text you like, and use any of these text symbols: ⧼\"\"⧽, ⧼“”⧽, ⧼„“⧽, ⧼''⧽, ⧼‘’⧽, ⧼‹›⧽, ⧼«»⧽, ⧼「」⧽, or ⧼『』⧽.",
-                "Just remember to close me if you open me, and use the matching symbol.",
-                "Otherwise I won't know that you're done with your words."
+                "I can be any text you like, from any language, and using any of these symbols opening and closing symbols: ⧼\"\"⧽, ⧼“”⧽, ⧼„“⧽, ⧼''⧽, ⧼‘’⧽, ⧼‹›⧽, ⧼«»⧽, ⧼「」⧽, or ⧼『』⧽.",
+                "Just remember to close me if you open me, and use the matching symbol. Otherwise I won't know that you're done with your words.",
+                "Otherwise, there just so many glorious functions that @FunctionDefinition made for me to do all kinds of things with words!"
             ],
             "name": ["''", "Text"],
             "function": {
@@ -1494,54 +1494,54 @@
                 "sin": { "doc": "$?", "names": ["sin", "sine"], "inputs": [] }
             },
             "conversion": {
-                "text": "$?",
-                "list": "$?",
-                "s2m": "$?",
-                "s2h": "$?",
-                "s2day": "$?",
-                "s2wk": "$?",
-                "s2year": "$?",
-                "s2ms": "$?",
-                "ms2s": "$?",
-                "min2s": "$?",
-                "h2s": "$?",
-                "day2s": "$?",
-                "wk2s": "$?",
-                "yr2s": "$?",
-                "m2pm": "$?",
-                "m2nm": "$?",
-                "m2micro": "$?",
-                "m2mm": "$?",
-                "m2cm": "$?",
-                "m2dm": "$?",
-                "m2km": "$?",
-                "m2Mm": "$?",
-                "m2Gm": "$?",
-                "m2Tm": "$?",
-                "pm2m": "$?",
-                "nm2m": "$?",
-                "micro2m": "$?",
-                "mm2m": "$?",
-                "cm2m": "$?",
-                "dm2m": "$?",
-                "km2m": "$?",
-                "Mm2m": "$?",
-                "Gm2m": "$?",
-                "Tm2m": "$?",
-                "km2mi": "$?",
-                "mi2km": "$?",
-                "cm2in": "$?",
-                "in2cm": "$?",
-                "m2ft": "$?",
-                "ft2m": "$?",
-                "g2mg": "$?",
-                "mg2g": "$?",
-                "g2kg": "$?",
-                "kg2g": "$?",
-                "g2oz": "$?",
-                "oz2g": "$?",
-                "oz2lb": "$?",
-                "lb2oz": "$?"
+                "text": "A @Text representation of my digits.",
+                "list": "A list of the numbers 1 to whatever number is given, such as\n⧼10→[]⧽.",
+                "s2m": "Seconds to minutes",
+                "s2h": "Seconds to hours",
+                "s2day": "Seconds to days",
+                "s2wk": "Seconds to weeks",
+                "s2year": "Seconds to years",
+                "s2ms": "Seconds to miliseconds",
+                "ms2s": "Milliseconds to seconds",
+                "min2s": "Minutes to seconds",
+                "h2s": "Hours to seconds",
+                "day2s": "Days to seconds",
+                "wk2s": "Weeks to seconds",
+                "yr2s": "Years to seconds",
+                "m2pm": "Meters to picometers",
+                "m2nm": "Meters to nanometers",
+                "m2micro": "Meters to micrometers",
+                "m2mm": "Meters to millimeters",
+                "m2cm": "Meters to centimenters",
+                "m2dm": "Meters to decimeters",
+                "m2km": "Meters to kilometers",
+                "m2Mm": "Meters to megameters",
+                "m2Gm": "Meters to gigameters",
+                "m2Tm": "Meters to terameters",
+                "pm2m": "Picometers to meters",
+                "nm2m": "Nanometers to meters",
+                "micro2m": "Micrometers to meters",
+                "mm2m": "Millimeters to meters",
+                "cm2m": "Centimeters to meters",
+                "dm2m": "Decimeters to meters",
+                "km2m": "Kilometers to meters",
+                "Mm2m": "Megameters to meters",
+                "Gm2m": "Gigameters to meters",
+                "Tm2m": "Terameters to meters",
+                "km2mi": "Kilometers to miles",
+                "mi2km": "Miles to kilometers",
+                "cm2in": "Centimeters to inches",
+                "in2cm": "Inches to centimeters",
+                "m2ft": "Meters to feet",
+                "ft2m": "Feet to meters",
+                "g2mg": "Grams to milligrams",
+                "mg2g": "Milligrams to grams",
+                "g2kg": "Grams to kilograms",
+                "kg2g": "Kilograms to grams",
+                "g2oz": "Grams to ounces",
+                "oz2g": "Ounces to grams",
+                "oz2lb": "Ounces to pounds",
+                "lb2oz": "Pounds to ounces"
             }
         },
         "List": {
@@ -1666,7 +1666,10 @@
                     "index": { "doc": "$?", "names": "index" }
                 }
             },
-            "conversion": { "text": "$?", "set": "$?" }
+            "conversion": {
+                "text": "To a @Text representation of the list.",
+                "set": "To a @Set, helpful for removing duplicates."
+            }
         },
         "Set": {
             "doc": [
@@ -1731,7 +1734,10 @@
                     "value": { "doc": "$?", "names": "value" }
                 }
             },
-            "conversion": { "text": "$?", "list": "$?" }
+            "conversion": {
+                "text": "A @Text representation of a @Set",
+                "list": "A @List representation of the items in the set."
+            }
         },
         "Map": {
             "doc": [
@@ -1794,7 +1800,11 @@
                     "value": { "doc": "$?", "names": "value" }
                 }
             },
-            "conversion": { "text": "$?", "set": "$?", "list": "$?" }
+            "conversion": {
+                "text": "A @Text representation of the mapping.",
+                "set": "The keys of the @Map",
+                "list": "A list of the values in the @Map"
+            }
         }
     },
     "input": {
