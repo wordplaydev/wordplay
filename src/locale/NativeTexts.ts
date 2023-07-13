@@ -52,8 +52,9 @@ type NativeTexts = {
             multiply: FunctionText<[NameAndDoc]>;
             divide: FunctionText<[NameAndDoc]>;
             remainder: FunctionText<[NameAndDoc]>;
-            truncate: FunctionText<[NameAndDoc]>;
-            absolute: FunctionText<[NameAndDoc]>;
+            integer: FunctionText<[]>;
+            positive: FunctionText<[]>;
+            round: FunctionText<[]>;
             power: FunctionText<[NameAndDoc]>;
             root: FunctionText<[NameAndDoc]>;
             lessThan: FunctionText<[NameAndDoc]>;

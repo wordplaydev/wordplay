@@ -13,8 +13,8 @@ cat•Cat:  Cat(5m 1) … ∆ key …
     ball•ø ? ⊥ 
     (ball.y < 1m) &
     (
-        ((ball.x - x).absolute() < 1m) | 
-        ((ball.x - (x + 2m)).absolute() < 1m)
+        ((ball.x - x).positive() < 1m) | 
+        ((ball.x - (x + 2m)).positive() < 1m)
     )
 
 ball: Motion(

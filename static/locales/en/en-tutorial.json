@@ -2374,7 +2374,7 @@
                         [
                             "fix",
                             "amp: (Mic() ÷ 10)",
-                            "                        Phrase('.'.repeat(amp.truncate()) rest: Pose(scale: amp))"
+                            "                        Phrase('.'.repeat(amp.integer()) rest: Pose(scale: amp))"
                         ],
                         [
                             "FunctionDefinition",

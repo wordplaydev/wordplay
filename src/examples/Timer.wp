@@ -1,2 +1,2 @@
 === Timer/en
-Phrase("•".repeat(((Time(1000ms) → #s) % 5).truncate() + 1s))
+Phrase("•".repeat(((Time(1000ms) → #s) % 5).integer() + 1s))

@@ -189,7 +189,8 @@ export default function bootstrapNumber(locales: Locale[]) {
                                 );
                             if (
                                 right !== undefined &&
-                                !(right instanceof Number)
+                                (!(right instanceof Number) ||
+                                    !left.unit.accepts(right.unit))
                             )
                                 return new TypeException(
                                     evaluation.getDefinition(),
@@ -244,7 +245,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createUnaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.Number.function.truncate
+                        (t) => t.native.Number.function.integer
                     ),
                     NumberType.wildcard(),
                     (requestor, left) => left.floor(requestor)
@@ -252,10 +253,18 @@ export default function bootstrapNumber(locales: Locale[]) {
                 createUnaryOp(
                     getFunctionLocales(
                         locales,
-                        (t) => t.native.Number.function.absolute
+                        (t) => t.native.Number.function.positive
                     ),
                     NumberType.wildcard(),
                     (requestor, left) => left.absolute(requestor)
+                ),
+                createUnaryOp(
+                    getFunctionLocales(
+                        locales,
+                        (t) => t.native.Number.function.round
+                    ),
+                    NumberType.wildcard(),
+                    (requestor, left) => left.round(requestor)
                 ),
                 createBinaryOp(
                     getFunctionLocales(

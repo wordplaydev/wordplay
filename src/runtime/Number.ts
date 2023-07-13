@@ -133,6 +133,10 @@ export default class Number extends Primitive {
         return new Number(requestor, this.num.abs(), this.unit);
     }
 
+    round(requestor: Expression): Number {
+        return new Number(requestor, this.num.round(), this.unit);
+    }
+
     add(requestor: Expression, operand: Number): Number {
         return new Number(requestor, this.num.add(operand.num), this.unit);
     }

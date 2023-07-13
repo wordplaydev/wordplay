@@ -974,15 +974,20 @@
                     "names": "remainder",
                     "inputs": [{ "doc": "$?", "names": "number" }]
                 },
-                "truncate": {
+                "integer": {
                     "doc": "$?",
-                    "names": ["truncate"],
-                    "inputs": [{ "doc": "$?", "names": "number" }]
+                    "names": ["integer"],
+                    "inputs": []
                 },
-                "absolute": {
+                "positive": {
                     "doc": "$?",
-                    "names": ["absolute"],
-                    "inputs": [{ "doc": "$?", "names": "number" }]
+                    "names": ["positive"],
+                    "inputs": []
+                },
+                "round": {
+                    "doc": "$?",
+                    "names": ["round"],
+                    "inputs": []
                 },
                 "power": {
                     "doc": "$?",

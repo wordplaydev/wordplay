@@ -1460,7 +1460,7 @@
             "function": {
                 "add": {
                     "doc": [
-                        "I take two @Number with the same @Unit and add them together, creating a new @NumberType of the same @Unit.",
+                        "I add a @Number with the same @Unit to myself, creating a new @Number of the same @Unit.",
                         "For example:",
                         "⧼1 + 1⧽",
                         "⧼3cat + 5cat⧽",
@@ -1473,81 +1473,212 @@
                     ]
                 },
                 "subtract": {
-                    "doc": "$?",
+                    "doc": [
+                        "I subtract the @Number you give me from myself, creating a new @Number of the same @Unit.",
+                        "For example:",
+                        "⧼1 - 1⧽",
+                        "⧼3cat - 5cat⧽",
+                        "If the units don't match, I halt the show.",
+                        "⧼3cat - 5dog⧽"
+                    ],
                     "names": ["-", "subtract"],
-                    "inputs": [{ "doc": "$?", "names": "number" }]
+                    "inputs": [
+                        {
+                            "doc": "The @Number to subtract from me.",
+                            "names": "number"
+                        }
+                    ]
                 },
                 "multiply": {
-                    "doc": "$?",
+                    "doc": [
+                        "I multiply myself to the given @Number, creating a product of my @Unit and the given number's @Unit:",
+                        "⧼5 · 5⧽",
+                        "⧼5m · 5m⧽",
+                        "⧼5m · 1/s⧽"
+                    ],
                     "names": ["·", "multiply"],
-                    "inputs": [{ "doc": "$?", "names": "number" }]
+                    "inputs": [
+                        { "doc": "The number to multiply.", "names": "number" }
+                    ]
                 },
                 "divide": {
-                    "doc": "$?",
+                    "doc": [
+                        "I divide myself by the given @Number, creating a quotient of my @Unit and the given number's @Unit:",
+                        "⧼5 ÷ 5⧽",
+                        "⧼5m ÷ 5m⧽",
+                        "⧼5m ÷ 5s⧽"
+                    ],
                     "names": ["÷", "divide"],
-                    "inputs": [{ "doc": "$?", "names": "number" }]
+                    "inputs": [
+                        {
+                            "doc": "The @Number to divide me by.",
+                            "names": "number"
+                        }
+                    ]
                 },
                 "remainder": {
-                    "doc": "$?",
+                    "doc": [
+                        "I divide myself by the given @Number, but give the remainder:",
+                        "⧼10 % 2⧽",
+                        "⧼10m % 2⧽",
+                        "⧼10m/s % 3⧽"
+                    ],
                     "names": ["%", "remainder"],
-                    "inputs": [{ "doc": "$?", "names": "number" }]
+                    "inputs": [
+                        {
+                            "doc": "The @Number to divide me by.",
+                            "names": "number"
+                        }
+                    ]
                 },
-                "truncate": {
-                    "doc": "$?",
-                    "names": ["truncate"],
-                    "inputs": [{ "doc": "$?", "names": "number" }]
+                "integer": {
+                    "doc": [
+                        "I create a new @Number that removes my fractional part, turning me into an integer.",
+                        "⧼10.522391.integer()⧽"
+                    ],
+                    "names": ["integer"],
+                    "inputs": []
                 },
-                "absolute": {
-                    "doc": "$?",
-                    "names": ["absolute"],
-                    "inputs": [{ "doc": "$?", "names": "number" }]
+                "positive": {
+                    "doc": [
+                        "I create a new @Number that makes me positive, if negative.",
+                        "⧼-200.positive()⧽"
+                    ],
+                    "names": ["positive"],
+                    "inputs": []
+                },
+                "round": {
+                    "doc": [
+                        "I create a new @Number that rounds me to the closest integer.",
+                        "⧼9.4.round()⧽",
+                        "⧼9.5.round()⧽",
+                        "⧼9.6.round()⧽"
+                    ],
+                    "names": ["round"],
+                    "inputs": []
                 },
                 "power": {
-                    "doc": "$?",
+                    "doc": [
+                        "I raise myself to the given @Number's power. Fractional exponents are okay!",
+                        "⧼2 ^ 8⧽",
+                        "⧼10 ^ -2⧽",
+                        "⧼5 ^ -.5⧽"
+                    ],
                     "names": ["^", "power"],
-                    "inputs": [{ "doc": "$?", "names": "number" }]
+                    "inputs": [
+                        {
+                            "doc": "The exponent to raise me to.",
+                            "names": "number"
+                        }
+                    ]
                 },
                 "root": {
-                    "doc": "$?",
+                    "doc": [
+                        "I create the root of myself using the given root.",
+                        "⧼4 √ 2⧽",
+                        "⧼1000 √ 3⧽"
+                    ],
                     "names": ["√", "root"],
-                    "inputs": [{ "doc": "$?", "names": "number" }]
+                    "inputs": [
+                        { "doc": "The root to compute.", "names": "number" }
+                    ]
                 },
                 "lessThan": {
-                    "doc": "$?",
+                    "doc": [
+                        "⧼⊤⧽ if I'm less than the given @Number:",
+                        "⧼1 < 2⧽",
+                        "⧼2 < 1⧽"
+                    ],
                     "names": ["<", "lessthan"],
-                    "inputs": [{ "doc": "$?", "names": "number" }]
+                    "inputs": [
+                        {
+                            "doc": "The @Number to compare me to.",
+                            "names": "number"
+                        }
+                    ]
                 },
                 "lessOrEqual": {
-                    "doc": "$?",
+                    "doc": [
+                        "⧼⊤⧽ if I'm less than or equal to the given @Number:",
+                        "⧼1 ≤ 2⧽",
+                        "⧼2 ≤ 1⧽",
+                        "⧼2 ≤ 2⧽"
+                    ],
                     "names": ["≤", "lessorequal"],
-                    "inputs": [{ "doc": "$?", "names": "number" }]
+                    "inputs": [
+                        {
+                            "doc": "The @Number to compare me to.",
+                            "names": "number"
+                        }
+                    ]
                 },
                 "greaterThan": {
-                    "doc": "$?",
+                    "doc": [
+                        "⧼⊤⧽ if I'm greater than to the given @Number:",
+                        "⧼1 > 2⧽",
+                        "⧼2 > 1⧽"
+                    ],
                     "names": [">", "greaterthan"],
-                    "inputs": [{ "doc": "$?", "names": "number" }]
+                    "inputs": [
+                        {
+                            "doc": "The @Number to compare me to.",
+                            "names": "number"
+                        }
+                    ]
                 },
                 "greaterOrEqual": {
-                    "doc": "$?",
+                    "doc": [
+                        "⧼⊤⧽ if I'm greater than or equal to the given @Number:",
+                        "⧼1 ≥ 2⧽",
+                        "⧼2 ≥ 1⧽",
+                        "⧼2 ≥ 2⧽"
+                    ],
                     "names": ["≥", "greaterorequal"],
-                    "inputs": [{ "doc": "$?", "names": "number" }]
+                    "inputs": [
+                        {
+                            "doc": "The @Number to compare me to.",
+                            "names": "number"
+                        }
+                    ]
                 },
                 "equal": {
-                    "doc": "$?",
+                    "doc": [
+                        "⧼⊤⧽ if I'm equal to the given @Number:",
+                        "⧼1 = 2⧽",
+                        "⧼2 = 2⧽"
+                    ],
                     "names": ["=", "equal"],
-                    "inputs": [{ "doc": "$?", "names": "number" }]
+                    "inputs": [
+                        {
+                            "doc": "The @Number to compare me to.",
+                            "names": "number"
+                        }
+                    ]
                 },
                 "notequal": {
-                    "doc": "$?",
+                    "doc": [
+                        "⧼⊤⧽ if I'm equal to the given @Number:",
+                        "⧼1 ≠ 2⧽",
+                        "⧼2 ≠ 2⧽"
+                    ],
                     "names": "≠",
-                    "inputs": [{ "doc": "$?", "names": "number" }]
+                    "inputs": [
+                        {
+                            "doc": "The @Number to compare me to.",
+                            "names": "number"
+                        }
+                    ]
                 },
                 "cos": {
-                    "doc": "$?",
+                    "doc": ["Compute the cosine of me.", "⧼π.cos()⧽"],
                     "names": ["cos", "cosine"],
                     "inputs": []
                 },
-                "sin": { "doc": "$?", "names": ["sin", "sine"], "inputs": [] }
+                "sin": {
+                    "doc": ["Compute the sine of me.", "⧼π.cos()⧽"],
+                    "names": ["sin", "sine"],
+                    "inputs": []
+                }
             },
             "conversion": {
                 "text": "An Arabic @Text representation of my digits.",

@@ -1127,9 +1127,6 @@
                 "function": {
                   "additionalProperties": false,
                   "properties": {
-                    "absolute": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1053-1123-1127088073-0-1540%5D%3E"
-                    },
                     "add": {
                       "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1053-1123-1127088073-0-1540%5D%3E"
                     },
@@ -1148,6 +1145,9 @@
                     "greaterThan": {
                       "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1053-1123-1127088073-0-1540%5D%3E"
                     },
+                    "integer": {
+                      "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
+                    },
                     "lessOrEqual": {
                       "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1053-1123-1127088073-0-1540%5D%3E"
                     },
@@ -1160,6 +1160,9 @@
                     "notequal": {
                       "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1053-1123-1127088073-0-1540%5D%3E"
                     },
+                    "positive": {
+                      "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
+                    },
                     "power": {
                       "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1053-1123-1127088073-0-1540%5D%3E"
                     },
@@ -1169,13 +1172,13 @@
                     "root": {
                       "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1053-1123-1127088073-0-1540%5D%3E"
                     },
+                    "round": {
+                      "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
+                    },
                     "sin": {
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E"
                     },
                     "subtract": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1053-1123-1127088073-0-1540%5D%3E"
-                    },
-                    "truncate": {
                       "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1127088073-1053-1123-1127088073-0-1540%5D%3E"
                     }
                   },
@@ -1185,8 +1188,9 @@
                     "multiply",
                     "divide",
                     "remainder",
-                    "truncate",
-                    "absolute",
+                    "integer",
+                    "positive",
+                    "round",
                     "power",
                     "root",
                     "lessThan",

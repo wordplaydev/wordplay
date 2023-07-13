@@ -13,7 +13,7 @@
 {#if spaces}{#each markup.paragraphs as paragraph, index}<p
             class="paragraph"
             class:animated={$creator.getAnimationFactor() > 0}
-            style="--delay:{$creator.getAnimationDuration() * index * 0.5}ms"
+            style="--delay:{$creator.getAnimationDuration() * index * 0.1}ms"
             >{#each paragraph.segments as segment}<SegmentHTMLView
                     {segment}
                     {spaces}
