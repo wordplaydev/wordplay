@@ -1317,23 +1317,25 @@
         },
         "None": {
             "doc": [
-                "/Hi, @FunctionDefinition here. @NoneLiteral doesn't like to say much, so I'll interpret./",
-                "I am @None. I also create @None. And that's not nothing."
+                "/Hi, @FunctionDefinition here. @None doesn't like to say much, so I'll interpret./",
+                "I am @None. Invoke me with ⧼ø⧽. I am helpful when you want to represent the absense of something."
             ],
             "name": ["ø", "None"],
             "function": {
                 "equals": {
-                    "doc": "$?",
+                    "doc": "Is another value also nothing? It better be, otherwise, ⧼⊥⧽.",
                     "names": ["=", "equals"],
-                    "inputs": [{ "doc": "$?", "names": "value" }]
+                    "inputs": [{ "doc": "The other value.", "names": "value" }]
                 },
                 "notequals": {
-                    "doc": "$?",
+                    "doc": "Is another value /not/ nothing?",
                     "names": "≠",
-                    "inputs": [{ "doc": "$?", "names": "value" }]
+                    "inputs": [{ "doc": "The other value.", "names": "value" }]
                 }
             },
-            "conversion": { "text": "$?" }
+            "conversion": {
+                "text": "Want to make ⧼ø⧽ into ⧼'ø'⧽? This is your chance."
+            }
         },
         "Text": {
             "doc": [
