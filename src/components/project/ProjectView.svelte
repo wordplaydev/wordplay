@@ -1,9 +1,10 @@
 <script context="module" lang="ts">
     export const PROJECT_PARAM_PLAY = 'play';
+    export const PROJECT_PARAM_CONCEPT = 'concept';
 </script>
 
 <script lang="ts">
-    import { beforeUpdate, onDestroy, setContext, tick } from 'svelte';
+    import { beforeUpdate, onDestroy, onMount, setContext, tick } from 'svelte';
     import { derived, writable, type Writable } from 'svelte/store';
     import {
         type DraggedContext,
@@ -365,12 +366,22 @@
         layoutInitialized = true;
     }
 
-    /** When the layout changes, add or remove query params based on state */
+    /** When the layout or path changes, add or remove query params based on state */
     $: {
         const searchParams = new URLSearchParams($page.url.searchParams);
+
         if (layout.fullscreenID === Content.Output)
             searchParams.set(PROJECT_PARAM_PLAY, '');
         else searchParams.delete(PROJECT_PARAM_PLAY);
+
+        // Set the URL to reflect the latest concept selected.
+        if ($path.length > 0)
+            searchParams.set(
+                PROJECT_PARAM_CONCEPT,
+                $path[$path.length - 1].getName($creator.getLocale(), false)
+            );
+        else searchParams.delete(PROJECT_PARAM_CONCEPT);
+
         // Update the URL, removing = for keys with no values
         const search = `${searchParams.toString().replace(/=(?=&|$)/gm, '')}`;
         const currentSearch =
@@ -429,6 +440,15 @@
 
     let path = getConceptPath();
 
+    // After mounting, see if there's a concept in the URL, and set the path to it if so.
+    onMount(() => {
+        const name = $page.url.searchParams.get(PROJECT_PARAM_CONCEPT);
+        if (name && $index) {
+            const concept = $index?.getConceptByName(name);
+            if (concept) path.set([concept]);
+        }
+    });
+
     let latestProject: Project | undefined;
 
     // When the project changes, languages change, and the keyboard is idle, recompute the concept index.
@@ -459,7 +479,7 @@
         }
     }
 
-    // When the path changes, show the docs.
+    // When the path changes, show the docs and mirror the concept in the URL.
     let latestPath: Concept[] = $path;
     $: {
         if (
