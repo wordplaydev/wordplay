@@ -2036,65 +2036,129 @@
         },
         "Set": {
             "doc": [
-                "I make @Set! That means I can contain any number of values, including no values. You can make me like this:",
+                "I'm a set of values! That means I can contain any number of values, including no values. You can make me like this:",
                 "⧼{1 2 3}⧽",
-                "I'm really good if you want to keep a collection of things without duplicates.",
-                "That means I only contain one of each value. If you give me values I already have, I'll ignore the extras.",
+                "I'm really good if you want to keep a collection of things without any duplicates.",
+                "That means that if you give me values I already have, I'll ignore the extras.",
                 "For example, this set has many duplicates:",
                 "⧼{1 1 2 2 3 3}⧽",
                 "I evaluate it to just ⧼{1 2 3}⧽.",
-                "Talk to @Set to see all the cool @FunctionDefinition for adding, removing, combining, and analyzing @Set.",
-                "You can also meet @SetOrMapAccess to get values out of a @Set."
+                "If you want to see if I have a value in me, @SetOrMapAccess can help:",
+                "⧼{'jar' 'bottle' 'glass'}{'cup'}⧽"
             ],
             "name": ["{}", "Set"],
             "kind": "Kind",
             "function": {
                 "equals": {
-                    "doc": "$?",
+                    "doc": [
+                        "I'm ⧼⊤⧽ if the given @Set and I have the exact same values:",
+                        "⧼{1 2 3} = {2 3 4}⧽"
+                    ],
                     "names": ["=", "equals"],
-                    "inputs": [{ "doc": "$?", "names": "set" }]
+                    "inputs": [
+                        { "doc": "The @Set to compare.", "names": "set" }
+                    ]
                 },
                 "notequals": {
-                    "doc": "$?",
+                    "doc": [
+                        "I'm ⧼⊤⧽ if the given @Set and I don't have the exact same values:",
+                        "⧼{1 2 3} ≠ {2 3 4}⧽"
+                    ],
                     "names": ["≠", "notequal"],
-                    "inputs": [{ "doc": "$?", "names": "set" }]
+                    "inputs": [
+                        { "doc": "The @Set to compare.", "names": "set" }
+                    ]
                 },
                 "add": {
-                    "doc": "$?",
+                    "doc": [
+                        "Give me an item to add and I'll make a new @Set with my items and the given item.",
+                        "⧼{1 2 3} + 4⧽"
+                    ],
                     "names": ["add", "+"],
-                    "inputs": [{ "doc": "$?", "names": "set" }]
+                    "inputs": [{ "doc": "The item to add", "names": "item" }]
                 },
                 "remove": {
-                    "doc": "$?",
+                    "doc": [
+                        "Give me an item to remove and I'll make a new @Set without the item.",
+                        "⧼{1 2 3} - 2⧽",
+                        "If I don't have the item, I'll just evaluate to myself."
+                    ],
                     "names": ["remove", "-"],
-                    "inputs": [{ "doc": "$?", "names": "set" }]
+                    "inputs": [
+                        { "doc": "The item to remove.", "names": "item" }
+                    ]
                 },
                 "union": {
-                    "doc": "$?",
+                    "doc": [
+                        "Give me @Set and I'll create a new @Set that has my items and the set's items.",
+                        "⧼{1 2 3} ∪ {3 4 5}⧽"
+                    ],
                     "names": ["union", "∪"],
-                    "inputs": [{ "doc": "$?", "names": "set" }]
+                    "inputs": [
+                        {
+                            "doc": "The @Set to combine with me.",
+                            "names": "set"
+                        }
+                    ]
                 },
                 "intersection": {
-                    "doc": "$?",
+                    "doc": [
+                        "Give me @Set and I'll create a new @Set that has only the items we have in common.",
+                        "⧼{1 2 3} ∩ {3 4 5}⧽"
+                    ],
                     "names": ["intersection", "∩"],
-                    "inputs": [{ "doc": "$?", "names": "set" }]
+                    "inputs": [
+                        { "doc": "The set to compare with me.", "names": "set" }
+                    ]
                 },
                 "difference": {
-                    "doc": "$?",
+                    "doc": [
+                        "Give me @Set and I'll create a new @Set that has the items has only the items we have in common.",
+                        "⧼{1 2 3}.difference({3 4 5})⧽"
+                    ],
                     "names": "difference",
-                    "inputs": [{ "doc": "$?", "names": "set" }]
+                    "inputs": [
+                        {
+                            "doc": "The set whose items should be removed from me.",
+                            "names": "set"
+                        }
+                    ]
                 },
                 "filter": {
-                    "doc": "$?",
+                    "doc": [
+                        "Give me @FunctionDefinition that takes an item and produces ⧼⊤⧽ if it should be kept, and I'll make a @Set that only contains the items that meet your criteria.",
+                        "For example, let's find the odd numbers in me:",
+                        "⧼{1 2 3 4 5 6 7 8 9}.filter(ƒ(num•#) (num % 2) = 1)⧽"
+                    ],
                     "names": "filter",
-                    "inputs": [{ "doc": "$?", "names": "checker" }],
-                    "value": { "doc": "$?", "names": "value" }
+                    "inputs": [
+                        {
+                            "doc": "The @FunctionDefinition that checks an item to see if it should be kept.",
+                            "names": "checker"
+                        }
+                    ],
+                    "value": {
+                        "doc": "The item being checked.",
+                        "names": "value"
+                    }
                 },
                 "translate": {
-                    "doc": "$?",
+                    "doc": [
+                        "Give me @FunctionDefinition that takes an item and produces a new item based on it, then I'll translate all the items in me into a new @Set (removing any duplicates).",
+                        "For example, let's make all my @Number into @Text:",
+                        "⧼{1 2 3 4 5 6 7 8 9}.translate(ƒ(num•#) num→'')⧽"
+                    ],
                     "names": "translate",
-                    "inputs": [{ "doc": "$?", "names": "lisetst" }],
-                    "value": { "doc": "$?", "names": "value" }
+                    "inputs": [
+                        {
+                            "doc": "The @FunctionDefinition that translates one of my items into the new item you want.",
+                            "names": "set"
+                        }
+                    ],
+                    "value": {
+                        "doc": "The item being translated.",
+                        "names": "value"
+                    }
                 }
             },
             "conversion": {
