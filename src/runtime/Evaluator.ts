@@ -187,7 +187,7 @@ export default class Evaluator {
         this.reactive = reactive;
 
         // Create a global random number stream for APIs to use.
-        this.random = new Random(this, undefined, undefined);
+        this.random = new Random(this, undefined, undefined, undefined);
 
         // Set up start state.
         this.resetAll();

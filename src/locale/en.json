@@ -2334,9 +2334,20 @@
             "names": ["🔘", "Choice"]
         },
         "Button": {
-            "doc": "$?",
+            "doc": [
+                "/click click click/",
+                "/@FunctionDefinition here, I'll explain this one./",
+                "@Button is a great way to listen to a mouse or trackpad. Of course, a mouse or trackpad isn't an ideal choice for listening to an audience, since not everyone can use one. The more accessible choice is @Choice.",
+                "But if you /really/ need to listen to a mouse button, this is the way to do it. It will provide a stream of @Bool, representing whether the primary button is up ⧼⊥⧽ or down ⧼⊤⧽.",
+                "Here's a simple example:",
+                "⧼Phrase(Button() → '')⧽",
+                "This just makes a @Phrase that is the value of the stream as text. If you copy it into the editor and click, you'll see it toggle back and forth between ⧼⊥⧽ and ⧼⊤⧽."
+            ],
             "names": ["🖱️", "Button"],
-            "down": { "names": "down", "doc": "$?" }
+            "down": {
+                "names": "down",
+                "doc": "If @None, the stream will provide both up and down values. If @Bool, it will only provide value the given @Bool value."
+            }
         },
         "Pointer": { "doc": "$?", "names": ["👆🏻", "Pointer"] },
         "Key": {

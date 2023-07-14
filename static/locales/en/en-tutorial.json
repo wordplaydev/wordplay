@@ -2552,7 +2552,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "You can configure it to only list to up or down by passing it a ⧼⊤⧽ or ⧼⊥⧽."
+                            "You can configure it to only change to up or down by passing it a ⧼⊤⧽ or ⧼⊥⧽."
                         ],
                         ["Button", "neutral", "down… down… down…"],
                         ["edit", "Button(⊥)"],

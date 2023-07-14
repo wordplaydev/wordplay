@@ -18,7 +18,7 @@ poem: [
     Line("on August 19, 2010, 11:08 a.m." Pose())
 ]
 
-number•#:  1 … ∆ Button() | ∆ Key() …
+number•#:  1 … ∆ Button(⊤) | ∆ Key() …
     number ≥ poem.length() ? 
         poem.length() + 1 
         number + 1

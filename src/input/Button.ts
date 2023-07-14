@@ -7,11 +7,11 @@ import BooleanType from '../nodes/BooleanType';
 import Bind from '@nodes/Bind';
 import UnionType from '@nodes/UnionType';
 import NoneType from '@nodes/NoneType';
-import BooleanLiteral from '@nodes/BooleanLiteral';
 import Bool from '@runtime/Bool';
 import StreamType from '@nodes/StreamType';
 import createStreamEvaluator from './createStreamEvaluator';
 import type Locale from '../locale/Locale';
+import NoneLiteral from '../nodes/NoneLiteral';
 
 export default class Button extends Stream<Bool> {
     on: boolean = false;
@@ -21,7 +21,7 @@ export default class Button extends Stream<Bool> {
         super(
             evaluator,
             evaluator.project.shares.input.button,
-            new Bool(evaluator.getMain(), true)
+            new Bool(evaluator.getMain(), false)
         );
 
         this.down = down;
@@ -53,8 +53,8 @@ export function createButtonDefinition(locales: Locale[]) {
         getDocLocales(locales, (t) => t.input.Button.down.doc),
         getNameLocales(locales, (t) => t.input.Button.down.names),
         UnionType.make(BooleanType.make(), NoneType.make()),
-        // Default to true
-        BooleanLiteral.make(true)
+        // Default to none
+        NoneLiteral.make()
     );
     return StreamDefinition.make(
         getDocLocales(locales, (t) => t.input.Button.doc),
