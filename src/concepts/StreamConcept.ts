@@ -66,11 +66,8 @@ export default class StreamConcept extends Concept {
         return doc?.markup.concretize(locale, []);
     }
 
-    getName(translation: Locale, symbolic: boolean) {
-        return this.definition.names.getLocaleText(
-            translation.language,
-            symbolic
-        );
+    getName(locale: Locale, symbolic: boolean) {
+        return this.definition.names.getLocaleText(locale.language, symbolic);
     }
 
     getTypeConcept(index: ConceptIndex): StructureConcept | undefined {
@@ -96,7 +93,9 @@ export default class StreamConcept extends Concept {
     equals(concept: Concept) {
         return (
             concept instanceof StreamConcept &&
-            concept.definition.constructor === this.definition.constructor
+            concept.definition.names
+                .getNames()
+                .some((name) => this.hasName(name))
         );
     }
 }
