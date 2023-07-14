@@ -2325,7 +2325,7 @@
             "doc": [
                 "/clickety tap!/",
                 "/@FunctionDefinition here, I'll explain this one./",
-                "Think of @Choice like a stream of @Phrase/name that are selected by your audience. If someone clicks, taps, or keyboard selects by pressing /Enter/ on a @Phrase with a name -- @Choice will have a new value matching the name.",
+                "Think of @Choice like a stream of @Type/name that are selected by your audience. If someone clicks, taps, or keyboard selects by pressing /Enter/ on a @Phrase with a name -- @Choice will have a new value matching the name.",
                 "So the best way to use it is to create a performance with named selectable phrases @Phrase, and then use a @Reaction to decide what to do when that name is chosen.",
                 "Here's the simplest example:",
                 "⧼Group(\nStack() \n[\nPhrase('one' selectable:⊤ name:'1') \nPhrase('two' selectable:⊤ name:'2') \nPhrase(Choice())\n]\n)⧽",
@@ -2338,7 +2338,7 @@
                 "/click click click/",
                 "/@FunctionDefinition here, I'll explain this one./",
                 "@Button is a great way to listen to a mouse or trackpad. Of course, a mouse or trackpad isn't an ideal choice for listening to an audience, since not everyone can use one. The more accessible choice is @Choice.",
-                "But if you /really/ need to listen to a mouse button, this is the way to do it. It will provide a stream of @Bool, representing whether the primary button is up ⧼⊥⧽ or down ⧼⊤⧽.",
+                "But if you /really/ need to listen to a mouse button, this is the way to do it. It will provide a stream of @Boolean, representing whether the primary button is up ⧼⊥⧽ or down ⧼⊤⧽.",
                 "Here's a simple example:",
                 "⧼Phrase(Button() → '')⧽",
                 "This just makes a @Phrase that is the value of the stream as text. If you copy it into the editor and click, you'll see it toggle back and forth between ⧼⊥⧽ and ⧼⊤⧽."
@@ -2346,7 +2346,7 @@
             "names": ["🖱️", "Button"],
             "down": {
                 "names": "down",
-                "doc": "If @None, the stream will provide both up and down values. If @Bool, it will only provide value the given @Bool value."
+                "doc": "If @None, the stream will provide both up and down values. If @Boolean, it will only provide value the given @Boolean value."
             }
         },
         "Pointer": {
@@ -2362,7 +2362,20 @@
             "names": ["👆🏻", "Pointer"]
         },
         "Key": {
-            "doc": "$?",
+            "doc": [
+                "/clickety/",
+                "/@FunctionDefinition here, I'll explain this one./",
+                "Keyboards have a lot of keys, don't they? @Key will tell you which one someone is pressing and releasing.",
+                "Try this",
+                "⧼Key()⧽",
+                "See how when you type a key, it shows up on @Stage? Every time a key is pressed down, a new @Text is added to the stream, describing the key that was pressed.",
+                "For a key that represents a character, the value will be the character as @Text.",
+                "For special keys, like the /Escape/ key, it will be @Text that describes the key, using a <pre-defined name@https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values>, unfortunately available only in English.",
+                "If you only want to know about a particular key, you can provide it:",
+                "⧼Key('a')⧽",
+                "And if you only want to know when when a @Key is released instead of pressed, you can provide a @Boolean:",
+                "⧼Key('a' ⊥)⧽"
+            ],
             "names": ["⌨️", "Key"],
             "key": { "names": "key", "doc": "$?" },
             "down": { "names": "down", "doc": "$?" }
