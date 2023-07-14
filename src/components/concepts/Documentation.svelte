@@ -226,6 +226,7 @@
                         {concept}
                         node={concept.getRepresentation()}
                         selectable
+                        showOwner
                     />
                     <!-- Show the matching text -->
                     {#if text.length > 1 || concept.getName($creator.getLocale(), false) !== text[0][0]}

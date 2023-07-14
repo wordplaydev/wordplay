@@ -17,6 +17,8 @@
     export let selectable: boolean = false;
     export let inline: boolean = false;
     export let outline: boolean = true;
+    /** If true, shows the owner of the concept. */
+    export let showOwner: boolean = false;
 
     let index = getConceptIndex();
 
@@ -41,8 +43,9 @@
     $: selection = getConceptPath();
     $: owner = concept ? $index?.getConceptOwner(concept) : undefined;
     $: description = concept
-        ? (owner ? owner.getName($creator.getLocale(), false) + '.' : '') +
-          concept.getName($creator.getLocale(), false)
+        ? (owner && showOwner
+              ? owner.getName($creator.getLocale(), false) + '.'
+              : '') + concept.getName($creator.getLocale(), false)
         : undefined;
 </script>
 

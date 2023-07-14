@@ -24,12 +24,12 @@ export default class ConceptIndex {
     readonly concepts: Concept[];
     readonly primaryConcepts: Concept[];
     readonly subConcepts: Map<Concept, Set<Concept>> = new Map();
-    readonly translations: Locale[];
+    readonly locales: Locale[];
 
     /** A mapping of node ids to nodes, registered by examples that are generated. */
     readonly examples: Map<number, Node> = new Map();
 
-    constructor(concepts: Concept[], translations: Locale[]) {
+    constructor(concepts: Concept[], locales: Locale[]) {
         // Store the primary concepts
         this.primaryConcepts = [...concepts];
 
@@ -44,13 +44,13 @@ export default class ConceptIndex {
                 this.concepts.push(subconcept);
         }
 
-        // Remember the preferred translations.
-        this.translations = translations;
+        // Remember the preferred locales.
+        this.locales = locales;
     }
 
     // Make a concept index with a project and some preferreed languages.
-    static make(project: Project, translations: Locale[]) {
-        const languages = translations.map((t) => t.language);
+    static make(project: Project, locales: Locale[]) {
+        const languages = locales.map((t) => t.language);
 
         const projectStructures = [project.main, ...project.supplements]
             .map((source) =>
@@ -145,7 +145,7 @@ export default class ConceptIndex {
                 ...output,
                 ...streams,
             ],
-            translations
+            locales
         );
     }
 
@@ -204,6 +204,16 @@ export default class ConceptIndex {
         return this.concepts.find((c) => c.getSubConcepts().has(concept));
     }
 
+    /** Finds a subconcept by owner name and concept name */
+    getSubConcept(owner: string, concept: string) {
+        const subconcepts = this.getConceptByName(owner)?.getSubConcepts();
+        return subconcepts
+            ? Array.from(subconcepts).find((c) =>
+                  c.hasName(concept, this.locales[0])
+              )
+            : undefined;
+    }
+
     getConceptsOfTypes(types: TypeSet): StructureConcept[] {
         return types
             .list()
@@ -212,7 +222,7 @@ export default class ConceptIndex {
     }
 
     getConceptByName(name: string): Concept | undefined {
-        return this.concepts.find((c) => c.hasName(name, this.translations[0]));
+        return this.concepts.find((c) => c.hasName(name, this.locales[0]));
     }
 
     addExample(node: Node) {
@@ -229,23 +239,18 @@ export default class ConceptIndex {
     }
 
     getQuery(
-        translations: Locale[],
+        locales: Locale[],
         query: string
     ): [Concept, [string, number, number][]][] {
-        // Find matching concepts for each translation and the string that matched.
-        const matches = translations.reduce(
-            (matches: [Concept, [string, number, number]][], translation) => {
-                const lowerQuery = query.toLocaleLowerCase(
-                    translation.language
-                );
+        // Find matching concepts for each locale and the string that matched.
+        const matches = locales.reduce(
+            (matches: [Concept, [string, number, number]][], locale) => {
+                const lowerQuery = query.toLocaleLowerCase(locale.language);
                 return [
                     ...matches,
                     ...this.concepts
                         .map((c) => {
-                            const match = c.getTextMatching(
-                                translation,
-                                lowerQuery
-                            );
+                            const match = c.getTextMatching(locale, lowerQuery);
                             return match !== undefined ? [c, match] : undefined;
                         })
                         .filter(

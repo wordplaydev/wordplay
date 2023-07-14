@@ -375,12 +375,18 @@
         else searchParams.delete(PROJECT_PARAM_PLAY);
 
         // Set the URL to reflect the latest concept selected.
-        if ($path.length > 0)
+        if ($path.length > 0) {
+            const concept = $path[$path.length - 1];
+            const name = concept.getName($creator.getLocale(), false);
+            const ownerName = $index
+                ?.getConceptOwner(concept)
+                ?.getName($creator.getLocale(), false);
+
             searchParams.set(
                 PROJECT_PARAM_CONCEPT,
-                $path[$path.length - 1].getName($creator.getLocale(), false)
+                `${ownerName ? `${ownerName}/` : ''}${name}`
             );
-        else searchParams.delete(PROJECT_PARAM_CONCEPT);
+        } else searchParams.delete(PROJECT_PARAM_CONCEPT);
 
         // Update the URL, removing = for keys with no values
         const search = `${searchParams.toString().replace(/=(?=&|$)/gm, '')}`;
@@ -442,9 +448,10 @@
 
     // After mounting, see if there's a concept in the URL, and set the path to it if so.
     onMount(() => {
-        const name = $page.url.searchParams.get(PROJECT_PARAM_CONCEPT);
-        if (name && $index) {
-            const concept = $index?.getConceptByName(name);
+        const conceptPath = $page.url.searchParams.get(PROJECT_PARAM_CONCEPT);
+        if (conceptPath && $index) {
+            const [ownerName, name] = conceptPath.split('/');
+            const concept = ownerName ? $index?.getSubConcept(ownerName, name) : $index?.getConceptByName(name);
             if (concept) path.set([concept]);
         }
     });
