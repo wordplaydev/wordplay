@@ -2388,8 +2388,9 @@
         },
         "Time": {
             "doc": [
-                "/@FunctionDefinition here. I'll explain @Time, since it doesn't speak./",
-                "Time is a stream that ticks at a certain frequency. ",
+                "/tick tick tick/",
+                "@FunctionDefinition here, I'll explain @Time, since it doesn't speak.",
+                "Time is a stream that ticks at a certain frequency.",
                 "Each time it does, @Program reevaluates with the new time value.",
                 "For example:",
                 "⧼Time()⧽",
