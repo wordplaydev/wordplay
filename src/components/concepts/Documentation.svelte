@@ -221,24 +221,31 @@
         <!-- Search results are prioritized over a selected concept -->
         {#if results}
             {#each results as [concept, text]}
-                <CodeView
-                    {concept}
-                    node={concept.getRepresentation()}
-                    selectable
-                />
-                <!-- Show the matching text -->
-                {#each text as [match, index]}
-                    <p class="result">
-                        <Note
-                            >{match.substring(0, index)}<span class="match"
-                                >{match.substring(
-                                    index,
-                                    index + query.length
-                                )}</span
-                            >{match.substring(index + query.length)}</Note
-                        ></p
-                    >
-                {/each}
+                <p class="result">
+                    <CodeView
+                        {concept}
+                        node={concept.getRepresentation()}
+                        selectable
+                    />
+                    <!-- Show the matching text -->
+                    {#if text.length > 1 || concept.getName($creator.getLocale(), false) !== text[0][0]}
+                        <div class="matches">
+                            {#each text as [match, index]}
+                                <Note
+                                    >{match.substring(0, index)}<span
+                                        class="match"
+                                        >{match.substring(
+                                            index,
+                                            index + query.length
+                                        )}</span
+                                    >{match.substring(
+                                        index + query.length
+                                    )}</Note
+                                >
+                            {/each}
+                        </div>
+                    {/if}
+                </p>
             {:else}
                 <div class="empty">😞</div>
             {/each}
@@ -378,9 +385,11 @@
     .result {
         font-style: italic;
         margin-top: var(--wordplay-spacing);
-        margin-left: var(--wordplay-spacing);
     }
 
+    .matches {
+        margin-left: var(--wordplay-spacing);
+    }
     .match {
         color: var(--wordplay-highlight);
     }
