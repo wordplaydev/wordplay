@@ -252,44 +252,42 @@
             {/each}
             <!-- A selected concept is prioritized over the home page -->
         {:else if currentConcept}
-            {#key currentConcept}
-                {#if currentConcept instanceof StructureConcept}
-                    <StructureConceptView concept={currentConcept} />
-                {:else if currentConcept instanceof FunctionConcept}
-                    <FunctionConceptView concept={currentConcept} />
-                    <!-- If it's a bind, don't show a bind view, show the concept that owns the bind, and ask it to scroll to it -->
-                {:else if currentConcept instanceof BindConcept}
-                    {@const owner = $index?.getConceptOwner(currentConcept)}
-                    {#if owner instanceof FunctionConcept}
-                        <FunctionConceptView
-                            concept={owner}
-                            subconcept={currentConcept}
-                        />
-                    {:else if owner instanceof StructureConcept}
-                        <StructureConceptView
-                            concept={owner}
-                            subconcept={currentConcept}
-                        />
-                    {:else if owner instanceof StreamConcept}
-                        <StreamConceptView
-                            concept={owner}
-                            subconcept={currentConcept}
-                        />
-                    {/if}
-                {:else if currentConcept instanceof ConversionConcept}
-                    <ConceptView concept={currentConcept} />
-                {:else if currentConcept instanceof StreamConcept}
-                    <StreamConceptView concept={currentConcept} />
-                {:else if currentConcept instanceof NodeConcept}
-                    <NodeConceptView concept={currentConcept} />
-                {:else}
-                    <CodeView
-                        node={currentConcept.getRepresentation()}
-                        concept={currentConcept}
+            {#if currentConcept instanceof StructureConcept}
+                <StructureConceptView concept={currentConcept} />
+            {:else if currentConcept instanceof FunctionConcept}
+                <FunctionConceptView concept={currentConcept} />
+                <!-- If it's a bind, don't show a bind view, show the concept that owns the bind, and ask it to scroll to it -->
+            {:else if currentConcept instanceof BindConcept}
+                {@const owner = $index?.getConceptOwner(currentConcept)}
+                {#if owner instanceof FunctionConcept}
+                    <FunctionConceptView
+                        concept={owner}
+                        subconcept={currentConcept}
+                    />
+                {:else if owner instanceof StructureConcept}
+                    <StructureConceptView
+                        concept={owner}
+                        subconcept={currentConcept}
+                    />
+                {:else if owner instanceof StreamConcept}
+                    <StreamConceptView
+                        concept={owner}
+                        subconcept={currentConcept}
                     />
                 {/if}
-                <!-- Home page is default. -->
-            {/key}
+            {:else if currentConcept instanceof ConversionConcept}
+                <ConceptView concept={currentConcept} />
+            {:else if currentConcept instanceof StreamConcept}
+                <StreamConceptView concept={currentConcept} />
+            {:else if currentConcept instanceof NodeConcept}
+                <NodeConceptView concept={currentConcept} />
+            {:else}
+                <CodeView
+                    node={currentConcept.getRepresentation()}
+                    concept={currentConcept}
+                />
+            {/if}
+            <!-- Home page is default. -->
         {:else if $index}
             <ConceptsView
                 category={$creator.getLocale().term.project}
