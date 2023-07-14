@@ -7,12 +7,14 @@
     import Speech from '../lore/Speech.svelte';
     import { creator } from '../../db/Creator';
     import type Type from '../../nodes/Type';
+    import concretize from '../../locale/concretize';
 
     export let concept: Concept;
     export let type: Type | undefined = undefined;
     export let header: boolean = true;
 
     $: node = concept.getRepresentation();
+    $: locale = $creator.getLocale();
 </script>
 
 <div
@@ -25,20 +27,12 @@
 
     <Speech glyph={concept.getGlyphs($creator.getLanguages())} below={header}>
         <MissingLocalesView />
-        {#each $creator.getLocales() as locale}
-            {@const markup = concept.getDocs(locale)}
-            {#if markup}
-                <MarkupHTMLView {markup} />
-            {:else}
-                {locale.ui.labels.nodoc}
-            {/if}
+        {@const markup = concept.getDocs(locale)}
+        {#if markup}
+            <MarkupHTMLView {markup} />
         {:else}
-            {#each $creator.getLocales() as trans}
-                <p>
-                    {trans.ui.labels.nodoc}
-                </p>
-            {/each}
-        {/each}
+            {concretize(locale, locale.ui.labels.nodoc)}
+        {/if}
     </Speech>
 
     <slot />
