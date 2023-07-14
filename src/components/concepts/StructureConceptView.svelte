@@ -27,17 +27,9 @@
 
 <ConceptView {concept}>
     <!-- {#if concept.definition.types}
-        <h2>{$preferredLocales[0].nodes.TypeVariable.description}</h2>
-        {#each concept.definition.types.variables as type}
-        {/each}
+        <h2>typevariables</h2>
+        {#each concept.definition.types.variables as type}{/each}
     {/if} -->
-
-    {#if concept.examples.length > 0}
-        <h2>examples</h2>
-        {#each concept.examples as creator}
-            <CodeView {concept} node={creator} />
-        {/each}
-    {/if}
 
     {#if concept.inter.length > 0}
         <h2>interfaces</h2>
