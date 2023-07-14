@@ -2,7 +2,7 @@
     "name": "wordplay",
     "version": "0.0.1",
     "scripts": {
-        "prepare": "svelte-kit sync",
+        "postinstall": "svelte-kit sync",
         "check": "svelte-check --tsconfig ./tsconfig.json --watch --ignore .svelte-kit",
         "lint": "eslint .",
         "test": "vitest",
