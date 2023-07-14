@@ -48,11 +48,11 @@ export default class Program extends Expression {
         this.computeChildren();
     }
 
-    static make() {
+    static make(expressions: Expression[] = []) {
         return new Program(
             undefined,
             [],
-            new Block([], BlockKind.Root),
+            new Block(expressions, BlockKind.Root),
             new Token('', TokenType.End)
         );
     }

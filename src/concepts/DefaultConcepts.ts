@@ -109,8 +109,8 @@ const templates: Node[] = [
     Convert.make(ExpressionPlaceholder.make(), TypePlaceholder.make()),
 
     // Project
-    Program.make(),
-    new Source('?', ''),
+    Program.make([ExpressionPlaceholder.make()]),
+    new Source('?', '_'),
 
     // Decisions
     Conditional.make(

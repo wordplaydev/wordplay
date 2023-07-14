@@ -73,6 +73,7 @@ import ExampleView from '../ExampleView.svelte';
 import PropertyBindView from '../PropertyBindView.svelte';
 import InitialView from '../InitialView.svelte';
 import MarkupView from '../MarkupView.svelte';
+import SourceView from '../SourceView.svelte';
 
 import type Node from '@nodes/Node';
 import Program from '@nodes/Program';
@@ -151,8 +152,10 @@ import Initial from '@nodes/Initial';
 import Markup from '@nodes/Markup';
 import VariableType from '@nodes/VariableType';
 import VariableTypeView from '../VariableTypeView.svelte';
+import Source from '@nodes/Source';
 
 const nodeToView = new Map<Function, ConstructorOfATypedSvelteComponent>();
+nodeToView.set(Source, SourceView);
 nodeToView.set(Program, ProgramView);
 nodeToView.set(Token, TokenView);
 nodeToView.set(Doc, DocView);
