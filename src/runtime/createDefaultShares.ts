@@ -53,8 +53,6 @@ export default function createDefaultShares(locales: Locale[]) {
         shape: createShapeType(locales),
     };
 
-    console.log(OutputTypes.phrase.toWordplay());
-
     const InputTypes = {
         time: createTimeType(locales),
         random: createRandomType(locales),
