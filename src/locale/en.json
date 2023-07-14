@@ -2377,8 +2377,14 @@
                 "⧼Key('a' ⊥)⧽"
             ],
             "names": ["⌨️", "Key"],
-            "key": { "names": "key", "doc": "$?" },
-            "down": { "names": "down", "doc": "$?" }
+            "key": {
+                "names": "key",
+                "doc": "If @None, than all keys are provided. If a specific @Text, then only that key is provided."
+            },
+            "down": {
+                "names": "down",
+                "doc": "IF @None, then key down generates inputs. If ⧼⊤⧽, then only down inputs are provided, and if ⧼⊥⧽, then only release inputs are provided."
+            }
         },
         "Time": {
             "doc": [
