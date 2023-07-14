@@ -30,7 +30,7 @@ If all of those sound right to you, and you're still excited to contribute, let'
 
 ### Learning
 
-Before y ou start localizing, we highly recommend you go through the Wordplay tutorial first. It's linked to on the front page, and will teach you everything about the language that you might need to know to help write a great translation.
+Before you start localizing, we highly recommend you go through the Wordplay tutorial first. It's linked to on the front page, and will teach you everything about the language that you might need to know to help write a great translation.
 
 ### Setup
 
@@ -45,6 +45,15 @@ For setup, our goal is for you to install a code editor, clone the Wordplay repo
 4. **Open the repository in VS Code**. It'll work for a second to get the repository from the internet, then ask you if you want to open it. Say yes. It'll then ask you whether you whether you trust the authors. (Do you? I trust me, but that's me.)
 5. **Open a terminal**. In the menu, choose `Terminal > New Terminal` to open up a command line so we can do some work with some commands. Keep this open; you'll be using it later.
 6. **Install dependencies**. Type `npm install`. This will install all of the code that Wordplay needs to run. If you run into problems, it's likely an issue with how Node was installed, and quite often permissions issues. There are so many things that can go wrong here, so web search is your friend if you're seeing an error.
+
+Also, and this is key, Wordplay's code and dependencies are always changing, so it's important to run these two commands every once in a while:
+
+```
+git pull
+npm update
+```
+
+They will pull in new Wordplay code from GitHub and also new code that Wordplay depends on. Think of this like any other software update hygiene.
 
 If you made it this far, you're all set up! Let's proceed to working on some localization.
 
