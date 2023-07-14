@@ -2907,7 +2907,12 @@
             "select": "select a 💬, 🔳, or 🎭 to edit!",
             "editing": "edit me!",
             "projects": "Performances",
-            "examples": "Examples"
+            "examples": "Examples",
+            "inputs": "Inputs",
+            "interfaces": "Interfaces",
+            "properties": "Properties",
+            "functions": "Functions",
+            "conversions": "Conversions"
         },
         "section": {
             "project": "performance",

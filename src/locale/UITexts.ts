@@ -98,6 +98,16 @@ type UITexts = {
         select: string;
         projects: string;
         examples: string;
+        /** Documentation header in structure and functions before inputs */
+        inputs: string;
+        /** Documentation header in structure view before interfaces */
+        interfaces: string;
+        /** Documentation header in structure before properties */
+        properties: string;
+        /** Documentation header in structure before functions */
+        functions: string;
+        /** Documentation header in structure before conversions */
+        conversions: string;
     };
     section: {
         project: string;

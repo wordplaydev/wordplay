@@ -4784,16 +4784,36 @@
             "headers": {
               "additionalProperties": false,
               "properties": {
+                "conversions": {
+                  "description": "Documentation header in structure before conversions",
+                  "type": "string"
+                },
                 "editing": {
                   "type": "string"
                 },
                 "examples": {
                   "type": "string"
                 },
+                "functions": {
+                  "description": "Documentation header in structure before functions",
+                  "type": "string"
+                },
+                "inputs": {
+                  "description": "Documentation header in structure and functions before inputs",
+                  "type": "string"
+                },
+                "interfaces": {
+                  "description": "Documentation header in structure view before interfaces",
+                  "type": "string"
+                },
                 "learn": {
                   "type": "string"
                 },
                 "projects": {
+                  "type": "string"
+                },
+                "properties": {
+                  "description": "Documentation header in structure before properties",
                   "type": "string"
                 },
                 "select": {
@@ -4805,7 +4825,12 @@
                 "editing",
                 "select",
                 "projects",
-                "examples"
+                "examples",
+                "inputs",
+                "interfaces",
+                "properties",
+                "functions",
+                "conversions"
               ],
               "type": "object"
             },

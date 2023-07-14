@@ -3,8 +3,9 @@
     import type StructureConcept from '@concepts/StructureConcept';
     import BindConceptView from './BindConceptView.svelte';
     import ConceptView from './ConceptView.svelte';
-    import type BindConcept from '../../concepts/BindConcept';
+    import type BindConcept from '@concepts/BindConcept';
     import { onMount } from 'svelte';
+    import { creator } from '@db/Creator';
 
     export let concept: StructureConcept;
     export let subconcept: BindConcept | undefined = undefined;
@@ -32,7 +33,7 @@
     {/if} -->
 
     {#if concept.inter.length > 0}
-        <h2>interfaces</h2>
+        <h2>{$creator.getLocale().ui.headers.interfaces}</h2>
         {#each concept.inter as inter}
             <CodeView
                 concept={inter}
@@ -43,7 +44,7 @@
     {/if}
 
     {#if concept.inputs.length > 0}
-        <h2>inputs</h2>
+        <h2>{$creator.getLocale().ui.headers.inputs}</h2>
         {#each concept.inputs as bind, index}
             <div id="input-{index}">
                 <BindConceptView concept={bind} />
@@ -52,7 +53,7 @@
     {/if}
 
     {#if concept.properties.length > 0}
-        <h2>properties</h2>
+        <h2>{$creator.getLocale().ui.headers.properties}</h2>
         {#each concept.properties as bind, index}
             <div id="property-{index + concept.inputs.length}">
                 <BindConceptView concept={bind} />
@@ -61,14 +62,14 @@
     {/if}
 
     {#if concept.functions.length > 0}
-        <h2>functions</h2>
+        <h2>{$creator.getLocale().ui.headers.functions}</h2>
         {#each concept.functions as fun}
             <CodeView node={fun.getRepresentation()} concept={fun} selectable />
         {/each}
     {/if}
 
     {#if concept.conversions.length > 0}
-        <h2>conversions</h2>
+        <h2>{$creator.getLocale().ui.headers.conversions}</h2>
         {#each concept.conversions as conversion}
             <CodeView
                 node={conversion.getRepresentation()}
