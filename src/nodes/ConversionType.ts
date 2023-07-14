@@ -35,8 +35,8 @@ export default class ConversionType extends Type {
     getGrammar() {
         return [
             { name: 'input', types: [Type] },
-            { name: 'convert', types: [Token] },
-            { name: 'output', types: [Type] },
+            { name: 'convert', types: [Token], space: true },
+            { name: 'output', types: [Type], space: true },
         ];
     }
 

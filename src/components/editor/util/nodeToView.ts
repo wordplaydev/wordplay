@@ -74,6 +74,7 @@ import PropertyBindView from '../PropertyBindView.svelte';
 import InitialView from '../InitialView.svelte';
 import MarkupView from '../MarkupView.svelte';
 import SourceView from '../SourceView.svelte';
+import ConversionTypeView from '../ConversionTypeView.svelte';
 
 import type Node from '@nodes/Node';
 import Program from '@nodes/Program';
@@ -101,6 +102,7 @@ import BinaryOperation from '@nodes/BinaryOperation';
 import UnaryOperation from '@nodes/UnaryOperation';
 import Convert from '@nodes/Convert';
 import ConversionDefinition from '@nodes/ConversionDefinition';
+import ConversionType from '@nodes/ConversionType';
 import Conditional from '@nodes/Conditional';
 import NumberLiteral from '@nodes/NumberLiteral';
 import NumberType from '@nodes/NumberType';
@@ -202,6 +204,7 @@ nodeToView.set(UnaryOperation, UnaryOperationView);
 
 nodeToView.set(Convert, ConvertView);
 nodeToView.set(ConversionDefinition, ConversionDefinitionView);
+nodeToView.set(ConversionType, ConversionTypeView);
 
 nodeToView.set(Conditional, ConditionalView);
 

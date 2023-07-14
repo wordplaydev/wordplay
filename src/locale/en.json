@@ -1126,7 +1126,7 @@
         },
         "SetType": {
             "name": "set type",
-            "description": "$1[$1|anything] set type",
+            "description": "$1[$1 set|set] type",
             "emotion": "kind",
             "doc": [
                 "@Set is the BEST, like seriously. I'm telling @Bind all the time, make things a set of something!",
