@@ -14,6 +14,7 @@
     import { goto } from '$app/navigation';
     import { onMount } from 'svelte';
     import { creator } from '../../db/Creator';
+    import Feedback from '../../components/app/Feedback.svelte';
 
     let user = getUser();
     let email: string;
@@ -51,97 +52,110 @@
     }
 
     function finish() {
-        try {
-            // If this is on the same device and browser, then the email should be in local storage.
-            let storedEmail = window.localStorage.getItem('email');
+        if (auth) {
+            try {
+                // If this is on the same device and browser, then the email should be in local storage.
+                let storedEmail = window.localStorage.getItem('email');
 
-            // If there's no email, prompt for one.
-            if (storedEmail === null && email === '') {
-                missingEmail = true;
+                // If there's no email, prompt for one.
+                if (storedEmail === null && email === '') {
+                    missingEmail = true;
+                }
+                // If no user, create an account with the email.
+                else if ($user === null) {
+                    signInWithEmailLink(
+                        auth,
+                        storedEmail ?? email,
+                        window.location.href
+                    )
+                        .then(() => {
+                            redirect();
+                        })
+                        .catch((err) => fail(err));
+                }
+            } catch (err) {
+                fail(err);
             }
-            // If no user, create an account with the email.
-            else if ($user === null) {
-                signInWithEmailLink(
-                    auth,
-                    storedEmail ?? email,
-                    window.location.href
-                )
-                    .then(() => {
-                        redirect();
-                    })
-                    .catch((err) => fail(err));
-            }
-        } catch (err) {
-            fail(err);
         }
     }
 
     async function login() {
-        try {
-            if (isSignInWithEmailLink(auth, window.location.href)) finish();
-            else {
-                // Ask Firebase to send an email.
-                await sendSignInLinkToEmail(auth, email, {
-                    url: `${location.origin}/login`,
-                    handleCodeInApp: true,
-                });
-                // Remember the email in local storage so we don't have to ask for it again
-                // after returning to the link above.
-                window.localStorage.setItem('email', email);
-                sent = true;
+        if (auth) {
+            try {
+                if (isSignInWithEmailLink(auth, window.location.href)) finish();
+                else {
+                    // Ask Firebase to send an email.
+                    await sendSignInLinkToEmail(auth, email, {
+                        url: `${location.origin}/login`,
+                        handleCodeInApp: true,
+                    });
+                    // Remember the email in local storage so we don't have to ask for it again
+                    // after returning to the link above.
+                    window.localStorage.setItem('email', email);
+                    sent = true;
+                }
+            } catch (err) {
+                fail(err);
             }
-        } catch (err) {
-            fail(err);
         }
     }
 
     function logout() {
-        auth.signOut();
+        if (auth) auth.signOut();
     }
 
     // If it's a sign in, finish signing in once authenticated.
     onMount(() => {
-        if (isSignInWithEmailLink(auth, window.location.href)) finish();
+        if (auth && isSignInWithEmailLink(auth, window.location.href)) finish();
     });
 </script>
 
 <Page>
     <div class="login">
-        {#if $user && !$user.isAnonymous}
-            <Lead>{$creator.getLocale().ui.phrases.welcome} {$user.email}</Lead>
-            <Button tip={$creator.getLocale().ui.login.logout} action={logout}
-                >{$creator.getLocale().ui.login.logout}</Button
-            >
-        {:else}
-            <Lead>{$creator.getLocale().ui.login.header}</Lead>
-            <p>
-                {#if missingEmail}
-                    {$creator.getLocale().ui.login.enterEmail}
-                {:else if $user === null}
-                    {$creator.getLocale().ui.login.anonymousPrompt}
-                {:else}
-                    {$creator.getLocale().ui.login.prompt}
-                {/if}
-            </p>
-            <form class="form" on:submit={login}>
-                <TextField
-                    placeholder={$creator.getLocale().ui.placeholders.email}
-                    bind:text={email}
-                /><Button
-                    tip={$creator.getLocale().ui.login.submit}
-                    enabled={/^.+@.+$/.test(email)}
-                    action={() => undefined}>&gt;</Button
+        {#if auth}
+            {#if $user && !$user.isAnonymous}
+                <Lead
+                    >{$creator.getLocale().ui.phrases.welcome}
+                    {$user.email}</Lead
                 >
-            </form>
-            <p>
-                {#if sent === true}
-                    {$creator.getLocale().ui.login.sent}
-                {:else if success === true}
-                    {$creator.getLocale().ui.login.success}
-                {:else if success === false}
-                    {error}
-                {/if}
-            </p>
+                <Button
+                    tip={$creator.getLocale().ui.login.logout}
+                    action={logout}
+                    >{$creator.getLocale().ui.login.logout}</Button
+                >
+            {:else}
+                <Lead>{$creator.getLocale().ui.login.header}</Lead>
+                <p>
+                    {#if missingEmail}
+                        {$creator.getLocale().ui.login.enterEmail}
+                    {:else if $user === null}
+                        {$creator.getLocale().ui.login.anonymousPrompt}
+                    {:else}
+                        {$creator.getLocale().ui.login.prompt}
+                    {/if}
+                </p>
+                <form class="form" on:submit={login}>
+                    <TextField
+                        placeholder={$creator.getLocale().ui.placeholders.email}
+                        bind:text={email}
+                    /><Button
+                        tip={$creator.getLocale().ui.login.submit}
+                        enabled={/^.+@.+$/.test(email)}
+                        action={() => undefined}>&gt;</Button
+                    >
+                </form>
+                <p>
+                    {#if sent === true}
+                        {$creator.getLocale().ui.login.sent}
+                    {:else if success === true}
+                        {$creator.getLocale().ui.login.success}
+                    {:else if success === false}
+                        {error}
+                    {/if}
+                </p>
+            {/if}
+        {:else}
+            <Feedback>No connection to the server, so no logins.</Feedback>
         {/if}
     </div>
 </Page>

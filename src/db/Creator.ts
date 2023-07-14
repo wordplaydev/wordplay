@@ -310,20 +310,22 @@ export class Creator {
 
     async loadProject(projectID: string): Promise<Project | undefined> {
         // If we don't have it, ask the database for it.
-        try {
-            const projectDoc = await getDoc(
-                doc(firestore, 'projects', projectID)
-            );
-            if (projectDoc.exists()) {
-                const project = Project.fromObject(
-                    projectDoc.data() as SerializedProject,
-                    this.native
+        if (firestore) {
+            try {
+                const projectDoc = await getDoc(
+                    doc(firestore, 'projects', projectID)
                 );
-                this.addProject(project);
-                return project;
+                if (projectDoc.exists()) {
+                    const project = Project.fromObject(
+                        projectDoc.data() as SerializedProject,
+                        this.native
+                    );
+                    this.addProject(project);
+                    return project;
+                }
+            } catch (err) {
+                return undefined;
             }
-        } catch (err) {
-            return undefined;
         }
     }
 
@@ -368,7 +370,7 @@ export class Creator {
     async deleteProject(id: string) {
         this.projects.delete(id);
         this.requestProjectsSave();
-        if (this.uid) {
+        if (firestore && this.uid) {
             try {
                 await deleteDoc(doc(firestore, 'projects', id));
             } catch (error) {
@@ -490,7 +492,7 @@ export class Creator {
             setLocalValue(key, value);
 
             // Try to save online, if this is not device specific
-            if (!deviceSpecific[key] && this.uid) {
+            if (firestore && !deviceSpecific[key] && this.uid) {
                 // Get the config, but delete all device-specific configs.
                 const config = { ...this.config };
                 for (const key in deviceSpecific) {
@@ -522,12 +524,12 @@ export class Creator {
         }
 
         // Then, try to save them in Firebase if we have a user ID.
-        if (this.uid) {
+        if (firestore && this.uid) {
             try {
                 // Create a batch of all of the new and updated projects.
                 const batch = writeBatch(firestore);
                 this.projects.forEach((project) => {
-                    if (!project.saved)
+                    if (firestore && !project.saved)
                         batch.set(
                             doc(firestore, 'projects', project.current.id),
                             (this.uid
@@ -587,6 +589,7 @@ export class Creator {
 
     /** Start listening tothe Firebase Auth user changes */
     login(callback: (use: User | null) => void) {
+        if (auth === undefined) return;
         // Keep the user store in sync.
         this.authUnsubscribe = onAuthStateChanged(auth, async (newUser) => {
             callback(newUser);
@@ -597,6 +600,8 @@ export class Creator {
 
     /** Start a realtime database query on this user's projects, updating them whenever they change. */
     async updateUser(uid: string | null) {
+        if (firestore === undefined) return;
+
         // Unsubscribe from the old user
         if (this.projectsQueryUnsubscribe) this.projectsQueryUnsubscribe();
 

@@ -1,7 +1,10 @@
 import { getApp, getApps, initializeApp } from 'firebase/app';
-import { connectAuthEmulator, getAuth } from 'firebase/auth';
-import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore';
-import { connectFunctionsEmulator, getFunctions } from 'firebase/functions';
+import { connectAuthEmulator, getAuth, type Auth } from 'firebase/auth';
+import {
+    Firestore,
+    connectFirestoreEmulator,
+    getFirestore,
+} from 'firebase/firestore';
 import {
     PUBLIC_CONTEXT,
     PUBLIC_FIREBASE_API_KEY,
@@ -11,25 +14,36 @@ import {
     PUBLIC_FIREBASE_APP_ID,
 } from '$env/static/public';
 
-const firebaseConfig = {
-    apiKey: PUBLIC_FIREBASE_API_KEY,
-    authDomain: PUBLIC_FIREBASE_AUTH_DOMAIN,
-    projectId: PUBLIC_FIREBASE_PROJECT_ID,
-    messagingSenderId: PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-    appId: PUBLIC_FIREBASE_APP_ID,
-};
+let auth: Auth | undefined;
+let firestore: Firestore | undefined;
 
-// Initialize Firebase
-export const app =
-    getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
+try {
+    const firebaseConfig = {
+        apiKey: PUBLIC_FIREBASE_API_KEY,
+        authDomain: PUBLIC_FIREBASE_AUTH_DOMAIN,
+        projectId: PUBLIC_FIREBASE_PROJECT_ID,
+        messagingSenderId: PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+        appId: PUBLIC_FIREBASE_APP_ID,
+    };
 
-export const auth = getAuth(app);
-export const firestore = getFirestore(app);
-export const functions = getFunctions(app);
+    // Initialize Firebase
+    const app =
+        getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 
-// Initialize emulator if environment is local.
-if (PUBLIC_CONTEXT === 'local') {
-    connectFirestoreEmulator(firestore, 'localhost', 8080);
-    connectAuthEmulator(auth, 'http://localhost:9099');
-    connectFunctionsEmulator(functions, 'localhost', 5001);
+    auth = getAuth(app);
+    firestore = getFirestore(app);
+    // export const functions = getFunctions(app);
+
+    // Initialize emulator if environment is local.
+    if (PUBLIC_CONTEXT === 'local') {
+        connectFirestoreEmulator(firestore, 'localhost', 8080);
+        connectAuthEmulator(auth, 'http://localhost:9099');
+        // connectFunctionsEmulator(functions, 'localhost', 5001);
+    }
+} catch (err) {
+    console.log('*** NO ACCESS TO FIREBASE ***');
+    console.log(err);
 }
+
+export { auth };
+export { firestore };
