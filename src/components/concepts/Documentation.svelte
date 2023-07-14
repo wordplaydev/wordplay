@@ -112,7 +112,7 @@
         // Find code views
         const code = document
             .elementFromPoint(event.clientX, event.clientY)
-            ?.closest('.code');
+            ?.closest('.draggable');
 
         // Find non-inert roots inside
         const roots = code?.querySelectorAll('.root:not(.inert) .node-view');

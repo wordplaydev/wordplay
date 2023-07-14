@@ -46,7 +46,7 @@
     <div class="code">
         <div
             role="textbox"
-            class="node"
+            class="draggable node"
             class:outline
             tabindex="0"
             on:keydown={(event) =>
