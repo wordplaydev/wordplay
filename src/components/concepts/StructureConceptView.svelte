@@ -1,6 +1,5 @@
 <script lang="ts">
     import CodeView from './CodeView.svelte';
-    import Note from '../widgets/Note.svelte';
     import type StructureConcept from '@concepts/StructureConcept';
     import BindConceptView from './BindConceptView.svelte';
     import ConceptView from './ConceptView.svelte';
@@ -69,21 +68,21 @@
         {/each}
     {/if}
 
-    <h2>functions</h2>
-    {#each concept.functions as fun}
-        <CodeView node={fun.getRepresentation()} concept={fun} selectable />
-    {:else}
-        <Note>&mdash;</Note>
-    {/each}
+    {#if concept.functions.length > 0}
+        <h2>functions</h2>
+        {#each concept.functions as fun}
+            <CodeView node={fun.getRepresentation()} concept={fun} selectable />
+        {/each}
+    {/if}
 
-    <h2>conversions</h2>
-    {#each concept.conversions as conversion}
-        <CodeView
-            node={conversion.getRepresentation()}
-            concept={conversion}
-            selectable
-        />
-    {:else}
-        <Note>&mdash;</Note>
-    {/each}
+    {#if concept.conversions.length > 0}
+        <h2>conversions</h2>
+        {#each concept.conversions as conversion}
+            <CodeView
+                node={conversion.getRepresentation()}
+                concept={conversion}
+                selectable
+            />
+        {/each}
+    {/if}
 </ConceptView>

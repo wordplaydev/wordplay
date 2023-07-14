@@ -1452,7 +1452,6 @@
         "Sequence": {
             "names": "Secuencia",
             "doc": "$?",
-            "timing": { "doc": "$?", "names": "timing" },
             "count": { "doc": "$?", "names": "count" },
             "poses": { "doc": "$?", "names": "poses" }
         },

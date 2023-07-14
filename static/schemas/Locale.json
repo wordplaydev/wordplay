@@ -4025,17 +4025,13 @@
                 },
                 "poses": {
                   "$ref": "#/definitions/NameAndDoc"
-                },
-                "timing": {
-                  "$ref": "#/definitions/NameAndDoc"
                 }
               },
               "required": [
                 "count",
                 "doc",
                 "names",
-                "poses",
-                "timing"
+                "poses"
               ],
               "type": "object"
             },

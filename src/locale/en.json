@@ -217,14 +217,14 @@
         "Row": {
             "name": "row",
             "emotion": "angry",
-            "doc": "$?",
+            "doc": "$? Row",
             "conflict": {
-                "InvalidRow": "$? I'm missing one or more columns",
+                "InvalidRow": "I'm missing one or more columns",
                 "MissingCell": {
-                    "primary": "$? I'm missing column $1",
-                    "secondary": "$? I'm required, but $2 didn't provide it"
+                    "primary": "I'm missing column $1",
+                    "secondary": "I'm required, but $2 didn't provide it"
                 },
-                "UnknownColumn": "$? I don't know a column by this name"
+                "UnknownColumn": "I don't know a column by this name"
             }
         },
         "Token": {
@@ -239,12 +239,12 @@
         "TypeInputs": {
             "name": "type inputs",
             "emotion": "curious",
-            "doc": "$? a list of types given to a @FunctionDefinition or @StructureDefinition"
+            "doc": "I am a list of types that take the place of @TypeVariables in a @StructureDefinition or @FunctionDefinition. I help everyone know what kind of inputs they'll be receiving."
         },
         "TypeVariable": {
             "name": "type variable",
             "emotion": "curious",
-            "doc": "$? a placeholder for a type used in a @FunctionDefinition or @StructureDefinition",
+            "doc": "I am a mystery type on @FunctionDefinition or @StructureDefinition, provided by @TypeInputs when either is evaluated. @Set, @List, and @Map use me.",
             "conflict": {
                 "DuplicateTypeVariable": {
                     "primary": "I have the same name as $1",
@@ -255,7 +255,7 @@
         "TypeVariables": {
             "name": "type variables",
             "emotion": "curious",
-            "doc": "$? a list of @TypeVariable"
+            "doc": "I am a list of @TypeVariable."
         },
         "Markup": {
             "name": "markup",
@@ -452,7 +452,7 @@
             "name": "borrow",
             "description": "borrow $1[$1|missing name]",
             "emotion": "excited",
-            "doc": "$? Use a binding from another $source or performance.",
+            "doc": "If you create a performance with multiple @Source, you can use me to borrow @Bind that are shared in those other @Source. Just use their name and I'll bring in their name and value.",
             "start": "borrowing $2 from $1",
             "source": "$source",
             "bind": "name",
@@ -539,7 +539,7 @@
         "Delete": {
             "name": "delete",
             "emotion": "angry",
-            "doc": "$? delete rows from a table",
+            "doc": "$? Delete",
             "start": "evaluate $1 first",
             "finish": "evaluated to table without row $1"
         },
@@ -673,7 +673,7 @@
         "Insert": {
             "name": "insert",
             "emotion": "angry",
-            "doc": "$?",
+            "doc": "$? Insert",
             "start": "evaluate $1 first",
             "finish": "evaluated to table new rows, $1"
         },
@@ -857,7 +857,7 @@
         "Select": {
             "name": "select",
             "emotion": "angry",
-            "doc": "$?",
+            "doc": "$? Select",
             "start": "evaluate $1 first",
             "finish": "evaluated to a new table with the selected rows, $1",
             "conflict": {
@@ -1018,7 +1018,7 @@
         "Update": {
             "name": "update rows",
             "emotion": "angry",
-            "doc": "$?",
+            "doc": "$? Update",
             "start": "evaluate $1 first",
             "finish": "evaluated to a new table with revised rows, $1",
             "conflict": {
@@ -1839,11 +1839,21 @@
                     ]
                 },
                 "sansFirst": {
-                    "doc": "$?",
+                    "doc": [
+                        "I create a list without my first item.",
+                        "⧼['apple' 'banana' 'mango'].sansFirst()⧽"
+                    ],
                     "names": "sansFirst",
                     "inputs": []
                 },
-                "sansLast": { "doc": "$?", "names": "sansLast", "inputs": [] },
+                "sansLast": {
+                    "doc": [
+                        "I create a list without my last item.",
+                        "⧼['apple' 'banana' 'mango'].sansLast()⧽"
+                    ],
+                    "names": "sansLast",
+                    "inputs": []
+                },
                 "sans": {
                     "doc": [
                         "Me, but without the first occurences of the given value.",
@@ -2490,109 +2500,289 @@
     "output": {
         "Type": {
             "names": "Type",
-            "doc": "$?",
-            "size": { "doc": "$?", "names": "size" },
-            "family": { "doc": "$?", "names": "font" },
-            "place": { "doc": "$?", "names": "place" },
-            "rotation": { "doc": "$?", "names": "rotation" },
-            "name": { "doc": "$?", "names": "name" },
-            "selectable": { "doc": "$?", "names": "selectable" },
-            "enter": { "doc": "$?", "names": "enter" },
-            "rest": { "doc": "$?", "names": "rest" },
-            "move": { "doc": "$?", "names": "move" },
-            "exit": { "doc": "$?", "names": "exit" },
-            "duration": { "doc": "$?", "names": ["⏳", "duration"] },
-            "style": { "doc": "$?", "names": "style" }
+            "doc": [
+                "I am not a @StructureDefinition you can actually make. But I am a very important one, as I inspire the most important elements of our dance: @Phrase, @Group, and @Stage.",
+                "Go meet them to learn more about how to use them."
+            ],
+            "size": {
+                "doc": "The font size, in meters, of this output.",
+                "names": "size"
+            },
+            "family": {
+                "doc": "The name of the font family that this output should be dressed in.",
+                "names": "font"
+            },
+            "place": {
+                "doc": "The place on stage where this output should be.",
+                "names": "place"
+            },
+            "rotation": {
+                "doc": "The amount in degrees that this output should be rotated around its center.",
+                "names": "rotation"
+            },
+            "name": {
+                "doc": "The name of this output, useful for @Choice, and for enabling output with a shared name to be treated as the same output in animations.",
+                "names": "name"
+            },
+            "selectable": {
+                "doc": "If ⧼⊤⧽, indicates that the output can be selected via a pointer or keyboard.",
+                "names": "selectable"
+            },
+            "enter": {
+                "doc": "The @Pose or @Sequence to use upon entering the stage.",
+                "names": "enter"
+            },
+            "rest": {
+                "doc": "The @Pose or @Sequence to use when not entering, moving places, or exiting.",
+                "names": "rest"
+            },
+            "move": {
+                "doc": "The @Pose or @Sequence to use when moving places.",
+                "names": "move"
+            },
+            "exit": {
+                "doc": "The @Pose or @Sequence to use when exiting stage.",
+                "names": "exit"
+            },
+            "duration": {
+                "doc": "The duration to apply when moving to a different place on stage.",
+                "names": ["⏳", "duration"]
+            },
+            "style": {
+                "doc": "The animation style to use when moving to a different place on stage.",
+                "names": "style"
+            }
         },
         "Group": {
+            "doc": [
+                "Oh hello, how are you? I'm always fine when others are around, so it's great to be with you!",
+                "I group together @Phrase and @Group on @Stage and put them in an @Arrangement, so there's some order to where they're placed.",
+                "To work, I need you to give me an @Arrangement, and then a @List of @Type to arrange.",
+                "For example, here I am with a @Stack arrangement and a few @Phrase to stack vertically:",
+                "⧼Group(Stack() [Phrase('first') Phrase('second')])⧽",
+                "How exactly I arrange things depend on the @Arrangement you give me."
+            ],
             "names": ["🔳", "Group"],
-            "doc": "$?",
-            "content": { "doc": "$?", "names": "content" },
-            "layout": { "doc": "$?", "names": "layout" }
+            "layout": {
+                "doc": "The arrangement to use to put @Type in their places.",
+                "names": "layout"
+            },
+            "content": {
+                "doc": "The list of @Type to arrange.",
+                "names": "content"
+            }
         },
         "Phrase": {
-            "doc": "$?",
+            "doc": [
+                "Hello, hello! Remember me? How could anyone forget /me/. That's right, I am the manificent @Phrase, ready to represent the loveliest of @Text on @Stage.",
+                "I need some @Text, obviously, but otherwise, I can do everything a @Type can do, including changing my size, font, rotation, and do all of my incredible dances with @Pose and @Sequence.",
+                "You can also select me on @Stage and edit me on the palette next door."
+            ],
             "names": ["💬", "Phrase"],
-            "text": { "doc": "$?", "names": "text" }
+            "text": {
+                "doc": "The characters to show on @Stage.",
+                "names": "text"
+            }
         },
-        "Arrangement": { "doc": "$?", "names": ["⠿", "Arrangement"] },
+        "Arrangement": {
+            "doc": "I am an inspiration to the many other kinds of arrangment in the Verse, including @Row, @Stack, @Grid, and @Free. I work closely with @Group to ",
+            "names": ["⠿", "Arrangement"]
+        },
         "Row": {
-            "doc": "$?",
+            "doc": "I am @Row, a horizontal @Arrangement of @Type, with optional padding in between. Have you met my twin, @Stack?",
             "names": ["➡", "Row"],
             "description": "row of $1 phrases and groups",
-            "padding": { "doc": "$?", "names": "padding" }
+            "padding": {
+                "doc": "The amount of padding to place between output.",
+                "names": "padding"
+            }
         },
         "Stack": {
-            "doc": "$?",
+            "doc": "I am @Stack, a vertical @Arrangement of @Type, with optional padding in between. Have you met my twin, @Row? ",
             "names": ["⬇", "Stack"],
             "description": "stack of $1 phrases and groups",
-            "padding": { "doc": "$?", "names": "padding" }
+            "padding": {
+                "doc": "The amount of padding to place between output.",
+                "names": "padding"
+            }
         },
         "Grid": {
-            "doc": "$?",
+            "doc": "I am grid of @Type. Give me a row and column count and I'll make a tidy arrangement with optional padding and cell sizes.",
             "names": ["▦", "Grid"],
             "description": "$1 row $2 column grid",
-            "rows": { "doc": "$?", "names": "rows" },
-            "columns": { "doc": "$?", "names": "columns" },
-            "padding": { "doc": "$?", "names": "padding" },
-            "cellWidth": { "doc": "$?", "names": "cellwidth" },
-            "cellHeight": { "doc": "$?", "names": "cellpadding" }
+            "rows": {
+                "doc": "How many rows in make in the grid.",
+                "names": "rows"
+            },
+            "columns": {
+                "doc": "How many columns to make in the grid.",
+                "names": "columns"
+            },
+            "padding": {
+                "doc": "How much padding to place between cells.",
+                "names": "padding"
+            },
+            "cellWidth": {
+                "doc": "How wide the cells should be.",
+                "names": "cellwidth"
+            },
+            "cellHeight": {
+                "doc": "How tall the cells should be.",
+                "names": "cellpadding"
+            }
         },
         "Free": {
-            "doc": "$?",
+            "doc": "I'm like, whatever. Sit wherever you want. Just sit somewhere! Make sure all the @Type you give me have a @Place.",
             "names": ["Free"],
             "description": "free-form $1 outputs"
         },
-        "Shape": { "doc": "$?", "names": "Shape" },
+        "Shape": {
+            "doc": "I'm an inspiration to all shapes. I'm useful for telling @Stage what shape to be.",
+            "names": "Shape"
+        },
         "Rectangle": {
-            "doc": "$?",
+            "doc": "I am a rectangle, useful for making @Stage have a boundary the size of your choosing.",
             "names": ["Rectangle"],
-            "left": { "doc": "$?", "names": "left" },
-            "top": { "doc": "$?", "names": "top" },
-            "right": { "doc": "$?", "names": "right" },
-            "bottom": { "doc": "$?", "names": "bottom" }
+            "left": {
+                "doc": "The left edge of the stage on the x-axis",
+                "names": "left"
+            },
+            "top": {
+                "doc": "The top edge of the stage on the y-axes",
+                "names": "top"
+            },
+            "right": {
+                "doc": "The right edge of the stage on the x-axis",
+                "names": "right"
+            },
+            "bottom": {
+                "doc": "The bottom edge of the stage on the y-axis",
+                "names": "bottom"
+            }
         },
         "Pose": {
-            "doc": "$?",
+            "doc": [
+                "You know when someone strikes the most amazing way of standing, a pauses, and everyone looks? That's me. I capture a pose for @Type to be in, and am the building block of their movements.",
+                "So much goes into a pose. Check out my many inputs to see what kinds of poses you might make!"
+            ],
             "names": ["🤪", "Pose"],
-            "duration": { "doc": "$?", "names": "duration" },
-            "style": { "doc": "$?", "names": "style" },
-            "color": { "doc": "$?", "names": "color" },
-            "opacity": { "doc": "$?", "names": "opacity" },
-            "offset": { "doc": "$?", "names": "offset" },
-            "tilt": { "doc": "$?", "names": "tilt" },
-            "scale": { "doc": "$?", "names": "scale" },
-            "flipx": { "doc": "$?", "names": "flipx" },
-            "flipy": { "doc": "$?", "names": "flipy" }
+            "duration": {
+                "doc": "How long this pose should take to enter from a previous pose.",
+                "names": "duration"
+            },
+            "style": {
+                "doc": "The style of animation to use when moving to this pose.",
+                "names": "style"
+            },
+            "color": {
+                "doc": "The @Color a @Type should be in this pose.",
+                "names": "color"
+            },
+            "opacity": {
+                "doc": "How transparent a @Type should be, between ⧼0⧽ and ⧼1⧽. Helpful for fading in and out.",
+                "names": "opacity"
+            },
+            "offset": {
+                "doc": "A @Place indicating how offset from a @Type's place it should be. Helpful for wiggling in place.",
+                "names": "offset"
+            },
+            "tilt": {
+                "doc": "How much extra rotation a @Type should have from its original rotation.",
+                "names": "tilt"
+            },
+            "scale": {
+                "doc": "How magnified a @Type should be relative to its original size.",
+                "names": "scale"
+            },
+            "flipx": {
+                "doc": "Whether a @Type should be mirrored on the x-axis.",
+                "names": "flipx"
+            },
+            "flipy": {
+                "doc": "Whether a @Type should be mirrored on the y-axis.",
+                "names": "flipy"
+            }
         },
         "Color": {
-            "doc": "$?",
+            "doc": [
+                "A am a visible color, made of three essential dimensions.",
+                "Here are some common colors around the color wheel, at medium brightness and high chroma:",
+                "⧼Color(50% 100 0°)⧽",
+                "⧼Color(50% 100 30°)⧽",
+                "⧼Color(50% 100 60°)⧽",
+                "⧼Color(50% 100 90°)⧽",
+                "⧼Color(50% 100 120°)⧽",
+                "⧼Color(50% 100 150°)⧽",
+                "⧼Color(50% 100 180°)⧽",
+                "⧼Color(50% 100 210°)⧽",
+                "⧼Color(50% 100 240°)⧽",
+                "⧼Color(50% 100 270°)⧽",
+                "⧼Color(50% 100 300°)⧽",
+                "⧼Color(50% 100 330°)⧽"
+            ],
             "names": ["🌈", "Color"],
-            "lightness": { "doc": "$?", "names": ["lightness", "l"] },
-            "chroma": { "doc": "$?", "names": ["chroma", "c"] },
-            "hue": { "doc": "$?", "names": ["hue", "h"] }
+            "lightness": {
+                "doc": "How light I should be from ⧼0⧽ to ⧼1⧽, from black at ⧼0⧽, to grey at ⧼0.5⧽, to white at ⧼1⧽.",
+                "names": ["lightness", "l"]
+            },
+            "chroma": {
+                "doc": "How much color I should have, from ⧼0⧽ to ⧼∞⧽. No color means grey, higher numbers mean the more color.",
+                "names": ["chroma", "c"]
+            },
+            "hue": {
+                "doc": "What color I should be, on a color wheel, from megenta ⧼0⧽, red ⧼30⧽, green ⧼120⧽, to blue ⧼270⧽.",
+                "names": ["hue", "h"]
+            }
         },
         "Sequence": {
-            "doc": "$?",
+            "doc": [
+                "Oh. My. Gosh. Director, you look amazing today! Do you want to dance with me? It's easy.",
+                "You just need to give me a @Map, where each key represents what percent along we are in the dance, and each value of those keys is a @Pose to be.",
+                "There are /so/ many different ways you can animate with this! For example, here's a simple one:",
+                "⧼Phrase('hi' rest: Sequence({0%: Pose(tilt: 360°) 100%: Pose(tilt: 0°)})⧽",
+                "This says, /at the beginning (0%), start at tilt 360, and end at tilt 0/. That'll spin us around in circles forever, since I'm set as the @Phrase's rest pose!",
+                "Try your own creative dances by playing with other inputs."
+            ],
             "names": ["💃", "Sequence"],
-            "count": { "doc": "$?", "names": "count" },
-            "timing": { "doc": "$?", "names": "timing" },
-            "poses": { "doc": "$?", "names": "poses" }
+            "poses": {
+                "doc": "A @Map of percentages between 0% and 100%, each paired with a @Pose. You don't have to provide all the percents; I will smoothly move a @Type between the ones you give me.",
+                "names": "poses"
+            },
+            "count": {
+                "doc": "How many times the sequence should repeat before it is done.",
+                "names": "count"
+            }
         },
         "Place": {
-            "doc": "$?",
+            "doc": "I'm a location on @Stage. All my inputs are optional, because I'm at the center by default.",
             "names": ["📍", "Place"],
-            "x": { "doc": "$?", "names": "x" },
-            "y": { "doc": "$?", "names": "y" },
-            "z": { "doc": "$?", "names": "z" }
+            "x": { "doc": "A position on the x-axis.", "names": "x" },
+            "y": { "doc": "A position on the y-axis", "names": "y" },
+            "z": { "doc": "A position on the z-axis", "names": "z" }
         },
         "Stage": {
-            "doc": "$?",
+            "doc": [
+                "HI. STAGE HERE. TELL ME WHAT TO SHOW AND I WILL SHOW IT.",
+                "⧼Stage([Phrase('stufffffff')])⧽",
+                "IF YOU WANT, GIVE ME A BACKGROUND @Color AND I WILL LIGHT THE STAGE ACCORDINGLY.",
+                "⧼Stage([Phrase('stufffffff')] Color(0% 0 0°))⧽",
+                "YOU MAY ALSO GIVE ME A FRAME BORDER.",
+                "⧼Stage([Phrase('stufffffff')] Color(0% 0 0°) Rectangle(-2m -2m 2m 2m))⧽"
+            ],
             "names": ["🎭", "Stage"],
             "description": "stage of $1 phrases and groups",
-            "content": { "doc": "$?", "names": "content" },
-            "background": { "doc": "$?", "names": "background" },
-            "frame": { "doc": "$?", "names": "frame" }
+            "content": {
+                "doc": "The list of @Type to show on stage.",
+                "names": "content"
+            },
+            "background": {
+                "doc": "The color of the background of the stage.",
+                "names": "background"
+            },
+            "frame": {
+                "doc": "The shape and size of frame to place around the stage, hiding everything outside it.",
+                "names": "frame"
+            }
         },
         "Easing": {
             "straight": "straight",
@@ -2602,19 +2792,34 @@
         },
         "sequence": {
             "sway": {
-                "doc": "$?",
+                "doc": "I create a @Sequence that sways back and forth around a @Type's center.",
                 "names": ["sway"],
-                "angle": { "doc": "$?", "names": ["angle"] }
+                "angle": {
+                    "doc": "How much to tilt in the sway.",
+                    "names": ["angle"]
+                }
             },
             "bounce": {
-                "doc": "$?",
+                "doc": "I create a @Sequence that bounces @Type a given height.",
                 "names": ["bounce"],
-                "height": { "doc": "$?", "names": ["height"] }
+                "height": { "doc": "How high to bounce.", "names": ["height"] }
             },
-            "spin": { "doc": "$?", "names": ["spin"] },
-            "fadein": { "doc": "$?", "names": ["fadein"] },
-            "popup": { "doc": "$?", "names": ["popup"] },
-            "shake": { "doc": "$?", "names": ["shake"] }
+            "spin": {
+                "doc": "I create a @Sequence that rotates @Type around its center.",
+                "names": ["spin"]
+            },
+            "fadein": {
+                "doc": "I create a @Sequence that fades @Type in from invisible to visible.",
+                "names": ["fadein"]
+            },
+            "popup": {
+                "doc": "I create a @Sequence that makes @Type scale in quickly than shrink to its normal size.",
+                "names": ["popup"]
+            },
+            "shake": {
+                "doc": "I create a @Sequence that makes it look like a @Type is scared.",
+                "names": ["shake"]
+            }
         }
     },
     "ui": {

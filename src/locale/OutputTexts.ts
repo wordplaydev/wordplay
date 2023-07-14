@@ -56,7 +56,6 @@ type OutputTexts = {
     };
     Sequence: NameAndDoc & {
         count: NameAndDoc;
-        timing: NameAndDoc;
         poses: NameAndDoc;
     };
     Color: NameAndDoc & {
