@@ -19,31 +19,40 @@ export const FREQUENCY = 33;
 export default class Random extends Stream<Number> {
     min: number | undefined;
     max: number | undefined;
+    unit: Unit | undefined;
 
     constructor(
         evaluator: Evaluator,
         min: number | undefined,
-        max: number | undefined
+        max: number | undefined,
+        unit: Unit | undefined
     ) {
         super(
             evaluator,
             evaluator.project.shares.input.random,
-            Random.next(evaluator, min, max)
+            Random.next(evaluator, min, max, unit)
         );
 
         this.min = min;
         this.max = max;
+        this.unit = unit;
     }
 
-    setRange(min: number | undefined, max: number | undefined) {
+    setRange(
+        min: number | undefined,
+        max: number | undefined,
+        unit: Unit | undefined
+    ) {
         this.min = min;
         this.max = max;
+        this.unit = unit;
     }
 
     static next(
         evaluator: Evaluator,
         min: number | undefined,
-        max: number | undefined
+        max: number | undefined,
+        unit: Unit | undefined
     ) {
         return new Number(
             evaluator.getMain(),
@@ -57,7 +66,8 @@ export default class Random extends Stream<Number> {
                 ? // Just a min, (-min, 0]
                   Math.random() * min
                 : // Both [min, max]
-                  Random.getRandomIntInclusive(min, max)
+                  Random.getRandomIntInclusive(min, max),
+            unit
         );
     }
 
@@ -73,7 +83,10 @@ export default class Random extends Stream<Number> {
     latest() {
         // If in the present, add a value without causing a reaction.
         if (!this.evaluator.isInPast())
-            this.add(Random.next(this.evaluator, this.min, this.max), true);
+            this.add(
+                Random.next(this.evaluator, this.min, this.max, this.unit),
+                true
+            );
 
         // Return the latest value (present or past).
         return super.latest();
@@ -115,12 +128,14 @@ export function createRandomDefinition(locales: Locale[]) {
                 new Random(
                     evaluation.getEvaluator(),
                     evaluation.get(MinBind.names, Number)?.toNumber(),
-                    evaluation.get(MaxBind.names, Number)?.toNumber()
+                    evaluation.get(MaxBind.names, Number)?.toNumber(),
+                    evaluation.get(MinBind.names, Number)?.unit
                 ),
             (stream, evaluation) =>
                 stream.setRange(
                     evaluation.get(MinBind.names, Number)?.toNumber(),
-                    evaluation.get(MaxBind.names, Number)?.toNumber()
+                    evaluation.get(MaxBind.names, Number)?.toNumber(),
+                    evaluation.get(MinBind.names, Number)?.unit
                 )
         ),
         NumberType.make()

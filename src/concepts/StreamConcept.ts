@@ -49,7 +49,7 @@ export default class StreamConcept extends Concept {
 
     getGlyphs(languages: LanguageCode[]) {
         return {
-            symbols: this.definition.names.getLocaleText(languages),
+            symbols: this.definition.names.getLocaleText(languages, true),
         };
     }
 
