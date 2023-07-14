@@ -21,7 +21,6 @@ type InputTexts = {
         height: NameAndDoc;
         frequency: NameAndDoc;
     };
-    Reaction: NameAndDoc;
     Motion: NameAndDoc & {
         type: NameAndDoc;
         vx: NameAndDoc;

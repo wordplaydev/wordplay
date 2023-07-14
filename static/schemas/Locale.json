@@ -311,9 +311,6 @@
               ],
               "type": "object"
             },
-            "Reaction": {
-              "$ref": "#/definitions/NameAndDoc"
-            },
             "Time": {
               "additionalProperties": false,
               "properties": {
@@ -344,7 +341,6 @@
             "Time",
             "Mic",
             "Camera",
-            "Reaction",
             "Motion"
           ],
           "type": "object"

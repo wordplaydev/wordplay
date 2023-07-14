@@ -2442,7 +2442,6 @@
                 "doc": "The time between @Color samples."
             }
         },
-        "Reaction": { "doc": "$?", "names": "reaction" },
         "Motion": {
             "doc": "$?",
             "names": ["⚽️", "Motion"],

@@ -1343,7 +1343,6 @@
             "height": { "names": ["altura"], "doc": "$?" },
             "frequency": { "names": ["frecuencia"], "doc": "$?" }
         },
-        "Reaction": { "names": "$?", "doc": "$?" },
         "Motion": {
             "names": "$?",
             "doc": "$?",
