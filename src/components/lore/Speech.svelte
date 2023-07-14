@@ -3,14 +3,14 @@
 </script>
 
 <script lang="ts">
-    import type Concept from '../../concepts/Concept';
+    import Concept from '../../concepts/Concept';
     import type Glyph from '../../lore/Glyph';
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
     import Eyes from './Eyes.svelte';
     import { creator } from '../../db/Creator';
     import Emotion from '../../lore/Emotion';
 
-    export let glyph: Glyph;
+    export let glyph: Glyph | Concept;
     /** If true, speech is placed below glyph. If false, speech is placed to the right or left of glyph. */
     export let below: boolean = false;
     /** If true and speech is not below, places the speech on the right, otherwise on the left. */
@@ -23,14 +23,20 @@
     export let scroll: boolean = true;
     /** Optional emotion */
     export let emotion: Emotion | undefined = undefined;
-    export let concept: Concept | undefined = undefined;
 
-    $: renderedEmotion = emotion ?? concept?.getEmotion($creator.getLocale());
+    $: renderedEmotion =
+        emotion ??
+        (glyph instanceof Concept
+            ? glyph?.getEmotion($creator.getLocale())
+            : undefined);
+
+    $: glyphs =
+        glyph instanceof Concept
+            ? glyph.getGlyphs($creator.getLanguages()).symbols
+            : glyph.symbols;
 
     $: symbols =
-        glyph.symbols.length > Limit
-            ? `${glyph.symbols.substring(0, Limit)}…`
-            : glyph.symbols;
+        glyphs.length > Limit ? `${glyphs.substring(0, Limit)}…` : glyphs;
 </script>
 
 <div
@@ -46,8 +52,8 @@
                 ? `emotion-${renderedEmotion}`
                 : ''}"
         >
-            {#if concept}
-                <ConceptLinkUI link={concept} label={symbols} />
+            {#if glyph instanceof Concept}
+                <ConceptLinkUI link={glyph} label={symbols} />
             {:else}
                 {symbols}
             {/if}

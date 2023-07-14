@@ -49,7 +49,7 @@
     <table>
         {#if node && concept}
             <td colspan="2"
-                ><Speech glyph={node.getGlyphs()} {concept}
+                ><Speech glyph={concept}
                     >{$creator.getLocale().ui.headers.editing}</Speech
                 ></td
             >

@@ -56,8 +56,8 @@
                 }}
             >
                 <Speech
-                    glyph={annotation.node.getGlyphs()}
-                    concept={$index?.getNodeConcept(annotation.node)}
+                    glyph={$index?.getNodeConcept(annotation.node) ??
+                        annotation.node.getGlyphs()}
                     invert
                 >
                     {#each annotation.messages as markup}

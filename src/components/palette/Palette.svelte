@@ -51,7 +51,9 @@
 
 <section class="palette" aria-label={$creator.getLocale().ui.section.palette}>
     <Speech
-        glyph={{
+        glyph={(outputs.length > 1 || definition === undefined
+            ? undefined
+            : $index?.getStructureConcept(definition)) ?? {
             symbols:
                 outputs.length === 0
                     ? '🎨'
@@ -59,9 +61,6 @@
                           .map((output) => output.node.func.toWordplay())
                           .join(', '),
         }}
-        concept={outputs.length > 1 || definition === undefined
-            ? undefined
-            : $index?.getStructureConcept(definition)}
     >
         {$creator
             .getLocales()

@@ -59,8 +59,8 @@
     {:else if latest instanceof Exception}
         <div class="message exception"
             >{#if mini}!{:else}<Speech
-                    glyph={latest.creator.getGlyphs()}
-                    concept={$index?.getNodeConcept(latest.creator)}
+                    glyph={$index?.getNodeConcept(latest.creator) ??
+                        latest.creator.getGlyphs()}
                     invert
                     >{#each $creator.getLocales() as locale}
                         <MarkupHTMLView
