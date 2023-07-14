@@ -1,7 +1,10 @@
 node_modules
 .svelte-kit
 .DS_Store
-.env*
+.env
+.env.emulator
+.env.wordplay-dev
+.env.wordplay-prod
 build
 firebase-debug.log
 firestore-debug.log
