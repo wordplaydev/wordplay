@@ -81,9 +81,6 @@ export const DOC_SPECIAL_CHARACTERS = [
 ];
 
 export function unescapeDocSymbols(text: string) {
-    if (text.includes('$$')) {
-        console.log('hi');
-    }
     return DOC_SPECIAL_CHARACTERS.reduce(
         (literal, special) => literal.replaceAll(special + special, special),
         text
