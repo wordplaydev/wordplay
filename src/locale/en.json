@@ -2420,11 +2420,27 @@
             }
         },
         "Camera": {
-            "doc": "$?",
+            "doc": [
+                "/bzzzzzzz/",
+                "@FunctionDefinition here, I can explain @Camera!",
+                "So @Camera provides a @List of @Color from your world. That list essentially represents an image, but it's up to you to decide what to do with it.",
+                "You could try to represent the image with a bunch of @Phrase, which could look pretty cool! Try copying this...",
+                "⧼colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' place: Place((x - 1) · 0.5m y · -0.5m) rest: Pose(color: color) duration: 0s\n)\n)\n)\n)\n)⧽",
+                "But you could also analyze the colors to decide if a light was on or off, or if a particular color was common, letting the audience influence a performance with the colors they show."
+            ],
             "names": ["🎥", "Camera"],
-            "width": { "names": ["width"], "doc": "$?" },
-            "height": { "names": ["height"], "doc": "$?" },
-            "frequency": { "names": ["frequency"], "doc": "$?" }
+            "width": {
+                "names": ["width"],
+                "doc": "The number of @Color to sample in a row."
+            },
+            "height": {
+                "names": ["height"],
+                "doc": "The number of @Color to sample in a column."
+            },
+            "frequency": {
+                "names": ["frequency"],
+                "doc": "The time between @Color samples."
+            }
         },
         "Reaction": { "doc": "$?", "names": "reaction" },
         "Motion": {
