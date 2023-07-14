@@ -2443,16 +2443,48 @@
             }
         },
         "Motion": {
-            "doc": "$?",
+            "doc": [
+                "/boing boing boing/",
+                "/Hi! @FunctionDefinition here. How about I explain @Motion?",
+                "Basically, @Motion is a stream of @Phrase. You give it a starting @Phrase, and then it refines it with a new place and rotation based on gravity.",
+                "This let's you do really simple things like creating bouncing emoji:",
+                "⧼Motion(Phrase('o' place: ◆ ? Place(0m 10m) ø))⧽",
+                "See how the o bounces? On the first evaluation, we give it a place up high on @Stage, but then after, it gets @None, which allows @Motion to change it to whatever position gravity would place it.",
+                "Check out the many other ways to configure it below."
+            ],
             "names": ["⚽️", "Motion"],
-            "type": { "doc": "$?", "names": "type" },
-            "vx": { "doc": "$?", "names": "vx" },
-            "vy": { "doc": "$?", "names": "vy" },
-            "vz": { "doc": "$?", "names": "vz" },
-            "vangle": { "doc": "$?", "names": "vangle" },
-            "mass": { "doc": "$?", "names": "mass" },
-            "bounciness": { "doc": "$?", "names": "bounciness" },
-            "gravity": { "doc": "$?", "names": "gravity" }
+            "type": {
+                "doc": "The @Phrase to refine with new @Type/rest places and rotations.",
+                "names": "type"
+            },
+            "vx": {
+                "doc": "The velocity on the x-axis at which the @Phrase should move.",
+                "names": "vx"
+            },
+            "vy": {
+                "doc": "The velocity on the y-axis at which the @Phrase should move. If it, it overrides gravity.",
+                "names": "vy"
+            },
+            "vz": {
+                "doc": "The velocity on the z-axis at which the @Phrase should move.",
+                "names": "vz"
+            },
+            "vangle": {
+                "doc": "The rotational velocity at which the @Phrase should rotate.",
+                "names": "vangle"
+            },
+            "mass": {
+                "doc": "The mass of the @Phrase, which may someday influence collisions.",
+                "names": "mass"
+            },
+            "bounciness": {
+                "doc": "The fraction between 0 and 1 that determines how much a velocity is dampened when a @Phrase collides.",
+                "names": "bounciness"
+            },
+            "gravity": {
+                "doc": "The gravity to apply to @Motion/vy.",
+                "names": "gravity"
+            }
         }
     },
     "output": {
