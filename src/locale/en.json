@@ -2406,9 +2406,18 @@
             }
         },
         "Mic": {
-            "doc": "$?",
+            "doc": [
+                "/bzzzzzzz/",
+                "@FunctionDefinition here, I'll take the mic.",
+                "This stream is a series of amplitudes, sampled at the frequency of your choice. By default, the frequency is ⧼30hz⧽, or 30 times per second, but you can change it to anything less frequent.",
+                "Mic()⧽",
+                "Mic is great for listening to the sounds an audience is making, especially how loud they are!"
+            ],
             "names": ["🎤", "Mic"],
-            "frequency": { "names": ["frequency"], "doc": "$?" }
+            "frequency": {
+                "names": ["frequency"],
+                "doc": "The time between samplings."
+            }
         },
         "Camera": {
             "doc": "$?",
