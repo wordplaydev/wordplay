@@ -9,8 +9,12 @@
     import Eyes from './Eyes.svelte';
     import { creator } from '../../db/Creator';
     import Emotion from '../../lore/Emotion';
+    import RootView from '../project/RootView.svelte';
+    import type Bind from '../../nodes/Bind';
 
     export let glyph: Glyph | Concept;
+    /** An optional type to display next to the glyph,*/
+    export let bind: Bind | undefined = undefined;
     /** If true, speech is placed below glyph. If false, speech is placed to the right or left of glyph. */
     export let below: boolean = false;
     /** If true and speech is not below, places the speech on the right, otherwise on the left. */
@@ -47,17 +51,26 @@
     class:scroll
 >
     {#key glyph}
-        <div
-            class="glyphs {symbols.length >= 3 ? 'small' : ''} {renderedEmotion
-                ? `emotion-${renderedEmotion}`
-                : ''}"
-        >
-            {#if glyph instanceof Concept}
-                <ConceptLinkUI link={glyph} label={symbols} />
-            {:else}
-                {symbols}
+        <div>
+            <div
+                class="glyphs {symbols.length >= 3
+                    ? 'small'
+                    : ''} {renderedEmotion ? `emotion-${renderedEmotion}` : ''}"
+            >
+                {#if glyph instanceof Concept}
+                    <ConceptLinkUI link={glyph} label={symbols} />
+                {:else}
+                    {symbols}
+                {/if}
+                <Eyes {invert} emotion={emotion ?? Emotion.neutral} />
+            </div>
+            {#if bind && bind.type}
+                • <RootView node={bind.type} inline />{#if bind.value}: <RootView
+                        node={bind.value}
+                        inline
+                        localized
+                    />{/if}
             {/if}
-            <Eyes {invert} emotion={emotion ?? Emotion.neutral} />
         </div>
     {/key}
     <div class="message {below ? 'below' : right ? 'right' : 'left'}">

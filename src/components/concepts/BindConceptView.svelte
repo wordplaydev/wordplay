@@ -4,19 +4,15 @@
     import { creator } from '../../db/Creator';
     import MissingLocalesView from './MissingLocalesView.svelte';
     import MarkupHTMLView from './MarkupHTMLView.svelte';
-    import TypeView from './TypeView.svelte';
-    import RootView from '../project/RootView.svelte';
 
     export let concept: BindConcept;
 </script>
 
-<Speech glyph={concept.getGlyphs($creator.getLanguages())} below={true}>
-    <TypeView type={concept.getType()} context={concept.context} />
-    {#if concept.bind.value !== undefined}: <RootView
-            node={concept.bind.value}
-            inline
-            localized
-        />{/if}
+<Speech
+    glyph={concept.getGlyphs($creator.getLanguages())}
+    bind={concept.bind}
+    below={true}
+>
     <MissingLocalesView />
     {#each $creator.getLocales() as trans}
         {@const markup = concept.getDocs(trans)}
