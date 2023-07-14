@@ -2349,7 +2349,18 @@
                 "doc": "If @None, the stream will provide both up and down values. If @Bool, it will only provide value the given @Bool value."
             }
         },
-        "Pointer": { "doc": "$?", "names": ["👆🏻", "Pointer"] },
+        "Pointer": {
+            "doc": [
+                "/whrrrrrr/",
+                "/@FunctionDefinition here, I'll explain this one./",
+                "You know about mice, trackpads, and touch screens? Sometimes you want to know where an audience is pointing. That's what @Pointer provides.",
+                "Of course, this is not an accessible choice: not everyone can see or easily point, so be really sure you're not excluding someone from participating by using this stream.",
+                "If you're sure no one is excluded, then using @Pointer is as simple as just making a stream:",
+                "⧼Pointer()⧽",
+                "The @Place it provides will correspond to where on @Stage the pointer is pointing."
+            ],
+            "names": ["👆🏻", "Pointer"]
+        },
         "Key": {
             "doc": "$?",
             "names": ["⌨️", "Key"],
