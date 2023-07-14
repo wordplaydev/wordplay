@@ -37,7 +37,12 @@ export default class Paragraph extends Content {
     }
 
     getGrammar(): Field[] {
-        return [{ name: 'segments', types: [[Words, WebLink, ConceptLink]] }];
+        return [
+            {
+                name: 'segments',
+                types: [[Words, WebLink, ConceptLink]],
+            },
+        ];
     }
 
     computeConflicts(): void | Conflict[] {

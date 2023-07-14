@@ -35,7 +35,14 @@ export default class Markup extends Content {
     }
 
     getGrammar() {
-        return [{ name: 'paragraphs', types: [[Paragraph]] }];
+        return [
+            {
+                name: 'paragraphs',
+                types: [[Paragraph]],
+                newline: true,
+                double: true,
+            },
+        ];
     }
 
     clone(replace?: Replacement) {

@@ -37,6 +37,8 @@ export type Field = {
     indent?: boolean | ((parent: Node, child: Node) => boolean);
     /** True if the field should have newlines */
     newline?: boolean;
+    /** True if the field should have double newlines */
+    double?: boolean;
     /** Generates a Token of the expected type, if a token is permitted on the field */
     getToken?: (text?: string, op?: string) => Token;
     /** Given a context and an optional index in a list, return a type required for this field. Used to filter autocomplete menus. */
@@ -605,7 +607,8 @@ export default abstract class Node {
 
         if (field.newline === true) {
             const value = this.getField(field.name);
-            if (Array.isArray(value) && child !== value[0]) return '\n';
+            if (Array.isArray(value) && child !== value[0])
+                return field.double ? '\n\n' : '\n';
         }
 
         if (
