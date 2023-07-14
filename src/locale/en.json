@@ -2321,7 +2321,18 @@
                 "doc": "The maximum value that will created, or if its smaller than the minimum provided, the minimum. If @None is provided, than the maximum is ⧼1⧽."
             }
         },
-        "Choice": { "doc": "$?", "names": ["🔘", "Choice"] },
+        "Choice": {
+            "doc": [
+                "/clickety tap!/",
+                "/@FunctionDefinition here, I'll explain this one./",
+                "Think of @Choice like a stream of @Phrase/name that are selected by your audience. If someone clicks, taps, or keyboard selects by pressing /Enter/ on a @Phrase with a name -- @Choice will have a new value matching the name.",
+                "So the best way to use it is to create a performance with named selectable phrases @Phrase, and then use a @Reaction to decide what to do when that name is chosen.",
+                "Here's the simplest example:",
+                "⧼Group(\nStack() \n[\nPhrase('one' selectable:⊤ name:'1') \nPhrase('two' selectable:⊤ name:'2') \nPhrase(Choice())\n]\n)⧽",
+                "Copy this into the editor and then select one of the two @Phrase. You'll see the third @Phrase shows the name that was selected."
+            ],
+            "names": ["🔘", "Choice"]
+        },
         "Button": {
             "doc": "$?",
             "names": ["🖱️", "Button"],
