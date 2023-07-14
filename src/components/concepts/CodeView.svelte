@@ -1,7 +1,7 @@
 <script lang="ts">
     import type Concept from '@concepts/Concept';
     import RootView from '../project/RootView.svelte';
-    import { getConceptPath } from '../project/Contexts';
+    import { getConceptIndex, getConceptPath } from '../project/Contexts';
     import type Node from '@nodes/Node';
     import TypeView from './TypeView.svelte';
     import { toClipboard } from '../editor/util/Clipboard';
@@ -17,6 +17,8 @@
     export let selectable: boolean = false;
     export let inline: boolean = false;
     export let outline: boolean = true;
+
+    let index = getConceptIndex();
 
     function select(event: MouseEvent | KeyboardEvent) {
         if (concept && selectable && selection) {
@@ -37,8 +39,10 @@
     }
 
     $: selection = getConceptPath();
+    $: owner = concept ? $index?.getConceptOwner(concept) : undefined;
     $: description = concept
-        ? concept.getName($creator.getLocale(), false)
+        ? (owner ? owner.getName($creator.getLocale(), false) + '.' : '') +
+          concept.getName($creator.getLocale(), false)
         : undefined;
 </script>
 

@@ -15,10 +15,13 @@
     let path = getConceptPath();
 
     let concept: Concept | undefined;
+    let container: Concept | undefined;
     let ui: string | undefined;
     $: {
-        if (link instanceof Concept) concept = link;
-        else if ($index === undefined) concept = undefined;
+        if (link instanceof Concept) {
+            concept = link;
+            container = $index?.getConceptOwner(concept);
+        } else if ($index === undefined) concept = undefined;
         // Try to resolve the concept in the index
         else {
             // Remove the link symbol
@@ -50,7 +53,10 @@
                             ).find((sub) =>
                                 sub.hasName(names[1], $creator.getLocale())
                             );
-                            if (subConcept) concept = subConcept;
+                            if (subConcept) {
+                                container = concept;
+                                concept = subConcept;
+                            }
                         }
                     }
                 }
@@ -90,7 +96,11 @@
             >{#if symbolicName !== longName && symbolic}<sub>{symbolicName}</sub
                 >{/if}{/if}</span
     >{:else if ui}<TutorialHighlight
-    />{:else if link instanceof ConceptLink}<span>{link.concept.getText()}</span
+    />{:else if link instanceof ConceptLink}<span
+        >{#if container}{container.getName(
+                $creator.getLocale(),
+                false
+            )}{/if}{link.concept.getText()}</span
     >{/if}
 
 <style>
