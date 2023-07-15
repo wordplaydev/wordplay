@@ -61,12 +61,15 @@
             }
         }}
     >
-        {Glyphs.Program.symbols}
+        {#if primaryCount > 0}<span class="count primary">{primaryCount}</span
+            >{/if}
+        {#if secondaryCount > 0}<span class="count secondary"
+                >{secondaryCount}</span
+            >{/if}
+        {#if primaryCount === 0 && secondaryCount === 0}{Glyphs.Program
+                .symbols}{/if}
         {source.names.getLocaleText($creator.getLanguages())}
     </span>
-    {#if primaryCount > 0}<span class="count primary">{primaryCount}</span>{/if}
-    {#if secondaryCount > 0}<span class="count secondary">{secondaryCount}</span
-        >{/if}
     <!-- Disabling for now. It doesn't help much because it's so tiny. We may restore it later. -->
     {#if output && false}
         <div class="output">
@@ -90,6 +93,7 @@
         flex-direction: row;
         align-items: center;
         overflow: hidden;
+        gap: var(--wordplay-spacing);
     }
 
     .name {
@@ -103,16 +107,20 @@
 
     .expanded .name {
         display: inline-block;
-        transform: scale(0.75);
+        transform: scale(0.85);
     }
 
     .count {
         font-size: small;
         border-radius: 50%;
-        padding: var(--wordplay-spacing);
         color: var(--wordplay-background);
-        min-width: 2.25em;
+        min-width: 2em;
+        min-height: 2em;
+        display: inline-flex;
+        flex-direction: column;
+        justify-content: center;
         text-align: center;
+        vertical-align: middle;
     }
 
     .primary {

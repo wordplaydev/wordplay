@@ -21,6 +21,6 @@
 <style>
     :not(.collapsed) {
         display: inline-block;
-        transform: scale(0.75);
+        transform: scale(0.85);
     }
 </style>
