@@ -1,5 +1,5 @@
 import type { NativeTypeName } from '../native/NativeConstants';
-import { MEASUREMENT_SYMBOL } from '@parser/Symbols';
+import { MEASUREMENT_SYMBOL as NUMBER_SYMBOL } from '@parser/Symbols';
 import type Context from './Context';
 import Token from './Token';
 import TokenType from './TokenType';
@@ -48,7 +48,7 @@ export default class NumberType extends NativeType {
         op?: BinaryOperation | UnaryOperation | Evaluate
     ) {
         return new NumberType(
-            new Token(MEASUREMENT_SYMBOL, TokenType.NumberType),
+            new Token(NUMBER_SYMBOL, TokenType.NumberType),
             unit ?? Unit.Empty,
             op
         );
@@ -56,6 +56,10 @@ export default class NumberType extends NativeType {
 
     static wildcard() {
         return NumberType.make(Unit.Wildcard);
+    }
+
+    generalize() {
+        return NumberType.make(this.unit);
     }
 
     getGrammar() {

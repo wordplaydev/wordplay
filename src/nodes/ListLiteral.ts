@@ -21,7 +21,6 @@ import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';
-import generalize from './generalize';
 import concretize from '../locale/concretize';
 
 export default class ListLiteral extends Expression {
@@ -91,9 +90,7 @@ export default class ListLiteral extends Expression {
                   );
 
         // Strip away any concrete types in the item types.
-        itemType = itemType ? generalize(itemType, context) : undefined;
-
-        return ListType.make(itemType, this.values.length);
+        return ListType.make(itemType, this.values.length).generalize(context);
     }
 
     computeConflicts(): Conflict[] {

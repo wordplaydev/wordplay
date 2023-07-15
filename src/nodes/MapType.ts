@@ -95,6 +95,13 @@ export default class MapType extends NativeType {
         );
     }
 
+    generalize(context: Context) {
+        return MapType.make(
+            this.key?.generalize(context),
+            this.value?.generalize(context)
+        );
+    }
+
     getNativeTypeName(): NativeTypeName {
         return 'map';
     }

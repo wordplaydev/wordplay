@@ -11,17 +11,18 @@ import Emotion from '../lore/Emotion';
 import { TEXT_DELIMITERS } from '../parser/Tokenizer';
 import UnionType from './UnionType';
 import type Context from './Context';
+import type Type from './Type';
 
 /** Any string or a specific string, depending on whether the given token is an empty text literal. */
 export default class TextType extends NativeType {
     readonly text: Token;
     readonly language?: Language;
 
-    constructor(text: Token, format?: Language) {
+    constructor(text: Token, language?: Language) {
         super();
 
         this.text = text;
-        this.language = format;
+        this.language = language;
 
         this.computeChildren();
     }
@@ -69,6 +70,10 @@ export default class TextType extends NativeType {
                             this.language.isEqualTo(type.language)))
                 );
         });
+    }
+
+    generalize(): Type {
+        return TextType.make(this.language);
     }
 
     isLiteral() {

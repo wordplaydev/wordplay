@@ -26,7 +26,6 @@ import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';
 import StreamToken from './StreamToken';
-import generalize from './generalize';
 import concretize from '../locale/concretize';
 import ExpectedStream from '../conflicts/ExpectedStream';
 
@@ -144,13 +143,10 @@ export default class Reaction extends Expression {
     }
 
     computeType(context: Context): Type {
-        const type = generalize(
-            UnionType.getPossibleUnion(context, [
-                this.initial.getType(context),
-                this.next.getType(context),
-            ]),
-            context
-        );
+        const type = UnionType.getPossibleUnion(context, [
+            this.initial.getType(context),
+            this.next.getType(context),
+        ]).generalize(context);
 
         // If the type includes an unknown type because of a cycle, remove the unknown, since the rest of the type defines the possible values.
         const types = type.getTypeSet(context).list();

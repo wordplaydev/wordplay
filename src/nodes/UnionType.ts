@@ -189,4 +189,24 @@ export default class UnionType extends Type {
             new NodeRef(this.right, locale, context),
         ];
     }
+
+    generalize(context: Context): Type {
+        // First, generalize all of the types in the union.
+        const generalized = this.getPossibleTypes(context).map((type) =>
+            type.generalize(context)
+        );
+
+        // Next, find the smallest subset of types to represent the set.
+        // We do this by iterating through each time, and removing other types that it accepts.
+        const remaining: Set<Type> = new Set(generalized);
+        for (const type1 of remaining) {
+            for (const type2 of remaining) {
+                if (type1 !== type2 && type1.accepts(type2, context))
+                    remaining.delete(type2);
+            }
+        }
+
+        if (remaining.size === 0) return Array.from(remaining)[0];
+        else return UnionType.getPossibleUnion(context, Array.from(remaining));
+    }
 }

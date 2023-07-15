@@ -36,6 +36,11 @@ export default abstract class Type extends Node {
 
     abstract getNativeTypeName(): NativeTypeName;
 
+    /** Subclasses override to abstract away from any specific types specified inside the type. */
+    generalize(_: Context): Type {
+        return this;
+    }
+
     getAffiliatedType(): NativeTypeName | undefined {
         return this.getNativeTypeName();
     }

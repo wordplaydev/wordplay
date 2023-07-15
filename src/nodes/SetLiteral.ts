@@ -23,7 +23,6 @@ import Purpose from '../concepts/Purpose';
 import UnclosedDelimiter from '../conflicts/UnclosedDelimiter';
 import SetCloseToken from './SetCloseToken';
 import type Conflict from '../conflicts/Conflict';
-import generalize from './generalize';
 import concretize from '../locale/concretize';
 
 export default class SetLiteral extends Expression {
@@ -94,9 +93,7 @@ export default class SetLiteral extends Expression {
                   );
 
         // Strip away any concrete types in the item types.
-        types = generalize(types, context);
-
-        return SetType.make(types);
+        return SetType.make(types).generalize(context);
     }
 
     getDependencies(): Expression[] {

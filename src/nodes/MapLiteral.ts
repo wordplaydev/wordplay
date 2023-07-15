@@ -25,7 +25,6 @@ import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import type { NativeTypeName } from '../native/NativeConstants';
-import generalize from './generalize';
 import concretize from '../locale/concretize';
 import ValueException from '../runtime/ValueException';
 
@@ -116,8 +115,6 @@ export default class MapLiteral extends Expression {
                       this.getKeyValuePairs().map((v) => v.key.getType(context))
                   );
 
-        keyType = generalize(keyType, context);
-
         let valueType =
             this.values.length === 0
                 ? new AnyType()
@@ -129,9 +126,7 @@ export default class MapLiteral extends Expression {
                   );
 
         // Strip away any concrete types in the item types.
-        valueType = generalize(valueType, context);
-
-        return MapType.make(keyType, valueType);
+        return MapType.make(keyType, valueType).generalize(context);
     }
 
     getDependencies(): Expression[] {

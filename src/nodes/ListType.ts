@@ -73,6 +73,10 @@ export default class ListType extends NativeType {
         );
     }
 
+    generalize(context: Context) {
+        return ListType.make(this.type?.generalize(context));
+    }
+
     getNativeTypeName(): NativeTypeName {
         return 'list';
     }

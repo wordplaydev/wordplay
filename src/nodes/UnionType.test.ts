@@ -1,5 +1,4 @@
 import { test, expect } from 'vitest';
-import generalize from './generalize';
 import { getDefaultNative } from '../native/Native';
 import Project from '../models/Project';
 import Source from './Source';
@@ -10,18 +9,20 @@ const native = await getDefaultNative();
 test.each([
     ["'hi'|'hello'", "''"],
     ["'hi'/en|'hello'/en", "''/en"],
-    ["'hi'/en|'hi'/fr", "'hi'/en|'hi'/fr"],
+    ["'hi'/en|'hi'/fr", "''/en|''/fr"],
     ['1|2|3', '#'],
-    ['1m|2|3', '1m|2|3'],
+    ['1m|2|3', '#m|#'],
     ['1m|2m|3m', '#m'],
-    ['[1|2|3]', '[1|2|3]'],
+    ['[1|2|3]', '[#]'],
+    ['{1}', '{#}'],
+    ['{1|2:2|3}', '{#:#}'],
 ])('expect %s', (given: string, expected) => {
     const source = new Source('untitled', '');
     const project = new Project(null, 'untitled', source, [], native);
     const context = project.getContext(source);
 
     const type = parseType(toTokens(given));
-    const generalized = generalize(type, context);
+    const generalized = type.generalize(context);
 
     expect(generalized.toWordplay()).toBe(expected);
 });

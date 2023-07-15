@@ -69,6 +69,10 @@ export default class SetType extends NativeType {
         );
     }
 
+    generalize(context: Context) {
+        return SetType.make(this.key?.generalize(context));
+    }
+
     getNativeTypeName(): NativeTypeName {
         return 'set';
     }
