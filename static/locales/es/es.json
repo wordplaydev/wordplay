@@ -1522,7 +1522,9 @@
             "collapse": "$?",
             "expand": "$?",
             "close": "$?",
-            "language": "$?",
+            "changeLanguage": "$?",
+            "addLanguage": "$?",
+            "removeLanguage": "$?",
             "horizontal": "$?",
             "vertical": "$?",
             "freeform": "$?",
@@ -1568,7 +1570,7 @@
             "notContent": "$?",
             "anonymous": "$?"
         },
-        "headers": {
+        "header": {
             "learn": "$?",
             "editing": "¡edítame!",
             "select": "$?",
@@ -1578,7 +1580,10 @@
             "interfaces": "$?",
             "properties": "$?",
             "functions": "$?",
-            "conversions": "$?"
+            "conversions": "$?",
+            "selectedLocales": "$?",
+            "supportedLocales": "$?",
+            "helpLocalize": "$?"
         },
         "section": {
             "project": "función",
@@ -1589,7 +1594,9 @@
             "palette": "paleta",
             "editor": "editora"
         },
-        "feedback": { "unknownProject": "No hay ningún proyecto con este ID." },
+        "feedback": {
+            "unknownProject": "No hay ningún proyecto con este ID."
+        },
         "login": {
             "header": "$?",
             "prompt": "$?",

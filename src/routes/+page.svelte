@@ -22,9 +22,9 @@
             >Coming Fall 2023. Write <a href="https://amyjko.com">Amy</a> for details.</p
         >
     {:else}
-        <BigLink to="/learn">{$creator.getLocale().ui.headers.learn}</BigLink>
+        <BigLink to="/learn">{$creator.getLocale().ui.header.learn}</BigLink>
         <BigLink to="/projects"
-            >{$creator.getLocale().ui.headers.projects}</BigLink
+            >{$creator.getLocale().ui.header.projects}</BigLink
         >
         <BigLink to="/login">{$creator.getLocale().ui.login.header}</BigLink>
     {/if}

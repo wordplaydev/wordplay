@@ -50,7 +50,7 @@
         {#if node && concept}
             <td colspan="2"
                 ><Speech glyph={concept}
-                    >{$creator.getLocale().ui.headers.editing}</Speech
+                    >{$creator.getLocale().ui.header.editing}</Speech
                 ></td
             >
         {/if}

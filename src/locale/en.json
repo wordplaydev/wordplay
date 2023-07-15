@@ -2859,7 +2859,9 @@
             "collapse": "collapse window",
             "expand": "expand window",
             "close": "close this performance",
-            "language": "change preferred languages",
+            "changeLanguage": "change languages",
+            "addLanguage": "add language",
+            "removeLanguage": "remove language",
             "horizontal": "switch to horizontal arrangement",
             "vertical": "switch to vertical arrangement",
             "freeform": "switch to free form arrangement",
@@ -2905,7 +2907,7 @@
             "notContent": "not a content list",
             "anonymous": "anonymous"
         },
-        "headers": {
+        "header": {
             "learn": "Learn",
             "select": "select a 💬, 🔳, or 🎭 to edit!",
             "editing": "edit me!",
@@ -2915,7 +2917,10 @@
             "interfaces": "Interfaces",
             "properties": "Properties",
             "functions": "Functions",
-            "conversions": "Conversions"
+            "conversions": "Conversions",
+            "selectedLocales": "Selected languages",
+            "supportedLocales": "Select to also show …",
+            "helpLocalize": "Help us translate …"
         },
         "section": {
             "project": "performance",

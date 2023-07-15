@@ -145,6 +145,7 @@ export const Languages: Record<string, LanguageMetadata> = {
     tg: { name: 'Тоҷикӣ', en: 'Tajik' },
     th: { name: 'ไทย', en: 'Thai' },
     tk: { name: 'türkmençe', en: 'Turkmen' },
+    tl: { name: 'ᜏᜒᜃᜅ᜔ ᜆᜄᜎᜓᜄ᜔', en: 'Tagalog' },
     tn: { name: 'Setswana', en: 'Tswana' },
     tr: { name: 'Türkçe', en: 'Turkish' },
     tt: { name: 'Татарча', en: 'Tatar' },
@@ -170,6 +171,8 @@ export const Languages: Record<string, LanguageMetadata> = {
 
 type LanguageCode = keyof typeof Languages;
 export default LanguageCode;
+
+export const PossibleLanguages: LanguageCode[] = Object.keys(Languages);
 
 export function getLanguageName(code: LanguageCode): string | undefined {
     return Languages[code]?.name;

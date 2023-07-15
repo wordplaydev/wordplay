@@ -3,40 +3,32 @@
 <script lang="ts">
     import Button from '../widgets/Button.svelte';
     import type LanguageCode from '@locale/LanguageCode';
-    import { getLanguageName, Languages } from '@locale/LanguageCode';
-    import SupportedLocales from '@locale/SupportedLanguages';
+    import {
+        getLanguageName,
+        Languages,
+        PossibleLanguages,
+    } from '@locale/LanguageCode';
     import { tick } from 'svelte';
     import { creator } from '../../db/Creator';
+    import SupportedLanguages from '@locale/SupportedLanguages';
+    import ExternalLink from '../app/ExternalLink.svelte';
+    import concretize from '../../locale/concretize';
 
     let collapsed = true;
-    let element: HTMLDialogElement;
+    let dialog: HTMLDialogElement;
 
     $: languages = $creator.getLanguages();
 
-    // The choices are all the languages, sorted in English alphabetical order, with supported languages first
-    $: languageChoices = [
-        ...SupportedLocales,
-        ...Array.from(
-            new Set([...(Object.keys(Languages) as LanguageCode[])])
-        ).filter((lang) => !SupportedLocales.includes(lang)),
-    ];
-
-    function select(language: LanguageCode, append: boolean) {
-        const selected = languages.includes(language);
-        languages = selected
+    function select(language: LanguageCode) {
+        languages = languages.includes(language)
             ? languages.length === 1
-                ? // If it's already selected, and there's only one, keep it the same.
-                  languages
-                : // Otherwise, remove it.
-                  [
+                ? languages
+                : [
                       // Remove
                       ...languages.slice(0, languages.indexOf(language)),
                       ...languages.slice(languages.indexOf(language) + 1),
                   ]
-            : // If replacing, just set to the given language. Otherwise add.
-            append
-            ? [...languages, language]
-            : [language];
+            : [language, ...languages];
 
         // Set the layout and direction based on the preferred language.
         if (languages.length > 0) {
@@ -46,40 +38,73 @@
             // Save it.
             $creator.setLanguages(languages);
         }
-
-        // Hide the dialog.
-        element.close();
     }
 
     async function toggle() {
         collapsed = !collapsed;
-        element.showModal();
+        dialog.showModal();
         await tick();
-        element?.focus();
+        dialog?.focus();
     }
 </script>
 
-<dialog bind:this={element} class="language-preferences">
+<dialog bind:this={dialog} class="language-preferences">
+    <h1
+        >{concretize(
+            $creator.getLocale(),
+            $creator.getLocale().ui.header.selectedLocales
+        ).toText()}</h1
+    >
     <div class="languages">
-        {#each languageChoices as lang}
-            {@const supported = SupportedLocales.includes(lang)}
-            <span
-                role="button"
-                tabindex={0}
-                class="language"
-                class:supported
-                class:selected={languages.includes(lang)}
-                on:pointerdown|stopPropagation={(event) =>
-                    select(lang, event.shiftKey)}
-                on:keydown={(event) =>
-                    event.key === ' ' || event.key === 'Enter'
-                        ? select(lang, event.shiftKey)
-                        : undefined}>{getLanguageName(lang)}</span
+        {#each languages as lang}
+            <span role="button" class="language supported">
+                <Button
+                    action={() => select(lang)}
+                    enabled={languages.length > 1}
+                    tip={$creator.getLocale().ui.tooltip.removeLanguage}
+                    >{getLanguageName(lang)}
+                    {#if languages.length > 1}
+                        -{/if}</Button
+                ></span
+            >
+        {/each}
+    </div>
+    <h2
+        >{concretize(
+            $creator.getLocale(),
+            $creator.getLocale().ui.header.supportedLocales
+        ).toText()}</h2
+    >
+    <div class="languages">
+        {#each SupportedLanguages.filter((lang) => !languages.includes(lang)) as lang}
+            <span class="language supported">
+                <Button
+                    action={() => select(lang)}
+                    tip={$creator.getLocale().ui.tooltip.addLanguage}
+                    >{getLanguageName(lang)} +</Button
+                ></span
+            >
+        {:else}&mdash;
+        {/each}
+    </div>
+    <h2
+        ><ExternalLink
+            to="https://github.com/amyjko/wordplay/blob/main/CONTRIBUTING.md#localization"
+            >{concretize(
+                $creator.getLocale(),
+                $creator.getLocale().ui.header.helpLocalize
+            ).toText()}</ExternalLink
+        ></h2
+    >
+    <div class="languages">
+        {#each PossibleLanguages.filter((lang) => !SupportedLanguages.includes(lang)) as lang}
+            <span class="language" class:supported={false}
+                >{getLanguageName(lang)}</span
             >
         {/each}
     </div>
 </dialog>
-<Button tip={$creator.getLocale().ui.tooltip.language} action={toggle}>
+<Button tip={$creator.getLocale().ui.tooltip.changeLanguage} action={toggle}>
     <span class="chosen">
         {#each languages as lang, index}{#if index > 0}+{/if}<span
                 class="language supported">{getLanguageName(lang)}</span
@@ -107,12 +132,7 @@
         flex-wrap: wrap;
         gap: calc(2 * var(--wordplay-spacing));
         row-gap: var(--wordplay-spacing);
-    }
-
-    .language {
-        display: inline-block;
-        border-radius: var(--wordplay-border-radius);
-        cursor: pointer;
+        padding: var(--wordplay-spacing);
     }
 
     .language {
@@ -120,11 +140,8 @@
         transition-duration: calc(var(--animation-factor) * 200ms);
     }
 
-    .language.supported {
-        text-decoration: underline;
-    }
-
-    .language.selected {
-        font-weight: bold;
+    .language:not(.supported) {
+        opacity: 0.6;
+        cursor: default;
     }
 </style>

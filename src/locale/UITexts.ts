@@ -36,7 +36,9 @@ type UITexts = {
         collapse: string;
         expand: string;
         close: string;
-        language: string;
+        changeLanguage: string;
+        addLanguage: string;
+        removeLanguage: string;
         horizontal: string;
         vertical: string;
         freeform: string;
@@ -92,7 +94,7 @@ type UITexts = {
         /** Shown when using an anonymous account */
         anonymous: string;
     };
-    headers: {
+    header: {
         learn: string;
         editing: string;
         select: string;
@@ -108,6 +110,12 @@ type UITexts = {
         functions: string;
         /** Documentation header in structure before conversions */
         conversions: string;
+        /** How to label the locales that have been selected */
+        selectedLocales: string;
+        /** How to label the supported locales that have not been selected */
+        supportedLocales: string;
+        /** How to request help with localization */
+        helpLocalize: string;
     };
     section: {
         project: string;

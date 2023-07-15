@@ -4794,7 +4794,7 @@
               ],
               "type": "object"
             },
-            "headers": {
+            "header": {
               "additionalProperties": false,
               "properties": {
                 "conversions": {
@@ -4809,6 +4809,10 @@
                 },
                 "functions": {
                   "description": "Documentation header in structure before functions",
+                  "type": "string"
+                },
+                "helpLocalize": {
+                  "description": "How to request help with localization",
                   "type": "string"
                 },
                 "inputs": {
@@ -4831,6 +4835,14 @@
                 },
                 "select": {
                   "type": "string"
+                },
+                "selectedLocales": {
+                  "description": "How to label the locales that have been selected",
+                  "type": "string"
+                },
+                "supportedLocales": {
+                  "description": "How to label the supported locales that have not been selected",
+                  "type": "string"
                 }
               },
               "required": [
@@ -4843,7 +4855,10 @@
                 "interfaces",
                 "properties",
                 "functions",
-                "conversions"
+                "conversions",
+                "selectedLocales",
+                "supportedLocales",
+                "helpLocalize"
               ],
               "type": "object"
             },
@@ -5070,6 +5085,9 @@
                 "addGroup": {
                   "type": "string"
                 },
+                "addLanguage": {
+                  "type": "string"
+                },
                 "addPhrase": {
                   "type": "string"
                 },
@@ -5086,6 +5104,9 @@
                   "type": "string"
                 },
                 "backInput": {
+                  "type": "string"
+                },
+                "changeLanguage": {
                   "type": "string"
                 },
                 "chooserExpand": {
@@ -5139,9 +5160,6 @@
                 "horizontal": {
                   "type": "string"
                 },
-                "language": {
-                  "type": "string"
-                },
                 "moveContentDown": {
                   "type": "string"
                 },
@@ -5191,6 +5209,9 @@
                   "type": "string"
                 },
                 "removeContent": {
+                  "type": "string"
+                },
+                "removeLanguage": {
                   "type": "string"
                 },
                 "removePose": {
@@ -5244,7 +5265,9 @@
                 "collapse",
                 "expand",
                 "close",
-                "language",
+                "changeLanguage",
+                "addLanguage",
+                "removeLanguage",
                 "horizontal",
                 "vertical",
                 "freeform",
@@ -5287,7 +5310,7 @@
             "tooltip",
             "prompt",
             "labels",
-            "headers",
+            "header",
             "section",
             "feedback",
             "login",

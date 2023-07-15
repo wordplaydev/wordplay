@@ -1522,7 +1522,8 @@
             "collapse": "$?",
             "expand": "$?",
             "close": "$?",
-            "language": "$?",
+            "addLanguage": "$?",
+            "removeLanguage": "$?",
             "horizontal": "$?",
             "vertical": "$?",
             "freeform": "$?",
@@ -1568,7 +1569,7 @@
             "notContent": "$?",
             "anonymous": "$?"
         },
-        "headers": {
+        "header": {
             "learn": "$?",
             "editing": "$?",
             "select": "$?",
@@ -1578,7 +1579,10 @@
             "interfaces": "$?",
             "properties": "$?",
             "functions": "$?",
-            "conversions": "$?"
+            "conversions": "$?",
+            "selectedLocales": "$?",
+            "supportedLocales": "$?",
+            "helpLocalize": "$?"
         },
         "section": {
             "project": "$?",

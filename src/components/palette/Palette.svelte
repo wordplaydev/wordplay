@@ -66,8 +66,8 @@
             .getLocales()
             .map((t) =>
                 propertyValues.size === 0
-                    ? t.ui.headers.select
-                    : t.ui.headers.editing
+                    ? t.ui.header.select
+                    : t.ui.header.editing
             )
             .join(' ')}
     </Speech>

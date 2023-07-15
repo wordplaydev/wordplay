@@ -48,7 +48,7 @@
     );
 </script>
 
-<Lead>{$creator.getLocale().ui.headers.projects}</Lead>
+<Lead>{$creator.getLocale().ui.header.projects}</Lead>
 <div class="projects">
     {#each sortProjects($projects
             .getCurrentProjects()
@@ -72,7 +72,7 @@
         ><span style:font-size="xxx-large">+</span>
     </Button>
 </div>
-<Lead>{$creator.getLocale().ui.headers.examples}</Lead>
+<Lead>{$creator.getLocale().ui.header.examples}</Lead>
 <div class="projects">
     {#each sortProjects(exampleProjects) as project (project.id)}
         <ProjectPreview {project} action={() => copyProject(project)} />

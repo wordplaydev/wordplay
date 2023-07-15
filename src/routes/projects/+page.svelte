@@ -5,7 +5,7 @@
 </script>
 
 <svelte:head>
-    <title>{$creator.getLocale().ui.headers.projects}</title>
+    <title>{$creator.getLocale().ui.header.projects}</title>
 </svelte:head>
 
 <Page>

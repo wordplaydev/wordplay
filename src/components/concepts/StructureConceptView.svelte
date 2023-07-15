@@ -33,7 +33,7 @@
     {/if} -->
 
     {#if concept.inter.length > 0}
-        <h2>{$creator.getLocale().ui.headers.interfaces}</h2>
+        <h2>{$creator.getLocale().ui.header.interfaces}</h2>
         {#each concept.inter as inter}
             <CodeView
                 concept={inter}
@@ -44,7 +44,7 @@
     {/if}
 
     {#if concept.inputs.length > 0}
-        <h2>{$creator.getLocale().ui.headers.inputs}</h2>
+        <h2>{$creator.getLocale().ui.header.inputs}</h2>
         {#each concept.inputs as bind, index}
             <div id="input-{index}">
                 <BindConceptView concept={bind} />
@@ -53,7 +53,7 @@
     {/if}
 
     {#if concept.properties.length > 0}
-        <h2>{$creator.getLocale().ui.headers.properties}</h2>
+        <h2>{$creator.getLocale().ui.header.properties}</h2>
         {#each concept.properties as bind, index}
             <div id="property-{index + concept.inputs.length}">
                 <BindConceptView concept={bind} />
@@ -62,14 +62,14 @@
     {/if}
 
     {#if concept.functions.length > 0}
-        <h2>{$creator.getLocale().ui.headers.functions}</h2>
+        <h2>{$creator.getLocale().ui.header.functions}</h2>
         {#each concept.functions as fun}
             <CodeView node={fun.getRepresentation()} concept={fun} selectable />
         {/each}
     {/if}
 
     {#if concept.conversions.length > 0}
-        <h2>{$creator.getLocale().ui.headers.conversions}</h2>
+        <h2>{$creator.getLocale().ui.header.conversions}</h2>
         {#each concept.conversions as conversion}
             <CodeView
                 node={conversion.getRepresentation()}
