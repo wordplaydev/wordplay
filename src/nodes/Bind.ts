@@ -4,7 +4,7 @@ import Token from './Token';
 import Type from './Type';
 import type Conflict from '@conflicts/Conflict';
 import UnusedBind from '@conflicts/UnusedBind';
-import IncompatibleBind from '@conflicts/IncompatibleBind';
+import IncompatibleType from '@conflicts/IncompatibleType';
 import UnexpectedEtc from '@conflicts/UnexpectedEtc';
 import NameType from './NameType';
 import StructureDefinitionType from './StructureDefinitionType';
@@ -218,7 +218,7 @@ export default class Bind extends Expression {
             const valueType = this.value.getType(context);
             if (!this.type.accepts(valueType, context))
                 conflicts.push(
-                    new IncompatibleBind(this, this.type, this.value, valueType)
+                    new IncompatibleType(this.type, this.value, valueType)
                 );
         }
 

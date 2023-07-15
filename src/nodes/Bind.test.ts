@@ -1,7 +1,7 @@
 import { test, expect } from 'vitest';
 import { testConflict } from '@conflicts/TestUtilities';
 import UnusedBind from '@conflicts/UnusedBind';
-import IncompatibleBind from '@conflicts/IncompatibleBind';
+import IncompatibleType from '@conflicts/IncompatibleType';
 import Evaluator from '@runtime/Evaluator';
 import Bind from './Bind';
 import { MisplacedShare } from '@conflicts/MisplacedShare';
@@ -11,9 +11,9 @@ import { getDefaultNative } from '../native/Native';
 const native = await getDefaultNative();
 
 test.each([
-    ['a•#: 1\na', 'a•"": 1\na', Bind, IncompatibleBind],
-    ['a•#: 1\na', 'a•"cat"|"dot": "mouse"\na', Bind, IncompatibleBind],
-    ['a•#: 1\na', 'a•1|2: 3\na', Bind, IncompatibleBind],
+    ['a•#: 1\na', 'a•"": 1\na', Bind, IncompatibleType],
+    ['a•#: 1\na', 'a•"cat"|"dot": "mouse"\na', Bind, IncompatibleType],
+    ['a•#: 1\na', 'a•1|2: 3\na', Bind, IncompatibleType],
     ['a: 1\na+a', 'a: 1\n1+1', Bind, UnusedBind],
     ['↑ a: 1', 'ƒ() (↑ a: 1)', Bind, MisplacedShare],
     ['↑ a/en: 1', '↑ a: 1', Bind, MissingShareLanguages],

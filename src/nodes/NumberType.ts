@@ -133,9 +133,9 @@ export default class NumberType extends NativeType {
 
         // If the unit is derived, then there must be an operation for it.
         if (this.op === undefined) {
-            console.error(
-                "NumberType with derived unit didn't receive an operator, so unit can't be derived."
-            );
+            // console.error(
+            //     "NumberType with derived unit didn't receive an operator, so unit can't be derived."
+            // );
             return Unit.Empty;
         }
 

@@ -400,7 +400,7 @@
                     "primary": "I have the same name as $1, which makes what is shared ambiguous",
                     "secondary": "I have has the same name as $1"
                 },
-                "IncompatibleBind": {
+                "IncompatibleType": {
                     "primary": "I'm supposed to be $1, but I'm $2",
                     "secondary": "hey, I got a $2 instead of a $1"
                 },

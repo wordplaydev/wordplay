@@ -51,10 +51,10 @@ function checkNativeNodes(nodes: Node[]) {
 
                 // Ignore conflicts in examples
                 if (
-                    context
+                    !context
                         .getRoot(node)
                         ?.getAncestors(conflictingNodes.primary.node)
-                        .find((n) => n instanceof Example) === undefined
+                        .some((n) => n instanceof Example)
                 ) {
                     console.error(
                         `Conflict on:\n${node
@@ -69,7 +69,6 @@ function checkNativeNodes(nodes: Node[]) {
                             context
                         )}`
                     );
-                    console.log(context.getRoot(node));
 
                     expect(conflicts).toHaveLength(0);
                 }

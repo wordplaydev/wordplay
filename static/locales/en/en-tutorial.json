@@ -4190,7 +4190,7 @@
                             "eager",
                             "You can also tell me what kind of value I should evaluate to. See how we added ⧼•⧽? after the list of inputs? That says “the function's expression should evaluate to a ⧼⊤⧽ or ⧼⊥⧽.” But see how we complain about it? We don't know if the function should be a ⧼⊤⧽ or ⧼⊥⧽ or whatever kind of value you returned, so the show ends."
                         ],
-                        ["edit", "ƒ even(number•#)•? (number % 2) + 0"],
+                        ["conflict", "ƒ even(number•#)•? (number % 2) + 0"],
                         null,
                         [
                             "FunctionDefinition",

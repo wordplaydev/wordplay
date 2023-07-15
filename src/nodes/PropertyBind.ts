@@ -17,7 +17,7 @@ import BindToken from './BindToken';
 import Structure from '../runtime/Structure';
 import ValueException from '../runtime/ValueException';
 import PropertyReference from './PropertyReference';
-import IncompatibleBind from '../conflicts/IncompatibleBind';
+import IncompatibleType from '../conflicts/IncompatibleType';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import concretize from '../locale/concretize';
@@ -69,7 +69,7 @@ export default class PropertyBind extends Expression {
 
         // If there's a type, the value must match.
         if (!propertyType.accepts(valueType, context))
-            return [new IncompatibleBind(this, propertyType, this, valueType)];
+            return [new IncompatibleType(propertyType, this, valueType)];
 
         return [];
     }

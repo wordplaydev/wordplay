@@ -237,7 +237,7 @@
             "conflict": {
                 "DuplicateName": { "primary": "$?", "secondary": "$?" },
                 "DuplicateShare": { "primary": "$?", "secondary": "$?" },
-                "IncompatibleBind": { "primary": "$?", "secondary": "$?" },
+                "IncompatibleType": { "primary": "$?", "secondary": "$?" },
                 "MisplacedShare": "$?",
                 "MissingShareLanguages": "$?",
                 "RequiredAfterOptional": "$?",

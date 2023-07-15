@@ -9,6 +9,7 @@ import Evaluator from '@runtime/Evaluator';
 import NoExpression from '@conflicts/NoExpression';
 import EvaluationLimitException from '@runtime/EvaluationLimitException';
 import { getDefaultNative } from '../native/Native';
+import IncompatibleType from '../conflicts/IncompatibleType';
 
 const native = await getDefaultNative();
 
@@ -18,6 +19,7 @@ test.each([
     ['ƒ(a b:1)', 'ƒ(a:1 b)', FunctionDefinition, RequiredAfterOptional],
     ['ƒ(a b:1)', 'ƒ(a:1 b)', FunctionDefinition, RequiredAfterOptional],
     ['ƒ a() 1', 'ƒ a()', FunctionDefinition, NoExpression],
+    ['ƒ a()•# 1', 'ƒ a()•? 1', FunctionDefinition, IncompatibleType],
 ])(
     'Expect %s no conflicts, %s to have conflicts',
     (good, bad, node, conflict) => {

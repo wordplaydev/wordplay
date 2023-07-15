@@ -34,6 +34,8 @@ import Glyphs from '../lore/Glyphs';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import Block from './Block';
 import concretize from '../locale/concretize';
+import IncompatibleType from '../conflicts/IncompatibleType';
+import NameType from './NameType';
 
 export default class FunctionDefinition extends Expression {
     readonly docs?: Docs;
@@ -222,7 +224,7 @@ export default class FunctionDefinition extends Expression {
             : this.getParent(context);
     }
 
-    computeConflicts(): Conflict[] {
+    computeConflicts(context: Context): Conflict[] {
         let conflicts: Conflict[] = [];
 
         // Make sure the inputs are valid.
@@ -231,6 +233,20 @@ export default class FunctionDefinition extends Expression {
         // Warn if there's no expression.
         if (this.expression === undefined) {
             conflicts.push(new NoExpression(this));
+        }
+
+        // Conflict if the output type doesn't match the expression type.
+        if (
+            this.output &&
+            !this.output.nodes().some((n) => n instanceof NameType) &&
+            this.expression
+        ) {
+            const type = this.expression.getType(context);
+            if (!this.output.accepts(type, context)) {
+                conflicts.push(
+                    new IncompatibleType(this.output, this.expression, type)
+                );
+            }
         }
 
         return conflicts;

@@ -5,24 +5,15 @@ import NodeRef from '@locale/NodeRef';
 import type Locale from '@locale/Locale';
 import Conflict from './Conflict';
 import concretize from '../locale/concretize';
-import type PropertyBind from '../nodes/PropertyBind';
-import type Bind from '../nodes/Bind';
 
-export default class IncompatibleBind extends Conflict {
-    readonly bind: Bind | PropertyBind;
+export default class IncompatibleType extends Conflict {
     readonly expectedType: Type;
     readonly value: Expression;
     readonly givenType: Type;
 
-    constructor(
-        bind: Bind | PropertyBind,
-        expectedType: Type,
-        value: Expression,
-        givenType: Type
-    ) {
+    constructor(expectedType: Type, value: Expression, givenType: Type) {
         super(false);
 
-        this.bind = bind;
         this.expectedType = expectedType;
         this.value = value;
         this.givenType = givenType;
@@ -35,7 +26,7 @@ export default class IncompatibleBind extends Conflict {
                 explanation: (locale: Locale, context: Context) =>
                     concretize(
                         locale,
-                        locale.node.Bind.conflict.IncompatibleBind.primary,
+                        locale.node.Bind.conflict.IncompatibleType.primary,
                         new NodeRef(this.expectedType, locale, context)
                     ),
             },
@@ -44,7 +35,7 @@ export default class IncompatibleBind extends Conflict {
                 explanation: (locale: Locale, context: Context) =>
                     concretize(
                         locale,
-                        locale.node.Bind.conflict.IncompatibleBind.secondary,
+                        locale.node.Bind.conflict.IncompatibleType.secondary,
                         new NodeRef(this.givenType, locale, context),
                         new NodeRef(this.expectedType, locale, context)
                     ),

@@ -136,7 +136,7 @@ type NodeTexts = {
              * $1: Expected
              * $2: Given
              * */
-            IncompatibleBind: ConflictText;
+            IncompatibleType: ConflictText;
             MisplacedShare: InternalConflictText;
             MissingShareLanguages: InternalConflictText;
             RequiredAfterOptional: InternalConflictText;

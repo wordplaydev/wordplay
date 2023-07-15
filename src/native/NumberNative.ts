@@ -54,7 +54,7 @@ export default function bootstrapNumber(locales: Locale[]) {
             translations.inputs.map((i) =>
                 Bind.make(i.docs, i.names, inputType)
             ),
-            new NativeExpression(NumberType.make(), (requestor, evaluation) => {
+            new NativeExpression(outputType, (requestor, evaluation) => {
                 const left: Value | Evaluation | undefined =
                     evaluation.getClosure();
                 const right = evaluation.resolve(translations.inputs[0].names);

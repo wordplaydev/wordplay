@@ -1499,7 +1499,7 @@
                       "$ref": "#/definitions/ConflictText",
                       "description": "$1: The duplicate"
                     },
-                    "IncompatibleBind": {
+                    "IncompatibleType": {
                       "$ref": "#/definitions/ConflictText",
                       "description": "$1: Expected $2: Given"
                     },
@@ -1522,7 +1522,7 @@
                   "required": [
                     "DuplicateName",
                     "DuplicateShare",
-                    "IncompatibleBind",
+                    "IncompatibleType",
                     "MisplacedShare",
                     "MissingShareLanguages",
                     "RequiredAfterOptional",
