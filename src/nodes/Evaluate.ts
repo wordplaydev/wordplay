@@ -31,7 +31,6 @@ import ValueException from '@runtime/ValueException';
 import Exception from '@runtime/Exception';
 import UnknownInput from '@conflicts/UnknownInput';
 import getConcreteExpectedType from './Generics';
-import FunctionDefinitionType from './FunctionDefinitionType';
 import Names from './Names';
 import EvalOpenToken from './EvalOpenToken';
 import EvalCloseToken from './EvalCloseToken';
@@ -491,8 +490,8 @@ export default class Evaluate extends Expression {
     ): FunctionDefinition | StructureDefinition | StreamDefinition | undefined {
         const type = this.func.getType(context);
 
-        return type instanceof FunctionDefinitionType
-            ? type.fun
+        return type instanceof FunctionType && type.definition
+            ? type.definition
             : type instanceof StructureDefinitionType
             ? type.structure
             : type instanceof StreamDefinitionType

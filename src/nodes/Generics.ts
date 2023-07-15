@@ -4,7 +4,6 @@ import type Context from './Context';
 import Evaluate from './Evaluate';
 import Expression from './Expression';
 import type FunctionDefinition from './FunctionDefinition';
-import FunctionDefinitionType from './FunctionDefinitionType';
 import FunctionType from './FunctionType';
 import NumberType from './NumberType';
 import NameType from './NameType';
@@ -39,9 +38,14 @@ export default function getConcreteExpectedType(
         if (definition instanceof StructureDefinition)
             return definition.getType(context);
         const functionType = definition.getType(context);
-        if (!(functionType instanceof FunctionDefinitionType))
+        if (
+            !(
+                functionType instanceof FunctionType &&
+                functionType.definition !== undefined
+            )
+        )
             return new UnknownVariableType(evaluation);
-        type = functionType.fun.getOutputType(context);
+        type = functionType.output;
     }
     // Otherwise, check that the bind actually exists
     else {
@@ -243,8 +247,12 @@ function getConcreteTypeVariable(
                     concreteType = inputByIndex.getType(context);
             }
             // Finally, if we're extracting the output type of a function input, get the function type's output.
-            if (inOutput && concreteType instanceof FunctionDefinitionType)
-                concreteType = concreteType.fun.getOutputType(context);
+            if (
+                inOutput &&
+                concreteType instanceof FunctionType &&
+                concreteType.definition
+            )
+                concreteType = concreteType.output;
 
             // If we found a type, return it!
             if (concreteType !== undefined) return concreteType;

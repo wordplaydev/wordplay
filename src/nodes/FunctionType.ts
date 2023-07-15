@@ -7,7 +7,6 @@ import Bind from './Bind';
 import { getEvaluationInputConflicts } from './util';
 import EvalCloseToken from './EvalCloseToken';
 import EvalOpenToken from './EvalOpenToken';
-import FunctionDefinitionType from './FunctionDefinitionType';
 import TypeVariables from './TypeVariables';
 import type TypeSet from './TypeSet';
 import type { NativeTypeName } from '../native/NativeConstants';
@@ -27,13 +26,17 @@ export default class FunctionType extends Type {
     readonly close: Token | undefined;
     readonly output: Type;
 
+    /** An optional reference to the function from which this type came, used in type inference. */
+    readonly definition: FunctionDefinition | undefined;
+
     constructor(
         fun: Token,
         types: TypeVariables | undefined,
         open: Token | undefined,
         inputs: Bind[],
         close: Token | undefined,
-        output: Type
+        output: Type,
+        definition?: FunctionDefinition
     ) {
         super();
 
@@ -43,6 +46,7 @@ export default class FunctionType extends Type {
         this.inputs = inputs;
         this.close = close;
         this.output = output;
+        this.definition = definition;
 
         this.computeChildren();
     }
@@ -50,7 +54,8 @@ export default class FunctionType extends Type {
     static make(
         typeVars: TypeVariables | undefined,
         inputs: Bind[],
-        output: Type
+        output: Type,
+        definition?: FunctionDefinition
     ) {
         return new FunctionType(
             new Token(FUNCTION_SYMBOL, TokenType.Function),
@@ -58,7 +63,8 @@ export default class FunctionType extends Type {
             new EvalOpenToken(),
             inputs,
             new EvalCloseToken(),
-            output
+            output,
+            definition
         );
     }
 
@@ -86,21 +92,9 @@ export default class FunctionType extends Type {
 
     acceptsAll(types: TypeSet, context: Context): boolean {
         return types.list().every((type) => {
-            if (
-                !(
-                    type instanceof FunctionType ||
-                    type instanceof FunctionDefinitionType
-                )
-            )
-                return false;
-            let inputsToCheck: Bind[] =
-                type instanceof FunctionDefinitionType
-                    ? type.fun.inputs
-                    : type.inputs;
-            let outputToCheck =
-                type instanceof FunctionDefinitionType
-                    ? type.fun.getOutputType(context)
-                    : type.output;
+            if (!(type instanceof FunctionType)) return false;
+            let inputsToCheck: Bind[] = type.inputs;
+            let outputToCheck = type.output;
 
             if (!(outputToCheck instanceof Type)) return false;
             if (!this.output.accepts(outputToCheck, context)) return false;

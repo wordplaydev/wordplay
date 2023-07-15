@@ -7,7 +7,6 @@ import type StructureDefinition from '@nodes/StructureDefinition';
 import Source from '@nodes/Source';
 import Node from '@nodes/Node';
 import HOF from '../native/HOF';
-import FunctionDefinitionType from '@nodes/FunctionDefinitionType';
 import Context from '@nodes/Context';
 import type { SharedDefinition } from '@nodes/Borrow';
 import PropertyReference from '@nodes/PropertyReference';
@@ -22,6 +21,7 @@ import type { Path } from '../nodes/Root';
 import type { CaretPosition } from '../components/editor/util/Caret';
 import type { Native } from '../native/Native';
 import type createDefaultShares from '../runtime/createDefaultShares';
+import FunctionType from '../nodes/FunctionType';
 
 export type SerializedSource = {
     names: string;
@@ -306,14 +306,17 @@ export default class Project {
                         ) {
                             for (const input of node.inputs) {
                                 const type = input.getType(context);
-                                if (type instanceof FunctionDefinitionType) {
+                                if (
+                                    type instanceof FunctionType &&
+                                    type.definition
+                                ) {
                                     const hofEvaluates =
                                         this.analysis.evaluations.get(
-                                            type.fun
+                                            type.definition
                                         ) ?? new Set();
                                     hofEvaluates.add(node);
                                     this.analysis.evaluations.set(
-                                        type.fun,
+                                        type.definition,
                                         hofEvaluates
                                     );
                                 }

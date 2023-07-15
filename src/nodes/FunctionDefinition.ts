@@ -19,7 +19,6 @@ import EvalOpenToken from './EvalOpenToken';
 import Docs from './Docs';
 import Names from './Names';
 import type LanguageCode from '@locale/LanguageCode';
-import FunctionDefinitionType from './FunctionDefinitionType';
 import type Value from '@runtime/Value';
 import StartFinish from '@runtime/StartFinish';
 import TypeVariables from './TypeVariables';
@@ -36,6 +35,7 @@ import Block from './Block';
 import concretize from '../locale/concretize';
 import IncompatibleType from '../conflicts/IncompatibleType';
 import NameType from './NameType';
+import FunctionType from './FunctionType';
 
 export default class FunctionDefinition extends Expression {
     readonly docs?: Docs;
@@ -262,8 +262,13 @@ export default class FunctionDefinition extends Expression {
         ];
     }
 
-    computeType(): Type {
-        return new FunctionDefinitionType(this);
+    computeType(context: Context): Type {
+        return FunctionType.make(
+            this.types,
+            this.inputs,
+            this.getOutputType(context),
+            this
+        );
     }
 
     getOutputType(context: Context) {
