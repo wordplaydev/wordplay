@@ -34,7 +34,7 @@ test.each([
     // Set field to node
     ['1 + 2', 'left', 0, '3', '3 + 2'],
     // Set field to undefined
-    ['"Hi"/en', 'format', 0, undefined, '"Hi"'],
+    ['"Hi"/en', 'language', 0, undefined, '"Hi"'],
     // Replace Node with invalid Node
     ['a.b', Reference, 1, '1', 'a.b'],
     // Replace Node with invalid Node in list

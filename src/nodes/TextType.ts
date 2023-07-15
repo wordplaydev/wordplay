@@ -15,13 +15,13 @@ import type Context from './Context';
 /** Any string or a specific string, depending on whether the given token is an empty text literal. */
 export default class TextType extends NativeType {
     readonly text: Token;
-    readonly format?: Language;
+    readonly language?: Language;
 
     constructor(text: Token, format?: Language) {
         super();
 
         this.text = text;
-        this.format = format;
+        this.language = format;
 
         this.computeChildren();
     }
@@ -36,14 +36,14 @@ export default class TextType extends NativeType {
     getGrammar() {
         return [
             { name: 'text', types: [Token] },
-            { name: 'format', types: [Language, undefined] },
+            { name: 'language', types: [Language, undefined] },
         ];
     }
 
     clone(replace?: Replacement) {
         return new TextType(
             this.replaceChild('text', this.text, replace),
-            this.replaceChild('format', this.format, replace)
+            this.replaceChild('language', this.language, replace)
         ) as this;
     }
 
@@ -64,9 +64,9 @@ export default class TextType extends NativeType {
                 return (
                     (this.getUnquotedText() === '' ||
                         this.getUnquotedText() === type.getUnquotedText()) &&
-                    (this.format === undefined ||
-                        (type.format !== undefined &&
-                            this.format.isEqualTo(type.format)))
+                    (this.language === undefined ||
+                        (type.language !== undefined &&
+                            this.language.isEqualTo(type.language)))
                 );
         });
     }

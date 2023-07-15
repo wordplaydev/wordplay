@@ -191,7 +191,7 @@ test('Parse expressions', () => {
 
     const format = parseExpression(toTokens('«hola»/spa'));
     expect(format).toBeInstanceOf(TextLiteral);
-    expect((format as TextLiteral).format?.getLanguage()).toBe('spa');
+    expect((format as TextLiteral).language?.getLanguage()).toBe('spa');
 
     const list = parseExpression(toTokens('[1 2 3]'));
     expect(list).toBeInstanceOf(ListLiteral);

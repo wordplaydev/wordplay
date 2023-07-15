@@ -21,14 +21,13 @@ export const ESCAPE_REGEX = /\\(.)/g;
 export default class TextLiteral extends Literal {
     /** The raw token in the program */
     readonly text: Token;
-
-    readonly format?: Language;
+    readonly language?: Language;
 
     constructor(text: Token, format?: Language) {
         super();
 
         this.text = text;
-        this.format = format;
+        this.language = format;
 
         /** Unescape the text string */
 
@@ -45,14 +44,14 @@ export default class TextLiteral extends Literal {
     getGrammar() {
         return [
             { name: 'text', types: [Token] },
-            { name: 'format', types: [Language, undefined] },
+            { name: 'language', types: [Language, undefined] },
         ];
     }
 
     clone(replace?: Replacement) {
         return new TextLiteral(
             this.replaceChild('text', this.text, replace),
-            this.replaceChild('format', this.format, replace)
+            this.replaceChild('language', this.language, replace)
         ) as this;
     }
 
@@ -63,7 +62,7 @@ export default class TextLiteral extends Literal {
     computeConflicts() {}
 
     computeType(): Type {
-        return new TextType(this.text, this.format);
+        return new TextType(this.text, this.language);
     }
 
     /** Get the text, with any escape characters processed. */
@@ -76,7 +75,9 @@ export default class TextLiteral extends Literal {
         return new Text(
             this,
             undelimited(this.getText()),
-            this.format === undefined ? undefined : this.format.getLanguage()
+            this.language === undefined
+                ? undefined
+                : this.language.getLanguage()
         );
     }
 

@@ -7,4 +7,4 @@
     export let node: TextLiteral;
 </script>
 
-<NodeView node={node.text} /><NodeView node={node.format} />
+<NodeView node={node.text} /><NodeView node={node.language} />

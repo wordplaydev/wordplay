@@ -20,15 +20,17 @@ export default function generalize(types: Type, context: Context) {
                             type === type2 ||
                             (type instanceof TextType &&
                                 type2 instanceof TextType &&
-                                ((type.format === undefined &&
-                                    type2.format === undefined) ||
-                                    (type.format !== undefined &&
-                                        type2.format !== undefined &&
-                                        type.format.isEqualTo(type2.format))))
+                                ((type.language === undefined &&
+                                    type2.language === undefined) ||
+                                    (type.language !== undefined &&
+                                        type2.language !== undefined &&
+                                        type.language.isEqualTo(
+                                            type2.language
+                                        ))))
                     )
             )
         )
-            types = TextType.make((possible[0] as TextType).format);
+            types = TextType.make((possible[0] as TextType).language);
         // All numbers with equivalent units? Generalize to a number with the unit.
         else if (possible.every((type) => type instanceof NumberType)) {
             const first = possible[0];
