@@ -1032,7 +1032,7 @@
                             <svelte:fragment slot="extra">
                                 {#if tile.kind === Content.Output}
                                     {#if !editable}<Button
-                                            classes="editProject"
+                                            uiid="editProject"
                                             tip={$creator.getLocale().ui.tooltip
                                                 .editProject}
                                             action={() => becomeEditable()}
@@ -1119,7 +1119,7 @@
     {#if !layout.isFullscreen() && editable}
         <nav class="footer">
             {#if original}<Button
-                    classes="revertProject"
+                    uiid="revertProject"
                     tip={$creator.getLocale().ui.tooltip.revertProject}
                     enabled={!project.equals(original)}
                     action={() => revert()}>↺</Button
@@ -1154,7 +1154,7 @@
                 {/if}
             {/each}
             <Button
-                classes="addSource"
+                uiid="addSource"
                 tip={$creator.getLocale().ui.tooltip.addSource}
                 action={addSource}>+</Button
             >
@@ -1206,6 +1206,7 @@
         flex-direction: column;
         overflow: hidden;
         width: 100%;
+        height: 100%;
     }
 
     .project:focus:after {

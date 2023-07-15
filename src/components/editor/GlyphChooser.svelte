@@ -62,7 +62,7 @@
     }
 </script>
 
-<section class:expanded class="directory">
+<section class:expanded class="directory" data-uiid="directory">
     <TextField placeholder="🔍" bind:text={query} />
     <div class="matches">
         {#each query === '' ? Defaults : results as glyph}<span

@@ -76,6 +76,7 @@
         class="{node.constructor.name} {node instanceof Token
             ? 'Token'
             : ''} node-view"
+        data-uiid={node.constructor.name}
         class:hide
         class:small
         data-id={node.id}

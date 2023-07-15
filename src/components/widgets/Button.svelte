@@ -6,6 +6,7 @@
     export let enabled: boolean = true;
     export let stretch: boolean = false;
     export let submit: boolean = false;
+    export let uiid: string | undefined = undefined;
     export let classes: string | undefined = undefined;
 </script>
 
@@ -13,6 +14,7 @@
     it invisible to screen readers. -->
 <button
     class:stretch
+    data-uiid={uiid}
     class={classes}
     type={submit ? 'submit' : null}
     title={tip}

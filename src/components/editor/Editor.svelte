@@ -1197,6 +1197,7 @@
         ? 'playing'
         : 'stepping'}"
     role="textbox"
+    data-uiid="editor"
     tabindex="0"
     aria-autocomplete="none"
     aria-live="off"

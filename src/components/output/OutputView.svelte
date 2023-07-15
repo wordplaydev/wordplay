@@ -45,7 +45,8 @@
 </script>
 
 <section
-    class="output stage"
+    class="output"
+    data-uuid="stage"
     class:mini
     aria-label={$creator.getLocale().ui.section.output}
     style:direction={$creator.getWritingDirection()}
@@ -56,7 +57,7 @@
         <div class="message editing">⌨️</div>
         <!-- If there's an exception, show that. -->
     {:else if latest instanceof Exception}
-        <div class="message exception"
+        <div class="message exception" data-uiid="exception"
             >{#if mini}!{:else}<Speech
                     glyph={$index?.getNodeConcept(latest.creator) ??
                         latest.creator.getGlyphs()}

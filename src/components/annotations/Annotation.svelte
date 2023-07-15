@@ -42,6 +42,7 @@
 {#if position}
     <div
         class="annotations"
+        data-uiid="conflict"
         class:measured={adjusted !== undefined}
         style:left={`${adjusted ? adjusted.left : position.left}px`}
         style:top={`${adjusted ? adjusted.top : position.top}px`}

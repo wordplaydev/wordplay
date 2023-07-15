@@ -169,6 +169,7 @@
     <header
         transition:slide|local={{ duration: $creator.getAnimationDuration() }}
         class="timeline"
+        data-uiid="timeline"
         class:stepping={$evaluation?.playing === false}
         on:pointerdown={(event) => stepToMouse(event)}
         on:pointermove={(event) =>

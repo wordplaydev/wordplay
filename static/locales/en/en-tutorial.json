@@ -188,7 +188,7 @@
                             "neutral",
                             "For example, try typing my ⧼'hello'⧽ in the editor over there.",
                             "(Don't worry about making mistakes, you can always revert to the original with *revert* @UI/revertProject).",
-                            "Did you type something? That's my friend @TextLiteral. Have you met them yet? They evaluate to ⧼'hello'⧽, then I put ⧼'hello'⧽ on stage. Try changing ⧼'hello'⧽ to something else. I'll show that instead. So I'll immediately evaluate whatever you type and show the result."
+                            "Did you type something? That's my friend @Text. Have you met them yet? They evaluate to ⧼'hello'⧽, then I put ⧼'hello'⧽ on stage. Try changing ⧼'hello'⧽ to something else. I'll show that instead. So I'll immediately evaluate whatever you type and show the result."
                         ],
                         null,
                         [
@@ -634,7 +634,7 @@
                         [
                             "Evaluate",
                             "neutral",
-                            "Let me show you one of the knobs. Can you find the little *palette* button at the bottom @UI/paletteExpand? Select it to expand the palette, and then select the phrase on stage. Once you do, you'll see the many inputs that @Phrase accepts. For example, try changing its @Type/size with the slider."
+                            "Let me show you one of the knobs. Can you find the little *palette* toggle button @UI/paletteExpand? Select it to expand the palette, and then select the phrase on stage. Once you do, you'll see the many inputs that @Phrase accepts. For example, try changing its @Type/size with the slider."
                         ],
                         null,
                         [
@@ -799,7 +799,7 @@
                         [
                             "Text",
                             "serious",
-                            "I do one simple thing: represent sequences of symbols, and the many things you can do with them. I think you saw me earlier when you wrote the word ⧼“hello”⧽? That was me, and my friends ⧼“h”⧽, ⧼“e”⧽, ⧼“l”⧽, and ⧼“o”⧽. That was @TextLiteral, an expression that evaluates to any @Text you like."
+                            "I do one simple thing: represent sequences of symbols, and the many things you can do with them. I think you saw me earlier when you wrote the word ⧼“hello”⧽? That was me, and my friends ⧼“h”⧽, ⧼“e”⧽, ⧼“l”⧽, and ⧼“o”⧽. That was @Text, an expression that evaluates to any @Text you like."
                         ],
                         null,
                         [
@@ -2172,7 +2172,7 @@
                         [
                             "Template",
                             "neutral",
-                            "Happily. To put it simply, I work with @TextLiteral make new text from any values you might give me. Ultimately, they all need to be text, and so you'll have to work with @Convert to get them that way. But once you give me all that text, I'm happy to stitch it together and assemble your beautiful prose into a single text value for display, or whatever other purposes you might have."
+                            "Happily. To put it simply, I work with @Text make new text from any values you might give me. Ultimately, they all need to be text, and so you'll have to work with @Convert to get them that way. But once you give me all that text, I'm happy to stitch it together and assemble your beautiful prose into a single text value for display, or whatever other purposes you might have."
                         ],
                         null,
                         [
@@ -2190,7 +2190,7 @@
                         [
                             "Template",
                             "happy",
-                            "Isn't that so much more elegant? You can put me anywhere inside a @TextLiteral, and I'll make your values into text, and work with @TextLiteral to make a @Text.",
+                            "Isn't that so much more elegant? You can put me anywhere inside a @Text, and I'll make your values into text, and work with @Text to make a @Text.",
                             "This makes it so much easier to write beautiful prose that uses values."
                         ],
                         ["edit", "'I have \\7\\ apples'"],
@@ -2205,7 +2205,7 @@
                         [
                             "Template",
                             "curious",
-                            "And so you might be wondering, 'What if I want to use @Template in some text?' Well, maybe you weren't wondering that, but I'm going to tell you anyway. In any @TextLiteral, just give me two in a row! I'll interpret that as just one @Template instead of an empty expression, which wouldn't have any meaning anyway. Try removing the \\ and you'll see that the slash regains its meaning, restoring the text as me, a @Template."
+                            "And so you might be wondering, 'What if I want to use @Template in some text?' Well, maybe you weren't wondering that, but I'm going to tell you anyway. In any @Text, just give me two in a row! I'll interpret that as just one @Template instead of an empty expression, which wouldn't have any meaning anyway. Try removing the \\ and you'll see that the slash regains its meaning, restoring the text as me, a @Template."
                         ],
                         [
                             "edit",
@@ -2939,7 +2939,7 @@
                         [
                             "Phrase",
                             "kind",
-                            "That, my darling, is the simplest way to get a word on stage. But there's so much more! For example, did you know that you can style the text you give me by just putting special symbols in @TextLiteral? Behold: bold!"
+                            "That, my darling, is the simplest way to get a word on stage. But there's so much more! For example, did you know that you can style the text you give me by just putting special symbols in @Text? Behold: bold!"
                         ],
                         ["edit", "Phrase('*hi*')"],
                         null,
@@ -2961,7 +2961,7 @@
                         [
                             "Phrase",
                             "kind",
-                            "And if you ever want to use any of these special formatting characters as text instead of formatting, you can just repeat them, kind of like in @TextLiteral, and I'll just use the character literally."
+                            "And if you ever want to use any of these special formatting characters as text instead of formatting, you can just repeat them, kind of like in @Text, and I'll just use the character literally."
                         ],
                         [
                             "edit",
@@ -4728,7 +4728,7 @@
                         [
                             "Doc",
                             "excited",
-                            "And of course, just as with @TextLiteral and @Phrase, if you need to use any of these characters literally, just repeat them twice."
+                            "And of course, just as with @Text and @Phrase, if you need to use any of these characters literally, just repeat them twice."
                         ],
                         [
                             "edit",

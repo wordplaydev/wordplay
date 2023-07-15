@@ -5,10 +5,10 @@
     export let onLabel: string;
     export let offTip: string;
     export let onTip: string;
-    export let classes: string | undefined = undefined;
+    export let uiid: string | undefined = undefined;
 </script>
 
-<span class="switch {classes ?? ''}">
+<span class="switch" data-uiid={uiid}>
     <span
         class={`button off ${on ? 'inactive' : 'active'}`}
         role="button"

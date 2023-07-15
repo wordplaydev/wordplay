@@ -5,11 +5,20 @@
     export let id: string | undefined = undefined;
 
     let bounds: DOMRect | undefined = undefined;
-    onMount(() => {
-        if (id)
+
+    function size(again: boolean) {
+        if (id) {
             bounds = document
-                .getElementsByClassName(id)[0]
+                .querySelector(`[data-uiid="${id}"]`)
                 ?.getBoundingClientRect();
+            // Try again in a few seconds, in case there's some async rendering.
+            if (again && bounds === undefined)
+                setTimeout(() => size(false), 2000);
+        }
+    }
+
+    onMount(() => {
+        size(true);
     });
 </script>
 
