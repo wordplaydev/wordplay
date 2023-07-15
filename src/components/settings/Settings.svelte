@@ -9,6 +9,7 @@
     import { goto } from '$app/navigation';
     import { clickOutside } from '../app/clickOutside';
     import Arrangement from '../../db/Arrangement';
+    import Status from '../app/Status.svelte';
 
     let expanded = false;
 
@@ -93,6 +94,7 @@
             ></Button
         >
     </div>
+    <Status />
     <Button
         tip={$creator.getLocale().ui.tooltip.settings}
         action={() => (expanded = !expanded)}

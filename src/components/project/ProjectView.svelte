@@ -61,7 +61,6 @@
     import { isName } from '@parser/Tokenizer';
     import { goto } from '$app/navigation';
     import TextField from '../widgets/TextField.svelte';
-    import Status from '../app/Status.svelte';
     import Evaluator from '@runtime/Evaluator';
     import Evaluate from '@nodes/Evaluate';
     import { page } from '$app/stores';
@@ -1125,7 +1124,6 @@
                     enabled={!project.equals(original)}
                     action={() => revert()}>↺</Button
                 >{/if}
-            <Status />
             <TextField
                 placeholder={$creator.getLocale().ui.placeholders.project}
                 text={project.name}
