@@ -48,7 +48,7 @@
     }
 </script>
 
-<dialog bind:this={dialog} class="language-preferences">
+<dialog bind:this={dialog}>
     <h1
         >{concretize(
             $creator.getLocale(),
@@ -121,16 +121,14 @@
 <style>
     dialog {
         position: relative;
-    }
-
-    .language-preferences {
         border-radius: var(--wordplay-border-radius);
+        padding: calc(2 * var(--wordplay-spacing));
     }
 
     .close {
         position: absolute;
-        top: var(--wordplay-spacing);
-        right: var(--wordplay-spacing);
+        top: calc(2 * var(--wordplay-spacing));
+        right: calc(2 * var(--wordplay-spacing));
     }
 
     .chosen {
