@@ -340,7 +340,7 @@
         flex-grow: 1;
     }
 
-    .tile:focus-within:after {
+    .tile:not(.fullscreen):focus-within:after {
         width: 100%;
         height: 100%;
         content: '';
