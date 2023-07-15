@@ -38,6 +38,7 @@
     />{:else if segment instanceof NodeRef}<RootView
         node={segment.node}
         inline
+        localized
     />{:else if segment instanceof ValueRef}<strong
         ><ValueView value={segment.value} /></strong
     >{:else if segment instanceof ConceptRef}<ConceptLinkUI

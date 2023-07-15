@@ -153,6 +153,20 @@ export default class Bind extends Expression {
         ) as this;
     }
 
+    /** Used to help generate function and structure types without extraneous information */
+    withoutDocs() {
+        return new Bind(
+            undefined,
+            this.share,
+            this.names,
+            this.etc,
+            this.dot,
+            this.type,
+            this.colon,
+            this.value
+        );
+    }
+
     getPurpose() {
         return Purpose.Bind;
     }
