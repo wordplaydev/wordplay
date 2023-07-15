@@ -144,6 +144,8 @@ const patterns = [
     { pattern: BORROW_SYMBOL, types: [TokenType.Borrow] },
     { pattern: SHARE_SYMBOL, types: [TokenType.Share] },
     { pattern: CONVERT_SYMBOL, types: [TokenType.Convert] },
+    { pattern: '->', types: [TokenType.Convert] },
+    { pattern: '=>', types: [TokenType.Convert] },
     { pattern: NONE_SYMBOL, types: [TokenType.None, TokenType.NoneType] },
     { pattern: TYPE_SYMBOL, types: [TokenType.Type, TokenType.TypeOperator] },
     {
