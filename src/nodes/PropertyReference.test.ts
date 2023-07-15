@@ -12,9 +12,9 @@ const native = await getDefaultNative();
 test('Test scoping', () => {
     const code = `
             bystander: 1
-            •Cat(name•””)
+            •Cat(name•"")
             sneaky: 1
-            boomy: Cat(“boomy”)
+            boomy: Cat("boomy")
             boomy.name
         `;
 
@@ -22,7 +22,11 @@ test('Test scoping', () => {
     const project = new Project(null, 'test', source, [], native);
     const context = project.getContext(source);
 
-    const prop = source.nodes().find((n) => n instanceof PropertyReference);
+    const prop = source
+        .nodes()
+        .find(
+            (n): n is PropertyReference => n instanceof PropertyReference
+        )?.name;
 
     expect(prop).toBeDefined();
 
@@ -31,13 +35,13 @@ test('Test scoping', () => {
     expect(prop?.getDefinitionOfNameInScope('sneaky', context)).toBeUndefined();
     expect(
         prop?.getDefinitionOfNameInScope('bystander', context)
-    ).toBeDefined();
+    ).toBeUndefined();
     expect(
         defs?.find((n) => n instanceof Bind && n.hasName('sneaky'))
     ).toBeUndefined();
     expect(
         defs?.find((n) => n instanceof Bind && n.hasName('bystander'))
-    ).toBeDefined();
+    ).toBeUndefined();
 });
 
 test('Test access evaluate', () => {
