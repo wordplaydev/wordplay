@@ -175,7 +175,9 @@
     <section
         class="tile {resizeDirection
             ? `resize-${resizeDirection}`
-            : ''} {arrangement} {tile.id}"
+            : ''} {arrangement} {tile.id} {tile.id.startsWith('source')
+            ? 'editor'
+            : ''}"
         class:fullscreen
         class:dragging
         class:animated={mounted}
@@ -284,6 +286,10 @@
     }
     .tile.free.resize-bottom {
         cursor: s-resize;
+    }
+
+    .tile.horizontal.editor {
+        border-right: var(--wordplay-border-color) solid 1px;
     }
 
     .tile.vertical:not(:last-child) {
