@@ -166,7 +166,7 @@ export class Creator {
                 if (refresh || !Object.hasOwn(this.locales, lang)) {
                     const raw = await fetch(`/locales/${lang}/${lang}.json`);
                     const json = await raw.json();
-                    this.locales[lang] = json;
+                    this.locales[lang] = json as Locale;
                 }
             })
         );
@@ -224,14 +224,15 @@ export class Creator {
 
     getLocales(): Locale[] {
         // Map preferred languages into locales, filtering out missing locales.
-        return this.getLanguages()
+        const locales = this.getLanguages()
             .filter((lang) => SupportedLanguages.includes(lang))
             .map((lang) => this.locales[lang])
             .filter((locale) => locale !== undefined);
+        return locales.length === 0 ? [en as Locale] : locales;
     }
 
     getLocale(): Locale {
-        return this.getLocales()[0];
+        return this.getLocales()[0] ?? en;
     }
 
     getNative(): Native {
@@ -579,6 +580,8 @@ export class Creator {
         this.config.languages = getLocalValue<string[]>(LANGUAGES_KEY) ?? [
             'en',
         ];
+
+        this.loadLocales(this.config.languages);
 
         this.config.writingLayout =
             getLocalValue<WritingLayout>(WRITING_LAYOUT_KEY) ?? 'horizontal-tb';
