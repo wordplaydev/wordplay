@@ -26,8 +26,16 @@ export default class IncompatibleInput extends Conflict {
                     concretize(
                         locale,
                         locale.node.Evaluate.conflict.IncompatibleInput.primary,
-                        new NodeRef(this.expectedType, locale, context),
-                        new NodeRef(this.givenType, locale, context)
+                        new NodeRef(
+                            this.expectedType.simplify(context),
+                            locale,
+                            context
+                        ),
+                        new NodeRef(
+                            this.givenType.simplify(context),
+                            locale,
+                            context
+                        )
                     ),
             },
             secondary: {
@@ -37,8 +45,16 @@ export default class IncompatibleInput extends Conflict {
                         locale,
                         locale.node.Evaluate.conflict.IncompatibleInput
                             .secondary,
-                        new NodeRef(this.expectedType, locale, context),
-                        new NodeRef(this.givenType, locale, context)
+                        new NodeRef(
+                            this.expectedType.simplify(context),
+                            locale,
+                            context
+                        ),
+                        new NodeRef(
+                            this.givenType.simplify(context),
+                            locale,
+                            context
+                        )
                     ),
             },
         };
