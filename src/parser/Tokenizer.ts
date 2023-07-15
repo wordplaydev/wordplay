@@ -230,39 +230,39 @@ const patterns = [
     },
     // Match template close strings that don't contain another close (those are template "between" strings below).
     {
-        pattern: /^\\(\\\\|[^\\])*?("|(?=\n))/u,
+        pattern: /^\\(\\\\|[^\\⧽])*?("|(?=\n))/u,
         types: [TokenType.TemplateClose],
     },
     {
-        pattern: /^\\(\\\\|[^\\])*?(”|(?=\n))/u,
+        pattern: /^\\(\\\\|[^\\⧽])*?(”|(?=\n))/u,
         types: [TokenType.TemplateClose],
     },
     {
-        pattern: /^\\(\\\\|[^\\])*?([']|(?=\n))/u,
+        pattern: /^\\(\\\\|[^\\⧽])*?([']|(?=\n))/u,
         types: [TokenType.TemplateClose],
     },
     {
-        pattern: /^\\(\\\\|[^\\])*?(’|(?=\n))/u,
+        pattern: /^\\(\\\\|[^\\⧽])*?(’|(?=\n))/u,
         types: [TokenType.TemplateClose],
     },
     {
-        pattern: /^\\(\\\\|[^\\])*?(›|(?=\n))/u,
+        pattern: /^\\(\\\\|[^\\⧽])*?(›|(?=\n))/u,
         types: [TokenType.TemplateClose],
     },
     {
-        pattern: /^\\(\\\\|[^\\])*?(»|(?=\n))/u,
+        pattern: /^\\(\\\\|[^\\⧽])*?(»|(?=\n))/u,
         types: [TokenType.TemplateClose],
     },
     {
-        pattern: /^\\(\\\\|[^\\])*?(」|(?=\n))/u,
+        pattern: /^\\(\\\\|[^\\⧽])*?(」|(?=\n))/u,
         types: [TokenType.TemplateClose],
     },
     {
-        pattern: /^\\(\\\\|[^\\])*?(』|(?=\n))/u,
+        pattern: /^\\(\\\\|[^\\⧽])*?(』|(?=\n))/u,
         types: [TokenType.TemplateClose],
     },
     // If none of the template close patterns match above, allow a new line to close.
-    { pattern: /^\\(\\\\|[^\\])*?(?=\n)/u, types: [TokenType.TemplateClose] },
+    { pattern: /^\\(\\\\|[^\\⧽])*?(?=\n)/u, types: [TokenType.TemplateClose] },
     // Match template "between" strings that have open and unescaped close markers
     // (Start with an open template marker, followed by any 1) escaped template markers or 2) non-template markers, ending with a close template marker.)
     { pattern: /^\\(\\\\|[^\\])*?\\/u, types: [TokenType.TemplateBetween] },
@@ -486,13 +486,26 @@ function getNextToken(
         }
     }
 
-    // Otherwise, we fail and return an error token that contains all of the text until the next space.
-    let nextSpace = 0;
-    for (; nextSpace < source.length; nextSpace++) {
-        const char = source.charAt(nextSpace);
-        if (char === ' ' || char === '\t' || char === '\n') break;
-    }
+    // Otherwise, we fail and return an error token that contains all of the text until the next recognizable token.
+    // This is a recursive call: it tries to tokenize the next character, skipping this one, going all the way to the
+    // end of the source if necessary, but stopping at the nearest recognizable token.
+    const next = getNextToken(source.substring(1), openTemplates, inDoc);
+    return new Token(
+        source.substring(
+            0,
+            next.is(TokenType.End)
+                ? source.length
+                : source.indexOf(next.getText())
+        ),
+        TokenType.Unknown
+    );
 
-    // Uh oh, unknown token. This should never be possible, but it probably is, since I haven't proven otherwise.
-    return new Token(source.substring(0, nextSpace), TokenType.Unknown);
+    // for (; nextSpace < source.length; nextSpace++) {
+    //     const char = source.charAt(nextSpace);
+    //     if (char === ' ' || char === '\t' || char === '\n') break;
+    // }
+
+    // // Uh oh, unknown token. This should never be possible, but it probably is, since I haven't proven otherwise.
+    // //
+    // return new Token(source.substring(0, nextSpace), TokenType.Unknown);
 }

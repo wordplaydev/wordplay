@@ -138,7 +138,7 @@ test('Tokenize text', () => {
     ).toBe('\'hi\' "hi" ‘hi’ «hi» ‹hi› „hi“ 「hi」 ');
     // Check newline terminated text
     expect(
-        tokens('\'hi "hi ‘hi «hi ‹hi „hi 「hi ')
+        tokens('\'hi\n"hi\n‘hi\n«hi\n‹hi\n„hi\n「hi\n')
             .map((t) => t.toWordplay())
             .join(' ')
     ).toBe('\'hi "hi ‘hi «hi ‹hi „hi 「hi ');
