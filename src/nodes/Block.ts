@@ -241,7 +241,11 @@ export default class Block extends Expression {
     compile(context: Context): Step[] {
         // If there are no statements, halt on exception.
         return [
-            new Start(this),
+            new Start(this, (evaluator) => {
+                // Create a new scope for this block.
+                evaluator.evaluations[0].scope();
+                return undefined;
+            }),
             ...this.statements.reduce(
                 (prev: Step[], current) => [
                     ...prev,
@@ -260,6 +264,9 @@ export default class Block extends Expression {
 
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
         if (prior) return prior;
+
+        // Pop the scope made for this block.
+        evaluator.evaluations[0].unscope();
 
         // Pop all the values computed.
         const values = [];

@@ -42,11 +42,11 @@ export default class Structure extends Value {
         const thisBindings = this.context.getBindings();
         const thatBindings = this.context.getBindings();
 
-        if (thisBindings.size !== thatBindings.size) return false;
+        if (thisBindings[0].size !== thatBindings[0].size) return false;
 
-        return Array.from(thisBindings.keys()).every((key) => {
-            const thisValue = thisBindings.get(key);
-            const thatValue = thatBindings.get(key);
+        return Array.from(thisBindings[0].keys()).every((key) => {
+            const thisValue = thisBindings[0].get(key);
+            const thatValue = thatBindings[0].get(key);
             return (
                 thisValue !== undefined &&
                 thatValue !== undefined &&

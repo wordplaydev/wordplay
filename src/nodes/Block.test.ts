@@ -22,6 +22,9 @@ test.each([
     }
 );
 
-test.each([['b: (a: 5\na)\nb', '5']])('Expect %s to be %s', (code, value) => {
+test.each([
+    ['b: (a: 5\na)\nb', '5'],
+    ['(count: 10 count ^ count) + count', '!NameException'],
+])('Expect %s to be %s', (code, value) => {
     expect(Evaluator.evaluateCode(native, code)?.toString()).toBe(value);
 });

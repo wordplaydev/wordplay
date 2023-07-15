@@ -76,7 +76,7 @@ export default class Evaluation {
     readonly #closure: Evaluation | Value | undefined;
 
     /** A dictionary of values bound to names, preseving a mapping between names and values */
-    readonly #bindings: Map<Names | string, Value> = new Map();
+    readonly #bindings: Map<Names | string, Value>[] = [new Map()];
 
     /** This represents a stack of values returned by steps. */
     readonly #values: Value[] = [];
@@ -112,8 +112,9 @@ export default class Evaluation {
         this.#steps = this.#evaluator.getSteps(evaluationNode);
 
         // Add any bindings given.
-        if (bindings)
+        if (bindings) {
             for (const [names, value] of bindings) this.bind(names, value);
+        }
     }
 
     getSource() {
@@ -245,7 +246,7 @@ export default class Evaluation {
     }
 
     getBindings() {
-        return new Map(this.#bindings);
+        return this.#bindings.map((b) => new Map(b));
     }
 
     getValues() {
@@ -253,7 +254,17 @@ export default class Evaluation {
     }
 
     binds(value: Value) {
-        return Array.from(this.#bindings.values()).includes(value);
+        return this.#bindings.some((bindings) =>
+            Array.from(bindings.values()).includes(value)
+        );
+    }
+
+    scope() {
+        this.#bindings.unshift(new Map());
+    }
+
+    unscope() {
+        this.#bindings.shift();
     }
 
     pushValue(value: Value): void {
@@ -283,10 +294,12 @@ export default class Evaluation {
 
     /** Binds a value to a name in this evaluation. */
     bind(names: Names | string, value: Value) {
-        this.#bindings.set(names, value);
+        const bindings = this.#bindings[0];
+
+        // Set the value by name or names.
+        bindings.set(names, value);
         if (names instanceof Names)
-            for (const name of names.getNames())
-                this.#bindings.set(name, value);
+            for (const name of names.getNames()) bindings.set(name, value);
     }
 
     /** A convience function for getting a value by name, but only if it is a certain type */
@@ -297,9 +310,12 @@ export default class Evaluation {
 
     /** Resolves the given name in this evaluation or its context. */
     resolve(name: string | Names): Value | undefined {
-        return this.#bindings.has(name)
-            ? this.#bindings.get(name)
-            : typeof name === 'string'
+        // Search the stack of bindings for a matching name.
+        for (const bindings of this.#bindings)
+            if (bindings.has(name)) return bindings.get(name);
+
+        // Didn't find one? Check the closure, or defaults if there's no closure.
+        return typeof name === 'string'
             ? this.#closure === undefined
                 ? this.resolveDefault(name)
                 : this.#closure.resolve(name, this.#evaluator)
@@ -353,18 +369,20 @@ export default class Evaluation {
         property: string,
         value: Value
     ): Evaluation | undefined {
-        if (!this.#bindings.has(property)) return undefined;
+        const bindings = this.#bindings[0];
+
+        if (!bindings.has(property)) return undefined;
 
         const newEvaluation = new Evaluation(
             this.#evaluator,
             creator,
             this.#evaluationNode,
             this.#closure,
-            new Map(this.#bindings)
+            this.#bindings[0]
         );
 
         // Find the corresponding name.
-        const names = Array.from(newEvaluation.#bindings.keys()).find(
+        const names = Array.from(newEvaluation.#bindings[0].keys()).find(
             (name) => name instanceof Names && name.hasName(property)
         );
 
@@ -376,8 +394,10 @@ export default class Evaluation {
     }
 
     getSize() {
-        let sum = 0;
-        for (const [, value] of this.#bindings) sum += value.getSize();
-        return sum;
+        // Get all the values from the bindings maps, flatten them into a list, and add up their sizes.
+        return this.#bindings
+            .map((bindings) => Array.from(bindings.values()))
+            .flat()
+            .reduce((sum, val) => sum + val.getSize(), 0);
     }
 }
