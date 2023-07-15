@@ -23,7 +23,8 @@
     function newProject() {
         const newProjectID = $creator.createProject(
             $creator.getLocale(),
-            $user ? $user.uid : undefined
+            $user ? $user.uid : undefined,
+            "Phrase('🐈' rest: Sequence(sway() 1s))"
         );
         goto(`/project/${newProjectID}`);
     }

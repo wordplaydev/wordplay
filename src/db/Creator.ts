@@ -330,11 +330,11 @@ export class Creator {
     }
 
     /** Create a project and return it's ID */
-    createProject(locale: Locale, uid: string | undefined) {
+    createProject(locale: Locale, uid: string | undefined, code: string = '') {
         const newProject = new Project(
             null,
             '',
-            new Source(locale.term.start, ''),
+            new Source(locale.term.start, code),
             [],
             this.native,
             undefined,

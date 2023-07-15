@@ -11,10 +11,13 @@
     // Clone the project and get its initial value, then stop the project's evaluator.
     let evaluator: Evaluator;
     let value: Value | undefined;
-    $: {
-        evaluator = new Evaluator(project, undefined, false);
-        value = evaluator.getInitialValue();
+    $: [evaluator, value] = updatePreview(project);
+
+    function updatePreview(project: Project): [Evaluator, Value | undefined] {
+        const evaluator = new Evaluator(project, undefined, false);
+        const value = evaluator.getInitialValue();
         evaluator.stop();
+        return [evaluator, value];
     }
 </script>
 
