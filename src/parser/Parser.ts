@@ -263,10 +263,10 @@ export class Tokens {
         return this.nextIs(type) ? this.read() : undefined;
     }
 
+    /** Used to read the remainder of a line, and at least one token, unless there are no more tokens. */
     readLine() {
         const nodes: Node[] = [];
-        if (!this.hasNext() || this.nextIs(TokenType.ExampleClose))
-            return nodes;
+        if (!this.hasNext()) return nodes;
         // Read at least one token, then keep going until we reach a token with a line break.
         do {
             nodes.push(this.read());
