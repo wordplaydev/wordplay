@@ -1168,7 +1168,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                         )
                 ),
             ],
-            BlockKind.Creator
+            BlockKind.Structure
         )
     );
 }

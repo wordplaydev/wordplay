@@ -307,7 +307,7 @@ export default function bootstrapText(locales: Locale[]) {
                         new Number(requestor, val.text)
                 ),
             ],
-            BlockKind.Creator
+            BlockKind.Structure
         )
     );
 }

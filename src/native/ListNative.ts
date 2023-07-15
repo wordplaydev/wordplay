@@ -988,7 +988,7 @@ export default function bootstrapList(locales: Locale[]) {
                         new Set(requestor, val.getValues())
                 ),
             ],
-            BlockKind.Creator
+            BlockKind.Structure
         )
     );
 }

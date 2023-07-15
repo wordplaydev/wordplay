@@ -24,12 +24,7 @@ export class UnknownName extends Conflict {
                     concretize(
                         locale,
                         locale.node.Reference.conflict.UnknownName,
-                        new NodeRef(
-                            this.name,
-                            locale,
-                            context,
-                            this.name.getText()
-                        ),
+                        new NodeRef(this.name, locale, context),
                         this.type
                             ? new NodeRef(this.type, locale, context)
                             : undefined

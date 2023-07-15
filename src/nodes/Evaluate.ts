@@ -703,7 +703,7 @@ export default class Evaluate extends Expression {
                 )
             );
         }
-        // For structures, build the bindings and st
+        // For structures, start evaluating its definition.
         else if (definitionValue instanceof StructureDefinitionValue) {
             // Evaluate the structure's block with the bindings, generating an evaluation context with the
             // type's inputs and functions.

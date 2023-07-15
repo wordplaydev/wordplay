@@ -30,7 +30,7 @@ import concretize from '../locale/concretize';
 
 export enum BlockKind {
     Root = 'root',
-    Creator = 'creator',
+    Structure = 'creator',
     Function = 'function',
     Block = 'block',
 }
@@ -97,8 +97,8 @@ export default class Block extends Expression {
         return this.kind === BlockKind.Root;
     }
 
-    isCreator() {
-        return this.kind === BlockKind.Creator;
+    isStructure() {
+        return this.kind === BlockKind.Structure;
     }
 
     isBlockFor(child: Node) {
@@ -155,7 +155,7 @@ export default class Block extends Expression {
         // Non-root blocks can't be empty. And if they aren't empty, the last statement must be an expression.
         if (
             !this.isRoot() &&
-            !this.isCreator() &&
+            !this.isStructure() &&
             (this.statements.length === 0 ||
                 !(
                     this.statements[this.statements.length - 1] instanceof
@@ -230,7 +230,7 @@ export default class Block extends Expression {
         const parent = this.getParent(context);
 
         // If the block is in a structure definition, then it depends on the parent's inputs
-        if (this.isCreator() && parent instanceof StructureDefinition)
+        if (this.isStructure() && parent instanceof StructureDefinition)
             return [...parent.inputs];
 
         // Otherwise, a block's value depends on it's last statement.
@@ -259,22 +259,24 @@ export default class Block extends Expression {
 
     /** Blocks are constant if they're dependencies are constant, and only if they aren't creators or roots. */
     isConstant(context: Context) {
-        return !this.isRoot() && !this.isCreator() && super.isConstant(context);
+        return (
+            !this.isRoot() && !this.isStructure() && super.isConstant(context)
+        );
     }
 
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
         if (prior) return prior;
 
-        // Pop the scope made for this block.
-        evaluator.evaluations[0].unscope();
+        // Pop the scope made for this block if this isn't a structure's block.
+        if (!this.isStructure()) evaluator.evaluations[0].unscope();
 
-        // Pop all the values computed.
+        // Pop all the values computed
         const values = [];
         for (let i = 0; i < this.statements.length; i++)
             values.push(evaluator.popValue(this));
 
         // Root blocks are allowed to have no value, but all others must have one.
-        return this.isCreator() ? new None(this) : values[0];
+        return this.isStructure() ? new None(this) : values[0];
     }
 
     /**

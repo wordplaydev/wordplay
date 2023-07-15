@@ -415,7 +415,7 @@ export default function bootstrapMap(locales: Locale[]) {
                         new List(requestor, val.getValues())
                 ),
             ],
-            BlockKind.Creator
+            BlockKind.Structure
         )
     );
 }

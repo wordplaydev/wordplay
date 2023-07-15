@@ -1387,7 +1387,7 @@ export function parseStructure(tokens: Tokens): StructureDefinition {
         ? tokens.read(TokenType.EvalClose)
         : undefined;
     const block = nextAreOptionalDocsThen(tokens, [TokenType.EvalOpen])
-        ? parseBlock(tokens, BlockKind.Creator)
+        ? parseBlock(tokens, BlockKind.Structure)
         : undefined;
 
     return new StructureDefinition(

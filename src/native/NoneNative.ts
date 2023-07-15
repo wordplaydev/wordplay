@@ -102,7 +102,7 @@ export default function bootstrapNone(locales: Locale[]) {
                         new Bool(requestor, !left.isEqualTo(right))
                 ),
             ],
-            BlockKind.Creator
+            BlockKind.Structure
         )
     );
 }

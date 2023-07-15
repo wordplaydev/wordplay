@@ -166,7 +166,7 @@ export default function bootstrapBool(locales: Locale[]) {
                         new Text(requestor, val.toString())
                 ),
             ],
-            BlockKind.Creator
+            BlockKind.Structure
         )
     );
 }
