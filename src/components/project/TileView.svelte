@@ -22,6 +22,7 @@
     import { creator } from '../../db/Creator';
     import { onMount } from 'svelte';
     import type Arrangement from '../../db/Arrangement';
+    import Glyphs from '../../lore/Glyphs';
 
     export let tile: Tile;
     export let layout: Layout;
@@ -190,6 +191,7 @@
         <div class="controls">
             <div class="name" class:source={tile.isSource()}>
                 {#if tile.isSource()}
+                    {Glyphs.Program.symbols}
                     <TextField
                         text={tile.name}
                         placeholder={$creator.getLocale().ui.placeholders.name}

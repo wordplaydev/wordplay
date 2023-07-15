@@ -72,7 +72,6 @@
     import type PaintingConfiguration from '../output/PaintingConfiguration';
     import { creator } from '../../db/Creator';
     import Arrangement from '../../db/Arrangement';
-    import Glyphs from '../../lore/Glyphs';
     import {
         DOCUMENTATION_SYMBOL,
         PALETTE_SYMBOL,
@@ -451,7 +450,9 @@
         const conceptPath = $page.url.searchParams.get(PROJECT_PARAM_CONCEPT);
         if (conceptPath && $index) {
             const [ownerName, name] = conceptPath.split('/');
-            const concept = ownerName ? $index?.getSubConcept(ownerName, name) : $index?.getConceptByName(name);
+            const concept = ownerName
+                ? $index?.getSubConcept(ownerName, name)
+                : $index?.getConceptByName(name);
             if (concept) path.set([concept]);
         }
     });
@@ -1118,7 +1119,6 @@
 
     {#if !layout.isFullscreen() && editable}
         <nav class="footer">
-            {Glyphs.Program.symbols}
             {#if original}<Button
                     classes="revertProject"
                     tip={$creator.getLocale().ui.tooltip.revertProject}

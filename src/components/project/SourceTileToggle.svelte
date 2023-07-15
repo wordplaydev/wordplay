@@ -7,6 +7,7 @@
     import type Evaluator from '@runtime/Evaluator';
     import type Project from '../../models/Project';
     import { creator } from '../../db/Creator';
+    import Glyphs from '../../lore/Glyphs';
 
     export let project: Project;
     export let evaluator: Evaluator;
@@ -59,7 +60,9 @@
                 event.stopPropagation();
             }
         }}
-        >{source.names.getLocaleText($creator.getLanguages())}
+    >
+        {Glyphs.Program.symbols}
+        {source.names.getLocaleText($creator.getLanguages())}
     </span>
     {#if primaryCount > 0}<span class="count primary">{primaryCount}</span>{/if}
     {#if secondaryCount > 0}<span class="count secondary">{secondaryCount}</span
