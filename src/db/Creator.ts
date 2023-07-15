@@ -232,7 +232,7 @@ export class Creator {
     }
 
     getLocale(): Locale {
-        return this.getLocales()[0] ?? en;
+        return this.getLocales()[0];
     }
 
     getNative(): Native {
@@ -248,7 +248,12 @@ export class Creator {
         this.saveConfig(LANGUAGES_KEY, languages);
 
         // Update the native bindings
-        this.native = bootstrap(this.getLocales());
+        const bootstrapLanguages = this.getLocales();
+        this.native = bootstrap(
+            bootstrapLanguages.includes(en as Locale)
+                ? bootstrapLanguages
+                : [en as Locale, ...bootstrapLanguages]
+        );
     }
 
     getWritingDirection() {
