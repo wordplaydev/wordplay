@@ -121,7 +121,7 @@ export default class Convert extends Expression {
     computeType(context: Context): Type {
         // Technically we have a type given, but such a conversion doesn't necessarily exist.
         // Find the conversion to see.
-        // Get the conversion definition.
+        // Get the conversion definition, and then get its output type.
         const conversions = this.getConversionSequence(context);
         if (conversions === undefined || conversions.length === 0)
             return new NotAType(

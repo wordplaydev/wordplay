@@ -982,7 +982,7 @@ export default function bootstrapList(locales: Locale[]) {
                 ),
                 createNativeConversion(
                     getDocLocales(locales, (t) => t.native.List.conversion.set),
-                    '[]',
+                    `[]`,
                     '{}',
                     (requestor: Expression, val: List) =>
                         new Set(requestor, val.getValues())

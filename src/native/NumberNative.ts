@@ -398,7 +398,7 @@ export default function bootstrapNumber(locales: Locale[]) {
                         (t) => t.native.Number.conversion.list
                     ),
                     '#',
-                    '[]',
+                    '[#]',
                     (requestor: Expression, val: Number) => {
                         const list = [];
                         const max = val.toNumber();
