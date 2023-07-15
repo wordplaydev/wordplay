@@ -1,5 +1,3 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
     import type Token from '@nodes/Token';
     import { getProject, getCaret, getRoot } from '../project/Contexts';
