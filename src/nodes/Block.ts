@@ -243,7 +243,8 @@ export default class Block extends Expression {
         return [
             new Start(this, (evaluator) => {
                 // Create a new scope for this block.
-                evaluator.evaluations[0].scope();
+                if (this.kind === BlockKind.Block)
+                    evaluator.evaluations[0].scope();
                 return undefined;
             }),
             ...this.statements.reduce(
@@ -268,7 +269,7 @@ export default class Block extends Expression {
         if (prior) return prior;
 
         // Pop the scope made for this block if this isn't a structure's block.
-        if (!this.isStructure()) evaluator.evaluations[0].unscope();
+        if (this.kind === BlockKind.Block) evaluator.evaluations[0].unscope();
 
         // Pop all the values computed
         const values = [];
