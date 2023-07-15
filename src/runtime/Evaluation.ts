@@ -75,9 +75,8 @@ export default class Evaluation {
     /** The evaluation in which this is being evaluated. */
     readonly #closure: Evaluation | Value | undefined;
 
-    /** A dictionary of values bound to names, preseving a mapping between names, language tags, and values */
-    readonly _bindingsIndex: Map<string, Value> = new Map();
-    readonly #bindings: Map<Names, Value> = new Map();
+    /** A dictionary of values bound to names, preseving a mapping between names and values */
+    readonly #bindings: Map<Names | string, Value> = new Map();
 
     /** This represents a stack of values returned by steps. */
     readonly #values: Value[] = [];
@@ -93,7 +92,7 @@ export default class Evaluation {
         evaluatorNode: EvaluatorNode,
         evaluationNode: EvaluationNode,
         closure?: Evaluation | Value,
-        bindings?: Map<Names, Value>
+        bindings?: Map<Names | string, Value>
     ) {
         this.#evaluator = evaluator;
         this.#evaluatorNode = evaluatorNode;
@@ -283,10 +282,11 @@ export default class Evaluation {
     }
 
     /** Binds a value to a name in this evaluation. */
-    bind(names: Names, value: Value) {
+    bind(names: Names | string, value: Value) {
         this.#bindings.set(names, value);
-        for (const name of names.getNames())
-            this._bindingsIndex.set(name, value);
+        if (names instanceof Names)
+            for (const name of names.getNames())
+                this.#bindings.set(name, value);
     }
 
     /** A convience function for getting a value by name, but only if it is a certain type */
@@ -297,18 +297,13 @@ export default class Evaluation {
 
     /** Resolves the given name in this evaluation or its context. */
     resolve(name: string | Names): Value | undefined {
-        if (name instanceof Names) {
-            return (
-                this.#bindings.get(name) ??
-                this._bindingsIndex.get(name.getNames()[0])
-            );
-        } else {
-            return this._bindingsIndex.has(name)
-                ? this._bindingsIndex.get(name)
-                : this.#closure === undefined
+        return this.#bindings.has(name)
+            ? this.#bindings.get(name)
+            : typeof name === 'string'
+            ? this.#closure === undefined
                 ? this.resolveDefault(name)
-                : this.#closure.resolve(name, this.#evaluator);
-        }
+                : this.#closure.resolve(name, this.#evaluator)
+            : undefined;
     }
 
     resolveDefault(name: string): Value | undefined {
@@ -358,28 +353,26 @@ export default class Evaluation {
         property: string,
         value: Value
     ): Evaluation | undefined {
-        // Copy the current bindings.
-        const newBindings: Map<Names, Value> = new Map(this.#bindings);
+        if (!this.#bindings.has(property)) return undefined;
 
-        // Find the corresponding name.
-        const names = Array.from(newBindings.keys()).find((name) =>
-            name.hasName(property)
-        );
-
-        // No corresponding name? Bail.
-        if (names === undefined) return undefined;
-
-        // Otherwise, set the bindings.
-        newBindings.set(names, value);
-
-        // Create the new evaluation.
-        return new Evaluation(
+        const newEvaluation = new Evaluation(
             this.#evaluator,
             creator,
             this.#evaluationNode,
             this.#closure,
-            newBindings
+            new Map(this.#bindings)
         );
+
+        // Find the corresponding name.
+        const names = Array.from(newEvaluation.#bindings.keys()).find(
+            (name) => name instanceof Names && name.hasName(property)
+        );
+
+        // Otherwise, set the bindings.
+        newEvaluation.bind(names ?? property, value);
+
+        // Create the new evaluation.
+        return newEvaluation;
     }
 
     getSize() {
