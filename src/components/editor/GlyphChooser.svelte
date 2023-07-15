@@ -5,6 +5,8 @@
         CONVERT_SYMBOL,
         DEGREE_SYMBOL,
         ETC_SYMBOL,
+        EXAMPLE_CLOSE_SYMBOL,
+        EXAMPLE_OPEN_SYMBOL,
         FALSE_SYMBOL,
         FUNCTION_SYMBOL,
         NONE_SYMBOL,
@@ -23,7 +25,7 @@
 
     export let source: Source;
 
-    const defaults = [
+    const Defaults = [
         FUNCTION_SYMBOL,
         TYPE_SYMBOL,
         TRUE_SYMBOL,
@@ -35,6 +37,8 @@
         ETC_SYMBOL,
         CHANGE_SYMBOL,
         DEGREE_SYMBOL,
+        EXAMPLE_OPEN_SYMBOL,
+        EXAMPLE_CLOSE_SYMBOL,
     ];
 
     const insertions = getInsertions();
@@ -61,7 +65,7 @@
 <section class:expanded class="directory">
     <TextField placeholder="🔍" bind:text={query} />
     <div class="matches">
-        {#each query === '' ? defaults : results as glyph}<span
+        {#each query === '' ? Defaults : results as glyph}<span
                 class="glyph"
                 role="button"
                 tabindex="0"
