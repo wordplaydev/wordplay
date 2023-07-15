@@ -136,7 +136,7 @@
             if (keyboardIdleTimeout) clearTimeout(keyboardIdleTimeout);
             keyboardIdleTimeout = setTimeout(
                 () => keyboardEditIdle.set(true),
-                1000
+                500
             );
         }
     }

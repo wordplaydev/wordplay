@@ -51,11 +51,10 @@
     style:direction={$creator.getWritingDirection()}
     style:writing-mode={$creator.getWritingLayout()}
 >
-    <!-- Render the verse, or whatever value we get -->
-    <!-- If there's an exception, show that. -->
-    <!-- If it's because the keyboard isn't idle, show the typing feedback.-->
+    <!-- If it's because the keyboard isn't idle, show feedback instead of the value.-->
     {#if !mini && $evaluation?.playing === true && !$keyboardEditIdle}
         <div class="message editing">⌨️</div>
+        <!-- If there's an exception, show that. -->
     {:else if latest instanceof Exception}
         <div class="message exception"
             >{#if mini}!{:else}<Speech
