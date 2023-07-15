@@ -87,6 +87,9 @@ function getLocalValue<Type>(key: string): Type | null {
 }
 
 export class Creator {
+    /** The default locale */
+    private readonly defaultLocale: Locale;
+
     /** A Svelte store for that contains this. Updated when config changes. */
     private configStore: Writable<Creator>;
 
@@ -140,6 +143,7 @@ export class Creator {
     private projectsQueryUnsubscribe: Unsubscribe | undefined = undefined;
 
     constructor(defaultLocale: Locale) {
+        this.defaultLocale = defaultLocale;
         this.projects = new Map();
         this.configStore = writable(this);
         this.projectsStore = writable(this);
@@ -172,7 +176,7 @@ export class Creator {
         );
 
         // Update the native bindings to include all locales
-        this.native = bootstrap(this.getLocales());
+        this.rebootstrap();
 
         // Notify config listeners.
         this.configStore.set(this);
@@ -228,7 +232,7 @@ export class Creator {
             .filter((lang) => SupportedLanguages.includes(lang))
             .map((lang) => this.locales[lang])
             .filter((locale) => locale !== undefined);
-        return locales.length === 0 ? [en as Locale] : locales;
+        return locales.length === 0 ? [this.defaultLocale] : locales;
     }
 
     getLocale(): Locale {
@@ -247,12 +251,16 @@ export class Creator {
         this.config.languages = languages;
         this.saveConfig(LANGUAGES_KEY, languages);
 
+        this.rebootstrap();
+    }
+
+    rebootstrap() {
         // Update the native bindings
-        const bootstrapLanguages = this.getLocales();
+        const bootstrapLocales = this.getLocales();
         this.native = bootstrap(
-            bootstrapLanguages.includes(en as Locale)
-                ? bootstrapLanguages
-                : [en as Locale, ...bootstrapLanguages]
+            bootstrapLocales.includes(this.defaultLocale)
+                ? bootstrapLocales
+                : [en as Locale, ...bootstrapLocales]
         );
     }
 
