@@ -18,7 +18,6 @@ export type WritingDirection = 'ltr' | 'rtl';
 
 /** BCP 47 language tags and other metadata. */
 export const Languages: Record<string, LanguageMetadata> = {
-    '😀': { name: '😀', en: '😀' },
     af: { name: 'Afrikaans', en: 'Afrikaans' },
     am: { name: 'አማርኛ', en: 'Amharic' },
     ar: { name: 'العربية', en: 'Arabic', direction: 'rtl' },
