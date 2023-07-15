@@ -62,7 +62,7 @@
                     action={() => select(lang)}
                     enabled={languages.length > 1}
                     tip={$creator.getLocale().ui.tooltip.removeLanguage}
-                    >{getLanguageName(lang)}
+                    >{getLanguageName(lang)}<sub>{lang}</sub>
                     {#if languages.length > 1}
                         -{/if}</Button
                 ></span
@@ -81,7 +81,7 @@
                 <Button
                     action={() => select(lang)}
                     tip={$creator.getLocale().ui.tooltip.addLanguage}
-                    >{getLanguageName(lang)} +</Button
+                    >{getLanguageName(lang)}<sub>{lang}</sub> +</Button
                 ></span
             >
         {:else}&mdash;
@@ -99,7 +99,7 @@
     <div class="languages">
         {#each PossibleLanguages.filter((lang) => !SupportedLanguages.includes(lang)) as lang}
             <span class="language" class:supported={false}
-                >{getLanguageName(lang)}</span
+                >{getLanguageName(lang)}<sub>{lang}</sub></span
             >
         {/each}
     </div>
