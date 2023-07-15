@@ -47,6 +47,9 @@ import {
     BOLD_SYMBOL,
     EXTRA_SYMBOL,
     MENTION_SYMBOL,
+    CONVERT_SYMBOL2,
+    CONVERT_SYMBOL3,
+    STREAM_SYMBOL2,
 } from './Symbols';
 import TokenList from './TokenList';
 import ConceptRegEx from './ConceptRegEx';
@@ -144,8 +147,8 @@ const patterns = [
     { pattern: BORROW_SYMBOL, types: [TokenType.Borrow] },
     { pattern: SHARE_SYMBOL, types: [TokenType.Share] },
     { pattern: CONVERT_SYMBOL, types: [TokenType.Convert] },
-    { pattern: '->', types: [TokenType.Convert] },
-    { pattern: '=>', types: [TokenType.Convert] },
+    { pattern: CONVERT_SYMBOL2, types: [TokenType.Convert] },
+    { pattern: CONVERT_SYMBOL3, types: [TokenType.Convert] },
     { pattern: NONE_SYMBOL, types: [TokenType.None, TokenType.NoneType] },
     { pattern: TYPE_SYMBOL, types: [TokenType.Type, TokenType.TypeOperator] },
     {
@@ -167,7 +170,7 @@ const patterns = [
         types: [TokenType.Stream, TokenType.Etc],
     },
     {
-        pattern: '...',
+        pattern: STREAM_SYMBOL2,
         types: [TokenType.Stream, TokenType.Etc],
     },
     {

@@ -238,6 +238,10 @@ export default class Source extends Expression {
             : this.reparse(newCode.toString());
     }
 
+    getGraphemeAt(index: number) {
+        return this.code.at(index);
+    }
+
     /**
      * Given a new program, construct a new source that reuses as many existing Nodes as possible.
      * This isn't really optimized for parsing speed as much as it is reuse, since responsiveness is

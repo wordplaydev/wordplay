@@ -8,7 +8,11 @@ import {
     REVERSE_DELIMITERS,
     REVERSE_TEXT_DELIMITERS,
 } from '@parser/Tokenizer';
-import { PROPERTY_SYMBOL } from '@parser/Symbols';
+import {
+    CONVERT_SYMBOL,
+    PROPERTY_SYMBOL,
+    STREAM_SYMBOL,
+} from '@parser/Symbols';
 import type Source from '@nodes/Source';
 import Expression from '@nodes/Expression';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
@@ -541,6 +545,10 @@ export default class Caret {
 
             let closed = false;
 
+            let newSource: Source | undefined = this.source;
+            let newPosition: number = this.position;
+            const originalPosition = this.position;
+
             // If the character we're inserting is already immediately after the caret and is a matched closing deimiter, don't insert, just move the caret forward.
             // We handle two cases: discrete matched tokens ([], {}, ()) text tokens that have internal matched delimiters.
             if (
@@ -583,23 +591,44 @@ export default class Caret {
                 closed = true;
                 text += DELIMITERS[text];
             }
+            // If the two preceding characters are dots and this is a dot, delete the last two dots then insert the stream symbol.
+            else if (
+                text === '.' &&
+                newSource.getGraphemeAt(newPosition - 1) === '.' &&
+                newSource.getGraphemeAt(newPosition - 2) === '.'
+            ) {
+                text = STREAM_SYMBOL;
+                newSource = newSource
+                    .withoutGraphemeAt(this.position - 2)
+                    ?.withoutGraphemeAt(this.position - 2);
+                newPosition = newPosition - 2;
+            }
+            // If the preceding character is an arrow dash, delete the dash and insert the arrow
+            else if (
+                text === '>' &&
+                newSource.getGraphemeAt(newPosition - 1) === '-'
+            ) {
+                text = CONVERT_SYMBOL;
+                newSource = newSource.withoutGraphemeAt(this.position - 1);
+                newPosition = newPosition - 1;
+            }
 
-            const originalPosition = this.position;
-            const newSource = this.source.withGraphemesAt(text, this.position);
-            const newPosition =
-                this.position +
+            // Did we somehow get no source?
+            if (newSource === undefined) return undefined;
+
+            newSource = newSource.withGraphemesAt(text, newPosition);
+
+            // Did we somehow get no source?
+            if (newSource === undefined) return undefined;
+
+            // What's the new token we added?
+            const newToken = newSource.getTokenAt(originalPosition, false);
+
+            newPosition =
+                newPosition +
                 (closed ? 1 : new UnicodeString(text).getLength());
 
-            return newSource === undefined
-                ? undefined
-                : [
-                      newSource,
-                      new Caret(
-                          newSource,
-                          newPosition,
-                          newSource.getTokenAt(originalPosition, false)
-                      ),
-                  ];
+            return [newSource, new Caret(newSource, newPosition, newToken)];
         } else {
             const wrap = this.wrap(text);
             if (wrap !== undefined) return wrap;
