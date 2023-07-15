@@ -215,8 +215,7 @@ const patterns = [
     // Match non-template open/close/between strings.
     // (Starts with an open quote, followed by any sequence of 1) escaped template markers or 2) non-template markers, closed by either a matching quote or a new line)
     { pattern: /^"(\\\\|[^\\])*?("|(?=\n))/u, types: [TokenType.Text] },
-    { pattern: /^“(\\\\|[^\\])*?(”|(?=\n))/u, types: [TokenType.Text] },
-    { pattern: /^„(\\\\|[^\\])*?(“|(?=\n))/u, types: [TokenType.Text] },
+    { pattern: /^[“”„](\\\\|[^\\])*?([“”„]|(?=\n))/u, types: [TokenType.Text] },
     { pattern: /^'(\\\\|[^\\])*?('|(?=\n))/u, types: [TokenType.Text] },
     { pattern: /^‘(\\\\|[^\\])*?(’|(?=\n))/u, types: [TokenType.Text] },
     { pattern: /^‹(\\\\|[^\\])*?(›|(?=\n))/u, types: [TokenType.Text] },
