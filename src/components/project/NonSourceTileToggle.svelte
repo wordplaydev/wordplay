@@ -9,6 +9,7 @@
     const dispatch = createEventDispatcher();
 </script>
 
+<!-- The classes here are referenced in the tutorial. Don't change them without changing the tutorial. -->
 <Button
     classes="{tile.id}Expand"
     tip={`${$creator.getLocale().ui.tooltip.expand} ${tile.name}`}
@@ -16,3 +17,10 @@
     ><span class="name" class:collapsed={tile.isCollapsed()}>{tile.name}</span
     ></Button
 >
+
+<style>
+    :not(.collapsed) {
+        display: inline-block;
+        transform: scale(0.75);
+    }
+</style>

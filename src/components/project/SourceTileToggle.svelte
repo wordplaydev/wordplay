@@ -67,7 +67,8 @@
     {#if primaryCount > 0}<span class="count primary">{primaryCount}</span>{/if}
     {#if secondaryCount > 0}<span class="count secondary">{secondaryCount}</span
         >{/if}
-    {#if output}
+    <!-- Disabling for now. It doesn't help much because it's so tiny. We may restore it later. -->
+    {#if output && false}
         <div class="output">
             <OutputView
                 {project}
@@ -89,10 +90,6 @@
         flex-direction: row;
         align-items: center;
         overflow: hidden;
-        gap: var(--wordplay-spacing);
-        padding-left: var(--wordplay-spacing);
-        border-left: var(--wordplay-border-color) solid
-            var(--wordplay-border-width);
     }
 
     .name {
@@ -105,7 +102,8 @@
     }
 
     .expanded .name {
-        font-weight: bold;
+        display: inline-block;
+        transform: scale(0.75);
     }
 
     .count {
@@ -126,8 +124,12 @@
     }
 
     .output {
-        width: 2em;
-        height: 2em;
+        width: 2ex;
+        height: 2ex;
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
+    }
+
+    .expanded .output {
+        display: hidden;
     }
 </style>

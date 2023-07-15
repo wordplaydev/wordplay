@@ -1139,7 +1139,7 @@
             {/each}
             {#each project.getSources() as source, index}
                 {@const tile = layout.getTileWithID(Layout.getSourceID(index))}
-                {#if tile && tile.isCollapsed()}
+                {#if tile}
                     <!-- Mini source view output is visible when collapsed, or if its main, when output is collapsed. -->
                     <SourceTileToggle
                         {project}
