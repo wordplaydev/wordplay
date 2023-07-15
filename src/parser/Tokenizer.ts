@@ -167,6 +167,10 @@ const patterns = [
         types: [TokenType.Stream, TokenType.Etc],
     },
     {
+        pattern: '...',
+        types: [TokenType.Stream, TokenType.Etc],
+    },
+    {
         pattern: /^\$[a-zA-Z0-9?]+/,
         types: [TokenType.Mention],
     },
