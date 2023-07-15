@@ -58,8 +58,6 @@ export default function generalize(types: Type, context: Context) {
                 )
             );
         }
-    } else if (types instanceof TextType) types = TextType.make();
-    else if (types instanceof NumberType) types = NumberType.make();
-
+    }
     return types;
 }

@@ -11,6 +11,10 @@ test.each([
     ["'hi'|'hello'", "''"],
     ["'hi'/en|'hello'/en", "''/en"],
     ["'hi'/en|'hi'/fr", "'hi'/en|'hi'/fr"],
+    ['1|2|3', '#'],
+    ['1m|2|3', '1m|2|3'],
+    ['1m|2m|3m', '#m'],
+    ['[1|2|3]', '[1|2|3]'],
 ])('expect %s', (given: string, expected) => {
     const source = new Source('untitled', '');
     const project = new Project(null, 'untitled', source, [], native);
