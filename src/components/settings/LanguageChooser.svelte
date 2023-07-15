@@ -69,11 +69,11 @@
             >
         {/each}
     </div>
-    <h2
+    <h1
         >{concretize(
             $creator.getLocale(),
             $creator.getLocale().ui.header.supportedLocales
-        ).toText()}</h2
+        ).toText()}</h1
     >
     <div class="languages">
         {#each SupportedLanguages.filter((lang) => !languages.includes(lang)) as lang}
@@ -87,14 +87,14 @@
         {:else}&mdash;
         {/each}
     </div>
-    <h2
+    <h1
         ><ExternalLink
             to="https://github.com/amyjko/wordplay/blob/main/CONTRIBUTING.md#localization"
             >{concretize(
                 $creator.getLocale(),
                 $creator.getLocale().ui.header.helpLocalize
             ).toText()}</ExternalLink
-        ></h2
+        ></h1
     >
     <div class="languages">
         {#each PossibleLanguages.filter((lang) => !SupportedLanguages.includes(lang)) as lang}
@@ -102,6 +102,12 @@
                 >{getLanguageName(lang)}</span
             >
         {/each}
+    </div>
+    <div class="close">
+        <Button
+            tip={$creator.getLocale().ui.tooltip.back}
+            action={() => dialog.close()}>❌</Button
+        >
     </div>
 </dialog>
 <Button tip={$creator.getLocale().ui.tooltip.changeLanguage} action={toggle}>
@@ -113,8 +119,18 @@
 </Button>
 
 <style>
+    dialog {
+        position: relative;
+    }
+
     .language-preferences {
         border-radius: var(--wordplay-border-radius);
+    }
+
+    .close {
+        position: absolute;
+        top: var(--wordplay-spacing);
+        right: var(--wordplay-spacing);
     }
 
     .chosen {

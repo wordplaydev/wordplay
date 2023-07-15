@@ -2918,8 +2918,8 @@
             "properties": "Properties",
             "functions": "Functions",
             "conversions": "Conversions",
-            "selectedLocales": "Selected languages",
-            "supportedLocales": "Select to also show …",
+            "selectedLocales": "Selected languages …",
+            "supportedLocales": "Available languages …",
             "helpLocalize": "Help us translate …"
         },
         "section": {
