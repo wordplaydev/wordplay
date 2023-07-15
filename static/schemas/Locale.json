@@ -2845,6 +2845,18 @@
                 "condition": {
                   "$ref": "#/definitions/Template"
                 },
+                "conflict": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "ExpectedStream": {
+                      "$ref": "#/definitions/InternalConflictText"
+                    }
+                  },
+                  "required": [
+                    "ExpectedStream"
+                  ],
+                  "type": "object"
+                },
                 "doc": {
                   "$ref": "#/definitions/DocText"
                 },
@@ -2869,6 +2881,7 @@
               },
               "required": [
                 "condition",
+                "conflict",
                 "doc",
                 "emotion",
                 "finish",

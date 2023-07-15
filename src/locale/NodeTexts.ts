@@ -434,7 +434,7 @@ type NodeTexts = {
             initial: Template;
             condition: Template;
             next: Template;
-        };
+        } & Conflicts<{ ExpectedStream: InternalConflictText }>;
     /**
      * Description
      * $1: the name

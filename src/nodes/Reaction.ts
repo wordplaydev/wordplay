@@ -28,6 +28,7 @@ import type { NativeTypeName } from '../native/NativeConstants';
 import StreamToken from './StreamToken';
 import generalize from './generalize';
 import concretize from '../locale/concretize';
+import ExpectedStream from '../conflicts/ExpectedStream';
 
 export default class Reaction extends Expression {
     readonly initial: Expression;
@@ -125,6 +126,19 @@ export default class Reaction extends Expression {
         const conditionType = this.condition.getType(context);
         if (!(conditionType instanceof BooleanType))
             conflicts.push(new ExpectedBooleanCondition(this, conditionType));
+
+        // The condition should reference a stream.
+        if (
+            !this.condition
+                .nodes()
+                .some(
+                    (node) =>
+                        node instanceof Expression &&
+                        context.getStreamType(node.getType(context)) !==
+                            undefined
+                )
+        )
+            conflicts.push(new ExpectedStream(this));
 
         return conflicts;
     }

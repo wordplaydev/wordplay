@@ -552,7 +552,10 @@
             "finish": "$?",
             "initial": "$?",
             "condition": "$?",
-            "next": "$?"
+            "next": "$?",
+            "conflict": {
+                "ExpectedStream": "$?"
+            }
         },
         "Reference": {
             "name": "$?",

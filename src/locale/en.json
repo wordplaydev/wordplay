@@ -832,7 +832,10 @@
             "finish": "the new stream value is $1",
             "initial": "initial",
             "condition": "condition",
-            "next": "next"
+            "next": "next",
+            "conflict": {
+                "ExpectedStream": "$1 doesn't reference a stream, so I will never react!"
+            }
         },
         "Reference": {
             "name": "reference",

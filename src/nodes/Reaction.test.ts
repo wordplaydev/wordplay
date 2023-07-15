@@ -7,6 +7,9 @@ import Time from '../input/Time';
 import type Expression from './Expression';
 import Evaluator from '../runtime/Evaluator';
 import { getDefaultNative } from '../native/Native';
+import { testConflict } from '../conflicts/TestUtilities';
+import Reaction from './Reaction';
+import ExpectedStream from '../conflicts/ExpectedStream';
 
 const native = await getDefaultNative();
 
@@ -63,3 +66,5 @@ test.each([
         evaluator.stop();
     }
 );
+
+testConflict('1 … ∆ Time() … 1 + .', '1 … ⊤ … 1 + .', Reaction, ExpectedStream);
