@@ -72,6 +72,10 @@ export default class Names extends Node {
         ) as this;
     }
 
+    simplify() {
+        return new Names(this.names.map((name) => name.simplify()));
+    }
+
     getPurpose() {
         return Purpose.Bind;
     }

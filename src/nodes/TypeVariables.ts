@@ -50,6 +50,14 @@ export default class TypeVariables extends Node {
         ) as this;
     }
 
+    simplify() {
+        return new TypeVariables(
+            this.open,
+            this.variables.map((v) => v.simplify()),
+            this.close
+        );
+    }
+
     getPurpose() {
         return Purpose.Type;
     }

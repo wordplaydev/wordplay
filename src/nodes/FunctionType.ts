@@ -71,11 +71,11 @@ export default class FunctionType extends Type {
     getGrammar() {
         return [
             { name: 'fun', types: [Token] },
-            { name: 'types', types: [TypeVariables, undefined] },
+            { name: 'types', types: [TypeVariables, undefined], space: true },
             { name: 'open', types: [Token] },
             { name: 'inputs', types: [[Bind]], space: true, indent: true },
             { name: 'close', types: [Token] },
-            { name: 'output', types: [Type] },
+            { name: 'output', types: [Type], space: true },
         ];
     }
 
@@ -138,6 +138,19 @@ export default class FunctionType extends Type {
                 )
             ),
             ExpressionPlaceholder.make(this.output)
+        );
+    }
+
+    simplify(context: Context) {
+        // Simplify all of the binds
+        return new FunctionType(
+            this.fun,
+            this.types?.simplify(),
+            this.open,
+            this.inputs.map((i) => i.simplify(context)),
+            this.close,
+            this.output.simplify(context),
+            this.definition
         );
     }
 

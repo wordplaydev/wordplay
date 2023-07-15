@@ -265,7 +265,7 @@ export default class FunctionDefinition extends Expression {
     computeType(context: Context): Type {
         return FunctionType.make(
             this.types,
-            this.inputs.map((bind) => bind.withoutDocs()),
+            this.inputs,
             this.getOutputType(context),
             this
         );

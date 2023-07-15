@@ -167,6 +167,18 @@ export default class Bind extends Expression {
         );
     }
 
+    simplify(context: Context) {
+        return new Bind(
+            undefined,
+            undefined,
+            this.names.simplify(),
+            this.etc,
+            this.dot,
+            this.type?.simplify(context),
+            undefined
+        );
+    }
+
     getPurpose() {
         return Purpose.Bind;
     }

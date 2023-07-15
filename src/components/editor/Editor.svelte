@@ -214,7 +214,10 @@
     $: caretExpressionType =
         $caret.position instanceof Expression
             ? TYPE_SYMBOL +
-              $caret.position.getType(project.getContext(source)).toWordplay()
+              $caret.position
+                  .getType(project.getContext(source))
+                  .simplify(project.getContext(source))
+                  .toWordplay()
             : undefined;
 
     // When the caret changes, if it's a node, focus on the node, and if it's an index, focus on the hidden text field.

@@ -32,6 +32,10 @@ export default class TypeVariable extends Node {
         return Purpose.Type;
     }
 
+    simplify() {
+        return new TypeVariable(this.names.simplify());
+    }
+
     getReference(): NameType {
         return NameType.make(this.names.getNames()[0], this);
     }

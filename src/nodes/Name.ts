@@ -59,6 +59,10 @@ export default class Name extends Node {
         ) as this;
     }
 
+    simplify() {
+        return new Name(this.separator, this.name, undefined);
+    }
+
     getCorrespondingDefinition(context: Context): Definition | undefined {
         const name = this.getName();
         if (name === undefined) return undefined;
