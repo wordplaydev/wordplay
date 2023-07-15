@@ -27,6 +27,7 @@ export default class IncompatibleType extends Conflict {
                     concretize(
                         locale,
                         locale.node.Bind.conflict.IncompatibleType.primary,
+                        new NodeRef(this.givenType, locale, context),
                         new NodeRef(this.expectedType, locale, context)
                     ),
             },

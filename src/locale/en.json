@@ -401,7 +401,7 @@
                     "secondary": "I have has the same name as $1"
                 },
                 "IncompatibleType": {
-                    "primary": "I'm supposed to be $1, but I'm $2",
+                    "primary": "I'm supposed to be $2, but I'm $1",
                     "secondary": "hey, I got a $2 instead of a $1"
                 },
                 "MisplacedShare": "I can only share things at the @Program level, not inside anything!",
