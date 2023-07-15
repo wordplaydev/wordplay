@@ -887,7 +887,7 @@
             "conflict": {
                 "IncompatibleKey": {
                     "primary": "I expected a $1 key",
-                    "secondary": "I got a $3 instead of a $2"
+                    "secondary": "I got a $1 instead of a $2"
                 }
             }
         },
