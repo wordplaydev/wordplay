@@ -32,6 +32,8 @@
     import getScrollParent from '../util/getScrollParent';
     import Note from '../widgets/Note.svelte';
     import ConceptLinkUI from './ConceptLinkUI.svelte';
+    import TutorialHighlight from '../app/TutorialHighlight.svelte';
+    import ConceptLink from '../../nodes/ConceptLink';
 
     export let project: Project;
 
@@ -52,6 +54,7 @@
     let results: [Concept, [string, number, number][]][] | undefined =
         undefined;
 
+    let currentConcept: Concept | undefined = undefined;
     $: currentConcept = $path[$path.length - 1];
 
     // Set a context that stores a project context for nodes in the palette to use.
@@ -105,6 +108,23 @@
             }
         } else results = undefined;
     }
+
+    // Find all the highlights in the current documentation so we can render them.
+
+    $: highlights =
+        currentConcept === undefined
+            ? undefined
+            : currentConcept
+                  .getDocs($creator.getLocale())
+                  ?.nodes()
+                  .filter(
+                      (n): n is ConceptLink =>
+                          n instanceof ConceptLink &&
+                          n.concept.getText().startsWith('@UI/')
+                  )
+                  .map((concept) =>
+                      concept.concept.getText().substring('@UI/'.length)
+                  );
 
     function handlePointerDown(event: PointerEvent) {
         if (event.buttons !== 1) return;
@@ -332,6 +352,11 @@
             />
         {/if}
     </div>
+    {#key highlights}
+        {#each highlights ?? [] as highlight}
+            <TutorialHighlight id={highlight} />
+        {/each}
+    {/key}
 </section>
 
 <style>

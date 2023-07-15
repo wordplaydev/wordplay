@@ -892,11 +892,11 @@
             }
         },
         "Source": {
-            "name": "named program",
+            "name": "source",
             "emotion": "curious",
             "doc": [
                 "Oh, you know @Program? I help you name them. Think of me like the window around a @Program, and the name you give them.",
-                "You can also make other @Source, with other @Program, and @Borrow things from those other @Program for use in another program.",
+                "You can also make other @Source @UI/addSource, with other @Program, and @Borrow things from those other @Program for use in another program.",
                 "This can be a nice way of organizing a big performance into separate documents."
             ]
         },

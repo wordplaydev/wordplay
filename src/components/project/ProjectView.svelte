@@ -1154,6 +1154,7 @@
                 {/if}
             {/each}
             <Button
+                classes="addSource"
                 tip={$creator.getLocale().ui.tooltip.addSource}
                 action={addSource}>+</Button
             >
