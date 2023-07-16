@@ -370,7 +370,7 @@
     }
 
     .name {
-        margin-right: auto;
+        margin-inline-end: auto;
     }
 
     .name.source {
