@@ -1,7 +1,7 @@
 <svelte:options immutable={true} />
 
 <script context="module" lang="ts">
-    const LIMIT = 10;
+    const LIMIT = 25;
 </script>
 
 <script lang="ts">
