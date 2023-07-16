@@ -699,8 +699,12 @@ export default class Evaluator {
                 : // Otherwise, step the current evaluation and get it's value
                   evaluation.step(this);
 
-        // If it's an exception, halt execution by returning the exception value.
-        if (value instanceof Exception) this.end(value);
+        // If it's an exception on main, halt execution by returning the exception value.
+        if (
+            value instanceof Exception &&
+            this.evaluations[0].getSource() === this.project.main
+        )
+            this.end(value);
         // If it's another kind of value, pop the evaluation off the stack and add the value to the
         // value stack of the new top of the stack.
         else if (value instanceof Value) {
